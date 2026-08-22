@@ -446,3 +446,15 @@ def test_default_runner_constructs_subprocess_cmd(tmp_path, monkeypatch):
     assert captured["cmd"][0].endswith("python")
     assert any(a.endswith("wgp.py") for a in captured["cmd"][:2])
     assert captured["kw"]["cwd"]  # runs inside the Wan2GP checkout
+
+
+def test_render_retries_on_decoding_error_variant(tmp_path):
+    """GLM M1 follow-up: wgp also emits 'decoding error' — must retry."""
+    sleeps = []
+    runner = _fail_once_with("decoding error in VAEBatchDecode")
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path), runner=runner,
+                           sleeper=sleeps.append)
+    adapter.render([_brief()], _decision())
+    assert runner.calls["n"] == 2

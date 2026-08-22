@@ -62,7 +62,7 @@ _RENDER_SEQ = [0]
 # or file paths (frame 1504, step 504/1000, out504.mp4) must NOT
 # classify as transient.
 _TRANSIENT_RE = re.compile(
-    r"(?<![\w/])(?:504|gateway[ _-]?timeout|decode[ _-]?error)(?![\w/])",
+    r"(?<![\w/])(?:504|gateway[ _-]?timeout|decode[ _-]?error|decoding[ _-]?error)(?![\w/])",
     re.I)
 
 
