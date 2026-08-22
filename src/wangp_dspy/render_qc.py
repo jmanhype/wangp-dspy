@@ -99,6 +99,11 @@ class RenderQCSignature(dspy.Signature):
     style: str = dspy.InputField()
     model: str = dspy.InputField()
     shot_length_frames: int = dspy.InputField()
+    # QB1: the gate critiques the RENDERED material itself (path to the
+    # produced video — the VLM provider resolves frames from it), not a
+    # text-only description of the expectation.
+    video: str = dspy.InputField(
+        desc="path to the rendered video clip to critique")
     critique: str = dspy.OutputField(
         desc="JSON: coherence, brief_adherence, concept_encoding, "
              "scores, notes")
@@ -163,12 +168,13 @@ class RenderQC(dspy.ChainOfThought):
     # ── end-to-end ───────────────────────────────────────────────────
 
     def run(self, brief: RenderBrief,
-            decision: ProfileDecision) -> QCVerdict:
+            decision: ProfileDecision, video: str = "") -> QCVerdict:
         out = super().forward(
             subject=brief.subject, motion=brief.motion,
             camera=brief.camera, style=brief.style,
             model=decision.model,
-            shot_length_frames=decision.shot_length_frames)
+            shot_length_frames=decision.shot_length_frames,
+            video=video)
         critique = _parse_critique(out.critique)
         return self.judge(critique)
 
