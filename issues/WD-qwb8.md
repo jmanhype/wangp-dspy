@@ -1,13 +1,14 @@
 ---
 id: WD-qwb8
 title: "ProfileSelector: render brief -> WanGP/H3 profile decision"
-status: open
+status: in_progress
 priority: 2
 type: feature
 created_at: 2026-08-22T04:16:54Z
 created_by: speed
-updated_at: 2026-08-22T04:16:54Z
-content_hash: "sha256:27a8d8ccdcf968d8736dfcc9b0de569f12b57c700a12e65c6606a85c6b30306c"
+updated_at: 2026-08-22T04:17:22Z
+content_hash: "sha256:c1ed4558059847d44f306033b0fab0a01e845fb5fa2c5a823de19c619e790163"
+assignee: dev-WD-qwb8
 ---
 
 ## Description
@@ -23,7 +24,8 @@ Story 2 of WD-j9nx. DSPy module choosing render profile params from a RenderBrie
 
 
 ## History
-
+- 2026-08-22T04:17:22Z status: open -> in_progress
+- 2026-08-22T04:17:22Z claimed by dev-WD-qwb8
 
 ## Links
 
