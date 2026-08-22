@@ -77,7 +77,7 @@ def test_build_settings_exact_shape_and_multishot_tag():
     assert settings["prompt"] == MULTISHOT_PROMPT_TAG
     assert settings["script"] == build_script([_brief_text(b) for b in briefs])
     assert settings["frames_per_shot"] == 176
-    assert settings["force_fps"] == 24
+    assert settings["force_fps"] == "24"  # string — wgp len()s it (story-6 live finding)
     # 768p vertical
     assert (settings["width"], settings["height"]) == (480, 832)
     assert isinstance(settings["seed"], int)
@@ -458,3 +458,13 @@ def test_render_retries_on_decoding_error_variant(tmp_path):
                            sleeper=sleeps.append)
     adapter.render([_brief()], _decision())
     assert runner.calls["n"] == 2
+
+
+def test_settings_force_fps_is_string():
+    """Story-6 live finding: real wgp get_computed_fps does len(force_fps)
+    — an int crashes validation. Probe-verified against a known-good
+    settings file on the 3090 (force_fps: "24")."""
+    briefs = [_brief()]
+    settings = build_settings(briefs, _decision())
+    assert settings["force_fps"] == "24"
+    assert isinstance(settings["force_fps"], str)
