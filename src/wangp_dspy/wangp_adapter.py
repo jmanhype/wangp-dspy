@@ -156,7 +156,7 @@ def build_settings(briefs: Sequence[RenderBrief],
         "num_inference_steps": DEFAULT_NUM_INFERENCE_STEPS,
         "guidance_scale": DEFAULT_GUIDANCE_SCALE,
         "embedded_guidance_scale": DEFAULT_EMBEDDED_GUIDANCE_SCALE,
-        "force_fps": FORCE_FPS,
+        "force_fps": str(FORCE_FPS),  # wgp's get_computed_fps len()s it — string per real settings files
         "seed": derive_seed(decision.seed_policy, briefs),
     }
 
