@@ -1,0 +1,4 @@
+# Local-only paivot artifacts that must never be committed.
+secrets.yaml
+secrets.local.yaml
+*.secrets

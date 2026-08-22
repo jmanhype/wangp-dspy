@@ -1,0 +1,52 @@
+# .paivot/config.yaml -- per-repo provider configuration for pvg.
+#
+# This file selects which adapters pvg routes through for backlog (issue
+# tracker) and notes (knowledge base) operations. Defaults match the
+# historical setup: nd backlog, vlt notes, no mirrors. With this file
+# absent, pvg behaves identically to the pre-abstraction CLI.
+#
+# Schema:
+#   <section>:
+#     primary:
+#       adapter: <name>
+#       config: { adapter-specific keys }
+#     mirrors:
+#       - adapter: <name>
+#         config: { ... }
+#
+# Reads always go to the primary. Writes go to the primary first; on
+# success they fan out best-effort to mirrors. Mirror failures are logged
+# but never returned to the caller -- mirrors are visibility-only.
+#
+# Env-var interpolation: any string value of the form ${NAME} or $NAME is
+# replaced with the value of os.Getenv("NAME") at load time. Use this to
+# keep API keys out of the file.
+
+backlog:
+  primary:
+    adapter: nd
+    config:
+      vault: .vault
+  # mirrors: (uncomment to enable visibility-only fan-out)
+  #   - adapter: linear
+  #     config:
+  #       team_key: ENG
+  #       api_key_env: LINEAR_API_KEY
+
+notes:
+  primary:
+    adapter: vlt
+    config:
+      vault: Claude
+  # mirrors: (uncomment to enable visibility-only fan-out)
+  #   - adapter: confluence
+  #     config:
+  #       space_key: ENG
+  #       base_url: https://example.atlassian.net/wiki
+  #       api_key_env: CONFLUENCE_API_KEY
+
+# Available adapters in this build:
+#   backlog: nd, linear
+#   notes:   vlt
+# (confluence/jira/notion are not yet implemented; the placeholders above
+#  document the planned shape for when they land.)
