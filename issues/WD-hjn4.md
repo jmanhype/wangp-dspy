@@ -1,13 +1,14 @@
 ---
 id: WD-hjn4
 title: "RenderQC: VLM-scored output gate with genre thresholds"
-status: open
+status: in_progress
 priority: 2
 type: feature
 created_at: 2026-08-22T04:26:23Z
 created_by: speed
-updated_at: 2026-08-22T04:26:23Z
-content_hash: "sha256:94420fd6aaef3764da703f9ebf5565444dff42f5e78c63a7f82d9f39edb67293"
+updated_at: 2026-08-22T04:26:49Z
+content_hash: "sha256:c2b1f4769f2476f5a911523bc33a5ee92030f4253dcfcae1c1f8f3d7c9ae22d1"
+assignee: dev-WD-hjn4
 ---
 
 ## Description
@@ -23,7 +24,8 @@ Story 3 of WD-j9nx. DSPy module scoring rendered video against brief+decision: V
 
 
 ## History
-
+- 2026-08-22T04:26:49Z status: open -> in_progress
+- 2026-08-22T04:26:49Z claimed by dev-WD-hjn4
 
 ## Links
 
