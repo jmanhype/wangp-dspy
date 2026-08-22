@@ -27,6 +27,9 @@ from wangp_dspy.prompt_director import RenderBrief
 
 MIN_SHOTS = 2
 MAX_SHOTS = 20
+# GLM M3: a terminal_state key term shorter than this cannot meaningfully
+# carry continuity (single letters trivially substring-match anything).
+_MIN_KEY_TERM_LEN = 3
 
 
 class ChainValidationError(Exception):
@@ -61,7 +64,7 @@ class ShotPlan:
 
 @dataclass(frozen=True)
 class AssembledChain:
-    shots: tuple
+    shots: tuple["ShotPlan", ...]
     continuity_digest: str
 
 
@@ -105,6 +108,12 @@ class MultiShotAssembler:
         # end-state chaining: shot i opens from shot i-1 terminal_state
         for i in range(1, n):
             carried = _key_term(plans[i - 1].terminal_state)
+            if len(carried) < _MIN_KEY_TERM_LEN:
+                raise ChainValidationError(
+                    f"end-state chaining violation at shot {i}: previous "
+                    f"terminal_state key term {carried!r} is too short to "
+                    f"carry continuity (min {_MIN_KEY_TERM_LEN} chars) — "
+                    "write a specific terminal state, not a single letter")
             nxt_subject = plans[i].brief.subject.lower()
             nxt_motion = plans[i].brief.motion.lower()
             if carried not in nxt_subject and carried not in nxt_motion:
