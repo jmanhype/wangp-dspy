@@ -307,6 +307,12 @@ class WanGPAdapter:
         for plan in plans:
             result = self.render([plan.brief], plan.decision)
             video = result.video_path  # QC sees the RENDERED material
+            if not os.path.isfile(video):
+                # Luna: never let the gate silently degrade to a
+                # text-only critique on a missing file
+                raise WanGPError(
+                    f"rendered video {video!r} does not exist — refusing "
+                    "to run QC on a missing file")
             verdict = qc.run(plan.brief, plan.decision, video=video)
             if verdict.verdict == Verdict.REVISE:
                 # story-3 contract: exactly ONE anchored revision, then
