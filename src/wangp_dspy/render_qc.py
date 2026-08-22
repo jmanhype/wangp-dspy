@@ -12,6 +12,8 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from enum import Enum
+from types import MappingProxyType
+from typing import Mapping
 
 import dspy
 
@@ -22,13 +24,14 @@ CRITIQUE_FIELDS = ("coherence", "brief_adherence", "concept_encoding")
 
 # Operator-tunable genre thresholds (minimum acceptable score across
 # the critique fields; comedy needs tight concept encoding, surreal
-# tolerates looser coherence).
-GENRE_THRESHOLDS = {
+# tolerates looser coherence). MappingProxyType: read-only at runtime;
+# retuning = source edit (GLM F1).
+GENRE_THRESHOLDS: Mapping = MappingProxyType({
     "comedy": 7.0,
     "edu": 8.0,
     "music": 5.0,
     "surreal": 4.5,
-}
+})
 
 # A score this far below threshold is beyond revision -> reject.
 REJECT_FLOOR_RATIO = 0.5  # < 50% of the genre threshold -> reject

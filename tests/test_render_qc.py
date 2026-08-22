@@ -177,3 +177,14 @@ def test_full_pipeline_malformed_critique_raises():
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             qc.run(brief=BRIEF, decision=DECISION)
+
+
+# ── F1 (GLM): threshold table is read-only at runtime ────────────────────
+
+def test_f1_genre_thresholds_immutable():
+    import pytest as _pytest
+    from wangp_dspy.render_qc import GENRE_THRESHOLDS
+    with _pytest.raises(TypeError):
+        GENRE_THRESHOLDS["comedy"] = 1.0
+    with _pytest.raises(AttributeError):
+        GENRE_THRESHOLDS.pop("comedy")
