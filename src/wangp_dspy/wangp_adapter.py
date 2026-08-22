@@ -304,22 +304,28 @@ class WanGPAdapter:
 
         qc = self.qc_factory(genre)
         keepers = []
+
+        def _checked_video(res: "RenderResult") -> str:
+            path = res.video_path
+            if not os.path.isfile(path):
+                # Luna: never let the gate silently degrade to a
+                # text-only critique on a missing file (guards both the
+                # first QC call and the REVISE retry call)
+                raise WanGPError(
+                    f"rendered video {path!r} does not exist — refusing "
+                    "to run QC on a missing file")
+            return path
+
         for plan in plans:
             result = self.render([plan.brief], plan.decision)
-            video = result.video_path  # QC sees the RENDERED material
-            if not os.path.isfile(video):
-                # Luna: never let the gate silently degrade to a
-                # text-only critique on a missing file
-                raise WanGPError(
-                    f"rendered video {video!r} does not exist — refusing "
-                    "to run QC on a missing file")
+            video = _checked_video(result)  # QC sees the RENDERED material
             verdict = qc.run(plan.brief, plan.decision, video=video)
             if verdict.verdict == Verdict.REVISE:
                 # story-3 contract: exactly ONE anchored revision, then
                 # typed human escalation — never silent
                 result = self.render([plan.brief], plan.decision)
                 verdict = qc.run(plan.brief, plan.decision,
-                                 video=result.video_path)
+                                 video=_checked_video(result))
                 if verdict.verdict == Verdict.REVISE:
                     raise QCEscalationError(
                         f"REVISE persisted after its single anchored "

@@ -74,3 +74,45 @@ def test_qc_not_called_and_typed_error_when_video_missing(tmp_path):
     with pytest.raises(WanGPError, match="video"):
         adapter.run_pipeline(plans, genre="surreal")
     assert qc_calls["n"] == 0, "QC must never see a missing file"
+
+
+def test_revise_retry_phantom_video_also_guarded(tmp_path):
+    """Luna follow-up: the REVISE retry qc.run call site must also refuse
+    a readback path whose file does not exist (no silent text-only QC)."""
+    import os as _os
+    from wangp_dspy.wangp_adapter import RenderResult, WanGPError
+    from wangp_dspy.assembler import ShotPlan
+    from wangp_dspy.render_qc import QCVerdict, Verdict
+
+    real = tmp_path / "real.mp4"
+    real.write_text("v")
+
+    state = {"n": 0}
+
+    def render(briefs, decision):
+        state["n"] += 1
+        path = str(real) if state["n"] == 1 else str(tmp_path / "phantom-retry.mp4")
+        return RenderResult(attempts=1, settings_path="/dev/null",
+                            output_dir=str(tmp_path), video_paths=(path,))
+
+    qc_calls = {"n": 0}
+
+    class RevQC:
+        def __init__(self, genre):
+            pass
+
+        def run(self, *a, **kw):
+            qc_calls["n"] += 1
+            return QCVerdict(verdict=Verdict.REVISE, reason="x",
+                             anchor_field="coherence", scores={})
+
+    adapter = WanGPAdapter(venv_python="/nonexistent/python",
+                           wgp_script="wgp.py", output_dir=str(tmp_path),
+                           runner=None, qc_factory=RevQC, assembler=_Stub())
+    adapter.render = render
+    plans = [ShotPlan(brief=_brief(), decision=_decision(),
+                      terminal_state="astronaut done")]
+    with pytest.raises(WanGPError, match="does not exist"):
+        adapter.run_pipeline(plans, genre="surreal")
+    # first QC ran (returned REVISE); the retry QC must never be invoked
+    assert qc_calls["n"] == 1, "retry QC must never see a missing file"
