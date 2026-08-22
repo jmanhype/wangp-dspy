@@ -37,8 +37,8 @@ class RenderBrief:
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
 # appears in a render brief the brief is wrong — reject loudly.
 _META_HINT_RE = re.compile(
-    r"\b(cut|cuts|transition|dissolve|flash|beat\s*grid|B-?roll|"
-    r"montage|sfx|VO|voiceover|lower\s*third|title\s*card)\b", re.I)
+    r"\b(cut|cuts|transition\w*|dissolve|flash|beat\s*grid|B[\s-]?roll|"
+    r"montage|sfx|VO|voice[\s-]?over|lower[\s-]?third|title\s*card)\b", re.I)
 
 
 def _reject_meta_hints(brief: RenderBrief) -> None:

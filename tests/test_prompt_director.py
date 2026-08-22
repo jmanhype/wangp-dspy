@@ -91,8 +91,8 @@ def test_director_is_chain_of_thought():
 # ── 4: NO editor meta-hints (flux3 convention: those live in H3 shots) ──
 
 META_HINT_TOKENS = re.compile(
-    r"\b(cut|cuts|transition|dissolve|flash|beat\s*grid|B-?roll|"
-    r"montage|sfx|VO|voiceover|lower\s*third|title\s*card)\b", re.I)
+    r"\b(cut|cuts|transition\w*|dissolve|flash|beat\s*grid|B[\s-]?roll|"
+    r"montage|sfx|VO|voice[\s-]?over|lower[\s-]?third|title\s*card)\b", re.I)
 
 
 def test_render_brief_schema_has_no_meta_hint_fields():
@@ -137,3 +137,41 @@ def test_director_rejects_missing_section_json():
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             director(intent="x")
+
+
+# ── M1 (GLM): meta-hint vocabulary gaps — one RED test per pattern ──────
+
+def test_m1_b_roll_with_space_variant_rejected():
+    poisoned = dict(GOOD_BRIEF)
+    poisoned["style"] = "grainy doc look with B roll inserts"
+    with pytest.raises(Exception):
+        RenderBrief(**poisoned)
+
+
+def test_m1_broll_compound_rejected():
+    poisoned = dict(GOOD_BRIEF)
+    poisoned["motion"] = "subject walks; Broll of feet intercut"[:34]
+    with pytest.raises(Exception):
+        RenderBrief(**poisoned)
+
+
+def test_m1_lower_third_with_space_rejected():
+    poisoned = dict(GOOD_BRIEF)
+    poisoned["subject"] = "news anchor with lower third chyron"
+    with pytest.raises(Exception):
+        RenderBrief(**poisoned)
+
+
+def test_m1_voice_over_with_space_rejected():
+    poisoned = dict(GOOD_BRIEF)
+    poisoned["motion"] = "talks to camera, voice over narration"
+    with pytest.raises(Exception):
+        RenderBrief(**poisoned)
+
+
+def test_m1_transitional_word_rejected():
+    """transition\w* must catch 'transitional', not just 'transition'."""
+    poisoned = dict(GOOD_BRIEF)
+    poisoned["camera"] = "transitional whip pan between setups"
+    with pytest.raises(Exception):
+        RenderBrief(**poisoned)
