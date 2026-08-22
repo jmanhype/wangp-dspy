@@ -1,13 +1,14 @@
 ---
 id: WD-c4uh
 title: "MultiShotAssembler: shot chain with continuity lock and mistake-lock"
-status: open
+status: in_progress
 priority: 2
 type: feature
 created_at: 2026-08-22T15:11:01Z
 created_by: speed
-updated_at: 2026-08-22T15:11:01Z
-content_hash: "sha256:8218988477b8aebc85a80f9df0626c9e4e4800dcac90ba54f939d61d3eae430b"
+updated_at: 2026-08-22T15:47:08Z
+content_hash: "sha256:a0d4e481b91cbabce270dbeca2a87bb8c383e89c9e93a0ecca39439eaa60d7ae"
+assignee: dev-WD-c4uh
 ---
 
 ## Description
@@ -23,7 +24,8 @@ Story 4 of WD-j9nx. DSPy module assembling a sequence of shots (each a RenderBri
 
 
 ## History
-
+- 2026-08-22T15:47:08Z status: open -> in_progress
+- 2026-08-22T15:47:08Z claimed by dev-WD-c4uh
 
 ## Links
 
