@@ -1,14 +1,15 @@
 ---
 id: WD-t6i7
 title: "Real 3090 smoke render — WanGPAdapter with real critic, keeper evidence"
-status: open
+status: in_progress
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-22T20:12:56Z
 created_by: speed
-updated_at: 2026-08-22T20:12:56Z
-content_hash: "sha256:edfcb862789d5c4f8e6bfbf7117cd8e355280e07e0d23a9307aa66cab1722ce4"
+updated_at: 2026-08-22T22:15:11Z
+content_hash: "sha256:88eb352c1a407f607696f2cd99eeff72149b322a0d83ee17ea5cf97ec95a8dd7"
+assignee: dev-WD-t6i7
 ---
 
 ## Description
@@ -24,7 +25,8 @@ content_hash: "sha256:edfcb862789d5c4f8e6bfbf7117cd8e355280e07e0d23a9307aa66cab1
 
 
 ## History
-
+- 2026-08-22T22:15:11Z status: open -> in_progress
+- 2026-08-22T22:15:11Z claimed by dev-WD-t6i7
 
 ## Links
 - Parent: [[WD-j9nx]]
