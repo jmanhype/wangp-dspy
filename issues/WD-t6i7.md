@@ -10,6 +10,7 @@ created_by: speed
 updated_at: 2026-08-22T22:42:33Z
 content_hash: "sha256:9854f9563273eb4884b04fa4120e096f51764c07981fd4ab1049f6f335713ada"
 assignee: dev-WD-t6i7
+labels: [delivered]
 ---
 
 ## Description
