@@ -51,6 +51,10 @@ DEFAULT_PROFILE_NUMBER = "3"
 RETRY_BACKOFF_SECS = 60.0
 DEFAULT_MAX_ATTEMPTS = 3
 
+# per-instance-agnostic render sequence: each render() call gets its own
+# numbered subdirectory under output_dir (F2 isolation)
+_RENDER_SEQ = [0]
+
 # transient stderr markers: gateway timeouts and decode chokes
 _TRANSIENT_MARKERS = ("504", "gateway timeout", "decodeerror",
                       "decode choke", "decoding error")
@@ -65,6 +69,13 @@ class RenderResult:
     attempts: int
     settings_path: str
     output_dir: str
+    video_paths: tuple = ()
+
+    @property
+    def video_path(self) -> str:
+        if not self.video_paths:
+            raise WanGPError("no video files were produced")
+        return self.video_paths[0]
 
 
 @dataclass(frozen=True)
@@ -76,7 +87,11 @@ class RenderedShot:
 
 
 def brief_to_prompt(brief: RenderBrief) -> str:
-    """Section order matches the pipeline: subject/motion/camera/style."""
+    """Section order matches the pipeline: subject/motion/camera/style.
+
+    The resulting shot script is a RAW pass-through into the settings
+    json ``script`` field (JSON-encoded; content cannot escape its field).
+    """
     return f"{brief.subject}. {brief.motion}. {brief.camera}. {brief.style}"
 
 
@@ -87,6 +102,10 @@ def build_script(prompts: Sequence[str]) -> str:
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
     frames = decision.shot_length_frames
+    if isinstance(frames, bool) or not isinstance(frames, int):
+        raise WanGPError(
+            f"shot length must be an int (below the HARD floor of "
+            f"{SHOT_LENGTH_FLOOR_FRAMES}f it is a typed rejection)")
     if frames < SHOT_LENGTH_FLOOR_FRAMES:
         raise WanGPError(
             f"shot length {frames}f is below the HARD floor of "
@@ -115,7 +134,14 @@ def _default_runner(cmd, cwd, env, timeout):
     proc = subprocess.Popen(cmd, cwd=cwd, env=env,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
-    out, err = proc.communicate(timeout=timeout)
+    try:
+        out, err = proc.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        # hung wgp leaks the GPU — kill and reap, then fail typed
+        proc.kill()
+        proc.wait()
+        raise WanGPError(
+            f"wgp timed out after {timeout}s and was killed")
     returncode = proc.returncode
     stdout = out.decode("utf-8", "replace") if isinstance(out, bytes) else (out or "")
     stderr = err.decode("utf-8", "replace") if isinstance(err, bytes) else (err or "")
@@ -161,11 +187,14 @@ class WanGPAdapter:
 
     # ── low-level: one wgp invocation, retry on transient failure ──
 
-    def _run_wgp(self, settings_path: str) -> RenderResult:
-        cmd = [self.venv_python, self.wgp_script,
-               "--process", settings_path,
-               "--profile", DEFAULT_PROFILE_NUMBER,
-               "--output-dir", self.output_dir]
+    def _check_venv(self):
+        if not (os.path.isfile(self.venv_python)
+                and os.access(self.venv_python, os.X_OK)):
+            raise WanGPError(
+                f"venv python not found or not executable: "
+                f"{self.venv_python!r} — is the Wan2GP venv present?")
+
+    def _run_wgp(self, settings_path: str, render_dir: str) -> RenderResult:
         env = dict(os.environ)
         local_bin = os.path.join(os.path.expanduser("~"), ".local", "bin")
         env["PATH"] = local_bin + os.pathsep + env.get("PATH", "")
@@ -175,11 +204,25 @@ class WanGPAdapter:
         last_stderr = ""
         while attempts < self.max_attempts:
             attempts += 1
+            # every attempt owns a private dir: a retry can never read
+            # back a prior attempt's partial files
+            attempt_dir = os.path.join(render_dir, f"attempt-{attempts}")
+            os.makedirs(attempt_dir, exist_ok=True)
+            cmd = [self.venv_python, self.wgp_script,
+                   "--process", settings_path,
+                   "--profile", DEFAULT_PROFILE_NUMBER,
+                   "--output-dir", attempt_dir]
             res = self.runner(cmd, cwd, env, self.timeout)
             if res.returncode == 0:
+                # readback scoped to THIS attempt dir only
+                videos = tuple(sorted(
+                    os.path.join(attempt_dir, n)
+                    for n in os.listdir(attempt_dir)
+                    if n.lower().endswith((".mp4", ".mov", ".webm"))))
                 return RenderResult(attempts=attempts,
                                     settings_path=settings_path,
-                                    output_dir=self.output_dir)
+                                    output_dir=attempt_dir,
+                                    video_paths=videos)
             last_stderr = res.stderr or ""
             if not _is_transient(last_stderr):
                 raise WanGPError(
@@ -194,17 +237,23 @@ class WanGPAdapter:
 
     def render(self, briefs: Sequence[RenderBrief],
                decision: ProfileDecision) -> RenderResult:
+        self._check_venv()
         settings = build_settings(briefs, decision)
-        os.makedirs(self.output_dir, exist_ok=True)
-        settings_path = os.path.join(self.output_dir, "settings.json")
+        # F2: every render (and each of its retries) owns a private
+        # subdirectory — renders never share output files
+        render_dir = os.path.join(
+            self.output_dir,
+            f"render-{_RENDER_SEQ[0]:04d}")
+        _RENDER_SEQ[0] += 1
+        os.makedirs(render_dir, exist_ok=True)
+        settings_path = os.path.join(render_dir, "settings.json")
         with open(settings_path, "w", encoding="utf-8") as fh:
             json.dump(settings, fh, indent=2)
-        return self._run_wgp(settings_path)
+        return self._run_wgp(settings_path, render_dir)
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 
     def run_pipeline(self, plans, genre: str):
-        from wangp_dspy.assembler import MIN_SHOTS
         from wangp_dspy.render_qc import Verdict
 
         if self.qc_factory is None:
@@ -216,7 +265,9 @@ class WanGPAdapter:
         keepers = []
         for plan in plans:
             self.render([plan.brief], plan.decision)
-            verdict = qc.judge(None)
+            # real seam: RenderQC.run(brief, decision) drives the VLM
+            # critique; judge(None) would be a dead gate
+            verdict = qc.run(plan.brief, plan.decision)
             if verdict.verdict == Verdict.PASS:
                 keepers.append(plan)
 

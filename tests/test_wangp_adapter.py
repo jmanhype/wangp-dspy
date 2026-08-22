@@ -47,6 +47,16 @@ def _decision(frames=176):
         seed_policy="fixed_per_story", wangp_profile="profile3")
 
 
+def _fake_venv(tmp_path):
+    py = tmp_path / "venv" / "bin" / "python"
+    py.parent.mkdir(parents=True, exist_ok=True)
+    py.write_text("#!/bin/sh\n")
+    py.chmod(0o755)
+    wgp = tmp_path / "wgp.py"
+    wgp.write_text("# wgp\n")
+    return str(py), str(wgp)
+
+
 def _brief_text(b):
     # section order matches the established pipeline: subject/motion/camera/style
     return f"{b.subject}. {b.motion}. {b.camera}. {b.style}"
@@ -116,6 +126,7 @@ def test_render_uses_venv_python_wgp_with_local_bin_path(tmp_path):
     # settings file passed to --process is the one written to disk
     proc_idx = cmd.index("--process")
     assert os.path.isfile(cmd[proc_idx + 1])
+    assert cmd[proc_idx + 1].endswith("settings.json")
     # PATH carries $HOME/.local/bin for nd/pvg
     assert calls["env"]["PATH"].startswith(
         os.path.join(os.path.expanduser("~"), ".local", "bin"))
@@ -132,7 +143,8 @@ def test_render_writes_settings_then_processes(tmp_path):
             stderr = ""
         return R()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner)
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner)
     briefs = [_brief(), _brief(subject="astronaut at the hatch")]
     adapter.render(briefs, _decision())
     assert seen["settings"]["script"] == build_script(
@@ -166,7 +178,8 @@ def test_render_retries_on_504_with_60s_backoff_then_succeeds(tmp_path):
     sleeps = []
     runner = _fail_once_with("504 Gateway Timeout")
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            sleeper=sleeps.append)
     result = adapter.render([_brief()], _decision())
 
@@ -178,7 +191,8 @@ def test_render_retries_on_504_with_60s_backoff_then_succeeds(tmp_path):
 def test_render_retries_on_decode_choke_marker(tmp_path):
     sleeps = []
     runner = _fail_once_with("DecodeError")
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            sleeper=sleeps.append)
     adapter.render([_brief()], _decision())
     assert runner.calls["n"] == 2
@@ -194,7 +208,9 @@ def test_render_gives_up_after_max_attempts(tmp_path):
             stderr = "504 Gateway Timeout"
         return R()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=always_fail,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path), runner=always_fail,
                            sleeper=sleeps.append, max_attempts=3)
     with pytest.raises(WanGPError, match="504"):
         adapter.render([_brief()], _decision())
@@ -213,7 +229,8 @@ def test_render_hard_failure_does_not_retry(tmp_path):
             stderr = "CUDA out of memory"
         return R()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            sleeper=sleeps.append)
     with pytest.raises(WanGPError, match="failed"):
         adapter.render([_brief()], _decision())
@@ -232,7 +249,7 @@ def _pipeline_qc(verdict, monkeypatch=None):
         def __init__(self, genre):
             qc["genre"] = genre
 
-        def judge(self, critique):
+        def run(self, brief, decision):
             qc.setdefault("calls", 0)
             qc["calls"] += 1
             return QCVerdict(verdict=verdict,
@@ -264,7 +281,8 @@ def test_run_pipeline_passes_keepers_to_assembler(tmp_path):
                 continuity_digest = "digest"
             return Chain()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            qc_factory=FakeQC, assembler=FakeAssembler())
     briefs = [
         _brief(subject="astronaut mid-turn, visor cracked"),
@@ -301,7 +319,7 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
         def __init__(self, genre):
             pass
 
-        def judge(self, critique):
+        def run(self, brief, decision):
             v = next(FakeQC.seq)
             from wangp_dspy.render_qc import QCVerdict
             return QCVerdict(verdict=v, reason="stub", scores={})
@@ -318,7 +336,8 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
                 continuity_digest = "d"
             return Chain()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            qc_factory=FakeQC, assembler=FakeAssembler())
     from wangp_dspy.assembler import ShotPlan
     plans = []
@@ -353,12 +372,13 @@ def test_run_pipeline_too_few_keepers_hits_assembler_bounds(tmp_path):
         def __init__(self, genre):
             pass
 
-        def judge(self, critique):
+        def run(self, brief, decision):
             from wangp_dspy.render_qc import QCVerdict
             return QCVerdict(verdict=Verdict.REJECT, reason="stub",
                              scores={})
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner,
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            qc_factory=FakeQC,
                            assembler=MultiShotAssembler())
     plans = [ShotPlan(brief=_brief(), decision=_decision(),
@@ -380,12 +400,13 @@ def test_render_command_shape_and_profile(tmp_path):
             stderr = ""
         return R()
 
-    adapter = WanGPAdapter(output_dir=str(tmp_path), runner=runner)
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner)
     adapter.render([_brief()], _decision())
     cmd = seen["cmd"]
     # wgp.py + --process + --profile <wangp profile number> + --output-dir
     assert cmd[cmd.index("--profile") + 1] == "3"
-    assert cmd[cmd.index("--output-dir") + 1] == str(tmp_path)
+    assert cmd[cmd.index("--output-dir") + 1].startswith(str(tmp_path))
 
 
 def test_default_runner_constructs_subprocess_cmd(tmp_path, monkeypatch):
@@ -403,7 +424,9 @@ def test_default_runner_constructs_subprocess_cmd(tmp_path, monkeypatch):
 
     import wangp_dspy.wangp_adapter as mod
     monkeypatch.setattr(mod.subprocess, "Popen", FakePopen)
-    adapter = WanGPAdapter(output_dir=str(tmp_path))
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path))
     adapter.render([_brief()], _decision())
     assert captured["cmd"][0].endswith("python")
     assert any(a.endswith("wgp.py") for a in captured["cmd"][:2])
