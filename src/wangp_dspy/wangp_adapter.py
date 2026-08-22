@@ -16,12 +16,14 @@ Ground truth (probed on the 3090 box):
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import re
 import subprocess
 import time
 from dataclasses import dataclass
-from typing import Callable, Optional, Sequence
+from typing import Callable, Mapping, Optional, Sequence
 
 from wangp_dspy.profile_selector import (
     ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
@@ -55,13 +57,22 @@ DEFAULT_MAX_ATTEMPTS = 3
 # numbered subdirectory under output_dir (F2 isolation)
 _RENDER_SEQ = [0]
 
-# transient stderr markers: gateway timeouts and decode chokes
-_TRANSIENT_MARKERS = ("504", "gateway timeout", "decodeerror",
-                      "decode choke", "decoding error")
+# transient stderr markers: gateway timeouts and decode chokes.
+# Word-boundary regex — a literal "504" inside frame numbers, ms counts
+# or file paths (frame 1504, step 504/1000, out504.mp4) must NOT
+# classify as transient.
+_TRANSIENT_RE = re.compile(
+    r"(?<![\w/])(?:504|gateway[ _-]?timeout|decode[ _-]?error)(?![\w/])",
+    re.I)
 
 
 class WanGPError(Exception):
     """Typed adapter failure (bad settings, wgp exit, no keepers)."""
+
+
+class QCEscalationError(WanGPError):
+    """Typed escalation: a REVISE verdict persisted after its single
+    anchored retry — a human must decide (story-3 contract)."""
 
 
 @dataclass(frozen=True)
@@ -99,6 +110,26 @@ def build_script(prompts: Sequence[str]) -> str:
     return SCRIPT_SEPARATOR.join(prompts)
 
 
+def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
+    """Deterministic seed from the Selector's seed_policy — never a
+    hardcoded constant.
+
+    - fixed_per_story: one seed for the whole brief set (identical
+      briefs -> identical seed).
+    - derived_from_brief: same digest scheme (per-story granularity is
+      the pipeline's job: it renders one brief per render() call).
+    Unknown policies are a typed rejection.
+    """
+    if seed_policy not in ("fixed_per_story", "fixed_per_shot",
+                           "derived_from_brief"):
+        raise WanGPError(
+            f"unknown seed_policy {seed_policy!r} — cannot derive a seed")
+    payload = "|".join(
+        f"{b.subject}.{b.motion}.{b.camera}.{b.style}" for b in briefs)
+    digest = hashlib.sha256(f"{seed_policy}:{payload}".encode()).digest()
+    return int.from_bytes(digest[:4], "big")
+
+
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
     frames = decision.shot_length_frames
@@ -126,7 +157,7 @@ def build_settings(briefs: Sequence[RenderBrief],
         "guidance_scale": DEFAULT_GUIDANCE_SCALE,
         "embedded_guidance_scale": DEFAULT_EMBEDDED_GUIDANCE_SCALE,
         "force_fps": FORCE_FPS,
-        "seed": 42,
+        "seed": derive_seed(decision.seed_policy, briefs),
     }
 
 
@@ -157,13 +188,23 @@ def _default_runner(cmd, cwd, env, timeout):
 
 
 def _is_transient(stderr: str) -> bool:
-    low = (stderr or "").lower()
-    return any(m in low for m in _TRANSIENT_MARKERS)
+    return bool(_TRANSIENT_RE.search(stderr or ""))
 
 
 class WanGPAdapter:
     """Render briefs as H3 shots via headless wgp, gate with RenderQC,
-    hand keepers to MultiShotAssembler."""
+    hand keepers to MultiShotAssembler.
+
+    Timeout policy: a wgp timeout is a HARD failure — the child is
+    killed and reaped, and NO retry is attempted (a hang indicates a
+    systemic problem, not a transient choke; retrying would just pin
+    the GPU twice).
+
+    Transient detection is a word-boundary regex exposed as TRANSIENT_RE
+    so renderer subclasses can tighten/extend it.
+    """
+
+    TRANSIENT_RE = _TRANSIENT_RE
 
     def __init__(self, *,
                  venv_python: str = DEFAULT_VENV_PYTHON,
@@ -264,10 +305,21 @@ class WanGPAdapter:
         qc = self.qc_factory(genre)
         keepers = []
         for plan in plans:
-            self.render([plan.brief], plan.decision)
-            # real seam: RenderQC.run(brief, decision) drives the VLM
-            # critique; judge(None) would be a dead gate
-            verdict = qc.run(plan.brief, plan.decision)
+            result = self.render([plan.brief], plan.decision)
+            video = result.video_path  # QC sees the RENDERED material
+            verdict = qc.run(plan.brief, plan.decision, video=video)
+            if verdict.verdict == Verdict.REVISE:
+                # story-3 contract: exactly ONE anchored revision, then
+                # typed human escalation — never silent
+                result = self.render([plan.brief], plan.decision)
+                verdict = qc.run(plan.brief, plan.decision,
+                                 video=result.video_path)
+                if verdict.verdict == Verdict.REVISE:
+                    raise QCEscalationError(
+                        f"REVISE persisted after its single anchored "
+                        f"retry (anchor={verdict.anchor_field!r}) for "
+                        f"brief {plan.brief.subject!r} — escalation to "
+                        "human review")
             if verdict.verdict == Verdict.PASS:
                 keepers.append(plan)
 

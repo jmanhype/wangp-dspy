@@ -94,7 +94,7 @@ def test_run_pipeline_qc_receives_real_brief_and_decision(tmp_path):
         def __init__(self, genre):
             pass
 
-        def run(self, brief, decision):
+        def run(self, brief, decision, video=None):
             # touch the arguments — proves the seam carries real objects
             calls.append((brief.subject, brief.motion, brief.camera,
                           brief.style, decision.model,

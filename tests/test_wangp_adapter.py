@@ -249,7 +249,7 @@ def _pipeline_qc(verdict, monkeypatch=None):
         def __init__(self, genre):
             qc["genre"] = genre
 
-        def run(self, brief, decision):
+        def run(self, brief, decision, video=None):
             qc.setdefault("calls", 0)
             qc["calls"] += 1
             return QCVerdict(verdict=verdict,
@@ -263,6 +263,9 @@ def test_run_pipeline_passes_keepers_to_assembler(tmp_path):
     from wangp_dspy.wangp_adapter import RenderedShot
 
     def runner(cmd, cwd, env, timeout):
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
             returncode = 0
             stdout = ""
@@ -309,6 +312,9 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
     verdicts = iter([])
 
     def runner(cmd, cwd, env, timeout):
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
             returncode = 0
             stdout = ""
@@ -319,12 +325,15 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
         def __init__(self, genre):
             pass
 
-        def run(self, brief, decision):
+        def run(self, brief, decision, video=None):
             v = next(FakeQC.seq)
             from wangp_dspy.render_qc import QCVerdict
             return QCVerdict(verdict=v, reason="stub", scores={})
 
-    FakeQC.seq = iter([Verdict.PASS, Verdict.REJECT, Verdict.REVISE])
+    # REVISE now earns exactly ONE anchored retry (story-3 contract), so
+    # the sequence is: PASS, REJECT, REVISE->retry PASS. Keepers: 1st and 3rd.
+    FakeQC.seq = iter([Verdict.PASS, Verdict.REJECT, Verdict.REVISE,
+                       Verdict.PASS])
 
     assembled = {"n": 0}
 
@@ -350,8 +359,11 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
             terminal_state=f"astronaut step {i} done"))
 
     chain = adapter.run_pipeline(plans, genre="surreal")
-    # only the PASS keeper reached the assembler
-    assert assembled["n"] == 1
+    # PASS keeper + the REVISE shot whose single anchored retry passed;
+    # only the REJECT shot is excluded
+    assert assembled["n"] == 2
+    subjects = [p.brief.subject for p in chain.shots]
+    assert "astronaut exits the lander" not in subjects
     assert chain.shots[0].brief.subject == plans[0].brief.subject
 
 
@@ -362,6 +374,9 @@ def test_run_pipeline_too_few_keepers_hits_assembler_bounds(tmp_path):
     )
 
     def runner(cmd, cwd, env, timeout):
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
             returncode = 0
             stdout = ""
@@ -372,7 +387,7 @@ def test_run_pipeline_too_few_keepers_hits_assembler_bounds(tmp_path):
         def __init__(self, genre):
             pass
 
-        def run(self, brief, decision):
+        def run(self, brief, decision, video=None):
             from wangp_dspy.render_qc import QCVerdict
             return QCVerdict(verdict=Verdict.REJECT, reason="stub",
                              scores={})
