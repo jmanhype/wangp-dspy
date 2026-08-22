@@ -91,8 +91,8 @@ def test_director_is_chain_of_thought():
 # ── 4: NO editor meta-hints (flux3 convention: those live in H3 shots) ──
 
 META_HINT_TOKENS = re.compile(
-    r"\b(cut|cuts|transition\w*|dissolve|flash|beat\s*grid|B[\s-]?roll|"
-    r"montage|sfx|VO|voice[\s-]?over|lower[\s-]?third|title\s*card)\b", re.I)
+    r"\b(cut|cuts|transition\w*|dissolve|flash|beat\s*grid|B[\s-]*roll|"
+    r"montage|sfx|VO|voice[\s-]*over|lower[\s-]*third|title\s*card)\b", re.I)
 
 
 def test_render_brief_schema_has_no_meta_hint_fields():
