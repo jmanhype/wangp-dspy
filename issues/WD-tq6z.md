@@ -1,13 +1,14 @@
 ---
 id: WD-tq6z
 title: "Scaffold DSPy pipeline skeleton: PromptDirector signature + module"
-status: open
+status: in_progress
 priority: 2
 type: feature
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-22T04:04:21Z
-content_hash: "sha256:72fa4c6e2aaea7f4296d28cf95c4395cdfc8d438791c63e50b2f8c49d5d6dbb1"
+updated_at: 2026-08-22T04:05:02Z
+content_hash: "sha256:edc35376e2d4a24fe264970b66c0203e1eb2ad1e089a803f3dcdd55d7b58054b"
+assignee: dev-WD-tq6z
 ---
 
 ## Description
@@ -23,7 +24,8 @@ First story: DSPy Signature translating user intent to H3/WanGP render briefs (s
 
 
 ## History
-
+- 2026-08-22T04:05:02Z status: open -> in_progress
+- 2026-08-22T04:05:02Z claimed by dev-WD-tq6z
 
 ## Links
 
