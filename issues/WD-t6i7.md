@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-22T20:12:56Z
 created_by: speed
 updated_at: 2026-08-22T22:42:33Z
-content_hash: "sha256:9854f9563273eb4884b04fa4120e096f51764c07981fd4ab1049f6f335713ada"
+content_hash: "sha256:2cdab4a1b87ce2c7a721dd493b93a41c001798b2d6ece95955f96df09c442127"
 assignee: dev-WD-t6i7
 labels: [delivered]
 ---
@@ -23,6 +23,16 @@ labels: [delivered]
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
