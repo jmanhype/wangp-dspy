@@ -4,7 +4,7 @@ title: "adapter: seam-aware frame tolerance + SshHost completion-by-outputs robu
 status: in_progress
 priority: 2
 type: task
-labels: [bug]
+labels: [bug, delivered]
 created_at: 2026-08-23T14:56:26Z
 created_by: speed
 updated_at: 2026-08-23T15:16:38Z
