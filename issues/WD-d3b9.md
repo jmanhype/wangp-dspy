@@ -1,17 +1,19 @@
 ---
 id: WD-d3b9
 title: "wgp exit-0 on skipped task: empty readback must be WanGPError"
-status: in_progress
+status: closed
 priority: 2
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:21:42Z
-content_hash: "sha256:45adf20d27b23a3bdc9fd3ef57c32d0e7682e1a62cc0388d27abbe54ab6ac126"
+updated_at: 2026-08-23T03:21:58Z
+content_hash: "sha256:8e85b348723339bd5efccc90286ffa6d360c65a318eb8a1f290ea4a46829240b"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
 labels: [delivered]
+closed_at: 2026-08-23T03:21:58Z
+close_reason: "wgp exits 0 on skipped tasks; empty readback now raises typed WanGPError with 5-line stdout tail, hard failure no retry. Merged PR #9 (9238555). Luna+GLM PASS; RED verified."
 ---
 
 ## Description
@@ -46,6 +48,7 @@ status: delivered
 - 2026-08-23T03:21:38Z claimed by dev-WD-d3b9
 - 2026-08-23T03:21:39Z status: in_progress -> in_progress
 - 2026-08-23T03:21:39Z auto-follows: linked to predecessor WD-t6i7
+- 2026-08-23T03:21:58Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
