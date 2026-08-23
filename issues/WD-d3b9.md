@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:21:41Z
-content_hash: "sha256:6077b25635d2332fe5158ce0fcb1a0faad367626d45da8cc3f0544ea3383f104"
+updated_at: 2026-08-23T03:21:42Z
+content_hash: "sha256:45adf20d27b23a3bdc9fd3ef57c32d0e7682e1a62cc0388d27abbe54ab6ac126"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
 labels: [delivered]
@@ -28,6 +28,16 @@ Fix: empty readback after rc 0 must be a typed WanGPError (parse the 'completed:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
