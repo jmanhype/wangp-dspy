@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:20:51Z
-content_hash: "sha256:3abc924ffd7f5a85dd018f1f5ac6845e137e984449d6f31f28079fff27ff104e"
+updated_at: 2026-08-23T03:20:52Z
+content_hash: "sha256:06f4cffddbf43475edad0415c0959c57072573eb62765f820b526ec6f97fa313"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
 labels: [delivered]
@@ -28,6 +28,16 @@ Fix: readback must scan the actual output location (Wan2GP/outputs/ and/or the s
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
