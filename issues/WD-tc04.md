@@ -7,8 +7,8 @@ type: task
 labels: [bug, delivered]
 created_at: 2026-08-23T14:56:26Z
 created_by: speed
-updated_at: 2026-08-23T15:16:38Z
-content_hash: "sha256:77509d0a35ad05f6cc2d23452d4db1d8d4ed97cdd9ec4506f62c757a19b10018"
+updated_at: 2026-08-23T15:16:39Z
+content_hash: "sha256:73285a83c934ea4d50bbbd74a6fca7c2b1c8a074b85835d90bfccb4430811810"
 ---
 
 ## Description
@@ -21,6 +21,16 @@ Two live findings from WD-izly payoff render: (1) frame tolerance is flat 2f but
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
