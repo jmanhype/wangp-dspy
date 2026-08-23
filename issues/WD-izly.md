@@ -1,14 +1,16 @@
 ---
 id: WD-izly
 title: "adapter: multishot join must use newline-delimited --- separators"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [bug, delivered]
 created_at: 2026-08-23T05:26:06Z
 created_by: speed
-updated_at: 2026-08-23T05:30:12Z
-content_hash: "sha256:e9411ba0225b48189aa47b467de72ad1a8cc8e187b9da89c472dbb07f6b0a770"
+updated_at: 2026-08-23T05:30:15Z
+content_hash: "sha256:6d74571ffd1e17ca0ebec9d9db17660517691807104a535c00bae7b1fd4cea8c"
+closed_at: 2026-08-23T05:30:15Z
+close_reason: "PR #13 merged (eb56db2): line-anchored separator fix + Qwen early-split guard; Luna verified regex against live 3090 source; 139 tests green"
 ---
 
 ## Description
@@ -35,6 +37,7 @@ status: delivered
 
 ## History
 - 2026-08-23T05:30:11Z status: open -> in_progress
+- 2026-08-23T05:30:15Z status: in_progress -> closed
 
 ## Links
 
