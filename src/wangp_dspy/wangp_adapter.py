@@ -36,7 +36,12 @@ from wangp_dspy.prompt_director import RenderBrief
 
 H3_MODEL_TYPE = "minimax_h3_fl2va_pruned"
 MULTISHOT_PROMPT_TAG = "multishot"
-SCRIPT_SEPARATOR = "---"
+# WD-izly: wgp parse_script (models/minimax_h3/multishot.py:49)
+# splits on (?m)^---\s*$ — the separator must be on its OWN LINE.
+# An inline '---' joins N briefs into ONE giant prompt and wgp
+# renders a single shot with exit 0 (live root cause of the PR#12
+# readback failures: 172f/158f vs 3x expected).
+SCRIPT_SEPARATOR = "\n---\n"
 FORCE_FPS = 24
 
 # real probed 768p vertical
