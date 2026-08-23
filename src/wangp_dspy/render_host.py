@@ -232,9 +232,15 @@ class SshHost(LocalHost):
     def run(self, cmd, cwd, env, timeout, runner=None):
         """cmd/cwd are REMOTE-namespace. `timeout <t>` wraps the
         command REMOTE-SIDE so an expired render is killed on the GPU
-        box (killing local ssh alone would leak the GPU)."""
+        box (killing local ssh alone would leak the GPU).
+
+        Live T0 finding: wgp resolves 'models/_settings.json' against
+        its CWD — without `cd <cwd>` first, ssh runs in the remote home
+        and wgp dies on a relative path. Prefix `cd` runs cwd-setting
+        without a shell (exec'ed via argv, no quoting hazards)."""
         t = int(timeout)
-        argv = self._ssh_base() + ["timeout", str(t)] + list(cmd)
+        argv = self._ssh_base() + ["timeout", str(t),
+                                   "cd", cwd, "&&"] + list(cmd)
         proc = self.sp(argv, stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
         try:
