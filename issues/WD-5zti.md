@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:21:35Z
-content_hash: "sha256:d3ccd7e625f350725d1b4ea701e0785931f92b6bd211286367b0a5a11784f55d"
+updated_at: 2026-08-23T03:21:36Z
+content_hash: "sha256:a32484e038374c6298149d20e64be0f129a6e06134cb97a61c7c0dfdf8a4fb61"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
 labels: [accepted]
@@ -30,6 +30,16 @@ Fix: readback must scan the actual output location (Wan2GP/outputs/ and/or the s
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
