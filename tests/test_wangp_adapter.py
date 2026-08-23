@@ -516,3 +516,13 @@ def test_unverified_sentinel_skips_verification_not_passes():
     # ...while the live-bug count and worse do trip it
     for real in (172, 0):
         assert abs(real - want) >= READBACK_FRAME_TOLERANCE, real
+
+
+def test_render_result_carries_effective_frames():
+    """Qwen PR#12 required finding: the H3 grid snap must be visible
+    to consumers, not silent."""
+    from wangp_dspy.wangp_adapter import effective_frames_per_shot, RenderResult
+    assert effective_frames_per_shot(160) == 175
+    r = RenderResult(attempts=1, settings_path="s", output_dir="o",
+                     video_paths=("v",), effective_frames=175)
+    assert r.effective_frames == 175

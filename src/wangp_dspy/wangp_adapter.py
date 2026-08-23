@@ -85,6 +85,10 @@ class RenderResult:
     settings_path: str
     output_dir: str
     video_paths: tuple = ()
+    # Qwen PR#12: the snapped per-shot frame count actually rendered
+    # (H3 grid is 107+17k; off-grid requests round UP). Consumers
+    # budgeting by requested frames must read this, not the decision.
+    effective_frames: int = 0
 
     @property
     def video_path(self) -> str:
@@ -161,6 +165,10 @@ def effective_frames_per_shot(frames: int) -> int:
 
 
 READBACK_FRAME_TOLERANCE = 2  # fps-rounding slack (WD-u4rv)
+# TODO(Qwen PR#12): tolerance is absolute-only; if future Pin
+# measurements find keyframe/seam trimming in multishot concat
+# (-kf frames per seam), the expected count must subtract them
+# or trimmed files will false-trip this check.
 # sentinel: frame count could not be verified (injected by tests);
 # the readback check skips rather than fails on it
 FRAME_COUNT_UNVERIFIED = -1
@@ -186,6 +194,11 @@ def build_settings(briefs: Sequence[RenderBrief],
             f"{H3_FRAMES_MIN}f (5+17k grid; {SHOT_LENGTH_FLOOR_FRAMES}f "
             "floor predates the H3 pin — request 107f or more)")
     frames = effective_frames_per_shot(frames)
+    if frames != decision.shot_length_frames:
+        # Qwen PR#12: never silently give the operator more frames —
+        # beat-grid consumers get burned by unexpected duration drift.
+        print(f"[wangp-dspy] snapped frames_per_shot "
+              f"{decision.shot_length_frames}f -> {frames}f (H3 5+17k grid)")
     if not briefs:
         raise WanGPError("at least one brief is required to render")
     width, height = WIDTH_768P, HEIGHT_768P
@@ -404,10 +417,16 @@ class WanGPAdapter:
         settings_path = self.host.write_text(
             self.host.join(render_dir, "settings.json"),
             json.dumps(settings, indent=2))
-        return self._run_wgp(settings_path, render_dir,
-                             n_briefs=len(briefs),
-                             expected_frames=effective_frames_per_shot(
-                                 decision.shot_length_frames))
+        eff = effective_frames_per_shot(decision.shot_length_frames)
+        result = self._run_wgp(settings_path, render_dir,
+                               n_briefs=len(briefs),
+                               expected_frames=eff)
+        # Qwen PR#12: surface the snapped count to consumers
+        return RenderResult(attempts=result.attempts,
+                            settings_path=result.settings_path,
+                            output_dir=result.output_dir,
+                            video_paths=result.video_paths,
+                            effective_frames=eff)
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 
