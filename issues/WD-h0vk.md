@@ -7,8 +7,8 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:40Z
 created_by: speed
-updated_at: 2026-08-23T03:22:14Z
-content_hash: "sha256:66c6d0f721d8ea14166b17ba3bee7dd557dae6479e2b51d6036d105f076a8681"
+updated_at: 2026-08-23T03:22:15Z
+content_hash: "sha256:c0b52f3c2d999414f81c087bcf21e1c63fedbcd6448f0a71201227c17c6b3de2"
 assignee: dev-WD-h0vk
 follows: [WD-d3b9, WD-5zti]
 labels: [accepted]
@@ -30,6 +30,16 @@ Fix: introduce a renderer-locality seam — e.g. a path-mapping layer (local pat
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
