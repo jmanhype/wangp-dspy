@@ -4,7 +4,7 @@ title: "cycle 5: MV remux — keeper audio mux, run FULLY through paivot ops (pu
 status: closed
 priority: 2
 type: task
-labels: [dogfood, mv, delivered]
+labels: [dogfood, mv, delivered, accepted]
 created_at: 2026-08-23T18:15:07Z
 created_by: speed
 updated_at: 2026-08-23T18:17:06Z
