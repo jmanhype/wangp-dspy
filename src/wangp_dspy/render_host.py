@@ -208,19 +208,40 @@ class SshHost(LocalHost):
         return path
 
     def makedirs(self, path: str) -> None:
-        """No-op for remote namespace: rsync/ssh create as needed; the
-        local pull mirror is created lazily at pull time."""
-        pass
+        """Remote mkdir -p (live T0 finding: rsync pushing a FILE does
+        NOT create parent dirs, so the no-op made write_text fail on a
+        fresh render-NNNN dir). Local pull mirror still lazy."""
+        rc, _o, err = self._run(
+            self._ssh_base() + ["mkdir", "-p", path], "ssh mkdir")
+        if rc != 0:
+            raise RenderHostError(
+                f"remote mkdir -p {path} on {self.target} failed: "
+                f"{err.strip()[:200]}")
 
     def join(self, *parts: str) -> str:
-        return "/".join(p.strip("/") for p in parts if p.strip("/"))
+        # preserve absoluteness: stripping leading "/" from the first
+        # part turns an absolute output_dir into a home-relative path,
+        # breaking rsync push ("3090:home/..." -> ~/"home/...").
+        # Live T0 acceptance finding (WD-h0vk).
+        parts = tuple(p for p in parts if p)
+        if not parts:
+            return ""
+        lead = "/" if parts[0].startswith("/") else ""
+        return lead + "/".join(p.strip("/") for p in parts)
 
     def run(self, cmd, cwd, env, timeout, runner=None):
         """cmd/cwd are REMOTE-namespace. `timeout <t>` wraps the
         command REMOTE-SIDE so an expired render is killed on the GPU
-        box (killing local ssh alone would leak the GPU)."""
+        box (killing local ssh alone would leak the GPU).
+
+        Live T0 finding: wgp resolves 'models/_settings.json' against
+        its CWD — without `cd <cwd>` first, ssh runs in the remote home
+        and wgp dies on a relative path. `cd` is a SHELL BUILTIN so it
+        must wrap `timeout` (timeout execs a binary — `timeout cd`
+        fails with 127); the remote shell string handles both."""
         t = int(timeout)
-        argv = self._ssh_base() + ["timeout", str(t)] + list(cmd)
+        argv = self._ssh_base() + ["cd", cwd, "&&",
+                                   "timeout", str(t)] + list(cmd)
         proc = self.sp(argv, stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
         try:
@@ -243,15 +264,31 @@ class SshHost(LocalHost):
         """Pull each remote output dir into the local mirror, then
         reuse the local scan on the mirror (mtime filter: rsync -a
         preserves remote mtimes, so 'newer than attempt start' works
-        exactly as locally)."""
-        os.makedirs(local_dir, exist_ok=True)
+        exactly as locally).
+
+        Live T0 finding: callers pass REMOTE-namespace dirs/dir (the
+        adapter only knows host-namespace paths). Derive the local
+        pull mirror via the wgp_root<->pull_root mapping instead of
+        makedirs on a remote absolute path (broke on /home/... on
+        macOS)."""
+        # local_dir is remote-namespace; map to the local mirror root
+        rel = os.path.relpath(local_dir, self.wgp_root)
+        # GLM PR#11 F: same escape class as map_path's guard — a
+        # local_dir outside wgp_root would yield ../.. and smuggle
+        # the pull/makedirs outside pull_root. Fail closed.
+        if rel == ".." or rel.startswith(".." + os.sep):
+            raise RenderHostError(
+                "fetch_videos dir escapes wgp_root; refusing to pull "
+                "outside pull_root")
+        mirror = os.path.join(self.pull_root, rel)
+        os.makedirs(mirror, exist_ok=True)
         for d in dirs:
             remote = d  # dirs arrive host-namespace (remote) already
             rc, _o, err = self._run(
                 ["rsync", "-a", f"{self.target}:{remote}/",
-                 local_dir + "/"], "rsync pull")
+                 mirror + "/"], "rsync pull")
             if rc != 0:
                 raise PullError(f"rsync pull from {self.target}:{remote}"
                                 f" failed: {err.strip()[:300]}")
         return LocalHost.fetch_videos(
-            self, (local_dir,), local_dir, newer_than=newer_than)
+            self, (mirror,), mirror, newer_than=newer_than)

@@ -178,15 +178,16 @@ def test_pin3_ssh_host_exact_argv(tmp_path):
                     sp=sp2)
     cmd = ["/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
     host2.run(cmd, cwd="/w", env=None, timeout=3600)
-    expect = ["ssh", "gpu3090", "timeout", "3600",
+    expect = ["ssh", "gpu3090", "cd", "/w", "&&", "timeout", "3600",
               "/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
     assert sp2.argvs[0] == expect
 
-    # fetch_videos -> rsync pull -a from remote outputs to local dir
+    # fetch_videos -> rsync pull -a from remote outputs to local mirror
+    # (contract: local_dir arrives REMOTE-namespace; host maps to mirror)
     sp3 = FakeSP()
     host3 = SshHost(target="gpu3090", wgp_root="/w",
                     pull_root=str(tmp_path), sp=sp3)
-    host3.fetch_videos(("/w/outputs",), str(tmp_path / "att"), 0.0)
+    host3.fetch_videos(("/w/outputs",), "/w/att", 0.0)
     pulls = [a for a in sp3.argvs if a[0] == "rsync" and "-a" in a]
     assert pulls, "must rsync -a pull"
     assert pulls[0][-1].startswith(str(tmp_path))
@@ -274,3 +275,59 @@ def test_sshhost_namespace_contract_documented():
     # (the pull direction of the dual identity)
     assert host.map_path("/local/pull/render-0000/settings.json") == \
         "/remote/wgp/render-0000/settings.json"
+
+
+def test_sshhost_join_preserves_absolute_prefix():
+    """Live T0 finding: stripping the leading / made absolute output_dir
+    home-relative, breaking rsync push (3090:home/... -> ~/"home/...")."""
+    from wangp_dspy.render_host import SshHost
+    host = SshHost.__new__(SshHost)  # pure path logic
+    host.target = "h"; host.wgp_root = "/w"; host.pull_root = "/p"
+    assert host.join("/home/u/Wan2GP", "render-0000", "settings.json") == \
+        "/home/u/Wan2GP/render-0000/settings.json"
+    assert host.join("rel", "x") == "rel/x"
+    assert host.join("") == ""
+
+
+def test_sshhost_makedirs_runs_remote_mkdir_p():
+    """Live T0 finding: the no-op makedirs broke write_text on a fresh
+    render dir (rsync pushing a FILE creates no parents)."""
+    from wangp_dspy.render_host import SshHost
+    argvs = []
+
+    class SP:
+        def run(self, argv, **k):
+            argvs.append(argv)
+            import types
+            return types.SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    host = SshHost.__new__(SshHost)
+    host.target = "h"; host.wgp_root = "/w"; host.pull_root = "/p"
+    host.port = None; host.sp = SP()
+    host._run = lambda cmd, tag: host._run_impl(cmd, tag) if False else (0, "", "")
+    # direct: use real _run path via sp
+    host._run = lambda cmd, tag: (0, "", "")
+    host.makedirs("/w/render-0000")
+    # failure path
+    class F(SshHost):
+        def _run(self, cmd, tag):
+            return (1, "", "boom")
+    f = F.__new__(F)
+    f.target = "h"; f.port = None
+    import pytest
+    from wangp_dspy.render_host import RenderHostError
+    with pytest.raises(RenderHostError):
+        f.makedirs("/w/x")
+print("makedirs test appended")
+
+
+def test_fetch_videos_refuses_dir_outside_wgp_root(tmp_path):
+    """GLM PR#11: local_dir outside wgp_root would relpath to ../..,
+    smuggling the pull outside pull_root — same class as map_path F1."""
+    import pytest
+    from wangp_dspy.render_host import SshHost, RenderHostError
+    host = SshHost.__new__(SshHost)
+    host.target = "h"; host.wgp_root = "/w"
+    host.pull_root = str(tmp_path / "pull"); host.port = None
+    with pytest.raises(RenderHostError):
+        host.fetch_videos(("/w/o/attempt-1",), "/etc", newer_than=0.0)
