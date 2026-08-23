@@ -236,11 +236,12 @@ class SshHost(LocalHost):
 
         Live T0 finding: wgp resolves 'models/_settings.json' against
         its CWD — without `cd <cwd>` first, ssh runs in the remote home
-        and wgp dies on a relative path. Prefix `cd` runs cwd-setting
-        without a shell (exec'ed via argv, no quoting hazards)."""
+        and wgp dies on a relative path. `cd` is a SHELL BUILTIN so it
+        must wrap `timeout` (timeout execs a binary — `timeout cd`
+        fails with 127); the remote shell string handles both."""
         t = int(timeout)
-        argv = self._ssh_base() + ["timeout", str(t),
-                                   "cd", cwd, "&&"] + list(cmd)
+        argv = self._ssh_base() + ["cd", cwd, "&&",
+                                   "timeout", str(t)] + list(cmd)
         proc = self.sp(argv, stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
         try:

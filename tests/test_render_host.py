@@ -178,8 +178,7 @@ def test_pin3_ssh_host_exact_argv(tmp_path):
                     sp=sp2)
     cmd = ["/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
     host2.run(cmd, cwd="/w", env=None, timeout=3600)
-    expect = ["ssh", "gpu3090", "timeout", "3600",
-              "cd", "/w", "&&",
+    expect = ["ssh", "gpu3090", "cd", "/w", "&&", "timeout", "3600",
               "/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
     assert sp2.argvs[0] == expect
 
