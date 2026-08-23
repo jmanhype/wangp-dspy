@@ -7,10 +7,10 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-22T20:12:56Z
 created_by: speed
-updated_at: 2026-08-23T01:38:48Z
+updated_at: 2026-08-23T01:38:49Z
 content_hash: "sha256:fb9b2889e2502ea00be3f2fbc5ddfcd9884597b8dbe2bce58df17167e0579d43"
 assignee: dev-WD-t6i7
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-08-23T01:38:48Z
 close_reason: "real 3090 render + QC PASS (6.0/5.0/7.0 surreal) + audit ok; both code fixes merged (b3796c0, 9788f25); three follow-up stories seeded (WD-5zti, WD-d3b9, WD-h0vk)"
 ---
