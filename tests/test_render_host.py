@@ -274,3 +274,15 @@ def test_sshhost_namespace_contract_documented():
     # (the pull direction of the dual identity)
     assert host.map_path("/local/pull/render-0000/settings.json") == \
         "/remote/wgp/render-0000/settings.json"
+
+
+def test_sshhost_join_preserves_absolute_prefix():
+    """Live T0 finding: stripping the leading / made absolute output_dir
+    home-relative, breaking rsync push (3090:home/... -> ~/"home/...")."""
+    from wangp_dspy.render_host import SshHost
+    host = SshHost.__new__(SshHost)  # pure path logic
+    host.target = "h"; host.wgp_root = "/w"; host.pull_root = "/p"
+    assert host.join("/home/u/Wan2GP", "render-0000", "settings.json") == \
+        "/home/u/Wan2GP/render-0000/settings.json"
+    assert host.join("rel", "x") == "rel/x"
+    assert host.join("") == ""

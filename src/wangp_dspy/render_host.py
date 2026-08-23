@@ -213,7 +213,15 @@ class SshHost(LocalHost):
         pass
 
     def join(self, *parts: str) -> str:
-        return "/".join(p.strip("/") for p in parts if p.strip("/"))
+        # preserve absoluteness: stripping leading "/" from the first
+        # part turns an absolute output_dir into a home-relative path,
+        # breaking rsync push ("3090:home/..." -> ~/"home/...").
+        # Live T0 acceptance finding (WD-h0vk).
+        parts = tuple(p for p in parts if p)
+        if not parts:
+            return ""
+        lead = "/" if parts[0].startswith("/") else ""
+        return lead + "/".join(p.strip("/") for p in parts)
 
     def run(self, cmd, cwd, env, timeout, runner=None):
         """cmd/cwd are REMOTE-namespace. `timeout <t>` wraps the
