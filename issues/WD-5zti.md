@@ -7,11 +7,11 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:21:34Z
+updated_at: 2026-08-23T03:21:35Z
 content_hash: "sha256:d3ccd7e625f350725d1b4ea701e0785931f92b6bd211286367b0a5a11784f55d"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-08-23T03:21:33Z
 close_reason: "wgp ignores --output-dir; adapter readback now scans the wgp outputs dir (ctor param, default <wgp_root>/outputs) with mtime filter. Merged PR #8 (46cbff4). Luna+GLM PASS; RED verified on main."
 ---
