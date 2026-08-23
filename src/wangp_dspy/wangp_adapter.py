@@ -191,27 +191,6 @@ def _is_transient(stderr: str) -> bool:
     return bool(_TRANSIENT_RE.search(stderr or ""))
 
 
-def _scan_videos(dirs, newer_than: float) -> tuple:
-    """Collect video files from dirs, sorted oldest-name-stable; only
-    files whose mtime is >= newer_than (the attempt start) count, so
-    stale files in a shared outputs dir are never picked up."""
-    found = []
-    for d in dirs:
-        if not os.path.isdir(d):
-            continue
-        for n in os.listdir(d):
-            if not n.lower().endswith((".mp4", ".mov", ".webm")):
-                continue
-            p = os.path.join(d, n)
-            try:
-                if os.path.getmtime(p) + 1e-6 < newer_than:
-                    continue
-            except OSError:
-                continue
-            found.append(p)
-    return tuple(sorted(found))
-
-
 class WanGPAdapter:
     """Render briefs as H3 shots via headless wgp, gate with RenderQC,
     hand keepers to MultiShotAssembler.
@@ -233,6 +212,7 @@ class WanGPAdapter:
                  output_dir: str = "output",
                  wgp_outputs_dir: Optional[str] = None,
                  runner: Optional[Callable] = None,
+                 host: Optional["RenderHostLike"] = None,
                  sleeper: Optional[Callable[[float], None]] = None,
                  max_attempts: int = DEFAULT_MAX_ATTEMPTS,
                  qc_factory=None,
@@ -248,6 +228,12 @@ class WanGPAdapter:
             or os.path.join(
                 os.path.dirname(os.path.abspath(wgp_script)), "outputs"))
         self.runner = runner or _default_runner
+        # WD-h0vk: renderer-locality seam. The adapter makes NO direct
+        # FS syscalls — every FS/exec operation goes through the host.
+        # LocalHost preserves today's byte-identical behavior; SshHost
+        # runs the renderer remotely (rsync push/pull, remote timeout).
+        from wangp_dspy.render_host import LocalHost
+        self.host = host or LocalHost(runner=self.runner)
         self.sleeper = sleeper or time.sleep
         self.max_attempts = max_attempts
         self.qc_factory = qc_factory
@@ -257,17 +243,11 @@ class WanGPAdapter:
     # ── low-level: one wgp invocation, retry on transient failure ──
 
     def _check_venv(self):
-        if not (os.path.isfile(self.venv_python)
-                and os.access(self.venv_python, os.X_OK)):
-            raise WanGPError(
-                f"venv python not found or not executable: "
-                f"{self.venv_python!r} — is the Wan2GP venv present?")
+        # delegated to the host (local FS or remote ssh test -x)
+        self.host.check_executable(self.venv_python)
 
     def _run_wgp(self, settings_path: str, render_dir: str) -> RenderResult:
-        env = dict(os.environ)
-        local_bin = os.path.join(os.path.expanduser("~"), ".local", "bin")
-        env["PATH"] = local_bin + os.pathsep + env.get("PATH", "")
-        cwd = os.path.dirname(os.path.abspath(self.wgp_script)) or "."
+        cwd, env = self.host.prepare_run(self.wgp_script)
 
         attempts = 0
         last_stderr = ""
@@ -276,20 +256,24 @@ class WanGPAdapter:
             attempt_started = time.time()
             # every attempt owns a private dir: a retry can never read
             # back a prior attempt's partial files
-            attempt_dir = os.path.join(render_dir, f"attempt-{attempts}")
-            os.makedirs(attempt_dir, exist_ok=True)
+            attempt_dir = self.host.join(render_dir, f"attempt-{attempts}")
+            self.host.makedirs(attempt_dir)
             cmd = [self.venv_python, self.wgp_script,
                    "--process", settings_path,
                    "--profile", DEFAULT_PROFILE_NUMBER,
                    "--output-dir", attempt_dir]
-            res = self.runner(cmd, cwd, env, self.timeout)
+            res = self.host.run(cmd, cwd, env, self.timeout,
+                                runner=self.runner)
             if res.returncode == 0:
                 # WD-5zti: readback scans the attempt dir AND the wgp
                 # outputs dir (wgp ignores --output-dir at this pin).
                 # Only files NEWER than this attempt's start count, so
                 # stale outputs never shadow or pollute the result.
-                videos = _scan_videos((attempt_dir, self.wgp_outputs_dir),
-                                      newer_than=attempt_started)
+                # WD-h0vk: the host returns LOCAL-namespace paths
+                # (SshHost pulls first); the adapter never scans FS.
+                videos = self.host.fetch_videos(
+                    (attempt_dir, self.wgp_outputs_dir),
+                    attempt_dir, newer_than=attempt_started)
                 if not videos:
                     # WD-d3b9: wgp exits 0 on skipped tasks (OOM etc.)
                     # with 'Queue completed: 0/1 tasks (1 skipped)' on
@@ -323,14 +307,17 @@ class WanGPAdapter:
         settings = build_settings(briefs, decision)
         # F2: every render (and each of its retries) owns a private
         # subdirectory — renders never share output files
-        render_dir = os.path.join(
+        render_dir = self.host.join(
             self.output_dir,
             f"render-{_RENDER_SEQ[0]:04d}")
         _RENDER_SEQ[0] += 1
-        os.makedirs(render_dir, exist_ok=True)
-        settings_path = os.path.join(render_dir, "settings.json")
-        with open(settings_path, "w", encoding="utf-8") as fh:
-            json.dump(settings, fh, indent=2)
+        self.host.makedirs(render_dir)
+        # WD-h0vk: settings are written THROUGH the host; the returned
+        # (host-namespace) path is exactly what appears in the cmd —
+        # the adapter never guesses a translated path.
+        settings_path = self.host.write_text(
+            self.host.join(render_dir, "settings.json"),
+            json.dumps(settings, indent=2))
         return self._run_wgp(settings_path, render_dir)
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
