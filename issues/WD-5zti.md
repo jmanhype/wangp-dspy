@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
 updated_at: 2026-08-23T03:21:36Z
-content_hash: "sha256:12b77dd61ddd4a3b66c261a76c3c61b8ab78016acafd19a846587c2146e7bef8"
+content_hash: "sha256:66c01419dc04cb19f044d0384ed729cfd981f10802a3a3996367f09e2c53e9c1"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
 labels: [accepted]
 closed_at: 2026-08-23T03:21:33Z
 close_reason: "wgp ignores --output-dir; adapter readback now scans the wgp outputs dir (ctor param, default <wgp_root>/outputs) with mtime filter. Merged PR #8 (46cbff4). Luna+GLM PASS; RED verified on main."
-led_to: [WD-d3b9]
+led_to: [WD-d3b9, WD-h0vk]
 ---
 
 ## Description
@@ -64,6 +64,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-t6i7]]
-- Led to: [[WD-d3b9]]
+- Led to: [[WD-d3b9]], [[WD-h0vk]]
 
 ## Comments
