@@ -99,13 +99,19 @@ def test_render_uses_venv_python_wgp_with_local_bin_path(tmp_path):
     calls = {}
 
     def runner(cmd, cwd, env, timeout):
+        import os as _os
         calls["cmd"] = cmd
         calls["env"] = env
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
-            returncode = 0
-            stdout = ""
-            stderr = ""
-        return R()
+            pass
+        r = R()
+        r.returncode = 0
+        r.stdout = ""
+        r.stderr = ""
+        return r
 
     venv_python = tmp_path / "venv" / "bin" / "python"
     venv_python.parent.mkdir(parents=True)
@@ -136,12 +142,18 @@ def test_render_writes_settings_then_processes(tmp_path):
     seen = {}
 
     def runner(cmd, cwd, env, timeout):
+        import os as _os
         seen["settings"] = json.load(open(cmd[cmd.index("--process") + 1]))
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
-            returncode = 0
-            stdout = ""
-            stderr = ""
-        return R()
+            pass
+        r = R()
+        r.returncode = 0
+        r.stdout = ""
+        r.stderr = ""
+        return r
 
     vpy, vwgp = _fake_venv(tmp_path)
     adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner)
@@ -157,19 +169,27 @@ def _fail_once_with(marker, code=1):
     state = {"n": 0}
 
     def runner(cmd, cwd, env, timeout):
+        import os as _os
         state["n"] += 1
         if state["n"] == 1:
             class R:
-                returncode = code
-                stdout = ""
-                stderr = f"...{marker}... decode choke ..."
-            return R()
+                pass
+            r = R()
+            r.returncode = code
+            r.stdout = ""
+            r.stderr = f"...{marker}... decode choke ..."
+            return r
 
-        class R:
-            returncode = 0
-            stdout = ""
-            stderr = ""
-        return R()
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
+        class R2:
+            pass
+        r2 = R2()
+        r2.returncode = 0
+        r2.stdout = ""
+        r2.stderr = ""
+        return r2
     runner.calls = state
     return runner
 
@@ -408,12 +428,18 @@ def test_render_command_shape_and_profile(tmp_path):
     seen = {}
 
     def runner(cmd, cwd, env, timeout):
+        import os as _os
         seen["cmd"] = cmd
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
         class R:
-            returncode = 0
-            stdout = ""
-            stderr = ""
-        return R()
+            pass
+        r = R()
+        r.returncode = 0
+        r.stdout = ""
+        r.stderr = ""
+        return r
 
     vpy, vwgp = _fake_venv(tmp_path)
     adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner)
@@ -430,11 +456,18 @@ def test_default_runner_constructs_subprocess_cmd(tmp_path, monkeypatch):
 
     class FakePopen:
         def __init__(self, cmd, **kw):
+            self.cmd = cmd
             captured["cmd"] = cmd
             captured["kw"] = kw
             self.returncode = 0
 
         def communicate(self, timeout=None):
+            outdir = self.cmd[self.cmd.index("--output-dir") + 1] \
+                if hasattr(self, "cmd") else None
+            import os as _os
+            if outdir:
+                with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+                    fh.write(b"v")
             return (b"", b"")
 
     import wangp_dspy.wangp_adapter as mod

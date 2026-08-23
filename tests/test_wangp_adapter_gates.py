@@ -40,7 +40,7 @@ def _fake_venv(tmp_path):
     return str(py), str(wgp)
 
 
-def _ok_runner(outputs=None, seen=None):
+def _ok_runner(outputs=("shot.mp4",), seen=None):
     """Succeed; optionally write fake video files into the --output-dir."""
     def runner(cmd, cwd, env, timeout):
         if seen is not None:
