@@ -4,7 +4,7 @@ title: "dogfood cycle 2: ledger injection + SshHost repeatability"
 status: closed
 priority: 2
 type: task
-labels: [dogfood, delivered]
+labels: [dogfood, delivered, accepted]
 created_at: 2026-08-23T04:00:35Z
 created_by: speed
 updated_at: 2026-08-23T04:10:24Z
