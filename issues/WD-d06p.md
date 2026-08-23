@@ -1,14 +1,14 @@
 ---
 id: WD-d06p
 title: "cycle 5: MV remux — keeper audio mux, run FULLY through paivot ops (pure plugin-only story)"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [dogfood, mv]
 created_at: 2026-08-23T18:15:07Z
 created_by: speed
-updated_at: 2026-08-23T18:15:07Z
-content_hash: "sha256:6360accbdfd49f362e64868800c5d69d63394de2dc1db3acb4ec72d4a06d7962"
+updated_at: 2026-08-23T18:17:00Z
+content_hash: "sha256:3b3cf480ce0bb43a8dea0ef757b00226edb9bae5182567873f5295134e053b01"
 ---
 
 ## Description
@@ -24,7 +24,7 @@ Second pure dogfood: like WD-t6i7 but audio. Take the cycle-4 4-shot kaiju multi
 
 
 ## History
-
+- 2026-08-23T18:17:00Z status: open -> in_progress
 
 ## Links
 
