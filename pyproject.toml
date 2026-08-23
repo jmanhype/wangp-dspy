@@ -16,6 +16,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# dev/test extra: uv pip install -e .[dev]
+dev = [
+    "pytest>=8",
+    "httpx>=0.28.1",  # fastapi TestClient
+]
 # GPU-side only (3090): lazy-imported inside load_real_model
 qc-gpu = [
     "torch>=2.2",
