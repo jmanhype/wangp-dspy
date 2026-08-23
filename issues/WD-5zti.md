@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
 updated_at: 2026-08-23T03:23:30Z
-content_hash: "sha256:d6ad55cf9633e6449deba1bb47969d3215e6b59415f85250c3d5f226f64394d2"
+content_hash: "sha256:652c68bf19d039fca31ec07e68fffccd29792c1bd607df4fde6e0d9435a0ad6d"
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
 led_to: [WD-d3b9, WD-h0vk]
@@ -31,6 +31,16 @@ Fix: readback must scan the actual output location (Wan2GP/outputs/ and/or the s
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
