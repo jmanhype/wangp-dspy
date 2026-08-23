@@ -11,7 +11,6 @@ updated_at: 2026-08-23T03:23:13Z
 content_hash: "sha256:6fd8b64967c209b312aac0e4ba84619769cf07b58a8cae282355493d7ffb542d"
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
-labels: [accepted]
 led_to: [WD-d3b9, WD-h0vk]
 ---
 
