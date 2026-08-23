@@ -267,8 +267,9 @@ def test_sshhost_namespace_contract_documented():
     remote-namespace path; fetch_videos maps it back to the local
     pull mirror. The contract is pinned by round-tripping one path."""
     from wangp_dspy.render_host import SshHost
-    host = SshHost(target="h", wgp_root="/remote/wgp",
-                   pull_root="/local/pull", sp=lambda *a, **k: None)
+    host = SshHost.__new__(SshHost)  # no FS init: pure path logic
+    host.target = "h"; host.wgp_root = "/remote/wgp"
+    host.pull_root = "/local/pull"
     # a remote path under wgp_root maps to a local path under pull_root
     # (the pull direction of the dual identity)
     assert host.map_path("/local/pull/render-0000/settings.json") == \
