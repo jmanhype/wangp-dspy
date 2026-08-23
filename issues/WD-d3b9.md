@@ -1,14 +1,16 @@
 ---
 id: WD-d3b9
 title: "wgp exit-0 on skipped task: empty readback must be WanGPError"
-status: open
+status: in_progress
 priority: 2
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-22T23:20:39Z
-content_hash: "sha256:486270fd809efb6b43f5d9298ac007c0bc4d50818536964458a50469ddf28fee"
+updated_at: 2026-08-23T03:21:38Z
+content_hash: "sha256:a489988a7eccb8a6262a1abf970b96bc24f5114de41ab53497b3bf0c88443fcb"
+assignee: dev-WD-d3b9
+follows: [WD-5zti]
 ---
 
 ## Description
@@ -28,9 +30,12 @@ Fix: empty readback after rc 0 must be a typed WanGPError (parse the 'completed:
 
 
 ## History
-
+- 2026-08-23T03:21:38Z status: open -> in_progress
+- 2026-08-23T03:21:38Z auto-follows: linked to predecessor WD-5zti
+- 2026-08-23T03:21:38Z claimed by dev-WD-d3b9
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-5zti]]
 
 ## Comments
