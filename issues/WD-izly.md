@@ -4,7 +4,7 @@ title: "adapter: multishot join must use newline-delimited --- separators"
 status: closed
 priority: 1
 type: task
-labels: [bug, delivered]
+labels: [bug, delivered, accepted]
 created_at: 2026-08-23T05:26:06Z
 created_by: speed
 updated_at: 2026-08-23T05:30:15Z
