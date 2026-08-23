@@ -290,6 +290,17 @@ class WanGPAdapter:
                 # stale outputs never shadow or pollute the result.
                 videos = _scan_videos((attempt_dir, self.wgp_outputs_dir),
                                       newer_than=attempt_started)
+                if not videos:
+                    # WD-d3b9: wgp exits 0 on skipped tasks (OOM etc.)
+                    # with 'Queue completed: 0/1 tasks (1 skipped)' on
+                    # stdout. Empty readback after rc 0 is a HARD typed
+                    # failure carrying the stdout tail — never
+                    # success-with-empty.
+                    tail = "\n".join(
+                        (res.stdout or "").strip().splitlines()[-5:])
+                    raise WanGPError(
+                        "wgp exited 0 but produced no video (task "
+                        f"skipped?); stdout tail:\n{tail}")
                 return RenderResult(attempts=attempts,
                                     settings_path=settings_path,
                                     output_dir=attempt_dir,
