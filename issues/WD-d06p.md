@@ -1,14 +1,16 @@
 ---
 id: WD-d06p
 title: "cycle 5: MV remux — keeper audio mux, run FULLY through paivot ops (pure plugin-only story)"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [dogfood, mv, delivered]
 created_at: 2026-08-23T18:15:07Z
 created_by: speed
-updated_at: 2026-08-23T18:17:01Z
-content_hash: "sha256:703a02a3fafe2fb0f0e0a7d0d8170539ea63e0ce90810231b2c9ba9b882c245f"
+updated_at: 2026-08-23T18:17:06Z
+content_hash: "sha256:50eaab2c7bc5a9539a06892afc4fdb2f049166a8a212cc5ab8eb465acfc64190"
+closed_at: 2026-08-23T18:17:06Z
+close_reason: "cycle 5 pure-paivot run: remux seam built and applied, output verified (duration match), lifecycle through plugin ops only after T0"
 ---
 
 ## Description
@@ -35,6 +37,7 @@ status: delivered
 
 ## History
 - 2026-08-23T18:17:00Z status: open -> in_progress
+- 2026-08-23T18:17:06Z status: in_progress -> closed
 
 ## Links
 
