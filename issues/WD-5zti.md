@@ -1,19 +1,17 @@
 ---
 id: WD-5zti
 title: "wgp --output-dir ignored: readback must scan Wan2GP/outputs/"
-status: closed
+status: open
 priority: 2
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:21:36Z
-content_hash: "sha256:66c01419dc04cb19f044d0384ed729cfd981f10802a3a3996367f09e2c53e9c1"
+updated_at: 2026-08-23T03:23:07Z
+content_hash: "sha256:512512644aa24acc3e117ef472194bd739686c8e873609208cde150686716969"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
 labels: [accepted]
-closed_at: 2026-08-23T03:21:33Z
-close_reason: "wgp ignores --output-dir; adapter readback now scans the wgp outputs dir (ctor param, default <wgp_root>/outputs) with mtime filter. Merged PR #8 (46cbff4). Luna+GLM PASS; RED verified on main."
 led_to: [WD-d3b9, WD-h0vk]
 ---
 
@@ -60,6 +58,7 @@ status: delivered
 - 2026-08-23T03:20:50Z status: in_progress -> in_progress
 - 2026-08-23T03:21:20Z status: in_progress -> in_progress
 - 2026-08-23T03:21:33Z status: in_progress -> closed
+- 2026-08-23T03:23:07Z status: closed -> open (reopened)
 
 ## Links
 - Parent: [[WD-j9nx]]
