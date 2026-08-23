@@ -1,14 +1,14 @@
 ---
 id: WD-izly
 title: "adapter: multishot join must use newline-delimited --- separators"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [bug]
 created_at: 2026-08-23T05:26:06Z
 created_by: speed
-updated_at: 2026-08-23T05:26:06Z
-content_hash: "sha256:af29d6621728b917c5c2a2cfa120242e86a300425f0ea9ea3b1562ac38206b45"
+updated_at: 2026-08-23T05:30:11Z
+content_hash: "sha256:d5672ff04a09caa211c8544b1453753e76b9cd5a48d20ee88351c2e2a8863ed2"
 ---
 
 ## Description
@@ -24,7 +24,7 @@ Root cause of both dropped-shot incidents: wgp parse_script splits on regex (?m)
 
 
 ## History
-
+- 2026-08-23T05:30:11Z status: open -> in_progress
 
 ## Links
 
