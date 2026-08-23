@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:22:02Z
-content_hash: "sha256:8e85b348723339bd5efccc90286ffa6d360c65a318eb8a1f290ea4a46829240b"
+updated_at: 2026-08-23T03:22:03Z
+content_hash: "sha256:27afc00009e80ff53230d288908310a2f37a94848056876288b030a5e063c366"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
 labels: [accepted]
@@ -30,6 +30,16 @@ Fix: empty readback after rc 0 must be a typed WanGPError (parse the 'completed:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
