@@ -286,3 +286,35 @@ def test_sshhost_join_preserves_absolute_prefix():
         "/home/u/Wan2GP/render-0000/settings.json"
     assert host.join("rel", "x") == "rel/x"
     assert host.join("") == ""
+
+
+def test_sshhost_makedirs_runs_remote_mkdir_p():
+    """Live T0 finding: the no-op makedirs broke write_text on a fresh
+    render dir (rsync pushing a FILE creates no parents)."""
+    from wangp_dspy.render_host import SshHost
+    argvs = []
+
+    class SP:
+        def run(self, argv, **k):
+            argvs.append(argv)
+            import types
+            return types.SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    host = SshHost.__new__(SshHost)
+    host.target = "h"; host.wgp_root = "/w"; host.pull_root = "/p"
+    host.port = None; host.sp = SP()
+    host._run = lambda cmd, tag: host._run_impl(cmd, tag) if False else (0, "", "")
+    # direct: use real _run path via sp
+    host._run = lambda cmd, tag: (0, "", "")
+    host.makedirs("/w/render-0000")
+    # failure path
+    class F(SshHost):
+        def _run(self, cmd, tag):
+            return (1, "", "boom")
+    f = F.__new__(F)
+    f.target = "h"; f.port = None
+    import pytest
+    from wangp_dspy.render_host import RenderHostError
+    with pytest.raises(RenderHostError):
+        f.makedirs("/w/x")
+print("makedirs test appended")

@@ -208,9 +208,15 @@ class SshHost(LocalHost):
         return path
 
     def makedirs(self, path: str) -> None:
-        """No-op for remote namespace: rsync/ssh create as needed; the
-        local pull mirror is created lazily at pull time."""
-        pass
+        """Remote mkdir -p (live T0 finding: rsync pushing a FILE does
+        NOT create parent dirs, so the no-op made write_text fail on a
+        fresh render-NNNN dir). Local pull mirror still lazy."""
+        rc, _o, err = self._run(
+            self._ssh_base() + ["mkdir", "-p", path], "ssh mkdir")
+        if rc != 0:
+            raise RenderHostError(
+                f"remote mkdir -p {path} on {self.target} failed: "
+                f"{err.strip()[:200]}")
 
     def join(self, *parts: str) -> str:
         # preserve absoluteness: stripping leading "/" from the first
