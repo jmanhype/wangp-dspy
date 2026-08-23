@@ -4,7 +4,7 @@ title: "cycle 3: 3-shot multishot MV chain through SshHost (assembler lane first
 status: in_progress
 priority: 2
 type: task
-labels: [dogfood]
+labels: [dogfood, delivered]
 created_at: 2026-08-23T04:20:17Z
 created_by: speed
 updated_at: 2026-08-23T04:43:45Z
