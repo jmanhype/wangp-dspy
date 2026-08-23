@@ -272,8 +272,15 @@ class SshHost(LocalHost):
         makedirs on a remote absolute path (broke on /home/... on
         macOS)."""
         # local_dir is remote-namespace; map to the local mirror root
-        mirror = os.path.join(self.pull_root,
-                              os.path.relpath(local_dir, self.wgp_root))
+        rel = os.path.relpath(local_dir, self.wgp_root)
+        # GLM PR#11 F: same escape class as map_path's guard — a
+        # local_dir outside wgp_root would yield ../.. and smuggle
+        # the pull/makedirs outside pull_root. Fail closed.
+        if rel == ".." or rel.startswith(".." + os.sep):
+            raise RenderHostError(
+                "fetch_videos dir escapes wgp_root; refusing to pull "
+                "outside pull_root")
+        mirror = os.path.join(self.pull_root, rel)
         os.makedirs(mirror, exist_ok=True)
         for d in dirs:
             remote = d  # dirs arrive host-namespace (remote) already
