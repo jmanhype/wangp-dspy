@@ -148,7 +148,13 @@ class SshHost(LocalHost):
 
     # -- ssh/rsync plumbing ----------------------------------------
     def _ssh_base(self):
-        base = ["ssh"]
+        # WD-tc04 keepalives: a dead ssh channel must DROP (~5min)
+        # so the adapter's pull-retry path can take over — the live
+        # wedge blocked ~25min with remote wgp already finished.
+        base = ["ssh",
+                "-o", "ServerAliveInterval=30",
+                "-o", "ServerAliveCountMax=10",
+                "-o", "ConnectTimeout=15"]
         if self.port:
             base += ["-p", str(self.port)]
         base.append(self.target)

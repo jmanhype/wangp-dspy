@@ -23,6 +23,7 @@ from wangp_dspy.profile_selector import (
 )
 from wangp_dspy.render_qc import Verdict
 from wangp_dspy.wangp_adapter import (
+    frame_tolerance,
     H3_MODEL_TYPE,
     MULTISHOT_PROMPT_TAG,
     SCRIPT_SEPARATOR,
@@ -508,15 +509,16 @@ def test_unverified_sentinel_skips_verification_not_passes():
     """Luna PR#12 residual: pin the sentinel-skip semantics — the
     sentinel must SKIP verification, never satisfy a mismatch."""
     from wangp_dspy.wangp_adapter import (FRAME_COUNT_UNVERIFIED,
-                                          READBACK_FRAME_TOLERANCE)
+                                          frame_tolerance)
     want = 3 * 175  # the live cycle-3 expectation
+    tol = frame_tolerance(3)  # WD-tc04: seam-scaled, not flat 2
     # sentinel never trips the mismatch branch...
     got = FRAME_COUNT_UNVERIFIED
     assert not (got != FRAME_COUNT_UNVERIFIED
-                and abs(got - want) >= READBACK_FRAME_TOLERANCE)
+                and abs(got - want) >= tol)
     # ...while the live-bug count and worse do trip it
     for real in (172, 0):
-        assert abs(real - want) >= READBACK_FRAME_TOLERANCE, real
+        assert abs(real - want) >= tol, real
 
 
 def test_render_result_carries_effective_frames():
