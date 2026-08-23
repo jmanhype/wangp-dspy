@@ -4,7 +4,7 @@ title: "adapter: frame-quantization snapping + multishot readback frame-count ve
 status: in_progress
 priority: 2
 type: task
-labels: [bug]
+labels: [bug, delivered]
 created_at: 2026-08-23T04:54:02Z
 created_by: speed
 updated_at: 2026-08-23T05:10:47Z
