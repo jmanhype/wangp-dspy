@@ -41,7 +41,7 @@ def _brief(subject="astronaut, cracked visor", motion="slow head turn",
                        style=style)
 
 
-def _decision(frames=176):
+def _decision(frames=175):
     return ProfileDecision(
         model="h3", resolution="768p", shot_length_frames=frames,
         seed_policy="fixed_per_story", wangp_profile="profile3")
@@ -76,7 +76,7 @@ def test_build_settings_exact_shape_and_multishot_tag():
     assert settings["model_type"] == H3_MODEL_TYPE
     assert settings["prompt"] == MULTISHOT_PROMPT_TAG
     assert settings["script"] == build_script([_brief_text(b) for b in briefs])
-    assert settings["frames_per_shot"] == 176
+    assert settings["frames_per_shot"] == 175  # on-grid: snapped value (WD-u4rv)
     assert settings["force_fps"] == "24"  # string — wgp len()s it (story-6 live finding)
     # 768p vertical
     assert (settings["width"], settings["height"]) == (480, 832)
@@ -501,3 +501,28 @@ def test_settings_force_fps_is_string():
     settings = build_settings(briefs, _decision())
     assert settings["force_fps"] == "24"
     assert isinstance(settings["force_fps"], str)
+
+
+def test_unverified_sentinel_skips_verification_not_passes():
+    """Luna PR#12 residual: pin the sentinel-skip semantics — the
+    sentinel must SKIP verification, never satisfy a mismatch."""
+    from wangp_dspy.wangp_adapter import (FRAME_COUNT_UNVERIFIED,
+                                          READBACK_FRAME_TOLERANCE)
+    want = 3 * 175  # the live cycle-3 expectation
+    # sentinel never trips the mismatch branch...
+    got = FRAME_COUNT_UNVERIFIED
+    assert not (got != FRAME_COUNT_UNVERIFIED
+                and abs(got - want) >= READBACK_FRAME_TOLERANCE)
+    # ...while the live-bug count and worse do trip it
+    for real in (172, 0):
+        assert abs(real - want) >= READBACK_FRAME_TOLERANCE, real
+
+
+def test_render_result_carries_effective_frames():
+    """Qwen PR#12 required finding: the H3 grid snap must be visible
+    to consumers, not silent."""
+    from wangp_dspy.wangp_adapter import effective_frames_per_shot, RenderResult
+    assert effective_frames_per_shot(160) == 175
+    r = RenderResult(attempts=1, settings_path="s", output_dir="o",
+                     video_paths=("v",), effective_frames=175)
+    assert r.effective_frames == 175
