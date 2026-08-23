@@ -179,7 +179,9 @@ def effective_frames_per_shot(frames: int) -> int:
 # Seam loss is superlinear, not linear-2. MEASURED_SEAM_CEILING=3
 # admits both data points with headroom (tol(3)=8 > 4, tol(4)=11 >
 # 8) while real losses still trip (diff 15 vs tol(4)=11 raises).
-# TODO(WD-qn1a): recalibrate at an n>=6 data point.
+# TODO(WD-qn1a): recalibrate at an n>=6 data point. The recalibration
+# MUST capture PER-SEAM loss (total_diff / (n-1)) at each n so the
+# loss curve can be fitted rather than endpoint-bounded.
 MEASURED_SEAM_CEILING = 3
 
 
