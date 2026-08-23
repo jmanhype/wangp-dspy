@@ -1,14 +1,16 @@
 ---
 id: WD-tc04
 title: "adapter: seam-aware frame tolerance + SshHost completion-by-outputs robustness"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [bug, delivered]
 created_at: 2026-08-23T14:56:26Z
 created_by: speed
-updated_at: 2026-08-23T15:16:39Z
-content_hash: "sha256:73285a83c934ea4d50bbbd74a6fca7c2b1c8a074b85835d90bfccb4430811810"
+updated_at: 2026-08-23T15:16:42Z
+content_hash: "sha256:d9cddd4c06d51894271096eee1022f0073847103a93a885fc4e24e5aff023c55"
+closed_at: 2026-08-23T15:16:42Z
+close_reason: "PR #14 merged (ae6303f): seam-scaled tolerance with MEASURED_SEAM_FRAMES provenance, ssh keepalives at the _ssh_base seam, exactly-one fetch retry; Luna+Qwen PASS, 145 tests green"
 ---
 
 ## Description
@@ -35,6 +37,7 @@ status: delivered
 
 ## History
 - 2026-08-23T15:16:38Z status: open -> in_progress
+- 2026-08-23T15:16:42Z status: in_progress -> closed
 
 ## Links
 
