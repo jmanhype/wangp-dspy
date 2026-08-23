@@ -11,7 +11,7 @@ updated_at: 2026-08-23T03:22:14Z
 content_hash: "sha256:66c6d0f721d8ea14166b17ba3bee7dd557dae6479e2b51d6036d105f076a8681"
 assignee: dev-WD-h0vk
 follows: [WD-d3b9, WD-5zti]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-08-23T03:22:13Z
 close_reason: "Renderer-locality: RenderHost seam (LocalHost/SshHost), remote render via ssh+rsync, remote-side timeout kill, escape guards. Merged PR #10 (f00c70b) + PR #11 (50e1065, four live-T0 fixes + GLM guard). Live acceptance: 96f render through SshHost green, keeper mtime +384s in window. Qwen design PASS."
 ---
