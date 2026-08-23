@@ -8,7 +8,7 @@ labels: [bug, accepted]
 created_at: 2026-08-23T14:56:26Z
 created_by: speed
 updated_at: 2026-08-23T15:16:42Z
-content_hash: "sha256:d9cddd4c06d51894271096eee1022f0073847103a93a885fc4e24e5aff023c55"
+content_hash: "sha256:b5c120d045180ea640fd333ae46c5a86659cb25046952529892971fcbe8aa30b"
 closed_at: 2026-08-23T15:16:42Z
 close_reason: "PR #14 merged (ae6303f): seam-scaled tolerance with MEASURED_SEAM_FRAMES provenance, ssh keepalives at the _ssh_base seam, exactly-one fetch retry; Luna+Qwen PASS, 145 tests green"
 ---
@@ -23,6 +23,16 @@ Two live findings from WD-izly payoff render: (1) frame tolerance is flat 2f but
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
