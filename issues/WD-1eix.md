@@ -8,7 +8,7 @@ labels: [dogfood, delivered]
 created_at: 2026-08-23T04:00:35Z
 created_by: speed
 updated_at: 2026-08-23T04:10:21Z
-content_hash: "sha256:2560c4ef80d8b4e995bd9f6c48d21bdcfa53a4a8d22cb2dcf4c28e56e75441e6"
+content_hash: "sha256:6191eeb7b4af8eae1dfba641d5cd892db694fbb9655454c2fd425337babd1fb9"
 assignee: dev-WD-1eix
 ---
 
@@ -22,6 +22,16 @@ Second full dogfood cycle through paivot-hermes: verify (a) the insight ledger a
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
