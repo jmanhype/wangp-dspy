@@ -191,6 +191,27 @@ def _is_transient(stderr: str) -> bool:
     return bool(_TRANSIENT_RE.search(stderr or ""))
 
 
+def _scan_videos(dirs, newer_than: float) -> tuple:
+    """Collect video files from dirs, sorted oldest-name-stable; only
+    files whose mtime is >= newer_than (the attempt start) count, so
+    stale files in a shared outputs dir are never picked up."""
+    found = []
+    for d in dirs:
+        if not os.path.isdir(d):
+            continue
+        for n in os.listdir(d):
+            if not n.lower().endswith((".mp4", ".mov", ".webm")):
+                continue
+            p = os.path.join(d, n)
+            try:
+                if os.path.getmtime(p) + 1e-6 < newer_than:
+                    continue
+            except OSError:
+                continue
+            found.append(p)
+    return tuple(sorted(found))
+
+
 class WanGPAdapter:
     """Render briefs as H3 shots via headless wgp, gate with RenderQC,
     hand keepers to MultiShotAssembler.
@@ -210,6 +231,7 @@ class WanGPAdapter:
                  venv_python: str = DEFAULT_VENV_PYTHON,
                  wgp_script: str = DEFAULT_WGP_SCRIPT,
                  output_dir: str = "output",
+                 wgp_outputs_dir: Optional[str] = None,
                  runner: Optional[Callable] = None,
                  sleeper: Optional[Callable[[float], None]] = None,
                  max_attempts: int = DEFAULT_MAX_ATTEMPTS,
@@ -219,6 +241,12 @@ class WanGPAdapter:
         self.venv_python = venv_python
         self.wgp_script = wgp_script
         self.output_dir = output_dir
+        # WD-5zti: wgp IGNORES --output-dir at this pin and always
+        # writes to <wgp_root>/outputs/ — the readback must scan there.
+        self.wgp_outputs_dir = (
+            wgp_outputs_dir
+            or os.path.join(
+                os.path.dirname(os.path.abspath(wgp_script)), "outputs"))
         self.runner = runner or _default_runner
         self.sleeper = sleeper or time.sleep
         self.max_attempts = max_attempts
@@ -245,6 +273,7 @@ class WanGPAdapter:
         last_stderr = ""
         while attempts < self.max_attempts:
             attempts += 1
+            attempt_started = time.time()
             # every attempt owns a private dir: a retry can never read
             # back a prior attempt's partial files
             attempt_dir = os.path.join(render_dir, f"attempt-{attempts}")
@@ -255,11 +284,12 @@ class WanGPAdapter:
                    "--output-dir", attempt_dir]
             res = self.runner(cmd, cwd, env, self.timeout)
             if res.returncode == 0:
-                # readback scoped to THIS attempt dir only
-                videos = tuple(sorted(
-                    os.path.join(attempt_dir, n)
-                    for n in os.listdir(attempt_dir)
-                    if n.lower().endswith((".mp4", ".mov", ".webm"))))
+                # WD-5zti: readback scans the attempt dir AND the wgp
+                # outputs dir (wgp ignores --output-dir at this pin).
+                # Only files NEWER than this attempt's start count, so
+                # stale outputs never shadow or pollute the result.
+                videos = _scan_videos((attempt_dir, self.wgp_outputs_dir),
+                                      newer_than=attempt_started)
                 return RenderResult(attempts=attempts,
                                     settings_path=settings_path,
                                     output_dir=attempt_dir,
