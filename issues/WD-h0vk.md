@@ -7,8 +7,8 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:40Z
 created_by: speed
-updated_at: 2026-08-23T03:22:06Z
-content_hash: "sha256:858782ec0264bc8fdf84bd9716ef80c9cfc9edcbb9bc7655af9980abff01ca6d"
+updated_at: 2026-08-23T03:22:07Z
+content_hash: "sha256:7cee5b144c3f75f41c26ca1a225b57fbd82ca846106f2b1af12c6795a6bedf9e"
 assignee: dev-WD-h0vk
 follows: [WD-d3b9, WD-5zti]
 labels: [delivered]
@@ -28,6 +28,16 @@ Fix: introduce a renderer-locality seam — e.g. a path-mapping layer (local pat
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
