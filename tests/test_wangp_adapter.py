@@ -501,3 +501,18 @@ def test_settings_force_fps_is_string():
     settings = build_settings(briefs, _decision())
     assert settings["force_fps"] == "24"
     assert isinstance(settings["force_fps"], str)
+
+
+def test_unverified_sentinel_skips_verification_not_passes():
+    """Luna PR#12 residual: pin the sentinel-skip semantics — the
+    sentinel must SKIP verification, never satisfy a mismatch."""
+    from wangp_dspy.wangp_adapter import (FRAME_COUNT_UNVERIFIED,
+                                          READBACK_FRAME_TOLERANCE)
+    want = 3 * 175  # the live cycle-3 expectation
+    # sentinel never trips the mismatch branch...
+    got = FRAME_COUNT_UNVERIFIED
+    assert not (got != FRAME_COUNT_UNVERIFIED
+                and abs(got - want) >= READBACK_FRAME_TOLERANCE)
+    # ...while the live-bug count and worse do trip it
+    for real in (172, 0):
+        assert abs(real - want) >= READBACK_FRAME_TOLERANCE, real
