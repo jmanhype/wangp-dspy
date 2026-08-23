@@ -8,7 +8,7 @@ labels: [dogfood, accepted]
 created_at: 2026-08-23T04:00:35Z
 created_by: speed
 updated_at: 2026-08-23T04:10:25Z
-content_hash: "sha256:11b3797b4ce3cc329331c1c7e2818b8813693e787c810b2d1af4f0503ff7d539"
+content_hash: "sha256:70f46bd823fa30199470c8bb1b9ea870c02f870554873c4e0fba03878a9a82f3"
 assignee: dev-WD-1eix
 closed_at: 2026-08-23T04:10:24Z
 close_reason: "cycle 2 green: kaiju render 345s through pure SshHost, zero glue, mtime +338.8s in window; PR #9 typed error validated live on real OOM skip; ledger insight appended"
@@ -24,6 +24,16 @@ Second full dogfood cycle through paivot-hermes: verify (a) the insight ledger a
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
