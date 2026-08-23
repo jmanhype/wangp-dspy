@@ -8,12 +8,12 @@ parent: WD-j9nx
 created_at: 2026-08-22T20:12:56Z
 created_by: speed
 updated_at: 2026-08-23T01:38:52Z
-content_hash: "sha256:13d107e8531da45b5bd97328b8c47ef6a495f0bf57f6a4f886efa5b11384d44e"
+content_hash: "sha256:3f361ee8b0bfc82bf15d7624549fc61f2b4872ef52a1a7757fc7f827b88aaea1"
 assignee: dev-WD-t6i7
 labels: [accepted]
 closed_at: 2026-08-23T01:38:48Z
 close_reason: "real 3090 render + QC PASS (6.0/5.0/7.0 surreal) + audit ok; both code fixes merged (b3796c0, 9788f25); three follow-up stories seeded (WD-5zti, WD-d3b9, WD-h0vk)"
-led_to: [WD-5zti]
+led_to: [WD-5zti, WD-d3b9]
 ---
 
 ## Description
@@ -56,6 +56,6 @@ status: delivered
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Led to: [[WD-5zti]]
+- Led to: [[WD-5zti]], [[WD-d3b9]]
 
 ## Comments

@@ -7,10 +7,10 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:21:38Z
-content_hash: "sha256:a489988a7eccb8a6262a1abf970b96bc24f5114de41ab53497b3bf0c88443fcb"
+updated_at: 2026-08-23T03:21:39Z
+content_hash: "sha256:6077b25635d2332fe5158ce0fcb1a0faad367626d45da8cc3f0544ea3383f104"
 assignee: dev-WD-d3b9
-follows: [WD-5zti]
+follows: [WD-5zti, WD-t6i7]
 ---
 
 ## Description
@@ -33,9 +33,11 @@ Fix: empty readback after rc 0 must be a typed WanGPError (parse the 'completed:
 - 2026-08-23T03:21:38Z status: open -> in_progress
 - 2026-08-23T03:21:38Z auto-follows: linked to predecessor WD-5zti
 - 2026-08-23T03:21:38Z claimed by dev-WD-d3b9
+- 2026-08-23T03:21:39Z status: in_progress -> in_progress
+- 2026-08-23T03:21:39Z auto-follows: linked to predecessor WD-t6i7
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-5zti]]
+- Follows: [[WD-5zti]], [[WD-t6i7]]
 
 ## Comments
