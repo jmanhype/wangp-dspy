@@ -4,10 +4,10 @@ title: "dogfood cycle 2: ledger injection + SshHost repeatability"
 status: in_progress
 priority: 2
 type: task
-labels: [dogfood]
+labels: [dogfood, delivered]
 created_at: 2026-08-23T04:00:35Z
 created_by: speed
-updated_at: 2026-08-23T04:10:20Z
+updated_at: 2026-08-23T04:10:21Z
 content_hash: "sha256:2560c4ef80d8b4e995bd9f6c48d21bdcfa53a4a8d22cb2dcf4c28e56e75441e6"
 assignee: dev-WD-1eix
 ---
