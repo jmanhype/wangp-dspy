@@ -4,10 +4,10 @@ title: "cycle 5: MV remux — keeper audio mux, run FULLY through paivot ops (pu
 status: closed
 priority: 2
 type: task
-labels: [dogfood, mv, delivered, accepted]
+labels: [dogfood, mv, accepted]
 created_at: 2026-08-23T18:15:07Z
 created_by: speed
-updated_at: 2026-08-23T18:17:06Z
+updated_at: 2026-08-23T18:17:07Z
 content_hash: "sha256:50eaab2c7bc5a9539a06892afc4fdb2f049166a8a212cc5ab8eb465acfc64190"
 closed_at: 2026-08-23T18:17:06Z
 close_reason: "cycle 5 pure-paivot run: remux seam built and applied, output verified (duration match), lifecycle through plugin ops only after T0"
