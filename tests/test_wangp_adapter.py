@@ -67,7 +67,8 @@ def _brief_text(b):
 def test_build_script_joins_briefs_with_separator():
     b1, b2 = _brief(), _brief(subject="astronaut visor reflecting earth")
     script = build_script([_brief_text(b1), _brief_text(b2)])
-    assert script == _brief_text(b1) + "---" + _brief_text(b2)
+    # WD-izly: separator must sit on its OWN line (wgp multishot.py:49)
+    assert script == _brief_text(b1) + "\n---\n" + _brief_text(b2)
 
 
 def test_build_settings_exact_shape_and_multishot_tag():
