@@ -1,18 +1,20 @@
 ---
 id: WD-5zti
 title: "wgp --output-dir ignored: readback must scan Wan2GP/outputs/"
-status: in_progress
+status: closed
 priority: 2
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:23:15Z
-content_hash: "sha256:428aa1ac533daf3c834561217c3cc215c21fe650fbe0d1e4d64319958e39dd2d"
+updated_at: 2026-08-23T03:23:29Z
+content_hash: "sha256:d6ad55cf9633e6449deba1bb47969d3215e6b59415f85250c3d5f226f64394d2"
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
 led_to: [WD-d3b9, WD-h0vk]
 labels: [delivered]
+closed_at: 2026-08-23T03:23:29Z
+close_reason: "delivered: PR #8 (46cbff4) merged, Luna+GLM PASS, RED verified on main"
 ---
 
 ## Description
@@ -71,6 +73,7 @@ status: delivered
 - 2026-08-23T03:23:07Z status: closed -> open (reopened)
 - 2026-08-23T03:23:13Z status: open -> in_progress
 - 2026-08-23T03:23:13Z auto-follows: linked to predecessor WD-h0vk
+- 2026-08-23T03:23:29Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
