@@ -8,7 +8,7 @@ labels: [dogfood, accepted]
 created_at: 2026-08-23T04:20:17Z
 created_by: speed
 updated_at: 2026-08-23T04:43:49Z
-content_hash: "sha256:b3e0165db4f1e3e0b7ba1cc33b5e0f865517c299eba43e83339373285aa04cd9"
+content_hash: "sha256:78f6d54a674e03958e4dc46370b1de1834e26765470ff7a1db2db788506fd46a"
 assignee: dev-WD-e4nt
 closed_at: 2026-08-23T04:43:48Z
 close_reason: "cycle 3: first 3-shot multishot through SshHost green (558s, 7.29s video, mtime in window); three real constraints mapped; all through plugin ops with evidence"
@@ -24,6 +24,16 @@ First multishot chain through the remote path: 3 shots x 480f (20s cap), last-fr
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
