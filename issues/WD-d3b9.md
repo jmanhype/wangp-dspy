@@ -7,11 +7,11 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:21:58Z
+updated_at: 2026-08-23T03:22:01Z
 content_hash: "sha256:8e85b348723339bd5efccc90286ffa6d360c65a318eb8a1f290ea4a46829240b"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-08-23T03:21:58Z
 close_reason: "wgp exits 0 on skipped tasks; empty readback now raises typed WanGPError with 5-line stdout tail, hard failure no retry. Merged PR #9 (9238555). Luna+GLM PASS; RED verified."
 ---
