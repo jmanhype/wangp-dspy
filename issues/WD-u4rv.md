@@ -1,14 +1,14 @@
 ---
 id: WD-u4rv
 title: "adapter: frame-quantization snapping + multishot readback frame-count verification"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [bug]
 created_at: 2026-08-23T04:54:02Z
 created_by: speed
-updated_at: 2026-08-23T04:54:02Z
-content_hash: "sha256:6d4faad7dec1f9c8293377b9180faccbd39d81ec20061e893ac4482fa8b2ee7f"
+updated_at: 2026-08-23T05:10:47Z
+content_hash: "sha256:a0383d9debb49d5f0e5b21a2cebde9491c3f94182723958f39f891b56356315d"
 ---
 
 ## Description
@@ -24,7 +24,7 @@ Live WD-e4nt findings: (1) H3 pipeline quantizes frame_num via normalize_frame_c
 
 
 ## History
-
+- 2026-08-23T05:10:47Z status: open -> in_progress
 
 ## Links
 
