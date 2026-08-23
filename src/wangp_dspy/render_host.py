@@ -264,15 +264,24 @@ class SshHost(LocalHost):
         """Pull each remote output dir into the local mirror, then
         reuse the local scan on the mirror (mtime filter: rsync -a
         preserves remote mtimes, so 'newer than attempt start' works
-        exactly as locally)."""
-        os.makedirs(local_dir, exist_ok=True)
+        exactly as locally).
+
+        Live T0 finding: callers pass REMOTE-namespace dirs/dir (the
+        adapter only knows host-namespace paths). Derive the local
+        pull mirror via the wgp_root<->pull_root mapping instead of
+        makedirs on a remote absolute path (broke on /home/... on
+        macOS)."""
+        # local_dir is remote-namespace; map to the local mirror root
+        mirror = os.path.join(self.pull_root,
+                              os.path.relpath(local_dir, self.wgp_root))
+        os.makedirs(mirror, exist_ok=True)
         for d in dirs:
             remote = d  # dirs arrive host-namespace (remote) already
             rc, _o, err = self._run(
                 ["rsync", "-a", f"{self.target}:{remote}/",
-                 local_dir + "/"], "rsync pull")
+                 mirror + "/"], "rsync pull")
             if rc != 0:
                 raise PullError(f"rsync pull from {self.target}:{remote}"
                                 f" failed: {err.strip()[:300]}")
         return LocalHost.fetch_videos(
-            self, (local_dir,), local_dir, newer_than=newer_than)
+            self, (mirror,), mirror, newer_than=newer_than)
