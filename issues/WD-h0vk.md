@@ -1,17 +1,19 @@
 ---
 id: WD-h0vk
 title: "renderer-locality: remote-GPU runner support"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:40Z
 created_by: speed
-updated_at: 2026-08-23T03:22:07Z
-content_hash: "sha256:7cee5b144c3f75f41c26ca1a225b57fbd82ca846106f2b1af12c6795a6bedf9e"
+updated_at: 2026-08-23T03:22:13Z
+content_hash: "sha256:66c6d0f721d8ea14166b17ba3bee7dd557dae6479e2b51d6036d105f076a8681"
 assignee: dev-WD-h0vk
 follows: [WD-d3b9, WD-5zti]
 labels: [delivered]
+closed_at: 2026-08-23T03:22:13Z
+close_reason: "Renderer-locality: RenderHost seam (LocalHost/SshHost), remote render via ssh+rsync, remote-side timeout kill, escape guards. Merged PR #10 (f00c70b) + PR #11 (50e1065, four live-T0 fixes + GLM guard). Live acceptance: 96f render through SshHost green, keeper mtime +384s in window. Qwen design PASS."
 ---
 
 ## Description
@@ -46,6 +48,7 @@ status: delivered
 - 2026-08-23T03:22:04Z claimed by dev-WD-h0vk
 - 2026-08-23T03:22:05Z status: in_progress -> in_progress
 - 2026-08-23T03:22:05Z auto-follows: linked to predecessor WD-5zti
+- 2026-08-23T03:22:13Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
