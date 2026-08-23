@@ -59,8 +59,15 @@ def assemble_conversation(profile: str, *, audio_path: str,
 
 
 def generation_kwargs() -> dict:
-    """Decoding params pinned to the factory script."""
-    return {"max_new_tokens": MAX_NEW_TOKENS}
+    """Decoding params pinned to the factory script.
+
+    Deterministic by default (PR fix): do_sample=False — greedy
+    decode. Live evidence showed the judge scoring the same wav
+    40 then 35 (25 then 35) across runs because decoding inherited
+    the model's default SAMPLED generation_config. Caller kwargs
+    still win where generate() is invoked (override seam intact
+    for future diversity-seeking evals)."""
+    return {"max_new_tokens": MAX_NEW_TOKENS, "do_sample": False}
 
 
 def criticize_once(profile: str, prose: str, *, model: str) -> dict:
