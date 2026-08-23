@@ -41,7 +41,7 @@ def _brief(subject="astronaut, cracked visor", motion="slow head turn",
                        style=style)
 
 
-def _decision(frames=176):
+def _decision(frames=175):
     return ProfileDecision(
         model="h3", resolution="768p", shot_length_frames=frames,
         seed_policy="fixed_per_story", wangp_profile="profile3")
@@ -76,7 +76,7 @@ def test_build_settings_exact_shape_and_multishot_tag():
     assert settings["model_type"] == H3_MODEL_TYPE
     assert settings["prompt"] == MULTISHOT_PROMPT_TAG
     assert settings["script"] == build_script([_brief_text(b) for b in briefs])
-    assert settings["frames_per_shot"] == 176
+    assert settings["frames_per_shot"] == 175  # on-grid: snapped value (WD-u4rv)
     assert settings["force_fps"] == "24"  # string — wgp len()s it (story-6 live finding)
     # 768p vertical
     assert (settings["width"], settings["height"]) == (480, 832)

@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -26,6 +27,9 @@ from dataclasses import dataclass
 from typing import Callable, Mapping, Optional, Sequence
 
 from wangp_dspy.profile_selector import (
+    H3_FRAMES_MIN,
+    H3_FRAMES_OFFSET,
+    H3_FRAMES_STEP,
     ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
 )
 from wangp_dspy.prompt_director import RenderBrief
@@ -130,6 +134,38 @@ def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
     return int.from_bytes(digest[:4], "big")
 
 
+def normalize_frame_count(frame_count: int, minimum: int = H3_FRAMES_MIN,
+                          step: int = H3_FRAMES_STEP,
+                          offset: int = H3_FRAMES_OFFSET) -> int:
+    """EXACT mirror of Wan2GP shared/utils/frame_scheduler.py
+    normalize_frame_count (ceil to offset+k*step, clamp to minimum).
+
+    MEASURED rule (WD-u4rv, do not guess):
+    - Wan2GP/models/minimax_h3/minimax_h3_handler.py pins
+      frames_minimum=107, frames_steps=17, frames_offset=5.
+    - Real H3 outputs ffprobe'd at exactly 107/124/175f (=5+17k);
+      96f requests render as 107f on H3 (the old 96f floor predates
+      the H3 pin); cycle-3's 160f request rendered 175f.
+    """
+    frame_count = max(minimum, frame_count)
+    step = max(1, step)
+    offset = max(0, offset)
+    if step <= 1:
+        return frame_count
+    return math.ceil(max(0, frame_count - offset) / step) * step + offset
+
+
+def effective_frames_per_shot(frames: int) -> int:
+    """The frames-per-shot H3 will actually render for a request."""
+    return normalize_frame_count(frames)
+
+
+READBACK_FRAME_TOLERANCE = 2  # fps-rounding slack (WD-u4rv)
+# sentinel: frame count could not be verified (injected by tests);
+# the readback check skips rather than fails on it
+FRAME_COUNT_UNVERIFIED = -1
+
+
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
     frames = decision.shot_length_frames
@@ -141,6 +177,15 @@ def build_settings(briefs: Sequence[RenderBrief],
         raise WanGPError(
             f"shot length {frames}f is below the HARD floor of "
             f"{SHOT_LENGTH_FLOOR_FRAMES}f (4s @ {FORCE_FPS}fps)")
+    # WD-u4rv: H3 quantizes to 5+17k with minimum 107 — snap the
+    # request to the grid H3 will ACTUALLY render (ceil, like wgp's
+    # normalize_frame_count at wgp.py:6953). 96 -> 107, 160 -> 175.
+    if frames < H3_FRAMES_MIN:
+        raise WanGPError(
+            f"shot length {frames}f is below the H3 minimum of "
+            f"{H3_FRAMES_MIN}f (5+17k grid; {SHOT_LENGTH_FLOOR_FRAMES}f "
+            "floor predates the H3 pin — request 107f or more)")
+    frames = effective_frames_per_shot(frames)
     if not briefs:
         raise WanGPError("at least one brief is required to render")
     width, height = WIDTH_768P, HEIGHT_768P
@@ -206,6 +251,28 @@ class WanGPAdapter:
 
     TRANSIENT_RE = _TRANSIENT_RE
 
+    @staticmethod
+    def _ffprobe_frames(host, path: str) -> int:
+        """Count frames in a rendered video via the HOST seam (works
+        locally and over SshHost: ffprobe runs wherever the file
+        lives). Tests monkeypatch this; production shells out."""
+        import subprocess as _sp
+        argv = ["ffprobe", "-v", "error", "-count_frames",
+                "-select_streams", "v:0",
+                "-show_entries", "stream=nb_read_frames",
+                "-of", "csv=p=0", path]
+        proc = _sp.run(argv, stdout=_sp.PIPE, stderr=_sp.PIPE,
+                       timeout=120)
+        if proc.returncode != 0:
+            raise WanGPError(
+                "ffprobe failed during readback verification: "
+                f"{proc.stderr.decode('utf-8', 'replace')[:200]}")
+        out = proc.stdout.decode("utf-8", "replace").strip()
+        try:
+            return int(out.split(",")[-1])
+        except ValueError:
+            raise WanGPError(f"ffprobe returned no frame count: {out!r}")
+
     def __init__(self, *,
                  venv_python: str = DEFAULT_VENV_PYTHON,
                  wgp_script: str = DEFAULT_WGP_SCRIPT,
@@ -246,7 +313,9 @@ class WanGPAdapter:
         # delegated to the host (local FS or remote ssh test -x)
         self.host.check_executable(self.venv_python)
 
-    def _run_wgp(self, settings_path: str, render_dir: str) -> RenderResult:
+    def _run_wgp(self, settings_path: str, render_dir: str,
+                 n_briefs: int = 1,
+                 expected_frames: int | None = None) -> RenderResult:
         cwd, env = self.host.prepare_run(self.wgp_script)
 
         attempts = 0
@@ -285,6 +354,23 @@ class WanGPAdapter:
                     raise WanGPError(
                         "wgp exited 0 but produced no video (task "
                         f"skipped?); stdout tail:\n{tail}")
+                # WD-u4rv: verify the output actually contains the
+                # expected frames (n_briefs * effective frames/shot).
+                # The live cycle-3 bug (3 shots x ~175f = ~525f
+                # expected, 172f actual) MUST be a typed error here.
+                if expected_frames is not None:
+                    want = n_briefs * expected_frames
+                    for v in videos:
+                        got = self._ffprobe_frames(self.host, v)
+                        if got == FRAME_COUNT_UNVERIFIED:
+                            continue
+                        if abs(got - want) >= READBACK_FRAME_TOLERANCE:
+                            raise WanGPError(
+                                f"rendered video frame count mismatch: "
+                                f"expected ~{want}f "
+                                f"({n_briefs} briefs x "
+                                f"{expected_frames}f), ffprobe counted "
+                                f"{got}f in {v!r}")
                 return RenderResult(attempts=attempts,
                                     settings_path=settings_path,
                                     output_dir=attempt_dir,
@@ -318,7 +404,10 @@ class WanGPAdapter:
         settings_path = self.host.write_text(
             self.host.join(render_dir, "settings.json"),
             json.dumps(settings, indent=2))
-        return self._run_wgp(settings_path, render_dir)
+        return self._run_wgp(settings_path, render_dir,
+                             n_briefs=len(briefs),
+                             expected_frames=effective_frames_per_shot(
+                                 decision.shot_length_frames))
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 

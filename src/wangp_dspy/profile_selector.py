@@ -27,6 +27,11 @@ SEED_POLICIES: FrozenSet[str] = frozenset(
 # HARD FLOOR: 96 frames = 4 seconds @ 24fps. Videos are capped, never
 # shorter than 4s — shorter requests are a typed rejection.
 SHOT_LENGTH_FLOOR_FRAMES = 96
+# H3 frame quantization (WD-u4rv, MEASURED on the 3090 pin):
+# minimax_h3 renders only 5+17k frames with minimum 107.
+H3_FRAMES_MIN = 107
+H3_FRAMES_STEP = 17
+H3_FRAMES_OFFSET = 5
 
 
 @dataclass(frozen=True)

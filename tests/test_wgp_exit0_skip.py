@@ -18,7 +18,7 @@ def _brief():
 
 def _decision():
     return ProfileDecision(model="h3", resolution="768p",
-                           shot_length_frames=96,
+                           shot_length_frames=175,
                            seed_policy="fixed_per_story",
                            wangp_profile="profile3")
 
