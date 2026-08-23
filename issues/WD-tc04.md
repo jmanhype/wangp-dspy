@@ -1,14 +1,14 @@
 ---
 id: WD-tc04
 title: "adapter: seam-aware frame tolerance + SshHost completion-by-outputs robustness"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [bug]
 created_at: 2026-08-23T14:56:26Z
 created_by: speed
-updated_at: 2026-08-23T14:56:26Z
-content_hash: "sha256:db14cb71afc62bbdbd5067f05fd29e1958b7de494ea9c65ad6522666aae3cc55"
+updated_at: 2026-08-23T15:16:38Z
+content_hash: "sha256:77509d0a35ad05f6cc2d23452d4db1d8d4ed97cdd9ec4506f62c757a19b10018"
 ---
 
 ## Description
@@ -24,7 +24,7 @@ Two live findings from WD-izly payoff render: (1) frame tolerance is flat 2f but
 
 
 ## History
-
+- 2026-08-23T15:16:38Z status: open -> in_progress
 
 ## Links
 
