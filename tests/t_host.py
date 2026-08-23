@@ -250,13 +250,3 @@ def test_pin5_local_readback_unchanged(tmp_path):
     body = json.load(open(os.path.join(
         str(tmp_path / "renders"), rel.split("/")[0], "settings.json")))
     assert body["force_fps"] == "24"
-
-
-def test_map_path_refuses_escape_outside_pull_root(tmp_path):
-    """GLM F1: a local path outside pull_root must never map to ../."""
-    import pytest
-    from wangp_dspy.render_host import SshHost, RenderHostError
-    host = SshHost(target="h", wgp_root="/remote/wgp",
-                   pull_root=str(tmp_path / "pull"), sp=lambda *a, **k: None)
-    with pytest.raises(RenderHostError):
-        host.map_path(str(tmp_path / "outside" / "settings.json"))

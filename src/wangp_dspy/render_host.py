@@ -164,6 +164,11 @@ class SshHost(LocalHost):
     def map_path(self, local: str) -> str:
         """local pull_root namespace -> remote wgp_root namespace."""
         rel = os.path.relpath(local, self.pull_root)
+        # GLM F1: refuse escapes — a local path outside pull_root must
+        # never map to ../ outside wgp_root (rsync dest containment).
+        if rel == ".." or rel.startswith(".." + os.sep):
+            raise RenderHostError(
+                "path escapes pull_root; refusing to map outside wgp_root")
         return self.wgp_root + "/" + rel.replace(os.sep, "/")
 
     # -- RenderHost surface ----------------------------------------
@@ -232,7 +237,7 @@ class SshHost(LocalHost):
         exactly as locally)."""
         os.makedirs(local_dir, exist_ok=True)
         for d in dirs:
-            remote = d if d.startswith("/") else d
+            remote = d  # dirs arrive host-namespace (remote) already
             rc, _o, err = self._run(
                 ["rsync", "-a", f"{self.target}:{remote}/",
                  local_dir + "/"], "rsync pull")
