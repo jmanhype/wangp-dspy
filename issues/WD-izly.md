@@ -7,8 +7,8 @@ type: task
 labels: [bug, accepted]
 created_at: 2026-08-23T05:26:06Z
 created_by: speed
-updated_at: 2026-08-23T05:30:15Z
-content_hash: "sha256:6d74571ffd1e17ca0ebec9d9db17660517691807104a535c00bae7b1fd4cea8c"
+updated_at: 2026-08-23T05:30:16Z
+content_hash: "sha256:be12dfc0d2f1841f05fcc0de6ef939b15780ac0e0eb555adf2df7df14a73dba7"
 closed_at: 2026-08-23T05:30:15Z
 close_reason: "PR #13 merged (eb56db2): line-anchored separator fix + Qwen early-split guard; Luna verified regex against live 3090 source; 139 tests green"
 ---
@@ -23,6 +23,16 @@ Root cause of both dropped-shot incidents: wgp parse_script splits on regex (?m)
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
