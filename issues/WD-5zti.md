@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
-updated_at: 2026-08-23T03:20:47Z
-content_hash: "sha256:d9d4d709ab9de71d92c2bad2c0e3af1d50acb52ccbd7c2803645ddfbcb431ee7"
+updated_at: 2026-08-23T03:20:50Z
+content_hash: "sha256:3abc924ffd7f5a85dd018f1f5ac6845e137e984449d6f31f28079fff27ff104e"
 assignee: dev-WD-5zti
 follows: [WD-t6i7]
 ---
@@ -33,6 +33,7 @@ Fix: readback must scan the actual output location (Wan2GP/outputs/ and/or the s
 - 2026-08-23T03:20:47Z status: open -> in_progress
 - 2026-08-23T03:20:47Z auto-follows: linked to predecessor WD-t6i7
 - 2026-08-23T03:20:47Z claimed by dev-WD-5zti
+- 2026-08-23T03:20:50Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-j9nx]]
