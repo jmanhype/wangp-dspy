@@ -8,12 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:40Z
 created_by: speed
 updated_at: 2026-08-23T03:22:15Z
-content_hash: "sha256:c0b52f3c2d999414f81c087bcf21e1c63fedbcd6448f0a71201227c17c6b3de2"
+content_hash: "sha256:b47a7c1d145b233cd4771de281097095e9d39c6da1d35eaca1a11ae154005b66"
 assignee: dev-WD-h0vk
 follows: [WD-d3b9, WD-5zti]
 labels: [accepted]
 closed_at: 2026-08-23T03:22:13Z
 close_reason: "Renderer-locality: RenderHost seam (LocalHost/SshHost), remote render via ssh+rsync, remote-side timeout kill, escape guards. Merged PR #10 (f00c70b) + PR #11 (50e1065, four live-T0 fixes + GLM guard). Live acceptance: 96f render through SshHost green, keeper mtime +384s in window. Qwen design PASS."
+led_to: [WD-5zti]
 ---
 
 ## Description
@@ -63,5 +64,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-d3b9]], [[WD-5zti]]
+- Led to: [[WD-5zti]]
 
 ## Comments
