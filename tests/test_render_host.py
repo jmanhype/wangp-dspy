@@ -162,8 +162,10 @@ def test_pin3_ssh_host_exact_argv(tmp_path):
 
     # check_executable -> ssh test -x
     host.check_executable("/home/u/Wan2GP/venv/bin/python")
-    assert sp.argvs[0] == ["ssh", "gpu3090", "test", "-x",
-                           "/home/u/Wan2GP/venv/bin/python"]
+    assert sp.argvs[0][:2] == ["ssh", "-o"]  # keepalive opts (WD-tc04)
+    assert sp.argvs[0][7] == "gpu3090"      # after the 6 option tokens
+    assert sp.argvs[0][8:] == ["test", "-x",
+                               "/home/u/Wan2GP/venv/bin/python"]
 
     # write_text -> rsync push
     remote = host.write_text("/tmp/r/settings.json", '{"a": 1}')
@@ -178,9 +180,10 @@ def test_pin3_ssh_host_exact_argv(tmp_path):
                     sp=sp2)
     cmd = ["/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
     host2.run(cmd, cwd="/w", env=None, timeout=3600)
-    expect = ["ssh", "gpu3090", "cd", "/w", "&&", "timeout", "3600",
+    expect = ["cd", "/w", "&&", "timeout", "3600",
               "/w/venv/bin/python", "/w/wgp.py", "--process", "s.json"]
-    assert sp2.argvs[0] == expect
+    assert sp2.argvs[0][8:] == expect  # [7]=target after keepalives
+    assert "ServerAliveInterval=30" in sp2.argvs[0]
 
     # fetch_videos -> rsync pull -a from remote outputs to local mirror
     # (contract: local_dir arrives REMOTE-namespace; host maps to mirror)

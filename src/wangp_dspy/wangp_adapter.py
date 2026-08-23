@@ -169,11 +169,16 @@ def effective_frames_per_shot(frames: int) -> int:
     return normalize_frame_count(frames)
 
 
-READBACK_FRAME_TOLERANCE = 2  # fps-rounding slack (WD-u4rv)
-# TODO(Qwen PR#12): tolerance is absolute-only; if future Pin
-# measurements find keyframe/seam trimming in multishot concat
-# (-kf frames per seam), the expected count must subtract them
-# or trimmed files will false-trip this check.
+# WD-tc04: seam-aware tolerance, replacing flat
+# READBACK_FRAME_TOLERANCE=2. MEASURED live (WD-izly payoff render):
+# 470f actual vs 474f expected with 3 shots / 2 concat seams — ~2
+# frames are lost per seam. Base 2 covers fps rounding; each seam
+# (n_briefs-1) adds 2. tolerance(3)=6 > diff 4 -> no false flag.
+def frame_tolerance(n_briefs: int) -> int:
+    """2 frames (fps rounding) + 2 per concat seam."""
+    return 2 + 2 * max(0, n_briefs - 1)
+
+
 # sentinel: frame count could not be verified (injected by tests);
 # the readback check skips rather than fails on it
 FRAME_COUNT_UNVERIFIED = -1
@@ -362,6 +367,15 @@ class WanGPAdapter:
                     (attempt_dir, self.wgp_outputs_dir),
                     attempt_dir, newer_than=attempt_started)
                 if not videos:
+                    # WD-tc04 live wedge: remote wgp finished (fresh
+                    # outputs on disk) but the ssh channel child hung /
+                    # the first pull saw nothing. Retry the pull ONCE
+                    # before failing — keepalives bound dead channels
+                    # so this retry path is reachable within ~5min.
+                    videos = self.host.fetch_videos(
+                        (attempt_dir, self.wgp_outputs_dir),
+                        attempt_dir, newer_than=attempt_started)
+                if not videos:
                     # WD-d3b9: wgp exits 0 on skipped tasks (OOM etc.)
                     # with 'Queue completed: 0/1 tasks (1 skipped)' on
                     # stdout. Empty readback after rc 0 is a HARD typed
@@ -378,11 +392,12 @@ class WanGPAdapter:
                 # expected, 172f actual) MUST be a typed error here.
                 if expected_frames is not None:
                     want = n_briefs * expected_frames
+                    tol = frame_tolerance(n_briefs)
                     for v in videos:
                         got = self._ffprobe_frames(self.host, v)
                         if got == FRAME_COUNT_UNVERIFIED:
                             continue
-                        if abs(got - want) >= READBACK_FRAME_TOLERANCE:
+                        if abs(got - want) >= tol:
                             raise WanGPError(
                                 f"rendered video frame count mismatch: "
                                 f"expected ~{want}f "
