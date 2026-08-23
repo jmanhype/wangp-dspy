@@ -4,10 +4,10 @@ title: "adapter: multishot join must use newline-delimited --- separators"
 status: in_progress
 priority: 1
 type: task
-labels: [bug]
+labels: [bug, delivered]
 created_at: 2026-08-23T05:26:06Z
 created_by: speed
-updated_at: 2026-08-23T05:30:11Z
+updated_at: 2026-08-23T05:30:12Z
 content_hash: "sha256:d5672ff04a09caa211c8544b1453753e76b9cd5a48d20ee88351c2e2a8863ed2"
 ---
 
