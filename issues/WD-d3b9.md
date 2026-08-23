@@ -7,10 +7,11 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
-updated_at: 2026-08-23T03:21:39Z
+updated_at: 2026-08-23T03:21:41Z
 content_hash: "sha256:6077b25635d2332fe5158ce0fcb1a0faad367626d45da8cc3f0544ea3383f104"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
+labels: [delivered]
 ---
 
 ## Description
