@@ -12,7 +12,7 @@ content_hash: "sha256:d6ad55cf9633e6449deba1bb47969d3215e6b59415f85250c3d5f226f6
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
 led_to: [WD-d3b9, WD-h0vk]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-08-23T03:23:29Z
 close_reason: "delivered: PR #8 (46cbff4) merged, Luna+GLM PASS, RED verified on main"
 ---
