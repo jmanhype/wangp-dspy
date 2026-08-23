@@ -7,8 +7,8 @@ type: task
 labels: [bug, delivered]
 created_at: 2026-08-23T04:54:02Z
 created_by: speed
-updated_at: 2026-08-23T05:10:47Z
-content_hash: "sha256:a0383d9debb49d5f0e5b21a2cebde9491c3f94182723958f39f891b56356315d"
+updated_at: 2026-08-23T05:10:48Z
+content_hash: "sha256:096a11bbbc6f1789d936f2e7395bca06d5e643d16254072aa20be4174e14429d"
 ---
 
 ## Description
@@ -21,6 +21,16 @@ Live WD-e4nt findings: (1) H3 pipeline quantizes frame_num via normalize_frame_c
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
