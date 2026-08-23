@@ -4,10 +4,10 @@ title: "adapter: frame-quantization snapping + multishot readback frame-count ve
 status: closed
 priority: 2
 type: task
-labels: [bug, delivered, accepted]
+labels: [bug, accepted]
 created_at: 2026-08-23T04:54:02Z
 created_by: speed
-updated_at: 2026-08-23T05:10:50Z
+updated_at: 2026-08-23T05:10:51Z
 content_hash: "sha256:13a53fcc3ab177eb7117a2261ede73a9545d0bdcd201a2bddd56c3cf23ad5d0c"
 closed_at: 2026-08-23T05:10:50Z
 close_reason: "PR #12 merged (63b6445): measured H3 grid 107+17k, snap-up with visible effective_frames, readback ffprobe frame verification catching the live 525-vs-172 concat-drop bug; triple-gated Qwen+Luna+GLM PASS"
