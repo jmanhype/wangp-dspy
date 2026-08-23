@@ -8,7 +8,7 @@ labels: [dogfood, mv, accepted]
 created_at: 2026-08-23T18:15:07Z
 created_by: speed
 updated_at: 2026-08-23T18:17:07Z
-content_hash: "sha256:50eaab2c7bc5a9539a06892afc4fdb2f049166a8a212cc5ab8eb465acfc64190"
+content_hash: "sha256:506eb6f1bfea9a2beb7855c5f2028de9f9f84afc32378a2879db2961fa18baa5"
 closed_at: 2026-08-23T18:17:06Z
 close_reason: "cycle 5 pure-paivot run: remux seam built and applied, output verified (duration match), lifecycle through plugin ops only after T0"
 ---
@@ -23,6 +23,16 @@ Second pure dogfood: like WD-t6i7 but audio. Take the cycle-4 4-shot kaiju multi
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-08-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
