@@ -125,6 +125,15 @@ class SshHost(LocalHost):
     ``map_path`` translates local -> remote for cmd construction; the
     adapter passes host-returned (remote) settings paths straight
     through, so no guessing ever happens in the adapter.
+
+    NAMESPACE CONTRACT (Qwen, WD-h0vk): ``render_dir`` has a dual
+    identity — it is the REMOTE write path during the run (settings
+    live and wgp reads them there) and the LOCAL pull mirror after
+    ``fetch_videos`` materializes it. The default ``wgp_outputs_dir``
+    derivation (<wgp_root>/outputs) is posix because wgp_root is a
+    remote posix path by construction; local consumers only see it
+    after pull. Cross-namespace consumers must go through
+    ``map_path``/``write_text`` returns, never os.path.join mixing.
     """
 
     def __init__(self, *, target: str, wgp_root: str, pull_root: str,

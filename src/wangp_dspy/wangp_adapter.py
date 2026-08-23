@@ -191,27 +191,6 @@ def _is_transient(stderr: str) -> bool:
     return bool(_TRANSIENT_RE.search(stderr or ""))
 
 
-def _scan_videos(dirs, newer_than: float) -> tuple:
-    """Collect video files from dirs, sorted oldest-name-stable; only
-    files whose mtime is >= newer_than (the attempt start) count, so
-    stale files in a shared outputs dir are never picked up."""
-    found = []
-    for d in dirs:
-        if not os.path.isdir(d):
-            continue
-        for n in os.listdir(d):
-            if not n.lower().endswith((".mp4", ".mov", ".webm")):
-                continue
-            p = os.path.join(d, n)
-            try:
-                if os.path.getmtime(p) + 1e-6 < newer_than:
-                    continue
-            except OSError:
-                continue
-            found.append(p)
-    return tuple(sorted(found))
-
-
 class WanGPAdapter:
     """Render briefs as H3 shots via headless wgp, gate with RenderQC,
     hand keepers to MultiShotAssembler.

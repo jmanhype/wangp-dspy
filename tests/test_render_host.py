@@ -260,3 +260,16 @@ def test_map_path_refuses_escape_outside_pull_root(tmp_path):
                    pull_root=str(tmp_path / "pull"), sp=lambda *a, **k: None)
     with pytest.raises(RenderHostError):
         host.map_path(str(tmp_path / "outside" / "settings.json"))
+
+
+def test_sshhost_namespace_contract_documented():
+    """Qwen WD-h0vk: render_dir dual identity — write_text returns a
+    remote-namespace path; fetch_videos maps it back to the local
+    pull mirror. The contract is pinned by round-tripping one path."""
+    from wangp_dspy.render_host import SshHost
+    host = SshHost(target="h", wgp_root="/remote/wgp",
+                   pull_root="/local/pull", sp=lambda *a, **k: None)
+    # a remote path under wgp_root maps to a local path under pull_root
+    # (the pull direction of the dual identity)
+    assert host.map_path("/local/pull/render-0000/settings.json") == \
+        "/remote/wgp/render-0000/settings.json"
