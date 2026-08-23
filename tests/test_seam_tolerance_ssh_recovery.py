@@ -42,12 +42,14 @@ def _fake_venv(tmp_path):
 # ── 1. seam-aware tolerance math ──────────────────────────────────
 
 def test_frame_tolerance_scales_with_seams():
-    # 2 frames base (fps rounding) + 2 per concat seam; measured
-    # live: 470 vs 474 with 3 shots / 2 seams -> tolerance(3) >= 4
+    # WD-qn1a recalibration: 2 base (fps rounding) + ceiling 3 per
+    # seam. Old linear-2 values fired on a GOOD cycle-4 render
+    # (diff 8 == tolerance(4)); measurements are superlinear
+    # (n=3 diff 4, n=4 diff 8). See test_seam_tolerance_recalibrate.
     assert frame_tolerance(1) == 2
-    assert frame_tolerance(2) == 4
-    assert frame_tolerance(3) == 6   # 2 base + 2 seams
-    assert frame_tolerance(5) == 10
+    assert frame_tolerance(2) == 5
+    assert frame_tolerance(3) == 8   # 2 base + 2 seams * 3
+    assert frame_tolerance(5) == 14
 
 
 def test_live_payoff_case_no_longer_flags(tmp_path, monkeypatch):

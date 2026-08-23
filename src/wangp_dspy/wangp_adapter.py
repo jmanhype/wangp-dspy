@@ -169,14 +169,23 @@ def effective_frames_per_shot(frames: int) -> int:
     return normalize_frame_count(frames)
 
 
-# WD-tc04: seam-aware tolerance, replacing flat
-# READBACK_FRAME_TOLERANCE=2. MEASURED live (WD-izly payoff render):
-# 470f actual vs 474f expected with 3 shots / 2 concat seams — ~2
-# frames are lost per seam. Base 2 covers fps rounding; each seam
-# (n_briefs-1) adds 2. tolerance(3)=6 > diff 4 -> no false flag.
+# WD-tc04 -> WD-qn1a recalibration. Original WD-tc04 model was
+# linear-2 per seam; the linear-2 guardrail then fired on a GOOD
+# render (cycle-4): 4 shots, 420f actual vs 428f expected (diff 8)
+# vs tolerance(4)=8 with a >= comparison. Measurements to date:
+#   n=1: exact        (no seams)
+#   n=3: diff 4       (2 seams, ~2.0/seam)   [WD-izly payoff, WD-tc04]
+#   n=4: diff 8       (3 seams, ~2.67/seam)  [cycle-4]
+# Seam loss is superlinear, not linear-2. MEASURED_SEAM_CEILING=3
+# admits both data points with headroom (tol(3)=8 > 4, tol(4)=11 >
+# 8) while real losses still trip (diff 15 vs tol(4)=11 raises).
+# TODO(WD-qn1a): recalibrate at an n>=6 data point.
+MEASURED_SEAM_CEILING = 3
+
+
 def frame_tolerance(n_briefs: int) -> int:
-    """2 frames (fps rounding) + 2 per concat seam."""
-    return 2 + 2 * max(0, n_briefs - 1)
+    """2 frames (fps rounding) + MEASURED_SEAM_CEILING per seam."""
+    return 2 + MEASURED_SEAM_CEILING * max(0, n_briefs - 1)
 
 
 # sentinel: frame count could not be verified (injected by tests);
