@@ -4,10 +4,10 @@ title: "cycle 3: 3-shot multishot MV chain through SshHost (assembler lane first
 status: closed
 priority: 2
 type: task
-labels: [dogfood, delivered, accepted]
+labels: [dogfood, accepted]
 created_at: 2026-08-23T04:20:17Z
 created_by: speed
-updated_at: 2026-08-23T04:43:48Z
+updated_at: 2026-08-23T04:43:49Z
 content_hash: "sha256:b3e0165db4f1e3e0b7ba1cc33b5e0f865517c299eba43e83339373285aa04cd9"
 assignee: dev-WD-e4nt
 closed_at: 2026-08-23T04:43:48Z
