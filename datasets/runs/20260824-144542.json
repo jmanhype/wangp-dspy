@@ -33,7 +33,7 @@
     "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
     "score": 9,
     "verdict": "PASS (surreal threshold 4.5)",
-    "summary": "The video presents a stable and visually pleasing scene. The subject, an origami boat made of newspaper, floats calmly in a puddle on a wet street. The motion quality is high, with smooth water ripples and reflections that respond naturally to the implied rain or disturbances. There is excellent temporal consistency; the boat's shape remains rigid and does not morph or flicker, and the background elements (cars, buildings) remain static and coherent throughout the sequence. While there is a very slight, almost imperceptible jitter in the water's reflection that could be attributed to compressi",
-    "latency_secs": 13.0
+    "summary": "The video features a highly coherent and aesthetically pleasing shot. The subject, an origami paper boat floating in a street puddle, is rendered with sharp detail and realistic paper textures that remain stable throughout the sequence. The motion quality is excellent, showcasing natural, fluid ripples spreading across the water's surface and a gentle, organic rocking motion of the boat that simulates a light breeze or raindrops. Temporal consistency is very strong; there is no morphing of the paper boat's geometry, no flickering in the background architecture or parked cars, and the reflectio",
+    "latency_secs": 13.4
   }
 }

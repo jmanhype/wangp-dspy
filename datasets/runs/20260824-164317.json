@@ -1,0 +1,42 @@
+{
+  "run_id": "20260824-164317",
+  "genre": "surreal",
+  "intent": "late-1990s public-access analog chroma-key power-aura effect on S-VHS, bad yellow energy glow around a person, crude composite, flickering outline from imperfect key, chroma-key spill halo, color-under chroma bleed, tracking noise, misaligned composite layers, painted cosmic backdrop. Analog tape compositing only, no modern VFX, no clean anime glow.",
+  "ts": "2026-08-24T16:53:29",
+  "duration_secs": 611.9,
+  "briefs": [
+    {
+      "subject": "A single man, mid-40s, waist-up, centered in frame: black short-sleeved button shirt open over a gray tee, thin silver chain, dark combed-over hair, trimmed mustache, flat studio-fresnel key lighting on his face. Behind him a hand-painted cosmic backdrop on canvas \u2014 black field airbrushed with a magenta-and-cyan spiral nebula offset frame-left and a dense cluster of white painted stars frame-right \u2014 visibly flat, with uneven paint sheen and airbrush stipple. Hugging his silhouette is a crude composite power-aura: a sulfur-yellow glow band densest at the shoulders and hands, with greenish chroma-spill contamination at its inner and outer edges.",
+      "motion": "He raises both arms slowly from his sides to shoulder height across the shot, palms open, elbows slightly bent, like demonstrating an exercise \u2014 heavy deliberate motion, weight shifting a few degrees between feet, shirt fabric dragging a half-beat behind the arm lift, chain swinging then settling. The yellow aura behaves like an imperfect keyer insert: its outline crawls and re-bites along the moving arms, flickering denser and lighter in irregular cycles independent of his movement, and the composite layer periodically slips a few pixels off the true silhouette so the halo hangs slightly outside his outline, holding until it snaps back.",
+      "camera": "Locked-off studio tripod, no camera move: medium-wide waist-up framing, subject centered, headroom above. Older studio tube-camera lens character: soft corners, mild barrel distortion, gentle vignette. Auto-iris AGC breathing \u2014 the whole frame brightens and dims in slow cycles as the yellow aura blooms, backdrop exposure pumping with it. Interlaced video timing: combing and 2:2 judder on the rising arms and swinging chain. The yellow glow blooms softly into neighboring pixels with a fine dot-crawl shimmer crawling along its edge.",
+      "style": "Late-1990s S-VHS public-access tape: roughly 400-line resolution, chroma-under color with narrow bandwidth \u2014 the yellow aura bleeds sideways into the painted backdrop, the nebula's magenta smears. Luma/chroma misregistration leaves orange-cyan fringing on his silhouette edge. Constant analog texture: fine luminance grain, occasional horizontal tracking-error streak, brief timebase-jitter rows, a head-switching noise bar at the bottom of frame, rare white dropout sparkles. Palette: sulfur-yellow glow against magenta/cyan painted nebula, hot flat key light on subject, slightly warm overall, blacks that lift and never fully crush.",
+      "audio_direction": "Dry mono analog tape audio: constant tape hiss and faint 60 Hz fluorescent hum. A sustained minor-key drone from a consumer home keyboard \u2014 detuned square/saw pad with audible portamento \u2014 swells and recedes in slow cycles roughly tracking the aura flicker, its pitch wandering a few cents from tape wow. Underneath: close room air with heavy VU-style compression, soft cloth rustle as the arms rise, faint ticking of the chain links. No reverb tail; flat dry studio sound.",
+      "negatives": "no modern VFX particle systems, no clean anime glow or smooth energy shaders, no lens flares, no soft dissolves or morphs, no tearing, no extra figures entering frame, no text artifacts or chyron burn-in, no digital sharpness or HDR clarity, no motion-blur-smooth digital movement, no 3D depth to the backdrop.",
+      "identity_lock": "Must survive the entire shot: black short-sleeved button shirt over gray tee, thin silver chain, dark combed-over hair and mustache; sulfur-yellow aura color with green chroma-contaminated edges; painted cosmic backdrop composition (magenta/cyan spiral nebula frame-left, white star cluster frame-right); waist-up centered framing; flat hot studio key light; S-VHS artifact texture (chroma bleed, dot crawl, tracking noise, head-switch bar) present at every moment."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "720p",
+      "shot_length_frames": 144,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787608370.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 6,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a static image of a man (resembling Jon Stewart) with his arms slowly raising against a vibrant, swirling nebula background.\n\n**Analysis:**\n*   **Subject:** The subject is a 2D cutout of a person. While the face and upper body remain relatively stable, the movement of the arms is the primary action.\n*   **Motion Quality:** The motion is extremely slow and somewhat mechanical. The arms appear to be animated via keyframes rather than fluid motion capture, resulting in a \"puppet-like\" quality. The transition from arms out to arms up is acceptable but lacks natural weight or flu",
+    "latency_secs": 13.6
+  }
+}

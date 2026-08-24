@@ -1,0 +1,42 @@
+{
+  "run_id": "20260824-162907",
+  "genre": "surreal",
+  "intent": "2004 PS2 real-time cutscene, low-poly West Coast crime game, urban neighborhood, orange smog sunset, boxy lowriders, fast-food drive-thru, liquor store parking lot, chain-link fences, stucco apartments, awkward NPC blocking, stiff poses, low-res compressed textures, vertex lighting, baked bloom, jaggies, no anti-aliasing. Interlaced 480i combing, MPEG-2 DCT block artifacts, subtitle bar at bottom. PS2 framebuffer, no modern photorealism, no remake polish.",
+  "ts": "2026-08-24T16:40:53",
+  "duration_secs": 706.0,
+  "briefs": [
+    {
+      "subject": "Low-poly 2004-era West Coast crime game neighborhood at orange smog sunset: a boxy lowrider (canary yellow with purple flame decals, chrome wire wheels, whitewall tires) parked in a cracked liquor store parking lot with faded painted lines and a leaning light pole; a fast-food drive-thru sign and menu board across the asphalt; chain-link fence with rolled top edge running along the lot border; two-story stucco apartments in faded salmon and beige with barred windows and exterior staircases; palm trees rendered as crossed alpha-card fronds; low-poly NPCs \u2014 a bald protagonist in a white ribbed tank top and baggy blue jeans, plus two pedestrians in plaid flannel and a white tee \u2014 with faceted hands, simple face textures, and vertex-lit skin; scattered props: shopping cart, drive-thru speaker post, faded mural wall",
+      "motion": "Characters animate in quantized keyframe fashion: stiff hip pivots, arms swinging in straight arcs, heads turning on a single axis with slight snap between poses; idle sway loops every ~2 seconds; NPCs stand awkwardly close together with robotic blocking, feet sliding slightly against ground movement; the lowrider bounces on hydraulic suspension with a springy sinusoidal hop \u2014 chassis dips, rebounds with one overshoot, front wheels lift slightly; wheels rotate as spinning texture; smog haze drifts laterally very slowly; palm fronds sway as flat alpha cards; no cloth or hair simulation \u2014 wardrobe is painted texture moving rigidly with the body",
+      "camera": "In-engine real-time cutscene camera: telephoto long-lens compression for medium dialogue framing, characters' heads near the top of frame; slow dolly-in push over the shot; everything in deep focus, no depth of field; hard vertex-lighting terminator across faces and car panels; sun as a billboard sprite low on the horizon causing baked bloom flare and halation bleeding into the smog; rendered at 640x448 and upscaled \u2014 pronounced jaggies and shimmering pixel crawl on diagonals, chain-link fence, and telephone wires; visible interlaced 480i combing (venetian-blind tearing) on any horizontal movement; exposure locks flat, no breathing",
+      "style": "PS2 Emotion Engine framebuffer character: 32-bit color with visible dither banding in the sky gradient from burnt orange down to sickly yellow-brown smog at the horizon; MPEG-2 DCT block artifacts \u2014 8x8 macroblock smearing on stucco walls, asphalt, and sky during motion, mosquito noise around high-contrast edges; low-res compressed 128x128 textures with muddy smeared detail; chroma bleed on saturated reds and yellows; baked full-screen bloom glow layer; Gouraud-shaded facets visible on character cheeks and car hoods; specular highlights painted into textures; no anti-aliasing anywhere; solid black subtitle bar strip across the bottom of frame (empty, no lettering)",
+      "audio_direction": "Low-bitrate streamed cutscene audio character: muffled, band-limited top end with faint pre-echo; a cheap G-funk synth whine melody (portamento sine lead) over a slow sub-bass pulse; idling lowrider engine with hydraulic whirr-and-pssht bounce hits synced to the chassis hop; distant traffic wash and tire hiss; wind buffeting the close-mic; flat close-recorded NPC line delivery with audible room-air hiss between phrases; occasional gull cries; low neighborhood room tone with an air-conditioning drone",
+      "negatives": "no soft dissolves or morphs, no tearing of geometry, no extra figures spawning mid-shot, no text artifacts or legible letters, no modern photorealism, no PBR materials, no ray tracing, no anti-aliasing, no motion blur, no depth of field, no subsurface scattering or skin pores, no smooth interpolated 60fps motion, no remake polish, no HDR highlights",
+      "identity_lock": "yellow lowrider with purple flame decals and chrome wire wheels must persist; white ribbed tank top and baggy blue jeans on the bald protagonist throughout; chain-link fence with rolled top bordering the lot; orange smog sun billboard low on horizon; salmon-and-beige stucco apartments; drive-thru menu board; empty black subtitle bar strip at bottom; low polygon density on all characters for the entire shot"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "wan2gp",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787607613.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Subject: Three male characters standing near a yellow classic car with purple flame decals in a parking lot. The camera slowly zooms in and pans slightly right.\nMotion Quality: Smooth, slow dolly-in movement. Character idle animations are minimal but stable.\nTemporal Consistency: High. No noticeable flickering or morphing of geometry or textures across the frames.\nArtifacts: Low-poly aesthetic (GTA: San Andreas style). Some texture aliasing and blocky character models, but consistent with the intended retro 3D look. No major rendering glitches or pop-in.\n\nVerdict: A clean, stable low-poly 3D s",
+    "latency_secs": 12.5
+  }
+}
