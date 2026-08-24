@@ -1,0 +1,33 @@
+---
+id: WD-u10f
+title: "j9nx-0: extract signatures/ layer (ProfileSelectorSignature, RenderQCSignature) from module files"
+status: open
+priority: 2
+type: task
+labels: [refactor, architecture]
+parent: WD-j9nx
+created_at: 2026-08-24T14:54:35Z
+created_by: speed
+updated_at: 2026-08-24T14:54:35Z
+content_hash: "sha256:6297c9fda09a33aea3eb4d8634afb127502215a946dab52f994ce35e6ad83313"
+---
+
+## Description
+Per repo-structure research (2026-08-24, Firecrawl + GitHub API): all real-world DSPy app layouts separate signatures/ (I/O contracts) from modules/ (logic) — dspy-cli makes it a REQUIRED directory; upstream dspy keeps signatures/ as its own layer. wangp-dspy currently embeds ProfileSelectorSignature inside predict/profile_selector.py and RenderQCSignature inside evaluate/render_qc.py. Extract to signatures/ package; modules import from it. Low churn now, annoying later (GEPA per-predictor optimization in j9nx-4 targets signature-bearing predictors). Acceptance: signatures/ package exists with the two Signatures; modules import from signatures/; full suite green; no behavior change.
+
+## Acceptance Criteria
+
+
+## Design
+
+
+## Notes
+
+
+## History
+
+
+## Links
+- Parent: [[WD-j9nx]]
+
+## Comments
