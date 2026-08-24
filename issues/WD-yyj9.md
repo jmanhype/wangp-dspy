@@ -7,8 +7,8 @@ type: task
 labels: [bug]
 created_at: 2026-08-23T18:09:31Z
 created_by: speed
-updated_at: 2026-08-24T13:42:03Z
-content_hash: "sha256:195c233f1de7e56fb3989a6ecdb079e8f92d24f157b545a1a7751576beff8d58"
+updated_at: 2026-08-24T13:42:20Z
+content_hash: "sha256:4f555fa83239a404cf3ad17cfbcc454d3968628166fea4ec9af6b3ff90fa2453"
 assignee: dev-WD-yyj9
 closed_at: 2026-08-24T13:42:03Z
 close_reason: "Fix verified live: commit 4b86d92 (.md normalization + fail-loud readback), 24/24 + 92/92 tests green, live vault probe PASS, 4 legacy notes renamed. Evidence in comments."
@@ -35,3 +35,6 @@ Live publish #2 findings: (1) vlt create path='Paivot Insights/<id>' created fil
 
 
 ## Comments
+
+### 2026-08-24T13:42:20Z speed
+Verified + closed by jmanhype session (2026-08-23 ~23:40 CDT). Evidence: (1) fix commit 4b86d92 'fail-loud system-scope capture (.md + readback)' — path always .md, post-write marker readback refuses silent no-op. (2) tests: test_insights_publish.py 24/24 pass (uv run pytest); vault capture/readback suite 92/92 pass. (3) Live end-to-end probe on Brand OS vault: create with .md -> read returns content+marker; probe note trashed after. (4) Cleanup clause done: 4 extension-less notes renamed to .md (13:47), folder archived 'Paivot Insights (archived 2026-08)'.
