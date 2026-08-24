@@ -1,15 +1,17 @@
 ---
 id: WD-mhr2
 title: "j9nx-3: live 3090 e2e pipeline cycle + datasets/ (real renders become the trainset)"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [gpu, dataset]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T14:55:11Z
-content_hash: "sha256:0e5304cbc9d4a1da26b09a66bbdb1c8a37c186af91e073298c6c240b38157809"
+updated_at: 2026-08-24T15:21:13Z
+content_hash: "sha256:f05d7ce0882ade2d2535676cff81ab6490328fd9ad9e79c66f2d1d5931460881"
+assignee: jmanhype-glm
+follows: [WD-pt60]
 ---
 
 ## Description
@@ -25,9 +27,12 @@ Run the PIPELINE (j9nx-1), not the adapter alone, through a real 3090 render —
 
 
 ## History
-
+- 2026-08-24T15:21:14Z status: open -> in_progress
+- 2026-08-24T15:21:14Z auto-follows: linked to predecessor WD-pt60
+- 2026-08-24T15:21:14Z claimed by jmanhype-glm
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-pt60]]
 
 ## Comments
