@@ -1,0 +1,141 @@
+"""Pipeline — the top-level dspy.Module chaining every stage.
+
+WD-pt60 (j9nx-1): intent -> briefs -> profile -> assemble -> render ->
+QC in ONE call, with typed failures at each stage boundary. This is
+the module the whole epic (WD-j9nx) is named for: the stages existed
+and were individually tested; this wires them so the WHOLE program is
+one traceable, optimizable unit (per the dspy multi-stage pattern —
+forward() composes sub-modules; optimizers see the chain, not leaves).
+
+Failure contract (epic AC #2): every stage boundary raises
+PipelineStageError naming the stage — no silent no-ops (the WD-yyj9
+class of bug is structurally excluded here).
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Callable, List, Optional, Sequence
+
+import dspy
+
+from predict.prompt_director import PromptDirector, RenderBrief
+from predict.profile_selector import ProfileSelector, ProfileDecision
+from predict.assembler import MultiShotAssembler, ShotPlan, AssembledChain
+from evaluate.render_qc import RenderQC, QCVerdict
+from host.wangp_adapter import WanGPAdapter, RenderResult
+
+
+class PipelineStageError(Exception):
+    """A pipeline stage failed; `stage` names which boundary."""
+
+    def __init__(self, stage: str, message: str,
+                 cause: Optional[Exception] = None):
+        self.stage = stage
+        super().__init__(f"[{stage}] {message}")
+        if cause is not None:
+            self.__cause__ = cause
+
+
+@dataclass
+class PipelineResult:
+    """One call's full artifact chain (epic AC #1)."""
+    briefs: List[RenderBrief]
+    decisions: List[ProfileDecision]
+    chain: Optional[AssembledChain] = None
+    render: Optional[RenderResult] = None
+    verdicts: List[QCVerdict] = field(default_factory=list)
+    evidence: List[str] = field(default_factory=list)
+    # replayable evidence trail: append-only (stage, note) records
+
+
+class Pipeline(dspy.Module):
+    """intent -> briefs -> profile -> assemble -> render -> QC.
+
+    Sub-modules (PromptDirector, ProfileSelector) are dspy modules so
+    optimizers can target them; assembler/adapter/QC-judge are logic
+    and IO injected as callables — the GPU seam stays swappable for
+    tests (stubbed host) and for the real 3090 (WD-mhr2).
+    """
+
+    def __init__(self, *, genre: str,
+                 director=None,
+                 selector=None,
+                 assembler: Optional[MultiShotAssembler] = None,
+                 adapter=None,
+                 qc_factory: Optional[Callable] = None):
+        """Collaborators are duck-typed by design: tests inject stubs,
+        the real run injects the dspy modules + 3090 adapter. Only the
+        assembler keeps a concrete default (pure logic, no IO)."""
+        super().__init__()
+        self.genre = genre
+        self.director = director or PromptDirector()
+        self.selector = selector or ProfileSelector()
+        self.assembler = assembler or MultiShotAssembler()
+        self.adapter = adapter
+        self.qc_factory = qc_factory
+
+    def forward(self, intent: str, *, n_shots: int = 1) -> PipelineResult:
+        result = PipelineResult(briefs=[], decisions=[])
+
+        def record(stage: str, note: str) -> None:
+            result.evidence.append(f"{stage}: {note}")
+
+        # ── stage 1: briefs ─────────────────────────────────────────
+        try:
+            for _ in range(n_shots):
+                result.briefs.append(self.director(intent=intent).brief)
+        except Exception as exc:
+            raise PipelineStageError(
+                "briefs", f"intent -> RenderBrief failed: {exc}", exc)
+        record("briefs", f"{len(result.briefs)} brief(s) from intent")
+
+        # ── stage 2: profile decisions ──────────────────────────────
+        try:
+            for brief in result.briefs:
+                result.decisions.append(
+                    self.selector.from_brief(brief).decision)
+        except Exception as exc:
+            raise PipelineStageError(
+                "profile", f"brief -> ProfileDecision failed: {exc}", exc)
+        record("profile", f"{len(result.decisions)} decision(s)")
+
+        # ── stage 3: assemble (multi-shot only) ─────────────────────
+        if n_shots > 1:
+            try:
+                shots = [
+                    ShotPlan(brief=b, decision=d, terminal_state="")
+                    for b, d in zip(result.briefs, result.decisions)]
+                result.chain = self.assembler.assemble(shots)
+            except Exception as exc:
+                raise PipelineStageError(
+                    "assemble", f"chain validation failed: {exc}", exc)
+            record("assemble", "chain validated")
+
+        # ── stage 4: render (adapter injected; optional for dry runs) ──
+        if self.adapter is not None:
+            try:
+                render = self.adapter.render(
+                    result.briefs, result.decisions[0])
+                result.render = render
+            except Exception as exc:
+                raise PipelineStageError(
+                    "render", f"WanGP render failed: {exc}", exc)
+            record("render",
+                   f"{len(render.video_paths)} video(s)")
+
+            # ── stage 5: QC every video ─────────────────────────────
+            if self.qc_factory is not None:
+                qc = self.qc_factory(self.genre)
+                for brief, video in zip(result.briefs,
+                                        result.render.video_paths):
+                    try:
+                        verdicts = qc.run(brief=brief,
+                                          decision=result.decisions[0],
+                                          video=video)
+                        result.verdicts.append(verdicts)
+                    except Exception as exc:
+                        raise PipelineStageError(
+                            "qc", f"QC failed on {video!r}: {exc}", exc)
+                record("qc", f"{len(result.verdicts)} verdict(s)")
+
+        return result
