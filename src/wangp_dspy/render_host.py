@@ -296,5 +296,25 @@ class SshHost(LocalHost):
             if rc != 0:
                 raise PullError(f"rsync pull from {self.target}:{remote}"
                                 f" failed: {err.strip()[:300]}")
+        # WD-qn1a scratch hygiene: rsync -a pulls the WHOLE shared
+        # dir — stale historical renders land in the mirror even
+        # though the scan filter excludes them (cycle-4 live
+        # finding: pull6 mirror carried unrelated old outputs).
+        # Story isolation = the mirror only ever contains this
+        # attempt's videos: delete pulled video files that fail the
+        # same freshness rule the scan applies.
+        for n in os.listdir(mirror):
+            if not n.lower().endswith((".mp4", ".mov", ".webm")):
+                continue
+            p = os.path.join(mirror, n)
+            try:
+                if os.path.getmtime(p) + 1e-6 >= newer_than:
+                    continue  # fresh — belongs to this attempt
+            except OSError:
+                pass
+            try:
+                os.remove(p)
+            except OSError:
+                pass  # best-effort purge; scan filter still guards
         return LocalHost.fetch_videos(
             self, (mirror,), mirror, newer_than=newer_than)
