@@ -9,11 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:54:35Z
 created_by: speed
 updated_at: 2026-08-24T14:57:43Z
-content_hash: "sha256:ee6a1b3b99bbc916bd84361a0a38db4e7ea62a635fcfc689715fbe051b83552f"
+content_hash: "sha256:ee5b67c46a522e606c9ae7904edd1c43d1ed0f9a3ef080375bd26edb72d6776e"
 assignee: jmanhype-glm
 follows: [WD-5zti]
 closed_at: 2026-08-24T14:57:43Z
 close_reason: "PR #20 merged: signatures/ layer extracted (profile.py, qc.py), modules import from it, 237 tests green, no behavior change."
+led_to: [WD-xzqp]
 ---
 
 ## Description
@@ -37,5 +38,6 @@ Per repo-structure research (2026-08-24, Firecrawl + GitHub API): all real-world
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-5zti]]
+- Led to: [[WD-xzqp]]
 
 ## Comments
