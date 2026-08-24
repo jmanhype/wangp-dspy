@@ -9,11 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:54:53Z
 created_by: speed
 updated_at: 2026-08-24T15:07:34Z
-content_hash: "sha256:f306cc5a5e51a585b1aa67be2667273b3eb44b85b659b508f51e5a00298379bb"
+content_hash: "sha256:165979343b923e62b4dbbf9754ca855129b2fc20c7ab1912b8e733bc37634372"
 assignee: jmanhype-glm
 follows: [WD-u10f]
 closed_at: 2026-08-24T15:07:34Z
 close_reason: "AC written, operator-approved verbatim (2026-08-24). Epic charter live on WD-j9nx: one-call artifact chain, typed boundary failures, real-GPU proof, optimizable (baseline + GEPA), research-agreed layout, no paper-only closures. Out of scope: publishing, UI, weight fine-tuning."
+led_to: [WD-pt60]
 ---
 
 ## Description
@@ -37,5 +38,6 @@ WD-j9nx has an empty AC field — nothing defines done. Write operator-view AC: 
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-u10f]]
+- Led to: [[WD-pt60]]
 
 ## Comments

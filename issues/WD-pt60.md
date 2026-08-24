@@ -1,15 +1,17 @@
 ---
 id: WD-pt60
 title: "j9nx-1: Pipeline dspy.Module + task registry (intent -> briefs -> profile -> assemble -> render -> QC in one call)"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [feature, pipeline]
 parent: WD-j9nx
 created_at: 2026-08-24T14:54:53Z
 created_by: speed
-updated_at: 2026-08-24T14:54:53Z
-content_hash: "sha256:18abe6c5879f575a16a1e28dae4f3e1033ff88429e857ec93127dd3afbed5c04"
+updated_at: 2026-08-24T15:07:34Z
+content_hash: "sha256:0b4c45a0ed4870931684cc1c32efb326d4ee8dc11b0aee179f4e124caef070d8"
+assignee: jmanhype-glm
+follows: [WD-xzqp]
 ---
 
 ## Description
@@ -25,9 +27,12 @@ The epic's core gap: stages exist and are individually tested but NOTHING chains
 
 
 ## History
-
+- 2026-08-24T15:07:34Z status: open -> in_progress
+- 2026-08-24T15:07:34Z auto-follows: linked to predecessor WD-xzqp
+- 2026-08-24T15:07:34Z claimed by jmanhype-glm
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-xzqp]]
 
 ## Comments
