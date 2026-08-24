@@ -7,8 +7,8 @@ type: bug
 labels: [security, tooling, upstream]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
-updated_at: 2026-08-24T14:04:28Z
-content_hash: "sha256:5aa73b84143521653c51ec01436477ed3053ff9cf29d4aaf6f6f1d99ca939d52"
+updated_at: 2026-08-24T14:12:27Z
+content_hash: "sha256:6b9c7f03f3bf65ea3f7dc0ed562ade0b11df02c3bf512995cae0559ef307511f"
 ---
 
 ## Description
@@ -30,3 +30,6 @@ Hermes plugin_guard scan_plugin rates paivot-hermes DANGEROUS (110 findings) —
 
 
 ## Comments
+
+### 2026-08-24T14:12:27Z speed
+Filed upstream: NousResearch/hermes-agent#93927 (includes minimal repro — 4-line test fixture alone yields dangerous — plus root-cause code path: plugin_guard.EXCLUDED_DIRS lacks tests/, skills_guard._determine_verdict:1161 single-critical→dangerous, no override). Fun meta-detail: filing the issue through the agent also tripped the terminal hardline block because the issue TEXT contains the pattern strings — same false-positive class at a different layer, noted in the issue.
