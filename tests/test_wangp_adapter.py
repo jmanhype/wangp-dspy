@@ -529,3 +529,19 @@ def test_render_result_carries_effective_frames():
     r = RenderResult(attempts=1, settings_path="s", output_dir="o",
                      video_paths=("v",), effective_frames=175)
     assert r.effective_frames == 175
+
+
+def test_720p_snapped_to_h3_grid_wdo4g2():
+    """WD-o4g2: portrait 720x1280 is off H3's latent grid (90/2=45 odd);
+    build_settings must snap to the supported 480x832 grid instead of
+    emitting settings that deterministically crash patchify."""
+    from host.wangp_adapter import build_settings
+    from predict.prompt_director import RenderBrief
+    from predict.profile_selector import ProfileDecision
+    brief = RenderBrief(subject="s", motion="m", camera="c", style="st")
+    d = ProfileDecision(model="h3", resolution="720p",
+                        shot_length_frames=124,
+                        seed_policy="fixed_per_story",
+                        wangp_profile="profile3")
+    s = build_settings([brief], d)
+    assert (s["width"], s["height"]) == (480, 832)

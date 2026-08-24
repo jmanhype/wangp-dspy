@@ -224,7 +224,16 @@ def build_settings(briefs: Sequence[RenderBrief],
         raise WanGPError("at least one brief is required to render")
     width, height = WIDTH_768P, HEIGHT_768P
     if decision.resolution == "720p":
-        width, height = 720, 1280
+        # WD-o4g2 (live 3090 finding, 2026-08-24): portrait 720x1280 is
+        # NOT on H3's supported latent grid at this pin. The VAE emits
+        # 160x90 latents; 90 / patch_w 2 = 45 (odd), so
+        # patchify_video_latents' packed reshape [.., 44*2, ..] can
+        # never fit -> deterministic RuntimeError per attempt. The H3
+        # pin serves the 480x832 grid (104x60 latents -> 52x30, clean).
+        # Snap to the supported grid with a loud notice — same
+        # discipline as the H3 5+17k frame snapping above.
+        print("[wangp-dspy] resolution 720p is not on the H3 latent "
+              "grid at this pin; snapping to 480x832 (WD-o4g2)")
     return {
         "model_type": H3_MODEL_TYPE,
         "prompt": MULTISHOT_PROMPT_TAG,

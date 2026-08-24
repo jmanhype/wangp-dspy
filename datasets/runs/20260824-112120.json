@@ -1,0 +1,39 @@
+{
+  "run_id": "20260824-112120",
+  "genre": "surreal",
+  "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+  "ts": "2026-08-24T11:35:25",
+  "duration_secs": 845.1,
+  "briefs": [
+    {
+      "subject": "A weathered stone lighthouse on a jagged black headland at night; its rotating beacon throws a hard white cone of light across a churning ink-black ocean; heavy storm clouds mass low overhead with wind-driven rain beginning to streak; waves detonate against dark rocks in bursts of white foam and mist",
+      "motion": "The lighthouse beam rotates steadily, its light cone sweeping across frame and raking the swell tops so the water briefly glints then falls back to black; large storm waves build, rear up and explode against the rocks in violent sprays of white water; spray and rain drift sideways in gusts; clouds churn slowly and darken overhead",
+      "camera": "Locked-off wide shot from a slightly elevated angle just above the wave line, lighthouse anchored on one third of frame; very slow creeping push-in toward the rocks; subtle braced-against-wind micro-shake; overcranked to 48fps conformed slow so wave impacts land heavy and detailed",
+      "style": "Cold, heavily desaturated maritime palette: ink-black ocean, gunmetal storm sky, stark white beam and foam; deep crushed shadows with the beacon as the only clean light source; cinematic anamorphic widescreen, 35mm film stock look (Kodak Vision3 500T pushed one stop), fine grain, slight halation on the brightest spray"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787589072.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the provided video frames:\n\n**Subject:** The subject is a lighthouse situated on a rocky headland during a storm. The scene features dark, moody skies, heavy clouds, crashing waves, and a lighthouse beam sweeping through the atmosphere (possibly rain or mist).\n\n**Motion Quality:** The motion of the waves is fluid and convincing, showing realistic crashing and retreat patterns. The lighthouse beam rotates smoothly. However, there is a noticeable change in the lighting intensity and \"bloom\" of the lighthouse light in the middle frames (around frame 4-5) where it becomes ",
+    "latency_secs": 16.8
+  }
+}

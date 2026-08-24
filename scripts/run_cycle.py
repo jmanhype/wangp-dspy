@@ -20,8 +20,10 @@ from host.render_host import SshHost
 from host.wangp_adapter import WanGPAdapter
 
 GENRE = "surreal"
-INTENT = ("a lighthouse beacon sweeping a black ocean at night, "
-          "storm building, waves exploding against the rocks")
+INTENT = os.environ.get(
+    "WD_MHR2_INTENT",
+    "a lighthouse beacon sweeping a black ocean at night, "
+    "storm building, waves exploding against the rocks")
 
 RUN_DIR = Path(__file__).resolve().parent.parent / "datasets" / "runs"
 RUN_DIR.mkdir(parents=True, exist_ok=True)

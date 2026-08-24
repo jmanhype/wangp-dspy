@@ -1,0 +1,39 @@
+{
+  "run_id": "20260824-121701",
+  "genre": "surreal",
+  "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens",
+  "ts": "2026-08-24T12:34:09",
+  "duration_secs": 1028.3,
+  "briefs": [
+    {
+      "subject": "A colossal kaiju, seen only as a jagged black silhouette with spined shoulders and a horned crest, rising through dense rolling fog over a harbor city at dawn; foreground of cranes, shipping containers, and a suspension bridge, glass towers catching the first light, calm dark water below",
+      "motion": "The kaiju slowly straightens and rises, shoulders and head cresting above the fog layer like a mountain surfacing; mist swirls and parts around its limbs and spills off its silhouette in slow sheets; fog banks drift laterally across the harbor, water ripples faintly, distant city windows glimmer as dawn strengthens",
+      "camera": "Low-angle extreme wide shot from water level at the harbor edge, slow vertical tilt-up that follows the creature's rise from chest to full silhouette, subtle slow push-in, deep focus, heavy atmospheric haze, 24fps cinematic frame character with gentle long-take drift",
+      "style": "Anamorphic 35mm film look, teal-and-orange dawn palette, cold blue-grey fog against a warm amber-pink horizon rim light, high-contrast near-black silhouette, volumetric god rays, fine film grain, muted desaturated city tones, soft halation on the brightest sky edges"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787592606.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the provided video frames:\n\n*   **Subject:** The video features a giant kaiju (monster) rising from a harbor at dusk, with a city skyline and cargo ship in the foreground. The subject is clear and well-defined.\n*   **Motion Quality:** The motion of the monster rising and the camera slightly zooming/pulling back is smooth and cinematic. There is no jittery or unnatural movement.\n*   **Temporal Consistency:** There is significant morphing between frames. The monster's spikes, arms, and overall silhouette change shape considerably from the initial \"rock-like\" appearance t",
+    "latency_secs": 17.9
+  }
+}
