@@ -1,15 +1,17 @@
 ---
 id: WD-txt9
 title: "j9nx-4: metrics/ + GEPA optimization pass (baseline first, compile-once artifacts)"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [optimization, gepa]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T14:55:11Z
-content_hash: "sha256:1305b7e9ef3984a4c037c03c44d5c6879209f0baa8c491d784a2273fa37a5b2f"
+updated_at: 2026-08-24T23:47:11Z
+content_hash: "sha256:0db6d1db3bdee901b12c27e166098267f9dadf057cf144761bc471fdc538e2ca"
+assignee: jmanhype-glm
+follows: [WD-mhr2]
 ---
 
 ## Description
@@ -25,9 +27,12 @@ Optimizer research verdict: GEPA (not MIPROv2) because RenderQC already emits fe
 
 
 ## History
-
+- 2026-08-24T23:47:11Z status: open -> in_progress
+- 2026-08-24T23:47:11Z auto-follows: linked to predecessor WD-mhr2
+- 2026-08-24T23:47:11Z claimed by jmanhype-glm
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-mhr2]]
 
 ## Comments

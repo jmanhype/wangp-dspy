@@ -9,11 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
 updated_at: 2026-08-24T21:54:59Z
-content_hash: "sha256:ae801700bd1c49b89fe9c6b3087b1619b96fd1f578acbc7f8de8512833775b9f"
+content_hash: "sha256:f0bac95ef555e9206f9cee402089e9257f2c33a286002d04a6e58e61573134dd"
 assignee: jmanhype-glm
 follows: [WD-pt60]
 closed_at: 2026-08-24T21:54:59Z
 close_reason: "9 labeled examples with QC verdicts + evidence trails, pipeline e2e proven on real GPU (epic AC #1-3), variance 6-9 across aesthetic systems. Missing 10th example blocked only by WD-9dia (meta-hint guard fix, P3) — GEPA work (WD-txt9) unblocked."
+led_to: [WD-txt9]
 ---
 
 ## Description
@@ -37,6 +38,7 @@ Run the PIPELINE (j9nx-1), not the adapter alone, through a real 3090 render —
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-pt60]]
+- Led to: [[WD-txt9]]
 
 ## Comments
 
