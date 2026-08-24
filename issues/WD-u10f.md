@@ -1,15 +1,17 @@
 ---
 id: WD-u10f
 title: "j9nx-0: extract signatures/ layer (ProfileSelectorSignature, RenderQCSignature) from module files"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [refactor, architecture]
 parent: WD-j9nx
 created_at: 2026-08-24T14:54:35Z
 created_by: speed
-updated_at: 2026-08-24T14:54:35Z
-content_hash: "sha256:6297c9fda09a33aea3eb4d8634afb127502215a946dab52f994ce35e6ad83313"
+updated_at: 2026-08-24T14:55:20Z
+content_hash: "sha256:e5af9104306aa27cec6d38132516d8d855c036b9575dccd4f715210c35f9914d"
+assignee: jmanhype-glm
+follows: [WD-5zti]
 ---
 
 ## Description
@@ -25,9 +27,12 @@ Per repo-structure research (2026-08-24, Firecrawl + GitHub API): all real-world
 
 
 ## History
-
+- 2026-08-24T14:55:20Z status: open -> in_progress
+- 2026-08-24T14:55:20Z auto-follows: linked to predecessor WD-5zti
+- 2026-08-24T14:55:20Z claimed by jmanhype-glm
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-5zti]]
 
 ## Comments

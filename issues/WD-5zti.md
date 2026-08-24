@@ -8,10 +8,10 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
 updated_at: 2026-08-23T03:23:30Z
-content_hash: "sha256:652c68bf19d039fca31ec07e68fffccd29792c1bd607df4fde6e0d9435a0ad6d"
+content_hash: "sha256:fc5dbee0a92e0a370cb71291c6345785494032444b2d84116b23e001eb6b7b60"
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
-led_to: [WD-d3b9, WD-h0vk]
+led_to: [WD-d3b9, WD-h0vk, WD-u10f]
 labels: [accepted]
 closed_at: 2026-08-23T03:23:29Z
 close_reason: "delivered: PR #8 (46cbff4) merged, Luna+GLM PASS, RED verified on main"
@@ -88,6 +88,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-t6i7]], [[WD-h0vk]]
-- Led to: [[WD-d3b9]], [[WD-h0vk]]
+- Led to: [[WD-d3b9]], [[WD-h0vk]], [[WD-u10f]]
 
 ## Comments
