@@ -7,8 +7,8 @@ type: bug
 labels: [wgp, upstream, 3090]
 created_at: 2026-08-24T19:01:47Z
 created_by: speed
-updated_at: 2026-08-24T19:01:47Z
-content_hash: "sha256:40f8840ae3e47ebef23745ae0b73582ec9d028ffe8f44cd10c7ef84b9db3eae1"
+updated_at: 2026-08-24T19:23:04Z
+content_hash: "sha256:d20986d30b2efd9eaf32ccfcdd31578dc66837146c9013289c542fd0082a2bea"
 ---
 
 ## Description
@@ -30,3 +30,6 @@ Live WD-mhr2 batch finding (2026-08-24, reproduced 2/2 attempts, deterministic):
 
 
 ## Comments
+
+### 2026-08-24T19:23:04Z speed
+ROOT CAUSE (empirical, direct repro + full traceback): portrait 720x1280 is off H3 latent grid — VAE 160x90 latents, 90/patch_w2=45 odd, patchify packed reshape expects 44*2 -> deterministic RuntimeError. NOT the fork's keyframes code (innocent); stock patchify + unsupported resolution. FIXED in adapter: 720p snaps to 480x832 grid with loud notice (5586a77, regression test green, full suite green). Fork WIP snapshotted cb84f4f first. No upstream PR needed — fix belongs in our settings layer.
