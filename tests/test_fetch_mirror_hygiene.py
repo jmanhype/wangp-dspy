@@ -10,7 +10,7 @@ import time
 
 import pytest
 
-from wangp_dspy.render_host import SshHost
+from render_host import SshHost
 
 
 class _FakeProc:

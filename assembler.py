@@ -22,8 +22,8 @@ import hashlib
 import json
 from dataclasses import dataclass
 
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from prompt_director import RenderBrief
 
 MIN_SHOTS = 2
 MAX_SHOTS = 20

@@ -17,8 +17,8 @@ from typing import Mapping
 
 import dspy
 
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from prompt_director import RenderBrief
 
 CRITIQUE_FIELDS = ("coherence", "brief_adherence", "concept_encoding")
 

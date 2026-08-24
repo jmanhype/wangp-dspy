@@ -5,12 +5,12 @@ inspected, never pointed at a real endpoint."""
 import dspy
 import pytest
 
-from wangp_dspy.critic import (
+from critic import (
     DEFAULT_CRITIC_MODEL, configure_critic, critic_lm,
 )
-from wangp_dspy.prompt_director import RenderBrief
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.render_qc import RenderQC
+from prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from render_qc import RenderQC
 
 
 BRIEF = RenderBrief(subject="astronaut, cracked visor",
@@ -43,7 +43,7 @@ def test_configure_critic_builds_lm_and_wires_dspy(monkeypatch):
             built["kw"] = kw
             super().__init__(model, **kw)
 
-    monkeypatch.setattr("wangp_dspy.critic._lm_cls", FakeLM)
+    monkeypatch.setattr("critic._lm_cls", FakeLM)
     lm = configure_critic(api_base="http://localhost:11434")
     assert built["model"] == "ollama_chat/q38u-v2"
     assert built["kw"]["api_base"] == "http://localhost:11434"
@@ -68,9 +68,9 @@ def test_renderqc_run_uses_configured_critic(monkeypatch):
         def __init__(self, model="fake", **kw):
             super().__init__([{"reasoning": "r", "critique": CRIT}])
 
-    monkeypatch.setattr("wangp_dspy.critic._lm_cls", FakeLM)
+    monkeypatch.setattr("critic._lm_cls", FakeLM)
     configure_critic(api_base="http://localhost:11434")
     qc = RenderQC("surreal")
-    from wangp_dspy.render_qc import Verdict
+    from render_qc import Verdict
     v = qc.run(BRIEF, DECISION, video="/renders/x.mp4")
     assert v.verdict is Verdict.PASS

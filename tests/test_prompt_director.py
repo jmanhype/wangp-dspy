@@ -12,7 +12,7 @@ import re
 import dspy
 import pytest
 
-from wangp_dspy.prompt_director import (
+from prompt_director import (
     RenderBrief, PromptDirector, RenderBriefSignature,
 )
 

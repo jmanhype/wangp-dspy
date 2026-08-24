@@ -9,10 +9,10 @@ import os
 
 import pytest
 
-from wangp_dspy.prompt_director import RenderBrief
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.render_host import SshHost
-from wangp_dspy.wangp_adapter import (
+from prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from render_host import SshHost
+from wangp_adapter import (
     WanGPAdapter, WanGPError, frame_tolerance,
 )
 
@@ -77,7 +77,7 @@ def test_live_payoff_case_no_longer_flags(tmp_path, monkeypatch):
     # the actual live numbers: 3 shots, 2 seams -> ~2f lost per seam.
     # (Live was 474 expected / 470 got with effective ~158f shots;
     # here effective frames are 175, so seam loss scales the same.)
-    from wangp_dspy.wangp_adapter import effective_frames_per_shot
+    from wangp_adapter import effective_frames_per_shot
     want = 3 * effective_frames_per_shot(175)
     monkeypatch.setattr(
         WanGPAdapter, "_ffprobe_frames",
@@ -179,7 +179,7 @@ def test_pull_retry_when_first_fetch_empty(tmp_path, monkeypatch):
 
         def __getattr__(self, name):
             # delegate everything else to a LocalHost-like default
-            from wangp_dspy.render_host import LocalHost
+            from render_host import LocalHost
             return getattr(LocalHost(), name)
 
         def check_executable(self, path):

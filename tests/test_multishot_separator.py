@@ -8,9 +8,9 @@ parsed as 1 giant prompt and wgp rendered a single shot with exit 0.
 """
 import re
 
-from wangp_dspy.prompt_director import RenderBrief
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.wangp_adapter import build_settings, build_script
+from prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from wangp_adapter import build_settings, build_script
 
 
 # EXACT mirror of wgp's parsing regex — multishot.py:49

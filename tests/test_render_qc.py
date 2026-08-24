@@ -15,9 +15,9 @@ import json
 import dspy
 import pytest
 
-from wangp_dspy.prompt_director import RenderBrief
-from wangp_dspy.profile_selector import ProfileDecision
-from wangp_dspy.render_qc import (
+from prompt_director import RenderBrief
+from profile_selector import ProfileDecision
+from render_qc import (
     CRITIQUE_FIELDS, GENRE_THRESHOLDS, CritiqueRecord, QCVerdict,
     RenderQC, RenderQCSignature, Verdict,
 )
@@ -183,7 +183,7 @@ def test_full_pipeline_malformed_critique_raises():
 
 def test_f1_genre_thresholds_immutable():
     import pytest as _pytest
-    from wangp_dspy.render_qc import GENRE_THRESHOLDS
+    from render_qc import GENRE_THRESHOLDS
     with _pytest.raises(TypeError):
         GENRE_THRESHOLDS["comedy"] = 1.0
     with _pytest.raises(AttributeError):

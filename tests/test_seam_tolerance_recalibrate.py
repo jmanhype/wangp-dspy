@@ -15,7 +15,7 @@ admits both data points with headroom, still catches real loss.
 """
 import pytest
 
-from wangp_dspy.wangp_adapter import (
+from wangp_adapter import (
     WanGPError, frame_tolerance, MEASURED_SEAM_CEILING,
 )
 
