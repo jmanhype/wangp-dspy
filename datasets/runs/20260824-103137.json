@@ -30,11 +30,10 @@
     "render: 1 video(s)"
   ],
   "qc": {
-    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090, port 8000)",
-    "latency_secs": 15.8,
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
     "score": 8,
-    "verdict": "PASS (surreal threshold 4.5; QC score 8/10)",
-    "summary": "lighthouse/storm render; fluid wave motion; minor beam-bloom temporal inconsistency mid-shot",
-    "note": "critique via faststart-remuxed copy (raw wgp mp4 moov-at-end breaks llama-server's cache:pipe ffmpeg decode)"
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video shot features a moody, atmospheric scene of a lighthouse on a rocky coast during a storm. The subject is well-defined, with the lighthouse and the crashing waves providing clear focal points. The motion quality is high, particularly in the realistic behavior of the water splashing against the rocks. Temporal consistency is generally good, though there is a noticeable bloom or glare artifact around the lighthouse light that shifts intensity and spread slightly between frames, which could be interpreted as a morphing artifact. Overall, the video is visually compelling with minor techni",
+    "latency_secs": 13.0
   }
 }

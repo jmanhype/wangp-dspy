@@ -20,7 +20,7 @@ case "$1" in
     ssh -o ConnectTimeout=15 3090 'curl -s -m 5 http://127.0.0.1:8000/health'
     ;;
   status)
-    ssh -o ConnectTimeout=15 3090 'nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader; pgrep -x llama-server >/dev/null && echo "critic: up" || echo "critic: down"; pgrep -fx ".*python.*wgp.py.*--process.*" >/dev/null && echo "render: running" || echo "render: idle"'
+    ssh -o ConnectTimeout=15 3090 'nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader; pgrep -x llama-server >/dev/null && echo "critic: up" || echo "critic: down"; pgrep -f "[w]gp[.]py" | head -1 | xargs -r ps -o comm= -p 2>/dev/null | grep -q python && echo "render: running" || echo "render: idle"'
     ;;
   *) echo "usage: $0 stop-critic|start-critic|status"; exit 1 ;;
 esac
