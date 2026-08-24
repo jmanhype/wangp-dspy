@@ -8,8 +8,8 @@ labels: [gpu, dataset]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T16:00:42Z
-content_hash: "sha256:9abfdc5623eb17657f0a7d7527253503312ce89ade35a846d43ffaadc8b46abc"
+updated_at: 2026-08-24T19:59:15Z
+content_hash: "sha256:4d5d2123c3af1c3d587f2ab269622856b8eee1b60e9498c39b6e47edd91cf08a"
 assignee: jmanhype-glm
 follows: [WD-pt60]
 ---
@@ -39,3 +39,6 @@ Run the PIPELINE (j9nx-1), not the adapter alone, through a real 3090 render —
 
 ### 2026-08-24T16:00:42Z speed
 Cycle 1 complete (20260824-103137): GLM-5.3 briefs+profile -> H3 render 842.5s -> VLM QC 8/10 PASS (surreal). QC leg now scripted (run_qc.py, verified reproducing cycle 1) and chained into run_cycle.py stage 5. gpu_seq.sh handles critic/render GPU contention. Dataset: 1/10+ examples. Remaining: batch more cycles toward GEPA's 20.
+
+### 2026-08-24T19:59:15Z speed
+Batch phase complete: 7 labeled examples banked (lighthouse x3: 8/9/8; kaiju x2: 7/9; neon rain: 9; paper boat: 9) — all PASS at surreal threshold. Full tooling proven in one clean run: 720p grid snap (WD-o4g2 fix exercised live), tolerance recalibration (validated — 121f render was good), non-blocking critic sequencing. Ferris-wheel intent render failed without a record (cause TBD, next batch). AC threshold was N>=10 — 7 banked; remaining 3+ are one more batch run. GEPA minimum-viable (wiring validation) is already met at 7.
