@@ -1,14 +1,16 @@
 ---
 id: WD-bi63
 title: "docs: document subdir install spec (#adapters/plugin) + scanner trust note for paivot-driver"
-status: open
+status: closed
 priority: 3
 type: chore
 labels: [docs, plugin]
 created_at: 2026-08-24T14:04:14Z
 created_by: speed
-updated_at: 2026-08-24T14:04:14Z
-content_hash: "sha256:a9feb303d5c3749752c8cd658139a74d62780624196f40d9391f0c18f0a7e65d"
+updated_at: 2026-08-24T14:18:51Z
+content_hash: "sha256:04df9e390e1fc969cc1ecab849b92bcdf77d411d76c0ea6e0ddef4fbf4776cd1"
+closed_at: 2026-08-24T14:18:51Z
+close_reason: "PR #61 merged to paivot-hermes main: subdir install spec + scanner bypass + consent gate documented."
 ---
 
 ## Description
@@ -24,7 +26,7 @@ Live install findings (2026-08-24, jmanhype-glm session): (1) A bare 'hermes plu
 
 
 ## History
-
+- 2026-08-24T14:18:51Z status: open -> closed
 
 ## Links
 
