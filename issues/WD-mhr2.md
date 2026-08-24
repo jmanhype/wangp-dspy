@@ -1,17 +1,19 @@
 ---
 id: WD-mhr2
 title: "j9nx-3: live 3090 e2e pipeline cycle + datasets/ (real renders become the trainset)"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [gpu, dataset]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T21:54:58Z
-content_hash: "sha256:f509c6478e0931c04c3a6440f2e746e03890c3f21c3f8ab5ceea53a0cb8e33a4"
+updated_at: 2026-08-24T21:54:59Z
+content_hash: "sha256:ae801700bd1c49b89fe9c6b3087b1619b96fd1f578acbc7f8de8512833775b9f"
 assignee: jmanhype-glm
 follows: [WD-pt60]
+closed_at: 2026-08-24T21:54:59Z
+close_reason: "9 labeled examples with QC verdicts + evidence trails, pipeline e2e proven on real GPU (epic AC #1-3), variance 6-9 across aesthetic systems. Missing 10th example blocked only by WD-9dia (meta-hint guard fix, P3) — GEPA work (WD-txt9) unblocked."
 ---
 
 ## Description
@@ -30,6 +32,7 @@ Run the PIPELINE (j9nx-1), not the adapter alone, through a real 3090 render —
 - 2026-08-24T15:21:14Z status: open -> in_progress
 - 2026-08-24T15:21:14Z auto-follows: linked to predecessor WD-pt60
 - 2026-08-24T15:21:14Z claimed by jmanhype-glm
+- 2026-08-24T21:54:59Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
