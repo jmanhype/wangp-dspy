@@ -25,6 +25,8 @@ dev = [
 qc-gpu = [
     "torch>=2.2",
     "transformers>=4.44",
+    "accelerate>=0.30",
+    "soundfile>=0.12",
 ]
 
 [build-system]

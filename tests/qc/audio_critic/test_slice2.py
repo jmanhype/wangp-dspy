@@ -145,7 +145,10 @@ def test_audio_over_90s_rejected(client):
     assert "90" in r.json()["detail"]
 
 
-def test_lock_serializes_concurrent_critiques():
+def test_lock_serializes_concurrent_critiques(monkeypatch):
+    # ensemble off for THIS test: it pins lock serialization, not
+    # judge aggregation (ensemble=3 would triplicate start/end)
+    monkeypatch.setenv("AUDIO_CRITIC_ENSEMBLE", "1")
     order = []
     app = build_app(generate=lambda p, **k: slow_gen(order),
                     audio_seconds=lambda b: 1.0)
