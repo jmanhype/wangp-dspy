@@ -1,14 +1,15 @@
 ---
 id: WD-qn1a
 title: "readback: 4-shot render came out 420f not 428f — tolerance(4)=8 passed but 4-shot data point is -8f not -6f"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [bug, measurement]
 created_at: 2026-08-23T17:53:08Z
 created_by: speed
-updated_at: 2026-08-23T17:53:08Z
-content_hash: "sha256:5aaf1a0871b8eff324afbd30e10dcbc415637b443dc2709d28bb5e1a8b12c60c"
+updated_at: 2026-08-24T13:46:23Z
+content_hash: "sha256:91f1a7c5e8ba89caaf13bd9505d9ee9af9af4fb37b40ce5fae6877aee0f532dc"
+assignee: jmanhype-glm
 ---
 
 ## Description
@@ -24,7 +25,8 @@ Cycle 4 MV: expected 4x107=428f, actual 420f, diff 8. tolerance(4)=2+2*3=8 — t
 
 
 ## History
-
+- 2026-08-24T13:46:23Z status: open -> in_progress
+- 2026-08-24T13:46:23Z claimed by jmanhype-glm
 
 ## Links
 
