@@ -191,3 +191,34 @@ def test_m1_transitional_word_rejected():
     poisoned["camera"] = "transitional whip pan between setups"
     with pytest.raises(Exception):
         RenderBrief(**poisoned)
+
+
+def test_wd9dia_lighting_vocabulary_not_flagged():
+    """WD-9dia: lighting sense of 'flash'/'cut' is legitimate
+    cinematography language, not an editing meta-hint."""
+    from predict.prompt_director import _META_HINT_RE, RenderBrief
+    legit = [
+        "muzzle flash lights the alley as the shot fires",
+        "lightning flash illuminates the harbor",
+        "the lighthouse beam cuts through fog",  # 'cuts through' light
+        "strobe flash exposure on the dance floor",
+        "camera flash photography aesthetic",
+    ]
+    for s in legit:
+        assert not _META_HINT_RE.search(s), f"false positive: {s!r}"
+
+
+def test_wd9dia_editing_operations_still_flagged():
+    from predict.prompt_director import _META_HINT_RE
+    editing = [
+        "hard cut to black",
+        "jump cuts between angles",
+        "cut to the wide shot",
+        "cutting away to the crowd",
+        "flash cut between timelines",
+        "dissolve into the dream sequence",
+        "montage of the city",
+        "title card appears",
+    ]
+    for s in editing:
+        assert _META_HINT_RE.search(s), f"missed editing op: {s!r}"

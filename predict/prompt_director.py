@@ -46,9 +46,31 @@ class RenderBrief:
 
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
 # appears in a render brief the brief is wrong — reject loudly.
+# WD-9dia: bare tokens 'cut'/'cuts'/'flash' over-triggered on lighting
+# vocabulary (muzzle flash, lightning flash, light cut) in aesthetic
+# briefs. Industry-standard fix for word-sense ambiguity in blocklists
+# (the Scunthorpe class): match editing OPERATIONS as phrase patterns,
+# never bare ambiguous nouns. Unambiguous terms (dissolve, montage,
+# lower third...) stay as tokens.
 _META_HINT_RE = re.compile(
-    r"\b(cut|cuts|transition\w*|dissolve|flash|beat\s*grid|B[\s-]*roll|"
-    r"montage|sfx|VO|voice[\s-]*over|lower[\s-]*third|title\s*card)\b", re.I)
+    r"\b("
+    r"(?:hard|jump|smash|flash|match|ax|cross)\s+cuts?\b"  # cut TYPES
+    r"|cuts?\s+(?:to|between|away|back)\b"                 # cut VERBS
+    r"|cutting\s+(?:to|between|away|back)\b"
+    r"|transition\w*"                                       # unambiguous
+    r"|dissolve"
+    r"|flash\s+(?:cut|frame|transition|forward)\b"          # flash+edit
+    r"|beat\s*grid|B[\s-]*roll"
+    r"|montage|sfx|VO|voice[\s-]*over|lower[\s-]*third|title\s*card"
+    r")\b", re.I)
+
+# lighting/cinematography contexts where remaining ambiguous tokens are
+# legitimate (belt-and-suspenders; the phrase patterns above already
+# avoid most false fires)
+_LIGHTING_CONTEXT_RE = re.compile(
+    r"\b(flash(?:es|ing)?\s+(?:of\s+)?(?:light|lightning|muzzle|strobe)"
+    r"|light(?:ing)?\s+(?:flash|cut)|flash\s+exposure|strobe\s+flash"
+    r"|exposure\s+flash)\b", re.I)
 
 
 def _reject_meta_hints(brief: RenderBrief) -> None:
