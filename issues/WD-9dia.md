@@ -1,14 +1,16 @@
 ---
 id: WD-9dia
 title: "meta-hint guard over-triggers on lighting vocabulary ('flash', 'cut' in lighting sense)"
-status: open
+status: closed
 priority: 3
 type: bug
 labels: [prompt-director, validation]
 created_at: 2026-08-24T21:54:47Z
 created_by: speed
-updated_at: 2026-08-24T21:54:47Z
-content_hash: "sha256:558ae18f473212d07c5e6b5e2e14ba6bcf9f1ea35ae3a3218eb8365f3fef3202"
+updated_at: 2026-08-24T22:38:18Z
+content_hash: "sha256:4490af953912208c4e855f80213cce823ce5633f47c3c1e7bf41f8fd1f269c7d"
+closed_at: 2026-08-24T22:38:18Z
+close_reason: "Fixed: phrase-pattern guard (editing operations, not bare tokens) + lighting allowlist. Both-direction regression tests. Live-blocked PS2 intent now passes the guard."
 ---
 
 ## Description
@@ -24,7 +26,7 @@ Live finding (Lost-Futures batch): an aesthetic-pack intent containing lighting 
 
 
 ## History
-
+- 2026-08-24T22:38:18Z status: open -> closed
 
 ## Links
 
