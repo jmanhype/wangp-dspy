@@ -27,9 +27,9 @@ Verified on 2026-08-22 (all probes live, see "Ground truth"):
 1. **No critic wiring exists in wangp-dspy (REAL GAP, pre-render
    blocker for the live session).** Nothing in the repo configures an
    LM: no `dspy.configure(lm=…)`/`dspy.LM` anywhere in src/. RenderQC
-   (render_qc.py:107) is a bare `dspy.ChainOfThought` —
+   (evaluate/render_qc.py:107) is a bare `dspy.ChainOfThought` —
    it raises "No LM is loaded" unless the CALLER configures one, and
-   WanGPAdapter (wangp_adapter.py) takes `qc_factory` but has no
+   WanGPAdapter (host/wangp_adapter.py) takes `qc_factory` but has no
    production critic constructor. The dogfood session must configure
    the LM before invoking the pipeline (step 6 below) or story 6 must
    add a small wiring module in its own PR. NOT fixed in T0.
