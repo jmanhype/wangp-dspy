@@ -7,8 +7,8 @@ type: task
 labels: [bug, measurement]
 created_at: 2026-08-23T17:53:08Z
 created_by: speed
-updated_at: 2026-08-24T13:46:23Z
-content_hash: "sha256:91f1a7c5e8ba89caaf13bd9505d9ee9af9af4fb37b40ce5fae6877aee0f532dc"
+updated_at: 2026-08-24T13:51:17Z
+content_hash: "sha256:8d92962d18d00fd105f72fcde15c8c41047b553a265c7db33f8998ac95e9022e"
 assignee: jmanhype-glm
 ---
 
@@ -32,3 +32,6 @@ Cycle 4 MV: expected 4x107=428f, actual 420f, diff 8. tolerance(4)=2+2*3=8 — t
 
 
 ## Comments
+
+### 2026-08-24T13:51:17Z speed
+Closed by jmanhype-glm session. (1) Operator semantics verified by code inspection + live data: check is abs(got-want) >= tol with tol(4)=2+3*3=11 — cycle-4 good render (diff 8) passes, real loss (diff 15) raises; #15 recalibration (MEASURED_SEAM_CEILING=3) correct for both data points (n=3→4, n=4→8). Second measurement point recorded in source comment (wangp_adapter.py:172-184). (2) Scratch hygiene FIXED: SshHost.fetch_videos purged stale renders from pull mirror (rsync -a pulled whole shared outputs dir — pull6 finding). PR #19, TDD RED→GREEN, full suite 237 passed, merged to main bd6f079.
