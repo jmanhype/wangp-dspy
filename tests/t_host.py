@@ -8,10 +8,10 @@ import posixpath
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from wangp_adapter import WanGPAdapter, WanGPError
-from render_host import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from host.wangp_adapter import WanGPAdapter, WanGPError
+from host.render_host import (
     LocalHost, SshHost, RenderHostError, MissingExecutableError,
     PushError, PullError, RemoteTimeoutError,
 )
@@ -87,7 +87,7 @@ def test_pin1_adapter_makes_no_fs_syscalls(tmp_path, monkeypatch):
         def __call__(self, *a, **kw):
             raise AssertionError("adapter called os.path()")
 
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
     monkeypatch.setattr(mod, "os", _OsShim())
     result = adapter.render([_brief()], _decision())
     assert result.video_paths and result.video_paths[0].endswith(".mp4")

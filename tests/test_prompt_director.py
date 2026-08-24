@@ -12,7 +12,7 @@ import re
 import dspy
 import pytest
 
-from prompt_director import (
+from predict.prompt_director import (
     RenderBrief, PromptDirector, RenderBriefSignature,
 )
 

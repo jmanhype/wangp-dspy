@@ -18,7 +18,7 @@ import subprocess
 import time
 from typing import Callable, Optional, Sequence
 
-from wangp_adapter import WanGPError
+from host.wangp_adapter import WanGPError
 
 
 class RenderHostError(WanGPError):

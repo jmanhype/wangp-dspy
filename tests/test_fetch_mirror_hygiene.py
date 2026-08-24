@@ -10,7 +10,7 @@ import time
 
 import pytest
 
-from render_host import SshHost
+from host.render_host import SshHost
 
 
 class _FakeProc:

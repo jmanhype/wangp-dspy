@@ -14,9 +14,9 @@ Measured rule (3090 source + dogfood outputs, NOT guessed):
 """
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from wangp_adapter import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from host.wangp_adapter import (
     WanGPAdapter, WanGPError, build_settings, effective_frames_per_shot,
     normalize_frame_count,
 )

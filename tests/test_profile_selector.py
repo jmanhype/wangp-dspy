@@ -11,8 +11,8 @@ import json
 import dspy
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import (
     KNOWN_WANGP_PROFILES, ProfileDecision, ProfileSelector,
     ProfileSelectorSignature,
 )

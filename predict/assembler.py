@@ -22,8 +22,8 @@ import hashlib
 import json
 from dataclasses import dataclass
 
-from profile_selector import ProfileDecision
-from prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from predict.prompt_director import RenderBrief
 
 MIN_SHOTS = 2
 MAX_SHOTS = 20

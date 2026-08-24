@@ -17,8 +17,8 @@ from typing import Mapping
 
 import dspy
 
-from profile_selector import ProfileDecision
-from prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from predict.prompt_director import RenderBrief
 
 CRITIQUE_FIELDS = ("coherence", "brief_adherence", "concept_encoding")
 

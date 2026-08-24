@@ -1,5 +1,5 @@
 import pytest
-from wangp_adapter import WanGPAdapter, FRAME_COUNT_UNVERIFIED
+from host.wangp_adapter import WanGPAdapter, FRAME_COUNT_UNVERIFIED
 
 
 @pytest.fixture(autouse=True)

@@ -17,12 +17,12 @@ import os
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import (
     ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
 )
-from render_qc import Verdict
-from wangp_adapter import (
+from evaluate.render_qc import Verdict
+from host.wangp_adapter import (
     frame_tolerance,
     H3_MODEL_TYPE,
     MULTISHOT_PROMPT_TAG,
@@ -264,7 +264,7 @@ def test_render_hard_failure_does_not_retry(tmp_path):
 
 def _pipeline_qc(verdict, monkeypatch=None):
     """RenderQC stub: one verdict for every shot."""
-    from render_qc import QCVerdict
+    from evaluate.render_qc import QCVerdict
     qc = {}
 
     class FakeQC:
@@ -281,8 +281,8 @@ def _pipeline_qc(verdict, monkeypatch=None):
 
 
 def test_run_pipeline_passes_keepers_to_assembler(tmp_path):
-    from assembler import ShotPlan
-    from wangp_adapter import RenderedShot
+    from predict.assembler import ShotPlan
+    from host.wangp_adapter import RenderedShot
 
     def runner(cmd, cwd, env, timeout):
         outdir = cmd[cmd.index("--output-dir") + 1]
@@ -329,7 +329,7 @@ def test_run_pipeline_passes_keepers_to_assembler(tmp_path):
 
 
 def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     verdicts = iter([])
 
@@ -349,7 +349,7 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
 
         def run(self, brief, decision, video=None):
             v = next(FakeQC.seq)
-            from render_qc import QCVerdict
+            from evaluate.render_qc import QCVerdict
             return QCVerdict(verdict=v, reason="stub", scores={})
 
     # REVISE now earns exactly ONE anchored retry (story-3 contract), so
@@ -370,7 +370,7 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
     vpy, vwgp = _fake_venv(tmp_path)
     adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp, output_dir=str(tmp_path), runner=runner,
                            qc_factory=FakeQC, assembler=FakeAssembler())
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
     plans = []
     for i, subj in enumerate([
             "astronaut mid-turn, visor cracked",
@@ -391,7 +391,7 @@ def test_run_pipeline_revise_and_reject_not_assembled(tmp_path):
 
 def test_run_pipeline_too_few_keepers_hits_assembler_bounds(tmp_path):
     """Keeper-count bounds are the REAL assembler's typed domain."""
-    from assembler import (
+    from predict.assembler import (
         ChainValidationError, MultiShotAssembler, ShotPlan,
     )
 
@@ -410,7 +410,7 @@ def test_run_pipeline_too_few_keepers_hits_assembler_bounds(tmp_path):
             pass
 
         def run(self, brief, decision, video=None):
-            from render_qc import QCVerdict
+            from evaluate.render_qc import QCVerdict
             return QCVerdict(verdict=Verdict.REJECT, reason="stub",
                              scores={})
 
@@ -472,7 +472,7 @@ def test_default_runner_constructs_subprocess_cmd(tmp_path, monkeypatch):
                     fh.write(b"v")
             return (b"", b"")
 
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
     monkeypatch.setattr(mod.subprocess, "Popen", FakePopen)
     vpy, vwgp = _fake_venv(tmp_path)
     adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
@@ -508,7 +508,7 @@ def test_settings_force_fps_is_string():
 def test_unverified_sentinel_skips_verification_not_passes():
     """Luna PR#12 residual: pin the sentinel-skip semantics — the
     sentinel must SKIP verification, never satisfy a mismatch."""
-    from wangp_adapter import (FRAME_COUNT_UNVERIFIED,
+    from host.wangp_adapter import (FRAME_COUNT_UNVERIFIED,
                                           frame_tolerance)
     want = 3 * 175  # the live cycle-3 expectation
     tol = frame_tolerance(3)  # WD-tc04: seam-scaled, not flat 2
@@ -524,7 +524,7 @@ def test_unverified_sentinel_skips_verification_not_passes():
 def test_render_result_carries_effective_frames():
     """Qwen PR#12 required finding: the H3 grid snap must be visible
     to consumers, not silent."""
-    from wangp_adapter import effective_frames_per_shot, RenderResult
+    from host.wangp_adapter import effective_frames_per_shot, RenderResult
     assert effective_frames_per_shot(160) == 175
     r = RenderResult(attempts=1, settings_path="s", output_dir="o",
                      video_paths=("v",), effective_frames=175)

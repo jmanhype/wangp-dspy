@@ -3,9 +3,9 @@ mistake-lock. Pure logic; DummyLM only where an LM is involved at all.
 """
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from assembler import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from predict.assembler import (
     AssembledChain, ChainValidationError, MultiShotAssembler, ShotPlan,
 )
 
@@ -201,10 +201,10 @@ def test_digest_stable_for_identical_chains():
 def test_m3_degenerate_short_key_term_rejected():
     # terminal_state whose key term is < 3 chars cannot carry continuity
     import pytest as _pytest
-    from assembler import (ChainValidationError, MultiShotAssembler,
+    from predict.assembler import (ChainValidationError, MultiShotAssembler,
                                       ShotPlan)
-    from prompt_director import RenderBrief
-    from profile_selector import ProfileDecision
+    from predict.prompt_director import RenderBrief
+    from predict.profile_selector import ProfileDecision
     brief = RenderBrief(subject="kaiju", motion="wades ashore",
                         camera="low wide", style="grainy 16mm")
     dec = ProfileDecision(model="h3", resolution="768p",

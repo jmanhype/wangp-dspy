@@ -3,10 +3,10 @@ import os
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from render_qc import QCVerdict, Verdict
-from wangp_adapter import WanGPAdapter, WanGPError
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from evaluate.render_qc import QCVerdict, Verdict
+from host.wangp_adapter import WanGPAdapter, WanGPError
 
 
 def _brief(subject="astronaut, cracked visor"):
@@ -39,7 +39,7 @@ class _Stub:
 def test_qc_not_called_and_typed_error_when_video_missing(tmp_path):
     """run_pipeline must pre-check the readback video exists; a missing
     file is a typed failure, never silently text-only critiqued."""
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     def runner(cmd, cwd, env, timeout):
         # succeeds but produces NO video files
@@ -67,7 +67,7 @@ def test_qc_not_called_and_typed_error_when_video_missing(tmp_path):
                       terminal_state="astronaut done")]
     # genuine Luna case: readback produced a path, but the file does not
     # exist on disk — QC must never be invoked on it
-    from wangp_adapter import RenderResult
+    from host.wangp_adapter import RenderResult
     adapter.render = lambda briefs, decision: RenderResult(
         attempts=1, settings_path="/dev/null", output_dir=str(tmp_path),
         video_paths=(str(tmp_path / "phantom.mp4"),))
@@ -80,9 +80,9 @@ def test_revise_retry_phantom_video_also_guarded(tmp_path):
     """Luna follow-up: the REVISE retry qc.run call site must also refuse
     a readback path whose file does not exist (no silent text-only QC)."""
     import os as _os
-    from wangp_adapter import RenderResult, WanGPError
-    from assembler import ShotPlan
-    from render_qc import QCVerdict, Verdict
+    from host.wangp_adapter import RenderResult, WanGPError
+    from predict.assembler import ShotPlan
+    from evaluate.render_qc import QCVerdict, Verdict
 
     real = tmp_path / "real.mp4"
     real.write_text("v")

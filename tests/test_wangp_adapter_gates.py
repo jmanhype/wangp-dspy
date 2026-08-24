@@ -6,12 +6,12 @@ import subprocess
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import (
     ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
 )
-from render_qc import QCVerdict, Verdict
-from wangp_adapter import (
+from evaluate.render_qc import QCVerdict, Verdict
+from host.wangp_adapter import (
     RenderedShot, WanGPAdapter, WanGPError, build_settings,
 )
 
@@ -86,7 +86,7 @@ def test_render_readback_scopes_to_own_dir_only(tmp_path):
 
 
 def test_run_pipeline_qc_receives_real_brief_and_decision(tmp_path):
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     calls = []
 
@@ -133,7 +133,7 @@ def test_run_pipeline_qc_receives_real_brief_and_decision(tmp_path):
 # ── F4: TimeoutExpired -> typed error + child killed ────────────────────────
 
 def test_default_runner_timeout_kills_child_and_raises_typed(tmp_path):
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
 
     events = []
 

@@ -8,10 +8,10 @@ import subprocess
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from render_qc import QCVerdict, Verdict
-from wangp_adapter import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from evaluate.render_qc import QCVerdict, Verdict
+from host.wangp_adapter import (
     QCEscalationError, RenderedShot, WanGPAdapter, WanGPError,
     build_settings, derive_seed,
 )
@@ -62,7 +62,7 @@ def _ok_runner(outputs=None, seen=None):
 # ── QB1: the QC gate sees the rendered material ─────────────────────────────
 
 def test_qc_signature_has_video_input_field():
-    from render_qc import RenderQCSignature
+    from evaluate.render_qc import RenderQCSignature
     fields = list(RenderQCSignature.input_fields)
     names = [f if isinstance(f, str) else f.name for f in fields]
     assert "video" in names, \
@@ -72,7 +72,7 @@ def test_qc_signature_has_video_input_field():
 def test_run_pipeline_passes_video_path_to_qc(tmp_path):
     """A real-ish judge that REQUIRES the video path proves the seam
     carries the render output, not just text."""
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     seen_videos = []
 
@@ -116,7 +116,7 @@ def test_render_qc_run_accepts_video(tmp_path):
     """Story-3 RenderQC.run itself takes the video path."""
     import dspy
 
-    from render_qc import RenderQC
+    from evaluate.render_qc import RenderQC
 
     captured = {}
 
@@ -147,7 +147,7 @@ class _StubAssembler:
 
 
 def test_revise_gets_one_retry_then_passes(tmp_path):
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     state = {"qc_calls": 0}
 
@@ -187,7 +187,7 @@ def test_revise_gets_one_retry_then_passes(tmp_path):
 
 
 def test_revise_persists_after_retry_escalates(tmp_path):
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     class AlwaysReviseQC:
         def __init__(self, genre):
@@ -210,7 +210,7 @@ def test_revise_persists_after_retry_escalates(tmp_path):
 
 
 def test_revise_retry_count_is_bounded_at_one(tmp_path):
-    from assembler import ShotPlan
+    from predict.assembler import ShotPlan
 
     state = {"qc": 0, "renders": 0}
 
@@ -250,7 +250,7 @@ def test_revise_retry_count_is_bounded_at_one(tmp_path):
 # ── minor a: word-boundary transient regex, class attr ─────────────────────
 
 def test_transient_markers_are_word_boundary_regex_class_attr():
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
     assert hasattr(WanGPAdapter, "TRANSIENT_RE")
     assert WanGPAdapter.TRANSIENT_RE.search("HTTP 504 Gateway Timeout")
     assert WanGPAdapter.TRANSIENT_RE.search("DecodeError in sampler")
@@ -310,7 +310,7 @@ def test_settings_uses_derived_seed():
 # ── minor c: timeout is hard-fail, never retried ────────────────────────────
 
 def test_timeout_is_hard_fail_no_retry(tmp_path):
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
 
     events = []
 

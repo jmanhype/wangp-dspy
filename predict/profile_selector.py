@@ -12,7 +12,7 @@ from typing import FrozenSet
 
 import dspy
 
-from prompt_director import RenderBrief
+from predict.prompt_director import RenderBrief
 
 # WanGP profiles actually known at this pin (memory: --profile 3 is the
 # H3 keep; extend ONLY with real verified profiles)

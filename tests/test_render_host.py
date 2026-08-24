@@ -8,10 +8,10 @@ import posixpath
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from wangp_adapter import WanGPAdapter, WanGPError
-from render_host import (
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from host.wangp_adapter import WanGPAdapter, WanGPError
+from host.render_host import (
     LocalHost, SshHost, RenderHostError, MissingExecutableError,
     PushError, PullError, RemoteTimeoutError,
 )
@@ -87,7 +87,7 @@ def test_pin1_adapter_makes_no_fs_syscalls(tmp_path, monkeypatch):
         def __call__(self, *a, **kw):
             raise AssertionError("adapter called os.path()")
 
-    import wangp_adapter as mod
+    import host.wangp_adapter as mod
     monkeypatch.setattr(mod, "os", _OsShim())
     result = adapter.render([_brief()], _decision())
     assert result.video_paths and result.video_paths[0].endswith(".mp4")
@@ -259,7 +259,7 @@ def test_pin5_local_readback_unchanged(tmp_path):
 def test_map_path_refuses_escape_outside_pull_root(tmp_path):
     """GLM F1: a local path outside pull_root must never map to ../."""
     import pytest
-    from render_host import SshHost, RenderHostError
+    from host.render_host import SshHost, RenderHostError
     host = SshHost(target="h", wgp_root="/remote/wgp",
                    pull_root=str(tmp_path / "pull"), sp=lambda *a, **k: None)
     with pytest.raises(RenderHostError):
@@ -270,7 +270,7 @@ def test_sshhost_namespace_contract_documented():
     """Qwen WD-h0vk: render_dir dual identity — write_text returns a
     remote-namespace path; fetch_videos maps it back to the local
     pull mirror. The contract is pinned by round-tripping one path."""
-    from render_host import SshHost
+    from host.render_host import SshHost
     host = SshHost.__new__(SshHost)  # no FS init: pure path logic
     host.target = "h"; host.wgp_root = "/remote/wgp"
     host.pull_root = "/local/pull"
@@ -283,7 +283,7 @@ def test_sshhost_namespace_contract_documented():
 def test_sshhost_join_preserves_absolute_prefix():
     """Live T0 finding: stripping the leading / made absolute output_dir
     home-relative, breaking rsync push (3090:home/... -> ~/"home/...")."""
-    from render_host import SshHost
+    from host.render_host import SshHost
     host = SshHost.__new__(SshHost)  # pure path logic
     host.target = "h"; host.wgp_root = "/w"; host.pull_root = "/p"
     assert host.join("/home/u/Wan2GP", "render-0000", "settings.json") == \
@@ -295,7 +295,7 @@ def test_sshhost_join_preserves_absolute_prefix():
 def test_sshhost_makedirs_runs_remote_mkdir_p():
     """Live T0 finding: the no-op makedirs broke write_text on a fresh
     render dir (rsync pushing a FILE creates no parents)."""
-    from render_host import SshHost
+    from host.render_host import SshHost
     argvs = []
 
     class SP:
@@ -318,7 +318,7 @@ def test_sshhost_makedirs_runs_remote_mkdir_p():
     f = F.__new__(F)
     f.target = "h"; f.port = None
     import pytest
-    from render_host import RenderHostError
+    from host.render_host import RenderHostError
     with pytest.raises(RenderHostError):
         f.makedirs("/w/x")
 print("makedirs test appended")
@@ -328,7 +328,7 @@ def test_fetch_videos_refuses_dir_outside_wgp_root(tmp_path):
     """GLM PR#11: local_dir outside wgp_root would relpath to ../..,
     smuggling the pull outside pull_root — same class as map_path F1."""
     import pytest
-    from render_host import SshHost, RenderHostError
+    from host.render_host import SshHost, RenderHostError
     host = SshHost.__new__(SshHost)
     host.target = "h"; host.wgp_root = "/w"
     host.pull_root = str(tmp_path / "pull"); host.port = None

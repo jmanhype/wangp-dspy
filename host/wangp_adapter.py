@@ -26,13 +26,13 @@ import time
 from dataclasses import dataclass
 from typing import Callable, Mapping, Optional, Sequence
 
-from profile_selector import (
+from predict.profile_selector import (
     H3_FRAMES_MIN,
     H3_FRAMES_OFFSET,
     H3_FRAMES_STEP,
     ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
 )
-from prompt_director import RenderBrief
+from predict.prompt_director import RenderBrief
 
 H3_MODEL_TYPE = "minimax_h3_fl2va_pruned"
 MULTISHOT_PROMPT_TAG = "multishot"
@@ -333,7 +333,7 @@ class WanGPAdapter:
         # FS syscalls — every FS/exec operation goes through the host.
         # LocalHost preserves today's byte-identical behavior; SshHost
         # runs the renderer remotely (rsync push/pull, remote timeout).
-        from render_host import LocalHost
+        from host.render_host import LocalHost
         self.host = host or LocalHost(runner=self.runner)
         self.sleeper = sleeper or time.sleep
         self.max_attempts = max_attempts
@@ -462,7 +462,7 @@ class WanGPAdapter:
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 
     def run_pipeline(self, plans, genre: str):
-        from render_qc import Verdict
+        from evaluate.render_qc import Verdict
 
         if self.qc_factory is None:
             raise WanGPError("qc_factory is required for run_pipeline")

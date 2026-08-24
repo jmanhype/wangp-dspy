@@ -5,9 +5,9 @@ import os
 
 import pytest
 
-from prompt_director import RenderBrief
-from profile_selector import ProfileDecision
-from wangp_adapter import WanGPAdapter, WanGPError
+from predict.prompt_director import RenderBrief
+from predict.profile_selector import ProfileDecision
+from host.wangp_adapter import WanGPAdapter, WanGPError
 
 
 def _brief():
