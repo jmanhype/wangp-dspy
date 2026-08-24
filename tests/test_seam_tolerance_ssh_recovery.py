@@ -46,10 +46,10 @@ def test_frame_tolerance_scales_with_seams():
     # seam. Old linear-2 values fired on a GOOD cycle-4 render
     # (diff 8 == tolerance(4)); measurements are superlinear
     # (n=3 diff 4, n=4 diff 8). See test_seam_tolerance_recalibrate.
-    assert frame_tolerance(1) == 2
-    assert frame_tolerance(2) == 5
-    assert frame_tolerance(3) == 8   # 2 base + 2 seams * 3
-    assert frame_tolerance(5) == 14
+    assert frame_tolerance(1) == 5
+    assert frame_tolerance(2) == 8
+    assert frame_tolerance(3) == 11   # 2 base + 2 seams * 3
+    assert frame_tolerance(5) == 17
 
 
 def test_live_payoff_case_no_longer_flags(tmp_path, monkeypatch):

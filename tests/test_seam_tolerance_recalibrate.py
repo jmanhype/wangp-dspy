@@ -25,10 +25,12 @@ def test_seam_ceiling_constant_pinned():
 
 
 def test_tolerance_values():
-    assert frame_tolerance(1) == 2    # fps rounding only, exact renders
-    assert frame_tolerance(3) == 8    # base 2 + 2 seams * 3
-    assert frame_tolerance(4) == 11   # base 2 + 3 seams * 3
-    assert frame_tolerance(6) == 17
+    # WD-o4g2 follow-up: base floor 5 (fps rounding + audio-mux
+    # -shortest trim measured at n=1: 124 expected, 121 counted)
+    assert frame_tolerance(1) == 5    # base floor only, single shot
+    assert frame_tolerance(3) == 11   # base 5 + 2 seams * 3
+    assert frame_tolerance(4) == 14   # base 5 + 3 seams * 3
+    assert frame_tolerance(6) == 20
 
 
 def test_n3_measured_diff4_must_not_raise():

@@ -173,21 +173,26 @@ def effective_frames_per_shot(frames: int) -> int:
 # linear-2 per seam; the linear-2 guardrail then fired on a GOOD
 # render (cycle-4): 4 shots, 420f actual vs 428f expected (diff 8)
 # vs tolerance(4)=8 with a >= comparison. Measurements to date:
-#   n=1: exact        (no seams)
+#   n=1: diff 3       (audio-mux -shortest trim, WD-o4g2 follow-up
+#                      2026-08-24: 124 expected, 121 counted)
 #   n=3: diff 4       (2 seams, ~2.0/seam)   [WD-izly payoff, WD-tc04]
 #   n=4: diff 8       (3 seams, ~2.67/seam)  [cycle-4]
 # Seam loss is superlinear, not linear-2. MEASURED_SEAM_CEILING=3
-# admits both data points with headroom (tol(3)=8 > 4, tol(4)=11 >
-# 8) while real losses still trip (diff 15 vs tol(4)=11 raises).
+# admits both multishot data points with headroom (tol(3)=8 > 4,
+# tol(4)=11 > 8) while real losses still trip (diff 15 vs tol(4)=11
+# raises). BASE 5 admits the n=1 audio-trim measurement (diff 3)
+# with headroom; a real n=1 truncation (diff 15+) still trips.
 # TODO(WD-qn1a): recalibrate at an n>=6 data point. The recalibration
 # MUST capture PER-SEAM loss (total_diff / (n-1)) at each n so the
 # loss curve can be fitted rather than endpoint-bounded.
 MEASURED_SEAM_CEILING = 3
+MEASURED_BASE_FLOOR = 5
 
 
 def frame_tolerance(n_briefs: int) -> int:
-    """2 frames (fps rounding) + MEASURED_SEAM_CEILING per seam."""
-    return 2 + MEASURED_SEAM_CEILING * max(0, n_briefs - 1)
+    """MEASURED_BASE_FLOOR (fps rounding + audio-mux trim) +
+    MEASURED_SEAM_CEILING per seam."""
+    return MEASURED_BASE_FLOOR + MEASURED_SEAM_CEILING * max(0, n_briefs - 1)
 
 
 # sentinel: frame count could not be verified (injected by tests);

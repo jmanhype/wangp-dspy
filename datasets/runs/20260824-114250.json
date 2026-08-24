@@ -31,9 +31,9 @@
   ],
   "qc": {
     "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
-    "score": 9,
+    "score": 7,
     "verdict": "PASS (surreal threshold 4.5)",
-    "summary": "**Subject:** The video features a giant kaiju (Godzilla) emerging from a cloud of smoke in a harbor setting. In the foreground, a detailed container ship and red gantry cranes are present, while a modern city skyline and bridge form the background.\n\n**Motion Quality:** The animation of the monster rising is smooth and impactful. The \"reveal\" effect works well, starting with just the dorsal fins and head, progressively showing the full body. The surrounding smoke and clouds have organic, fluid movement that adds to the atmospheric tension.\n\n**Temporal Consistency:** There is good consistency wi",
-    "latency_secs": 7.0
+    "summary": "The video shot depicts a lone figure in a long coat walking down a narrow, rain-slicked urban alleyway at night. The scene is atmospheric, with wet pavement reflecting the glow of numerous vertical neon signs featuring Japanese text.\n\n**Subject & Motion Quality:** The subject is a silhouetted figure walking away from the camera. The motion is slow and steady, creating a cinematic, contemplative feel. The figure\u2019s posture and stride appear consistent, though the lack of facial detail or clear limb articulation makes it slightly ambiguous.\n\n**Temporal Consistency (Flicker/Morphing):** There is n",
+    "latency_secs": 13.3
   }
 }

@@ -101,6 +101,25 @@ for intent in INTENTS:
 
     # QC leg with critic up
     gpu("start-critic")
+    # poll health: fire-and-forget launch + short polls (cannot hang)
+    healthy = False
+    for attempt in range(30):  # ~150s max for model load
+        chk = sh(["bash", str(REPO / "scripts" / "gpu_seq.sh"), "status"],
+                 timeout=60)
+        if "critic: up" in (chk.stdout or ""):
+            # process up; verify endpoint actually serves
+            ep = subprocess.run(
+                ["ssh", "-o", "ConnectTimeout=15", "-o", "BatchMode=yes",
+                 "3090", "curl -s -m 5 http://127.0.0.1:8000/health"],
+                capture_output=True, text=True, timeout=60)
+            if '"ok"' in (ep.stdout or ""):
+                healthy = True
+                break
+        time.sleep(5)
+    if not healthy:
+        print("BATCH ABORT: critic failed to come healthy")
+        sys.exit(1)
+    print("[critic] healthy", flush=True)
     q = subprocess.run(
         f'cd {REPO} && uv run python scripts/run_qc.py '
         f'"{rec["videos"][0]}" "{rec_path}" "{rec["genre"]}"',
