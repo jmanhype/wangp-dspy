@@ -10,9 +10,14 @@ caller kwargs still win.
 from qc.audio_critic.criticize import generation_kwargs
 
 
-def test_do_sample_false_by_default():
+def test_do_sample_default_pins():
+    """PR #17 pinned greedy; the follow-up found greedy
+    degeneration (inverted ordering) — the pin now asserts the
+    NEW default: light sampling (temp 0.3, top_p 1.0)."""
     kw = generation_kwargs()
-    assert kw.get("do_sample") is False
+    assert kw.get("do_sample") is True
+    assert kw.get("temperature") == 0.3
+    assert kw.get("top_p") == 1.0
 
 
 def test_two_calls_identical_and_pinned():
@@ -25,8 +30,8 @@ def test_caller_overrides_still_win():
     # run_critique passes caller kwargs over the defaults — the
     # override seam stays open for future diversity-seeking evals
     base = generation_kwargs()
-    merged = {**base, "do_sample": True}
-    assert merged["do_sample"] is True and base["do_sample"] is False
+    merged = {**base, "do_sample": False}
+    assert merged["do_sample"] is False and base["do_sample"] is True
 
 
 def test_injected_fake_receives_deterministic_kwargs():
@@ -69,7 +74,9 @@ def test_injected_fake_receives_deterministic_kwargs():
     assert r1 and r2
     assert seen, "generate was never invoked"
     first = seen[0]
-    assert first.get("do_sample") is False  # greedy by default
-    # every recorded kwargs dict identical (deterministic decode)
+    # pinned decoding contract at the seam: sampled temp 0.3
+    assert first.get("do_sample") is True
+    assert first.get("temperature") == 0.3
+    # every recorded kwargs dict identical (stable decode args)
     for later in seen[1:]:
         assert later == first

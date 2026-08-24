@@ -61,13 +61,45 @@ def assemble_conversation(profile: str, *, audio_path: str,
 def generation_kwargs() -> dict:
     """Decoding params pinned to the factory script.
 
-    Deterministic by default (PR fix): do_sample=False — greedy
-    decode. Live evidence showed the judge scoring the same wav
-    40 then 35 (25 then 35) across runs because decoding inherited
-    the model's default SAMPLED generation_config. Caller kwargs
-    still win where generate() is invoked (override seam intact
-    for future diversity-seeking evals)."""
-    return {"max_new_tokens": MAX_NEW_TOKENS, "do_sample": False}
+    Judge-consistency fix (PR #17 follow-up): greedy decode gave
+    perfect determinism but INVERTED ordering (operator's best
+    take 8/40, mediocre 35 — classic greedy degeneration on judge
+    tasks). DEFAULT is now light sampling: do_sample=True,
+    temperature=0.3, top_p=1.0, paired with the service-level
+    median ensemble for stability. Greedy remains reachable via
+    caller kw override (seam intact)."""
+    return {"max_new_tokens": MAX_NEW_TOKENS,
+            "do_sample": True, "temperature": 0.3, "top_p": 1.0}
+
+
+def ensemble_scores(scores: list) -> float:
+    """Median of an odd-length score list (middle element)."""
+    ordered = sorted(scores)
+    n = len(ordered)
+    if n == 0:
+        raise ValueError("ensemble_scores: empty list")
+    mid = n // 2
+    return ordered[mid]
+
+
+def aggregate_ensemble(runs: list) -> dict:
+    """Aggregate ensemble runs by MEDIAN score; the prose of the
+    median-scoring run is kept; all scores recorded."""
+    if not runs:
+        raise ValueError("aggregate_ensemble: empty runs")
+    med = ensemble_scores([r["score"] for r in runs])
+    keeper = min(
+        runs, key=lambda r: (abs(r["score"] - med),))
+    # exact member of the median (prefer the first equal-scored)
+    for r in runs:
+        if r["score"] == med:
+            keeper = r
+            break
+    out = dict(keeper)
+    out["score"] = med
+    out["scores_list"] = [r["score"] for r in runs]
+    out["ensemble"] = len(runs) > 1
+    return out
 
 
 def criticize_once(profile: str, prose: str, *, model: str) -> dict:

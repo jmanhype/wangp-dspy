@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import base64
 import threading
+import os
 import time
 from typing import Callable, Optional
 
@@ -191,10 +192,8 @@ def build_app(
                 waveform = decode_wav(payload)
             except AudioCriticError as e:
                 return _typed(422, str(e))
-            out = run_critique(req.profile, gen, audio=waveform)
-            body = dict(out["record"])
-            body["prose"] = out["prose"]
-            body["retried"] = out["retried"]
+            body = _run_ensemble(req.profile, gen, audio=waveform,
+                                 size=ensemble_size())
             return body
         except AudioCriticError as e:
             return _typed(422, str(e))
@@ -218,3 +217,42 @@ def _default_loader():
 
 
 app = build_app(loader=_default_loader)
+
+
+
+# ── judge-consistency ensemble (PR #17 follow-up) ───────────────────
+# Greedy degenerated the judge ordering; sampled temp-0.3 runs
+# are aggregated by MEDIAN for stability. Size env-tuned
+# (AUDIO_CRITIC_ENSEMBLE, default 3; 1 = single-shot).
+
+def ensemble_size() -> int:
+    raw = os.environ.get("AUDIO_CRITIC_ENSEMBLE", "3")
+    try:
+        n = int(raw)
+    except ValueError:
+        n = 3
+    return max(1, n)
+
+
+def _run_ensemble(profile: str, generate, *, audio=None, audios=None,
+                  size: int = 3) -> dict:
+    """Run run_critique `size` times; aggregate by median score,
+    keep the median run's prose, record all scores."""
+    from .criticize import aggregate_ensemble
+    runs = []
+    for _ in range(max(1, size)):
+        out = run_critique(profile, generate, audio=audio,
+                           audios=audios)
+        runs.append({
+            "score": out["record"]["score"],
+            "prose": out["prose"],
+            "record": out["record"],
+            "retried": out["retried"],
+        })
+    agg = aggregate_ensemble(runs)
+    body = dict(agg["record"])
+    body["prose"] = agg["prose"]
+    body["retried"] = agg["retried"]
+    body["scores_list"] = agg["scores_list"]
+    body["ensemble"] = agg["ensemble"]
+    return body
