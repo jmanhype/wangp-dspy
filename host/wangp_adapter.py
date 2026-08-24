@@ -111,12 +111,23 @@ class RenderedShot:
 
 
 def brief_to_prompt(brief: RenderBrief) -> str:
-    """Section order matches the pipeline: subject/motion/camera/style.
+    """Section order matches the pipeline: subject/motion/camera/style,
+    then craft sections when present (H3 guide: audio direction,
+    negatives, identity locks are high-leverage — they ride the same
+    7000-char budget the model reads natively).
 
     The resulting shot script is a RAW pass-through into the settings
     json ``script`` field (JSON-encoded; content cannot escape its field).
     """
-    return f"{brief.subject}. {brief.motion}. {brief.camera}. {brief.style}"
+    parts = [f"{brief.subject}. {brief.motion}. {brief.camera}. "
+             f"{brief.style}"]
+    if brief.audio_direction:
+        parts.append(f"Audio: {brief.audio_direction}")
+    if brief.identity_lock:
+        parts.append(f"Preserve throughout: {brief.identity_lock}")
+    if brief.negatives:
+        parts.append(f"Do not: {brief.negatives}")
+    return ". ".join(parts)
 
 
 def build_script(prompts: Sequence[str]) -> str:
