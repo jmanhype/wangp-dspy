@@ -1,14 +1,16 @@
 ---
 id: WD-o4g2
 title: "wgp multishot: deterministic tensor shape error on long urban/neon prompts — [1, 24, 37, 1, 40, 2, 22, 2] invalid for input of size 3196800"
-status: open
+status: closed
 priority: 2
 type: bug
 labels: [wgp, upstream, 3090]
 created_at: 2026-08-24T19:01:47Z
 created_by: speed
-updated_at: 2026-08-24T19:23:04Z
-content_hash: "sha256:d20986d30b2efd9eaf32ccfcdd31578dc66837146c9013289c542fd0082a2bea"
+updated_at: 2026-08-24T19:23:05Z
+content_hash: "sha256:1c35712f28c8a4b99f4e8fc9bd9c33d9f08d893a6dbd56362572f8bf767e7ff0"
+closed_at: 2026-08-24T19:23:05Z
+close_reason: "Fixed in adapter 5586a77: 720p snaps to H3 480x832 grid; regression tested. Root cause: odd latent dim at portrait; fork keyframes code innocent."
 ---
 
 ## Description
@@ -24,7 +26,7 @@ Live WD-mhr2 batch finding (2026-08-24, reproduced 2/2 attempts, deterministic):
 
 
 ## History
-
+- 2026-08-24T19:23:05Z status: open -> closed
 
 ## Links
 
