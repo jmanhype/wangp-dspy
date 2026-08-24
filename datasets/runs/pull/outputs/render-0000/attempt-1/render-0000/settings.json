@@ -1,0 +1,13 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "prompt": "multishot",
+  "script": "A weathered stone lighthouse on a jagged black headland at night; its rotating beacon throws a hard white cone of light across a churning ink-black ocean; heavy storm clouds mass low overhead with wind-driven rain beginning to streak; waves detonate against dark rocks in bursts of white foam and mist. The lighthouse beam rotates steadily, its light cone sweeping across frame and raking the swell tops so the water briefly glints then falls back to black; large storm waves build, rear up and explode against the rocks in violent sprays of white water; spray and rain drift sideways in gusts; clouds churn slowly and darken overhead. Locked-off wide shot from a slightly elevated angle just above the wave line, lighthouse anchored on one third of frame; very slow creeping push-in toward the rocks; subtle braced-against-wind micro-shake; overcranked to 48fps conformed slow so wave impacts land heavy and detailed. Cold, heavily desaturated maritime palette: ink-black ocean, gunmetal storm sky, stark white beam and foam; deep crushed shadows with the beacon as the only clean light source; cinematic anamorphic widescreen, 35mm film stock look (Kodak Vision3 500T pushed one stop), fine grain, slight halation on the brightest spray",
+  "width": 480,
+  "height": 832,
+  "frames_per_shot": 192,
+  "num_inference_steps": 20,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "seed": 3285953323
+}
