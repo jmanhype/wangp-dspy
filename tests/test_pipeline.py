@@ -154,3 +154,41 @@ def test_task_registry_roundtrip_and_append_only():
                           metric="qc_feedback"))
     with pytest.raises(KeyError):
         get("nonexistent")
+
+
+def test_creative_lm_context_used_for_director_and_selector():
+    """WD-mhr2: with creative_lm set, stage-1/2 calls run inside its
+    dspy.settings.context — a sentinel LM object must be visible to
+    the stubs via dspy.settings.lm."""
+    import dspy
+
+    class SentinelLM:
+        pass
+    sent = SentinelLM()
+    seen = {}
+
+    class ProbeDirector(StubDirector):
+        def __call__(self, intent):
+            seen["director"] = dspy.settings.lm
+            return super().__call__(intent)
+
+    class ProbeSelector(StubSelector):
+        def from_brief(self, brief):
+            seen["selector"] = dspy.settings.lm
+            return super().from_brief(brief)
+
+    p = Pipeline(genre="surreal", director=ProbeDirector(),
+                 selector=ProbeSelector(), creative_lm=sent)
+    p.forward("a lighthouse in a storm")
+    assert seen["director"] is sent
+    assert seen["selector"] is sent
+
+
+def test_no_creative_lm_keeps_default_context():
+    """creative_lm=None (default) must not touch dspy.settings —
+    backward compatible single-LM behavior."""
+    import dspy
+    before = dspy.settings.lm
+    p = _pipeline()
+    p.forward("x")
+    assert dspy.settings.lm is before

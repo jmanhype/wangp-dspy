@@ -62,10 +62,17 @@ class Pipeline(dspy.Module):
                  selector=None,
                  assembler: Optional[MultiShotAssembler] = None,
                  adapter=None,
-                 qc_factory: Optional[Callable] = None):
+                 qc_factory: Optional[Callable] = None,
+                 creative_lm=None):
         """Collaborators are duck-typed by design: tests inject stubs,
         the real run injects the dspy modules + 3090 adapter. Only the
-        assembler keeps a concrete default (pure logic, no IO)."""
+        assembler keeps a concrete default (pure logic, no IO).
+
+        creative_lm (WD-mhr2): when set, director/selector calls run
+        under dspy.settings.context(lm=creative_lm) — the hosted API
+        for creative stages while the critic keeps its own LM via
+        qc_factory wiring. None = whatever dspy default is configured
+        (single-LM behavior, backward compatible)."""
         super().__init__()
         self.genre = genre
         self.director = director or PromptDirector()
@@ -73,6 +80,7 @@ class Pipeline(dspy.Module):
         self.assembler = assembler or MultiShotAssembler()
         self.adapter = adapter
         self.qc_factory = qc_factory
+        self.creative_lm = creative_lm
 
     def forward(self, intent: str, *, n_shots: int = 1) -> PipelineResult:
         result = PipelineResult(briefs=[], decisions=[])
@@ -81,9 +89,19 @@ class Pipeline(dspy.Module):
             result.evidence.append(f"{stage}: {note}")
 
         # ── stage 1: briefs ─────────────────────────────────────────
+        import contextlib
+
+        def creative_ctx():
+            # fresh per stage: dspy.settings.context yields a
+            # single-use generator contextmanager
+            return (dspy.settings.context(lm=self.creative_lm)
+                    if self.creative_lm is not None
+                    else contextlib.nullcontext())
         try:
-            for _ in range(n_shots):
-                result.briefs.append(self.director(intent=intent).brief)
+            with creative_ctx():
+                for _ in range(n_shots):
+                    result.briefs.append(
+                        self.director(intent=intent).brief)
         except Exception as exc:
             raise PipelineStageError(
                 "briefs", f"intent -> RenderBrief failed: {exc}", exc)
@@ -91,9 +109,10 @@ class Pipeline(dspy.Module):
 
         # ── stage 2: profile decisions ──────────────────────────────
         try:
-            for brief in result.briefs:
-                result.decisions.append(
-                    self.selector.from_brief(brief).decision)
+            with creative_ctx():
+                for brief in result.briefs:
+                    result.decisions.append(
+                        self.selector.from_brief(brief).decision)
         except Exception as exc:
             raise PipelineStageError(
                 "profile", f"brief -> ProfileDecision failed: {exc}", exc)
