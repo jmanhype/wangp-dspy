@@ -15,12 +15,18 @@ N = int(sys.argv[1]) if len(sys.argv) > 1 else 5
 SKIP_DONE = "--skip-done" in sys.argv
 
 INTENTS = [
-    "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
-    "a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens",
-    "rain on neon streets at midnight, reflections rippling as a lone figure walks past glowing signs",
-    "a paper boat drifting down a flooded gutter city, macro lens, overcast melancholy",
-    "an abandoned ferris wheel turning slowly in sea fog, gulls circling, desaturated dawn",
-    "a chess match between two statues in a museum at night, dust motes in moonlight",
+    # PACK 07 — NIGHT-SHIFT CCTV UI
+    "1998 public-access sea-town puppet horror on VHS, cheap aquatic puppet set, painted cardboard coral, blue fabric ocean backdrop, rubber sea-creature puppets, washed-out local cable lighting, children's-show blocking, tiny foam houses, visible puppet seams, long wrong pause, ominous silence. VHS color-under chroma bleed, tracking noise, head-switch band, luma noise, dub-soft. Analog tape only, no digital artifacts, no copyrighted cartoon characters, no clean modern puppet show.",
+    # PACK 08 — CREATURE RESPONSE (DASHCAM)
+    "2004 PS2 real-time cutscene, low-poly West Coast crime game, urban neighborhood, orange smog sunset, boxy lowriders, fast-food drive-thru, liquor store parking lot, chain-link fences, stucco apartments, awkward NPC blocking, stiff poses, low-res compressed textures, vertex lighting, baked bloom, jaggies, no anti-aliasing. Interlaced 480i combing, MPEG-2 DCT block artifacts, subtitle bar at bottom. PS2 framebuffer, no modern photorealism, no remake polish.",
+    # PACK 09 — PRESTIGE PUPPET NOIR
+    "2004 PS2 mission objective overlay, low-resolution game HUD, bold yellow objective text, black translucent subtitle box, minimap circle, health bar, wanted stars, mission marker arrow, compressed UI texture, blocky fonts. Interlaced 480i combing, low-res alpha, UI atlas fringe halos, CRT overscan crop. PS2 framebuffer, no modern UI design, no vector graphics, no remake polish.",
+    # PACK 15 — EASTERN BLOC COSMONAUT
+    "late-1990s public-access analog chroma-key power-aura effect on S-VHS, bad yellow energy glow around a person, crude composite, flickering outline from imperfect key, chroma-key spill halo, color-under chroma bleed, tracking noise, misaligned composite layers, painted cosmic backdrop. Analog tape compositing only, no modern VFX, no clean anime glow.",
+    # PACK 14 — YOUTH MYSTERY GIALLO
+    "1998 public-access anime power-up fitness VHS, community gym studio, folding mats, painted galaxy backdrop, paper lightning bolts, cheap yellow aura overlay, fluorescent lights, sweaty instructor in martial-arts workout clothes, plastic water bottles, hand-painted motivational signs. S-VHS tracking noise, head-switch noise, color-under chroma bleed on aura, chroma-key spill, luma noise. Analog tape only, no digital effects, no modern gym commercial.",
+    # PACK 19 — SOVIET INDUSTRIAL
+    "straight-man office receptionist, 2007 MiniDV workplace mockumentary, calm employee behind reception desk, tired half-smile, looking toward documentary camera, beige lobby, printer, phone, paperwork, fluorescent lighting, understated reaction comedy, cheap lower third. DV-compression DCT block artifacts, interlace combing, soft digital video. No real actor likeness, no glamour portrait.",
 ]
 
 def sh(cmd, timeout=600, **kw):
