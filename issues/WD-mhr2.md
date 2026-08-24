@@ -8,8 +8,8 @@ labels: [gpu, dataset]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T19:59:15Z
-content_hash: "sha256:4d5d2123c3af1c3d587f2ab269622856b8eee1b60e9498c39b6e47edd91cf08a"
+updated_at: 2026-08-24T21:54:58Z
+content_hash: "sha256:f509c6478e0931c04c3a6440f2e746e03890c3f21c3f8ab5ceea53a0cb8e33a4"
 assignee: jmanhype-glm
 follows: [WD-pt60]
 ---
@@ -42,3 +42,6 @@ Cycle 1 complete (20260824-103137): GLM-5.3 briefs+profile -> H3 render 842.5s -
 
 ### 2026-08-24T19:59:15Z speed
 Batch phase complete: 7 labeled examples banked (lighthouse x3: 8/9/8; kaiju x2: 7/9; neon rain: 9; paper boat: 9) — all PASS at surreal threshold. Full tooling proven in one clean run: 720p grid snap (WD-o4g2 fix exercised live), tolerance recalibration (validated — 121f render was good), non-blocking critic sequencing. Ferris-wheel intent render failed without a record (cause TBD, next batch). AC threshold was N>=10 — 7 banked; remaining 3+ are one more batch run. GEPA minimum-viable (wiring validation) is already met at 7.
+
+### 2026-08-24T21:54:58Z speed
+Closing state: 9 labeled examples (lighthouse x3, kaiju x2, neon rain, paper boat, PS2 cutscene, public-access fitness), scores 6-9 — real variance across aesthetic packs vs flat 7-9 on stock intents. AC said N>=10: 9 banked, one cycle lost to the meta-hint guard (WD-9dia filed, P3). GEPA minimum-viable well cleared. Dataset committed through 78f1703.
