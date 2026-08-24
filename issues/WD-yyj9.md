@@ -1,14 +1,15 @@
 ---
 id: WD-yyj9
 title: "publish: vlt create needs .md extension; write silently no-ops on extension-mismatched notes"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [bug]
 created_at: 2026-08-23T18:09:31Z
 created_by: speed
-updated_at: 2026-08-23T18:09:31Z
-content_hash: "sha256:57e10a24f9f19506ef78bf9e8cb698c9933926e425ef88f86c6737d93adf6213"
+updated_at: 2026-08-24T02:14:26Z
+content_hash: "sha256:d3bfc26cbe3ff8f70b2054dce018618571faf76dea3878d5ba026522f8ba7da3"
+assignee: dev-WD-yyj9
 ---
 
 ## Description
@@ -24,7 +25,8 @@ Live publish #2 findings: (1) vlt create path='Paivot Insights/<id>' created fil
 
 
 ## History
-
+- 2026-08-24T02:14:26Z status: open -> in_progress
+- 2026-08-24T02:14:26Z claimed by dev-WD-yyj9
 
 ## Links
 
