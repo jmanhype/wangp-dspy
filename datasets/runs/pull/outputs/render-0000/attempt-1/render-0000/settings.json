@@ -1,13 +1,13 @@
 {
   "model_type": "minimax_h3_fl2va_pruned",
   "prompt": "multishot",
-  "script": "A lone figure in a long dark coat walking down a narrow rain-slicked city street at midnight, flanked by glowing neon signs in magenta, cyan, and warm orange advertising in Japanese and English; wet asphalt pavement dotted with puddles that mirror the lights, thin steam rising from a street grate, moths drifting around a buzzing sign, deep shadows between pools of colored light. The figure walks steadily away from camera with a slight hunched posture, coat hem swaying and shoulders shrugging off the rain; fine rain falls in visible streaks through the neon glow, droplets strike the puddles and send out concentric ripples that warp and shimmer the reflected signs; one neon sign flickers and buzzes softly; steam curls upward through the downpour. Slow low tracking shot following the figure from behind at waist height, smooth lateral drift as the figure passes each storefront, shallow depth of field with raindrops streaking soft bokeh in the foreground, 24fps cinematic motion blur, the figure kept center-frame while neon reflections slide across the wet ground. Neo-noir cyberpunk look, deep blue-black night pierced by saturated magenta, teal, and sodium-orange neon, wet reflective textures on every surface, soft anamorphic halation around light sources, atmospheric haze and light rain fog, subtle 35mm film grain, high-contrast moody lighting reminiscent of a rainy Tokyo backstreet",
+  "script": "A small hand-folded paper boat of grey-white newsprint, edges softened and ink slightly bleeding from the damp, drifting on shallow floodwater that has swallowed a city street gutter; wet asphalt, submerged curb lines, drifting leaves and bits of litter, blurred grey building facades and parked-car reflections in the water around it. The boat drifts slowly forward with the gentle gutter current, bobbing softly and yawing a few degrees side to side; raindrops land near it, sending concentric ripples that nudge and rock the hull; the soggy paper flexes faintly with each small wave. Macro lens at water level, very shallow depth of field with the boat's bow as the focal plane and the background dissolved into soft bokeh; slow lateral tracking shot gliding alongside the boat at close range, occasional subtle focus pull from the hull to raindrop ripples; 24fps cinematic character with gentle motion blur. Overcast melancholy; desaturated cool palette of slate greys, muted blue-greens and washed paper white; soft diffused shadowless daylight, damp matte textures, faint filmic grain, fine-art cinematic realism with a quiet, lonely mood",
   "width": 480,
   "height": 832,
-  "frames_per_shot": 124,
+  "frames_per_shot": 192,
   "num_inference_steps": 20,
   "guidance_scale": 1.0,
   "embedded_guidance_scale": 6.0,
   "force_fps": "24",
-  "seed": 448286620
+  "seed": 3371149572
 }

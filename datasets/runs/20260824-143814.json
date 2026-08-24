@@ -1,0 +1,39 @@
+{
+  "run_id": "20260824-143814",
+  "genre": "surreal",
+  "intent": "rain on neon streets at midnight, reflections rippling as a lone figure walks past glowing signs",
+  "ts": "2026-08-24T14:45:00",
+  "duration_secs": 406.4,
+  "briefs": [
+    {
+      "subject": "A lone figure in a long dark coat walking down a narrow rain-slicked city street at midnight, flanked by glowing neon signs in magenta, cyan, and warm orange advertising in Japanese and English; wet asphalt pavement dotted with puddles that mirror the lights, thin steam rising from a street grate, moths drifting around a buzzing sign, deep shadows between pools of colored light",
+      "motion": "The figure walks steadily away from camera with a slight hunched posture, coat hem swaying and shoulders shrugging off the rain; fine rain falls in visible streaks through the neon glow, droplets strike the puddles and send out concentric ripples that warp and shimmer the reflected signs; one neon sign flickers and buzzes softly; steam curls upward through the downpour",
+      "camera": "Slow low tracking shot following the figure from behind at waist height, smooth lateral drift as the figure passes each storefront, shallow depth of field with raindrops streaking soft bokeh in the foreground, 24fps cinematic motion blur, the figure kept center-frame while neon reflections slide across the wet ground",
+      "style": "Neo-noir cyberpunk look, deep blue-black night pierced by saturated magenta, teal, and sodium-orange neon, wet reflective textures on every surface, soft anamorphic halation around light sources, atmospheric haze and light rain fog, subtle 35mm film grain, high-contrast moody lighting reminiscent of a rainy Tokyo backstreet"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "720p",
+      "shot_length_frames": 120,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787600662.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a subject walking away from the camera down a neon-lit alleyway at night. The motion is smooth and consistent, with the figure moving steadily into the distance. Temporal consistency is high; there is no significant flickering or morphing of the subject or background elements. The neon signs remain stable in their shapes and colors. Artifacts are minimal, with only very subtle shimmering on the wet pavement which is likely intended to simulate rain or reflections. The overall quality is high, with good lighting and clear details.\n\nVerdict: High-quality, temporally consistent",
+    "latency_secs": 9.0
+  }
+}

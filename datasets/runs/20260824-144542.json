@@ -1,0 +1,39 @@
+{
+  "run_id": "20260824-144542",
+  "genre": "surreal",
+  "intent": "a paper boat drifting down a flooded gutter city, macro lens, overcast melancholy",
+  "ts": "2026-08-24T14:57:11",
+  "duration_secs": 688.7,
+  "briefs": [
+    {
+      "subject": "A small hand-folded paper boat of grey-white newsprint, edges softened and ink slightly bleeding from the damp, drifting on shallow floodwater that has swallowed a city street gutter; wet asphalt, submerged curb lines, drifting leaves and bits of litter, blurred grey building facades and parked-car reflections in the water around it",
+      "motion": "The boat drifts slowly forward with the gentle gutter current, bobbing softly and yawing a few degrees side to side; raindrops land near it, sending concentric ripples that nudge and rock the hull; the soggy paper flexes faintly with each small wave",
+      "camera": "Macro lens at water level, very shallow depth of field with the boat's bow as the focal plane and the background dissolved into soft bokeh; slow lateral tracking shot gliding alongside the boat at close range, occasional subtle focus pull from the hull to raindrop ripples; 24fps cinematic character with gentle motion blur",
+      "style": "Overcast melancholy; desaturated cool palette of slate greys, muted blue-greens and washed paper white; soft diffused shadowless daylight, damp matte textures, faint filmic grain, fine-art cinematic realism with a quiet, lonely mood"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile1"
+    }
+  ],
+  "videos": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787601392.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video presents a stable and visually pleasing scene. The subject, an origami boat made of newspaper, floats calmly in a puddle on a wet street. The motion quality is high, with smooth water ripples and reflections that respond naturally to the implied rain or disturbances. There is excellent temporal consistency; the boat's shape remains rigid and does not morph or flicker, and the background elements (cars, buildings) remain static and coherent throughout the sequence. While there is a very slight, almost imperceptible jitter in the water's reflection that could be attributed to compressi",
+    "latency_secs": 13.0
+  }
+}
