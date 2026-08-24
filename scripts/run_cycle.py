@@ -63,3 +63,19 @@ run_path.write_text(json.dumps(record, indent=2, default=str))
 print("RUN OK:", run_id, f"{record['duration_secs']}s")
 print("videos:", record["videos"])
 print("record:", run_path)
+
+# ── stage 5: QC leg (scripted, reproducible) ─────────────────────
+# Critic occupies the GPU; the render has finished and wgp exited, so
+# llama-server (kept warm between cycles) can critique now.
+if record["videos"]:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from run_qc import critique
+    try:
+        qc = critique(record["videos"][0], GENRE)
+        record["qc"] = qc
+        run_path.write_text(json.dumps(record, indent=2, default=str))
+        print(f"QC {qc['score']}/10 — {qc['verdict']}")
+    except Exception as exc:  # QC failure must not lose the render
+        print(f"QC LEG FAILED (render + record preserved): {exc}",
+              file=sys.stderr)
+        sys.exit(2)
