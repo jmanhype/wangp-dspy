@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
 updated_at: 2026-08-25T01:44:47Z
-content_hash: "sha256:5c9c639c863f78a58b215913f08f1c298e21931621147ddaf0de89ac331d9fd9"
+content_hash: "sha256:c70e20fdb4e095392bdf949264ea905fe5e74ef3db19f369a16d854f53990da7"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [delivered]
@@ -24,6 +24,16 @@ The paivot-hermes plugin's knowledge_capture op is declared in driver/ops.py (_O
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-24.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
