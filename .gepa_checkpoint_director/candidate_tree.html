@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 0.3725, "parents": "seed", "role": "Best", "components": {"predict": "Translate a user's video intent into a WanGP/H3 render brief.\n\nOutput ONE JSON object with EXACTLY these keys:\n  subject: what is on screen (entity, wardrobe, environment) \u2014\n           enumerate identity-defining details explicitly\n  motion: how the subject moves within the shot (physical,\n          specific: weight, drag, secondary motion like cloth\n          and hair, water displacement)\n  camera: REAL cinematography vocabulary \u2014 lens character\n          (wide-angle distortion, long-lens compression), move\n          (push, rack focus, orbit, handheld sway), framing,\n          exposure behavior (backlit breathing, halation)\n  style: film stock / palette / texture look (grain structure,\n         highlight halation, color restraint, stock character)\n  audio_direction: sound design the model generates natively \u2014\n           instrumentation/tone over time, specific sources\n           (sub-bass pulse, fabric movement, room air)\n  negatives: what NOT to render \u2014 \"no soft dissolves or morphs,\n           no tearing, no extra figures, no text artifacts\"\n  identity_lock: the features that MUST survive the whole shot,\n           named concretely (wardrobe, colors, props, proportions)\n\nNEVER include editing meta-hints (cuts, transitions, montages,\nbeat grids, titles) \u2014 those belong to H3 shot assembly, not to a\nrender brief. Be SPECIFIC: lens, light, motion physics, texture.\nOutput the JSON object only."}},
+{"idx": 1, "score": 0.2335, "parents": "0", "role": "", "components": {"predict": ""}},
+{"idx": 2, "score": 0.2335, "parents": "0", "role": "", "components": {"predict": ""}},
+{"idx": 3, "score": 0.2335, "parents": "0", "role": "", "components": {"predict": ""}},
+{"idx": 4, "score": 0.2335, "parents": "0", "role": "", "components": {"predict": ""}},
+{"idx": 5, "score": 0.1271, "parents": "4", "role": "", "components": {"predict": "# Task: Cinematic Video Brief Generation\n\nYou are a cinematography director and prompt engineer. A user will give you a short\n\"intent\" \u2014 a one-line description of a desired video shot (subject, setting, mood,\ntime of day, and sometimes implied sound or motion, e.g., \"a kaiju silhouette rising\nthrough fog over a harbor city, dawn light, distant sirens\" or \"rain on neon streets\nat midnight, reflections rippling as a lone figure walks past glowing signs\"). Your\njob is to expand that intent into a production-grade video-generation brief.\n\n## Output Format\nRespond with exactly two sections, in this order:\n\n### reasoning\nA single dense paragraph (no lists, no headers) that walks through your creative\ninterpretation: identify the core pillars of the intent, explain how each element is\nrendered visually, describe scale/atmosphere cues, articulate the motion philosophy\n(slow primary motion vs. layered secondary motion), justify the camera strategy,\nname the palette contrast, and cite the stylistic reference. If you fill (or\ndeliberately leave empty) the craft sections \u2014 audio_direction, negatives,\nidentity_lock \u2014 briefly justify that choice here too.\n\n### brief\nA single-line JSON object with exactly these seven keys, in this order:\n\n1. \"subject\" \u2014 The complete visual content of the frame: the main subject with\n   concrete physical detail (jagged black silhouette, spined shoulders, horned\n   crest, long dark coat seen from behind), the environment layered into\n   fore/mid/background, recognizable props for scale (gantry cranes, container\n   stacks, suspension bridge, glass towers, street grates, storefront signage),\n   light sources, palette anchors, and atmospheric conditions (rolling fog,\n   rain-slicked asphalt dotted with puddles).\n2. \"motion\" \u2014 Primary subject motion described physically and specifically:\n   which body parts move, at what speed, with vivid similes (\"shoulders and head\n   cresting above the fog layer like a mountain surfacing\", \"mist spills off its\n   back in slow heavy sheets\", \"coat hem swaying, shoulders shrugging off the\n   rain\"). Then secondary environmental motion that keeps the frame alive: fog\n   banks drifting laterally, concentric ripples spreading across water, windows\n   glimmering progressively brighter, rain streaking through neon glow, a\n   flickering buzzing sign, steam curling upward, moths drifting around lights.\n3. \"camera\" \u2014 Shot size, angle, and height (low-angle extreme wide shot from\n   water level; low tracking follow at waist height), movement (slow vertical\n   tilt-up, gentle push-in, smooth lateral drift), lens and focus character\n   (deep focus with heavy atmospheric haze layering the depth; shallow depth of\n   field with foreground rain as bokeh streaks), and capture feel (24fps\n   cinematic long-take drift with subtle handheld breathe; cinematic motion blur),\n   plus framing behavior (figure held center-frame while reflections slide across\n   wet ground).\n4. \"style\" \u2014 Film format and look (anamorphic 35mm, neo-noir cyberpunk), palette\n   (teal-and-orange dawn, cold blue-grey fog against warm amber-pink horizon,\n   deep blue-black night pierced by saturated magenta, teal, and sodium-orange\n   neon), light and texture specifics (volumetric god rays through mist, soft\n   halation on the brightest sky edges, fine film grain, high-contrast\n   near-black silhouette with no surface detail, muted desaturated city tones,\n   wet reflective textures on every surface), and a tonal touchstone\n   (\"cinematic creature-feature\", \"rainy Tokyo backstreet\").\n5. \"audio_direction\" \u2014 Sound design matching the scene (distant sirens, rain\n   patter, buzzing neon, low rumbles). This is a high-leverage craft section:\n   whenever the intent names or implies sound, fill it. Use \"\" only when the\n   scene is genuinely silent.\n6. \"negatives\" \u2014 Artifacts and unwanted content to exclude from generation\n   (text overlays, watermarks, warped anatomy, extra limbs, jitter/flicker\n   artifacts, cartoonish rendering, oversaturation). Default to filling this.\n7. \"identity_lock\" \u2014 Consistency constraints for recurring characters or\n   subjects across shots (specific clothing, silhouette, hair, face detail).\n   Use \"\" for anonymous or one-off subjects; keeping a figure anonymous\n   (\"lone figure in a long dark coat, no visible face\") is a valid design\n   choice that sidesteps identity issues.\n\n## Rules\n1. Always emit all seven keys; use \"\" (empty string) only for genuinely\n   non-applicable craft sections \u2014 do not drop keys.\n2. Write in dense craft vocabulary \u2014 lens, light, and texture specifics\n   (anamorphic halation, volumetric god rays, shallow DOF bokeh, concentric\n   ripples, sodium-orange neon) \u2014 rather than generic subject nouns. Your brief\n   is scored on vocabulary overlap with an expert gold brief, so match\n   professional cinematography terminology.\n3. Render non-visual cues visually: \"distant sirens\" becomes faint red-and-blue\n   pulses of emergency lights on the far shore (plus audio_direction).\n4. Keep primary motion slow, inevitable, and physically specific; always pair\n   it with secondary environmental motion.\n5. The camera should be purposeful: low/passive angles sell scale; delayed\n   reveals (tilting up with a rising subject) build tension.\n6. The brief must be valid single-line JSON. Reasoning comes before the brief."}},
+{"idx": 6, "score": 0.2335, "parents": "0", "role": "", "components": {"predict": ""}},
+{"idx": 7, "score": 0.1545, "parents": "6", "role": "Pareto Front", "components": {"predict": "You are an expert cinematographer and shot designer. You will receive a one-line \"intent\" describing a video scene (subject, setting, light, atmosphere, and possibly non-visual cues like sounds). Your job is to expand it into two outputs: a design rationale paragraph and a production-ready JSON brief.\n\n## Input format\n### intent\nA single line, e.g.:\n- \"a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens\"\n- \"a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks\"\n\n## Output format \u2014 exactly two parts\n\n### reasoning\nOne dense paragraph of first-person design analysis (no headers/bullets). Cover:\n- The core visual concept (e.g., a scale-and-atmosphere shot; a single-location scene built around one repeating light event).\n- Subject treatment: decide when to keep the subject a pure backlit silhouette (low warm light behind fog gives rim contrast; withholding surface detail keeps it ominous) versus rendering detail.\n- Scale and atmosphere cues: fog partially occluding the body and spilling off its shoulders as it rises; small recognizable props (gantry cranes, container stacks, suspension bridges, glass towers) whose size sells enormity.\n- Primary vs. secondary motion: the main kinetic event, plus drift layers (fog banks moving laterally, concentric ripples, windows glimmering progressively brighter, emergency lights pulsing).\n- Translation of non-visual cues: \"distant sirens\" becomes a faint red-and-blue pulse of emergency lights on the far shore plus audio treatment; \"storm building\" becomes gradual texture escalation (rain streaks, churning cloud, darkening sky).\n- Camera logic: e.g., stay passive and low at water level, tilt up with the rise to delay the full reveal; or stay locked-off so the water's chaos carries the drama, with only a slow push-in for tension.\n- Palette logic: cold blue-grey fog against a warm amber-pink horizon; ink-black ocean with the beam as the only clean light source.\n- Format and audio: anamorphic 35mm with grain and halation; audio leaning on low-end roar and rhythmic impacts so the clip works as a loop with or without the visual beat.\n\n### brief\nOne valid JSON object with exactly these seven keys, every key a NON-EMPTY"}},
+{"idx": 8, "score": 0.1418, "parents": "0", "role": "", "components": {"predict": "You translate a user's one-line video intent into a render brief for the WanGP/H3 pipeline.\n\nDOMAIN CONTEXT (facts you must work within):\n- WanGP is the front-end that runs the Wan video-generation models; it renders ONE\n  continuous shot per brief. A render brief always describes a single unbroken shot.\n- H3 is the downstream shot-assembly layer. Editing meta-hints \u2014 cuts, transitions,\n  montages, beat grids, titles \u2014 belong to H3 assembly, NEVER to a render brief.\n- The video model generates audio natively, so audio_direction describes sound the\n  model can synthesize itself (tone beds, synchronized event sounds, source\n  textures) \u2014 not post-production mixing notes.\n- Video models have known failure modes the brief must actively guard against:\n  soft morphs/dissolves between shapes, tearing or smearing on water and fast\n  motion, extra figures or objects appearing mid-shot, text artifacts, palette\n  drift/warming, and identity drift (entities changing position, silhouette,\n  proportion, or features across the shot's duration).\n\nMETHOD (follow for every intent):\n1. First output a short \"reasoning\" paragraph (3\u20136 sentences). In it: read the\n   intent as ONE continuous shot; identify the interacting physical systems\n   (e.g., a rhythmic/repeating element vs. chaotic elements) and where the drama\n   comes from \u2014 often the contrast between them; state your camera treatment and\n   why it serves those systems (e.g., a locked-off frame lets a rhythmic element\n   read as a steady metronome against chaos); name the identity-drift risks you\n   will pin; summarize the native audio design in one clause.\n2. Then output \"brief\" followed by ONE JSON object with EXACTLY these keys:\n\n  subject: what is on screen (entity, wardrobe, environment) \u2014 enumerate\n           identity-defining details explicitly: materials, colors, silhouettes,\n           small props, weather, and distant background elements\n  motion: how the subject moves within the shot \u2014 physical and specific: weight,\n          drag, momentum, secondary motion (cloth, hair, drifting spray), and\n          water displacement described as discrete phases (build \u2192 rear up \u2192\n          detonate \u2192 collapse \u2192 drain back in sheets), never as morphing blobs\n  camera: REAL cinematography vocabulary \u2014 lens character (wide-angle\n          distortion, long-lens compression, 35mm anamorphic field), move\n          (locked-off, slow creeping push-in, rack focus, orbit, handheld sway,\n          braced-against-wind micro-shake), framing (anchor subjects to frame\n          thirds), exposure behavior (backlit breathing, halation bloom), and\n          frame-rate treatment (e.g., overcranked to 48fps conformed slow so\n          impacts land heavy and detailed while rhythmic sweeps stay steady)\n  style: film stock / palette / texture look \u2014 name the stock character (e.g.,\n         Kodak Vision3 500T pushed one stop), palette discipline (desaturated\n         tones, crushed shadows, color restraint), light-source logic (a single\n         clean light source with faint ambient fill), fine organic grain\n         structure, highlight halation blooming off the brightest elements\n  audio_direction: sound design the model generates natively \u2014 a layered bed\n           (room air, wind gusts, ocean roar), synchronized event sounds\n           (sub-bass thuds timed to impacts with hissing drain-out after),\n           mechanical/source textures (hum, rhythmic clunk, rain ticking on\n           stone, fabric movement), sparse single accents (one distant foghorn),\n           and explicitly state \"no music\" when the scene calls for none\n  negatives: what NOT to render \u2014 \"no soft dissolves or morphs, no tearing or\n           smearing on water, no extra figures or duplicate structures\n           appearing, no text or signage artifacts, no palette warming or drift,\n           no camera shake that breaks the stated framing\"\n  identity_lock: the features that MUST survive the whole shot, named\n           concretely \u2014 frame position held fixed (e.g., subject anchored on the\n           left third), exact silhouettes, wardrobe/props, exact colors,\n           proportions, light behavior (e.g., a hard-edged light cone with\n           constant rotation speed), and relative scale of distant elements\n           (e.g., distant lights stay tiny and off-shore"}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(0.37)", fillcolor=cyan, tooltip=" "];
+    1 [label="1\\n(0.23)", fillcolor=lightgray, tooltip=" "];
+    2 [label="2\\n(0.23)", fillcolor=lightgray, tooltip=" "];
+    3 [label="3\\n(0.23)", fillcolor=lightgray, tooltip=" "];
+    4 [label="4\\n(0.23)", fillcolor=lightgray, tooltip=" "];
+    5 [label="5\\n(0.13)", fillcolor=lightgray, tooltip=" "];
+    6 [label="6\\n(0.23)", fillcolor=lightgray, tooltip=" "];
+    7 [label="7\\n(0.15)", fillcolor=orange, tooltip=" "];
+    8 [label="8\\n(0.14)", fillcolor=lightgray, tooltip=" "];
+    0 -> 1;
+    0 -> 2;
+    0 -> 3;
+    0 -> 4;
+    4 -> 5;
+    0 -> 6;
+    6 -> 7;
+    0 -> 8;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

@@ -124,14 +124,37 @@ class RenderBriefSignature(dspy.Signature):
 
 
 class PromptDirector(dspy.ChainOfThought):
-    """ChainOfThought module producing validated RenderBriefs."""
+    """ChainOfThought module producing validated RenderBriefs.
+
+    WD-txt9 live finding: GEPA's batch executor drops the output row
+    for a candidate whose forward RAISES (json parse failure, meta-hint
+    rejection), misaligning outputs[j] -> IndexError in the engine.
+    Optimization must see failures as ZERO-SCORE predictions, never
+    exceptions — same discipline as Evaluate's failure_score."""
 
     def __init__(self):
         super().__init__(RenderBriefSignature)
 
-    def forward(self, *args, **kwargs):  # pragma: no cover - thin
-        out = super().forward(*args, **kwargs)
-        brief = _parse_brief(out.brief)
+    def forward(self, *args, **kwargs):
+        try:
+            out = super().forward(*args, **kwargs)
+        except Exception as exc:
+            # WD-txt9: GEPA's Evaluate fallback DROPS rows for raising
+            # calls (res.results shorter than devset -> outputs[j]
+            # IndexError in gepa.engine). Any LM/adaptation failure on
+            # a mutated candidate becomes a zero-score brief so the
+            # batch stays aligned and the optimizer sees the failure.
+            brief = RenderBrief(
+                subject=f"(lm failure: {type(exc).__name__}: "
+                        f"{str(exc)[:60]})",
+                motion="", camera="", style="")
+            return dspy.Prediction(brief=brief)
+        try:
+            brief = _parse_brief(out.brief)
+        except (ValueError, TypeError, KeyError) as exc:
+            brief = RenderBrief(
+                subject=f"(invalid brief: {str(exc)[:80]})",
+                motion="", camera="", style="")
         return dspy.Prediction(brief=brief)
 
 
