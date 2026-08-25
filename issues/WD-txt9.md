@@ -8,8 +8,8 @@ labels: [optimization, gepa]
 parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
-updated_at: 2026-08-24T23:47:11Z
-content_hash: "sha256:0db6d1db3bdee901b12c27e166098267f9dadf057cf144761bc471fdc538e2ca"
+updated_at: 2026-08-25T00:20:54Z
+content_hash: "sha256:2b96f4118371487c9fe45faabd10034db0164f3cb76f19c592907c0be4b06526"
 assignee: jmanhype-glm
 follows: [WD-mhr2]
 ---
@@ -36,3 +36,6 @@ Optimizer research verdict: GEPA (not MIPROv2) because RenderQC already emits fe
 - Follows: [[WD-mhr2]]
 
 ## Comments
+
+### 2026-08-25T00:20:54Z speed
+GEPA pass complete per prescription: baseline 0.372 -> gepa 0.372, documented plateau (AC #4 admits this). Artifacts in compiled/. Root insight: 3-example valset saturates the metric — LabeledFewShot with gold demos already reproduces craft vocabulary; discriminating GEPA improvements needs 10+ val examples. Also fixed live: gepa row-misalignment crash (4 repros) via zero-score forwards + batch padding guard. Cost gate: STOP; unlock = more renders.
