@@ -1,14 +1,16 @@
 ---
 id: WD-n0ab
 title: "plugin: knowledge_capture is half-wired — no _OP_SPEC/dispatch/enum, CaptureBuffer producer missing"
-status: open
+status: in_progress
 priority: 1
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-25T01:30:30Z
-content_hash: "sha256:b7ba96e9c4842609d40c3eb9583c4dd2e2af2f1e11652d436930e1f6d50cf1aa"
+updated_at: 2026-08-25T01:32:17Z
+content_hash: "sha256:b0ed64d4036921df7f5b27ce000f06051619e229d196fecf3d9811438018ed66"
+assignee: dev-WD-n0ab
+follows: [WD-txt9]
 ---
 
 ## Description
@@ -24,9 +26,12 @@ The paivot-hermes plugin's knowledge_capture op is declared in driver/ops.py (_O
 
 
 ## History
-
+- 2026-08-25T01:32:17Z status: open -> in_progress
+- 2026-08-25T01:32:17Z auto-follows: linked to predecessor WD-txt9
+- 2026-08-25T01:32:17Z claimed by dev-WD-n0ab
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-txt9]]
 
 ## Comments
