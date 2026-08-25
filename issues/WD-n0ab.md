@@ -7,10 +7,10 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-25T01:32:17Z
-content_hash: "sha256:b0ed64d4036921df7f5b27ce000f06051619e229d196fecf3d9811438018ed66"
+updated_at: 2026-08-25T01:44:46Z
+content_hash: "sha256:5c9c639c863f78a58b215913f08f1c298e21931621147ddaf0de89ac331d9fd9"
 assignee: dev-WD-n0ab
-follows: [WD-txt9]
+follows: [WD-txt9, WD-mhr2]
 ---
 
 ## Description
@@ -29,9 +29,11 @@ The paivot-hermes plugin's knowledge_capture op is declared in driver/ops.py (_O
 - 2026-08-25T01:32:17Z status: open -> in_progress
 - 2026-08-25T01:32:17Z auto-follows: linked to predecessor WD-txt9
 - 2026-08-25T01:32:17Z claimed by dev-WD-n0ab
+- 2026-08-25T01:44:46Z status: in_progress -> in_progress
+- 2026-08-25T01:44:46Z auto-follows: linked to predecessor WD-mhr2
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-txt9]]
+- Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
