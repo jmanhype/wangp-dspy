@@ -1,0 +1,85 @@
+{
+  "predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens",
+        "brief": {
+          "subject": "A colossal kaiju, seen only as a jagged black silhouette with spined shoulders and a horned crest, rising through dense rolling fog over a harbor city at dawn; foreground of cranes, shipping containers, and a suspension bridge, glass towers catching the first light, calm dark water below",
+          "motion": "The kaiju slowly straightens and rises, shoulders and head cresting above the fog layer like a mountain surfacing; mist swirls and parts around its limbs and spills off its silhouette in slow sheets; fog banks drift laterally across the harbor, water ripples faintly, distant city windows glimmer as dawn strengthens",
+          "camera": "Low-angle extreme wide shot from water level at the harbor edge, slow vertical tilt-up that follows the creature's rise from chest to full silhouette, subtle slow push-in, deep focus, heavy atmospheric haze, 24fps cinematic frame character with gentle long-take drift",
+          "style": "Anamorphic 35mm film look, teal-and-orange dawn palette, cold blue-grey fog against a warm amber-pink horizon rim light, high-contrast near-black silhouette, volumetric god rays, fine film grain, muted desaturated city tones, soft halation on the brightest sky edges",
+          "audio_direction": "",
+          "negatives": "",
+          "identity_lock": ""
+        },
+        "qc_score": 7.0
+      },
+      {
+        "intent": "rain on neon streets at midnight, reflections rippling as a lone figure walks past glowing signs",
+        "brief": {
+          "subject": "A lone figure in a long dark coat walking down a narrow rain-slicked city street at midnight, flanked by glowing neon signs in magenta, cyan, and warm orange advertising in Japanese and English; wet asphalt pavement dotted with puddles that mirror the lights, thin steam rising from a street grate, moths drifting around a buzzing sign, deep shadows between pools of colored light",
+          "motion": "The figure walks steadily away from camera with a slight hunched posture, coat hem swaying and shoulders shrugging off the rain; fine rain falls in visible streaks through the neon glow, droplets strike the puddles and send out concentric ripples that warp and shimmer the reflected signs; one neon sign flickers and buzzes softly; steam curls upward through the downpour",
+          "camera": "Slow low tracking shot following the figure from behind at waist height, smooth lateral drift as the figure passes each storefront, shallow depth of field with raindrops streaking soft bokeh in the foreground, 24fps cinematic motion blur, the figure kept center-frame while neon reflections slide across the wet ground",
+          "style": "Neo-noir cyberpunk look, deep blue-black night pierced by saturated magenta, teal, and sodium-orange neon, wet reflective textures on every surface, soft anamorphic halation around light sources, atmospheric haze and light rain fog, subtle 35mm film grain, high-contrast moody lighting reminiscent of a rainy Tokyo backstreet",
+          "audio_direction": "",
+          "negatives": "",
+          "identity_lock": ""
+        },
+        "qc_score": 9.0
+      },
+      {
+        "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+        "brief": {
+          "subject": "A weathered stone lighthouse on a jagged black headland at night; its rotating beacon throws a hard white cone of light across a churning ink-black ocean; heavy storm clouds mass low overhead with wind-driven rain beginning to streak; waves detonate against dark rocks in bursts of white foam and mist",
+          "motion": "The lighthouse beam rotates steadily, its light cone sweeping across frame and raking the swell tops so the water briefly glints then falls back to black; large storm waves build, rear up and explode against the rocks in violent sprays of white water; spray and rain drift sideways in gusts; clouds churn slowly and darken overhead",
+          "camera": "Locked-off wide shot from a slightly elevated angle just above the wave line, lighthouse anchored on one third of frame; very slow creeping push-in toward the rocks; subtle braced-against-wind micro-shake; overcranked to 48fps conformed slow so wave impacts land heavy and detailed",
+          "style": "Cold, heavily desaturated maritime palette: ink-black ocean, gunmetal storm sky, stark white beam and foam; deep crushed shadows with the beacon as the only clean light source; cinematic anamorphic widescreen, 35mm film stock look (Kodak Vision3 500T pushed one stop), fine grain, slight halation on the brightest spray",
+          "audio_direction": "",
+          "negatives": "",
+          "identity_lock": ""
+        },
+        "qc_score": 8.0
+      },
+      {
+        "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+        "brief": {
+          "subject": "A weathered stone lighthouse on a jagged black headland at night; its rotating beacon throws a hard white cone of light across a churning ink-black ocean; heavy storm clouds mass low overhead with wind-driven rain beginning to streak; waves detonate against dark rocks in bursts of white foam and mist",
+          "motion": "The lighthouse beam rotates steadily, its light cone sweeping across frame and raking the swell tops so the water briefly glints then falls back to black; large storm waves build, rear up and explode against the rocks in violent sprays of white water; spray and rain drift sideways in gusts; clouds churn slowly and darken overhead",
+          "camera": "Locked-off wide shot from a slightly elevated angle just above the wave line, lighthouse anchored on one third of frame; very slow creeping push-in toward the rocks; subtle braced-against-wind micro-shake; overcranked to 48fps conformed slow so wave impacts land heavy and detailed",
+          "style": "Cold, heavily desaturated maritime palette: ink-black ocean, gunmetal storm sky, stark white beam and foam; deep crushed shadows with the beacon as the only clean light source; cinematic anamorphic widescreen, 35mm film stock look (Kodak Vision3 500T pushed one stop), fine grain, slight halation on the brightest spray",
+          "audio_direction": "",
+          "negatives": "",
+          "identity_lock": ""
+        },
+        "qc_score": 9.0
+      }
+    ],
+    "signature": {
+      "instructions": "Translate a user's video intent into a WanGP/H3 render brief.\n\nOutput ONE JSON object with EXACTLY these keys:\n  subject: what is on screen (entity, wardrobe, environment) —\n           enumerate identity-defining details explicitly\n  motion: how the subject moves within the shot (physical,\n          specific: weight, drag, secondary motion like cloth\n          and hair, water displacement)\n  camera: REAL cinematography vocabulary — lens character\n          (wide-angle distortion, long-lens compression), move\n          (push, rack focus, orbit, handheld sway), framing,\n          exposure behavior (backlit breathing, halation)\n  style: film stock / palette / texture look (grain structure,\n         highlight halation, color restraint, stock character)\n  audio_direction: sound design the model generates natively —\n           instrumentation/tone over time, specific sources\n           (sub-bass pulse, fabric movement, room air)\n  negatives: what NOT to render — \"no soft dissolves or morphs,\n           no tearing, no extra figures, no text artifacts\"\n  identity_lock: the features that MUST survive the whole shot,\n           named concretely (wardrobe, colors, props, proportions)\n\nNEVER include editing meta-hints (cuts, transitions, montages,\nbeat grids, titles) — those belong to H3 shot assembly, not to a\nrender brief. Be SPECIFIC: lens, light, motion physics, texture.\nOutput the JSON object only.",
+      "fields": [
+        {
+          "prefix": "Intent:",
+          "description": "user's video intent, any form"
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Brief:",
+          "description": "JSON object with keys subject, motion, camera, style, audio_direction, negatives, identity_lock"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.3.1",
+      "cloudpickle": "3.1"
+    }
+  }
+}
