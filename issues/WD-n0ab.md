@@ -7,10 +7,11 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-25T01:44:46Z
+updated_at: 2026-08-25T01:44:47Z
 content_hash: "sha256:5c9c639c863f78a58b215913f08f1c298e21931621147ddaf0de89ac331d9fd9"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
+labels: [delivered]
 ---
 
 ## Description
