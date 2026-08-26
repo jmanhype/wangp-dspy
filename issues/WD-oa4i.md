@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
 updated_at: 2026-08-26T15:03:36Z
-content_hash: "sha256:2425ddb04db29049d8a3f7f605f045e3cfdc7171a3b0897738f8c6a743e677db"
+content_hash: "sha256:515b2e53e317012f912709c13e48e8e846f7ff5ecb0f239a34345414d38c7184"
 assignee: dev-WD-oa4i
 follows: [WD-txt9]
 ---
@@ -44,3 +44,6 @@ sol-max amendment record (2026-08-26, run-wd-yyj9-t0): Option A stands as amende
 
 ### 2026-08-26T15:03:36Z speed
 Design (backfilled 2026-08-26 per PH-6bhn pilot): 25-render lane architecture = run_batch_oa4i driver + local gpu_seq sequencing + Option-A key handoff; checkpoint written as per-run JSON; resume supported via --skip-done.
+
+### 2026-08-26T15:03:36Z speed
+Notes (backfilled 2026-08-26 per PH-6bhn pilot): current status — render lane relaunching after self-ssh fix; ETA ~7h. Lane is live; do not interrupt.
