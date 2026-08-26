@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-26T17:38:45Z
-content_hash: "sha256:a3e6ef49394c76f77311be14650079527a50ef7482592775ecf746fa4762174d"
+updated_at: 2026-08-26T17:38:46Z
+content_hash: "sha256:c33e8e3de1a134cd247d04a1984331f6156feb511c2d8192620355d602e56ef0"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [reopened, fix-pending-review]
@@ -24,7 +24,7 @@ The paivot-hermes plugin's knowledge_capture op is declared in driver/ops.py (_O
 
 
 ## Notes
-
+2026-08-26 REOPEN: prior delivered status was false (gaps verified on main c16fec7). Fix at paivot-hermes fix/wd-n0ab-knowledge-capture @ b704a69 — 708 tests green, py311 OK — pending independent review + operator merge.
 
 ## nd_contract
 status: delivered
