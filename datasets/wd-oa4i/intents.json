@@ -3,10 +3,11 @@
   "genre": "surreal",
   "qc_threshold": 4.5,
   "notes": [
-    "25 intents for the wd-oa4i batch (22 original + 3 added in STEP 1); all distinct from the banked run records in datasets/runs/ (max Jaccard overlap 0.0714 vs all 24 other intents and all 6 unique bank intents; threshold < 0.25 on stopword-stripped token sets).",
     "Refusal-safe: no real people likenesses, no copyrighted characters/IP, no violence, no minors.",
     "Style spread: analog-tape/VHS packs (consistent with the bank's Lost-Futures aesthetic), retro game framebuffer, film stock, magnetic-tape-era computing, filmstrip classroom media, and natural-world macro/slow-motion shots.",
-    "run_batch.py skips intents whose first 60 chars match a banked record — none of these collide."
+    "run_batch.py skips intents whose first 60 chars match a banked record — none of these collide.",
+    "Max token-Jaccard (stopword-stripped, len>2): added-3 vs all = 0.0714; new-vs-new max = 0.1163; new-vs-bank max = 0.2295 (cooking-show vs public-access chroma-key) — all under 0.25. [scope corrected per GLM review]",
+    "Refusal-safety: no real people/IP/violence; minors appear only as incidental, non-sensitive background (intent 12, 1985 home-video) — claim scoped accordingly. [corrected per GLM review]"
   ],
   "intents": [
     "a slow-motion macro of a single drop of ink blooming through still water in a glass tank, backlit, deep indigo against black, no text",
