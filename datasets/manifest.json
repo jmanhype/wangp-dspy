@@ -1,0 +1,89 @@
+{
+  "story": "WD-oa4i",
+  "generated_utc": "2026-08-26T16:27:06Z",
+  "n_records": 9,
+  "n_kept": 6,
+  "rows": [
+    {
+      "run_id": "20260824-103137",
+      "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787586086.mp4",
+      "curation_status": "dropped",
+      "curation_reason": "3 renders of the identical intent/brief — exact-intent duplicates; only the best-QC example survives into train/val."
+    },
+    {
+      "run_id": "20260824-110409",
+      "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787588035.mp4",
+      "curation_status": "kept",
+      "curation_reason": "highest QC in group (9 > 8, 8)"
+    },
+    {
+      "run_id": "20260824-112120",
+      "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": null,
+      "curation_status": "excluded",
+      "curation_reason": "videos provenance-lost: original render /Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787589072.mp4 no longer exists on disk (multishot_1787589072.mp4 not in archive). Documented exclusion per Luna G7 waiver rule — no path invented; original path preserved verbatim in videos[0] for audit. (WD-oa4i bank re-point, 2026-08-26)"
+    },
+    {
+      "run_id": "20260824-114250",
+      "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787590637.mp4",
+      "curation_status": "kept",
+      "curation_reason": "tied best QC (7 = 7); earliest run_id wins the tie deterministically"
+    },
+    {
+      "run_id": "20260824-121701",
+      "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, distant sirens",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787592606.mp4",
+      "curation_status": "dropped",
+      "curation_reason": "2 renders of the identical intent/brief — exact-intent duplicates."
+    },
+    {
+      "run_id": "20260824-143814",
+      "intent": "rain on neon streets at midnight, reflections rippling as a lone figure walks past glowing signs",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787600662.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260824-144542",
+      "intent": "a paper boat drifting down a flooded gutter city, macro lens, overcast melancholy",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787601392.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260824-162907",
+      "intent": "2004 PS2 real-time cutscene, low-poly West Coast crime game, urban neighborhood, orange smog sunset, boxy lowriders, fast-food drive-thru, liquor store parking lot, chain-link fences, stucco apartments, awkward NPC blocking, stiff poses, low-res compressed textures, vertex lighting, baked bloom, jaggies, no anti-aliasing. Interlaced 480i combing, MPEG-2 DCT block artifacts, subtitle bar at bottom. PS2 framebuffer, no modern photorealism, no remake polish.",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787607613.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260824-164317",
+      "intent": "late-1990s public-access analog chroma-key power-aura effect on S-VHS, bad yellow energy glow around a person, crude composite, flickering outline from imperfect key, chroma-key spill halo, color-under chroma bleed, tracking noise, misaligned composite layers, painted cosmic backdrop. Analog tape compositing only, no modern VFX, no clean anime glow.",
+      "qc_score": 6,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "datasets/runs/pull/outputs/archive/multishot_1787608370.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    }
+  ]
+}

@@ -35,5 +35,9 @@
     "verdict": "PASS (surreal threshold 4.5)",
     "summary": "Based on the analysis of the provided video frames:\n\n**Subject:** The subject is a lighthouse situated on a rocky headland during a storm. The scene features dark, moody skies, heavy clouds, crashing waves, and a lighthouse beam sweeping through the atmosphere (possibly rain or mist).\n\n**Motion Quality:** The motion of the waves is fluid and convincing, showing realistic crashing and retreat patterns. The lighthouse beam rotates smoothly. However, there is a noticeable change in the lighting intensity and \"bloom\" of the lighthouse light in the middle frames (around frame 4-5) where it becomes ",
     "latency_secs": 16.8
+  },
+  "curation": {
+    "videos_provenance_lost": true,
+    "note": "videos provenance-lost: original render /Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787589072.mp4 no longer exists on disk (multishot_1787589072.mp4 not in archive). Documented exclusion per Luna G7 waiver rule — no path invented; original path preserved verbatim in videos[0] for audit. (WD-oa4i bank re-point, 2026-08-26)"
   }
 }

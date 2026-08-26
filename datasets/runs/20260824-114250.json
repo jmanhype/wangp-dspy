@@ -22,7 +22,7 @@
     }
   ],
   "videos": [
-    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/archive/multishot_1787590637.mp4"
+    "datasets/runs/pull/outputs/archive/multishot_1787590637.mp4"
   ],
   "evidence": [
     "briefs: 1 brief(s) from intent",
@@ -33,7 +33,7 @@
     "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
     "score": 7,
     "verdict": "PASS (surreal threshold 4.5)",
-    "summary": "The video shot depicts a lone figure in a long coat walking down a narrow, rain-slicked urban alleyway at night. The scene is atmospheric, with wet pavement reflecting the glow of numerous vertical neon signs featuring Japanese text.\n\n**Subject & Motion Quality:** The subject is a silhouetted figure walking away from the camera. The motion is slow and steady, creating a cinematic, contemplative feel. The figure\u2019s posture and stride appear consistent, though the lack of facial detail or clear limb articulation makes it slightly ambiguous.\n\n**Temporal Consistency (Flicker/Morphing):** There is n",
+    "summary": "The video shot depicts a lone figure in a long coat walking down a narrow, rain-slicked urban alleyway at night. The scene is atmospheric, with wet pavement reflecting the glow of numerous vertical neon signs featuring Japanese text.\n\n**Subject & Motion Quality:** The subject is a silhouetted figure walking away from the camera. The motion is slow and steady, creating a cinematic, contemplative feel. The figure’s posture and stride appear consistent, though the lack of facial detail or clear limb articulation makes it slightly ambiguous.\n\n**Temporal Consistency (Flicker/Morphing):** There is n",
     "latency_secs": 13.3
   }
 }
