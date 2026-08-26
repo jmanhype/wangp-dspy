@@ -1,0 +1,6 @@
+---
+commit: c2045c5
+step: 1
+story: WD-oa4i
+---
+datasets/wd-oa4i/intents.json extended 22->25 intents (commit c2045c5). Three new Lost-Futures, refusal-safe intents: (1) 1979 magnetic-tape server hall decommissioning, reel-to-reel, no modern racks; (2) desert drive-in cinema at 3am, faded 16mm print; (3) glass arthropod terrarium as 1990s science-classroom filmstrip. Max Jaccard vs all banked + other 24 intents = 0.0714 (threshold <0.25, stopword-stripped token sets). Intra-bank pairwise max 0.1163.
