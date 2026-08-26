@@ -9,12 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
 updated_at: 2026-08-25T00:20:54Z
-content_hash: "sha256:a9d28050dd7ee39185cb0b66ff9e429c1794d53a4c413b151cbf708f77ad138d"
+content_hash: "sha256:6e667bd1a676802a4d3e00f82b9fd48254dea869785b46208a8aeb0543c18be7"
 assignee: jmanhype-glm
 follows: [WD-mhr2]
 closed_at: 2026-08-25T00:20:54Z
 close_reason: "Prescription fully executed: baseline recorded, GEPA compiled (948s, full loop), side-by-side verified, plateau documented with evidence. Cost gate stop. Unlock for improvement: scale dataset."
-led_to: [WD-n0ab]
+led_to: [WD-n0ab, WD-oa4i]
 ---
 
 ## Description
@@ -38,7 +38,7 @@ Optimizer research verdict: GEPA (not MIPROv2) because RenderQC already emits fe
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-mhr2]]
-- Led to: [[WD-n0ab]]
+- Led to: [[WD-n0ab]], [[WD-oa4i]]
 
 ## Comments
 

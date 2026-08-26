@@ -1,14 +1,16 @@
 ---
 id: WD-oa4i
 title: "Dataset expansion: 22 refusal-screened labeled examples from real Pipeline.forward 3090 runs"
-status: open
+status: in_progress
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-26T04:26:29Z
-content_hash: "sha256:118917b1fcb1df66458e6b63a90048f759544be2dd0d3a776360dcfa55620684"
+updated_at: 2026-08-26T04:50:14Z
+content_hash: "sha256:9f1517d2da63561dc2d42cf6174641efbf8a5df48f63f8a6f5a3e28b7d63cc60"
+assignee: dev-WD-oa4i
+follows: [WD-txt9]
 ---
 
 ## Description
@@ -27,9 +29,12 @@ Acceptance criteria:
 
 
 ## History
-
+- 2026-08-26T04:50:14Z status: open -> in_progress
+- 2026-08-26T04:50:14Z auto-follows: linked to predecessor WD-txt9
+- 2026-08-26T04:50:14Z claimed by dev-WD-oa4i
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-txt9]]
 
 ## Comments
