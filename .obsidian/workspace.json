@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+                "file": "issues/WD-j9nx.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "capture-20260826T140500Z-luna-wdoa4i-gates"
+              "title": "WD-j9nx"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+                "file": "issues/WD-j9nx.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+                "file": "issues/WD-j9nx.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+                "file": "issues/WD-j9nx.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,6 +190,25 @@
   },
   "active": "04572f37740910dc",
   "lastOpenFiles": [
+    "knowledge/decisions/taxonomy-decision-20260826-wd-oa4i-capture-targets.md",
+    "knowledge/decisions/capture-20260826T135954Z-wd-oa4i-step1-curation.md",
+    "knowledge/conventions/capture-20260826T135954Z-wd-oa4i-step1-intents-v2.md",
+    "knowledge/conventions/capture-20260826T135515Z-1d808578-b00e-44a6-9212-960acbadf0cf.md",
+    "knowledge/conventions/capture-20260825T015512Z-2a260e79-3051-4853-888c-9a51cb3fcf65.md",
+    "issues/WD-mhr2.md",
+    "knowledge/decisions/capture-20260826T143758Z-dabe00a1-395c-42b0-a8ef-1eb57a32b600.md",
+    "knowledge/capture-20260826T143758Z-dabe00a1-395c-42b0-a8ef-1eb57a32b600.md",
+    "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+    "knowledge/decisions/capture-20260826T135515Z-e84a2f91-d163-42e7-a799-4e3326ba6a63.md",
+    "knowledge/uat/capture-20260826T140500Z-luna-wdoa4i-gates.md",
+    "knowledge/patterns/capture-20260826T135954Z-wd-oa4i-step1-loader.md",
+    "knowledge/decisions/capture-20260826T140925Z-05a49b36-f73f-4237-88df-64e5b5fcc256.md",
+    "knowledge/uat",
+    "knowledge/skills",
+    "knowledge/patterns",
+    "knowledge/decisions",
+    "knowledge/debug",
+    "knowledge/conventions",
     "issues/WD-iva2.md",
     "knowledge/capture-20260826T140925Z-05a49b36-f73f-4237-88df-64e5b5fcc256.md",
     "knowledge/capture-20260826T135515Z-e84a2f91-d163-42e7-a799-4e3326ba6a63.md",
@@ -202,13 +221,9 @@
     "knowledge/capture-20260826T135954Z-wd-oa4i-step1-intents-v2.md",
     "capture-20260826T135916Z-wd-oa4i-step1-intents-v2.md",
     "knowledge/wd-oa4i-intents-v2",
-    "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
-    "issues/WD-mhr2.md",
     "knowledge/capture-20260825T015512Z-2a260e79-3051-4853-888c-9a51cb3fcf65",
     "knowledge",
     "issues/WD-j9nx.md",
-    "issues/WD-9dia.md",
-    "issues/WD-5zti.md",
-    "issues/WD-1eix.md"
+    "issues/WD-9dia.md"
   ]
 }

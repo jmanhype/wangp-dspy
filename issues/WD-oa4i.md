@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-26T14:14:21Z
-content_hash: "sha256:632282e65940b71906365a61636902dedc71fb60ac3229a9004d740d6c113ae7"
+updated_at: 2026-08-26T15:03:36Z
+content_hash: "sha256:2425ddb04db29049d8a3f7f605f045e3cfdc7171a3b0897738f8c6a743e677db"
 assignee: dev-WD-oa4i
 follows: [WD-txt9]
 ---
@@ -41,3 +41,6 @@ Acceptance criteria:
 
 ### 2026-08-26T14:14:21Z speed
 sol-max amendment record (2026-08-26, run-wd-yyj9-t0): Option A stands as amended — 25 new intents + 6 curated legacy = 31 unique briefs; gate (b) NO waiver (loader enforces exact-intent + normalized-subject dedup and cross-split ValueError guard). Amendment decision record: .vault/knowledge/capture-20260826T140925Z-05a49b36-f73f-4237-88df-64e5b5fcc256.md. Governance note (P3 envelope) recorded in nd-vault: knowledge/taxonomy-decision-20260826-wd-oa4i-capture-targets.md — two capture families (.vault governed captures vs nd-vault knowledge notes), writes only via vlt / run_knowledge_capture, post-write verification mandatory, .trash is staging not destination. Restored misrouted doctrine note to knowledge/ (vlt move + files verified).
+
+### 2026-08-26T15:03:36Z speed
+Design (backfilled 2026-08-26 per PH-6bhn pilot): 25-render lane architecture = run_batch_oa4i driver + local gpu_seq sequencing + Option-A key handoff; checkpoint written as per-run JSON; resume supported via --skip-done.
