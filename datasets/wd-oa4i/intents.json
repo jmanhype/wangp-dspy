@@ -3,9 +3,9 @@
   "genre": "surreal",
   "qc_threshold": 4.5,
   "notes": [
-    "22 new intents for the wd-oa4i batch; all distinct from the 9 existing run records in datasets/runs/ (Jaccard overlap < 0.25 on token sets).",
+    "25 intents for the wd-oa4i batch (22 original + 3 added in STEP 1); all distinct from the banked run records in datasets/runs/ (max Jaccard overlap 0.0714 vs all 24 other intents and all 6 unique bank intents; threshold < 0.25 on stopword-stripped token sets).",
     "Refusal-safe: no real people likenesses, no copyrighted characters/IP, no violence, no minors.",
-    "Style spread: analog-tape/VHS packs (consistent with the bank's Lost-Futures aesthetic), retro game framebuffer, film stock, and natural-world macro/slow-motion shots.",
+    "Style spread: analog-tape/VHS packs (consistent with the bank's Lost-Futures aesthetic), retro game framebuffer, film stock, magnetic-tape-era computing, filmstrip classroom media, and natural-world macro/slow-motion shots.",
     "run_batch.py skips intents whose first 60 chars match a banked record — none of these collide."
   ],
   "intents": [
@@ -30,6 +30,9 @@
     "a 1980s mall food court security camera view, dated timestamp overlay, families moving between booths, fountain centerpiece, tile floor reflections, CCTV scanlines and soft compression. Surveillance footage only, no cinematic polish.",
     "a koi pond in a mossy garden at blue hour, fish turning lazily beneath the surface, koi fins spreading, lotus leaves trembling, a stone lantern glowing softly",
     "a 1970s live concert crowd shot from the stage, handheld 16mm, sweat and confetti in the air, stage wash magenta and amber, audience arms swaying, projector flicker, film scratches. Concert film only, no LED screens.",
-    "a glacier calving into a fjord at midday, ice tower collapsing in slow chunks, white spray column rising, dark rock cliffs framing, cold blue palette, water churn settling"
+    "a glacier calving into a fjord at midday, ice tower collapsing in slow chunks, white spray column rising, dark rock cliffs framing, cold blue palette, water churn settling",
+    "a cathedral-sized server hall from 1979 being decommissioned, reel-to-reel tape drives spinning down one by one, operators in polyester uniforms wheeling out magnetic disk packs, sodium-vapor aisle lighting, cable bundles coiling on the raised floor. Magnetic-tape era only, no modern racks.",
+    "a desert drive-in cinema screen at 3am playing to an empty lot after closing, generator hum, projector beam full of dust and moths, wind flapping the torn screen edge, one concession light left glowing, kangaroo rats crossing the white paint. Faded 16mm print look, no digital signage.",
+    "a glass arthropod terrarium filmed as a 1990s science-classroom filmstrip, leaf insects swaying like dead leaves, condensation beads crawling down the glass, hand-lettered paper labels, frame-counter dot in the corner, a phonograph narration tone implied. Filmstrip only, no modern macro rig."
   ]
 }

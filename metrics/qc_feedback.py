@@ -26,6 +26,7 @@ QC score so high-scoring golds teach harder.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -105,10 +106,44 @@ def qc_feedback_metric(gold, pred, trace=None, pred_name=None,
     return dspy.Prediction(score=score, feedback=feedback)
 
 
+def _norm(text: str) -> str:
+    """Lowercase, collapse whitespace — for subject-level identity."""
+    return re.sub(r"\s+", " ", (text or "").lower()).strip()
+
+
+def _brief_hash(brief: dict) -> str:
+    """Stable hash of the normalized brief sections (subject..identity_lock)."""
+    payload = "\x1f".join(
+        _norm(brief.get(f, "")) for f in
+        ("subject", "motion", "camera", "style", "audio_direction",
+         "negatives", "identity_lock"))
+    return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def _assert_no_cross_split_duplicates(train, val):
+    """RAISE on train/val brief-hash collision — no adjacency protection."""
+    val_hashes = {_brief_hash(ex.brief) for ex in val}
+    collisions = sorted({_brief_hash(ex.brief) for ex in train} & val_hashes)
+    if collisions:
+        raise ValueError(
+            f"cross-split duplicate brief(s): {len(collisions)} brief-hash "
+            f"collision(s) between train and val "
+            f"(first hash {collisions[0][:12]}…) — dedup failed upstream")
+
+
 def load_examples(runs_dir: str = "datasets/runs",
                   split: float = 0.7):
-    """Banked run records -> train/val dspy.Examples."""
-    records = []
+    """Banked run records -> train/val dspy.Examples.
+
+    Loader hardening (WD-oa4i STEP 1):
+    - exact-intent dedup: identical intent strings keep only the
+      best-QC record;
+    - normalized-subject dedup: identical brief subjects (case/whitespace
+      normalized) likewise keep the best-QC record;
+    - cross-split guard: after splitting, any brief-hash present in both
+      train and val raises ValueError.
+    """
+    best = {}  # key -> Example (best QC wins)
     for p in sorted(Path(runs_dir).glob("*.json")):
         r = json.loads(p.read_text())
         if not r.get("qc"):
@@ -122,6 +157,25 @@ def load_examples(runs_dir: str = "datasets/runs",
                     "audio_direction", "negatives", "identity_lock")},
             qc_score=float(r["qc"]["score"]),
         ).with_inputs("intent")
-        records.append(ex)
+        for key in (("intent", r.get("intent", "")),
+                    ("subject", _norm(brief.get("subject", "")))):
+            if not key[1]:
+                continue
+            prev = best.get(key)
+            if prev is None or ex.qc_score > prev.qc_score:
+                best[key] = ex
+
+    # exact-intent and subject keys may both survive; collapse to unique
+    # examples by brief hash, keeping best QC.
+    unique = {}
+    for ex in best.values():
+        h = _brief_hash(ex.brief)
+        prev = unique.get(h)
+        if prev is None or ex.qc_score > prev.qc_score:
+            unique[h] = ex
+    records = list(unique.values())
+
     k = max(1, int(len(records) * split))
-    return records[:k], records[k:]
+    train, val = records[:k], records[k:]
+    _assert_no_cross_split_duplicates(train, val)
+    return train, val

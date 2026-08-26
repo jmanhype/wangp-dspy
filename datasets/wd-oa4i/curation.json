@@ -1,0 +1,56 @@
+{
+  "story": "WD-oa4i",
+  "step": 1,
+  "operator_decision": "Option A — curate legacy bank to 6 unique briefs; render 25 NEW intents later for 31 total (loader enforces uniqueness from now on).",
+  "date": "2026-08-26",
+  "legacy_bank_disposition": {
+    "policy": "Keep the best-QC record of each duplicate group; run records in datasets/runs/ are untouched — curation is enforced at load time (metrics/qc_feedback.py load_examples).",
+    "groups": [
+      {
+        "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
+        "runs": [
+          {"run_id": "20260824-103137", "qc_score": 8, "disposition": "dropped"},
+          {"run_id": "20260824-110409", "qc_score": 9, "disposition": "kept", "reason": "highest QC in group (9 > 8, 8)"},
+          {"run_id": "20260824-112120", "qc_score": 8, "disposition": "dropped"}
+        ],
+        "reason": "3 renders of the identical intent/brief — exact-intent duplicates; only the best-QC example survives into train/val."
+      },
+      {
+        "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, [silhouette degrades]",
+        "runs": [
+          {"run_id": "20260824-114250", "qc_score": 7, "disposition": "kept", "reason": "tied best QC (7 = 7); earliest run_id wins the tie deterministically"},
+          {"run_id": "20260824-121701", "qc_score": 7, "disposition": "dropped"}
+        ],
+        "reason": "2 renders of the identical intent/brief — exact-intent duplicates."
+      }
+    ],
+    "unique_kept": 6,
+    "surviving_run_ids": [
+      "20260824-110409", "20260824-114250", "20260824-143814",
+      "20260824-144542", "20260824-162907", "20260824-164317"
+    ]
+  },
+  "intents_v2": {
+    "count": 25,
+    "added": 3,
+    "added_intents_short": [
+      "1979 magnetic-tape server hall decommissioning (reel-to-reel era, no modern racks)",
+      "desert drive-in cinema at 3am playing to an empty lot (faded 16mm print)",
+      "glass arthropod terrarium as a 1990s science-classroom filmstrip"
+    ],
+    "max_jaccard_vs_all_banked_and_other_intents": 0.0714,
+    "jaccard_threshold": 0.25,
+    "jaccard_method": "stopword-stripped alphanumeric token sets, len>2, standard Jaccard",
+    "refusal_safe": "no real people, no IP/copyrighted characters, no violence, no minors"
+  },
+  "loader_hardening": {
+    "module": "metrics/qc_feedback.py",
+    "changes": [
+      "exact-intent dedup at load time (best-QC record wins)",
+      "normalized-subject dedup (case/whitespace-normalized brief subject; best-QC wins)",
+      "cross-split guard: raises ValueError on any train/val brief-hash collision",
+      "final collapse by brief hash so intent-key and subject-key survivors cannot double-count"
+    ],
+    "tests": "tests/test_qc_feedback_loader.py"
+  }
+}
