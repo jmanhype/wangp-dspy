@@ -20,8 +20,11 @@ Acceptance criteria:
 (a) dataset manifest with source run, intent, QC score, provenance, curation status for all 31; (b) dedup + no train/val leakage incl. duplicate briefs; (c) independent held-out validation set; (d) baseline eval recorded before any future GEPA; (e) no GPU render during optimization
 
 ## Acceptance Criteria
-
-
+- [ ] (a) dataset manifest with source run, intent, QC score, provenance, curation status for all 31
+- [ ] (b) dedup + no train/val leakage incl. duplicate briefs
+- [ ] (c) independent held-out validation set
+- [ ] (d) baseline eval recorded before any future GEPA
+- [ ] (e) no GPU render during optimization
 ## Design
 
 

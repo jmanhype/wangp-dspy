@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-25T01:44:47Z
-content_hash: "sha256:c70e20fdb4e095392bdf949264ea905fe5e74ef3db19f369a16d854f53990da7"
+updated_at: 2026-08-26T17:38:32Z
+content_hash: "sha256:a3e6ef49394c76f77311be14650079527a50ef7482592775ecf746fa4762174d"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [delivered]
@@ -48,3 +48,6 @@ status: delivered
 - Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
+
+### 2026-08-26T17:38:32Z speed
+Reopened 2026-08-26: prior 'delivered' status was FALSE — knowledge_capture gaps verified present on main c16fec7 (no _OP_SPEC entry, no executor dispatch, absent from paivot_story enum, no CaptureBuffer producer). Fix implemented on paivot-hermes branch fix/wd-n0ab-knowledge-capture @ b704a69 (708 tests green, py311 OK), pending independent review + operator merge.
