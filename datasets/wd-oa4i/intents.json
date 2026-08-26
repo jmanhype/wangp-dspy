@@ -1,0 +1,35 @@
+{
+  "story": "WD-oa4i",
+  "genre": "surreal",
+  "qc_threshold": 4.5,
+  "notes": [
+    "22 new intents for the wd-oa4i batch; all distinct from the 9 existing run records in datasets/runs/ (Jaccard overlap < 0.25 on token sets).",
+    "Refusal-safe: no real people likenesses, no copyrighted characters/IP, no violence, no minors.",
+    "Style spread: analog-tape/VHS packs (consistent with the bank's Lost-Futures aesthetic), retro game framebuffer, film stock, and natural-world macro/slow-motion shots.",
+    "run_batch.py skips intents whose first 60 chars match a banked record — none of these collide."
+  ],
+  "intents": [
+    "a slow-motion macro of a single drop of ink blooming through still water in a glass tank, backlit, deep indigo against black, no text",
+    "a vintage 1970s weather map room with hand-painted storm cells moving across a large painted wall, spinning globe, cigarette-smoke haze, warm tungsten desk lamps. Analog broadcast only, no digital graphics.",
+    "a long exposure of headlight trails spiraling around a roundabout at night, wet asphalt glow, one red taillight streaking counter-clockwise, overcast winter air",
+    "a dusty antique clockmaker's workshop at golden hour, brass gears hanging from strings, dust motes drifting in sunbeams, a pendulum swinging slowly, ticking implied by motion",
+    "a 1980s VHS nature documentary style shot of a heron standing motionless in a shallow marsh, muted oversaturated greens, soft focus breathing, tracking noise on the edges, dub-soft audio feel. Tape only, no modern color grading.",
+    "a snowplow cutting a bright arc through falling snow on an empty highway at night, orange work lights sweeping, plume of white spray behind it, distant guardrail reflectors",
+    "a tiny lighthouse keeper's cottage interior at dusk, oil lamp flicker, nautical charts pinned to walls, rain hammering the small window, steam rising from a tin mug",
+    "a 2004 PS2-style low-poly desert gas station cutscene, boxy pumps, sagging canopy light, heat shimmer, parked sedan with door open, NPC standing stiffly, vertex lighting, jaggies, MPEG-2 block artifacts, interlaced combing. PS2 framebuffer, no photorealism.",
+    "a paper lantern festival reflected in a dark canal, hundreds of warm orbs floating up, silk petals drifting down, stone bridge silhouette, mist on the water",
+    "a 1990s public-access cooking show set with a wobbly wooden counter, oversized ceramic pot, host gesturing at camera, painted food backdrop peeling at the corners, fluorescent glare, S-VHS tracking noise, chroma spill on the apron. Analog tape only, no clean studio look.",
+    "a freight train crossing a narrow stone bridge over a river valley at dawn, fog pooling below, smokestacks releasing grey ribbons, wheels churning rhythmically, first light hitting the locomotive",
+    "a 1985 home-video birthday party in a suburban living room, camcorder handheld shake, blown-out window light, kids running past lens, confetti frozen mid-air, date stamp in corner, VHS saturation smear. Consumer tape only, no stabilization.",
+    "a whale tail arching out of dark ocean water in slow motion, spray exploding into droplets catching sunset gold, horizon line low, no music cues, natural sound implied",
+    "a 1970s film-noir alley interrogation scene staged as a found 35mm reel, venetian blind shadows, cigarette smoke columns, wet cobblestones reflecting one sodium lamp, grain heavy, gate weave visible. Film stock only, no digital grain.",
+    "a time-lapse of clouds stacking into a cumulonimbus over wheat fields, field rippling in wind, shadow rolling across the crop, lightning flickering inside the tower top",
+    "a 1990s anime opening sequence style shot of a school rooftop at sunset, cel-shaded clouds, wind lifting hair and papers, giant orange sun, speed lines subtle, film grain overlay. Cel animation aesthetic, no 3D render look.",
+    "an abandoned subway platform under emergency lighting, yellow hazard stripes, dust sheets over benches, a single rat scurrying across the tracks, flickering fluorescent tube",
+    "a hot air balloon cluster tethered in a high desert at sunrise, sand-colored balloons inflating, ground crew silhouettes, long shadows stretching across dry lake bed",
+    "a 1980s mall food court security camera view, dated timestamp overlay, families moving between booths, fountain centerpiece, tile floor reflections, CCTV scanlines and soft compression. Surveillance footage only, no cinematic polish.",
+    "a koi pond in a mossy garden at blue hour, fish turning lazily beneath the surface, koi fins spreading, lotus leaves trembling, a stone lantern glowing softly",
+    "a 1970s live concert crowd shot from the stage, handheld 16mm, sweat and confetti in the air, stage wash magenta and amber, audience arms swaying, projector flicker, film scratches. Concert film only, no LED screens.",
+    "a glacier calving into a fjord at midday, ice tower collapsing in slow chunks, white spray column rising, dark rock cliffs framing, cold blue palette, water churn settling"
+  ]
+}
