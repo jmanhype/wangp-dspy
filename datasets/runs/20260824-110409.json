@@ -22,7 +22,7 @@
     }
   ],
   "videos": [
-    "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/outputs/render-0000/attempt-1/multishot_1787588035.mp4"
+    "datasets/runs/pull/outputs/archive/multishot_1787588035.mp4"
   ],
   "evidence": [
     "briefs: 1 brief(s) from intent",
