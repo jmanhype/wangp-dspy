@@ -8,8 +8,8 @@ labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:45:45Z
-content_hash: "sha256:2ba9f96951118bea69ff1065ca144d7d9355e257bdd65e4130217e393f32a345"
+updated_at: 2026-08-27T15:45:46Z
+content_hash: "sha256:4b954dc0fbd5c99fabe1be08b944ef03ddbaf5ae987ab8d179ae2f26c9b615f2"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2]
 ---
@@ -43,6 +43,16 @@ Verify board via `nd show`; report story id. Then CLAIM the story and append a d
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
