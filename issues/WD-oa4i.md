@@ -7,10 +7,11 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-27T16:07:57Z
-content_hash: "sha256:676266f37cb9581e9669519f3bb47fbefe5bbec876ab66a06cbb7476bfbf2f33"
+updated_at: 2026-08-27T16:12:25Z
+content_hash: "sha256:7f52b55e337e30fb1919a52897793090e5a275b6b7e0a3d773c765d1a305deea"
 assignee: dev-WD-oa4i
-follows: [WD-txt9]
+follows: [WD-txt9, WD-mhr2]
+labels: [delivered, pm-accepted]
 ---
 
 ## Description
@@ -35,10 +36,12 @@ Acceptance criteria:
 - 2026-08-26T04:50:14Z status: open -> in_progress
 - 2026-08-26T04:50:14Z auto-follows: linked to predecessor WD-txt9
 - 2026-08-26T04:50:14Z claimed by dev-WD-oa4i
+- 2026-08-27T16:12:25Z status: in_progress -> in_progress
+- 2026-08-27T16:12:25Z auto-follows: linked to predecessor WD-mhr2
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-txt9]]
+- Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
 
