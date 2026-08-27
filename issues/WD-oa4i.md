@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-27T06:50:37Z
-content_hash: "sha256:b409ae0507c8ce64e72ed1d5e3b9439312eea753a982dd41ff35a29dcef48897"
+updated_at: 2026-08-27T15:56:52Z
+content_hash: "sha256:3ccb33b69486e76ed16764b22d51835269d235394c27bf06e847f3e1f1aa81d3"
 assignee: dev-WD-oa4i
 follows: [WD-txt9]
 ---
@@ -50,3 +50,6 @@ Design (backfilled 2026-08-26 per PH-6bhn pilot): 25-render lane architecture = 
 
 ### 2026-08-26T15:03:36Z speed
 Notes (backfilled 2026-08-26 per PH-6bhn pilot): current status — render lane relaunching after self-ssh fix; ETA ~7h. Lane is live; do not interrupt.
+
+### 2026-08-27T15:56:52Z speed
+sol-max (2026-08-27): STEP-2 curation amendment b5c8553 is now on main (merged with PR #26 cdccd7d) — cumulonimbus guard rejection evidenced, 31->30 records / 21 train - 9 val. Luna G1 blocker resolved; re-verdict pending (Luna to re-run acceptance against amended manifest).
