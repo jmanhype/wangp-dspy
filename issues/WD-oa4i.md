@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-27T15:56:52Z
-content_hash: "sha256:3ccb33b69486e76ed16764b22d51835269d235394c27bf06e847f3e1f1aa81d3"
+updated_at: 2026-08-27T16:07:57Z
+content_hash: "sha256:8332ce0c65176db73c95fadb57b0facf64f21f3047822348ee2199474d8d2a5b"
 assignee: dev-WD-oa4i
 follows: [WD-txt9]
 ---
@@ -29,7 +29,7 @@ Acceptance criteria:
 
 
 ## Notes
-
+2026-08-27 FINAL: Luna G1-G7 verdict = PASS (all seven gates, amendment evidenced). Dataset final: 30 kept / 4 dropped / 1 excluded, 21 train / 9 val, baseline 0.0. Cleanup nits fixed in 1b35a6e (n_kept field, newline). Story ready for delivery + PM accept.
 
 ## History
 - 2026-08-26T04:50:14Z status: open -> in_progress
