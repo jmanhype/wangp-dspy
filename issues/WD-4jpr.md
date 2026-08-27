@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
-updated_at: 2026-08-27T16:30:09Z
-content_hash: "sha256:a8b46bc3706fd92bf494372e9ee7832c99a6c7d0511c6c28916338c386f4f015"
+updated_at: 2026-08-27T16:32:01Z
+content_hash: "sha256:00aff6da55277dd34c0bd9ff4fe9060c89b571e30110d8a20074c5a8be328cc8"
 assignee: speed
 follows: [WD-4k56]
 ---
@@ -44,3 +44,6 @@ Note: story created via paivot_story story_create (WD-4jpr); AC section patch no
 
 ### 2026-08-27T16:30:09Z speed
 Dispatch: Qwen implements — already briefed and running (see Notes). AC (a)-(e) restated in dispatch note.
+
+### 2026-08-27T16:32:01Z speed
+ADOPT #1 DELIVERED: PR #27 merged 7971612 (GLM review PASS all 6 items). Gate + CLI + registry schema live. Future-work noted: wire registry into LM forward() optimization path. PM accept pending.
