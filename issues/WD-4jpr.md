@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
-updated_at: 2026-08-27T16:29:34Z
-content_hash: "sha256:ee24f3de58b7d93dd75440ca0d3bb5e4434c0832ac730c978c2c4a30a40ce348"
+updated_at: 2026-08-27T16:30:09Z
+content_hash: "sha256:32d285051fb851c463d0a446d70c515e77b53fcbb9c2e987b892f03674fc546d"
 assignee: speed
 follows: [WD-4k56]
 ---
@@ -23,7 +23,13 @@ follows: [WD-4k56]
 
 
 ## Notes
+Dispatch (2026-08-27, sol-max): Qwen implements — already briefed and running.
 
+Brief: implement the no-names doctrine (docs/extraction/shuohao-skills/no-names-doctrine.md, GLM ADOPT verdict) as a deterministic gate. Components: (1) pure no-names check function + entity registry schema + seed registry; (2) gate wired into PromptDirector brief validation alongside the meta-hint guard (_reject_meta_hints in predict/prompt_director.py), plus standalone CLI scripts/check_names.py for pre-submission checks on any prompt text/files; (3) strict TDD, zero-model.
+
+Acceptance criteria: (a) deterministic matcher passes TDD suite (exact/case/alias/word-boundary + false-positive cases); (b) briefs containing registry names rejected with typed failure (same pattern as meta-hint guard); (c) CLI works on arbitrary text/files; (d) registry schema documented + seeded; (e) full suite green + implementation captured.
+
+Note: story created via paivot_story story_create (WD-4jpr); AC section patch not_wired at create time — AC text is embedded in Description above and restated here.
 
 ## History
 - 2026-08-27T16:29:34Z status: open -> in_progress
