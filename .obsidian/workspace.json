@@ -190,6 +190,7 @@
   },
   "active": "04572f37740910dc",
   "lastOpenFiles": [
+    "issues/WD-4k56.md",
     "knowledge/decisions/capture-20260826T161152Z-1d586769-55a5-4c6f-a9f5-bd272d865ec8.md",
     "knowledge/capture-20260826T161152Z-1d586769-55a5-4c6f-a9f5-bd272d865ec8.md",
     "knowledge/decisions/taxonomy-decision-20260826-wd-oa4i-capture-targets.md",
@@ -221,7 +222,6 @@
     "knowledge/capture-20260826T135954Z-wd-oa4i-step1-loader.md",
     "knowledge/capture-20260826T135954Z-wd-oa4i-step1-curation.md",
     "knowledge/capture-20260826T135954Z-wd-oa4i-step1-intents-v2.md",
-    "capture-20260826T135916Z-wd-oa4i-step1-intents-v2.md",
     "knowledge/wd-oa4i-intents-v2",
     "knowledge/capture-20260825T015512Z-2a260e79-3051-4853-888c-9a51cb3fcf65",
     "knowledge"
