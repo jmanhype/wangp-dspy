@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
-updated_at: 2026-08-27T19:36:12Z
-content_hash: "sha256:1bde68d6c4c5397dedde55aa54c0a2ada3fcd637307fa3b1efdedb14a63400b7"
+updated_at: 2026-08-27T19:36:50Z
+content_hash: "sha256:4334b2b9d8c0dc7b30784feb6e232bb2371d5dfe6e9b27acbdd558d1383dffdc"
 assignee: dev-WD-oa4i
 follows: [WD-txt9, WD-mhr2]
 labels: [delivered, pm-accepted]
@@ -65,5 +65,6 @@ G1-G7 PASS (Luna, 2026-08-27): amendment b5c8553 + evidence verified against 309
 ### 2026-08-27T16:12:25Z speed
 PM ACCEPT (operator, 2026-08-27): G1-G7 PASS accepted. WD-oa4i delivered: 30-example dataset (21 train / 9 val), baseline 0.0, all amendments evidenced. Story closed.
 
-### 2026-08-27T19:36:12Z speed
-test
+
+### 2026-08-27T19:36:50Z speed
+Tooling fix record (sol-max, 2026-08-27): the PR #31 merge lane initially ran red under the wrong interpreter — GLM's conda base env shows 20 pre-existing failures (dspy DummyLM + scripts shadowing) that are IDENTICAL on base and branch. Resolution: repo uv venv is the authoritative green signal; 336 tests pass there with zero failures. GLM's per-diff differential method (base-vs-branch comparison) remains the right check for its env quirk. Recorded for future review lanes.
