@@ -16,6 +16,8 @@ def _valid_signoff(status="approved"):
 
 
 def _valid_skeleton(**over):
+    # frozen dataclasses: build via constructor overrides, not setattr
+    from dataclasses import replace
     skel = Skeleton(
         skeleton_id="skel-001",
         cuts=[Cut(what="B-plot: rival studio", why="one main plotline "
@@ -24,14 +26,12 @@ def _valid_skeleton(**over):
         merges=[Merge(who="Detective Han + Officer Ru", why="duplicate "
                  "investigation function; one face carries the "
                  "clue-delivery beats", from_source="ep2/ep7")],
-        payoff=PayoffPlacement(majors=[1, 4, 8], total_episodes=10),
+        payoff=PayoffPlacement(majors=[1, 4, 7, 10], total_episodes=10),
         cut_note="the story ends at the harbor reveal",
         merge_note="the lead group is chosen for complete arcs",
         signoff=_valid_signoff(),
     )
-    for k, v in over.items():
-        setattr(skel, k, v)
-    return skel
+    return replace(skel, **over) if over else skel
 
 
 # ── validator: valid skeleton ─────────────────────────────────────────
@@ -94,10 +94,11 @@ def test_payoff_vacuum_at_end_rejected():
 
 
 def test_earliest_major_last_ep_rejected():
-    # only major at the final episode
+    # the ONLY major is at the final episode — nothing anchors the body
     v = validate_skeleton(_valid_skeleton(payoff=PayoffPlacement(
-        majors=[5, 10], total_episodes=10)))
-    assert any("last" in x.lower() or "final" in x.lower() for x in v)
+        majors=[10], total_episodes=10)))
+    assert any("last" in x.lower() or "final" in x.lower()
+               or "anchors" in x.lower() for x in v), v
 
 
 def test_payoff_in_range():
