@@ -11,6 +11,7 @@ updated_at: 2026-08-27T18:26:16Z
 content_hash: "sha256:d22e81bedc058d8c5027df2b0e20a1bff0d27ab02e85bd9097526770e6b7dd4d"
 assignee: dev-WD-4s1b
 follows: [WD-gq8y, WD-4jpr, WD-4k56]
+labels: [delivered]
 ---
 
 ## Description
