@@ -1,14 +1,16 @@
 ---
 id: WD-85ay
 title: "ADOPT: no-proper-nouns gate against entity registry"
-status: open
+status: in_progress
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-27T16:17:45Z
 created_by: speed
-updated_at: 2026-08-27T16:17:45Z
-content_hash: "sha256:cce0b71932df26c67f2fbd1a252278408398750dabe48e3d15fea076af8e1ef0"
+updated_at: 2026-08-27T16:17:55Z
+content_hash: "sha256:8a4b0f0f7afc9e8ebe119db9674e04fcb0ec8b502b3a8c94702e7bfce035f9f9"
+assignee: speed
+follows: [WD-4k56]
 ---
 
 ## Description
@@ -46,9 +48,12 @@ Implements the no-names doctrine (docs/extraction/shuohao-skills/no-names-doctri
 
 
 ## History
-
+- 2026-08-27T16:17:55Z status: open -> in_progress
+- 2026-08-27T16:17:55Z auto-follows: linked to predecessor WD-4k56
+- 2026-08-27T16:17:55Z claimed by speed
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-4k56]]
 
 ## Comments

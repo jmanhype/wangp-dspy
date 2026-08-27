@@ -190,6 +190,7 @@
   },
   "active": "04572f37740910dc",
   "lastOpenFiles": [
+    "issues/WD-85ay.md",
     "knowledge/conventions/capture-20260825T015512Z-2a260e79-3051-4853-888c-9a51cb3fcf65.md",
     "knowledge/decisions/taxonomy-decision-20260826-wd-oa4i-capture-targets.md",
     "issues/WD-txt9.md",
@@ -215,7 +216,6 @@
     "knowledge/capture-20260826T143758Z-dabe00a1-395c-42b0-a8ef-1eb57a32b600.md",
     "knowledge/capture-20260826T140500Z-luna-wdoa4i-gates.md",
     "knowledge/decisions/capture-20260826T135515Z-e84a2f91-d163-42e7-a799-4e3326ba6a63.md",
-    "knowledge/uat/capture-20260826T140500Z-luna-wdoa4i-gates.md",
     "knowledge/uat",
     "knowledge/skills",
     "knowledge/patterns",
