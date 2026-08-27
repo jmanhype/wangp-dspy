@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-27T18:21:37Z
 created_by: speed
-updated_at: 2026-08-27T18:26:16Z
-content_hash: "sha256:705db444b4a9f055ecc01fb35a4a4b3cce9aadff02e999fa4f31d4274c2c7abf"
+updated_at: 2026-08-27T18:35:50Z
+content_hash: "sha256:76aebf6f3b12e5fe5c41b97481f596137794f60fe29d0439ce9e1c615dbac68e"
 assignee: dev-WD-4s1b
 follows: [WD-gq8y, WD-4jpr, WD-4k56]
 labels: [delivered]
@@ -49,3 +49,6 @@ status: delivered
 - Follows: [[WD-gq8y]], [[WD-4jpr]], [[WD-4k56]]
 
 ## Comments
+
+### 2026-08-27T18:35:50Z speed
+ADOPT #3 DELIVERED: PR #29 merged (GLM PASS all 4 items — injection probe executed nothing, CLI contract verified live, boundary semantics pinned). Advisory: scripts/ import fragility in shadowed envs — follow-up to switch to importlib spec loading.
