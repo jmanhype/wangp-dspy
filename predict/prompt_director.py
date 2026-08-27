@@ -52,6 +52,7 @@ class RenderBrief:
                     f"string, got {value!r}")
         _reject_meta_hints(self)
         _reject_registry_names(self)
+        _reject_risky_actions(self)
 
 
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
@@ -105,6 +106,31 @@ def _reject_registry_names(brief: "RenderBrief") -> None:
                 f"section {field!r} — image models bias toward their "
                 "memorized version of named entities "
                 "(no-names-doctrine.md); describe the entity instead")
+
+
+def _reject_risky_actions(brief: "RenderBrief") -> None:
+    """Common-actions gate (ADOPT, WD-7185: script-pass L10-18 +
+    RUBRIC A4.2): video models only act what they've seen millions
+    of times — precise physics interaction, micro-expression
+    direction, and inch-scale displacement produce mush. ALWAYS
+    ACTIVE (patterns are bundled in datasets/common-actions.json;
+    no per-production registry, hence no registry=None skip —
+    documented decision). Same typed-failure pattern as the
+    meta-hint and no-names guards."""
+    from gates.common_actions import check_common_actions
+    for field in ("subject", "motion", "camera", "style",
+                  "audio_direction", "negatives", "identity_lock"):
+        v = getattr(brief, field) or ""
+        if not v:
+            continue
+        for viol in check_common_actions(v):
+            raise ValueError(
+                f"risky action {viol.matched_text!r} (pattern "
+                f"{viol.id!r}, category {viol.category}) in render "
+                f"brief section {field!r} — not a common real-life-"
+                "video action; rewrite the beat as something the "
+                "model has seen millions of times "
+                "(common-actions doctrine, docs/common-actions.md)")
 
 
 def _reject_meta_hints(brief: RenderBrief) -> None:
