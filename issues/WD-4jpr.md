@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
 updated_at: 2026-08-27T16:30:09Z
-content_hash: "sha256:32d285051fb851c463d0a446d70c515e77b53fcbb9c2e987b892f03674fc546d"
+content_hash: "sha256:a8b46bc3706fd92bf494372e9ee7832c99a6c7d0511c6c28916338c386f4f015"
 assignee: speed
 follows: [WD-4k56]
 ---
@@ -41,3 +41,6 @@ Note: story created via paivot_story story_create (WD-4jpr); AC section patch no
 - Follows: [[WD-4k56]]
 
 ## Comments
+
+### 2026-08-27T16:30:09Z speed
+Dispatch: Qwen implements — already briefed and running (see Notes). AC (a)-(e) restated in dispatch note.
