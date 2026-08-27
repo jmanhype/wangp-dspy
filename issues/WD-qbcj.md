@@ -4,7 +4,7 @@ title: "Methodology extraction: shuohao-skills pass docs, doctrines, design rati
 status: in_progress
 priority: 2
 type: task
-labels: [methodology, extraction]
+labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
