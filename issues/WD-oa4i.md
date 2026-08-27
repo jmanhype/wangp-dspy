@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
 updated_at: 2026-08-27T16:12:25Z
-content_hash: "sha256:7f52b55e337e30fb1919a52897793090e5a275b6b7e0a3d773c765d1a305deea"
+content_hash: "sha256:928f744e995dd6ed0828226b0bbb9b5b73c6ce6718e88b82b63292bac5dfb9be"
 assignee: dev-WD-oa4i
 follows: [WD-txt9, WD-mhr2]
 labels: [delivered, pm-accepted]
@@ -59,3 +59,6 @@ sol-max (2026-08-27): STEP-2 curation amendment b5c8553 is now on main (merged w
 
 ### 2026-08-27T16:07:57Z speed
 G1-G7 PASS (Luna, 2026-08-27): amendment b5c8553 + evidence verified against 3090 primary sources (log fetched over SSH, manifest recounted, loader executed, videos stat'd both hosts). Non-blocking nits fixed 1b35a6e. Verdict: deliver.
+
+### 2026-08-27T16:12:25Z speed
+PM ACCEPT (operator, 2026-08-27): G1-G7 PASS accepted. WD-oa4i delivered: 30-example dataset (21 train / 9 val), baseline 0.0, all amendments evidenced. Story closed.
