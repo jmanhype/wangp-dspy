@@ -1,0 +1,67 @@
+{
+  "_schema": "docs/common-actions.md",
+  "_doctrine": "script-pass common-actions rule (pass-methodology-outline.md section 4, script-pass L10-18; RUBRIC A4.2): video models only act what they've seen millions of times. Judgment test: is this action common in real-life video?",
+  "safe": [
+    "walking", "sitting", "standing", "turning", "handing over",
+    "nodding", "opening a door", "closing a door", "drinking",
+    "typing", "boarding", "picking up", "setting down", "waving",
+    "pointing", "looking at", "stepping forward", "stepping back",
+    "running", "entering", "leaving", "sitting down", "standing up"
+  ],
+  "risky": [
+    {
+      "id": "physics-pole-blocks",
+      "pattern": "(pole|beam|plank|rod) blocks",
+      "category": "physics",
+      "rationale": "precise physics interaction — an object arresting another object's motion requires contact dynamics video models have not seen millions of times (script-pass L10-18; RUBRIC A4.2)"
+    },
+    {
+      "id": "physics-domino-chain",
+      "pattern": "domino(es)? chain|chain of dominoes",
+      "category": "physics",
+      "rationale": "sequential precise physics — cascading contact interactions break into mush (script-pass L10-18)"
+    },
+    {
+      "id": "physics-ball-ricochet",
+      "pattern": "(ball|bullet|puck) ricochets",
+      "category": "physics",
+      "rationale": "ricochet = precise elastic collision trajectory — not a common real-life-video action (script-pass L10-18)"
+    },
+    {
+      "id": "micro-flicker-of-doubt",
+      "pattern": "flicker of doubt",
+      "category": "micro_expression",
+      "rationale": "micro-expression direction — the model cannot render an interior state as a facial micro-movement on request (RUBRIC A4.2: micro-expressions = rewrite)"
+    },
+    {
+      "id": "micro-slight-twitch",
+      "pattern": "slight twitch",
+      "category": "micro_expression",
+      "rationale": "directed micro-movement of a facial feature — unseen-at-scale action (RUBRIC A4.2)"
+    },
+    {
+      "id": "micro-barely-there-smile",
+      "pattern": "barely[- ]there smile",
+      "category": "micro_expression",
+      "rationale": "amplitude-qualified micro-expression — intensity-directed facial action breaks (RUBRIC A4.2)"
+    },
+    {
+      "id": "displacement-one-inch-closer",
+      "pattern": "(moves?|steps?|leans?) (one |a )?(inch|inches) closer",
+      "category": "fine_displacement",
+      "rationale": "inch-scale displacement — sub-perceptual motion deltas are not renderable (script-pass L10-18: inch-scale displacements = will break)"
+    },
+    {
+      "id": "displacement-tilts-by-a-degree",
+      "pattern": "tilts? [a-z ]*by a degree",
+      "category": "fine_displacement",
+      "rationale": "degree-scale rotation — angular micro-displacement (script-pass L10-18)"
+    },
+    {
+      "id": "displacement-subtle-shift",
+      "pattern": "subtle shift",
+      "category": "fine_displacement",
+      "rationale": "unquantified small-scale position change — mush generator (script-pass L10-18)"
+    }
+  ]
+}

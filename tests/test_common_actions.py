@@ -141,13 +141,12 @@ def test_clean_brief_passes():
 
 def test_gate_always_active_no_disable_knob_needed():
     """Patterns are bundled with the module — the gate is always on
-    (documented decision; no registry= None skip like no-names)."""
+    (documented decision; no registry= None skip like no-names): the
+    DEFAULT constructor path (no extra args) rejects risky motion."""
     from predict.prompt_director import RenderBrief
-    b = RenderBrief(subject="x", motion="tilts by a degree",
+    with pytest.raises(ValueError, match="risky action"):
+        RenderBrief(subject="x", motion="tilts by a degree",
                     camera="static", style="grain")
-    with pytest.raises(ValueError):
-        RenderBrief(subject="x", motion=b.motion, camera="c",
-                    style="s")  # default path, no registry arg
 
 
 # ── CLI ───────────────────────────────────────────────────────────────
@@ -172,5 +171,8 @@ def test_cli_file_input(tmp_path, capsys):
 
 
 def test_cli_usage_error(capsys):
+    """check_names semantics: a non-path arg is INLINE TEXT; the
+    usage-error exit (2) is the empty-text loud skip."""
     from scripts.check_common_actions import main
-    assert main(["/nonexistent/file.txt"]) == 2
+    assert main([""]) == 2
+    assert main(["   "]) == 2
