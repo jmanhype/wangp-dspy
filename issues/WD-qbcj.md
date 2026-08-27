@@ -9,7 +9,7 @@ parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
 updated_at: 2026-08-27T15:18:17Z
-content_hash: "sha256:4bfa39d1f71afb40a5782f5dc326300c244deef1058bd4d98ddb92594402727b"
+content_hash: "sha256:9d19a887ebcf868b0c828d559784bd6b5798b666d0fbdde4813468e5e49814d5"
 assignee: sol-max
 follows: [WD-txt9]
 ---
@@ -55,3 +55,6 @@ Verify board via `nd show`; report story id. Then CLAIM the story and append a d
 - Follows: [[WD-txt9]]
 
 ## Comments
+
+### 2026-08-27T15:18:17Z speed
+Dispatch (sol-max, 2026-08-27): Qwen implements — full methodology extraction per AC (a)-(e) into docs/extraction/shuohao-skills/. GLM reviews — verdicts on adopt/adapt/pass recommendations are reviewer-decided. Both agents already briefed and running. Orchestrator will not implement.
