@@ -8,8 +8,8 @@ labels: [adopt, shuohao-skills]
 parent: WD-j9nx
 created_at: 2026-08-27T17:23:35Z
 created_by: speed
-updated_at: 2026-08-27T17:44:28Z
-content_hash: "sha256:8d5f5fad64018164937bbd1f81329c0ef802bcdbf87d2df0f03b8e3462f484be"
+updated_at: 2026-08-27T17:44:29Z
+content_hash: "sha256:d25074e87347ca25c47e4a07f2ed99a953d5c23db531ed80f7d67065b36311f2"
 assignee: dev-WD-gq8y
 follows: [WD-4jpr]
 ---
@@ -104,3 +104,6 @@ GLM review (rubric-lite) — OVERALL: PASS, merge-ready.
 3. NO REGREGRESSIONS — PASS (diff additive + new files only).
 4. SECURITY SURFACE — PASS (no shell/eval/writes/network; zero-model verified, stdlib-only deps).
 Carry-over nits (non-blocking): M1 docstring/code start-vacuum constant mismatch; F1 document sign-off is caller-attested not authenticated; F2 consider requiring skeleton kwarg (None skips gate).
+
+### 2026-08-27T17:44:29Z speed
+ADOPT #2 VERIFIED by sol-max: branch feat/wd-gq8y-skeleton-signoff head e7f5f45. tests/test_skeleton.py 19/19 pass; diff --check clean; full-suite failure set IDENTICAL on main vs branch (12 pre-existing LM-wiring + 2 pre-existing manifest-count failures, both fail on clean main too); CLI renders the three sign-off questions correctly. GLM OVERALL PASS. Ready for operator PR+merge.
