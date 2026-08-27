@@ -8,8 +8,8 @@ labels: [adopt, shuohao-skills]
 parent: WD-j9nx
 created_at: 2026-08-27T17:23:35Z
 created_by: speed
-updated_at: 2026-08-27T17:25:54Z
-content_hash: "sha256:53ebb40f1e6f758be5f280e9bd315cd21e2d5d1ad51e8d407f5dade186b34a43"
+updated_at: 2026-08-27T17:37:55Z
+content_hash: "sha256:c39b3a26e2bbe31adea50f2a711e891391ba208321958b2be3f85becc60e2849"
 assignee: dev-WD-gq8y
 follows: [WD-4jpr]
 ---
@@ -93,3 +93,6 @@ before any expensive stage runs.
 - Follows: [[WD-4jpr]]
 
 ## Comments
+
+### 2026-08-27T17:37:55Z speed
+PR #28 opened (feat/wd-gq8y-skeleton-signoff -> main). Branch tests 19/19 green; full suite clean modulo 2 pre-existing test_wd_oa4i_tooling failures proven identical on main checkout. Awaiting GLM security review.
