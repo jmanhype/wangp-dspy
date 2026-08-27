@@ -1,15 +1,17 @@
 ---
 id: WD-qbcj
 title: "Methodology extraction: shuohao-skills pass docs, doctrines, design rationale"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [methodology, extraction]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:18:07Z
-content_hash: "sha256:c42c971b9d83015b6045d2a89964c4ff89d0e2f4366a3d21a45694293fa83547"
+updated_at: 2026-08-27T15:18:17Z
+content_hash: "sha256:4bfa39d1f71afb40a5782f5dc326300c244deef1058bd4d98ddb92594402727b"
+assignee: sol-max
+follows: [WD-txt9]
 ---
 
 ## Description
@@ -44,9 +46,12 @@ Verify board via `nd show`; report story id. Then CLAIM the story and append a d
 
 
 ## History
-
+- 2026-08-27T15:18:17Z status: open -> in_progress
+- 2026-08-27T15:18:17Z auto-follows: linked to predecessor WD-txt9
+- 2026-08-27T15:18:17Z claimed by sol-max
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-txt9]]
 
 ## Comments

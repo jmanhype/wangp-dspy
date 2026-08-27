@@ -190,6 +190,7 @@
   },
   "active": "04572f37740910dc",
   "lastOpenFiles": [
+    "issues/WD-qbcj.md",
     "knowledge/decisions/capture-20260827T065123Z-2599c84c-0ea5-4327-b43e-9b92ec0c4a42.md",
     "knowledge/patterns/capture-20260827T065123Z-4fc2a91e-19d7-4356-974d-a64e5daed1db.md",
     "knowledge/patterns/capture-20260827T065123Z-b47b4e6c-650e-4103-ac51-7a64c4e05f3c.md",
@@ -221,7 +222,6 @@
     "knowledge/debug",
     "knowledge/conventions",
     "issues/WD-iva2.md",
-    "knowledge/capture-20260826T140925Z-05a49b36-f73f-4237-88df-64e5b5fcc256.md",
     "knowledge/wd-oa4i-intents-v2",
     "knowledge/capture-20260825T015512Z-2a260e79-3051-4853-888c-9a51cb3fcf65",
     "knowledge"
