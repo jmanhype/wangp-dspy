@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-190414",
+  "genre": "surreal",
+  "intent": "a slow-motion macro of a single drop of ink blooming through still water in a glass tank, backlit, deep indigo against black, no text",
+  "ts": "2026-08-26T19:19:49",
+  "duration_secs": 934.9,
+  "briefs": [
+    {
+      "subject": "A single spherical drop of deep indigo ink (saturated blue-violet, near-opaque core, translucent at fringes) descending into crystal-clear still water contained in a seamless glass tank. The tank is edge-lit by a uniform white rear light panel so the water volume reads as pure black; the only visible environment is the faint vertical line of the tank wall and the water's mirror-flat surface near the top of frame. No substrate, no props, no hands \u2014 just fluid, glass, and light.",
+      "motion": "The drop enters frame top, decelerating as it meets the water surface with a slow, viscous impact \u2014 a crown-shaped surface disturbance rises and settles. Beneath the surface the ink blooms: dense core column descending, then fractal fingering plumes unfurling outward and downward with laminar drag, curling into slow vortex rings. Secondary motion is critical \u2014 micro-particulate flecks of ink drifting independently within the plumes, hair-thin tendrils lagging behind the mass, gentle mushroom-cap roll-up at each plume tip. Weight is heavy and honey-like: everything moves at 1/20th speed, displacement reads as pressure, not animation. The bloom never stops evolving; density gradients shift continuously as the ink dilutes into the water.",
+      "camera": "Locked-off tripod macro, 100mm macro lens at 1:1 reproduction, framed tight so the bloom occupies the center two-thirds of frame with black negative space around it. Extremely shallow depth of field \u2014 the entry point razor sharp, plume extremities falling into soft diffusion. Exposure keyed to the backlight: highlights at the ink's translucent edges bloom with gentle halation and the black water breathes subtly as the plumes attenuate the rear light. No camera movement, no zoom \u2014 total stillness against internal motion.",
+      "style": "High-contrast scientific-macro aesthetic with cinematic finish: fine 35mm-style grain structure over deep crushed blacks, halation blooming off every backlit ink edge, palette restrained to a single indigo hue against monochrome black. Colors shift in density rather than hue \u2014 dense ink reads near-navy-black, dilute fringes glow translucent violet-blue. Clean, clinical, no glow filters beyond natural halation.",
+      "audio_direction": "Sparse, tactile sound design: a sustained low sub-bass drone underpinning the whole shot, a single soft percussive 'plip' at the moment of water impact, then high-frequency micro-detail \u2014 faint suspended-particulate shimmer, subtle room air, a barely audible low swirl that deepens as the plumes spread. All elements slowly dilating in space and fading in amplitude over the shot's duration, mirroring the ink's diffusion.",
+      "negatives": "no text or typography artifacts, no watermark, no extra figures or hands, no soft dissolves or morphs between plume shapes, no tearing or fracturing of the ink filaments, no bubbles or debris beyond ink particulate, no hue drift outside indigo-blue-violet, no camera shake, no cuts or transitions",
+      "identity_lock": "Exactly one ink drop and one continuous bloom; ink color locked to deep indigo (dense navy-black core, translucent violet-blue fringes); glass tank and uniform rear light panel persist for the entire shot; water surface line remains visible near frame top; pure black background with no environmental detail; locked-off framing that never moves or reframes"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 288,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787789982.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video sequence:\n\n**Subject:** A drop of dark blue ink falling into a clear liquid (likely water) and blooming into complex fractal-like patterns. The background is a plain white, highlighting the subject.\n\n**Motion Quality:** The motion is fluid, smooth, and physically plausible. The initial impact, the formation of the leading edge (Rayleigh-Taylor instability), and the subsequent billowing and curling of the ink plumes are captured with high temporal resolution. There is no jitter or unnatural stuttering in the movement.\n\n**Temporal Consistency (Flicker/Morphing)",
+    "latency_secs": 20.0
+  }
+}

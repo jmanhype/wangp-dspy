@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-210343",
+  "genre": "surreal",
+  "intent": "a 1980s mall food court security camera view, dated timestamp overlay, families moving between booths, fountain centerpiece, tile floor reflections, CCTV scanlines and soft compression. Surveillance footage only, no cinematic polish.",
+  "ts": "2026-08-26T21:12:37",
+  "duration_secs": 534.2,
+  "briefs": [
+    {
+      "subject": "Wide 1980s indoor mall food court seen from a ceiling-corner surveillance camera: glossy cream-and-terracotta square tile floor laid in a visible grid, tiered fountain centerpiece with pale teal chlorinated water and a coin-dotted basin, ring of dark plastic cafe tables with padded vinyl chairs, back wall of fast-food booths with backlit menu boards (one red-and-yellow burger stall, one orange-and-brown taco stall), hanging brass-and-wood trim, plastic ferns in concrete planters, warm-orange pendant light discs. Figures: three or four family groups in period wardrobe \u2014 a mother with a permed mane in a cream jumpsuit pushing a stroller with large spoked wheels, a father in a color-blocked windbreaker carrying a tray level, two kids in tube socks tugging toward the fountain, a teen in acid-wash denim with a swinging shopping bag. All faces small and indistinct at this distance.",
+      "motion": "Unhurried pedestrian flow between booths and tables: weight shifting through hips, shopping bags swinging opposite the stride, trays carried level with small corrective tilts, stroller wheels turning with visible lag, a child breaking into a short jog with arms pumping. Secondary motion: permed hair bouncing lightly, windbreaker nylon swishing, trouser cuffs flicking. Fountain runs continuously \u2014 thin water sheets sliding down each tier, a soft spray plume drifting half a meter, ripple shimmer crossing the basin. Fast movement renders with VHS motion smear and faint interlace combing at limb edges; passing figures drag brief smeared reflections across the polished tile.",
+      "camera": "Fixed ceiling-corner mount, tilted wide surveillance lens (roughly 4mm on a half-inch tube sensor): strong rectilinear stretch, bowed verticals at frame edges, everything in deep focus but softly resolved. No moves \u2014 only the micro-jitter of a loosened bracket and a slow auto-iris pump when a bright windbreaker or the fountain highlight crosses frame. Exposure is video-flat: highlights clip to blank white with horizontal luma smear trailing; no focus pulls, no racks, no orbits. Burned-in white analog timestamp block in the lower corner, chunky low-res digits softened by compression.",
+      "style": "Security-camera-to-VHS character, explicitly not film: ~240 lines of resolution, visible scanlines, chroma bleed where reds and yellows smear into neighbors, horizontal luma smear and ghosting trails behind moving subjects, faint head-switching noise band along the bottom edge of frame. Muted mid-80s palette \u2014 washed-out teals, warm orange cast from the pendants fighting cool fluorescent overheads, saturation that looks boosted then dulled by generation loss. Hazy, low-contrast flatness throughout; video noise, never film grain.",
+      "audio_direction": "Room-tone-forward and slightly hissy: continuous white-noise wash from the fountain, low HVAC hum, indistinct crowd murmur with no intelligible words, occasional squeak of sneakers on polished tile, distant register beep and tray clatter, thin muffled muzak (soft strings and sax) from overhead speakers. A faint tape-hiss floor under everything; no swells, no silence, no clear dialogue.",
+      "negatives": "no cinematic polish \u2014 no shallow depth of field, no film grain, no halation or anamorphic flares, no graded color, no slow motion, no camera movement beyond bracket jitter and iris pumping; no morphing or dissolving figures, no people appearing or vanishing between frames, no distorted faces, no extra limbs; no text anywhere in frame except the single timestamp block; no letterboxing, no modern LED signage, no present-day wardrobe or signage.",
+      "identity_lock": "Camera position and framing locked for the entire shot; terracotta-and-cream tile grid unchanged; tiered teal fountain stays centered with water running throughout; booth row with the red-and-yellow burger sign stays along the back wall; each family group keeps its wardrobe colors, stroller, tray and bags; timestamp remains in the same lower corner; lighting and the warm/cool color mix never shift."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "wan2gp",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787796749.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video showcases a visually stunning scene of hot air balloons being inflated on a salt flat at sunset. The motion quality is excellent, with the slow, steady movement of the camera and the natural physics of the fire and smoke appearing very realistic. There are no noticeable flickers, morphing artifacts, or temporal inconsistencies; the subjects remain stable and coherent throughout the clip. The lighting shifts subtly and naturally, enhancing the cinematic feel. The overall quality is high, with only minor compression noise visible upon close inspection.\n\nVerdict: A high-quality, tempora",
+    "latency_secs": 3.4
+  }
+}

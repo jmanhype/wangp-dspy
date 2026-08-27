@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-113243",
+  "genre": "surreal",
+  "intent": "a 1980s VHS nature documentary style shot of a heron standing motionless in a shallow marsh, muted oversaturated greens, soft focus breathing, tracking noise on the edges, dub-soft audio feel. Tape only, no modern color grading.",
+  "ts": "2026-08-26T11:46:50",
+  "duration_secs": 847.1,
+  "briefs": [
+    {
+      "subject": "A single grey-blue heron (Ardea cinerea) standing in profile in ankle-deep marsh water \u2014 long yellow dagger bill, black eye-stripe extending to a trailing crest, snake-like neck held in an S-curve, pale grey folded wings with charcoal flight-feather tips, thin black stilt legs submerged to the shin. Environment: shallow still water with dark mud bottom, scattered emergent reeds and flooded grass stalks, soft green bokeh wall of distant marsh vegetation behind the bird. Diffuse overcast daylight.",
+      "motion": "Heron essentially motionless: one slow blink, a single subtle feather-settle across the shoulder at mid-shot, occasional micro-weight-shift of the knees. Secondary motion carries the frame \u2014 faint concentric water rings pulsing around its submerged legs, reed tips nodding in a light breeze, the water surface trembling with insect dimples, the bird's crest feathers lifting slightly in the same breeze. All motion is slow, weighted, dampened \u2014 nothing springs.",
+      "camera": "600mm-equivalent telephoto compression flattening the heron against the reed background; locked-off tripod framing, bird placed rule-of-thirds left. Focus breathes softly \u2014 a gentle hunting in/out at low frequency, never snapping sharp. Frame edges carry analog instability: horizontal tracking jitter and a slow chroma-edge crawl, slight vertical hold wobble at the top scanlines. Exposure is soft and lifted; backlight through the reeds blooms into smeared halation, highlights never clip clean.",
+      "style": "1980s VHS SP-mode transfer: 4:3 framing, coarse luma grain, visible scanline structure, chroma bleed pushing greens and blues into their neighbors, muted-oversaturated palette \u2014 marsh greens saturated but veiled by tape haze, blacks lifted to dark grey, whites blooming. Interlace shimmer on fine feather and reed detail. Generational-copy softness across the whole frame. Absolutely no modern grading: no crushed contrast, no teal-orange, no digital clarity or HDR bloom.",
+      "audio_direction": "Dub-soft degraded stereo: constant low-level tape hiss under everything, muffled wind buffeting a directional mic with cloth-pop thumps. Distant, frequency-rolled-off marsh ambience \u2014 a reed warbler chattering far away, one crow call, gentle water lap against mud. High frequencies dull, low-mid warmth emphasized, occasional analog wow making the ambience drift slightly in pitch. No narration, no music, no voice-over.",
+      "negatives": "no digital sharpness or modern color grading, no crushed blacks or HDR bloom, no soft dissolves or morphs, no frame tearing or macroblocking, no extra birds or animals entering frame, no human figures, no text artifacts, no timecode burn-in, no lens flares, no aspect-ratio shifting",
+      "identity_lock": "grey-blue heron plumage with pale grey body and charcoal wingtips, yellow bill, black eye-stripe with trailing crest, black stilt legs, shallow still water with mud bottom, green reed background, telephoto flat perspective, VHS chroma-bleed texture and lifted blacks persisting for the full duration"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787762802.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Analysis of Video Shot**\n\n*   **Subject:** The video features a Grey Heron standing in shallow water. The subject is well-framed, with a blurred background of reeds that provides good depth of field. The heron's plumage details are sharp and clearly defined.\n*   **Motion Quality:** The motion is very subtle and lifelike. The heron exhibits natural micro-movements such as slight head turns, blinking, and gentle shifting of weight or feathers. There is no jerky or unnatural movement, making the animation appear smooth and realistic.\n*   **Temporal Consistency:** The temporal consistency is exc",
+    "latency_secs": 23.1
+  }
+}

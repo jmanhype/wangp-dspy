@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-203920",
+  "genre": "surreal",
+  "intent": "a 1990s anime opening sequence style shot of a school rooftop at sunset, cel-shaded clouds, wind lifting hair and papers, giant orange sun, speed lines subtle, film grain overlay. Cel animation aesthetic, no 3D render look.",
+  "ts": "2026-08-26T20:46:29",
+  "duration_secs": 428.9,
+  "briefs": [
+    {
+      "subject": "A single teenage student in a navy sailor-fuku school uniform \u2014 boxy sailor collar with two white stripes, red neckerchief triangle, pleated navy skirt, white socks, brown loafers \u2014 shoulder-length auburn hair with blunt bangs, standing behind a chain-link fence on a flat concrete school rooftop. Rooftop props: rusted water tank on stilted legs, TV antenna, railing, air-conditioning unit. Environment: giant orange sun disc filling a third of the sky just above the horizon, layered cel-painted cumulus clouds in banded coral, magenta, and dusty violet, urban skyline silhouette below, warm light raking across the concrete. Loose notebook pages (white with faint blue rule lines) whipping through the air around the figure.",
+      "motion": "Continuous strong wind from frame left: hair streams sideways with staggered strand lag so tips trail the roots; blunt bangs lift off the forehead in flicks. Skirt pleats flutter in traveling waves from hem upward; neckerchief tail snaps and resettles. Papers tumble in swooping arcs \u2014 rising, stalling, gliding, occasionally whipping past lens close enough to blur \u2014 each page rotating on its own axis with light paper weight and air drag. The student grips the chain-link fence, fence links rattling slightly; shoulders sway a few degrees into the gusts, one hand rises partway to shield eyes then lowers. Cloud layers drift at three distinct parallax speeds, lower bands fastest. Sun shimmers with a slow breathing pulse at its rim. All motion reads as hand-drawn animation on twos: slightly stepped, not fluid interpolation \u2014 line art boils subtly frame to frame.",
+      "camera": "Simulated multiplane push-in: locked low-angle medium-wide, slowly dollying forward through three painted depth layers \u2014 chain-link foreground, student mid-ground, sun/clouds backdrop \u2014 creating cel-animation parallax. Long-lens compression stacks fence, figure, and sun into one tight plane, fence diamonds soft and out of focus in the near foreground. Framing places the student's silhouette small against the giant sun disc, rule-of-thirds right. Exposure behavior: sun core blown to paper-white, orange halation bleeding outward into the sky bands, rim light stroking the hair and collar; faint anamorphic flare when gusts push a paper across the lens. Extremely slow 1\u20132 degree handheld drift to keep the frame alive, no reframing.",
+      "style": "1990s Japanese TV cel animation aesthetic: flat two-tone cel shading with hard shadow edges, hand-inked outlines with slight width variation and boil, airbrushed gradient only in the sky bands. Palette restraint \u2014 saturated orange and coral dominant, magenta-violet cloud shadows, deep navy uniform reading almost black in backlight, cream-white paper highlights. 16mm film print character: visible grain structure, faint gate weave, gentle highlight halation, very slight chromatic fringing on the sun rim, analog softness in the blacks. Subtle hand-drawn radial speed lines ghosted near frame edges only, opacity under 15 percent. No digital gradients, no global illumination, no photoreal textures.",
+      "audio_direction": "Opening-theme swell in one arc: airy synth pad rises under a bright sustained strings-and-brass chord that blooms as the camera pushes in, a soft triangle-wave arpeggio glimmering underneath. Diegetic bed continuous and specific: gusting wind with pitch and intensity swelling in waves matching the paper and hair movement, individual paper pages fluttering and snapping past the lens, chain-link fence rattling softly, distant city hum and one far-off train horn low in the mix. A moment of near-silence in the wind as the hand rises, then the gust returns and carries the music to full sustain.",
+      "negatives": "no 3D render look, no CGI shading or smooth specular gradients, no photorealistic skin or cloth, no motion-blur smearing that reads as live-action, no soft dissolves or morphs, no tearing or warping of line art, no extra figures or crowds on the rooftop, no text artifacts, no watermark-like sun flares, no lip movement, no camera cuts or whip pans",
+      "identity_lock": "navy sailor uniform with white two-stripe collar and red neckerchief must hold exact colors and geometry all shot; pleated navy skirt silhouette; auburn shoulder-length hair with blunt bangs; chain-link fence diamonds across the foreground; rusted rooftop water tank left of frame; giant orange sun disc at horizon right of center staying fully round and unoccluded by clouds; white blue-ruled loose papers; hard-edged two-tone cel shading and film grain persist start to finish"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "wan2gp",
+      "resolution": "720p",
+      "shot_length_frames": 144,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787795181.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Video Analysis**\n\n*   **Subject:** The subject is an anime-style female character in a school uniform standing on a rooftop, viewed from behind through a chain-link fence. She is looking towards a sunset, and papers are blowing around her in the wind.\n*   **Motion Quality:** The character's hair and skirt react to the wind with reasonable fluidity. However, the motion of the papers is somewhat erratic. They appear to teleport or warp between frames rather than following a consistent aerodynamic path. The camera movement (zoom) is smooth.\n*   **Temporal Consistency:** There are noticeable iss",
+    "latency_secs": 13.7
+  }
+}

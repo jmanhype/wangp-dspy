@@ -1,0 +1,42 @@
+{
+  "run_id": "20260827-003307",
+  "genre": "surreal",
+  "intent": "a tiny lighthouse keeper's cottage interior at dusk, oil lamp flicker, nautical charts pinned to walls, rain hammering the small window, steam rising from a tin mug",
+  "ts": "2026-08-27T00:46:15",
+  "duration_secs": 787.8,
+  "briefs": [
+    {
+      "subject": "A single-room lighthouse keeper's cottage interior at dusk, cramped and low-beamed: rough whitewashed plaster walls crowded with nautical charts and coastal survey maps pinned by brass tacks, corners slightly curled from salt air. A small paned window (four panes, black-painted cross frame) with rain streaking the glass; beyond it a deep blue-grey dusk sky and the faint suggestion of sea. On a scrubbed pine table: an oil lamp with a clear glass chimney, brass burner and wire handle, flame low and warm; beside it an enameled tin mug, chipped at the rim, dark tea inside. Secondary props: a coil of rope on a hook, a Barlow-style knife, a wool knit sweater draped over a chair back, an open leather-bound logbook with a stub of pencil.",
+      "motion": "Everything moves with restrained physicality: the lamp flame flickers and breathes at its base, causing the warm light on walls and table to swell and soften rhythmically (never strobing or cutting out); shadows of the chimney frame shift subtly. Steam rises from the mug in thin, slow convective curls that break apart as they climb, drifting slightly toward the window draft. Rain hits the glass in fine rivulets that bead, merge, and run downward under gravity; occasional heavier droplets pulse on the panes. Chart corners tremble faintly in a draft. The logbook page lifts a millimeter at its edge. No object translates across the room; all motion is local, weighty, and continuous.",
+      "camera": "Slow, subtle push-in on a 50mm lens at T2.0 \u2014 shallow depth with the lamp and mug in the near plane and the window slightly soft behind. Framing is intimate and slightly off-axis: mug lower-left, lamp center-right, window upper background, charts filling the frame edges (cramped, compressed spatial feel). A gentle handheld sway, almost imperceptible, like the room itself breathing. Exposure keyed to the lamp: when the flame swells, halation blooms softly around the chimney and the window dusk sinks toward deep blue; backlit steam catches a warm rim as it rises. No cuts, no reframes \u2014 one continuous locked-off-feeling move for the full shot.",
+      "style": "Warm tungsten-amber interior against cool dusk-blue window light \u2014 a restrained maritime palette of cream plaster, brass, tea-brown, oilskin black, and grey-blue. Filmic texture: fine 35mm grain structure, soft highlight halation around the flame, gentle contrast with protected shadow detail, slightly lifted blacks like aged print stock. Color discipline \u2014 no saturated oranges or teals; the warmth stays muted and lived-in. Micro-detail in texture: chipped enamel, fiber in the wool, water beading on glass, waxy fingerprints near the lamp.",
+      "audio_direction": "Native diegetic bed: rain hammering the window glass in fluctuating density \u2014 a fine hiss punctuated by heavier gust-driven bursts that rattle the frame. Underneath, a low wind drone with a faint distant foghorn swell in the first third. Close sources: the soft liquid flutter of the lamp flame (a faint wick-crackle and airy flutter), a single subtle creak of floorboard or timber settling, and the barely audible tick of the mug as it cools. Over the shot the rain gradually thickens and the wind lowers in pitch \u2014 dusk deepening through sound alone. No music.",
+      "negatives": "No people or hands entering frame; no figures outside the window. No text artifacts \u2014 charts must read as cartographic texture, never resolving into legible words or warping into glyph noise. No soft dissolves or morphs between objects; no tearing of paper or glass; no lamp flame extinguishing or strobing; no water penetrating the window; no extra rooms, doors opening, or impossible space expansion; no camera cuts, whip pans, or zooms; no stylized bokeh shapes or digital sharpening halos.",
+      "identity_lock": "Oil lamp with clear glass chimney and brass burner must persist with consistent flame height and warm amber cast. Enameled tin mug with chipped rim stays at lower-left on the pine table, steam continuous. Four-pane black-cross window stays in the upper background, exterior always dusk blue-grey, rain never clearing. Charts remain pinned with brass tacks on all visible walls, corners curled. Wool sweater on chair back, coiled rope on hook, open logbook with pencil \u2014 all fixed in position, scale, and color for the entire shot. Room proportions and beam height constant; no object substitution."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787809568.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video shot:\n\n**Subject:** The video features a static scene of a rustic interior, likely a cabin or study, centered around a wooden desk. Key elements include a lit oil lamp, an open book with a pencil, a white enamel mug, a window with rain on the glass, and various maps and tools on the wall.\n\n**Motion Quality:** The scene is largely static, as expected for an ambient shot. There is subtle movement in the form of steam rising from the mug and raindrops on the window. However, the steam motion is somewhat erratic and occasionally morphs in a way that looks like a ",
+    "latency_secs": 507.4
+  }
+}

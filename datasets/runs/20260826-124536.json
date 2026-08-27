@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-124536",
+  "genre": "surreal",
+  "intent": "a whale tail arching out of dark ocean water in slow motion, spray exploding into droplets catching sunset gold, horizon line low, no music cues, natural sound implied",
+  "ts": "2026-08-26T12:54:34",
+  "duration_secs": 538.4,
+  "briefs": [
+    {
+      "subject": "A single adult humpback whale fluke \u2014 broad notched double-lobed tail, dark slate-grey skin with wet sheen, faint barnacle scarring along the trailing edge \u2014 rising out of near-black open ocean water at golden hour. Low horizon line placing a narrow band of molten sunset gold and deep amber sky across the upper third, dark teal-black sea filling the lower two-thirds, sun just off-frame left creating strong backlight.",
+      "motion": "Slow-motion (approx. 5x time dilation) fluke arc: enormous mass lifting with visible weight and drag, thick sheets of seawater peeling off the fluke underside and trailing edges, breaking into heavy ropes and curtains of water. Spray atomizes into thousands of individual droplets suspended mid-air, each catching gold rim light. Secondary motion: ripples radiating outward from the base, surface tension tendrils clinging to skin, droplet trails lagging behind the fluke's apex, faint oscillation in the fluke's trailing edge from muscular effort. The fluke reaches its arch apex, pauses a beat in gravity, then begins its descent with water cascading off.",
+      "camera": "Fixed long-lens telephoto (400mm+ equivalent) from water level, strong frontal compression stacking the fluke against the horizon glow. Tight framing on the fluke arc with generous headroom for spray. Exposure rides the backlight: highlights on droplets bloom into halation, lens breathes subtly as spray sheets cross the sun axis, gentle anamorphic flare streaking horizontally off the brightest droplets. Shallow enough depth that distant horizon softens while the fluke stays crisp.",
+      "style": "Kodak Vision3 500T character pushed one stop: fine organic grain, warm highlight halation bleeding gold into the amber sky, deep restrained shadows holding detail in the black water without crushing. Palette limited to gold, amber, slate, and ink-teal; no saturated cyan. Wet-skin speculars run hot but roll off gently like film stock.",
+      "audio_direction": "Diegetic natural sound only, no music: deep sub-bass pressure thud as the mass leaves the water, layered water sheeting and cascading runoff, fine hiss of atomized spray drifting, low ocean swell rolling underneath, faint distant wind air. As the fluke reaches apex the sound thins to suspended droplet patter; on descent a swelling rush and heavy plunging boom with lingering bubble wash.",
+      "negatives": "no music or score of any kind, no soft dissolves or morphs, no frame tearing or warping on the water surface, no extra whales or figures, no boats, no birds, no text artifacts or watermarks, no horizon shift or camera jump, no cartoonish droplet behavior.",
+      "identity_lock": "single whale fluke only \u2014 broad notched double-lobed silhouette, dark slate-grey wet skin with barnacle texture on trailing edge; sun direction locked low back-left; low horizon line with gold band in upper third; dark open-ocean water with no land; continuous single take with no cuts."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 168,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787766866.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Video Quality Analysis**\n\n**Subject:** A humpback whale tail (fluke) slapping the surface of the ocean during sunset. The shot is a close-up on the tail against a sunset sky.\n\n**Motion Quality:** The motion of the whale's tail rising out of the water is fluid and biomechanically plausible. The water displacement and splash effects accompanying the tail's movement look natural and well-timed with the action. The camera remains static, allowing the subject's motion to be the primary focus.\n\n**Temporal Consistency:**\n*   **Flicker/Morphing:** There are noticeable inconsistencies in the tail's t",
+    "latency_secs": 18.2
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-122348",
+  "genre": "surreal",
+  "intent": "a freight train crossing a narrow stone bridge over a river valley at dawn, fog pooling below, smokestacks releasing grey ribbons, wheels churning rhythmically, first light hitting the locomotive",
+  "ts": "2026-08-26T12:36:49",
+  "duration_secs": 781.1,
+  "briefs": [
+    {
+      "subject": "A dark riveted-iron steam freight locomotive with a single tall funnel smokestack, brass boiler bands catching low sun, pulling a string of weathered red-oxide boxcars and grey coal hoppers, coupled slack visible between wagons. It crosses a narrow single-track stone arch viaduct of five masonry arches with moss-streaked parapets, spanning a river valley. Dense fog pools below the bridge deck, through which the glinting river is barely visible. Dawn: cold blue-grey ambient air, first warm golden light raking from a low angle camera-left, rim-lighting the boiler and stack; grey smoke ribbons trailing from the stack.",
+      "motion": "Train moves left-to-right across the bridge at steady freight speed, heavy and grounded. Driving wheels rotate in strict rhythmic cadence with visible side-rod articulation; coupling slack gives a faint jolt per wagon. Smoke is released in discrete puffs synced to the chuff rhythm, each puff sheared backward and stretched into ribbons by the train's own slipstream. Fog below responds with slow, gentle displacement around the bridge piers \u2014 pushed and folding, never swirling violently. Faint vibration travels through wagon panels; a thin wisp of steam leaks from cylinder cocks.",
+      "camera": "Long lens (approx 200mm) from an elevated hillside position across the valley, compressing the arches into a tight rhythmic row. Slow, motorized push-in toward the locomotive as it reaches mid-bridge, easing as it passes. Subject slightly low in frame to hold the fog field. The sun sits just off-frame camera-left: boiler rim-light flares softly, smoke catches amber edges, and exposure breathes gently as smoke ribbons cross the light path, with mild halation blooming on the brightest stack highlights. Shallow-to-mid depth holds the whole train in focus while far valley haze melts to white.",
+      "style": "Pushed tungsten film stock character (500T one stop): fine, alive grain structure, cool slate-blue shadows, muted moss-and-rust midtones, restrained palette with a single warm golden accent from the low sun. Soft highlight halation around the rim-lit boiler edge, milky low-contrast lift in the fog, no crushed blacks. Slight lens breathing on the push-in. Overall texture: damp stone, cold air, early-day quiet.",
+      "audio_direction": "Opens on low river hiss and thick valley air under a soft dawn-bird twitter. The train enters as a deep sub-bass rumble of steel wheels over stone, underpinned by a slow steady chuff-chuff churn that functions as the percussion spine \u2014 heavy, patient, slightly uneven like real freight. Above it: metallic clank of coupling slack, a faint creak of wagon panels, and a low airy whistle-tone pad that swells as first light strikes the boiler. The rhythm holds constant; the pad brightens slightly over the shot's duration, then thins as the engine recedes into fog.",
+      "negatives": "no soft dissolves or morphs, no tearing, no extra figures, no text artifacts, no duplicated or warped wheels, no wheel spokes melting into blur-disc mush, no derailment or track-bending artifacts, no violent smoke vortex, no sudden weather change, no second train, no camera shake that breaks the long-lens stillness.",
+      "identity_lock": "Single black riveted boiler locomotive with one tall funnel stack and brass bands; red-oxide boxcars with plain unstencilled grey panels (no lettering); grey hoppers; five-arch stone viaduct with moss-streaked parapets; fog level held below bridge deck for the full shot; warm rim-light consistently from camera-left; river glimpsed faintly beneath the fog throughout."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787765802.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a high-quality, cinematic shot of a steam train crossing a stone viaduct in a misty valley. The motion is smooth and consistent, with the train moving realistically along the tracks. The steam plumes are dynamic and well-rendered, showing natural dissipation. The lighting is warm and atmospheric, enhancing the visual appeal. There are no significant flickering, morphing, or temporal artifacts. The textures on the stone arches and the train itself remain stable throughout the sequence.\n\nVerdict: A visually stunning and temporally consistent simulation of a train journey with ",
+    "latency_secs": 16.8
+  }
+}

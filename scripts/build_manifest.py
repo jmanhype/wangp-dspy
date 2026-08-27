@@ -37,7 +37,7 @@ def build_manifest(runs_dir: Path, curation_path: Path,
     table = _curation_lookup(curation)
 
     rows = []
-    for p in sorted(Path(runs_dir).glob("20260824-*.json")):
+    for p in sorted(Path(runs_dir).glob("*.json")):
         rec = json.loads(p.read_text())
         run_id = p.stem
         vids = rec.get("videos", [])

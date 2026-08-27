@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-205442",
+  "genre": "surreal",
+  "intent": "a hot air balloon cluster tethered in a high desert at sunrise, sand-colored balloons inflating, ground crew silhouettes, long shadows stretching across dry lake bed",
+  "ts": "2026-08-26T21:03:37",
+  "duration_secs": 535.1,
+  "briefs": [
+    {
+      "subject": "A cluster of five tethered hot air balloons in mid-inflation on a cracked white-alkali dry lake bed in high desert at sunrise; envelopes in sand tones \u2014 ochre, tan, cream, pale khaki, dusty rose \u2014 with visible ripstop nylon weave; wicker baskets resting on the ground beside propane tanks and inflation fans; three ground-crew figures as dark silhouettes in workwear and caps hauling on crown lines; low sun sitting just above the horizon behind the cluster; long parallel shadows of balloons, baskets, and crew raking across the flat toward camera; thin dust haze in the air catching the light.",
+      "motion": "Balloons inflate from slack to taut: fabric ripples upward in expanding waves as internal air pressure fills each envelope, seams and gores tightening visibly; intermittent propane burner flames fire inside throats, throwing a hot orange glow through the nylon and heat-shimmer above the baskets; taut tether lines hum and vibrate in the light morning breeze; crew silhouettes lean back against the crown lines, heels digging, bodies swaying with each fabric surge; alkali dust and grit lift around boots and fan intakes, drifting backlit through frame; the long shadows hold their rake toward camera, edges softening slightly as haze moves.",
+      "camera": "Long-lens compressed telephoto (180\u2013200mm equivalent) from ground level, camera height roughly at basket-top; slow lateral dolly left with a faint handheld sway that breathes with the wind; sun low behind the balloon cluster backlights the envelopes so their crowns glow and bloom with halation; exposure rides the highlights, letting crew and ground fall into dense silhouette; atmospheric haze layers depth between foreground dust and the far ridgeline; no focus pulls \u2014 the cluster stays the anchor.",
+      "style": "Kodak Vision3 250D stock character: fine organic grain, pronounced halation around the sun and burner flame, restrained desert palette of sand, ochre, cream, and pale rose sky with a cool slate shadow floor; low-contrast open shadows that still hold crack texture in the lake bed; subtle warm highlight bloom, no crushed blacks, matte dry texture throughout.",
+      "audio_direction": "Bed of low sub-bass desert air under everything; periodic roaring propane burner bursts with metallic hiss tails that swell and cut; constant low fan drone and wet canvas-like fabric flapping in waves as envelopes fill; rope creak and gloved-hand friction on lines; dry wind skittering grit across cracked earth; faint distant crew calls and a single crow call far off; tone slowly brightens with the rising sun.",
+      "negatives": "No soft dissolves or morphs, no tearing or shredding fabric, no balloons detaching or lifting off, no extra figures appearing or vanishing, no text, logos, or graphic artifacts on envelopes, no lens-flare streak artifacts, no water or vegetation appearing on the lake bed.",
+      "identity_lock": "Exactly five balloons in fixed sand tones (ochre, tan, cream, pale khaki, dusty rose); every balloon stays tethered by a visibly taut line to a ground stake for the full shot; three crew silhouettes in dark workwear and caps, never resolving into lit detail; cracked white-alkali flat surface; sun locked low behind the cluster at frame left; long shadows consistently pointing toward camera; baskets and propane tanks remain on the ground."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile2"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787796209.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features four hot air balloons in a salt flat setting at sunrise/sunset. The subject is stable and clearly defined, with no significant morphing or flicker in the balloon shapes or patterns throughout the sequence. Motion is minimal and smooth, with subtle changes in flame intensity and light. However, there are noticeable artifacts: the ground texture appears unnaturally smooth and repetitive, and the shadows cast by the balloons are overly uniform and lack natural variation, suggesting AI generation or heavy post-processing. The figures near the baskets are small and somewhat indis",
+    "latency_secs": 11.7
+  }
+}

@@ -1,8 +1,8 @@
 {
   "story": "WD-oa4i",
-  "generated_utc": "2026-08-26T16:27:06Z",
-  "n_records": 9,
-  "n_kept": 6,
+  "generated_utc": "2026-08-27T15:08:08Z",
+  "n_records": 35,
+  "n_kept": 32,
   "rows": [
     {
       "run_id": "20260824-103137",
@@ -84,6 +84,240 @@
       "video_path": "datasets/runs/pull/outputs/archive/multishot_1787608370.mp4",
       "curation_status": "kept",
       "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-105551",
+      "intent": "a slow-motion macro of a single drop of ink blooming through still water in a glass tank, backlit, deep indigo against black, no text",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787760684.mp4",
+      "curation_status": "dropped",
+      "curation_reason": "duplicate take (kept best-QC sibling)"
+    },
+    {
+      "run_id": "20260826-111138",
+      "intent": "a vintage 1970s weather map room with hand-painted storm cells moving across a large painted wall, spinning globe, cigarette-smoke haze, warm tungsten desk lamps. Analog broadcast only, no digital graphics.",
+      "qc_score": 4,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787761128.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-111901",
+      "intent": "a long exposure of headlight trails spiraling around a roundabout at night, wet asphalt glow, one red taillight streaking counter-clockwise, overcast winter air",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787761945.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-113243",
+      "intent": "a 1980s VHS nature documentary style shot of a heron standing motionless in a shallow marsh, muted oversaturated greens, soft focus breathing, tracking noise on the edges, dub-soft audio feel. Tape only, no modern color grading.",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787762802.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-114816",
+      "intent": "a snowplow cutting a bright arc through falling snow on an empty highway at night, orange work lights sweeping, plume of white spray behind it, distant guardrail reflectors",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787763373.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-115631",
+      "intent": "a 2004 PS2-style low-poly desert gas station cutscene, boxy pumps, sagging canopy light, heat shimmer, parked sedan with door open, NPC standing stiffly, vertex lighting, jaggies, MPEG-2 block artifacts, interlaced combing. PS2 framebuffer, no photorealism.",
+      "qc_score": 6,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787763954.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-120608",
+      "intent": "a paper lantern festival reflected in a dark canal, hundreds of warm orbs floating up, silk petals drifting down, stone bridge silhouette, mist on the water",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787764979.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-122348",
+      "intent": "a freight train crossing a narrow stone bridge over a river valley at dawn, fog pooling below, smokestacks releasing grey ribbons, wheels churning rhythmically, first light hitting the locomotive",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787765802.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-123655",
+      "intent": "a 1985 home-video birthday party in a suburban living room, camcorder handheld shake, blown-out window light, kids running past lens, confetti frozen mid-air, date stamp in corner, VHS saturation smear. Consumer tape only, no stabilization.",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787766323.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-124536",
+      "intent": "a whale tail arching out of dark ocean water in slow motion, spray exploding into droplets catching sunset gold, horizon line low, no music cues, natural sound implied",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787766866.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-190414",
+      "intent": "a slow-motion macro of a single drop of ink blooming through still water in a glass tank, backlit, deep indigo against black, no text",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787789982.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-202701",
+      "intent": "a 1970s film-noir alley interrogation scene staged as a found 35mm reel, venetian blind shadows, cigarette smoke columns, wet cobblestones reflecting one sodium lamp, grain heavy, gate weave visible. Film stock only, no digital grain.",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787794741.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-203920",
+      "intent": "a 1990s anime opening sequence style shot of a school rooftop at sunset, cel-shaded clouds, wind lifting hair and papers, giant orange sun, speed lines subtle, film grain overlay. Cel animation aesthetic, no 3D render look.",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787795181.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-204635",
+      "intent": "an abandoned subway platform under emergency lighting, yellow hazard stripes, dust sheets over benches, a single rat scurrying across the tracks, flickering fluorescent tube",
+      "qc_score": 5,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787795669.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-205442",
+      "intent": "a hot air balloon cluster tethered in a high desert at sunrise, sand-colored balloons inflating, ground crew silhouettes, long shadows stretching across dry lake bed",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787796209.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-210343",
+      "intent": "a 1980s mall food court security camera view, dated timestamp overlay, families moving between booths, fountain centerpiece, tile floor reflections, CCTV scanlines and soft compression. Surveillance footage only, no cinematic polish.",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787796749.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-211243",
+      "intent": "a koi pond in a mossy garden at blue hour, fish turning lazily beneath the surface, koi fins spreading, lotus leaves trembling, a stone lantern glowing softly",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787797292.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-212146",
+      "intent": "a 1970s live concert crowd shot from the stage, handheld 16mm, sweat and confetti in the air, stage wash magenta and amber, audience arms swaying, projector flicker, film scratches. Concert film only, no LED screens.",
+      "qc_score": 9,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787797833.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-213045",
+      "intent": "a glacier calving into a fjord at midday, ice tower collapsing in slow chunks, white spray column rising, dark rock cliffs framing, cold blue palette, water churn settling",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787798779.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-214634",
+      "intent": "a cathedral-sized server hall from 1979 being decommissioned, reel-to-reel tape drives spinning down one by one, operators in polyester uniforms wheeling out magnetic disk packs, sodium-vapor aisle lighting, cable bundles coiling on the raised floor. Magnetic-tape era only, no modern racks.",
+      "qc_score": 6,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787799977.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-220632",
+      "intent": "a desert drive-in cinema screen at 3am playing to an empty lot after closing, generator hum, projector beam full of dust and moths, wind flapping the torn screen edge, one concession light left glowing, kangaroo rats crossing the white paint. Faded 16mm print look, no digital signage.",
+      "qc_score": 8,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787800706.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260826-221840",
+      "intent": "a glass arthropod terrarium filmed as a 1990s science-classroom filmstrip, leaf insects swaying like dead leaves, condensation beads crawling down the glass, hand-lettered paper labels, frame-counter dot in the corner, a phonograph narration tone implied. Filmstrip only, no modern macro rig.",
+      "qc_score": 6,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787801652.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260827-001413",
+      "intent": "a 1990s public-access cooking show set with a wobbly wooden counter, oversized ceramic pot, host gesturing at camera, painted food backdrop peeling at the corners, fluorescent glare, S-VHS tracking noise, chroma spill on the apron, handheld camcorder drift. Analog tape only, no clean studio look, no on-screen graphics",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787808190.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260827-002309",
+      "intent": "a dusty antique clockmaker's workshop at golden hour, brass gears hanging from strings, dust motes drifting in sunbeams, a pendulum swinging slowly, ticking implied by motion",
+      "qc_score": 6,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787808773.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260827-003307",
+      "intent": "a tiny lighthouse keeper's cottage interior at dusk, oil lamp flicker, nautical charts pinned to walls, rain hammering the small window, steam rising from a tin mug",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787809568.mp4",
+      "curation_status": "kept",
+      "curation_reason": ""
+    },
+    {
+      "run_id": "20260827-004621",
+      "intent": "a 1990s public-access cooking show set with a wobbly wooden counter, oversized ceramic pot, host gesturing at camera, painted food backdrop peeling at the corners, fluorescent glare, S-VHS tracking noise, chroma spill on the apron, handheld camcorder drift. Analog tape only, no clean studio look, no on-screen graphics",
+      "qc_score": 7,
+      "critic_id": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+      "video_path": "/home/straughter/Wan2GP/outputs/multishot_1787810064.mp4",
+      "curation_status": "dropped",
+      "curation_reason": "duplicate take (kept best-QC sibling)"
     }
   ]
 }

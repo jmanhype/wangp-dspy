@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-120608",
+  "genre": "surreal",
+  "intent": "a paper lantern festival reflected in a dark canal, hundreds of warm orbs floating up, silk petals drifting down, stone bridge silhouette, mist on the water",
+  "ts": "2026-08-26T12:23:08",
+  "duration_secs": 1019.5,
+  "briefs": [
+    {
+      "subject": "A dark canal at night, surface like black-green glass, mirroring hundreds of warm amber paper lanterns rising from street level \u2014 rice-paper orbs with faintly visible bamboo rib structure and candle glow bleeding through the paper fibers. Downward through the frame drift soft silk petals in dusty pink and ivory, matte sheen, some edges darkened with waterlog. Mid-frame, the black silhouette of an arched stone bridge (camel-back profile, worn balustrade posts) spans the canal, its arch doubled in reflection. A thin layer of mist clings low over the water surface, thickest at the bridge piers. No people visible; the festival exists only as light and sound beyond frame.",
+      "motion": "Lanterns rise slowly and independently, each with a gentle buoyant sway and a candle-flicker wobble in its glow \u2014 flames breathe, never strobe. Heat from the lantern clusters produces faint shimmer in the air above them. Petals fall with tumbling, high-drag descent: rotation, mid-air stalls, flutter \u2014 some land on the canal and create tiny expanding rings that break the mirrored lantern reflections into soft distorted columns; landed petals drift slowly downstream. Mist moves in slow lateral curls around the bridge piers, thickening and thinning continuously. Water otherwise stays near-still, a true mirror disturbed only by petal rings and slow undulation.",
+      "camera": "Long lens (100\u2013135mm equivalent) for compression, stacking lantern layers into a glowing depth field. Locked composition from a low angle near the waterline, bridge silhouette centered, with an extremely slow push-in (2\u20133% frame width over the shot). Shallow depth of field: near petals render as soft-focus falling shapes, mid-layer lanterns sharp, bridge silhouette crisp at infinity. Rack focus drifting slowly between lantern layer and bridge arch once mid-shot. Exposure holds for highlights: lantern points bloom and breathe with halation, water reflections streak into vertical light columns, shadows roll off to near-black with retained detail on the balustrade.",
+      "style": "Night film stock character \u2014 pushed 500T behavior: pronounced halation around every amber point, warm-orange highlight bleed into surrounding darkness, teal-black shadow tint, fine organic grain structure strongest in the mist. Color restraint: only two hues carry the frame (amber lanterns, cold canal dark). Slightly soft contrast curve, no crushed digital blacks, filmic highlight rolloff on the paper orbs.",
+      "audio_direction": "Low continuous water room-tone with a soft sub-bass pulse underneath. Distant, diffuse festival crowd murmur \u2014 no distinguishable voices. Sparse plucked string notes (koto-like, dry, widely spaced) marking time. Close layer: faint paper-fiber rustle and warm air flutter as lanterns rise past camera; near-silent brush as petals fall; single soft drip and ripple-tone when a petal lands. Wind breath low over the water surface. Mix stays nocturnal and hushed throughout \u2014 no swell, no climax.",
+      "negatives": "no soft dissolves or morphs between lanterns, no objects melting into one another, no reflection tearing or mirror-shear artifacts, no text or glyphs on lantern paper, no extra human figures or hands, no fire spreading or lanterns igniting, no frame-rate strobing on candle flicker, no digital sharpness or HDR flatness in shadows, no cuts or transitions",
+      "identity_lock": "Arched stone bridge silhouette (camel-back profile, balustrade posts) remains centered and unchanged entire shot; canal water surface stays a functioning mirror with vertical lantern reflection columns; lantern palette locked to warm amber/gold with rice-paper fiber texture \u2014 no hue shift; silk petals remain dusty pink and ivory, matte, palm-sized; mist layer stays low and horizontal, never rising above bridge deck; lantern count and spatial density remain consistent with no sudden appearing/vanishing orbs; overall amber-on-teal-black color pairing preserved shot-long."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 288,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787764979.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video shot presents a highly atmospheric and visually stunning scene of a night canal, likely inspired by traditional Chinese water towns (like Zhouzhuang or West Lake), filled with floating and suspended lanterns. The composition is symmetrical and balanced, drawing the eye through the arch of the bridge into the misty distance.\n\n**Subject:**\nThe primary subject is the interplay between the warm glow of the paper lanterns and the cool darkness of the night sky and water. The falling pink petals add a dynamic, poetic element, contrasting with the stillness of the water and the solidity of ",
+    "latency_secs": 24.1
+  }
+}

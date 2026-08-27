@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-123655",
+  "genre": "surreal",
+  "intent": "a 1985 home-video birthday party in a suburban living room, camcorder handheld shake, blown-out window light, kids running past lens, confetti frozen mid-air, date stamp in corner, VHS saturation smear. Consumer tape only, no stabilization.",
+  "ts": "2026-08-26T12:45:30",
+  "duration_secs": 515.1,
+  "briefs": [
+    {
+      "subject": "A suburban 1985 living room birthday party: three children aged 6-9, the central child wearing a cardboard cone party hat with elastic chin strap and a red-and-white striped pullover, others in corduroy and a bright yellow windbreaker; a rectangular yellow-frosted sheet cake with seven lit candles on a wood-grain coffee table; red and yellow balloons on strings; crepe paper streamers taped across a wood-paneled wall; plaid sofa with crocheted doilies; a console TV with rabbit-ear antenna in the corner; a large bay window with sheer curtains blowing out pure white; dozens of multicolored confetti pieces suspended in mid-air above the coffee table; wrapped presents with 1980s wrapping patterns on blue shag carpet.",
+      "motion": "Two kids sprint laterally through the foreground at different depths, close enough to clip focus and streak into horizontal blur as they cross the lens; the hatted child laughs mid-candle-blow, cheeks and party hat elastic jiggling; confetti hangs nearly frozen mid-toss with only a barely-perceptible slow drift, each piece holding its shape and rotation; balloons bob and sway on their strings from the running kids' wake; candle flames flicker and lean; the entire frame inherits constant camcorder micro-jitter with occasional lurches as the operator chases a running child.",
+      "camera": "Handheld consumer tube camcorder, circa 1985: wide-angle lens with soft corners and smeared edges; amateur framing with clipped heads and an off-level horizon; autofocus hunting with slow focus breathing in and out; auto-iris lagging behind pans so the window blooms to a blown-out white rectangle with vertical sensor smear and halation before exposure clamps down and pumps back; a fumbled push-in on the cake mid-shot; continuous uncorrected handheld sway, no stabilization anywhere in the image.",
+      "style": "Consumer VHS tape look: coarse analog chroma smear where saturated reds and blues bleed horizontally into neighboring pixels; low effective resolution with visible scan lines and a tracking wobble at the bottom frame edge; warm faded palette pushed into oversaturated primaries; tape grain and noise living in the shadows; blooming halation around the blown window; occasional head-switching noise bar low in frame; burned-in orange tape date stamp reading 'OCT 12 1985' in the lower-left corner.",
+      "audio_direction": "Single monaural camcorder microphone: compressed, slightly distorted room sound; children shouting and laughing at uneven distances; off-key birthday singing in the background; balloon squeaks and confetti-paper flutter up close; a distant dog barking outside; muffled cartoon audio from the console TV; an adult voice off-camera, half-intelligible; constant tape hiss under everything; auto-gain pumping audibly whenever a child yells near the mic, then slowly releasing back into room air.",
+      "negatives": "no morphing or dissolving confetti pieces, no smearing confetti into streaks, no frame tearing or rip artifacts, no extra figures materializing in the background, no garbled or malformed text anywhere except the fixed corner date stamp, no digital stabilization or gimbal-smooth motion, no modern clean sharpness, no HDR contrast, no watermark overlays, no modern UI elements.",
+      "identity_lock": "the corner date stamp text 'OCT 12 1985' in orange, lower-left, must persist unchanged; cardboard cone party hat with elastic strap on the central child; red-and-white striped pullover; seven lit candles on the yellow sheet cake; red and yellow balloons; crepe streamers on wood paneling; blue shag carpet; the density and suspended position of the confetti cloud above the coffee table; the pure-white blown window."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 144,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile1"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787766323.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Subject:** A 1980s-style living room featuring children at a birthday party. One child (the birthday boy) remains seated at a table with a cake, while two others run past in the foreground at the beginning of the shot.\n\n**Motion Quality:** The motion of the running children in the first half-second is energetic but suffers from significant motion blur, making their features difficult to distinguish. The subsequent transition to the birthday boy blowing out candles is a slow, deliberate action that is rendered smoothly.\n\n**Temporal Consistency (Flicker/Morphing):** There is a noticeable lack ",
+    "latency_secs": 10.8
+  }
+}

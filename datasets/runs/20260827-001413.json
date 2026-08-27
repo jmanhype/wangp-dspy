@@ -1,0 +1,42 @@
+{
+  "run_id": "20260827-001413",
+  "genre": "surreal",
+  "intent": "a 1990s public-access cooking show set with a wobbly wooden counter, oversized ceramic pot, host gesturing at camera, painted food backdrop peeling at the corners, fluorescent glare, S-VHS tracking noise, chroma spill on the apron, handheld camcorder drift. Analog tape only, no clean studio look, no on-screen graphics",
+  "ts": "2026-08-27T00:23:18",
+  "duration_secs": 544.8,
+  "briefs": [
+    {
+      "subject": "A mid-40s cooking show host with a slight paunch, short feathered hair, and a short-sleeved button-up shirt in faded teal with a small repeating pattern, wearing a mustard-yellow canvas apron with visible tie knots at the back and green chroma-spill fringing along its edges. The host stands behind a wobbly wooden counter with a pale laminate top, scuffed edges, and visible screws at loose joints. On the counter sits one oversized speckled ceramic bean pot in cream with brown flecks, lid slightly askew, with a worn wooden spoon resting against its rim. Behind the host, a hand-painted canvas backdrop depicts flat, cartoonishly oversized food illustrations \u2014 a giant tomato, a baguette, a whole fish \u2014 with paint peeling and corners curling away from the wall. Overhead, bare fluorescent tube fixtures in a sagging grid cast flat, glaring light. No other people on set.",
+      "motion": "The host gestures in broad presenter arcs \u2014 one hand waving open-palmed toward the camera, the other patting or tapping the ceramic pot, producing a dull clay knock. Weight shifts side to side cause the counter to visibly wobble: the laminate top dips a few millimeters at the corners, the pot rocks subtly with a faint ceramic scrape, and the wooden spoon trembles against the rim. The apron swings and settles with each hip shift, its lower hem dragging a half-beat behind the body. The host's head bobs while talking, shoulders loose and animated. The peeling backdrop corners stay fixed but flutter almost imperceptibly when the host moves briskly. All motion is smeared at the edges by tape interlace rather than rendered crisply.",
+      "camera": "A 1990s consumer camcorder character: wide-angle lens with mild barrel distortion, medium shot framed slightly below the host's eye level from across the counter, host and pot both in frame with headroom that drifts. The camera sways in a slow handheld figure-drift \u2014 lateral float, small vertical bounce, occasional slow re-settle as if the operator is standing casually. Autofocus hunts softly on the host's face, causing a gentle focus-breathing pulse. Exposure pumps subtly in time with the fluorescent cycle, highlights blooming flat and blowing out on the counter's glare. Slight horizontal jitter and a persistent thin tracking-noise band crawl along the lower frame edge. No cuts, no zooms \u2014 one continuous drifted framing.",
+      "style": "S-VHS analog tape aesthetic: soft low-resolution detail, coarse chroma noise across flat surfaces, horizontal tracking noise streaks, occasional brief white dropout streaks, color bleeding on the apron's mustard saturation and the backdrop's red tomato, green/magenta chroma fringe on high-contrast edges, interlace combing on the host's moving hands. Highlights are flat and blown with no graceful rolloff \u2014 pure fluorescent glare. Palette is muted 1990s public-access: mustard yellow, teal, wood brown, washed-out backdrop primaries. Faint tape hiss texture across the whole frame, slightly darker and noisier at frame edges.",
+      "audio_direction": "Constant low-level analog tape hiss as the noise floor. A 120Hz fluorescent ballast hum under everything. The host speaks in an upbeat, slightly clipped demonstration voice through a cheap lavalier \u2014 mild P-pops, occasional cable rustle, thin room reverb of a small carpeted studio. Periodic dull clay 'tok' of hand on the ceramic pot, wooden spoon scrape, faint creak from the wobbling counter joints. Distant camcorder motor whir and a soft breath of room air. No music.",
+      "negatives": "No clean digital studio look, no crisp 4K sharpness, no on-screen graphics, lower-thirds, titles, or caption text, no soft dissolves or morphs, no digital glitch tearing, no extra figures or studio audience, no modern cinematic lighting or shallow depth-of-field, no glossy color grading, no broadcast logo watermarks, no timecode overlays.",
+      "identity_lock": "Mustard-yellow apron with green chroma-spill fringe, faded teal patterned shirt, host's feathered hair and build, oversized cream-and-brown speckled ceramic pot with askew lid and wooden spoon, pale laminate wooden counter with visible screws, peeling painted food backdrop with curled corners, overhead fluorescent tube grid \u2014 all must remain unchanged for the entire shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 168,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787808190.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a person standing behind a wooden table with a pot on it, set against a backdrop of large printed food items (tomato, baguette, fish). The subject is speaking and gesturing.\n\n**Analysis:**\n1.  **Subject & Motion Quality:** The subject's movements are generally consistent with natural human gesture. However, the hands and fingers occasionally exhibit a slight \"waxy\" or blurred appearance during rapid movement, which is common in lower-frame-rate or heavily compressed video. The facial expressions change naturally.\n2.  **Temporal Consistency:** The scene is stable. The backgro",
+    "latency_secs": 377.5
+  }
+}
