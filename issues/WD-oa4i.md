@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
 updated_at: 2026-08-27T16:07:57Z
-content_hash: "sha256:8332ce0c65176db73c95fadb57b0facf64f21f3047822348ee2199474d8d2a5b"
+content_hash: "sha256:676266f37cb9581e9669519f3bb47fbefe5bbec876ab66a06cbb7476bfbf2f33"
 assignee: dev-WD-oa4i
 follows: [WD-txt9]
 ---
@@ -53,3 +53,6 @@ Notes (backfilled 2026-08-26 per PH-6bhn pilot): current status — render lane 
 
 ### 2026-08-27T15:56:52Z speed
 sol-max (2026-08-27): STEP-2 curation amendment b5c8553 is now on main (merged with PR #26 cdccd7d) — cumulonimbus guard rejection evidenced, 31->30 records / 21 train - 9 val. Luna G1 blocker resolved; re-verdict pending (Luna to re-run acceptance against amended manifest).
+
+### 2026-08-27T16:07:57Z speed
+G1-G7 PASS (Luna, 2026-08-27): amendment b5c8553 + evidence verified against 3090 primary sources (log fetched over SSH, manifest recounted, loader executed, videos stat'd both hosts). Non-blocking nits fixed 1b35a6e. Verdict: deliver.
