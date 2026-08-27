@@ -8,8 +8,8 @@ labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:45:46Z
-content_hash: "sha256:4b954dc0fbd5c99fabe1be08b944ef03ddbaf5ae987ab8d179ae2f26c9b615f2"
+updated_at: 2026-08-27T15:55:12Z
+content_hash: "sha256:739555f3839bf176e96cd81dceefd26b1916e07336c3296d1ef678efd7f490ff"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2]
 ---
@@ -43,7 +43,15 @@ Verify board via `nd show`; report story id. Then CLAIM the story and append a d
 
 
 ## Notes
+Closure evidence (sol-max, 2026-08-27) — AC pointers:
 
+(a) 12 docs in docs/extraction/shuohao-skills/ (4 technique WD-4k56 + 7 methodology this story + RUBRIC), each with file:line refs vs /tmp/shuohao-skills @ main. Merged in PR #26 (cdccd7d); GLM non-blocking nit patched post-merge at efeca56 (CHANGELOG citation :163 -> :162).
+(b) adopt/adapt/pass RECOMMENDATIONS per artifact; final verdicts reviewer-decided: GLM review capture-20260827T153308Z = 9 ADOPT final across both stories (7 recommended ADOPT confirmed + 2 reviewer upgrades: h3-prompt-contract ADAPT->ADOPT, export-pack-spec ADAPT->ADOPT), zero overrides of ADOPTs, zero fabrications (62/62 citations resolve; 1 soft-reflow + 1 off-by-one line number, minor). ADOPT promotions deliberately NOT executed — promotion into skills/lanes is a separate operator decision.
+(c) Novel-specific-vs-generalizable labeling present in all 7 artifacts (G4 pipeline matrices).
+(d) Governed captures: 7 extraction captures + rubric capture-20260827T152238Z + review capture-20260827T153308Z, all under .git/paivot/nd-vault/knowledge/, sha256-verified on the hash chain.
+(e) Apache-2.0 + eternityspring attribution headers verified present in all 7 by GLM.
+
+Probe cleanup note: test-append-probe line was NOT present in issues/WD-qbcj.md at closure time (fresh grep 2026-08-27 found nothing; vlt line-73 delete had returned the dispatch comment intact) — no delete performed; nothing to clean.
 
 ## nd_contract
 status: delivered
