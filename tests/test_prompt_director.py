@@ -99,7 +99,8 @@ def test_render_brief_schema_fields():
     import dataclasses
     names = {f.name for f in dataclasses.fields(RenderBrief)}
     assert names == {"subject", "motion", "camera", "style",
-                     "audio_direction", "negatives", "identity_lock"}
+                     "audio_direction", "negatives", "identity_lock",
+                     "registry"}  # registry: no-names gate (not a prompt section)
 
 
 def test_craft_sections_are_optional_and_flow_into_prompt():
