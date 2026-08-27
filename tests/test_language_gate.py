@@ -167,7 +167,7 @@ def test_director_forward_accepts_registry():
                    '"camera":"slow push in","style":"16mm grain"}')}])
     d = PromptDirector()
     with dspy.settings.context(lm=lm):
-        out = d.forward("kaiju video", registry={"entities": []})
+        out = d.forward(intent="kaiju video", registry={"entities": []})
     assert out.brief.subject == "a kaiju in fog"
 
 
@@ -191,7 +191,7 @@ def test_pipeline_registry_passthrough():
     # briefs stage: the LM brief carries a registry name -> the
     # no-names gate must fire (typed failure) rather than pass through
     with pytest.raises(Exception, match="proper noun|Mira"):
-        pipe.forward("a video about the detective")
+        pipe("a video about the detective")
 
 
 def test_pipeline_no_registry_backward_compat():

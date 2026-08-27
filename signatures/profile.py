@@ -17,6 +17,9 @@ class ProfileSelectorSignature(dspy.Signature):
     Choose based on the brief's style/texture demands (H3 for
     photoreal film looks), camera complexity, and motion intensity.
     Output the JSON object only.
+
+    LANGUAGE-CLASS CONTRACT (WD-c4gw): `decision` is ENGINE-BOUND —
+    LOCKED ENGLISH (machine-parsed JSON; profile-pass.md:16).
     """
     subject: str = dspy.InputField()
     motion: str = dspy.InputField()

@@ -15,6 +15,10 @@ class RenderQCSignature(dspy.Signature):
       notes: one sentence
 
     Judge strictly; output the JSON object only.
+
+    LANGUAGE-CLASS CONTRACT (WD-c4gw): `critique` is ENGINE-BOUND —
+    LOCKED ENGLISH (machine-parsed JSON); `notes` is HUMAN-REVIEW —
+    follows the workflow language (language-split-contract.md).
     """
     subject: str = dspy.InputField()
     motion: str = dspy.InputField()

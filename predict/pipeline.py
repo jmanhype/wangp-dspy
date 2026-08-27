@@ -63,7 +63,8 @@ class Pipeline(dspy.Module):
                  assembler: Optional[MultiShotAssembler] = None,
                  adapter=None,
                  qc_factory: Optional[Callable] = None,
-                 creative_lm=None):
+                 creative_lm=None,
+                 registry=None):
         """Collaborators are duck-typed by design: tests inject stubs,
         the real run injects the dspy modules + 3090 adapter. Only the
         assembler keeps a concrete default (pure logic, no IO).
@@ -81,6 +82,8 @@ class Pipeline(dspy.Module):
         self.adapter = adapter
         self.qc_factory = qc_factory
         self.creative_lm = creative_lm
+        # WD-c4gw: entity registry threaded to the LM brief path
+        self.registry = registry
 
     def forward_with_skeleton(self, intent: str, *,
                                 skeleton=None) -> PipelineResult:
@@ -117,8 +120,16 @@ class Pipeline(dspy.Module):
         try:
             with creative_ctx():
                 for _ in range(n_shots):
-                    result.briefs.append(
-                        self.director(intent=intent).brief)
+                    # backward compat: only thread registry when
+                    # present — stub directors (and old callers) take
+                    # no registry kwarg
+                    if self.registry is not None:
+                        result.briefs.append(
+                            self.director(intent=intent,
+                                          registry=self.registry).brief)
+                    else:
+                        result.briefs.append(
+                            self.director(intent=intent).brief)
         except Exception as exc:
             raise PipelineStageError(
                 "briefs", f"intent -> RenderBrief failed: {exc}", exc)
