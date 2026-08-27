@@ -1,17 +1,18 @@
 ---
 id: WD-4s1b
 title: "ADOPT: claim-fields for beat-grid/lyric-boundary checks"
-status: in_progress
+status: closed
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-27T18:21:37Z
 created_by: speed
 updated_at: 2026-08-27T18:35:50Z
-content_hash: "sha256:76aebf6f3b12e5fe5c41b97481f596137794f60fe29d0439ce9e1c615dbac68e"
+content_hash: "sha256:b9dac5c6a44e4884a47d04997633599c31f432b137835df9e3c323de10aef906"
 assignee: dev-WD-4s1b
 follows: [WD-gq8y, WD-4jpr, WD-4k56]
 labels: [delivered]
+closed_at: 2026-08-27T18:35:50Z
 ---
 
 ## Description
@@ -43,6 +44,7 @@ status: delivered
 - 2026-08-27T18:26:15Z auto-follows: linked to predecessor WD-4jpr
 - 2026-08-27T18:26:16Z status: in_progress -> in_progress
 - 2026-08-27T18:26:16Z auto-follows: linked to predecessor WD-4k56
+- 2026-08-27T18:35:50Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
