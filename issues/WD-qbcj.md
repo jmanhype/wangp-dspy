@@ -1,17 +1,18 @@
 ---
 id: WD-qbcj
 title: "Methodology extraction: shuohao-skills pass docs, doctrines, design rationale"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [delivered, pm-accepted]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T16:12:26Z
-content_hash: "sha256:9127b4611af27baac432a77995df987bbd7c55a0b6b245c2885e64af5ba05450"
+updated_at: 2026-08-27T16:12:52Z
+content_hash: "sha256:a50f43353b9a108c2e9f4e967078cc44a50583200276d217885cd5d48bc17742"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2, WD-pt60, WD-xzqp]
+closed_at: 2026-08-27T16:12:52Z
 ---
 
 ## Description
@@ -73,6 +74,7 @@ status: delivered
 - 2026-08-27T15:57:06Z auto-follows: linked to predecessor WD-pt60
 - 2026-08-27T15:57:11Z status: in_progress -> in_progress
 - 2026-08-27T15:57:11Z auto-follows: linked to predecessor WD-xzqp
+- 2026-08-27T16:12:52Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
