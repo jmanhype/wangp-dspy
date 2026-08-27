@@ -9,7 +9,7 @@ parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
 updated_at: 2026-08-27T16:12:26Z
-content_hash: "sha256:1d58149142559eb655055191f1df63c2fc8297604ac1ca8afcba9ea790cc0c19"
+content_hash: "sha256:9127b4611af27baac432a77995df987bbd7c55a0b6b245c2885e64af5ba05450"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2, WD-pt60, WD-xzqp]
 ---
@@ -88,3 +88,6 @@ Closure evidence (sol-max, 2026-08-27): AC (a) 12 docs in docs/extraction/shuoha
 
 ### 2026-08-27T15:58:12Z speed
 DELIVERY (2026-08-27T15:57Z, sol-max): story_deliver executed via developer-role wiring — board labeled 'delivered' (status in_progress pending PM accept). Delivery note: GLM FINAL PASS (review capture-20260827T153308Z; rubric 152238Z) — zero fabrications, 9 ADOPT final across both extraction stories (7 recommended + 2 reviewer upgrades), zero overrides of ADOPTs. Artifacts: 7 methodology docs merged at cdccd7d (PR #26), nit patched efeca56; 9 governed captures under nd-vault knowledge/ sha256-chained. AC (a)-(e) met; completion documented in Notes + Comments per the board's checkbox fallback instruction. ADOPT promotions deliberately not executed — separate operator decision.
+
+### 2026-08-27T16:12:26Z speed
+PM ACCEPT (operator, 2026-08-27): methodology extraction accepted — 7 docs, 9 ADOPT verdicts final (GLM review 153308Z, 62/62 citations, zero fabrications). Story closed.
