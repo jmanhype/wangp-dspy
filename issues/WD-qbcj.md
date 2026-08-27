@@ -4,11 +4,11 @@ title: "Methodology extraction: shuohao-skills pass docs, doctrines, design rati
 status: in_progress
 priority: 2
 type: task
-labels: [methodology, extraction, delivered]
+labels: [delivered, pm-accepted]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:58:12Z
+updated_at: 2026-08-27T16:12:26Z
 content_hash: "sha256:1d58149142559eb655055191f1df63c2fc8297604ac1ca8afcba9ea790cc0c19"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2, WD-pt60, WD-xzqp]
