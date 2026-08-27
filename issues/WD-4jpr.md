@@ -8,10 +8,11 @@ parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
 updated_at: 2026-08-27T16:32:02Z
-content_hash: "sha256:18715e631b45c628b4e923d8bc7c1bf0d10bc5953d2be9bce8a5dc3513675d1d"
+content_hash: "sha256:fe20ca8372f19804e9f496f565a02f848d39c3258855c0a39b940027ecae9290"
 assignee: speed
 follows: [WD-4k56]
 closed_at: 2026-08-27T16:32:02Z
+led_to: [WD-gq8y]
 ---
 
 ## Description
@@ -41,6 +42,7 @@ Note: story created via paivot_story story_create (WD-4jpr); AC section patch no
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-4k56]]
+- Led to: [[WD-gq8y]]
 
 ## Comments
 
