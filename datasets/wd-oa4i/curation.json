@@ -9,25 +9,51 @@
       {
         "intent": "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks",
         "runs": [
-          {"run_id": "20260824-103137", "qc_score": 8, "disposition": "dropped"},
-          {"run_id": "20260824-110409", "qc_score": 9, "disposition": "kept", "reason": "highest QC in group (9 > 8, 8)"},
-          {"run_id": "20260824-112120", "qc_score": 8, "disposition": "dropped"}
+          {
+            "run_id": "20260824-103137",
+            "qc_score": 8,
+            "disposition": "dropped"
+          },
+          {
+            "run_id": "20260824-110409",
+            "qc_score": 9,
+            "disposition": "kept",
+            "reason": "highest QC in group (9 > 8, 8)"
+          },
+          {
+            "run_id": "20260824-112120",
+            "qc_score": 8,
+            "disposition": "dropped"
+          }
         ],
         "reason": "3 renders of the identical intent/brief — exact-intent duplicates; only the best-QC example survives into train/val."
       },
       {
         "intent": "a kaiju silhouette rising through fog over a harbor city, dawn light, [silhouette degrades]",
         "runs": [
-          {"run_id": "20260824-114250", "qc_score": 7, "disposition": "kept", "reason": "tied best QC (7 = 7); earliest run_id wins the tie deterministically"},
-          {"run_id": "20260824-121701", "qc_score": 7, "disposition": "dropped"}
+          {
+            "run_id": "20260824-114250",
+            "qc_score": 7,
+            "disposition": "kept",
+            "reason": "tied best QC (7 = 7); earliest run_id wins the tie deterministically"
+          },
+          {
+            "run_id": "20260824-121701",
+            "qc_score": 7,
+            "disposition": "dropped"
+          }
         ],
         "reason": "2 renders of the identical intent/brief — exact-intent duplicates."
       }
     ],
     "unique_kept": 6,
     "surviving_run_ids": [
-      "20260824-110409", "20260824-114250", "20260824-143814",
-      "20260824-144542", "20260824-162907", "20260824-164317"
+      "20260824-110409",
+      "20260824-114250",
+      "20260824-143814",
+      "20260824-144542",
+      "20260824-162907",
+      "20260824-164317"
     ]
   },
   "intents_v2": {
@@ -52,5 +78,30 @@
       "final collapse by brief hash so intent-key and subject-key survivors cannot double-count"
     ],
     "tests": "tests/test_qc_feedback_loader.py"
-  }
+  },
+  "amendments": [
+    {
+      "step": 2,
+      "date": "2026-08-27",
+      "amendment": "dataset count 31 -> 30; split 21/10 -> 21/9",
+      "cause": "intent 'a time-lapse of clouds stacking into a cumulonimbus over wheat fields...' permanently rejected by PromptDirector meta-hint guard in both original and rephrased forms (rephrase removed 'lower third'/'fades' wording; director still generated the meta-hint from scene language)",
+      "verbatim_evidence": [
+        "[PromptDirector] INVALID BRIEF: editor meta-hint 'lower third' is forbidden in a render brief (belongs to H3 shots only)",
+        "STAGE FAILURE [briefs]: [briefs] brief 0 is a failure marker: (invalid brief: editor meta-hint 'lower third' is forbidden in a render brief (belongs to H3 sho)"
+      ],
+      "source_log": "3090:~/wangp-dspy/logs/wd-oa4i-gapfill3.log, cycle 'a time-lapse of clouds stacking into a cumulonimbu...' (2026-08-27 00:54:37)",
+      "disposition": "intent excluded from dataset; rejection itself is a labeled guard-behavior example; follow-up: director-prompt tuning so time-lapse/exposure language does not imply editor overlays",
+      "duplicate_takes_dropped": {
+        "20260826-105551": "ink-drop take 1 (QC 8) - kept sibling 20260826-190414 (QC 9)",
+        "20260827-004621": "cooking-show take 2 (QC 7) - kept sibling 20260827-001413 (QC 7, earlier run_id tie-break)"
+      },
+      "final_state": {
+        "kept": 30,
+        "dropped": 4,
+        "excluded": 1,
+        "train": 21,
+        "val": 9
+      }
+    }
+  ]
 }
