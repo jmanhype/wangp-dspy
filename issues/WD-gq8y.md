@@ -8,8 +8,8 @@ labels: [adopt, shuohao-skills]
 parent: WD-j9nx
 created_at: 2026-08-27T17:23:35Z
 created_by: speed
-updated_at: 2026-08-27T17:44:29Z
-content_hash: "sha256:d25074e87347ca25c47e4a07f2ed99a953d5c23db531ed80f7d67065b36311f2"
+updated_at: 2026-08-27T17:46:47Z
+content_hash: "sha256:23e16a7122e15d302920afb0d3f007fe705d5a9b1155efc9145edde602d3cfca"
 assignee: dev-WD-gq8y
 follows: [WD-4jpr]
 ---
@@ -107,3 +107,6 @@ Carry-over nits (non-blocking): M1 docstring/code start-vacuum constant mismatch
 
 ### 2026-08-27T17:44:29Z speed
 ADOPT #2 VERIFIED by sol-max: branch feat/wd-gq8y-skeleton-signoff head e7f5f45. tests/test_skeleton.py 19/19 pass; diff --check clean; full-suite failure set IDENTICAL on main vs branch (12 pre-existing LM-wiring + 2 pre-existing manifest-count failures, both fail on clean main too); CLI renders the three sign-off questions correctly. GLM OVERALL PASS. Ready for operator PR+merge.
+
+### 2026-08-27T17:46:47Z speed
+ADOPT #2 DELIVERED: PR #28 merged (GLM PASS all 4 items, Sol verification: 19/19 skeleton tests, CLI live, zero-model confirmed). Nits logged: M1 constant mismatch, F1 caller-attested signoff, F2 skeleton-kwarg enforcement. Automerge per operator standing order.
