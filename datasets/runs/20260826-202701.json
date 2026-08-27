@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-202701",
+  "genre": "surreal",
+  "intent": "a 1970s film-noir alley interrogation scene staged as a found 35mm reel, venetian blind shadows, cigarette smoke columns, wet cobblestones reflecting one sodium lamp, grain heavy, gate weave visible. Film stock only, no digital grain.",
+  "ts": "2026-08-26T20:39:09",
+  "duration_secs": 728.1,
+  "briefs": [
+    {
+      "subject": "Two men in a narrow brick alley at night, staged as authentic 1970s footage. Primary figure: a detective in a rumpled tan belted trench coat, wide 1970s lapels, loosened dark tie, low-brimmed gray fedora, cigarette between fingers with a long unbroken ash column, backlit by the only light source \u2014 a single overhead sodium vapor lamp casting a warm amber pool. Secondary figure: a man pressed back against wet brick in a dark three-piece suit, collar torn open, caught in the lamp's edge. Environment: wet cobblestones mirroring the lamp as a smeared amber streak, a venetian-blind slat shadow pattern raked across the brick wall and the pinned man's face, slow steam curling from a street grate, fire-escape silhouette overhead, dented trash bins at frame edge.",
+      "motion": "Detective leans in slowly toward the pinned man, weight rolling from back foot to front, trench coat hem and tie swinging with a heavy damped lag, fedora brim dipping. Cigarette smoke rises in slow laminar columns that break into lazy curls near the lamp, drifting with breath exhalation and coat displacement air. Pinned man's chest and shoulders heave, jacket stretch lines pulling at the wall. Faint drizzle and drips from the fire escape strike foreground puddles, each drop producing a sharp concentric ripple that wobbles the lamp's reflection. Grate steam pulses and shears sideways in the alley draft. All motion is low-amplitude, continuous, gravity-heavy \u2014 nothing snaps or glides.",
+      "camera": "Shot down the alley's axis on a long lens (85\u2013100mm equivalent) for compressed space, brick walls stacked tight behind the subjects. Slow deliberate push-in from a medium-wide two-shot toward a tighter two-shot, with a faint handheld sway breathing on the frame. Sodium lamp sits high-back-lit; when smoke columns cross it, exposure blooms \u2014 highlight halation swells and settles like breathing. Foreground puddle reflection anchors the bottom of frame. Shallow depth of field with soft vintage optics: highlights bloom soft, corners fall slightly out of definition, no clinical sharpness anywhere.",
+      "style": "1970s 35mm color-negative stock character (Kodak 5247 era): coarse, clumping silver-halide grain that restructures every few frames \u2014 film stock only, zero digital grain or synthetic noise. Heavy highlight halation bleeding amber around the sodium lamp, deep inky blacks with a printed-in shadow lift and faint base fog, desaturated midtones with a warm amber-orange key against slate-blue night, slight magenta emulsion fade. Artifact layer: emulsion scratches, dust and hair-in-gate specks, dense grain in the dark wall areas, and visible gate weave \u2014 continuous subtle frame-edge wobble and vertical unsteadiness throughout the shot. Optical softness, no anamorphic flares, no modern contrast curve.",
+      "audio_direction": "Continuous wet-alley room air: fine rain hiss on cobblestones, irregular metal drips from the fire escape pinging into puddles, sodium lamp ballast hum at a low 60Hz electrical buzz. Distant muffled traffic wash and a far-off siren that never resolves. Low sustained sub-bass tension drone rising almost imperceptibly under the scene. Close sources: faint cigarette ember crackle, slow fabric creak and coat rustle as the detective leans, breath and low indistinct murmured interrogation voices kept below intelligibility, steam hiss from the grate pulsing under everything.",
+      "negatives": "no digital grain, no synthetic noise, no sharpening halos, no clean modern video look, no teal-orange grade, no daylight or fill light, no extra figures or bystanders, no cars entering frame, no text, subtitles, or burned-in artifacts, no face morphing or tearing, no soft dissolves, no lens flares from off-frame sources, no anachronistic clothing, props, or signage, no smooth stabilized camera float.",
+      "identity_lock": "Tan belted trench coat, gray fedora, lit cigarette with long intact ash, single amber sodium lamp as sole light source, venetian-blind slat shadows across brick and the pinned man's face, wet cobblestones with amber lamp reflection, dark three-piece suit with torn collar, fire-escape silhouette, steam grate at frame lower right \u2014 all must remain unchanged for the full duration of the shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "720p",
+      "shot_length_frames": 240,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787794741.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Subject: Two men standing in a narrow, rain-soaked alleyway at night. One is wearing a trench coat and fedora, smoking; the other is in a suit, leaning against the wall. The scene is atmospheric with fog and wet cobblestones.\nMotion Quality: The motion is minimal and primarily consists of the slow drift of fog and smoke. The characters remain largely static, with very subtle shifts in posture or head angle that feel natural rather than jittery.\nTemporal Consistency: High. The lighting, character positions, and environmental details (like the reflection on the wet ground and the shape of the fo",
+    "latency_secs": 15.2
+  }
+}

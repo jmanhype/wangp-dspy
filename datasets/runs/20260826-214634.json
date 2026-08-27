@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-214634",
+  "genre": "surreal",
+  "intent": "a cathedral-sized server hall from 1979 being decommissioned, reel-to-reel tape drives spinning down one by one, operators in polyester uniforms wheeling out magnetic disk packs, sodium-vapor aisle lighting, cable bundles coiling on the raised floor. Magnetic-tape era only, no modern racks.",
+  "ts": "2026-08-26T22:06:26",
+  "duration_secs": 1191.7,
+  "briefs": [
+    {
+      "subject": "A cathedral-scale 1979 mainframe installation mid-decommission. Rows of refrigerator-sized tape drives (IBM 3420-type: two large horizontal reels, vacuum tape columns, cream-and-charcoal faceplates, chunky toggle switches and round indicator lamps) line both sides of a tall central aisle. Three operators in period polyester uniforms \u2014 mustard short-sleeve shirts with wide collars, aviator-style plastic glasses, tan flared trousers, laminated clip-on ID badges \u2014 wheel tall metal carts carrying stacked disk packs (cake-shaped metal canisters the size of car tires). Environment: raised floor of square beige tiles, thick black cable bundles snaking and coiling across it, overhead cable trays, sodium-vapor lamps mounted high in the ceiling vault. Surfaces: brushed steel, aged cream paint, scuffed floor tile, faint dust film on cabinet tops.",
+      "motion": "Tape reels decelerate one by one down the aisle with real rotational inertia \u2014 heavy spools slowing over several seconds, tape in the vacuum columns fluttering then sagging as tension drops, a faint settling shudder through each cabinet as spin stops. Operators push loaded carts with visible effort: leaning into the load, carts pitching slightly, urethane wheels juddering over tile seams, disk-pack canisters swaying a half-beat behind cart motion. One operator bends and coils a cable bundle in overhand loops, arm drawing circles, the coil slumping heavily when set down. Polyester uniforms move stiffly, fabric creasing at the elbow and snapping back with slight drag; shirt tails shift a half-second after torso turns. Fine dust motes drift through the lamp cones, disturbed air curling behind the moving carts.",
+      "camera": "Slow dolly push at chest height down the central aisle, 24mm wide-angle exploiting vertical scale \u2014 ceiling vault stretching away, converging cabinet lines, mild wide-angle bulge on foreground tile edges. Framing keeps operators in mid-ground thirds against the receding machine wall. Subtle handheld sway, breathing rise-and-fall of 1\u20132 degrees. Exposure behavior: sodium lamps bloom into soft orange halos, halation bleeding off chrome reel rims and cart handles, shadow sides of cabinets falling to near-black with only a faint bounce off the raised floor; lamps flicker imperceptibly on a slow thermal cycle, brightness breathing rather than strobing. Brief rack focus from a foreground coiling cable to a far tape drive as its reel stops.",
+      "style": "Late-1970s industrial 16mm observational documentary. Coarse, organic grain structure visible in flat mid-tones; pronounced halation around the sodium sources; warm amber/ochre palette with crushed cool tones \u2014 greens and blues desaturated to muddy gray by the lamp spectrum. Slightly lifted milky blacks, soft edge definition, gentle gate weave. Color restraint: essentially monochromatic amber with charcoal blacks and cream highlights; no saturated secondary colors except the operators' mustard shirts.",
+      "audio_direction": "Opens on a fat sub-bass electrical bus hum filling the room with mid-range HVAC air on top. Each tape drive spin-down is a distinct event: a whirring tonal glide from steady mechanical purr down through fluttering slowdown to a low metallic coast and final clunk, staggered one after another down the aisle like a falling row. Human layer: polyurethane cart wheels rumbling and ticking over floor-tile seams, disk-pack metal canisters chiming faintly on cart rails, thick cable slapping and scraping as it's coiled, fabric rustle of polyester at movement, a distant muffled voice calling a machine number. Room tone thins as drives die, ending with hollow HVAC air and one last echoing spin-down.",
+      "negatives": "No modern server racks, no blade chassis, no flat-panel monitors, no LCDs, no blue LED strings, no laptops, no smartphones, no modern cabling aesthetics (no zip-tied cat-6 bundles), no soft dissolves or morphs between machine states, no tearing or warping of reels, no extra figures appearing or vanishing, no text artifacts on cabinets, no lens flares streaking across frame, no cartoonish exaggerated motion.",
+      "identity_lock": "Reel-to-reel tape drives with two visible horizontal reels and cream/charcoal faceplates must remain identical in design throughout; disk packs stay tire-sized metal canisters on wheeled metal carts; operators' mustard polyester shirts, tan trousers, glasses, and badges unchanged; sodium-vapor amber lighting and its halation character constant; raised beige tile floor and black cable bundles present in every frame; 1970s mainframe proportions (refrigerator-scale cabinets) preserved with no drift toward modern rack geometry."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 336,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile1"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787799977.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 6,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video sequence:\n\n**Subject:**\nThe video depicts a stylized, retro-futuristic corridor filled with large tape reels on both sides. Workers in matching yellow uniforms are pushing carts loaded with stacks of tape reels. The setting is highly consistent with a \"Big Brother\" or 1980s corporate sci-fi aesthetic.\n\n**Motion Quality:**\nThe motion of the characters is generally fluid. They walk forward, pushing carts. However, there is a significant continuity error regarding the props.\n*   **0.00s - 2.00s:** The first character (closest to camera) is holding a large, loose",
+    "latency_secs": 27.0
+  }
+}

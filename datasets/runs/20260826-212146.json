@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-212146",
+  "genre": "surreal",
+  "intent": "a 1970s live concert crowd shot from the stage, handheld 16mm, sweat and confetti in the air, stage wash magenta and amber, audience arms swaying, projector flicker, film scratches. Concert film only, no LED screens.",
+  "ts": "2026-08-26T21:30:40",
+  "duration_secs": 533.5,
+  "briefs": [
+    {
+      "subject": "A dense 1970s concert audience filling the frame from the stage's edge, viewed slightly elevated from the stage lip looking down and out across a sea of faces toward the dark venue rear. Hundreds of fans in period wardrobe: denim jackets with fringe, bell-bottom cords, tie-dye remnants, bandanas, long center-parted hair, sleeves rolled, some holding raised lighters. Air thick with sweat haze and drifting paper confetti. Lighting is stage wash spilling past camera: magenta fresnel wash from the left, amber par-can pools from the right, an oil-wheel liquid-light projection flickering slow organic magenta shapes across the mid-crowd. No LED surfaces anywhere \u2014 fixtures are visibly tungsten, hot-pronged, period-correct.",
+      "motion": "The crowd moves as one slow breathing mass: shoulders sway on a shared mid-tempo rhythm, raised arms oscillate like kelp in current, heads bob on the beat with a half-second lag wave traveling front-to-back. Hair swings with the sway, sleeve fabric drags a beat behind arm movement. Confetti flutters down irregularly \u2014 flat pieces tumbling, catching magenta light on one face then going dark, descending slower than gravity alone. Sweat haze drifts laterally through the amber beams. Up close, individuals scream, whistle, mouth lyrics; hands flash peace signs. No figure crosses toward the camera; the mass stays a mass.",
+      "camera": "Handheld 16mm from the stage: a wide prime in the 12\u201316mm Super 16 range, held at chest height with the operator's breathing and foot-shift visible as constant low-frequency sway plus tiny rotational drift. Near faces at frame edges stretch with mild wide-angle distortion; mid-crowd compresses into texture. Exposure rides the edge: faces near camera read in amber key, mid-crowd falls to rim-lit silhouettes, the venue back swallows into lifted milky black. Stage lights just off-frame bloom with heavy halation and slow exposure breathing as beams swing. Focus breathes as the operator drifts between a near singing face and the mid-crowd mass \u2014 never a clean rack, always a soft settle. Gate weave jitters the frame edge by a frame-width.",
+      "style": "Kodachrome/Ektachrome 16mm reversal character: punchy oversaturated magentas, warm amber highlight rolloff, dense dancing grain that coarsens in the underexposed back rows, vertical emulsion scratches and dust hits flickering in and out, a hair-in-gate moment, blacks that lift slightly gray-blue, halation blooming off every practical light. Contrast is brittle, highlights clip to white-orange, skin tones run warm bronze under the wash.",
+      "audio_direction": "Band mix bleeding from behind camera: kick-drum thump and bass pulse felt in the room, overdriven guitar chording mid-pan, drums slightly washed in venue reverb. Over it, a crowd roar that swells and dips with the song \u2014 scattered screams close to mic-position, whistles, hundreds of voices finding a chorus and losing pitch. Low room air and PA hum underneath, faint tape hiss floor throughout, a distant brass or organ sustain threading the back of the mix.",
+      "negatives": "No LED screens, no digital displays, no phones or glow of any screen device, no pyrotechnics, no on-stage performers entering frame, no text artifacts, no soft dissolves or morphs, no tearing, no crowd members turning to camera as a single protagonist, no modern wardrobe.",
+      "identity_lock": "Magenta-and-amber stage wash palette locked for the full shot; 16mm reversal grain, halation, and intermittent vertical scratches sustained throughout; confetti continuously present in the air; crowd remains an anonymous mass in period wardrobe with no modern devices; camera stays on the stage side looking out; handheld sway and gate weave never stabilize."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787797833.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video sequence:\n\n**Subject:** The subject is a row of four hot air balloons (yellow, striped, cream, red) on a flat, cracked-earth surface (likely a salt flat or desert) during sunrise/sunset. The burners are firing, creating heat and light.\n\n**Motion Quality:** The motion is extremely smooth. The balloons inflate slowly and steadily. The camera appears to be static or moving very slightly forward, creating a stable composition. The flames flicker naturally, and the heat distortion (mirage effect) at the base is consistent with the physics of hot air burners.\n\n**Te",
+    "latency_secs": 7.0
+  }
+}

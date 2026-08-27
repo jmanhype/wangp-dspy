@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-211243",
+  "genre": "surreal",
+  "intent": "a koi pond in a mossy garden at blue hour, fish turning lazily beneath the surface, koi fins spreading, lotus leaves trembling, a stone lantern glowing softly",
+  "ts": "2026-08-26T21:21:40",
+  "duration_secs": 537.2,
+  "briefs": [
+    {
+      "subject": "A still koi pond in a moss-covered Japanese garden at blue hour. Three koi fish visible beneath the surface \u2014 kohaku pattern: white bodies with large vermilion-orange patches, one with a black-and-white shiro utsuri pattern \u2014 suspended in dark tea-tinted water. Broad green lotus leaves float on the surface with water beads pooled at their centers, some leaves curling at the edges. A weathered granite stone lantern (kasuga style, tapered cap, moss growing on its north face) stands at the pond's far edge, its candle chamber glowing warm amber. Rounded mossy stones line the near bank; distant garden silhouettes of maples fade into deep blue haze.",
+      "motion": "Koi turn in slow, weighty arcs \u2014 bodies rolling 30\u201345 degrees so their flanks catch the surface light, tails sweeping with visible drag as water resists. Pectoral fins unfurl and spread like silk fans, membranes catching light, then fold back on the glide. Each turn pushes soft concentric ripples outward that travel across the surface and set the lotus leaves trembling \u2014 a fine, continuous micro-oscillation at the leaf rims, water beads sliding slightly within leaf centers. The lantern flame breathes with a slow, gentle flicker \u2014 a subtle pulsing of its glow on the water's reflection, not strobing. Occasional gasping surface kiss from a koi, sending a small ring of ripples. Everything moves at blue-hour tempo: unhurried, heavy, liquid.",
+      "camera": "Locked-off or near-locked tripod at water level, slightly elevated (~15 degrees down) to see both surface and beneath it. Long lens feel \u2014 100\u2013135mm equivalent \u2014 compressing the distance between lantern and foreground lotus leaves, isolating koi against a softly out-of-focus teal field. Shallow depth of field with the nearest koi sharp; the lantern rendered as a warm glowing bokeh with slight bloom and halation into the blue. A very slow, almost imperceptible push-in (2\u20133% over the shot) toward the nearest koi. Exposure behaves like a dim wide-open lens: gentle blue-channel noise in shadows, highlights blooming softly, reflections of the lantern smeared vertically on the rippled water.",
+      "style": "Cool cyan-teal ambience of late blue hour with one warm amber accent from the lantern \u2014 classic complementary restraint. Film-stock character akin to Kodak Ektachrome or a cool-graded Portra: fine organic grain visible in the shadow gradients, soft halation rimming the lantern's glow, slightly lifted milky blacks, muted desaturated greens in the moss and lotus leaves. Water rendered dark and glassy with layered depth \u2014 the koi suspended in it like objects in amber. Gentle vignette, naturalistic contrast, no HDR crispness.",
+      "audio_direction": "Low, warm ambient bed: distant evening crickets beginning in stereo width, soft wind moving through maple leaves. Close-mic water detail \u2014 gentle lapping against mossy stones, the liquid sway of water displaced by the koi. Occasional soft 'gulp-and-plop' of a koi kissing the surface, followed by a decaying ripple hiss. A faint sustained low drone (sub-bass, barely audible) grounding the blue-hour stillness. The lantern contributes nothing audible except perhaps the faintest suggestion of warm air. No music, no melody \u2014 pure environmental tone.",
+      "negatives": "No soft dissolves or morphs \u2014 koi must remain physically coherent fish, never blending or melting. No tearing or splitting of fin membranes or water surfaces. No extra figures, people, animals, or additional koi appearing. No text artifacts, no watermarks, no logo shapes. No cartoonish or exaggerated motion \u2014 fish do not dart or jump. No strobing or hard flicker from the lantern. No sudden camera moves, zooms, or shakes.",
+      "identity_lock": "The three koi and their specific patterns (white/vermilion kohaku x2, black/white shiro utsuri x1) must remain consistent throughout \u2014 no pattern migration or color shifting. The stone lantern's shape, moss coverage, and warm amber glow must hold constant. Lotus leaf positions and counts fixed from first frame. Blue-hour teal palette with the single warm lantern accent must not drift toward daylight or full night. Mossy granite texture on stones and lantern preserved. No wardrobe/props to change \u2014 this is a nature lock: water color (dark tea-brown beneath teal surface), koi scale sheen, and lantern flame warmth are the protected features."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787797292.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Subject: The video features four hot air balloons on a salt flat, with the flames visible inside the baskets.\nMotion Quality: The motion is smooth, showing the gradual inflation of the balloons and subtle camera movement.\nTemporal Consistency: There is no noticeable flicker or morphing; the subjects remain consistent throughout the frames.\nArtifacts: No significant artifacts are present; the image quality is high with clear details and natural lighting.\nOne-line verdict: A high-quality, stable shot of hot air balloons being inflated at sunrise.\n\nScore: 9/10",
+    "latency_secs": 3.1
+  }
+}

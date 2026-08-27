@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-111138",
+  "genre": "surreal",
+  "intent": "a vintage 1970s weather map room with hand-painted storm cells moving across a large painted wall, spinning globe, cigarette-smoke haze, warm tungsten desk lamps. Analog broadcast only, no digital graphics.",
+  "ts": "2026-08-26T11:18:55",
+  "duration_secs": 437.6,
+  "briefs": [
+    {
+      "subject": "A 1970s broadcast weather map room at night. A floor-to-ceiling hand-painted regional map on gessoed plywood: faded cerulean ocean, olive-tan landmasses, dotted isobar lines, a blue sawtooth cold front and red scalloped warm front in heavy brush-applied paint. Stiff-board cut storm-cell panels (swollen grey-white painted cumulus shapes with magnets on their backs) cling to the map. A mechanical desk globe on a steel stand \u2014 muted tan continents, brass meridian arc \u2014 spins near frame edge. Midground: two steel desks with green-shaded tungsten banker's lamps, an overflowing glass ashtray holding one lit cigarette, curled paper charts, a rotary phone, walnut wood-paneled walls. Cigarette smoke hangs in visible horizontal strata through the lamplight. A single hand in a brown corduroy sleeve enters frame to slide the storm panels.",
+      "motion": "The corduroy-sleeved hand pushes one painted storm panel slowly left-to-right across the map; the board drags with felt friction, trembling in micro-stutters as its magnets catch and release, its painted edge catching the lamp light. The globe spins at a steady mechanical rate with a faint eccentric wobble on its axis, the tungsten highlight sliding around its curvature. Smoke rises in slow laminar curls, bending sideways at desk-lamp height, thickening inside the light cones and thinning above them; individual strands ribbon and dissipate. The cigarette ember pulses faintly; a loose chart corner flutters in ventilation airflow. Everything moves by hand or motor \u2014 friction-bound, weighted, nothing gliding on its own.",
+      "camera": "28mm wide-angle lens with mild barrel distortion at the frame edges, camera at seated desk height; one slow lateral dolly trucking left across the room toward the map wall. Foreground desk lamps rake through frame with bloom; smoke parallaxses at three depths (near lamp, mid globe, far map). Exposure breathes as smoke crosses the lamp filaments \u2014 halation swelling and contracting around each tungsten source. Deep focus front-to-back with slight softening at the far edge of the painted map. No zoom, no whip \u2014 a single weighted, continuous dolly move.",
+      "style": "16mm Eastman 5254 tungsten-balanced stock character: warm amber-olive palette (tobacco brown, dusty green, desaturated red), pronounced silver-halide grain clumping in shadows, milky lifted blacks, orange halation rings bleeding around every lamp filament, gentle vignette, faint emulsion scratches and dust sparkles passing through the gate. Color restrained and analog \u2014 no clean whites, no digital purity, no neutral gray.",
+      "audio_direction": "Room bed: 60Hz mains sub-bass hum with a warm tube-amplifier tonal pad underneath, HVAC air moving low and steady. Point sources: the globe motor whirring with a soft periodic click; the dry magnet-on-plywood scrape of the storm panel as a friction transient; paper charts rustling; a distant teletype chattering in arrhythmic bursts; a monitor down the hall leaking muffled, band-limited weather-report speech. Over time the tube pad swells almost imperceptibly warmer as the smoke thickens; teletype bursts are sparse early and slightly denser late.",
+      "negatives": "no digital graphics, no overlays, no UI elements, no CG gloss or vector-smooth panel motion, no morphing or soft dissolves between storm shapes, no tearing, no extra figures or faces beyond the single corduroy-sleeved hand, no modern flat screens or LED sources, no text artifacts, no signage, no autocue, no clean whites",
+      "identity_lock": "Hand-painted wall map with blue sawtooth cold front and red scalloped warm front; stiff-board magnetic storm panels with visible painted texture; steel-stand globe with brass meridian and tan continents; two green-shaded tungsten banker's lamps; walnut wood paneling; glass ashtray with lit cigarette; stratified smoke haze; brown corduroy sleeve \u2014 all must persist unchanged through the full shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "720p",
+      "shot_length_frames": 144,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787761128.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 4,
+    "verdict": "REJECT (surreal threshold 4.5)",
+    "summary": "**Analysis of Video Shot**\n\n**Subject & Motion Quality:**\nThe shot features a static office scene with a globe, desk, and a large map on the wall. A hand reaches in to move a cloud-shaped cutout on the map. The motion of the hand is smooth and natural. The primary motion in the scene, however, is the subtle, slow drift of the camera or the elements within the frame.\n\n**Temporal Consistency (Flicker/Morphing):**\nThe most significant issue with this video is a severe case of temporal instability. The cloud cutout being moved by the hand is constantly morphing and flickering. Its shape, size, and",
+    "latency_secs": 13.6
+  }
+}

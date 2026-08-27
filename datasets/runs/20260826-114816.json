@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-114816",
+  "genre": "surreal",
+  "intent": "a snowplow cutting a bright arc through falling snow on an empty highway at night, orange work lights sweeping, plume of white spray behind it, distant guardrail reflectors",
+  "ts": "2026-08-26T11:56:21",
+  "duration_secs": 484.9,
+  "briefs": [
+    {
+      "subject": "A heavy municipal snowplow truck \u2014 orange cab with white lower panels, roof-mounted amber strobe bar, angled wide steel blade with orange edge markers riding the asphalt \u2014 pushing forward on an empty two-lane highway at night. Fresh powder accumulating on untreated lanes, dense snowfall filling the air, a heavy plume of thrown snow spraying off the blade. Distant guardrail reflectors receding down the road as small amber-red pinpricks. No other vehicles, no people.",
+      "motion": "Truck advances at steady plowing speed (~35-40 km/h); chassis rocks subtly on its suspension over plowed ice ridges; blade judders lightly where it bites hardened windrow. Snow leaves the blade edge as a rooster-tail plume \u2014 dense wet chunks at the blade face atomizing into a trailing white mist that hangs, drifts, and settles behind the truck with visible weight and fall-off. Falling snow streaks through the headlight cones: near flakes fast and streaked, far flakes slow vertical drift. The amber strobe bar rotates continuously, sweeping warm light across the cab, the spray plume, and the snowbank; exhaust breathes as a faint white vapor from the stack. Distant reflectors flare briefly each time the strobe sweep reaches them.",
+      "camera": "Long-lens compression (135mm equivalent) from a low three-quarter rear angle just off the truck's right side, tracking smoothly with a faint handheld sway. Shallow depth compression stacks the guardrail reflectors tightly behind the truck; focus breathes between the spray plume and the cab. Exposure rides the darkness \u2014 asphalt held deep and underexposed while headlight cones bloom with halation, amber strobes flaring softly on each rotation. Snowflakes render as backlit streaks inside the light cones, black voids between light pools.",
+      "style": "Kodak Vision3 500T pushed one stop: pronounced but fine grain structure in the blue-black shadows, warm halation bleeding off every amber and white light source, restrained saturation everywhere except the strobes. Palette of deep blue-black night, cold cyan ambient skylight, and sodium-orange accents from the truck's lights. Wet asphalt sheen picks up streaked reflections; highlights roll off gently, no clipped digital whites.",
+      "audio_direction": "Low diesel V8 drone under constant load as the tonal floor, with a slow sub-bass pulse. Over it: rhythmic tire hiss over compacted snow, a faint hydraulic whine from the blade, heavy wet crunch and spray-hiss as snow leaves the blade, and broadband soft hiss of continuous snowfall. Occasional distant wind gust swells and dies; a faint rhythmic click from the strobe. No music \u2014 pure machine-and-weather beds.",
+      "negatives": "no soft dissolves or morphs, no tearing or shredding of the spray plume, no duplicate trucks or extra figures, no oncoming traffic, no daylight or blue-hour ambience, no text artifacts or signage, no lens flare splitting into geometric artifacts, no flickering geometry on the blade or cab.",
+      "identity_lock": "Orange cab with white lower panels, amber roof strobe bar, wide angled steel blade with orange edge markers, spray plume consistently off the right side of the blade, two-lane dark empty highway, receding guardrail reflectors, dense night snowfall, deep blue-black palette with amber light accents \u2014 all maintained for the full shot duration."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 144,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787763373.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the provided frames, here is the analysis of the video shot:\n\n**Subject & Motion Quality:**\nThe subject is a heavy-duty snow plow truck clearing a road at night. The motion is the slow forward progress of the vehicle combined with the high-speed ejection of snow from the side auger. The camera angle is low and static, creating a dramatic perspective. The snow being thrown looks physically plausible, with a good mix of solid chunks and fine powder that reacts to the vehicle's movement.\n\n**Temporal Consistency (Flicker/Morphing):**\nThere are noticeable consistency issues across the fram",
+    "latency_secs": 11.4
+  }
+}

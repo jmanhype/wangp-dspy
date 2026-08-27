@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-204635",
+  "genre": "surreal",
+  "intent": "an abandoned subway platform under emergency lighting, yellow hazard stripes, dust sheets over benches, a single rat scurrying across the tracks, flickering fluorescent tube",
+  "ts": "2026-08-26T20:54:36",
+  "duration_secs": 481.6,
+  "briefs": [
+    {
+      "subject": "Abandoned subway platform at night. Grimy white ceramic tile walls with decades of soot staining and a cracked missing tile or two. Platform edge striped with worn yellow-and-black hazard paint, half scuffed away. Two wooden benches fully draped in white dust sheets, sheets sagging with accumulated grime. Trackbed below: rusted rails, oil-dark ballast, scattered debris and a flattened paper cup. A single brown rat with pink tail and whiskers on the trackbed. Overhead: one long fluorescent tube in a metal housing, several dead insects in the diffuser, flickering weakly; the rest of the ceiling fixtures are dark. Emergency lighting: amber battery lamps at the far exit casting a warm pool, plus a red exit-sign glow reflecting faintly on wet tile. Dust motes suspended in the light shafts.",
+      "motion": "The rat scurries left-to-right across the trackbed in short bursts \u2014 low-slung body, rapid four-beat gait, tail trailing and whipping slightly for balance, tiny hesitation steps when it crosses a rail, faint kick-back of grit behind its paws, subtle motion blur on its feet only. Dust sheets breathe in a slow tunnel-air current: gentle swell-and-settle at their edges, folds shifting a centimeter or two, no billowing. Dust motes drift laterally through the light shaft. The fluorescent tube flickers irregularly \u2014 a stuttering 3-4 pulses then a weak steady dim, random cadence, never a clean rhythm. At the deepest flicker, the frame settles into amber emergency light only.",
+      "camera": "21mm wide-angle, camera height just above platform edge (~1m), looking down the platform length so the hazard stripe runs as a strong diagonal into frame. Slight wide-angle distortion stretching the platform's depth, mild handheld sway (breathing amplitude, no pans). Slow push of 30\u201340cm toward the trackbed over the shot, letting the rat grow in scale. The flickering tube sits in the upper third as a blown highlight; halation blooms around it on each surge. Wet rail speculars catch the amber exit glow; exposure rides the flicker with fast irregular pumping, shadows crushing to near-black on the dark ceiling.",
+      "style": "Expired 500T tungsten stock pushed one stop: coarse grain clustering in the shadows, warm-amber cast on highlights, sickly green undertone in the fluorescent-lit midtones. Heavy halation on the tube and exit sign. Muted, restrained palette \u2014 concrete grey, tile white gone ivory, hazard yellow desaturated, amber and a thin slice of red. Slight gate weave, soft negative-space falloff at frame edges.",
+      "audio_direction": "Low tunnel-room air: a slow sub-bass ventilation pulse under everything. Fluorescent buzz that stutters in exact sync with the tube's flicker \u2014 crackling interruptions in the 60Hz cycle hum, cutting to near-silence on the dark beats. Tiny claw ticks of the rat on ballast and rail steel, panned with its movement. A distant water drip with long reverb tail. A ghost-rumble of a train somewhere far down the line that never arrives, swelling then fading.",
+      "negatives": "no soft dissolves or morphs, no tearing, no extra figures, no text artifacts, no additional rats or animals, no people, no dust sheets billowing or forming shapes, no rhythmic strobing, no lens flares from unseen sources, no water or fog effects",
+      "identity_lock": "yellow-and-black hazard stripes on platform edge, white dust sheets fully covering both benches, single brown rat with trailing pink tail, one flickering fluorescent tube overhead, amber emergency lamp glow and red exit sign, grimy white tile walls, rusted twin rails \u2014 all must persist unchanged for the full shot"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "720p",
+      "shot_length_frames": 168,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile2"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787795669.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 5,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video shot:\n\n**Subject:**\nThe shot features a dimly lit, underground train tunnel or platform. Key elements include the tracks in the foreground, a tiled wall with a yellow-and-black hazard stripe, white tarps covering equipment on the left, and a small rodent (rat/mouse) moving across the tracks in the lower center.\n\n**Motion Quality:**\nThe camera is handheld with noticeable shake, creating a realistic, gritty documentary feel. The primary motion is the small animal scurrying from left to right across the tracks. The motion is somewhat blurry due to the low light ",
+    "latency_secs": 15.2
+  }
+}

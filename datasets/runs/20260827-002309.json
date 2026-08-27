@@ -1,0 +1,42 @@
+{
+  "run_id": "20260827-002309",
+  "genre": "surreal",
+  "intent": "a dusty antique clockmaker's workshop at golden hour, brass gears hanging from strings, dust motes drifting in sunbeams, a pendulum swinging slowly, ticking implied by motion",
+  "ts": "2026-08-27T00:33:01",
+  "duration_secs": 592.2,
+  "briefs": [
+    {
+      "subject": "Interior of a dusty antique clockmaker's workshop at golden hour. A tall west-facing window with six small panes and dark wooden mullions throws hard, low, amber shafts of light across the room. Strings of twine hang from the ceiling at staggered heights, each suspending a brass clock gear of different diameter (40\u2013200mm) with visible cut teeth, spokes, and aged yellowed-varnish patina. On the far wall, a regulator-style clock case with a glass door houses a slender brass pendulum rod ending in a polished disc-shaped brass bob. A worn oak workbench in soft foreground holds a jeweler's loupe, small flat-head screwdrivers, a coiled mainspring, brass filings, and wood shavings. Air is thick with slow-drifting dust motes that catch the sunbeams.",
+      "motion": "The pendulum swings in a strict metronomic arc, roughly two seconds per full cycle, with the weight of a real brass bob: it decelerates near each apex, a slight overshoot and settle at the extremes, and the bob rotates a few degrees as it swings so its polished face flashes warm light at each end of travel. The hanging gears sway in sympathy \u2014 tiny pendulum micro-arcs and slow torsional spins around the vertical axis of each string, each gear turning at its own lazy rate, strings remaining taut and straight. Dust motes drift in slow Brownian curves through the beams; when the pendulum passes, a faint ripple of turbulence nudges nearby motes sideways before they settle back into their drift. Nothing else moves \u2014 the room is still around these three systems.",
+      "camera": "Locked-off or nearly locked-off slow push-in (a few centimeters over the shot) on a 100mm long lens at f/2, framing the regulator clock slightly off-center with gear strings stacked in compressed layers between lens and clock. Long-lens compression flattens the gear layers into overlapping planes; shallow focus holds the pendulum bob critically sharp while foreground gear teeth melt into soft bokeh discs and dust motes render as glowing amber circles inside the beams. Exposure sits on the edge of the highlights \u2014 brass reflections bloom into halation and the beam brightness breathes almost imperceptibly, as if cloud haze is passing outside the window.",
+      "style": "Aged warm reversal stock character \u2014 fine, evenly distributed grain structure, strong halation blooming off brass and sunbeam highlights, amber-and-honey palette with deep umber shadows that retain detail. Color is restrained: brass golds, dark oiled wood, dusty grey-browns, and one saturated band of golden light. Slight softness in the corners, no modern digital crispness; the whole frame feels lacquered in decades of varnish and dust.",
+      "audio_direction": "A quiet, close room tone: warm low-mid air and wooden room resonance. A soft mechanical tick, low in the mix and slightly felt more than heard, landing exactly on each pendulum apex \u2014 dry, wooden, small. Faint sympathetic micro-jingle of gears settling on their strings, once early in the shot. Very low sub-bass room hum underneath, almost subliminal. No music. The tick's rhythm should be carried visually by the pendulum; audio mirrors it rather than announcing it.",
+      "negatives": "No soft dissolves or morphs, no tearing, no extra figures, no hands or people entering frame, no text artifacts or signage, no pendulum shape-shifting or warping mid-swing, no gear strings stretching, bending, or detaching, no gears passing through each other, no camera shake or whip movement, no cuts or transitions.",
+      "identity_lock": "The brass pendulum bob's disc shape, polished finish, and slender rod; the twine strings and their attachment points to specific gears; the exact arrangement and diameters of hanging gears; the six-pane window with dark mullions as the single warm key light source from frame left-to-right low angle; the oak workbench props (loupe, screwdrivers, mainspring, shavings); the amber-and-umber palette; the pendulum's two-second swing period held constant for the full shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 192,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787808773.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 6,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Analysis:**\n*   **Subject & Composition:** The scene depicts a vintage workshop with hanging brass gears and a grandfather clock. The lighting is atmospheric with visible dust particles, creating a strong aesthetic.\n*   **Motion Quality:** The gears rotate smoothly and consistently. The \"frayed\" texture on the suspension strings creates a shimmering effect as they move. The motion feels natural and fluid.\n*   **Temporal Consistency:** There is a noticeable issue with the clock pendulum. In the early frames (0.0s - 1.0s), the pendulum bob is positioned high up, near the center of the clock fa",
+    "latency_secs": 582.7
+  }
+}

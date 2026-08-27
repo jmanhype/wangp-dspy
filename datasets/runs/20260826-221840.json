@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-221840",
+  "genre": "surreal",
+  "intent": "a glass arthropod terrarium filmed as a 1990s science-classroom filmstrip, leaf insects swaying like dead leaves, condensation beads crawling down the glass, hand-lettered paper labels, frame-counter dot in the corner, a phonograph narration tone implied. Filmstrip only, no modern macro rig.",
+  "ts": "2026-08-26T22:34:21",
+  "duration_secs": 940.6,
+  "briefs": [
+    {
+      "subject": "A tabletop glass terrarium with an aluminum-framed mesh lid, framed straight-on like a single filmstrip frame. Inside: two leaf insects (Phyllium) \u2014 flat green-brown bodies with visible leaf-vein venation and legs shaped like broken leaf fragments \u2014 resting among a substrate of dead brown leaves, dry twigs, damp soil and a patch of moss. Condensation beads cling to the inner glass. Two hand-lettered paper labels are taped to the front pane (marker handwriting, lettering kept just soft enough to stay illegible \u2014 genus-style naming and a 'do not tap glass' note). A white frame-counter dot sits fixed in the top-right corner of frame, baked into the film print itself.",
+      "motion": "All motion lives in the subject, never the camera. The leaf insects sway in slow irregular pendulums like dead leaves stirred by nothing: a two-second lateral rock, a pause, a faint flutter at the abdomen tip, one deliberate slow leg-step across a twig; antennae give tiny intermittent twitches. Condensation beads crawl down the glass in staccato gravity slides \u2014 a bead swells, elongates, snaps free, and leaves a cleared wet trail; two beads merge mid-descent; occasionally one drops from the mesh lid and ticks onto the leaf litter. A taped label corner lifts a millimetre in ventilation breeze. Everything else holds still.",
+      "camera": "Locked-off frontal medium shot as if on a school AV tripod: 28mm-equivalent lens with modest barrel distortion at the frame edges, deep focus front-to-back (small-format classroom character, no shallow macro depth of field), terrarium centered with a hand's width of desk visible around it. Flat photoflood key from upper left putting a soft hotspot on the glass, its halation breathing fractionally with projector-lamp flicker; edge vignette and a faint yellowed frame border. Constant film gate weave: \u00b11\u20132px registration wobble with a slow vertical drift that re-settles every few seconds.",
+      "style": "Aged 35mm educational filmstrip print: coarse clumped grain structure, dust specks and a stray hair in the gate, one fine vertical scratch, gentle emulsion flicker. Faded Eastman color drifted amber-magenta with washed blacks and milky highlights that halo; muted sap greens, dusty browns, yellowed paper tones. Low contrast, near-duotone classroom-print character; chroma bleed where the green insects meet glass highlights.",
+      "audio_direction": "Implied phonograph narration: a warm mid-register voice-shaped murmur with a narrator's patient cadence that never resolves into intelligible words, pitched with slow wow-and-flutter wobble. Beneath it, a vinyl surface-crackle bed with occasional pops, a faint projector/fan hum, and low classroom room air. Sparse diegetic ticks: the plink of a condensation bead snapping free on glass, the dull tick of one landing on leaf litter, the dry rustle of insect legs over dead leaves; near-silence holds between events.",
+      "negatives": "No soft dissolves or morphs, no tearing or warping of the glass geometry, no extra figures \u2014 no hands, faces, students or teacher entering frame \u2014 no modern macro rig feel (no shallow depth of field, no rack focus, no gimbal glide or slider moves), no sharp readable text (labels stay soft), no watermark or burn-in overlays, no glitch artifacts, no cartoonish insect behavior like hopping or flying.",
+      "identity_lock": "Rectangular glass terrarium with mesh lid; two leaf insects with flat leaf-vein bodies and leaf-fragment legs; brown dead-leaf, twig and moss substrate; taped hand-lettered paper labels on the front pane with soft illegible lettering; condensation beads on the glass; white frame-counter dot fixed in the top-right corner; amber-magenta faded green-brown palette \u2014 all unchanged for the full duration of the shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 288,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787801652.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 6,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a high-quality, static shot of leaf insects in a terrarium. The subject is rendered with excellent detail and realistic textures. However, the temporal consistency is severely compromised by a major structural artifact: distinct vertical seam lines appear and disappear across the glass and background in several frames (e.g., at 0.00s, 5.00s, and 10.00s). Additionally, there is a distracting, bright circular flare artifact that flickers in and out of existence on the top right corner of the tank lid. While the insects remain relatively stable, these technical inconsistencies ",
+    "latency_secs": 15.3
+  }
+}

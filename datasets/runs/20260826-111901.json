@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-111901",
+  "genre": "surreal",
+  "intent": "a long exposure of headlight trails spiraling around a roundabout at night, wet asphalt glow, one red taillight streaking counter-clockwise, overcast winter air",
+  "ts": "2026-08-26T11:32:33",
+  "duration_secs": 811.9,
+  "briefs": [
+    {
+      "subject": "An elevated wide view of a multi-lane roundabout at night, viewed three-quarters from a pedestrian overpass height. The asphalt is rain-soaked and reflective, its texture glossy black with puddle sheen. Traffic is rendered almost entirely as light: continuous white and warm-amber headlight trails circling the roundabout clockwise, layering into braided arcs around the central island. One distinct saturated-red taillight trail cuts counter-clockwise through the flow, the lone rule-breaker. Streetlamps ring the roundabout with sodium-orange pools; the central island holds a low dark monument shape, unreadable. No visible car bodies \u2014 vehicles exist only as streaks and faint dark masses. Overcast winter sky as a low charcoal ceiling catching faint amber city bounce, air visibly damp with light haze around every lamp.",
+      "motion": "Light trails behave with long-exposure memory: each streak persists for 2\u20134 seconds behind its source, decaying smoothly in brightness, so the roundabout's arcs are continuously redrawn. The red taillight moves counter-clockwise at steady orbital speed, its trail the longest and brightest, a clean unbroken crimson ribbon bending around the circulatory lane. Ambient white/amber trails flow clockwise at mixed speeds, some entering and exiting via approach roads, their trails stretching into tapering comet tails. Faint dark car silhouettes occasionally occlude trails for a beat. Wet asphalt mirrors every streak as a vertically smeared, softened reflection that wobbles subtly with residual surface vibration. Cold moisture drifts as a slow diagonal haze veil through the lamp cones. Speed differentials read physically: exiting trails stretch and thin, waiting trails pulse dimly.",
+      "camera": "Locked-off tripod frame from an elevated vantage, shot on a 24mm wide-angle with mild rectilinear distortion that lets the roundabout's arcs fill the frame edge to edge. Exposure locked for the highlights: lamps and the red trail hold near clipping with halation bleed, while the asphalt falls to crushed near-black. Deep focus, everything sharp. No camera movement for the first hold, then an almost imperceptible 3% push-in over the shot's duration \u2014 slow enough to feel like breathing. Highlight halation flares softly around each light source, red trail halo bleeding into the wet reflections below it. Slight vignette at frame corners.",
+      "style": "Long-exposure night-photography look rendered cinematically: deep crushed blacks retaining a whisper of grain structure, additive light accumulation, heavy halation on highlights (orange glow around sodium lamps, red bleed around the taillight). Palette restrained to three zones \u2014 slate-cyan darkness, sodium amber, single crimson. Fine organic film grain, 35mm pushed-two-stops character, slight blue-shifted shadows. Highlights bloom softly without clipping to pure white; trails glow like light painting on film. Damp diffusion over the whole frame, as if shot through a lightly misted lens.",
+      "audio_direction": "Bed of distant city traffic hum as a low sub-bass pulse, constant and warm. Wet tire hiss layered underneath, like squeegees on damp asphalt, rising and falling with passing streaks. As the red taillight sweeps through the nearest arc each orbit: a soft Doppler-processed engine swell \u2014 smooth rise, pitch dip at closest approach, tail-off. Cold wind moving through the overpass rails, thin and airy. A faint electrical hum from the sodium lamps, almost subliminal. No music, no melodic elements \u2014 pure nocturnal ambience.",
+      "negatives": "no visible car bodies or license plates, no morphing or wavering trails, no flicker in light persistence, no tearing or frame-ghosting, no extra red lights competing with the hero taillight, no stars or moon (overcast), no text artifacts, no signage, no pedestrians, no lens flares from camera movement, no abrupt trail breaks",
+      "identity_lock": "the single counter-clockwise red taillight streak \u2014 saturated crimson, longest trail, uninterrupted arc; clockwise direction of all other traffic trails; rain-wet reflective black asphalt with mirrored smeared reflections; sodium-orange ring of streetlamps; overcast low charcoal sky with no celestial points; elevated three-quarter wide-angle vantage on the roundabout; three-zone palette (slate-cyan, sodium amber, crimson)"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "derived_from_brief",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787761945.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video shot:\n\n**Subject & Motion Quality:**\nThe subject is a time-lapse or long-exposure style shot of a traffic roundabout at night in the rain. The \"motion\" consists of light trails from cars and raindrops hitting the lens. The light trails are smooth and continuous, suggesting good exposure control or successful time-lapse stitching. The rain droplets on the lens appear and grow organically, adding a nice atmospheric touch.\n\n**Temporal Consistency:**\nThe background elements (streetlights, buildings, roundabout structure) remain perfectly stable throughout the seq",
+    "latency_secs": 19.0
+  }
+}

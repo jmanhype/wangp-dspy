@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-213045",
+  "genre": "surreal",
+  "intent": "a glacier calving into a fjord at midday, ice tower collapsing in slow chunks, white spray column rising, dark rock cliffs framing, cold blue palette, water churn settling",
+  "ts": "2026-08-26T21:46:28",
+  "duration_secs": 942.7,
+  "briefs": [
+    {
+      "subject": "A tidewater glacier terminus at midday: a tall serac tower of compressed glacial ice \u2014 dense white with sapphire-blue fracture veins and a weathered, dirt-streaked top \u2014 shearing off a pale blue-white ice wall that runs the full frame width. The fjord below is deep steel-blue water dotted with drifting brash ice and small white growlers. Framing the shot left and right, near-black basalt cliff walls with vertical water-streak staining rise above the ice face, funneling the view. Hard midday sun from directly above, slightly camera-left; no warm tones anywhere.",
+      "motion": "The serac tower leans seaward as a shear crack opens at its base \u2014 propagation visible as thinning blue fracture lines. It fails in massive coherent chunks: rotation at the base, then detachment, each block falling with true heavy-mass physics (thousands of tonnes \u2014 slow-seeming but gravity-true, slight tumble on separate axes, trailing ice dust and small shards sloughing off). Blocks hit water with heavy flat impact: initial crown splash, then a vertical white spray column rising sixty-plus meters, blooming outward at the top like a mushroom before collapsing under its own weight into a descending curtain. Displacement sends a rolling swell across the fjord, rocking the brash ice with lag and drag; foam sheets spread, growlers pitch and right themselves, and the surface churn settles over the tail of the shot into rhythmic lapping with drifting white slush.",
+      "camera": "Distant vantage across the fjord: 400mm-equivalent telephoto compressing depth so the ice face, spray column, and cliff walls stack nearly flat. Locked tripod frame with only a faint 1\u20132mm handheld breath-sway, no reframing. Framing is landscape, horizon in upper third, glacier face filling mid-frame between cliffs, generous water foreground for the swell. Exposure rides the ice: spray and sunlit face clip gently toward white with soft halation bleeding off the plume edges; shadowed cliff interiors hold near-black. Slight cold-air atmospheric shimmer over the water surface, typical of long-lens arctic shooting; deep focus throughout, no focus pulls.",
+      "style": "Large-format nature-documentary capture: clean neutral whites, cyan-steel blue water, near-monochrome restraint outside the glacial blue range. Fine 65mm-style grain structure, subtle highlight halation on the spray column, crisp crystalline micro-texture on the ice face (aligned pressure ridges, granular fracture facets). Cool color temperature locked ~5600K with no warmth introduced; blacks stay dense and slightly milky in cliff shadow, no crushed detail.",
+      "audio_direction": "Begins with sparse high cracking \u2014 sharp percussive pops like distant rifle shots accelerating into a ripping crackle as the tower shears. A delayed sub-bass boom rolls in across the fjord (sound lag matching distance), layered under a sustained granular roar of collapsing ice. The splash lands as a wide white-noise surge with heavy low-mid energy, spraying-transient crackle as chunks tumble. Over the tail: the roar decays into a hissing waterfall wash, individual ice clinks and tinkles on the water surface, and a low steady fjord ambience \u2014 light wind, distant cliff echo, rhythmic lapping swell against brash ice.",
+      "negatives": "no soft dissolves or morphs between ice positions, no rubbery or liquid stretching of the ice mass, no tearing or frame shear on the spray column, no extra figures boats birds or people, no text artifacts or watermarks, no lens flares, no camera cuts or zooms, no warm sunset color shift, no cartoonish splash shapes",
+      "identity_lock": "near-black basalt cliffs with vertical water stains locked left and right frame; pale blue-white glacier face spanning full width at fixed height; serac tower's dirt-streaked top and sapphire fracture veins; steel-blue fjord water with white brash ice; hard top-down midday sun direction from slightly camera-left; telephoto compressed perspective and locked horizon height; no wardrobe or props \u2014 this is a pure landscape identity"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 288,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787798779.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video captures a glacier calving event with high temporal consistency and smooth motion. The subject is clear and the action (ice breaking off and splashing into water) is well-rendered without significant morphing or flicker. However, the high-contrast white spray against the dark background causes some minor motion blur and slight loss of detail in the water droplets, which is typical for fast-moving white objects. Overall, it is a high-quality capture.\n\nScore: 8/10\nVerdict: A high-quality, temporally consistent capture of a glacier calving event with minor motion blur on the white spray",
+    "latency_secs": 14.7
+  }
+}

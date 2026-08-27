@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-115631",
+  "genre": "surreal",
+  "intent": "a 2004 PS2-style low-poly desert gas station cutscene, boxy pumps, sagging canopy light, heat shimmer, parked sedan with door open, NPC standing stiffly, vertex lighting, jaggies, MPEG-2 block artifacts, interlaced combing. PS2 framebuffer, no photorealism.",
+  "ts": "2026-08-26T12:06:02",
+  "duration_secs": 570.9,
+  "briefs": [
+    {
+      "subject": "A desert gas station built as 2004-era PS2 geometry: two boxy single-bevel gas pumps with low-resolution tiled texture panels (faded white/red branding, painted-on hoses), a sagging canopy whose near corner droops with one flickering fluorescent light panel, cracked grey asphalt forecourt with painted lane lines, a dusty beige low-poly sedan parked at the pump with its driver's door hanging open, a stiff NPC attendant in a stained jumpsuit and cap standing near the pump with facial features only painted onto the face texture, flat gradient skybox with a single billboarded sun, low-poly mesas on the horizon.",
+      "motion": "Heat shimmer ripples as vertex-wobble distortion over the asphalt and horizon line; the canopy light panel sags and sways 2-3 degrees with an intermittent buzz-flicker; the NPC holds a stiff idle pose with occasional one-frame arm raise or head turn snapped in stepped 15-20fps animation increments (no smooth interpolation); sedan door static ajar; sparse dust motes drifting as camera-facing billboard sprites; no cloth, hair, or fluid simulation of any kind.",
+      "camera": "Fixed in-game cutscene camera at chest height with a slight low-angle tilt toward the NPC, emulating the PS2's narrow frustum with mild wide-angle stretch at the frame edges; a slow 10% dolly-in executed in visible stepped, quantized position increments rather than a continuous glide; static exposure with zero dynamic range \u2014 highlights clipped flat white, shadows rendered as solid black unlit geometry; no rack focus, no depth of field, no optical artifacts beyond the framebuffer itself.",
+      "style": "Native 512x448 NTSC framebuffer in 4:3, upscaled with hard staircase jaggies and zero anti-aliasing; Gouraud vertex lighting producing visible color banding and dither checkerboard gradients; low-resolution tiled textures with obvious repetition; MPEG-2 compression block artifacts that bloom whenever pixels move; interlaced combing/tearing on horizontal motion; chroma bleeding on saturated oranges; muted desaturated desert palette \u2014 dusty orange sky, faded teal canopy trim, grey asphalt.",
+      "audio_direction": "PS2 streamed-ADPCM character throughout: looping dry desert wind with audible compression warble, a 60Hz fluorescent buzz from the canopy panel with intermittent flicker-crackles, a thin synthesized orchestral pad swell entering mid-shot with obvious low sample-rate graininess, faint gravel-crunch texture under the NPC's single animation step, all mixed flat and narrow-bandwidth like a 2004 cutscene stream.",
+      "negatives": "no photorealism, no ray tracing or global illumination, no anti-aliasing, no motion blur, no depth-of-field bokeh, no film grain or halation, no smooth gradient skies, no PBR reflections or subsurface skin, no geometry tearing or morphing, no extra figures or vehicles beyond the described sedan and NPC, no text, UI, or watermark artifacts.",
+      "identity_lock": "Two boxy pumps with faded white/red texture panels; sagging canopy in faded teal trim with one drooping flickering fluorescent panel; dusty beige sedan with open driver's door; NPC in stained jumpsuit and cap holding the same standing pose; grey cracked asphalt with painted lane lines; orange gradient skybox with billboard sun; 4:3 frame with jaggies and interlace artifacts present for the full duration of the shot."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "wan2gp",
+      "resolution": "768p",
+      "shot_length_frames": 168,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "profile2"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787763954.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 6,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "**Subject:** A low-poly, retro-styled 3D animation featuring a gas station under an orange sky, with a stationary car and a humanoid figure.\n**Motion Quality:** The camera performs a slow, smooth dolly forward. The subject (the person) remains completely static, lacking idle animation or micro-movements typical of high-quality CGI.\n**Temporal Consistency:** The scene is highly stable. There is no noticeable flickering, morphing, or warping of the geometry between frames. The object persistence is perfect.\n**Artifacts:** The visual style is distinctly \"low-fi\" (resembling PS1-era graphics). The",
+    "latency_secs": 12.6
+  }
+}

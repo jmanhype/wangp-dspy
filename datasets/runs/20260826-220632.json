@@ -1,0 +1,42 @@
+{
+  "run_id": "20260826-220632",
+  "genre": "surreal",
+  "intent": "a desert drive-in cinema screen at 3am playing to an empty lot after closing, generator hum, projector beam full of dust and moths, wind flapping the torn screen edge, one concession light left glowing, kangaroo rats crossing the white paint. Faded 16mm print look, no digital signage.",
+  "ts": "2026-08-26T22:18:34",
+  "duration_secs": 721.5,
+  "briefs": [
+    {
+      "subject": "A lone drive-in cinema screen towering over an empty desert lot at 3am; white painted screen surface with a torn strip along its lower-right edge, faintly weather-stained; a projector beam cutting diagonally from a small rear booth window through suspended dust and moths; a single warm amber bulb glowing over a shuttered concession stand \u2014 the only structural light besides the beam; dirt ground crisscrossed by faded white parking paint lines; two kangaroo rats with pale bellies, large dark eyes and tufted tails; scattered debris \u2014 one fallen speaker pole, dry brush at the lot edges. The screen plays a faded film: washed-out pastel frames flickering to no audience.",
+      "motion": "Torn screen edge flutters irregularly in wind gusts \u2014 loose fabric whips and sags, sending ripples across the surface so the projected image wobbles and skews; the picture also drifts with slow gate-weave jitter and breathes at projector shutter rate; moths spiral erratically inside the beam, wings catching light, occasionally crossing the lens path as soft dark blurs; dust motes hang in slow suspension; kangaroo rats cross the white paint in spring-loaded hop arcs, tails counterbalancing, freezing into alert stillness between hops, feet kicking small dust puffs; low dust ribbons drag along the ground in the gusts; the concession bulb glows steady with only a faint sway.",
+      "camera": "Long lens (135mm character) from deep in the empty lot, compressed perspective stacking the concession glow in the low frame against the looming screen above; locked-off tripod with an almost imperceptible slow push-in toward the screen over the shot; exposure keyed to the projector beam so the screen blooms as the brightest object, the amber bulb carries heavy halation, and the desert floor falls into crushed blue-black; moths cross the focal plane as soft out-of-focus orbs that snap sharp near mid-beam; gentle vignette, highlights breathing with the flicker.",
+      "style": "Faded 16mm print: heavy organic grain clumping, dye-fade pushing highlights toward amber-pink and shadows toward milky green-black, lifted blacks, halated highlight bloom around bulb and screen, soft corners, intermittent print dust and hair flickers, minor gate weave throughout; restrained palette of warm sodium amber against starved desert blue-cyan; no digital cleanliness.",
+      "audio_direction": "Constant sub-bass generator drone with slow RPM waver underneath everything; 24Hz projector shutter flutter rendered as a soft mechanical clatter from the rear booth; wind gusts swelling into loose fabric snaps and flaps on the screen, then falling back to still night air; faint high-frequency ticking of moth wings near the lamp house; dry skittering patter of kangaroo rat footfalls with pauses; wide open-desert room tone; no music, no voice.",
+      "negatives": "no people, no vehicles, no digital signage, no neon, no text artifacts or logos, no extra animals beyond the two kangaroo rats, no tearing or morphing of the screen surface, no soft dissolves, no camera shake, no daylight, no lens flares from modern sources.",
+      "identity_lock": "The torn strip on the screen's lower-right edge must persist in every frame and never mend or extend; exactly one warm amber concession bulb, fixed position, stays lit; faded white parking paint lines keep their layout; exactly two kangaroo rats with pale bellies, dark eyes, tufted tails; projector beam geometry from the rear booth window unchanged through the whole shot; the faded 16mm grain, halation and gate-weave character present in every frame."
+    }
+  ],
+  "decisions": [
+    {
+      "model": "h3",
+      "resolution": "768p",
+      "shot_length_frames": 240,
+      "seed_policy": "fixed_per_story",
+      "wangp_profile": "profile3"
+    }
+  ],
+  "videos": [
+    "/home/straughter/Wan2GP/outputs/multishot_1787800706.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent",
+    "profile: 1 decision(s)",
+    "render: 1 video(s)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "Based on the analysis of the video shot:\n\n**Subject:** The scene features a surreal, stylized environment: two glowing, stylized rodent-like creatures sitting in a dark parking lot facing a large drive-in movie screen. Behind the screen is a small building (ticket booth) with a bright projector light shining out of its window. The aesthetic is moody, with cool blue tones and warm orange highlights.\n\n**Motion Quality:** The motion is minimal and slow. The screen fabric ripples subtly, and the creatures have a faint, pulsing glow. There is very little dynamic action, making it feel more like a h",
+    "latency_secs": 18.0
+  }
+}
