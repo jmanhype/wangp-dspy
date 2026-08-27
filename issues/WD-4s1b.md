@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-27T18:21:37Z
 created_by: speed
 updated_at: 2026-08-27T18:26:16Z
-content_hash: "sha256:d22e81bedc058d8c5027df2b0e20a1bff0d27ab02e85bd9097526770e6b7dd4d"
+content_hash: "sha256:705db444b4a9f055ecc01fb35a4a4b3cce9aadff02e999fa4f31d4274c2c7abf"
 assignee: dev-WD-4s1b
 follows: [WD-gq8y, WD-4jpr, WD-4k56]
 labels: [delivered]
@@ -23,6 +23,16 @@ ADOPT: claim-fields for beat-grid/lyric-boundary checks (hookBeat pattern). Impl
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-08-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
