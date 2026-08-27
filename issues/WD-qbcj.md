@@ -8,8 +8,8 @@ labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:57:11Z
-content_hash: "sha256:15d6a7b4fb92fa48bde8ab9e04f9fcd178c25f53bdc823f32039fe6a3ad3b302"
+updated_at: 2026-08-27T15:58:12Z
+content_hash: "sha256:1d58149142559eb655055191f1df63c2fc8297604ac1ca8afcba9ea790cc0c19"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2, WD-pt60, WD-xzqp]
 ---
@@ -85,3 +85,6 @@ Dispatch (sol-max, 2026-08-27): Qwen implements — full methodology extraction 
 
 ### 2026-08-27T15:55:28Z speed
 Closure evidence (sol-max, 2026-08-27): AC (a) 12 docs in docs/extraction/shuohao-skills/ with file:line refs + attribution, merged PR #26 cdccd7d (GLM nit patched efeca56). (b) Final verdicts reviewer-decided per GLM review capture-20260827T153308Z: 9 ADOPT final = 7 recommended ADOPT confirmed + 2 reviewer upgrades (h3-prompt-contract ADAPT->ADOPT, export-pack-spec ADAPT->ADOPT); zero overrides of ADOPTs; zero fabrications (62/62 citations resolve; 1 soft-reflow + 1 off-by-one line, minor). ADAPT/PASS sets as documented per artifact. ADOPT promotions deliberately NOT executed — promotion into skills/lanes is a separate operator decision. (c) Novel-specific-vs-generalizable labeling in all 7 (G4 matrices). (d) Governed captures: 7 extraction + rubric 152238Z + review 153308Z under nd-vault knowledge/, sha256 on hash chain. (e) Apache-2.0 + eternityspring attribution verified in all 7. Probe note: test-append-probe absent at closure (fresh grep found nothing; vlt line-73 delete returned dispatch comment intact) — no delete performed.
+
+### 2026-08-27T15:58:12Z speed
+DELIVERY (2026-08-27T15:57Z, sol-max): story_deliver executed via developer-role wiring — board labeled 'delivered' (status in_progress pending PM accept). Delivery note: GLM FINAL PASS (review capture-20260827T153308Z; rubric 152238Z) — zero fabrications, 9 ADOPT final across both extraction stories (7 recommended + 2 reviewer upgrades), zero overrides of ADOPTs. Artifacts: 7 methodology docs merged at cdccd7d (PR #26), nit patched efeca56; 9 governed captures under nd-vault knowledge/ sha256-chained. AC (a)-(e) met; completion documented in Notes + Comments per the board's checkbox fallback instruction. ADOPT promotions deliberately not executed — separate operator decision.
