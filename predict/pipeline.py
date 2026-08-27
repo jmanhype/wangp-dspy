@@ -82,6 +82,23 @@ class Pipeline(dspy.Module):
         self.qc_factory = qc_factory
         self.creative_lm = creative_lm
 
+    def forward_with_skeleton(self, intent: str, *,
+                                skeleton=None) -> PipelineResult:
+        """WD-gq8y sign-off checkpoint: round-1 skeleton must be
+        validated AND user-approved before any stage runs. The gate
+        is the FIRST thing forward() does — a Boom stub for every
+        collaborator proves no stage executes (test pins this)."""
+        from predict.skeleton import (require_signoff,
+                                      SkeletonValidationError)
+        try:
+            if skeleton is not None:
+                require_signoff(skeleton)
+        except SkeletonValidationError as e:
+            raise PipelineStageError(
+                "signoff",
+                f"skeleton sign-off gate refused: {e}") from e
+        return self.forward(intent)
+
     def forward(self, intent: str, *, n_shots: int = 1) -> PipelineResult:
         result = PipelineResult(briefs=[], decisions=[])
 
