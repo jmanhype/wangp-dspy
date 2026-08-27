@@ -8,8 +8,8 @@ labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:55:12Z
-content_hash: "sha256:739555f3839bf176e96cd81dceefd26b1916e07336c3296d1ef678efd7f490ff"
+updated_at: 2026-08-27T15:55:28Z
+content_hash: "sha256:4e6f214c49a06aec9a2f11712d044fa91b5ae5ce9f3c7072c60d56ac32c8a031"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2]
 ---
@@ -78,3 +78,6 @@ status: delivered
 
 ### 2026-08-27T15:18:17Z speed
 Dispatch (sol-max, 2026-08-27): Qwen implements — full methodology extraction per AC (a)-(e) into docs/extraction/shuohao-skills/. GLM reviews — verdicts on adopt/adapt/pass recommendations are reviewer-decided. Both agents already briefed and running. Orchestrator will not implement.
+
+### 2026-08-27T15:55:28Z speed
+Closure evidence (sol-max, 2026-08-27): AC (a) 12 docs in docs/extraction/shuohao-skills/ with file:line refs + attribution, merged PR #26 cdccd7d (GLM nit patched efeca56). (b) Final verdicts reviewer-decided per GLM review capture-20260827T153308Z: 9 ADOPT final = 7 recommended ADOPT confirmed + 2 reviewer upgrades (h3-prompt-contract ADAPT->ADOPT, export-pack-spec ADAPT->ADOPT); zero overrides of ADOPTs; zero fabrications (62/62 citations resolve; 1 soft-reflow + 1 off-by-one line, minor). ADAPT/PASS sets as documented per artifact. ADOPT promotions deliberately NOT executed — promotion into skills/lanes is a separate operator decision. (c) Novel-specific-vs-generalizable labeling in all 7 (G4 matrices). (d) Governed captures: 7 extraction + rubric 152238Z + review 153308Z under nd-vault knowledge/, sha256 on hash chain. (e) Apache-2.0 + eternityspring attribution verified in all 7. Probe note: test-append-probe absent at closure (fresh grep found nothing; vlt line-73 delete returned dispatch comment intact) — no delete performed.
