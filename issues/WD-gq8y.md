@@ -1,7 +1,7 @@
 ---
 id: WD-gq8y
 title: "ADOPT: two-round sign-off checkpoint for bible/brief flow"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [adopt, shuohao-skills]
@@ -9,9 +9,10 @@ parent: WD-j9nx
 created_at: 2026-08-27T17:23:35Z
 created_by: speed
 updated_at: 2026-08-27T17:46:47Z
-content_hash: "sha256:23e16a7122e15d302920afb0d3f007fe705d5a9b1155efc9145edde602d3cfca"
+content_hash: "sha256:0277ce0f2ff599246cb1b5ccd1024e8626982f8d4a6793f4c0cfb1f3b67b2e65"
 assignee: dev-WD-gq8y
 follows: [WD-4jpr]
+closed_at: 2026-08-27T17:46:47Z
 ---
 
 ## Description
@@ -87,6 +88,7 @@ before any expensive stage runs.
 - 2026-08-27T17:25:54Z status: open -> in_progress
 - 2026-08-27T17:25:54Z auto-follows: linked to predecessor WD-4jpr
 - 2026-08-27T17:25:54Z claimed by dev-WD-gq8y
+- 2026-08-27T17:46:47Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
