@@ -9,10 +9,13 @@ here — the module validates and rejects them.
 from __future__ import annotations
 
 import json
+import logging
 import re
 from dataclasses import dataclass
 
 import dspy
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -33,6 +36,12 @@ class RenderBrief:
     audio_direction: str = ""
     negatives: str = ""
     identity_lock: str = ""
+    # no-proper-nouns gate (ADOPT, no-names-doctrine.md): registry of
+    # named entities; None = no registry available -> gate skipped
+    # LOUDLY (warning), never silently (doctrine: missing --cast skips
+    # loudly). Default None keeps backward compat for LM-brief paths
+    # that have no bible context.
+    registry: dict | None = None
 
     def __post_init__(self) -> None:
         for name in ("subject", "motion", "camera", "style"):
@@ -42,6 +51,7 @@ class RenderBrief:
                     f"render brief section {name!r} must be a nonempty "
                     f"string, got {value!r}")
         _reject_meta_hints(self)
+        _reject_registry_names(self)
 
 
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
@@ -71,6 +81,30 @@ _LIGHTING_CONTEXT_RE = re.compile(
     r"\b(flash(?:es|ing)?\s+(?:of\s+)?(?:light|lightning|muzzle|strobe)"
     r"|light(?:ing)?\s+(?:flash|cut)|flash\s+exposure|strobe\s+flash"
     r"|exposure\s+flash)\b", re.I)
+
+
+def _reject_registry_names(brief: "RenderBrief") -> None:
+    """No-proper-nouns gate (ADOPT, no-names-doctrine.md): named
+    entities (characters, aliases, places, IP) from the entity
+    registry are forbidden in render briefs — image models draw their
+    memorized version of the name. Same typed-failure pattern as the
+    meta-hint guard. No registry -> LOUD skip, never silent."""
+    if brief.registry is None:
+        logger.warning(
+            "no-names gate SKIPPED: no entity registry provided "
+            "(pass registry=... — load via gates.load_registry)")
+        return
+    from gates.no_names_gate import check_no_proper_nouns
+    for field in ("subject", "motion", "camera", "style",
+                  "audio_direction", "negatives", "identity_lock"):
+        v = getattr(brief, field) or ""
+        for viol in check_no_proper_nouns(v, brief.registry):
+            raise ValueError(
+                f"proper noun {viol.matched_name!r} (entity "
+                f"{viol.canonical_name!r}) is forbidden in render brief "
+                f"section {field!r} — image models bias toward their "
+                "memorized version of named entities "
+                "(no-names-doctrine.md); describe the entity instead")
 
 
 def _reject_meta_hints(brief: RenderBrief) -> None:

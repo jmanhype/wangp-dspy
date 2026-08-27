@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "$schema_note": "Schema documented in docs/entity-registry.md. Seed registry for the no-proper-nouns gate (ADOPT, no-names-doctrine.md). Entities = NAMED characters/places/IP from SGFLIX bibles. Common nouns from banked intents (lighthouse, kaiju, heron, Kodak Vision3, PS2...) are deliberately NOT entities.",
+  "entities": [
+    {
+      "id": "char-mira-chen",
+      "type": "character",
+      "name": "Mira Chen",
+      "aliases": ["Mira", "the Ferry Girl"],
+      "source": "seed: placeholder example character pending first bible ingestion"
+    },
+    {
+      "id": "place-vermilion-bay",
+      "type": "place",
+      "name": "Vermilion Bay",
+      "aliases": [],
+      "source": "seed: placeholder example place pending first bible ingestion"
+    }
+  ]
+}
