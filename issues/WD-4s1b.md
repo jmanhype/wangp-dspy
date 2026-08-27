@@ -7,10 +7,10 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-27T18:21:37Z
 created_by: speed
-updated_at: 2026-08-27T18:26:15Z
-content_hash: "sha256:44ddb4c64dd54f2d3d14994be95b5f0d17fd44cb79671dc14ff21de8fdacf839"
+updated_at: 2026-08-27T18:26:16Z
+content_hash: "sha256:d22e81bedc058d8c5027df2b0e20a1bff0d27ab02e85bd9097526770e6b7dd4d"
 assignee: dev-WD-4s1b
-follows: [WD-gq8y, WD-4jpr]
+follows: [WD-gq8y, WD-4jpr, WD-4k56]
 ---
 
 ## Description
@@ -30,9 +30,11 @@ ADOPT: claim-fields for beat-grid/lyric-boundary checks (hookBeat pattern). Impl
 - 2026-08-27T18:22:55Z claimed by dev-WD-4s1b
 - 2026-08-27T18:26:15Z status: in_progress -> in_progress
 - 2026-08-27T18:26:15Z auto-follows: linked to predecessor WD-4jpr
+- 2026-08-27T18:26:16Z status: in_progress -> in_progress
+- 2026-08-27T18:26:16Z auto-follows: linked to predecessor WD-4k56
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-gq8y]], [[WD-4jpr]]
+- Follows: [[WD-gq8y]], [[WD-4jpr]], [[WD-4k56]]
 
 ## Comments
