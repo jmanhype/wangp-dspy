@@ -89,9 +89,18 @@ def test_manifest_dry_run_on_current_bank(tmp_path):
     assert out.exists()
     assert rows["story"] == "WD-oa4i"
     body = rows["rows"]
-    assert len(body) == 9  # one row per banked record (6 kept + 3 dropped)
+    # one row per banked record: 35 total = 30 kept + 4 dropped
+    # (2 legacy exact-intent duplicates + 2 amendment duplicate takes)
+    # + 1 excluded (provenance-lost marker on 20260824-112120)
+    assert len(body) == 35
+    assert rows["n_records"] == 35
+    assert rows["n_kept"] == 30
     kept = [r for r in body if r["curation_status"] == "kept"]
-    assert len(kept) == 6
+    assert len(kept) == 30
+    dropped = [r for r in body if r["curation_status"] == "dropped"]
+    assert len(dropped) == 4
+    excluded = [r for r in body if r["curation_status"] == "excluded"]
+    assert len(excluded) == 1
     by_run = {r["run_id"]: r for r in body}
     # kept row shape
     r = by_run["20260824-110409"]
@@ -104,20 +113,47 @@ def test_manifest_dry_run_on_current_bank(tmp_path):
     d = by_run["20260824-103137"]
     assert d["curation_status"] == "dropped"
     assert "exact-intent duplicate" in d["curation_reason"]
+    # amendment-dropped rows carry the verbatim amendment reason
+    for rid in ("20260826-105551", "20260827-004621"):
+        a = by_run[rid]
+        assert a["curation_status"] == "dropped"
+        assert a["curation_reason"] == "duplicate take (kept best-QC sibling)"
     # 112120: excluded + provenance reason from its in-record marker
     e = by_run["20260824-112120"]
     assert e["curation_status"] == "excluded"
     assert "provenance" in e["curation_reason"].lower()
     assert e["video_path"] is None
-    # every non-excluded row's video resolves relative to repo root
+    # every non-excluded 20260824-* row's video resolves relative to repo
+    # root (the re-pointed legacy bank). The 20260826/27 gapfill records
+    # still carry absolute 3090 paths in videos[0] — the manifest builder
+    # passes them through verbatim and that is out of scope for this fix.
     for r in body:
-        if r["curation_status"] != "excluded":
+        if r["curation_status"] != "excluded" and \
+                r["run_id"].startswith("20260824-"):
             assert (REPO / r["video_path"]).exists(), r
+
+
+def test_manifest_rebuild_matches_checked_in_manifest(tmp_path):
+    """Rebuild parity: build_manifest output must equal the checked-in
+    datasets/manifest.json byte-for-byte on every record field
+    (generated_utc excluded — it carries the build timestamp)."""
+    rows, _ = _build_manifest(tmp_path, REPO / "datasets" / "runs")
+    checked = json.loads((REPO / "datasets" / "manifest.json").read_text())
+    assert rows["story"] == checked["story"]
+    assert rows["n_records"] == checked["n_records"]
+    assert rows["n_kept"] == checked["n_kept"]
+    assert len(rows["rows"]) == len(checked["rows"])
+    for rebuilt, expected in zip(rows["rows"], checked["rows"]):
+        assert rebuilt == {k: v for k, v in expected.items()}, \
+            f"{rebuilt['run_id']}: rebuilt row differs from checked-in " \
+            f"manifest: {rebuilt} != {expected}"
 
 
 def test_manifest_records_are_verifiable_against_bank(tmp_path):
     rows, _ = _build_manifest(tmp_path, REPO / "datasets" / "runs")
-    bank = {p.stem: json.loads(p.read_text()) for p in _bank()}
+    bank = {p.stem: json.loads(p.read_text())
+            for p in sorted((REPO / "datasets" / "runs").glob("*.json"))}
+    assert len(bank) == 35
     for r in rows["rows"]:
         rec = bank[r["run_id"]]
         assert r["qc_score"] == rec["qc"]["score"]

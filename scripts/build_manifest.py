@@ -28,6 +28,14 @@ def _curation_lookup(curation: dict):
             reason = (run.get("reason")
                       or group.get("reason") or "").strip()
             table[run["run_id"]] = (disp, reason)
+    # Append-only amendments: fold each amendment's duplicate_takes_dropped
+    # into the lookup with the verbatim reason. Applied in list order so a
+    # later amendment overrides an earlier one. The per-take descriptions in
+    # the ledger are NOT used — byte-parity with datasets/manifest.json
+    # depends on this exact string.
+    for amendment in curation.get("amendments", []):
+        for run_id in amendment.get("duplicate_takes_dropped", {}):
+            table[run_id] = ("dropped", "duplicate take (kept best-QC sibling)")
     return table
 
 
