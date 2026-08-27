@@ -1,14 +1,16 @@
 ---
 id: WD-4jpr
 title: "ADOPT: no-proper-nouns gate against entity registry"
-status: open
+status: in_progress
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
-updated_at: 2026-08-27T16:29:10Z
-content_hash: "sha256:c4c4e4aa8c679c362cdaf6860a7428dff8ac900921d3af2c2b8ab64c42260b46"
+updated_at: 2026-08-27T16:29:34Z
+content_hash: "sha256:ee24f3de58b7d93dd75440ca0d3bb5e4434c0832ac730c978c2c4a30a40ce348"
+assignee: speed
+follows: [WD-4k56]
 ---
 
 ## Description
@@ -24,9 +26,12 @@ content_hash: "sha256:c4c4e4aa8c679c362cdaf6860a7428dff8ac900921d3af2c2b8ab64c42
 
 
 ## History
-
+- 2026-08-27T16:29:34Z status: open -> in_progress
+- 2026-08-27T16:29:34Z auto-follows: linked to predecessor WD-4k56
+- 2026-08-27T16:29:34Z claimed by speed
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-4k56]]
 
 ## Comments
