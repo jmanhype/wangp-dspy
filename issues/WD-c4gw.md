@@ -1,15 +1,17 @@
 ---
 id: WD-c4gw
 title: "ADOPT: two-class language split for DSPy signatures (human-review vs engine-bound fields)"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [adopt, architecture, language-split]
 parent: WD-j9nx
 created_at: 2026-08-27T19:37:43Z
 created_by: speed
-updated_at: 2026-08-27T19:37:43Z
-content_hash: "sha256:6f268bad29e2f142d098adaf5bf99b675d34555e9b23711fb7d31ec79366f865"
+updated_at: 2026-08-27T19:37:58Z
+content_hash: "sha256:e2e7acb85be377fce7222c4791efbd09fa3695e0cb911a43d4045dfbf084f389"
+assignee: speed
+follows: [WD-7185]
 ---
 
 ## Description
@@ -47,9 +49,12 @@ Acceptance criteria:
 
 
 ## History
-
+- 2026-08-27T19:37:58Z status: open -> in_progress
+- 2026-08-27T19:37:58Z auto-follows: linked to predecessor WD-7185
+- 2026-08-27T19:37:58Z claimed by speed
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-7185]]
 
 ## Comments
