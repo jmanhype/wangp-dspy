@@ -8,10 +8,10 @@ labels: [methodology, extraction]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:18:17Z
-content_hash: "sha256:9d19a887ebcf868b0c828d559784bd6b5798b666d0fbdde4813468e5e49814d5"
+updated_at: 2026-08-27T15:45:45Z
+content_hash: "sha256:2ba9f96951118bea69ff1065ca144d7d9355e257bdd65e4130217e393f32a345"
 assignee: sol-max
-follows: [WD-txt9]
+follows: [WD-txt9, WD-mhr2]
 ---
 
 ## Description
@@ -49,10 +49,12 @@ Verify board via `nd show`; report story id. Then CLAIM the story and append a d
 - 2026-08-27T15:18:17Z status: open -> in_progress
 - 2026-08-27T15:18:17Z auto-follows: linked to predecessor WD-txt9
 - 2026-08-27T15:18:17Z claimed by sol-max
+- 2026-08-27T15:45:45Z status: in_progress -> in_progress
+- 2026-08-27T15:45:45Z auto-follows: linked to predecessor WD-mhr2
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-txt9]]
+- Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
 
