@@ -8,10 +8,10 @@ labels: [methodology, extraction, delivered]
 parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
-updated_at: 2026-08-27T15:55:28Z
-content_hash: "sha256:4e6f214c49a06aec9a2f11712d044fa91b5ae5ce9f3c7072c60d56ac32c8a031"
+updated_at: 2026-08-27T15:57:06Z
+content_hash: "sha256:9c56f0d13d673430b648d634afd263e3b78e13eb33070892bf23555e4f712d58"
 assignee: sol-max
-follows: [WD-txt9, WD-mhr2]
+follows: [WD-txt9, WD-mhr2, WD-pt60]
 ---
 
 ## Description
@@ -69,10 +69,12 @@ status: delivered
 - 2026-08-27T15:18:17Z claimed by sol-max
 - 2026-08-27T15:45:45Z status: in_progress -> in_progress
 - 2026-08-27T15:45:45Z auto-follows: linked to predecessor WD-mhr2
+- 2026-08-27T15:57:06Z status: in_progress -> in_progress
+- 2026-08-27T15:57:06Z auto-follows: linked to predecessor WD-pt60
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-txt9]], [[WD-mhr2]]
+- Follows: [[WD-txt9]], [[WD-mhr2]], [[WD-pt60]]
 
 ## Comments
 

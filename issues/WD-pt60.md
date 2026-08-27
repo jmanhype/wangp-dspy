@@ -9,12 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:54:53Z
 created_by: speed
 updated_at: 2026-08-24T15:11:39Z
-content_hash: "sha256:e2af4b2c19896dbce4ff0c031ba16687c20c91474fb0c73c2d8a6eeab3312c74"
+content_hash: "sha256:091a1202abe70e0cab1dd7023d145b8b5f4c0c51474d9fb5eb1c2d462215aa84"
 assignee: jmanhype-glm
 follows: [WD-xzqp]
 closed_at: 2026-08-24T15:11:39Z
 close_reason: "PR #21 merged: Pipeline dspy.Module (one-call artifact chain, typed boundary failures, evidence trail) + tasks.py genre registry. 7 e2e stub tests, full suite 244 green."
-led_to: [WD-mhr2]
+led_to: [WD-mhr2, WD-qbcj]
 ---
 
 ## Description
@@ -38,6 +38,6 @@ The epic's core gap: stages exist and are individually tested but NOTHING chains
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-xzqp]]
-- Led to: [[WD-mhr2]]
+- Led to: [[WD-mhr2]], [[WD-qbcj]]
 
 ## Comments
