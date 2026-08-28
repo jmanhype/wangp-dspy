@@ -120,4 +120,20 @@ def load_registry(path) -> dict:
                 raise ValueError(
                     f"entity registry {p}: entity[{i}] has a non-string "
                     "or empty alias")
+        # Decision-provenance fields (docs/entity-registry.md, WD-oyti):
+        # optional audit metadata — validated when present, never fed
+        # to the matching gate.
+        if "from" in ent:
+            frm = ent["from"]
+            if not isinstance(frm, list) or not all(
+                    isinstance(x, str) and x.strip() for x in frm):
+                raise ValueError(
+                    f"entity registry {p}: entity[{i}] 'from' must be "
+                    "a list of nonempty strings (decision trail)")
+        if "mergeNote" in ent:
+            note = ent["mergeNote"]
+            if not isinstance(note, str) or not note.strip():
+                raise ValueError(
+                    f"entity registry {p}: entity[{i}] 'mergeNote' "
+                    "must be a nonempty string (decision trail)")
     return doc
