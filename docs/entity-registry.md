@@ -84,6 +84,43 @@ nonempty strings. Invalid registries raise ValueError loudly.
 - Standalone CLI: `scripts/check_names.py <file-or-text>
   [--registry PATH]` — exit 0 clean, 1 violations, 2 registry error.
 
+## Decision provenance vs fact provenance (separate trails, WD-oyti)
+
+ADOPT of the shuohao-skills from/mergeNote ↔ inferred split
+(docs/extraction/shuohao-skills/inferred-marker-convention.md):
+adaptation-level provenance records provenance of DECISIONS; the
+`(inferred)` marker records provenance of FACTS. Two different audit
+trails that NEVER mix.
+
+- **Fact provenance** (this file's gate + `gates/provenance_gate.py`):
+  every identity claim in an entity record or render brief carries
+  either a canon citation (`source`) or exactly one `(inferred)`
+  marker. No unmarked middle ground. Markers are stripped at
+  handoff-to-prompt time (`host/wangp_adapter.brief_to_prompt`).
+- **Decision provenance** (new optional fields on entity records):
+  - `from`: who merged into whom during bible adaptation
+    (e.g. `"from": ["char-lead-a", "char-lead-b"]`).
+  - `mergeNote`: WHY the lead group was chosen — the decision's
+    rationale, verbatim where possible.
+
+```json
+{
+  "id": "char-mira-chen",
+  "type": "character",
+  "name": "Mira Chen",
+  "aliases": ["Mira"],
+  "source": "bible gist URL / provenance",   // FACT trail (canon citation)
+  "from": ["char-lead-a"],                    // DECISION trail (optional)
+  "mergeNote": "kept as lead: source quotes her in 4 of 6 scenes"
+}
+```
+
+`load_registry()` tolerates the two optional decision fields (they are
+audit metadata, not matching inputs — names/aliases only feed the
+gate). A record may carry both trails simultaneously; they describe
+different questions ("where does this fact come from?" vs "why did we
+make this adaptation choice?") and must not be conflated.
+
 ## Maintenance
 
 Bible ingestion should append entities (name + aliases verbatim from

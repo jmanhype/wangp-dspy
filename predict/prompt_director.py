@@ -42,6 +42,12 @@ class RenderBrief:
     # loudly). Default None keeps backward compat for LM-brief paths
     # that have no bible context.
     registry: dict | None = None
+    # provenance tiers (ADOPT WD-oyti, inferred-marker-convention.md):
+    # canon citations backing the identity claims in this brief.
+    # None/empty = no citation context -> every identity claim must
+    # carry exactly one (inferred) marker; markers are stripped at
+    # brief_to_prompt() so they never reach a render prompt.
+    canon_citations: tuple | list | None = None
 
     def __post_init__(self) -> None:
         for name in ("subject", "motion", "camera", "style"):
@@ -54,6 +60,7 @@ class RenderBrief:
         _reject_registry_names(self)
         _reject_risky_actions(self)
         _reject_non_english_engine_fields(self)
+        _reject_unmarked_provenance(self)
 
 
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
@@ -159,6 +166,48 @@ def _reject_non_english_engine_fields(brief: "RenderBrief") -> None:
                 f"{violations[0].matched_text} — engine fields are "
                 "LOCKED ENGLISH (language-split-contract.md, "
                 "profile-pass.md:16); rewrite in English")
+
+
+def _reject_unmarked_provenance(brief: "RenderBrief") -> None:
+    """Provenance-tier gate (ADOPT WD-oyti: inferred-marker-convention.md
+    — profile-pass.md:24/42-44): identity claims in the brief carry
+    exactly one provenance tier — a canon citation OR one (inferred)
+    marker. No unmarked middle ground, no double-marking.
+
+    Scope: identity_lock is the brief's identity surface (the render
+    prompt fragment that must survive the shot). subject/motion/
+    camera/style are scene direction, not identity claims — they stay
+    out of scope (documented decision; the extraction's rule 1 targets
+    persona.appearance / persona.identity specifically).
+
+    - canon_citations provided (nonempty): the brief's identity claims
+      are canon-grounded; an (inferred) marker on top is redundant
+      double-tiering -> reject.
+    - no citations: every identity claim in identity_lock must carry
+      exactly one (inferred) marker. Empty identity_lock = no identity
+      claims = nothing to tier (loud skip, same pattern as the
+      no-names registry=None skip).
+
+    The markers themselves are STRIPPED at brief_to_prompt() — this
+    gate only tiers; it never lets a marker into a prompt.
+    """
+    from gates.provenance_gate import (check_provenance_tier,
+                                       ProvenanceGateError)
+    lock = (brief.identity_lock or "").strip()
+    if not lock:
+        return  # no identity claims in this brief — nothing to tier
+    has_citation = bool(brief.canon_citations)
+    try:
+        violations = check_provenance_tier(
+            lock, field="identity_lock",
+            has_canon_citation=has_citation)
+    except ProvenanceGateError:
+        return
+    for viol in violations:
+        raise ValueError(
+            f"provenance violation in render brief section "
+            f"{viol.field!r}: {viol.reason} "
+            "(inferred-marker-convention.md)")
 
 
 def _reject_meta_hints(brief: RenderBrief) -> None:

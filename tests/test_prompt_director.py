@@ -100,7 +100,8 @@ def test_render_brief_schema_fields():
     names = {f.name for f in dataclasses.fields(RenderBrief)}
     assert names == {"subject", "motion", "camera", "style",
                      "audio_direction", "negatives", "identity_lock",
-                     "registry"}  # registry: no-names gate (not a prompt section)
+                     "registry",
+                     "canon_citations"}  # provenance tiers (WD-oyti)
 
 
 def test_craft_sections_are_optional_and_flow_into_prompt():
@@ -110,11 +111,14 @@ def test_craft_sections_are_optional_and_flow_into_prompt():
     assert "Audio:" not in p and "Do not:" not in p  # absent = omitted
     b2 = RenderBrief(**GOOD_BRIEF,
                      audio_direction="sub-bass pulse, distant surf",
-                     identity_lock="grey-white newsprint hull, ink bleed",
+                     identity_lock="grey-white newsprint hull (inferred), "
+                                   "ink bleed",
                      negatives="no morphs, no extra figures")
     p2 = brief_to_prompt(b2)
     assert "Audio: sub-bass pulse" in p2
-    assert "Preserve throughout: grey-white newsprint hull" in p2
+    # provenance seam (WD-oyti): marker stripped at handoff-to-prompt
+    assert "(inferred)" not in p2.lower()
+    assert "Preserve throughout: grey-white newsprint hull, ink bleed" in p2
     assert "Do not: no morphs" in p2
 
 

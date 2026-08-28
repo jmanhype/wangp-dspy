@@ -118,16 +118,28 @@ def brief_to_prompt(brief: RenderBrief) -> str:
 
     The resulting shot script is a RAW pass-through into the settings
     json ``script`` field (JSON-encoded; content cannot escape its field).
+
+    Provenance seam (WD-oyti, inferred-marker-convention.md placement
+    rule 1): any `(inferred)` marker in an identity claim is STRIPPED
+    here at handoff-to-prompt time — markers live in human fields only
+    and would literally get painted into the render if passed through.
+    A marker surviving to the assembled prompt is a typed rejection.
     """
+    from gates.provenance_gate import (check_prompt_fields, strip_markers)
     parts = [f"{brief.subject}. {brief.motion}. {brief.camera}. "
              f"{brief.style}"]
     if brief.audio_direction:
         parts.append(f"Audio: {brief.audio_direction}")
     if brief.identity_lock:
-        parts.append(f"Preserve throughout: {brief.identity_lock}")
+        cleaned = strip_markers(brief.identity_lock)
+        parts.append(f"Preserve throughout: {cleaned}")
     if brief.negatives:
         parts.append(f"Do not: {brief.negatives}")
-    return ". ".join(parts)
+    prompt = ". ".join(parts)
+    for viol in check_prompt_fields(prompt):
+        raise WanGPError(
+            f"provenance marker reached the render prompt: {viol.reason}")
+    return prompt
 
 
 def build_script(prompts: Sequence[str]) -> str:
