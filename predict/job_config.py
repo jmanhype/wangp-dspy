@@ -51,7 +51,7 @@ def normalize_frame_count(frame_count: int, minimum: int = H3_FRAMES_MIN,
 class WanGPJobConfig:
     model_type: str
     script: str
-    prompt: str = "multishot"   # H3 multi-shot tag (shape-compat)
+    prompt: str = "multishot"   # profile tag (shape-compat)
     width: int = 480
     height: int = 832
     frames_per_shot: int = 107
