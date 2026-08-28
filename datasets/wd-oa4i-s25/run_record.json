@@ -1,0 +1,56 @@
+{
+  "run_id": "20260828-104248",
+  "genre": "surreal",
+  "intent": "S2.5 vertical slice: single Ref2VA render of the SPEAKER_00 (grandma) segment — a dim stone dungeon cell lit by a single hanging oil lamp; an elderly woman in a worn shawl stands at the iron gate, one hand raised accusingly; behind her, a young man sits chained to the wall, head bowed; a tall horned figure in a long dark coat leans against the far wall, arms crossed, grinning. Guide window 0.0-6.648s of two_speakers.wav. H3 audio never trusted (G4); QC consumes the artifact (G3).",
+  "ts": "2026-08-28T10:42:48",
+  "duration_secs": 373,
+  "briefs": [
+    {
+      "subject": "A dim stone dungeon cell lit by a single hanging oil lamp; an elderly woman in a worn shawl stands at the iron gate, one hand raised accusingly; behind her, a young man sits chained to the wall, head bowed; a tall horned figure in a long dark coat leans against the far wall, arms crossed, grinning.",
+      "motion": "The old woman speaks to the seated prisoner, pointing at him, her shawl swinging with the movement; the prisoner flinches and looks up at her; the horned figure slowly uncrosses his arms and tilts his head, smiling wider as he watches them argue.",
+      "camera": "Locked-off medium shot, 480x832 portrait, fisheye lens effect consistent throughout. No camera movement.",
+      "style": "Ref2VA lip-sync render, minimax_h3_ref2va_pruned profile, seed 42, 175 frames @ 24fps, 20 inference steps, guidance 1.0 / embedded 6.0.",
+      "audio_direction": "Guide audio: /tmp/s25/guide_grandma.wav (slice 0.0-6.648s of two_speakers.wav), audio_prompt_type A. H3-generated audio NOT trusted per G4 discipline.",
+      "negatives": "no text or typography artifacts, no watermark, no extra figures beyond the three locked characters, no soft dissolves or morphs between poses, no hue drift, no camera shake, no cuts or transitions",
+      "identity_lock": "Master image /tmp/s25/master.png (sha256 d7ca20745552a2eb7679a98d59dd8346f7feca418cc8c55bb82aca61e474c7dd) as Picture 1 reference; all three characters, dungeon set, and lighting must remain unchanged for the entire shot"
+    }
+  ],
+  "decisions": [
+    {
+      "model": "minimax_h3_ref2va_pruned",
+      "resolution": "480x832",
+      "shot_length_frames": 175,
+      "seed_policy": "fixed_per_shot",
+      "wangp_profile": "ref2va",
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": 24,
+      "seed": 42
+    }
+  ],
+  "videos": [
+    "/tmp/s25/render-out/2026-08-28-10h42m48s_seed42_ref2va lip-sync dungeon scene, master image as Picture 1.mp4"
+  ],
+  "evidence": [
+    "briefs: 1 brief(s) from intent (S2.5 vertical slice, grandma segment)",
+    "profile: 1 decision(s) — minimax_h3_ref2va_pruned, ref2va profile",
+    "render: 1 video(s) — 175 frames @ 24fps, 20 denoising steps, 14m16s total",
+    "job.json: /tmp/s25/job.json (settings + meta, audio_sha256 cdfd8200e8e7ad3d81f17675acd2069f217ad3a2e6d37c92a8487dbcfd65f544)",
+    "master_lock: MASTER_LOCK.md (repo root, G6 record, master sha256 verified)",
+    "timeline: out-of-repo authored (no whisper/pyannote in repo paths per MASTER_LOCK discipline)",
+    "attribution: out-of-repo authored (see mismatches.md for gap disclosure)"
+  ],
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (surreal threshold 4.5)",
+    "summary": "The video features a person in a kitchen setting, speaking and gesturing behind a wooden box. The subject is stable and recognizable throughout the sequence. Motion quality is moderate; gestures are visible but sometimes appear slightly stiff or blended, suggesting potential compression or AI interpolation artifacts. Temporal consistency is generally good—there is no significant flickering or morphing of the subject's face or body between frames, though subtle variations in hand position and facial expression suggest some frame-to-frame smoothing or generation instability. Artifacts include minor blurring on fast-moving hands and slight texture inconsistencies on the pot and backdrop, which may indicate video compression or generative processing. The fisheye lens effect is consistent and not distracting. Overall, the video is watchable with minor imperfections.",
+    "latency_secs": 121.4
+  },
+  "gaps": [
+    "timeline.json referenced in job.json meta does not exist on 3090 (/tmp/s25/timeline.json missing) — timeline was authored out-of-repo per MASTER_LOCK discipline but the artifact was not persisted to the expected path",
+    "attribution.txt referenced in job.json meta does not exist on 3090 (/tmp/s25/attribution.txt missing) — same out-of-repo authoring gap",
+    "QC summary describes 'kitchen setting' and 'wooden box' — likely VLM misread of the dungeon/lamp scene; score 7 still PASS above surreal threshold 4.5, but content fidelity should be verified by human review before treating as ground truth"
+  ]
+}
