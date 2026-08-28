@@ -8,8 +8,8 @@ labels: [film-lane, phase-2]
 parent: WD-j9nx
 created_at: 2026-08-28T02:38:46Z
 created_by: speed
-updated_at: 2026-08-28T02:38:46Z
-content_hash: "sha256:3b01105b66dbd7a426df0b477e30b774307b022a29f957d7e717edcd68e4eeb7"
+updated_at: 2026-08-28T02:38:57Z
+content_hash: "sha256:1e472cb7c8ec82eb6091eb247906c4a19749be5898c517e8fdb83e8729e0d065"
 ---
 
 ## Description
@@ -192,3 +192,6 @@ naming the gate.
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T02:38:57Z speed
+2026-08-28 sol-max: Phase 2 begins. S1 filed as WD-l5bx (P1, film-lane opener): WanGPJobConfig dataclass/validator absorbing the five scattered adapter asserts (force_fps:str, fps>=96 floor, 17k+5 frame-grid snap, flat JSON, \n---\n separator) + Ref2VA as Strategy-profile second implementation (image_refs, audio_prompt_type 'A', guide-alignment validation, 4-15s cap, <Picture N>/<Audio N> tokens) + the SIX guaranteed-invocation gates from the operator ruling (audio 'A' hard-reject at submit, guide==shot-duration, QC consumes artifact not spec, H3-audio-never-trusted, <d>-or-silence prompt contract, master-lock precondition). Binding constraints carried in the story body: Maestro = idea-only (file:line refs as specs, never vendor code), no faster-whisper/pyannote in repo paths, local-only inference. AC: TDD RED-first per gate, all six gates structurally unskippable on the render path, full suite green vs measured baseline, CLI/validator surface, spec/plan pair per the NEW #9 templates (first real dogfood of WD-g3cu PR #36). Dispatch: qwen-escalator (architectural — new config surface + trust-boundary gates). Standing automerge order applies.
