@@ -215,3 +215,46 @@ def test_unknown_top_level_key_rejected():
     d["extra"] = True
     with pytest.raises(DiarizationError):
         validate_diarization(d)
+
+
+# ── T3: converter + determinism + G5 shape ─────────────────────────
+
+def test_converter_one_block_per_segment_order_preserved():
+    blocks = diarization_to_speaker_blocks(_doc())
+    assert len(blocks) == 2
+    assert blocks[0] == SpeakerBlock(0.0, 3.2, "SPEAKER_00", "hello")
+    assert blocks[1] == SpeakerBlock(3.5, 6.0, "SPEAKER_01", "")
+
+
+def test_converter_revalidates_invalid_doc():
+    """Defensive re-validation: same typed DiarizationError, single
+    authority."""
+    with pytest.raises(DiarizationError) as ei:
+        diarization_to_speaker_blocks(_doc(schema_version=2))
+    assert "R1" in str(ei.value)
+
+
+def test_render_attribution_g5_shape():
+    """G5 rejects bracketed/parenthesized labels; <d>Name</d> is the
+    sanctioned form. Every token must match ^<d>[^<>]+</d>$."""
+    import re
+    blocks = diarization_to_speaker_blocks(_doc())
+    rendered = render_attribution(blocks)
+    lines = rendered.splitlines()
+    assert len(lines) == 2
+    for line in lines:
+        assert re.match(r"^<d>[^<>]+</d>$", line), line
+    # no bracketed/parenthesized label forms anywhere
+    assert "[" not in rendered and "(" not in rendered
+    assert lines[0] == "<d>SPEAKER_00</d>"
+    assert lines[1] == "<d>SPEAKER_01</d>"
+
+
+def test_determinism_double_run_byte_equality():
+    doc = _doc()
+    b1 = diarization_to_speaker_blocks(doc)
+    b2 = diarization_to_speaker_blocks(doc)
+    r1 = render_attribution(b1)
+    r2 = render_attribution(b2)
+    assert b1 == b2
+    assert r1.encode("utf-8") == r2.encode("utf-8")
