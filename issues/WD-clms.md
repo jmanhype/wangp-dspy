@@ -8,8 +8,8 @@ labels: [film-lane, vertical-slice, e2e, gpu, discovery-ledger]
 parent: WD-j9nx
 created_at: 2026-08-28T06:39:20Z
 created_by: speed
-updated_at: 2026-08-28T06:39:20Z
-content_hash: "sha256:0e5b95df713a7c556a850d0b11b9c9aacbeeb31e18df99f3dbd7eba30fe384eb"
+updated_at: 2026-08-28T06:39:32Z
+content_hash: "sha256:8c2827fcd9ac4ba8e35f0581ec2cb121580f41c0b28277fa5742fcff679ccd11"
 ---
 
 ## Description
@@ -122,3 +122,6 @@ S4 (Satan's Mom MV, critical path).
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T06:39:32Z speed
+2026-08-28 sol-max: FILED per operator ruling — discovery-ledger cycle 001 top recommendation acted on; S2.5 takes priority over S3 (S3 stays queued). Scope = glue + one real 3090 render, NO new schemas/gates; mismatches get filed not fixed in-story. AC: full chain under datasets/runs/, epic AC #3 first real GPU evidence, ledger loop closed at delivery. Pre-work note: verify WD-cz6a evidence closure (merged as #38, story still open) since the slice consumes S2's converter directly. Dispatch target TBD by orchestrator at dispatch time.
