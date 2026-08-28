@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, asdict
-from typing import List
+from typing import List, Optional
 
 SCRIPT_SEPARATOR = "\n---\n"
 
@@ -29,6 +29,15 @@ SHOT_LENGTH_FLOOR_FRAMES = 96     # semantic 4s floor (Selector layer)
 H3_FRAMES_MIN = 107               # measured H3 grid minimum (5+17k)
 H3_FRAMES_STEP = 17
 H3_FRAMES_OFFSET = 5
+
+# WD-l5bx review ruling: profile_selector re-exports these SAME
+# constants (below) as its selection-time hints. job_config is the
+# single DEFINITION site; the Selector's frame floor is a DISTINCT
+# semantic layer — a selection-time hint fed to the LM (choose a shot
+# length >= the semantic floor) — while job_config construction is the
+# SUBMIT-TIME enforcement authority (typed rejection). Both layers
+# intentionally read one definition (this module); the Selector adds
+# no independent numeric bound.
 
 
 class JobConfigError(ValueError):
@@ -60,22 +69,40 @@ class WanGPJobConfig:
     embedded_guidance_scale: float = 6.0
     force_fps: str = "24"
     seed: int = 42
-    height: int
-    frames_per_shot: int
-    num_inference_steps: int
-    guidance_scale: float
-    embedded_guidance_scale: float
-    force_fps: str
-    seed: int
 
     def __post_init__(self) -> None:
         # construction IS validation (adapter-assert parity: the old
         # inline checks raised at build_settings time)
         validate_job_config(self)
+        # rule 3 applied HERE: the config's frames_per_shot is the
+        # EFFECTIVE (snapped) count H3 renders — callers pass the raw
+        # request and get back the grid value (sole-authority rule 3;
+        # validation passes 96..106 and snaps, per the rule-3 note).
+        object.__setattr__(self, "frames_per_shot",
+                           normalize_frame_count(self.frames_per_shot))
 
-    def to_settings_doc(self) -> dict:
-        """Flat JSON settings document (rule 4)."""
-        doc = asdict(self)
+    def to_settings_doc(self, *, flat: bool = True,
+                        extra: Optional[dict] = None) -> dict:
+        """Flat JSON settings document (rule 4).
+
+        ``extra`` fields (Ref2VA lane: image_refs list, audio_prompt_type)
+        are added BEFORE the flat-JSON walk, so the final shape —
+        including the exceptions — is the shape that gets validated.
+
+        ``flat=False`` explicitly scopes rule 4 to the GENERIC lane: the
+        profile declares that its appended fields are sanctioned
+        non-scalar extensions of the wgp settings schema (the Ref2VA
+        reader consumes a list of image paths), not a violation.
+        """
+        doc = dict(asdict(self))
+        if extra:
+            doc.update(extra)
+        if not flat:
+            # rule 4 explicitly scoped to the generic lane (WD-l5bx
+            # review strong-rec: restructure so appended fields are
+            # part of the validated shape OR the rule scopes to the
+            # generic lane — this is the scoping branch)
+            return doc
         for k, v in doc.items():
             if isinstance(v, (list, dict)):
                 raise JobConfigError(

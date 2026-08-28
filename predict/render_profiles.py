@@ -14,7 +14,7 @@ import os
 import re
 from typing import List, Optional, Sequence
 
-from predict.job_config import WanGPJobConfig
+from predict.job_config import SCRIPT_SEPARATOR, WanGPJobConfig
 from predict.prompt_director import RenderBrief
 from predict.profile_selector import ProfileDecision
 
@@ -129,14 +129,19 @@ class Ref2VAProfile(RenderProfile):
         frames = int(round(shot_duration_s * 24))
         cfg = WanGPJobConfig(
             model_type=REF2VA_MODEL_TYPE,
-            script="\n---\n".join(
+            script=SCRIPT_SEPARATOR.join(
                 f"{b.subject}. {b.motion}." for b in briefs),
             prompt="ref2va",
             width=480, height=832,
             frames_per_shot=max(frames, 96),
             force_fps="24",
         )
-        doc = cfg.to_settings_doc()
-        doc["image_refs"] = list(image_refs)   # refs list at top level
-        doc["audio_prompt_type"] = "A"
-        return doc
+        # WD-l5bx review strong-rec: image_refs/audio_prompt_type ride
+        # INSIDE the settings build (``extra``) and rule 4 (flat JSON)
+        # is explicitly scoped to the GENERIC lane — the Ref2VA reader
+        # consumes a list of image paths, a sanctioned non-scalar
+        # extension of the wgp settings schema, not a rule violation.
+        return cfg.to_settings_doc(
+            flat=False,
+            extra={"image_refs": list(image_refs),
+                   "audio_prompt_type": "A"})

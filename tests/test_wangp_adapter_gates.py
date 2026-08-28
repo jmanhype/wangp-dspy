@@ -253,5 +253,74 @@ def test_non_executable_venv_python_is_typed_error(tmp_path):
 def test_floor_check_rejects_bool(tmp_path):
     bad = _decision()
     object.__setattr__(bad, "shot_length_frames", True)  # bool is int subclass
-    with pytest.raises(WanGPError, match="floor"):
+    # sole authority: WanGPJobConfig rejects the bool typing, wrapped
+    # adapter-typed (the inline duplicate was deleted, WD-l5bx)
+    with pytest.raises(WanGPError, match="int"):
         build_settings([_brief()], bad)
+
+
+# ── WD-l5bx review fold-ins: regression coverage ──────────────────
+
+def test_g5_covers_camera_style_audio_direction_at_build():
+    # review strong-rec 5: the <d>-or-silence scan must cover ALL
+    # brief text fields, not just subject/motion — exercised at the
+    # build/render layer (not only submit) so render() callers cannot
+    # bypass.
+    from predict.prompt_director import RenderBrief
+    base = dict(subject="a detective", motion="walks",
+                camera="dolly in", style="16mm grain")
+    for bad_text in ("[John] pans", "(Mary) handheld"):
+        for field in ("camera", "style", "audio_direction"):
+            b = RenderBrief(**{**base, field: bad_text})
+            with pytest.raises(WanGPError, match="G5"):
+                build_settings([b], _decision())
+
+
+def test_g5_rejected_at_render_entry_point(tmp_path):
+    # review strong-rec 4: G1/G4/G5 live in submit() only — make the
+    # render()/build_settings enforcement deliberate: a malformed
+    # speaker token on ANY brief field is rejected before any wgp run.
+    vpy, vwgp = _fake_venv(tmp_path)
+    from predict.prompt_director import RenderBrief
+    b = RenderBrief(subject="a detective", motion="walks",
+                    camera="dolly in", style="[Narrator] grain")
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path),
+                           runner=_ok_runner())
+    with pytest.raises(WanGPError, match="G5"):
+        adapter.render([b], _decision())
+
+
+def test_separator_single_constant():
+    # review nit: one definition — adapter, job_config and render
+    # profiles all bind the SAME object.
+    import predict.job_config as jc
+    import host.wangp_adapter as ad
+    import predict.render_profiles as rp
+    assert (ad.SCRIPT_SEPARATOR is jc.SCRIPT_SEPARATOR
+            and rp.SCRIPT_SEPARATOR is jc.SCRIPT_SEPARATOR)
+
+
+def test_ref2va_image_refs_inside_validated_shape(tmp_path):
+    # review strong-rec 6: rule 4 (flat JSON) is scoped to the generic
+    # lane; the Ref2VA doc carries image_refs as a sanctioned extension
+    # via to_settings_doc(extra=...) — and the generic lane still
+    # rejects nested values.
+    import pathlib
+    from predict.job_config import WanGPJobConfig, JobConfigError
+    from predict.render_profiles import Ref2VAProfile
+    refs = [str(pathlib.Path(tmp_path) / "ref1.png")]
+    pathlib.Path(refs[0]).write_bytes(b"x")
+    p = Ref2VAProfile()
+    doc = p.build_settings([_brief()], _decision(),
+                           image_refs=refs, audio_prompt_type="A",
+                           guide_duration_s=8.0, shot_duration_s=8.0)
+    assert doc["image_refs"] == refs
+    assert doc["audio_prompt_type"] == "A"
+    # generic lane still enforces flatness (extra nested value is
+    # caught by the validated shape, not appended after validation)
+    cfg = WanGPJobConfig(
+        model_type="m", script="s", width=480, height=832,
+        frames_per_shot=107, force_fps="24")
+    with pytest.raises(JobConfigError, match="flat|nested"):
+        cfg.to_settings_doc(extra={"bad_list": [1, 2]})

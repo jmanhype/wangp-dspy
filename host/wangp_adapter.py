@@ -26,13 +26,12 @@ import time
 from dataclasses import dataclass
 from typing import Callable, Mapping, Optional, Sequence
 
-from predict.profile_selector import (
-    H3_FRAMES_MIN,
-    H3_FRAMES_OFFSET,
-    H3_FRAMES_STEP,
-    ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
-)
 from predict.prompt_director import RenderBrief
+from predict.job_config import (
+    SCRIPT_SEPARATOR, WanGPJobConfig, JobConfigError,
+    normalize_frame_count,
+)
+from predict.profile_selector import ProfileDecision
 
 H3_MODEL_TYPE = "minimax_h3_fl2va_pruned"
 MULTISHOT_PROMPT_TAG = "multishot"
@@ -41,8 +40,9 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # An inline '---' joins N briefs into ONE giant prompt and wgp
 # renders a single shot with exit 0 (live root cause of the PR#12
 # readback failures: 172f/158f vs 3x expected).
-# WD-l5bx: separator's single authority is predict/job_config
-SCRIPT_SEPARATOR = "\n---\n"   # value pinned identical; import below
+# WD-l5bx review nit: the separator literal is defined ONCE, in
+# predict/job_config (rule 5 authority) — imported at the top and
+# bound here under the historical name for the import surface.
 FORCE_FPS = 24
 
 # real probed 768p vertical
@@ -190,16 +190,14 @@ def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
 
 
 # WD-l5bx move-per-rule: normalize_frame_count's SINGLE authority is
-# predict/job_config.py (rule 3, 5+17k grid snap). Re-export for the
-# existing import surface; H3_FRAMES_* constants too.
+# predict/job_config.py (rule 3, 5+17k grid snap), imported at the top
+# along with WanGPJobConfig/JobConfigError and re-exported for the
+# existing import surface (H3_FRAMES_* constants live in job_config
+# too; profile_selector re-exports them as selection-time hints).
+
 from predict.job_config import (  # noqa: F401,E402
-    normalize_frame_count, H3_FRAMES_MIN, H3_FRAMES_STEP,
-    H3_FRAMES_OFFSET, WanGPJobConfig, JobConfigError,
+    H3_FRAMES_MIN, H3_FRAMES_STEP, H3_FRAMES_OFFSET,
 )
-# constant-identity pin: the adapter's SCRIPT_SEPARATOR IS the
-# job_config authority's constant (single definition, two names)
-import predict.job_config as _jc
-assert SCRIPT_SEPARATOR == _jc.SCRIPT_SEPARATOR
 
 
 def effective_frames_per_shot(frames: int) -> int:
@@ -240,30 +238,20 @@ FRAME_COUNT_UNVERIFIED = -1
 
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
-    frames = decision.shot_length_frames
-    # WD-l5bx: the floor/grid/typing rules moved to WanGPJobConfig
-    # (single authority, predict/job_config.py). Validation raises
-    # JobConfigError there; wrap for the adapter's typed surface.
-    try:
-        if isinstance(frames, bool) or not isinstance(frames, int):
-            raise JobConfigError(
-                "shot length must be an int (below the HARD floor it "
-                "is a typed rejection)")
-        if frames < H3_FRAMES_MIN:
-            raise JobConfigError(
-                f"shot length {frames}f is below the H3 minimum floor "
-                f"of {H3_FRAMES_MIN}f (5+17k grid; request 107f or "
-                "more)")
-    except JobConfigError as e:
-        raise WanGPError(str(e)) from e
-    frames = effective_frames_per_shot(frames)
-    if frames != decision.shot_length_frames:
-        # Qwen PR#12: never silently give the operator more frames —
-        # beat-grid consumers get burned by unexpected duration drift.
-        print(f"[wangp-dspy] snapped frames_per_shot "
-              f"{decision.shot_length_frames}f -> {frames}f (H3 5+17k grid)")
+    # WD-l5bx review BLOCKER fix: no inline frame-floor/int-typing
+    # enforcement here — WanGPJobConfig construction (predict/
+    # job_config.py) is the SOLE authority for rules 1-5. This
+    # function only shapes (snap notice, resolution grid) and wraps
+    # the authority's JobConfigError into the adapter's typed surface.
     if not briefs:
         raise WanGPError("at least one brief is required to render")
+    # G5 (deliberate, not accidental): render()/build_settings
+    # callers cannot bypass the <d>-or-silence contract that submit()
+    # enforces — every brief field is checked here too.
+    for b in briefs:
+        for field in (b.subject, b.motion, b.camera, b.style,
+                      b.audio_direction):
+            _g5_check(field)
     width, height = WIDTH_768P, HEIGHT_768P
     if decision.resolution == "720p":
         # WD-o4g2 (live 3090 finding, 2026-08-24): portrait 720x1280 is
@@ -276,17 +264,32 @@ def build_settings(briefs: Sequence[RenderBrief],
         # discipline as the H3 5+17k frame snapping above.
         print("[wangp-dspy] resolution 720p is not on the H3 latent "
               "grid at this pin; snapping to 480x832 (WD-o4g2)")
-    cfg = WanGPJobConfig(
-        model_type=H3_MODEL_TYPE,
-        script=build_script([brief_to_prompt(b) for b in briefs]),
-        width=width, height=height,
-        frames_per_shot=frames,
-        num_inference_steps=DEFAULT_NUM_INFERENCE_STEPS,
-        guidance_scale=DEFAULT_GUIDANCE_SCALE,
-        embedded_guidance_scale=DEFAULT_EMBEDDED_GUIDANCE_SCALE,
-        force_fps=str(FORCE_FPS),
-        seed=derive_seed(decision.seed_policy, briefs),
-    )   # rules 1/4/5 enforced at construction (job_config authority)
+    # pass the RAW requested frames to the authority — WanGPJobConfig
+    # validates (rules 1-2, typed rejection on sub-floor/bool) AND
+    # snaps (rule 3, effective 5+17k grid). We never pre-shape the
+    # value; the notice below compares raw vs effective.
+    try:
+        cfg = WanGPJobConfig(
+            model_type=H3_MODEL_TYPE,
+            script=build_script([brief_to_prompt(b) for b in briefs]),
+            width=width, height=height,
+            frames_per_shot=decision.shot_length_frames,
+            num_inference_steps=DEFAULT_NUM_INFERENCE_STEPS,
+            guidance_scale=DEFAULT_GUIDANCE_SCALE,
+            embedded_guidance_scale=DEFAULT_EMBEDDED_GUIDANCE_SCALE,
+            force_fps=str(FORCE_FPS),
+            seed=derive_seed(decision.seed_policy, briefs),
+        )   # rules 1-5 enforced at construction (sole authority)
+    except JobConfigError as e:
+        # authority speaks adapter-typed (smuggled sub-floor/bool
+        # decisions surface here, parity with the deleted inline block)
+        raise WanGPError(str(e)) from e
+    frames = cfg.frames_per_shot
+    if frames != decision.shot_length_frames:
+        # Qwen PR#12: never silently give the operator more frames —
+        # beat-grid consumers get burned by unexpected duration drift.
+        print(f"[wangp-dspy] snapped frames_per_shot "
+              f"{decision.shot_length_frames}f -> {frames}f (H3 5+17k grid)")
     return cfg.to_settings_doc()
 
 

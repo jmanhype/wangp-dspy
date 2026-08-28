@@ -25,14 +25,23 @@ RESOLUTIONS: FrozenSet[str] = frozenset({"720p", "768p"})
 SEED_POLICIES: FrozenSet[str] = frozenset(
     {"fixed_per_story", "fixed_per_shot", "derived_from_brief"})
 
+# WD-l5bx review ruling (documented decision): the Selector's frame
+# floor is a DISTINCT semantic layer from job_config's enforcement —
+# selection-time HINT (bounds the LM's choice of shot length) vs
+# submit-time enforcement (typed rejection at WanGPJobConfig
+# construction). To keep one numeric definition, the constants are
+# imported from predict/job_config (sole authority) and re-exported
+# here for the existing import surface; profile_selector adds NO
+# independent numeric bound.
+from predict.job_config import (  # noqa: F401
+    H3_FRAMES_MIN, H3_FRAMES_OFFSET, H3_FRAMES_STEP,
+    SHOT_LENGTH_FLOOR_FRAMES,
+)
 # HARD FLOOR: 96 frames = 4 seconds @ 24fps. Videos are capped, never
 # shorter than 4s — shorter requests are a typed rejection.
-SHOT_LENGTH_FLOOR_FRAMES = 96
 # H3 frame quantization (WD-u4rv, MEASURED on the 3090 pin):
 # minimax_h3 renders only 5+17k frames with minimum 107.
-H3_FRAMES_MIN = 107
-H3_FRAMES_STEP = 17
-H3_FRAMES_OFFSET = 5
+# (Values now defined once in predict/job_config — see ruling above.)
 
 
 @dataclass(frozen=True)

@@ -70,10 +70,14 @@ def test_build_settings_ongrid_unchanged():
 
 
 def test_build_settings_rejects_below_h3_min():
-    # below H3 min 107 but above the legacy 96 floor -> typed reject
-    # (ProfileDecision itself rejects below 96 at construction)
-    with pytest.raises(WanGPError, match="H3 minimum"):
-        build_settings([_brief()], _decision(100))
+    # WD-l5bx review blocker fix: the adapter inline floor/grid check
+    # was DELETED — WanGPJobConfig construction is the sole authority.
+    # 100f is above the 96f semantic floor (accepted) and below H3
+    # min 107 (snapped to the effective grid count) — exactly the
+    # authority's documented rule-2/rule-3 semantics (accept at the
+    # semantic floor, snap onto 5+17k).
+    settings = build_settings([_brief()], _decision(100))
+    assert settings["frames_per_shot"] == 107
 
 
 # ── readback verification (fake ffprobe) ──────────────────────────

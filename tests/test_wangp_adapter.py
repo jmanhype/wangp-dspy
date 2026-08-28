@@ -86,8 +86,11 @@ def test_build_settings_exact_shape_and_multishot_tag():
 
 
 def test_build_settings_enforces_shot_floor():
-    # ProfileDecision already rejects sub-floor; verify the adapter's own
-    # defense-in-depth with a smuggled sub-floor decision.
+    # ProfileDecision already rejects sub-floor; WanGPJobConfig
+    # construction is the SOLE enforcement authority (WD-l5bx review
+    # blocker fix: the adapter's inline duplicate was deleted). A
+    # smuggled sub-floor decision still fails typed — via the
+    # authority, wrapped adapter-typed.
     bad = _decision()
     object.__setattr__(bad, "shot_length_frames",
                        SHOT_LENGTH_FLOOR_FRAMES - 1)
