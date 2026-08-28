@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-28T04:16:07Z
 created_by: speed
-updated_at: 2026-08-28T04:16:07Z
-content_hash: "sha256:696d56ffd80ecc2c80ee643c8328b5c4e60b74e35279e38a7b98c5c3fbc82034"
+updated_at: 2026-08-28T04:16:19Z
+content_hash: "sha256:07cf44230c266ca136127b532120a5db29e22a953b1fbd92eadc6552318d76cb"
 ---
 
 ## Description
@@ -54,3 +54,6 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T04:16:19Z speed
+2026-08-28 sol-max: filed under epic WD-j9nx (film lane S2). Spec/plan pair authored by orchestrator in working tree at docs/specs/s2-diarization.md + docs/plans/s2-diarization.md (#9 templates). Dispatch: deepseek-fixer, primary checkout, branch feat/wd-s2-diarization off main @ d10af46 (baseline 442 tests). Standing automerge order applies after Luna+GLM parallel gates.
