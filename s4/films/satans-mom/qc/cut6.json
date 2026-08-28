@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video clip depicts a static, dimly lit scene in a stone dungeon featuring three characters. The primary motion is a subtle gesture from the white-haired figure on the left, who points towards the horned figure on the right. The foreground character remains largely still.\n\n**Subject & Motion Quality:** The subjects are clearly defined despite the low lighting. The pointing motion is smooth and continuous, without any robotic stiffness. The interaction feels natural.\n\n**Temporal Consistency:** There is excellent temporal consistency across the frames. The characters' positions, clothing, and",
+    "latency_secs": 138.2
+  }
+}

@@ -3,3 +3,13 @@ __pycache__/
 .venv/
 .pytest_cache/
 *.egg-info/
+
+# S4 film media intermediates (kept on disk, not in git — see s4/S4_DELIVERY.md)
+s4/films/satans-mom/renders/
+s4/films/satans-mom/remux/
+s4/films/satans-mom/qc/*_fs.mp4
+s4/films/satans-mom/dialogue/*.wav
+s4/films/satans-mom/dialogue/*.mp3
+s4/films/satans-mom/dialogue/lines/
+s4/films/satans-mom/dialogue/lines_padded/
+s4/films/satans-mom/masters/*.png

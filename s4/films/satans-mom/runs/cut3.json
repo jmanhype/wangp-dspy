@@ -1,0 +1,49 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "cut": 3,
+  "film_cut": 2,
+  "speaker": "GRANDMA",
+  "line": "Expecting me? You keep him safe or I'll find out exactly what you did to him.",
+  "seed": 45,
+  "frames_per_shot": 141,
+  "job_shape": "PROVEN S2.5 (model_type minimax_h3_ref2va_pruned via adapter submit; video_prompt_type I; image_refs list; attention sdpa; audio_prompt_type A; guide==shot duration; 4-15s cap)",
+  "render": {
+    "path": "films/satans-mom/renders/cut3.mp4",
+    "sha256": "4b544ae683b959158cfc1d4659189670bb904e55fb75e9344918b56561d8ac87",
+    "duration_s": 5.875,
+    "rendered_on": "3090 (Wan2GP wgp.py --profile 3 --attention sdpa)",
+    "settings_sha256": "72e66d2bcb6c233fdf14cb8b13ccaa6c9d6d5289020b2f2b1f001ad98678b767",
+    "log_tail": "oding | 12m 40s\nH3 denoising: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 20/20 [11:45<00:00, 35.28s/steps]\n\n  [0/1] Decoding H3 video and stereo audioNew video saved to Path: outputs/2026-08-28-16h05m13s_seed45_A dim stone dungeon cell lit by a single hanging lantern casting a warm flickering glow; an elderly.mp4\n\n\n  Task 1 completed\n\n==================================================\nQueue completed: 1/1 tasks in 13m 35s\n"
+  },
+  "master_plate": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png",
+    "sha256": "03f1e067378f34ca18f30b2596853d83d2f2320a7e559df1566a34db7119cfe0"
+  },
+  "audio": {
+    "doctrine": "G4: H3 audio NEVER trusted \u2014 stripped entirely; real edge-tts guide muxed",
+    "guide_wav": "films/satans-mom/dialogue/lines/cut2_1.wav",
+    "guide_sha256": "3a807d05f3d661dcc95a8bde2508cd523b5c81de734c34f315834ef21433e5a5",
+    "pad_note": null
+  },
+  "remux": {
+    "path": "films/satans-mom/remux/cut3.mp4",
+    "sha256": "4f4cedfe50fbc6bd231eca99d68a55ad47ef82d660a56db0bb9430614155c091",
+    "duration_s": 5.544
+  },
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video displays a high level of temporal consistency with no noticeable flickering or morphing of the characters or background elements. The motion quality is smooth and natural, particularly in the subtle hand gestures and facial expressions of the characters. There are no significant artifacts, and the lighting remains consistent throughout the shot, enhancing the overall visual appeal. The subject matter is well-composed, with clear focus on the interactions between the characters.\n\nScore: 9/10",
+    "latency_secs": 84.5
+  },
+  "gates": {
+    "G1_jobconfig_schema": "PASS (adapter.submit, S1 six entry-point gates)",
+    "G2_ref2va_profile": "PASS (Ref2VAProfile applied at build_jobs)",
+    "G3_diarization_attribution": "PASS (check_diarization.py: 3 speakers, 6 segments, authored-honest)",
+    "G4_audio_doctrine": "PASS (H3 audio stripped; edge-tts lines remuxed)",
+    "G5_qc_comedy_gate": "PASS (9/10 >= 7.0)",
+    "G6_whisper_final": "see final_film.json"
+  }
+}

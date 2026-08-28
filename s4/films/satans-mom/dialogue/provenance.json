@@ -1,0 +1,3 @@
+{
+  "provenance": "authored-honest: line texts and speaker labels authored by the orchestrator; segment start/end MEASURED from edge-tts output durations (ffprobe); no whisper/pyannote anywhere in repo paths. audio_sha256 = hash of the concatenated full-film dialogue track once assembled."
+}

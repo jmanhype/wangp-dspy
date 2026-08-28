@@ -1,0 +1,74 @@
+[
+  {
+    "cut": 1,
+    "start": 0.0,
+    "end": 2.808,
+    "speakers": [
+      "GRANDMA"
+    ],
+    "lines": [
+      "cut1_1.wav"
+    ],
+    "duration_s": 2.808
+  },
+  {
+    "cut": 2,
+    "start": 3.408,
+    "end": 8.016,
+    "speakers": [
+      "PRISONER"
+    ],
+    "lines": [
+      "cut1_2.wav"
+    ],
+    "duration_s": 4.608
+  },
+  {
+    "cut": 3,
+    "start": 8.616,
+    "end": 14.16,
+    "speakers": [
+      "GRANDMA"
+    ],
+    "lines": [
+      "cut2_1.wav"
+    ],
+    "duration_s": 5.544
+  },
+  {
+    "cut": 4,
+    "start": 14.76,
+    "end": 23.376,
+    "speakers": [
+      "DEVIL"
+    ],
+    "lines": [
+      "cut2_2.wav"
+    ],
+    "duration_s": 8.616
+  },
+  {
+    "cut": 5,
+    "start": 23.976,
+    "end": 28.32,
+    "speakers": [
+      "GRANDMA"
+    ],
+    "lines": [
+      "cut3_1.wav"
+    ],
+    "duration_s": 4.344
+  },
+  {
+    "cut": 6,
+    "start": 28.92,
+    "end": 33.672,
+    "speakers": [
+      "DEVIL"
+    ],
+    "lines": [
+      "cut3_2.wav"
+    ],
+    "duration_s": 4.752
+  }
+]

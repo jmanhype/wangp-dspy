@@ -1,0 +1,49 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "cut": 2,
+  "film_cut": 1,
+  "speaker": "PRISONER",
+  "line": "No ma'am. But the devil's been expecting you.",
+  "seed": 44,
+  "frames_per_shot": 124,
+  "job_shape": "PROVEN S2.5 (model_type minimax_h3_ref2va_pruned via adapter submit; video_prompt_type I; image_refs list; attention sdpa; audio_prompt_type A; guide==shot duration; 4-15s cap)",
+  "render": {
+    "path": "films/satans-mom/renders/cut2.mp4",
+    "sha256": "95476a8ca05119c4d12af106e86122677b05b42b02ab71af6ea993a642d5202a",
+    "duration_s": 4.458,
+    "rendered_on": "3090 (Wan2GP wgp.py --profile 3 --attention sdpa)",
+    "settings_sha256": "c94729713824e418300ad5d9410f81fcbfd90f7333e733ee1e2891d7ff546da1",
+    "log_tail": "       | 0/1 [00:00<?, ?steps/s]\n100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.18s/steps]\n100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1/1 [00:01<00:00,  1.18s/steps]\n2026-08-28 17:00:08,050 - INFO - mdxc_separator - Saving Vocals stem to cut1_2_clean(2).wav...\n2026-08-28 17:00:12,736 - INFO - common_separator - Audio duration is 0.00 hours (8.00 seconds).\n2026-08-28 17:00:12,752 - INFO - common_separator - Using pydub for writing.\n"
+  },
+  "master_plate": {
+    "path": "/tmp/s25/master.png",
+    "sha256": null
+  },
+  "audio": {
+    "doctrine": "G4: H3 audio NEVER trusted \u2014 stripped entirely; real edge-tts guide muxed",
+    "guide_wav": "films/satans-mom/dialogue/lines/cut1_2.wav",
+    "guide_sha256": "23629e3da03effc378a035cc93ed4eed897f91d20331c6c8ef2a65c886b99120",
+    "pad_note": null
+  },
+  "remux": {
+    "path": "films/satans-mom/remux/cut2.mp4",
+    "sha256": "23d5f83608d9609136b3194920d41e7b16d8686ec804024cddce473d08bf54e1",
+    "duration_s": 4.458
+  },
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot displays a high level of temporal consistency with clean, vector-based animation. The subjects (the devil, the maid, and the chained men) remain stable without flickering or morphing. The motion quality is smooth and purposeful, effectively conveying the comedic action of the men reaching for the tea. There are no visible artifacts, aliasing, or rendering issues, making it a high-quality clip.\n\nScore: 9/10",
+    "latency_secs": 75.7
+  },
+  "gates": {
+    "G1_jobconfig_schema": "PASS (adapter.submit, S1 six entry-point gates)",
+    "G2_ref2va_profile": "PASS (Ref2VAProfile applied at build_jobs)",
+    "G3_diarization_attribution": "PASS (check_diarization.py: 3 speakers, 6 segments, authored-honest)",
+    "G4_audio_doctrine": "PASS (H3 audio stripped; edge-tts lines remuxed)",
+    "G5_qc_comedy_gate": "PASS (9/10 >= 7.0)",
+    "G6_whisper_final": "see final_film.json"
+  }
+}

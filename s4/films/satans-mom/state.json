@@ -1,0 +1,30 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "film": "Satan's Mom — Larson dungeon gag, 3 cuts / 6 dialogue shots",
+  "started_utc": "2026-08-28T14:15:00Z",
+  "completed_utc": "2026-08-28T18:45:00Z",
+  "steps": {
+    "story_filed": {"status": "done", "id": "WD-h25b", "ts": "2026-08-28T14:15:00Z"},
+    "branch": {"status": "done", "name": "feat/wd-h25b-s4-satans-mom", "base": "main@fa7d003"},
+    "script_authored": {"status": "done", "ts": "2026-08-28T20:10:00Z", "note": "3 voices via edge-tts; timeline authored-honest (durations measured ffprobe); PROVENANCE.md split out for R0 unknown-key discipline"},
+    "tts_generated": {"status": "done", "ts": "2026-08-28T20:10:00Z", "note": "6 line wavs + padded cut1_1 to 4.0s (Ref2VA floor)"},
+    "timeline_validated": {"status": "done", "ts": "2026-08-28T20:28:00Z", "note": "check_diarization.py OK: 3 speakers, 6 segments, 33.672s"},
+    "masters_locked": {"status": "done", "ts": "2026-08-28T20:25:00Z", "note": "cut1=/tmp/s25/master.png (locked S2.5); cut2/cut3 regenerated, shas verified, composition VLM-verified"},
+    "jobs_built": {"status": "done", "ts": "2026-08-28T20:33:00Z", "note": "6 jobs through adapter.submit gates (G1/G2/G4/G5) + Ref2VAProfile; frames 107/124/141/209/107/124 (H3 5+17k quantization); seeds 43-48; wgp settings use PROVEN S2.5 keys"},
+    "renders": {"status": "done", "ts": "2026-08-28T17:59:00Z", "note": "all 6 cuts rendered on 3090 sequential driver (sdpa attention); first driver OOM'd cuts 2/5/6 by launching all 6 concurrently — v2/v3 sequential with GPU-free preflight fixed it; cut1 4.458s, cut2 4.458s, cut3 5.875s, cut4 8.708s, cut5 4.458s, cut6 5.167s"},
+    "qc_per_shot": {"status": "done", "ts": "2026-08-28T18:30:00Z", "note": "qwen38-27b VLM (llama-server :8000, CPU-offloaded ctx 16384): cut1=8, cut2=9, cut3=9, cut4=9, cut5=7, cut6=9 — all PASS comedy gate >=7.0"},
+    "remux_assembly": {"status": "done", "ts": "2026-08-28T18:32:00Z", "note": "G4: H3 audio stripped, real edge-tts lines muxed per cut (-shortest); ffmpeg concat + 0.6s silence gaps -> final/satans_mom.mp4 34.78s"},
+    "final_whisper_gate": {"status": "done", "ts": "2026-08-28T18:36:00Z", "note": "faster-whisper small int8 local: all 6 authored lines transcribed verbatim in order — PASS"},
+    "run_records": {"status": "done", "ts": "2026-08-28T18:40:00Z", "note": "runs/cut1..6.json + runs/final_film.json with live sha256 of every artifact, settings shas from 3090, QC verdicts, disclosures"},
+    "pr_opened": {"status": "pending"}
+  },
+  "shots": {
+    "cut1": {"score": 8, "verdict": "PASS"},
+    "cut2": {"score": 9, "verdict": "PASS"},
+    "cut3": {"score": 9, "verdict": "PASS"},
+    "cut4": {"score": 9, "verdict": "PASS"},
+    "cut5": {"score": 7, "verdict": "PASS"},
+    "cut6": {"score": 9, "verdict": "PASS"}
+  }
+}

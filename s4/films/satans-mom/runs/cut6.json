@@ -1,0 +1,49 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "cut": 6,
+  "film_cut": 3,
+  "speaker": "DEVIL",
+  "line": "It never does. That is rather the point.",
+  "seed": 48,
+  "frames_per_shot": 124,
+  "job_shape": "PROVEN S2.5 (model_type minimax_h3_ref2va_pruned via adapter submit; video_prompt_type I; image_refs list; attention sdpa; audio_prompt_type A; guide==shot duration; 4-15s cap)",
+  "render": {
+    "path": "films/satans-mom/renders/cut6.mp4",
+    "sha256": "80f559926c781cafc562bc063783e30993d1c8f4ebd83a0e9f5c3ad56e5a478d",
+    "duration_s": 5.167,
+    "rendered_on": "3090 (Wan2GP wgp.py --profile 3 --attention sdpa)",
+    "settings_sha256": "8993ae735ab39fba2d6890e5a16adf4a2017763982390ebcd03eb4f932b97426",
+    "log_tail": "%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 20/20 [10:33<00:00, 31.70s/steps]\n\n  [20/20] VAE Decoding | 11m 32s\n  [0/1] Decoding H3 video and stereo audioNew video saved to Path: outputs/2026-08-28-17h58m51s_seed48_A dim stone dungeon cell lit by a single hanging lantern casting a warm flickering glow; an elderly.mp4\n\n\n  Task 1 completed\n\n==================================================\nQueue completed: 1/1 tasks in 12m 30s\n"
+  },
+  "master_plate": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut3_master.png",
+    "sha256": "61feaa038ccc91dfdfa22bb083c8667a908ce4e797b0cde5c476b620699901d9"
+  },
+  "audio": {
+    "doctrine": "G4: H3 audio NEVER trusted \u2014 stripped entirely; real edge-tts guide muxed",
+    "guide_wav": "films/satans-mom/dialogue/lines/cut3_2.wav",
+    "guide_sha256": "213d1af364cf95f42a8e67e59cf6a96f128ca7914aa6f33be3f920d933b43554",
+    "pad_note": null
+  },
+  "remux": {
+    "path": "films/satans-mom/remux/cut6.mp4",
+    "sha256": "fa4d8077596b1eb3eb6931cf0a2eba2cff12b7264b8ef4e0e61c9856e2ffbb73",
+    "duration_s": 4.752
+  },
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video clip depicts a static, dimly lit scene in a stone dungeon featuring three characters. The primary motion is a subtle gesture from the white-haired figure on the left, who points towards the horned figure on the right. The foreground character remains largely still.\n\n**Subject & Motion Quality:** The subjects are clearly defined despite the low lighting. The pointing motion is smooth and continuous, without any robotic stiffness. The interaction feels natural.\n\n**Temporal Consistency:** There is excellent temporal consistency across the frames. The characters' positions, clothing, and",
+    "latency_secs": 138.2
+  },
+  "gates": {
+    "G1_jobconfig_schema": "PASS (adapter.submit, S1 six entry-point gates)",
+    "G2_ref2va_profile": "PASS (Ref2VAProfile applied at build_jobs)",
+    "G3_diarization_attribution": "PASS (check_diarization.py: 3 speakers, 6 segments, authored-honest)",
+    "G4_audio_doctrine": "PASS (H3 audio stripped; edge-tts lines remuxed)",
+    "G5_qc_comedy_gate": "PASS (9/10 >= 7.0)",
+    "G6_whisper_final": "see final_film.json"
+  }
+}

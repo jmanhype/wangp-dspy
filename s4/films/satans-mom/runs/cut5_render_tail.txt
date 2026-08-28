@@ -1,0 +1,8 @@
+7<01:25, 28.53s/steps]  [17/20] Denoising | 8m 57sH3 denoising:  90%|█████████ | 18/20 [08:35<00:57, 28.53s/steps]  [18/20] Denoising | 9m 26sH3 denoising:  95%|█████████▌| 19/20 [09:04<00:28, 28.54s/steps]  [19/20] Denoising | 9m 54sH3 denoising: 100%|██████████| 20/20 [09:32<00:00, 28.55s/steps]H3 denoising: 100%|██████████| 20/20 [09:33<00:00, 28.65s/steps]
+  [20/20] VAE Decoding | 10m 23s  [0/1] Decoding H3 video and stereo audioNew video saved to Path: outputs/2026-08-28-17h46m06s_seed47_A dim stone dungeon cell lit by a single hanging lantern casting a warm flickering glow; an elderly.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 32m 57s
