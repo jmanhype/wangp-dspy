@@ -129,3 +129,89 @@ def test_r4_speakers_non_string_entry_rejected():
     with pytest.raises(DiarizationError) as ei:
         validate_diarization(_doc(speakers=["SPEAKER_00", 7]))
     assert "R4" in str(ei.value)
+
+
+# ── T2: R5-R6 ───────────────────────────────────────────────────────
+
+def test_r5_start_equals_end_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": 1.0, "end": 1.0,
+                                             "speaker": "SPEAKER_00"}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r5_start_greater_than_end_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": 2.0, "end": 1.0,
+                                             "speaker": "SPEAKER_00"}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r5_end_exceeds_duration_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": 9.0, "end": 11.0,
+                                             "speaker": "SPEAKER_00"}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r5_negative_start_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": -0.1, "end": 1.0,
+                                             "speaker": "SPEAKER_00"}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r5_speaker_not_in_list_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": 0.0, "end": 1.0,
+                                             "speaker": "SPEAKER_99"}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r5_text_non_string_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[{"start": 0.0, "end": 1.0,
+                                             "speaker": "SPEAKER_00",
+                                             "text": 42}]))
+    assert "R5" in str(ei.value)
+
+
+def test_r6_unsorted_segments_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[
+            {"start": 5.0, "end": 6.0, "speaker": "SPEAKER_00"},
+            {"start": 1.0, "end": 2.0, "speaker": "SPEAKER_01"},
+        ]))
+    assert "R6" in str(ei.value)
+
+
+def test_r6_overlapping_different_speakers_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[
+            {"start": 0.0, "end": 3.0, "speaker": "SPEAKER_00"},
+            {"start": 2.5, "end": 5.0, "speaker": "SPEAKER_01"},
+        ]))
+    assert "R6" in str(ei.value)
+
+
+def test_r6_overlapping_same_speaker_rejected():
+    with pytest.raises(DiarizationError) as ei:
+        validate_diarization(_doc(segments=[
+            {"start": 0.0, "end": 3.0, "speaker": "SPEAKER_00"},
+            {"start": 2.5, "end": 5.0, "speaker": "SPEAKER_00"},
+        ]))
+    assert "R6" in str(ei.value)
+
+
+def test_r5_float_tolerance_at_boundary_accepted():
+    """end == duration + 1e-7 is within FLOAT_TOL (1e-6)."""
+    validate_diarization(_doc(segments=[{"start": 0.0,
+                                         "end": 10.0 + 1e-7,
+                                         "speaker": "SPEAKER_00"}]))
+
+
+def test_unknown_top_level_key_rejected():
+    d = _doc()
+    d["extra"] = True
+    with pytest.raises(DiarizationError):
+        validate_diarization(d)
