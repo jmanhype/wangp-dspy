@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T02:47:13Z
-content_hash: "sha256:9f91645ff0f64e6b582e95f278393a8e53f255ffa7ae068b11deaf82c1c9b723"
+updated_at: 2026-08-28T04:17:11Z
+content_hash: "sha256:9d93242665b880c03f219cbb559c8048f17598605a4752a083748affc7d1bdac"
 ---
 
 ## Description
@@ -112,3 +112,8 @@ EOF
 
 ### 2026-08-28T02:47:13Z speed
 2026-08-28 sol-max: Phase 1 close-out + Phase 2 dispatch. (1) WD-r8n9 triage COMPLETE (full measured verdicts + recommendation in its own comments): SCANNER FALSE-POSITIVE class — all 4 criticals are deliberate test fixtures (destructive-string quoting guard, decoy secret, traversal-refusal tests), zero runtime exposure; root cause pinned upstream NousResearch/hermes-agent#93927 (EXCLUDED_DIRS lacks tests/, single-critical->dangerous, no override). RECOMMENDATION to operator: (a) UPSTREAM FIX [preferred] — a tests/-tier exclusion moves this repo dangerous->caution (force-installable, human-confirmable); (b) NO local interim — recommend against any local ignore/allowlist (would mask future real regressions in our own driver code; violates gate-credibility axiom); one-time confirmation flow after upstream lands is the right interim; (c) rejected: quarantining bait fixtures (scanner still scores the file, degrades test locality without fixing the gap). Awaiting operator call on disposition. (2) PHASE 2 BEGINS: S1 filed as WD-l5bx (P1, film-lane opener) — WanGPJobConfig validator absorbing the 5 scattered asserts + Ref2VA Strategy profile + six guaranteed-invocation gates (audio 'A' hard-reject at submit, guide==shot-duration, QC-consumes-artifact, H3-audio-never-trusted, <d>-or-silence contract, master-lock precondition); binding constraints in body (Maestro idea-only / file:line refs, no faster-whisper/pyannote, local-only inference); AC includes TDD RED-first per gate + spec/plan pair dogfooding the NEW #9 templates (first real use of PR #36). Dispatched to qwen-escalator (architectural: new config surface + trust-boundary gates), primary checkout, branch feat/wd-l5bx-wangp-jobconfig-ref2va off main @ ed6420a, baseline 406 tests. Standing automerge order applies; Luna+GLM parallel after verified stable head. S2-S8 follow per epic sequence once S1 merges.
+
+### 2026-08-28T04:17:11Z speed
+2026-08-28 sol-max: S1 MERGED — PR #37 -> d10af46, WD-l5bx closed. Double-PASS: GLM re-review PASS after fix round; Luna mechanical PASS (per-rule grep verification: zero duplicate enforcement sites, all six gates proven entry-point unskippable, 442 tests, RED genuine, clean-room vs Maestro). Film lane foundation LIVE: WanGPJobConfig single authority, Ref2VA Strategy profile, six operator-ruled gates structurally unskippable at submit/render.
+
+S2 FILED + DISPATCHED: WD-cz6a "S2: speaker diarization for multi-speaker <d> attribution" (parent WD-j9nx, P1). Scope per deep-dive: repo CONSUMES out-of-repo diarization JSON — schema v1 + deterministic validator (rules R1-R6, typed per-rule rejections) + conversion to <d>Name</d> attribution blocks feeding S3's gate + CLI surface. BINDING honored: no faster-whisper/pyannote in repo code paths (execution external, MIT-clean upstream pattern); Maestro audio_analysis.py:675-780 IDEA-ONLY (never vendor). Spec/plan pair authored by orchestrator per #9 templates (docs/specs/s2-diarization.md + docs/plans/s2-diarization.md, in working tree for the implementer). Dispatched to deepseek-fixer (routine measured-first against fully specified plan), primary checkout, branch feat/wd-s2-diarization off main @ d10af46 (baseline 442). AC: validator TDD / deterministic conversion / suite >= 442 green / CLI+validator surface / binding grep zero. After verified stable head: Luna+GLM parallel -> standing automerge. Then S3 (<d> speaker gate; G3 run_pipeline wiring lands there per carried nit), S4 (Satan's Mom MV, critical path) per sequence. Carried nits: render_profiles constant import anytime.
