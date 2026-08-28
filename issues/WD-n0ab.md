@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-27T04:44:15Z
-content_hash: "sha256:8b0dbb4214f1bc7d27913145927f8b85412059c1402df38d7cd830b17bb027f2"
+updated_at: 2026-08-28T02:13:03Z
+content_hash: "sha256:33e8d35a9ee140eb9d38f8069f213ec8e12c3edd4e67c5ba0105046c9566b751"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [fix-merged-pending-delivery]
@@ -52,3 +52,6 @@ status: delivered
 
 ### 2026-08-26T17:38:32Z speed
 Reopened 2026-08-26: prior 'delivered' status was FALSE — knowledge_capture gaps verified present on main c16fec7 (no _OP_SPEC entry, no executor dispatch, absent from paivot_story enum, no CaptureBuffer producer). Fix implemented on paivot-hermes branch fix/wd-n0ab-knowledge-capture @ b704a69 (708 tests green, py311 OK), pending independent review + operator merge.
+
+### 2026-08-28T02:13:03Z speed
+CLOSE-OUT (2026-08-27, operator relay per Sol probe evidence): knowledge_capture fix verified LIVE on paivot-hermes main f5e1ff6 — op registered in _OPERATIONS, executor dispatch (executor.py:1033), plugin surface wired, installed-plugin hash == source (a6fd8ee1), every typed guard proven in-process (mode enum, run_is_live lineage, related-wikilink rules), happy-path probe passed with note-on-disk + sha256 evidence match. Digest-definition ruling: digest of record = note WITHOUT envelope marker (frontmatter+body, per spec docstring) — on-disk-bytes variant declined; if the distinction ever matters operationally, file a one-liner ticket. Story delivered and closed.
