@@ -132,13 +132,35 @@ def test_g5_entry_point_fires():
 
 # ── G6: master-lock precondition ──────────────────────────────────────
 
-def test_g6_typed_rejection(tmp_path):
-    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner())
+def test_g6_typed_rejection(tmp_path, monkeypatch):
+    # WD-j9nx/S3: hermetic — the G6 check reads cwd for MASTER_LOCK.md,
+    # so a stray file at repo root (e.g. operator artifact from a
+    # vertical-slice run) must not leak in. Isolate cwd + env var.
+    monkeypatch.delenv("WANGP_MASTER_LOCK", raising=False)
+    monkeypatch.chdir(tmp_path)
+    a = WanGPAdapter(output_dir=str(tmp_path / "out"), runner=_OkRunner())
     with pytest.raises(WanGPError, match="G6"):
         a.generate_brief("a kaiju video")   # no lock record anywhere
 
 
-def test_g6_entry_point_fires(tmp_path):
-    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner())
+def test_g6_entry_point_fires(tmp_path, monkeypatch):
+    monkeypatch.delenv("WANGP_MASTER_LOCK", raising=False)
+    monkeypatch.chdir(tmp_path)
+    a = WanGPAdapter(output_dir=str(tmp_path / "out"), runner=_OkRunner())
     with pytest.raises(WanGPError, match="G6"):
         a.generate_brief("a kaiju video")
+
+
+def test_g6_env_lock_honored(tmp_path, monkeypatch):
+    # Proves the monkeypatch actually controls the input: with the env
+    # var set, generate_brief passes the G6 gate. The LM call then
+    # fails (no LM configured in unit tests) — that failure is NOT a
+    # WanGPError, so "no WanGPError raised" IS the assertion that G6
+    # did not fire.
+    monkeypatch.setenv("WANGP_MASTER_LOCK", "/nonexistent-but-set.lock")
+    monkeypatch.chdir(tmp_path)
+    a = WanGPAdapter(output_dir=str(tmp_path / "out"), runner=_OkRunner())
+    with pytest.raises(Exception) as exc_info:
+        a.generate_brief("a kaiju video")
+    assert not isinstance(exc_info.value, WanGPError), \
+        f"G6 fired despite env lock: {exc_info.value}"
