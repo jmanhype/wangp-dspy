@@ -337,6 +337,70 @@ throughout."
 
 ---
 
+## #34 — VLM QC failure triage: gate/rule/example classifier + ledger
+
+PR #34 · merge `0db8996` · extraction: `changelog-design-rationale.md`
+section B (three-tier escalation ladder; source CHANGELOG:384-398)
+
+**Observed failure/gap.** When a QC failure recurred there was no
+recorded decision about which tier absorbs it — a false-positive gate,
+a missing rule, or an example gap all looked identical at failure time,
+so recurring failures were re-handled ad hoc instead of escalated
+deliberately.
+
+**Root cause.** Failure events had no classification step: nothing
+distinguished "the gate misfired" from "the rule is right and the
+output is wrong" from "we have no training example for this case", so
+no tier could be credited or corrected.
+
+**Chosen fix.** `gates/qc_triage.py`: deterministic zero-model
+classifier over structured failure events → exactly one of
+{gate_false_positive, rule_violation, example_gap}; typed rejection on
+ambiguous/unclassifiable events (never silently defaulted); loud skip
+kind=empty_text; same pattern as provenance_gate.py. Append-only JSONL
+ledger schema (`datasets/qc-triage-ledger.schema.json`) with verbatim
+evidence + `stats()` helper (per-class counts, per-gate fire counts,
+never-fired list — section G .gates.jsonl discipline). CLI
+`scripts/check_qc_triage.py` exit 0/1/2 matching check_provenance.py.
+`docs/qc-triage.md` maps the taxonomy onto RenderQC vocabulary (Verdict
+PASS/REVISE/REJECT, CONCEPT_ENCODING_FAILURE, QCEscalationError,
+GENRE_THRESHOLDS) with the decision procedure "first ask: is this
+deterministically judgeable?". The central axiom is carried into our
+vocabulary with provenance: 误拦的门比没有门更糟——门的信用比数量重要
+(extraction :12, citing source CHANGELOG:355-356) — a triaged
+false-positive gets its gate repaired, not another gate stacked on top.
+Existing gates and evaluate/render_qc.py untouched: the classifier
+consumes their verdicts as input records. No auto rule/doc rewriting
+from the ledger — human decides; GEPA auto-accept is a later ADAPT
+story.
+
+**Rejected alternatives.**
+- *Auto-appending new rules/examples to the registry from the ledger*:
+  rejected — the ledger is evidence, not authority; automatic promotion
+  would let a single misclassified event rewrite gate behavior (the
+  误拦 axiom in action: credibility is earned per-decision, not by
+  volume).
+- *LLM-based classification of failure events*: rejected — non-
+  deterministic and unselftestable; the classifier must run in the
+  selftest for free, matching the zero-model contract of every other
+  gate in this repo.
+- *Silent default classification for ambiguous events*: rejected —
+  typed rejection instead; an unclassifiable event that defaults quietly
+  poisons the ledger's stats() counts.
+
+**Measured evidence.**
+```
+$ git show --stat 0db8996          # 5 files changed, 716 insertions(+)
+$ grep -c "def test_" <(git show 0db8996:tests/test_qc_triage.py)
+  -> 16 tests
+$ /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest --co -q
+  -> 406 tests collected at this commit (baseline 390 @ 9d0eb2f)
+```
+Commit message: "TDD RED->GREEN, cloned from test_provenance_gate.py
+conventions (typed violations, seed data, CLI smoke 0/1/2). 16 tests."
+
+---
+
 ## Suite trajectory (measured)
 
 Test collection count at each merge commit, measured with
