@@ -53,6 +53,7 @@ class RenderBrief:
         _reject_meta_hints(self)
         _reject_registry_names(self)
         _reject_risky_actions(self)
+        _reject_non_english_engine_fields(self)
 
 
 # Editor meta-hints live in H3 shots ONLY (flux3 convention). If one
@@ -133,6 +134,33 @@ def _reject_risky_actions(brief: "RenderBrief") -> None:
                 "(common-actions doctrine, docs/common-actions.md)")
 
 
+def _reject_non_english_engine_fields(brief: "RenderBrief") -> None:
+    """Language-class gate (ADOPT WD-c4gw: language-split-contract.md
+    — profile-pass.md:16): ALL RenderBrief sections are ENGINE-BOUND
+    prompt fragments — LOCKED ENGLISH. Same typed-failure path as
+    the meta-hint/no-names/actions guards."""
+    from gates.language_gate import (check_language_class,
+                                     LanguageGateError,
+                                     FIELD_CLASSES)
+    classes = FIELD_CLASSES["RenderBrief"]
+    for field in ("subject", "motion", "camera", "style",
+                  "audio_direction", "negatives", "identity_lock"):
+        v = getattr(brief, field) or ""
+        if not v:
+            continue
+        try:
+            violations = check_language_class(
+                v, field_class=classes[field])
+        except LanguageGateError:
+            continue
+        if violations:
+            raise ValueError(
+                f"engine-bound brief section {field!r} contains "
+                f"{violations[0].matched_text} — engine fields are "
+                "LOCKED ENGLISH (language-split-contract.md, "
+                "profile-pass.md:16); rewrite in English")
+
+
 def _reject_meta_hints(brief: RenderBrief) -> None:
     for section in (brief.subject, brief.motion, brief.camera,
                     brief.style):
@@ -176,6 +204,13 @@ class RenderBriefSignature(dspy.Signature):
     beat grids, titles) — those belong to H3 shot assembly, not to a
     render brief. Be SPECIFIC: lens, light, motion physics, texture.
     Output the JSON object only.
+
+    LANGUAGE-CLASS CONTRACT (WD-c4gw, language-split-contract.md):
+    EVERY output field (subject, motion, camera, style,
+    audio_direction, negatives, identity_lock) is ENGINE-BOUND —
+    LOCKED ENGLISH (profile-pass.md:16: 机器字段不跟随 lang). The
+    brief feeds the WanGP render prompt verbatim; non-English
+    content is rejected by gates/language_gate.py.
     """
     intent: str = dspy.InputField(desc="user's video intent, any form")
     brief: str = dspy.OutputField(
@@ -196,6 +231,16 @@ class PromptDirector(dspy.ChainOfThought):
         super().__init__(RenderBriefSignature)
 
     def forward(self, *args, **kwargs):
+        # WD-c4gw registry fold-in: pop BEFORE super() — dspy's
+        # forward does not understand registry; missing registry =
+        # LOUD skip (warning), never silent.
+        registry = kwargs.pop("registry", None)
+        if registry is None:
+            import logging as _lg
+            _lg.getLogger(__name__).warning(
+                "no-names gate SKIPPED on LM path: no entity registry "
+                "provided to PromptDirector.forward (pass registry=... "
+                "— load via gates.load_registry)")
         try:
             out = super().forward(*args, **kwargs)
         except Exception as exc:
@@ -210,15 +255,24 @@ class PromptDirector(dspy.ChainOfThought):
                 motion="", camera="", style="")
             return dspy.Prediction(brief=brief)
         try:
-            brief = _parse_brief(out.brief)
+            brief = _parse_brief(out.brief, registry=registry)
         except (ValueError, TypeError, KeyError) as exc:
+            # WD-c4gw: gate rejections (registry names, risky
+            # actions, language) raise ValueError INSIDE
+            # RenderBrief.__post_init__ — those must surface, not be
+            # masked by a fallback that itself fails validation.
+            if "proper noun" in str(exc) or "risky action" in str(exc) \
+                    or "engine-bound" in str(exc):
+                raise
             brief = RenderBrief(
                 subject=f"(invalid brief: {str(exc)[:80]})",
-                motion="", camera="", style="")
+                motion="(invalid)", camera="(invalid)",
+                style="(invalid)")
         return dspy.Prediction(brief=brief)
 
 
-def _parse_brief(raw: str) -> RenderBrief:
+def _parse_brief(raw: str,
+                 registry: dict | None = None) -> RenderBrief:
     try:
         doc = json.loads(raw)
     except (TypeError, json.JSONDecodeError) as exc:
@@ -235,6 +289,7 @@ def _parse_brief(raw: str) -> RenderBrief:
             camera=str(doc["camera"]), style=str(doc["style"]),
             audio_direction=str(doc.get("audio_direction", "") or ""),
             negatives=str(doc.get("negatives", "") or ""),
-            identity_lock=str(doc.get("identity_lock", "") or ""))
+            identity_lock=str(doc.get("identity_lock", "") or ""),
+            registry=registry)
     except ValueError:
         raise
