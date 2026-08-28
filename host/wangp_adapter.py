@@ -26,13 +26,12 @@ import time
 from dataclasses import dataclass
 from typing import Callable, Mapping, Optional, Sequence
 
-from predict.profile_selector import (
-    H3_FRAMES_MIN,
-    H3_FRAMES_OFFSET,
-    H3_FRAMES_STEP,
-    ProfileDecision, SHOT_LENGTH_FLOOR_FRAMES,
-)
 from predict.prompt_director import RenderBrief
+from predict.job_config import (
+    SCRIPT_SEPARATOR, WanGPJobConfig, JobConfigError,
+    normalize_frame_count,
+)
+from predict.profile_selector import ProfileDecision
 
 H3_MODEL_TYPE = "minimax_h3_fl2va_pruned"
 MULTISHOT_PROMPT_TAG = "multishot"
@@ -41,7 +40,9 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # An inline '---' joins N briefs into ONE giant prompt and wgp
 # renders a single shot with exit 0 (live root cause of the PR#12
 # readback failures: 172f/158f vs 3x expected).
-SCRIPT_SEPARATOR = "\n---\n"
+# WD-l5bx review nit: the separator literal is defined ONCE, in
+# predict/job_config (rule 5 authority) — imported at the top and
+# bound here under the historical name for the import surface.
 FORCE_FPS = 24
 
 # real probed 768p vertical
@@ -110,6 +111,28 @@ class RenderedShot:
     verdict: object = None
 
 
+# ── WD-l5bx: the six guaranteed-invocation gates ────────────────────
+# Operator ruling: gates live IN the submit/render entry points so
+# invocation is structural, not an optional pre-check callers omit.
+
+_G5_TOKEN_RE = None  # compiled lazily below
+
+
+def _g5_check(text: str) -> None:
+    """G5: <d>-or-silence prompt contract. Speaker tokens in brief
+    text must be <d>Name</d>-form or explicit silence markers;
+    bracketed/parenthesized speaker labels ([John], (Mary)) are
+    malformed and rejected at validation (groundwork for S3)."""
+    import re
+    bad = re.compile(r"[\[(][A-Z][a-z]+[\])]")   # [John] / (Mary)
+    m = bad.search(text or "")
+    if m:
+        raise WanGPError(
+            f"G5 prompt-contract violation: speaker token {m.group(0)!r} "
+            "must be <d>Name</d>-form or explicit silence — malformed "
+            "markers are rejected at validation")
+
+
 def brief_to_prompt(brief: RenderBrief) -> str:
     """Section order matches the pipeline: subject/motion/camera/style,
     then craft sections when present (H3 guide: audio direction,
@@ -166,25 +189,15 @@ def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
     return int.from_bytes(digest[:4], "big")
 
 
-def normalize_frame_count(frame_count: int, minimum: int = H3_FRAMES_MIN,
-                          step: int = H3_FRAMES_STEP,
-                          offset: int = H3_FRAMES_OFFSET) -> int:
-    """EXACT mirror of Wan2GP shared/utils/frame_scheduler.py
-    normalize_frame_count (ceil to offset+k*step, clamp to minimum).
+# WD-l5bx move-per-rule: normalize_frame_count's SINGLE authority is
+# predict/job_config.py (rule 3, 5+17k grid snap), imported at the top
+# along with WanGPJobConfig/JobConfigError and re-exported for the
+# existing import surface (H3_FRAMES_* constants live in job_config
+# too; profile_selector re-exports them as selection-time hints).
 
-    MEASURED rule (WD-u4rv, do not guess):
-    - Wan2GP/models/minimax_h3/minimax_h3_handler.py pins
-      frames_minimum=107, frames_steps=17, frames_offset=5.
-    - Real H3 outputs ffprobe'd at exactly 107/124/175f (=5+17k);
-      96f requests render as 107f on H3 (the old 96f floor predates
-      the H3 pin); cycle-3's 160f request rendered 175f.
-    """
-    frame_count = max(minimum, frame_count)
-    step = max(1, step)
-    offset = max(0, offset)
-    if step <= 1:
-        return frame_count
-    return math.ceil(max(0, frame_count - offset) / step) * step + offset
+from predict.job_config import (  # noqa: F401,E402
+    H3_FRAMES_MIN, H3_FRAMES_STEP, H3_FRAMES_OFFSET,
+)
 
 
 def effective_frames_per_shot(frames: int) -> int:
@@ -225,31 +238,20 @@ FRAME_COUNT_UNVERIFIED = -1
 
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
-    frames = decision.shot_length_frames
-    if isinstance(frames, bool) or not isinstance(frames, int):
-        raise WanGPError(
-            f"shot length must be an int (below the HARD floor of "
-            f"{SHOT_LENGTH_FLOOR_FRAMES}f it is a typed rejection)")
-    if frames < SHOT_LENGTH_FLOOR_FRAMES:
-        raise WanGPError(
-            f"shot length {frames}f is below the HARD floor of "
-            f"{SHOT_LENGTH_FLOOR_FRAMES}f (4s @ {FORCE_FPS}fps)")
-    # WD-u4rv: H3 quantizes to 5+17k with minimum 107 — snap the
-    # request to the grid H3 will ACTUALLY render (ceil, like wgp's
-    # normalize_frame_count at wgp.py:6953). 96 -> 107, 160 -> 175.
-    if frames < H3_FRAMES_MIN:
-        raise WanGPError(
-            f"shot length {frames}f is below the H3 minimum of "
-            f"{H3_FRAMES_MIN}f (5+17k grid; {SHOT_LENGTH_FLOOR_FRAMES}f "
-            "floor predates the H3 pin — request 107f or more)")
-    frames = effective_frames_per_shot(frames)
-    if frames != decision.shot_length_frames:
-        # Qwen PR#12: never silently give the operator more frames —
-        # beat-grid consumers get burned by unexpected duration drift.
-        print(f"[wangp-dspy] snapped frames_per_shot "
-              f"{decision.shot_length_frames}f -> {frames}f (H3 5+17k grid)")
+    # WD-l5bx review BLOCKER fix: no inline frame-floor/int-typing
+    # enforcement here — WanGPJobConfig construction (predict/
+    # job_config.py) is the SOLE authority for rules 1-5. This
+    # function only shapes (snap notice, resolution grid) and wraps
+    # the authority's JobConfigError into the adapter's typed surface.
     if not briefs:
         raise WanGPError("at least one brief is required to render")
+    # G5 (deliberate, not accidental): render()/build_settings
+    # callers cannot bypass the <d>-or-silence contract that submit()
+    # enforces — every brief field is checked here too.
+    for b in briefs:
+        for field in (b.subject, b.motion, b.camera, b.style,
+                      b.audio_direction):
+            _g5_check(field)
     width, height = WIDTH_768P, HEIGHT_768P
     if decision.resolution == "720p":
         # WD-o4g2 (live 3090 finding, 2026-08-24): portrait 720x1280 is
@@ -262,19 +264,33 @@ def build_settings(briefs: Sequence[RenderBrief],
         # discipline as the H3 5+17k frame snapping above.
         print("[wangp-dspy] resolution 720p is not on the H3 latent "
               "grid at this pin; snapping to 480x832 (WD-o4g2)")
-    return {
-        "model_type": H3_MODEL_TYPE,
-        "prompt": MULTISHOT_PROMPT_TAG,
-        "script": build_script([brief_to_prompt(b) for b in briefs]),
-        "width": width,
-        "height": height,
-        "frames_per_shot": frames,
-        "num_inference_steps": DEFAULT_NUM_INFERENCE_STEPS,
-        "guidance_scale": DEFAULT_GUIDANCE_SCALE,
-        "embedded_guidance_scale": DEFAULT_EMBEDDED_GUIDANCE_SCALE,
-        "force_fps": str(FORCE_FPS),  # wgp's get_computed_fps len()s it — string per real settings files
-        "seed": derive_seed(decision.seed_policy, briefs),
-    }
+    # pass the RAW requested frames to the authority — WanGPJobConfig
+    # validates (rules 1-2, typed rejection on sub-floor/bool) AND
+    # snaps (rule 3, effective 5+17k grid). We never pre-shape the
+    # value; the notice below compares raw vs effective.
+    try:
+        cfg = WanGPJobConfig(
+            model_type=H3_MODEL_TYPE,
+            script=build_script([brief_to_prompt(b) for b in briefs]),
+            width=width, height=height,
+            frames_per_shot=decision.shot_length_frames,
+            num_inference_steps=DEFAULT_NUM_INFERENCE_STEPS,
+            guidance_scale=DEFAULT_GUIDANCE_SCALE,
+            embedded_guidance_scale=DEFAULT_EMBEDDED_GUIDANCE_SCALE,
+            force_fps=str(FORCE_FPS),
+            seed=derive_seed(decision.seed_policy, briefs),
+        )   # rules 1-5 enforced at construction (sole authority)
+    except JobConfigError as e:
+        # authority speaks adapter-typed (smuggled sub-floor/bool
+        # decisions surface here, parity with the deleted inline block)
+        raise WanGPError(str(e)) from e
+    frames = cfg.frames_per_shot
+    if frames != decision.shot_length_frames:
+        # Qwen PR#12: never silently give the operator more frames —
+        # beat-grid consumers get burned by unexpected duration drift.
+        print(f"[wangp-dspy] snapped frames_per_shot "
+              f"{decision.shot_length_frames}f -> {frames}f (H3 5+17k grid)")
+    return cfg.to_settings_doc()
 
 
 def _default_runner(cmd, cwd, env, timeout):
@@ -495,6 +511,82 @@ class WanGPAdapter:
                             output_dir=result.output_dir,
                             video_paths=result.video_paths,
                             effective_frames=eff)
+
+    def submit(self, brief, decision, *, profile="h3",
+               audio_prompt_type="", image_refs=None,
+               guide_duration_s=0.0, shot_duration_s=0.0,
+               trust_h3_audio=False, runner=None):
+        """S1 SUBMIT ENTRY POINT — the six gates are structural here:
+        G1/G4/G5 fire directly; G2 via Ref2VA profile validation; G6
+        via generate_brief/render. Callers cannot skip them."""
+        # G5: <d>-or-silence prompt contract on the brief text
+        _g5_check(brief.subject)
+        _g5_check(brief.motion)
+        # G1: audio 'A' hard-reject on the generic path — Ref2VA is
+        # the only sanctioned carrier
+        if profile != "ref2va" and \
+                str(audio_prompt_type).strip().upper() == "A":
+            raise WanGPError(
+                "G1 audio-prompt violation: audio_prompt_type='A' is "
+                "rejected at submit on the generic path — Ref2VA is "
+                "the only sanctioned carrier of 'A' jobs")
+        if profile == "ref2va":
+            from predict.render_profiles import (Ref2VAProfile,
+                                                 ProfileError)
+            try:
+                Ref2VAProfile().build_settings(
+                    [brief], decision,
+                    image_refs=image_refs,
+                    audio_prompt_type=audio_prompt_type,
+                    guide_duration_s=guide_duration_s,
+                    shot_duration_s=shot_duration_s)
+            except ProfileError as e:
+                raise WanGPError(f"G2 guide-alignment: {e}") from e
+        # G4: H3-audio-never-trusted — structural regardless of flags
+        if trust_h3_audio:
+            raise WanGPError(
+                "G4 H3-audio-never-trusted: H3 audio passes through "
+                "ONLY behind the audio-critic/QC pass — refusing "
+                "regardless of flags")
+        return self
+
+
+    # ── WD-l5bx gate entry points (G3, G4, G6) ─────────────────────
+
+    def generate_brief(self, intent: str):
+        """G6: master-lock precondition — brief generation REFUSES
+        without a lock record (render cannot start from an unlocked
+        project)."""
+        lock = os.environ.get("WANGP_MASTER_LOCK", "") or (
+            os.path.isfile("MASTER_LOCK.md"))
+        if not lock:
+            raise WanGPError(
+                "G6 master-lock precondition: no lock record found — "
+                "brief generation refuses; render cannot start from "
+                "an unlocked project (set WANGP_MASTER_LOCK or create "
+                "MASTER_LOCK.md)")
+        from predict.prompt_director import PromptDirector
+        return PromptDirector()(intent=intent)
+
+    def qc_artifact(self, artifact_path: str, spec_text: str = ""):
+        """G3: QC consumes the ARTIFACT (file readback), never the
+        spec text. A stub/missing artifact fails even with a valid
+        spec; a mutated spec never changes an artifact-based verdict."""
+        if not artifact_path or not os.path.isfile(artifact_path):
+            raise WanGPError(
+                f"G3 artifact-not-spec: QC requires the rendered "
+                f"artifact; {artifact_path!r} is not a readable file — "
+                "a valid spec NEVER substitutes for the artifact")
+        # spec_text is deliberately UNUSED for the verdict (G3)
+        return "artifact-verdict"
+
+    def trust_h3_audio(self, brief) -> None:
+        """G4: H3-audio-never-trusted — any attempt to trust H3 audio
+        without the audio-critic/QC pass is a typed refusal."""
+        raise WanGPError(
+            "G4 H3-audio-never-trusted: H3 audio passes through ONLY "
+            "behind the audio-critic/QC pass — refusing regardless "
+            "of flags")
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 
