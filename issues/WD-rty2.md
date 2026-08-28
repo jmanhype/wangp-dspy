@@ -1,14 +1,15 @@
 ---
 id: WD-rty2
 title: "VLM QC failure triage: gate/rule/example classification + ledger"
-status: open
+status: closed
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-28T00:53:49Z
 created_by: speed
 updated_at: 2026-08-28T01:36:12Z
-content_hash: "sha256:7fc37644b4fb672f0949116e204d882fac087046ccf32595bd04c9bd00d08f08"
+content_hash: "sha256:119d35b3f1243337e8233fceae93e2e52134ca05f9954f59a140a7bd8a32ab12"
+closed_at: 2026-08-28T01:36:12Z
 ---
 
 ## Description
@@ -45,7 +46,7 @@ Apply to OUR QC failure vocabulary: classify each recurring failure as **gate-fa
 
 
 ## History
-
+- 2026-08-28T01:36:12Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
