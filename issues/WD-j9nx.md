@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T01:40:03Z
-content_hash: "sha256:b0eec674df2cbe42cfc72eb7628513a35c3976a37a0f09a23f59570c39550fc6"
+updated_at: 2026-08-28T02:47:13Z
+content_hash: "sha256:9f91645ff0f64e6b582e95f278393a8e53f255ffa7ae068b11deaf82c1c9b723"
 ---
 
 ## Description
@@ -109,3 +109,6 @@ EOF
 
 ### 2026-08-28T01:40:03Z speed
 2026-08-28 sol-max: Phase 1 dispatch — (1) deepseek-fixer on WD-23r7 (#8 decision-record CHANGELOG, primary checkout, branch feat/wd-23r7-decision-changelog off main @ 0db8996); (2) Luna live verification of knowledge_capture in a fresh session for WD-n0ab close-out; (3) WD-r8n9 triage: scanner DANGEROUS verdicts on own test fixtures — root cause already filed upstream (NousResearch/hermes-agent#93927: plugin_guard.EXCLUDED_DIRS lacks tests/, single-critical→dangerous with no override), so the determination is SCANNER FALSE-POSITIVE on legitimate destructive-string test fixtures (tests/test_driver_ops.py:236, test_vault_s5_evolve.py:226). Disposition pending operator call on fix location: (a) upstream hermes-agent fix (preferred — scanner logic lives there), (b) local quarantine of scanner-bait fixtures into a dedicated file with recognized header. Awaiting operator ruling before filing/closing.
+
+### 2026-08-28T02:47:13Z speed
+2026-08-28 sol-max: Phase 1 close-out + Phase 2 dispatch. (1) WD-r8n9 triage COMPLETE (full measured verdicts + recommendation in its own comments): SCANNER FALSE-POSITIVE class — all 4 criticals are deliberate test fixtures (destructive-string quoting guard, decoy secret, traversal-refusal tests), zero runtime exposure; root cause pinned upstream NousResearch/hermes-agent#93927 (EXCLUDED_DIRS lacks tests/, single-critical->dangerous, no override). RECOMMENDATION to operator: (a) UPSTREAM FIX [preferred] — a tests/-tier exclusion moves this repo dangerous->caution (force-installable, human-confirmable); (b) NO local interim — recommend against any local ignore/allowlist (would mask future real regressions in our own driver code; violates gate-credibility axiom); one-time confirmation flow after upstream lands is the right interim; (c) rejected: quarantining bait fixtures (scanner still scores the file, degrades test locality without fixing the gap). Awaiting operator call on disposition. (2) PHASE 2 BEGINS: S1 filed as WD-l5bx (P1, film-lane opener) — WanGPJobConfig validator absorbing the 5 scattered asserts + Ref2VA Strategy profile + six guaranteed-invocation gates (audio 'A' hard-reject at submit, guide==shot-duration, QC-consumes-artifact, H3-audio-never-trusted, <d>-or-silence contract, master-lock precondition); binding constraints in body (Maestro idea-only / file:line refs, no faster-whisper/pyannote, local-only inference); AC includes TDD RED-first per gate + spec/plan pair dogfooding the NEW #9 templates (first real use of PR #36). Dispatched to qwen-escalator (architectural: new config surface + trust-boundary gates), primary checkout, branch feat/wd-l5bx-wangp-jobconfig-ref2va off main @ ed6420a, baseline 406 tests. Standing automerge order applies; Luna+GLM parallel after verified stable head. S2-S8 follow per epic sequence once S1 merges.
