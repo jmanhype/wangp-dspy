@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T01:38:40Z
-content_hash: "sha256:d5201bfe05543068938ab06272dd481d6c62ce000b6ebd228f5d2b8c017c3cef"
+updated_at: 2026-08-28T01:40:03Z
+content_hash: "sha256:b0eec674df2cbe42cfc72eb7628513a35c3976a37a0f09a23f59570c39550fc6"
 ---
 
 ## Description
@@ -106,3 +106,6 @@ EOF
 
 ### 2026-08-28T01:38:40Z speed
 2026-08-28 sol-max: Phase 1 board state — #8 filed as WD-23r7 (decision-record CHANGELOG, docs-tier), #9 filed as WD-g3cu (spec/plan pair standard, docs-tier). Both parented to WD-j9nx. Dispatch order per standing automerge sequence: #8 first, then #9; WD-r8n9 triage and WD-n0ab close-out run in parallel with the docs lane.
+
+### 2026-08-28T01:40:03Z speed
+2026-08-28 sol-max: Phase 1 dispatch — (1) deepseek-fixer on WD-23r7 (#8 decision-record CHANGELOG, primary checkout, branch feat/wd-23r7-decision-changelog off main @ 0db8996); (2) Luna live verification of knowledge_capture in a fresh session for WD-n0ab close-out; (3) WD-r8n9 triage: scanner DANGEROUS verdicts on own test fixtures — root cause already filed upstream (NousResearch/hermes-agent#93927: plugin_guard.EXCLUDED_DIRS lacks tests/, single-critical→dangerous with no override), so the determination is SCANNER FALSE-POSITIVE on legitimate destructive-string test fixtures (tests/test_driver_ops.py:236, test_vault_s5_evolve.py:226). Disposition pending operator call on fix location: (a) upstream hermes-agent fix (preferred — scanner logic lives there), (b) local quarantine of scanner-bait fixtures into a dedicated file with recognized header. Awaiting operator ruling before filing/closing.
