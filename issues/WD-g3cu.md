@@ -9,8 +9,9 @@ parent: WD-j9nx
 created_at: 2026-08-28T01:38:18Z
 created_by: speed
 updated_at: 2026-08-28T02:36:23Z
-content_hash: "sha256:d9f237629c46b25f379c09aae3086c9fa7e89db4023c7accf85deab28ce97ce6"
+content_hash: "sha256:448026c19b9db1fcc8c37a2fcc31aa0754e84bcda520e6fda693d93a7c07041b"
 closed_at: 2026-08-28T02:36:23Z
+led_to: [WD-l5bx]
 ---
 
 ## Description
@@ -49,6 +50,7 @@ ADOPT of the shuohao-skills spec → plan → implementation cycle (docs/extract
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Led to: [[WD-l5bx]]
 
 ## Comments
 
