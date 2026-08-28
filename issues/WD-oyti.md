@@ -1,14 +1,15 @@
 ---
 id: WD-oyti
 title: "Provenance tiers: canon-citation vs (inferred) marker on identity/bible claims"
-status: open
+status: closed
 priority: 2
 type: task
 parent: WD-j9nx
 created_at: 2026-08-28T00:33:41Z
 created_by: speed
 updated_at: 2026-08-28T00:50:32Z
-content_hash: "sha256:02eb8b49ef840f6c90d25fb9dbed100fe520aa26c925ffdbf1bf9b279d984362"
+content_hash: "sha256:d840cf7eba03f2ddcca22ae40e1272df49eb2cffdd253b1d57d874348e9600f4"
+closed_at: 2026-08-28T00:50:32Z
 ---
 
 ## Description
@@ -48,7 +49,7 @@ Implement the inferred-marker convention from docs/extraction/shuohao-skills/inf
 
 
 ## History
-
+- 2026-08-28T00:50:32Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
