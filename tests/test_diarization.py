@@ -258,3 +258,45 @@ def test_determinism_double_run_byte_equality():
     r2 = render_attribution(b2)
     assert b1 == b2
     assert r1.encode("utf-8") == r2.encode("utf-8")
+
+
+# ── T4: edge cases ──────────────────────────────────────────────────
+
+def test_empty_segments_list_valid():
+    """Zero dialogue is a valid timeline."""
+    validate_diarization(_doc(segments=[]))
+    assert diarization_to_speaker_blocks(_doc(segments=[])) == []
+
+
+def test_large_doc_performance_sanity():
+    """1000 segments must validate + convert in < 1s."""
+    import time
+    segs = [{"start": i * 0.01, "end": i * 0.01 + 0.005,
+             "speaker": "SPEAKER_00" if i % 2 == 0 else "SPEAKER_01"}
+            for i in range(1000)]
+    doc = _doc(duration_sec=10.0, segments=segs)
+    t0 = time.monotonic()
+    validate_diarization(doc)
+    blocks = diarization_to_speaker_blocks(doc)
+    assert len(blocks) == 1000
+    assert time.monotonic() - t0 < 1.0
+
+
+def test_unicode_speaker_ids():
+    doc = _doc(speakers=["说话人甲", "Speaker_B"],
+               segments=[{"start": 0.0, "end": 1.0, "speaker": "说话人甲"},
+                         {"start": 2.0, "end": 3.0, "speaker": "Speaker_B"}])
+    blocks = diarization_to_speaker_blocks(doc)
+    rendered = render_attribution(blocks)
+    assert "<d>说话人甲</d>" in rendered
+
+
+def test_text_with_embedded_d_like_substring_passthrough():
+    """text fragments are opaque passthrough — never parsed."""
+    doc = _doc(segments=[{"start": 0.0, "end": 1.0,
+                          "speaker": "SPEAKER_00",
+                          "text": "she said <d>X</d> literally"}])
+    blocks = diarization_to_speaker_blocks(doc)
+    assert blocks[0].text_hint == "she said <d>X</d> literally"
+    # the embedded substring does NOT leak into attribution output
+    assert render_attribution(blocks) == "<d>SPEAKER_00</d>"
