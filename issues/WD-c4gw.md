@@ -8,8 +8,8 @@ labels: [adopt, architecture, language-split]
 parent: WD-j9nx
 created_at: 2026-08-27T19:37:43Z
 created_by: speed
-updated_at: 2026-08-27T19:37:58Z
-content_hash: "sha256:e2e7acb85be377fce7222c4791efbd09fa3695e0cb911a43d4045dfbf084f389"
+updated_at: 2026-08-28T00:23:56Z
+content_hash: "sha256:2cf06ac750001baf89352e6e4d86b9ea68c6f62fcaec51703117ed0fc3a7631b"
 assignee: speed
 follows: [WD-7185]
 ---
@@ -58,3 +58,6 @@ Acceptance criteria:
 - Follows: [[WD-7185]]
 
 ## Comments
+
+### 2026-08-28T00:23:56Z speed
+ADOPT #5 DELIVERED: PR #32 merged (GLM SHIP — all 5 PASS; fold-in traced line-by-line: Pipeline->director->_parse_brief->_reject_registry_names fires on the LM path; RED commit verified by checkout; 355 tests). Follow-ups: asymmetric human-review check, brand-token allowlist.
