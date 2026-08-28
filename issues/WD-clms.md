@@ -1,15 +1,17 @@
 ---
 id: WD-clms
 title: "S2.5: thin vertical slice — one real e2e render through the full stack"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [film-lane, vertical-slice, e2e, gpu, discovery-ledger]
 parent: WD-j9nx
 created_at: 2026-08-28T06:39:20Z
 created_by: speed
-updated_at: 2026-08-28T06:39:32Z
-content_hash: "sha256:8c2827fcd9ac4ba8e35f0581ec2cb121580f41c0b28277fa5742fcff679ccd11"
+updated_at: 2026-08-28T13:42:02Z
+content_hash: "sha256:e5e9bf61a179077b7f1fc9946c37053981234f2ea1758e17590f33f56e10e8f3"
+assignee: batmanosama
+follows: [WD-l5bx]
 ---
 
 ## Description
@@ -116,10 +118,13 @@ S4 (Satan's Mom MV, critical path).
 
 
 ## History
-
+- 2026-08-28T13:42:02Z status: open -> in_progress
+- 2026-08-28T13:42:02Z auto-follows: linked to predecessor WD-l5bx
+- 2026-08-28T13:42:02Z claimed by batmanosama
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-l5bx]]
 
 ## Comments
 
