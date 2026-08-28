@@ -8,8 +8,8 @@ labels: [docs, adopt-cycle]
 parent: WD-j9nx
 created_at: 2026-08-28T01:38:18Z
 created_by: speed
-updated_at: 2026-08-28T01:38:18Z
-content_hash: "sha256:5db89ffa8ad617d9e9c9e4fbe9b14af3451ef52128f0a3895229ff5669cf7290"
+updated_at: 2026-08-28T02:36:22Z
+content_hash: "sha256:ec0cfc60b6e77432457c99e253f6819e2f9fc277d2740030af9ab1ba0cd09c6a"
 ---
 
 ## Description
@@ -50,3 +50,6 @@ ADOPT of the shuohao-skills spec → plan → implementation cycle (docs/extract
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T02:36:22Z speed
+ADOPT #9 DELIVERED: PR 36 merged (GLM PASS all 5 — template fidelity with line-refs, honest kanban ADAPT, #34 facts spot-checked vs git, docs-only, 406 green). The adoption loop is COMPLETE: 9/9.
