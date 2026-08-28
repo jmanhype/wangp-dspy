@@ -43,3 +43,12 @@ spend local days reimplementing scanner tiers.
 **Anti-recommendation (explicit)**: do NOT start S3's speaker gate before the
 slice runs. Building a third consecutive unexercised contract layer is the
 "paper-only compounding" failure mode the epic's AC #6 exists to prevent.
+
+## 2026-08-28 ~06:40 CDT — Loop closure note (cycle 001)
+
+Cycle 001's top recommendation ("Thin vertical slice: one real e2e run before
+S3") is now ACTED ON: filed as **WD-clms** "S2.5: thin vertical slice — one
+real e2e render through the full stack" under epic WD-j9nx, P1, per operator
+ruling 2026-08-28. The anti-recommendation stands in force until delivery: S3
+(`<d>` speaker gate) remains queued and must not start before this slice runs.
+Outcome to be appended at delivery (run record path + mismatch count).
