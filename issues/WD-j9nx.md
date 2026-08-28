@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-24T14:59:20Z
-content_hash: "sha256:967b5ba2400c3939bd6cd6e375c3f0ed04830eb13f8c770b05d7baf6eabde55e"
+updated_at: 2026-08-28T00:33:49Z
+content_hash: "sha256:1ab6e1505b0c9aac3f6b871e446c93e4cec8473beede2325f6ea18dc0af8306b"
 ---
 
 ## Description
@@ -58,3 +58,6 @@ plateaus).
 
 
 ## Comments
+
+### 2026-08-28T00:33:49Z speed
+2026-08-27 sol-max: seam-violation note (candidate follow-up ticket): run_pipeline._checked_video uses os.path.isfile directly — local-namespace assumption, inconsistent with the RenderHost seam. SshHost renders return local-mirror paths so it works today, but a non-local render host without a mirror would break silently. Filed as candidate follow-up under this epic; logged during #6 provenance-tiers scoping.
