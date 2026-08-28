@@ -300,3 +300,55 @@ def test_text_with_embedded_d_like_substring_passthrough():
     assert blocks[0].text_hint == "she said <d>X</d> literally"
     # the embedded substring does NOT leak into attribution output
     assert render_attribution(blocks) == "<d>SPEAKER_00</d>"
+
+
+# ── T5: CLI (subprocess) ────────────────────────────────────────────
+
+import json  # noqa: E402
+import subprocess  # noqa: E402
+
+CLI = REPO / "scripts" / "check_diarization.py"
+FIXTURES = REPO / "tests" / "fixtures"
+PY = sys.executable
+
+
+def _run_cli(*args):
+    return subprocess.run(
+        [PY, str(CLI), *args], capture_output=True, text=True, timeout=60)
+
+
+def test_cli_valid_fixture_exit_0_summary():
+    r = _run_cli(str(FIXTURES / "diarization_valid.json"))
+    assert r.returncode == 0
+    assert r.stdout.startswith("OK: 2 speakers, 4 segments, 12.5s")
+
+
+def test_cli_convert_flag_prints_attribution():
+    r = _run_cli(str(FIXTURES / "diarization_valid.json"), "--convert")
+    assert r.returncode == 0
+    lines = r.stdout.splitlines()
+    assert lines[0].startswith("OK:")
+    assert "<d>SPEAKER_00</d>" in lines
+    assert "<d>SPEAKER_01</d>" in lines
+
+
+def test_cli_invalid_r5_fixture_exit_1_typed_error():
+    r = _run_cli(str(FIXTURES / "diarization_invalid_r5.json"))
+    assert r.returncode == 1
+    assert "R5" in r.stderr
+
+
+def test_cli_missing_file_exit_1_no_traceback():
+    r = _run_cli("/nonexistent/path/diarization.json")
+    assert r.returncode == 1
+    assert "Traceback" not in r.stderr
+    assert "file not found" in r.stderr
+
+
+def test_cli_bad_json_exit_1_no_traceback(tmp_path):
+    bad = tmp_path / "bad.json"
+    bad.write_text("{not json", encoding="utf-8")
+    r = _run_cli(str(bad))
+    assert r.returncode == 1
+    assert "Traceback" not in r.stderr
+    assert "invalid JSON" in r.stderr

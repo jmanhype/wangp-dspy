@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "audio_sha256": "3f7c9a1e5b8d2406fa7e3c9b1d5a8f2e4c6b0d9a3e7f1c5b8d2406fa7e3c9b1d",
+  "duration_sec": 12.5,
+  "speakers": ["SPEAKER_00", "SPEAKER_01"],
+  "segments": [
+    {"start": 0.0, "end": 2.4, "speaker": "SPEAKER_00", "text": "you there?"},
+    {"start": 2.8, "end": 5.1, "speaker": "SPEAKER_01", "text": "i hear you"},
+    {"start": 5.6, "end": 8.9, "speaker": "SPEAKER_00", "text": "move out of the light"},
+    {"start": 9.3, "end": 12.5, "speaker": "SPEAKER_01"}
+  ]
+}
