@@ -128,3 +128,126 @@ def test_s2_bridge_shape():
         subject='the detective says "hello there" and the guard answers '
                 '"who goes there" ' + rendered.replace("\n", " "))
     a.submit(b, _decision())   # must not raise
+
+
+# ── G3 named at run_pipeline QC call path (carried nit from S1) ───────
+
+def _pipeline_plan(tmp_path):
+    from predict.assembler import ShotPlan
+    return ShotPlan(brief=_brief(), decision=_decision(),
+                    terminal_state="stopped")
+
+
+def _fake_venv(tmp_path):
+    """Minimal fake WanGP venv (copied pattern from
+    tests/test_wangp_adapter.py — the adapter only needs the paths to
+    exist, the runner is injected)."""
+    py = tmp_path / "venv" / "bin" / "python"
+    py.parent.mkdir(parents=True, exist_ok=True)
+    py.write_text("#!/bin/sh\n")
+    py.chmod(0o755)
+    wgp = tmp_path / "wgp.py"
+    wgp.write_text("# wgp\n")
+    return str(py), str(wgp)
+
+
+class _VideoRunner:
+    """runner that exits 0 and writes a real shot.mp4 into the outdir
+    (so render()'s readback passes); the artifact's fate after that is
+    controlled by the FakeQC below."""
+    def __call__(self, cmd, cwd, env, timeout):
+        outdir = cmd[cmd.index("--output-dir") + 1]
+        import os as _os
+        with open(_os.path.join(outdir, "shot.mp4"), "wb") as fh:
+            fh.write(b"v")
+        class R:
+            returncode = 0
+            stdout = ""
+            stderr = ""
+        return R()
+
+
+def test_run_pipeline_missing_video_raises_named_g3(tmp_path):
+    """First QC call site: the rendered file is gone by the time
+    _checked_video runs → typed G3 error naming the gate
+    (artifact-not-spec), not a generic message.
+
+    Seam: the runner writes a real .mp4 (render() passes its own
+    readback), then the adapter's video_paths entry is emptied before
+    run_pipeline so res.video_path resolves to a nonexistent path —
+    exactly the state _checked_video guards."""
+    from evaluate.render_qc import Verdict
+
+    class FakeQC:
+        def __init__(self, genre):
+            pass
+
+        def run(self, brief, decision, video=None):
+            raise AssertionError("QC must never run without an artifact")
+
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path),
+                           runner=_VideoRunner(),
+                           qc_factory=FakeQC, assembler=object())
+    # Simulate: render produced no readable artifact for QC. The
+    # video_paths tuple is replaced with a path that does not exist —
+    # video_path (the property) then returns it, and _checked_video's
+    # os.path.isfile check fails → G3 fires.
+    orig_render = adapter.render
+
+    def render_no_artifact(briefs, decision):
+        res = orig_render(briefs, decision)
+        import dataclasses
+        return dataclasses.replace(
+            res, video_paths=(str(tmp_path / "vanished.mp4"),))
+    adapter.render = render_no_artifact
+
+    with pytest.raises(WanGPError) as exc_info:
+        adapter.run_pipeline([_pipeline_plan(tmp_path)], genre="surreal")
+    msg = str(exc_info.value)
+    assert "G3" in msg, f"G3 gate identity missing: {msg}"
+    assert "artifact-not-spec" in msg, f"gate name missing: {msg}"
+
+
+def test_run_pipeline_revise_retry_missing_video_also_g3(tmp_path):
+    """REVISE retry path: the second QC call site must fire the SAME
+    named G3 when its render produced no readable file.
+
+    Seam: first render yields a real artifact (QC returns REVISE);
+    the retry render yields none → _checked_video on the retry must
+    name G3."""
+    from evaluate.render_qc import Verdict, QCVerdict
+
+    class FakeQC:
+        def __init__(self, genre):
+            self.calls = 0
+
+        def run(self, brief, decision, video=None):
+            self.calls += 1
+            return QCVerdict(verdict=Verdict.REVISE, reason="stub",
+                             scores={}, anchor_field="concept_encoding")
+
+    vpy, vwgp = _fake_venv(tmp_path)
+    adapter = WanGPAdapter(venv_python=vpy, wgp_script=vwgp,
+                           output_dir=str(tmp_path),
+                           runner=_VideoRunner(),
+                           qc_factory=FakeQC, assembler=object())
+    calls = {"n": 0}
+    orig_render = adapter.render
+
+    def render_second_time_empty(briefs, decision):
+        calls["n"] += 1
+        res = orig_render(briefs, decision)
+        if calls["n"] >= 2:   # the REVISE retry produces no artifact
+            import dataclasses
+            return dataclasses.replace(
+                res, video_paths=(str(tmp_path / "vanished.mp4"),))
+        return res
+    adapter.render = render_second_time_empty
+
+    with pytest.raises(WanGPError) as exc_info:
+        adapter.run_pipeline([_pipeline_plan(tmp_path)], genre="surreal")
+    msg = str(exc_info.value)
+    assert "G3" in msg, f"G3 gate identity missing on retry: {msg}"
+    assert "artifact-not-spec" in msg, f"gate name missing: {msg}"

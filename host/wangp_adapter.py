@@ -641,10 +641,14 @@ class WanGPAdapter:
             if not os.path.isfile(path):
                 # Luna: never let the gate silently degrade to a
                 # text-only critique on a missing file (guards both the
-                # first QC call and the REVISE retry call)
+                # first QC call and the REVISE retry call). S3 names
+                # the gate at this site — G3 is no longer the one
+                # structural check that fires anonymously.
                 raise WanGPError(
-                    f"rendered video {path!r} does not exist — refusing "
-                    "to run QC on a missing file")
+                    f"G3 artifact-not-spec: QC consumes the rendered "
+                    f"artifact, not the spec — {path!r} is not a "
+                    "readable file; a valid spec NEVER substitutes for "
+                    "the artifact")
             return path
 
         for plan in plans:
