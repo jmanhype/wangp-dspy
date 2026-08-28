@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T00:33:49Z
-content_hash: "sha256:1ab6e1505b0c9aac3f6b871e446c93e4cec8473beede2325f6ea18dc0af8306b"
+updated_at: 2026-08-28T00:54:40Z
+content_hash: "sha256:5f110cb72eb90e4cee857cdeb8c69f41ac8a38a73e5e6be2be8fd40b7a83049d"
 ---
 
 ## Description
@@ -61,3 +61,6 @@ plateaus).
 
 ### 2026-08-28T00:33:49Z speed
 2026-08-27 sol-max: seam-violation note (candidate follow-up ticket): run_pipeline._checked_video uses os.path.isfile directly — local-namespace assumption, inconsistent with the RenderHost seam. SshHost renders return local-mirror paths so it works today, but a non-local render host without a mirror would break silently. Filed as candidate follow-up under this epic; logged during #6 provenance-tiers scoping.
+
+### 2026-08-28T00:54:40Z speed
+2026-08-28 sol-max: shuohao ADOPT cycle (extraction cdccd7d/#26) — remaining queue: #7 WD-rty2 (QC failure triage gate/rule/example + ledger, dispatched to deepseek-fixer, branch feat/wd-rty2-qc-triage off 9d0eb2f), #8 decision-record changelog (docs/CHANGELOG.md decision-record format per changelog-design-rationale.md RECOMMENDATION; backfill merged ADOPT stories #27-#33 with measured evidence + rejected alternatives), #9 spec/plan pair standard (spec-driven-evolution.md ADOPT: docs/specs/ + docs/plans/ template, 'Expected:' line discipline, mandatory recovery section). Standing automerge order from operator; gates per tier (docs = PR-only lane, Luna+GLM after stable head).
