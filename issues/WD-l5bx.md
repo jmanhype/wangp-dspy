@@ -1,17 +1,18 @@
 ---
 id: WD-l5bx
 title: "S1: WanGPJobConfig schema + Ref2VA render profile (film lane opener)"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [film-lane, phase-2]
 parent: WD-j9nx
 created_at: 2026-08-28T02:38:46Z
 created_by: speed
-updated_at: 2026-08-28T04:08:49Z
-content_hash: "sha256:04fca4669197fb0519e1d4ec1a1313b155a8469415783a7894bc2b1a0f9171df"
+updated_at: 2026-08-28T04:08:50Z
+content_hash: "sha256:5cee037c7cdf5aa47ae508a37545300d41bbc9178315ea86fe65e3f1f0fd9562"
 assignee: dev-WD-l5bx
 follows: [WD-g3cu]
+closed_at: 2026-08-28T04:08:50Z
 ---
 
 ## Description
@@ -191,6 +192,7 @@ naming the gate.
 - 2026-08-28T02:41:15Z status: open -> in_progress
 - 2026-08-28T02:41:16Z auto-follows: linked to predecessor WD-g3cu
 - 2026-08-28T02:41:16Z claimed by dev-WD-l5bx
+- 2026-08-28T04:08:50Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
