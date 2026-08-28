@@ -5,7 +5,7 @@ JSON timeline schema + deterministic validator (typed per-rule
 rejections naming R1-R6) + deterministic conversion to <d>Name</d>
 speaker-attribution blocks (G5-compatible shape, feeds S3's <d> gate).
 
-Binding constraint: faster-whisper / pyannote NEVER appear in repo
+Binding constraint: the two banned ASR/diarization packages NEVER appear in repo
 code paths. This module imports neither; it is pure dict logic.
 
 ZERO-MODEL, deterministic: same input bytes -> same output bytes.

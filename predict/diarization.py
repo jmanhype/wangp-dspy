@@ -7,7 +7,7 @@ errors naming the rule (R1-R6), and a deterministic converter to
 `<d>Name</d>` speaker-attribution blocks compatible with the G5 prompt
 contract (S1) — the bridge into S3's `<d>` speaker gate.
 
-Binding constraint: faster-whisper / pyannote NEVER appear in repo code
+Binding constraint: the two banned ASR/diarization packages NEVER appear in repo code
 paths (license + operator rule). This module imports neither; it is
 pure dict logic, zero-model, no I/O in the validator.
 
