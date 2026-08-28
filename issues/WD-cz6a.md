@@ -1,14 +1,15 @@
 ---
 id: WD-cz6a
 title: "S2: speaker diarization for multi-speaker <d> attribution"
-status: open
+status: closed
 priority: 1
 type: task
 parent: WD-j9nx
 created_at: 2026-08-28T04:16:07Z
 created_by: speed
 updated_at: 2026-08-28T05:42:40Z
-content_hash: "sha256:d82889c19b1451005b524cf50fc314ae3b23eb07587455dbde1761462a0012dc"
+content_hash: "sha256:943e88e6c8505c39eec60c5a4b9218ccb0eeb73826941bc083f60d7a6c9b27d8"
+closed_at: 2026-08-28T05:42:40Z
 ---
 
 ## Description
@@ -48,7 +49,7 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 
 
 ## History
-
+- 2026-08-28T05:42:40Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
