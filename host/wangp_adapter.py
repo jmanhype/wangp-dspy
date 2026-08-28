@@ -166,25 +166,15 @@ def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
     return int.from_bytes(digest[:4], "big")
 
 
-def normalize_frame_count(frame_count: int, minimum: int = H3_FRAMES_MIN,
-                          step: int = H3_FRAMES_STEP,
-                          offset: int = H3_FRAMES_OFFSET) -> int:
-    """EXACT mirror of Wan2GP shared/utils/frame_scheduler.py
-    normalize_frame_count (ceil to offset+k*step, clamp to minimum).
-
-    MEASURED rule (WD-u4rv, do not guess):
-    - Wan2GP/models/minimax_h3/minimax_h3_handler.py pins
-      frames_minimum=107, frames_steps=17, frames_offset=5.
-    - Real H3 outputs ffprobe'd at exactly 107/124/175f (=5+17k);
-      96f requests render as 107f on H3 (the old 96f floor predates
-      the H3 pin); cycle-3's 160f request rendered 175f.
-    """
-    frame_count = max(minimum, frame_count)
-    step = max(1, step)
-    offset = max(0, offset)
-    if step <= 1:
-        return frame_count
-    return math.ceil(max(0, frame_count - offset) / step) * step + offset
+# WD-l5bx move-per-rule: normalize_frame_count's SINGLE authority is
+# predict/job_config.py (rule 3, 5+17k grid snap). Re-export for the
+# existing import surface; H3_FRAMES_* constants too.
+from predict.job_config import (  # noqa: F401,E402
+    normalize_frame_count, H3_FRAMES_MIN, H3_FRAMES_STEP,
+    H3_FRAMES_OFFSET, SHOT_LENGTH_FLOOR_FRAMES as _JC_FLOOR,
+    SCRIPT_SEPARATOR as _JC_SEP, WanGPJobConfig,
+    JobConfigError,
+)
 
 
 def effective_frames_per_shot(frames: int) -> int:
@@ -226,22 +216,21 @@ FRAME_COUNT_UNVERIFIED = -1
 def build_settings(briefs: Sequence[RenderBrief],
                    decision: ProfileDecision) -> dict:
     frames = decision.shot_length_frames
-    if isinstance(frames, bool) or not isinstance(frames, int):
-        raise WanGPError(
-            f"shot length must be an int (below the HARD floor of "
-            f"{SHOT_LENGTH_FLOOR_FRAMES}f it is a typed rejection)")
-    if frames < SHOT_LENGTH_FLOOR_FRAMES:
-        raise WanGPError(
-            f"shot length {frames}f is below the HARD floor of "
-            f"{SHOT_LENGTH_FLOOR_FRAMES}f (4s @ {FORCE_FPS}fps)")
-    # WD-u4rv: H3 quantizes to 5+17k with minimum 107 — snap the
-    # request to the grid H3 will ACTUALLY render (ceil, like wgp's
-    # normalize_frame_count at wgp.py:6953). 96 -> 107, 160 -> 175.
-    if frames < H3_FRAMES_MIN:
-        raise WanGPError(
-            f"shot length {frames}f is below the H3 minimum of "
-            f"{H3_FRAMES_MIN}f (5+17k grid; {SHOT_LENGTH_FLOOR_FRAMES}f "
-            "floor predates the H3 pin — request 107f or more)")
+    # WD-l5bx: the floor/grid/typing rules moved to WanGPJobConfig
+    # (single authority, predict/job_config.py). Validation raises
+    # JobConfigError there; wrap for the adapter's typed surface.
+    try:
+        if isinstance(frames, bool) or not isinstance(frames, int):
+            raise JobConfigError(
+                "shot length must be an int (below the HARD floor it "
+                "is a typed rejection)")
+        if frames < H3_FRAMES_MIN:
+            raise JobConfigError(
+                f"shot length {frames}f is below the H3 minimum floor "
+                f"of {H3_FRAMES_MIN}f (5+17k grid; request 107f or "
+                "more)")
+    except JobConfigError as e:
+        raise WanGPError(str(e)) from e
     frames = effective_frames_per_shot(frames)
     if frames != decision.shot_length_frames:
         # Qwen PR#12: never silently give the operator more frames —
@@ -262,19 +251,18 @@ def build_settings(briefs: Sequence[RenderBrief],
         # discipline as the H3 5+17k frame snapping above.
         print("[wangp-dspy] resolution 720p is not on the H3 latent "
               "grid at this pin; snapping to 480x832 (WD-o4g2)")
-    return {
-        "model_type": H3_MODEL_TYPE,
-        "prompt": MULTISHOT_PROMPT_TAG,
-        "script": build_script([brief_to_prompt(b) for b in briefs]),
-        "width": width,
-        "height": height,
-        "frames_per_shot": frames,
-        "num_inference_steps": DEFAULT_NUM_INFERENCE_STEPS,
-        "guidance_scale": DEFAULT_GUIDANCE_SCALE,
-        "embedded_guidance_scale": DEFAULT_EMBEDDED_GUIDANCE_SCALE,
-        "force_fps": str(FORCE_FPS),  # wgp's get_computed_fps len()s it — string per real settings files
-        "seed": derive_seed(decision.seed_policy, briefs),
-    }
+    cfg = WanGPJobConfig(
+        model_type=H3_MODEL_TYPE,
+        script=build_script([brief_to_prompt(b) for b in briefs]),
+        width=width, height=height,
+        frames_per_shot=frames,
+        num_inference_steps=DEFAULT_NUM_INFERENCE_STEPS,
+        guidance_scale=DEFAULT_GUIDANCE_SCALE,
+        embedded_guidance_scale=DEFAULT_EMBEDDED_GUIDANCE_SCALE,
+        force_fps=str(FORCE_FPS),
+        seed=derive_seed(decision.seed_policy, briefs),
+    )   # rules 1/4/5 enforced at construction (job_config authority)
+    return cfg.to_settings_doc()
 
 
 def _default_runner(cmd, cwd, env, timeout):

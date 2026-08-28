@@ -12,7 +12,7 @@ from predict.job_config import (
 def _cfg(**over):
     base = dict(
         model_type="minimax_h3_fl2va_pruned",
-        script="shot one. --- shot two",
+        script="shot one.\n---\nshot two",
         width=480, height=832,
         frames_per_shot=107,
         num_inference_steps=20,
