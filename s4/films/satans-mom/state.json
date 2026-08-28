@@ -17,7 +17,7 @@
     "remux_assembly": {"status": "done", "ts": "2026-08-28T18:32:00Z", "note": "G4: H3 audio stripped, real edge-tts lines muxed per cut (-shortest); ffmpeg concat + 0.6s silence gaps -> final/satans_mom.mp4 34.78s"},
     "final_whisper_gate": {"status": "done", "ts": "2026-08-28T18:36:00Z", "note": "faster-whisper small int8 local: all 6 authored lines transcribed verbatim in order — PASS"},
     "run_records": {"status": "done", "ts": "2026-08-28T18:40:00Z", "note": "runs/cut1..6.json + runs/final_film.json with live sha256 of every artifact, settings shas from 3090, QC verdicts, disclosures"},
-    "pr_opened": {"status": "pending"}
+    "pr_opened": {"status": "done", "ts": "2026-08-28T18:50:00Z", "note": "PR #41 (feat/wd-h25b-s4-satans-mom -> main), commit c20ecd8"}
   },
   "shots": {
     "cut1": {"score": 8, "verdict": "PASS"},
