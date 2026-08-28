@@ -71,7 +71,7 @@ def test_qc_not_called_and_typed_error_when_video_missing(tmp_path):
     adapter.render = lambda briefs, decision: RenderResult(
         attempts=1, settings_path="/dev/null", output_dir=str(tmp_path),
         video_paths=(str(tmp_path / "phantom.mp4"),))
-    with pytest.raises(WanGPError, match="video"):
+    with pytest.raises(WanGPError, match="G3 artifact-not-spec"):
         adapter.run_pipeline(plans, genre="surreal")
     assert qc_calls["n"] == 0, "QC must never see a missing file"
 
@@ -112,7 +112,7 @@ def test_revise_retry_phantom_video_also_guarded(tmp_path):
     adapter.render = render
     plans = [ShotPlan(brief=_brief(), decision=_decision(),
                       terminal_state="astronaut done")]
-    with pytest.raises(WanGPError, match="does not exist"):
+    with pytest.raises(WanGPError, match="G3 artifact-not-spec"):
         adapter.run_pipeline(plans, genre="surreal")
     # first QC ran (returned REVISE); the retry QC must never be invoked
     assert qc_calls["n"] == 1, "retry QC must never see a missing file"

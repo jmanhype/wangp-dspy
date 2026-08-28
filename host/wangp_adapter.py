@@ -117,13 +117,28 @@ class RenderedShot:
 
 _G5_TOKEN_RE = None  # compiled lazily below
 
+# S3-G5a (WD-j9nx/S3): explicit-silence marker — single authority.
+# Chosen over prose ("no dialogue") because it is unambiguous,
+# greppable, and cannot collide with natural language in a brief.
+SILENCE_MARKER = "[silence]"
 
-def _g5_check(text: str) -> None:
+_QUOTED_SPAN_RE = re.compile(r'"[^"\n]+?"')
+_D_TOKEN_RE = re.compile(r"<d>[^<\n]+</d>")
+
+
+def _g5_check(text: str, field: str = "<text>") -> None:
     """G5: <d>-or-silence prompt contract. Speaker tokens in brief
     text must be <d>Name</d>-form or explicit silence markers;
     bracketed/parenthesized speaker labels ([John], (Mary)) are
-    malformed and rejected at validation (groundwork for S3)."""
-    import re
+    malformed and rejected at validation.
+
+    S3-G5a (attribution REQUIRED): if the field contains quoted
+    speech (a "..." span), the field MUST carry either a <d>Name</d>
+    token or the explicit silence marker. Bare quoted dialogue is a
+    typed rejection — attribution is required on dialogue-bearing
+    briefs, silence is explicit, never implied. The malformed-marker
+    rule keeps precedence: a [John]/(Mary) label is diagnosed as
+    malformed, not as missing attribution."""
     bad = re.compile(r"[\[(][A-Z][a-z]+[\])]")   # [John] / (Mary)
     m = bad.search(text or "")
     if m:
@@ -131,6 +146,23 @@ def _g5_check(text: str) -> None:
             f"G5 prompt-contract violation: speaker token {m.group(0)!r} "
             "must be <d>Name</d>-form or explicit silence — malformed "
             "markers are rejected at validation")
+    quote = _QUOTED_SPAN_RE.search(text or "")
+    if quote:
+        has_d = bool(_D_TOKEN_RE.search(text or ""))
+        has_silence = SILENCE_MARKER in (text or "")
+        if not has_d and not has_silence:
+            raise WanGPError(
+                f"S3-G5a: dialogue without attribution in field "
+                f"{field!r}: quoted span {quote.group(0)!r} needs a "
+                "<d>Name</d> speaker token or the explicit silence "
+                "marker — bare quoted dialogue is rejected")
+        if has_silence and not has_d:
+            raise WanGPError(
+                f"S3-G5a: contradiction in field {field!r}: the "
+                f"silence marker is present but quoted span "
+                f"{quote.group(0)!r} claims speech without a "
+                "<d>Name</d> token — silence and dialogue cannot "
+                "both hold")
 
 
 def brief_to_prompt(brief: RenderBrief) -> str:
@@ -249,9 +281,9 @@ def build_settings(briefs: Sequence[RenderBrief],
     # callers cannot bypass the <d>-or-silence contract that submit()
     # enforces — every brief field is checked here too.
     for b in briefs:
-        for field in (b.subject, b.motion, b.camera, b.style,
-                      b.audio_direction):
-            _g5_check(field)
+        for fname in ("subject", "motion", "camera", "style",
+                      "audio_direction"):
+            _g5_check(getattr(b, fname), field=fname)
     width, height = WIDTH_768P, HEIGHT_768P
     if decision.resolution == "720p":
         # WD-o4g2 (live 3090 finding, 2026-08-24): portrait 720x1280 is
@@ -519,9 +551,12 @@ class WanGPAdapter:
         """S1 SUBMIT ENTRY POINT — the six gates are structural here:
         G1/G4/G5 fire directly; G2 via Ref2VA profile validation; G6
         via generate_brief/render. Callers cannot skip them."""
-        # G5: <d>-or-silence prompt contract on the brief text
-        _g5_check(brief.subject)
-        _g5_check(brief.motion)
+        # G5: <d>-or-silence prompt contract on the brief text —
+        # ALL five fields, same as build_settings (S3-G5a): submit
+        # must not be a weaker surface than render.
+        for fname in ("subject", "motion", "camera", "style",
+                      "audio_direction"):
+            _g5_check(getattr(brief, fname), field=fname)
         # G1: audio 'A' hard-reject on the generic path — Ref2VA is
         # the only sanctioned carrier
         if profile != "ref2va" and \
@@ -606,10 +641,14 @@ class WanGPAdapter:
             if not os.path.isfile(path):
                 # Luna: never let the gate silently degrade to a
                 # text-only critique on a missing file (guards both the
-                # first QC call and the REVISE retry call)
+                # first QC call and the REVISE retry call). S3 names
+                # the gate at this site — G3 is no longer the one
+                # structural check that fires anonymously.
                 raise WanGPError(
-                    f"rendered video {path!r} does not exist — refusing "
-                    "to run QC on a missing file")
+                    f"G3 artifact-not-spec: QC consumes the rendered "
+                    f"artifact, not the spec — {path!r} is not a "
+                    "readable file; a valid spec NEVER substitutes for "
+                    "the artifact")
             return path
 
         for plan in plans:
