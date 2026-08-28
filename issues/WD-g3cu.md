@@ -1,15 +1,16 @@
 ---
 id: WD-g3cu
 title: "#9 spec/plan pair standard: docs/specs/ + docs/plans/ templates"
-status: open
+status: closed
 priority: 2
 type: task
 labels: [docs, adopt-cycle]
 parent: WD-j9nx
 created_at: 2026-08-28T01:38:18Z
 created_by: speed
-updated_at: 2026-08-28T02:36:22Z
-content_hash: "sha256:ec0cfc60b6e77432457c99e253f6819e2f9fc277d2740030af9ab1ba0cd09c6a"
+updated_at: 2026-08-28T02:36:23Z
+content_hash: "sha256:d9f237629c46b25f379c09aae3086c9fa7e89db4023c7accf85deab28ce97ce6"
+closed_at: 2026-08-28T02:36:23Z
 ---
 
 ## Description
@@ -44,7 +45,7 @@ ADOPT of the shuohao-skills spec → plan → implementation cycle (docs/extract
 
 
 ## History
-
+- 2026-08-28T02:36:23Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
