@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-28T00:33:41Z
 created_by: speed
-updated_at: 2026-08-28T00:33:41Z
-content_hash: "sha256:7d1f76446883e71d5c71eccd0690a36b836f95ade7360fc1a0e797f36891debf"
+updated_at: 2026-08-28T00:50:32Z
+content_hash: "sha256:02eb8b49ef840f6c90d25fb9dbed100fe520aa26c925ffdbf1bf9b279d984362"
 ---
 
 ## Description
@@ -54,3 +54,6 @@ Implement the inferred-marker convention from docs/extraction/shuohao-skills/inf
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T00:50:32Z speed
+ADOPT #6 DELIVERED: PR #33 merged (GLM ADOPT verdict — handoff seam verified single-choke-point with planted-marker test catching unstripped fields; RED genuine via base-checkout module-absence; 390 passed). Nits for follow-up: wire check_specific_neutral into brief path, remove unused _split_claims.
