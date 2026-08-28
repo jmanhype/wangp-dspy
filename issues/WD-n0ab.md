@@ -1,17 +1,18 @@
 ---
 id: WD-n0ab
 title: "plugin: knowledge_capture is half-wired — no _OP_SPEC/dispatch/enum, CaptureBuffer producer missing"
-status: in_progress
+status: closed
 priority: 1
 type: bug
 parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
-updated_at: 2026-08-28T02:13:03Z
-content_hash: "sha256:33e8d35a9ee140eb9d38f8069f213ec8e12c3edd4e67c5ba0105046c9566b751"
+updated_at: 2026-08-28T02:13:04Z
+content_hash: "sha256:cf121059949bf991c7343ef0f7bdb8dc6bb61caca62859cbd27072f4483811e0"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [fix-merged-pending-delivery]
+closed_at: 2026-08-28T02:13:04Z
 ---
 
 ## Description
@@ -43,6 +44,7 @@ status: delivered
 - 2026-08-25T01:32:17Z claimed by dev-WD-n0ab
 - 2026-08-25T01:44:46Z status: in_progress -> in_progress
 - 2026-08-25T01:44:46Z auto-follows: linked to predecessor WD-mhr2
+- 2026-08-28T02:13:04Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
