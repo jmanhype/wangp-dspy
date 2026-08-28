@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T04:17:11Z
-content_hash: "sha256:9d93242665b880c03f219cbb559c8048f17598605a4752a083748affc7d1bdac"
+updated_at: 2026-08-28T18:28:34Z
+content_hash: "sha256:117c06dd464bb4e3e97688c858c10ff595e1962390ee1a70cfc7f6edbec4e5b4"
 ---
 
 ## Description
@@ -117,3 +117,6 @@ EOF
 2026-08-28 sol-max: S1 MERGED — PR #37 -> d10af46, WD-l5bx closed. Double-PASS: GLM re-review PASS after fix round; Luna mechanical PASS (per-rule grep verification: zero duplicate enforcement sites, all six gates proven entry-point unskippable, 442 tests, RED genuine, clean-room vs Maestro). Film lane foundation LIVE: WanGPJobConfig single authority, Ref2VA Strategy profile, six operator-ruled gates structurally unskippable at submit/render.
 
 S2 FILED + DISPATCHED: WD-cz6a "S2: speaker diarization for multi-speaker <d> attribution" (parent WD-j9nx, P1). Scope per deep-dive: repo CONSUMES out-of-repo diarization JSON — schema v1 + deterministic validator (rules R1-R6, typed per-rule rejections) + conversion to <d>Name</d> attribution blocks feeding S3's gate + CLI surface. BINDING honored: no faster-whisper/pyannote in repo code paths (execution external, MIT-clean upstream pattern); Maestro audio_analysis.py:675-780 IDEA-ONLY (never vendor). Spec/plan pair authored by orchestrator per #9 templates (docs/specs/s2-diarization.md + docs/plans/s2-diarization.md, in working tree for the implementer). Dispatched to deepseek-fixer (routine measured-first against fully specified plan), primary checkout, branch feat/wd-s2-diarization off main @ d10af46 (baseline 442). AC: validator TDD / deterministic conversion / suite >= 442 green / CLI+validator surface / binding grep zero. After verified stable head: Luna+GLM parallel -> standing automerge. Then S3 (<d> speaker gate; G3 run_pipeline wiring lands there per carried nit), S4 (Satan's Mom MV, critical path) per sequence. Carried nits: render_profiles constant import anytime.
+
+### 2026-08-28T18:28:34Z speed
+S3 DELIVERED: PR #40 merged (GLM PASS all 5 — RED trail reproduced empirically, hermetic fix verified as isolation-not-evasion, suite failures proven pre-existing). Speaker attribution now REQUIRED; G3 wired. Film lane: S1-S3 + S2.5 all merged. S4 (the film) next.
