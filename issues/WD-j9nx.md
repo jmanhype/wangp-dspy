@@ -6,8 +6,8 @@ priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T01:37:20Z
-content_hash: "sha256:5bb9bcc733cd81a2d5bddce73335b7cd2057098dd5c4badef1e571e526bc0c1f"
+updated_at: 2026-08-28T01:38:40Z
+content_hash: "sha256:d5201bfe05543068938ab06272dd481d6c62ce000b6ebd228f5d2b8c017c3cef"
 ---
 
 ## Description
@@ -103,3 +103,6 @@ PHASE 2 (film lane, dependency order, same governed cycle each):
 BINDING constraints unchanged: Maestro ADAPT-TO-IDEA ONLY (non-commercial license — never vendor code, use file:line refs as specs); aesthetic predictor = v2/CLIP-L/14 LAION line (0.85GB, license-clean) or clean-room (AGPL trap in v2.5); faster-whisper/pyannote never in repo code paths.
 EOF
 )
+
+### 2026-08-28T01:38:40Z speed
+2026-08-28 sol-max: Phase 1 board state — #8 filed as WD-23r7 (decision-record CHANGELOG, docs-tier), #9 filed as WD-g3cu (spec/plan pair standard, docs-tier). Both parented to WD-j9nx. Dispatch order per standing automerge sequence: #8 first, then #9; WD-r8n9 triage and WD-n0ab close-out run in parallel with the docs lane.
