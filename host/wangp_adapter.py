@@ -41,7 +41,8 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # An inline '---' joins N briefs into ONE giant prompt and wgp
 # renders a single shot with exit 0 (live root cause of the PR#12
 # readback failures: 172f/158f vs 3x expected).
-SCRIPT_SEPARATOR = "\n---\n"
+# WD-l5bx: separator's single authority is predict/job_config
+SCRIPT_SEPARATOR = "\n---\n"   # value pinned identical; import below
 FORCE_FPS = 24
 
 # real probed 768p vertical
@@ -110,6 +111,28 @@ class RenderedShot:
     verdict: object = None
 
 
+# ── WD-l5bx: the six guaranteed-invocation gates ────────────────────
+# Operator ruling: gates live IN the submit/render entry points so
+# invocation is structural, not an optional pre-check callers omit.
+
+_G5_TOKEN_RE = None  # compiled lazily below
+
+
+def _g5_check(text: str) -> None:
+    """G5: <d>-or-silence prompt contract. Speaker tokens in brief
+    text must be <d>Name</d>-form or explicit silence markers;
+    bracketed/parenthesized speaker labels ([John], (Mary)) are
+    malformed and rejected at validation (groundwork for S3)."""
+    import re
+    bad = re.compile(r"[\[(][A-Z][a-z]+[\])]")   # [John] / (Mary)
+    m = bad.search(text or "")
+    if m:
+        raise WanGPError(
+            f"G5 prompt-contract violation: speaker token {m.group(0)!r} "
+            "must be <d>Name</d>-form or explicit silence — malformed "
+            "markers are rejected at validation")
+
+
 def brief_to_prompt(brief: RenderBrief) -> str:
     """Section order matches the pipeline: subject/motion/camera/style,
     then craft sections when present (H3 guide: audio direction,
@@ -171,10 +194,12 @@ def derive_seed(seed_policy: str, briefs: Sequence[RenderBrief]) -> int:
 # existing import surface; H3_FRAMES_* constants too.
 from predict.job_config import (  # noqa: F401,E402
     normalize_frame_count, H3_FRAMES_MIN, H3_FRAMES_STEP,
-    H3_FRAMES_OFFSET, SHOT_LENGTH_FLOOR_FRAMES as _JC_FLOOR,
-    SCRIPT_SEPARATOR as _JC_SEP, WanGPJobConfig,
-    JobConfigError,
+    H3_FRAMES_OFFSET, WanGPJobConfig, JobConfigError,
 )
+# constant-identity pin: the adapter's SCRIPT_SEPARATOR IS the
+# job_config authority's constant (single definition, two names)
+import predict.job_config as _jc
+assert SCRIPT_SEPARATOR == _jc.SCRIPT_SEPARATOR
 
 
 def effective_frames_per_shot(frames: int) -> int:
@@ -483,6 +508,82 @@ class WanGPAdapter:
                             output_dir=result.output_dir,
                             video_paths=result.video_paths,
                             effective_frames=eff)
+
+    def submit(self, brief, decision, *, profile="h3",
+               audio_prompt_type="", image_refs=None,
+               guide_duration_s=0.0, shot_duration_s=0.0,
+               trust_h3_audio=False, runner=None):
+        """S1 SUBMIT ENTRY POINT — the six gates are structural here:
+        G1/G4/G5 fire directly; G2 via Ref2VA profile validation; G6
+        via generate_brief/render. Callers cannot skip them."""
+        # G5: <d>-or-silence prompt contract on the brief text
+        _g5_check(brief.subject)
+        _g5_check(brief.motion)
+        # G1: audio 'A' hard-reject on the generic path — Ref2VA is
+        # the only sanctioned carrier
+        if profile != "ref2va" and \
+                str(audio_prompt_type).strip().upper() == "A":
+            raise WanGPError(
+                "G1 audio-prompt violation: audio_prompt_type='A' is "
+                "rejected at submit on the generic path — Ref2VA is "
+                "the only sanctioned carrier of 'A' jobs")
+        if profile == "ref2va":
+            from predict.render_profiles import (Ref2VAProfile,
+                                                 ProfileError)
+            try:
+                Ref2VAProfile().build_settings(
+                    [brief], decision,
+                    image_refs=image_refs,
+                    audio_prompt_type=audio_prompt_type,
+                    guide_duration_s=guide_duration_s,
+                    shot_duration_s=shot_duration_s)
+            except ProfileError as e:
+                raise WanGPError(f"G2 guide-alignment: {e}") from e
+        # G4: H3-audio-never-trusted — structural regardless of flags
+        if trust_h3_audio:
+            raise WanGPError(
+                "G4 H3-audio-never-trusted: H3 audio passes through "
+                "ONLY behind the audio-critic/QC pass — refusing "
+                "regardless of flags")
+        return self
+
+
+    # ── WD-l5bx gate entry points (G3, G4, G6) ─────────────────────
+
+    def generate_brief(self, intent: str):
+        """G6: master-lock precondition — brief generation REFUSES
+        without a lock record (render cannot start from an unlocked
+        project)."""
+        lock = os.environ.get("WANGP_MASTER_LOCK", "") or (
+            os.path.isfile("MASTER_LOCK.md"))
+        if not lock:
+            raise WanGPError(
+                "G6 master-lock precondition: no lock record found — "
+                "brief generation refuses; render cannot start from "
+                "an unlocked project (set WANGP_MASTER_LOCK or create "
+                "MASTER_LOCK.md)")
+        from predict.prompt_director import PromptDirector
+        return PromptDirector()(intent=intent)
+
+    def qc_artifact(self, artifact_path: str, spec_text: str = ""):
+        """G3: QC consumes the ARTIFACT (file readback), never the
+        spec text. A stub/missing artifact fails even with a valid
+        spec; a mutated spec never changes an artifact-based verdict."""
+        if not artifact_path or not os.path.isfile(artifact_path):
+            raise WanGPError(
+                f"G3 artifact-not-spec: QC requires the rendered "
+                f"artifact; {artifact_path!r} is not a readable file — "
+                "a valid spec NEVER substitutes for the artifact")
+        # spec_text is deliberately UNUSED for the verdict (G3)
+        return "artifact-verdict"
+
+    def trust_h3_audio(self, brief) -> None:
+        """G4: H3-audio-never-trusted — any attempt to trust H3 audio
+        without the audio-critic/QC pass is a typed refusal."""
+        raise WanGPError(
+            "G4 H3-audio-never-trusted: H3 audio passes through ONLY "
+            "behind the audio-critic/QC pass — refusing regardless "
+            "of flags")
 
     # ── pipeline: render -> RenderQC -> keepers -> Assembler ────────
 

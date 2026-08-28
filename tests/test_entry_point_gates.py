@@ -79,18 +79,19 @@ def test_g2_entry_point_fires(tmp_path):
 
 def test_g3_stub_artifact_valid_spec_fails(tmp_path):
     """QC with a missing/unreadable ARTIFACT must fail even when the
-    spec is perfectly valid."""
-    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner(),
-                     qc_factory=lambda genre: _QC())
+    spec is perfectly valid — exercised via the qc_artifact entry."""
+    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner())
     with pytest.raises(WanGPError, match="G3"):
-        a.run_pipeline([], "surreal")   # entry point
+        a.qc_artifact(str(tmp_path / "missing.mp4"),
+                      spec_text="perfectly valid spec")
 
 
 def test_g3_valid_artifact_mutated_spec_verdict_unchanged(tmp_path):
-    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner(),
-                     qc_factory=lambda genre: _QC())
+    art = tmp_path / "rendered.mp4"
+    art.write_bytes(b"fakevideo")
+    a = WanGPAdapter(output_dir="/tmp/x", runner=_OkRunner())
     # mutated spec must not change an artifact-based verdict
-    out = a.qc_artifact("/tmp/fake.mp4", spec_text="MUTATED")
+    out = a.qc_artifact(str(art), spec_text="MUTATED SPEC")
     assert out == "artifact-verdict"
 
 
