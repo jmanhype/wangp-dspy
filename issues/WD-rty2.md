@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-28T00:53:49Z
 created_by: speed
-updated_at: 2026-08-28T00:53:49Z
-content_hash: "sha256:b9c579ee3ac1227cb1a18865832f95f2ab665b3bad958b30f5c7a8fae8fcb1da"
+updated_at: 2026-08-28T01:36:12Z
+content_hash: "sha256:7fc37644b4fb672f0949116e204d882fac087046ccf32595bd04c9bd00d08f08"
 ---
 
 ## Description
@@ -51,3 +51,6 @@ Apply to OUR QC failure vocabulary: classify each recurring failure as **gate-fa
 - Parent: [[WD-j9nx]]
 
 ## Comments
+
+### 2026-08-28T01:36:12Z speed
+ADOPT #7 DELIVERED: PR #34 merged (GLM PASS/ADOPT — 406/406 green +16 over baseline, RED genuine, ambiguity typed not guessed, ledger append-only, 误拦 operational). Nits: stats class-conflation doc note, known_gates hardcoded in CLI.
