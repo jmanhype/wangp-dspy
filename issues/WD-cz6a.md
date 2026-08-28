@@ -1,14 +1,16 @@
 ---
 id: WD-cz6a
 title: "S2: speaker diarization for multi-speaker <d> attribution"
-status: open
+status: closed
 priority: 1
 type: task
 parent: WD-j9nx
 created_at: 2026-08-28T04:16:07Z
 created_by: speed
-updated_at: 2026-08-28T04:16:19Z
-content_hash: "sha256:07cf44230c266ca136127b532120a5db29e22a953b1fbd92eadc6552318d76cb"
+updated_at: 2026-08-28T13:43:54Z
+content_hash: "sha256:ba695d3083e3a7b83fe87c0bdad1e232ac4c79db871bcf2c209b20730b9cf197"
+closed_at: 2026-08-28T13:43:54Z
+close_reason: "Evidence verified 2026-08-28 (WD-clms pre-work): PR #38 MERGED at 7405d76 (mergedAt 2026-08-28T05:42:37Z, on main); suite green 480 passed at main head (baseline was 442 at d10af46, AC required >=442); binding grep gate zero matches; CLI check_diarization.py exit 0 + --convert renders <d>Name</d> shape on valid fixture. All ACs met."
 ---
 
 ## Description
@@ -48,7 +50,7 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 
 
 ## History
-
+- 2026-08-28T13:43:54Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
