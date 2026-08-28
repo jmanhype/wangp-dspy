@@ -8,8 +8,8 @@ labels: [film-lane, vertical-slice, e2e, gpu, discovery-ledger]
 parent: WD-j9nx
 created_at: 2026-08-28T06:39:20Z
 created_by: speed
-updated_at: 2026-08-28T13:42:02Z
-content_hash: "sha256:e5e9bf61a179077b7f1fc9946c37053981234f2ea1758e17590f33f56e10e8f3"
+updated_at: 2026-08-28T17:28:22Z
+content_hash: "sha256:a8b194a2fe35d0f27202a0cec405205cb84847ee23677083b705b96a7118cc46"
 assignee: batmanosama
 follows: [WD-l5bx]
 ---
@@ -130,3 +130,6 @@ S4 (Satan's Mom MV, critical path).
 
 ### 2026-08-28T06:39:32Z speed
 2026-08-28 sol-max: FILED per operator ruling — discovery-ledger cycle 001 top recommendation acted on; S2.5 takes priority over S3 (S3 stays queued). Scope = glue + one real 3090 render, NO new schemas/gates; mismatches get filed not fixed in-story. AC: full chain under datasets/runs/, epic AC #3 first real GPU evidence, ledger loop closed at delivery. Pre-work note: verify WD-cz6a evidence closure (merged as #38, story still open) since the slice consumes S2's converter directly. Dispatch target TBD by orchestrator at dispatch time.
+
+### 2026-08-28T17:28:22Z speed
+S2.5 DELIVERED: PR #39 merged (GLM PASS — evidence chain verified live on the 3090, mismatches honest incl. self-flagging the kitchen-vs-dungeon QC misread requiring human review before validated-e2e claims; suite failures proven pre-existing dspy env drift). First story fully executed by the unattended Mini driver.
