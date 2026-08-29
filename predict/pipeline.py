@@ -21,6 +21,8 @@ import dspy
 from predict.prompt_director import PromptDirector, RenderBrief
 from predict.profile_selector import ProfileSelector, ProfileDecision
 from predict.assembler import MultiShotAssembler, ShotPlan, AssembledChain
+from predict.caption import CaptionSpec, build_captions, \
+    CaptionValidationError
 from evaluate.render_qc import RenderQC, QCVerdict
 from host.wangp_adapter import WanGPAdapter, RenderResult
 
@@ -45,6 +47,8 @@ class PipelineResult:
     render: Optional[RenderResult] = None
     verdicts: List[QCVerdict] = field(default_factory=list)
     evidence: List[str] = field(default_factory=list)
+    # WD-obun: the caption stage's artifact (None = stage not run)
+    captions: Optional[object] = None
     # replayable evidence trail: append-only (stage, note) records
 
 
@@ -102,7 +106,8 @@ class Pipeline(dspy.Module):
                 f"skeleton sign-off gate refused: {e}") from e
         return self.forward(intent)
 
-    def forward(self, intent: str, *, n_shots: int = 1) -> PipelineResult:
+    def forward(self, intent: str, *, n_shots: int = 1,
+                caption_spec: Optional[CaptionSpec] = None) -> PipelineResult:
         result = PipelineResult(briefs=[], decisions=[])
 
         def record(stage: str, note: str) -> None:
@@ -184,5 +189,24 @@ class Pipeline(dspy.Module):
                         raise PipelineStageError(
                             "qc", f"QC failed on {video!r}: {exc}", exc)
                 record("qc", f"{len(result.verdicts)} verdict(s)")
+
+        # ── stage 6: captions (WD-obun, explicit typed stage) ──────
+        if caption_spec is not None:
+            if result.render is None:
+                raise PipelineStageError(
+                    "captions", "caption stage needs a render stage "
+                    "artifact to bind to — no videos to caption")
+            videos = result.render.video_paths
+            if not videos:
+                raise PipelineStageError(
+                    "captions", "render produced no videos to caption")
+            try:
+                result.captions = build_captions(caption_spec, videos[0])
+            except CaptionValidationError as exc:
+                raise PipelineStageError(
+                    "captions", f"caption spec refused: {exc}", exc)
+            record("captions",
+                   f"artifact {result.captions.artifact_sha[:12]} bound "
+                   f"to {videos[0]}")
 
         return result
