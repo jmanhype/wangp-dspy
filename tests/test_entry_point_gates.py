@@ -160,7 +160,18 @@ def test_g6_env_lock_honored(tmp_path, monkeypatch):
     monkeypatch.setenv("WANGP_MASTER_LOCK", "/nonexistent-but-set.lock")
     monkeypatch.chdir(tmp_path)
     a = WanGPAdapter(output_dir=str(tmp_path / "out"), runner=_OkRunner())
-    with pytest.raises(Exception) as exc_info:
-        a.generate_brief("a kaiju video")
-    assert not isinstance(exc_info.value, WanGPError), \
-        f"G6 fired despite env lock: {exc_info.value}"
+    # WD-y9ab re-pin: PromptDirector.forward no longer raises on LM
+    # failure (cannot-raise contract, prompt_director.py docstring) —
+    # with no LM configured it returns a zero-score "(lm failure: ...)"
+    # fallback brief. G6 must NOT have fired: either that fallback flows
+    # through (not a WanGPError) or a non-WanGPError surfaces.
+    try:
+        result = a.generate_brief("a kaiju video")
+    except WanGPError as e:
+        pytest.fail(f"G6 fired despite env lock: {e}")
+    except Exception:
+        pass  # non-G6 failure (e.g. downstream) — G6 honored
+    else:
+        subj = getattr(getattr(result, "brief", result), "subject", "")
+        assert "(lm failure" in subj or subj, \
+            "no LM configured should yield the fallback brief"

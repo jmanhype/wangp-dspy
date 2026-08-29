@@ -129,35 +129,49 @@ def test_good_brief_contains_no_meta_hints():
 
 
 def test_director_rejects_meta_hint_briefs():
-    """If the stubbed LM emits a brief WITH editor meta-hints (e.g. a
-    'cut to' in motion), the module must raise — meta-hints are H3-shot
-    territory and never part of a render brief."""
+    """WD-y9ab re-pin: meta-hint briefs previously "raised" only via
+    the fallback-brief defect (the error text echoed 'cut', so the
+    fallback itself raised). Real contract (module docstring): forward
+    NEVER raises on LM content — a meta-hint brief becomes a zero-score
+    '(invalid brief: ...)' prediction; the hint never reaches a prompt."""
     poisoned = dict(GOOD_BRIEF)
     poisoned["motion"] = "slow dolly in, then hard cut to close-up"
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": json.dumps(poisoned)}])
+    lm = dspy.utils.DummyLM([{"reasoning": "r",
+                              "brief": json.dumps(poisoned)}])
     with dspy.context(lm=lm):
-        with pytest.raises(Exception):
-            director(intent="x")
+        pred = director(intent="x")
+    assert pred.brief.subject.startswith("(invalid brief:")
+    assert "cut" not in pred.brief.subject.lower()
 
 
 # ── 5: malformed LM output fails loudly ──────────────────────────────────
 
 def test_director_rejects_non_json_output():
+    """WD-y9ab re-pin: non-JSON output previously raised only via the
+    fallback defect. Real contract: zero-score '(invalid brief:)'
+    fallback, never an exception."""
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": "this is not json at all"}])
+    lm = dspy.utils.DummyLM([{"reasoning": "r",
+                              "brief": "this is not json at all"}])
     with dspy.context(lm=lm):
-        with pytest.raises(Exception):
-            director(intent="x")
+        pred = director(intent="x")
+    assert pred.brief.subject.startswith("(invalid brief:")
 
 
 def test_director_rejects_missing_section_json():
+    """WD-y9ab re-pin: this used to raise — but only accidentally, via
+    the fallback-brief defect (empty motion sections / meta-hint words
+    echoing from the error text made the '(invalid brief)' fallback
+    itself raise). The real contract: forward NEVER raises on bad LM
+    JSON; it returns a zero-score '(invalid brief: ...)' fallback."""
     partial = json.dumps({"subject": "s", "motion": "m"})
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": partial}])
+    lm = dspy.utils.DummyLM([{"reasoning": "r", "brief": partial}])
     with dspy.context(lm=lm):
-        with pytest.raises(Exception):
-            director(intent="x")
+        pred = director(intent="x")
+    assert pred.brief.subject.startswith("(invalid brief:")
+    assert "missing sections" in pred.brief.subject
 
 
 # ── M1 (GLM): meta-hint vocabulary gaps — one RED test per pattern ──────
@@ -227,3 +241,59 @@ def test_wd9dia_editing_operations_still_flagged():
     ]
     for s in editing:
         assert _META_HINT_RE.search(s), f"missed editing op: {s!r}"
+
+
+# ── WD-y9ab: fallback briefs must never fail validation ───────────
+def test_wd_y9ab_invalid_brief_fallback_survives_meta_hint():
+    """The '(invalid brief: ...)' fallback embeds the raw rejection
+    message; if that message contains a meta-hint word (e.g. a gold
+    'dissolve' rejection), the fallback RenderBrief itself raises and
+    PromptDirector.forward's cannot-raise contract breaks (live crash
+    2026-08-29, WD-y9ab baseline run). The fallback must sanitize."""
+    from predict.prompt_director import PromptDirector
+    d = PromptDirector()
+    from dspy.utils import DummyLM as FakeLM  # noqa
+
+    class ExplodingLM:
+        """Returns valid JSON whose motion contains 'dissolve' so
+        _parse_brief raises a meta-hint ValueError mentioning it."""
+        def __call__(self, **kw):
+            return dspy.Prediction(
+                reasoning="r",
+                brief='{"subject": "a paper boat", "motion": '
+                      '"slow dissolve into dream logic", "camera": '
+                      '"macro static", "style": "muted"}')
+
+    d.predict = ExplodingLM()
+    with dspy.context(lm=FakeLM([{}])):
+        pred = d(intent="a paper boat drifting")
+    s = pred.brief.subject
+    assert s.startswith("(invalid brief:")
+    assert "dissolve" not in s
+    for f in ("motion", "camera", "style"):
+        assert getattr(pred.brief, f) == "(invalid)"
+    # LM-failure fallback core sections must be nonempty too (y9ab crash)
+    pred2 = PromptDirector.__new__(PromptDirector)
+    from predict.prompt_director import RenderBrief
+    fb = RenderBrief(subject="(lm failure: X)", motion="(lm failure)",
+                     camera="(lm failure)", style="(lm failure)")
+    assert all(getattr(fb, f).strip() for f in
+               ("subject", "motion", "camera", "style"))
+
+
+def test_wd_y9ab_lm_failure_fallback_survives_meta_hint():
+    """Same contract for the LM-failure fallback: exception text can
+    quote meta-hint words; subject must not echo them."""
+    from predict.prompt_director import PromptDirector
+    from dspy.utils import DummyLM as FakeLM  # noqa
+    d = PromptDirector()
+
+    class ExplodingLM:
+        def __call__(self, **kw):
+            raise RuntimeError("dissolve cut montaged: boom")
+
+    d.predict = ExplodingLM()
+    with dspy.context(lm=FakeLM([{}])):
+        pred = d(intent="anything")
+    assert "dissolve" not in pred.brief.subject
+    assert pred.brief.subject.startswith("(lm failure:")

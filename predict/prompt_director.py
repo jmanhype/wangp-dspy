@@ -210,6 +210,16 @@ def _reject_unmarked_provenance(brief: "RenderBrief") -> None:
             "(inferred-marker-convention.md)")
 
 
+def _fallback_subject(prefix: str, text: str) -> str:
+    """WD-y9ab: fallback brief subject must not echo meta-hint words
+    from the error text it embeds — the '(invalid brief: ...)' fallback
+    once raised inside its own _reject_meta_hints because the rejection
+    message contained 'dissolve' (live crash 2026-08-29). Sanitize any
+    meta-hint match out of the embedded diagnostic text."""
+    safe = _META_HINT_RE.sub("[...]", text or "")
+    return f"{prefix}: {safe}"
+
+
 def _reject_meta_hints(brief: RenderBrief) -> None:
     for section in (brief.subject, brief.motion, brief.camera,
                     brief.style):
@@ -299,9 +309,15 @@ class PromptDirector(dspy.ChainOfThought):
             # a mutated candidate becomes a zero-score brief so the
             # batch stays aligned and the optimizer sees the failure.
             brief = RenderBrief(
-                subject=f"(lm failure: {type(exc).__name__}: "
-                        f"{str(exc)[:60]})",
-                motion="", camera="", style="")
+                subject=_fallback_subject(
+                    "(lm failure", f"{type(exc).__name__}: "
+                    f"{str(exc)[:60]})"),
+                # WD-y9ab: core sections must be NONEMPTY — the empty
+                # string fallback raised inside its own __post_init__
+                # (live crash 2026-08-29, first y9ab attempt), breaking
+                # the cannot-raise contract this block exists to keep.
+                motion="(lm failure)", camera="(lm failure)",
+                style="(lm failure)")
             return dspy.Prediction(brief=brief)
         try:
             brief = _parse_brief(out.brief, registry=registry)
@@ -314,7 +330,8 @@ class PromptDirector(dspy.ChainOfThought):
                     or "engine-bound" in str(exc):
                 raise
             brief = RenderBrief(
-                subject=f"(invalid brief: {str(exc)[:80]})",
+                subject=_fallback_subject(
+                    "(invalid brief", f"{str(exc)[:80]})"),
                 motion="(invalid)", camera="(invalid)",
                 style="(invalid)")
         return dspy.Prediction(brief=brief)
