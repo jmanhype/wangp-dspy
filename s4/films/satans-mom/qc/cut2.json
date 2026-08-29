@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot displays a high level of temporal consistency with clean, vector-based animation. The subjects (the devil, the maid, and the chained men) remain stable without flickering or morphing. The motion quality is smooth and purposeful, effectively conveying the comedic action of the men reaching for the tea. There are no visible artifacts, aliasing, or rendering issues, making it a high-quality clip.\n\nScore: 9/10",
+    "latency_secs": 75.7
+  }
+}

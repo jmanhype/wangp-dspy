@@ -1,0 +1,170 @@
+[
+  {
+    "cut": 1,
+    "film_cut": 1,
+    "speaker": "GRANDMA",
+    "text": "You there. Have you seen my grandson?",
+    "duration_s": 4.0,
+    "guide_wav": "lines_padded/cut1_1.wav",
+    "pad_note": "padded from 2.808s with trailing silence to 4.0s (4s Ref2VA floor)",
+    "guide_sha256": "7feb74999aac1269fae49809ce2ea9c16ce1700cee674f0bc23009c26b2943fc",
+    "master": "/tmp/s25/master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The grandma speaks: You there. Have you seen my grandson? The old woman leans toward him, gesturing sharply with one hand, speaking angrily. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 107,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 43,
+      "image_refs": [
+        "/tmp/s25/master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  },
+  {
+    "cut": 2,
+    "film_cut": 1,
+    "speaker": "PRISONER",
+    "text": "No ma'am. But the devil's been expecting you.",
+    "duration_s": 4.608,
+    "guide_wav": "lines/cut1_2.wav",
+    "pad_note": null,
+    "guide_sha256": "23629e3da03effc378a035cc93ed4eed897f91d20331c6c8ef2a65c886b99120",
+    "master": "/tmp/s25/master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The prisoner speaks: No ma'am. But the devil's been expecting you. The chained young man looks up at her warily, answering in a low voice. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 124,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 44,
+      "image_refs": [
+        "/tmp/s25/master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  },
+  {
+    "cut": 3,
+    "film_cut": 2,
+    "speaker": "GRANDMA",
+    "text": "Expecting me? You keep him safe or I'll find out exactly what you did to him.",
+    "duration_s": 5.544,
+    "guide_wav": "lines/cut2_1.wav",
+    "pad_note": null,
+    "guide_sha256": "3a807d05f3d661dcc95a8bde2508cd523b5c81de734c34f315834ef21433e5a5",
+    "master": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The grandma speaks: Expecting me? You keep him safe or I'll find out exactly what you did to him. The old woman leans toward him, gesturing sharply with one hand, speaking angrily. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 141,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 45,
+      "image_refs": [
+        "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  },
+  {
+    "cut": 4,
+    "film_cut": 2,
+    "speaker": "DEVIL",
+    "text": "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent.",
+    "duration_s": 8.616,
+    "guide_wav": "lines/cut2_2.wav",
+    "pad_note": null,
+    "guide_sha256": "fac6f3b998ddb16acf4f2b51785fb81bf185eb1a34e69aafcb69a86445da98dd",
+    "master": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The devil speaks: Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent. The horned figure tilts his head, smirk widening as he speaks in a slow mocking tone. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 209,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 46,
+      "image_refs": [
+        "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  },
+  {
+    "cut": 5,
+    "film_cut": 3,
+    "speaker": "GRANDMA",
+    "text": "Then I want it back. A grandmother's love buys anything.",
+    "duration_s": 4.344,
+    "guide_wav": "lines/cut3_1.wav",
+    "pad_note": null,
+    "guide_sha256": "fb0f024382202a67691177a1ddd60958207fa7e6d4c649b8c5c69f33c7c76e09",
+    "master": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut3_master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The grandma speaks: Then I want it back. A grandmother's love buys anything. The old woman leans toward him, gesturing sharply with one hand, speaking angrily. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 107,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 47,
+      "image_refs": [
+        "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut3_master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  },
+  {
+    "cut": 6,
+    "film_cut": 3,
+    "speaker": "DEVIL",
+    "text": "It never does. That is rather the point.",
+    "duration_s": 4.752,
+    "guide_wav": "lines/cut3_2.wav",
+    "pad_note": null,
+    "guide_sha256": "213d1af364cf95f42a8e67e59cf6a96f128ca7914aa6f33be3f920d933b43554",
+    "master": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut3_master.png",
+    "settings": {
+      "model_type": "ref2va_lip_sync",
+      "script": "A dim stone dungeon cell lit by a single hanging lantern with a warm flickering glow; an elderly woman with gray hair in a bun in a tattered brownish cloak stands at the metal gate; a gaunt disheveled young man sits chained by wrists and ankles on a low stool; a tall pale horned figure in a long dark coat leans against the far wall, arms crossed, smirking. <Picture 1>. The devil speaks: It never does. That is rather the point. The horned figure tilts his head, smirk widening as he speaks in a slow mocking tone. <Audio 1>.",
+      "prompt": "ref2va",
+      "width": 480,
+      "height": 832,
+      "frames_per_shot": 124,
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "embedded_guidance_scale": 6.0,
+      "force_fps": "24",
+      "seed": 48,
+      "image_refs": [
+        "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut3_master.png"
+      ],
+      "audio_prompt_type": "A"
+    }
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video displays a high level of temporal consistency with no noticeable flickering or morphing of the characters or background elements. The motion quality is smooth and natural, particularly in the subtle hand gestures and facial expressions of the characters. There are no significant artifacts, and the lighting remains consistent throughout the shot, enhancing the overall visual appeal. The subject matter is well-composed, with clear focus on the interactions between the characters.\n\nScore: 9/10",
+    "latency_secs": 84.5
+  }
+}

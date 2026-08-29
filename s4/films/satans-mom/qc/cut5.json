@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 7,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "**Video QC Analysis**\n\n*   **Subject:** The scene depicts a medieval fantasy setting with three characters: an elderly woman in tattered robes, a seated man in chains, and a standing figure with horns (resembling Mephistopheles) in the background. The lighting is dramatic, focusing on the interaction between the woman and the seated man.\n*   **Motion Quality:** The motion of the elderly woman is the primary dynamic element. She leans forward, gestures with her hands, and turns her head. The motion is fluid and natural, consistent with a human actor performing a scene. The background characters",
+    "latency_secs": 251.5
+  }
+}

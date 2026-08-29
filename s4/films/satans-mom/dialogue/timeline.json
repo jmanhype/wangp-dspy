@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "audio_sha256": "a316f57ec25682399084ead9f646df9d83c7282476c7736af077c751ae4bb068",
+  "duration_sec": 33.672,
+  "speakers": [
+    "GRANDMA",
+    "PRISONER",
+    "DEVIL"
+  ],
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.808,
+      "speaker": "GRANDMA",
+      "text_hint": "You there. Have you seen my grandson?"
+    },
+    {
+      "start": 3.408,
+      "end": 8.016,
+      "speaker": "PRISONER",
+      "text_hint": "No ma'am. But the devil's been expecting you."
+    },
+    {
+      "start": 8.616,
+      "end": 14.16,
+      "speaker": "GRANDMA",
+      "text_hint": "Expecting me? You keep him safe or I'll find out exactly what you did to him."
+    },
+    {
+      "start": 14.76,
+      "end": 23.376,
+      "speaker": "DEVIL",
+      "text_hint": "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent."
+    },
+    {
+      "start": 23.976,
+      "end": 28.32,
+      "speaker": "GRANDMA",
+      "text_hint": "Then I want it back. A grandmother's love buys anything."
+    },
+    {
+      "start": 28.92,
+      "end": 33.672,
+      "speaker": "DEVIL",
+      "text_hint": "It never does. That is rather the point."
+    }
+  ]
+}

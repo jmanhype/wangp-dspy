@@ -1,0 +1,36 @@
+{
+  "film": "Satan's Mom — Larson dungeon gag",
+  "story": "WD-h25b",
+  "voices": {
+    "GRANDMA": {"voice": "en-US-AvaNeural", "rate": "-8%", "pitch": "+0Hz"},
+    "PRISONER": {"voice": "en-US-GuyNeural", "rate": "-4%", "pitch": "+0Hz"},
+    "DEVIL": {"voice": "en-US-ChristopherNeural", "rate": "-12%", "pitch": "-4Hz"}
+  },
+  "cuts": [
+    {
+      "cut": 1,
+      "master": "/tmp/s25/master.png",
+      "lines": [
+        {"speaker": "GRANDMA", "text": "You there. Have you seen my grandson?"},
+        {"speaker": "PRISONER", "text": "No ma'am. But the devil's been expecting you."}
+      ]
+    },
+    {
+      "cut": 2,
+      "master": "masters/cut2_master.png",
+      "lines": [
+        {"speaker": "GRANDMA", "text": "Expecting me? You keep him safe or I'll find out exactly what you did to him."},
+        {"speaker": "DEVIL", "text": "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent."}
+      ]
+    },
+    {
+      "cut": 3,
+      "master": "masters/cut3_master.png",
+      "lines": [
+        {"speaker": "GRANDMA", "text": "Then I want it back. A grandmother's love buys anything."},
+        {"speaker": "DEVIL", "text": "It never does. That is rather the point."}
+      ]
+    }
+  ],
+  "silence_gap_s": 0.6
+}

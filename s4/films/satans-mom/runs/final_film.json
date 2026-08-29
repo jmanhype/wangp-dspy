@@ -1,0 +1,69 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "film": "Satan's Mom \u2014 Larson dungeon gag (S4)",
+  "assembly": {
+    "method": "ffmpeg concat of 6 remuxed cuts + 0.6s silence gaps (dialogue boundaries)",
+    "path": "films/satans-mom/final/satans_mom.mp4",
+    "sha256": "f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac",
+    "duration_s": 34.784
+  },
+  "whisper_gate": {
+    "engine": "faster-whisper small int8 (local CPU)",
+    "transcript": [
+      [
+        0.0,
+        4.0,
+        "You there. Have you seen my grandson?"
+      ],
+      [
+        4.0,
+        8.5,
+        "No, ma'am. But the devil's been expecting you."
+      ],
+      [
+        8.5,
+        14.0,
+        "Expecting me? You keep him safe, or I'll find out exactly what you did to him."
+      ],
+      [
+        14.0,
+        22.6,
+        "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent."
+      ],
+      [
+        22.6,
+        27.0,
+        "Then I want it back. A grandmother's love buys anything."
+      ],
+      [
+        27.0,
+        32.0,
+        "It never does. That is rather the point."
+      ]
+    ],
+    "expected_lines": [
+      "You there. Have you seen my grandson?",
+      "No ma'am. But the devil's been expecting you.",
+      "Expecting me? You keep him safe or I'll find out exactly what you did to him.",
+      "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent.",
+      "Then I want it back. A grandmother's love buys anything.",
+      "It never does. That is rather the point."
+    ],
+    "result": "PASS \u2014 all 6 authored lines transcribed verbatim in order"
+  },
+  "qc_scores": {
+    "cut1": 8,
+    "cut2": 9,
+    "cut3": 9,
+    "cut4": 9,
+    "cut5": 7,
+    "cut6": 9
+  },
+  "disclosures": [
+    "cut1 render is 4.458s vs 4.0s guide (H3 quantized frames to 107@24fps); -shortest trims to 4.0s in remux",
+    "cut6 render is 5.167s vs 4.752s guide; -shortest trims to 4.752s in remux",
+    "VLM QC ran CPU-offloaded (llama-server --n-gpu-layers 0, ctx 16384) because H3 render occupied GPU VRAM; critic model unchanged (qwen38-27b-Q4_K_M)",
+    "3090 ssh was flaky mid-run (banner timeouts under load avg ~80-106); all remote ops retried until verified"
+  ]
+}

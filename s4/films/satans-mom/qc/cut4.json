@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot presents a static, cinematic composition featuring three characters in a dimly lit, dungeon-like environment. The subject matter is a dramatic interaction between an elderly woman leaning against iron bars, a seated chained man looking up at her, and a horned figure standing in the background.\n\n**Subject:** The characters are clearly defined with high detail, particularly in the lighting on their faces. The textures of the stone, metal bars, and clothing are rendered with high fidelity.\n\n**Motion Quality:** The motion is minimal and subtle, consisting mostly of slight head movem",
+    "latency_secs": 200.8
+  }
+}

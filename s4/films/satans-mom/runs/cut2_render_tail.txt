@@ -1,0 +1,8 @@
+17:00:05,960 - INFO - mdxc_separator - MDXC Separator initialisation complete
+2026-08-28 17:00:05,973 - INFO - separator - Load model duration: 00:00:03
+2026-08-28 17:00:05,979 - INFO - separator - Processing file: /tmp/tmpk9j911il.wav
+2026-08-28 17:00:05,980 - INFO - separator - Starting separation process for audio_file_path: /tmp/tmpk9j911il.wav
+  0%|          | 0/1 [00:00<?, ?steps/s]100%|██████████| 1/1 [00:01<00:00,  1.18s/steps]100%|██████████| 1/1 [00:01<00:00,  1.18s/steps]
+2026-08-28 17:00:08,050 - INFO - mdxc_separator - Saving Vocals stem to cut1_2_clean(2).wav...
+2026-08-28 17:00:12,736 - INFO - common_separator - Audio duration is 0.00 hours (8.00 seconds).
+2026-08-28 17:00:12,752 - INFO - common_separator - Using pydub for writing.

@@ -1,0 +1,49 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "cut": 4,
+  "film_cut": 2,
+  "speaker": "DEVIL",
+  "line": "Oh, grandmother. He sold his soul for a winning lottery ticket. It is already spent.",
+  "seed": 46,
+  "frames_per_shot": 209,
+  "job_shape": "PROVEN S2.5 (model_type minimax_h3_ref2va_pruned via adapter submit; video_prompt_type I; image_refs list; attention sdpa; audio_prompt_type A; guide==shot duration; 4-15s cap)",
+  "render": {
+    "path": "films/satans-mom/renders/cut4.mp4",
+    "sha256": "ef6fadffd4e20b3352eb5aea48ff6e00c106ce9c165d98fece9935c957e18c35",
+    "duration_s": 8.708,
+    "rendered_on": "3090 (Wan2GP wgp.py --profile 3 --attention sdpa)",
+    "settings_sha256": "c1cd3f1692d6550b97018e4553977aac2bd80761a5163cef70459651ab9528c8",
+    "log_tail": "%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 20/20 [16:55<00:00, 50.75s/steps]\n\n  [20/20] VAE Decoding | 17m 46s\n  [0/1] Decoding H3 video and stereo audioNew video saved to Path: outputs/2026-08-28-16h24m18s_seed46_A dim stone dungeon cell lit by a single hanging lantern casting a warm flickering glow; an elderly.mp4\n\n\n  Task 1 completed\n\n==================================================\nQueue completed: 1/1 tasks in 18m 52s\n"
+  },
+  "master_plate": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/masters/cut2_master.png",
+    "sha256": "03f1e067378f34ca18f30b2596853d83d2f2320a7e559df1566a34db7119cfe0"
+  },
+  "audio": {
+    "doctrine": "G4: H3 audio NEVER trusted \u2014 stripped entirely; real edge-tts guide muxed",
+    "guide_wav": "films/satans-mom/dialogue/lines/cut2_2.wav",
+    "guide_sha256": "fac6f3b998ddb16acf4f2b51785fb81bf185eb1a34e69aafcb69a86445da98dd",
+    "pad_note": null
+  },
+  "remux": {
+    "path": "films/satans-mom/remux/cut4.mp4",
+    "sha256": "c5e9f5eab0f13a68c0aa3611ef3356628ad829743a3fc826ee0d0649087c3f04",
+    "duration_s": 8.616
+  },
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 9,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot presents a static, cinematic composition featuring three characters in a dimly lit, dungeon-like environment. The subject matter is a dramatic interaction between an elderly woman leaning against iron bars, a seated chained man looking up at her, and a horned figure standing in the background.\n\n**Subject:** The characters are clearly defined with high detail, particularly in the lighting on their faces. The textures of the stone, metal bars, and clothing are rendered with high fidelity.\n\n**Motion Quality:** The motion is minimal and subtle, consisting mostly of slight head movem",
+    "latency_secs": 200.8
+  },
+  "gates": {
+    "G1_jobconfig_schema": "PASS (adapter.submit, S1 six entry-point gates)",
+    "G2_ref2va_profile": "PASS (Ref2VAProfile applied at build_jobs)",
+    "G3_diarization_attribution": "PASS (check_diarization.py: 3 speakers, 6 segments, authored-honest)",
+    "G4_audio_doctrine": "PASS (H3 audio stripped; edge-tts lines remuxed)",
+    "G5_qc_comedy_gate": "PASS (9/10 >= 7.0)",
+    "G6_whisper_final": "see final_film.json"
+  }
+}

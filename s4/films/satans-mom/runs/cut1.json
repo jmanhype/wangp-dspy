@@ -1,0 +1,49 @@
+{
+  "story": "WD-h25b",
+  "task": "t_e8138ca0",
+  "cut": 1,
+  "film_cut": 1,
+  "speaker": "GRANDMA",
+  "line": "You there. Have you seen my grandson?",
+  "seed": 43,
+  "frames_per_shot": 107,
+  "job_shape": "PROVEN S2.5 (model_type minimax_h3_ref2va_pruned via adapter submit; video_prompt_type I; image_refs list; attention sdpa; audio_prompt_type A; guide==shot duration; 4-15s cap)",
+  "render": {
+    "path": "films/satans-mom/renders/cut1.mp4",
+    "sha256": "b82971990131fb4c6691be8927e97b20fc17a369a58ecd64cac1aa495d47f6aa",
+    "duration_s": 4.458,
+    "rendered_on": "3090 (Wan2GP wgp.py --profile 3 --attention sdpa)",
+    "settings_sha256": "4b2ecfb42945dcc8928787cfa733b8e322c82bacc651ec78e5ec5a1308845dcc",
+    "log_tail": "0%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 20/20 [08:20<00:00, 25.00s/steps]\n  [20/20] VAE Decoding | 9m 12s\n\n  [0/1] Decoding H3 video and stereo audioNew video saved to Path: outputs/2026-08-28-15h45m31s_seed43_A dim stone dungeon cell lit by a single hanging lantern casting a warm flickering glow; an elderly.mp4\n\n\n  Task 1 completed\n\n==================================================\nQueue completed: 1/1 tasks in 10m 00s\n"
+  },
+  "master_plate": {
+    "path": "/tmp/s25/master.png",
+    "sha256": null
+  },
+  "audio": {
+    "doctrine": "G4: H3 audio NEVER trusted \u2014 stripped entirely; real edge-tts guide muxed",
+    "guide_wav": "films/satans-mom/dialogue/lines_padded/cut1_1.wav",
+    "guide_sha256": "7feb74999aac1269fae49809ce2ea9c16ce1700cee674f0bc23009c26b2943fc",
+    "pad_note": "padded from 2.808s with trailing silence to 4.0s (4s Ref2VA floor)"
+  },
+  "remux": {
+    "path": "films/satans-mom/remux/cut1.mp4",
+    "sha256": "3d75073425a0fb404f60e182f8efb1b7a8a82bc1c564b2ecffcf73840e36aa97",
+    "duration_s": 4.0
+  },
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot features three characters in a dimly lit, dungeon-like setting with high production values. The subject matter is clear and the framing is stable. However, upon close inspection of the temporal consistency, there are noticeable issues. The standing figure with horns (the 'Devil') exhibits subtle but perceptible morphing, particularly around the face and horns, which shifts slightly in shape and position between frames despite being largely stationary. The seated man's facial features also show minor inconsistencies in lighting and structure that suggest AI generation artifacts r",
+    "latency_secs": 90.0
+  },
+  "gates": {
+    "G1_jobconfig_schema": "PASS (adapter.submit, S1 six entry-point gates)",
+    "G2_ref2va_profile": "PASS (Ref2VAProfile applied at build_jobs)",
+    "G3_diarization_attribution": "PASS (check_diarization.py: 3 speakers, 6 segments, authored-honest)",
+    "G4_audio_doctrine": "PASS (H3 audio stripped; edge-tts lines remuxed)",
+    "G5_qc_comedy_gate": "PASS (8/10 >= 7.0)",
+    "G6_whisper_final": "see final_film.json"
+  }
+}

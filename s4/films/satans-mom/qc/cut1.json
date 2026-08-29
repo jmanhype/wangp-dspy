@@ -1,0 +1,9 @@
+{
+  "qc": {
+    "critic": "qwen38-27b-Q4_K_M.gguf (llama-server, 3090 :8000)",
+    "score": 8,
+    "verdict": "PASS (comedy threshold 7.0)",
+    "summary": "The video shot features three characters in a dimly lit, dungeon-like setting with high production values. The subject matter is clear and the framing is stable. However, upon close inspection of the temporal consistency, there are noticeable issues. The standing figure with horns (the 'Devil') exhibits subtle but perceptible morphing, particularly around the face and horns, which shifts slightly in shape and position between frames despite being largely stationary. The seated man's facial features also show minor inconsistencies in lighting and structure that suggest AI generation artifacts r",
+    "latency_secs": 90.0
+  }
+}
