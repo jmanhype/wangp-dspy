@@ -21,6 +21,9 @@ from predict.lm_wiring import creative_lm  # noqa: E402
 from predict.prompt_director import PromptDirector  # noqa: E402
 from metrics.qc_feedback import (  # noqa: E402
     qc_feedback_metric, load_examples)
+from metrics.metric_blend import (  # noqa: E402
+    MetricBlend, SectionWeights, record_scores, load_scores,
+    blended_score)
 
 
 def wire_lm() -> dspy.LM:
@@ -133,6 +136,22 @@ def main():
                else "PLATEAU/REGRESS — documented per AC #4")
     print(f"\nRESULT: baseline {base_score:.3f} -> gepa {gepa_score:.3f} "
           f"({verdict})")
+
+    # ── 4. WD-k2ua: record + verify the scoring artifact ───────────
+    blend = MetricBlend(section_weights=SectionWeights(
+        weights={"subject": 0.3, "motion": 0.2, "camera": 0.2,
+                 "style": 0.3}),
+        qc_scale=1.0)
+    artifact = record_scores(
+        REPO / "compiled" / "metric_blend_scores.json",
+        baseline=base_score, validation=gepa_score,
+        blend=blend, n_val=len(valset))
+    readback = load_scores(artifact)
+    assert readback["blend_id"] == blend.blend_id, "readback mismatch"
+    assert readback["baseline"] == base_score
+    assert readback["validation"] == gepa_score
+    print(f"[wd-k2ua] scoring artifact verified: {artifact} "
+          f"(blend_id {blend.blend_id})")
 
 
 if __name__ == "__main__":
