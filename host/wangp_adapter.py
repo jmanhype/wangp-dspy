@@ -72,12 +72,52 @@ _RENDER_SEQ = [0]
 # or file paths (frame 1504, step 504/1000, out504.mp4) must NOT
 # classify as transient.
 _TRANSIENT_RE = re.compile(
-    r"(?<![\w/])(?:504|gateway[ _-]?timeout|decode[ _-]?error|decoding[ _-]?error)(?![\w/])",
+    r"(?<![\w/])(?:504|gateway[ _-]?timeout|decode[ _-]?error|decoding[ _-]?error)(?![\w/])"
+    r"|out[ _-]of[ _-]?memory|OutOfMemoryError|OUT_OF_MEMORY",
     re.I)
+
+# WD-d1kq: OOM is a TRANSIENT, calibratable failure — retry at lower
+# load instead of pinning the GPU against a wall. Real shapes:
+# torch.cuda.OutOfMemoryError, "CUDA out of memory",
+# CUDA_ERROR_OUT_OF_MEMORY.
+OOM_RE = re.compile(
+    r"(?:out[ _-]of[ _-]?memory|OutOfMemoryError|OUT_OF_MEMORY)", re.I)
+
+
+def is_oom(stderr: str) -> bool:
+    return bool(OOM_RE.search(stderr or ""))
+
+
+# Calibration ladder: each OOM retry downshifts render load one step
+# (resolution then frame budget). Bounded by design — past the last
+# step there is nothing left to try and the failure is hard.
+CALIBRATION_LADDER = (
+    {"resolution": "512p", "frames": None},   # None = keep requested
+    {"resolution": "512p", "frames": "min"},
+)
+
+
+def next_calibration(current):
+    """Next calibration step after `current` (None = stock settings);
+    None when the ladder is exhausted — no infinite retries."""
+    if current is None:
+        return CALIBRATION_LADDER[0]
+    try:
+        i = CALIBRATION_LADDER.index(current)
+    except ValueError:
+        return CALIBRATION_LADDER[0]
+    if i + 1 >= len(CALIBRATION_LADDER):
+        return None
+    return CALIBRATION_LADDER[i + 1]
 
 
 class WanGPError(Exception):
     """Typed adapter failure (bad settings, wgp exit, no keepers)."""
+
+    def __init__(self, message: str, attempt_log=None):
+        super().__init__(message)
+        # WD-d1kq: typed failures carry the per-attempt evidence trail
+        self.attempt_log = attempt_log or []
 
 
 class QCEscalationError(WanGPError):
@@ -95,6 +135,8 @@ class RenderResult:
     # (H3 grid is 107+17k; off-grid requests round UP). Consumers
     # budgeting by requested frames must read this, not the decision.
     effective_frames: int = 0
+    # WD-d1kq: evidence for EVERY attempt (ok/oom/calibration/stderr)
+    attempt_log: tuple = ()
 
     @property
     def video_path(self) -> str:
@@ -439,6 +481,8 @@ class WanGPAdapter:
 
         attempts = 0
         last_stderr = ""
+        attempt_log = []          # WD-d1kq: evidence for every attempt
+        calibration = None        # current calibration step (None=stock)
         while attempts < self.max_attempts:
             attempts += 1
             attempt_started = time.time()
@@ -503,16 +547,29 @@ class WanGPAdapter:
                 return RenderResult(attempts=attempts,
                                     settings_path=settings_path,
                                     output_dir=attempt_dir,
-                                    video_paths=videos)
+                                    video_paths=videos,
+                                    attempt_log=tuple(attempt_log) + (
+                                        {"attempt": attempts,
+                                         "ok": True},))
             last_stderr = res.stderr or ""
+            oom = is_oom(last_stderr)
+            attempt_log.append({
+                "attempt": attempts, "ok": False, "oom": oom,
+                "calibration": calibration,
+                "stderr_tail": last_stderr[-300:]})
+            if oom:
+                # WD-d1kq: OOM retry CALIBRATES — downshift render load
+                # one ladder step so the retry isn't identical suicide.
+                calibration = next_calibration(calibration)
             if not _is_transient(last_stderr):
                 raise WanGPError(
                     f"wgp failed (exit {res.returncode}): "
-                    f"{last_stderr[:500]}")
+                    f"{last_stderr[:500]}", attempt_log=attempt_log)
             if attempts < self.max_attempts:
                 self.sleeper(RETRY_BACKOFF_SECS)
         raise WanGPError(
-            f"wgp failed after {attempts} attempts: {last_stderr[:500]}")
+            f"wgp failed after {attempts} attempts: {last_stderr[:500]}",
+            attempt_log=attempt_log)
 
     # ── render: briefs -> settings json -> wgp ──────────────────────
 
@@ -542,7 +599,8 @@ class WanGPAdapter:
                             settings_path=result.settings_path,
                             output_dir=result.output_dir,
                             video_paths=result.video_paths,
-                            effective_frames=eff)
+                            effective_frames=eff,
+                            attempt_log=result.attempt_log)
 
     def submit(self, brief, decision, *, profile="h3",
                audio_prompt_type="", image_refs=None,
