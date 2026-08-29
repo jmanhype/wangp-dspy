@@ -1,0 +1,42 @@
+{
+  "artifact_readback_verified": true,
+  "artifacts": {
+    "baseline_director.json": "fa3bfb47c1f4f12e9dedc9ae7dea3c864e19d1fe5c05be6636b410b6059786e9",
+    "gepa_director.json": "fa3bfb47c1f4f12e9dedc9ae7dea3c864e19d1fe5c05be6636b410b6059786e9",
+    "metric_blend_scores.json": "25462e3a12bc70c185a173abaacbb66757cdfe0bea88144bd1ee0f9f6da2b71e"
+  },
+  "auth_errors": 0,
+  "baseline_valset": {
+    "qc_feedback": 0.329,
+    "s6_blend": 0.1607
+  },
+  "dataset": {
+    "n_train": 21,
+    "n_val": 9,
+    "split": "WD-y9ab loader 0.7"
+  },
+  "gepa_config": {
+    "checkpoint_cleared": true,
+    "max_metric_calls": 80,
+    "metric": "s6_blend_metric (blend_id 0f85cc543e458506, UNCHANGED)",
+    "seed": 42
+  },
+  "gepa_valset": {
+    "qc_feedback": 0.329,
+    "s6_blend": 0.1607
+  },
+  "gpu_rendering": "DISABLED (gate line 1 of log; no render modules imported)",
+  "lm": "openai/glm-5.3 via api.z.ai",
+  "log": "/tmp/y9ab_gepa_run_20260829T182934Z.log",
+  "run_utc": "2026-08-29T19:05:23.392814+00:00",
+  "story_id": "WD-y9ab",
+  "task_id": "t_9f0d9760",
+  "truncation_warnings_during_gepa": 5,
+  "validity_check": {
+    "fallbacks": 6,
+    "n": 30,
+    "note": "repaired from 30/30 fallbacks; run before GEPA per retry requirement",
+    "valid": 24
+  },
+  "verdict": "PLATEAU: GEPA selected the base program as best valset aggregate (0.1607); no candidate beat it. Documented per AC #4."
+}

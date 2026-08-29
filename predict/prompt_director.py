@@ -217,6 +217,10 @@ def _fallback_subject(prefix: str, text: str) -> str:
     message contained 'dissolve' (live crash 2026-08-29). Sanitize any
     meta-hint match out of the embedded diagnostic text."""
     safe = _META_HINT_RE.sub("[...]", text or "")
+    # WD-y9ab: also ASCII-fold — non-English echo from the error text
+    # (e.g. 'é', '高频') re-triggers the language gate inside the
+    # fallback's own validation (live crash 2026-08-29, attempt 3).
+    safe = safe.encode("ascii", "replace").decode("ascii")
     return f"{prefix}: {safe}"
 
 
@@ -274,7 +278,10 @@ class RenderBriefSignature(dspy.Signature):
     intent: str = dspy.InputField(desc="user's video intent, any form")
     brief: str = dspy.OutputField(
         desc="JSON object with keys subject, motion, camera, style, "
-             "audio_direction, negatives, identity_lock")
+             "audio_direction, negatives, identity_lock. If "
+             "identity_lock is nonempty, it must BEGIN with exactly "
+             "one '(inferred)' marker prefix (provenance convention — "
+             "one marker per lock, never per claim)")
 
 
 class PromptDirector(dspy.ChainOfThought):
@@ -286,14 +293,20 @@ class PromptDirector(dspy.ChainOfThought):
     Optimization must see failures as ZERO-SCORE predictions, never
     exceptions — same discipline as Evaluate's failure_score."""
 
-    def __init__(self):
+    def __init__(self, registry: dict | None = None):
+        # WD-y9ab repair: default registry is bound at construction so
+        # optimizer-driven calls (LabeledFewShot demos, GEPA rollouts —
+        # which call forward WITHOUT registry=) run the no-names gate
+        # instead of silently skipping it (baseline fallback storm,
+        # diag 2026-08-29: 30/30 fallbacks, gate skipped on every call).
+        self.registry = registry
         super().__init__(RenderBriefSignature)
 
     def forward(self, *args, **kwargs):
         # WD-c4gw registry fold-in: pop BEFORE super() — dspy's
-        # forward does not understand registry; missing registry =
-        # LOUD skip (warning), never silent.
-        registry = kwargs.pop("registry", None)
+        # forward does not understand registry; missing registry = LOUD
+        # skip (warning), never silent.
+        registry = kwargs.pop("registry", self.registry)
         if registry is None:
             import logging as _lg
             _lg.getLogger(__name__).warning(
@@ -322,12 +335,13 @@ class PromptDirector(dspy.ChainOfThought):
         try:
             brief = _parse_brief(out.brief, registry=registry)
         except (ValueError, TypeError, KeyError) as exc:
-            # WD-c4gw: gate rejections (registry names, risky
-            # actions, language) raise ValueError INSIDE
-            # RenderBrief.__post_init__ — those must surface, not be
-            # masked by a fallback that itself fails validation.
-            if "proper noun" in str(exc) or "risky action" in str(exc) \
-                    or "engine-bound" in str(exc):
+            # WD-c4gw: registry gate rejections (proper nouns, risky
+            # actions) surface — the Pipeline contract tests pin that
+            # typed failure. Every OTHER LM-content rejection (meta
+            # hints, language, provenance, bad JSON) becomes a
+            # zero-score fallback: the module contract is forward
+            # NEVER raises on LM content (GEPA row alignment).
+            if "proper noun" in str(exc) or "risky action" in str(exc):
                 raise
             brief = RenderBrief(
                 subject=_fallback_subject(
@@ -341,8 +355,18 @@ def _parse_brief(raw: str,
                  registry: dict | None = None) -> RenderBrief:
     try:
         doc = json.loads(raw)
-    except (TypeError, json.JSONDecodeError) as exc:
-        raise ValueError(f"LM output is not valid JSON: {raw!r}") from exc
+    except (TypeError, json.JSONDecodeError):
+        # WD-y9ab: GLM sometimes emits Python-literal JSON (single
+        # quotes). Retry with ast.literal_eval before failing — same
+        # keys/values, just different quoting dialect.
+        import ast
+        try:
+            doc = ast.literal_eval(raw)
+            if not isinstance(doc, dict):
+                raise ValueError
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError(
+                f"LM output is not valid JSON: {raw!r}") from exc
     if not isinstance(doc, dict):
         raise ValueError(f"brief JSON must be an object, got {doc!r}")
     missing = [k for k in ("subject", "motion", "camera", "style")

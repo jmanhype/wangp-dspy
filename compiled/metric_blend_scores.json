@@ -1,0 +1,16 @@
+{
+  "baseline": 0.16070200054050773,
+  "blend": {
+    "qc_scale": 1.0,
+    "weights": {
+      "camera": 0.2,
+      "motion": 0.2,
+      "style": 0.3,
+      "subject": 0.3
+    }
+  },
+  "blend_id": "0f85cc543e458506",
+  "n_val": 9,
+  "story": "WD-y9ab",
+  "validation": 0.16070200054050773
+}

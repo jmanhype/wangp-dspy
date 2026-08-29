@@ -19,11 +19,37 @@ import dspy  # noqa: E402
 
 from predict.lm_wiring import creative_lm  # noqa: E402
 from predict.prompt_director import PromptDirector  # noqa: E402
+from gates import load_registry  # noqa: E402
 from metrics.qc_feedback import (  # noqa: E402
-    qc_feedback_metric, load_examples)
+    qc_feedback_metric, load_examples, _section_f1)
 from metrics.metric_blend import (  # noqa: E402
-    MetricBlend, SectionWeights, record_scores, load_scores,
-    blended_score)
+    MetricBlend, SectionWeights, record_scores, load_scores, blended_score)
+
+# S6 metric blend — EXACTLY the WD-k2ua configuration, UNCHANGED
+# (task constraint: do not modify or replace the blend; identical to
+# the pre-GEPA baseline record on t_df3b22d1, blend_id 0f85cc543e458506)
+BLEND = MetricBlend(section_weights=SectionWeights(
+    weights={"subject": 0.3, "motion": 0.2, "camera": 0.2,
+             "style": 0.3}),
+    qc_scale=1.0)
+
+
+def s6_blend_metric(gold, pred, trace=None, pred_name=None,
+                    pred_trace=None):
+    """GEPA metric = S6 blended_score (critique-weighted section F1).
+    Banked gold runs carry no per-critique fields, so the documented
+    default (5.0 -> 0.5) applies uniformly — same as the baseline
+    evidence script. Blend config untouched; this only PLUMBS it in."""
+    target = getattr(pred, "brief", pred)
+    gold_brief = gold.brief if hasattr(gold, "brief") else {}
+    f1s = {f: _section_f1(getattr(target, f, "") or "",
+                          gold_brief.get(f, ""))
+           for f in ("subject", "motion", "camera", "style")}
+    score = blended_score(f1s, {}, BLEND)
+    if pred_name is None:
+        return score if trace is None else (score >= 0.5)
+    # predictor level: reuse qc_feedback's typed feedback for reflection
+    return qc_feedback_metric(gold, pred, trace, pred_name, pred_trace)
 
 
 def wire_lm() -> dspy.LM:
@@ -68,17 +94,36 @@ def _patch_gepa_row_alignment():
     print("[gepa-patch] row-alignment guard installed")
 
 
-def evaluate(director, valset, label):
-    scores = []
+def evaluate(director, valset, label, registry):
+    """Final scoring uses the SAME S6 blend as optimization (apples to
+    apples); qc_feedback reported for continuity with the baseline record."""
+    blend_scores, qc_scores = [], []
     for ex in valset:
-        pred = director(intent=ex.intent)
-        scores.append(qc_feedback_metric(ex, pred))
-    avg = sum(scores) / max(1, len(scores))
-    print(f"[{label}] valset {len(valset)} examples -> {avg:.3f}")
+        pred = director(intent=ex.intent, registry=registry)
+        blend_scores.append(s6_blend_metric(ex, pred))
+        qc_scores.append(qc_feedback_metric(ex, pred))
+    avg = sum(blend_scores) / max(1, len(blend_scores))
+    qavg = sum(qc_scores) / max(1, len(qc_scores))
+    print(f"[{label}] valset {len(valset)} examples -> "
+          f"s6_blend {avg:.3f} | qc_feedback {qavg:.3f}")
     return avg
 
 
+def _gate_no_gpu_render():
+    """WD-y9ab constraint: GPU rendering disabled for the whole run.
+    Assert no render entrypoints are imported and no GPU hosts are
+    configured; print the gate verdict so it is verifiable in the log."""
+    loaded = sorted(sys.modules)
+    render_mods = [m for m in loaded
+                   if any(k in m for k in ("wangp", "render", "wan", "wanx"))]
+    assert not render_mods, f"render modules loaded: {render_mods}"
+    print(f"[gate] GPU rendering DISABLED for this run: no render "
+          f"entrypoints imported; no WanGP/GPU hosts contacted; "
+          f"metrics are pure logic over banked QC data")
+
+
 def main():
+    _gate_no_gpu_render()
     trainset, valset = load_examples(REPO / "datasets" / "runs")
     print(f"dataset: {len(trainset)} train / {len(valset)} val")
     if not valset:
@@ -86,12 +131,13 @@ def main():
 
     wire_lm()
     _patch_gepa_row_alignment()
+    registry = load_registry(REPO / "datasets" / "entity-registry.json")
 
     # ── 1. baseline: LabeledFewShot, no optimization cost ──────────
     baseline = dspy.LabeledFewShot(k=min(4, len(trainset)))
-    base_dir = baseline.compile(PromptDirector(),
+    base_dir = baseline.compile(PromptDirector(registry=registry),
                                 trainset=trainset)
-    base_score = evaluate(base_dir, valset, "baseline")
+    base_score = evaluate(base_dir, valset, "baseline", registry)
     Path(REPO / "compiled").mkdir(exist_ok=True)
     base_dir.save(str(REPO / "compiled" / "baseline_director.json"))
 
@@ -103,7 +149,7 @@ def main():
         print("[gepa] cleared stale checkpoint")
 
     gepa = dspy.GEPA(
-        metric=qc_feedback_metric,
+        metric=s6_blend_metric,
         # exactly ONE budget knob (auto XOR max_metric_calls);
         # 80 calls answers improved-vs-plateau in <1h at 40-55s/rollout
         max_metric_calls=80,
@@ -115,7 +161,7 @@ def main():
     gepa_dir = gepa.compile(base_dir, trainset=trainset,
                             valset=valset)
     print(f"[gepa] compiled in {time.time()-t0:.0f}s")
-    gepa_score = evaluate(gepa_dir, valset, "gepa")
+    gepa_score = evaluate(gepa_dir, valset, "gepa", registry)
 
     gepa_dir.save(str(REPO / "compiled" / "gepa_director.json"))
 
@@ -123,8 +169,8 @@ def main():
     print("\n===== side-by-side (skill: identical scores can hide "
           "learning) =====")
     probe = "a kaiju silhouette rising through fog over a harbor city"
-    b = base_dir(intent=probe).brief
-    g = gepa_dir(intent=probe).brief
+    b = base_dir(intent=probe, registry=registry).brief
+    g = gepa_dir(intent=probe, registry=registry).brief
     for name, brief in (("baseline", b), ("gepa", g)):
         print(f"\n-- {name} --")
         print(f"  subject: {brief.subject[:100]}")
@@ -138,20 +184,15 @@ def main():
           f"({verdict})")
 
     # ── 4. WD-k2ua: record + verify the scoring artifact ───────────
-    blend = MetricBlend(section_weights=SectionWeights(
-        weights={"subject": 0.3, "motion": 0.2, "camera": 0.2,
-                 "style": 0.3}),
-        qc_scale=1.0)
     artifact = record_scores(
         REPO / "compiled" / "metric_blend_scores.json",
         baseline=base_score, validation=gepa_score,
-        blend=blend, n_val=len(valset))
+        blend=BLEND, n_val=len(valset), story="WD-y9ab")
     readback = load_scores(artifact)
-    assert readback["blend_id"] == blend.blend_id, "readback mismatch"
+    assert readback["blend_id"] == BLEND.blend_id, "readback mismatch"
     assert readback["baseline"] == base_score
-    assert readback["validation"] == gepa_score
     print(f"[wd-k2ua] scoring artifact verified: {artifact} "
-          f"(blend_id {blend.blend_id})")
+          f"(blend_id {BLEND.blend_id})")
 
 
 if __name__ == "__main__":

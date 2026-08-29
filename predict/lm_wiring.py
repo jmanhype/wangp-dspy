@@ -29,7 +29,9 @@ import dspy
 DEFAULT_CREATIVE_MODEL = "openai/glm-5.3"
 DEFAULT_CREATIVE_BASE = "https://api.z.ai/api/coding/paas/v4"
 # generous: GLM spends tokens on reasoning before content
-CREATIVE_COMPLETION_TOKENS = 4096
+# GLM spends completion budget on reasoning before emitting the JSON brief.
+# 4096 truncated LabeledFewShot responses in the live WD-y9ab baseline.
+CREATIVE_COMPLETION_TOKENS = 8192
 
 
 class LMWiringError(Exception):

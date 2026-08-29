@@ -131,6 +131,9 @@ def _assert_no_cross_split_duplicates(train, val):
             f"(first hash {collisions[0][:12]}…) — dedup failed upstream")
 
 
+from gates.provenance_gate import MARKER_RE as _MARKER_RE  # noqa: E402
+
+
 def load_examples(runs_dir: str = "datasets/runs",
                   split: float = 0.7):
     """Banked run records -> train/val dspy.Examples.
@@ -150,6 +153,16 @@ def load_examples(runs_dir: str = "datasets/runs",
             continue
         brief = r["briefs"][0]
         brief = brief if isinstance(brief, dict) else {}
+        # WD-y9ab validity repair: pre-convention banked golds carry
+        # unmarked identity_locks — every LM brief copying them was
+        # rejected by the provenance gate (26/26 gold identity_locks
+        # violate; baseline fallback storm 2026-08-29). Normalize at
+        # load: nonempty unmarked identity_locks get exactly one
+        # (inferred) prefix. Semantics-preserving: markers are STRIPPED
+        # at brief_to_prompt() and never scored as text content.
+        lock = (brief.get("identity_lock", "") or "").strip()
+        if lock and not _MARKER_RE.search(lock):
+            brief = {**brief, "identity_lock": f"(inferred) {lock}"}
         ex = dspy.Example(
             intent=r.get("intent", ""),
             brief={f: brief.get(f, "") for f in
