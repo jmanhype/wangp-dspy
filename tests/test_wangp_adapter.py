@@ -251,7 +251,7 @@ def test_render_hard_failure_does_not_retry(tmp_path):
         class R:
             returncode = 2
             stdout = ""
-            stderr = "CUDA out of memory"
+            stderr = "segmentation fault: core dumped"
         return R()
 
     vpy, vwgp = _fake_venv(tmp_path)
@@ -260,6 +260,9 @@ def test_render_hard_failure_does_not_retry(tmp_path):
     with pytest.raises(WanGPError, match="failed"):
         adapter.render([_brief()], _decision())
     assert n["n"] == 1                             # no retry on hard failure
+    # WD-d1kq contract change: OOM ("CUDA out of memory") is now
+    # TRANSIENT (calibrated retry) — see tests/test_oom_retry.py. The
+    # hard no-retry pin here uses a genuinely non-transient failure.
     assert sleeps == []
 
 
