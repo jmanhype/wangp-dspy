@@ -53,14 +53,26 @@ def _mkrefs(tmp, n=1):
         f.write_bytes(b"x")
         refs.append(str(f))
     return refs
-    base = dict(
-        image_refs=["/tmp/ref1.png", "/tmp/ref2.png"],
-        audio_prompt_type="A",
-        guide_duration_s=8.0,
-        shot_duration_s=8.0,
+
+
+def _audio(tmp):
+    """Audio-plane kwargs for Ref2VA (WD-a1d9): readable guide +
+    provenance paths + default policy."""
+    from predict.audio_dataplane import AudioGuideProvenance
+    import pathlib as _p
+    files = []
+    for name in ("guide.wav", "master.wav", "vocal.wav", "wmap.json"):
+        f = _p.Path(tmp) / name
+        f.write_bytes(b"x" * 8)
+        files.append(str(f))
+    guide, master, stem, wmap = files
+    return dict(
+        audio_guide=guide,
+        audio_provenance=AudioGuideProvenance(
+            source_master=master, vocal_stem=stem, whisper_map=wmap,
+            keeper_window_s=(1.0, 5.0)),
     )
-    base.update(over)
-    return over and base or base
+
 
 
 def test_ref2va_valid_builds(tmp_path):
@@ -68,7 +80,8 @@ def test_ref2va_valid_builds(tmp_path):
     doc = p.build_settings(
         [_brief()], _decision(),
         image_refs=_mkrefs(tmp_path), audio_prompt_type="A",
-        guide_duration_s=8.0, shot_duration_s=8.0)
+        guide_duration_s=8.0, shot_duration_s=8.0,
+        **_audio(tmp_path))
     assert doc["model_type"]  # some ref2va model
 
 
@@ -86,7 +99,8 @@ def test_ref2va_audio_a_required(tmp_path):
         p.build_settings([_brief()], _decision(),
                          image_refs=_mkrefs(tmp_path),
                          audio_prompt_type="",
-                         guide_duration_s=8.0, shot_duration_s=8.0)
+                         guide_duration_s=8.0, shot_duration_s=8.0,
+                         **_audio(tmp_path))
 
 
 def test_ref2va_guide_duration_must_match(tmp_path):
@@ -96,7 +110,8 @@ def test_ref2va_guide_duration_must_match(tmp_path):
                          image_refs=_mkrefs(tmp_path),
                          audio_prompt_type="A",
                          guide_duration_s=7.33,
-                         shot_duration_s=8.0)
+                         shot_duration_s=8.0,
+                         **_audio(tmp_path))
     assert "7.33" in str(ei.value) and "8.0" in str(ei.value)
 
 
@@ -108,7 +123,8 @@ def test_ref2va_shot_duration_cap(tmp_path):
                              image_refs=_mkrefs(tmp_path),
                              audio_prompt_type="A",
                              guide_duration_s=bad,
-                             shot_duration_s=bad)
+                             shot_duration_s=bad,
+                             **_audio(tmp_path))
 
 
 def test_ref2va_token_contiguity(tmp_path):
@@ -121,7 +137,8 @@ def test_ref2va_token_contiguity(tmp_path):
         p.build_settings([b], _decision(),
                          image_refs=_mkrefs(tmp_path),
                          audio_prompt_type="A",
-                         guide_duration_s=8.0, shot_duration_s=8.0)
+                         guide_duration_s=8.0, shot_duration_s=8.0,
+                         **_audio(tmp_path))
 
 
 def test_ref2va_tokens_contiguous_ok(tmp_path):
@@ -132,10 +149,109 @@ def test_ref2va_tokens_contiguous_ok(tmp_path):
     doc = p.build_settings([b], _decision(),
                            image_refs=_mkrefs(tmp_path),
                            audio_prompt_type="A",
-                           guide_duration_s=8.0, shot_duration_s=8.0)
+                           guide_duration_s=8.0, shot_duration_s=8.0,
+                           **_audio(tmp_path))
     assert doc
 
 
 def test_strategy_surface():
     assert issubclass(H3Profile, RenderProfile)
     assert issubclass(Ref2VAProfile, RenderProfile)
+
+
+# ── WD-a1d9: audio data plane on Ref2VA ─────────────────────────────
+
+def test_ref2va_audio_guide_required(tmp_path):
+    """audio_guide is now a required kwarg: omitting it is a typed
+    ProfileError (not silently swallowed by **kw)."""
+    kw = _audio(tmp_path)
+    del kw["audio_guide"]
+    p = Ref2VAProfile()
+    with pytest.raises(ProfileError, match="audio_guide"):
+        p.build_settings([_brief()], _decision(),
+                         image_refs=_mkrefs(tmp_path),
+                         audio_prompt_type="A",
+                         guide_duration_s=8.0, shot_duration_s=8.0,
+                         **kw)
+
+
+def test_ref2va_audio_guide_unreadable(tmp_path):
+    p = Ref2VAProfile()
+    with pytest.raises(ProfileError, match="audio_guide"):
+        p.build_settings([_brief()], _decision(),
+                         image_refs=_mkrefs(tmp_path),
+                         audio_prompt_type="A",
+                         guide_duration_s=8.0, shot_duration_s=8.0,
+                         audio_guide="/nonexistent/guide.wav",
+                         audio_provenance=_audio(tmp_path)["audio_provenance"])
+
+
+def test_ref2va_missing_audio_provenance(tmp_path):
+    kw = _audio(tmp_path)
+    del kw["audio_provenance"]
+    p = Ref2VAProfile()
+    with pytest.raises(ProfileError, match="audio_provenance"):
+        p.build_settings([_brief()], _decision(),
+                         image_refs=_mkrefs(tmp_path),
+                         audio_prompt_type="A",
+                         guide_duration_s=8.0, shot_duration_s=8.0,
+                         **kw)
+
+
+def test_ref2va_settings_extra_contains_audio_plane(tmp_path):
+    p = Ref2VAProfile()
+    doc = p.build_settings([_brief()], _decision(),
+                           image_refs=_mkrefs(tmp_path),
+                           audio_prompt_type="A",
+                           guide_duration_s=8.0, shot_duration_s=8.0,
+                           **_audio(tmp_path))
+    ex = doc["extra"]
+    assert ex["audio_guide"].endswith("guide.wav")
+    prov = ex["audio_provenance"]
+    assert prov["source_master"].endswith("master.wav")
+    assert prov["keeper_window_s"] == [1.0, 5.0]
+    pol = ex["audio_policy"]
+    assert pol == {"discard_rendered_audio": True,
+                   "remux_source": "source_master",
+                   "remux_window": [1.0, 5.0]}
+    qc = ex["audio_qc"]
+    assert qc["critic_model"] == "Qwen2-Audio-7B"
+    assert qc["mouth_sync"] is None  # not yet judged
+
+
+# ── H3 harness preservation (byte-for-byte) ─────────────────────────
+
+def test_h3_settings_snapshot_unchanged():
+    """H3Profile.build_settings output for the fixed brief fixture is
+    IDENTICAL to the checked-in snapshot (WD-a1d9 must not leak)."""
+    import json as _json
+    import pathlib as _p
+    p = H3Profile()
+    doc = p.build_settings([_brief()], _decision())
+    snap = _json.loads((_p.Path(__file__).parent / "fixtures" /
+                        "h3_settings_snapshot.json").read_text())
+    assert doc == snap
+
+
+def test_no_audio_dataplane_keys_leak_into_h3():
+    p = H3Profile()
+    doc = p.build_settings([_brief()], _decision())
+    flat = _json.dumps(doc)
+    for key in ("audio_guide", "audio_provenance", "audio_policy",
+                "audio_qc"):
+        assert key not in flat
+
+
+import json as _json  # noqa: E402  (used above)
+
+
+def test_h3_harness_untouched():
+    """Grep gate: evaluate/ and training/ source contains no ref2va /
+    audio_guide additions — guards the generic H3 GEPA A/B harness."""
+    import pathlib as _p
+    root = _p.Path(__file__).resolve().parent.parent
+    for sub in ("evaluate", "training"):
+        for f in (root / sub).rglob("*.py"):
+            text = f.read_text(encoding="utf-8")
+            assert "ref2va" not in text.lower(), f"{f} mentions ref2va"
+            assert "audio_guide" not in text, f"{f} mentions audio_guide"
