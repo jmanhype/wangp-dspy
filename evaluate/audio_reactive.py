@@ -127,6 +127,12 @@ def evaluate_audio_artifact(artifact: AudioReactiveInput, *,
         qc = run_ref2va_qc_stage(settings_doc, judge=judge)
     except Ref2VAQCStageError as e:
         raise AudioReactiveEvalError(str(e)) from e
+    except AudioReactiveEvalError:
+        raise
+    except Exception as e:
+        raise AudioReactiveEvalError(
+            f"judge/QC stage unexpected failure ({type(e).__name__}): "
+            f"{e}") from e
     qc_d = qc.to_dict()
 
     judged = all(qc_d.get(f) is not None for f in _SCORE_FIELDS)

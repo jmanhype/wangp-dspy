@@ -92,6 +92,15 @@ def test_manifest_mismatch_rejected(tmp_path):
         evaluate_audio_artifact(art, judge=None)
 
 
+def test_judge_unexpected_exception_wrapped(tmp_path):
+    art = _artifact(tmp_path)
+    def boom(*, settings_doc):
+        raise RuntimeError("judge exploded: CUDA OOM")
+    with pytest.raises(AudioReactiveEvalError,
+                       match="judge.*judge exploded: CUDA OOM"):
+        evaluate_audio_artifact(art, judge=boom)
+
+
 def test_missing_render_rejected(tmp_path):
     art = _artifact(tmp_path)
     art.render_path.unlink()
