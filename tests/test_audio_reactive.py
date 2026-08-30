@@ -211,3 +211,22 @@ def test_generic_lanes_unchanged():
     src_m = Path(metrics.qc_feedback.__file__).read_text()
     assert "audio_reactive" not in src_qc
     assert "audio_reactive" not in src_m
+
+
+# ── PR #51 review blocker 3: critic_version plumbing ────────────────
+
+
+def test_critic_version_forwarded_to_qc(tmp_path):
+    """Minimal extension: optional critic_version is forwarded to
+    run_ref2va_qc_stage and appears in the returned qc dict."""
+    doc = _settings_doc(tmp_path)
+    art = _artifact(tmp_path, judged=True)
+    res = evaluate_audio_artifact(
+        art, judge=_judge(), critic_version="qwen2audio-7b-v3")
+    assert res["qc"]["critic_version"] == "qwen2audio-7b-v3"
+
+
+def test_critic_version_default_unchanged(tmp_path):
+    art = _artifact(tmp_path, judged=True)
+    res = evaluate_audio_artifact(art, judge=_judge())
+    assert res["qc"]["critic_version"] is None
