@@ -12,6 +12,10 @@ import tempfile
 from pathlib import Path
 
 _HASH_RE = re.compile(r"^[0-9a-f]{64}$")
+# Safe filename identifier: ASCII letters/digits plus . _ -, 1-64 chars.
+# fullmatch anchors both ends; '.'/'_'/'-' carry no path meaning, and any
+# separator ('/', '\\') or traversal ('..', '..%2f') fails the class.
+_EXPERIMENT_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
 _METRIC_STATUSES = ("observed", "unavailable")
 _DECISIONS = ("accepted", "rejected", "withheld")
 
@@ -35,6 +39,12 @@ def validate_record(rec):
                 "next_action"):
         if not isinstance(rec.get(key), str) or not rec[key].strip():
             raise ExperimentRecordError(f"{key} must be a non-empty string")
+    if not _EXPERIMENT_ID_RE.fullmatch(rec["experiment_id"]) \
+            or not any(c.isalnum() for c in rec["experiment_id"]):
+        raise ExperimentRecordError(
+            "experiment_id must be a safe filename identifier: 1-64 chars "
+            "of ASCII letters, digits, '.', '_' or '-' (no path separators, "
+            "'..', or absolute paths)")
     _require_mapping(rec, "references")
     _require_mapping(rec, "settings")
     _require_mapping(rec, "resources")

@@ -251,3 +251,38 @@ def test_records_module_imports_nothing_from_generic_lanes():
         assert b not in src, f"experiments/records.py references {b}"
     for mod in newly:
         assert not any(b in mod for b in banned), mod
+
+
+# --- experiment_id filename safety (path traversal) ------------------------
+
+@pytest.mark.parametrize("bad_id", [
+    "../escape",           # traversal up
+    "..",                  # dotdot alone
+    "a/b",                 # slash separator
+    "a\\b",               # backslash separator
+    "/abs",                # absolute path
+    "exp/../../etc",       # mixed traversal
+    "exp\x00id",           # NUL byte
+    "exp id",              # whitespace
+    "exp;rm",              # punctuation outside ._- 
+    "éxperiment",          # non-ASCII
+    "",                    # empty
+    "e" * 129,             # over length bound
+])
+def test_unsafe_experiment_id_rejected(bad_id):
+    with pytest.raises(ExperimentRecordError):
+        validate_record(_base_record(experiment_id=bad_id))
+
+
+def test_audience_memory_cannot_write_outside_root(tmp_path):
+    root = tmp_path / "memory"
+    am = AudienceMemory(root)
+    outside_marker = tmp_path / "outside.txt"
+    outside_marker.write_text("sentinel")
+    with pytest.raises(ExperimentRecordError):
+        am.store(_base_record(experiment_id="../pwned"))
+    assert not (tmp_path / "pwned.json").exists()
+    assert outside_marker.read_text() == "sentinel"
+    # nothing escaped the root
+    assert list(root.glob("**/*")) == [] or all(
+        root in p.parents or p == root for p in root.glob("**/*"))
