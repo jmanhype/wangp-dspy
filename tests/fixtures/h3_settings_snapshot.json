@@ -1,0 +1,13 @@
+{
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "frames_per_shot": 107,
+  "guidance_scale": 1.0,
+  "height": 832,
+  "model_type": "minimax_h3_fl2va_pruned",
+  "num_inference_steps": 20,
+  "prompt": "multishot",
+  "script": "a detective. walks. dolly in. 16mm grain",
+  "seed": 4057311601,
+  "width": 480
+}

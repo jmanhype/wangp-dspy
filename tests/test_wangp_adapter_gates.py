@@ -311,10 +311,25 @@ def test_ref2va_image_refs_inside_validated_shape(tmp_path):
     from predict.render_profiles import Ref2VAProfile
     refs = [str(pathlib.Path(tmp_path) / "ref1.png")]
     pathlib.Path(refs[0]).write_bytes(b"x")
+    # WD-a1d9: audio_plane kwargs required (audio_guide readable +
+    # provenance); supplied via the shared helper shape
+    import pathlib as _pl
+    from predict.audio_dataplane import AudioGuideProvenance
+    afiles = []
+    for nm in ("guide.wav", "master.wav", "vocal.wav", "wmap.json"):
+        f = _pl.Path(tmp_path) / nm
+        f.write_bytes(b"x" * 8)
+        afiles.append(str(f))
     p = Ref2VAProfile()
     doc = p.build_settings([_brief()], _decision(),
                            image_refs=refs, audio_prompt_type="A",
-                           guide_duration_s=8.0, shot_duration_s=8.0)
+                           guide_duration_s=8.0, shot_duration_s=8.0,
+                           audio_guide=afiles[0],
+                           audio_provenance=AudioGuideProvenance(
+                               source_master=afiles[1],
+                               vocal_stem=afiles[2],
+                               whisper_map=afiles[3],
+                               keeper_window_s=(1.0, 5.0)))
     assert doc["image_refs"] == refs
     assert doc["audio_prompt_type"] == "A"
     # generic lane still enforces flatness (extra nested value is

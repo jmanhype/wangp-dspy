@@ -23,6 +23,11 @@ REF2VA_MIN_SHOT_S = 4.0
 REF2VA_MAX_SHOT_S = 15.0
 
 
+from predict.audio_dataplane import (  # noqa: E402  (WD-a1d9)
+    AudioGuideProvenance, AudioPolicy, Ref2VAAudioQC,
+)
+
+
 class ProfileError(ValueError):
     """Typed render-profile validation failure."""
 
@@ -81,6 +86,9 @@ class Ref2VAProfile(RenderProfile):
                        audio_prompt_type: str = "",
                        guide_duration_s: float = 0.0,
                        shot_duration_s: float = 0.0,
+                       audio_guide: Optional[str] = None,
+                       audio_provenance: Optional[AudioGuideProvenance] = None,
+                       audio_policy: Optional[AudioPolicy] = None,
                        **kw) -> dict:
         # image refs: present + readable
         if not image_refs:
@@ -108,6 +116,27 @@ class Ref2VAProfile(RenderProfile):
             raise ProfileError(
                 f"Ref2VA shot duration {shot_duration_s}s outside the "
                 f"4-15s cap ({REF2VA_MIN_SHOT_S}-{REF2VA_MAX_SHOT_S}s)")
+        # WD-a1d9: audio data plane — audio_guide readable at submit
+        # (same treatment as image_refs), provenance required+typed,
+        # policy default-constructed (discard=True, source_master).
+        if not audio_guide or not str(audio_guide).strip():
+            raise ProfileError(
+                "Ref2VA requires audio_guide (path to the audio guide "
+                "asset, readable at submit) — got none")
+        if not os.path.isfile(audio_guide):
+            raise ProfileError(
+                f"Ref2VA audio_guide not readable at submit: {audio_guide}")
+        if audio_provenance is None:
+            raise ProfileError(
+                "Ref2VA requires audio_provenance "
+                "(AudioGuideProvenance) — got None")
+        if not isinstance(audio_provenance, AudioGuideProvenance):
+            raise ProfileError(
+                "audio_provenance must be an AudioGuideProvenance, got "
+                f"{type(audio_provenance).__name__}")
+        if audio_policy is None:
+            audio_policy = AudioPolicy(
+                remux_window=tuple(audio_provenance.keeper_window_s))
         # token contiguity
         text = " ".join(b.subject + " " + b.motion for b in briefs)
         seen: dict = {"Picture": [], "Audio": []}
@@ -144,4 +173,8 @@ class Ref2VAProfile(RenderProfile):
         return cfg.to_settings_doc(
             flat=False,
             extra={"image_refs": list(image_refs),
-                   "audio_prompt_type": "A"})
+                   "audio_prompt_type": "A",
+                   "audio_guide": str(audio_guide),
+                   "audio_provenance": audio_provenance.to_dict(),
+                   "audio_policy": audio_policy.to_dict(),
+                   "audio_qc": Ref2VAAudioQC.empty().to_dict()})
