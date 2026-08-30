@@ -77,6 +77,12 @@ for j in jobs:
             "guide_wav": str((FILM / "dialogue" / j["guide_wav"]).relative_to(ROOT)),
             "guide_sha256": j["guide_sha256"],
             "pad_note": j.get("pad_note"),
+            # WD-a1d9-followup: audio_manifest sidecar hash when present
+            # (None when this cut predates the manifest gate — honest gap)
+            "audio_manifest_sha256": (
+                sha(FILM / "renders" / f"{key}_audio_manifest.json")
+                if (FILM / "renders" / f"{key}_audio_manifest.json").is_file()
+                else None),
         },
         "remux": {
             "path": str(remux.relative_to(ROOT)),

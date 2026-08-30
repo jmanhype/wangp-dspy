@@ -151,7 +151,11 @@ def test_plan_remux_argv_list_never_shell(tmp_path):
     assert " ".join(argv) == " ".join(argv)  # no shell metachar semantics
     # discard rendered audio: video stream copied from render, audio
     # from the source window
-    assert "-an" in argv or ("-map" in argv and "0:v" in argv)
+    # discard rendered audio: video mapped from render (0:v:0),
+    # audio from the source window (1:a:0) — rendered audio discarded
+    assert "-map" in argv
+    assert argv[argv.index("-map") + 1] == "0:v:0"
+    assert "1:a:0" in argv
     assert "-ss" in argv and "-t" in argv  # window applied
 
 
