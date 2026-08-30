@@ -249,11 +249,19 @@ import json as _json  # noqa: E402  (used above)
 
 def test_h3_harness_untouched():
     """Grep gate: evaluate/ and training/ source contains no ref2va /
-    audio_guide additions — guards the generic H3 GEPA A/B harness."""
+    audio_guide additions — guards the generic H3 GEPA A/B harness.
+
+    Closure-2 exemption (2026-08-30): evaluate/audio_reactive.py is the
+    SEPARATE artifact-grounded audio lane and is REQUIRED to call the
+    QC stage by name; it is exempt. Every other file stays guarded.
+    """
     import pathlib as _p
     root = _p.Path(__file__).resolve().parent.parent
+    exempt = {root / "evaluate" / "audio_reactive.py"}
     for sub in ("evaluate", "training"):
         for f in (root / sub).rglob("*.py"):
+            if f in exempt:
+                continue
             text = f.read_text(encoding="utf-8")
             assert "ref2va" not in text.lower(), f"{f} mentions ref2va"
             assert "audio_guide" not in text, f"{f} mentions audio_guide"
