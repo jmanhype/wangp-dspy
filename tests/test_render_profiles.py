@@ -205,16 +205,18 @@ def test_ref2va_settings_extra_contains_audio_plane(tmp_path):
                            audio_prompt_type="A",
                            guide_duration_s=8.0, shot_duration_s=8.0,
                            **_audio(tmp_path))
-    ex = doc["extra"]
-    assert ex["audio_guide"].endswith("guide.wav")
-    prov = ex["audio_provenance"]
+    # extra fields ride at the TOP level of the non-flat settings doc
+    # (to_settings_doc merges extra before returning; flat=False keeps
+    # the nested dicts sanctioned for the Ref2VA lane)
+    assert doc["audio_guide"].endswith("guide.wav")
+    prov = doc["audio_provenance"]
     assert prov["source_master"].endswith("master.wav")
     assert prov["keeper_window_s"] == [1.0, 5.0]
-    pol = ex["audio_policy"]
+    pol = doc["audio_policy"]
     assert pol == {"discard_rendered_audio": True,
                    "remux_source": "source_master",
                    "remux_window": [1.0, 5.0]}
-    qc = ex["audio_qc"]
+    qc = doc["audio_qc"]
     assert qc["critic_model"] == "Qwen2-Audio-7B"
     assert qc["mouth_sync"] is None  # not yet judged
 
