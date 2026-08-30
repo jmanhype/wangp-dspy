@@ -53,6 +53,7 @@ def _contained(path: str, sanctioned_dirs: Sequence[str]) -> bool:
 
 
 def plan_remux_command(*, policy: AudioPolicy, render_path: str,
+                       source_path: Optional[str] = None,
                        keeper_window: Tuple[float, float],
                        output_path: str,
                        sanctioned_dirs: Sequence[str]) -> list:
@@ -73,17 +74,17 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
                 f"containment violation: {label} {p!r} does not resolve "
                 f"under the sanctioned dirs {list(sanctioned_dirs)}")
 
-    source_field = ("source_master" if policy.remux_source == "source_master"
-                    else "vocal_stem")
-    # the caller passes the resolved source path via policy data; we
-    # take it from the provenance-shaped dict when embedded, else the
-    # caller-supplied source_path kwarg
-    src = getattr(policy, "_remux_source_path", None)
-    if src is None:
-        src = render_path  # placeholder; driver substitutes real source
-    if not _contained(src, sanctioned_dirs):
+    # G4 corrective: the audio input is the caller's EXPLICIT keeper /
+    # full-mix source path — NEVER the render path. No fallback.
+    if source_path is None:
         raise Ref2VAQCStageError(
-            f"containment violation: remux source {src!r} does not "
+            "G4: plan_remux_command requires an explicit source_path "
+            "(keeper/full-mix source); falling back to render_path as "
+            "the audio input is forbidden — rendered audio is NEVER "
+            "trusted")
+    if not _contained(source_path, sanctioned_dirs):
+        raise Ref2VAQCStageError(
+            f"containment violation: remux source {source_path!r} does not "
             f"resolve under the sanctioned dirs")
 
     start, end = float(keeper_window[0]), float(keeper_window[1])
@@ -92,7 +93,7 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
         "ffmpeg", "-y",
         "-i", str(render_path),                 # 0: H3 render (video)
         "-ss", f"{start:.6f}", "-t", f"{duration:.6f}",
-        "-i", str(src),                         # 1: source window (audio)
+        "-i", str(source_path),                    # 1: source window (audio)
         "-map", "0:v:0",                        # video from render
         "-map", "1:a:0",                        # audio from source
         "-c:v", "copy",                         # never re-encode video

@@ -143,6 +143,7 @@ def test_plan_remux_argv_list_never_shell(tmp_path):
     pathlib.Path(tmp_path, "remux").mkdir()
     argv = plan_remux_command(
         policy=pol, render_path=str(pathlib.Path(tmp_path) / "renders" / "cut1.mp4"),
+        source_path=master,
         keeper_window=(1.0, 5.0), output_path=out,
         sanctioned_dirs=[str(pathlib.Path(tmp_path))])
     assert isinstance(argv, list)
@@ -168,6 +169,7 @@ def test_plan_remux_rejects_path_escape(tmp_path):
     with pytest.raises(Ref2VAQCStageError, match="containment|sanctioned"):
         plan_remux_command(
             policy=pol, render_path=str(pathlib.Path(tmp_path) / "r.mp4"),
+            source_path=stem,
             keeper_window=(0.5, 2.0), output_path=outside,
             sanctioned_dirs=[str(pathlib.Path(tmp_path))])
 
@@ -180,6 +182,7 @@ def test_plan_remux_rejects_dotted_escape(tmp_path):
     with pytest.raises(Ref2VAQCStageError, match="containment|sanctioned"):
         plan_remux_command(
             policy=pol, render_path=str(pathlib.Path(tmp_path) / "r.mp4"),
+            source_path=master,
             keeper_window=(0.0, 1.0), output_path=evil,
             sanctioned_dirs=[str(pathlib.Path(tmp_path))])
 
@@ -227,3 +230,59 @@ def test_qc_stage_judge_fills_scores(tmp_path):
     assert qc.mouth_sync == 8.0
     assert qc.critic_model == "Qwen2-Audio-7B"
     assert qc.critic_version == "fake-judge-v9"
+
+
+# ── Corrective pass (S3, PR #47): blockers 1 + 2 ────────────────────
+
+def test_plan_remux_no_fallback_to_render_path(tmp_path):
+    """G4 blocker: with NO explicit keeper/full-mix source, the planner
+    must raise a typed error — NEVER fall back to render_path as the
+    audio input."""
+    _tmp_files(tmp_path, ["guide.wav", "master.wav", "vocal.wav", "wmap.json"])
+    pol = AudioPolicy(remux_source="source_master", remux_window=(1.0, 5.0))
+    pathlib.Path(tmp_path, "remux").mkdir()
+    with pytest.raises(Ref2VAQCStageError,
+                       match="requires an explicit source_path"):
+        plan_remux_command(
+            policy=pol,
+            render_path=str(pathlib.Path(tmp_path) / "renders" / "cut1.mp4"),
+            keeper_window=(1.0, 5.0),
+            output_path=str(pathlib.Path(tmp_path) / "remux" / "cut1.mp4"),
+            sanctioned_dirs=[str(tmp_path)])
+
+
+def test_plan_remux_explicit_source_never_render_as_audio_input(tmp_path):
+    """With an explicit source path, the audio -i input must be the
+    source, never the render path; shell-metachar-laden paths stay as
+    single argv elements."""
+    _tmp_files(tmp_path, ["guide.wav", "master.wav", "vocal.wav", "wmap.json"])
+    pol = AudioPolicy(remux_source="vocal_stem", remux_window=(0.5, 2.0))
+    pathlib.Path(tmp_path, "remux").mkdir()
+    render = str(pathlib.Path(tmp_path) / "renders" / "cut1.mp4")
+    src = str(pathlib.Path(tmp_path) / "keepers" / "full-mix; rm -rf x.mp4")
+    argv = plan_remux_command(
+        policy=pol, render_path=render,
+        source_path=src,
+        keeper_window=(0.5, 2.0),
+        output_path=str(pathlib.Path(tmp_path) / "remux" / "cut1.mp4"),
+        sanctioned_dirs=[str(tmp_path)])
+    ins = [argv[i + 1] for i, a in enumerate(argv) if a == "-i"]
+    assert len(ins) == 2
+    assert ins[0] == render           # only input 0 is the render
+    assert ins[1] == src              # audio input is the explicit source
+    assert render not in ins[1:]
+    # metachar path stays ONE argv element (no shell splitting possible)
+    assert src in argv
+
+
+def test_plan_remux_rejects_uncontained_source(tmp_path):
+    _tmp_files(tmp_path, ["guide.wav", "master.wav", "vocal.wav", "wmap.json"])
+    pol = AudioPolicy(remux_source="vocal_stem", remux_window=(0.5, 2.0))
+    with pytest.raises(Ref2VAQCStageError, match="containment"):
+        plan_remux_command(
+            policy=pol,
+            render_path=str(pathlib.Path(tmp_path) / "renders" / "cut1.mp4"),
+            source_path="/tmp/definitely-outside-evil/mix.wav",
+            keeper_window=(0.5, 2.0),
+            output_path=str(pathlib.Path(tmp_path) / "remux" / "cut1.mp4"),
+            sanctioned_dirs=[str(tmp_path)])

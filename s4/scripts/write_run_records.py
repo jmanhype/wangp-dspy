@@ -25,6 +25,14 @@ def dur(p: Path) -> float:
                        capture_output=True, text=True)
     return round(float(r.stdout.strip()), 3)
 
+def audio_manifest_sha256_for(film: Path, key: str):
+    """Hash the CANONICAL sidecar audio_manifest.json written beside the
+    render (write_audio_manifest puts it at
+    renders/<key>/audio_manifest.json). Returns None (honest gap) when
+    the sidecar is absent — cut predates the manifest gate."""
+    sidecar = film / "renders" / key / "audio_manifest.json"
+    return sha(sidecar) if sidecar.is_file() else None
+
 jobs = json.loads((FILM / "jobs/jobs.json").read_text())
 settings_shas = {
     "cut1": "4b2ecfb42945dcc8928787cfa733b8e322c82bacc651ec78e5ec5a1308845dcc",
@@ -77,12 +85,10 @@ for j in jobs:
             "guide_wav": str((FILM / "dialogue" / j["guide_wav"]).relative_to(ROOT)),
             "guide_sha256": j["guide_sha256"],
             "pad_note": j.get("pad_note"),
-            # WD-a1d9-followup: audio_manifest sidecar hash when present
+            # WD-a1d9-followup: hash the CANONICAL sidecar
+            # (renders/<key>/audio_manifest.json) when present
             # (None when this cut predates the manifest gate — honest gap)
-            "audio_manifest_sha256": (
-                sha(FILM / "renders" / f"{key}_audio_manifest.json")
-                if (FILM / "renders" / f"{key}_audio_manifest.json").is_file()
-                else None),
+            "audio_manifest_sha256": audio_manifest_sha256_for(FILM, key),
         },
         "remux": {
             "path": str(remux.relative_to(ROOT)),
