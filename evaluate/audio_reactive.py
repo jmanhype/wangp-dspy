@@ -79,11 +79,15 @@ def _sha256_file(path: Path) -> str:
 
 
 def evaluate_audio_artifact(artifact: AudioReactiveInput, *,
-                            judge: Optional[Callable] = None) -> dict:
+                            judge: Optional[Callable] = None,
+                            critic_version: Optional[str] = None,
+                            ) -> dict:
     """Evaluate one audio-bearing artifact directory.
 
     Pipeline: manifest readback gate -> sha256 of every present file
     -> G3/G4 QC stage (existing stage module) -> eligibility.
+    ``critic_version`` (optional) is forwarded verbatim to the QC
+    stage — default None preserves existing behavior exactly.
     Deterministic, JSON-serializable result dict.
     """
     if not isinstance(artifact, AudioReactiveInput):
@@ -124,7 +128,8 @@ def evaluate_audio_artifact(artifact: AudioReactiveInput, *,
         artifact_hashes["remux"] = _sha256_file(Path(artifact.remux_path))
 
     try:
-        qc = run_ref2va_qc_stage(settings_doc, judge=judge)
+        qc = run_ref2va_qc_stage(settings_doc, judge=judge,
+                                critic_version=critic_version)
     except Ref2VAQCStageError as e:
         raise AudioReactiveEvalError(str(e)) from e
     except AudioReactiveEvalError:

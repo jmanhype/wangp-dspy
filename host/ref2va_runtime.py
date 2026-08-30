@@ -16,11 +16,23 @@ H3 adapter:
 Fail-closed: any missing/mismatched artifact, containment escape,
 nonzero ffmpeg, judge crash, or G4 policy violation raises the typed
 Ref2VARuntimeError BEFORE any QC/GEPA eligibility can be claimed.
+
+PR #51 review hardening:
+- ALL four paths (settings/raw/source/remux) are containment-checked
+  BEFORE any filesystem write, mkdir, or injected render call.
+- The render callable's RETURNED path is revalidated (containment +
+  G4 source != raw + on-disk) before manifest/remux; remux argv is
+  replanned against the ACTUAL raw path.
+- A prebuilt settings_doc is runtime-validated (see
+  _validate_settings_doc for the exact, honestly-scoped boundary).
+- Policy construction failures and AudioDataPlaneError are wrapped
+  as Ref2VARuntimeError — no raw ValueError leaks.
 """
 from __future__ import annotations
 
 import json
 import os
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Optional, Sequence, Union
@@ -29,21 +41,27 @@ from evaluate.audio_reactive import (
     AudioReactiveEvalError as AudioReactiveError,
     AudioReactiveInput, evaluate_audio_artifact,
 )
-from predict.audio_dataplane import AudioPolicy
+from predict.audio_dataplane import AudioDataPlaneError, AudioPolicy
 from predict.audio_manifest import (
-    AudioManifestError, readback_validate, write_audio_manifest,
+    AudioManifestError, build_audio_manifest, readback_validate,
+    write_audio_manifest,
 )
-from predict.render_profiles import ProfileError, Ref2VAProfile
+from predict.render_profiles import (
+    ProfileError, REF2VA_MODEL_TYPE, Ref2VAProfile,
+)
 from qc.audio_critic.ref2va_stage import (
     Ref2VAQCStageError, plan_remux_command,
 )
 
 __all__ = ["Ref2VARuntimeError", "Ref2VARuntimeInput",
-           "run_ref2va_runtime"]
+           "run_ref2va_runtime", "safe_argv_runner"]
 
 RenderFn = Callable[[Any], Union[str, os.PathLike]]
 RunnerFn = Callable[[list], int]
 JudgeFn = Callable[..., dict]
+
+_SCORE_FIELDS = ("mouth_sync", "audio_fidelity",
+                 "visual_motion_match", "audio_artifacts")
 
 
 class Ref2VARuntimeError(RuntimeError):
@@ -60,7 +78,8 @@ class Ref2VARuntimeInput:
     ``runner`` are injected seams: the render callable produces the
     raw H3 render file (tests use tiny fixtures; production points at
     WanGP/SshHost later); the runner receives an ARGV LIST (shell
-    semantics belong to the caller, who must exec without a shell).
+    semantics belong to the caller, who must exec without a shell —
+    see ``safe_argv_runner`` for a conservative default).
     """
     briefs: Sequence
     decision: Any
@@ -104,11 +123,120 @@ def _sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def _contained(path, sanctioned_dirs: Sequence[str]) -> bool:
+    """True iff path resolves under one of the sanctioned dirs.
+    Resolves symlinks and '..' so dotted/relative escapes fail."""
+    try:
+        p = Path(path).resolve()
+    except OSError:
+        return False
+    for d in sanctioned_dirs:
+        try:
+            root = Path(d).resolve()
+        except OSError:
+            continue
+        if p == root or root in p.parents:
+            return True
+    return False
+
+
+def _require_contained(label: str, path,
+                       sanctioned_dirs: Sequence[str]) -> Path:
+    if not _contained(path, sanctioned_dirs):
+        raise Ref2VARuntimeError(
+            f"containment violation: {label} {str(path)!r} does not "
+            f"resolve under the sanctioned dirs "
+            f"{list(sanctioned_dirs)} — refusing before any write, "
+            "render, or manifest activity")
+    return Path(path)
+
+
 def _policy_from_doc(settings_doc: dict) -> AudioPolicy:
+    """Typed policy reconstruction; ANY construction failure is a
+    Ref2VARuntimeError (no raw ValueError/AudioDataPlaneError leak)."""
     d = dict(settings_doc.get("audio_policy") or {})
-    if "remux_window" in d:
+    if "remux_window" in d and isinstance(d["remux_window"], list):
         d["remux_window"] = tuple(d["remux_window"])
-    return AudioPolicy(**d)
+    try:
+        return AudioPolicy(**d)
+    except AudioDataPlaneError as e:
+        raise Ref2VARuntimeError(f"audio policy rejected: {e}") from e
+    except TypeError as e:
+        raise Ref2VARuntimeError(
+            f"audio policy malformed: {e}") from e
+
+
+def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
+    """Runtime validation of a settings doc BEFORE any render/write.
+
+    Honest boundary (documented, per review): a COMPLETE
+    Ref2VAProfile reconstruction (briefs/decision, <Picture/Audio N>
+    token contiguity, guide==shot duration, 4-15s cap, image_refs)
+    is NOT re-derivable from the persisted doc — the script text is
+    flattened and the durations/decision are not carried. What IS
+    enforced here, fail-closed:
+      - dict type
+      - model_type == 'ref2va_lip_sync'
+      - audio_prompt_type == 'A'
+      - sanctioned audio manifest block present (all four keys) via
+        build_audio_manifest + readback_validate
+      - audio_policy typed through AudioPolicy
+      - discard_rendered_audio is True (G4)
+      - audio_guide is a readable path contained in sanctioned_dirs
+    """
+    if not isinstance(settings_doc, dict):
+        raise Ref2VARuntimeError(
+            f"settings doc must be a dict, got "
+            f"{type(settings_doc).__name__}")
+    if settings_doc.get("model_type") != REF2VA_MODEL_TYPE:
+        raise Ref2VARuntimeError(
+            "settings doc model_type must be "
+            f"{REF2VA_MODEL_TYPE!r}, got "
+            f"{settings_doc.get('model_type')!r}")
+    if str(settings_doc.get("audio_prompt_type", "")).strip().upper() \
+            != "A":
+        raise Ref2VARuntimeError(
+            "settings doc audio_prompt_type must be 'A', got "
+            f"{settings_doc.get('audio_prompt_type')!r}")
+    try:
+        readback_validate(build_audio_manifest(settings_doc),
+                          settings_doc)
+    except AudioManifestError as e:
+        raise Ref2VARuntimeError(
+            f"settings doc audio block rejected: {e}") from e
+    policy = _policy_from_doc(settings_doc)
+    if policy.discard_rendered_audio is not True:
+        raise Ref2VARuntimeError(
+            "G4: settings doc discard_rendered_audio must be True — "
+            "rendered audio is NEVER trusted")
+    guide = settings_doc.get("audio_guide")
+    if not isinstance(guide, str) or not guide.strip():
+        raise Ref2VARuntimeError(
+            f"settings doc audio_guide must be a non-empty path "
+            f"string, got {guide!r}")
+    if not Path(guide).is_file():
+        raise Ref2VARuntimeError(
+            f"settings doc audio_guide not readable: {guide}")
+    _require_contained("settings doc audio_guide", guide,
+                       sanctioned_dirs)
+    return settings_doc
+
+
+def safe_argv_runner(argv: list) -> int:
+    """Conservative default argv runner: exec WITHOUT a shell.
+
+    The runtime cannot inspect what an injected callable does
+    internally — this helper only guarantees that WHEN it is used,
+    the argv list is executed directly (no shell interpretation of
+    metacharacters). argv must be a list of str; anything else is a
+    typed rejection. Returns the process exit code.
+    """
+    if not isinstance(argv, list) or not all(
+            isinstance(a, str) for a in argv):
+        raise Ref2VARuntimeError(
+            "safe_argv_runner: argv must be a LIST of str (exec'd "
+            f"without a shell), got {type(argv).__name__}")
+    return subprocess.run(argv, check=False).returncode
 
 
 def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
@@ -119,7 +247,26 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
             f"inp must be Ref2VARuntimeInput, got "
             f"{type(inp).__name__}")
 
-    # (a) validate/build settings through the existing profile contract
+    # (0) containment FIRST — before any mkdir, write, render, or
+    # manifest activity. Every requested path must resolve under the
+    # sanctioned dirs.
+    settings_path = _require_contained(
+        "settings_path", inp.settings_path, inp.sanctioned_dirs)
+    raw = _require_contained(
+        "raw_render_path", inp.raw_render_path, inp.sanctioned_dirs)
+    source = _require_contained(
+        "audio_source_path", inp.audio_source_path,
+        inp.sanctioned_dirs)
+    remux = _require_contained(
+        "remux_output_path", inp.remux_output_path,
+        inp.sanctioned_dirs)
+    if not source.is_file():
+        raise Ref2VARuntimeError(
+            f"audio source unreadable: {source}")
+
+    # (a) validate/build settings through the existing profile
+    # contract (a prebuilt settings_doc is runtime-validated here
+    # too — see _validate_settings_doc for the exact boundary)
     if inp.profile_build_kwargs is not None:
         try:
             settings_doc = Ref2VAProfile().build_settings(
@@ -127,16 +274,13 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
         except ProfileError as e:
             raise Ref2VARuntimeError(f"settings build rejected: {e}") from e
     else:
-        settings_doc = dict(inp.settings_doc)
-    settings_path = Path(inp.settings_path)
+        settings_doc = inp.settings_doc
+    settings_doc = _validate_settings_doc(
+        settings_doc, inp.sanctioned_dirs)
     settings_path.parent.mkdir(parents=True, exist_ok=True)
     settings_path.write_text(
         json.dumps(settings_doc, indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
-
-    raw = Path(inp.raw_render_path)
-    source = Path(inp.audio_source_path)
-    remux = Path(inp.remux_output_path)
 
     # G4 (pre-flight): the explicit audio source must NEVER be the raw
     # render — rendered audio is never trusted.
@@ -154,6 +298,23 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
     if out is not None:
         raw = Path(out)
 
+    # (b2) REVALIDATE the returned raw path: containment, G4, and
+    # on-disk — BEFORE any manifest write or remux planning. A render
+    # callable returning a substituted path (including the audio
+    # source itself) fails closed here.
+    if not _contained(raw, inp.sanctioned_dirs):
+        raise Ref2VARuntimeError(
+            f"containment violation: render() returned "
+            f"{str(raw)!r} which does not resolve under the "
+            f"sanctioned dirs {list(inp.sanctioned_dirs)}")
+    try:
+        if source.resolve() == raw.resolve():
+            raise Ref2VARuntimeError(
+                "G4: render() returned the audio source as the raw "
+                "render — rendered audio is NEVER trusted")
+    except OSError as e:
+        raise Ref2VARuntimeError(f"render path unreadable: {e}") from e
+
     # (c) require readable raw render
     if not raw.is_file():
         raise Ref2VARuntimeError(
@@ -169,8 +330,9 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
     except (AudioManifestError, json.JSONDecodeError, OSError) as e:
         raise Ref2VARuntimeError(f"manifest gate rejected: {e}") from e
 
-    # (e) plan remux: EXPLICIT source, containment enforced by the
-    # existing planner (argv list only — no shell strings anywhere)
+    # (e) plan remux against the ACTUAL raw path: EXPLICIT source,
+    # containment enforced by the existing planner (argv list only —
+    # no shell strings anywhere)
     policy = _policy_from_doc(settings_doc)
     try:
         argv = plan_remux_command(
@@ -193,7 +355,8 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
             f"remux output missing after rc=0 runner: {remux} — "
             "eligibility requires real remux evidence")
 
-    # (g) evaluate the REMUX artifact through the existing lane
+    # (g) evaluate the REMUX artifact through the existing lane,
+    # forwarding the critic_version so it reaches the ACTUAL QC
     try:
         artifact = AudioReactiveInput(
             render_path=raw, settings_path=settings_path,
@@ -202,12 +365,25 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
     except AudioReactiveError as e:
         raise Ref2VARuntimeError(f"artifact gate rejected: {e}") from e
     try:
-        res = evaluate_audio_artifact(artifact, judge=inp.judge)
+        res = evaluate_audio_artifact(
+            artifact, judge=inp.judge, critic_version=inp.critic_version)
     except AudioReactiveError as e:
         raise Ref2VARuntimeError(str(e)) from e
     except Exception as e:  # judge crash etc.
         raise Ref2VARuntimeError(
             f"evaluation failed ({type(e).__name__}): {e}") from e
+
+    # (g2) when judged, the ACTUAL qc critic_version must match the
+    # input version — a disconnect fails closed, never silently
+    qc_ver = (res.get("qc") or {}).get("critic_version")
+    judged = all((res.get("qc") or {}).get(f) is not None
+                 for f in _SCORE_FIELDS)
+    if judged and qc_ver != inp.critic_version:
+        raise Ref2VARuntimeError(
+            f"critic_version disconnect: input "
+            f"{inp.critic_version!r} but QC reported {qc_ver!r} "
+            "while judged — refusing to claim eligibility on a "
+            "mismatched critic identity")
 
     # (h) JSON-serializable evidence
     evidence = dict(res)
@@ -219,7 +395,7 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
         "raw_render_path": str(raw),
         "remux_output_path": str(remux),
         "explicit_audio_source": str(source),
-        "critic_version": inp.critic_version,
+        "critic_version": qc_ver,
         "lane": "ref2va_runtime",
     }
     return evidence
