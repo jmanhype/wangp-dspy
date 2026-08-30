@@ -81,6 +81,7 @@ class Ref2VAProfile(RenderProfile):
                        audio_prompt_type: str = "",
                        guide_duration_s: float = 0.0,
                        shot_duration_s: float = 0.0,
+                       audio_spec=None,
                        **kw) -> dict:
         # image refs: present + readable
         if not image_refs:
@@ -141,7 +142,18 @@ class Ref2VAProfile(RenderProfile):
         # is explicitly scoped to the GENERIC lane — the Ref2VA reader
         # consumes a list of image paths, a sanctioned non-scalar
         # extension of the wgp settings schema, not a rule violation.
-        return cfg.to_settings_doc(
-            flat=False,
-            extra={"image_refs": list(image_refs),
-                   "audio_prompt_type": "A"})
+        # audio_spec (hermes-86ad4c4a): when an AudioReactiveSpec is
+        # supplied, the REAL audio_guide path and its manifest ride
+        # inside the settings build — the submitted job carries the
+        # actual guide file, never a placeholder/recomputed path.
+        extra = {"image_refs": list(image_refs),
+                 "audio_prompt_type": "A"}
+        if audio_spec is not None:
+            from predict.audio_reactive import AudioReactiveSpec
+            if not isinstance(audio_spec, AudioReactiveSpec):
+                raise ProfileError(
+                    "Ref2VA audio_spec must be an AudioReactiveSpec "
+                    f"(typed contract), got {type(audio_spec).__name__}")
+            extra["audio_guide"] = audio_spec.audio_guide
+            extra["audio_manifest"] = audio_spec.to_manifest()
+        return cfg.to_settings_doc(flat=False, extra=extra)
