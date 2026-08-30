@@ -46,17 +46,19 @@ FROZEN = {
 }
 
 
+WORLD_CONTENT = dict(
+    world_id="wd-oa4i-world",
+    version=1,
+    continuity_refs=("alley", "rain"),
+    identity_lock="tall silhouette, long coat, hat brim shadow",
+    invariants=("no proper nouns", "16mm grain"),
+)
+
+
 def make_world(**over):
-    kw = dict(
-        world_id="wd-oa4i-world",
-        version=1,
-        continuity_refs=("alley", "rain"),
-        identity_lock="tall silhouette, long coat, hat brim shadow",
-        invariants=("no proper nouns", "16mm grain"),
-        source_hash=VALID_HASH,
-    )
-    kw.update(over)
-    return WorldSnapshot(**kw)
+    kw = dict(WORLD_CONTENT)
+    kw.update({k: v for k, v in over.items() if k != "source_hash"})
+    return WorldSnapshot.from_content(**kw)
 
 
 def make_budget(**over):
@@ -85,10 +87,61 @@ def make_estimator(gpu=10.0, disk=20.0, calls=None):
 
 # ---------------------------------------------------------------- world
 
+def raw_world_kwargs():
+    return dict(
+        world_id="wd-oa4i-world",
+        version=1,
+        continuity_refs=("alley", "rain"),
+        identity_lock="tall silhouette, long coat, hat brim shadow",
+        invariants=("no proper nouns", "16mm grain"),
+        source_hash=WorldSnapshot.compute_source_hash("wd-oa4i-world", 1,
+                                                      ("alley", "rain"),
+                                                      "tall silhouette, long "
+                                                      "coat, hat brim shadow",
+                                                      ("no proper nouns",
+                                                       "16mm grain")),
+    )
+
+
 def test_world_snapshot_requires_64_hex_source_hash():
     for bad in ("", "z" * 64, "a" * 63, "A" * 64, "aB" * 32):
+        kw = raw_world_kwargs()
+        kw["source_hash"] = bad
         with pytest.raises(InvalidWorldSnapshot):
-            make_world(source_hash=bad)
+            WorldSnapshot(**kw)
+
+
+def test_world_snapshot_stale_but_syntactically_valid_hash_rejected():
+    # "b"*64 is well-formed 64-hex but does not hash the actual content.
+    kw = raw_world_kwargs()
+    kw["source_hash"] = OTHER_HASH
+    with pytest.raises(InvalidWorldSnapshot):
+        WorldSnapshot(**kw)
+
+
+def test_world_snapshot_content_mutation_invalidates_previous_hash():
+    w = make_world()
+    kw = raw_world_kwargs()
+    kw["version"] = 2
+    with pytest.raises(InvalidWorldSnapshot):
+        WorldSnapshot(**kw)  # old hash pinned to v1 content
+    w2 = WorldSnapshot.from_content(**{**WORLD_CONTENT, "version": 2})
+    assert w2.source_hash != w.source_hash
+    # every content field participates in the digest
+    for field, value in (("world_id", "other-world"),
+                         ("identity_lock", "different lock"),
+                         ("continuity_refs", ("alley",)),
+                         ("invariants", ("16mm grain",))):
+        mutated = WorldSnapshot.from_content(
+            **{**WORLD_CONTENT, field: value})
+        assert mutated.source_hash != w.source_hash
+
+
+def test_world_snapshot_from_content_constructs_valid_snapshot():
+    w = make_world()
+    assert isinstance(w, WorldSnapshot)
+    assert WorldSnapshot.from_content(**WORLD_CONTENT).source_hash \
+        == w.source_hash
 
 
 def test_world_snapshot_canonical_round_trip_deterministic():
@@ -134,7 +187,7 @@ def test_valid_one_field_challenger_two_specs_and_stable_hash():
         assert spec["seed"] == 1234
         assert spec["identity_lock"] == BASELINE["identity_lock"]
         assert spec["canon_citations"] == BASELINE["canon_citations"]
-        assert spec["world_ref"] == VALID_HASH
+        assert spec["world_ref"] == make_world().source_hash
     b, c = specs
     assert b["motion"] == BASELINE["motion"]
     assert c["motion"] == "striding fast, splashing through puddles"
@@ -226,7 +279,8 @@ def test_proposer_called_once_with_world_and_prior_context():
         prior_signals=priors)
     assert len(calls) == 1
     ctx = calls[0]
-    assert json.loads(ctx["world"])["source_hash"] == VALID_HASH
+    assert json.loads(ctx["world"])["source_hash"] \
+        == make_world().source_hash
     assert ctx["prior_signals"] == priors
     assert ctx["baseline_brief"] == BASELINE
     assert set(ctx["allowlist"]) == {"motion", "camera",
@@ -253,6 +307,58 @@ def test_available_priors_passed_through_without_improvement_claim():
         prior_signals={"audience": {"retention_pct": 41.2}})
     assert plan.prior_signals == {"audience": {"retention_pct": 41.2}}
     assert "improvement" not in plan.canonical()
+
+
+# ------------------------------------------------- proposal schema (strict)
+
+@pytest.mark.parametrize("extra", [
+    {"seed": 999}, {"model": "wan"}, {"profile": "9"},
+    {"resolution": "hd"}, {"world_ref": "evil"},
+    {"identity_lock": "someone else"}, {"malicious_extra": 1},
+])
+def test_unknown_top_level_key_rejected(extra):
+    def proposer(ctx):
+        return {"changed_field": "motion", "new_value": "x",
+                "rationale": "r", **extra}
+    with pytest.raises(InvalidProposal):
+        plan_controlled_experiment(
+            baseline_brief=BASELINE, frozen_settings=FROZEN,
+            world=make_world(), budget=make_budget(),
+            proposer=proposer, resource_estimator=make_estimator())
+
+
+def test_nested_extra_key_in_changes_entry_rejected():
+    def proposer(ctx):
+        return {"changes": [{"changed_field": "motion", "new_value": "x",
+                             "seed": 999}]}
+    with pytest.raises(InvalidProposal):
+        plan_controlled_experiment(
+            baseline_brief=BASELINE, frozen_settings=FROZEN,
+            world=make_world(), budget=make_budget(),
+            proposer=proposer, resource_estimator=make_estimator())
+
+
+@pytest.mark.parametrize("field", ["subject", "style", "identity_lock",
+                                   "canon", "world", "frozen", "world_id"])
+def test_nested_protected_field_in_changes_entry_rejected(field):
+    def proposer(ctx):
+        return {"changes": [{"changed_field": "motion", "new_value": "x",
+                             field: "evil"}]}
+    with pytest.raises(InvalidProposal):
+        plan_controlled_experiment(
+            baseline_brief=BASELINE, frozen_settings=FROZEN,
+            world=make_world(), budget=make_budget(),
+            proposer=proposer, resource_estimator=make_estimator())
+
+
+def test_exact_minimal_proposal_shape_still_accepted():
+    def proposer(ctx):
+        return {"changed_field": "motion", "new_value": "x"}
+    plan = plan_controlled_experiment(
+        baseline_brief=BASELINE, frozen_settings=FROZEN,
+        world=make_world(), budget=make_budget(),
+        proposer=proposer, resource_estimator=make_estimator())
+    assert plan.changed_field == "motion"
 
 
 # ---------------------------------------------------------------- resources
@@ -298,7 +404,7 @@ def test_canonical_round_trip_deterministic():
     reloaded = json.loads(canon)
     assert reloaded["plan_id"] == plan.plan_id
     assert reloaded["plan_hash"] == plan.plan_hash
-    assert reloaded["world"]["source_hash"] == VALID_HASH
+    assert reloaded["world"]["source_hash"] == make_world().source_hash
 
 
 # ---------------------------------------------------------------- preservation

@@ -73,6 +73,40 @@ class WorldSnapshot:
     invariants: tuple
     source_hash: str
 
+    @staticmethod
+    def compute_source_hash(world_id, version, continuity_refs,
+                            identity_lock, invariants) -> str:
+        """Deterministic sha256 over the canonical world content
+        (world_id/version/continuity_refs/identity_lock/invariants),
+        EXCLUDING source_hash itself."""
+        payload = {
+            "world_id": world_id,
+            "version": version,
+            "continuity_refs": list(continuity_refs),
+            "identity_lock": identity_lock,
+            "invariants": list(invariants),
+        }
+        return hashlib.sha256(
+            _canonical_json(payload).encode("utf-8")).hexdigest()
+
+    @classmethod
+    def from_content(cls, world_id, version, continuity_refs,
+                     identity_lock, invariants) -> "WorldSnapshot":
+        """Construct a valid snapshot without guessing the hash."""
+        return cls(
+            world_id=world_id, version=version,
+            continuity_refs=tuple(continuity_refs),
+            identity_lock=identity_lock,
+            invariants=tuple(invariants),
+            source_hash=cls.compute_source_hash(
+                world_id, version, tuple(continuity_refs),
+                identity_lock, tuple(invariants)))
+
+    def content_hash(self) -> str:
+        return self.compute_source_hash(
+            self.world_id, self.version, self.continuity_refs,
+            self.identity_lock, self.invariants)
+
     def __post_init__(self) -> None:
         if not isinstance(self.world_id, str) or not self.world_id.strip():
             raise InvalidWorldSnapshot("world_id must be a nonempty string")
@@ -80,10 +114,6 @@ class WorldSnapshot:
                 or self.version < 1:
             raise InvalidWorldSnapshot(
                 f"version must be an int >= 1, got {self.version!r}")
-        if not _HEX64_RE.match(self.source_hash or ""):
-            raise InvalidWorldSnapshot(
-                "source_hash is REQUIRED and must be exactly 64 lowercase "
-                f"hex chars, got {self.source_hash!r}")
         for name in ("continuity_refs", "invariants"):
             v = getattr(self, name)
             if not isinstance(v, tuple):
@@ -93,6 +123,16 @@ class WorldSnapshot:
                 raise InvalidWorldSnapshot(f"{name} entries must be str")
         if not isinstance(self.identity_lock, str):
             raise InvalidWorldSnapshot("identity_lock must be str")
+        if not _HEX64_RE.match(self.source_hash or ""):
+            raise InvalidWorldSnapshot(
+                "source_hash is REQUIRED and must be exactly 64 lowercase "
+                f"hex chars, got {self.source_hash!r}")
+        expected = self.content_hash()
+        if self.source_hash != expected:
+            raise InvalidWorldSnapshot(
+                "source_hash does not match the world content — refusing "
+                "a stale/pinned hash (construct via WorldSnapshot."
+                "from_content to derive the correct hash)")
 
     def canonical(self) -> str:
         return _canonical_json({
@@ -262,14 +302,51 @@ def plan_controlled_experiment(
     proposal = proposer(context)
 
     # ---- validate proposal: exactly ONE allowed creative field -------
-    changes = []
     if proposal is None:
         raise InvalidProposal("proposer returned None; exactly one "
                               "allowlisted field must change")
-    if isinstance(proposal, Mapping) and "changes" in proposal:
+    if not isinstance(proposal, Mapping):
+        raise InvalidProposal(
+            f"proposal must be a mapping, got {type(proposal)!r}")
+    proposal = dict(proposal)
+
+    # ---- strict schema: unknown top-level keys fail closed ------------
+    _ALLOWED_PROPOSAL_KEYS = frozenset(
+        ("changed_field", "new_value", "rationale", "changes"))
+    _ALLOWED_CHANGE_KEYS = frozenset(("changed_field", "new_value"))
+    # Keys that attempt subject/style/identity/canon/world/frozen mutation
+    # anywhere in the proposal — always rejected, even as extra keys.
+    _PROTECTED_KEY_STEMS = ("subject", "style", "identity", "canon",
+                            "world", "frozen", "seed", "model", "profile",
+                            "resolution")
+
+    def _reject_key(scope: str, key: str) -> None:
+        base = key.split("_", 1)[0].lower()
+        if base in _PROTECTED_KEY_STEMS:
+            raise InvalidProposal(
+                f"proposal {scope} key {key!r} attempts to mutate a "
+                "protected field (subject/style/identity/canon/world/"
+                "frozen) — fail closed")
+        raise InvalidProposal(
+            f"proposal {scope} key {key!r} is not in the accepted schema "
+            f"{sorted(_ALLOWED_PROPOSAL_KEYS if scope == 'top-level' else _ALLOWED_CHANGE_KEYS)} "
+            "— unknown keys are rejected, not sanitized")
+
+    for key in proposal:
+        if key not in _ALLOWED_PROPOSAL_KEYS:
+            _reject_key("top-level", key)
+
+    changes = []
+    if "changes" in proposal:
+        if "changed_field" in proposal or "new_value" in proposal:
+            raise InvalidProposal(
+                "proposal mixes 'changes' with flat 'changed_field'/"
+                "'new_value' — use exactly one shape")
         changes = list(proposal["changes"])
-    elif isinstance(proposal, Mapping) and "changed_field" in proposal \
-            and proposal["changed_field"] is not None:
+        if not changes or not isinstance(changes[0], Mapping):
+            raise InvalidProposal("'changes' must be a nonempty list of "
+                                  "change mappings")
+    elif proposal.get("changed_field") is not None:
         changes = [{"changed_field": proposal["changed_field"],
                     "new_value": proposal.get("new_value")}]
     if not changes:
@@ -280,8 +357,12 @@ def plan_controlled_experiment(
         raise InvalidProposal(
             f"proposal changes {len(changes)} fields — a controlled "
             "experiment changes EXACTLY ONE field (isolate the variable)")
-    changed_field = changes[0].get("changed_field")
-    new_value = changes[0].get("new_value")
+    change = dict(changes[0])
+    for key in change:
+        if key not in _ALLOWED_CHANGE_KEYS:
+            _reject_key("changes-entry", key)
+    changed_field = change.get("changed_field")
+    new_value = change.get("new_value")
     if changed_field not in ALLOWED_CREATIVE_FIELDS:
         raise InvalidProposal(
             f"changed_field {changed_field!r} is outside the allowlist "
@@ -291,8 +372,7 @@ def plan_controlled_experiment(
                              and not new_value.strip()):
         raise InvalidProposal(
             f"new_value for {changed_field!r} must be nonempty")
-    override = proposal.get("settings_override") if isinstance(
-        proposal, Mapping) else None
+    override = proposal.get("settings_override")
     if override:
         raise InvalidProposal(
             f"frozen render settings are immutable; proposer attempted "
