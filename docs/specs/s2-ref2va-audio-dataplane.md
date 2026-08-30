@@ -48,6 +48,19 @@ byte-for-byte untouched (proven by test + grep).
   (as dict), `audio_policy` (as dict), and `audio_qc` initialized
   from `Ref2VAAudioQC.empty()`. H3Profile and the generic path are
   NOT modified beyond import surface.
+
+  **Qwen design review ruling (2026-08-30, required finding —
+  resolved):** rule 4 (flat JSON) is scoped to the GENERIC/H3 lane;
+  the Ref2VA lane carries nested dict payloads under `extra` as an
+  EXPLICIT, documented, TESTED exemption (option c), extending the
+  S1 precedent where `image_refs` (a list) was already a sanctioned
+  Ref2VA-only non-scalar extension. The exemption is typed: a test
+  asserts (1) `to_settings_doc(flat=True)` still rejects nested
+  values on the generic path, and (2) Ref2VA output is exempt only
+  via `flat=False`. Any future doc-hash caching MUST exclude `extra`
+  keys (noted for the manifest/QC slice). `vocal_stem` is REQUIRED:
+  the Ref2VA lane is lip-sync-only; instrumental-only guides are out
+  of scope (auditable assumption, per review).
 - NEW tests `tests/test_audio_dataplane.py` (RED-first):
   - provenance: rejects missing file / missing stem / missing whisper
     map / end<=start window / negative start (each typed
