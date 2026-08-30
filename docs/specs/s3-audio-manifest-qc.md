@@ -43,3 +43,9 @@ fields.
 
 Should the manifest be a REQUIRED sidecar for every Ref2VA render
 (hard gate at readback) or advisory until the remux slice lands?
+
+**RESOLVED (2026-08-30, operator dispatch): REQUIRED.** audio-bearing
+Ref2VA jobs must ship `audio_manifest.json`; readback of a render
+without it is a typed `AudioManifestError`, and QC refuses such
+artifacts (G3/G4). Legacy non-audio H3 is unaffected — only the
+Ref2VA lane consults the manifest.
