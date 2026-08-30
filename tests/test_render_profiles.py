@@ -257,3 +257,63 @@ def test_h3_harness_untouched():
             text = f.read_text(encoding="utf-8")
             assert "ref2va" not in text.lower(), f"{f} mentions ref2va"
             assert "audio_guide" not in text, f"{f} mentions audio_guide"
+
+
+# ── Qwen ruling (2026-08-30): typed flat-JSON exemption ─────────────
+
+def test_generic_path_flat_true_still_rejects_nested():
+    """Ruling (1): to_settings_doc(flat=True) rejects nested values on
+    the generic path — the Ref2VA exemption must not weaken rule 4."""
+    from predict.job_config import WanGPJobConfig, JobConfigError
+    cfg = WanGPJobConfig(
+        model_type="m", script="s", width=480, height=832,
+        frames_per_shot=107, force_fps="24")
+    with pytest.raises(JobConfigError, match="flat|nested"):
+        cfg.to_settings_doc(extra={"audio_provenance": {"a": 1}})
+
+
+def test_ref2va_nested_payloads_exempt_only_via_flat_false(tmp_path):
+    """Ruling (2): Ref2VA nested audio payloads ride extra ONLY via
+    the flat=False exemption — the output carries nested dicts, and
+    the same call with flat=True would reject them."""
+    from predict.job_config import JobConfigError
+    p = Ref2VAProfile()
+    doc = p.build_settings([_brief()], _decision(),
+                           image_refs=_mkrefs(tmp_path),
+                           audio_prompt_type="A",
+                           guide_duration_s=8.0, shot_duration_s=8.0,
+                           **_audio(tmp_path))
+    assert isinstance(doc["audio_provenance"], dict)
+    assert isinstance(doc["audio_policy"], dict)
+    assert isinstance(doc["audio_qc"], dict)
+    # the generic walk would have rejected exactly these keys
+    for k in ("audio_provenance", "audio_policy", "audio_qc"):
+        with pytest.raises(JobConfigError, match="flat|nested"):
+            from predict.job_config import WanGPJobConfig
+            WanGPJobConfig(
+                model_type="m", script="s", width=480, height=832,
+                frames_per_shot=107, force_fps="24").to_settings_doc(
+                    extra={k: doc[k]})
+
+
+def test_ref2va_vocal_stem_required(tmp_path):
+    """Ruling (3): vocal_stem stays REQUIRED — the Ref2VA lane is
+    lip-sync-only; omitting the field entirely is a typed rejection
+    (not just an unreadable-path one)."""
+    import pathlib as _pl
+    from predict.audio_dataplane import (AudioDataPlaneError,
+                                         AudioGuideProvenance)
+    files = []
+    for nm in ("master.wav", "wmap.json"):
+        f = _pl.Path(tmp_path) / nm
+        f.write_bytes(b"x" * 8)
+        files.append(str(f))
+    with pytest.raises(AudioDataPlaneError):
+        AudioGuideProvenance(
+            source_master=files[0], vocal_stem="",
+            whisper_map=files[1], keeper_window_s=(1.0, 5.0))
+    with pytest.raises(TypeError):
+        # omitting the field entirely is not silently defaulted
+        AudioGuideProvenance(
+            source_master=files[0], whisper_map=files[1],
+            keeper_window_s=(1.0, 5.0))
