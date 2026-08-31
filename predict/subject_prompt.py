@@ -138,24 +138,13 @@ def build_subject_prompt(cast: SceneCast, speaker_line: SpeakerLine) -> str:
             )
 
     lines: List[str] = []
+    # Subject definitions: identity/appearance ONLY — matching the verified
+    # reference config, ambient actions, lips-closed clauses and the speaker
+    # <d> binding flow as prose sentences inside the Detailed description
+    # body below, never inside the subject definitions.
     for s in cast.subjects:
         lines.append(f"<Subject {s.subject_id}> (from <Picture {s.source_picture}>):")
         lines.append(f"{s.name} — {s.description}.")
-        lines.append(f"Ambient action: {s.ambient_actions.strip()}.")
-        if s is not speaker:
-            lines.append(
-                "lips completely closed, no speech or mouth movement."
-            )
-        else:
-            vd = (
-                f" Voice: {speaker_line.voice_description.strip()}."
-                if speaker_line.voice_description.strip()
-                else ""
-            )
-            lines.append(
-                f"<Subject {s.subject_id}> (S1) says: "
-                f"<d>[{speaker_line.language}] {speaker_line.text.strip()}</d>.{vd}"
-            )
         lines.append("")
 
     lines.append(
@@ -172,9 +161,24 @@ def build_subject_prompt(cast: SceneCast, speaker_line: SpeakerLine) -> str:
     lines.append("")
     lines.append("Detailed description:")
     lines.append(cast.style.strip())
+    # One prose sentence per character, in subject order, inside the body.
+    body: List[str] = []
+    for s in cast.subjects:
+        sentence = f"<Subject {s.subject_id}> {s.ambient_actions.strip()}"
+        if s is not speaker:
+            sentence += ", their lips completely closed"
+        body.append(sentence + ".")
+    vd = speaker_line.voice_description.strip()
+    voice = f" The {vd}" if vd else ""
+    body.append(
+        f"The {speaker.name}{voice} (S1) says: "
+        f"<d>[{speaker_line.language}] {speaker_line.text.strip()}</d>."
+    )
     lines.append(
-        f"[Shot 1] Static Shot. {cast.shot_description.strip()} No camera "
-        f"movement; all motion is in-scene."
+        f"[Shot 1] Static Shot. {cast.shot_description.strip()} "
+        + " ".join(body)
+        + " All other subjects remain silent with their lips closed "
+        "throughout. No camera movement; all motion is in-scene."
     )
     lines.append("")
     lines.append(f"Overall soundscape: {cast.soundscape.strip()}")

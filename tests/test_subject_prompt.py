@@ -95,8 +95,12 @@ def test_detailed_description_has_style_then_shot():
 
 
 def test_speaker_binding_inline_d_block():
+    # The (S1) <d> binding lives as the final prose sentence of the
+    # Detailed description body (fixture shape), not in subject defs.
     p = build_subject_prompt(make_cast(), make_line())
-    assert "<Subject 2> (S1) says: <d>[English] The lamp will hold till morning.</d>" in p
+    det = p.split("Detailed description:")[1]
+    assert "says: <d>[English] The lamp will hold till morning.</d>" in det
+    assert "says:" not in p.split("Summary:")[0]
 
 
 def test_speaker_binding_language_override():
@@ -114,14 +118,33 @@ def test_voice_description_present():
 
 
 def test_nonspeaker_lips_closed():
+    # Non-speaker clauses live with each character's ambient-action
+    # sentence INSIDE the Detailed description body (fixture shape).
     p = build_subject_prompt(make_cast(), make_line())
-    body = p
+    body = p.split("Detailed description:")[1]
     for sid in (1, 3):
         seg = body.split(f"<Subject {sid}>")[1].split("<Subject ")[0]
         assert "lips completely closed" in seg
     # speaker must NOT get the clause
-    spk = p.split("<Subject 2>")[1].split("<Subject 3>")[0]
+    spk = body.split("<Subject 2>")[1].split("<Subject 3>")[0]
     assert "lips completely closed" not in spk
+
+
+def test_structural_placement_matches_reference_fixture():
+    # Subject definitions are identity/appearance ONLY; ambient actions,
+    # lips-closed clauses and the speaker <d> binding flow as prose
+    # sentences inside the Detailed description body.
+    p = build_subject_prompt(make_cast(), make_line())
+    defs = p.split("Summary:")[0]
+    assert "Ambient action:" not in defs
+    assert "lips completely closed" not in defs
+    assert "says:" not in defs
+    det = p.split("Detailed description:")[1].split("Overall soundscape:")[0]
+    assert "Ambient action:" not in det  # prose, not labels
+    assert "cloak hem sways in the draft" in det
+    assert "tighten around the lamppole" in det
+    assert "shuffles his ledger pages" in det
+    assert "says: <d>[English] The lamp will hold till morning.</d>" in det
 
 
 # ---------------------------------------------------------------- validation

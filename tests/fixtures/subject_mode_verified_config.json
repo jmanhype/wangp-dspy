@@ -1,0 +1,17 @@
+{
+  "model_type": "minimax_h3_ref2va_pruned",
+  "prompt": "<Subject 1> (from <Picture 1>): the elderly grandmother — gray hair in a bun, tattered brown cloak, gripping the metal gate bars with both hands, weathered face with sharp observant eyes.\n<Subject 2> (from <Picture 1>): the gaunt young prisoner — disheveled, chained at wrists and ankles to a low stool, hollow cheeks, wary expression, wearing faded rags.\n<Subject 3> (from <Picture 1>): the tall pale horned figure — long dark coat, arms crossed, smirking, two curved horns, standing against the far wall.\n<Subject 4> (from <Picture 1>): the dungeon environment — dim stone cell, single hanging lantern with warm flickering glow, iron gate, rough-hewn walls.\n\nSummary: [reference generation] A five-second locked-shot dungeon scene in which the prisoner answers the grandmother while every character and the lantern remain subtly alive.\n\nRetention analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - same woman, cloak, gate position.\n<Subject 2> (appears in [Shot 1]): fully_preserved - same prisoner, chains, stool.\n<Subject 3> (appears in [Shot 1]): fully_preserved - same horned figure, coat, wall position.\n<Subject 4> (appears in [Shot 1]): fully_preserved - same cell, lantern, lighting.\n\nDetailed description:\nStyle: hand-painted gothic realism, dark browns and blacks, stark chiaroscuro lamplight, cinematic 16mm grain.\n[Shot 1] Static Shot. The scene is continuously alive: the lantern flame flickers and sways, casting shifting warm light across the stone walls. <Subject 1> stands at the gate, her hands slowly tightening and loosening on the bars, her cloak hem swaying gently, her lips completely closed. <Subject 2> looks up at her warily and answers in a low voice, his mouth moving in sync with the dialogue while his chains hang slack, occasionally clinking as he shifts slightly on the stool. <Subject 3> shifts his weight against the far wall, the hem of his long dark coat swaying with the movement, his smirk widening slightly, his lips completely closed. Dust motes drift through the lantern beam. The prisoner with the hollow wary voice (S1) says: <d>[English] No ma'am. But the devil's been expecting you.</d> while the grandmother and the horned figure remain silent with their lips closed throughout.\n\nOverall soundscape: quiet dungeon room tone, faint chain clinks, distant water drip, the soft crackle of the lantern flame.\n\nNon-diegetic music: N/A",
+  "video_prompt_type": "I",
+  "audio_prompt_type": "A",
+  "image_refs": ["/home/straughter/wangp-roadmap-run/experiments/live/cut2-motion/assets/master.png"],
+  "audio_guide": "/home/straughter/wangp-roadmap-run/experiments/live/cut2-motion/assets/dialogue.wav",
+  "width": 480,
+  "height": 832,
+  "resolution": "480x832",
+  "video_length": 124,
+  "num_inference_steps": 20,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "seed": 44
+}
