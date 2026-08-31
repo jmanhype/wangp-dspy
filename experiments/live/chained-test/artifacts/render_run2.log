@@ -1,0 +1,50 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: shot-config.json
+[load_settings] Loading settings from: shot-config.json
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va
+Loaded 1 task(s)
+
+[Task 1/1] <Subject 1> = male dungeon master, 40s, gray-streaked beard,...
+  [MULTISHOT] Detected script with 2 shots
+  [MULTISHOT] Attention: sdpa
+  [MULTISHOT] Loading models (type=minimax_h3_fl2va)...
+Loading Model 'ckpts/MiniMax-H3-FL2VA_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Dequantized INT8 embedding to BF16
+NVFP4: kernels unavailable; using fallback.
+[H3 FIX] Patched 100 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (32446.9 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 32446.9 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 78 large blocks spread across 15769.36 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18039.37 MB will be preloaded (base size of 173.37 MB + 58.0% of recurrent layers data) with a 616.07 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+[Multishot]  shot 1/2 (56f @ 832x480)...
+NVFP4: linear fallback
+H3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:12<03:57, 12.51s/steps]H3 denoising:  10%|█         | 2/20 [00:25<03:48, 12.71s/steps]H3 denoising:  15%|█▌        | 3/20 [00:34<03:11, 11.24s/steps]H3 denoising:  20%|██        | 4/20 [00:41<02:33,  9.58s/steps]H3 denoising:  25%|██▌       | 5/20 [00:49<02:10,  8.71s/steps]H3 denoising:  30%|███       | 6/20 [00:56<01:53,  8.14s/steps]H3 denoising:  35%|███▌      | 7/20 [01:02<01:39,  7.65s/steps]H3 denoising:  40%|████      | 8/20 [01:09<01:28,  7.36s/steps]H3 denoising:  45%|████▌     | 9/20 [01:15<01:17,  7.03s/steps]H3 denoising:  50%|█████     | 10/20 [01:22<01:10,  7.01s/steps]H3 denoising:  55%|█████▌    | 11/20 [01:29<01:01,  6.83s/steps]H3 denoising:  60%|██████    | 12/20 [01:35<00:53,  6.71s/steps]H3 denoising:  65%|██████▌   | 13/20 [01:43<00:48,  6.96s/steps]H3 denoising:  70%|███████   | 14/20 [01:49<00:40,  6.73s/steps]H3 denoising:  75%|███████▌  | 15/20 [01:56<00:33,  6.75s/steps]H3 denoising:  80%|████████  | 16/20 [02:02<00:26,  6.65s/steps]H3 denoising:  85%|████████▌ | 17/20 [02:09<00:19,  6.63s/steps]H3 denoising:  90%|█████████ | 18/20 [02:15<00:13,  6.61s/steps]H3 denoising:  95%|█████████▌| 19/20 [02:21<00:06,  6.47s/steps]H3 denoising: 100%|██████████| 20/20 [02:29<00:00,  6.75s/steps]H3 denoising: 100%|██████████| 20/20 [02:29<00:00,  7.46s/steps]
+[Quanto][INT8] Injected Triton int8 kernels are being used.
+[Multishot]  shot 1 done
+[Multishot]  shot 2/2 (56f @ 832x480)...
+H3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:13<04:12, 13.27s/steps]H3 denoising:  10%|█         | 2/20 [00:29<04:30, 15.04s/steps]H3 denoising:  15%|█▌        | 3/20 [00:38<03:31, 12.42s/steps]H3 denoising:  20%|██        | 4/20 [00:46<02:49, 10.62s/steps]H3 denoising:  25%|██▌       | 5/20 [00:56<02:34, 10.33s/steps]H3 denoising:  30%|███       | 6/20 [01:04<02:11,  9.36s/steps]H3 denoising:  35%|███▌      | 7/20 [01:11<01:55,  8.90s/steps]H3 denoising:  40%|████      | 8/20 [01:18<01:38,  8.24s/steps]H3 denoising:  45%|████▌     | 9/20 [01:26<01:30,  8.22s/steps]H3 denoising:  50%|█████     | 10/20 [01:34<01:19,  7.97s/steps]H3 denoising:  55%|█████▌    | 11/20 [01:41<01:08,  7.61s/steps]H3 denoising:  60%|██████    | 12/20 [01:48<00:59,  7.50s/steps]H3 denoising:  65%|██████▌   | 13/20 [01:55<00:50,  7.26s/steps]H3 denoising:  70%|███████   | 14/20 [02:02<00:44,  7.44s/steps]H3 denoising:  75%|███████▌  | 15/20 [02:10<00:36,  7.34s/steps]H3 denoising:  80%|████████  | 16/20 [02:17<00:29,  7.27s/steps]H3 denoising:  85%|████████▌ | 17/20 [02:24<00:21,  7.26s/steps]H3 denoising:  90%|█████████ | 18/20 [02:31<00:14,  7.10s/steps]H3 denoising:  95%|█████████▌| 19/20 [02:37<00:07,  7.00s/steps]H3 denoising: 100%|██████████| 20/20 [02:44<00:00,  6.93s/steps]H3 denoising: 100%|██████████| 20/20 [02:44<00:00,  8.23s/steps]
+[Multishot]  shot 2 done
+/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:9: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+[Multishot] saved shot 1/2 to disk
+[Multishot] saved shot 2/2 to disk
+[Multishot] Saved: outputs/multishot_1788205281.mp4
+  [MULTISHOT] Done in 488.4s
+  [MULTISHOT] Already saved: outputs/multishot_1788205281.mp4
+
+==================================================
+Queue completed: 1/1 tasks in 8m 08s

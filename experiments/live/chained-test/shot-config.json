@@ -1,0 +1,13 @@
+{
+  "model_type": "minimax_h3_fl2va",
+  "script": "<Subject 1> = male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, candle-lit stone chamber, seated behind a cluttered oak table with leather-bound books and a brass candelabra. <Picture 1> retention: dungeon master face, robe, candle flames, stone wall behind. retention_analysis: keep identical face, beard, robe, table clutter and candle positions across the shot. ambient: dungeon master rolls a brass d20 between his fingers, candle flames flicker. (S1) dungeon master says <d>[en] \"The door seals behind you. Roll for initiative.\", lips moving; no other subjects. overall_soundscape: fire crackle, distant dripping water, dice on wood. non_diegetic_music: N/A.\n---\n<Subject 1> = same male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, same candle-lit stone chamber, seated behind the same cluttered oak table, holding the brass d20 aloft. retention_analysis: identical face, beard, robe, candle positions and table layout as the previous shot. ambient: dungeon master leans forward over the table, candle flames flicker, smoke curls from the nearest candle. (S1) dungeon master continues <d>[en] \"A dwarf cleric enters the corridor of traps.\", lips moving. overall_soundscape: fire crackle, dice clatter, low stone-room rumble. non_diegetic_music: N/A.",
+  "shot_count": 2,
+  "width": 832,
+  "height": 480,
+  "frames_per_shot": 56,
+  "num_inference_steps": 20,
+  "seed": 7,
+  "fps": 24,
+  "output": "outputs/chained_2shot_A/chained_2shot.mp4",
+  "prompt": "<Subject 1> = male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, candle-lit stone chamber, seated behind a cluttered oak table with leather-bound books and a brass c"
+}
