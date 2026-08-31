@@ -129,21 +129,21 @@ def test_nonspeaker_lips_closed():
 
 def test_missing_ambient_actions_rejected():
     cast = make_cast()
-    cast.subjects[0] = dataclasses.replace(cast.subjects[0], ambient_actions="")
+    cast = dataclasses.replace(cast, subjects=(dataclasses.replace(cast.subjects[0], ambient_actions=""),) + cast.subjects[1:])
     with pytest.raises(SubjectPromptError, match="ambient"):
         build_subject_prompt(cast, make_line())
 
 
 def test_zero_speakers_rejected():
     cast = make_cast()
-    cast.subjects[1] = dataclasses.replace(cast.subjects[1], is_speaker=False)
+    cast = dataclasses.replace(cast, subjects=cast.subjects[:1] + (dataclasses.replace(cast.subjects[1], is_speaker=False),) + cast.subjects[2:])
     with pytest.raises(SubjectPromptError, match="exactly one"):
         build_subject_prompt(cast, make_line())
 
 
 def test_multiple_speakers_rejected():
     cast = make_cast()
-    cast.subjects[2] = dataclasses.replace(cast.subjects[2], is_speaker=True)
+    cast = dataclasses.replace(cast, subjects=cast.subjects[:2] + (dataclasses.replace(cast.subjects[2], is_speaker=True),))
     with pytest.raises(SubjectPromptError, match="exactly one"):
         build_subject_prompt(cast, make_line())
 
@@ -222,3 +222,14 @@ def test_golden_structure_markers():
         "Non-diegetic music: N/A",
     ):
         assert marker in p, marker
+
+
+# ---------------------------------------------------------------- immutability
+
+
+def test_subjects_immutable_after_construction():
+    cast = make_cast()
+    with pytest.raises((TypeError, AttributeError)):
+        cast.subjects.append(cast.subjects[0])
+    with pytest.raises((TypeError, AttributeError, dataclasses.FrozenInstanceError)):
+        cast.subjects[0] = cast.subjects[1]

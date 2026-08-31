@@ -14,7 +14,7 @@ and non-diegetic music lines.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Tuple
 
 __all__ = [
     "SubjectSpec",
@@ -61,7 +61,7 @@ class SubjectSpec:
 class SceneCast:
     """Full cast + scene framing for a subject-mode prompt."""
 
-    subjects: List[SubjectSpec] = field(default_factory=list)
+    subjects: Tuple[SubjectSpec, ...] = field(default_factory=tuple)
     environment_subject: bool = False  # first subject may be an environment
     style: str = ""
     shot_description: str = ""
@@ -69,6 +69,7 @@ class SceneCast:
     music: str = "N/A"
 
     def __post_init__(self) -> None:
+        object.__setattr__(self, "subjects", tuple(self.subjects))
         if not 1 <= len(self.subjects) <= 9:
             raise SubjectPromptError(
                 f"SceneCast must contain 1 to 9 subjects (Ref2VA image-ref "
