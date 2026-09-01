@@ -25,6 +25,7 @@ from predict.caption import CaptionSpec, build_captions, \
     CaptionValidationError
 from evaluate.render_qc import RenderQC, QCVerdict
 from host.wangp_adapter import WanGPAdapter, RenderResult
+from services.jobs.compile_guard import assert_not_compiling
 
 
 class PipelineStageError(Exception):
@@ -108,6 +109,14 @@ class Pipeline(dspy.Module):
 
     def forward(self, intent: str, *, n_shots: int = 1,
                 caption_spec: Optional[CaptionSpec] = None) -> PipelineResult:
+        # ── stage 0: compile guard (jobs-preflight operator ruling 2)
+        # A real (non-None) adapter firing GPU work inside a dspy
+        # optimizer rollout burns 3090 hours during compile. The
+        # guard fires BEFORE any stage runs — see
+        # services/jobs/compile_guard.py for the signal analysis.
+        if self.adapter is not None:
+            assert_not_compiling(
+                adapter=type(self.adapter).__name__)
         result = PipelineResult(briefs=[], decisions=[])
 
         def record(stage: str, note: str) -> None:
