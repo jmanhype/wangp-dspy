@@ -1,0 +1,358 @@
+# ── Character Profile ────────────────────────────────────────────────
+
+@dataclass
+class CharacterProfile:
+    id: str
+    physical_description: str
+    display_name: Optional[str] = None
+    wardrobe: Optional[str] = None
+    voice_description: Optional[str] = None
+
+    def to_dict(self) -> dict:
+        d = {"id": self.id, "physical_description": self.physical_description}
+        if self.display_name:
+            d["display_name"] = self.display_name
+        if self.wardrobe:
+            d["wardrobe"] = self.wardrobe
+        if self.voice_description:
+            d["voice_description"] = self.voice_description
+        return d
+
+    @staticmethod
+    def from_dict(d: dict) -> "CharacterProfile":
+        return CharacterProfile(
+            id=d["id"],
+            physical_description=d["physical_description"],
+            display_name=d.get("display_name"),
+            wardrobe=d.get("wardrobe"),
+            voice_description=d.get("voice_description"),
+        )
+
+
+# ── Shot-level Types ─────────────────────────────────────────────────
+
+@dataclass
+class SubjectRef:
+    visual_description: str
+    character_id: Optional[str] = None
+    position_or_relation: Optional[str] = None
+    # The personal NAME the screenplay uses for this character in this
+    # shot (e.g. "Nancy", "Blaine"). Often invented by the screenplay
+    # LLM when the user-supplied character profile is generic. Carried
+    # through to the polish layer so it can substitute screenplay-
+    # invented names with descriptors in narrative prose.
+    speaker_name: Optional[str] = None
+
+    def to_dict(self) -> dict:
+        d = {"visual_description": self.visual_description}
+        if self.character_id:
+            d["character_id"] = self.character_id
+        if self.position_or_relation:
+            d["position_or_relation"] = self.position_or_relation
+        if self.speaker_name:
+            d["speaker_name"] = self.speaker_name
+        return d
+
+    @staticmethod
+    def from_dict(d: dict) -> "SubjectRef":
+        return SubjectRef(
+            visual_description=d["visual_description"],
+            character_id=d.get("character_id"),
+            position_or_relation=d.get("position_or_relation"),
+            speaker_name=d.get("speaker_name"),
+        )
+
+
+@dataclass
+class DialogueBeat:
+    spoken_text: str
+    speaker_id: Optional[str] = None
+    delivery: Optional[str] = None
+    physical_cue: Optional[str] = None
+    priority: str = "medium"  # "low" | "medium" | "high"
+
+    def to_dict(self) -> dict:
+        d = {"spoken_text": self.spoken_text, "priority": self.priority}
+        if self.speaker_id:
+            d["speaker_id"] = self.speaker_id
+        if self.delivery:
+            d["delivery"] = self.delivery
+        if self.physical_cue:
+            d["physical_cue"] = self.physical_cue
+        return d
+
+    @staticmethod
+    def from_dict(d: dict) -> "DialogueBeat":
+        return DialogueBeat(
+            spoken_text=d["spoken_text"],
+            speaker_id=d.get("speaker_id"),
+            delivery=d.get("delivery"),
+            physical_cue=d.get("physical_cue"),
+            priority=d.get("priority", "medium"),
+        )
+
+
+@dataclass
+class CameraPlan:
+    framing: str  # "close-up", "medium shot", "wide shot", etc.
+    angle: Optional[str] = None
+    movement: Optional[str] = None
+    movement_intensity: str = "subtle"  # "static" | "subtle" | "moderate" | "dynamic"
+    lens_feel: Optional[str] = None
+    reframing_notes: Optional[str] = None
+
+    def to_dict(self) -> dict:
+        d = {"framing": self.framing, "movement_intensity": self.movement_intensity}
+        if self.angle:
+            d["angle"] = self.angle
+        if self.movement:
+            d["movement"] = self.movement
+        if self.lens_feel:
+            d["lens_feel"] = self.lens_feel
+=====POL=====
+"""
+Shared Prompt Policies — centralized rules enforced across all skills and render modes.
+
+Instead of duplicating long rule prose in every system prompt, policies are defined
+here as structured data + helper functions that renderers and validators consume.
+"""
+
+from __future__ import annotations
+import re
+from dataclasses import dataclass
+from typing import Optional
+
+from .schema import ShotPlan, ProductionPlan, CharacterProfile
+
+
+# ── Policy Configuration ─────────────────────────────────────────────
+
+@dataclass
+class PromptPolicy:
+    """Toggleable policy flags — renderers and validators check these."""
+    no_character_names_outside_dialogue: bool = True
+    dialogue_in_quotes: bool = True
+    chronological_action: bool = True
+    single_paragraph: bool = True
+    present_tense: bool = True
+    no_montage_language: bool = True
+    physical_emotion_only: bool = True
+    explicit_camera_language: bool = True
+    re_describe_characters_every_shot: bool = True
+    no_meta_language_in_image_prompts: bool = True
+    no_action_in_image_prompts: bool = True
+
+
+# Default policy — all rules enabled
+DEFAULT_POLICY = PromptPolicy()
+
+
+# ── Anti-Pattern Definitions ─────────────────────────────────────────
+
+# Words/phrases that should never appear in single-shot video prompts
+MONTAGE_LANGUAGE = [
+    "montage", "quick cuts", "cut to", "series of shots",
+    "rapid cuts", "jump cut", "intercut", "cross-cut",
+    "smash cut", "match cut", "dissolve to", "fade to",
+    "transition to", "we see", "next we see",
+]
+
+# Meta-language that shouldn't appear in image prompts
+IMAGE_META_LANGUAGE = [
+    "preserve", "maintain", "keep unchanged", "keep the same",
+    "don't change", "same as before", "as in the reference",
+    "remain", "stays the same", "unaltered",
+]
+
+# Abstract emotion labels — prefer physical cues instead
+ABSTRACT_EMOTIONS = [
+    "feeling happy", "feeling sad", "feeling angry",
+    "shows emotion", "emotional moment", "with emotion",
+    "conveys sadness", "expresses joy",
+]
+
+# Vague camera language — prefer explicit terms
+VAGUE_CAMERA = [
+    "cinematic camera", "dramatic camera", "interesting angle",
+    "cool shot", "nice framing", "creative camera",
+    "camera does something", "dynamic camera work",
+]
+
+# Action verbs that don't belong in static image prompts
+IMAGE_ACTION_VERBS = [
+    "walks", "runs", "dances", "jumps", "turns",
+    "raises hand", "waves", "throws", "catches",
+    "speaks", "says", "whispers", "shouts",
+    "moves toward", "steps", "reaches",
+]
+
+
+# ── Character Description Helpers ────────────────────────────────────
+
+def describe_character(char: CharacterProfile, include_wardrobe: bool = True) -> str:
+    """Build a visual description string for a character (no names)."""
+    parts = [char.physical_description]
+    if include_wardrobe and char.wardrobe:
+        parts.append(char.wardrobe)
+    return ", ".join(parts)
+
+
+def resolve_subjects_text(shot: ShotPlan, plan: Optional[ProductionPlan] = None) -> str:
+    """Build a text description of all subjects on screen for prompt injection."""
+    if not shot.subjects_on_screen:
+        return ""
+    parts = []
+    for subj in shot.subjects_on_screen:
+        desc = subj.visual_description
+        if subj.character_id and plan:
+            char = plan.get_character(subj.character_id)
+            if char:
+                desc = describe_character(char)
+        if subj.position_or_relation:
+            desc += f", {subj.position_or_relation}"
+        parts.append(desc)
+    if len(parts) == 1:
+        return parts[0]
+    return " and ".join([", ".join(parts[:-1]), parts[-1]]) if len(parts) > 2 else " and ".join(parts)
+
+
+# ── Dialogue Formatting ──────────────────────────────────────────────
+
+def format_dialogue_for_video(shot: ShotPlan, plan: Optional[ProductionPlan] = None) -> str:
+    """Format dialogue beats into prose suitable for video prompts.
+
+    Returns text like: 'The woman in red says "Hello there" with a warm smile,
+    then the man in the suit replies "Welcome back" while nodding.'
+    """
+    if not shot.dialogue_beats:
+        return ""
+
+    lines = []
+    for beat in shot.dialogue_beats:
+        # Build speaker description
+=====PLAN=====
+class ShortFilmPlanner(BasePlanner):
+    skill_type = "short_film"
+
+    def plan(
+        self,
+        story_description: str = "",
+        clips: Optional[list[dict]] = None,
+        audio_path: Optional[str] = None,
+        reference_image_path: Optional[str] = None,
+        characters: Optional[list[dict]] = None,
+        lyrics: Optional[list[dict]] = None,
+        speaker_mappings: Optional[dict] = None,
+        target_duration: int = 60,
+        target_scenes: Optional[int] = None,
+        narrative_mode: bool = True,
+        fps: int = 24,
+        frames_steps: int = 8,
+        frames_minimum: int = 41,
+        **kwargs,
+    ) -> ProductionPlan:
+        """Create a ProductionPlan for a short film.
+
+        If `clips` are provided → audio-driven mode (scenes follow audio structure).
+        If no clips → story-driven mode (LLM plans scene structure from scratch).
+        """
+        has_reference = bool(reference_image_path)
+        is_audio_mode = bool(clips)
+        # Store extra ref info for use in private methods
+        self._num_character_refs = len(kwargs.get("character_ref_paths", []) or [])
+        self._num_location_refs = len(kwargs.get("location_ref_paths", []) or [])
+        self._character_ref_labels = kwargs.get("character_ref_labels")
+        self._location_ref_labels = kwargs.get("location_ref_labels")
+        self._character_ref_paths_raw = kwargs.get("character_ref_paths", [])
+        self._location_ref_paths_raw = kwargs.get("location_ref_paths", [])
+        self._seamless = kwargs.get("seamless", True)
+        # Capture model identifiers for Pass-2 dialect-aware guide routing.
+        # These flow from director_pipeline.py's planner_kwargs and let
+        # _run_story_mode + _plan_audio_driven pick the correct video and
+        # image guide files (ltx2_shot_breakdown.md for LTX-2,
+        # flux_image_edit_pass2.md for Flux.2 Klein, etc.).
+        self._video_model = kwargs.get("video_model", "") or ""
+        self._image_model = kwargs.get("image_model", "") or ""
+
+        # Normalize speaker_mappings: frontend sends list, we need dict
+        if isinstance(speaker_mappings, list):
+            sm_dict: dict = {}
+            for entry in speaker_mappings:
+                if isinstance(entry, dict):
+                    sid = entry.get("speakerId") or entry.get("speaker_id", "")
+                    if sid:
+                        sm_dict[sid] = {"name": entry.get("name", ""), "role": entry.get("role", "")}
+            speaker_mappings = sm_dict
+
+        # Build character profiles
+        char_profiles = self._build_characters(characters)
+
+        # Build reference assets
+        ref_assets = ReferenceAssets(
+            start_image=AssetRef(id="ref_image", type="image", uri=reference_image_path) if has_reference else None,
+            audio=AssetRef(id="audio", type="audio", uri=audio_path) if audio_path else None,
+            transcript="\n".join(l.get("text", "") for l in (lyrics or []) if l.get("text", "").strip()),
+        )
+
+        nsfw = kwargs.get("nsfw", False)
+        polish_block = kwargs.get("polish_block", "")
+        # Multi-shot LoRA mode — when on, Pass 2 emits storyboard-format
+        # video_prompts for medium-length shots. See the toggle's
+        # comment in launch.py for behavior details. Threaded through
+        # to _plan_story_driven below.
+        multishot_lora_mode = kwargs.get("multishot_lora_mode", False)
+
+        if is_audio_mode:
+            shots = self._plan_audio_driven(
+                clips=clips,
+                story_description=story_description,
+                lyrics=lyrics,
+                speaker_mappings=speaker_mappings,
+                reference_image_path=reference_image_path,
+                char_profiles=char_profiles,
+                has_reference=has_reference,
+                nsfw=nsfw,
+                polish_block=polish_block,
+            )
+        else:
+            shots, title = self._plan_story_driven(
+                story_description=story_description,
+                reference_image_path=reference_image_path,
+                char_profiles=char_profiles,
+                has_reference=has_reference,
+                target_duration=target_duration,
+                target_scenes=target_scenes,
+                narrative_mode=narrative_mode,
+                fps=fps,
+                frames_steps=frames_steps,
+                frames_minimum=frames_minimum,
+                nsfw=nsfw,
+                polish_block=polish_block,
+                multishot_lora_mode=multishot_lora_mode,
+            )
+
+        total_duration = sum(s.duration_sec for s in shots) if shots else target_duration
+
+        return ProductionPlan(
+            skill_type="short_film",
+            title=getattr(self, '_last_title', None),
+            global_style=story_description,
+            total_duration_sec=total_duration,
+            reference_assets=ref_assets,
+            characters=char_profiles if char_profiles else None,
+            shots=shots,
+            continuity_notes=[
+                "Short film — maintain visual and narrative continuity across shots",
+                "Match camera complexity to emotional content",
+                "Dialogue must appear in video prompts with speaker cues",
+            ],
+        )
+
+    # ── Helpers ────────────────────────────────────────────────────────
+
+    def _build_all_image_paths(self, reference_image_path: Optional[str], has_reference: bool) -> Optional[list[str]]:
+        """Build image_paths list with ALL reference images (main + character + location)."""
+        paths = []
+        if has_reference and reference_image_path:
+            paths.append(reference_image_path)
+        for cp in (getattr(self, '_character_ref_paths_raw', None) or []):
