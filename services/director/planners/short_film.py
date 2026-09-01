@@ -72,6 +72,16 @@ class PlannerError(ValueError):
     """Typed planner failure (bad LLM output, unresolvable refs)."""
 
 
+def _beat_text_for(beats, speaker) -> str:
+    """First pass-1 beat text for this speaker; PlannerError if none."""
+    for b in beats:
+        if b.speaker == speaker:
+            return b.text
+    raise PlannerError(
+        f"pass2 shot for speaker {speaker!r} has no matching pass1 beat "
+        "— cannot bind real dialogue text into dialogue_ref")
+
+
 class _DspyLMSentinel:
     """Sentinel: route the three passes through the named dspy
     predictors (Signature path) using the ambient dspy.settings LM."""
@@ -196,11 +206,17 @@ class ShortFilmPlanner(dspy.Module):
                     raise PlannerError(
                         f"shot {i}: unknown dialogue_ref "
                         f"{s.get('dialogue_ref')!r}")
+                # Bind the REAL spoken line (from the pass-1 beat for
+                # this shot) into dialogue_ref as '<key>: <line>' so the
+                # renderer never sees a bare guide key (subject_prompt
+                # placeholder bug fix, PR #57).
+                beat_text = _beat_text_for(beats, s.get("speaker"))
+                dialogue_ref = f"{s['dialogue_ref']}: {beat_text}"
                 dur = self._snap_duration(s.get("duration_s", g[1]))
                 shot = ShotPlan(
                     index=i,
                     speaker=s["speaker"],
-                    dialogue_ref=s["dialogue_ref"],
+                    dialogue_ref=dialogue_ref,
                     camera_plan=CameraPlan(
                         framing=s.get("framing", "wide"),
                         movement=s.get("movement", "static"),

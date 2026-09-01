@@ -62,7 +62,7 @@ def _shot(tmp_path: Path, **over):
     kw = dict(
         index=1,
         speaker="GRANDMA",
-        dialogue_ref="d1",
+        dialogue_ref="d1: You wicked boy.",
         camera_plan=CameraPlan(framing="wide", movement="static",
                                lighting="bright"),
         start_image_ref=str(_plate(tmp_path, "grandma_master.png", "camera")),
