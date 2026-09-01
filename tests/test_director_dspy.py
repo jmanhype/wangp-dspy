@@ -245,7 +245,7 @@ def test_golden_identical_plan_before_after_refactor(tmp_path):
         film_id="film",
         characters=(_character(tmp_path),),
         shots=(ShotPlan(
-            index=1, speaker="GRANDMA", dialogue_ref="d1",
+            index=1, speaker="GRANDMA", dialogue_ref="d1: You wicked boy.",
             camera_plan=CameraPlan(framing="wide", movement="static",
                                    lighting="bright"),
             start_image_ref=str(_plate(tmp_path)),

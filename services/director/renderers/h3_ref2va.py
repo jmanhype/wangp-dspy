@@ -142,10 +142,18 @@ class H3Ref2VARenderer:
 
     @staticmethod
     def _dialogue_text(shot: ShotPlan) -> str:
-        # dialogue_ref is a key the caller resolves; for emission the
-        # literal ref text is bound at plan time — use the ref verbatim
-        # (planner pass 1 binds real text into refs like 'd1').
-        return shot.dialogue_ref
+        # dialogue_ref binds the REAL spoken line at plan time, in the
+        # form "<guide key>: <line>" (planner pass 2 binds beat text
+        # into refs like 'd1: You wicked boy.'). A bare guide key means
+        # the line was never bound — emitting it would leak a literal
+        # placeholder into the <d>[English] ...</d> block (PR #57).
+        ref = shot.dialogue_ref
+        if ":" not in ref:
+            raise FacingError(
+                f"shot {shot.index}: dialogue_ref {ref!r} carries no real "
+                "line — expected '<guide key>: <spoken line>' (planner "
+                "pass 2 must bind beat text into dialogue_ref)")
+        return ref.split(":", 1)[1].strip()
 
 
 def render_shot(plan: ProductionPlan, shot: ShotPlan) -> Dict[str, Any]:

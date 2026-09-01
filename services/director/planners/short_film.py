@@ -26,6 +26,7 @@ golden test pins that both paths produce identical ProductionPlans.
 from __future__ import annotations
 
 import json
+import re
 from typing import Callable, Dict, List, Sequence, Tuple
 
 import dspy
@@ -70,6 +71,30 @@ _PASS3_SYSTEM = (
 
 class PlannerError(ValueError):
     """Typed planner failure (bad LLM output, unresolvable refs)."""
+
+
+def _beat_text_for(beats, speaker, guide_key) -> str:
+    """Beat text for this speaker's Nth line, where N comes from the
+    dialogue guide key (d1 -> first beat, d2 -> second beat, ...).
+
+    NOT speaker-first-match: a speaker with multiple beats must get the
+    line matching the shot's guide key, not always their first.
+    (Review finding F1, PR #57.)
+    """
+    m = re.match(r"^[A-Za-z]+(\d+)$", str(guide_key))
+    if not m:
+        raise PlannerError(
+            f"malformed dialogue guide key {guide_key!r} for speaker "
+            f"{speaker!r} (expected e.g. 'd1', 'd2')")
+    n = int(m.group(1))
+    speaker_beats = [b for b in beats if b.speaker == speaker]
+    if not speaker_beats:
+        raise PlannerError(f"no pass-1 beat for speaker {speaker!r}")
+    if not 1 <= n <= len(speaker_beats):
+        raise PlannerError(
+            f"guide key {guide_key!r} out of range: speaker {speaker!r} "
+            f"has {len(speaker_beats)} beat(s)")
+    return speaker_beats[n - 1].text
 
 
 class _DspyLMSentinel:
@@ -196,11 +221,18 @@ class ShortFilmPlanner(dspy.Module):
                     raise PlannerError(
                         f"shot {i}: unknown dialogue_ref "
                         f"{s.get('dialogue_ref')!r}")
+                # Bind the REAL spoken line (from the pass-1 beat for
+                # this shot) into dialogue_ref as '<key>: <line>' so the
+                # renderer never sees a bare guide key (subject_prompt
+                # placeholder bug fix, PR #57).
+                beat_text = _beat_text_for(beats, s.get("speaker"),
+                                           s["dialogue_ref"])
+                dialogue_ref = f"{s['dialogue_ref']}: {beat_text}"
                 dur = self._snap_duration(s.get("duration_s", g[1]))
                 shot = ShotPlan(
                     index=i,
                     speaker=s["speaker"],
-                    dialogue_ref=s["dialogue_ref"],
+                    dialogue_ref=dialogue_ref,
                     camera_plan=CameraPlan(
                         framing=s.get("framing", "wide"),
                         movement=s.get("movement", "static"),
