@@ -70,9 +70,15 @@ manifest = emit_render_manifest(plan)
 - resume-safe `status` per clip (pending|in_progress|completed|failed)
 
 Render-order manifest:
-- Shot 1: the proven 3-image-ref recipe (two-shot anchor + character
-  plates, 20 steps, spectrum cache, 480x832, force_fps 24, audio apad,
-  programmatic SN speaker template).
+- Shot 1: built by `renderers/h3_recipe.py::build_render_config` — the
+  verified 3-image-ref recipe (two-shot anchor + character plates, 20
+  steps, spectrum cache, 480x832, apad, programmatic SN speaker
+  template with the recipe's "Non-diegetic music: none" footer). The
+  full recipe envelope is embedded under `recipe` in the shot-1 config;
+  all recipe hard gates (turbo-LoRA ban on multi-ref, banned retention
+  language, gpt-image assets, sage attention) are active on the chain
+  path — a violating chain raises `H3RecipeError`. Optional `loras=`
+  on `emit_render_manifest` is passed through to the recipe gates.
 - Shots 2+: first-frame continuation configs — `image_start` = previous
   shot's last frame, `image_refs: null` (plates stand down).
 
@@ -82,12 +88,11 @@ Render-order manifest:
   color/texture normalization** are downstream video-processing TODOs;
   the plan only emits the fields a downstream processor needs
   (`previous_clip_end_frame`, overlap metadata).
-- Shot-1 recipe config is a minimal inline builder. When
-  `renderers/h3_recipe.py` (feat/h3-production-recipe) merges, replace
-  it with a reference to that module.
 - Overlap constant unverified against the 3090 Wan2GP multishot
   semantics (see above).
 
 ## Tests
 
-`tests/test_chain_plan.py`, `tests/test_chain_controller.py`.
+`tests/test_chain_plan.py`, `tests/test_chain_controller.py`,
+`tests/test_chain_recipe_wiring.py` (shot-1 goes through h3_recipe;
+gates active through the chain path).
