@@ -1,0 +1,634 @@
+"""
+Short Film Planner — creates a ProductionPlan from story/audio inputs.
+
+Supports two paths:
+  1. Audio-driven: dialogue audio + transcript → scene plans
+  2. Story-driven: story description + characters → scene plans (no audio)
+
+Outputs: ProductionPlan with ShotPlan objects (NOT final prompts).
+"""
+
+from __future__ import annotations
+import os
+import re
+from typing import Optional, Any
+
+from ..schema import (
+    ProductionPlan, ShotPlan, CharacterProfile, ReferenceAssets,
+    AssetRef, SubjectRef, DialogueBeat, CameraPlan, AudioPlan,
+)
+from ..policies import build_character_rules_block, build_camera_style_block
+from ..guide_loader import load_guide as _load_guide_helper
+from .base import BasePlanner
+
+
+# Video-model architecture → Pass 2 shot-breakdown guide file.
+# Currently only LTX-2/LTX-V have a dedicated Pass-2 guide. Other
+# video families share the LTX-2 rules as a best-effort fallback
+# until per-model Pass-2 guides land in Phase 3.
+_VIDEO_PASS2_GUIDE_MAP = {
+    "ltx2": "ltx2_shot_breakdown.md",
+    "ltxv": "ltx2_shot_breakdown.md",
+}
+
+
+# ── Pass 2 JSON output schemas (llama-server grammar constraint) ──────
+# These mirror the JSON examples embedded in the Pass 2 / fallback system
+# prompts. llama-server compiles the schema to a GBNF grammar that masks
+# every token which would break it, so a constrained pass physically
+# cannot emit prose, markdown fences, or repeat-loop garbage (the Gemma 4
+# 12B failure: 96K chars of looping pseudo-JSON on a 5-min film).
+#
+# additionalProperties=False is the actual loop-killer: a grammar-compiled
+# closed object emits each key AT MOST ONCE, in this defined order, so the
+# "repeat the same field/object until max_tokens" failure class becomes
+# unrepresentable. The flip side: any field a prompt's output spec asks
+# for MUST be listed here, in spec order, or the grammar will forbid the
+# model from writing it. If you add a field to a Pass 2 output spec,
+# add it to _SHOT_PROPERTIES too.
+#
+# Strings stay unbounded (creative prose can't be length-capped at the
+# grammar level) — intra-string repetition remains covered by the
+# registry-level repeat penalties in llm_service.
+
+_SUBJECT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "visual_description": {"type": "string"},
+        "character_id": {"type": "string"},
+        "speaker_name": {"type": "string"},
+        "position_or_relation": {"type": "string"},
+    },
+    "required": ["visual_description"],
+    "additionalProperties": False,
+}
+
+_DIALOGUE_BEAT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "speaker_id": {"type": "string"},
+        "spoken_text": {"type": "string"},
+        "delivery": {"type": "string"},
+        "physical_cue": {"type": "string"},
+        "priority": {"type": "string"},
+    },
+    "required": ["spoken_text"],
+    "additionalProperties": False,
+}
+
+_CAMERA_PLAN_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "framing": {"type": "string"},
+        "angle": {"type": "string"},
+        "movement": {"type": "string"},
+        "movement_intensity": {"type": "string"},
+        "lens_feel": {"type": "string"},
+        "reframing_notes": {"type": "string"},
+    },
+    "required": ["framing"],
+    "additionalProperties": False,
+}
+
+_AUDIO_PLAN_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "mode": {"type": "string"},
+        "ambience": {"type": "string"},
+        "effects": {"type": "array", "items": {"type": "string"}},
+        "vocal_style": {"type": "string"},
+        "timing_anchor": {"type": "string"},
+        "lip_sync_critical": {"type": "boolean"},
+    },
+    "required": ["mode"],
+    "additionalProperties": False,
+}
+
+# Union of every field the story-mode spec, the audio-mode spec, and the
+# single-pass fallback spec request, in spec order (story-mode order;
+# audio-mode-only fields slot where its spec shows them). Per-call-site
+# `required` lists pick which subset the grammar forces.
+_SHOT_PROPERTIES = {
+    "title": {"type": "string"},
+    "duration_sec": {"type": "number"},
+    "scene_goal": {"type": "string"},
+    "narrative_role": {"type": "string"},
+    "scene_type": {"type": "string"},
+    "subjects_on_screen": {"type": "array", "items": _SUBJECT_SCHEMA},
+    "spatial_setup": {"type": "string"},
+    "environment": {"type": "string"},
+    "visual_style": {"type": "string"},
+    "lighting": {"type": "string"},
+    "mood": {"type": "string"},
+    "action_beats": {"type": "array", "items": {"type": "string"}},
+    "dialogue_beats": {"type": "array", "items": _DIALOGUE_BEAT_SCHEMA},
+    "camera_plan": _CAMERA_PLAN_SCHEMA,
+    "audio_plan": _AUDIO_PLAN_SCHEMA,
+    "ending_beat": {"type": "string"},
+    "image_source": {"type": "string"},
+    "image_prompt": {"type": "string"},
+    "visual_changes": {"type": "array", "items": {"type": "string"}},
+    "video_prompt": {"type": "string"},
+    "multishot": {"type": "boolean"},
+    "keyframe_prompts": {"type": "array", "items": {"type": "string"}},
+    "window_prompts": {"type": "array", "items": {"type": "string"}},
+}
+
+
+def _shot_list_schema(min_items: int, max_items: int, required: list[str]) -> dict:
+    """JSON schema for a Pass 2 shot list: a bounded array of closed shot objects."""
+    return {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": _SHOT_PROPERTIES,
+            "required": required,
+            "additionalProperties": False,
+        },
+        "minItems": max(1, min_items),
+        "maxItems": max(1, max_items),
+    }
+
+
+def _model_specific_pass2_notes(video_model: str) -> str:
+    """Per-checkpoint prompting notes for the active model, or "" if none.
+
+    CivitAI / HF checkpoint imports carry a generated prompting DELTA (trigger
+    words + preferred style, see Phase 2) stored inline on the model_def as
+    `enhance_guide_text`. Surfacing it in Director's Pass-2 system prompt lets a
+    custom (often NSFW) checkpoint prompt as well in Director as it does in
+    Studio — closing the gap where Director ignored per-checkpoint guides.
+
+    Only the inline delta is used. Built-in fine-tunes that ship a file-based
+    `enhance_guide` (Sulphur, 10Eros) are intentionally NOT pulled in here: those
+    are full Studio-format "rewrite the prompt" guides that would conflict with
+    Director's shot-breakdown instructions and JSON output contract.
+    """
+    try:
+        from wgp import get_model_def
+        md = get_model_def(video_model)
+    except Exception:
+        return ""
+    notes = (md or {}).get("enhance_guide_text")
+    if not (isinstance(notes, str) and notes.strip()):
+        return ""
+    return (
+        "MODEL-SPECIFIC PROMPTING NOTES — the active checkpoint is a community "
+        "fine-tune with its own conventions. Apply these to every shot prompt; "
+        "they augment trigger words and style, they do not override the shot "
+        "structure or output format:\n" + notes.strip()
+    )
+
+
+def _route_video_pass2_guide(video_model: str) -> str:
+    """Pick the Pass 2 video guide for `video_model`, plus any per-checkpoint notes."""
+    if not video_model:
+        return _load_guide_helper("ltx2_shot_breakdown.md") or ""
+    model_lower = video_model.lower()
+    best_match: str | None = None
+    best_len = 0
+    for prefix, guide_file in _VIDEO_PASS2_GUIDE_MAP.items():
+        if model_lower.startswith(prefix) and len(prefix) > best_len:
+            best_match = guide_file
+            best_len = len(prefix)
+    chosen = best_match or "ltx2_shot_breakdown.md"
+    if not best_match:
+        print(f"[ShortFilmPlanner] No Pass-2 video guide for model={video_model!r}; falling back to {chosen}")
+    guide = _load_guide_helper(chosen) or ""
+
+    # Layer the active checkpoint's per-model prompting delta (Phase 2) on top.
+    delta = _model_specific_pass2_notes(video_model)
+    if delta:
+        guide = f"{guide}\n\n{delta}" if guide else delta
+    return guide
+
+
+class ShortFilmPlanner(BasePlanner):
+    skill_type = "short_film"
+
+    def plan(
+        self,
+        story_description: str = "",
+        clips: Optional[list[dict]] = None,
+        audio_path: Optional[str] = None,
+        reference_image_path: Optional[str] = None,
+        characters: Optional[list[dict]] = None,
+        lyrics: Optional[list[dict]] = None,
+        speaker_mappings: Optional[dict] = None,
+        target_duration: int = 60,
+        target_scenes: Optional[int] = None,
+        narrative_mode: bool = True,
+====ORCH====
+"""
+Director Orchestrator — top-level coordinator for the Director Mode pipeline.
+
+Responsibilities:
+  1. Choose the right skill planner
+  2. Pass normalized context
+  3. Receive ProductionPlan
+  4. Choose render modes per shot
+  5. Run validators
+  6. Dispatch rendered prompts
+
+Supports feature flags for gradual migration from old system.
+"""
+
+from __future__ import annotations
+import os
+from typing import Optional, Any
+
+from .schema import ProductionPlan, ShotPlan, RenderedPrompts
+from .planners import MusicVideoPlanner, ShortFilmPlanner, PodcastPlanner, ViralVideoPlanner
+from .renderers import (
+    LtxT2VRenderer, LtxI2VRenderer, LtxA2VRenderer,
+    LtxRetakeRenderer, LtxExtendRenderer, ImageGenRenderer,
+)
+from .validators import validate_shot_plan, validate_prompt_for_mode, compress_prompt
+
+
+# ── Feature Flags ────────────────────────────────────────────────────
+
+class DirectorFlags:
+    """Feature flags for gradual rollout of new architecture."""
+
+    def __init__(self):
+        self.use_shared_shot_schema = True
+        self.use_mode_specific_renderers = True
+        self.use_prompt_validation = True
+        self.use_prompt_compression = True
+        self.use_llm_refinement = False  # Disabled — planner generates prompts directly in ShotPlan JSON
+        self.aggressive_compression = False
+        self.log_validation_details = True
+        self.log_compression_deltas = True
+
+    @staticmethod
+    def from_dict(d: dict) -> "DirectorFlags":
+        flags = DirectorFlags()
+        for key, val in d.items():
+            if hasattr(flags, key):
+                setattr(flags, key, val)
+        return flags
+
+    def to_dict(self) -> dict:
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+
+
+# Default flags
+DEFAULT_FLAGS = DirectorFlags()
+
+
+# ── Planner Registry ────────────────────────────────────────────────
+
+_PLANNER_MAP = {
+    "music_video": MusicVideoPlanner,
+    "short_film": ShortFilmPlanner,
+    "podcast": PodcastPlanner,
+    "viral_video": ViralVideoPlanner,
+}
+
+# ── Renderer Registry ───────────────────────────────────────────────
+
+_RENDERER_MAP = {
+    "t2v": LtxT2VRenderer,
+    "i2v": LtxI2VRenderer,
+    "a2v": LtxA2VRenderer,
+    "retake": LtxRetakeRenderer,
+    "extend": LtxExtendRenderer,
+    "image_gen": ImageGenRenderer,
+}
+
+
+# ── Main Orchestrator ────────────────────────────────────────────────
+
+class DirectorOrchestrator:
+    """Top-level Director Mode coordinator.
+
+    Usage:
+        director = DirectorOrchestrator(
+            llm_generate=llm_service.generate,
+            llm_generate_streaming=llm_service.generate_streaming,
+        )
+
+        # Plan
+        plan = director.plan("music_video", clips=clips, scene_description="...", ...)
+
+        # Render all shots
+        rendered = director.render_plan(plan)
+
+        # Or render a single shot
+        prompts = director.render_shot(plan.shots[0], plan, mode="t2v")
+    """
+
+    def __init__(
+        self,
+        llm_generate: Any = None,
+        llm_generate_streaming: Any = None,
+        llm_refine: Any = None,
+        flags: Optional[DirectorFlags] = None,
+    ):
+        self._generate = llm_generate
+        self._generate_streaming = llm_generate_streaming
+        self.flags = flags or DEFAULT_FLAGS
+
+        # Build the refine function for pass 2
+        # Use streaming for refinement — Qwen3.5 with --jinja always uses
+        # thinking mode. The non-streaming API puts everything in reasoning_content
+        # and returns empty content. Streaming properly separates thinking from content.
+        if llm_refine:
+            self._llm_refine = llm_refine
+        elif llm_generate_streaming and self.flags.use_llm_refinement:
+            self._llm_refine = llm_generate_streaming
+        elif llm_generate and self.flags.use_llm_refinement:
+            self._llm_refine = llm_generate
+        else:
+            self._llm_refine = None
+
+        # Initialize renderers with refine function
+        refine_fn = self._llm_refine if self.flags.use_llm_refinement else None
+        self._renderers = {
+            mode: cls(llm_refine=refine_fn)
+            for mode, cls in _RENDERER_MAP.items()
+        }
+
+    # ── Planning ─────────────────────────────────────────────────
+
+    def plan(self, skill_type: str, **kwargs) -> ProductionPlan:
+        """Create a ProductionPlan using the appropriate skill planner.
+
+        Args:
+            skill_type: "music_video" | "short_film" | "podcast" | "viral_video"
+            **kwargs: Skill-specific arguments (clips, scene_description, etc.)
+
+        Returns:
+            ProductionPlan with normalized ShotPlan objects.
+        """
+        planner_cls = _PLANNER_MAP.get(skill_type)
+        if not planner_cls:
+            raise ValueError(f"Unknown skill type: {skill_type}. Available: {list(_PLANNER_MAP.keys())}")
+
+        planner = planner_cls(
+            llm_generate=self._generate,
+            llm_generate_streaming=self._generate_streaming,
+        )
+
+        print(f"[Director] Planning with {planner_cls.__name__}...")
+        production_plan = planner.plan(**kwargs)
+
+        # Validate shot plans
+        if self.flags.use_prompt_validation:
+            for shot in production_plan.shots:
+                result = validate_shot_plan(shot, production_plan)
+                if self.flags.log_validation_details:
+                    if result.errors:
+                        print(f"[Director] Shot {shot.shot_id} ERRORS: {result.errors}")
+                    if result.warnings:
+                        print(f"[Director] Shot {shot.shot_id} warnings: {result.warnings}")
+                    if result.auto_fixes:
+                        print(f"[Director] Shot {shot.shot_id} auto-fixes: {result.auto_fixes}")
+
+        print(f"[Director] Plan complete: {len(production_plan.shots)} shots, "
+              f"{production_plan.total_duration_sec:.1f}s total")
+
+        return production_plan
+
+    # ── Rendering ────────────────────────────────────────────────
+
+    def render_plan(
+        self,
+        plan: ProductionPlan,
+        prompt_type: str = "both",
+        **context,
+    ) -> list[dict]:
+        """Render all shots in a ProductionPlan into final prompts.
+
+        Args:
+            plan: The ProductionPlan to render.
+            prompt_type: "image" | "video" | "both"
+            **context: Additional context (has_reference, etc.)
+
+        Returns:
+            List of dicts with video_prompt and/or image_prompt per shot.
+        """
+        results = []
+        has_reference = context.pop("has_reference", False)
+        if not has_reference and plan.reference_assets and plan.reference_assets.start_image:
+            has_reference = True
+
+        for i, shot in enumerate(plan.shots):
+            result = {}
+
+            # Choose render mode for video
+            video_mode = self._choose_video_mode(shot, plan, has_reference)
+====RENDER====
+"""
+Base Renderer — interface for all mode-specific prompt renderers.
+
+Renderers convert ShotPlan objects into final prompts for specific generation modes.
+
+Two-pass pipeline:
+  Pass 1 (deterministic): assemble structured ShotPlan fields into a draft prompt
+  Pass 2 (LLM):           refine the draft into polished, concise prose
+
+Each renderer provides mode-specific refinement instructions via _refinement_system_prompt().
+"""
+
+from __future__ import annotations
+from abc import ABC, abstractmethod
+from typing import Optional, Any
+
+from ..schema import ShotPlan, ProductionPlan, RenderedPrompts
+from ..policies import (
+    resolve_subjects_text, format_camera_text, format_action_sequence,
+    format_scene_setting, format_dialogue_for_video,
+)
+
+
+class BaseRenderer(ABC):
+    """Abstract base class for prompt renderers."""
+
+    mode: str = ""  # "t2v", "i2v", "a2v", "retake", "extend", "image_gen"
+
+    def __init__(self, llm_refine: Any = None):
+        """
+        Args:
+            llm_refine: Optional callable for LLM-based prompt refinement (pass 2).
+                        Signature: (prompt, system_prompt, max_new_tokens, temperature, ...) -> str
+                        Should match llm_service.generate() signature.
+        """
+        self._llm_refine = llm_refine
+
+    @abstractmethod
+    def render(
+        self,
+        shot: ShotPlan,
+        plan: Optional[ProductionPlan] = None,
+        **context,
+    ) -> str:
+        """Pass 1: deterministic render of ShotPlan into a draft prompt string."""
+        ...
+
+    def render_and_refine(
+        self,
+        shot: ShotPlan,
+        plan: Optional[ProductionPlan] = None,
+        **context,
+    ) -> str:
+        """Full two-pass render: deterministic draft → LLM refinement.
+
+        If no LLM is available, returns the deterministic draft as-is.
+        """
+        draft = self.render(shot, plan, **context)
+
+        if self._llm_refine:
+            return self._refine_with_llm(draft, shot, plan, **context)
+
+        return draft
+
+    # ── LLM Pass 2 ──────────────────────────────────────────────
+
+    def _refinement_system_prompt(self, shot: ShotPlan, **context) -> str:
+        """Mode-specific system prompt for LLM refinement.
+
+        Subclasses override this. Keep prompts SHORT to minimize model overthinking.
+        """
+        return f"Rewrite this {self.mode} prompt into concise prose. Preserve all content. Output ONLY the rewritten prompt."
+
+    def _refine_with_llm(
+        self,
+        draft: str,
+        shot: ShotPlan,
+        plan: Optional[ProductionPlan] = None,
+        **context,
+    ) -> str:
+        """Call LLM to refine the deterministic draft into polished prose.
+
+        Uses generate_streaming which properly separates reasoning from content
+        in Qwen3.5's thinking mode, unlike the non-streaming API where
+        reasoning_content eats all tokens.
+        """
+        if not self._llm_refine:
+            return draft
+
+        system = self._refinement_system_prompt(shot, **context)
+        user_prompt = f"Rewrite this prompt concisely:\n\n{draft}"
+
+        try:
+            result = self._llm_refine(
+                prompt=user_prompt,
+                system_prompt=system,
+                max_new_tokens=300,
+                temperature=0.5,
+                # Qwen3.5 always thinks with --jinja. Simplified system prompts
+                # reduce thinking, but still need budget for it. 4096 thinking +
+                # 300 content = 4396 total — enough for even verbose thinkers.
+                thinking_budget=4096,
+            )
+            refined = (result or "").strip()
+            if refined and len(refined) > 10:
+                return refined
+            print(f"[Renderer] LLM refinement returned empty/short result, using draft")
+            return draft
+        except Exception as e:
+            print(f"[Renderer] LLM refinement failed: {e}")
+            return draft
+
+    # ── Shared Assembly Helpers ──────────────────────────────────
+
+    @staticmethod
+    def _join_prose(*parts: str, separator: str = ". ") -> str:
+        """Join non-empty text parts into a flowing paragraph."""
+        clean = [p.strip().rstrip(".") for p in parts if p and p.strip()]
+        if not clean:
+            return ""
+        result = (separator.join(clean) + ".").replace(".. ", ". ").replace("..", ".")
+        while "  " in result:
+            result = result.replace("  ", " ")
+        return result
+
+    @staticmethod
+    def _subjects_text(shot: ShotPlan, plan: Optional[ProductionPlan] = None) -> str:
+        return resolve_subjects_text(shot, plan)
+
+    @staticmethod
+    def _camera_text(shot: ShotPlan) -> str:
+        return format_camera_text(shot.camera_plan)
+
+    @staticmethod
+    def _action_text(shot: ShotPlan) -> str:
+        return format_action_sequence(shot)
+
+    @staticmethod
+    def _setting_text(shot: ShotPlan) -> str:
+        return format_scene_setting(shot)
+
+    @staticmethod
+    def _dialogue_text(shot: ShotPlan, plan: Optional[ProductionPlan] = None) -> str:
+        return format_dialogue_for_video(shot, plan)
+"""
+LTX Audio-to-Video Renderer — lean and timing-aware.
+
+Used when uploaded audio or dialogue is the timing anchor.
+Keeps prompts leaner than T2V. Prioritizes staging, physical performance,
+camera framing, and environment. Lets audio drive timing.
+
+Pass 1: assembles essential staging fields into a tagged draft
+Pass 2: LLM rewrites into a lean, performance-focused prompt
+"""
+
+from __future__ import annotations
+from typing import Optional
+
+from ..schema import ShotPlan, ProductionPlan
+from .base import BaseRenderer
+
+
+class LtxA2VRenderer(BaseRenderer):
+    mode = "a2v"
+
+    def _refinement_system_prompt(self, shot: ShotPlan, **context) -> str:
+        extra = " Preserve exact quoted dialogue." if shot.audio_plan.lip_sync_critical else ""
+        return f"Rewrite into 2-4 lean sentences, present tense. Focus on staging, performance, camera.{extra} No names. Output ONLY the prompt."
+
+    def render(
+        self,
+        shot: ShotPlan,
+        plan: Optional[ProductionPlan] = None,
+        **context,
+    ) -> str:
+        """Pass 1: assemble tagged draft for A2V."""
+        parts = []
+
+        # Shot setup
+        setup = [shot.camera_plan.framing]
+        if shot.environment:
+            setup.append(shot.environment)
+        if shot.lighting:
+            setup.append(shot.lighting)
+        parts.append(f"SETUP: {', '.join(setup)}")
+
+        # Character staging
+        subjects = self._subjects_text(shot, plan)
+        if subjects:
+            spatial = f", {shot.spatial_setup}" if shot.spatial_setup else ""
+            parts.append(f"SUBJECTS: {subjects}{spatial}")
+
+        # Key action beats (limited)
+        if shot.action_beats:
+            key_beats = shot.action_beats[:3]
+            parts.append(f"ACTION: {'. '.join(key_beats)}")
+
+        # Dialogue (critical for lip sync)
+        if shot.audio_plan.lip_sync_critical and shot.dialogue_beats:
+            dialogue = self._dialogue_text(shot, plan)
+            if dialogue:
+                parts.append(f"DIALOGUE: {dialogue}")
+
+        # Camera
+        if shot.camera_plan.movement:
+            parts.append(f"CAMERA: {shot.camera_plan.movement}")
+
+        # Ending beat
+        if shot.ending_beat:
+            parts.append(f"ENDING: {shot.ending_beat}")
+
+        return " | ".join(parts)
