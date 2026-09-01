@@ -40,7 +40,12 @@ from services.director.schema import (
     ShotPlan,
 )
 from services.director.renderers.policy import check_duration_on_grid
-from signatures.director import ScreenplayBeats, ShotBreakdown, ShotPolish
+from signatures.director import (
+    EndPoseDescriber,
+    ScreenplayBeats,
+    ShotBreakdown,
+    ShotPolish,
+)
 
 LLM = Callable[[str, str, str], str]
 
@@ -67,6 +72,15 @@ _PASS3_SYSTEM = (
     "You are a script doctor. Review the shot list for pacing, "
     "redundancy, and emotional arc. Return STRICT JSON: {\"notes\": "
     "str, \"approved\": bool}. Do NOT alter the shot structure.")
+
+# Optional post-pass: end-of-shot keyframe targets (FL2VA Picture 2).
+_ENDPOSE_SYSTEM = (
+    "You are a storyboard artist describing end-of-shot keyframe "
+    "targets. For each shot, describe the natural-language TARGET "
+    "STATE the frame should land on (pose, spacing, composition — "
+    "what Picture 2 of a first/last-frame render would show). Return "
+    "STRICT JSON: {\"end_poses\": [{\"shot_index\": int, \"end_pose\": "
+    "str}]}.")
 
 
 class PlannerError(ValueError):
@@ -108,7 +122,8 @@ class _DspyLMSentinel:
 DSPY_LLM = _DspyLMSentinel()
 
 # signature field carrying each pass's strict-JSON output
-_PASS_OUT_FIELD = {"pass1": "beats", "pass2": "shots", "pass3": "notes"}
+_PASS_OUT_FIELD = {"pass1": "beats", "pass2": "shots", "pass3": "notes",
+                   "end_poses": "end_poses"}
 
 
 class ShortFilmPlanner(dspy.Module):
@@ -136,6 +151,7 @@ class ShortFilmPlanner(dspy.Module):
         self.pass_beats = dspy.Predict(ScreenplayBeats)
         self.pass_shots = dspy.Predict(ShotBreakdown)
         self.pass_polish = dspy.Predict(ShotPolish)
+        self.pass_end_poses = dspy.Predict(EndPoseDescriber)
 
     # ── public ───────────────────────────────────────────────────────
 
@@ -266,6 +282,35 @@ class ShortFilmPlanner(dspy.Module):
                        for s in shots])}
         return self._call("pass3", _PASS3_SYSTEM, user, fields=fields,
                           predictor=self.pass_polish)
+
+    # ── optional post-pass: end-of-shot keyframe targets ─────────────
+
+    def describe_end_poses(self, beats_json: str,
+                           shots_json: str) -> Dict[int, str]:
+        """PURE-planning post-pass: shot context -> end_pose text.
+
+        Optional (not part of plan()): callers that want FL2VA
+        keyframe targets run this and attach the poses to ChainClips.
+        Returns {shot_index: end_pose}. Same sentinel pattern as the
+        three passes — legacy callable or ambient dspy LM.
+        """
+        doc = self._call("end_poses", _ENDPOSE_SYSTEM,
+                         json.dumps({"beats": beats_json,
+                                     "shots": shots_json}),
+                         fields={"beats": beats_json,
+                                 "shots": shots_json},
+                         predictor=self.pass_end_poses)
+        poses: Dict[int, str] = {}
+        for e in doc.get("end_poses", []):
+            try:
+                idx, text = int(e["shot_index"]), str(e["end_pose"]).strip()
+                if not text:
+                    raise PlannerError(
+                        f"end pose {idx}: empty end_pose")
+                poses[idx] = text
+            except (KeyError, TypeError, ValueError) as ev:
+                raise PlannerError(f"invalid end pose entry: {ev}")
+        return poses
 
     # ── helpers ──────────────────────────────────────────────────────
 

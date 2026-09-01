@@ -89,10 +89,14 @@ class ChainClip:
     frames: int
     audio: ClipAudio
     seed: int
+    end_pose: Optional[str] = None  # natural-language keyframe target
     status: str = "pending"
     previous_clip_end_frame: Optional[Dict[str, int]] = None
 
     def __post_init__(self) -> None:
+        if self.end_pose is not None and not self.end_pose.strip():
+            raise SchemaError(
+                f"clip {self.index}: end_pose must be nonempty when set")
         if not isinstance(self.index, int) or self.index < 1:
             raise SchemaError(f"clip index must be int >= 1: {self.index!r}")
         if not _SN_RE.match(self.speaker_sn or ""):

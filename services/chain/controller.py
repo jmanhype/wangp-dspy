@@ -26,6 +26,7 @@ from services.chain.plan import (
     SchemaError,
     validate_chain_plan,
 )
+from services.chain.keyframes import emit_fl2va_job, emit_r2i_job
 from services.director.renderers.h3_recipe import build_render_config
 from services.director.renderers.policy import check_duration_on_grid
 
@@ -253,6 +254,17 @@ def emit_render_manifest(
         if clip.index == 1:
             manifest.append(_shot1_recipe_config(
                 plan, clip, plan.characters, plate_paths, loras))
+        elif clip.end_pose:
+            # FL2VA keyframe-target path: R2I pose-target render first,
+            # then the first+last job consuming its final frame
+            # (fl2va.needs = r2i job id).
+            r2i = emit_r2i_job(clip, plan, plate_paths=plate_paths)
+            manifest.append(r2i)
+            manifest.append(emit_fl2va_job(
+                clip, plan,
+                f"render/clip{clip.index:04d}/{r2i['job_id']}"
+                "_last_frame.png",
+                needs=r2i["job_id"]))
         else:
             manifest.append(_continuation_config(plan, clip))
     return manifest

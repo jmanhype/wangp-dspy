@@ -53,4 +53,17 @@ class ShotPolish(dspy.Signature):
              'alter the shot structure')
 
 
-__all__ = ["ScreenplayBeats", "ShotBreakdown", "ShotPolish"]
+class EndPoseDescriber(dspy.Signature):
+    """You are a storyboard artist describing end-of-shot keyframe targets. Input: dialogue beats and shot summaries. For each shot, describe the natural-language TARGET STATE the frame should land on (pose, spacing, composition — what Picture 2 of a first/last-frame render would show). Return STRICT JSON: {"end_poses": [{"shot_index": int, "end_pose": str}]}."""
+    beats: str = dspy.InputField(desc="JSON list of dialogue beats")
+    shots: str = dspy.InputField(
+        desc="JSON list of shot summaries needing end-of-shot keyframe "
+             "targets")
+    end_poses: str = dspy.OutputField(
+        desc='STRICT JSON: {"end_poses": [{"shot_index": int, '
+             '"end_pose": str}]} — one natural-language target state '
+             'per shot (pose, spacing, composition)')
+
+
+__all__ = ["ScreenplayBeats", "ShotBreakdown", "ShotPolish",
+           "EndPoseDescriber"]
