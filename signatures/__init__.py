@@ -7,7 +7,9 @@ directory; upstream dspy keeps signatures/ as its own layer. GEPA's
 per-predictor optimization (j9nx-4) targets signature-bearing
 predictors, so contracts live here, once.
 """
+from signatures.director import ScreenplayBeats, ShotBreakdown, ShotPolish
 from signatures.profile import ProfileSelectorSignature
 from signatures.qc import RenderQCSignature
 
-__all__ = ["ProfileSelectorSignature", "RenderQCSignature"]
+__all__ = ["ProfileSelectorSignature", "RenderQCSignature",
+           "ScreenplayBeats", "ShotBreakdown", "ShotPolish"]
