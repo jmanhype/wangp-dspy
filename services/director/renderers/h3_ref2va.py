@@ -50,7 +50,8 @@ class H3Ref2VARenderer:
                 "CharacterProfile in the plan")
 
         # (c) renderer policy — typed rejections, checked in order.
-        frames = check_duration_on_grid(shot.duration_s)
+        # duration_s is seconds; the grid check returns the FRAME count.
+        frames = check_duration_on_grid(shot.duration_s, fps=24)
         check_guide_duration(shot.audio_guide_ref["duration_s"],
                              shot.duration_s)
         check_facing(shot.start_image_ref, speaker.facing_requirement)
@@ -59,7 +60,8 @@ class H3Ref2VARenderer:
         # (a) subject-mode prompt via the PR #52 builder.
         prompt = self._build_prompt(plan, shot, speaker)
 
-        # (b) job config.
+        # (b) job config. guide slice is in SECONDS.
+        duration_s = frames / 24.0
         guide = shot.audio_guide_ref
         return {
             "shot_index": shot.index,
@@ -74,10 +76,10 @@ class H3Ref2VARenderer:
             "audio_guide": guide["path"],
             "guide_slice": {
                 "start_s": 0.0,
-                "end_s": float(shot.duration_s),
-                "duration_s": float(shot.duration_s),
+                "end_s": duration_s,
+                "duration_s": duration_s,
             },
-            "shot_duration_s": float(shot.duration_s),
+            "shot_duration_s": duration_s,
             "frames": frames,
             "fps": 24,
             "camera_plan": {

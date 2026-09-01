@@ -250,8 +250,9 @@ class ShortFilmPlanner(dspy.Module):
         except (TypeError, ValueError):
             raise PlannerError(f"non-numeric duration {d!r}")
         from services.director.renderers.policy import check_duration_on_grid
-        check_duration_on_grid(d)
-        return d
+        # d is seconds; validate then snap to the exact grid frame count
+        frames = check_duration_on_grid(d, fps=24)
+        return frames / 24.0
 
     def _call(self, tag: str, system: str, user: str, *, fields,
               predictor) -> dict:

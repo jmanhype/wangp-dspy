@@ -66,8 +66,8 @@ def _shot(tmp_path: Path, **over):
         camera_plan=CameraPlan(framing="wide", movement="static",
                                lighting="bright"),
         start_image_ref=str(_plate(tmp_path, "grandma_master.png", "camera")),
-        audio_guide_ref={"path": str(_guide(tmp_path)), "duration_s": 5.0},
-        duration_s=5.0,
+        audio_guide_ref={"path": str(_guide(tmp_path)), "duration_s": 107/24},
+        duration_s=107/24,
         section="act1",
     )
     kw.update(over)
@@ -116,8 +116,8 @@ class FakeLLM:
             "index": 1, "speaker": "GRANDMA", "dialogue_ref": "d1",
             "framing": "wide", "movement": "static", "lighting": "bright",
             "start_image_ref": "PLATE", "audio_guide_ref": {"path": "GUIDE",
-                                                            "duration_s": 5.0},
-            "duration_s": 5.0, "section": "act1",
+                                                            "duration_s": 107/24},
+            "duration_s": 107/24, "section": "act1",
         }]
         self.pass3_polish = pass3_polish or {"notes": "polished"}
 
@@ -141,13 +141,13 @@ def test_planner_three_passes_in_order(tmp_path):
         script="Grandma scolds the prisoner.",
         characters=[_character(tmp_path)],
         plate_paths={"GRANDMA": str(_plate(tmp_path))},
-        guide_paths={"d1": (str(_guide(tmp_path)), 5.0)},
+        guide_paths={"d1": (str(_guide(tmp_path)), 107/24)},
     )
     assert fake.calls == ["pass1", "pass2", "pass3"]
     assert isinstance(plan, ProductionPlan)
     assert plan.shots[0].speaker == "GRANDMA"
     assert plan.shots[0].start_image_ref == str(_plate(tmp_path))
-    assert plan.shots[0].duration_s == 5.0
+    assert abs(plan.shots[0].duration_s - 107/24) < 1e-9
 
 
 def test_planner_deterministic(tmp_path):
@@ -156,7 +156,7 @@ def test_planner_deterministic(tmp_path):
         p = ShortFilmPlanner(llm=f).plan(
             script="s", characters=[_character(tmp_path)],
             plate_paths={"GRANDMA": str(_plate(tmp_path))},
-            guide_paths={"d1": (str(_guide(tmp_path)), 5.0)})
+            guide_paths={"d1": (str(_guide(tmp_path)), 107/24)})
         return p
     assert mk() == mk()
 
@@ -177,7 +177,7 @@ def test_planner_rejects_off_grid_shot(tmp_path):
         ShortFilmPlanner(llm=fake).plan(
             script="s", characters=[_character(tmp_path)],
             plate_paths={"GRANDMA": str(_plate(tmp_path))},
-            guide_paths={"d1": (str(_guide(tmp_path)), 5.0)})
+            guide_paths={"d1": (str(_guide(tmp_path)), 107/24)})
 
 
 # ── renderer ────────────────────────────────────────────────────────
@@ -194,8 +194,8 @@ def test_renderer_emits_subject_prompt_format(tmp_path):
     assert job["audio_prompt_type"] == "A"
     assert job["video_prompt_type"] == "I"
     assert job["multi_prompts_gen_type"] == "FG"
-    assert job["guide_slice"] == {"start_s": 0.0, "end_s": 5.0,
-                                  "duration_s": 5.0}
+    assert job["guide_slice"] == {"start_s": 0.0, "end_s": 107/24,
+                                  "duration_s": 107/24}
     assert job["image_refs"] == [shot.start_image_ref]
 
 
@@ -214,9 +214,9 @@ def test_renderer_rejects_missing_plate(tmp_path):
 
 
 def test_renderer_rejects_off_grid_duration(tmp_path):
-    shot = _shot(tmp_path, duration_s=6.0,
+    shot = _shot(tmp_path, duration_s=5.0,
                  audio_guide_ref={"path": str(_guide(tmp_path)),
-                                  "duration_s": 6.0})
+                                  "duration_s": 5.0})
     with pytest.raises(GridError):
         render_shot(_plan(tmp_path, [shot]), shot)
 
