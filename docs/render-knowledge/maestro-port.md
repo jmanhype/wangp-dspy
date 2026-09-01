@@ -45,6 +45,34 @@ Emitted job config additionally pins `audio_prompt_type: "A"`,
 `video_prompt_type: "I"`, `multi_prompts_gen_type: "FG"`, `fps: 24`,
 grid frame count, and the single `image_refs` entry.
 
+## DSPy-native conversion (follow-up PR)
+
+The planner's three LLM passes are no longer raw
+`Callable[[str,str,str],str]` — they are proper DSPy now, the repo's
+native style (matching `signatures/`, `predict/lm_wiring.py`,
+`evaluate/render_qc.py`):
+
+- `signatures/director.py` — `ScreenplayBeats`, `ShotBreakdown`,
+  `ShotPolish` (dspy.Signature) with typed InputField/OutputField.
+  The legacy `_PASS*_SYSTEM` strict-JSON contracts are carried over
+  VERBATIM in the Signature docstrings/output descriptors — behavior
+  must not change, and a golden test pins it.
+- `ShortFilmPlanner` is a `dspy.Module` composing the passes as NAMED
+  predictors (`self.pass_beats` / `self.pass_shots` /
+  `self.pass_polish`) — GEPA/teleprompt can target each predictor
+  individually later (optimization is NOT run here; the module is
+  merely targetable).
+- No endpoints in the planner: the caller wires the LM via
+  `predict.lm_wiring.run_creative(...)` or
+  `dspy.settings.context(lm=...)`.
+- Back-compat shim: `ShortFilmPlanner(llm=callable)` works exactly as
+  before (same system prompts, same call order); passing the
+  `DSPY_LLM` sentinel switches to the Signature path.
+- Acceptance proof: `tests/test_director_dspy.py` feeds the SAME
+  scripted responses to both paths and asserts identical
+  `ProductionPlan`s (and equality with the direct pre-refactor schema
+  construction).
+
 ## Adapted vs reimplemented
 
 - **Adapted (concept kept, mechanics ours):** the plan → render → emit

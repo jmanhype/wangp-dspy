@@ -1,18 +1,34 @@
-"""Short-film planner — 3-pass LLM pipeline with INJECTED callables.
+"""Short-film planner — DSPy-native 3-pass module with a legacy shim.
 
 Pattern reimplemented from Maestro's planners/short_film.py (WanGP NCE
 1.1; see docs/render-knowledge/maestro-port.md). Pass 1: creative
 screenplay beats from script + characters. Pass 2: structured shot
 breakdown to ShotPlan JSON (validated + policy-checked). Pass 3:
-polish notes. The LLM is a required injected callable
-`llm(pass_tag, system, user) -> str` — no hard-coded endpoint; tests
-use fakes. Deterministic given the same LLM responses (same input ->
-same prompts -> same parsed plan; no time/random/ordering deps).
+polish notes.
+
+Follow-up to PR #54: the three passes are now proper dspy.Signatures
+(signatures/director.py) composed as a dspy.Module with NAMED
+predictors (self.pass_beats / self.pass_shots / self.pass_polish) so
+GEPA/teleprompt optimizers can target them per-predictor later. LLM
+selection is the caller's job — wrap the call in
+`predict.lm_wiring.run_creative(...)` or `dspy.settings.context(lm=...)`;
+this module has NO endpoints of its own.
+
+Back-compat shim: the injected-callable constructor
+`ShortFilmPlanner(llm=callable)` still works unchanged (same system
+prompts, same call order) — existing tests pass as-is. Passing the
+`DSPY_LLM` sentinel switches the passes to the Signature path.
+
+Deterministic given the same LLM responses (same input -> same
+prompts -> same parsed plan; no time/random/ordering deps). The
+golden test pins that both paths produce identical ProductionPlans.
 """
 from __future__ import annotations
 
 import json
 from typing import Callable, Dict, List, Sequence, Tuple
+
+import dspy
 
 from services.director.schema import (
     CameraPlan,
@@ -23,6 +39,7 @@ from services.director.schema import (
     ShotPlan,
 )
 from services.director.renderers.policy import check_duration_on_grid
+from signatures.director import ScreenplayBeats, ShotBreakdown, ShotPolish
 
 LLM = Callable[[str, str, str], str]
 
@@ -55,16 +72,55 @@ class PlannerError(ValueError):
     """Typed planner failure (bad LLM output, unresolvable refs)."""
 
 
-class ShortFilmPlanner:
-    """3-pass planner: beats -> shots -> polish."""
+class _DspyLMSentinel:
+    """Sentinel: route the three passes through the named dspy
+    predictors (Signature path) using the ambient dspy.settings LM."""
+
+    def __repr__(self) -> str:  # pragma: no cover - cosmetic
+        return "DSPY_LLM (use dspy.settings.context / run_creative)"
+
+
+DSPY_LLM = _DspyLMSentinel()
+
+# signature field carrying each pass's strict-JSON output
+_PASS_OUT_FIELD = {"pass1": "beats", "pass2": "shots", "pass3": "notes"}
+
+
+class ShortFilmPlanner(dspy.Module):
+    """3-pass planner: beats -> shots -> polish.
+
+    A dspy.Module composing the three Maestro-port passes as NAMED
+    predictors (GEPA readiness — teleprompt/GEPA can target
+    self.pass_beats / self.pass_shots / self.pass_polish individually;
+    we do NOT run optimizers here). The LLM is injected either as a
+    legacy callable `llm(pass_tag, system, user) -> str` or as the
+    DSPY_LLM sentinel (Signature path under the ambient
+    dspy.settings LM — wire it with predict.lm_wiring.run_creative
+    or dspy.settings.context at the call site).
+    """
 
     def __init__(self, *, llm: LLM) -> None:
-        if not callable(llm):
+        super().__init__()
+        if llm is DSPY_LLM:
+            pass  # Signature path — validated by construction
+        elif not callable(llm):
             raise TypeError("llm must be a callable "
                             "(pass_tag, system, user) -> str")
         self._llm = llm
+        # Named submodules — per-predictor optimization targets
+        self.pass_beats = dspy.Predict(ScreenplayBeats)
+        self.pass_shots = dspy.Predict(ShotBreakdown)
+        self.pass_polish = dspy.Predict(ShotPolish)
 
     # ── public ───────────────────────────────────────────────────────
+
+    def forward(self, script: str,
+                characters: Sequence[CharacterProfile],
+                plate_paths: Dict[str, str],
+                guide_paths: Dict[str, Tuple[str, float]],
+                film_id: str = "film") -> ProductionPlan:
+        return self.plan(script, characters, plate_paths, guide_paths,
+                         film_id=film_id)
 
     def plan(self, script: str, characters: Sequence[CharacterProfile],
              plate_paths: Dict[str, str],
@@ -80,12 +136,16 @@ class ShortFilmPlanner:
     # ── passes ───────────────────────────────────────────────────────
 
     def _pass1(self, script, characters) -> List[DialogueBeat]:
-        user = json.dumps({
+        payload = {
             "script": script,
             "characters": [{"name": c.name, "description": c.description}
                            for c in characters],
-        })
-        doc = self._call("pass1", _PASS1_SYSTEM, user)
+        }
+        user = json.dumps(payload)
+        fields = {"script": script,
+                  "characters": json.dumps(payload["characters"])}
+        doc = self._call("pass1", _PASS1_SYSTEM, user, fields=fields,
+                         predictor=self.pass_beats)
         beats = []
         for b in doc.get("beats", []):
             try:
@@ -108,7 +168,19 @@ class ShortFilmPlanner:
                        for k, v in guide_paths.items()},
             "duration_grid_s": [5, 22, 39, 56, 73, 90, 107, 124, 141],
         })
-        doc = self._call("pass2", _PASS2_SYSTEM, user)
+        fields = {
+            "beats": json.dumps([b.__dict__ for b in beats]),
+            "characters": json.dumps(
+                [{"name": c.name, "plate": plate_paths.get(c.name)}
+                 for c in characters]),
+            "plates": json.dumps(plate_paths),
+            "guides": json.dumps({k: {"path": v[0], "duration_s": v[1]}
+                                  for k, v in guide_paths.items()}),
+            "duration_grid": json.dumps(
+                [5, 22, 39, 56, 73, 90, 107, 124, 141]),
+        }
+        doc = self._call("pass2", _PASS2_SYSTEM, user, fields=fields,
+                         predictor=self.pass_shots)
         shots: List[ShotPlan] = []
         for i, s in enumerate(doc.get("shots", []), 1):
             try:
@@ -155,7 +227,13 @@ class ShortFilmPlanner:
                  "duration_s": s.duration_s, "section": s.section}
                 for s in shots],
         })
-        return self._call("pass3", _PASS3_SYSTEM, user)
+        fields = {"beats": json.dumps([b.__dict__ for b in beats]),
+                  "shots": json.dumps(
+                      [{"index": s.index, "speaker": s.speaker,
+                        "duration_s": s.duration_s, "section": s.section}
+                       for s in shots])}
+        return self._call("pass3", _PASS3_SYSTEM, user, fields=fields,
+                          predictor=self.pass_polish)
 
     # ── helpers ──────────────────────────────────────────────────────
 
@@ -175,8 +253,16 @@ class ShortFilmPlanner:
         check_duration_on_grid(d)
         return d
 
-    def _call(self, tag: str, system: str, user: str) -> dict:
-        raw = self._llm(tag, system, user)
+    def _call(self, tag: str, system: str, user: str, *, fields,
+              predictor) -> dict:
+        """One LLM round-trip: legacy callable (verbatim system/user)
+        or the Signature path (named predictor under the ambient
+        dspy LM — never an endpoint of our own)."""
+        if self._llm is DSPY_LLM:
+            pred = predictor(**fields)
+            raw = getattr(pred, _PASS_OUT_FIELD[tag])
+        else:
+            raw = self._llm(tag, system, user)
         try:
             return json.loads(raw)
         except ValueError as e:
@@ -184,4 +270,4 @@ class ShortFilmPlanner:
                 f"{tag} LLM returned non-JSON output: {e}") from e
 
 
-__all__ = ["ShortFilmPlanner", "PlannerError"]
+__all__ = ["ShortFilmPlanner", "PlannerError", "DSPY_LLM"]
