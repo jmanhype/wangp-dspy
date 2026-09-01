@@ -176,6 +176,23 @@ class SshHost(LocalHost):
             out.decode("utf-8", "replace"), \
             err.decode("utf-8", "replace")
 
+    def run_probe(self, argv, timeout=30):
+        """Run a read-only probe command on the remote host; returns
+        (rc, stdout, stderr). Preflight's ONLY host surface — probes
+        never render, so no remote `timeout` wrapper is needed beyond
+        the local communicate timeout."""
+        proc = self.sp(self._ssh_base() + list(argv),
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            return 124, "", f"probe timed out after {timeout}s"
+        return proc.returncode, \
+            out.decode("utf-8", "replace"), \
+            err.decode("utf-8", "replace")
+
     def map_path(self, local: str) -> str:
         """local pull_root namespace -> remote wgp_root namespace."""
         rel = os.path.relpath(local, self.pull_root)
