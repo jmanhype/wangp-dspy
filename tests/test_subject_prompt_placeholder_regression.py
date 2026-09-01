@@ -105,3 +105,58 @@ def test_planner_binds_beat_text_into_dialogue_ref(tmp_path):
     assert plan.shots[0].dialogue_ref == "d1: You wicked boy."
     job = render_shot(plan, plan.shots[0])
     assert "<d>[English] You wicked boy.</d>" in job["prompt"]
+
+
+# ── F1 (PR #57 review): multi-beat speaker must bind per guide-key ──────
+
+class MultiBeatLLM:
+    """One speaker, TWO beats — d1 and d2 must each get their OWN line."""
+
+    def __init__(self):
+        self.calls = []
+
+    def __call__(self, pass_tag: str, system: str, user: str) -> str:
+        self.calls.append(pass_tag)
+        if pass_tag == "pass1":
+            return json.dumps({"beats": [
+                {"index": 1, "speaker": "GRANDMA",
+                 "text": "You wicked boy.", "section": "act1"},
+                {"index": 2, "speaker": "GRANDMA",
+                 "text": "Bring me the cane.", "section": "act1"}]})
+        if pass_tag == "pass2":
+            return json.dumps({"shots": [
+                {"index": 1, "speaker": "GRANDMA", "dialogue_ref": "d1",
+                 "framing": "wide", "movement": "static", "lighting": "bright",
+                 "start_image_ref": "PLATE",
+                 "audio_guide_ref": {"path": "GUIDE", "duration_s": 107 / 24},
+                 "duration_s": 107 / 24, "section": "act1"},
+                {"index": 2, "speaker": "GRANDMA", "dialogue_ref": "d2",
+                 "framing": "medium", "movement": "static", "lighting": "bright",
+                 "start_image_ref": "PLATE",
+                 "audio_guide_ref": {"path": "GUIDE", "duration_s": 107 / 24},
+                 "duration_s": 107 / 24, "section": "act1"}]})
+        if pass_tag == "pass3":
+            return json.dumps({"notes": "ok"})
+        raise AssertionError(pass_tag)
+
+
+def test_multi_beat_speaker_binds_own_line_per_shot(tmp_path):
+    plan = ShortFilmPlanner(llm=MultiBeatLLM()).plan(
+        script="s",
+        characters=[_character(tmp_path)],
+        plate_paths={"GRANDMA": _plate(tmp_path, "grandma_master.png")},
+        guide_paths={"d1": (str(tmp_path / "line1.wav"), 107 / 24),
+                     "d2": (str(tmp_path / "line2.wav"), 107 / 24)},
+    )
+    assert len(plan.shots) == 2
+    assert plan.shots[0].dialogue_ref == "d1: You wicked boy."
+    assert plan.shots[1].dialogue_ref == "d2: Bring me the cane."
+    # Each rendered shot's <d> block carries its OWN line (F1 regression:
+    # the old speaker-first-match bound shot 2 to the FIRST beat).
+    j1 = render_shot(plan, plan.shots[0])
+    j2 = render_shot(plan, plan.shots[1])
+    assert "<d>[English] You wicked boy.</d>" in j1["prompt"]
+    assert "<d>[English] Bring me the cane.</d>" in j2["prompt"]
+    assert "Bring me the cane." not in j1["prompt"]
+    assert "You wicked boy." not in j2["prompt"]
+

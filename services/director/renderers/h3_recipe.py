@@ -237,15 +237,19 @@ def build_render_config(
     # Summary must match speaker_index. (Continuous [Shot N] blocks may
     # legitimately attribute other subjects at other timestamps.)
     summary_seg = prompt.split("\n\n", 1)[1].split("\n[Shot")[0]
-    assert f"(S{speaker_index + 1}) says:" in summary_seg
+    if f"(S{speaker_index + 1}) says:" not in summary_seg:
+        raise H3RecipeError(
+            f"summary segment does not attribute speech to S{speaker_index + 1}")
     for i in range(len(character_plates)):
-        if i != speaker_index:
-            assert f"(S{i + 1}) says:" not in summary_seg
+        if i != speaker_index and f"(S{i + 1}) says:" in summary_seg:
+            raise H3RecipeError(
+                f"summary segment wrongly attributes speech to S{i + 1}")
     # No template placeholder leaks.
     for token in ("<line>", "<charA description>", "<charB description>",
                   "<scene staging description>", "<listening detail>",
                   "<ambience>", "PLACEHOLDER", "TODO"):
-        assert token not in prompt, token
+        if token in prompt:
+            raise H3RecipeError(f"placeholder leak in prompt: {token!r}")
 
     config = {
         "image_refs": [anchor_plate] + [p["path"] for p in character_plates],
