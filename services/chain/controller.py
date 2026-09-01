@@ -7,11 +7,11 @@ from joeygambino/MiniMax-H3-Multishot-Workflow; the Chain Plan JSON
 shape follows RwGrid/ComfyUI-MiniMaxH3-Contex-Loop's
 H3_CHAIN_FORMAT_GUIDE.
 
-Shot 1 renders from our proven 3-image-ref recipe (two-shot anchor +
-character plates, 20 steps, spectrum cache, 480x832, apad). When
-renderers/h3_recipe.py (feat/h3-production-recipe) merges, that builder
-should be replaced by a reference to it — until then this inline
-builder is minimal and recipe-shaped.
+Shot 1 renders from the proven 3-image-ref recipe via
+renderers/h3_recipe.py::build_render_config (two-shot anchor + character
+plates, 20 steps, spectrum cache, 480x832, apad) — its gates (turbo
+LoRA ban on multi-ref, banned retention language, gpt-image assets)
+are active on the chain path. Shots 2+ are first-frame continuations.
 """
 from __future__ import annotations
 
@@ -26,11 +26,21 @@ from services.chain.plan import (
     SchemaError,
     validate_chain_plan,
 )
+from services.director.renderers.h3_recipe import build_render_config
 from services.director.renderers.policy import check_duration_on_grid
 
 OVERLAP_FRAMES = 22  # upstream H3_CHAIN_FORMAT_GUIDE default; see docs
 _FPS = 24
 _RECIPE_STEPS = 20
+
+# Chain-side staging defaults for the recipe prompt template. The
+# recipe (h3_recipe.py) owns the template; the chain supplies
+# neutral staging text and character descriptions from the roster.
+_DEFAULT_SCENE_STAGING = (
+    "medium two-shot, both characters in frame, eye-level camera")
+_DEFAULT_LISTENING_DETAIL = (
+    "steady gaze, subtle nod, holding still")
+_DEFAULT_AMBIENCE = "quiet room tone, faint machinery hum"
 
 
 class ChainPlanError(ValueError):
@@ -148,20 +158,51 @@ def build_chain_plan(
 
 def _shot1_recipe_config(plan: ChainPlan, clip: ChainClip,
                          characters: Sequence[ChainCharacter],
-                         plate_paths: Optional[Sequence[str]]) -> Dict[str, Any]:
-    """Proven 3-image-ref recipe: two-shot anchor + charA + charB plates."""
-    refs = list(plate_paths) if plate_paths is not None else [
-        f"plates/{c.sn_tag.lower()}-anchor.png" for c in characters[:1]
-    ] + [f"plates/{c.sn_tag.lower()}-plate.png" for c in characters]
+                         plate_paths: Optional[Sequence[str]],
+                         loras: Optional[Sequence[str]]) -> Dict[str, Any]:
+    """Proven 3-image-ref recipe: two-shot anchor + one plate per character.
+
+    Delegates to renderers/h3_recipe.py::build_render_config so the
+    verified prompt template and all hard gates apply to shot 1.
+    """
+    sn_order = [c.sn_tag for c in characters]
+    speaker_index = sn_order.index(clip.speaker_sn)
+    # shot_prompt is "{sn} speaks: {line}" — recover the raw line text.
+    _, _, line = clip.shot_prompt.partition("speaks: ")
+
+    if plate_paths is not None:
+        anchor_plate, char_paths = plate_paths[0], list(plate_paths[1:])
+    else:
+        anchor_plate = f"plates/{clip.speaker_sn.lower()}-anchor.png"
+        char_paths = [f"plates/{c.sn_tag.lower()}-plate.png"
+                      for c in characters]
+    character_plates = [
+        {"path": path, "description": c.description}
+        for path, c in zip(char_paths, characters)]
+
+    built = build_render_config(
+        anchor_plate=anchor_plate,
+        character_plates=character_plates,
+        speaker_index=speaker_index,
+        line=line,
+        audio_path=clip.audio.path,
+        duration_s=clip.duration_s,
+        scene_staging=_DEFAULT_SCENE_STAGING,
+        listening_detail=_DEFAULT_LISTENING_DETAIL,
+        ambience=_DEFAULT_AMBIENCE,
+        loras=list(loras) if loras is not None else None,
+    )
+    config, prompt = built["config"], built["prompt"]
     return {
         "clip_index": clip.index,
         "kind": "shot1_three_ref_recipe",
-        "prompt": f"{plan.global_prompt} {clip.shot_prompt}",
+        "prompt": f"{plan.global_prompt}\n\n{prompt}",
         "image_start": None,
-        "image_refs": refs,  # anchor + one plate per character
-        "steps": _RECIPE_STEPS,
-        "spectrum_cache": True,
-        "resolution": [480, 832],
+        "image_refs": config["image_refs"],
+        "recipe": config,  # full verified envelope from h3_recipe
+        "steps": config["inference_steps"],
+        "spectrum_cache": config["skip_steps_cache_type"] == "spectrum",
+        "resolution": [config["width"], config["height"]],
         "frames": clip.frames,
         "force_fps": _FPS,
         "seed": clip.seed,
@@ -199,14 +240,19 @@ def _continuation_config(plan: ChainPlan, clip: ChainClip) -> Dict[str, Any]:
 def emit_render_manifest(
     plan: ChainPlan,
     plate_paths: Optional[Sequence[str]] = None,
+    loras: Optional[Sequence[str]] = None,
 ) -> List[Dict[str, Any]]:
-    """Render-order manifest: shot 1 = 3-ref recipe, shots 2+ = continuations."""
+    """Render-order manifest: shot 1 = 3-ref recipe, shots 2+ = continuations.
+
+    loras (optional) apply to the shot-1 recipe call and pass through its
+    gates (turbo LoRAs on multi-ref two-shots raise H3RecipeError).
+    """
     validate_chain_plan(plan)
     manifest: List[Dict[str, Any]] = []
     for clip in plan.clips:
         if clip.index == 1:
             manifest.append(_shot1_recipe_config(
-                plan, clip, plan.characters, plate_paths))
+                plan, clip, plan.characters, plate_paths, loras))
         else:
             manifest.append(_continuation_config(plan, clip))
     return manifest
