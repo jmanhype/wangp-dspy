@@ -54,15 +54,23 @@ GRID_DURATIONS_S = _grid_durations()
 GRID_FRAMES = _grid_frames()
 
 
-def check_duration_on_grid(duration_s: float) -> int:
-    """Return the frame count if duration_s is on the grid, else GridError."""
-    d = round(float(duration_s), 6)
-    for i, frames in enumerate(GRID_FRAMES):
-        if abs((5 + 17 * i) - d) < 1e-6:
-            return frames
+def check_duration_on_grid(duration_s: float, fps: int = 24) -> int:
+    """Return the frame count if duration_s is on the grid, else GridError.
+
+    duration_s is SECONDS. A duration is on-grid when duration_s * fps
+    lands on the 17k+5 frame grid (5/22/39/56/73/... frames), within a
+    half-frame tolerance for float rounding.
+    """
+    d = float(duration_s)
+    k = round((d * fps - 5) / 17)
+    k = max(k, 0)
+    grid_frames = 5 + 17 * k
+    if abs(d * fps - grid_frames) < 0.5:
+        return grid_frames
     raise GridError(
-        f"shot duration {duration_s}s is off the 17k+5 grid "
-        "(allowed: 5/22/39/56/73/90/107/124/141...s)")
+        f"shot duration {duration_s}s ({d * fps:.1f} frames @ {fps}fps) is "
+        "off the 17k+5 grid (allowed frame counts: 5/22/39/56/73/90/107/"
+        "124/141...; e.g. 56f=2.333s, 107f=4.458s)")
 
 
 def check_facing(plate_path: str, requirement: str) -> str:

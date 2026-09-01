@@ -54,8 +54,8 @@ PASS2_JSON = json.dumps({"shots": [{
     "index": 1, "speaker": "GRANDMA", "dialogue_ref": "d1",
     "framing": "wide", "movement": "static", "lighting": "bright",
     "start_image_ref": "PLATE",
-    "audio_guide_ref": {"path": "GUIDE", "duration_s": 5.0},
-    "duration_s": 5.0, "section": "act1"}]})
+    "audio_guide_ref": {"path": "GUIDE", "duration_s": 107/24},
+    "duration_s": 107/24, "section": "act1"}]})
 PASS3_JSON = json.dumps({"notes": "polished", "approved": True})
 
 LEGACY_SYSTEMS = {
@@ -100,7 +100,7 @@ def _plan_kwargs(tmp_path):
         script="Grandma scolds the prisoner.",
         characters=[_character(tmp_path)],
         plate_paths={"GRANDMA": str(_plate(tmp_path))},
-        guide_paths={"d1": (str(_guide(tmp_path)), 5.0)},
+        guide_paths={"d1": (str(_guide(tmp_path)), 107/24)},
     )
 
 
@@ -195,7 +195,7 @@ def test_dspy_path_runs_under_settings_lm(tmp_path):
         plan = planner.plan(**_plan_kwargs(tmp_path))
     assert isinstance(plan, ProductionPlan)
     assert plan.shots[0].speaker == "GRANDMA"
-    assert plan.shots[0].duration_s == 5.0
+    assert abs(plan.shots[0].duration_s - 107/24) < 1e-9
     assert plan.shots[0].start_image_ref == str(_plate(tmp_path))
 
 
@@ -213,8 +213,8 @@ def test_dspy_path_pass2_grid_error(tmp_path):
         "index": 1, "speaker": "GRANDMA", "dialogue_ref": "d1",
         "framing": "wide", "movement": "static", "lighting": "bright",
         "start_image_ref": "PLATE",
-        "audio_guide_ref": {"path": "GUIDE", "duration_s": 6.0},
-        "duration_s": 6.0, "section": "act1"}]})
+        "audio_guide_ref": {"path": "GUIDE", "duration_s": 5.0},
+        "duration_s": 5.0, "section": "act1"}]})
     lm = dspy.utils.DummyLM([
         {"beats": PASS1_JSON}, {"shots": bad}, {"notes": PASS3_JSON},
     ])
@@ -250,8 +250,8 @@ def test_golden_identical_plan_before_after_refactor(tmp_path):
                                    lighting="bright"),
             start_image_ref=str(_plate(tmp_path)),
             audio_guide_ref={"path": str(_guide(tmp_path)),
-                             "duration_s": 5.0},
-            duration_s=5.0, section="act1"),))
+                             "duration_s": 107/24},
+            duration_s=107/24, section="act1"),))
     assert legacy_plan == expected
 
 
