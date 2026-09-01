@@ -13,6 +13,7 @@ tail captured as the failure artifact.
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from typing import Callable, Dict, Optional
@@ -50,12 +51,18 @@ class JobExecutor:
     def __init__(self, *, queue, preflight: Callable,
                  render: Callable[[dict], RenderOutcome],
                  qc: Callable[[dict], tuple],
-                 max_failures: int = 3):
+                 max_failures: int = 3,
+                 staleness_s: float = 600.0):
         self.queue = queue
         self.preflight = preflight
         self.render = render
         self.qc = qc
         self.max_failures = max_failures
+        # stale-active heartbeat timeout (reviewer B2): an active-state
+        # job whose owner is dead AND heartbeat older than this is
+        # requeued. Configurable via WANGP_STALENESS_S.
+        env = os.environ.get("WANGP_STALENESS_S")
+        self.staleness_s = (float(env) if env else staleness_s)
 
     # -- helpers ----------------------------------------------------
     def _fail(self, job, failure_class: str, detail: str) -> None:
@@ -120,7 +127,26 @@ class JobExecutor:
         if job is None:
             return None
         jid = job.job_id
+        claim = getattr(self.queue, "claim_active", None)
+        if claim:
+            claim(jid, owner_pid=os.getpid())
 
+        try:
+            return self._drive(job, jid)
+        finally:
+            # release ownership (job may have moved to a parked/terminal
+            # state; the WHERE is harmless either way)
+            try:
+                self._db_clear_ownership(jid)
+            except Exception:
+                pass
+
+    def _db_clear_ownership(self, jid: str) -> None:
+        clear = getattr(self.queue, "clear_ownership", None)
+        if clear:
+            clear(jid)
+
+    def _drive(self, job, jid: str) -> str:
         if job.state == "pending":
             self.queue.set_state(jid, "preflight")
             report = self.preflight(job)
@@ -148,6 +174,12 @@ class JobExecutor:
         return jid
 
     def _pick_job(self):
+        # stale-active recovery first (reviewer B2): orphaned
+        # 'rendering'/'preflight'/'qc' jobs (dead owner pid / stale
+        # heartbeat) go back to pending and are picked up here.
+        recover = getattr(self.queue, "recover_stale_active", None)
+        if recover is not None:
+            recover(staleness_s=self.staleness_s)
         pending = self.queue.next_pending()
         if pending is not None:
             return self.queue.get(pending)

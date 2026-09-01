@@ -14,6 +14,25 @@ import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence
 
+# ACTIVE_STATES: a job in one of these is (normally) owned by a live
+# process; a crash mid-phase orphans it there (reviewer B2).
+ACTIVE_STATES = ("preflight", "rendering", "qc")
+
+
+def _pid_alive(pid: Optional[int]) -> bool:
+    if not pid or pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True  # exists, owned by someone else
+    except OSError:
+        return False
+    return True
+
+
 from services.jobs.states import ALLOWED_TRANSITIONS, InvalidTransition
 
 
@@ -86,7 +105,24 @@ class JobQueue:
             " failure_class TEXT,"
             " failure_detail TEXT,"
             " created_at REAL NOT NULL)")
+        self._migrate()
         self._db.commit()
+
+    def _migrate(self) -> None:
+        """Stale-active recovery bookkeeping (reviewer B2).
+
+        owner_pid: pid of the process driving an active-state job;
+        last_heartbeat: wall-clock of its last progress write. A job in
+        an active state whose owner is dead (or whose heartbeat is
+        older than the staleness timeout) is orphaned crash debris.
+        """
+        cols = {r["name"] for r in self._db.execute("PRAGMA table_info(jobs)")}
+        if "owner_pid" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN owner_pid INTEGER")
+        if "last_heartbeat" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN last_heartbeat REAL")
 
     # -- lifecycle --------------------------------------------------
     def close(self) -> None:
@@ -120,6 +156,26 @@ class JobQueue:
                 f"{state!r}")
         self._db.execute("UPDATE jobs SET state=? WHERE job_id=?",
                          (state, job_id))
+        self._db.commit()
+
+    def claim_active(self, job_id: str, *, owner_pid: int) -> None:
+        """Mark this process as the live owner of an active-state job."""
+        self._db.execute(
+            "UPDATE jobs SET owner_pid=?, last_heartbeat=? "
+            "WHERE job_id=?",
+            (int(owner_pid), time.time(), job_id))
+        self._db.commit()
+
+    def heartbeat(self, job_id: str) -> None:
+        self._db.execute(
+            "UPDATE jobs SET last_heartbeat=? WHERE job_id=?",
+            (time.time(), job_id))
+        self._db.commit()
+
+    def clear_ownership(self, job_id: str) -> None:
+        self._db.execute(
+            "UPDATE jobs SET owner_pid=NULL, last_heartbeat=NULL "
+            "WHERE job_id=?", (job_id,))
         self._db.commit()
 
     def update_clip(self, job_id: str, clip_index: int, *,
@@ -174,6 +230,47 @@ class JobQueue:
             "SELECT job_id FROM jobs WHERE state='pending' "
             "ORDER BY created_at LIMIT 1").fetchone()
         return row["job_id"] if row else None
+
+    # -- stale-active recovery (reviewer B2) --------------------------
+    def recover_stale_active(self, *, staleness_s: float = 600.0,
+                             pid_is_alive=None) -> List[str]:
+        """Requeue orphaned active-state jobs (B2).
+
+        A crash mid-render leaves a job stuck in 'rendering' (or
+        'preflight'/'qc') with no live owner; _pick_job() only selects
+        pending/rendered_pending_qc, so the job is orphaned forever.
+        Recovery: an active-state job whose owner_pid is not a live
+        process AND whose last_heartbeat is older than staleness_s
+        (or absent — legacy rows) transitions *->pending and re-enters
+        the queue. Per-clip checkpoints are untouched, so the resume
+        does NOT redo clips already `done`/`rendered`.
+
+        A job with a LIVE owner pid or a FRESH heartbeat is left alone.
+        Returns the recovered job ids.
+        """
+        alive = pid_is_alive or _pid_alive
+        now = time.time()
+        recovered: List[str] = []
+        for state in ACTIVE_STATES:
+            rows = self._db.execute(
+                "SELECT job_id, owner_pid, last_heartbeat FROM jobs "
+                "WHERE state=?", (state,)).fetchall()
+            for row in rows:
+                jid = row["job_id"]
+                pid = row["owner_pid"]
+                hb = row["last_heartbeat"]
+                owner_live = bool(pid) and alive(pid)
+                hb_fresh = (hb is not None
+                            and (now - float(hb)) < staleness_s)
+                if owner_live or hb_fresh:
+                    continue  # someone owns this job — leave it alone
+                self.set_state(jid, "pending")
+                self._db.execute(
+                    "UPDATE jobs SET owner_pid=NULL, "
+                    "last_heartbeat=NULL WHERE job_id=?", (jid,))
+                self._db.commit()
+                recovered.append(jid)
+        return recovered
 
     def list_state(self, state: str) -> List[str]:
         rows = self._db.execute(

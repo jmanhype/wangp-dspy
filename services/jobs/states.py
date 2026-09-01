@@ -25,11 +25,15 @@ _TERMINAL = frozenset({"done", "dead_letter"})
 
 ALLOWED_TRANSITIONS: dict = {
     "pending": frozenset({"preflight"}),
-    "preflight": frozenset({"rendering", "failed"}),
-    "rendering": frozenset({"rendered_pending_qc", "failed"}),
+    # "-> pending" from active states is ONLY the stale-active recovery
+    # path (queue.recover_stale_active): the owning process is dead or
+    # its heartbeat is stale, so the job re-enters the queue without
+    # redoing per-clip checkpoints (reviewer B2).
+    "preflight": frozenset({"rendering", "failed", "pending"}),
+    "rendering": frozenset({"rendered_pending_qc", "failed", "pending"}),
     # parked render: QC was unavailable; resume when it returns
     "rendered_pending_qc": frozenset({"preflight", "qc", "failed"}),
-    "qc": frozenset({"done", "failed", "rendered_pending_qc"}),
+    "qc": frozenset({"done", "failed", "rendered_pending_qc", "pending"}),
     "failed": frozenset({"preflight", "dead_letter"}),
     "done": frozenset(),
     "dead_letter": frozenset(),
