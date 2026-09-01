@@ -146,3 +146,74 @@ def test_record_serializes_to_json_with_paths(q):
     doc = q.get(jid).to_json()
     json.dumps(doc)  # round-trippable
     assert doc["plan_ref"] == "p.json"
+
+
+# -- stale-active recovery (reviewer B2 regression tests) --------------
+def _orphan_rendering(q, *, hb=None, pid=None):
+    jid = q.submit(plan_ref="p.json", clips=[_clip()])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q._db.execute(
+        "UPDATE jobs SET owner_pid=?, last_heartbeat=? WHERE job_id=?",
+        (pid, hb, jid))
+    q._db.commit()
+    return jid
+
+
+def test_stale_rendering_job_is_requeued(q):
+    # crashed mid-render: dead pid, no heartbeat -> back to pending
+    jid = _orphan_rendering(q, hb=None, pid=999999)
+    alive = {999999: False}
+    assert q.recover_stale_active(staleness_s=600.0,
+                                  pid_is_alive=alive.get) == [jid]
+    assert q.get(jid).state == "pending"
+
+
+def test_stale_heartbeat_without_pid_is_requeued(q):
+    # legacy row: no owner_pid recorded, heartbeat older than timeout
+    jid = _orphan_rendering(q, hb=0.0, pid=None)
+    assert q.recover_stale_active(staleness_s=600.0) == [jid]
+    assert q.get(jid).state == "pending"
+    rec = q.get(jid)
+    row = q._db.execute(
+        "SELECT owner_pid, last_heartbeat FROM jobs WHERE job_id=?",
+        (jid,)).fetchone()
+    assert row["owner_pid"] is None and row["last_heartbeat"] is None
+
+
+def test_live_owner_rendering_job_is_not_picked(q):
+    # a LIVE owner pid holds the job — recovery must leave it alone
+    jid = _orphan_rendering(q, hb=None, pid=4242)
+    alive = {4242: True}
+    assert q.recover_stale_active(staleness_s=600.0,
+                                  pid_is_alive=alive.get) == []
+    assert q.get(jid).state == "rendering"
+
+
+def test_fresh_heartbeat_rendering_job_is_not_picked(q):
+    # fresh heartbeat even with dead pid: worker may be between
+    # heartbeats with an unreadable pid — leave it alone
+    import time as _t
+    jid = _orphan_rendering(q, hb=_t.time(), pid=999999)
+    alive = {999999: False}
+    assert q.recover_stale_active(staleness_s=600.0,
+                                  pid_is_alive=alive.get) == []
+    assert q.get(jid).state == "rendering"
+
+
+def test_recovered_job_requeues_with_clip_checkpoints(q):
+    # done clips survive recovery: no re-render of finished work
+    jid = q.submit(plan_ref="p.json",
+                   clips=[_clip(clip_index=1), _clip(clip_index=2)])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.update_clip(jid, 1, status="done",
+                  log="l1", mp4="m1",
+                  qc_verdict={"verdict": "KEEP", "path": "q1"})
+    q.recover_stale_active(staleness_s=600.0,
+                           pid_is_alive=lambda p: False)
+    rec = q.get(jid)
+    assert rec.state == "pending"
+    assert [c["clip_index"] for c in rec.clips
+            if c["status"] == "done"] == [1]
+    assert q.next_pending() == jid  # immediately re-pickable
