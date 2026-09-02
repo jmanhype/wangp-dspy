@@ -4,6 +4,7 @@ All host interaction through an injected fake host — NO GPU, NO SSH.
 The real seam gets exercised by the operator's vertical slice.
 """
 import json
+import shlex
 from pathlib import Path
 
 import pytest
@@ -29,9 +30,12 @@ class FakeHost:
 
     def run_probe(self, argv, timeout=30):
         self.calls.append(list(argv))
-        key = " ".join(argv[:2])
-        if argv[0] in self.responses:
-            rc, out, err = self.responses[argv[0]](self, argv)
+        # single pre-joined elements (ssh-joins-with-spaces rule):
+        # dispatch on the first WORD
+        first = (argv[0].split()[0] if isinstance(argv[0], str)
+                 and argv[0] else argv[0])
+        if first in self.responses:
+            rc, out, err = self.responses[first](self, argv)
             return rc, out, err
         if argv[:2] == ["ls", "-t"]:
             return 0, self.outputs + "\n", ""
@@ -67,31 +71,47 @@ class TestCommandShape:
         argv = build_wgp_lock_argv(
             "/run/settings.json", "/run/render.log",
             wangp_dir="/home/straughter/Wan2GP")
-        assert argv[0] == "flock"
-        assert argv[1] == WGP_QUEUE_LOCK == "/tmp/wgp_queue.lock"
-        assert argv[2] == "-c"
-        shell = argv[3]
+        # ssh joins argv elements with spaces before the remote shell
+        # parses: ONE pre-joined element, shlex-quoted, round-trips.
+        assert isinstance(argv, list) and len(argv) == 1
+        parts = shlex.split(argv[0])
+        assert parts[0] == "flock"
+        assert parts[1] == WGP_QUEUE_LOCK == "/tmp/wgp_queue.lock"
+        assert parts[2:4] == ["bash", "-c"]
+        shell = parts[4]
         assert shell.startswith("cd /home/straughter/Wan2GP && ")
         assert "PYTHONUNBUFFERED=1" in shell
         assert "PYTORCH_ALLOC_CONF=expandable_segments:True" in shell
-        assert "./venv/bin/python wgp.py --process /run/settings.json" \
-            in shell
+        # ABSOLUTE interpreter + script paths (ssh cwd != Wan2GP)
+        assert "/home/straughter/Wan2GP/venv/bin/python" in shell
+        assert "/home/straughter/Wan2GP/wgp.py --process " \
+               "/run/settings.json" in shell
         assert "--profile 3" in shell
         assert "--attention sdpa" in shell
         assert shell.endswith("> /run/render.log 2>&1")
+        # the pre-joined element must re-parse to the same semantics
+        assert shlex.split(parts[4])[0] == "cd"
 
-    def test_seam_uses_the_lock_invocation(self, tmp_path):
+    def test_seam_launches_detached_and_mkdirs_first(self, tmp_path):
         host = FakeHost()
         s = _settings(tmp_path, steps=20)
         host.responses = {
-            "flock": lambda h, a: (0, "", ""),
+            "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, GOOD_LOG, ""),
         }
         production_ref2va_render(
             _adapter(host, tmp_path), _Inp(s, tmp_path / "raw.mp4"))
-        flock_calls = [c for c in host.calls if c[0] == "flock"]
-        assert len(flock_calls) == 1
-        assert flock_calls[0][1] == "/tmp/wgp_queue.lock"
+        # mkdir -p happens BEFORE the launch (log redirect needs it)
+        launch_idx = next(i for i, c in enumerate(host.calls)
+                          if c[0].startswith("setsid"))
+        mkdir_idx = next(i for i, c in enumerate(host.calls)
+                         if c[:2] == ["mkdir", "-p"])
+        assert mkdir_idx < launch_idx
+        launch = host.calls[launch_idx][0]
+        assert launch.startswith("setsid nohup flock /tmp/wgp_queue.lock")
+        assert launch.endswith("& echo launched")
+        # ONE pre-joined element
+        assert len(host.calls[launch_idx]) == 1
 
 
 class TestVerifyBeforeTrust:
@@ -105,11 +125,12 @@ class TestVerifyBeforeTrust:
         # a 20/20 line does not satisfy a steps=30 config
         assert not verify_denoise_steps(GOOD_LOG, 30)
 
-    def test_seam_rejects_truncated_log(self, tmp_path):
+    def test_seam_rejects_truncated_log(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("WANGP_LOAD_STALL_S", "0")
         host = FakeHost()
         s = _settings(tmp_path, steps=20)
         host.responses = {
-            "flock": lambda h, a: (0, "", ""),
+            "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, "Denoising 12/20\nKilled", ""),
         }
         with pytest.raises(WanGPError, match="verify-before-trust"):
@@ -122,8 +143,8 @@ class TestVerifyBeforeTrust:
     def test_nonzero_wgp_rc_is_typed_failure(self, tmp_path):
         host = FakeHost()
         s = _settings(tmp_path)
-        host.responses = {"flock": lambda h, a: (1, "", "boom")}
-        with pytest.raises(WanGPError, match="wgp invocation failed"):
+        host.responses = {"setsid": lambda h, a: (1, "", "boom")}
+        with pytest.raises(WanGPError, match="detached wgp launch failed"):
             production_ref2va_render(
                 _adapter(host, tmp_path),
                 _Inp(s, tmp_path / "raw.mp4"))
@@ -134,7 +155,7 @@ class TestCopyAndMux:
         host = FakeHost(outputs="out00042.mp4")
         s = _settings(tmp_path)  # no audio
         host.responses = {
-            "flock": lambda h, a: (0, "", ""),
+            "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, GOOD_LOG, ""),
         }
         out = production_ref2va_render(
@@ -151,7 +172,7 @@ class TestCopyAndMux:
         guide.write_bytes(b"RIFF")
         s = _settings(tmp_path, audio=guide)
         host.responses = {
-            "flock": lambda h, a: (0, "", ""),
+            "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, GOOD_LOG, ""),
         }
         out = production_ref2va_render(
@@ -172,7 +193,7 @@ class TestCopyAndMux:
         host = FakeHost()
         s = _settings(tmp_path)
         host.responses = {
-            "flock": lambda h, a: (0, "", ""),
+            "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, GOOD_LOG, ""),
         }
         production_ref2va_render(

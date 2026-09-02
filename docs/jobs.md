@@ -249,15 +249,78 @@ flock /tmp/wgp_queue.lock -c \
 - The queue lock serializes GPU access; GPU-tenant clearing stays OUT
   (preflight checks GPU state before admission).
 - Settings JSON (from the recipe envelope) is written to the run dir
-  before invocation.
-- VERIFY-BEFORE-TRUST: the log is grepped for a complete
+  before invocation; the run dir is `mkdir -p`'d on the host BEFORE
+  the wgp invocation (the detached shell's log redirect fails on a
+  missing dir).
+- SSH-LIFETIME RENDERS (seam hardening): wgp launches DETACHED on the
+  host — `setsid nohup flock ... bash -c '...' &` — and the seam
+  returns immediately; the worker then POLLS the log for the N/N
+  completion line. A dropped ssh channel can no longer kill or wedge
+  a render (verified twice in the live smoke).
+- The flock argv is ONE pre-joined shlex-quoted element (ssh JOINS
+  argv with spaces before the remote shell parses them;
+  `["flock", lock, "-c", shell]` used flock's nonexistent `-c`, and
+  `["flock", lock, "bash", "-c", shell]` broke on the join). The
+  interpreter and wgp.py are ABSOLUTE paths (the ssh cwd is not the
+  Wan2GP checkout).
+- VERIFY-BEFORE-TRUST: the polled log must contain a complete
   `<steps>/<steps>` Denoising line (steps = the config's
   `num_inference_steps`) BEFORE the newest `outputs/*.mp4` is
-  accepted (`ls -t`). A truncated log is a typed `WanGPError`.
+  accepted (`ls -t`). A truncated log is a typed `WanGPError`
+  (mid-denoise stall: denoising started, the log went quiet, no
+  complete line).
+- LOAD-PROGRESS WATCHDOG (seam hardening): if the log shows no new
+  bytes for `WANGP_LOAD_STALL_S` seconds (default 300) BEFORE the
+  first Denoising line — the 55-CPU-minute wedged model load
+  (llama-server holding 16G, expandable-segments thrash suspected)
+  — the wgp pid is killed on the host and the job fails with the
+  RETRYABLE class `load_stall`, with nvidia-smi memory state in the
+  failure detail.
 - The newest output is `cp`'d to the job target path.
 - Audio mux ONLY when `audio_guide` is present:
   `ffmpeg -y -i <mp4> -i <guide> -map 0:v -map 1:a -c:v copy
   -c:a aac -shortest` (remux lives next to the raw target).
+
+### Seam hardening (live smoke 2026-09-02 — eleven fixes + watchdog)
+
+A live smoke run on the 3090 surfaced eleven defects (each first
+fixed ad-hoc on the box, landed here with regression tests in
+`tests/test_seam_hardening.py`):
+
+1. `_run_ref2va_job`: `audio_source_path=None` crashed `Path()` —
+   now defaults to the job's `audio_guide`.
+2. `sanctioned_dirs`: render_dir alone was sanctioned; the asset
+   roots (roadmap-run assets, Wan2GP outputs, QC media) are now
+   included by default, overridable via `WANGP_SANCTIONED_DIRS`
+   (`:`-separated).
+3. `scripts/run_jobs.build_executor`: the `qc_url=""` placeholder
+   made the preflight curl an empty URL — real default
+   `http://localhost:8000/health`, env-overridable `WANGP_QC_URL`.
+4. `build_wgp_lock_argv`: one pre-joined shlex-quoted element
+   (see above).
+5. Render-dir absolutization: a relative `output_dir` never maps
+   through the pull-root mapping — absolutized against the cwd
+   before mapping.
+6. `_host_path`: the bare except returned the path AS-IS (a silent
+   wrong-host path); it now verifies existence host-side and RAISES
+   on neither-mapped-nor-present.
+7. wgp invocation uses ABSOLUTE interpreter + script paths.
+8. `mkdir -p` the run dir before invocation (log redirect).
+9. `predict/render_profiles.REF2VA_MODEL_TYPE` is now imported from
+   the adapter's host-truth constant (`minimax_h3_ref2va_pruned`);
+   a cross-check test asserts no `ref2va_lip_sync` is ever EMITTED
+   as a model_type.
+10. `Ref2VAProfile.build_settings`: `video_prompt_type "I"` +
+    `multi_prompts_gen_type "FG"` ride in `extra=` (the
+    WanGPJobConfig dataclass has no such fields — ctor args were
+    silently dropped).
+11. Ref2VA brief text must not carry `<Subject N>` tokens — they
+    belong to the renderer-level template only (the runtime
+    contiguity check rejects them). `<Picture N>`/`<Audio N>` remain
+    the sanctioned brief-level tokens (validated for contiguity).
+
+Plus the two systemic fixes: detached ssh-lifetime renders and the
+`WANGP_LOAD_STALL_S` load-progress watchdog (both described above).
 
 Implementation: `host/wangp_adapter.production_ref2va_render`
 (wired as the `_default_render` seam of the ref2va job path; every

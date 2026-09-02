@@ -18,7 +18,13 @@ from predict.job_config import SCRIPT_SEPARATOR, WanGPJobConfig
 from predict.prompt_director import RenderBrief
 from predict.profile_selector import ProfileDecision
 
-REF2VA_MODEL_TYPE = "ref2va_lip_sync"
+# HOST TRUTH (operator audit 2026-09-01; live smoke 2026-09-02): wgp
+# rejected 'ref2va_lip_sync' as a model_type — the 3090 Wan2GP
+# handler exposes only 'minimax_h3_ref2va' and
+# 'minimax_h3_ref2va_pruned'. This MUST stay in lockstep with
+# host.wangp_adapter.REF2VA_MODEL_TYPE (a cross-check test enforces
+# no 'ref2va_lip_sync' string is ever EMITTED as a model_type).
+from host.wangp_adapter import REF2VA_MODEL_TYPE  # noqa: E402
 REF2VA_MIN_SHOT_S = 4.0
 REF2VA_MAX_SHOT_S = 15.0
 
@@ -155,6 +161,25 @@ class Ref2VAProfile(RenderProfile):
                 raise ProfileError(
                     f"Ref2VA <{kind} N> numbering not contiguous from "
                     f"1: {sorted(idxs)}")
+        # LIVE SMOKE BOUNDARY (fix 11): <Subject N> tokens belong to
+        # the RENDERER-LEVEL TEMPLATE ONLY — the runtime contiguity
+        # check rejects them (no <Subject N> is ever resolvable from
+        # a flattened manifest prompt). <Picture N>/<Audio N> are the
+        # sanctioned brief-level tokens (validated above); token
+        # EXPANSION of <Subject N> happens in the renderer template,
+        # after this seam hands the text over. A brief carrying
+        # <Subject N> raises here, before the render.
+        _BRIEF_TOKEN_RE = re.compile(r"<Subject\s+\d+>", re.I)
+        for b in briefs:
+            for _f in (b.subject, b.motion):
+                m = _BRIEF_TOKEN_RE.search(_f or "")
+                if m:
+                    raise ProfileError(
+                        f"Ref2VA brief text carries {m.group(0)!r} — "
+                        "<Subject N> tokens belong to the renderer-"
+                        "level template ONLY, never the brief text "
+                        "the runtime hands to the render (the runtime "
+                        "contiguity check rejects them)")
         frames = int(round(shot_duration_s * 24))
         cfg = WanGPJobConfig(
             model_type=REF2VA_MODEL_TYPE,
@@ -170,6 +195,12 @@ class Ref2VAProfile(RenderProfile):
         # is explicitly scoped to the GENERIC lane — the Ref2VA reader
         # consumes a list of image paths, a sanctioned non-scalar
         # extension of the wgp settings schema, not a rule violation.
+        #
+        # LIVE SMOKE fix 10: video_prompt_type "I" and
+        # multi_prompts_gen_type "FG" must ride in extra= — the
+        # WanGPJobConfig dataclass has NO such fields, so passing them
+        # to the ctor is silently dropped and wgp runs with wrong
+        # prompt-shape defaults.
         return cfg.to_settings_doc(
             flat=False,
             extra={"image_refs": list(image_refs),
@@ -177,4 +208,6 @@ class Ref2VAProfile(RenderProfile):
                    "audio_guide": str(audio_guide),
                    "audio_provenance": audio_provenance.to_dict(),
                    "audio_policy": audio_policy.to_dict(),
-                   "audio_qc": Ref2VAAudioQC.empty().to_dict()})
+                   "audio_qc": Ref2VAAudioQC.empty().to_dict(),
+                   "video_prompt_type": "I",
+                   "multi_prompts_gen_type": "FG"})
