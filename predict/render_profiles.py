@@ -84,6 +84,14 @@ class Ref2VAProfile(RenderProfile):
 
     name = "ref2va"
 
+    # SETTINGS PARITY pins (single source with the proven recipe):
+    # FPS is the frame math the recipe module uses; RECIPE_SEED is the
+    # h3_recipe pin (imported, not duplicated — a recipe change
+    # propagates here).
+    FPS = 24
+    from services.director.renderers.h3_recipe import SEED as _RECIPE_SEED  # noqa: E402
+    RECIPE_SEED = _RECIPE_SEED
+
     _TOKEN_RE = re.compile(r"<(Picture|Audio)\s+(\d+)>", re.I)
 
     def build_settings(self, briefs: Sequence[RenderBrief],
@@ -95,6 +103,9 @@ class Ref2VAProfile(RenderProfile):
                        audio_guide: Optional[str] = None,
                        audio_provenance: Optional[AudioGuideProvenance] = None,
                        audio_policy: Optional[AudioPolicy] = None,
+                       speaker_prompt: Optional[str] = None,
+                       seed: Optional[int] = None,
+                       audio_length_frames: Optional[int] = None,
                        **kw) -> dict:
         # image refs: present + readable
         if not image_refs:
@@ -180,15 +191,77 @@ class Ref2VAProfile(RenderProfile):
                         "level template ONLY, never the brief text "
                         "the runtime hands to the render (the runtime "
                         "contiguity check rejects them)")
-        frames = int(round(shot_duration_s * 24))
+        # SETTINGS PARITY (live smoke 2026-09-02): the emitted doc must
+        # match the proven manual recipe shape (h3_recipe), which
+        # rendered grandma-perfect lip sync on the 3090. Three
+        # divergences broke the pipeline smoke:
+        #
+        # (1) prompt carried the WanGPJobConfig profile-tag default
+        #     ("ref2va") while the real speaker template went to
+        #     `script` — WanGP reads `prompt`, so the model got the
+        #     literal string "ref2va" and the mouth had nothing to
+        #     articulate. The FULL speaker template (subject
+        #     definitions + "(S1) says: <d>[English] ...</d>" +
+        #     listener mouth-closed clause) must reach `prompt`.
+        #     `script` is preserved for the multishot lane's own use
+        #     but is never the only carrier.
+        # (2) frames_per_shot snapped to the multishot grid (107 for
+        #     4.042s) with no video_length — the model paced mouth
+        #     motion for a different duration than the speech. The
+        #     recipe's frame math is round(duration_s*24) at 24fps
+        #     (h3_recipe: "frames = round(duration_s * 24)"), matching
+        #     the padded audio exactly. video_length is that value —
+        #     whole-frame aligned with the audio guide. frames_per_shot
+        #     rides the multishot 5+17k grid for the multishot lane's
+        #     own use and is never the Ref2VA authority.
+        video_length = int(round(shot_duration_s * self.FPS))
+        # audio-length == frame-count invariant: when the caller
+        # passes the actual (padded) audio-guide frame length, it
+        # MUST equal round(shot_duration_s*24) — a mismatch means the
+        # guide was sliced for a different duration than the shot.
+        if audio_length_frames is not None:
+            if int(audio_length_frames) != int(round(shot_duration_s * 24)):
+                raise ProfileError(
+                    f"Ref2VA audio guide length {audio_length_frames}f "
+                    f"!= shot duration frames "
+                    f"{int(round(shot_duration_s * 24))}f "
+                    f"({shot_duration_s}s @ {self.FPS}fps) — audio "
+                    "guide and video must cover the SAME duration for "
+                    "lip sync")
+        # speaker template: required carrier of the real prompt text.
+        # Brief subject+motion is NOT sufficient (verified live) — the
+        # "(SN) says:" / listener mouth-closed structure must reach
+        # WanGP's prompt field. Fallback is a deterministic derivation
+        # from the briefs so the seam never ships the bare tag.
+        if speaker_prompt is not None:
+            prompt_text = str(speaker_prompt)
+            if not prompt_text.strip():
+                raise ProfileError(
+                    "Ref2VA speaker_prompt must be nonempty when "
+                    "supplied — never an empty carrier")
+        else:
+            head = SCRIPT_SEPARATOR.join(
+                f"{b.subject}. {b.motion}." for b in briefs)
+            prompt_text = (
+                "Summary: [reference generation] All subjects retain "
+                "their exact identities from their reference "
+                f"pictures. {head} The speaker speaks with lively "
+                "animated mouth movement, in sync with the audio "
+                "guide. Listeners listen, mouths closed.")
+        # (3) seed defaulted to 42; the recipe pins 904. The caller's
+        #     seed wins; the DEFAULT is the recipe pin (imported from
+        #     h3_recipe — single source).
+        effective_seed = (int(seed) if seed is not None
+                          else self.RECIPE_SEED)
         cfg = WanGPJobConfig(
             model_type=REF2VA_MODEL_TYPE,
             script=SCRIPT_SEPARATOR.join(
                 f"{b.subject}. {b.motion}." for b in briefs),
-            prompt="ref2va",
+            prompt=prompt_text,
             width=480, height=832,
-            frames_per_shot=max(frames, 96),
+            frames_per_shot=max(video_length, 96),
             force_fps="24",
+            seed=effective_seed,
         )
         # WD-l5bx review strong-rec: image_refs/audio_prompt_type ride
         # INSIDE the settings build (``extra``) and rule 4 (flat JSON)
@@ -206,6 +279,13 @@ class Ref2VAProfile(RenderProfile):
             extra={"image_refs": list(image_refs),
                    "audio_prompt_type": "A",
                    "audio_guide": str(audio_guide),
+                   # SETTINGS PARITY (2): the recipe's frame carrier —
+                   # on-grid frames from shot_duration_s, matching the
+                   # padded audio exactly. video_length is the
+                   # authoritative Ref2VA frame count; frames_per_shot
+                   # above rides the same grid so the two never
+                   # conflict.
+                   "video_length": video_length,
                    "audio_provenance": audio_provenance.to_dict(),
                    "audio_policy": audio_policy.to_dict(),
                    "audio_qc": Ref2VAAudioQC.empty().to_dict(),
