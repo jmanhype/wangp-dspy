@@ -24,6 +24,18 @@ from services.jobs.states import transition
 _DENOISE_COMPLETE_RE = re.compile(r"Denoising\s+(\d+)/\1\b")
 _LOG_TAIL_CHARS = 800
 
+# ── per-job-kind render-lane dispatch table (PR feat/ref2va-jobs-routing)
+# kind -> lane. "ref2va_render" is the ONLY ref2va carrier; fl2va
+# kinds (and unknown/None kinds, backward compat) stay on the existing
+# fl2va path. Unknown kinds are NOT an error here: legacy jobs carry
+# no kind and must keep rendering exactly as before.
+_REF2VA_KINDS = frozenset({"ref2va_render"})
+
+
+def render_lane_for(kind) -> str:
+    """Map a job/clip kind to its render lane ('ref2va' | 'fl2va')."""
+    return "ref2va" if kind in _REF2VA_KINDS else "fl2va"
+
 
 @dataclass(frozen=True)
 class RenderOutcome:
@@ -51,11 +63,15 @@ class JobExecutor:
     def __init__(self, *, queue, preflight: Callable,
                  render: Callable[[dict], RenderOutcome],
                  qc: Callable[[dict], tuple],
+                 ref2va_render: Optional[Callable[[dict], RenderOutcome]] = None,
                  max_failures: int = 3,
                  staleness_s: float = 600.0):
         self.queue = queue
         self.preflight = preflight
         self.render = render
+        # ref2va lane renderer (per-job-kind routing); when None the
+        # ref2va lane FAILS CLOSED — never silently rendered on fl2va.
+        self.ref2va_render = ref2va_render
         self.qc = qc
         self.max_failures = max_failures
         # stale-active heartbeat timeout (reviewer B2): an active-state
@@ -83,20 +99,31 @@ class JobExecutor:
         for clip in job.clips:
             if clip.get("status") == "done":
                 continue  # checkpoint resume: skip done clips
-            outcome = self.render(clip)
+            lane = render_lane_for(clip.get("kind"))
+            render_fn = self.render
+            if lane == "ref2va":
+                if self.ref2va_render is None:
+                    self._fail(
+                        job, "ref2va_lane_unavailable",
+                        f"clip {clip['clip_index']} is a ref2va_render "
+                        "job but no ref2va renderer was wired into the "
+                        "executor — refusing to fall back to fl2va")
+                    return
+                render_fn = self.ref2va_render
+            outcome = render_fn(clip)
             # verify-before-trust (ruling 5)
             if not verify_render_log(outcome.log_text):
                 self._fail(
                     job, "truncated_render_log",
-                    f"render log verification failed for clip "
-                    f"{clip['clip_index']} (no complete N/N Denoising "
+                    f"[lane={lane}] render log verification failed for "
+                    f"clip {clip['clip_index']} (no complete N/N Denoising "
                     f"line); log tail: {_tail(outcome.log_text)!r}; "
                     f"log={outcome.log_path}")
                 return
             self.queue.update_clip(
                 job.job_id, clip["clip_index"], status="rendered",
                 log=outcome.log_path, mp4=outcome.mp4,
-                qc_verdict=None)
+                qc_verdict=None, lane=lane)
         self.queue.set_state(job.job_id, "rendered_pending_qc")
 
     def _qc_clips(self, job) -> None:

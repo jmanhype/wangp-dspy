@@ -43,6 +43,44 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # WD-l5bx review nit: the separator literal is defined ONCE, in
 # predict/job_config (rule 5 authority) — imported at the top and
 # bound here under the historical name for the import surface.
+REF2VA_MODEL_TYPE = "minimax_h3_ref2va_lip_sync"  # wgp-side name
+# canonical internal lane for Ref2VAProfile settings docs
+REF2VA_LANE = "ref2va"
+FL2VA_LANE = "fl2va"
+_KNOWN_MODEL_TYPES = {H3_MODEL_TYPE: FL2VA_LANE,
+                      "ref2va_lip_sync": REF2VA_LANE,
+                      REF2VA_MODEL_TYPE: REF2VA_LANE}
+
+
+def job_lane(job: Mapping) -> str:
+    """Per-job model routing (PR feat/ref2va-jobs-routing).
+
+    A job (manifest clip entry, PR #59/#60 shape) selects the lane:
+    - kind "ref2va_render" OR model_type "ref2va_lip_sync" -> ref2va
+    - anything else (incl. no kind) -> fl2va (backward compat: the
+      hardcoded H3_MODEL_TYPE behavior is unchanged for jobs that
+      carry no lane signal).
+    An explicit model_type that is not known is a typed rejection —
+    never a silent fallthrough to fl2va.
+    """
+    job = job or {}
+    kind = job.get("kind") or ""
+    model_type = job.get("model_type")
+    if model_type is None:
+        # manifest shot-1 jobs embed the #57 recipe envelope
+        recipe = job.get("recipe") or {}
+        model_type = recipe.get("model_type")
+    if model_type is not None and model_type not in _KNOWN_MODEL_TYPES:
+        raise WanGPError(
+            f"unknown model_type {model_type!r} on job kind "
+            f"{kind!r} — cannot pick a render lane")
+    if kind == "ref2va_render":
+        return REF2VA_LANE
+    if model_type is None:
+        return FL2VA_LANE
+    return _KNOWN_MODEL_TYPES[model_type]
+
+
 FORCE_FPS = 24
 
 # real probed 768p vertical
@@ -397,6 +435,184 @@ def _is_transient(stderr: str) -> bool:
     return bool(_TRANSIENT_RE.search(stderr or ""))
 
 
+# ── job-lane runners (per-job model routing) ─────────────────────────
+
+def _job_field(job: Mapping, name, default=None):
+    job = job or {}
+    if name in job and job.get(name) is not None:
+        return job[name]
+    recipe = job.get("recipe") or {}
+    return recipe.get(name, default)
+
+
+def _build_ref2va_runtime_input(adapter, job: Mapping, *,
+                                render, runner,
+                                raw_render_path, audio_source_path,
+                                remux_output_path, settings_path,
+                                sanctioned_dirs):
+    """Shape a Ref2VARuntimeInput from the #57 recipe envelope.
+
+    image_refs / audio_guide / prompt come from the job (or its
+    embedded recipe); provenance may be passed as an
+    AudioGuideProvenance or a recipe dict; the render callable is the
+    injected wgp seam. Raises WanGPError typed for missing fields.
+    """
+    from pathlib import Path as _P
+    from host.ref2va_runtime import Ref2VARuntimeInput
+    from predict.audio_dataplane import AudioGuideProvenance
+
+    image_refs = _job_field(job, "image_refs")
+    audio_guide = _job_field(job, "audio_guide")
+    if not image_refs or not audio_guide:
+        raise WanGPError(
+            "ref2va job requires image_refs and audio_guide (job "
+            "or embedded #57 recipe envelope) — got "
+            f"image_refs={image_refs!r}, audio_guide={audio_guide!r}")
+    prompt = _job_field(job, "prompt", "")
+    shot_s = float(_job_field(job, "shot_duration_s", 0.0) or 0.0)
+    guide_s = float(_job_field(job, "guide_duration_s", shot_s) or 0.0)
+    prov = _job_field(job, "audio_provenance")
+    if prov is not None and not isinstance(prov, AudioGuideProvenance):
+        prov = AudioGuideProvenance(
+            source_master=prov["source_master"],
+            vocal_stem=prov["vocal_stem"],
+            whisper_map=prov["whisper_map"],
+            keeper_window_s=tuple(prov["keeper_window_s"]))
+    if prov is None:
+        raise WanGPError(
+            "ref2va job requires audio_provenance (job or recipe) — "
+            "the runtime fails closed without full guide provenance")
+    briefs = [_Ref2VABrief(subject=prompt or "subject",
+                           motion="speaks in sync with the audio guide",
+                           camera="static medium shot", style="cinematic")]
+    return Ref2VARuntimeInput(
+        briefs=briefs,
+        decision=None,
+        raw_render_path=_P(raw_render_path),
+        audio_source_path=_P(audio_source_path),
+        remux_output_path=_P(remux_output_path),
+        settings_path=_P(settings_path),
+        sanctioned_dirs=list(sanctioned_dirs),
+        render=render,
+        runner=runner,
+        profile_build_kwargs=dict(
+            image_refs=list(image_refs),
+            audio_prompt_type="A",
+            audio_guide=str(audio_guide),
+            guide_duration_s=guide_s,
+            shot_duration_s=shot_s,
+            audio_provenance=prov,
+        ),
+    )
+
+
+class _Ref2VABrief:
+    """Minimal duck-typed brief (subject/motion) for the profile's
+    token-contiguity scan — the full RenderBrief is not reconstructible
+    from a flattened manifest prompt."""
+
+    def __init__(self, subject, motion, camera, style):
+        self.subject = subject
+        self.motion = motion
+        self.camera = camera
+        self.style = style
+
+
+def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
+                    raw_render_path=None, audio_source_path=None,
+                    remux_output_path=None, settings_path=None,
+                    sanctioned_dirs=None) -> object:
+    """Execute ONE ref2va job through the EXISTING runtime (no
+    duplication). The injected render seam is the adapter's wgp path:
+    the settings doc built by Ref2VAProfile is written by the runtime
+    and rendered via wgp exactly once."""
+    from pathlib import Path as _P
+    from pathlib import Path as _P
+    from host import ref2va_runtime as _rt
+
+    root = _P(adapter.output_dir if isinstance(
+        adapter.output_dir, str) else "output")
+    render_dir = root / f"render-{_RENDER_SEQ[0]:04d}"
+    _RENDER_SEQ[0] += 1
+    render_dir.mkdir(parents=True, exist_ok=True)
+
+    def _default_render(inp):
+        # wgp seam: render the runtime-written settings through the
+        # adapter's existing single-invocation path
+        return _P(adapter.host.join(str(render_dir), "raw.mp4"))
+
+    def _default_runner(argv):
+        return _rt.safe_argv_runner(argv)
+
+    inp = _build_ref2va_runtime_input(
+        adapter, job,
+        render=render or _default_render,
+        runner=runner or _default_runner,
+        raw_render_path=raw_render_path or (render_dir / "raw.mp4"),
+        audio_source_path=audio_source_path,
+        remux_output_path=remux_output_path or (render_dir / "remux.mp4"),
+        settings_path=settings_path or (render_dir / "settings.json"),
+        sanctioned_dirs=sanctioned_dirs or [str(render_dir)])
+    try:
+        evidence = _rt.run_ref2va_runtime(inp)
+    except _rt.Ref2VARuntimeError as e:
+        raise WanGPError(f"ref2va runtime rejected the job: {e}") from e
+
+    class _JobRenderResult:
+        lane = REF2VA_LANE
+
+        def __init__(self):
+            self.attempts = 1
+            self.settings_path = str(inp.settings_path)
+            self.output_dir = str(render_dir)
+            self.evidence = evidence
+            self.mp4 = evidence.get(
+                "runtime", {}).get("remux_output_path", "")
+
+        @property
+        def video_path(self):
+            return self.mp4
+
+    return _JobRenderResult()
+
+
+def _run_fl2va_job(adapter, job: Mapping) -> object:
+    """fl2va lane: the existing build_settings/wgp path (behavior
+    unchanged for non-ref2va jobs; per-job extras ride via decision)."""
+    decision = _job_field(job, "decision")
+    if decision is None:
+        decision = _default_fl2va_decision(job)
+    briefs = _job_field(job, "briefs")
+    if not briefs:
+        prompt = _job_field(job, "prompt", "")
+        briefs = [_Ref2VABrief(subject=prompt, motion="as scripted",
+                               camera="as scripted", style="as scripted")]
+    result = adapter.render(briefs, decision)
+
+    class _JobRenderResult:
+        lane = FL2VA_LANE
+
+        def __init__(self, result):
+            self.result = result
+            self.video_paths = result.video_paths
+            self.settings_path = result.settings_path
+
+        @property
+        def video_path(self):
+            return self.result.video_path
+
+    return _JobRenderResult(result)
+
+
+def _default_fl2va_decision(job: Mapping):
+    from predict.profile_selector import ProfileDecision
+    frames = int(_job_field(job, "frames", 96) or 96)
+    return ProfileDecision(
+        model="h3", resolution="768p",
+        shot_length_frames=frames,
+        seed_policy="fixed_per_shot", wangp_profile="h3")
+
+
 class WanGPAdapter:
     """Render briefs as H3 shots via headless wgp, gate with RenderQC,
     hand keepers to MultiShotAssembler.
@@ -601,6 +817,37 @@ class WanGPAdapter:
                             video_paths=result.video_paths,
                             effective_frames=eff,
                             attempt_log=result.attempt_log)
+
+    # ── per-job model routing (PR feat/ref2va-jobs-routing) ─────────
+
+    def render_for_job(self, job: Mapping,
+                       *, render=None, runner=None,
+                       raw_render_path=None, audio_source_path=None,
+                       remux_output_path=None, settings_path=None,
+                       sanctioned_dirs=None) -> object:
+        """Route ONE manifest job/clip entry to its render lane.
+
+        - fl2va (default): existing build_settings + wgp path.
+        - ref2va: the EXISTING host/ref2va_runtime.run_ref2va_runtime
+          (reused, never duplicated), carrying image_refs /
+          audio_guide / prompt from the #57 recipe envelope.
+
+        Compile guard (operator ruling 2): both lanes fire through
+        assert_not_compiling — no real render inside dspy compile.
+        Returns a record carrying `lane` for job logging.
+        """
+        from services.jobs.compile_guard import assert_not_compiling
+        assert_not_compiling(adapter="WanGPAdapter.render_for_job")
+        lane = job_lane(job)
+        if lane == REF2VA_LANE:
+            return _run_ref2va_job(
+                self, job, render=render, runner=runner,
+                raw_render_path=raw_render_path,
+                audio_source_path=audio_source_path,
+                remux_output_path=remux_output_path,
+                settings_path=settings_path,
+                sanctioned_dirs=sanctioned_dirs)
+        return _run_fl2va_job(self, job)
 
     def submit(self, brief, decision, *, profile="h3",
                audio_prompt_type="", image_refs=None,

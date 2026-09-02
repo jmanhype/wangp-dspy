@@ -135,3 +135,38 @@ status-only records are rejected at write time.
   structural — piece 4).
 - Accepting an mp4 on exit-code alone after a truncated log →
   step-count verification is now structural (piece 5).
+
+## Render-lane routing (PR feat/ref2va-jobs-routing)
+
+The "two parallel architectures" note is closed: the proven Ref2VA
+lane (`host/ref2va_runtime.py`, S4 6/6 live renders) is now reachable
+from the jobs layer through ONE routing seam — the adapter is no
+longer FL2VA-only.
+
+| job/clip kind                    | model_type            | lane    | renderer |
+|----------------------------------|-----------------------|---------|----------|
+| `ref2va_render`                  | `ref2va_lip_sync`     | ref2va  | existing `host/ref2va_runtime.run_ref2va_runtime` (reused, not duplicated) via `WanGPAdapter.render_for_job` |
+| `shot1_three_ref_recipe`         | fl2va (default)       | fl2va   | existing `build_settings` + wgp path |
+| `first_frame_continuation`       | fl2va (default)       | fl2va   | existing path |
+| legacy (no kind)                 | —                     | fl2va   | existing path (byte-identical backward compat) |
+
+Rules:
+- Lane selection: `host/wangp_adapter.job_lane(job)` — kind
+  `ref2va_render` or a `model_type` of `ref2va_lip_sync` (job-level or
+  inside the embedded #57 `recipe` envelope) routes to ref2va; an
+  unknown explicit `model_type` is a typed `WanGPError` (never a
+  silent fl2va fallthrough); no lane signal at all = fl2va.
+- Executor dispatch: `services/jobs/executor.render_lane_for(kind)` +
+  an injected `ref2va_render` callable. A `ref2va_render` clip with no
+  ref2va renderer wired FAILS CLOSED (`ref2va_lane_unavailable`),
+  never falls back to fl2va. Clip records log the lane (`lane` key on
+  `update_clip`; legacy records unchanged).
+- Recipe envelope: ref2va jobs carry `image_refs` / `audio_guide` /
+  `prompt` / `shot_duration_s` / `audio_provenance` from the #57
+  recipe (job-level, or read out of the embedded `recipe` dict).
+- Compile guard: `render_for_job` fires
+  `assert_not_compiling` BEFORE lane dispatch — BOTH lanes are
+  covered, not just the fl2va pipeline path.
+- `scripts/run_cycle.py --lane {fl2va,ref2va}` (default fl2va,
+  unchanged behavior); ref2va lane honors `WANGP_DRY_RUN=1`
+  (adapter=None, planning/evidence only).
