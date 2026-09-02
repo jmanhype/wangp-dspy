@@ -179,7 +179,8 @@ class JobQueue:
         self._db.commit()
 
     def update_clip(self, job_id: str, clip_index: int, *,
-                    status: str, log, mp4, qc_verdict) -> None:
+                    status: str, log, mp4, qc_verdict,
+                    lane=None) -> None:
         _check_clip_artifacts(status, log, mp4, qc_verdict)
         rec = self.get(job_id)
         clips = rec.clips
@@ -187,6 +188,10 @@ class JobQueue:
             if c["clip_index"] == clip_index:
                 c.update({"status": status, "log": log, "mp4": mp4,
                           "qc_verdict": qc_verdict})
+                # which lane rendered this clip (fl2va | ref2va);
+                # None keeps legacy records unchanged
+                if lane is not None:
+                    c["lane"] = lane
                 break
         else:
             raise JobNotFoundError(

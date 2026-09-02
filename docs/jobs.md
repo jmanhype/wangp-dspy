@@ -135,3 +135,77 @@ status-only records are rejected at write time.
   structural — piece 4).
 - Accepting an mp4 on exit-code alone after a truncated log →
   step-count verification is now structural (piece 5).
+
+## Render-lane routing (PR feat/ref2va-jobs-routing)
+
+The "two parallel architectures" note is closed: the proven Ref2VA
+lane (`host/ref2va_runtime.py`, S4 6/6 live renders) is now reachable
+from the jobs layer through ONE routing seam — the adapter is no
+longer FL2VA-only.
+
+| job/clip kind                    | model_type            | lane    | renderer |
+|----------------------------------|-----------------------|---------|----------|
+| `ref2va_render`                  | `ref2va_lip_sync`     | ref2va  | existing `host/ref2va_runtime.run_ref2va_runtime` (reused, not duplicated) via `WanGPAdapter.render_for_job` |
+| `shot1_three_ref_recipe`         | fl2va (default)       | fl2va   | existing `build_settings` + wgp path |
+| `first_frame_continuation`       | fl2va (default)       | fl2va   | existing path |
+| legacy (no kind)                 | —                     | fl2va   | existing path (byte-identical backward compat) |
+
+### Semantic product-mode table (PR #62 amendment)
+
+`services/jobs/modes.py` is the single authority: five product modes,
+typed `ModeError` enforcement BEFORE any config emits, and `model_type`
+DERIVED from mode + render_profile (a config carrying a raw
+`model_type` as input is rejected — it is an output of derivation).
+
+| product mode          | canonical H3                | image_prompt_type | inputs |
+|-----------------------|------------------------------|-------------------|--------|
+| `FL2VA_TEXT`          | `minimax_h3_fl2va_pruned`    | `T`               | text only (frames + audio refs forbidden) |
+| `FL2VA_START_END`     | `minimax_h3_fl2va_pruned`    | `SE`              | requires start + end frames |
+| `FL2VA_END_ONLY`      | `minimax_h3_fl2va_pruned`    | `E`               | exactly ONE end-frame ref, start frame forbidden |
+| `REF2VA_IDENTITY_AUDIO` | `minimax_h3_ref2va_lip_sync` | `I`             | >=1 image refs + audio_guide; turbo banned when multi-ref (#57 gate) |
+| `CONTINUATION`        | orchestration, not a model mode | —             | unwraps to an I2VA/FL2VA-style job + `temporal_strategy` in {`last_frame_chain`, `sliding_window`}; requires a VERIFIED prior-clip artifact |
+
+WanGP L2VA ground truth (encoded in `modes.py`, documented like PR #61's
+"SE" finding): there is no separate L2VA model. The FL2VA family
+(`models/minimax_h3/minimax_h3_handler.py`) allows
+`image_prompt_types_allowed="TSEVL"`, and
+`shared/deepy/tool_settings.build_generation_task` derives the flags
+from which of `image_start`/`image_end` are set: `S` is added ONLY
+when `image_start` exists, `E` only when `image_end` exists. So
+end-frame-only = `image_end` with no `image_start` →
+`image_prompt_type "E"` — L2VA is a flag combination, not an
+architecture.
+
+- `render_lane_for` accepts the four model modes (`REF2VA_IDENTITY_AUDIO`
+  → ref2va, the FL2VA trio → fl2va); `CONTINUATION` RAISES at dispatch —
+  it must be unwrapped first (`modes.unwrap_continuation`, tested:
+  `last_frame_chain` seeds `image_start` from the prior's VERIFIED last
+  frame).
+- `render_profile` is a sub-object (`pruned`/`int8`/`pdd`/`turbo`/
+  `attention`/`steps`/`cache`) — the not-a-mode list lives here and
+  nowhere else; unknown keys raise.
+- CONTINUATION priors are verify-before-trust: `prior_clip.path` (and
+  `last_frame`, when present) must appear in the verified-artifact set
+  (job records / manifest); unverified → typed error, never a
+  fabricated frame path.
+
+Rules:
+- Lane selection: `host/wangp_adapter.job_lane(job)` — kind
+  `ref2va_render` or a `model_type` of `ref2va_lip_sync` (job-level or
+  inside the embedded #57 `recipe` envelope) routes to ref2va; an
+  unknown explicit `model_type` is a typed `WanGPError` (never a
+  silent fl2va fallthrough); no lane signal at all = fl2va.
+- Executor dispatch: `services/jobs/executor.render_lane_for(kind)` +
+  an injected `ref2va_render` callable. A `ref2va_render` clip with no
+  ref2va renderer wired FAILS CLOSED (`ref2va_lane_unavailable`),
+  never falls back to fl2va. Clip records log the lane (`lane` key on
+  `update_clip`; legacy records unchanged).
+- Recipe envelope: ref2va jobs carry `image_refs` / `audio_guide` /
+  `prompt` / `shot_duration_s` / `audio_provenance` from the #57
+  recipe (job-level, or read out of the embedded `recipe` dict).
+- Compile guard: `render_for_job` fires
+  `assert_not_compiling` BEFORE lane dispatch — BOTH lanes are
+  covered, not just the fl2va pipeline path.
+- `scripts/run_cycle.py --lane {fl2va,ref2va}` (default fl2va,
+  unchanged behavior); ref2va lane honors `WANGP_DRY_RUN=1`
+  (adapter=None, planning/evidence only).
