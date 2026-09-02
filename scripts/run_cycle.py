@@ -53,7 +53,9 @@ def main():
         "a lighthouse beacon sweeping a black ocean at night, "
         "storm building, waves exploding against the rocks")
 
-    RUN_DIR = Path(__file__).resolve().parent.parent / "datasets" / "runs"
+    RUN_DIR = Path(os.environ.get(
+        "WANGP_RUN_DIR",
+        str(Path(__file__).resolve().parent.parent / "datasets" / "runs")))
     RUN_DIR.mkdir(parents=True, exist_ok=True)
     run_id = time.strftime("%Y%m%d-%H%M%S")
     run_path = RUN_DIR / f"{run_id}.json"
@@ -66,8 +68,15 @@ def main():
         # ref2va lane: route through the adapter's per-job model
         # routing (recipe-configured path). Dry-run safe: adapter=None
         # skips the real render leg (planning/evidence only).
-        if os.environ.get("WANGP_DRY_RUN"):
-            adapter = None
+        # WITHOUT WANGP_DRY_RUN the Pipeline below would silently run
+        # the plain fl2va render and label the record lane=ref2va —
+        # fail closed instead until the production render seam lands.
+        if not os.environ.get("WANGP_DRY_RUN"):
+            print("ref2va lane is dry-run only until the production "
+                  "render seam is wired — set WANGP_DRY_RUN=1",
+                  file=sys.stderr)
+            raise SystemExit(3)
+        adapter = None
     lm = creative_lm()
 
     p = Pipeline(genre=GENRE, creative_lm=lm, adapter=adapter)

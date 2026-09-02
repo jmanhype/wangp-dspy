@@ -144,6 +144,68 @@ class TestRunCycleLane:
         with pytest.raises(SystemExit):
             rc.parse_lane(["--lane", "bogus"])
 
+    def test_ref2va_lane_fails_closed_without_dry_run(
+            self, monkeypatch, capsys):
+        # F1: non-dry ref2va must NOT fall through to the plain fl2va
+        # pipeline mislabeled lane=ref2va — it exits with the guard
+        # message before any pipeline import runs.
+        import scripts.run_cycle as rc
+        monkeypatch.delenv("WANGP_DRY_RUN", raising=False)
+        monkeypatch.setattr("sys.argv",
+                            ["run_cycle.py", "--lane", "ref2va"])
+
+        def _boom(*a, **kw):
+            raise AssertionError("pipeline leg must not run")
+
+        monkeypatch.setattr(
+            "predict.lm_wiring.creative_lm", _boom, raising=False)
+        with pytest.raises(SystemExit) as ei:
+            rc.main()
+        assert ei.value.code == 3
+        err = capsys.readouterr().err
+        assert "dry-run only" in err
+        assert "WANGP_DRY_RUN=1" in err
+
+    def test_ref2va_lane_dry_run_proceeds_past_guard(
+            self, monkeypatch, tmp_path):
+        # dry-run clears the guard (adapter=None is set, then the
+        # pipeline leg is entered) — stub the heavy imports so no GPU,
+        # no SSH, no LM.
+        import scripts.run_cycle as rc
+        import sys
+        import types
+        monkeypatch.setenv("WANGP_DRY_RUN", "1")
+        monkeypatch.setenv("WANGP_RUN_DIR", str(tmp_path))
+        monkeypatch.setattr("sys.argv",
+                            ["run_cycle.py", "--lane", "ref2va"])
+
+        class _FakeResult:
+            briefs, decisions, evidence = [], [], {}
+            render = None
+
+        class _FakePipeline:
+            def __init__(self, **kw):
+                pass
+
+            def forward(self, intent):
+                return _FakeResult()
+
+        fake_host = types.SimpleNamespace(
+            SshHost=lambda **kw: None,
+            WanGPAdapter=lambda **kw: None)
+        monkeypatch.setitem(sys.modules, "host.render_host", fake_host)
+        monkeypatch.setitem(sys.modules, "host.wangp_adapter", fake_host)
+        monkeypatch.setitem(
+            sys.modules, "predict.pipeline",
+            types.SimpleNamespace(
+                Pipeline=_FakePipeline,
+                PipelineStageError=Exception))
+        monkeypatch.setitem(
+            sys.modules, "predict.lm_wiring",
+            types.SimpleNamespace(creative_lm=lambda: None))
+
+        rc.main()  # returns normally: record written, no videos → no QC
+
 
 class TestGuardCoversRef2va:
     def test_ref2va_lane_refuses_under_compile_context(self):

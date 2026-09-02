@@ -527,7 +527,6 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     the settings doc built by Ref2VAProfile is written by the runtime
     and rendered via wgp exactly once."""
     from pathlib import Path as _P
-    from pathlib import Path as _P
     from host import ref2va_runtime as _rt
 
     root = _P(adapter.output_dir if isinstance(
