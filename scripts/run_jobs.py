@@ -26,11 +26,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+# live smoke fix 3: the preflight QC healthz probe needs a REAL url —
+# the "" placeholder made `curl -fsS -m N ""` fail on every job.
+# Env-overridable via WANGP_QC_URL.
+DEFAULT_QC_URL = "http://localhost:8000/health"
 
 from services.jobs.queue import (  # noqa: E402,F401
     JobQueue, is_job_admissible as _is_admissible_impl,
@@ -140,10 +146,15 @@ def build_executor(queue, host=None):
 
     adapter = WanGPAdapter(host=host) if host is not None else None
 
+    # live smoke fix 3: qc_url="" made the preflight curl probe an
+    # EMPTY URL — wire a real default (env-overridable).
+    qc_url = (os.environ.get("WANGP_QC_URL")
+              or DEFAULT_QC_URL)
+
     def preflight(job):
         return run_preflight(
             host, models=[], min_free_gb=0.0,
-            disk_path="/home/straughter/Wan2GP", qc_url="")
+            disk_path="/home/straughter/Wan2GP", qc_url=qc_url)
 
     def render(clip):
         if adapter is None:

@@ -159,7 +159,9 @@ def test_settings_doc_persisted_deterministic(tmp_path):
     inp, _, _, _ = _mk_input(tmp_path)
     a = run_ref2va_runtime(inp)
     doc = json.loads(pathlib.Path(inp.settings_path).read_text())
-    assert doc["model_type"] == "ref2va_lip_sync"
+    # host truth (fix 9): the EMITTED model_type is the wgp handler
+    # name, never the rejected 'ref2va_lip_sync'
+    assert doc["model_type"] == "minimax_h3_ref2va_pruned"
     # same artifact bytes + settings -> identical evidence (minus nothing:
     # fully deterministic)
     inp2, _, _, _ = _mk_input(tmp_path)

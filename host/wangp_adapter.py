@@ -21,6 +21,7 @@ import json
 import math
 import os
 import re
+import shlex
 import subprocess
 import time
 from dataclasses import dataclass
@@ -536,26 +537,174 @@ class _Ref2VABrief:
 # (preflight checks GPU state before admission).
 WGP_QUEUE_LOCK = "/tmp/wgp_queue.lock"
 
+# Sanctioned asset roots for the ref2va job path (live smoke 2026-09-02:
+# render_dir alone was sanctioned, so image_refs / audio_guide living in
+# the asset roots were containment-rejected). Env-overridable via
+# WANGP_SANCTIONED_DIRS (os.pathsep ':'-separated).
+DEFAULT_SANCTIONED_DIRS = (
+    "/mnt/bulk/home/straughter/sgflix_audio_factory/keepers",  # roadmap-run assets
+    "/home/straughter/Wan2GP/outputs",                         # Wan2GP outputs
+    "/mnt/bulk/home/straughter/sgflix_audio_factory/qc_media",  # QC media
+)
+
+
+def default_sanctioned_dirs() -> list:
+    env = os.environ.get("WANGP_SANCTIONED_DIRS", "")
+    if env.strip():
+        return [d for d in env.split(":") if d.strip()]
+    return list(DEFAULT_SANCTIONED_DIRS)
+
+
+# load-progress watchdog (live smoke: 55 CPU-minutes wedged at
+# "Loading Model" with no log progress; llama-server held 16G,
+# expandable-segments thrash suspected). If the render log shows no
+# new bytes for this many seconds BEFORE the first Denoising line,
+# the wgp pid is killed on the host and the job fails load_stall.
+DEFAULT_LOAD_STALL_S = 300.0
+
+
+def _load_stall_s() -> float:
+    env = os.environ.get("WANGP_LOAD_STALL_S", "")
+    try:
+        return float(env) if env.strip() else DEFAULT_LOAD_STALL_S
+    except ValueError:
+        return DEFAULT_LOAD_STALL_S
+
 
 def build_wgp_lock_argv(settings_path: str, log_path: str, *,
-                        wangp_dir: str = DEFAULT_WANGP_DIR) -> list:
-    """The proven serial wgp invocation, as an ARGV list for the host
-    seam (ssh joins argv with spaces remote-side — no nested quoting
-    needed because no path contains spaces).
+                        wangp_dir: str = DEFAULT_WANGP_DIR,
+                        venv_python: Optional[str] = None,
+                        wgp_script: Optional[str] = None) -> list:
+    """The proven serial wgp invocation (live-verified 2026-09-02).
 
-        flock /tmp/wgp_queue.lock -c \
+    TWO hardening rules learned on the box:
+    - flock has NO -c flag; and ssh JOINS argv elements with spaces
+      before the remote shell parses them, so a multi-element
+      ["flock", lock, "bash", "-c", shell] arrives as
+      `bash -c cd X && ...` (broken nesting). The FINAL WORKING FORM
+      is ONE pre-joined, shlex-quoted element:
+          flock <lock> bash -c <shlex.quote(shell)>
+    - the interpreter and wgp.py must be ABSOLUTE paths — the ssh
+      cwd is not the Wan2GP checkout.
+
+        flock /tmp/wgp_queue.lock bash -c \
           'cd <wangp_dir> && PYTHONUNBUFFERED=1 \
            PYTORCH_ALLOC_CONF=expandable_segments:True \
-           ./venv/bin/python wgp.py --process <settings.json> \
+           /abs/venv/bin/python /abs/wgp.py --process <settings.json> \
            --profile 3 --attention sdpa > <log> 2>&1'
     """
+    venv_python = venv_python or f"{wangp_dir}/venv/bin/python"
+    wgp_script = wgp_script or f"{wangp_dir}/wgp.py"
     shell = (
-        f"cd {wangp_dir} && "
+        f"cd {shlex.quote(wangp_dir)} && "
         "PYTHONUNBUFFERED=1 PYTORCH_ALLOC_CONF=expandable_segments:True "
-        f"./venv/bin/python wgp.py --process {settings_path} "
+        f"{shlex.quote(venv_python)} {shlex.quote(wgp_script)} "
+        f"--process {shlex.quote(settings_path)} "
         f"--profile {DEFAULT_PROFILE_NUMBER} --attention sdpa "
-        f"> {log_path} 2>&1")
-    return ["flock", WGP_QUEUE_LOCK, "-c", shell]
+        f"> {shlex.quote(log_path)} 2>&1")
+    return [f"flock {shlex.quote(WGP_QUEUE_LOCK)} "
+            f"bash -c {shlex.quote(shell)}"]
+
+
+def build_detached_wgp_argv(settings_path: str, log_path: str, *,
+                            wangp_dir: str = DEFAULT_WANGP_DIR,
+                            venv_python: Optional[str] = None,
+                            wgp_script: Optional[str] = None) -> list:
+    """SSH-LIFETIME RENDERS (live smoke, verified twice): a wgp run
+    owned by the worker's ssh channel dies or wedges when the channel
+    drops. The seam therefore launches wgp DETACHED on the host
+    (setsid nohup ... & — log redirect is inside the flock shell) and
+    returns immediately; the worker POLLS the log for the N/N
+    completion line (see poll_render_completion). One pre-joined
+    element, same ssh-joins-with-spaces rule as build_wgp_lock_argv.
+    """
+    lock_cmd = build_wgp_lock_argv(
+        settings_path, log_path, wangp_dir=wangp_dir,
+        venv_python=venv_python, wgp_script=wgp_script)[0]
+    return [f"setsid nohup {lock_cmd} >/dev/null 2>&1 & echo launched"]
+
+
+_DENOISE_LINE_RE = re.compile(r"Denoising\s+\d+/\d+")
+
+
+class WanGPLoadStallError(WanGPError):
+    """Typed RETRYABLE failure: the model load wedged (no log progress
+    before the first Denoising line for WANGP_LOAD_STALL_S seconds).
+    The wgp pid has already been killed on the host and the failure
+    detail carries nvidia-smi memory state."""
+
+
+def poll_render_completion(host, log_path: str, steps: int, *,
+                           timeout_s: float,
+                           poll_interval_s: float = 15.0,
+                           sleeper=None, now=None) -> str:
+    """Poll the detached render's log until verify-before-trust
+    accepts it (a complete <steps>/<steps> Denoising line), the load
+    watchdog fires, a stalled-after-denoise crash is detected, or the
+    overall timeout expires. Returns the final log text. sleeper/now
+    are injectable for fake-clock tests."""
+    sleeper = sleeper or time.sleep
+    now = now or time.monotonic
+    stall_s = _load_stall_s()
+    interval = max(0.05, min(poll_interval_s, stall_s / 20.0))
+    start = now()
+    last_log = None
+    last_change = start
+    while True:
+        t = now()
+        if t - start > timeout_s:
+            raise WanGPError(
+                f"detached render timed out after {timeout_s}s with no "
+                f"complete {steps}/{steps} Denoising line in "
+                f"{log_path!r}")
+        rc, log_text, _err = _probe(host, ["cat", log_path], timeout=60)
+        if rc == 0:
+            log_text = log_text or ""
+            if steps > 0 and verify_denoise_steps(log_text, steps):
+                return log_text
+            if log_text != last_log:
+                last_log = log_text
+                last_change = t
+            elif (t - last_change) >= stall_s:
+                if not _DENOISE_LINE_RE.search(log_text):
+                    # wedged model load (pre-denoise): kill the wgp
+                    # pid on the host, fail load_stall (retryable)
+                    # with nvidia-smi memory evidence
+                    _kill_wgp_on_host(host)
+                    _rc, smi, _e = _probe(
+                        host, ["nvidia-smi", "--query-gpu=memory.used,"
+                               "memory.total", "--format=csv,noheader"],
+                        timeout=60)
+                    raise WanGPLoadStallError(
+                        "load_stall: no log progress for "
+                        f"{t - last_change:.0f}s before the first "
+                        f"Denoising line (watchdog {stall_s:.0f}s) — "
+                        "wgp pid killed on the host; nvidia-smi: "
+                        f"{(smi or '').strip()!r}; log tail: "
+                        f"{log_text[-300:]!r}")
+                # denoising had STARTED and the log went quiet: the
+                # render crashed mid-denoise (truncated log) — the
+                # process is already dead, no kill needed
+                raise WanGPError(
+                    "verify-before-trust rejected the render log: "
+                    f"denoising started but no complete {steps}/{steps} "
+                    f"line and the log went quiet for "
+                    f"{t - last_change:.0f}s (mid-denoise crash); log "
+                    f"tail: {log_text[-300:]!r}")
+        sleeper(interval)
+
+
+def _kill_wgp_on_host(host) -> None:
+    # pgrep the wgp pid(s) then kill each (pkill fallback covers a
+    # race where pgrep missed a just-started pid)
+    rc, out, _err = _probe(host, ["pgrep", "-f", "wgp.py"], timeout=30)
+    pids = [p for p in (out or "").split() if p.strip().isdigit()]
+    killed = False
+    for pid in pids:
+        krc, _o, _e = _probe(host, ["kill", pid], timeout=30)
+        killed = killed or krc == 0
+    if not killed:
+        _probe(host, ["pkill", "-f", "wgp.py"], timeout=30)
 
 
 def verify_denoise_steps(log_text: str, steps: int) -> bool:
@@ -570,15 +719,30 @@ def verify_denoise_steps(log_text: str, steps: int) -> bool:
 
 def _host_path(host, path: str) -> str:
     """Translate a local-namespace path for the host when the host
-    knows a mapping (SshHost); LocalHost paths pass through."""
+    knows a mapping (SshHost); LocalHost paths pass through.
+
+    Live smoke hardening (2026-09-02): the historical bare-except
+    returned the path AS-IS when map_path refused — a silent
+    WRONG-HOST path (local namespace executed remotely). Now, when
+    mapping fails, the path is absolutized (relative paths never map)
+    and its existence is VERIFIED on the host; if it is neither
+    mapped nor present host-side, this RAISES."""
     mapper = getattr(host, "map_path", None)
-    if mapper is None:
-        return path
-    try:
-        return mapper(path)
-    except Exception:
-        # outside the pull mirror (already host-namespace) — use as-is
-        return path
+    if mapper is not None:
+        try:
+            return mapper(path)
+        except Exception:
+            pass  # fall through to the verify-or-raise path below
+    else:
+        return path  # LocalHost: same namespace, pass through
+    abs_path = os.path.abspath(path)
+    rc, _out, _err = _probe(host, ["test", "-e", abs_path], timeout=60)
+    if rc == 0:
+        return abs_path
+    raise WanGPError(
+        f"path {path!r} is neither mappable to the host namespace nor "
+        f"present on the host ({abs_path!r}) — refusing to use a "
+        "wrong-host path")
 
 
 def _probe(host, argv, timeout=120):
@@ -632,12 +796,23 @@ def production_ref2va_render(adapter, inp):
     run_dir = settings_host.rsplit("/", 1)[0]
     log_path = f"{run_dir}/render.log"
 
-    rc, _out, err = _probe(
-        host, build_wgp_lock_argv(settings_host, log_path),
-        timeout=int(adapter.timeout))
+    # mkdir -p the run dir BEFORE the wgp invocation (live smoke fix:
+    # the detached shell's `> <log>` redirect fails on a missing dir)
+    rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
     if rc != 0:
         raise WanGPError(
-            f"production wgp invocation failed under "
+            f"mkdir -p {run_dir!r} failed on the host "
+            f"(rc={rc}: {err.strip()[:200]})")
+
+    # SSH-LIFETIME RENDERS (fix A): launch DETACHED (setsid nohup &)
+    # so a dropped ssh channel can never kill or wedge the render;
+    # then POLL the log/artifacts for the N/N completion line.
+    rc, _out, err = _probe(
+        host, build_detached_wgp_argv(settings_host, log_path),
+        timeout=60)
+    if rc != 0:
+        raise WanGPError(
+            f"detached wgp launch failed under "
             f"{WGP_QUEUE_LOCK} (rc={rc}): {err.strip()[:400]}")
 
     # steps from the config (the runtime wrote settings before render)
@@ -647,13 +822,13 @@ def production_ref2va_render(adapter, inp):
         ).get("num_inference_steps") or 0)
     except (OSError, ValueError):
         steps = 0
-    rc, log_text, _err = _probe(host, ["cat", log_path])
-    if rc != 0 or not verify_denoise_steps(log_text, steps):
+    log_text = poll_render_completion(
+        host, log_path, steps, timeout_s=float(adapter.timeout))
+    if steps > 0 and not verify_denoise_steps(log_text, steps):
         raise WanGPError(
             "verify-before-trust rejected the render log for "
             f"{settings_host!r}: no complete {steps}/{steps} Denoising "
-            f"line (cat rc={rc}); log tail: "
-            f"{(log_text or _err or '')[-400:]!r}")
+            f"line; log tail: {log_text[-400:]!r}")
 
     newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
     raw_host = _host_path(host, str(inp.raw_render_path))
@@ -699,6 +874,11 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
 
     root = _P(adapter.output_dir if isinstance(
         adapter.output_dir, str) else "output")
+    # live smoke fix 5: output_dir may be RELATIVE ("output"); a
+    # relative path can never map through the host's pull-root
+    # mapping (and silently fell through to the wrong-host path).
+    # Absolutize against the CWD before any mapping happens.
+    root = _P(os.path.abspath(str(root)))
     render_dir = root / f"render-{_RENDER_SEQ[0]:04d}"
     _RENDER_SEQ[0] += 1
     render_dir.mkdir(parents=True, exist_ok=True)
@@ -720,10 +900,18 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
         render=render or _default_render,
         runner=runner or _default_runner,
         raw_render_path=raw_render_path or (render_dir / "raw.mp4"),
-        audio_source_path=audio_source_path,
+        # live smoke fix 1: audio_source_path=None crashed Path(None)
+        # inside the runtime — default to the job's audio_guide
+        audio_source_path=audio_source_path
+        or _job_field(job, "audio_guide"),
         remux_output_path=remux_output_path or (render_dir / "remux.mp4"),
         settings_path=settings_path or (render_dir / "settings.json"),
-        sanctioned_dirs=sanctioned_dirs or [str(render_dir)])
+        # live smoke fix 2: render_dir alone was sanctioned — the
+        # asset roots (image_refs / audio_guide / QC media) live
+        # OUTSIDE it and were containment-rejected. Env-overridable.
+        sanctioned_dirs=(list(sanctioned_dirs) if sanctioned_dirs
+                         else default_sanctioned_dirs())
+                        + [str(render_dir)])
     try:
         evidence = _rt.run_ref2va_runtime(inp)
     except _rt.Ref2VARuntimeError as e:
