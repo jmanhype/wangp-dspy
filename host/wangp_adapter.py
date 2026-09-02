@@ -781,7 +781,7 @@ def _default_fl2va_decision(job: Mapping):
     return ProfileDecision(
         model="h3", resolution="768p",
         shot_length_frames=frames,
-        seed_policy="fixed_per_shot", wangp_profile="h3")
+        seed_policy="fixed_per_shot", wangp_profile="profile3")
 
 
 class WanGPAdapter:

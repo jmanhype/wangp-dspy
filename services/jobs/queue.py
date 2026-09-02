@@ -40,6 +40,38 @@ class JobNotFoundError(KeyError):
     """No job with that id in the queue."""
 
 
+# ── dependency admissibility ─────────────────────────────────────────
+# Single source of truth for `needs` gating. The EXECUTOR path must use
+# this too (reviewer blocker): a pending job whose needs-target is not
+# done is not admissible and must never be picked for execution.
+
+def job_needs(job) -> Optional[str]:
+    """The job's `needs` dependency id (clip-level first, then
+    job-level attr); None when the job has no dependency."""
+    needs = job.clips[0].get("needs") if job.clips else None
+    if not needs:
+        needs = getattr(job, "needs", None)
+    return needs or None
+
+
+def is_job_admissible(job, done_ids) -> bool:
+    """True when the job has no unmet `needs` dependency."""
+    needs = job_needs(job)
+    return True if not needs else needs in done_ids
+
+
+def next_admissible(queue) -> Optional[str]:
+    """Oldest pending job whose needs-target is done (or with no
+    needs); a blocked job STAYS pending and later jobs are still
+    considered (in-order among admissible ones). Works with any
+    queue exposing list_state/get (JobQueue and test fakes)."""
+    done = set(queue.list_state("done"))
+    for jid in queue.list_state("pending"):
+        if is_job_admissible(queue.get(jid), done):
+            return jid
+    return None
+
+
 @dataclass
 class JobRecord:
     job_id: str
@@ -200,6 +232,13 @@ class JobQueue:
                          (json.dumps(clips), job_id))
         self._db.commit()
 
+    def update_clips(self, job_id: str, clips: Sequence[Dict]) -> None:
+        """Public clip-blob write (replaces private _db poking for
+        artifact bookkeeping like last_frame recording)."""
+        self._db.execute("UPDATE jobs SET clips=? WHERE job_id=?",
+                         (json.dumps(list(clips)), job_id))
+        self._db.commit()
+
     def record_failure(self, job_id: str, *, failure_class: str) -> None:
         rec = self.get(job_id)
         count = (rec.failure_count + 1
@@ -235,6 +274,13 @@ class JobQueue:
             "SELECT job_id FROM jobs WHERE state='pending' "
             "ORDER BY created_at LIMIT 1").fetchone()
         return row["job_id"] if row else None
+
+    def next_admissible(self) -> Optional[str]:
+        """Oldest pending job whose `needs` target is done (or with no
+        needs). Blocked jobs STAY pending; later admissible jobs are
+        still considered. This is the production picker — the plain
+        oldest-pending `next_pending` does NOT check needs."""
+        return next_admissible(self)
 
     # -- stale-active recovery (reviewer B2) --------------------------
     def recover_stale_active(self, *, staleness_s: float = 600.0,
@@ -289,4 +335,5 @@ class JobQueue:
                 and rec.failure_count >= max_failures)
 
 
-__all__ = ["JobQueue", "JobRecord", "JobNotFoundError"]
+__all__ = ["JobQueue", "JobRecord", "JobNotFoundError", "next_admissible",
+           "is_job_admissible", "job_needs"]

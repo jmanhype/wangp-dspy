@@ -25,6 +25,8 @@ class FakeHost:
             return 0, "", ""
         if argv[:1] == ["cat"]:
             return 0, "Denoising 20/20\n", ""
+        if argv[:1] == ["df"]:
+            return 0, "  100G\n", ""
         return 0, "", ""
 
 
@@ -109,6 +111,67 @@ class TestR2ILastFrame:
                        "r2i-clip0002-abc_last_frame.png")
 
 
+class TestExecutorNeedsGating:
+    """BLOCKER regression (PR #63 review): dependency gating must live
+    on the ACTUAL execution path (JobExecutor._pick_job), not only in
+    the run_jobs helper. A blocked dependent that is OLDER than its
+    prerequisite must stay pending while the prerequisite renders."""
+
+    def _executor(self, q, host):
+        return run_jobs.build_executor(q, host=host)
+
+    def test_executor_never_picks_blocked_dependent(
+            self, tmp_path, monkeypatch):
+        q = JobQueue(str(tmp_path / "jobs.db"))
+        # DEPENDENT FIRST (older) — its `needs` points at the
+        # prerequisite's job id, wired in after both are submitted
+        host = FakeHost()
+
+        class _Res:
+            video_path = "renders/out.mp4"
+            settings_path = "renders/render"
+
+        monkeypatch.setattr(
+            "host.wangp_adapter.WanGPAdapter.render_for_job",
+            lambda self, clip: _Res())
+        dep_clips = [{"clip_index": 1, "status": "pending",
+                      "kind": "fl2va_first_last",
+                      "log": None, "mp4": None, "qc_verdict": None}]
+        pre_clips = [{"clip_index": 1, "status": "pending",
+                      "kind": "r2i_pose_target",
+                      "log": None, "mp4": None, "qc_verdict": None}]
+        dep_id = q.submit(plan_ref="dep.json", clips=dep_clips)
+        pre_id = q.submit(plan_ref="pre.json", clips=pre_clips)
+        # wire the dependency (clip-level `needs`)
+        clips = q.get(dep_id).clips
+        clips[0]["needs"] = pre_id
+        q.update_clips(dep_id, clips)
+        # dependent is OLDER: oldest-pending would pick it
+        assert q.next_pending() == dep_id
+
+        ex = self._executor(q, host)
+        # drain once: prerequisite runs, dependent stays pending
+        ran = ex.run_once()
+        assert ran == pre_id
+        assert q.get(pre_id).state == "done"
+        assert q.get(dep_id).state == "pending"
+        # ...and the drain loop keeps going for admissible jobs only
+        handled = run_jobs.drain_once(q, host=host)
+        assert dep_id in handled
+        assert q.get(dep_id).state == "done"
+
+    def test_executor_blocked_only_job_returns_none(self, tmp_path):
+        q = JobQueue(str(tmp_path / "jobs.db"))
+        dep_id = q.submit(
+            plan_ref="dep.json",
+            clips=[{"clip_index": 1, "status": "pending",
+                    "kind": "fl2va_first_last", "needs": "nope-xyz",
+                    "log": None, "mp4": None, "qc_verdict": None}])
+        ex = self._executor(q, FakeHost())
+        assert ex.run_once() is None
+        assert q.get(dep_id).state == "pending"
+
+
 class TestDryRunAndOnce:
     def test_dry_run_no_host_calls_no_state_mutation(self, tmp_path, capsys):
         q = _queue(tmp_path, [(
@@ -125,15 +188,24 @@ class TestDryRunAndOnce:
         assert q2.list_state("pending")
 
     def test_dry_run_marks_blocked(self, tmp_path):
-        q = _queue(tmp_path, [(
-            "B.json", [{"clip_index": 1, "status": "pending",
-                        "kind": "fl2va_first_last",
-                        "needs": "missing", "log": None, "mp4": None,
-                        "qc_verdict": None}])])
+        q = _queue(tmp_path, [
+            ("A.json", [{"clip_index": 1, "status": "pending",
+                         "kind": "r2i_pose_target", "log": None,
+                         "mp4": None, "qc_verdict": None}]),
+            ("B.json", [{"clip_index": 1, "status": "pending",
+                         "kind": "fl2va_first_last",
+                         "needs": "missing", "log": None, "mp4": None,
+                         "qc_verdict": None}]),
+        ])
+        a_id, b_id = q.list_state("pending")
         report = run_jobs.dry_run_report(q)
-        assert len(report["would_run"]) == 1
-        entry = report["would_run"][0]
-        assert entry["blocked_by"] == "missing"
+        entries = {e["job_id"]: e for e in report["would_run"]}
+        # the blocked job is FLAGGED with its unmet dependency
+        assert entries[b_id]["blocked_by"] == "missing"
+        # the admissible job is not flagged as blocked
+        assert entries[a_id]["blocked_by"] is None
+        # and the dry-run PLAN would execute only the admissible job
+        assert run_jobs.dry_run_plan(q) == [a_id]
 
     def test_once_exits_after_one(self, tmp_path, monkeypatch, capsys):
         # two admissible jobs; --once runs exactly one

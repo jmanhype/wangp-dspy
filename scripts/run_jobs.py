@@ -32,7 +32,29 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from services.jobs.queue import JobQueue  # noqa: E402
+from services.jobs.queue import (  # noqa: E402,F401
+    JobQueue, is_job_admissible as _is_admissible_impl,
+    next_admissible as _next_admissible_impl,
+)
+
+
+def is_admissible(job, done_jobs) -> bool:
+    """True when the job has no unmet `needs` dependencies.
+
+    Thin re-export of the queue-module implementation so the executor
+    path and the worker path share ONE admissibility definition."""
+    return _is_admissible_impl(job, done_jobs)
+
+
+def done_job_ids(queue) -> set:
+    return set(queue.list_state("done"))
+
+
+def next_admissible(queue):
+    """Oldest pending job whose needs-target is done (or with no
+    needs). Delegates to services.jobs.queue.next_admissible — the
+    SAME gating the executor's default picker uses."""
+    return _next_admissible_impl(queue)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -48,33 +70,6 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--dry-run", action="store_true",
                    help="emit what would run; NO host calls")
     return p
-
-
-# ── dependency admissibility ─────────────────────────────────────────
-
-def is_admissible(job, done_jobs) -> bool:
-    """True when the job has no unmet `needs` dependencies."""
-    needs = job.clips[0].get("needs") if job.clips else None
-    if not needs:
-        needs = getattr(job, "needs", None)
-    if not needs:
-        return True
-    return needs in done_jobs
-
-
-def done_job_ids(queue) -> set:
-    return set(queue.list_state("done"))
-
-
-def next_admissible(queue):
-    """Oldest pending job whose needs-target is done (or with no
-    needs); a blocked job STAYS pending and later jobs are still
-    considered (in-order among admissible ones)."""
-    done = done_job_ids(queue)
-    for jid in queue.list_state("pending"):
-        if is_admissible(queue.get(jid), done):
-            return jid
-    return None
 
 
 # ── r2i last-frame extraction (host seam, ffmpeg) ────────────────────
@@ -103,11 +98,8 @@ def record_last_frame(queue, job, png: str) -> None:
     for c in job.clips:
         if c.get("kind") == "r2i_pose_target":
             c["last_frame"] = png
-    # persist through the queue's clips JSON
-    queue._db.execute(  # noqa: SLF001
-        "UPDATE jobs SET clips=? WHERE job_id=?",
-        (json.dumps(job.clips), job.job_id))
-    queue._db.commit()  # noqa: SLF001
+    # persist through the queue's PUBLIC clips write (no _db poking)
+    queue.update_clips(job.job_id, job.clips)
 
 
 def r2i_last_frame_png(run_dir: str, job) -> str:
@@ -182,29 +174,43 @@ def _read_host_log(host, log_path: str) -> str:
 
 # ── main driver ──────────────────────────────────────────────────────
 
+def dry_run_plan(queue, limit=None) -> list:
+    """Read-only view of the jobs a real drain would run, in order.
+
+    Same gating as execution (needs-aware), but computed against a
+    LOCAL done-set: no queue state is mutated and no shared object is
+    monkeypatched. A job whose need is itself only 'would-run' here is
+    still shown downstream (it WOULD be done by the time the drain
+    reaches its dependent), matching drain semantics."""
+    done = done_job_ids(queue)
+    planned = []
+    for jid in queue.list_state("pending"):
+        if limit is not None and len(planned) >= limit:
+            break
+        if not is_admissible(queue.get(jid), done):
+            continue
+        planned.append(jid)
+        done.add(jid)  # local view only — the queue is untouched
+    return planned
+
+
 def drain_once(queue, host=None, dry_run: bool = False, limit=None):
     """Run admissible jobs until none remain (or `limit` jobs, for
      --once callers). Returns list of handled job ids. --dry-run emits
-    what would run WITHOUT host calls and WITHOUT mutating state."""
+     what would run WITHOUT host calls and WITHOUT mutating state."""
+    if dry_run:
+        handled = dry_run_plan(queue, limit=limit)
+        for jid in handled:
+            job = queue.get(jid)
+            print(f"[dry-run] would run {jid} "
+                  f"(kinds={[c.get('kind') for c in job.clips]})")
+        return handled
     handled = []
     while limit is None or len(handled) < limit:
         jid = next_admissible(queue)
         if jid is None:
             return handled
         job = queue.get(jid)
-        if dry_run:
-            print(f"[dry-run] would run {jid} "
-                  f"(kinds={[c.get('kind') for c in job.clips]})")
-            handled.append(jid)
-            # advance WITHOUT mutating queue state: mark done locally
-            # so next_admissible skips it in this process
-            real_done = queue.list_state
-
-            def _done_with_extra(state, _extra=jid, _real=real_done):
-                ids = _real(state)
-                return ids + ([_extra] if state == "done" else [])
-            queue.list_state = _done_with_extra  # type: ignore
-            continue
         ex = build_executor(queue, host=host)
         ex.run_once()
         handled.append(jid)
@@ -220,6 +226,7 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None):
                     str(Path(queue.db_path).parent), fresh)
                 extract_last_frame(host, mp4, png)
                 record_last_frame(queue, fresh, png)
+    return handled
 
 
 def main(argv=None):
