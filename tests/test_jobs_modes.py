@@ -90,7 +90,7 @@ class TestRule3ModelTypeDerived:
         assert derive_model_type("FL2VA_END_ONLY") == (
             "minimax_h3_fl2va_pruned")
         assert derive_model_type("REF2VA_IDENTITY_AUDIO") == (
-            "minimax_h3_ref2va_lip_sync")
+            "minimax_h3_ref2va_pruned")
 
 
 class TestRule4RenderProfile:
