@@ -209,3 +209,82 @@ Rules:
 - `scripts/run_cycle.py --lane {fl2va,ref2va}` (default fl2va,
   unchanged behavior); ref2va lane honors `WANGP_DRY_RUN=1`
   (adapter=None, planning/evidence only).
+
+## Production render seam (PR feat/production-render-seam)
+
+### Host-truth model names
+
+The 3090 Wan2GP handler (`models/minimax_h3/minimax_h3_handler.py`)
+exposes ONLY `minimax_h3_ref2va` and `minimax_h3_ref2va_pruned` —
+there is no `minimax_h3_ref2va_lip_sync` handler (the historical
+derived name would crash at the host). Canonical derivations now:
+
+| mode | derived model_type |
+|---|---|
+| FL2VA_TEXT / FL2VA_START_END / FL2VA_END_ONLY | `minimax_h3_fl2va_pruned` |
+| REF2VA_IDENTITY_AUDIO | `minimax_h3_ref2va_pruned` |
+
+`services/jobs/modes.HOST_MODEL_ALLOWLIST` holds both real Ref2VA
+handler names (+ fl2va); `derive_model_type` fails closed with a
+typed `ModeError` if a derivation result is not in the allowlist —
+a mode-table drift is caught at derivation time, never on the GPU
+box. `host/wangp_adapter.REF2VA_MODEL_TYPE` is the pruned (proven
+production) name; the old name survives only as a legacy
+`_KNOWN_MODEL_TYPES` alias for git archaeology / old manifests.
+
+### The verified wgp command shape
+
+All host interaction goes through `host.render_host.SshHost`
+(`run_probe` seam). The PROVEN serial invocation
+(live-verified 2026-09-01):
+
+```
+flock /tmp/wgp_queue.lock -c \
+  'cd /home/straughter/Wan2GP && PYTHONUNBUFFERED=1 \
+   PYTORCH_ALLOC_CONF=expandable_segments:True \
+   ./venv/bin/python wgp.py --process <settings.json> \
+   --profile 3 --attention sdpa > <log> 2>&1'
+```
+
+- The queue lock serializes GPU access; GPU-tenant clearing stays OUT
+  (preflight checks GPU state before admission).
+- Settings JSON (from the recipe envelope) is written to the run dir
+  before invocation.
+- VERIFY-BEFORE-TRUST: the log is grepped for a complete
+  `<steps>/<steps>` Denoising line (steps = the config's
+  `num_inference_steps`) BEFORE the newest `outputs/*.mp4` is
+  accepted (`ls -t`). A truncated log is a typed `WanGPError`.
+- The newest output is `cp`'d to the job target path.
+- Audio mux ONLY when `audio_guide` is present:
+  `ffmpeg -y -i <mp4> -i <guide> -map 0:v -map 1:a -c:v copy
+  -c:a aac -shortest` (remux lives next to the raw target).
+
+Implementation: `host/wangp_adapter.production_ref2va_render`
+(wired as the `_default_render` seam of the ref2va job path; every
+step testable with an injected fake host).
+
+### Queue worker entrypoint
+
+`scripts/run_jobs.py --db jobs.db [--once | --loop SECS] [--dry-run]`
+
+- Jobs execute IN ORDER (oldest first) through `JobExecutor`, honoring
+  `needs` dependencies: a job whose needs-target is not `done` stays
+  pending (blocked jobs never fail, they wait).
+- `--once` processes one admissible job then exits; `--loop SECS`
+  polls; `--dry-run` emits what would run with NO host calls and no
+  state mutation.
+- r2i -> fl2va dependency: when an `r2i_pose_target` job completes,
+  its last frame is extracted on the host —
+  `ffmpeg -y -sseof -0.1 -i <mp4> -frames:v 1 <png>` — into
+  `<run_dir>/render/clipNNNN/<r2i job id>_last_frame.png` and recorded
+  on the clip as the verified `last_frame` artifact the dependent
+  `fl2va_first_last` job consumes.
+- CONTINUATION jobs unwrap via `modes.unwrap_continuation` using the
+  verified prior last-frame (rule 6 verify-before-trust).
+
+Guard distinction: `scripts/run_cycle.py` KEEPS its ref2va
+"dry-run only" guard (`WANGP_DRY_RUN`) — it is a one-shot cycle
+driver whose ref2va lane predates this seam. The jobs path
+(`run_jobs.py` + `JobExecutor`) removes that guard: it executes
+ref2va through the production render seam. Different entrypoints,
+different contracts.

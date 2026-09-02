@@ -29,7 +29,8 @@ from typing import Any, Dict, FrozenSet, Iterable, Mapping, Optional
 
 __all__ = [
     "ProductMode", "ModeError",
-    "CANONICAL_H3_FOR_MODE", "IMAGE_PROMPT_TYPE_FOR_MODE",
+    "CANONICAL_H3_FOR_MODE", "HOST_MODEL_ALLOWLIST",
+    "IMAGE_PROMPT_TYPE_FOR_MODE",
     "derive_model_type", "validate_mode_inputs", "unwrap_continuation",
 ]
 
@@ -52,8 +53,25 @@ CANONICAL_H3_FOR_MODE: Dict[ProductMode, str] = {
     ProductMode.FL2VA_TEXT: "minimax_h3_fl2va_pruned",
     ProductMode.FL2VA_START_END: "minimax_h3_fl2va_pruned",
     ProductMode.FL2VA_END_ONLY: "minimax_h3_fl2va_pruned",
-    ProductMode.REF2VA_IDENTITY_AUDIO: "minimax_h3_ref2va_lip_sync",
+    # HOST TRUTH (operator audit 2026-09-01, probed on the 3090
+    # Wan2GP checkout): the handler exposes ONLY `minimax_h3_ref2va`
+    # and `minimax_h3_ref2va_pruned` — there is NO
+    # `minimax_h3_ref2va_lip_sync` handler, so the old derived name
+    # would crash at the host. This is the proven production model.
+    ProductMode.REF2VA_IDENTITY_AUDIO: "minimax_h3_ref2va_pruned",
 }
+
+
+# The REAL WanGP H3 handler names the 3090 host actually serves
+# (operator audit 2026-09-01, probed live). derive_model_type fails
+# closed (typed ModeError) when a derivation result is not in this
+# set — a map entry drifting off host truth is a configuration error
+# caught at derivation time, never a crash on the GPU box.
+HOST_MODEL_ALLOWLIST = frozenset({
+    "minimax_h3_fl2va_pruned",
+    "minimax_h3_ref2va",
+    "minimax_h3_ref2va_pruned",
+})
 
 # WanGP image_prompt_type flag per mode (see module docstring).
 IMAGE_PROMPT_TYPE_FOR_MODE: Dict[ProductMode, str] = {
@@ -144,8 +162,18 @@ def derive_model_type(mode: Any, *, detail: bool = False,
             "CONTINUATION is orchestration, not a model mode — unwrap "
             "it to the underlying I2VA/FL2VA-style job first "
             "(unwrap_continuation)")
+    model_type = CANONICAL_H3_FOR_MODE[m]
+    # fail closed against host truth: a derivation result that is not
+    # a REAL WanGP handler name is a configuration error — catch it
+    # here, never on the GPU box.
+    if model_type not in HOST_MODEL_ALLOWLIST:
+        raise ModeError(
+            f"derived model_type {model_type!r} for mode {m.value} is "
+            f"not in HOST_MODEL_ALLOWLIST {sorted(HOST_MODEL_ALLOWLIST)} "
+            "— the mode table drifted off host truth; refusing to "
+            "emit a config the host would crash on")
     out: Dict[str, Any] = {
-        "model_type": CANONICAL_H3_FOR_MODE[m],
+        "model_type": model_type,
         "image_prompt_type": IMAGE_PROMPT_TYPE_FOR_MODE[m],
     }
     return out if detail else out["model_type"]

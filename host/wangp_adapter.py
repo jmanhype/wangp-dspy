@@ -43,12 +43,23 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # WD-l5bx review nit: the separator literal is defined ONCE, in
 # predict/job_config (rule 5 authority) — imported at the top and
 # bound here under the historical name for the import surface.
-REF2VA_MODEL_TYPE = "minimax_h3_ref2va_lip_sync"  # wgp-side name
+# HOST TRUTH (operator audit 2026-09-01): the 3090 Wan2GP handler
+# exposes ONLY `minimax_h3_ref2va` and `minimax_h3_ref2va_pruned` —
+# there is NO `minimax_h3_ref2va_lip_sync` handler. The historical
+# (wrong) name `minimax_h3_ref2va_lip_sync` is kept here only as a
+# _KNOWN_MODEL_TYPES alias for git archaeology / legacy manifests.
+# `minimax_h3_ref2va_pruned` is our proven production model
+# (s4/scripts/write_run_records.py S2.5, verified subject-mode config).
+REF2VA_MODEL_TYPE = "minimax_h3_ref2va_pruned"  # wgp-side name
+# legacy alias (pre-host-truth name — see comment above)
+REF2VA_MODEL_TYPE_LEGACY = "minimax_h3_ref2va_lip_sync"
 # canonical internal lane for Ref2VAProfile settings docs
 REF2VA_LANE = "ref2va"
 FL2VA_LANE = "fl2va"
 _KNOWN_MODEL_TYPES = {H3_MODEL_TYPE: FL2VA_LANE,
                       "ref2va_lip_sync": REF2VA_LANE,
+                      "minimax_h3_ref2va": REF2VA_LANE,
+                      REF2VA_MODEL_TYPE_LEGACY: REF2VA_LANE,
                       REF2VA_MODEL_TYPE: REF2VA_LANE}
 
 
@@ -518,6 +529,163 @@ class _Ref2VABrief:
         self.style = style
 
 
+# ── production render seam (PR feat/production-render-seam) ──────────
+# The PROVEN shape, live-verified on the 3090 (2026-09-01): a
+# setsid-safe serial wgp invocation under /tmp/wgp_queue.lock (flock).
+# The queue lock serializes GPU access; GPU-tenant clearing stays OUT
+# (preflight checks GPU state before admission).
+WGP_QUEUE_LOCK = "/tmp/wgp_queue.lock"
+
+
+def build_wgp_lock_argv(settings_path: str, log_path: str, *,
+                        wangp_dir: str = DEFAULT_WANGP_DIR) -> list:
+    """The proven serial wgp invocation, as an ARGV list for the host
+    seam (ssh joins argv with spaces remote-side — no nested quoting
+    needed because no path contains spaces).
+
+        flock /tmp/wgp_queue.lock -c \
+          'cd <wangp_dir> && PYTHONUNBUFFERED=1 \
+           PYTORCH_ALLOC_CONF=expandable_segments:True \
+           ./venv/bin/python wgp.py --process <settings.json> \
+           --profile 3 --attention sdpa > <log> 2>&1'
+    """
+    shell = (
+        f"cd {wangp_dir} && "
+        "PYTHONUNBUFFERED=1 PYTORCH_ALLOC_CONF=expandable_segments:True "
+        f"./venv/bin/python wgp.py --process {settings_path} "
+        f"--profile {DEFAULT_PROFILE_NUMBER} --attention sdpa "
+        f"> {log_path} 2>&1")
+    return ["flock", WGP_QUEUE_LOCK, "-c", shell]
+
+
+def verify_denoise_steps(log_text: str, steps: int) -> bool:
+    """Verify-before-trust: the log must show a COMPLETE N/N Denoising
+    line at the config's step count — a truncated log (mid-denoise
+    crash, half-finished queue) never accepts the outputs."""
+    if steps <= 0:
+        return False
+    return bool(re.search(rf"Denoising\s+{steps}/{steps}\b",
+                          log_text or ""))
+
+
+def _host_path(host, path: str) -> str:
+    """Translate a local-namespace path for the host when the host
+    knows a mapping (SshHost); LocalHost paths pass through."""
+    mapper = getattr(host, "map_path", None)
+    if mapper is None:
+        return path
+    try:
+        return mapper(path)
+    except Exception:
+        # outside the pull mirror (already host-namespace) — use as-is
+        return path
+
+
+def _probe(host, argv, timeout=120):
+    rc, out, err = host.run_probe(list(argv), timeout=timeout)
+    return rc, out or "", err or ""
+
+
+def newest_output_mp4(host, outputs_dir: str) -> str:
+    """Newest *.mp4 in the host's shared wgp outputs dir (`ls -t`),
+    or a typed failure — never a guess."""
+    rc, out, err = _probe(host, ["ls", "-t", outputs_dir])
+    if rc != 0:
+        raise WanGPError(
+            f"cannot list wgp outputs {outputs_dir!r} on the host "
+            f"(ls rc={rc}: {err.strip()[:200]})")
+    for line in (out or "").splitlines():
+        name = line.strip().split()[-1] if line.strip() else ""
+        if name.lower().endswith(".mp4"):
+            host_dir = outputs_dir.rstrip("/")
+            return host_dir + "/" + name.rsplit("/", 1)[-1] \
+                if not name.startswith("/") else name
+    raise WanGPError(
+        f"no .mp4 outputs found in {outputs_dir!r} — refusing to "
+        "accept a render with no artifact")
+
+
+def production_ref2va_render(adapter, inp):
+    """The production render seam for the ref2va lane — the PROVEN
+    wgp invocation shape (live-verified on the 3090), all host
+    interaction through the adapter's host seam (SshHost in
+    production, injected fakes in tests):
+
+    1. wgp runs serially under /tmp/wgp_queue.lock (flock), logging
+       to <run_dir>/render.log, with the settings the runtime already
+       wrote (recipe envelope).
+    2. VERIFY-BEFORE-TRUST: the log must contain a complete
+       <steps>/<steps> Denoising line (steps read from the settings
+       config) before any output is accepted.
+    3. The NEWEST outputs/*.mp4 is copied to the job target path.
+    4. audio mux ONLY when audio_guide is present:
+       ffmpeg -map 0:v -map 1:a -c:v copy -c:a aac -shortest.
+
+    Returns the artifact Path (muxed when audio was muxed in).
+    GPU-tenant clearing stays OUT: the queue lock serializes and
+    preflight checks GPU state before admission.
+    """
+    from pathlib import Path as _P
+
+    host = adapter.host
+    settings_host = _host_path(host, str(inp.settings_path))
+    run_dir = settings_host.rsplit("/", 1)[0]
+    log_path = f"{run_dir}/render.log"
+
+    rc, _out, err = _probe(
+        host, build_wgp_lock_argv(settings_host, log_path),
+        timeout=int(adapter.timeout))
+    if rc != 0:
+        raise WanGPError(
+            f"production wgp invocation failed under "
+            f"{WGP_QUEUE_LOCK} (rc={rc}): {err.strip()[:400]}")
+
+    # steps from the config (the runtime wrote settings before render)
+    try:
+        steps = int(json.loads(
+            _P(inp.settings_path).read_text(encoding="utf-8")
+        ).get("num_inference_steps") or 0)
+    except (OSError, ValueError):
+        steps = 0
+    rc, log_text, _err = _probe(host, ["cat", log_path])
+    if rc != 0 or not verify_denoise_steps(log_text, steps):
+        raise WanGPError(
+            "verify-before-trust rejected the render log for "
+            f"{settings_host!r}: no complete {steps}/{steps} Denoising "
+            f"line (cat rc={rc}); log tail: "
+            f"{(log_text or _err or '')[-400:]!r}")
+
+    newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
+    raw_host = _host_path(host, str(inp.raw_render_path))
+    rc, _o, err = _probe(host, ["cp", newest, raw_host])
+    if rc != 0:
+        raise WanGPError(
+            f"copying newest output {newest!r} to the job target "
+            f"{raw_host!r} failed (cp rc={rc}: {err.strip()[:200]})")
+
+    audio_guide = ""
+    try:
+        audio_guide = str(json.loads(
+            _P(inp.settings_path).read_text(encoding="utf-8")
+        ).get("audio_guide") or "")
+    except (OSError, ValueError):
+        pass
+    if audio_guide:
+        mux_host = raw_host.rsplit(".", 1)[0] + ".mux.mp4"
+        rc, _o, err = _probe(host, [
+            "ffmpeg", "-y", "-i", raw_host,
+            "-i", _host_path(host, audio_guide),
+            "-map", "0:v", "-map", "1:a",
+            "-c:v", "copy", "-c:a", "aac", "-shortest", mux_host])
+        if rc != 0:
+            raise WanGPError(
+                f"audio mux failed for {raw_host!r} (ffmpeg rc={rc}: "
+                f"{err.strip()[:200]})")
+        return _P(str(inp.raw_render_path).rsplit(".", 1)[0]
+                  + ".mux.mp4")
+    return _P(inp.raw_render_path)
+
+
 def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
                     raw_render_path=None, audio_source_path=None,
                     remux_output_path=None, settings_path=None,
@@ -536,9 +704,13 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     render_dir.mkdir(parents=True, exist_ok=True)
 
     def _default_render(inp):
-        # wgp seam: render the runtime-written settings through the
-        # adapter's existing single-invocation path
-        return _P(adapter.host.join(str(render_dir), "raw.mp4"))
+        # production render seam (PR feat/production-render-seam):
+        # the PROVEN wgp invocation — serial under /tmp/wgp_queue.lock
+        # (flock), verify-before-trust on the N/N Denoising line, then
+        # newest-output copy + optional audio mux, ALL through the
+        # host seam. The old stub returned a target path WITHOUT
+        # invoking WanGP — that gap is closed here.
+        return production_ref2va_render(adapter, inp)
 
     def _default_runner(argv):
         return _rt.safe_argv_runner(argv)
@@ -609,7 +781,7 @@ def _default_fl2va_decision(job: Mapping):
     return ProfileDecision(
         model="h3", resolution="768p",
         shot_length_frames=frames,
-        seed_policy="fixed_per_shot", wangp_profile="h3")
+        seed_policy="fixed_per_shot", wangp_profile="profile3")
 
 
 class WanGPAdapter:

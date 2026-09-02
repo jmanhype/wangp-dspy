@@ -77,7 +77,8 @@ class JobExecutor:
                  qc: Callable[[dict], tuple],
                  ref2va_render: Optional[Callable[[dict], RenderOutcome]] = None,
                  max_failures: int = 3,
-                 staleness_s: float = 600.0):
+                 staleness_s: float = 600.0,
+                 picker: Optional[Callable[[], Optional[str]]] = None):
         self.queue = queue
         self.preflight = preflight
         self.render = render
@@ -86,6 +87,13 @@ class JobExecutor:
         self.ref2va_render = ref2va_render
         self.qc = qc
         self.max_failures = max_failures
+        # Job picker: given the queue, return the next pending job id
+        # to execute (or None). PRODUCTION DEFAULT is needs-aware —
+        # a job whose `needs` dependency is not done can NEVER be
+        # picked (reviewer blocker: gating must live on the actual
+        # execution path, not just in the worker entrypoint). An
+        # explicit `picker` overrides it (tests, alternate policies).
+        self.picker = picker
         # stale-active heartbeat timeout (reviewer B2): an active-state
         # job whose owner is dead AND heartbeat older than this is
         # requeued. Configurable via WANGP_STALENESS_S.
@@ -190,7 +198,7 @@ class JobExecutor:
             self.queue.set_state(jid, "preflight")
             report = self.preflight(job)
             if not report.passed:
-                self._fail(jid := self.queue.get(jid), "preflight",
+                self._fail(self.queue.get(jid), "preflight",
                            f"preflight failed: {report.detail}")
                 return jid
             job = self.queue.get(jid)
@@ -219,10 +227,26 @@ class JobExecutor:
         recover = getattr(self.queue, "recover_stale_active", None)
         if recover is not None:
             recover(staleness_s=self.staleness_s)
-        pending = self.queue.next_pending()
+        pending = self._next_pending_id()
         if pending is not None:
             return self.queue.get(pending)
         parked = self.queue.list_state("rendered_pending_qc")
         if parked:
             return self.queue.get(parked[0])
         return None
+
+    def _next_pending_id(self) -> Optional[str]:
+        """Pick the next pending job id through the configured picker.
+
+        Default (production) is needs-aware: queue.next_admissible()
+        when the queue provides it, falling back to the shared
+        next_admissible(queue) helper (test fakes), so a blocked
+        dependent can never be picked on the execution path. An
+        explicit `picker` override wins outright.
+        """
+        if self.picker is not None:
+            return self.picker()
+        if hasattr(self.queue, "next_admissible"):
+            return self.queue.next_admissible()
+        from services.jobs.queue import next_admissible as _next_adm
+        return _next_adm(self.queue)
