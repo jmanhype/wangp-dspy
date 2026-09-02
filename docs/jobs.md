@@ -150,6 +150,45 @@ longer FL2VA-only.
 | `first_frame_continuation`       | fl2va (default)       | fl2va   | existing path |
 | legacy (no kind)                 | —                     | fl2va   | existing path (byte-identical backward compat) |
 
+### Semantic product-mode table (PR #62 amendment)
+
+`services/jobs/modes.py` is the single authority: five product modes,
+typed `ModeError` enforcement BEFORE any config emits, and `model_type`
+DERIVED from mode + render_profile (a config carrying a raw
+`model_type` as input is rejected — it is an output of derivation).
+
+| product mode          | canonical H3                | image_prompt_type | inputs |
+|-----------------------|------------------------------|-------------------|--------|
+| `FL2VA_TEXT`          | `minimax_h3_fl2va_pruned`    | `T`               | text only (frames + audio refs forbidden) |
+| `FL2VA_START_END`     | `minimax_h3_fl2va_pruned`    | `SE`              | requires start + end frames |
+| `FL2VA_END_ONLY`      | `minimax_h3_fl2va_pruned`    | `E`               | exactly ONE end-frame ref, start frame forbidden |
+| `REF2VA_IDENTITY_AUDIO` | `minimax_h3_ref2va_lip_sync` | `I`             | >=1 image refs + audio_guide; turbo banned when multi-ref (#57 gate) |
+| `CONTINUATION`        | orchestration, not a model mode | —             | unwraps to an I2VA/FL2VA-style job + `temporal_strategy` in {`last_frame_chain`, `sliding_window`}; requires a VERIFIED prior-clip artifact |
+
+WanGP L2VA ground truth (encoded in `modes.py`, documented like PR #61's
+"SE" finding): there is no separate L2VA model. The FL2VA family
+(`models/minimax_h3/minimax_h3_handler.py`) allows
+`image_prompt_types_allowed="TSEVL"`, and
+`shared/deepy/tool_settings.build_generation_task` derives the flags
+from which of `image_start`/`image_end` are set: `S` is added ONLY
+when `image_start` exists, `E` only when `image_end` exists. So
+end-frame-only = `image_end` with no `image_start` →
+`image_prompt_type "E"` — L2VA is a flag combination, not an
+architecture.
+
+- `render_lane_for` accepts the four model modes (`REF2VA_IDENTITY_AUDIO`
+  → ref2va, the FL2VA trio → fl2va); `CONTINUATION` RAISES at dispatch —
+  it must be unwrapped first (`modes.unwrap_continuation`, tested:
+  `last_frame_chain` seeds `image_start` from the prior's VERIFIED last
+  frame).
+- `render_profile` is a sub-object (`pruned`/`int8`/`pdd`/`turbo`/
+  `attention`/`steps`/`cache`) — the not-a-mode list lives here and
+  nowhere else; unknown keys raise.
+- CONTINUATION priors are verify-before-trust: `prior_clip.path` (and
+  `last_frame`, when present) must appear in the verified-artifact set
+  (job records / manifest); unverified → typed error, never a
+  fabricated frame path.
+
 Rules:
 - Lane selection: `host/wangp_adapter.job_lane(job)` — kind
   `ref2va_render` or a `model_type` of `ref2va_lip_sync` (job-level or

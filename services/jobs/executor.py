@@ -19,21 +19,33 @@ from dataclasses import dataclass
 from typing import Callable, Dict, Optional
 
 from services.jobs.states import transition
+from services.jobs.modes import (
+    ModeError, ProductMode,
+)
 
 # "20/20" / "8/8" Denoising — complete when the two numbers match
 _DENOISE_COMPLETE_RE = re.compile(r"Denoising\s+(\d+)/\1\b")
 _LOG_TAIL_CHARS = 800
 
 # ── per-job-kind render-lane dispatch table (PR feat/ref2va-jobs-routing)
-# kind -> lane. "ref2va_render" is the ONLY ref2va carrier; fl2va
-# kinds (and unknown/None kinds, backward compat) stay on the existing
-# fl2va path. Unknown kinds are NOT an error here: legacy jobs carry
-# no kind and must keep rendering exactly as before.
-_REF2VA_KINDS = frozenset({"ref2va_render"})
+# kind -> lane. Semantic product modes (PR #62 amendment): the four
+# MODEL modes route by mode; "ref2va_render" stays a valid legacy kind
+# for backward compat; unknown/None kinds stay on the fl2va path
+# (legacy jobs carry no kind and must render exactly as before).
+# CONTINUATION is orchestration, NOT a model mode — it must be
+# unwrapped (modes.unwrap_continuation) BEFORE dispatch; it raises
+# here instead of silently riding fl2va.
+_REF2VA_KINDS = frozenset(
+    {"ref2va_render", ProductMode.REF2VA_IDENTITY_AUDIO.value})
 
 
 def render_lane_for(kind) -> str:
-    """Map a job/clip kind to its render lane ('ref2va' | 'fl2va')."""
+    """Map a job/clip kind (or product mode) to its render lane."""
+    if kind == ProductMode.CONTINUATION.value:
+        raise ModeError(
+            "CONTINUATION is orchestration, not a model mode — unwrap "
+            "it to the underlying job + temporal_strategy before "
+            "dispatch (services.jobs.modes.unwrap_continuation)")
     return "ref2va" if kind in _REF2VA_KINDS else "fl2va"
 
 
