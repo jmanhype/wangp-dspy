@@ -165,17 +165,22 @@ class Ref2VAProfile(RenderProfile):
             seen[m.group(1).title()].append(int(m.group(2)))
         for kind, idxs in seen.items():
             n_refs = (len(image_refs) if kind == "Picture" else 1)
-            for i in sorted(idxs):
+            # LIVE FIX (2026-09-03, roadmap-47 item 8): repeated
+            # mentions of the SAME ref ("... from <Picture 1> ... from
+            # <Picture 1> ...") are legal prompt grammar — dedupe
+            # before the contiguity check ([1,1,1] is contiguous).
+            unique = sorted(set(idxs))
+            for i in unique:
                 if i < 1 or i > n_refs:
                     raise ProfileError(
                         f"Ref2VA script references <{kind} {i}> but "
                         f"only {n_refs} {kind.lower()} "
                         f"{'ref' if n_refs == 1 else 'refs'} exist — "
                         "referenced indices must be contiguous from 1")
-            if idxs and sorted(idxs) != list(range(1, max(idxs) + 1)):
+            if unique and unique != list(range(1, max(unique) + 1)):
                 raise ProfileError(
                     f"Ref2VA <{kind} N> numbering not contiguous from "
-                    f"1: {sorted(idxs)}")
+                    f"1: {unique}")
         # LIVE SMOKE BOUNDARY (fix 11): <Subject N> tokens belong to
         # the RENDERER-LEVEL TEMPLATE ONLY — the runtime contiguity
         # check rejects them (no <Subject N> is ever resolvable from
