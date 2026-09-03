@@ -1014,6 +1014,16 @@ def _build_fl2va_settings_doc(job: Mapping, decision) -> tuple:
         image_start = image_start.get("frame") or image_start.get("path")
     if image_start:
         settings["image_start"] = str(image_start)
+    # PHASE-3 FLF support (2026-09-03): image_end (the pinned last
+    # frame, e.g. an R2I-rendered keyframe) rides the same settings
+    # doc, with WanGP's first+last mode flag image_prompt_type "SE"
+    # (services/chain/keyframes.py contract; no "F+" token exists).
+    image_end = _job_field(job, "image_end")
+    if isinstance(image_end, dict):
+        image_end = image_end.get("frame") or image_end.get("path")
+    if image_end:
+        settings["image_end"] = str(image_end)
+        settings["image_prompt_type"] = "SE"
     settings["video_length"] = normalize_frame_count(requested)
     settings["requested_frames"] = requested
     return settings, requested
