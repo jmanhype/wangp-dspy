@@ -142,9 +142,13 @@ def build_lm(which: str):
         if not api_key:
             raise RunFilmError(
                 "--lm glm requires ZAI_API_KEY in the environment")
+        # LIVE FIX (2026-09-03, GLM-directed film run): the card's
+        # nominal base https://api.z.ai/v1 404s with the operator's
+        # key; the SAME key returns 200 on the coding-paas v4 route.
+        # Divergence documented here deliberately.
         return dspy.LM(
             "openai/glm-5.3",
-            api_base="https://api.z.ai/v1",
+            api_base="https://api.z.ai/api/coding/paas/v4",
             api_key=api_key,
             model_type="chat",
         )
