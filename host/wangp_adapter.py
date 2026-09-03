@@ -871,7 +871,12 @@ def production_ref2va_render(adapter, inp):
             f"line; log tail: {log_text[-400:]!r}")
 
     newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
-    raw_host = _host_path(host, str(inp.raw_render_path))
+    # LIVE FIX (2026-09-03, strict-chain V2 cut 2): _host_path on the
+    # raw.mp4 TARGET raised "neither mappable nor present" — the file
+    # does not exist yet because THIS seam creates it. Map the parent
+    # render dir (which exists) and append the filename.
+    raw_parent = _host_path(host, str(_P(inp.raw_render_path).parent))
+    raw_host = f"{raw_parent}/{_P(inp.raw_render_path).name}"
     rc, _o, err = _probe(host, ["cp", newest, raw_host])
     if rc != 0:
         raise WanGPError(
