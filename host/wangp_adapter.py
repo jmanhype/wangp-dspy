@@ -650,7 +650,7 @@ def build_detached_wgp_argv(settings_path: str, log_path: str, *,
     return [f"setsid nohup {lock_cmd} >/dev/null 2>&1 & echo launched"]
 
 
-_DENOISE_LINE_RE = re.compile(r"Denoising\s+\d+/\d+")
+_DENOISE_LINE_RE = re.compile(r"(?i)denoising:?\s.*?\d+/\d+")
 
 
 class WanGPLoadStallError(WanGPError):
@@ -734,13 +734,27 @@ def _kill_wgp_on_host(host) -> None:
 
 
 def verify_denoise_steps(log_text: str, steps: int) -> bool:
-    """Verify-before-trust: the log must show a COMPLETE N/N Denoising
+    """Verify-before-trust: the log must show a COMPLETE N/N denoise
     line at the config's step count — a truncated log (mid-denoise
-    crash, half-finished queue) never accepts the outputs."""
+    crash, half-finished queue) never accepts the outputs.
+
+    LIVE FIX (2026-09-03, strict-chain V2 run): WanGP's real H3
+    progress line is tqdm-shaped, e.g.
+        H3 denoising: 100%|██████████| 20/20 [03:35<00:00, ...]
+    (case-varying "denoising:", percent+bar, then N/M). The old
+    anchored `Denoising\s+N/N` never matched — the poller fell to the
+    load-stall watchdog on healthy 20/20 renders. The matcher is now
+    format-tolerant: any denoise line whose N/M pair shows N==M==steps.
+    """
     if steps <= 0:
         return False
-    return bool(re.search(rf"Denoising\s+{steps}/{steps}\b",
-                          log_text or ""))
+    for m in re.finditer(r"(?i)denoising", log_text or ""):
+        window = (log_text or "")[m.start():m.start() + 300]
+        for frac in re.finditer(r"(\d+)/(\d+)", window):
+            n, d = int(frac.group(1)), int(frac.group(2))
+            if n == steps and d == steps:
+                return True
+    return False
 
 
 def _host_path(host, path: str) -> str:
