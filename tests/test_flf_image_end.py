@@ -39,6 +39,13 @@ def test_image_end_dict_unwraps_path():
     assert s["image_prompt_type"] == "SE"
 
 
+def test_image_end_only_sets_E():
+    s, _ = _build_fl2va_settings_doc(
+        _job(image_end="/tmp/pose.png"), DEC)
+    assert s["image_end"] == "/tmp/pose.png"
+    assert s["image_prompt_type"] == "E"
+
+
 def test_image_start_and_end_both_carry():
     s, _ = _build_fl2va_settings_doc(
         _job(image_start="/tmp/a.png", image_end="/tmp/b.png"), DEC)

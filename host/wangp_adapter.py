@@ -1023,7 +1023,10 @@ def _build_fl2va_settings_doc(job: Mapping, decision) -> tuple:
         image_end = image_end.get("frame") or image_end.get("path")
     if image_end:
         settings["image_end"] = str(image_end)
-        settings["image_prompt_type"] = "SE"
+        # ROADMAP-47 item 5: last-frame-only (L2VA "payoff" shots) is
+        # WanGP flag "E"; both ends pinned is "SE" (item 4 FLF).
+        settings["image_prompt_type"] = (
+            "SE" if image_start else "E")
     settings["video_length"] = normalize_frame_count(requested)
     settings["requested_frames"] = requested
     return settings, requested
