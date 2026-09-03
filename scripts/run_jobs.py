@@ -223,9 +223,26 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None):
         if jid is None:
             return handled
         job = queue.get(jid)
+        # unresolved chain placeholder + no host: the next chain
+        # clip CANNOT be safely rendered (its first ref is a
+        # chain:// placeholder) and cannot be advanced (no host
+        # to extract the last frame) — stop the drain here.
+        if host is None and any(
+                str(c.get("image_refs", [""])[0] or "").startswith(
+                    "chain://")
+                for c in job.clips if c.get("image_refs")):
+            return handled
         ex = build_executor(queue, host=host)
         ex.run_once()
         handled.append(jid)
+        # OPS HARDENING (PR feat/ops-hardening): chain advance —
+        # when a director-wiring chain job completes, extract its last
+        # frame and patch the next clip's image_refs[0] so the chain
+        # drains in ONE pass (see services/director/wiring).
+        fresh = queue.get(jid)
+        if fresh.state == "done" and host is not None:
+            from services.director.wiring import advance_chain
+            advance_chain(queue, host, jid)
         # r2i -> fl2va dependency: extract + record the last frame
         fresh = queue.get(jid)
         if fresh.state == "done" and any(
