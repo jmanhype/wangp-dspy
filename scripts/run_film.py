@@ -104,6 +104,53 @@ def plan_beats(script_rows, characters, lm=None):
         raise RunFilmError(f"planner pass1 failed: {e}") from e
 
 
+def _plan_with_lm(rows, characters, *, lm=None):
+    """Plan under an ambient dspy LM when one is given.
+
+    A real dspy.LM (e.g. build_lm("glm")) is installed via
+    dspy.settings.context so the ShortFilmPlanner Signature path
+    (DSPY_LLM sentinel) picks it up for pass1. None keeps the
+    deterministic beat-splitting default.
+    """
+    if lm is None:
+        return plan_beats(rows, characters, lm=None)
+    import dspy
+    from services.director.planners.short_film import DSPY_LLM
+    with dspy.settings.context(lm=lm):
+        return plan_beats(rows, characters, lm=DSPY_LLM)
+
+
+LM_CHOICES = ("none", "glm")
+
+
+def build_lm(which: str):
+    """Construct the planner LM for a --lm choice.
+
+    "glm": z.ai GLM-5.3 through the OpenAI-compatible endpoint
+    (operator ruling: GLM for creative gen; ModelScope NEVER).
+    Returns None for "none" (deterministic beat-splitting).
+
+    Raises ValueError for unknown choices so argparse errors stay
+    typed and testable.
+    """
+    if which == "none":
+        return None
+    if which == "glm":
+        import dspy
+        import os
+        api_key = os.environ.get("ZAI_API_KEY", "")
+        if not api_key:
+            raise RunFilmError(
+                "--lm glm requires ZAI_API_KEY in the environment")
+        return dspy.LM(
+            "openai/glm-5.3",
+            api_base="https://api.z.ai/v1",
+            api_key=api_key,
+            model_type="chat",
+        )
+    raise ValueError(f"unknown --lm choice: {which!r}")
+
+
 def run_film(script_file, plates_dir, *, characters, whisper_map="",
              durations=None, audio_paths=None, db_path=None,
              host=None, pre_render=None, lm=None, dry_run=False):
@@ -125,7 +172,7 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
         raise RunFilmError(
             f"missing plate(s) in {plates_dir}: {missing} — expected "
             "anchor.* plus one plate per character")
-    beats = plan_beats(rows, characters, lm=lm)
+    beats = _plan_with_lm(rows, characters, lm=lm)
     clips = plan_to_clips(
         beats, characters, plates, durations=durations,
         audio_paths=audio_paths, whisper_map=whisper_map,
@@ -189,6 +236,9 @@ def main(argv=None):
                    help="NAME:SN_TAG:DESCRIPTION per character")
     p.add_argument("--whisper-map", default="")
     p.add_argument("--db", default="jobs.db")
+    p.add_argument("--lm", default="none", choices=LM_CHOICES,
+                   help="planner LM: none (deterministic beats) or glm "
+                        "(z.ai GLM-5.3; needs ZAI_API_KEY)")
     p.add_argument("--dry-run", action="store_true",
                    help="emit the job clips; no queue, no host calls")
     args = p.parse_args(argv)
@@ -205,6 +255,7 @@ def main(argv=None):
     clips = run_film(args.script, args.plates,
                      characters=characters,
                      whisper_map=args.whisper_map,
+                     lm=build_lm(args.lm),
                      db_path=None if args.dry_run else args.db,
                      dry_run=args.dry_run)
     print(json.dumps(
