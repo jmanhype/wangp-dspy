@@ -214,6 +214,27 @@ _G5_TOKEN_RE = None  # compiled lazily below
 # greppable, and cannot collide with natural language in a brief.
 SILENCE_MARKER = "[silence]"
 
+# OPS HARDENING (bit us twice): <Picture N>/<Subject N> template
+# tokens must NEVER reach the runtime prompt — the cleaned form is
+# canonical. Stripped automatically at the runtime boundary.
+_RUNTIME_TOKEN_RE = re.compile(
+    r"<(?:Picture|Subject)\s+\d+\>")
+
+
+def strip_runtime_tokens(prompt: str) -> str:
+    """Canonicalize a prompt at the runtime boundary: replace any
+    <Picture N> token with 'the composition anchor' and any
+    <Subject N> token with '(character)'. Already-clean prompts pass
+    through byte-identical."""
+    if not prompt:
+        return prompt
+    out = _RUNTIME_TOKEN_RE.sub(
+        lambda m: ("the composition anchor"
+                   if m.group(0).startswith("<Picture") else "(character)"),
+        prompt)
+    return out
+
+
 _QUOTED_SPAN_RE = re.compile(r'"[^"\n]+?"')
 _D_TOKEN_RE = re.compile(r"<d>[^<\n]+</d>")
 
@@ -518,7 +539,7 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             # FULL speaker template (recipe-built) — it must reach
             # WanGP's prompt field, not die inside the flattened
             # brief/script. seed: caller's recipe pin rides through.
-            speaker_prompt=(prompt or None),
+            speaker_prompt=(strip_runtime_tokens(prompt or "") or None),
             seed=_job_field(job, "seed"),
         ),
     )
