@@ -1,7 +1,7 @@
 """ProfileSelector — RenderBrief -> WanGP/H3 render profile (WD-qwb8).
 
 Maps the four brief sections to a structured render decision: model
-enum, resolution enum, shot length (HARD FLOOR 96 frames = 4s @24fps,
+enum, resolution enum, shot length (HARD FLOOR 56 frames, WanGP handler minimum,
 typed rejection below), seed policy, and a KNOWN WangP profile name.
 """
 from __future__ import annotations
@@ -37,8 +37,9 @@ from predict.job_config import (  # noqa: F401
     H3_FRAMES_MIN, H3_FRAMES_OFFSET, H3_FRAMES_STEP,
     SHOT_LENGTH_FLOOR_FRAMES,
 )
-# HARD FLOOR: 96 frames = 4 seconds @ 24fps. Videos are capped, never
-# shorter than 4s — shorter requests are a typed rejection.
+# HARD FLOOR: 56 frames — WanGP handler frames_minimum for MiniMax
+# H3 (verified live on the 3090); 56f rendered in the manual era. Videos are capped, never
+# shorter than this — shorter requests are a typed rejection.
 # H3 frame quantization (WD-u4rv, MEASURED on the 3090 pin):
 # minimax_h3 renders only 5+17k frames with minimum 107.
 # (Values now defined once in predict/job_config — see ruling above.)
@@ -67,7 +68,7 @@ class ProfileDecision:
             raise ValueError(
                 f"shot length {self.shot_length_frames}f is below the "
                 f"HARD FLOOR of {SHOT_LENGTH_FLOOR_FRAMES}f "
-                "(4s @ 24fps)")
+                "(WanGP handler frames_minimum: 56)")
         if self.seed_policy not in SEED_POLICIES:
             raise ValueError(
                 f"unknown seed policy {self.seed_policy!r}; allowed: "
