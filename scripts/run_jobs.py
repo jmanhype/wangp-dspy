@@ -160,6 +160,11 @@ def build_executor(queue, host=None, pre_render=None):
         if adapter is None:
             raise RuntimeError(
                 "no host wired — run_jobs needs a host for real renders")
+        # NIGHT TWO fix 3: render-leg phased VRAM — on the localhost
+        # lane, llama-server (the QC stack preflight needed) is killed
+        # BEFORE the wgp render so it gets the VRAM.
+        if _is_localhost():
+            free_vram_for_render(host)
         res = adapter.render_for_job(clip)
         settings = getattr(res, "settings_path", "") or ""
         log = (str(Path(settings).parent) + "/render.log"
@@ -292,20 +297,80 @@ def _default_host():
                    pull_root="datasets/runs/pull")
 
 
+def _is_localhost() -> bool:
+    return os.environ.get("WANGP_SSH_TARGET", "") == "localhost"
+
+
+# NIGHT TWO (2026-09-03, live-verified shape on the 3090): the direct
+# llama-server launch fallback when the systemd unit is absent.
+LLAMA_SERVER_LOG = "/tmp/llama-server.log"
+_LLAMA_HEALTH_RETRIES = 60
+_LLAMA_HEALTH_INTERVAL_S = 2.0
+
+
+def llama_server_argv(log_path: str = LLAMA_SERVER_LOG) -> list:
+    """The DIRECT llama-server launch (systemd fallback): detached,
+    logged to /tmp/llama-server.log — the live box shape."""
+    return ["setsid", "nohup", "llama-server", "--port", "8000",
+            f"> {log_path} 2>&1 &"]
+
+
+def free_vram_for_render(host) -> None:
+    """RENDER-LEG phased VRAM: kill llama-server so the wgp render gets
+    the VRAM (NIGHT TWO — the kill lives in the render leg, NOT in the
+    pre-preflight phase; preflight still needs the QC stack up).
+    """
+    host.run_probe(["pkill", "-f", "llama-server"], timeout=30)
+    host.run_probe(["sleep", "3"], timeout=30)
+
+
 def localhost_pre_render(clip) -> None:
-    """The phased VRAM dance the box scripts did on the first live
-    run (2026-09-03), as an injectable pre_render hook: QC stack is
-    brought up for preflight checks, then KILLED before the render
-    leg frees its VRAM. Default-ON in run_film when
-    WANGP_SSH_TARGET=localhost; a no-op elsewhere unless wired
-    explicitly."""
+    """The phased VRAM dance the box scripts ran on night one/two
+    (2026-09-03), as an injectable pre_render hook fired BEFORE
+    preflight: bring the QC stack up (systemd attempt, then a DIRECT
+    llama-server launch fallback), health-wait until it answers, and
+    LEAVE IT RUNNING — the kill moved to the render leg
+    (free_vram_for_render, wired into build_executor's render()).
+
+    Default-ON in run_film when WANGP_SSH_TARGET=localhost; a no-op
+    elsewhere unless wired explicitly.
+    """
     import subprocess
-    for argv in (["systemctl", "--user", "start", "qc-stack"],
-                 ["systemctl", "--user", "stop", "qc-stack"]):
+
+    def _best_effort(argv, timeout=60):
         try:
-            subprocess.run(argv, capture_output=True, timeout=60)
+            return subprocess.run(argv, capture_output=True,
+                                  timeout=timeout)
         except Exception:
-            pass  # ops config: best-effort phased dance, never fatal
+            return None  # ops config: phased dance, never fatal
+
+    # 1) systemd attempt (the unit exists on some boxes)
+    if _best_effort(["systemctl", "--user", "start", "qc-stack"]) \
+            is not None:
+        # 2) health-wait loop: the probe decides who serves healthz
+        if _qc_health_wait(_best_effort):
+            return
+    # 3) DIRECT llama-server fallback (the live box shape)
+    _best_effort(["bash", "-lc", " ".join(llama_server_argv())])
+    _qc_health_wait(_best_effort)
+    # NOTE: NO kill here — preflight still needs the QC stack; the
+    # llama-server kill is free_vram_for_render's job in the render
+    # leg.
+
+
+def _qc_health_wait(run_fn, *, url=None,
+                    retries: int = _LLAMA_HEALTH_RETRIES,
+                    interval_s: float = _LLAMA_HEALTH_INTERVAL_S) -> bool:
+    """Wait until the QC healthz endpoint answers (curl -fsS). Uses
+    the same env-overridable URL as the preflight probe."""
+    url = url or (os.environ.get("WANGP_QC_URL") or DEFAULT_QC_URL)
+    argv = ["curl", "-fsS", "-m", "2", url]
+    for _ in range(max(1, retries)):
+        proc = run_fn(argv, timeout=5)
+        if proc is not None and proc.returncode == 0:
+            return True
+        time.sleep(max(0.05, interval_s))
+    return False
 
 
 def _pre_render_default(host):

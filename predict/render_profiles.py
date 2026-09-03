@@ -25,7 +25,11 @@ from predict.profile_selector import ProfileDecision
 # host.wangp_adapter.REF2VA_MODEL_TYPE (a cross-check test enforces
 # no 'ref2va_lip_sync' string is ever EMITTED as a model_type).
 from host.wangp_adapter import REF2VA_MODEL_TYPE  # noqa: E402
-REF2VA_MIN_SHOT_S = 4.0
+# NIGHT TWO (2026-09-03, live-verified): the 56f floor-truth clip is
+# 2.3333...s. plan_to_clips wires durations as round(frames/24, 3) —
+# 2.333 — and a 4.0 floor rejected it. Floor at 2.33 (below any 3dp
+# rounding of 56/24) so the minimum WanGP-legal shot passes.
+REF2VA_MIN_SHOT_S = 2.33
 REF2VA_MAX_SHOT_S = 15.0
 
 
@@ -215,6 +219,16 @@ class Ref2VAProfile(RenderProfile):
         #     rides the multishot 5+17k grid for the multishot lane's
         #     own use and is never the Ref2VA authority.
         video_length = int(round(shot_duration_s * self.FPS))
+        # NIGHT TWO / frames handling for sub-4s shots: WanGP SNAPS the
+        # requested frames onto its own grid regardless of what we emit
+        # (live: 56 requested -> 107 rendered on the multishot grid).
+        # The emitted `video_length` must be the SNAPPED value the
+        # render will actually produce, so audio muxing matches the
+        # real output duration; the caller's raw request is preserved
+        # verbatim in `requested_frames` for audit/budgeting.
+        from predict.job_config import normalize_frame_count
+        requested_frames = video_length
+        video_length = normalize_frame_count(video_length)
         # audio-length == frame-count invariant: when the caller
         # passes the actual (padded) audio-guide frame length, it
         # MUST equal round(shot_duration_s*24) — a mismatch means the
@@ -286,6 +300,7 @@ class Ref2VAProfile(RenderProfile):
                    # above rides the same grid so the two never
                    # conflict.
                    "video_length": video_length,
+                   "requested_frames": requested_frames,
                    "audio_provenance": audio_provenance.to_dict(),
                    "audio_policy": audio_policy.to_dict(),
                    "audio_qc": Ref2VAAudioQC.empty().to_dict(),

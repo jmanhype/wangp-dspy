@@ -961,32 +961,145 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     return _JobRenderResult()
 
 
-def _run_fl2va_job(adapter, job: Mapping) -> object:
-    """fl2va lane: the existing build_settings/wgp path (behavior
-    unchanged for non-ref2va jobs; per-job extras ride via decision)."""
+def _fl2va_render_dir(adapter):
+    """Private numbered render dir for an fl2va-lane job (F2
+    isolation; adapter.output_dir absolutized like the ref2va path —
+    a relative dir can never map through a host pull-root)."""
+    from pathlib import Path as _P
+    root = _P(adapter.output_dir if isinstance(
+        adapter.output_dir, str) else "output")
+    root = _P(os.path.abspath(str(root)))
+    render_dir = root / f"render-{_RENDER_SEQ[0]:04d}"
+    _RENDER_SEQ[0] += 1
+    render_dir.mkdir(parents=True, exist_ok=True)
+    return render_dir
+
+
+def _build_fl2va_settings_doc(job: Mapping, decision) -> tuple:
+    """Build the fl2va settings doc from the job, carrying the
+    image_start continuation frame when present. Returns
+    (settings_doc, requested_frames)."""
+    briefs = _job_field(job, "briefs")
+    if not briefs:
+        prompt = _job_field(job, "prompt", "") or "subject"
+        briefs = [_Ref2VABrief(subject=prompt, motion="as scripted",
+                               camera="as scripted", style="as scripted")]
+    settings = build_settings(briefs, decision)
+    requested = int(decision.shot_length_frames)
+    # NIGHT TWO fix 6: image_start (the materialized continuation
+    # frame path) rides in the settings doc; sub-4s clips carry BOTH
+    # the requested frames and the SNAPPED effective video_length so
+    # audio muxing matches the actual rendered duration.
+    image_start = _job_field(job, "image_start")
+    if isinstance(image_start, dict):
+        image_start = image_start.get("frame") or image_start.get("path")
+    if image_start:
+        settings["image_start"] = str(image_start)
+    settings["video_length"] = normalize_frame_count(requested)
+    settings["requested_frames"] = requested
+    return settings, requested
+
+
+def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
+                             settings_doc=None):
+    """NIGHT TWO CRITICAL FIX — the FL2VA lane now rides the SAME
+    production seam Ref2VA uses (live-verified shapes, 2026-09-03):
+
+    1. settings written into a private run dir;
+    2. DETACHED single-string setsid+flock launch (survives ssh
+       drops; the old synchronous _run_wgp leg died with the channel
+       — wgp exit 1, empty stderr, no kill);
+    3. poll_render_completion verify-before-trust (complete N/N
+       Denoising line; load-stall watchdog kills a wedged load);
+    4. newest outputs/*.mp4 copied to the job target.
+    """
+    from pathlib import Path as _P
+    from predict.job_config import normalize_frame_count as _norm
+
+    host = adapter.host
     decision = _job_field(job, "decision")
     if decision is None:
         decision = _default_fl2va_decision(job)
-    briefs = _job_field(job, "briefs")
-    if not briefs:
-        prompt = _job_field(job, "prompt", "")
-        briefs = [_Ref2VABrief(subject=prompt, motion="as scripted",
-                               camera="as scripted", style="as scripted")]
-    result = adapter.render(briefs, decision)
+    render_dir = _P(render_dir) if render_dir else _fl2va_render_dir(
+        adapter)
+    if settings_doc is None:
+        settings_doc, _req = _build_fl2va_settings_doc(job, decision)
+    settings_local = render_dir / "settings.json"
+    settings_local.write_text(json.dumps(settings_doc, indent=2),
+                              encoding="utf-8")
+    settings_host = _host_path(host, str(settings_local))
+    run_dir = settings_host.rsplit("/", 1)[0]
+    log_path = f"{run_dir}/render.log"
+    rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
+    if rc != 0:
+        raise WanGPError(
+            f"mkdir -p {run_dir!r} failed on the host "
+            f"(rc={rc}: {err.strip()[:200]})")
+    rc, _out, err = _probe(
+        host, build_detached_wgp_argv(settings_host, log_path,
+                                      wangp_dir=_wangp_dir_for(adapter)),
+        timeout=60)
+    if rc != 0:
+        raise WanGPError(
+            f"detached wgp launch failed under {WGP_QUEUE_LOCK} "
+            f"(rc={rc}): {err.strip()[:400]}")
+    steps = int(settings_doc.get("num_inference_steps") or 0)
+    log_text = poll_render_completion(
+        host, log_path, steps, timeout_s=float(adapter.timeout))
+    if steps > 0 and not verify_denoise_steps(log_text, steps):
+        raise WanGPError(
+            "verify-before-trust rejected the render log for "
+            f"{settings_host!r}: no complete {steps}/{steps} Denoising "
+            f"line; log tail: {log_text[-400:]!r}")
+    newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
+    target_host = _host_path(host, str(render_dir / "output.mp4"))
+    rc, _o, err = _probe(host, ["cp", newest, target_host])
+    if rc != 0:
+        raise WanGPError(
+            f"copying newest output {newest!r} to the job target "
+            f"{target_host!r} failed (cp rc={rc}: {err.strip()[:200]})")
+    return target_host
+
+
+def _wangp_dir_for(adapter) -> str:
+    """Wan2GP checkout root implied by the adapter's wgp_script."""
+    return os.path.dirname(os.path.abspath(adapter.wgp_script))
+
+
+def _run_fl2va_job(adapter, job: Mapping) -> object:
+    """fl2va lane: the SAME hardened production seam the ref2va lane
+    uses (NIGHT TWO fix 1 — the legacy synchronous render()/_run_wgp
+    leg died with the ssh channel on the strict run: wgp exit 1,
+    empty stderr, no kill)."""
+    from pathlib import Path as _P
+    from predict.job_config import normalize_frame_count as _norm
+
+    decision = _job_field(job, "decision")
+    if decision is None:
+        decision = _default_fl2va_decision(job)
+    render_dir = _fl2va_render_dir(adapter)
+    settings, requested = _build_fl2va_settings_doc(job, decision)
+    settings_local = render_dir / "settings.json"
+    target_host = production_fl2va_render(
+        adapter, job, render_dir=render_dir, settings_doc=settings)
+    effective = _norm(requested)
 
     class _JobRenderResult:
         lane = FL2VA_LANE
 
-        def __init__(self, result):
-            self.result = result
-            self.video_paths = result.video_paths
-            self.settings_path = result.settings_path
+        def __init__(self):
+            self.attempts = 1
+            self.settings_path = str(settings_local)
+            self.output_dir = str(render_dir)
+            self.video_paths = (str(render_dir / "output.mp4"),)
+            self.effective_frames = effective
+            self.requested_frames = requested
 
         @property
         def video_path(self):
-            return self.result.video_path
+            return self.video_paths[0]
 
-    return _JobRenderResult(result)
+    return _JobRenderResult()
 
 
 def _default_fl2va_decision(job: Mapping):
