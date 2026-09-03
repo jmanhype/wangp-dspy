@@ -29,14 +29,14 @@ def test_image_end_string_sets_se():
     s, _ = _build_fl2va_settings_doc(
         _job(image_end="/tmp/pose.png"), DEC)
     assert s["image_end"] == "/tmp/pose.png"
-    assert s["image_prompt_type"] == "SE"
+    assert s["image_prompt_type"] == "E"
 
 
 def test_image_end_dict_unwraps_path():
     s, _ = _build_fl2va_settings_doc(
         _job(image_end={"path": "/tmp/p2.png", "kind": "pose"}), DEC)
     assert s["image_end"] == "/tmp/p2.png"
-    assert s["image_prompt_type"] == "SE"
+    assert s["image_prompt_type"] == "E"
 
 
 def test_image_end_only_sets_E():
