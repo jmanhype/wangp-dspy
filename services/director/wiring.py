@@ -86,6 +86,30 @@ def sanitize_runtime_tokens(prompt: str, characters: Sequence[dict]) -> str:
 
 # ── plan_to_clips ────────────────────────────────────────────────────
 
+def _materialize_silence(path: str, duration_s: float) -> str:
+    """Write a silence guide wav of duration_s at ABSOLUTE path via
+    ffmpeg (the live 2026-09-03 fix: audio guides exist on disk at
+    plan time — the runtime fails closed on missing guides)."""
+    import os
+    import subprocess
+    from pathlib import Path
+
+    path = os.path.abspath(path)
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    if os.path.isfile(path):
+        return path
+    argv = ["ffmpeg", "-y", "-f", "lavfi",
+            "-i", f"anullsrc=r=24000:cl=mono",
+            "-t", f"{float(duration_s):.6f}",
+            "-c:a", "pcm_s16le", path]
+    proc = subprocess.run(argv, capture_output=True, text=True)
+    if proc.returncode != 0 or not os.path.isfile(path):
+        raise WiringError(
+            f"audio guide materialization failed for {path!r} "
+            f"(ffmpeg rc={proc.returncode}): {(proc.stderr or '')[:200]}")
+    return path
+
+
 def plan_to_clips(
     script_lines: Sequence[Dict[str, str]],
     characters: Sequence[dict],
@@ -94,6 +118,7 @@ def plan_to_clips(
     audio_paths: Optional[Sequence[str]] = None,
     durations: Optional[Sequence[float]] = None,
     whisper_map: str = "",
+    run_dir: Optional[str] = None,
     scene_staging: str = "two characters framed left and right",
     listening_detail: str = "head tilted, eyes on the speaker",
     ambience: str = "room tone, faint brazier crackle",
@@ -166,8 +191,19 @@ def plan_to_clips(
                 f"(roster: {sorted(name_to_sn)})")
         duration_s = (durations[i - 1] if durations is not None
                       else 56 / FPS)
-        audio_path = (audio_paths[i - 1] if audio_paths is not None
-                      else f"audio/clip{i:04d}.wav")
+        # LIVE FIX 2 (2026-09-03): audio guides are MATERIALIZED at plan
+        # time (ffmpeg silence of duration_s) under <run>/audio/ with
+        # ABSOLUTE paths — the runtime reads existing files, fails
+        # closed on missing ones.
+        if audio_paths is not None:
+            audio_path = str(audio_paths[i - 1])
+        else:
+            if not run_dir:
+                raise WiringError(
+                    "run_dir is required to materialize audio guides "
+                    "when audio_paths is not supplied")
+            audio_path = f"{run_dir}/audio/clip{i:04d}.wav"
+        audio_path = _materialize_silence(audio_path, duration_s)
         # REF2VA frame authority (settings-parity, PR #65): frames =
         # round(duration_s * 24). The 17k+5 grid is the fl2va/multishot
         # constraint; the proven smoke job was 4.042s -> 97f.
@@ -227,7 +263,10 @@ def plan_to_clips(
         config = {"width": WIDTH, "height": HEIGHT}
         clips.append({
             "clip_index": i,
-            "kind": "REF2VA_IDENTITY_AUDIO",
+            # LIVE FIX 1 (2026-09-03): kind is the literal job_lane()
+            # recognizes — "ref2va_render". The mode enum stays as
+            # `mode` (product-mode metadata), but `kind` routes.
+            "kind": "ref2va_render",
             "mode": "REF2VA_IDENTITY_AUDIO",
             "speaker": speaker,
             "speaker_sn": sn,
@@ -237,6 +276,11 @@ def plan_to_clips(
                                          character_plates],
             "seed": SEED,
             "frames": frames,
+            # LIVE FIX 3 (2026-09-03): the runtime reads DURATIONS, not
+            # frames — emit the golden duration trio alongside frames.
+            "shot_duration_s": round(frames / FPS, 3),
+            "guide_duration_s": round(frames / FPS, 3),
+            "audio_length_frames": frames,
             "fps": FPS,
             "width": config["width"],
             "height": config["height"],

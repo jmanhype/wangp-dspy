@@ -128,7 +128,10 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
     beats = plan_beats(rows, characters, lm=lm)
     clips = plan_to_clips(
         beats, characters, plates, durations=durations,
-        audio_paths=audio_paths, whisper_map=whisper_map)
+        audio_paths=audio_paths, whisper_map=whisper_map,
+        run_dir=(str(Path(db_path).resolve().parent) if db_path
+                 else str(Path(script_file).resolve().parent)
+                 if audio_paths is None else None))
     if dry_run:
         return clips
 
@@ -143,7 +146,9 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
             clip["needs"] = prev
             prev = q.submit(plan_ref="film", clips=[clip])
         host = host or rj._default_host()
-        _drain(q, host, pre_render=pre_render)
+        hook = pre_render if pre_render is not None \
+            else rj._pre_render_default(host)
+        _drain(q, host, pre_render=hook)
         return clips
     finally:
         q.close()

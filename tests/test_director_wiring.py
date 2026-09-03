@@ -70,7 +70,7 @@ class TestGoldenProvenShape:
         clips = _clips(tmp_path)
         c = clips[0]
         assert c["mode"] == "REF2VA_IDENTITY_AUDIO"
-        assert c["kind"] == "REF2VA_IDENTITY_AUDIO"
+        assert c["kind"] == "ref2va_render"
         # image_refs = [anchor plate, identity plates...]
         assert c["image_refs"] == [
             _plates(tmp_path)["anchor"],
@@ -312,6 +312,7 @@ class TestRunFilm:
         out = run_film(self._script_file(tmp_path),
                        self._plates_dir(tmp_path),
                        characters=CHARACTERS, whisper_map=WHISPER_MAP,
+                       db_path=str(tmp_path / "jobs.db"),
                        dry_run=True)
         assert len(out) == 3
         assert out[0]["image_refs"][0].endswith("anchor.png")
