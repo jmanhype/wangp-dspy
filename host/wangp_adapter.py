@@ -1081,7 +1081,11 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
             f"{settings_host!r}: no complete {steps}/{steps} Denoising "
             f"line; log tail: {log_text[-400:]!r}")
     newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
-    target_host = _host_path(host, str(render_dir / "output.mp4"))
+    # LIVE FIX (2026-09-03, phase-3 T2VA run): same target-existence
+    # trap as PR #73 — output.mp4 does not exist yet at copy time; map
+    # the parent render dir and append the filename.
+    out_parent = _host_path(host, str(render_dir))
+    target_host = f"{out_parent}/output.mp4"
     rc, _o, err = _probe(host, ["cp", newest, target_host])
     if rc != 0:
         raise WanGPError(
