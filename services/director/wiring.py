@@ -335,6 +335,12 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
         if not mp4:
             continue
         png = _chain_png(str(queue.db_path), dep_clip)
+        # LIVE FIX (2026-09-03, GLM film run): the extraction target
+        # dir is never created — ffmpeg over ssh-local exits 251 when
+        # the parent dir is missing. mkdir -p first (idempotent).
+        png_dir = png.rsplit("/", 1)[0]
+        _mrc, _mo, _me = host.run_probe(["mkdir", "-p", png_dir],
+                                        timeout=60)
         rj.extract_last_frame(host, mp4, png)
         refs = list(dep_clip["image_refs"])
         refs[0] = png
