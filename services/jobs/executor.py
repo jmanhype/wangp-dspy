@@ -24,7 +24,13 @@ from services.jobs.modes import (
 )
 
 # "20/20" / "8/8" Denoising — complete when the two numbers match
-_DENOISE_COMPLETE_RE = re.compile(r"Denoising\s+(\d+)/\1\b")
+# LIVE FIX (2026-09-03, strict-chain V2): WanGP's H3 progress lines are
+# tqdm-shaped ("H3 denoising: 100%|████| 20/20 [...]"), case-varying —
+# the anchored `Denoising N/N` never matched and the executor failed
+# healthy renders after the seam already accepted them. Same tolerant
+# matcher as host.wangp_adapter.verify_denoise_steps.
+_DENOISE_COMPLETE_RE = re.compile(
+    r"(?i)denoising:?\s[^\r\n]{0,200}?(\d+)/(\d+)\b")
 _LOG_TAIL_CHARS = 800
 
 # ── per-job-kind render-lane dispatch table (PR feat/ref2va-jobs-routing)
@@ -57,8 +63,12 @@ class RenderOutcome:
 
 
 def verify_render_log(log_text: str) -> bool:
-    """Structural acceptance: a complete N/N Denoising line exists."""
-    return bool(_DENOISE_COMPLETE_RE.search(log_text or ""))
+    """Structural acceptance: a complete N/N denoise line exists
+    (any N/M pair on a denoise line with N == M)."""
+    for m in _DENOISE_COMPLETE_RE.finditer(log_text or ""):
+        if m.group(1) == m.group(2):
+            return True
+    return False
 
 
 def _tail(text: str) -> str:
