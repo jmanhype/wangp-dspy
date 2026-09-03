@@ -76,12 +76,16 @@ class JobExecutor:
                  render: Callable[[dict], RenderOutcome],
                  qc: Callable[[dict], tuple],
                  ref2va_render: Optional[Callable[[dict], RenderOutcome]] = None,
+                 pre_render: Optional[Callable[[dict], None]] = None,
                  max_failures: int = 3,
                  staleness_s: float = 600.0,
                  picker: Optional[Callable[[], Optional[str]]] = None):
         self.queue = queue
         self.preflight = preflight
         self.render = render
+        # pre_render hook: optional phase before each clip's render leg
+        # (phased QC kill/restart — ops config wires it; default no-op).
+        self.pre_render = pre_render
         # ref2va lane renderer (per-job-kind routing); when None the
         # ref2va lane FAILS CLOSED — never silently rendered on fl2va.
         self.ref2va_render = ref2va_render
@@ -119,6 +123,10 @@ class JobExecutor:
         for clip in job.clips:
             if clip.get("status") == "done":
                 continue  # checkpoint resume: skip done clips
+            # pre_render hook (phased QC kill/restart seam): injectable,
+            # default no-op. Runs immediately before the render leg.
+            if self.pre_render is not None:
+                self.pre_render(clip)
             lane = render_lane_for(clip.get("kind"))
             render_fn = self.render
             if lane == "ref2va":

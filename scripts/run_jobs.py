@@ -137,7 +137,7 @@ def dry_run_report(queue) -> dict:
 
 # ── executor wiring ──────────────────────────────────────────────────
 
-def build_executor(queue, host=None):
+def build_executor(queue, host=None, pre_render=None):
     """Wire JobExecutor with the production render seams (no dry-run
     guard on the jobs path — see module docstring)."""
     from services.jobs.executor import JobExecutor, RenderOutcome
@@ -174,6 +174,7 @@ def build_executor(queue, host=None):
 
     return JobExecutor(queue=queue, preflight=preflight,
                        render=render, ref2va_render=ref2va_render,
+                       pre_render=pre_render,
                        qc=lambda clip: (True, f"qc/{clip['clip_index']}"
                                         ".json"))
 
