@@ -230,9 +230,16 @@ def _g5_check(text: str, field: str = "<text>") -> None:
     typed rejection — attribution is required on dialogue-bearing
     briefs, silence is explicit, never implied. The malformed-marker
     rule keeps precedence: a [John]/(Mary) label is diagnosed as
-    malformed, not as missing attribution."""
+    malformed, not as missing attribution.
+
+    LIVE FIX 4 (2026-09-03): <d>[Language] tags (official H3 dialogue
+    format, e.g. <d>[English] Hello</d>) are exempt from the
+    malformed-marker scan — the language tag inside <d> is stripped
+    BEFORE the bad-marker regex. [John]-style names still reject.
+    """
+    stripped = re.sub(r"<d>\s*\[[A-Za-z]+\]", "<d>", text or "")
     bad = re.compile(r"[\[(][A-Z][a-z]+[\])]")   # [John] / (Mary)
-    m = bad.search(text or "")
+    m = bad.search(stripped)
     if m:
         raise WanGPError(
             f"G5 prompt-contract violation: speaker token {m.group(0)!r} "
@@ -525,15 +532,28 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
 
 
 class _Ref2VABrief:
-    """Minimal duck-typed brief (subject/motion) for the profile's
-    token-contiguity scan — the full RenderBrief is not reconstructible
-    from a flattened manifest prompt."""
+    """Duck-typed brief with the FULL RenderBrief attr set for the
+    profile's token-contiguity scan and brief_to_prompt — the full
+    RenderBrief is not reconstructible from a flattened manifest
+    prompt.
 
-    def __init__(self, subject, motion, camera, style):
+    LIVE FIX 5 (2026-09-03): all seven attrs (subject, motion, camera,
+    style, audio_direction, identity_lock, negatives) must exist with
+    defaults — the G5 loop and brief_to_prompt touch all of them and
+    missing attrs crash at render time on the host.
+    """
+
+    def __init__(self, subject, motion, camera, style,
+                 audio_direction: str = "",
+                 identity_lock: str = "",
+                 negatives: str = ""):
         self.subject = subject
         self.motion = motion
         self.camera = camera
         self.style = style
+        self.audio_direction = audio_direction
+        self.identity_lock = identity_lock
+        self.negatives = negatives
 
 
 # ── production render seam (PR feat/production-render-seam) ──────────

@@ -238,6 +238,16 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None):
                     str(Path(queue.db_path).parent), fresh)
                 extract_last_frame(host, mp4, png)
                 record_last_frame(queue, fresh, png)
+        # LIVE FIX 6 (2026-09-03): chain AUTO-ADVANCE — when a chain job
+        # (kind ref2va_render with chain metadata) completes, the
+        # dependent job's image_refs[0] chain://clipNNNN/last_frame
+        # placeholder is materialized from the completed job's mp4
+        # (the same proven ffmpeg -sseof -0.1 extraction the r2i path
+        # uses) BEFORE the next pick, so the dependent becomes
+        # admissible with real refs.
+        if fresh.state == "done" and host is not None:
+            from services.director.wiring import advance_chain
+            advance_chain(queue, host, jid)
     return handled
 
 
@@ -273,9 +283,37 @@ def main(argv=None):
 
 def _default_host():
     from host.render_host import SshHost
-    return SshHost(target="3090",
+    # LIVE FIX 7 (2026-09-03): WANGP_SSH_TARGET env override for
+    # on-host execution (e.g. WANGP_SSH_TARGET=localhost on the 3090
+    # itself); default unchanged.
+    target = os.environ.get("WANGP_SSH_TARGET") or "3090"
+    return SshHost(target=target,
                    wgp_root="/home/straughter/Wan2GP",
                    pull_root="datasets/runs/pull")
+
+
+def localhost_pre_render(clip) -> None:
+    """The phased VRAM dance the box scripts did on the first live
+    run (2026-09-03), as an injectable pre_render hook: QC stack is
+    brought up for preflight checks, then KILLED before the render
+    leg frees its VRAM. Default-ON in run_film when
+    WANGP_SSH_TARGET=localhost; a no-op elsewhere unless wired
+    explicitly."""
+    import subprocess
+    for argv in (["systemctl", "--user", "start", "qc-stack"],
+                 ["systemctl", "--user", "stop", "qc-stack"]):
+        try:
+            subprocess.run(argv, capture_output=True, timeout=60)
+        except Exception:
+            pass  # ops config: best-effort phased dance, never fatal
+
+
+def _pre_render_default(host):
+    """Default-on phased QC/kill hook ONLY for localhost execution."""
+    target = os.environ.get("WANGP_SSH_TARGET", "")
+    if target == "localhost":
+        return localhost_pre_render
+    return None
 
 
 if __name__ == "__main__":
