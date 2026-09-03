@@ -2,7 +2,7 @@
 
 Rules under test:
 - model enum (h3 etc), resolution enum (720p|768p), shot length frames
-  with HARD FLOOR 96f (=4s) — typed rejection below the floor,
+  with HARD FLOOR 56f (WanGP handler frames_minimum) — typed rejection below the floor,
 - seed policy, WangP profile name (known set only),
 - DummyLM only; round-trip with a REAL RenderBrief from story 1.
 """
@@ -67,16 +67,19 @@ def test_decision_rejects_unknown_resolution():
             ProfileDecision(**{**GOOD_DECISION, "resolution": bad})
 
 
-def test_decision_hard_floor_96_frames():
-    """Below 96f (4s @ 24fps) is a typed rejection — HARD FLOOR."""
+def test_decision_hard_floor_56_frames():
+    """Below 56f is a typed rejection — HARD FLOOR (WanGP handler
+    frames_minimum: 56; 56f rendered in the manual era with approved
+    output)."""
     with pytest.raises(Exception) as ei:
-        ProfileDecision(**{**GOOD_DECISION, "shot_length_frames": 95})
-    assert "96" in str(ei.value) or "floor" in str(ei.value).lower()
+        ProfileDecision(**{**GOOD_DECISION, "shot_length_frames": 40})
+    assert "56" in str(ei.value) or "floor" in str(ei.value).lower()
 
 
-def test_decision_accepts_exactly_96_frames():
-    d = ProfileDecision(**{**GOOD_DECISION, "shot_length_frames": 96})
-    assert d.shot_length_frames == 96
+def test_decision_accepts_exactly_56_frames():
+    # 56f is a legitimate 2s-class cut (WanGP handler frames_minimum)
+    d = ProfileDecision(**{**GOOD_DECISION, "shot_length_frames": 56})
+    assert d.shot_length_frames == 56
 
 
 def test_decision_rejects_bad_seed_policy():

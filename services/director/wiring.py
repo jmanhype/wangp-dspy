@@ -104,7 +104,10 @@ def plan_to_clips(
 
     plates: {"anchor": <anchor plate path>, "<name>": <identity plate
     path>} — image_refs are [anchor, identity plates...] in roster
-    order. durations default to 56/24 s per line when not supplied.
+    order. durations default to 56/24 s per line when not supplied
+    (56f = WanGP handler frames_minimum for MiniMax H3, verified live
+    on the 3090; 56f/2.33s rendered in the manual era with
+    user-approved output).
     Every prompt goes through h3_recipe's proven template builder
     (single template authority) and is sanitized to the cleaned
     runtime form before emit.

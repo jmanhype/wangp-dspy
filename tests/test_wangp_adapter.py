@@ -8,7 +8,7 @@ Ground truth (probed on the 3090):
   (the shot text), width, height, frames_per_shot, num_inference_steps,
   guidance_scale, embedded_guidance_scale, force_fps=24, seed.
 - H3 multishot scripts join per-shot prompts with '---'.
-- HARD floor: frames_per_shot >= 96 (4s @ 24fps).
+- HARD floor: frames_per_shot >= 56 (WanGP handler frames_minimum).
 
 All subprocess/time behavior is injected (runner/sleeper); no GPU, no network.
 """

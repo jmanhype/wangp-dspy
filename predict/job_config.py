@@ -5,7 +5,7 @@ adapter-side copies were deleted in the same commit that landed each
 authority here):
 1. force_fps STR typing — wgp's get_computed_fps len()s the field
    (measured against real pinned settings files).
-2. frames floor >= 96 (4s @ 24fps semantic floor).
+2. frames floor >= 56 (WanGP handler frames_minimum: 56).
 3. 5+17k frame-grid snap — normalize_frame_count lives HERE
    (measured: H3 renders 107/124/141... = 5+17k, min 107;
    WD-u4rv).
@@ -25,7 +25,12 @@ from typing import List, Optional
 
 SCRIPT_SEPARATOR = "\n---\n"
 
-SHOT_LENGTH_FLOOR_FRAMES = 96     # semantic 4s floor (Selector layer)
+# FLOOR TRUTH: WanGP's own handler config declares frames_minimum: 56
+# for MiniMax H3 (verified live on the 3090). 56f (2.33s @ 24fps)
+# rendered in the manual era with user-approved output. The previous
+# 96f value was a SAFETY choice, not a model limit — it blocked
+# legitimate 2s-class cuts.
+SHOT_LENGTH_FLOOR_FRAMES = 56     # WanGP handler minimum (Selector layer)
 H3_FRAMES_MIN = 107               # measured H3 grid minimum (5+17k)
 H3_FRAMES_STEP = 17
 H3_FRAMES_OFFSET = 5
@@ -77,7 +82,7 @@ class WanGPJobConfig:
         # rule 3 applied HERE: the config's frames_per_shot is the
         # EFFECTIVE (snapped) count H3 renders — callers pass the raw
         # request and get back the grid value (sole-authority rule 3;
-        # validation passes 96..106 and snaps, per the rule-3 note).
+        # validation passes 56..106 and snaps, per the rule-3 note).
         object.__setattr__(self, "frames_per_shot",
                            normalize_frame_count(self.frames_per_shot))
 
@@ -130,7 +135,8 @@ def validate_job_config(cfg: WanGPJobConfig, *,
     if cfg.frames_per_shot < SHOT_LENGTH_FLOOR_FRAMES:
         raise JobConfigError(
             f"frames_per_shot {cfg.frames_per_shot}f is below the HARD "
-            f"floor of {SHOT_LENGTH_FLOOR_FRAMES}f (4s @ 24fps; the "
+            f"floor of {SHOT_LENGTH_FLOOR_FRAMES}f (WanGP handler "
+            f"frames_minimum; the "
             f"H3 minimum floor is {H3_FRAMES_MIN}f)")
     # rule 3: grid snap (single authority — normalize_frame_count)
     if snap_frames and cfg.frames_per_shot < H3_FRAMES_MIN:

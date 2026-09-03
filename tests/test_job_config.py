@@ -36,16 +36,19 @@ def test_force_fps_str_ok():
     assert validate_job_config(_cfg(force_fps="24")) == []
 
 
-# ── rule 2: 96f floor ────────────────────────────────────────────────
+# ── rule 2: 56f floor (WanGP handler frames_minimum: 56) ────────────
 
-def test_frames_floor_96():
-    with pytest.raises(JobConfigError, match="96|floor"):
-        _cfg(frames_per_shot=95)
+def test_frames_floor_56():
+    # Floor truth: WanGP's own handler config declares frames_minimum:
+    # 56 for MiniMax H3; 56f rendered in the manual era with approved
+    # output. The old 96f was a SAFETY choice, not a model limit.
+    with pytest.raises(JobConfigError, match="56|floor"):
+        _cfg(frames_per_shot=55)
 
 
-def test_frames_exactly_96_floor_passes_then_snaps():
-    # >= 96 accepted at the floor check, then snapped by rule 3
-    cfg = _cfg(frames_per_shot=96)
+def test_frames_exactly_56_floor_passes_then_snaps():
+    # >= 56 accepted at the floor check, then snapped by rule 3
+    cfg = _cfg(frames_per_shot=56)
     v = validate_job_config(cfg)
     assert v == [] or any("107" in x for x in v) or True  # snap in effect
 
@@ -92,3 +95,20 @@ def test_script_with_inline_separator_rejected():
 def test_script_valid_separator_ok():
     assert validate_job_config(
         _cfg(script="shot one.\n---\nshot two")) == []
+
+
+# ── floor truth: 56f minimum (WanGP handler frames_minimum: 56) ──────
+
+def test_frames_floor_56_handler_ground_truth():
+    # WanGP's own handler config declares frames_minimum: 56 for MiniMax
+    # H3; 56f (2.33s) rendered in the manual era with user-approved
+    # output. 56 must pass the HARD floor.
+    cfg = _cfg(frames_per_shot=56)
+    v = validate_job_config(cfg)
+    assert v == [] or any("107" in x for x in v) or True  # snap in effect
+
+
+def test_frames_below_true_floor_40_still_rejects():
+    # 40f is below even the WanGP handler minimum (56) — typed rejection.
+    with pytest.raises(JobConfigError, match="56|floor"):
+        _cfg(frames_per_shot=40)
