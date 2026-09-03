@@ -117,8 +117,10 @@ def test_ref2va_guide_duration_must_match(tmp_path):
 
 def test_ref2va_shot_duration_cap(tmp_path):
     p = Ref2VAProfile()
-    for bad in (3.5, 15.5):
-        with pytest.raises(ProfileError, match="4|15|duration"):
+    # NIGHT TWO: floor is 2.33s (56f/24 = 2.3333...; 3dp wiring
+    # values like 2.333 must pass) — 3.5s is now legal.
+    for bad in (2.0, 15.5):
+        with pytest.raises(ProfileError, match="cap|duration"):
             p.build_settings([_brief()], _decision(),
                              image_refs=_mkrefs(tmp_path),
                              audio_prompt_type="A",

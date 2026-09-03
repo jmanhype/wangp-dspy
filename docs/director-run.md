@@ -121,3 +121,60 @@ clip passes `job_lane` (→ ref2va), constructs
 `AudioGuideProvenance`, carries the duration trio, and builds a brief
 → prompt without hand-fixing. It fails on every pre-fix defect —
 first-try on a clean clone is now the tested contract.
+
+## Night two runbook (2026-09-03, second wave)
+
+The strict FL2VA chain run surfaced a second wave of live-only fixes
+(all live-verified on the 3090 before landing here; branch
+`feat/night2-convergence`). What changed operationally:
+
+**The strict-run command** (clip 1 = Ref2VA 56f, clip 2 =
+first-frame-continuation FL2VA):
+
+```
+WANGP_SSH_TARGET=localhost \
+.venv/bin/python scripts/run_film.py \
+    --script <script> --plates <plates> --characters ... \
+    --db <run>/jobs.db
+```
+
+**Env table update:**
+
+| Var | Default | Meaning |
+|---|---|---|
+| `WANGP_SSH_TARGET` | `3090` | `localhost` runs on-host: turns on the pre-preflight `localhost_pre_render` hook AND the render-leg `free_vram_for_render` kill. |
+| `WANGP_LOAD_STALL_S` | `300` | unchanged — now also guards the FL2VA lane (shared poll seam). |
+
+**The FL2VA-lane seam.** The strict run died in
+`render_for_job kind "first_frame_continuation"`: the FL2VA lane
+fell to the legacy synchronous `render()`/`_run_wgp` (ssh-lifetime,
+no detached launch, no verify-before-trust, no phased VRAM) and wgp
+exited 1 with empty stderr and no llama-kill. The FL2VA lane now
+routes through the SAME production seam Ref2VA uses:
+`build_detached_wgp_argv` (single-string setsid+flock), run-dir
+mkdir, `poll_render_completion` (N/N Denoising acceptance +
+load-stall watchdog), newest-output copy — see
+`production_fl2va_render`.
+
+**Phased VRAM split.** `localhost_pre_render` now runs BEFORE
+preflight (healthz needs the stack up): systemd qc-stack attempt,
+DIRECT llama-server launch fallback (`llama_server_argv`, logged to
+`/tmp/llama-server.log`), health-wait loop, NO kill. The
+llama-server kill lives in the render leg
+(`free_vram_for_render`, wired into `build_executor`'s render() on
+the localhost lane only).
+
+**Sub-4s frames.** WanGP snaps 56f to 107f on the multishot grid:
+emitted settings carry `video_length` = the SNAPPED value with
+`requested_frames` recorded, so audio muxing matches the actual
+output duration. `Ref2VAProfile` floor is now 2.33s (56f/24 =
+2.3333...; 3dp wiring values like 2.333 must pass).
+
+**Acceptance gate.**
+`tests/test_night2_convergence.py::TestNight2Acceptance` — a
+dry-run+fake-host golden for the exact 2-clip strict chain (clip 1
+Ref2VA 56f, clip 2 first_frame_continuation FL2VA): clip 2's
+settings carry `image_start` (the materialized frame path), the
+FL2VA lane routes to the DETACHED seam argv, and
+`poll_render_completion` accepts a faked 20/20 log. Every pre-fix
+defect above fails this test.

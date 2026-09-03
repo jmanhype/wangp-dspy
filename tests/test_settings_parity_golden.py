@@ -35,7 +35,13 @@ from services.director.renderers.h3_recipe import (
 
 # ── the exact live smoke case ─────────────────────────────────────────
 DURATION_S = 4.042          # padded audio-guide duration
-EXPECTED_FRAMES = 97        # round(4.042 * 24)
+EXPECTED_FRAMES = 97        # round(4.042 * 24) — the REQUESTED frames
+# NIGHT TWO (2026-09-03): WanGP snaps the requested frames onto its
+# own grid regardless of what we emit (live: 56 -> 107). The emitted
+# video_length is the SNAPPED value (audio muxing matches the ACTUAL
+# output); requested_frames preserves the caller's raw request.
+from predict.job_config import normalize_frame_count
+SNAPPED_FRAMES = normalize_frame_count(EXPECTED_FRAMES)  # 107
 
 GRANDMA_LINE = "No ma'am. But the devil's been expecting you."
 
@@ -132,9 +138,11 @@ def test_golden_parity_smoke_case(tmp_path):
     assert "<Subject 1>" in doc["prompt"]           # subject defs
     # script preserved for the multishot lane but prompt is the carrier
     assert doc["script"] and doc["prompt"] != doc["script"]
-    # (2) video_length on-grid == round(duration*24), matching the
-    # padded audio exactly
-    assert doc["video_length"] == EXPECTED_FRAMES == 97
+    # (2) NIGHT TWO: video_length is the SNAPPED count WanGP actually
+    # renders (107 for a 97f request); requested_frames keeps the raw
+    # request so consumers can audit the snap.
+    assert doc["video_length"] == SNAPPED_FRAMES == 107
+    assert doc["requested_frames"] == EXPECTED_FRAMES == 97
     assert RECIPE_FPS == 24
     # (3) seed pins to the recipe value, not 42
     assert doc["seed"] == RECIPE_SEED == 904
@@ -162,7 +170,9 @@ def test_off_grid_duration_typed_rejection(tmp_path):
     the audio-length invariant — see the audio_length_frames test."""
     doc = _build_doc(tmp_path, guide_duration_s=4.5, shot_duration_s=4.5,
                      audio_length_frames=108)
-    assert doc["video_length"] == 108
+    # NIGHT TWO: 108f snaps to 124 on the 5+17k grid
+    assert doc["video_length"] == 124
+    assert doc["requested_frames"] == 108
 
 
 def test_speaker_prompt_empty_carrier_rejected(tmp_path):
@@ -194,5 +204,6 @@ def test_prompt_fallback_never_bare_tag(tmp_path):
     assert doc["prompt"] != "ref2va"
     assert doc["prompt"].strip()
     assert "mouth" in doc["prompt"]
-    assert doc["video_length"] == 97
+    assert doc["video_length"] == SNAPPED_FRAMES == 107
+    assert doc["requested_frames"] == 97
     assert doc["seed"] == 904

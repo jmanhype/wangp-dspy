@@ -201,8 +201,15 @@ class JobExecutor:
         if clear:
             clear(jid)
 
-    def _drive(self, job, jid: str) -> str:
+    def _drive(self, job, jid) -> str:
         if job.state == "pending":
+            # NIGHT TWO sequencing fix: the pre_render hook (localhost
+            # qc-stack bring-up / llama-server launch) fires BEFORE the
+            # preflight probe — preflight's healthz needs the QC stack
+            # the hook just started, not one started mid-render leg.
+            if self.pre_render is not None:
+                for clip in job.clips:
+                    self.pre_render(clip)
             self.queue.set_state(jid, "preflight")
             report = self.preflight(job)
             if not report.passed:

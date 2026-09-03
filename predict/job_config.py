@@ -1,4 +1,4 @@
-"""WanGPJobConfig — the SINGLE authority for WanGP job settings rules.
+r"""WanGPJobConfig — the SINGLE authority for WanGP job settings rules.
 
 WD-l5bx: absorbs every scattered adapter assert (move-per-rule; the
 adapter-side copies were deleted in the same commit that landed each
@@ -12,8 +12,8 @@ authority here):
 4. flat settings JSON — no nested lists/dicts (wgp reads a flat
    schema).
 5. multi-shot separator: line-anchored '\n---\n' (WD-izly: wgp
-   parse_script splits on (?m)^---\s*$ — inline joins collapse
-   shots).
+   parse_script splits on the (?m)^---\s*$ regex — inline joins
+   collapse shots).
 
 Zero-model: deterministic validation only.
 """
