@@ -122,6 +122,16 @@ def test_gpu_idle_passes():
     assert report.check("gpu_state").passed
 
 
+def test_gpu_qc_tenant_is_allowed():
+    host = StubHost(
+        nvidia_out="1761038, /home/straughter/llama.cpp/build/bin/llama-server")
+    report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,
+                           disk_path="/mnt/bulk", qc_url="http://x/h")
+    check = report.check("gpu_state")
+    assert check.passed
+    assert "QC tenant" in check.detail
+
+
 def test_qc_unavailable_fails_check():
     host = StubHost(qc_ok=False)
     report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,

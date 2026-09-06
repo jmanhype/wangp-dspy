@@ -52,6 +52,7 @@ class PreflightReport:
 # nvidia-smi --query-compute-apps output: pid, process name — a row
 # with a digit-led pid means SOMETHING holds the GPU (stale tenant).
 _GPU_PROC_RE = re.compile(r"^\s*(\d+)\s+\S+", re.M)
+_ALLOWED_QC_PROCESS = "llama-server"
 
 
 def _safe_probe(host, argv, timeout=PROBE_TIMEOUT_SECS):
@@ -118,12 +119,20 @@ def _probe_gpu(host) -> PreflightCheck:
     if rc != 0:
         return PreflightCheck("gpu_state", False,
                               f"nvidia-smi rc={rc}")
-    m = _GPU_PROC_RE.search(out or "")
+    rows = [line.strip() for line in (out or "").splitlines()
+            if line.strip()]
+    unknown = [line for line in rows
+               if _ALLOWED_QC_PROCESS not in line]
+    m = _GPU_PROC_RE.search("\n".join(unknown))
     if m:
         return PreflightCheck(
             "gpu_state", False,
             f"GPU busy: stale tenant pid {m.group(1)} "
-            f"({out.strip().splitlines()[0]})")
+            f"({unknown[0]})")
+    if rows:
+        return PreflightCheck(
+            "gpu_state", True,
+            "idle except intentional QC tenant (llama-server)")
     return PreflightCheck("gpu_state", True, "idle")
 
 
