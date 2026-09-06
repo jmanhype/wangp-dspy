@@ -298,6 +298,41 @@ class TestQcUrlDefault:
         rj.build_executor(queue=_FakeQueue(), host=H()).preflight({})
         assert seen["url"] == "http://qc:9999/healthz"
 
+    def test_default_preflight_has_real_model_and_disk_gates(self,
+                                                              monkeypatch):
+        monkeypatch.delenv("WANGP_PREFLIGHT_MODELS_JSON", raising=False)
+        monkeypatch.delenv("WANGP_PREFLIGHT_DISK_PATH", raising=False)
+        monkeypatch.delenv("WANGP_MIN_FREE_GB", raising=False)
+        import scripts.run_jobs as rj
+        assert rj.DEFAULT_PREFLIGHT_MODELS
+        assert {m["model_type"] for m in rj.DEFAULT_PREFLIGHT_MODELS} == {
+            "minimax_h3_ref2va_pruned", "minimax_h3_fl2va_pruned"}
+        assert all(len(m["sha256"]) == 64
+                   for m in rj.DEFAULT_PREFLIGHT_MODELS)
+        assert rj.DEFAULT_PREFLIGHT_DISK_PATH == "/mnt/bulk"
+        assert rj.DEFAULT_MIN_FREE_GB > 0
+
+    def test_job_mode_selects_matching_checkpoint(self):
+        import scripts.run_jobs as rj
+        ref = {"clips": [{"kind": "ref2va_render"}]}
+        fl = {"clips": [{"kind": "fl2va_first_last"}]}
+        assert rj._preflight_models_for_job(ref,
+                                             rj.DEFAULT_PREFLIGHT_MODELS)[0][
+                                                 "model_type"] == \
+            "minimax_h3_ref2va_pruned"
+        assert rj._preflight_models_for_job(fl,
+                                             rj.DEFAULT_PREFLIGHT_MODELS)[0][
+                                                 "model_type"] == \
+            "minimax_h3_fl2va_pruned"
+
+    def test_model_override_requires_sha256(self, monkeypatch):
+        import scripts.run_jobs as rj
+        monkeypatch.setenv(
+            "WANGP_PREFLIGHT_MODELS_JSON",
+            '[{"path":"/m.safetensors","sha256":"bad"}]')
+        with pytest.raises(ValueError, match="invalid sha256"):
+            rj.build_executor(queue=_FakeQueue(), host=object())
+
 
 class _FakeQueue:
     def list_state(self, state):

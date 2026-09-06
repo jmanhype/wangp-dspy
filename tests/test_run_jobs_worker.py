@@ -25,6 +25,11 @@ class FakeHost:
             return 0, "", ""
         if argv[:1] == ["cat"]:
             return 0, "Denoising 20/20\n", ""
+        if argv[:1] == ["sha256sum"]:
+            digest = next(
+                spec["sha256"] for spec in run_jobs.DEFAULT_PREFLIGHT_MODELS
+                if spec["path"] == argv[-1])
+            return 0, f"{digest}  {argv[-1]}\n", ""
         if argv[:1] == ["df"]:
             return 0, "  100G\n", ""
         return 0, "", ""

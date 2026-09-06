@@ -37,6 +37,9 @@ runs too):
 |---|---|---|
 | `WANGP_SSH_TARGET` | `3090` | SSH target for the render host. Set `localhost` when running ON the box (skips the ssh hop). |
 | `WANGP_QC_URL` | `http://localhost:8000/health` | Preflight QC healthz probe URL. |
+| `WANGP_PREFLIGHT_MODELS_JSON` | trusted 3090 H3 paths + SHA-256 | Explicit JSON list of `{"model_type", "path", "sha256"}` specs; the job mode selects its checkpoint and replacement requires a new digest. |
+| `WANGP_PREFLIGHT_DISK_PATH` | `/mnt/bulk` | Filesystem checked for render headroom. |
+| `WANGP_MIN_FREE_GB` | `20` | Minimum free GiB required before admitting a render. |
 | `WANGP_SANCTIONED_DIRS` | keepers/Wan2GP outputs/qc_media | `:`-separated sanctioned asset roots for ref2va containment. |
 | `WANGP_STALENESS_S` | `600` | Stale-active job heartbeat timeout. |
 | `WANGP_LOAD_STALL_S` | `300` | Load-progress watchdog before first Denoising line. |

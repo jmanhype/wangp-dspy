@@ -71,6 +71,11 @@ def _probe_ssh(host) -> PreflightCheck:
 
 
 def _probe_models(host, models) -> PreflightCheck:
+    if not models:
+        return PreflightCheck(
+            "model_files", False,
+            "no model path/sha256 specs configured — refusing to "
+            "admit a render without model identity verification")
     problems = []
     for spec in models:
         path, expected = spec["path"], spec["sha256"]

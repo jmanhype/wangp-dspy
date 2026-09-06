@@ -63,6 +63,15 @@ def test_report_shape_all_pass():
                      "gpu_state", "qc_available"]
 
 
+def test_empty_model_specs_fail_closed():
+    report = run_preflight(
+        StubHost(), models=[], min_free_gb=50,
+        disk_path="/mnt/bulk", qc_url="http://x/h")
+    check = report.check("model_files")
+    assert not check.passed
+    assert "no model path" in check.detail
+
+
 def test_ssh_unreachable_fails_and_names_target():
     host = StubHost(reachable=False)
     report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,

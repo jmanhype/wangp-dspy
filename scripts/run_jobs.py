@@ -38,6 +38,91 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # Env-overridable via WANGP_QC_URL.
 DEFAULT_QC_URL = "http://localhost:8000/health"
 
+# Never silently admit a job with empty model or disk gates.  These
+# are the trusted 3090 H3 checkpoints and measured digests (2026-09-05).
+# Replacing a checkpoint requires an explicit JSON override with a new
+# digest; otherwise preflight fails closed.  ``model_type`` selects the
+# one checkpoint required by the job's semantic mode.
+DEFAULT_PREFLIGHT_MODELS = [{
+    "model_type": "minimax_h3_ref2va_pruned",
+    "path": "/home/straughter/Wan2GP/ckpts/"
+            "MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+    "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+}, {
+    "model_type": "minimax_h3_fl2va_pruned",
+    "path": "/home/straughter/Wan2GP/ckpts/"
+            "MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+    "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+}]
+DEFAULT_PREFLIGHT_DISK_PATH = "/mnt/bulk"
+DEFAULT_MIN_FREE_GB = 20.0
+
+
+def _preflight_models():
+    """Return explicit model path/digest specs; reject bad overrides."""
+    raw = os.environ.get("WANGP_PREFLIGHT_MODELS_JSON", "").strip()
+    if not raw:
+        return [dict(spec) for spec in DEFAULT_PREFLIGHT_MODELS]
+    try:
+        models = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ValueError(
+            "WANGP_PREFLIGHT_MODELS_JSON must be valid JSON") from exc
+    if not isinstance(models, list) or not models:
+        raise ValueError(
+            "WANGP_PREFLIGHT_MODELS_JSON must be a non-empty list")
+    for spec in models:
+        if not isinstance(spec, dict) or not str(spec.get("path", "")) \
+                or not str(spec.get("sha256", "")):
+            raise ValueError(
+                "each preflight model spec needs path and sha256")
+        digest = str(spec["sha256"])
+        if len(digest) != 64 or any(c not in "0123456789abcdefABCDEF"
+                                    for c in digest):
+            raise ValueError(
+                f"invalid sha256 for preflight model {spec['path']!r}")
+    return models
+
+
+def _preflight_models_for_job(job, models):
+    """Select the checkpoint(s) required by a job's product mode."""
+    clips = (job.get("clips", []) if isinstance(job, dict)
+             else getattr(job, "clips", [])) or []
+    if not clips:
+        # A real queue record always has clips.  Keep direct preflight
+        # callers conservative by checking every configured checkpoint.
+        return models
+    wanted = set()
+    for clip in clips:
+        mode = str(clip.get("mode", ""))
+        kind = str(clip.get("kind", ""))
+        if mode == "REF2VA_IDENTITY_AUDIO" or kind == "ref2va_render":
+            wanted.add("minimax_h3_ref2va_pruned")
+        else:
+            wanted.add("minimax_h3_fl2va_pruned")
+    typed = [m for m in models if m.get("model_type")]
+    if not typed:
+        return models
+    selected = [m for m in typed if m["model_type"] in wanted]
+    if not selected:
+        raise ValueError(
+            f"no preflight model spec for job model types "
+            f"{sorted(wanted)}")
+    return selected
+
+
+def _preflight_min_free_gb() -> float:
+    raw = os.environ.get("WANGP_MIN_FREE_GB", "").strip()
+    if not raw:
+        return DEFAULT_MIN_FREE_GB
+    try:
+        value = float(raw)
+    except ValueError as exc:
+        raise ValueError("WANGP_MIN_FREE_GB must be numeric") from exc
+    if value < 0:
+        raise ValueError("WANGP_MIN_FREE_GB must be non-negative")
+    return value
+
 from services.jobs.queue import (  # noqa: E402,F401
     JobQueue, is_job_admissible as _is_admissible_impl,
     next_admissible as _next_admissible_impl,
@@ -150,11 +235,16 @@ def build_executor(queue, host=None, pre_render=None):
     # EMPTY URL — wire a real default (env-overridable).
     qc_url = (os.environ.get("WANGP_QC_URL")
               or DEFAULT_QC_URL)
+    models = _preflight_models()
+    min_free_gb = _preflight_min_free_gb()
+    disk_path = (os.environ.get("WANGP_PREFLIGHT_DISK_PATH")
+                 or DEFAULT_PREFLIGHT_DISK_PATH)
 
     def preflight(job):
         return run_preflight(
-            host, models=[], min_free_gb=0.0,
-            disk_path="/home/straughter/Wan2GP", qc_url=qc_url)
+            host, models=_preflight_models_for_job(job, models),
+            min_free_gb=min_free_gb,
+            disk_path=disk_path, qc_url=qc_url)
 
     def render(clip):
         if adapter is None:
