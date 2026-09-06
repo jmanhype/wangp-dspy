@@ -27,5 +27,14 @@
     "flags": [],
     "notes": "grandma speaks with real line, soul's mouth held closed by Picture-2 binding \u2014 attribution recipe LOCKED",
     "experiment": "speaker-attribution-v2"
+  },
+  {
+    "artifact": "speaker_test/v3_pair.mp4",
+    "sha256": "0146285a9ea6441b4688e1651a467c9af189e9b63e1403ffbf92938825294a51",
+    "timestamp": "2026-09-06T13:55:00Z",
+    "verdict": "perfect",
+    "flags": [],
+    "notes": "FULL RECIPE LOCKED: silent-char face-ref (Picture-N bound) + trimmed-to-cut-length wav + +9dB boost + pre/post whisper gates. Both speakers, chained, English.",
+    "experiment": "speaker-attribution-v3"
   }
 ]
