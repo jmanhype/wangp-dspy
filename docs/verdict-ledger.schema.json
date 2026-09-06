@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Operator Verdict Ledger Entry",
+  "description": "Ground-truth labels: the operator's eyes are the final QC. One entry per watched film/cut.",
+  "type": "object",
+  "required": ["artifact", "sha256", "timestamp", "verdict"],
+  "properties": {
+    "artifact": {"type": "string", "description": "filename or path of film/cut watched"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "verdict": {"type": "string", "enum": [
+      "perfect", "amazing", "good", "fucking perfect",
+      "bad", "horrible", "trash",
+      "approve-with-flaw", "reject"
+    ], "description": "Operator's word, verbatim mapping: perfect/amazing/good/fucking perfect=approved-keep; bad/horrible/trash=reject+diagnose"},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 10},
+    "flags": {"type": "array", "items": {"type": "string"}, "description": "specific observations: wrong-speaker, seam-jump, listener-frozen, artifact, audio-mix, pacing"},
+    "notes": {"type": "string", "description": "operator's words, verbatim where possible"},
+    "experiment": {"type": ["string", "null"], "description": "if part of a controlled pair (e.g. speaker-attribution baseline vs identityrefs), the experiment id"}
+  }
+}

@@ -14,7 +14,14 @@ from typing import List, Optional
 
 from predict.job_config import WanGPJobConfig, JobConfigError
 
-REF2VA_MODELS = {"minimax_h3_ref2va_pruned"}
+# Speaker attribution — VALIDATED 2026-09-06 (operator verdict "yes"):
+# seed frame + ONE face ref of the SILENT character (Picture-N bound) keeps
+# the audio guide intact (2 refs = under dilution threshold; 3 refs killed it,
+# "Unmight Night Shurkey" gibberish) and holds the non-speaker's mouth closed
+# while the audio binds the speaker. Community corroboration: MiniMax-H3
+# issue #17 — multi-voice conditioning bleeds globally; single-voice-per-render
+# (per-turn isolation) avoids it by construction.
+SILENT_CHAR_REF_FIELDS = ("image_refs",)  # refs = [seed, silent_face]; see experiment v2
 ALLOWED_IMAGE_PROMPT = {"S", ""}
 ALLOWED_VIDEO_PROMPT = {"I", ""}   # "" = Mode A packed (no refs path)
 ALLOWED_AUDIO_PROMPT = {"A", ""}

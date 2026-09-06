@@ -1,0 +1,31 @@
+[
+  {
+    "artifact": "speaker_test/baseline.mp4",
+    "sha256": "a0132823216c84094a1c73957c4ab4bc339300be631f45c444c7218a4ca90002",
+    "timestamp": "2026-09-06T00:55:00Z",
+    "verdict": "good",
+    "flags": [],
+    "notes": "baseline wins v1 pair \u2014 real dialogue; identityrefs produced gibberish",
+    "experiment": "speaker-attribution-v1"
+  },
+  {
+    "artifact": "speaker_test/identityrefs.mp4",
+    "sha256": "4d77ac4e39c3f13eb74b533d9d48d0db6bb4eca91965c78ee7c614d7bf32695b",
+    "timestamp": "2026-09-06T00:55:00Z",
+    "verdict": "reject",
+    "flags": [
+      "audio-guide-ignored"
+    ],
+    "notes": "gibberish ('Unmight Night Shurkey'); 3 image refs diluted audio conditioning below follow threshold",
+    "experiment": "speaker-attribution-v1"
+  },
+  {
+    "artifact": "speaker_test/v2_silentref.mp4",
+    "sha256": "1d3795ba6f369eabea288a0e3f2c72e52814bc1c1e69f5310c7fe93ada742f4d",
+    "timestamp": "2026-09-06T01:50:00Z",
+    "verdict": "perfect",
+    "flags": [],
+    "notes": "grandma speaks with real line, soul's mouth held closed by Picture-2 binding \u2014 attribution recipe LOCKED",
+    "experiment": "speaker-attribution-v2"
+  }
+]
