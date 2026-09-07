@@ -173,7 +173,9 @@ def prepare_turn_audio(
         raise AudioPreparationError(
             f"measured_duration_s: {measured_duration:.3f}s exceeds cut")
 
-    rms_probe = run(["ffmpeg", "-v", "error", "-i", str(output),
+    # volumedetect reports mean_volume at INFO level; ``-v error`` suppresses
+    # the very evidence this gate parses and makes every real file fail.
+    rms_probe = run(["ffmpeg", "-v", "info", "-i", str(output),
                      "-af", "volumedetect", "-f", "null", "-"])
     rms_db = _rms_from_probe(rms_probe)
     if rms_db < float(min_rms_db):
