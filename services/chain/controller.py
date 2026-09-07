@@ -33,6 +33,7 @@ from predict.continuation_lane import (
     ContinuationExtras, build_picture_n_speaker_prompt,
 )
 from predict.speaker_manifest import SpeakerTurn, build_speaker_manifest
+from predict.model_types import REF2VA_MODEL_TYPE
 
 OVERLAP_FRAMES = 22  # upstream H3_CHAIN_FORMAT_GUIDE default; see docs
 _FPS = 24
@@ -324,7 +325,7 @@ def _continuation_config(
     return {
         "clip_index": clip.index,
         "kind": "ref2va_render",
-        "model_type": "minimax_h3_ref2va_pruned",
+        "model_type": REF2VA_MODEL_TYPE,
         "speaker": next(c.name for c in plan.characters
                          if c.sn_tag == clip.speaker_sn),
         "speaker_sn": clip.speaker_sn,
