@@ -67,7 +67,8 @@ def _adapter(host, tmp_path):
                         runner=lambda *a: None)
 
 
-GOOD_LOG = "loading model\nDenoising 20/20\nsaved\n"
+GOOD_LOG = ("loading model\nDenoising 20/20\nsaved\n"
+            "Queue completed: 1/1 tasks in 1s\n")
 
 
 class TestCommandShape:
@@ -327,6 +328,29 @@ class TestNewestOutput:
         assert source.endswith("second.mp4")
         assert host.copies == ["/w/outputs/first.mp4",
                                "/w/outputs/second.mp4"]
+
+    def test_copy_waits_for_strict_output_after_queue_completion(self):
+        class DelayedOutputHost(FakeHost):
+            def __init__(self):
+                super().__init__(outputs="")
+                self.polls = 0
+
+            def run_probe(self, argv, timeout=30):
+                if argv[:2] == ["ls", "-t"]:
+                    self.polls += 1
+                    return (0, "" if self.polls < 2 else "fresh.mp4\n", "")
+                return super().run_probe(argv, timeout=timeout)
+
+        host = DelayedOutputHost()
+        clock = {"t": 0.0}
+        found = copy_newest_output_mp4(
+            host, "/w/outputs", "/w/render/raw.mp4",
+            wait_timeout_s=5.0, poll_interval_s=1.0,
+            sleeper=lambda seconds: clock.__setitem__(
+                "t", clock["t"] + seconds),
+            now=lambda: clock["t"])
+        assert found.endswith("fresh.mp4")
+        assert host.polls == 2
 
     def test_no_mp4_is_typed_failure(self):
         host = FakeHost(outputs="notes.txt")

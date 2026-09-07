@@ -128,6 +128,39 @@ class TestPollLoop:
                                      timeout_s=60, sleeper=sleeper, now=now)
         assert "20/20" in log
 
+    def test_production_gate_waits_for_queue_completed(self, monkeypatch):
+        monkeypatch.setenv("WANGP_LOAD_STALL_S", "1")
+        host, now, sleeper = self._clock()
+        logs = ["Denoising 20/20\n",
+                "Denoising 20/20\n[Multishot] saved\n",
+                "Denoising 20/20\nQueue completed: 1/1 tasks in 1s\n"]
+        state = {"i": 0}
+
+        def cat(_h, _a):
+            value = logs[min(state["i"], len(logs) - 1)]
+            return 0, value, ""
+
+        host.responses["cat"] = cat
+
+        def advancing_sleeper(seconds):
+            state["i"] += 1
+            sleeper(seconds)
+
+        log = poll_render_completion(
+            host, "/run/render.log", 20, timeout_s=60,
+            sleeper=advancing_sleeper, now=now, expected_tasks=1)
+        assert "Queue completed: 1/1" in log
+
+    def test_production_gate_rejects_skipped_queue(self, monkeypatch):
+        monkeypatch.setenv("WANGP_LOAD_STALL_S", "1")
+        host, now, sleeper = self._clock(
+            {"cat": lambda h, a: (
+                0, "Denoising 20/20\nQueue completed: 0/1 tasks\n", "")})
+        with pytest.raises(WanGPError, match="unexpected task count"):
+            poll_render_completion(
+                host, "/run/render.log", 20, timeout_s=60,
+                sleeper=sleeper, now=now, expected_tasks=1)
+
     def test_rejects_truncated_log(self, monkeypatch):
         monkeypatch.setenv("WANGP_LOAD_STALL_S", "1")
         host, now, sleeper = self._clock(
