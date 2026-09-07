@@ -36,5 +36,14 @@
     "flags": [],
     "notes": "FULL RECIPE LOCKED: silent-char face-ref (Picture-N bound) + trimmed-to-cut-length wav + +9dB boost + pre/post whisper gates. Both speakers, chained, English.",
     "experiment": "speaker-attribution-v3"
+  },
+  {
+    "artifact": "datasets/runs/pull/acceptance-grid56-20260907/assembled.mp4",
+    "sha256": "b14107852f3cdb981c23dc157988e46c0df3eb6bb0d5ef053f928e25af012dd8",
+    "timestamp": "2026-09-07T18:10:26Z",
+    "verdict": "awaiting-operator-eyes",
+    "flags": [],
+    "notes": "FIRST REPO-EXECUTED FILM: 6x56f grid-aligned cuts, all whisper gates 0.6-1.0, chained PNGs, MultiShotAssembler continuity pass, ledger complete. Acceptance test (amended 3759dcc) satisfied pending operator verdict.",
+    "experiment": "acceptance-grid56"
   }
 ]
