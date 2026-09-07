@@ -19,6 +19,17 @@ class TestContinuationExtras:
         d = e.to_extra()
         assert "audio_guide" not in d
 
+    def test_persisted_envelope_round_trips_through_canonical_loader(self):
+        original = ContinuationExtras(
+            image_start="/x/seed.png",
+            image_refs=["/x/seed.png", "/x/silent.png"],
+            audio_guide="/x/t1.wav",
+        )
+        persisted = original.to_extra()
+        restored = ContinuationExtras.from_dict(persisted)
+        assert restored == original
+        assert restored.to_extra() == persisted
+
     def test_audio_without_guide_rejected(self):
         with pytest.raises(JobConfigError):
             ContinuationExtras(audio_prompt_type="A", image_start="/x/s.png").validate()

@@ -9,6 +9,7 @@ Judge implementations for the audio_critic stage:
 """
 from __future__ import annotations
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import List, Optional
 
@@ -85,6 +86,10 @@ class ContinuationExtras:
     audio_policy_discard_rendered: bool = True
     video_length: int = 48
     requested_frames: int = 48
+    # Persisted continuation envelopes include this optional slot even when
+    # it is null.  Keeping it on the typed object makes the envelope
+    # round-trip lossless while preserving the existing runtime behavior.
+    video_guide: Optional[str] = None
 
     def validate(self) -> None:
         if self.image_prompt_type not in ALLOWED_IMAGE_PROMPT:
@@ -114,7 +119,7 @@ class ContinuationExtras:
             "audio_prompt_type": self.audio_prompt_type,
             "audio_policy": {"discard_rendered_audio": self.audio_policy_discard_rendered},
             "video_source": None,
-            "video_guide": None,
+            "video_guide": self.video_guide,
             "keep_frames_video_source": self.keep_frames_video_source,
             "video_length": self.video_length,
             "requested_frames": self.requested_frames,
@@ -126,6 +131,70 @@ class ContinuationExtras:
         if self.audio_guide:
             d["audio_guide"] = self.audio_guide
         return d
+
+    @classmethod
+    def from_dict(cls, payload: Mapping) -> "ContinuationExtras":
+        """Normalize a persisted continuation envelope into typed fields.
+
+        ``to_extra`` intentionally stores the G4 audio policy as the nested
+        ``audio_policy.discard_rendered_audio`` shape used by job manifests,
+        while the typed object keeps a flat field for validation.  This
+        loader is the single compatibility boundary between those shapes;
+        it also accepts the optional ``video_guide`` slot emitted by older
+        envelopes and remains strict about unknown fields.
+        """
+        if isinstance(payload, cls):
+            return payload
+        if not isinstance(payload, Mapping):
+            raise JobConfigError(
+                "continuation extras must be a mapping, got "
+                f"{type(payload).__name__}")
+
+        data = dict(payload)
+        nested_policy = data.pop("audio_policy", None)
+        if nested_policy is not None:
+            if not isinstance(nested_policy, Mapping):
+                raise JobConfigError(
+                    "audio_policy must be a mapping when present")
+            unknown_policy = set(nested_policy) - {
+                "discard_rendered_audio"}
+            if unknown_policy:
+                raise JobConfigError(
+                    "audio_policy contains unknown field(s): "
+                    f"{sorted(unknown_policy)}")
+            if "discard_rendered_audio" not in nested_policy:
+                raise JobConfigError(
+                    "audio_policy requires discard_rendered_audio")
+            nested_value = nested_policy["discard_rendered_audio"]
+            flat_value = data.get("audio_policy_discard_rendered")
+            if flat_value is not None and flat_value != nested_value:
+                raise JobConfigError(
+                    "audio policy values disagree between nested and flat "
+                    "forms")
+            data["audio_policy_discard_rendered"] = nested_value
+
+        allowed = {
+            "image_prompt_type", "video_prompt_type", "audio_prompt_type",
+            "image_start", "image_refs", "audio_guide", "video_source",
+            "video_guide", "keep_frames_video_source",
+            "audio_policy_discard_rendered", "video_length",
+            "requested_frames",
+        }
+        unknown = set(data) - allowed
+        if unknown:
+            raise JobConfigError(
+                "continuation extras contain unknown field(s): "
+                f"{sorted(unknown)}")
+        if "image_refs" in data:
+            refs = data["image_refs"]
+            if not isinstance(refs, (list, tuple)):
+                raise JobConfigError("image_refs must be a list or tuple")
+            data["image_refs"] = list(refs)
+        try:
+            return cls(**data)
+        except TypeError as e:
+            raise JobConfigError(
+                f"invalid continuation extras fields: {e}") from e
 
 
 def words(s: str) -> set:

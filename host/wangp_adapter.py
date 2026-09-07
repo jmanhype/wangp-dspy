@@ -490,8 +490,8 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             continuation = continuation_raw
         elif isinstance(continuation_raw, Mapping):
             try:
-                continuation = ContinuationExtras(**dict(continuation_raw))
-            except TypeError as e:
+                continuation = ContinuationExtras.from_dict(continuation_raw)
+            except JobConfigError as e:
                 raise WanGPError(
                     f"invalid continuation_extras fields: {e}") from e
         else:
