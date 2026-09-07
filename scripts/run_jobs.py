@@ -56,6 +56,23 @@ def done_job_ids(queue) -> set:
     return set(queue.list_state("done"))
 
 
+def _recover_stale_active(queue) -> list:
+    """Requeue orphaned active jobs before applying dependency gating.
+
+    ``JobExecutor._pick_job`` performs the same recovery, but the worker
+    entrypoint must do it before its own ``next_admissible`` pre-pick.  A
+    stale prerequisite otherwise remains in ``rendering`` and makes every
+    dependent appear blocked forever at the entrypoint boundary.
+    """
+    recover = getattr(queue, "recover_stale_active", None)
+    if recover is None:
+        return []
+    raw = os.environ.get("WANGP_STALENESS_S")
+    if raw:
+        return recover(staleness_s=float(raw))
+    return recover()
+
+
 def next_admissible(queue):
     """Oldest pending job whose needs-target is done (or with no
     needs). Delegates to services.jobs.queue.next_admissible — the
@@ -265,6 +282,7 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None):
         return handled
     handled = []
     while limit is None or len(handled) < limit:
+        _recover_stale_active(queue)
         jid = next_admissible(queue)
         if jid is None:
             return handled
@@ -306,6 +324,7 @@ def main(argv=None):
             return 0
         if args.once:
             # --once: exactly ONE admissible job
+            _recover_stale_active(queue)
             jid = next_admissible(queue)
             if jid is None:
                 print("no admissible pending jobs")
