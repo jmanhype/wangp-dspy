@@ -53,6 +53,8 @@ class SpeakerManifest:
                 f"schema: expected {SCHEMA!r}, got {self.schema!r}")
         if not self.turns:
             raise SpeakerManifestError("turns: at least one turn is required")
+        if any(not isinstance(turn, SpeakerTurn) for turn in self.turns):
+            raise SpeakerManifestError("turns: entries must be SpeakerTurn values")
         indexes = [t.turn_index for t in self.turns]
         if indexes != list(range(1, len(indexes) + 1)):
             raise SpeakerManifestError(
