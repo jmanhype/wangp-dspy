@@ -1,0 +1,97 @@
+{
+  "run_id": "acceptance-grid56-r2",
+  "media_manifest": {
+    "premise_id": "dg-acceptance",
+    "plates": {
+      "anchor": "assets/acceptance/plate.png",
+      "grandma": "assets/acceptance/face_grandma.png",
+      "soul": "assets/acceptance/face_soul.png"
+    },
+    "audio": [
+      {
+        "path": "assets/acceptance/turn1.wav",
+        "speaker": "grandma"
+      },
+      {
+        "path": "assets/acceptance/turn2.wav",
+        "speaker": "soul"
+      },
+      {
+        "path": "assets/acceptance/turn3.wav",
+        "speaker": "grandma"
+      },
+      {
+        "path": "assets/acceptance/turn4.wav",
+        "speaker": "soul"
+      },
+      {
+        "path": "assets/acceptance/turn5.wav",
+        "speaker": "grandma"
+      },
+      {
+        "path": "assets/acceptance/turn6.wav",
+        "speaker": "soul"
+      }
+    ]
+  },
+  "script_lines": [
+    {
+      "speaker": "grandma",
+      "text": "Oh hush now, dear. Have a cookie."
+    },
+    {
+      "speaker": "soul",
+      "text": "Lady, I am on fire!"
+    },
+    {
+      "speaker": "grandma",
+      "text": "Then you will want the milk."
+    },
+    {
+      "speaker": "soul",
+      "text": "Fine. It is a good cookie."
+    },
+    {
+      "speaker": "grandma",
+      "text": "There is a brave boy."
+    },
+    {
+      "speaker": "soul",
+      "text": "More, please."
+    }
+  ],
+  "audio_paths": [
+    "assets/acceptance/turn1.wav",
+    "assets/acceptance/turn2.wav",
+    "assets/acceptance/turn3.wav",
+    "assets/acceptance/turn4.wav",
+    "assets/acceptance/turn5.wav",
+    "assets/acceptance/turn6.wav"
+  ],
+  "plate_paths": [
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_soul.png"
+    ],
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_grandma.png"
+    ],
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_soul.png"
+    ],
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_grandma.png"
+    ],
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_soul.png"
+    ],
+    [
+      "assets/acceptance/plate.png",
+      "assets/acceptance/face_grandma.png"
+    ]
+  ]
+}
