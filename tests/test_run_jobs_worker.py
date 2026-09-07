@@ -371,6 +371,48 @@ class TestDryRunAndOnce:
         assert history[1]["parent_attempt_id"] == history[0]["attempt_id"]
         assert "requeued 1 failed job" in capsys.readouterr().out
 
+    def test_retry_dead_letter_requires_audited_reason(self, tmp_path, capsys,
+                                                       monkeypatch):
+        q = JobQueue(str(tmp_path / "jobs.db"))
+        jid = q.submit(
+            plan_ref="p.json",
+            clips=[{"clip_index": 1, "status": "pending",
+                    "log": None, "mp4": None, "qc_verdict": None}],
+        )
+        q.set_state(jid, "preflight")
+        q.set_state(jid, "rendering")
+        q.record_failure(jid, failure_class="render_error")
+        q.set_failure_detail(jid, "boom")
+        q.set_state(jid, "failed")
+        q.record_failure(jid, failure_class="render_error")
+        q.record_failure(jid, failure_class="render_error")
+        q.set_state(jid, "dead_letter")
+        q.close()
+
+        rc = run_jobs.main(["--db", str(tmp_path / "jobs.db"),
+                            "--retry-dead-letter",
+                            "--reason", "operator reopened after fix",
+                            "--dry-run"])
+        assert rc == 2
+        assert "cannot be combined" in capsys.readouterr().err
+
+        class FakeEx:
+            def run_once(self):
+                return jid
+
+        monkeypatch.setattr(run_jobs, "_default_host", lambda: FakeHost())
+        monkeypatch.setattr(run_jobs, "build_executor",
+                            lambda queue, host=None: FakeEx())
+        rc = run_jobs.main(["--db", str(tmp_path / "jobs.db"),
+                            "--retry-dead-letter",
+                            "--reason", "operator reopened after fix",
+                            "--once"])
+        assert rc == 0
+        q2 = JobQueue(str(tmp_path / "jobs.db"))
+        assert q2.get(jid).state == "pending"
+        assert q2.attempt_history(jid)[-1]["reopen_reason"] == (
+            "operator reopened after fix")
+
     def test_drain_recovers_stale_prerequisite_before_needs_gate(
             self, tmp_path, monkeypatch):
         q = JobQueue(str(tmp_path / "jobs.db"))

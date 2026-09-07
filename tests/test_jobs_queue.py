@@ -264,3 +264,30 @@ def test_same_failure_after_requeue_disables_retry_loop(q):
     assert [h["status"] for h in history] == ["failed", "failed"]
     assert [h["failure_detail"] for h in history] == [
         "containment violation", "containment violation"]
+
+
+def test_dead_letter_reopen_is_explicit_and_audited(q):
+    jid = _failed_job(q)
+    q.record_failure(jid, failure_class="render_error")
+    q.record_failure(jid, failure_class="render_error")
+    q.set_state(jid, "dead_letter")
+    with pytest.raises(InvalidTransition):
+        q.set_state(jid, "pending")
+
+    attempt_id = q.reopen_dead_letter(
+        jid, reason="operator reopened after output-discovery fix")
+    assert q.get(jid).state == "pending"
+    history = q.attempt_history(jid)
+    assert history[-1]["attempt_id"] == attempt_id
+    assert history[-1]["status"] == "reopened"
+    assert history[-1]["reopen_reason"] == (
+        "operator reopened after output-discovery fix")
+
+
+def test_dead_letter_reopen_requires_reason(q):
+    jid = _failed_job(q)
+    q.record_failure(jid, failure_class="render_error")
+    q.record_failure(jid, failure_class="render_error")
+    q.set_state(jid, "dead_letter")
+    with pytest.raises(JobRetryError, match="reason"):
+        q.reopen_dead_letter(jid, reason=" ")
