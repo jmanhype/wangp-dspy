@@ -30,8 +30,8 @@ from services.director.renderers.h3_recipe import (
 )
 
 __all__ = ["WiringError", "plan_to_clips", "advance_chain",
-           "sanitize_runtime_tokens", "chain_last_frame_ref",
-           "DEFAULT_RE_ANCHOR_EVERY"]
+    "sanitize_runtime_tokens", "chain_last_frame_ref",
+           "DEFAULT_RE_ANCHOR_EVERY", "assemble_media"]
 
 DEFAULT_RE_ANCHOR_EVERY = 3
 
@@ -344,10 +344,21 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
         rj.extract_last_frame(host, mp4, png)
         refs = list(dep_clip["image_refs"])
         refs[0] = png
+        # Strict continuation jobs duplicate the seed in
+        # continuation_extras. Keep both carriers in lockstep so the runtime
+        # cannot silently ignore the resolved last frame.
+        extra = dep_clip.get("continuation_extras")
+        if isinstance(extra, dict):
+            extra = dict(extra)
+            extra["image_start"] = png
+            extra["image_refs"] = list(refs)
         dep_job_clips = [dict(c) for c in dep_job.clips]
         for c in dep_job_clips:
             if c.get("clip_index") == dep_clip.get("clip_index"):
                 c["image_refs"] = refs
+                c["image_start"] = png
+                if extra is not None:
+                    c["continuation_extras"] = extra
         queue.update_clips(dep_job.job_id, dep_job_clips)
         return png
     return None
@@ -372,3 +383,50 @@ def _chain_png(db_path: str, clip) -> str:
     idx = int(clip.get("clip_index", 0))
     run_dir = str(Path(db_path).parent)
     return f"{run_dir}/render/clip{idx:04d}/chain_last_frame.png"
+
+
+class MediaAssemblyError(ValueError):
+    """Typed rejection of missing or failed rendered media assembly."""
+
+
+def assemble_media(video_paths: Sequence[str], output_path: str, *,
+                   runner=None) -> dict:
+    """Concatenate rendered cut artifacts through the repo-owned ffmpeg seam.
+
+    Paths are validated locally and passed as an argv list to the injected
+    runner (or ``subprocess.run`` without a shell).  The concat manifest is
+    written next to the requested output and removed only after a successful
+    assembly, leaving it as evidence on failure.
+    """
+    import os
+    import subprocess
+    from pathlib import Path
+
+    paths = [str(p) for p in video_paths]
+    if not paths:
+        raise MediaAssemblyError("video_paths: at least one rendered cut is required")
+    missing = [p for p in paths if not Path(p).is_file()]
+    if missing:
+        raise MediaAssemblyError(f"video_paths: unreadable artifacts {missing}")
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    manifest = output.parent / ".concat-inputs.txt"
+
+    def _concat_line(path: str) -> str:
+        # ffmpeg concat demuxer uses single-quoted paths; escape the one
+        # character that can terminate the quoted token.
+        return "file '" + path.replace("'", "'\\''") + "'"
+
+    manifest.write_text("\n".join(_concat_line(p) for p in paths) + "\n",
+                        encoding="utf-8")
+    argv = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i",
+            str(manifest), "-c", "copy", str(output)]
+    run = runner or (lambda args: subprocess.run(list(args), check=False))
+    result = run(argv)
+    rc = int(getattr(result, "returncode", result if isinstance(result, int) else 0))
+    if rc != 0 or not output.is_file():
+        raise MediaAssemblyError(
+            f"ffmpeg assembly failed (rc={rc}) for {output}; "
+            f"inputs={paths}")
+    return {"output_path": str(output), "video_paths": paths,
+            "manifest_path": str(manifest), "command": argv}
