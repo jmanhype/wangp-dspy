@@ -50,3 +50,30 @@ def test_director_run_rejects_non_six_cut_input(tmp_path):
     run = DirectorRun(run_id="audit-002", premise="lf-001")
     with pytest.raises(DirectorRunError, match="exactly 6"):
         run.plan(_script()[:2], audio_paths=[], plate_paths=[])
+
+
+def test_run_film_strict_flag_uses_repo_chain_path(tmp_path):
+    from scripts.run_film import run_film
+
+    script = pathlib.Path(tmp_path) / "dialogue.txt"
+    script.write_text("\n".join(
+        f"{'Mara' if i % 2 == 0 else 'Ivo'}: Turn {i + 1} is ready."
+        for i in range(6)))
+    plates_dir = pathlib.Path(tmp_path) / "plates"
+    plates_dir.mkdir()
+    for name in ("anchor.png", "Mara.png", "Ivo.png"):
+        (plates_dir / name).write_bytes(b"png")
+    audio = []
+    for i in range(6):
+        path = pathlib.Path(tmp_path) / f"turn{i + 1}.wav"
+        path.write_bytes(b"wav")
+        audio.append(str(path))
+    clips = run_film(
+        script, plates_dir, characters=[
+            {"name": "Mara", "sn_tag": "S1", "description": "keeper"},
+            {"name": "Ivo", "sn_tag": "S2", "description": "engineer"},
+        ], audio_paths=audio, durations=[2.0] * 6,
+        dry_run=True, continuation_mode=True)
+    assert len(clips) == 6
+    assert all(clip["kind"] == "ref2va_render" for clip in clips)
+    assert all(clip["frames"] == 48 for clip in clips)
