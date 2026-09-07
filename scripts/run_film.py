@@ -159,7 +159,8 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
              durations=None, audio_paths=None, db_path=None,
              host=None, pre_render=None, lm=None, dry_run=False,
              run_ledger_path=None, dataset_run_path=None,
-             premise_id=None, continuation_mode=False):
+             premise_id=None, continuation_mode=False,
+             whisper_transcriber=None, vision_judge=None):
     """Director entrypoint: script + plates -> clips (-> jobs -> drain).
 
     dry_run=True stops after plan_to_clips: emits the N job clips with
@@ -267,7 +268,9 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
         host = host or rj._default_host()
         hook = pre_render if pre_render is not None \
             else rj._pre_render_default(host)
-        _drain(q, host, pre_render=hook)
+        _drain(q, host, pre_render=hook,
+               whisper_transcriber=whisper_transcriber,
+               vision_judge=vision_judge)
         if ledger_path is not None:
             write_run_ledger(
                 ledger_path,
@@ -289,7 +292,8 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
         q.close()
 
 
-def _drain(queue, host, pre_render=None) -> List[str]:
+def _drain(queue, host, pre_render=None, whisper_transcriber=None,
+           vision_judge=None) -> List[str]:
     """Drain loop: run admissible jobs until none remain; after each
     DONE chain job, advance the chain (extract last frame + patch the
     next clip's image_refs[0]) so the dependent becomes admissible."""
@@ -301,7 +305,10 @@ def _drain(queue, host, pre_render=None) -> List[str]:
         if jid is None:
             return handled
         from scripts.run_jobs import build_executor
-        ex = build_executor(queue, host=host, pre_render=pre_render)
+        ex = build_executor(
+            queue, host=host, pre_render=pre_render,
+            whisper_transcriber=whisper_transcriber,
+            vision_judge=vision_judge)
         ex.run_once()
         handled.append(jid)
         fresh = queue.get(jid)
