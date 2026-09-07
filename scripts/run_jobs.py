@@ -92,6 +92,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="poll forever, sleeping SECS between drains")
     p.add_argument("--dry-run", action="store_true",
                    help="emit what would run; NO host calls")
+    p.add_argument("--retry-failed", action="store_true",
+                   help="append a new attempt for eligible failed jobs")
     return p
 
 
@@ -338,6 +340,13 @@ def main(argv=None):
     args = build_parser().parse_args(argv)
     queue = JobQueue(args.db)
     try:
+        if args.retry_failed:
+            if args.dry_run:
+                print("--retry-failed cannot be combined with --dry-run",
+                      file=sys.stderr)
+                return 2
+            retried = queue.requeue_failed_jobs()
+            print(f"requeued {len(retried)} failed job(s)")
         if args.dry_run:
             print(json.dumps(dry_run_report(queue), indent=2))
             return 0

@@ -119,6 +119,21 @@ class JobExecutor:
         jid = job.job_id
         self.queue.record_failure(jid, failure_class=failure_class)
         self.queue.set_failure_detail(jid, detail)
+        # Append immutable attempt evidence when the durable queue supports
+        # the Finding #21 retry seam.  A repeated signature on the attempt
+        # immediately following a requeue disables any further retries;
+        # the current failure still becomes terminal ``failed`` evidence.
+        record_attempt = getattr(self.queue, "record_attempt_failure", None)
+        repeated_retry = False
+        if callable(record_attempt):
+            repeated_retry = bool(record_attempt(
+                jid, failure_class=failure_class,
+                failure_detail=detail))
+        if repeated_retry:
+            state = self.queue.get(jid).state
+            if state not in ("failed", "dead_letter"):
+                self.queue.set_state(jid, "failed")
+            return
         if self.queue.dead_letter_due(jid, max_failures=self.max_failures):
             state = self.queue.get(jid).state
             if state != "failed":

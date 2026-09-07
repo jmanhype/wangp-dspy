@@ -5,7 +5,8 @@
                     v            v              |    v
                  failed  <-------+------------------+
                     |
-                    +-> preflight (retry, same class) 
+                    +-> pending (retry via append-only queue attempt)
+                    +-> preflight (legacy retry, same class)
                     +-> dead_letter (after N=3 failures of same class)
 
 `rendered_pending_qc` is tonight's live-verified failure mode made
@@ -34,7 +35,9 @@ ALLOWED_TRANSITIONS: dict = {
     # parked render: QC was unavailable; resume when it returns
     "rendered_pending_qc": frozenset({"preflight", "qc", "failed"}),
     "qc": frozenset({"done", "failed", "rendered_pending_qc", "pending"}),
-    "failed": frozenset({"preflight", "dead_letter"}),
+    # Explicit failed-job retry is mediated by JobQueue.requeue_failed,
+    # which appends a new attempt record before taking this transition.
+    "failed": frozenset({"pending", "preflight", "dead_letter"}),
     "done": frozenset(),
     "dead_letter": frozenset(),
 }

@@ -5,7 +5,8 @@ import sqlite3
 
 import pytest
 
-from services.jobs.queue import JobQueue, JobNotFoundError, JobRecord
+from services.jobs.queue import (JobQueue, JobNotFoundError, JobRecord,
+                                 JobRetryError)
 from services.jobs.states import InvalidTransition
 
 
@@ -217,3 +218,49 @@ def test_recovered_job_requeues_with_clip_checkpoints(q):
     assert [c["clip_index"] for c in rec.clips
             if c["status"] == "done"] == [1]
     assert q.next_pending() == jid  # immediately re-pickable
+
+
+def _failed_job(q):
+    jid = q.submit(plan_ref="p.json", clips=[_clip()])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.record_failure(jid, failure_class="render_error")
+    q.set_failure_detail(jid, "containment violation")
+    q.set_state(jid, "failed")
+    return jid
+
+
+def test_requeue_failed_preserves_append_only_attempt_history(q):
+    jid = _failed_job(q)
+    first = q.attempt_history(jid)
+    assert first == []  # pre-Finding-21 failure has no history yet
+
+    attempt_id = q.requeue_failed(jid)
+    assert q.get(jid).state == "pending"
+    history = q.attempt_history(jid)
+    assert len(history) == 2
+    assert history[0]["status"] == "failed"
+    assert history[0]["failure_detail"] == "containment violation"
+    assert history[1]["status"] == "queued"
+    assert history[1]["attempt_id"] == attempt_id
+    assert history[1]["parent_attempt_id"] == history[0]["attempt_id"]
+
+
+def test_same_failure_after_requeue_disables_retry_loop(q):
+    jid = _failed_job(q)
+    q.requeue_failed(jid)
+    q.record_failure(jid, failure_class="render_error")
+    q.set_failure_detail(jid, "containment violation")
+    assert q.record_attempt_failure(
+        jid, failure_class="render_error",
+        failure_detail="containment violation") is True
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.set_state(jid, "failed")
+    assert q.get(jid).retryable is False
+    with pytest.raises(JobRetryError, match="repeated"):
+        q.requeue_failed(jid)
+    history = q.attempt_history(jid)
+    assert [h["status"] for h in history] == ["failed", "failed"]
+    assert [h["failure_detail"] for h in history] == [
+        "containment violation", "containment violation"]
