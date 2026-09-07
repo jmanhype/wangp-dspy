@@ -146,8 +146,11 @@ class JobExecutor:
 
     def _render_clips(self, job) -> None:
         for clip in job.clips:
-            if clip.get("status") == "done":
-                continue  # checkpoint resume: skip done clips
+            if clip.get("status") in ("done", "rendered"):
+                # checkpoint/adoption resume: a rendered clip already has
+                # its log+mp4 evidence; re-gate it instead of burning a
+                # second GPU render.  ``done`` also remains untouched.
+                continue
             # pre_render hook (phased QC kill/restart seam): injectable,
             # default no-op. Runs immediately before the render leg.
             if self.pre_render is not None:

@@ -7,7 +7,9 @@ the host seam live here so ``run_jobs.py`` does not need a side-script bridge.
 from __future__ import annotations
 
 import os
+import posixpath
 from pathlib import Path
+from itertools import count
 from typing import Callable, Optional, Sequence
 
 
@@ -73,8 +75,41 @@ def host_whisper_transcriber(host, *, model: str = "small",
     def run(argv):
         return run_probe(list(argv), timeout=900)
 
-    return lambda audio_path: whisper_transcriber(
-        audio_path, runner=run, model=model, output_dir=output_dir)
+    attempts = count(1)
+
+    def map_audio_path(audio_path: str) -> str:
+        """Resolve a local asset or pull-mirror artifact on the host.
+
+        Asset mappings take precedence for source WAVs; rendered artifacts
+        then fall through to the pull-root ``map_path`` contract.  A path
+        that is already host-resolved is accepted idempotently.
+        """
+        raw = str(audio_path)
+        mapper = getattr(host, "map_asset", None)
+        if callable(mapper):
+            try:
+                return str(mapper(raw))
+            except Exception:
+                pass
+        mapper = getattr(host, "map_path", None)
+        if callable(mapper):
+            try:
+                return str(mapper(raw))
+            except Exception:
+                pass
+        return raw
+
+    def transcribe(audio_path):
+        remote_audio = map_audio_path(audio_path)
+        # Whisper's txt output is stem-based.  Isolate every gate invocation
+        # so a failed/stale prior transcript can never satisfy a retry.
+        isolated_dir = posixpath.join(
+            output_dir.rstrip("/") or "/", f"attempt-{next(attempts):04d}")
+        return whisper_transcriber(
+            remote_audio, runner=run, model=model, output_dir=isolated_dir)
+
+    transcribe.map_audio_path = map_audio_path
+    return transcribe
 
 
 __all__ = ["WhisperCLIError", "whisper_transcriber", "host_whisper_transcriber"]

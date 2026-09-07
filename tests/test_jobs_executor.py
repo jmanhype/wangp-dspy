@@ -206,6 +206,22 @@ def test_done_clips_skipped(tmp_path, ok_render):
     assert q.jobs["job-1"].clips[0]["mp4"] == "m1"  # untouched
 
 
+def test_rendered_clip_is_regated_without_second_gpu_render(tmp_path):
+    q = FakeQueue({"job-1": Job(clips=[
+        {"clip_index": 1, "status": "rendered", "log": "l",
+         "mp4": "renders/job-1/clip1/out.mp4", "qc_verdict": None}])})
+
+    def render_must_not_run(_clip):
+        raise AssertionError("already-rendered adoption must not rerender")
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=render_must_not_run,
+                     qc=lambda clip: (True, "qc/1.json"))
+    ex.run_once()
+    assert q.jobs["job-1"].state == "done"
+    assert q.jobs["job-1"].clips[0]["status"] == "done"
+
+
 def test_no_pending_jobs_returns_none(tmp_path):
     q = FakeQueue({})
     ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
