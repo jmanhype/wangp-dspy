@@ -32,6 +32,7 @@ from services.director.renderers.policy import check_duration_on_grid
 from predict.continuation_lane import (
     ContinuationExtras, build_picture_n_speaker_prompt,
 )
+from predict.speaker_manifest import SpeakerTurn, build_speaker_manifest
 
 OVERLAP_FRAMES = 22  # upstream H3_CHAIN_FORMAT_GUIDE default; see docs
 _FPS = 24
@@ -293,6 +294,16 @@ def _continuation_config(
         silent_sn=(silent.sn_tag if silent is not None else clip.speaker_sn),
         line=clip.shot_prompt.partition("speaks: ")[2],
     )
+    speaker_manifest = build_speaker_manifest([SpeakerTurn(
+        # Each render job carries its own one-turn manifest.  The film-level
+        # run ledger records clip_index separately; per-job manifests must
+        # still satisfy the v1 contiguous-from-one schema.
+        turn_index=1,
+        speaker_id=clip.speaker_sn,
+        picture_n=1,
+        audio_path=clip.audio.path,
+        intended_text=clip.shot_prompt.partition("speaks: ")[2],
+    )])
     extras = ContinuationExtras(
         image_prompt_type="S",
         video_prompt_type="I",
@@ -322,6 +333,7 @@ def _continuation_config(
         "audio_prompt_type": "A",
         "audio_guide": clip.audio.path,
         "audio_provenance": provenance,
+        "speaker_manifest": speaker_manifest,
         "audio_policy": {"discard_rendered_audio": True},
         "guide_duration_s": 2.0,
         "shot_duration_s": 2.0,

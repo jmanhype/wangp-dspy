@@ -112,6 +112,7 @@ class Ref2VAProfile(RenderProfile):
                        audio_guide: Optional[str] = None,
                        audio_provenance: Optional[AudioGuideProvenance] = None,
                        audio_policy: Optional[AudioPolicy] = None,
+                       speaker_manifest: Optional[dict] = None,
                        speaker_prompt: Optional[str] = None,
                        seed: Optional[int] = None,
                        audio_length_frames: Optional[int] = None,
@@ -172,6 +173,15 @@ class Ref2VAProfile(RenderProfile):
         if audio_policy is None:
             audio_policy = AudioPolicy(
                 remux_window=tuple(audio_provenance.keeper_window_s))
+        if continuation:
+            if speaker_manifest is not None:
+                from predict.speaker_manifest import (
+                    SpeakerManifest, SpeakerManifestError,
+                )
+                try:
+                    SpeakerManifest.from_dict(speaker_manifest)
+                except SpeakerManifestError as exc:
+                    raise ProfileError(str(exc)) from exc
         # token contiguity
         text = " ".join(b.subject + " " + b.motion for b in briefs)
         seen: dict = {"Picture": [], "Audio": []}
@@ -335,9 +345,7 @@ class Ref2VAProfile(RenderProfile):
         # WanGPJobConfig dataclass has NO such fields, so passing them
         # to the ctor is silently dropped and wgp runs with wrong
         # prompt-shape defaults.
-        return cfg.to_settings_doc(
-            flat=False,
-            extra={"image_refs": list(image_refs),
+        extra = {"image_refs": list(image_refs),
                    "audio_prompt_type": "A",
                    "audio_guide": str(audio_guide),
                    "image_prompt_type": "S" if continuation else "I",
@@ -354,4 +362,7 @@ class Ref2VAProfile(RenderProfile):
                    "audio_provenance": audio_provenance.to_dict(),
                    "audio_policy": audio_policy.to_dict(),
                    "audio_qc": Ref2VAAudioQC.empty().to_dict(),
-                   "multi_prompts_gen_type": "FG"})
+                   "multi_prompts_gen_type": "FG"}
+        if speaker_manifest is not None:
+            extra["speaker_manifest"] = speaker_manifest
+        return cfg.to_settings_doc(flat=False, extra=extra)

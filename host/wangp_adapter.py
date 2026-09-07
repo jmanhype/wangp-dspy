@@ -548,6 +548,7 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             guide_duration_s=guide_s,
             shot_duration_s=shot_s,
             audio_provenance=prov,
+            speaker_manifest=_job_field(job, "speaker_manifest"),
             # SETTINGS PARITY (2026-09-02): the job's prompt is the
             # FULL speaker template (recipe-built) — it must reach
             # WanGP's prompt field, not die inside the flattened

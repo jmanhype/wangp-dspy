@@ -46,6 +46,10 @@ from predict.audio_manifest import (
     AudioManifestError, build_audio_manifest, readback_validate,
     write_audio_manifest,
 )
+from predict.speaker_manifest import (
+    SpeakerManifestError, readback_validate_speaker_manifest,
+    write_speaker_manifest,
+)
 from predict.render_profiles import (
     ProfileError, Ref2VAProfile,
 )
@@ -220,6 +224,17 @@ def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
             f"settings doc audio_guide not readable: {guide}")
     _require_contained("settings doc audio_guide", guide,
                        sanctioned_dirs)
+    speaker_manifest = settings_doc.get("speaker_manifest")
+    if speaker_manifest is not None:
+        try:
+            # Validate the exact schema before any GPU work.  The sidecar is
+            # written/read back after the render, but malformed attribution
+            # must fail at the runtime boundary as well.
+            from predict.speaker_manifest import SpeakerManifest
+            SpeakerManifest.from_dict(speaker_manifest)
+        except SpeakerManifestError as e:
+            raise Ref2VARuntimeError(
+                f"settings doc speaker_manifest rejected: {e}") from e
     return settings_doc
 
 
@@ -330,6 +345,19 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
             settings_doc)
     except (AudioManifestError, json.JSONDecodeError, OSError) as e:
         raise Ref2VARuntimeError(f"manifest gate rejected: {e}") from e
+    # Continuation jobs additionally persist the versioned speaker/turn
+    # attribution beside the audio manifest.  Legacy Ref2VA jobs remain
+    # byte-compatible and simply omit this optional block.
+    speaker_manifest = settings_doc.get("speaker_manifest")
+    if speaker_manifest is not None:
+        try:
+            speaker_path = write_speaker_manifest(speaker_manifest, raw)
+            readback_validate_speaker_manifest(
+                json.loads(speaker_path.read_text(encoding="utf-8")),
+                speaker_manifest)
+        except (SpeakerManifestError, json.JSONDecodeError, OSError) as e:
+            raise Ref2VARuntimeError(
+                f"speaker manifest gate rejected: {e}") from e
 
     # (e) plan remux against the ACTUAL raw path: EXPLICIT source,
     # containment enforced by the existing planner (argv list only —
