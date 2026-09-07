@@ -69,6 +69,21 @@ def _adapter(host, tmp_path):
                         runner=lambda *a: None)
 
 
+def test_chain_pull_asset_falls_back_to_host_path_mapping(tmp_path):
+    from host.wangp_adapter import _host_asset_path
+
+    class Host:
+        def map_asset(self, path):
+            raise RuntimeError("not a source asset")
+
+        def map_path(self, path):
+            return "/remote/wgp/" + str(path).split("/pull/", 1)[-1]
+
+    local = str(tmp_path / "pull" / "acceptance" / "chain.png")
+    assert _host_asset_path(Host(), local) == \
+        "/remote/wgp/acceptance/chain.png"
+
+
 GOOD_LOG = ("loading model\nDenoising 20/20\nsaved\n"
             "Queue completed: 1/1 tasks in 1s\n")
 
@@ -252,7 +267,13 @@ class TestCopyAndMux:
         host = FakeHost()
         guide = tmp_path / "guide.wav"
         guide.write_bytes(b"RIFF")
-        s = _settings(tmp_path, audio=guide)
+        s = _settings(tmp_path, audio=guide, video_length=56)
+        real_probe = host.run_probe
+        def probe(argv, timeout=30):
+            if argv[:1] == ["ffprobe"]:
+                return 0, "56\n", ""
+            return real_probe(argv, timeout=timeout)
+        host.run_probe = probe
         host.responses = {
             "setsid": lambda h, a: (0, "launched\n", ""),
             "cat": lambda h, a: (0, GOOD_LOG, ""),
@@ -268,7 +289,9 @@ class TestCopyAndMux:
         assert maps == ["0:v", "1:a"]
         assert argv[argv.index("-c:v") + 1] == "copy"
         assert argv[argv.index("-c:a") + 1] == "aac"
-        assert argv[-1] == "-shortest" or "-shortest" in argv
+        assert "-shortest" not in argv
+        assert "-t" in argv
+        assert argv[argv.index("-t") + 1] == "2.333333"
         assert str(out).endswith(".mux.mp4")
 
     def test_no_mux_without_audio_guide(self, tmp_path):

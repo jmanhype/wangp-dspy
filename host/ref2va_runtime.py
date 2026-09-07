@@ -99,6 +99,11 @@ class Ref2VARuntimeInput:
     settings_doc: Optional[dict] = None
     judge: Optional[JudgeFn] = None
     critic_version: Optional[str] = None
+    # Continuation jobs carry a grid contract. The optional probe is an
+    # injected seam for tests; production defaults to local ffprobe after
+    # the remux has been materialized in the pull namespace.
+    continuation: bool = False
+    frame_probe: Optional[Callable[[Path], int]] = None
 
     def __post_init__(self):
         has_kw = self.profile_build_kwargs is not None
@@ -126,6 +131,25 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: f.read(65536), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def _probe_frame_count(path: Path) -> int:
+    """Count final video frames without shell interpretation."""
+    proc = subprocess.run([
+        "ffprobe", "-v", "error", "-count_frames",
+        "-select_streams", "v:0", "-show_entries",
+        "stream=nb_read_frames", "-of", "csv=p=0", str(path),
+    ], capture_output=True, text=True, check=False)
+    if proc.returncode != 0:
+        raise Ref2VARuntimeError(
+            f"post-remux ffprobe failed for {path}: "
+            f"{(proc.stderr or '').strip()[:200]}")
+    try:
+        return int((proc.stdout or "").strip().split(",")[-1])
+    except (TypeError, ValueError) as exc:
+        raise Ref2VARuntimeError(
+            f"post-remux ffprobe returned no frame count for {path}: "
+            f"{(proc.stdout or '')!r}") from exc
 
 
 def _contained(path, sanctioned_dirs: Sequence[str]) -> bool:
@@ -383,6 +407,27 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
         raise Ref2VARuntimeError(
             f"remux output missing after rc=0 runner: {remux} — "
             "eligibility requires real remux evidence")
+
+    # Validate the FINAL artifact, after muxing. A raw 56-frame H3 output
+    # is not sufficient if audio timing truncates the remux to 53 frames.
+    if inp.continuation:
+        try:
+            expected = int(settings_doc.get("video_length") or 0)
+        except (TypeError, ValueError):
+            expected = 0
+        if expected > 0:
+            probe = inp.frame_probe or _probe_frame_count
+            try:
+                actual = int(probe(remux))
+            except Ref2VARuntimeError:
+                raise
+            except Exception as exc:
+                raise Ref2VARuntimeError(
+                    f"post-remux frame validation probe failed: {exc}") from exc
+            if actual != expected:
+                raise Ref2VARuntimeError(
+                    "post-remux continuation frame-count validation failed: "
+                    f"expected {expected}f, got {actual}f in {str(remux)!r}")
 
     # (g) evaluate the REMUX artifact through the existing lane,
     # forwarding the critic_version so it reaches the ACTUAL QC

@@ -566,6 +566,7 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
                 job, "audio_length_frames",
                 continuation.video_length if continuation else None),
         ),
+        continuation=continuation is not None,
     )
 
 
@@ -1106,11 +1107,24 @@ def production_ref2va_render(adapter, inp):
     audio_guide = str(settings_doc_host.get("audio_guide") or "")
     if audio_guide:
         mux_host = raw_host.rsplit(".", 1)[0] + ".mux.mp4"
-        rc, _o, err = _probe(host, [
+        try:
+            fps = float(settings_doc.get("force_fps") or 24.0)
+            mux_duration = (expected_frames / fps
+                            if expected_frames > 0 and fps > 0 else None)
+        except (TypeError, ValueError):
+            mux_duration = None
+        mux_args = [
             "ffmpeg", "-y", "-i", raw_host,
             "-i", audio_guide,
             "-map", "0:v", "-map", "1:a",
-            "-c:v", "copy", "-c:a", "aac", "-shortest", mux_host])
+            "-c:v", "copy", "-c:a", "aac",
+        ]
+        if mux_duration is not None:
+            # Explicit output duration avoids AAC priming causing
+            # ``-shortest`` to truncate a grid-aligned video stream.
+            mux_args += ["-t", f"{mux_duration:.6f}"]
+        mux_args.append(mux_host)
+        rc, _o, err = _probe(host, mux_args)
         if rc != 0:
             raise WanGPError(
                 f"audio mux failed for {raw_host!r} (ffmpeg rc={rc}: "

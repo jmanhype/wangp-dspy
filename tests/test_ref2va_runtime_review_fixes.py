@@ -126,6 +126,55 @@ def test_remux_argv_replanned_against_actual_raw(tmp_path):
     assert res["runtime"]["raw_render_path"] == str(raw2)
 
 
+def test_continuation_post_remux_frame_loss_fails_closed(tmp_path):
+    """A raw grid-aligned render cannot mask a truncated final remux."""
+    kwargs, keep, out, shots, files = _audio_env(tmp_path)
+    from predict.audio_dataplane import AudioGuideProvenance
+    from predict.prompt_director import RenderBrief
+    from predict.profile_selector import ProfileDecision
+    from predict.render_profiles import Ref2VAProfile
+
+    image = pathlib.Path(keep) / "ref1.png"
+    prov = AudioGuideProvenance(
+        source_master=files["master.wav"],
+        vocal_stem=files["vocal.wav"],
+        whisper_map=files["wmap.json"],
+        keeper_window_s=(0.0, 56 / 24),
+    )
+    brief = RenderBrief(subject="speaker", motion="talks",
+                        camera="static", style="cinematic")
+    decision = ProfileDecision(
+        model="h3", resolution="768p", shot_length_frames=56,
+        seed_policy="fixed_per_shot", wangp_profile="profile3",
+        continuation=True)
+    doc = Ref2VAProfile().build_settings(
+        [brief], decision, image_refs=[str(image)],
+        audio_prompt_type="A", audio_guide=files["guide.wav"],
+        guide_duration_s=56 / 24, shot_duration_s=56 / 24,
+        audio_length_frames=56, image_start=str(image),
+        audio_provenance=prov, continuation=True)
+    raw = pathlib.Path(out) / "raw.mp4"
+    remux = pathlib.Path(out) / "remux.mp4"
+
+    def render(inp):
+        raw.write_bytes(b"raw")
+        return str(raw)
+
+    def runner(argv):
+        remux.write_bytes(b"remux")
+        return 0
+
+    inp = Ref2VARuntimeInput(
+        briefs=[brief], decision=decision, settings_doc=doc,
+        raw_render_path=raw, audio_source_path=pathlib.Path(files["master.wav"]),
+        remux_output_path=remux,
+        settings_path=pathlib.Path(out) / "settings.json",
+        sanctioned_dirs=[keep, out, shots], render=render, runner=runner,
+        continuation=True, frame_probe=lambda _path: 53)
+    with pytest.raises(Ref2VARuntimeError, match="post-remux.*53f"):
+        run_ref2va_runtime(inp)
+
+
 # ── Blocker 3: critic_version reaches actual QC ──────────────────────
 
 def test_judged_qc_carries_input_critic_version(tmp_path):

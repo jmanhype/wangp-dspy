@@ -101,7 +101,10 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
         "-map", "1:a:0",                        # audio from source
         "-c:v", "copy",                         # never re-encode video
         "-c:a", "aac", "-b:a", "192k",
-        "-shortest",
+        # AAC priming can make ``-shortest`` truncate a grid-aligned video
+        # (the observed 56-frame cut became 53 frames). Bound output time
+        # explicitly so audio packet timing cannot shorten the video.
+        "-t", f"{duration:.6f}",
         str(output_path),
     ]
 
