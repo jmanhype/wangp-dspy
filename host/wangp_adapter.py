@@ -863,23 +863,77 @@ def _probe(host, argv, timeout=120):
     return rc, out or "", err or ""
 
 
-def newest_output_mp4(host, outputs_dir: str) -> str:
-    """Newest *.mp4 in the host's shared wgp outputs dir (`ls -t`),
-    or a typed failure — never a guess."""
+_OUTPUT_BASENAME_RE = re.compile(
+    r"^[A-Za-z0-9][A-Za-z0-9_.-]*\.mp4$", re.IGNORECASE)
+
+
+def newest_output_mp4(host, outputs_dir: str,
+                      *, newer_than: Optional[float] = None) -> str:
+    """Resolve a real, fresh output in WanGP's shared output directory.
+
+    ``ls`` is only a mtime ordering hint.  Every candidate must be a
+    basename-shaped filename, pass a host-side ``test -f``, and (for a live
+    render) have a host mtime newer than that render's start.  This prevents
+    prompt/log text such as ``"... as something.mp4"`` from becoming a
+    fabricated source path.
+    """
     rc, out, err = _probe(host, ["ls", "-t", outputs_dir])
     if rc != 0:
         raise WanGPError(
             f"cannot list wgp outputs {outputs_dir!r} on the host "
             f"(ls rc={rc}: {err.strip()[:200]})")
+    host_dir = outputs_dir.rstrip("/")
     for line in (out or "").splitlines():
-        name = line.strip().split()[-1] if line.strip() else ""
-        if name.lower().endswith(".mp4"):
-            host_dir = outputs_dir.rstrip("/")
-            return host_dir + "/" + name.rsplit("/", 1)[-1] \
-                if not name.startswith("/") else name
+        name = line.strip()
+        if not _OUTPUT_BASENAME_RE.fullmatch(name):
+            continue
+        candidate = f"{host_dir}/{name}"
+        ok, _o, _e = _probe(host, ["test", "-f", candidate], timeout=60)
+        if ok != 0:
+            continue
+        if newer_than is not None:
+            rc, stat_out, _stat_err = _probe(
+                host, ["stat", "-c", "%Y", candidate], timeout=60)
+            if rc != 0:
+                continue
+            try:
+                # ``stat -c %Y`` is whole-second precision; tolerate the
+                # boundary second while still rejecting historical outputs.
+                if float(stat_out.strip()) + 2.0 < float(newer_than):
+                    continue
+            except ValueError:
+                continue
+        return candidate
     raise WanGPError(
         f"no .mp4 outputs found in {outputs_dir!r} — refusing to "
         "accept a render with no artifact")
+
+
+def copy_newest_output_mp4(host, outputs_dir: str, target: str, *,
+                           newer_than: Optional[float] = None) -> str:
+    """Copy a verified output, re-resolving once if the first copy races.
+
+    Discovery is strict (``newest_output_mp4``); the second resolution is
+    an outer transport guard, not permission to accept an unverified path.
+    """
+    source = newest_output_mp4(host, outputs_dir, newer_than=newer_than)
+    first_error = ""
+    for _attempt in range(2):
+        rc, _o, err = _probe(host, ["cp", source, target])
+        if rc == 0:
+            return source
+        first_error = err.strip()[:300]
+        try:
+            refreshed = newest_output_mp4(
+                host, outputs_dir, newer_than=newer_than)
+        except WanGPError:
+            break
+        if refreshed == source:
+            break
+        source = refreshed
+    raise WanGPError(
+        f"copying newest output {source!r} to the job target {target!r} "
+        f"failed after revalidation (cp rc={rc}: {first_error})")
 
 
 def production_ref2va_render(adapter, inp):
@@ -943,6 +997,7 @@ def production_ref2va_render(adapter, inp):
     # SSH-LIFETIME RENDERS (fix A): launch DETACHED (setsid nohup &)
     # so a dropped ssh channel can never kill or wedge the render;
     # then POLL the log/artifacts for the N/N completion line.
+    render_started = time.time()
     rc, _out, err = _probe(
         host, build_detached_wgp_argv(settings_host, log_path),
         timeout=60)
@@ -964,18 +1019,15 @@ def production_ref2va_render(adapter, inp):
             f"{settings_host!r}: no complete {steps}/{steps} Denoising "
             f"line; log tail: {log_text[-400:]!r}")
 
-    newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
     # LIVE FIX (2026-09-03, strict-chain V2 cut 2): _host_path on the
     # raw.mp4 TARGET raised "neither mappable nor present" — the file
     # does not exist yet because THIS seam creates it. Map the parent
     # render dir (which exists) and append the filename.
     raw_parent = _host_path(host, str(_P(inp.raw_render_path).parent))
     raw_host = f"{raw_parent}/{_P(inp.raw_render_path).name}"
-    rc, _o, err = _probe(host, ["cp", newest, raw_host])
-    if rc != 0:
-        raise WanGPError(
-            f"copying newest output {newest!r} to the job target "
-            f"{raw_host!r} failed (cp rc={rc}: {err.strip()[:200]})")
+    copy_newest_output_mp4(
+        host, adapter.wgp_outputs_dir, raw_host,
+        newer_than=render_started)
 
     audio_guide = ""
     audio_guide = str(settings_doc_host.get("audio_guide") or "")
@@ -1173,6 +1225,7 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
         raise WanGPError(
             f"mkdir -p {run_dir!r} failed on the host "
             f"(rc={rc}: {err.strip()[:200]})")
+    render_started = time.time()
     rc, _out, err = _probe(
         host, build_detached_wgp_argv(settings_host, log_path,
                                       wangp_dir=_wangp_dir_for(adapter)),
@@ -1189,17 +1242,14 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
             "verify-before-trust rejected the render log for "
             f"{settings_host!r}: no complete {steps}/{steps} Denoising "
             f"line; log tail: {log_text[-400:]!r}")
-    newest = newest_output_mp4(host, adapter.wgp_outputs_dir)
     # LIVE FIX (2026-09-03, phase-3 T2VA run): same target-existence
     # trap as PR #73 — output.mp4 does not exist yet at copy time; map
     # the parent render dir and append the filename.
     out_parent = _host_path(host, str(render_dir))
     target_host = f"{out_parent}/output.mp4"
-    rc, _o, err = _probe(host, ["cp", newest, target_host])
-    if rc != 0:
-        raise WanGPError(
-            f"copying newest output {newest!r} to the job target "
-            f"{target_host!r} failed (cp rc={rc}: {err.strip()[:200]})")
+    copy_newest_output_mp4(
+        host, adapter.wgp_outputs_dir, target_host,
+        newer_than=render_started)
     return target_host
 
 
