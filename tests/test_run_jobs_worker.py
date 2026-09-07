@@ -213,14 +213,48 @@ class TestRenderForJobWiring:
                 "whisper_map": str(wmap), "keeper_window_s": [0.0, 2.0],
             },
             "audio_policy": {"discard_rendered_audio": True},
+            "speaker_sn": "S1",
+            "action": "turns toward gate",
         }
         ex = run_jobs.build_executor(
             queue=None, host=FakeHost(),
-            whisper_transcriber=lambda _: "The gate is open")
+            whisper_transcriber=lambda _: "The gate is open",
+            vision_judge=lambda **_: {
+                "mouth_sync": 0.9, "action_match": 0.9,
+                "speaker_attribution": 0.9,
+            })
         ok, evidence = ex.qc(clip)
         assert ok is True
         assert evidence["whisper_gates"]["pre"]["passed"] is True
         assert evidence["whisper_gates"]["post"]["phase"] == "post"
+        assert evidence["vision_judge"]["passed"] is True
+
+    def test_ref2va_qc_wiring_rejects_missing_vision_judge(self, tmp_path):
+        """A ref2va job cannot produce a ledger KEEP without visual evidence."""
+        from qc.audio_critic.ref2va_stage import Ref2VAQCStageError
+
+        guide = Path(tmp_path) / "guide.wav"
+        guide.write_bytes(b"wav")
+        source = Path(tmp_path) / "source.wav"
+        source.write_bytes(b"wav")
+        wmap = Path(tmp_path) / "whisper.json"
+        wmap.write_text("{}")
+        clip = {
+            "clip_index": 1, "kind": "ref2va_render",
+            "audio_guide": str(guide), "mp4": str(Path(tmp_path) / "cut.mp4"),
+            "dialogue_text": "The gate is open",
+            "speaker_sn": "S1", "action": "turns toward gate",
+            "audio_provenance": {
+                "source_master": str(source), "vocal_stem": str(source),
+                "whisper_map": str(wmap), "keeper_window_s": [0.0, 2.0],
+            },
+            "audio_policy": {"discard_rendered_audio": True},
+        }
+        ex = run_jobs.build_executor(
+            queue=None, host=FakeHost(),
+            whisper_transcriber=lambda _: "The gate is open")
+        with pytest.raises(Ref2VAQCStageError, match="vision judge is not wired"):
+            ex.qc(clip)
 
 
 class TestDryRunAndOnce:

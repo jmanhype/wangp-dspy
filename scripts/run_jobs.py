@@ -237,8 +237,11 @@ def build_executor(queue, host=None, pre_render=None,
     def qc(clip):
         # Legacy FL2VA jobs retain their existing QC callback.  Ref2VA
         # continuation jobs must pass the repo-owned audio stage: both
-        # pre/post Whisper gates are required, and optional visual judging is
-        # bound to the same cut artifact.
+        # pre/post Whisper gates are required, and visual judging is a
+        # blocking gate bound to the same cut artifact.  Do not make the
+        # video inputs conditional on a judge being injected: when the judge
+        # is absent, run_ref2va_qc_stage must fail closed rather than return
+        # a KEEP-able result with ``vision_judge=None``.
         if clip.get("kind") != "ref2va_render":
             return True, f"qc/{clip['clip_index']}.json"
         from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
@@ -250,10 +253,9 @@ def build_executor(queue, host=None, pre_render=None,
             intended_text=clip.get("dialogue_text") or clip.get("prompt"),
             whisper_transcriber=whisper_transcriber,
             evidence_path=evidence_path,
-            video_path=(clip.get("mp4") if vision_judge is not None else None),
-            expected_speaker=(clip.get("speaker_sn") if vision_judge is not None else None),
-            expected_action=(clip.get("action") or clip.get("motion")
-                             if vision_judge is not None else None),
+            video_path=clip.get("mp4"),
+            expected_speaker=clip.get("speaker_sn"),
+            expected_action=clip.get("action") or clip.get("motion"),
             vision_judge=vision_judge)
         return True, qc_result.to_dict()
 

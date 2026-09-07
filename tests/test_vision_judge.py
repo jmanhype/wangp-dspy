@@ -2,7 +2,9 @@ import pathlib
 
 import pytest
 
-from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
+from qc.audio_critic.ref2va_stage import (
+    Ref2VAQCStageError, run_ref2va_qc_stage,
+)
 from qc.audio_critic.vision_judge import VisionJudgeError, run_vision_judge
 
 
@@ -46,3 +48,12 @@ def test_qc_stage_persists_integrated_vision_evidence(tmp_path):
         vision_judge=lambda **_: {"mouth_sync": 0.9, "action_match": 0.9,
                                   "speaker_attribution": 0.9})
     assert qc.vision_judge["passed"] is True
+
+
+def test_qc_stage_rejects_requested_vision_without_judge(tmp_path):
+    """Supplying video expectations makes vision mandatory, not optional."""
+    with pytest.raises(Ref2VAQCStageError,
+                       match="vision judge is not wired; refusing ungated video"):
+        run_ref2va_qc_stage(
+            _doc(tmp_path), judge=None, video_path="cut.mp4",
+            expected_speaker="S1", expected_action="turns", vision_judge=None)

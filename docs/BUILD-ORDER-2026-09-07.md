@@ -33,8 +33,9 @@
 11. #1/#2/#12 — premise index, DirectorRun orchestrator, dataset-run
            emission (append-only, content-addressed)
 
-## Polish
-12. #11 — integrated vision judge (right mouth / right action per cut)
+## Blocking QC layer
+12. #11 — integrated vision judge (right mouth / right action per cut);
+           mandatory before a ledger verdict can be emitted
 
 ## ACCEPTANCE TEST (binary, operator-ratified; amended 2026-09-07):
 > Fresh clone at a recorded SHA; repo-only execution; six ~2.33-second
@@ -44,3 +45,6 @@
 > (Amendment: original "six 2-second cuts" wording replaced — H3's latent
 > grid cannot produce exactly 48 frames; 45f/1.875s artifacts are REJECTED,
 > not waived. Ratified by operator 2026-09-07 with #28.)
+
+Any `ref2va` ledger verdict also requires persisted visual-judge evidence;
+`vision_judge: None` is a hard QC failure, not an acceptable placeholder.
