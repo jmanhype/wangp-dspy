@@ -689,6 +689,8 @@ def build_detached_wgp_argv(settings_path: str, log_path: str, *,
 
 
 _DENOISE_LINE_RE = re.compile(r"(?i)denoising:?\s.*?\d+/\d+")
+_QUEUE_COMPLETED_RE = re.compile(
+    r"(?im)^\s*Queue completed:\s*(\d+)\s*/\s*(\d+)\s+tasks\b")
 
 
 class WanGPLoadStallError(WanGPError):
@@ -701,12 +703,15 @@ class WanGPLoadStallError(WanGPError):
 def poll_render_completion(host, log_path: str, steps: int, *,
                            timeout_s: float,
                            poll_interval_s: float = 15.0,
-                           sleeper=None, now=None) -> str:
+                           sleeper=None, now=None,
+                           expected_tasks: Optional[int] = None) -> str:
     """Poll the detached render's log until verify-before-trust
-    accepts it (a complete <steps>/<steps> Denoising line), the load
-    watchdog fires, a stalled-after-denoise crash is detected, or the
-    overall timeout expires. Returns the final log text. sleeper/now
-    are injectable for fake-clock tests."""
+    accepts it (a complete <steps>/<steps> Denoising line).  When
+    ``expected_tasks`` is supplied, the primary completion gate is also
+    WanGP's ``Queue completed: N/N tasks`` line; this avoids racing the
+    final MP4 save that follows the last denoising progress update. The
+    load watchdog, stalled-after-denoise detection, and overall timeout
+    remain active. sleeper/now are injectable for fake-clock tests."""
     sleeper = sleeper or time.sleep
     now = now or time.monotonic
     stall_s = _load_stall_s()
@@ -725,7 +730,24 @@ def poll_render_completion(host, log_path: str, steps: int, *,
         if rc == 0:
             log_text = log_text or ""
             if steps > 0 and verify_denoise_steps(log_text, steps):
-                return log_text
+                if expected_tasks is None:
+                    return log_text
+                queue_match = list(_QUEUE_COMPLETED_RE.finditer(log_text))
+                if queue_match:
+                    done, total = (int(v) for v in queue_match[-1].groups())
+                    if done != expected_tasks or total != expected_tasks:
+                        raise WanGPError(
+                            "WanGP queue completed with an unexpected task "
+                            f"count {done}/{total}; expected "
+                            f"{expected_tasks}/{expected_tasks}")
+                    return log_text
+                # Denoising is complete but WanGP is still writing the
+                # container/output.  Do not classify this quiet interval as
+                # a mid-denoise crash; the outer timeout bounds the wait.
+                last_log = log_text
+                last_change = t
+                sleeper(interval)
+                continue
             if log_text != last_log:
                 last_log = log_text
                 last_change = t
@@ -910,13 +932,31 @@ def newest_output_mp4(host, outputs_dir: str,
 
 
 def copy_newest_output_mp4(host, outputs_dir: str, target: str, *,
-                           newer_than: Optional[float] = None) -> str:
+                           newer_than: Optional[float] = None,
+                           wait_timeout_s: float = 0.0,
+                           poll_interval_s: float = 1.0,
+                           sleeper=None, now=None) -> str:
     """Copy a verified output, re-resolving once if the first copy races.
 
     Discovery is strict (``newest_output_mp4``); the second resolution is
     an outer transport guard, not permission to accept an unverified path.
     """
-    source = newest_output_mp4(host, outputs_dir, newer_than=newer_than)
+    sleeper = sleeper or time.sleep
+    now = now or time.monotonic
+    started_wait = now()
+
+    def resolve_with_wait():
+        while True:
+            try:
+                return newest_output_mp4(
+                    host, outputs_dir, newer_than=newer_than)
+            except WanGPError:
+                if now() - started_wait >= max(0.0, wait_timeout_s):
+                    raise
+                sleeper(max(0.05, min(poll_interval_s,
+                                       wait_timeout_s)))
+
+    source = resolve_with_wait()
     first_error = ""
     for _attempt in range(2):
         rc, _o, err = _probe(host, ["cp", source, target])
@@ -924,8 +964,7 @@ def copy_newest_output_mp4(host, outputs_dir: str, target: str, *,
             return source
         first_error = err.strip()[:300]
         try:
-            refreshed = newest_output_mp4(
-                host, outputs_dir, newer_than=newer_than)
+            refreshed = resolve_with_wait()
         except WanGPError:
             break
         if refreshed == source:
@@ -1012,7 +1051,8 @@ def production_ref2va_render(adapter, inp):
     except (OSError, ValueError):
         steps = 0
     log_text = poll_render_completion(
-        host, log_path, steps, timeout_s=float(adapter.timeout))
+        host, log_path, steps, timeout_s=float(adapter.timeout),
+        expected_tasks=1)
     if steps > 0 and not verify_denoise_steps(log_text, steps):
         raise WanGPError(
             "verify-before-trust rejected the render log for "
@@ -1027,7 +1067,8 @@ def production_ref2va_render(adapter, inp):
     raw_host = f"{raw_parent}/{_P(inp.raw_render_path).name}"
     copy_newest_output_mp4(
         host, adapter.wgp_outputs_dir, raw_host,
-        newer_than=render_started)
+        newer_than=render_started,
+        wait_timeout_s=min(float(adapter.timeout), 300.0))
 
     audio_guide = ""
     audio_guide = str(settings_doc_host.get("audio_guide") or "")
@@ -1236,7 +1277,8 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
             f"(rc={rc}): {err.strip()[:400]}")
     steps = int(settings_doc.get("num_inference_steps") or 0)
     log_text = poll_render_completion(
-        host, log_path, steps, timeout_s=float(adapter.timeout))
+        host, log_path, steps, timeout_s=float(adapter.timeout),
+        expected_tasks=1)
     if steps > 0 and not verify_denoise_steps(log_text, steps):
         raise WanGPError(
             "verify-before-trust rejected the render log for "
@@ -1249,7 +1291,8 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
     target_host = f"{out_parent}/output.mp4"
     copy_newest_output_mp4(
         host, adapter.wgp_outputs_dir, target_host,
-        newer_than=render_started)
+        newer_than=render_started,
+        wait_timeout_s=min(float(adapter.timeout), 300.0))
     return target_host
 
 
