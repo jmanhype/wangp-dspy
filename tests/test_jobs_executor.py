@@ -151,6 +151,26 @@ def test_missing_denoising_line_fails(tmp_path):
     assert q.jobs["job-1"].state == "failed"
 
 
+def test_render_exception_is_recorded_as_failed(tmp_path):
+    q = FakeQueue({"job-1": Job()})
+
+    def render(clip):
+        raise RuntimeError("continuation envelope rejected")
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=render,
+                     qc=lambda clip: pytest.fail("QC must not run"))
+    result = ex.run_once()
+
+    job = q.jobs["job-1"]
+    assert result == "job-1"
+    assert job.state == "failed"
+    assert job.failure_class == "render_error"
+    assert job.failure_count == 1
+    assert "RuntimeError" in (job.failure_detail or "")
+    assert "continuation envelope rejected" in (job.failure_detail or "")
+
+
 def test_dead_letter_after_three_same_class_failures(tmp_path):
     q = FakeQueue({"job-1": Job()})
 
