@@ -256,6 +256,46 @@ class TestRenderForJobWiring:
         with pytest.raises(Ref2VAQCStageError, match="vision judge is not wired"):
             ex.qc(clip)
 
+    def test_executor_cannot_mark_ref2va_done_without_vision_evidence(
+            self, tmp_path, monkeypatch):
+        """The durable executor records a QC failure, never a KEEP verdict."""
+        guide = Path(tmp_path) / "guide.wav"
+        guide.write_bytes(b"wav")
+        source = Path(tmp_path) / "source.wav"
+        source.write_bytes(b"wav")
+        wmap = Path(tmp_path) / "whisper.json"
+        wmap.write_text("{}")
+        clip = {
+            "clip_index": 1, "kind": "ref2va_render", "status": "pending",
+            "audio_guide": str(guide), "mp4": None, "log": None,
+            "qc_verdict": None, "dialogue_text": "The gate is open",
+            "speaker_sn": "S1", "action": "turns toward gate",
+            "audio_provenance": {
+                "source_master": str(source), "vocal_stem": str(source),
+                "whisper_map": str(wmap), "keeper_window_s": [0.0, 2.0],
+            },
+            "audio_policy": {"discard_rendered_audio": True},
+        }
+        q = _queue(tmp_path, [("acceptance", [clip])])
+
+        class _Res:
+            video_path = "renders/out.mp4"
+            settings_path = "renders/settings.json"
+
+        monkeypatch.setattr(
+            "host.wangp_adapter.WanGPAdapter.render_for_job",
+            lambda self, job_clip: _Res())
+        ex = run_jobs.build_executor(
+            q, host=FakeHost(),
+            whisper_transcriber=lambda _: "The gate is open")
+        jid = ex.run_once()
+
+        assert jid == q.list_state("failed")[0]
+        job = q.get(jid)
+        assert job.state == "failed"
+        assert job.failure_class == "qc_gate"
+        assert job.clips[0]["qc_verdict"] is None
+
 
 class TestDryRunAndOnce:
     def test_dry_run_no_host_calls_no_state_mutation(self, tmp_path, capsys):
