@@ -158,7 +158,8 @@ def build_lm(which: str):
 def run_film(script_file, plates_dir, *, characters, whisper_map="",
              durations=None, audio_paths=None, db_path=None,
              host=None, pre_render=None, lm=None, dry_run=False,
-             run_ledger_path=None):
+             run_ledger_path=None, dataset_run_path=None,
+             premise_id=None):
     """Director entrypoint: script + plates -> clips (-> jobs -> drain).
 
     dry_run=True stops after plan_to_clips: emits the N job clips with
@@ -169,6 +170,7 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
     """
     from services.director.run_ledger import (
         repository_identity, write_run_ledger)
+    from services.director.run_records import append_dataset_run
     from services.director.wiring import plan_to_clips
 
     # Finding 0: every run is attributed before planning or host work.  A
@@ -191,6 +193,12 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
                    "plates_dir": str(Path(plates_dir).resolve()),
                    "dry_run": bool(dry_run)},
         )
+    if dataset_run_path is not None:
+        append_dataset_run(
+            dataset_run_path, run_id=run_id, status="started",
+            payload={"premise_id": premise_id,
+                     "script": str(Path(script_file).resolve()),
+                     "dry_run": bool(dry_run)})
 
     rows = parse_script(script_file)
     names = [c["name"] for c in characters]
@@ -216,8 +224,12 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
             extra={"script": str(Path(script_file).resolve()),
                    "plates_dir": str(Path(plates_dir).resolve()),
                    "dry_run": bool(dry_run),
-                   "clip_count": len(clips)},
+                   "clip_count": len(clips), "premise_id": premise_id},
         )
+    if dataset_run_path is not None:
+        append_dataset_run(
+            dataset_run_path, run_id=run_id, status="planned",
+            payload={"premise_id": premise_id, "clip_count": len(clips)})
     if dry_run:
         return clips
 
@@ -244,8 +256,13 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
                 extra={"script": str(Path(script_file).resolve()),
                        "plates_dir": str(Path(plates_dir).resolve()),
                        "dry_run": False,
-                       "clip_count": len(clips)},
+                       "clip_count": len(clips), "premise_id": premise_id},
             )
+            if dataset_run_path is not None:
+                append_dataset_run(
+                    dataset_run_path, run_id=run_id, status="completed",
+                    payload={"premise_id": premise_id,
+                             "clip_count": len(clips)})
         return clips
     finally:
         q.close()

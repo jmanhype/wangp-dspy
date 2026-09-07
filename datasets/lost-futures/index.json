@@ -1,0 +1,32 @@
+{
+  "schema": "wangp-dspy.lost-futures-index/v1",
+  "premises": [
+    {
+      "id": "lf-001",
+      "title": "The Last Lighthouse",
+      "logline": "Two keepers debate whether the last automated lighthouse should be switched off.",
+      "characters": [
+        {"name": "Mara", "sn_tag": "S1", "description": "a weathered lighthouse keeper"},
+        {"name": "Ivo", "sn_tag": "S2", "description": "a quiet maintenance engineer"}
+      ]
+    },
+    {
+      "id": "lf-002",
+      "title": "Archive of Rain",
+      "logline": "A courier brings the final recorded storm to a city that has forgotten rain.",
+      "characters": [
+        {"name": "Nell", "sn_tag": "S1", "description": "a young archive courier"},
+        {"name": "Orin", "sn_tag": "S2", "description": "an elderly climate archivist"}
+      ]
+    },
+    {
+      "id": "lf-003",
+      "title": "Borrowed Sunrise",
+      "logline": "A night-shift astronomer admits that tomorrow's sunrise is only a projection.",
+      "characters": [
+        {"name": "Tess", "sn_tag": "S1", "description": "a sleepless observatory astronomer"},
+        {"name": "Rho", "sn_tag": "S2", "description": "a pragmatic station caretaker"}
+      ]
+    }
+  ]
+}
