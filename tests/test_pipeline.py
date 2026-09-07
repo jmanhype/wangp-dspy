@@ -68,6 +68,15 @@ class StubAdapter:
         return StubRenderResult(self.videos)
 
 
+class StubJobAdapter:
+    def __init__(self):
+        self.jobs = []
+
+    def render_for_job(self, job):
+        self.jobs.append(job)
+        return type("R", (), {"video_path": f"cut-{job['clip_index']}.mp4"})()
+
+
 class StubQC:
     def __init__(self, genre, verdict="PASS"):
         self.genre = genre
@@ -192,3 +201,38 @@ def test_no_creative_lm_keeps_default_context():
     p = _pipeline()
     p.forward("x")
     assert dspy.settings.lm is before
+
+
+def test_multishot_emits_one_job_per_cut_through_render_for_job():
+    adapter = StubJobAdapter()
+    p = Pipeline(
+        genre="surreal",
+        director=StubDirector(),
+        selector=StubSelector(),
+        adapter=adapter,
+        job_builder=lambda brief, decision, index, total: {
+            "clip_index": index,
+            "kind": "ref2va_render",
+            "briefs": [brief],
+            "decision": decision,
+            "prompt": brief.subject,
+        },
+    )
+    result = p.forward("a lighthouse in a storm", n_shots=3)
+    assert [j["clip_index"] for j in adapter.jobs] == [1, 2, 3]
+    assert result.render.video_paths == (
+        "cut-1.mp4", "cut-2.mp4", "cut-3.mp4")
+    assert len(result.renders) == 3
+
+
+def test_multishot_without_job_builder_fails_before_legacy_render():
+    class BothAdapter(StubAdapter):
+        def render_for_job(self, job):
+            raise AssertionError("job seam should not be called without builder")
+
+    p = Pipeline(
+        genre="surreal", director=StubDirector(), selector=StubSelector(),
+        adapter=BothAdapter(),
+    )
+    with pytest.raises(PipelineStageError, match="job_builder"):
+        p.forward("x", n_shots=2)

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Callable, List, Optional, Sequence
+from types import SimpleNamespace
 
 import dspy
 
@@ -46,6 +47,10 @@ class PipelineResult:
     decisions: List[ProfileDecision]
     chain: Optional[AssembledChain] = None
     render: Optional[RenderResult] = None
+    # Per-cut job/render records. The render field remains the legacy
+    # first result for one-shot callers; multi-shot callers consume this.
+    jobs: List[dict] = field(default_factory=list)
+    renders: List[object] = field(default_factory=list)
     verdicts: List[QCVerdict] = field(default_factory=list)
     evidence: List[str] = field(default_factory=list)
     # WD-obun: the caption stage's artifact (None = stage not run)
@@ -69,7 +74,8 @@ class Pipeline(dspy.Module):
                  adapter=None,
                  qc_factory: Optional[Callable] = None,
                  creative_lm=None,
-                 registry=None):
+                 registry=None,
+                 job_builder: Optional[Callable] = None):
         """Collaborators are duck-typed by design: tests inject stubs,
         the real run injects the dspy modules + 3090 adapter. Only the
         assembler keeps a concrete default (pure logic, no IO).
@@ -89,6 +95,7 @@ class Pipeline(dspy.Module):
         self.creative_lm = creative_lm
         # WD-c4gw: entity registry threaded to the LM brief path
         self.registry = registry
+        self.job_builder = job_builder
 
     def forward_with_skeleton(self, intent: str, *,
                                 skeleton=None) -> PipelineResult:
@@ -109,6 +116,9 @@ class Pipeline(dspy.Module):
 
     def forward(self, intent: str, *, n_shots: int = 1,
                 caption_spec: Optional[CaptionSpec] = None) -> PipelineResult:
+        if not isinstance(n_shots, int) or n_shots < 1:
+            raise PipelineStageError(
+                "briefs", f"n_shots must be a positive int, got {n_shots!r}")
         # ── stage 0: compile guard (jobs-preflight operator ruling 2)
         # A real (non-None) adapter firing GPU work inside a dspy
         # optimizer rollout burns 3090 hours during compile. The
@@ -164,7 +174,11 @@ class Pipeline(dspy.Module):
         if n_shots > 1:
             try:
                 shots = [
-                    ShotPlan(brief=b, decision=d, terminal_state="")
+                    ShotPlan(
+                        brief=b,
+                        decision=d,
+                        terminal_state=f"{b.subject}, {b.motion}",
+                    )
                     for b, d in zip(result.briefs, result.decisions)]
                 result.chain = self.assembler.assemble(shots)
             except Exception as exc:
@@ -175,10 +189,47 @@ class Pipeline(dspy.Module):
         # ── stage 4: render (adapter injected; optional for dry runs) ──
         if self.adapter is not None:
             try:
-                render = self.adapter.render(
-                    result.briefs, result.decisions[0])
-                result.render = render
+                result.jobs = [
+                    self._build_job(
+                        brief, decision, index=i + 1, total=n_shots)
+                    for i, (brief, decision) in enumerate(
+                        zip(result.briefs, result.decisions))
+                ]
+                render_for_job = getattr(
+                    self.adapter, "render_for_job", None)
+                if callable(render_for_job):
+                    if self.job_builder is None and n_shots == 1:
+                        render = self.adapter.render(
+                            result.briefs, result.decisions[0])
+                        result.renders = [render]
+                    else:
+                        if self.job_builder is None and n_shots > 1:
+                            raise PipelineStageError(
+                                "render",
+                                "multi-shot Pipeline requires a "
+                                "job_builder so every cut can carry its "
+                                "render_for_job asset envelope")
+                        result.renders = [
+                            render_for_job(job) for job in result.jobs]
+                        render = SimpleNamespace(
+                            video_paths=tuple(
+                                self._video_path(r)
+                                for r in result.renders))
+                    result.render = render
+                else:
+                    if n_shots > 1:
+                        raise PipelineStageError(
+                            "render",
+                            "multi-shot Pipeline requires adapter."
+                            "render_for_job(); legacy render() cannot "
+                            "emit per-cut jobs")
+                    render = self.adapter.render(
+                        result.briefs, result.decisions[0])
+                    result.renders = [render]
+                    result.render = render
             except Exception as exc:
+                if isinstance(exc, PipelineStageError):
+                    raise
                 raise PipelineStageError(
                     "render", f"WanGP render failed: {exc}", exc)
             record("render",
@@ -187,11 +238,12 @@ class Pipeline(dspy.Module):
             # ── stage 5: QC every video ─────────────────────────────
             if self.qc_factory is not None:
                 qc = self.qc_factory(self.genre)
-                for brief, video in zip(result.briefs,
-                                        result.render.video_paths):
+                for brief, decision, video in zip(
+                        result.briefs, result.decisions,
+                        result.render.video_paths):
                     try:
                         verdicts = qc.run(brief=brief,
-                                          decision=result.decisions[0],
+                                          decision=decision,
                                           video=video)
                         result.verdicts.append(verdicts)
                     except Exception as exc:
@@ -219,3 +271,36 @@ class Pipeline(dspy.Module):
                    f"to {videos[0]}")
 
         return result
+
+    def _build_job(self, brief: RenderBrief, decision: ProfileDecision,
+                   *, index: int, total: int) -> dict:
+        """Build a deterministic per-cut envelope for render_for_job."""
+        if self.job_builder is not None:
+            try:
+                job = self.job_builder(
+                    brief, decision, index=index, total=total)
+            except TypeError:
+                job = self.job_builder(brief, decision, index, total)
+            if not isinstance(job, dict):
+                raise PipelineStageError(
+                    "render",
+                    f"job_builder returned {type(job).__name__}, expected dict")
+            return dict(job)
+        return {
+            "clip_index": index,
+            "kind": "ref2va_render",
+            "briefs": [brief],
+            "decision": decision,
+            "prompt": brief.subject,
+        }
+
+    @staticmethod
+    def _video_path(render) -> str:
+        path = getattr(render, "video_path", None)
+        if path:
+            return str(path)
+        paths = getattr(render, "video_paths", ())
+        if paths:
+            return str(paths[0])
+        raise PipelineStageError(
+            "render", "render_for_job result carries no video_path")
