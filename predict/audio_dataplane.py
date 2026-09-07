@@ -124,6 +124,7 @@ class Ref2VAAudioQC:
     visual_motion_match: Optional[float] = None
     audio_artifacts: Optional[float] = None
     notes: str = ""
+    whisper_gates: Optional[dict] = None
 
     def __post_init__(self):
         for name in _QC_SCORE_FIELDS:
@@ -134,6 +135,11 @@ class Ref2VAAudioQC:
         if not isinstance(self.notes, str):
             raise AudioDataPlaneError(
                 f"notes: must be a string, got {type(self.notes).__name__}")
+        if self.whisper_gates is not None and not isinstance(self.whisper_gates,
+                                                             dict):
+            raise AudioDataPlaneError(
+                f"whisper_gates: must be a dict or None, got "
+                f"{type(self.whisper_gates).__name__}")
 
     @classmethod
     def empty(cls) -> "Ref2VAAudioQC":

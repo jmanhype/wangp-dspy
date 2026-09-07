@@ -16,12 +16,14 @@ audio did not pass through the discard/remux policy.
 from __future__ import annotations
 
 import os
+import json
 from pathlib import Path
 from typing import Callable, Optional, Sequence, Tuple
 
 from predict.audio_dataplane import (
     AudioDataPlaneError, AudioGuideProvenance, AudioPolicy, Ref2VAAudioQC,
 )
+from qc.audio_critic.whisper_gate import WhisperGateError, run_whisper_gate
 
 __all__ = ["Ref2VAQCStageError", "plan_remux_command",
            "run_ref2va_qc_stage"]
@@ -104,7 +106,13 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
 
 
 def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
-                        critic_version: Optional[str] = None
+                        critic_version: Optional[str] = None,
+                        pre_audio_path: Optional[str] = None,
+                        post_audio_path: Optional[str] = None,
+                        intended_text: Optional[str] = None,
+                        whisper_transcriber: Optional[Callable] = None,
+                        whisper_pass_bar: float = 0.5,
+                        evidence_path: Optional[str] = None
                         ) -> Ref2VAAudioQC:
     """Ref2VA audio QC stage. Enforces G3/G4 first, then fills QC.
 
@@ -132,15 +140,48 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             "G4 violation: discard_rendered_audio is not True — "
             "rendered audio is NEVER trusted; QC refuses this artifact")
 
+    whisper_requested = any(x is not None for x in (
+        pre_audio_path, post_audio_path, intended_text,
+        whisper_transcriber, evidence_path))
+    whisper_evidence = None
+    if whisper_requested:
+        if not pre_audio_path or not post_audio_path or not intended_text:
+            raise Ref2VAQCStageError(
+                "Whisper pre/post gate requires pre_audio_path, "
+                "post_audio_path, and intended_text")
+        try:
+            pre = run_whisper_gate(
+                pre_audio_path, intended_text, transcriber=whisper_transcriber,
+                phase="pre", pass_bar=whisper_pass_bar)
+            post = run_whisper_gate(
+                post_audio_path, intended_text, transcriber=whisper_transcriber,
+                phase="post", pass_bar=whisper_pass_bar)
+        except WhisperGateError as exc:
+            raise Ref2VAQCStageError(str(exc)) from exc
+        whisper_evidence = {"pre": pre.to_dict(), "post": post.to_dict()}
+
     if judge is None:
-        return Ref2VAAudioQC(critic_version=None)
-    scores = judge(settings_doc=settings_doc)
-    unknown = [k for k in scores if k not in _SCORE_FIELDS]
-    if unknown:
-        raise Ref2VAQCStageError(
-            f"judge returned unknown score field(s) {unknown}; "
-            f"expected {list(_SCORE_FIELDS)}")
-    try:
-        return Ref2VAAudioQC(critic_version=critic_version, **scores)
-    except AudioDataPlaneError as e:
-        raise Ref2VAQCStageError(f"judge scores out of range: {e}") from e
+        qc = Ref2VAAudioQC(critic_version=None,
+                           whisper_gates=whisper_evidence)
+    else:
+        scores = judge(settings_doc=settings_doc)
+        unknown = [k for k in scores if k not in _SCORE_FIELDS]
+        if unknown:
+            raise Ref2VAQCStageError(
+                f"judge returned unknown score field(s) {unknown}; "
+                f"expected {list(_SCORE_FIELDS)}")
+        try:
+            qc = Ref2VAAudioQC(critic_version=critic_version,
+                               whisper_gates=whisper_evidence, **scores)
+        except AudioDataPlaneError as e:
+            raise Ref2VAQCStageError(f"judge scores out of range: {e}") from e
+    if evidence_path:
+        try:
+            p = Path(evidence_path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(json.dumps({"whisper_gates": whisper_evidence},
+                                    indent=2, sort_keys=True) + "\n")
+        except OSError as exc:
+            raise Ref2VAQCStageError(
+                f"evidence_path: unable to persist Whisper evidence: {exc}") from exc
+    return qc
