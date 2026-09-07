@@ -44,6 +44,7 @@ def test_director_run_plans_six_exact_continuation_jobs(tmp_path):
     record = json.loads(dataset.read_text().splitlines()[0])
     assert record["status"] == "planned"
     assert len(record["repository"]["commit_sha"]) == 40
+    assert len(record["record_sha256"]) == 64
 
 
 def test_director_run_rejects_non_six_cut_input(tmp_path):

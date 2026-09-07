@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 from pathlib import Path
 from typing import Mapping, Optional
@@ -30,6 +31,9 @@ def append_dataset_run(path: str | Path, *, run_id: str, status: str,
                         "commit_sha": identity["commit_sha"]},
         "payload": dict(payload or {}),
     }
+    canonical = json.dumps(record, sort_keys=True,
+                           separators=(",", ":")).encode("utf-8")
+    record["record_sha256"] = hashlib.sha256(canonical).hexdigest()
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open("a", encoding="utf-8") as fh:
