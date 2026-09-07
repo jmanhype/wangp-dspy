@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import posixpath
+import subprocess
 from pathlib import Path
 from itertools import count
 from typing import Callable, Optional, Sequence
@@ -66,14 +67,36 @@ def whisper_transcriber(
 
 
 def host_whisper_transcriber(host, *, model: str = "small",
-                             output_dir: str = "/tmp/wangp-whisper"):
-    """Build a transcriber using an existing SshHost.run_probe seam."""
+                             output_dir: str = "/tmp/wangp-whisper",
+                             local_first: bool = True,
+                             local_runner: Optional[Callable] = None):
+    """Build a transcriber using the host seam with local-QC preference.
+
+    Rendered Ref2VA artifacts live in the local pull namespace after
+    ``SshHost.fetch_file``.  Sending those paths back through ``map_path``
+    produces a valid-looking remote name that may not exist (the runtime's
+    final remux is intentionally local).  When the supplied path is a real
+    local file, run Whisper locally and keep the host path only as the
+    fallback for source assets that are host-resident.  ``local_runner`` is
+    injectable for tests; production uses argv-only ``subprocess.run``.
+    """
     run_probe = getattr(host, "run_probe", None)
     if not callable(run_probe):
         raise WhisperCLIError("host must expose run_probe(argv, timeout=...)")
 
     def run(argv):
         return run_probe(list(argv), timeout=900)
+
+    def run_local(argv):
+        if local_runner is not None:
+            return local_runner(list(argv))
+        try:
+            return subprocess.run(
+                list(argv), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                text=True, check=False)
+        except OSError as exc:
+            raise WhisperCLIError(
+                f"local Whisper command failed to start: {exc}") from exc
 
     attempts = count(1)
 
@@ -85,6 +108,8 @@ def host_whisper_transcriber(host, *, model: str = "small",
         that is already host-resolved is accepted idempotently.
         """
         raw = str(audio_path)
+        if local_first and Path(raw).is_file():
+            return raw
         mapper = getattr(host, "map_asset", None)
         if callable(mapper):
             try:
@@ -100,7 +125,16 @@ def host_whisper_transcriber(host, *, model: str = "small",
         return raw
 
     def transcribe(audio_path):
-        remote_audio = map_audio_path(audio_path)
+        raw = str(audio_path)
+        resolved = map_audio_path(raw)
+        if local_first and resolved == raw and Path(raw).is_file():
+            # The pull artifact is the source of truth for post-gate QC;
+            # do not translate it into a remote path that may not exist.
+            isolated_dir = posixpath.join(
+                output_dir.rstrip("/") or "/", f"attempt-{next(attempts):04d}")
+            return whisper_transcriber(
+                raw, runner=run_local, model=model, output_dir=isolated_dir)
+        remote_audio = resolved
         # Whisper's txt output is stem-based.  Isolate every gate invocation
         # so a failed/stale prior transcript can never satisfy a retry.
         isolated_dir = posixpath.join(
