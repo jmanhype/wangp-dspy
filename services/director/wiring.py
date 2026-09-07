@@ -351,6 +351,30 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
             remote_png_dir = remote_png.rsplit("/", 1)[0]
             _mrc, _mo, _me = host.run_probe(
                 ["mkdir", "-p", remote_png_dir], timeout=60)
+            # The ref2va runtime deliberately performs the final audio mux
+            # locally (the pulled artifact is the QC/ledger source), while
+            # WanGP's raw/mux intermediates remain on the remote host.  A
+            # chained continuation must nevertheless extract from the
+            # *accepted* artifact, not guess at a remote output name.  Make
+            # that namespace boundary explicit: if the mapped final MP4 is
+            # not already present remotely, publish it through the host
+            # transport before invoking remote ffmpeg.
+            rc, _out, _err = host.run_probe(
+                ["test", "-f", remote_mp4], timeout=60)
+            if rc != 0:
+                from pathlib import Path
+                pusher = getattr(host, "push_file", None)
+                if not callable(pusher) or not Path(str(mp4)).is_file():
+                    raise WiringError(
+                        "accepted chain source is local-only and cannot be "
+                        f"published to host: {mp4!r} -> {remote_mp4!r}")
+                pusher(str(mp4), remote_mp4)
+                verify_rc, _vo, verify_err = host.run_probe(
+                    ["test", "-f", remote_mp4], timeout=60)
+                if verify_rc != 0:
+                    raise WiringError(
+                        "host did not retain published chain source "
+                        f"{remote_mp4!r}: {verify_err.strip()[:200]}")
             rj.extract_last_frame(host, remote_mp4, remote_png)
             fetcher = getattr(host, "fetch_file", None)
             if not callable(fetcher):

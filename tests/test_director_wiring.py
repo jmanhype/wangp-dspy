@@ -320,6 +320,60 @@ class TestChainAdvance:
         assert not nxt.clips[0]["image_refs"][0].startswith("chain://")
         assert pathlib.Path(nxt.clips[0]["image_refs"][0]).is_file()
 
+    def test_advance_publishes_local_final_mp4_before_remote_extract(
+            self, tmp_path):
+        """The accepted remux is local after ref2va QC; publish it through
+        the host seam before asking remote ffmpeg to extract a chain frame."""
+        from services.director.wiring import advance_chain
+        q, ids, clips = self._queue_with_chain_jobs(tmp_path)
+        local_mp4 = tmp_path / "pull" / "film" / "render-0000" / "remux.mp4"
+        local_mp4.parent.mkdir(parents=True)
+        local_mp4.write_bytes(b"accepted-mp4")
+        _finish(q, ids[0], clips[0]["clip_index"], str(local_mp4))
+
+        class PublishHost(_FakeHost):
+            pull_root = str(tmp_path / "pull")
+
+            def __init__(self):
+                super().__init__()
+                self.published = []
+                self.remote_files = set()
+
+            def map_path(self, path):
+                rel = str(path).removeprefix(self.pull_root).lstrip("/")
+                return "/remote/wgp/" + rel
+
+            def run_probe(self, argv, timeout=30):
+                self.calls.append(list(argv))
+                if argv[:2] == ["test", "-f"]:
+                    return (0, "", "") if argv[2] in self.remote_files \
+                        else (1, "", "missing")
+                if argv[:2] == ["ffmpeg", "-y"]:
+                    return 0, "", ""
+                if argv[:2] == ["mkdir", "-p"]:
+                    return 0, "", ""
+                return 0, "", ""
+
+            def push_file(self, local, remote):
+                self.published.append((local, remote))
+                self.remote_files.add(remote)
+                return remote
+
+            def fetch_file(self, remote, local):
+                self.calls.append(["fetch", remote, local])
+                pathlib.Path(local).parent.mkdir(parents=True,
+                                                  exist_ok=True)
+                pathlib.Path(local).write_bytes(b"png")
+                return local
+
+        host = PublishHost()
+        advance_chain(q, host, ids[0])
+        assert host.published == [
+            (str(local_mp4), "/remote/wgp/film/render-0000/remux.mp4")]
+        ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
+        assert len(ffmpeg) == 1
+        assert ffmpeg[0][5] == "/remote/wgp/film/render-0000/remux.mp4"
+
 
 # ── run_film dry-run ─────────────────────────────────────────────────
 
