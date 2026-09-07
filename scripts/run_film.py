@@ -157,7 +157,8 @@ def build_lm(which: str):
 
 def run_film(script_file, plates_dir, *, characters, whisper_map="",
              durations=None, audio_paths=None, db_path=None,
-             host=None, pre_render=None, lm=None, dry_run=False):
+             host=None, pre_render=None, lm=None, dry_run=False,
+             run_ledger_path=None):
     """Director entrypoint: script + plates -> clips (-> jobs -> drain).
 
     dry_run=True stops after plan_to_clips: emits the N job clips with
@@ -166,7 +167,30 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
     the pre_render hook seam), submits chain jobs to the durable queue
     and drains until all clips are done (auto-advance included).
     """
+    from services.director.run_ledger import (
+        repository_identity, write_run_ledger)
     from services.director.wiring import plan_to_clips
+
+    # Finding 0: every run is attributed before planning or host work.  A
+    # caller may supply an explicit ledger path; otherwise a production
+    # db_path gets a sibling ledger.  Dry runs without a db path stay
+    # side-effect free (the caller can opt in with run_ledger_path).
+    ledger_path = run_ledger_path
+    if ledger_path is None and db_path is not None:
+        ledger_path = str(Path(db_path).resolve().parent / "run_ledger.json")
+    identity = repository_identity()
+    run_id = (Path(ledger_path).resolve().parent.name
+              if ledger_path is not None else "dry-run")
+    if ledger_path is not None:
+        write_run_ledger(
+            ledger_path,
+            run_id=run_id,
+            identity=identity,
+            status="started",
+            extra={"script": str(Path(script_file).resolve()),
+                   "plates_dir": str(Path(plates_dir).resolve()),
+                   "dry_run": bool(dry_run)},
+        )
 
     rows = parse_script(script_file)
     names = [c["name"] for c in characters]
@@ -183,6 +207,17 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
         run_dir=(str(Path(db_path).resolve().parent) if db_path
                  else str(Path(script_file).resolve().parent)
                  if audio_paths is None else None))
+    if ledger_path is not None:
+        write_run_ledger(
+            ledger_path,
+            run_id=run_id,
+            identity=identity,
+            status="planned",
+            extra={"script": str(Path(script_file).resolve()),
+                   "plates_dir": str(Path(plates_dir).resolve()),
+                   "dry_run": bool(dry_run),
+                   "clip_count": len(clips)},
+        )
     if dry_run:
         return clips
 
@@ -200,6 +235,17 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
         hook = pre_render if pre_render is not None \
             else rj._pre_render_default(host)
         _drain(q, host, pre_render=hook)
+        if ledger_path is not None:
+            write_run_ledger(
+                ledger_path,
+                run_id=run_id,
+                identity=identity,
+                status="completed",
+                extra={"script": str(Path(script_file).resolve()),
+                       "plates_dir": str(Path(plates_dir).resolve()),
+                       "dry_run": False,
+                       "clip_count": len(clips)},
+            )
         return clips
     finally:
         q.close()
