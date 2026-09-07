@@ -289,6 +289,14 @@ class Ref2VAProfile(RenderProfile):
                 raise ProfileError(
                     "Ref2VA speaker_prompt must be nonempty when "
                     "supplied — never an empty carrier")
+            if continuation:
+                from predict.continuation_lane import (
+                    validate_picture_n_speaker_prompt,
+                )
+                try:
+                    validate_picture_n_speaker_prompt(prompt_text)
+                except Exception as exc:
+                    raise ProfileError(str(exc)) from exc
         else:
             head = SCRIPT_SEPARATOR.join(
                 f"{b.subject}. {b.motion}." for b in briefs)

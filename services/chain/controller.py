@@ -29,7 +29,9 @@ from services.chain.plan import (
 from services.chain.keyframes import emit_fl2va_job, emit_r2i_job
 from services.director.renderers.h3_recipe import build_render_config
 from services.director.renderers.policy import check_duration_on_grid
-from predict.continuation_lane import ContinuationExtras
+from predict.continuation_lane import (
+    ContinuationExtras, build_picture_n_speaker_prompt,
+)
 
 OVERLAP_FRAMES = 22  # upstream H3_CHAIN_FORMAT_GUIDE default; see docs
 _FPS = 24
@@ -286,6 +288,11 @@ def _continuation_config(
             f"chain://clip{int(ref.get('clip_index', clip.index - 1)):04d}/"
             "last_frame")
     image_refs = [image_start, str(silent_ref)]
+    speaker_prompt = build_picture_n_speaker_prompt(
+        speaker_sn=clip.speaker_sn,
+        silent_sn=(silent.sn_tag if silent is not None else clip.speaker_sn),
+        line=clip.shot_prompt.partition("speaks: ")[2],
+    )
     extras = ContinuationExtras(
         image_prompt_type="S",
         video_prompt_type="I",
@@ -307,7 +314,7 @@ def _continuation_config(
         "clip_index": clip.index,
         "kind": "ref2va_render",
         "model_type": "minimax_h3_ref2va_pruned",
-        "prompt": f"{plan.global_prompt} {clip.shot_prompt}",
+        "prompt": f"{plan.global_prompt} {speaker_prompt}",
         "image_start": image_start,
         "image_refs": image_refs,
         "image_prompt_type": "S",

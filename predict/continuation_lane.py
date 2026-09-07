@@ -27,6 +27,50 @@ ALLOWED_VIDEO_PROMPT = {"I", ""}   # "" = Mode A packed (no refs path)
 ALLOWED_AUDIO_PROMPT = {"A", ""}
 
 
+def build_picture_n_speaker_prompt(
+    *,
+    speaker_sn: str,
+    silent_sn: str,
+    line: str,
+    speaker_picture: int = 1,
+    silent_picture: int = 2,
+) -> str:
+    """Build the typed single-speaker Picture-N prompt envelope.
+
+    Picture 1 is the speaking identity and Picture 2 is the one silent-face
+    reference. Keeping these bindings in one builder prevents a free-form
+    prompt from silently swapping mouth/audio attribution.
+    """
+    if not isinstance(speaker_sn, str) or not re.fullmatch(r"S\d+", speaker_sn):
+        raise JobConfigError(f"speaker_sn must be an SN tag like S1, got {speaker_sn!r}")
+    if not isinstance(silent_sn, str) or not re.fullmatch(r"S\d+", silent_sn):
+        raise JobConfigError(f"silent_sn must be an SN tag like S2, got {silent_sn!r}")
+    if speaker_sn == silent_sn:
+        raise JobConfigError("speaker_sn and silent_sn must identify different characters")
+    if speaker_picture < 1 or silent_picture < 1 or speaker_picture == silent_picture:
+        raise JobConfigError("speaker/silent Picture-N bindings must be distinct positive integers")
+    if not isinstance(line, str) or not line.strip():
+        raise JobConfigError("dialogue line must be non-empty")
+    return (
+        f"{speaker_sn} (Picture {speaker_picture}) is the only speaker. "
+        f"{silent_sn} (Picture {silent_picture}) listens silently with lips "
+        f"closed throughout. {speaker_sn} says: <d>[English] {line.strip()}</d>"
+    )
+
+
+def validate_picture_n_speaker_prompt(prompt: str, *, speaker_picture: int = 1,
+                                     silent_picture: int = 2) -> None:
+    """Fail closed unless a continuation prompt carries both bindings."""
+    if not isinstance(prompt, str) or not prompt.strip():
+        raise JobConfigError("continuation speaker prompt must be non-empty")
+    required = (f"Picture {speaker_picture}", f"Picture {silent_picture}",
+                "only speaker", "lips closed", "<d>[English]")
+    missing = [token for token in required if token not in prompt]
+    if missing:
+        raise JobConfigError(
+            f"continuation speaker prompt missing Picture-N binding token(s): {missing}")
+
+
 @dataclass(frozen=True)
 class ContinuationExtras:
     """Mode A/B continuation fields (validated)."""
