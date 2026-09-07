@@ -171,6 +171,16 @@ class JobExecutor:
             try:
                 ok, qc_path = self.qc(clip)
             except Exception as e:
+                # Typed evidence-gate violations are terminal for this
+                # attempt: repeatedly parking a Ref2VA job whose Whisper /
+                # vision inputs are absent would make the film drain spin
+                # forever.  Generic service outages retain the historical
+                # park-and-retry behavior.
+                if e.__class__.__name__ in {
+                        "Ref2VAQCStageError", "WhisperGateError",
+                        "VisionJudgeError"}:
+                    self._fail(job, "qc_gate", str(e))
+                    return
                 # QC unavailable mid-job: park, do NOT fail
                 self.queue.set_state(job.job_id,
                                      "rendered_pending_qc")
