@@ -47,8 +47,9 @@ from predict.audio_manifest import (
     write_audio_manifest,
 )
 from predict.render_profiles import (
-    ProfileError, REF2VA_MODEL_TYPE, Ref2VAProfile,
+    ProfileError, Ref2VAProfile,
 )
+from predict.model_types import REF2VA_MODEL_TYPE
 from qc.audio_critic.ref2va_stage import (
     Ref2VAQCStageError, plan_remux_command,
 )

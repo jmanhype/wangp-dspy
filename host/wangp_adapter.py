@@ -33,8 +33,13 @@ from predict.job_config import (
     normalize_frame_count,
 )
 from predict.profile_selector import ProfileDecision
+from predict.model_types import (
+    H3_FL2VA_MODEL_TYPE,
+    REF2VA_MODEL_TYPE,
+    REF2VA_MODEL_TYPE_LEGACY,
+)
 
-H3_MODEL_TYPE = "minimax_h3_fl2va_pruned"
+H3_MODEL_TYPE = H3_FL2VA_MODEL_TYPE
 MULTISHOT_PROMPT_TAG = "multishot"
 # WD-izly: wgp parse_script (models/minimax_h3/multishot.py:49)
 # splits on (?m)^---\s*$ — the separator must be on its OWN LINE.
@@ -51,9 +56,6 @@ MULTISHOT_PROMPT_TAG = "multishot"
 # _KNOWN_MODEL_TYPES alias for git archaeology / legacy manifests.
 # `minimax_h3_ref2va_pruned` is our proven production model
 # (s4/scripts/write_run_records.py S2.5, verified subject-mode config).
-REF2VA_MODEL_TYPE = "minimax_h3_ref2va_pruned"  # wgp-side name
-# legacy alias (pre-host-truth name — see comment above)
-REF2VA_MODEL_TYPE_LEGACY = "minimax_h3_ref2va_lip_sync"
 # canonical internal lane for Ref2VAProfile settings docs
 REF2VA_LANE = "ref2va"
 FL2VA_LANE = "fl2va"

@@ -28,7 +28,7 @@ from predict.profile_selector import ProfileDecision
 # 'minimax_h3_ref2va_pruned'. This MUST stay in lockstep with
 # host.wangp_adapter.REF2VA_MODEL_TYPE (a cross-check test enforces
 # no 'ref2va_lip_sync' string is ever EMITTED as a model_type).
-from host.wangp_adapter import REF2VA_MODEL_TYPE  # noqa: E402
+from predict.model_types import REF2VA_MODEL_TYPE  # noqa: E402
 # NIGHT TWO (2026-09-03, live-verified): the 56f floor-truth clip is
 # 2.3333...s. plan_to_clips wires durations as round(frames/24, 3) —
 # 2.333 — and a 4.0 floor rejected it. Floor at 2.33 (below any 3dp

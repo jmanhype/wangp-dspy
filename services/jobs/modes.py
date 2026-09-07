@@ -27,6 +27,12 @@ from __future__ import annotations
 import enum
 from typing import Any, Dict, FrozenSet, Iterable, Mapping, Optional
 
+from predict.model_types import (
+    H3_FL2VA_MODEL_TYPE,
+    HOST_MODEL_ALLOWLIST,
+    REF2VA_MODEL_TYPE,
+)
+
 __all__ = [
     "ProductMode", "ModeError",
     "CANONICAL_H3_FOR_MODE", "HOST_MODEL_ALLOWLIST",
@@ -50,15 +56,15 @@ class ProductMode(enum.Enum):
 # ── derived model_type (outputs, never inputs) ─────────────────────────
 # matches host/wangp_adapter._KNOWN_MODEL_TYPES keys
 CANONICAL_H3_FOR_MODE: Dict[ProductMode, str] = {
-    ProductMode.FL2VA_TEXT: "minimax_h3_fl2va_pruned",
-    ProductMode.FL2VA_START_END: "minimax_h3_fl2va_pruned",
-    ProductMode.FL2VA_END_ONLY: "minimax_h3_fl2va_pruned",
+    ProductMode.FL2VA_TEXT: H3_FL2VA_MODEL_TYPE,
+    ProductMode.FL2VA_START_END: H3_FL2VA_MODEL_TYPE,
+    ProductMode.FL2VA_END_ONLY: H3_FL2VA_MODEL_TYPE,
     # HOST TRUTH (operator audit 2026-09-01, probed on the 3090
     # Wan2GP checkout): the handler exposes ONLY `minimax_h3_ref2va`
     # and `minimax_h3_ref2va_pruned` — there is NO
     # `minimax_h3_ref2va_lip_sync` handler, so the old derived name
     # would crash at the host. This is the proven production model.
-    ProductMode.REF2VA_IDENTITY_AUDIO: "minimax_h3_ref2va_pruned",
+    ProductMode.REF2VA_IDENTITY_AUDIO: REF2VA_MODEL_TYPE,
 }
 
 
@@ -67,12 +73,6 @@ CANONICAL_H3_FOR_MODE: Dict[ProductMode, str] = {
 # closed (typed ModeError) when a derivation result is not in this
 # set — a map entry drifting off host truth is a configuration error
 # caught at derivation time, never a crash on the GPU box.
-HOST_MODEL_ALLOWLIST = frozenset({
-    "minimax_h3_fl2va_pruned",
-    "minimax_h3_ref2va",
-    "minimax_h3_ref2va_pruned",
-})
-
 # WanGP image_prompt_type flag per mode (see module docstring).
 IMAGE_PROMPT_TYPE_FOR_MODE: Dict[ProductMode, str] = {
     ProductMode.FL2VA_TEXT: "T",
