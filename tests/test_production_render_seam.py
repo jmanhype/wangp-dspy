@@ -151,6 +151,36 @@ class TestVerifyBeforeTrust:
 
 
 class TestCopyAndMux:
+    def test_settings_assets_are_host_resolved_before_launch(self, tmp_path):
+        class MappedHost(FakeHost):
+            def __init__(self):
+                super().__init__()
+                self.pushed = None
+
+            def map_path(self, path):
+                return "/remote/wgp/acceptance/" + Path(path).name
+
+            def map_asset(self, path):
+                return "/home/u/acceptance/" + Path(path).name
+
+            def write_text(self, path, text):
+                self.pushed = json.loads(text)
+                return path
+
+        host = MappedHost()
+        guide = tmp_path / "turn1.wav"
+        guide.write_bytes(b"RIFF")
+        settings = _settings(tmp_path, audio=guide)
+        host.responses = {
+            "setsid": lambda h, a: (0, "launched\n", ""),
+            "cat": lambda h, a: (0, GOOD_LOG, ""),
+        }
+
+        production_ref2va_render(
+            _adapter(host, tmp_path), _Inp(settings, tmp_path / "raw.mp4"))
+
+        assert host.pushed["audio_guide"] == "/home/u/acceptance/turn1.wav"
+
     def test_newest_output_copied_to_target(self, tmp_path):
         host = FakeHost(outputs="out00042.mp4")
         s = _settings(tmp_path)  # no audio

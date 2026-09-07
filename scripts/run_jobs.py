@@ -163,7 +163,19 @@ def build_executor(queue, host=None, pre_render=None,
     from host.wangp_adapter import WanGPAdapter
     from qc.audio_critic.whisper_cli import host_whisper_transcriber
 
-    adapter = WanGPAdapter(host=host) if host is not None else None
+    if host is not None:
+        adapter_kwargs = {"host": host}
+        # SshHost exposes a local pull mirror.  Keep Ref2VA's runtime
+        # artifacts there so the host map can translate settings/raw/remux
+        # paths into the remote Wan2GP namespace while the local runtime
+        # still performs its strict manifest/QC checks.
+        pull_root = getattr(host, "pull_root", None)
+        if pull_root:
+            adapter_kwargs["output_dir"] = os.path.join(
+                str(pull_root), "acceptance")
+        adapter = WanGPAdapter(**adapter_kwargs)
+    else:
+        adapter = None
     # The production seam is deliberately structural: a jobs executor may
     # only receive a typed per-job renderer.  Fail during wiring when an
     # adapter implementation does not expose it rather than discovering the
@@ -243,7 +255,14 @@ def build_executor(queue, host=None, pre_render=None,
 
 
 def _read_host_log(host, log_path: str) -> str:
-    rc, out, _err = host.run_probe(["cat", log_path], timeout=60)
+    remote_log = log_path
+    mapper = getattr(host, "map_path", None)
+    if callable(mapper):
+        try:
+            remote_log = mapper(log_path)
+        except Exception:
+            remote_log = log_path
+    rc, out, _err = host.run_probe(["cat", remote_log], timeout=60)
     return out if rc == 0 else ""
 
 
