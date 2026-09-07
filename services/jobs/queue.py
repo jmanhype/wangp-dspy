@@ -182,7 +182,15 @@ class JobQueue:
             " attempt_no INTEGER NOT NULL,"
             " parent_attempt_id INTEGER,"
             " status TEXT NOT NULL,"
+            " reopen_reason TEXT,"
             " created_at REAL NOT NULL)")
+        attempt_cols = {
+            r["name"] for r in self._db.execute(
+                "PRAGMA table_info(job_attempts)")
+        }
+        if "reopen_reason" not in attempt_cols:
+            self._db.execute(
+                "ALTER TABLE job_attempts ADD COLUMN reopen_reason TEXT")
         self._db.execute(
             "CREATE INDEX IF NOT EXISTS idx_job_attempts_job "
             "ON job_attempts(job_id, attempt_no)")
@@ -455,6 +463,58 @@ class JobQueue:
             retried.append(jid)
         return retried
 
+    def reopen_dead_letter(self, job_id: str, *, reason: str) -> int:
+        """Explicitly reopen one dead-letter job for a documented fix.
+
+        Dead-letter remains terminal for ordinary ``set_state`` and
+        ``requeue_failed`` callers.  This audited operator API is the sole
+        exception: it appends a new attempt with the free-text reason and
+        atomically places the job back in ``pending``.
+        """
+        reason = str(reason or "").strip()
+        if not reason:
+            raise JobRetryError(
+                "reopening a dead-letter job requires a non-empty reason")
+        rec = self.get(job_id)
+        if rec.state != "dead_letter":
+            raise JobRetryError(
+                f"job {job_id} is {rec.state!r}, not dead_letter")
+        latest = self._ensure_legacy_attempt(job_id)
+        if latest is None:
+            raise JobRetryError(
+                f"job {job_id} has no failure history to reopen")
+        now = time.time()
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,reopen_reason,created_at) VALUES (?,?,?,?,?,?)",
+            (job_id, int(latest["attempt_no"]) + 1,
+             latest["attempt_id"], "reopened", reason, now))
+        attempt_id = int(cur.lastrowid)
+        # Do not add a dead_letter -> pending transition to the public state
+        # machine.  This conditional update is only reachable through this
+        # explicitly audited method, preserving normal terminal protection.
+        self._db.execute(
+            "UPDATE jobs SET state='pending', owner_pid=NULL, "
+            "last_heartbeat=NULL WHERE job_id=? AND state='dead_letter'",
+            (job_id,))
+        if self._db.execute("SELECT changes()").fetchone()[0] != 1:
+            self._db.rollback()
+            raise JobRetryError(
+                f"job {job_id} changed state while being reopened")
+        self._db.commit()
+        return attempt_id
+
+    def reopen_dead_letter_jobs(self, *, reason: str) -> List[str]:
+        """Reopen all dead-letter jobs with one shared audited reason."""
+        reopened: List[str] = []
+        for jid in list(self.list_state("dead_letter")):
+            try:
+                self.reopen_dead_letter(jid, reason=reason)
+            except JobRetryError:
+                continue
+            reopened.append(jid)
+        return reopened
+
     def record_attempt_failure(self, job_id: str, *, failure_class: str,
                                failure_detail: str) -> bool:
         """Append a failure outcome and return True for a repeated retry.
@@ -518,6 +578,7 @@ class JobQueue:
                 "job_id": row["job_id"],
                 "attempt_no": row["attempt_no"],
                 "parent_attempt_id": row["parent_attempt_id"],
+                "reopen_reason": row["reopen_reason"],
                 "status": "failed" if failure is not None
                 else row["status"],
                 "created_at": row["created_at"],

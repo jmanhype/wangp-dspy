@@ -6,6 +6,9 @@ dependencies (a job whose needs-target is not done stays pending).
     .venv/bin/python scripts/run_jobs.py --db jobs.db --once
     .venv/bin/python scripts/run_jobs.py --db jobs.db --loop 30
     .venv/bin/python scripts/run_jobs.py --db jobs.db --dry-run
+    .venv/bin/python scripts/run_jobs.py --db jobs.db --retry-failed
+    .venv/bin/python scripts/run_jobs.py --db jobs.db \
+        --retry-dead-letter --reason "operator reopened after code fix"
 
 Guard distinction (documented): scripts/run_cycle.py keeps its
 ref2va "dry-run only" guard — it is a one-shot cycle driver whose
@@ -94,6 +97,10 @@ def build_parser() -> argparse.ArgumentParser:
                    help="emit what would run; NO host calls")
     p.add_argument("--retry-failed", action="store_true",
                    help="append a new attempt for eligible failed jobs")
+    p.add_argument("--retry-dead-letter", action="store_true",
+                   help="explicitly reopen dead-letter jobs (requires --reason)")
+    p.add_argument("--reason", metavar="TEXT",
+                   help="audited reason recorded for --retry-dead-letter")
     return p
 
 
@@ -340,11 +347,21 @@ def main(argv=None):
     args = build_parser().parse_args(argv)
     queue = JobQueue(args.db)
     try:
+        if args.dry_run and (args.retry_dead_letter or args.retry_failed):
+            print("retry flags cannot be combined with --dry-run",
+                  file=sys.stderr)
+            return 2
+        if args.retry_dead_letter and args.retry_failed:
+            print("--retry-dead-letter and --retry-failed are mutually "
+                  "exclusive", file=sys.stderr)
+            return 2
+        if args.retry_dead_letter and not (args.reason or "").strip():
+            print("--retry-dead-letter requires --reason", file=sys.stderr)
+            return 2
+        if args.retry_dead_letter:
+            reopened = queue.reopen_dead_letter_jobs(reason=args.reason)
+            print(f"reopened {len(reopened)} dead-letter job(s)")
         if args.retry_failed:
-            if args.dry_run:
-                print("--retry-failed cannot be combined with --dry-run",
-                      file=sys.stderr)
-                return 2
             retried = queue.requeue_failed_jobs()
             print(f"requeued {len(retried)} failed job(s)")
         if args.dry_run:
