@@ -272,6 +272,11 @@ def _continuation_config(
     refs = list(plate_paths or [])
     if refs:
         anchor = str(refs[0])
+        # DirectorRun also accepts the acceptance-run form
+        # [anchor, silent_face] per cut. In that form the second ref is
+        # already the selected silent character and must not be interpreted
+        # as the first roster plate.
+        explicit_silent = (str(refs[1]) if len(refs) == 2 else None)
         char_paths = [str(p) for p in refs[1:]]
     else:
         anchor = "plates/anchor.png"
@@ -281,7 +286,8 @@ def _continuation_config(
              enumerate(plan.characters) if i < len(char_paths)}
     silent = next((c for c in plan.characters
                    if c.sn_tag != clip.speaker_sn), None)
-    silent_ref = (by_sn.get(silent.sn_tag) if silent is not None else anchor)
+    silent_ref = (explicit_silent or
+                  (by_sn.get(silent.sn_tag) if silent is not None else anchor))
     ref = clip.previous_clip_end_frame or {}
     if clip.index == 1:
         image_start = anchor
@@ -378,8 +384,15 @@ def emit_render_manifest(
     manifest: List[Dict[str, Any]] = []
     for clip in plan.clips:
         if plan.continuation_mode:
+            cut_plates = plate_paths
+            if (plate_paths and isinstance(plate_paths[0], (list, tuple))):
+                if len(plate_paths) != len(plan.clips):
+                    raise ChainPlanError(
+                        "per-cut plate_paths must contain one [anchor, silent_face] "
+                        "pair for every continuation clip")
+                cut_plates = plate_paths[clip.index - 1]
             manifest.append(_continuation_config(
-                plan, clip, plate_paths=plate_paths))
+                plan, clip, plate_paths=cut_plates))
         elif clip.index == 1:
             manifest.append(_shot1_recipe_config(
                 plan, clip, plan.characters, plate_paths, loras))

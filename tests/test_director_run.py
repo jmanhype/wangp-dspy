@@ -78,3 +78,28 @@ def test_run_film_strict_flag_uses_repo_chain_path(tmp_path):
     assert len(clips) == 6
     assert all(clip["kind"] == "ref2va_render" for clip in clips)
     assert all(clip["frames"] == 48 for clip in clips)
+
+
+def test_director_run_accepts_per_cut_silent_face_pairs(tmp_path):
+    audio = []
+    for i in range(6):
+        path = pathlib.Path(tmp_path) / f"turn{i + 1}.wav"
+        path.write_bytes(b"wav")
+        audio.append(str(path))
+    anchor = pathlib.Path(tmp_path) / "plate.png"
+    face_a = pathlib.Path(tmp_path) / "face_a.png"
+    face_b = pathlib.Path(tmp_path) / "face_b.png"
+    for path in (anchor, face_a, face_b):
+        path.write_bytes(b"png")
+    pairs = [[str(anchor), str(face_b)] if i % 2 == 0
+             else [str(anchor), str(face_a)] for i in range(6)]
+    premise = __import__("services.director.premises",
+                         fromlist=["Premise"]).Premise(
+        id="pair-test", title="Pair test", logline="pair test",
+        characters=tuple({"name": "Mara" if i == 0 else "Ivo",
+                           "sn_tag": f"S{i + 1}", "description": "person"}
+                          for i in range(2)))
+    run = DirectorRun(run_id="pair-001", premise=premise)
+    planned = run.plan(_script(), audio_paths=audio, plate_paths=pairs)
+    assert planned.clips[0]["image_refs"][1] == str(face_b)
+    assert planned.clips[1]["image_refs"][1] == str(face_a)

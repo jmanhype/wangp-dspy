@@ -46,7 +46,7 @@ class DirectorRun:
                                  if dataset_run_path is not None else None)
 
     def plan(self, script_lines: Sequence[dict], *, audio_paths: Sequence[str],
-             plate_paths: Sequence[str]) -> DirectorRunPlan:
+             plate_paths: Sequence[str | Sequence[str]]) -> DirectorRunPlan:
         """Build the strict ContinuationExtras manifest (no GPU/subprocess)."""
         if len(script_lines) != 6:
             raise DirectorRunError(
@@ -57,6 +57,11 @@ class DirectorRun:
         if len(plate_paths) < 2:
             raise DirectorRunError(
                 "plate_paths: anchor plus at least one silent-character face ref required")
+        if isinstance(plate_paths[0], (list, tuple)):
+            if len(plate_paths) != 6 or any(
+                    len(pair) != 2 for pair in plate_paths):
+                raise DirectorRunError(
+                    "plate_paths: per-cut form must contain six [anchor, silent_face] pairs")
         durations = [2.0] * 6
         characters = [dict(c) for c in self.premise.characters]
         try:
