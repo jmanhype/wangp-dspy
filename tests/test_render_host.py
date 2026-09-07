@@ -280,6 +280,49 @@ def test_sshhost_namespace_contract_documented():
         "/remote/wgp/render-0000/settings.json"
 
 
+def test_sshhost_asset_map_is_configured_and_longest_prefix_wins(tmp_path):
+    asset_root = tmp_path / "assets" / "acceptance"
+    asset_root.mkdir(parents=True)
+    (asset_root / "turn1.wav").write_bytes(b"wav")
+    (asset_root / "plate.png").write_bytes(b"png")
+    host = SshHost(
+        target="h", wgp_root="/remote/wgp",
+        pull_root=str(tmp_path / "pull"),
+        sp=FakeSP(),
+        asset_map={
+            str(asset_root): "/home/u/acceptance",
+            str(asset_root / "plate.png"):
+                "/home/u/speaker_test/grandma_frame2.png",
+        })
+
+    assert host.map_asset(str(asset_root / "turn1.wav")) == \
+        "/home/u/acceptance/turn1.wav"
+    assert host.map_asset(str(asset_root / "plate.png")) == \
+        "/home/u/speaker_test/grandma_frame2.png"
+    assert str(asset_root) in host.asset_local_roots()
+
+
+def test_sshhost_asset_map_reads_config_from_environment(tmp_path, monkeypatch):
+    asset_root = tmp_path / "assets" / "acceptance"
+    asset_root.mkdir(parents=True)
+    monkeypatch.setenv(
+        "WANGP_ASSET_MAP",
+        f"{asset_root}=/home/u/acceptance")
+    host = SshHost(target="h", wgp_root="/remote/wgp",
+                   pull_root=str(tmp_path / "pull"), sp=FakeSP())
+    assert host.map_asset(str(asset_root / "turn1.wav")) == \
+        "/home/u/acceptance/turn1.wav"
+
+
+def test_sshhost_write_text_maps_local_pull_path(tmp_path):
+    pull = tmp_path / "pull"
+    host = SshHost(target="h", wgp_root="/remote/wgp",
+                   pull_root=str(pull), sp=FakeSP())
+    local = pull / "acceptance" / "settings.json"
+    remote = host.write_text(str(local), "{}")
+    assert remote == "/remote/wgp/acceptance/settings.json"
+
+
 def test_sshhost_join_preserves_absolute_prefix():
     """Live T0 finding: stripping the leading / made absolute output_dir
     home-relative, breaking rsync push (3090:home/... -> ~/"home/...")."""

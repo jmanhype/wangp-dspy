@@ -823,6 +823,41 @@ def _host_path(host, path: str) -> str:
         "wrong-host path")
 
 
+def _host_asset_path(host, path: str) -> str:
+    """Resolve an asset through the host's explicit asset contract."""
+    if not path or str(path).startswith("chain://"):
+        return str(path)
+    mapper = getattr(host, "map_asset", None)
+    if callable(mapper):
+        return mapper(str(path))
+    return str(path)
+
+
+def _map_settings_assets(host, settings_doc: dict) -> dict:
+    """Copy a settings document with all asset references host-resolved."""
+    mapped = json.loads(json.dumps(settings_doc))
+
+    def map_one(value):
+        return _host_asset_path(host, value) if value else value
+
+    for key in ("audio_guide", "image_start", "image_end"):
+        if key in mapped:
+            mapped[key] = map_one(mapped[key])
+    if isinstance(mapped.get("image_refs"), list):
+        mapped["image_refs"] = [map_one(v) for v in mapped["image_refs"]]
+    provenance = mapped.get("audio_provenance")
+    if isinstance(provenance, dict):
+        for key in ("source_master", "vocal_stem", "whisper_map"):
+            if key in provenance:
+                provenance[key] = map_one(provenance[key])
+    manifest = mapped.get("speaker_manifest")
+    if isinstance(manifest, dict):
+        for turn in manifest.get("turns", ()):
+            if isinstance(turn, dict) and "audio_path" in turn:
+                turn["audio_path"] = map_one(turn["audio_path"])
+    return mapped
+
+
 def _probe(host, argv, timeout=120):
     rc, out, err = host.run_probe(list(argv), timeout=timeout)
     return rc, out or "", err or ""
@@ -870,7 +905,19 @@ def production_ref2va_render(adapter, inp):
     from pathlib import Path as _P
 
     host = adapter.host
-    settings_host = _host_path(host, str(inp.settings_path))
+    settings_local = _P(inp.settings_path)
+    try:
+        settings_doc = json.loads(settings_local.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise WanGPError(
+            f"settings document unreadable before host render: {e}") from e
+    settings_doc_host = _map_settings_assets(host, settings_doc)
+    settings_host = _host_path(host, str(settings_local))
+    writer = getattr(host, "write_text", None)
+    if callable(writer):
+        settings_host = writer(
+            settings_host,
+            json.dumps(settings_doc_host, indent=2, sort_keys=True) + "\n")
     run_dir = settings_host.rsplit("/", 1)[0]
     log_path = f"{run_dir}/render.log"
 
@@ -895,9 +942,7 @@ def production_ref2va_render(adapter, inp):
 
     # steps from the config (the runtime wrote settings before render)
     try:
-        steps = int(json.loads(
-            _P(inp.settings_path).read_text(encoding="utf-8")
-        ).get("num_inference_steps") or 0)
+        steps = int(settings_doc.get("num_inference_steps") or 0)
     except (OSError, ValueError):
         steps = 0
     log_text = poll_render_completion(
@@ -922,25 +967,26 @@ def production_ref2va_render(adapter, inp):
             f"{raw_host!r} failed (cp rc={rc}: {err.strip()[:200]})")
 
     audio_guide = ""
-    try:
-        audio_guide = str(json.loads(
-            _P(inp.settings_path).read_text(encoding="utf-8")
-        ).get("audio_guide") or "")
-    except (OSError, ValueError):
-        pass
+    audio_guide = str(settings_doc_host.get("audio_guide") or "")
     if audio_guide:
         mux_host = raw_host.rsplit(".", 1)[0] + ".mux.mp4"
         rc, _o, err = _probe(host, [
             "ffmpeg", "-y", "-i", raw_host,
-            "-i", _host_path(host, audio_guide),
+            "-i", audio_guide,
             "-map", "0:v", "-map", "1:a",
             "-c:v", "copy", "-c:a", "aac", "-shortest", mux_host])
         if rc != 0:
             raise WanGPError(
                 f"audio mux failed for {raw_host!r} (ffmpeg rc={rc}: "
                 f"{err.strip()[:200]})")
-        return _P(str(inp.raw_render_path).rsplit(".", 1)[0]
-                  + ".mux.mp4")
+        mux_local = str(inp.raw_render_path).rsplit(".", 1)[0] + ".mux.mp4"
+        fetcher = getattr(host, "fetch_file", None)
+        if callable(fetcher):
+            fetcher(mux_host, mux_local)
+        return _P(mux_local)
+    fetcher = getattr(host, "fetch_file", None)
+    if callable(fetcher):
+        fetcher(raw_host, str(inp.raw_render_path))
     return _P(inp.raw_render_path)
 
 
@@ -978,6 +1024,14 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     def _default_runner(argv):
         return _rt.safe_argv_runner(argv)
 
+    asset_roots = getattr(adapter.host, "asset_local_roots", None)
+    local_asset_roots = list(asset_roots()) if callable(asset_roots) else []
+    configured_sanctioned = (list(sanctioned_dirs)
+                             if sanctioned_dirs
+                             else default_sanctioned_dirs())
+    for root in local_asset_roots:
+        if root not in configured_sanctioned:
+            configured_sanctioned.append(root)
     inp = _build_ref2va_runtime_input(
         adapter, job,
         render=render or _default_render,
@@ -992,9 +1046,7 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
         # live smoke fix 2: render_dir alone was sanctioned — the
         # asset roots (image_refs / audio_guide / QC media) live
         # OUTSIDE it and were containment-rejected. Env-overridable.
-        sanctioned_dirs=(list(sanctioned_dirs) if sanctioned_dirs
-                         else default_sanctioned_dirs())
-                        + [str(render_dir)])
+        sanctioned_dirs=configured_sanctioned + [str(render_dir)])
     try:
         evidence = _rt.run_ref2va_runtime(inp)
     except _rt.Ref2VARuntimeError as e:

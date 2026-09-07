@@ -14,6 +14,8 @@ PullError / RemoteTimeoutError.
 from __future__ import annotations
 
 import os
+import json
+import shutil
 import subprocess
 import time
 from typing import Callable, Optional, Sequence
@@ -40,6 +42,52 @@ class PullError(RenderHostError):
 class RemoteTimeoutError(RenderHostError):
     """Remote command exceeded its timeout AND remote-side cleanup
     (`timeout <t>`) already killed it; the remote GPU is free."""
+
+
+def _normalize_asset_map(value) -> dict:
+    """Validate a local-prefix -> host-prefix asset mapping."""
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise RenderHostError(
+            f"asset_map must be a mapping, got {type(value).__name__}")
+    normalized = {}
+    for local, remote in value.items():
+        if not isinstance(local, str) or not local.strip():
+            raise RenderHostError("asset_map local keys must be non-empty strings")
+        if not isinstance(remote, str) or not remote.strip():
+            raise RenderHostError("asset_map host values must be non-empty strings")
+        normalized[os.path.normpath(local)] = remote.rstrip("/")
+    return normalized
+
+
+def _asset_map_from_env() -> dict:
+    """Read ``WANGP_ASSET_MAP`` as JSON or ``local=remote;...`` pairs."""
+    raw = os.environ.get("WANGP_ASSET_MAP", "").strip()
+    if not raw:
+        return {}
+    if raw.startswith("{"):
+        try:
+            value = json.loads(raw)
+        except json.JSONDecodeError as e:
+            raise RenderHostError(
+                f"WANGP_ASSET_MAP is not valid JSON: {e}") from e
+        return _normalize_asset_map(value)
+    pairs = {}
+    for item in raw.split(";"):
+        if not item.strip():
+            continue
+        if "=" not in item:
+            raise RenderHostError(
+                "WANGP_ASSET_MAP entries must be local=remote pairs")
+        local, remote = item.split("=", 1)
+        pairs[local.strip()] = remote.strip()
+    return _normalize_asset_map(pairs)
+
+
+def _sanctioned_roots_from_env() -> tuple:
+    raw = os.environ.get("WANGP_SANCTIONED_DIRS", "")
+    return tuple(p.strip() for p in raw.split(os.pathsep) if p.strip())
 
 
 def _sp(argv, **kw):
@@ -74,6 +122,23 @@ class LocalHost:
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(text)
         return path
+
+    def map_asset(self, path: str) -> str:
+        """Return the local namespace path for an asset reference."""
+        return str(path)
+
+    def asset_local_roots(self) -> tuple:
+        """LocalHost has no separate host-side asset namespace."""
+        return ()
+
+    def fetch_file(self, remote: str, local: str) -> str:
+        """Materialize a host artifact locally (identity for LocalHost)."""
+        remote_abs = os.path.abspath(remote)
+        local_abs = os.path.abspath(local)
+        if remote_abs != local_abs:
+            os.makedirs(os.path.dirname(local_abs), exist_ok=True)
+            shutil.copy2(remote_abs, local_abs)
+        return local
 
     def makedirs(self, path: str) -> None:
         os.makedirs(path, exist_ok=True)
@@ -137,13 +202,16 @@ class SshHost(LocalHost):
     """
 
     def __init__(self, *, target: str, wgp_root: str, pull_root: str,
-                 sp: Callable = _sp, port: Optional[int] = None):
+                 sp: Callable = _sp, port: Optional[int] = None,
+                 asset_map: Optional[dict] = None):
         super().__init__()
         self.target = target
         self.wgp_root = wgp_root
         self.pull_root = os.path.abspath(pull_root)
         self.sp = sp
         self.port = port
+        self.asset_map = _normalize_asset_map(
+            asset_map if asset_map is not None else _asset_map_from_env())
         os.makedirs(self.pull_root, exist_ok=True)
 
     # -- ssh/rsync plumbing ----------------------------------------
@@ -195,13 +263,69 @@ class SshHost(LocalHost):
 
     def map_path(self, local: str) -> str:
         """local pull_root namespace -> remote wgp_root namespace."""
-        rel = os.path.relpath(local, self.pull_root)
+        rel = os.path.relpath(os.path.abspath(local),
+                              os.path.abspath(self.pull_root))
         # GLM F1: refuse escapes — a local path outside pull_root must
         # never map to ../ outside wgp_root (rsync dest containment).
         if rel == ".." or rel.startswith(".." + os.sep):
             raise RenderHostError(
                 "path escapes pull_root; refusing to map outside wgp_root")
         return self.wgp_root + "/" + rel.replace(os.sep, "/")
+
+    def map_asset(self, path: str) -> str:
+        """Map a local asset reference into the configured host namespace.
+
+        Mapping is longest-prefix-first so a file alias can override a
+        directory mapping (for example, ``plate.png`` living in a host
+        speaker-test directory while the turn WAVs use ``~/acceptance``).
+        ``chain://`` references are materialized later by the chain advance
+        seam and therefore pass through unchanged.
+        """
+        raw = str(path)
+        if not raw or raw.startswith("chain://"):
+            return raw
+        normalized = os.path.normpath(raw)
+        absolute = os.path.abspath(normalized)
+        for local, remote in sorted(self.asset_map.items(),
+                                    key=lambda item: len(item[0]),
+                                    reverse=True):
+            local_norm = os.path.normpath(local)
+            local_abs = os.path.abspath(local_norm)
+            if normalized == local_norm:
+                suffix = ""
+            elif normalized.startswith(local_norm + os.sep):
+                suffix = normalized[len(local_norm):]
+            elif absolute == local_abs:
+                suffix = ""
+            elif absolute.startswith(local_abs + os.sep):
+                suffix = absolute[len(local_abs):]
+            else:
+                continue
+            return remote.rstrip("/") + suffix.replace(os.sep, "/")
+        # Already-hosted paths are idempotent.  The configured sanctioned
+        # roots are host-side paths and are intentionally not hardcoded.
+        for root in _sanctioned_roots_from_env():
+            root_norm = root.rstrip("/")
+            if normalized == root_norm or normalized.startswith(root_norm + "/"):
+                return normalized
+        raise RenderHostError(
+            f"asset path {raw!r} has no configured host mapping; "
+            "set WANGP_ASSET_MAP or supply asset_map")
+
+    def asset_local_roots(self) -> tuple:
+        """Return local roots corresponding to configured asset mappings.
+
+        Runtime containment remains strict: these are only the local
+        counterparts of explicitly configured mappings, never a blanket
+        allowance for arbitrary paths.
+        """
+        roots = set()
+        for local in self.asset_map:
+            candidate = os.path.abspath(local)
+            if not os.path.isdir(candidate):
+                candidate = os.path.dirname(candidate)
+            roots.add(candidate)
+        return tuple(sorted(roots))
 
     # -- RenderHost surface ----------------------------------------
     def check_executable(self, path: str) -> None:
@@ -214,6 +338,7 @@ class SshHost(LocalHost):
 
     def write_text(self, path: str, text: str) -> str:
         """path is REMOTE-namespace; content pushed via rsync."""
+        remote_path = self._as_remote_path(path)
         import tempfile
         with tempfile.NamedTemporaryFile("w", suffix=".json",
                                          delete=False) as tf:
@@ -221,24 +346,72 @@ class SshHost(LocalHost):
             local_tmp = tf.name
         try:
             rc, _o, err = self._run(
-                ["rsync", "-a", local_tmp, f"{self.target}:{path}"],
+                ["rsync", "-a", local_tmp,
+                 f"{self.target}:{remote_path}"],
                 "rsync push")
         finally:
             os.unlink(local_tmp)
         if rc != 0:
-            raise PushError(f"rsync push to {self.target}:{path} "
+            raise PushError(f"rsync push to {self.target}:{remote_path} "
                             f"failed: {err.strip()[:300]}")
-        return path
+        return remote_path
+
+    def _as_remote_path(self, path: str) -> str:
+        """Translate a local pull-mirror path, preserving true host paths."""
+        if not os.path.isabs(str(path)):
+            return str(path)
+        try:
+            return self.map_path(str(path))
+        except Exception:
+            return str(path)
+
+    def push_file(self, local: str, remote: str) -> str:
+        """Push one local file to an explicit host path via rsync."""
+        remote_path = self._as_remote_path(remote)
+        rc, _o, err = self._run(
+            ["rsync", "-a", local, f"{self.target}:{remote_path}"],
+            "rsync file push")
+        if rc != 0:
+            raise PushError(f"rsync push of {local!r} to "
+                            f"{self.target}:{remote_path} failed: "
+                            f"{err.strip()[:300]}")
+        return remote_path
+
+    def push_asset(self, local: str) -> str:
+        """Map and push a configured asset (or return its host path)."""
+        remote = self.map_asset(local)
+        if not os.path.isfile(local):
+            # Acceptance fixtures may already be present on the host; no
+            # local file is required when the configured mapping resolves
+            # to an existing host artifact.
+            rc, _o, _err = self.run_probe(["test", "-f", remote])
+            if rc == 0:
+                return remote
+            raise PushError(f"asset source is not readable locally or on "
+                            f"the host: {local!r} -> {remote!r}")
+        return self.push_file(local, remote)
+
+    def fetch_file(self, remote: str, local: str) -> str:
+        """Pull one host artifact into the local pull mirror."""
+        os.makedirs(os.path.dirname(os.path.abspath(local)), exist_ok=True)
+        rc, _o, err = self._run(
+            ["rsync", "-a", f"{self.target}:{remote}", local],
+            "rsync file pull")
+        if rc != 0:
+            raise PullError(f"rsync pull of {self.target}:{remote} "
+                            f"failed: {err.strip()[:300]}")
+        return local
 
     def makedirs(self, path: str) -> None:
         """Remote mkdir -p (live T0 finding: rsync pushing a FILE does
         NOT create parent dirs, so the no-op made write_text fail on a
         fresh render-NNNN dir). Local pull mirror still lazy."""
+        remote_path = self._as_remote_path(path)
         rc, _o, err = self._run(
-            self._ssh_base() + ["mkdir", "-p", path], "ssh mkdir")
+            self._ssh_base() + ["mkdir", "-p", remote_path], "ssh mkdir")
         if rc != 0:
             raise RenderHostError(
-                f"remote mkdir -p {path} on {self.target} failed: "
+                f"remote mkdir -p {remote_path} on {self.target} failed: "
                 f"{err.strip()[:200]}")
 
     def join(self, *parts: str) -> str:
