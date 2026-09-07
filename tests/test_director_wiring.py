@@ -9,6 +9,7 @@ audio_provenance with the whisper map, match-cut chaining).
 from __future__ import annotations
 
 import json
+import pathlib
 
 import pytest
 
@@ -286,6 +287,38 @@ class TestChainAdvance:
         host = _FakeHost()
         advance_chain(q, host, ids[2])
         assert host.calls == []
+
+    def test_advance_maps_remote_mp4_and_pulls_frame(self, tmp_path):
+        from services.director.wiring import advance_chain
+        q, ids, clips = self._queue_with_chain_jobs(tmp_path)
+        local_mp4 = tmp_path / "pull" / "acceptance" / "render-0000" / "remux.mp4"
+        _finish(q, ids[0], clips[0]["clip_index"], str(local_mp4))
+
+        class RemoteHost(_FakeHost):
+            pull_root = str(tmp_path / "pull")
+
+            def map_path(self, path):
+                rel = str(path).removeprefix(self.pull_root).lstrip("/")
+                return "/remote/wgp/" + rel
+
+            def fetch_file(self, remote, local):
+                self.calls.append(["fetch", remote, local])
+                from pathlib import Path
+                Path(local).parent.mkdir(parents=True, exist_ok=True)
+                Path(local).write_bytes(b"png")
+                return local
+
+        host = RemoteHost()
+        advance_chain(q, host, ids[0])
+        ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
+        assert len(ffmpeg) == 1
+        assert ffmpeg[0][5] == "/remote/wgp/acceptance/render-0000/remux.mp4"
+        assert ffmpeg[0][-1].startswith("/remote/wgp/film/chain/")
+        fetches = [c for c in host.calls if c[:1] == ["fetch"]]
+        assert len(fetches) == 1
+        nxt = q.get(ids[1])
+        assert not nxt.clips[0]["image_refs"][0].startswith("chain://")
+        assert pathlib.Path(nxt.clips[0]["image_refs"][0]).is_file()
 
 
 # ── run_film dry-run ─────────────────────────────────────────────────

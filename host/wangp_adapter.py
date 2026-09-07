@@ -852,7 +852,19 @@ def _host_asset_path(host, path: str) -> str:
         return str(path)
     mapper = getattr(host, "map_asset", None)
     if callable(mapper):
-        return mapper(str(path))
+        try:
+            return mapper(str(path))
+        except Exception:
+            # Chain frames are pulled artifacts, not source assets. They
+            # live under the host's pull-root and use the ordinary
+            # local->remote path map rather than the asset namespace.
+            pass
+    path_mapper = getattr(host, "map_path", None)
+    if callable(path_mapper):
+        try:
+            return path_mapper(str(path))
+        except Exception:
+            pass
     return str(path)
 
 
@@ -1182,6 +1194,11 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     for root in local_asset_roots:
         if root not in configured_sanctioned:
             configured_sanctioned.append(root)
+    # Chained last frames are materialized in the SshHost pull mirror and
+    # then mapped back to the remote wgp namespace for the next cut.
+    pull_root = getattr(adapter.host, "pull_root", None)
+    if pull_root and str(pull_root) not in configured_sanctioned:
+        configured_sanctioned.append(str(pull_root))
     inp = _build_ref2va_runtime_input(
         adapter, job,
         render=render or _default_render,

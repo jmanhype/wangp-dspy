@@ -75,6 +75,18 @@ def _tail(text: str) -> str:
     return (text or "")[-_LOG_TAIL_CHARS:]
 
 
+def _unresolved_chain_ref(clip: dict) -> Optional[str]:
+    """Return a still-unmaterialized chain reference, if any."""
+    values = [clip.get("image_start")]
+    refs = clip.get("image_refs")
+    if isinstance(refs, (list, tuple)):
+        values.extend(refs[:1])
+    for value in values:
+        if isinstance(value, str) and value.startswith("chain://"):
+            return value
+    return None
+
+
 class JobExecutor:
     """One trusted 3090; single-job step machine driver.
 
@@ -151,6 +163,17 @@ class JobExecutor:
                 # its log+mp4 evidence; re-gate it instead of burning a
                 # second GPU render.  ``done`` also remains untouched.
                 continue
+            unresolved = _unresolved_chain_ref(clip)
+            if unresolved:
+                # Never spend a render attempt handing a chain URI to
+                # WanGP/ffmpeg; the predecessor frame must be materialized
+                # before render admission.
+                self._fail(
+                    job, "unresolved_chain_ref",
+                    f"clip {clip['clip_index']} still references "
+                    f"{unresolved!r} at render admission; advance_chain "
+                    "must materialize the predecessor frame first")
+                return
             # pre_render hook (phased QC kill/restart seam): injectable,
             # default no-op. Runs immediately before the render leg.
             if self.pre_render is not None:

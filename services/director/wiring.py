@@ -334,14 +334,37 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
         mp4 = clip.get("mp4")
         if not mp4:
             continue
-        png = _chain_png(str(queue.db_path), dep_clip)
+        png = _chain_png(
+            str(queue.db_path), dep_clip, host=host,
+            namespace=job.plan_ref)
         # LIVE FIX (2026-09-03, GLM film run): the extraction target
         # dir is never created — ffmpeg over ssh-local exits 251 when
         # the parent dir is missing. mkdir -p first (idempotent).
         png_dir = png.rsplit("/", 1)[0]
-        _mrc, _mo, _me = host.run_probe(["mkdir", "-p", png_dir],
-                                        timeout=60)
-        rj.extract_last_frame(host, mp4, png)
+        map_path = getattr(host, "map_path", None)
+        if callable(map_path):
+            # SshHost commands consume host paths; queue clip artifacts and
+            # chain targets are local pull-mirror paths. Keep both sides
+            # explicit and never hand a local path to remote ffmpeg.
+            remote_mp4 = map_path(str(mp4))
+            remote_png = map_path(str(png))
+            remote_png_dir = remote_png.rsplit("/", 1)[0]
+            _mrc, _mo, _me = host.run_probe(
+                ["mkdir", "-p", remote_png_dir], timeout=60)
+            rj.extract_last_frame(host, remote_mp4, remote_png)
+            fetcher = getattr(host, "fetch_file", None)
+            if not callable(fetcher):
+                raise WiringError(
+                    "remote chain extraction requires host.fetch_file()")
+            fetcher(remote_png, png)
+            from pathlib import Path
+            if not Path(png).is_file():
+                raise WiringError(
+                    f"remote chain frame was not pulled to {png!r}")
+        else:
+            _mrc, _mo, _me = host.run_probe(["mkdir", "-p", png_dir],
+                                            timeout=60)
+            rj.extract_last_frame(host, mp4, png)
         refs = list(dep_clip["image_refs"])
         refs[0] = png
         # Strict continuation jobs duplicate the seed in
@@ -376,13 +399,23 @@ def _find_dependent(queue, clip_index):
     return None
 
 
-def _chain_png(db_path: str, clip) -> str:
+def _chain_png(db_path: str, clip, *, host=None, namespace=None) -> str:
     """<run_dir>/render/clipNNNN/chain_last_frame.png (run dir is the
-    queue db's parent, matching the r2i convention)."""
+    queue db's parent, matching the r2i convention).
+
+    SshHost jobs use a pull-mirror namespace so the resulting local path can
+    safely round-trip through ``host.map_path`` back to the remote renderer.
+    """
     from pathlib import Path
     idx = int(clip.get("clip_index", 0))
-    run_dir = str(Path(db_path).parent)
-    return f"{run_dir}/render/clip{idx:04d}/chain_last_frame.png"
+    pull_root = getattr(host, "pull_root", None)
+    if pull_root:
+        ns = Path(str(namespace or "chain")).name
+        run_dir = Path(pull_root) / ns
+    else:
+        run_dir = Path(db_path).parent
+    return str(run_dir / "chain" / f"clip{idx:04d}" /
+               "chain_last_frame.png")
 
 
 class MediaAssemblyError(ValueError):

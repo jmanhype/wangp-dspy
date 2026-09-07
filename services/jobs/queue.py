@@ -132,6 +132,30 @@ def _check_clip_artifacts(status: str, log, mp4, qc_verdict) -> None:
                     "({'verdict': ..., 'path': ...})")
 
 
+def _check_chain_placeholders(clip: Dict) -> None:
+    """Reject orphaned chain placeholders at queue submission.
+
+    A dependent continuation may carry a ``chain://`` ref only when it also
+    declares the prerequisite job in ``needs``; the advance seam will
+    materialize that ref before execution. A standalone job with the same
+    placeholder has no producer and would otherwise fail much later at the
+    host/ffmpeg boundary.
+    """
+    if not isinstance(clip, dict):
+        return
+    values = [clip.get("image_start")]
+    refs = clip.get("image_refs")
+    if isinstance(refs, (list, tuple)):
+        values.extend(refs[:1])
+    unresolved = next((str(v) for v in values
+                       if isinstance(v, str) and v.startswith("chain://")),
+                      None)
+    if unresolved and not clip.get("needs"):
+        raise ValueError(
+            f"unresolved chain reference {unresolved!r} at submit: "
+            "a chain placeholder requires a needs dependency")
+
+
 class JobQueue:
     """SQLite-backed durable queue (WAL; stdlib only)."""
 
@@ -218,6 +242,7 @@ class JobQueue:
             raise ValueError("a job needs at least one clip")
         job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
         for c in clips:
+            _check_chain_placeholders(c)
             _check_clip_artifacts(c.get("status", "pending"),
                                   c.get("log"), c.get("mp4"),
                                   c.get("qc_verdict"))

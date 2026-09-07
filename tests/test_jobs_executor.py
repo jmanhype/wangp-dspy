@@ -171,6 +171,28 @@ def test_render_exception_is_recorded_as_failed(tmp_path):
     assert "continuation envelope rejected" in (job.failure_detail or "")
 
 
+def test_unresolved_chain_ref_fails_before_render(tmp_path):
+    q = FakeQueue({"job-1": Job(clips=[
+        {"clip_index": 1, "kind": "ref2va_render", "status": "pending",
+         "image_start": "chain://clip0001/last_frame",
+         "image_refs": ["chain://clip0001/last_frame", "face.png"],
+         "log": None, "mp4": None, "qc_verdict": None}])})
+    called = []
+
+    def render(_clip):
+        called.append(True)
+        raise AssertionError("unresolved chain ref must not reach renderer")
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=render, ref2va_render=render,
+                     qc=lambda clip: pytest.fail("QC must not run"))
+    ex.run_once()
+    job = q.jobs["job-1"]
+    assert called == []
+    assert job.state == "failed"
+    assert job.failure_class == "unresolved_chain_ref"
+
+
 def test_dead_letter_after_three_same_class_failures(tmp_path):
     q = FakeQueue({"job-1": Job()})
 

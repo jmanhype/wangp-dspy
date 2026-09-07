@@ -45,6 +45,15 @@ def test_submit_rejects_job_without_clips(q):
         q.submit(plan_ref="p.json", clips=[])
 
 
+def test_submit_rejects_orphaned_chain_placeholder(q):
+    clip = _clip()
+    clip.update({"kind": "ref2va_render",
+                 "image_start": "chain://clip0001/last_frame",
+                 "image_refs": ["chain://clip0001/last_frame", "face.png"]})
+    with pytest.raises(ValueError, match="chain.*needs"):
+        q.submit(plan_ref="p.json", clips=[clip])
+
+
 def test_clip_artifact_claims_require_paths(q):
     # every artifact claim in job records must carry a path — no
     # status-only fields (design constraint).
