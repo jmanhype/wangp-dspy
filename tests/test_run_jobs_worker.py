@@ -256,8 +256,11 @@ class TestRenderForJobWiring:
         with pytest.raises(Ref2VAQCStageError, match="vision judge is not wired"):
             ex.qc(clip)
 
+    @pytest.mark.parametrize("kind", [
+        "ref2va_render", "REF2VA_IDENTITY_AUDIO",
+    ])
     def test_executor_cannot_mark_ref2va_done_without_vision_evidence(
-            self, tmp_path, monkeypatch):
+            self, tmp_path, monkeypatch, kind):
         """The durable executor records a QC failure, never a KEEP verdict."""
         guide = Path(tmp_path) / "guide.wav"
         guide.write_bytes(b"wav")
@@ -266,7 +269,7 @@ class TestRenderForJobWiring:
         wmap = Path(tmp_path) / "whisper.json"
         wmap.write_text("{}")
         clip = {
-            "clip_index": 1, "kind": "ref2va_render", "status": "pending",
+            "clip_index": 1, "kind": kind, "status": "pending",
             "audio_guide": str(guide), "mp4": None, "log": None,
             "qc_verdict": None, "dialogue_text": "The gate is open",
             "speaker_sn": "S1", "action": "turns toward gate",

@@ -167,7 +167,7 @@ def build_executor(queue, host=None, pre_render=None,
                    whisper_transcriber=None, vision_judge=None):
     """Wire JobExecutor with the production render seams (no dry-run
     guard on the jobs path — see module docstring)."""
-    from services.jobs.executor import JobExecutor, RenderOutcome
+    from services.jobs.executor import JobExecutor, RenderOutcome, render_lane_for
     from services.jobs.preflight import run_preflight
     from host.wangp_adapter import WanGPAdapter
     from qc.audio_critic.whisper_cli import host_whisper_transcriber
@@ -242,7 +242,10 @@ def build_executor(queue, host=None, pre_render=None,
         # video inputs conditional on a judge being injected: when the judge
         # is absent, run_ref2va_qc_stage must fail closed rather than return
         # a KEEP-able result with ``vision_judge=None``.
-        if clip.get("kind") != "ref2va_render":
+        # Keep QC dispatch aligned with the executor's lane table.  The
+        # canonical REF2VA_IDENTITY_AUDIO product mode is also a ref2va job;
+        # checking only the legacy string would let it emit an ungated KEEP.
+        if render_lane_for(clip.get("kind")) != "ref2va":
             return True, f"qc/{clip['clip_index']}.json"
         from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
         evidence_path = clip.get("qc_evidence_path")
