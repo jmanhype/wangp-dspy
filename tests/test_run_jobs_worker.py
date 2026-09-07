@@ -172,6 +172,31 @@ class TestExecutorNeedsGating:
         assert q.get(dep_id).state == "pending"
 
 
+class TestRenderForJobWiring:
+    def test_build_executor_fails_closed_without_per_job_renderer(
+            self, monkeypatch):
+        """A production adapter without render_for_job must be rejected
+        before a queue job can be claimed; legacy render() is not a bridge.
+        """
+        import scripts.run_jobs as run_jobs
+
+        class LegacyOnlyAdapter:
+            def __init__(self, host=None):
+                self.host = host
+
+            def render(self, *args, **kwargs):
+                return None
+
+        monkeypatch.setattr(run_jobs, "WanGPAdapter", LegacyOnlyAdapter,
+                            raising=False)
+        # build_executor imports the adapter inside the function, so patch
+        # the module that owns the constructor as well.
+        monkeypatch.setattr("host.wangp_adapter.WanGPAdapter",
+                            LegacyOnlyAdapter)
+        with pytest.raises(TypeError, match="render_for_job"):
+            run_jobs.build_executor(queue=None, host=object())
+
+
 class TestDryRunAndOnce:
     def test_dry_run_no_host_calls_no_state_mutation(self, tmp_path, capsys):
         q = _queue(tmp_path, [(

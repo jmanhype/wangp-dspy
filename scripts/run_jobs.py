@@ -145,6 +145,16 @@ def build_executor(queue, host=None, pre_render=None):
     from host.wangp_adapter import WanGPAdapter
 
     adapter = WanGPAdapter(host=host) if host is not None else None
+    # The production seam is deliberately structural: a jobs executor may
+    # only receive a typed per-job renderer.  Fail during wiring when an
+    # adapter implementation does not expose it rather than discovering the
+    # gap after claiming a GPU job (or silently falling back to render()).
+    render_for_job = (getattr(adapter, "render_for_job", None)
+                      if adapter is not None else None)
+    if adapter is not None and not callable(render_for_job):
+        raise TypeError(
+            "WanGPAdapter must expose callable render_for_job(job); "
+            "legacy render() is not a production jobs seam")
 
     # live smoke fix 3: qc_url="" made the preflight curl probe an
     # EMPTY URL — wire a real default (env-overridable).
@@ -165,7 +175,9 @@ def build_executor(queue, host=None, pre_render=None):
         # BEFORE the wgp render so it gets the VRAM.
         if _is_localhost():
             free_vram_for_render(host)
-        res = adapter.render_for_job(clip)
+        # Never call adapter.render() here.  That legacy API accepts a
+        # brief/settings shape and cannot carry ContinuationExtras.
+        res = render_for_job(clip)
         settings = getattr(res, "settings_path", "") or ""
         log = (str(Path(settings).parent) + "/render.log"
                if settings else "render.log")
