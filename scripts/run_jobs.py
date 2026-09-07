@@ -144,6 +144,7 @@ def build_executor(queue, host=None, pre_render=None,
     from services.jobs.executor import JobExecutor, RenderOutcome
     from services.jobs.preflight import run_preflight
     from host.wangp_adapter import WanGPAdapter
+    from qc.audio_critic.whisper_cli import host_whisper_transcriber
 
     adapter = WanGPAdapter(host=host) if host is not None else None
     # The production seam is deliberately structural: a jobs executor may
@@ -156,6 +157,11 @@ def build_executor(queue, host=None, pre_render=None,
         raise TypeError(
             "WanGPAdapter must expose callable render_for_job(job); "
             "legacy render() is not a production jobs seam")
+    if whisper_transcriber is None and host is not None:
+        # Production jobs get a real Whisper runner from the existing host
+        # seam. Tests and custom operators may still inject a deterministic
+        # transcriber explicitly.
+        whisper_transcriber = host_whisper_transcriber(host)
 
     # live smoke fix 3: qc_url="" made the preflight curl probe an
     # EMPTY URL — wire a real default (env-overridable).
