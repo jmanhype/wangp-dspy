@@ -289,6 +289,75 @@ class TestDryRunAndOnce:
         # (FakeEx did nothing, but only ONE job was targeted)
         assert ran.count("ran ") == 1
 
+    def test_once_recovers_stale_prerequisite_before_needs_gate(
+            self, tmp_path, monkeypatch):
+        q = JobQueue(str(tmp_path / "jobs.db"))
+        prerequisite = q.submit(
+            plan_ref="pre.json",
+            clips=[{"clip_index": 1, "status": "pending",
+                    "kind": "r2i_pose_target", "log": None,
+                    "mp4": None, "qc_verdict": None}],
+        )
+        dependent = q.submit(
+            plan_ref="dep.json",
+            clips=[{"clip_index": 2, "status": "pending",
+                    "kind": "ref2va_render", "needs": prerequisite,
+                    "log": None, "mp4": None, "qc_verdict": None}],
+        )
+        # Simulate a worker crash after claiming the prerequisite.  The
+        # missing heartbeat/owner makes this immediately recoverable.
+        q.set_state(prerequisite, "preflight")
+        q.set_state(prerequisite, "rendering")
+        seen = []
+
+        class FakeEx:
+            def run_once(self):
+                seen.append(run_jobs.next_admissible(q))
+                return seen[-1]
+
+        monkeypatch.setattr(run_jobs, "_default_host", lambda: FakeHost())
+        monkeypatch.setattr(run_jobs, "build_executor",
+                            lambda queue, host=None: FakeEx())
+        rc = run_jobs.main(["--db", str(tmp_path / "jobs.db"), "--once"])
+
+        assert rc == 0
+        assert seen == [prerequisite]
+        assert q.get(prerequisite).state == "pending"
+        assert q.get(dependent).state == "pending"
+
+    def test_drain_recovers_stale_prerequisite_before_needs_gate(
+            self, tmp_path, monkeypatch):
+        q = JobQueue(str(tmp_path / "jobs.db"))
+        prerequisite = q.submit(
+            plan_ref="pre.json",
+            clips=[{"clip_index": 1, "status": "pending",
+                    "kind": "r2i_pose_target", "log": None,
+                    "mp4": None, "qc_verdict": None}],
+        )
+        dependent = q.submit(
+            plan_ref="dep.json",
+            clips=[{"clip_index": 2, "status": "pending",
+                    "kind": "ref2va_render", "needs": prerequisite,
+                    "log": None, "mp4": None, "qc_verdict": None}],
+        )
+        q.set_state(prerequisite, "preflight")
+        q.set_state(prerequisite, "rendering")
+        picked = []
+
+        class FakeEx:
+            def run_once(self):
+                picked.append(run_jobs.next_admissible(q))
+                return picked[-1]
+
+        monkeypatch.setattr(run_jobs, "build_executor",
+                            lambda queue, host=None: FakeEx())
+        handled = run_jobs.drain_once(q, host=FakeHost(), limit=1)
+
+        assert handled == [prerequisite]
+        assert picked == [prerequisite]
+        assert q.get(prerequisite).state == "pending"
+        assert q.get(dependent).state == "pending"
+
 
 class TestDryRunReportShape:
     def test_report_lists_pending(self, tmp_path):
