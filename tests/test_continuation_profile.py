@@ -85,3 +85,17 @@ def test_generic_job_config_still_rejects_sub_floor_48():
             script="one shot",
             frames_per_shot=48,
         )
+
+
+def test_profile_decision_explicitly_allows_48_frame_continuation():
+    from predict.profile_selector import ProfileDecision
+
+    decision = ProfileDecision(
+        model="h3",
+        resolution="768p",
+        shot_length_frames=48,
+        seed_policy="fixed_per_shot",
+        wangp_profile="profile3",
+        continuation=True,
+    )
+    assert decision.continuation is True

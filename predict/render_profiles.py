@@ -117,6 +117,8 @@ class Ref2VAProfile(RenderProfile):
                        audio_length_frames: Optional[int] = None,
                        continuation: bool = False,
                        **kw) -> dict:
+        continuation = bool(continuation or
+                           getattr(decision, "continuation", False))
         # image refs: present + readable
         if not image_refs:
             raise ProfileError(
