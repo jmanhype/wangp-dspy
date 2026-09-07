@@ -41,9 +41,16 @@
     "artifact": "datasets/runs/pull/acceptance-grid56-20260907/assembled.mp4",
     "sha256": "b14107852f3cdb981c23dc157988e46c0df3eb6bb0d5ef053f928e25af012dd8",
     "timestamp": "2026-09-07T18:10:26Z",
-    "verdict": "awaiting-operator-eyes",
-    "flags": [],
-    "notes": "FIRST REPO-EXECUTED FILM: 6x56f grid-aligned cuts, all whisper gates 0.6-1.0, chained PNGs, MultiShotAssembler continuity pass, ledger complete. Acceptance test (amended 3759dcc) satisfied pending operator verdict.",
+    "verdict": "NEEDS REVIEW",
+    "flags": [
+      "wrong-speaker-all-cuts",
+      "identity-drift",
+      "scene-jumps",
+      "no-torture-chamber-after-cut1",
+      "triple-panel-glitch-cut2",
+      "wrong-characters-entirely"
+    ],
+    "notes": "Operator caught what the gates missed. Engineering acceptance passed (frames/gates/chain/ledger) but creative QC never ran: vision_judge None everywhere. VLM audit: only cut 1 shows grandma+soul; cuts 2-6 are entirely different people in different scenes (lighthouse/coastal), wrong speakers throughout, triple-panel glitch at 0:05. KEEP verdict RETRACTED \u2014 engineering-complete, creative-failed. Scaling to 186 premises HALTED.",
     "experiment": "acceptance-grid56"
   }
 ]
