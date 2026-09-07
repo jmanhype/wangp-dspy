@@ -913,21 +913,32 @@ def production_ref2va_render(adapter, inp):
             f"settings document unreadable before host render: {e}") from e
     settings_doc_host = _map_settings_assets(host, settings_doc)
     settings_host = _host_path(host, str(settings_local))
+
+    # SshHost.write_text intentionally only pushes bytes; rsync does not
+    # create a missing destination directory.  Create the run directory
+    # through the host seam first, using idempotent ``mkdir -p`` semantics,
+    # so a fresh render and a concurrent retry cannot fail at the settings
+    # push boundary.
+    run_dir = settings_host.rsplit("/", 1)[0]
+    makedirs = getattr(host, "makedirs", None)
+    if callable(makedirs):
+        makedirs(run_dir)
+    else:
+        rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
+        if rc != 0:
+            raise WanGPError(
+                f"mkdir -p {run_dir!r} failed on the host "
+                f"(rc={rc}: {err.strip()[:200]})")
+
     writer = getattr(host, "write_text", None)
     if callable(writer):
         settings_host = writer(
             settings_host,
             json.dumps(settings_doc_host, indent=2, sort_keys=True) + "\n")
+    # ``write_text`` may return a normalized path; keep the directory used
+    # for the detached log aligned with that returned host path.
     run_dir = settings_host.rsplit("/", 1)[0]
     log_path = f"{run_dir}/render.log"
-
-    # mkdir -p the run dir BEFORE the wgp invocation (live smoke fix:
-    # the detached shell's `> <log>` redirect fails on a missing dir)
-    rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
-    if rc != 0:
-        raise WanGPError(
-            f"mkdir -p {run_dir!r} failed on the host "
-            f"(rc={rc}: {err.strip()[:200]})")
 
     # SSH-LIFETIME RENDERS (fix A): launch DETACHED (setsid nohup &)
     # so a dropped ssh channel can never kill or wedge the render;

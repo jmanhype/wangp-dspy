@@ -113,6 +113,51 @@ class TestCommandShape:
         # ONE pre-joined element
         assert len(host.calls[launch_idx]) == 1
 
+    def test_fresh_remote_directory_is_created_before_settings_push(
+            self, tmp_path):
+        """The SshHost contract must mkdir -p before rsync settings.
+
+        A real rsync destination rejects a missing parent; this fake models
+        that boundary and therefore catches a settings push that happens
+        before the host seam's idempotent directory creation.
+        """
+        class FreshDirHost(FakeHost):
+            def __init__(self):
+                super().__init__()
+                self.created = set()
+                self.pushed = False
+
+            def map_path(self, path):
+                return "/remote/wgp/acceptance/" + Path(path).name
+
+            def makedirs(self, path):
+                self.calls.append(["makedirs", path])
+                self.created.add(path)
+
+            def write_text(self, path, text):
+                parent = path.rsplit("/", 1)[0]
+                if parent not in self.created:
+                    raise RuntimeError("rsync destination parent missing")
+                self.calls.append(["write_text", path])
+                self.pushed = True
+                return path
+
+        host = FreshDirHost()
+        s = _settings(tmp_path, steps=20)
+        host.responses = {
+            "setsid": lambda h, a: (0, "launched\n", ""),
+            "cat": lambda h, a: (0, GOOD_LOG, ""),
+        }
+        production_ref2va_render(
+            _adapter(host, tmp_path), _Inp(s, tmp_path / "raw.mp4"))
+
+        mkdir_idx = next(i for i, c in enumerate(host.calls)
+                         if c[0] == "makedirs")
+        write_idx = next(i for i, c in enumerate(host.calls)
+                         if c[0] == "write_text")
+        assert mkdir_idx < write_idx
+        assert host.pushed is True
+
 
 class TestVerifyBeforeTrust:
     def test_complete_log_accepted(self):
