@@ -24,6 +24,7 @@ from predict.audio_dataplane import (
     AudioDataPlaneError, AudioGuideProvenance, AudioPolicy, Ref2VAAudioQC,
 )
 from qc.audio_critic.whisper_gate import WhisperGateError, run_whisper_gate
+from qc.audio_critic.vision_judge import VisionJudgeError, run_vision_judge
 
 __all__ = ["Ref2VAQCStageError", "plan_remux_command",
            "run_ref2va_qc_stage"]
@@ -112,7 +113,12 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                         intended_text: Optional[str] = None,
                         whisper_transcriber: Optional[Callable] = None,
                         whisper_pass_bar: float = 0.5,
-                        evidence_path: Optional[str] = None
+                        evidence_path: Optional[str] = None,
+                        video_path: Optional[str] = None,
+                        expected_speaker: Optional[str] = None,
+                        expected_action: Optional[str] = None,
+                        vision_judge: Optional[Callable] = None,
+                        vision_pass_bar: float = 0.7
                         ) -> Ref2VAAudioQC:
     """Ref2VA audio QC stage. Enforces G3/G4 first, then fills QC.
 
@@ -160,9 +166,25 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             raise Ref2VAQCStageError(str(exc)) from exc
         whisper_evidence = {"pre": pre.to_dict(), "post": post.to_dict()}
 
+    vision_requested = any(x is not None for x in (
+        video_path, expected_speaker, expected_action, vision_judge))
+    vision_evidence = None
+    if vision_requested:
+        if not video_path or not expected_speaker or not expected_action:
+            raise Ref2VAQCStageError(
+                "vision gate requires video_path, expected_speaker, and expected_action")
+        try:
+            vision_evidence = run_vision_judge(
+                video_path, expected_speaker=expected_speaker,
+                expected_action=expected_action, judge=vision_judge,
+                pass_bar=vision_pass_bar).to_dict()
+        except VisionJudgeError as exc:
+            raise Ref2VAQCStageError(str(exc)) from exc
+
     if judge is None:
         qc = Ref2VAAudioQC(critic_version=None,
-                           whisper_gates=whisper_evidence)
+                           whisper_gates=whisper_evidence,
+                           vision_judge=vision_evidence)
     else:
         scores = judge(settings_doc=settings_doc)
         unknown = [k for k in scores if k not in _SCORE_FIELDS]
@@ -172,14 +194,16 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 f"expected {list(_SCORE_FIELDS)}")
         try:
             qc = Ref2VAAudioQC(critic_version=critic_version,
-                               whisper_gates=whisper_evidence, **scores)
+                               whisper_gates=whisper_evidence,
+                               vision_judge=vision_evidence, **scores)
         except AudioDataPlaneError as e:
             raise Ref2VAQCStageError(f"judge scores out of range: {e}") from e
     if evidence_path:
         try:
             p = Path(evidence_path)
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(json.dumps({"whisper_gates": whisper_evidence},
+            p.write_text(json.dumps({"whisper_gates": whisper_evidence,
+                                     "vision_judge": vision_evidence},
                                     indent=2, sort_keys=True) + "\n")
         except OSError as exc:
             raise Ref2VAQCStageError(
