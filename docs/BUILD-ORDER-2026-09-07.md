@@ -36,7 +36,11 @@
 ## Polish
 12. #11 — integrated vision judge (right mouth / right action per cut)
 
-## ACCEPTANCE TEST (binary, operator-ratified):
-> Fresh clone at a recorded SHA; repo-only execution; six 2-second
-> cuts; render_for_job(); pre/post Whisper gates; chained last frames;
-> assembled output; complete run ledger.
+## ACCEPTANCE TEST (binary, operator-ratified; amended 2026-09-07):
+> Fresh clone at a recorded SHA; repo-only execution; six ~2.33-second
+> grid-aligned (56-frame, 5+17x3) cuts; render_for_job(); pre/post
+> Whisper gates; dialogue WAVs padded ~0.33s silence tail via repo
+> audio-prep; chained last frames; assembled output; complete run ledger.
+> (Amendment: original "six 2-second cuts" wording replaced — H3's latent
+> grid cannot produce exactly 48 frames; 45f/1.875s artifacts are REJECTED,
+> not waived. Ratified by operator 2026-09-07 with #28.)
