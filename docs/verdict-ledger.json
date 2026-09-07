@@ -50,7 +50,7 @@
       "triple-panel-glitch-cut2",
       "wrong-characters-entirely"
     ],
-    "notes": "Operator caught what the gates missed. Engineering acceptance passed (frames/gates/chain/ledger) but creative QC never ran: vision_judge None everywhere. VLM audit: only cut 1 shows grandma+soul; cuts 2-6 are entirely different people in different scenes (lighthouse/coastal), wrong speakers throughout, triple-panel glitch at 0:05. KEEP verdict RETRACTED \u2014 engineering-complete, creative-failed. Scaling to 186 premises HALTED.",
+    "notes": "Operator caught what the gates missed. Engineering acceptance passed (frames/gates/chain/ledger) but creative QC never ran: vision_judge None everywhere. VLM audit: only cut 1 shows grandma+soul; cuts 2-6 are entirely different people in different scenes (lighthouse/coastal), wrong speakers throughout, triple-panel glitch at 0:05. KEEP verdict RETRACTED \u2014 engineering-complete, creative-failed. Root cause #32 confirmed: the run explicitly used premise lf-001 (The Last Lighthouse; Mara/Ivo) while supplying a Devil's Grandma plate/audio bundle; no premise fallback occurred, and cross-artifact coherence was unenforced. Scaling to 186 premises HALTED.",
     "experiment": "acceptance-grid56"
   }
 ]
