@@ -148,7 +148,7 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
 
     whisper_requested = any(x is not None for x in (
         pre_audio_path, post_audio_path, intended_text,
-        whisper_transcriber, evidence_path))
+        whisper_transcriber))
     whisper_evidence = None
     if whisper_requested:
         if not pre_audio_path or not post_audio_path or not intended_text:
