@@ -148,7 +148,18 @@ class JobExecutor:
                         "executor — refusing to fall back to fl2va")
                     return
                 render_fn = self.ref2va_render
-            outcome = render_fn(clip)
+            try:
+                outcome = render_fn(clip)
+            except Exception as e:
+                # A renderer failure must become durable queue evidence.
+                # Letting it escape leaves the claimed job in ``rendering``
+                # with no failure class/detail; stale recovery can then
+                # requeue the same deterministic error indefinitely.
+                self._fail(
+                    job, "render_error",
+                    f"[lane={lane}] render failed for clip "
+                    f"{clip['clip_index']}: {type(e).__name__}: {e}")
+                return
             # verify-before-trust (ruling 5)
             if not verify_render_log(outcome.log_text):
                 self._fail(
