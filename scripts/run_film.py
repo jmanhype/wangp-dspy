@@ -159,7 +159,7 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
              durations=None, audio_paths=None, db_path=None,
              host=None, pre_render=None, lm=None, dry_run=False,
              run_ledger_path=None, dataset_run_path=None,
-             premise_id=None):
+             premise_id=None, continuation_mode=False):
     """Director entrypoint: script + plates -> clips (-> jobs -> drain).
 
     dry_run=True stops after plan_to_clips: emits the N job clips with
@@ -209,12 +209,33 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
             f"missing plate(s) in {plates_dir}: {missing} — expected "
             "anchor.* plus one plate per character")
     beats = _plan_with_lm(rows, characters, lm=lm)
-    clips = plan_to_clips(
-        beats, characters, plates, durations=durations,
-        audio_paths=audio_paths, whisper_map=whisper_map,
-        run_dir=(str(Path(db_path).resolve().parent) if db_path
-                 else str(Path(script_file).resolve().parent)
-                 if audio_paths is None else None))
+    if continuation_mode:
+        from services.chain.controller import (
+            build_chain_plan, emit_render_manifest,
+        )
+        if durations is None:
+            durations = [2.0] * len(beats)
+        if audio_paths is None:
+            raise RunFilmError(
+                "continuation_mode requires six existing single-speaker "
+                "audio_paths; VibeVoice generation is not available")
+        ordered_plates = [plates["anchor"]] + [
+            plates[c["name"]] for c in characters]
+        try:
+            chain = build_chain_plan(
+                beats, characters, durations, audio_paths=audio_paths,
+                continuation_mode=True)
+            clips = emit_render_manifest(chain, plate_paths=ordered_plates)
+        except Exception as exc:
+            raise RunFilmError(
+                f"strict continuation plan rejected: {exc}") from exc
+    else:
+        clips = plan_to_clips(
+            beats, characters, plates, durations=durations,
+            audio_paths=audio_paths, whisper_map=whisper_map,
+            run_dir=(str(Path(db_path).resolve().parent) if db_path
+                     else str(Path(script_file).resolve().parent)
+                     if audio_paths is None else None))
     if ledger_path is not None:
         write_run_ledger(
             ledger_path,
@@ -308,6 +329,8 @@ def main(argv=None):
                         "(z.ai GLM-5.3; needs ZAI_API_KEY)")
     p.add_argument("--dry-run", action="store_true",
                    help="emit the job clips; no queue, no host calls")
+    p.add_argument("--continuation", action="store_true",
+                   help="strict six-cut Ref2VA continuation (requires turn wavs)")
     args = p.parse_args(argv)
 
     characters = []
@@ -324,7 +347,8 @@ def main(argv=None):
                      whisper_map=args.whisper_map,
                      lm=build_lm(args.lm),
                      db_path=None if args.dry_run else args.db,
-                     dry_run=args.dry_run)
+                     dry_run=args.dry_run,
+                     continuation_mode=args.continuation)
     print(json.dumps(
         {"clips": len(clips), "dry_run": args.dry_run}, indent=2))
     for c in clips:

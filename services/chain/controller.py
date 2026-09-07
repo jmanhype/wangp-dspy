@@ -325,6 +325,9 @@ def _continuation_config(
         "clip_index": clip.index,
         "kind": "ref2va_render",
         "model_type": "minimax_h3_ref2va_pruned",
+        "speaker": next(c.name for c in plan.characters
+                         if c.sn_tag == clip.speaker_sn),
+        "speaker_sn": clip.speaker_sn,
         "prompt": f"{plan.global_prompt} {speaker_prompt}",
         "image_start": image_start,
         "image_refs": image_refs,
