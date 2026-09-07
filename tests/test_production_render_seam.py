@@ -5,6 +5,7 @@ The real seam gets exercised by the operator's vertical slice.
 """
 import json
 import shlex
+import time
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,7 @@ from host.wangp_adapter import (
     WanGPAdapter,
     WanGPError,
     build_wgp_lock_argv,
+    copy_newest_output_mp4,
     newest_output_mp4,
     production_ref2va_render,
     verify_denoise_steps,
@@ -39,6 +41,8 @@ class FakeHost:
             return rc, out, err
         if argv[:2] == ["ls", "-t"]:
             return 0, self.outputs + "\n", ""
+        if argv[:1] == ["stat"]:
+            return 0, f"{time.time()}\n", ""
         return 0, "", ""
 
 
@@ -277,6 +281,53 @@ class TestCopyAndMux:
 
 
 class TestNewestOutput:
+    def test_discovery_ignores_prompt_text_and_requires_real_file(
+            self, tmp_path):
+        host = FakeHost(outputs="... as something.mp4\n"
+                        "multishot_1788810830.mp4")
+        found = newest_output_mp4(
+            host, "/home/straughter/Wan2GP/outputs",
+            newer_than=time.time() - 1)
+        assert found.endswith("multishot_1788810830.mp4")
+        assert not found.endswith("something.mp4")
+
+    def test_discovery_rejects_stale_output_by_host_mtime(self):
+        class MtimeHost(FakeHost):
+            def run_probe(self, argv, timeout=30):
+                if argv[:1] == ["stat"]:
+                    return (0, "1\n" if argv[-1].endswith("old.mp4")
+                            else "9999999999\n", "")
+                return super().run_probe(argv, timeout=timeout)
+
+        host = MtimeHost(outputs="old.mp4\nfresh.mp4")
+        assert newest_output_mp4(
+            host, "/w/outputs", newer_than=100.0).endswith("fresh.mp4")
+
+    def test_copy_revalidates_when_selected_output_changes(self):
+        class RacingHost(FakeHost):
+            def __init__(self):
+                super().__init__(outputs="first.mp4")
+                self.lists = 0
+                self.copies = []
+
+            def run_probe(self, argv, timeout=30):
+                if argv[:2] == ["ls", "-t"]:
+                    self.lists += 1
+                    return (0, "first.mp4\n" if self.lists == 1
+                            else "second.mp4\n", "")
+                if argv[:1] == ["cp"]:
+                    self.copies.append(argv[1])
+                    return (1, "", "first output raced away") \
+                        if len(self.copies) == 1 else (0, "", "")
+                return super().run_probe(argv, timeout=timeout)
+
+        host = RacingHost()
+        source = copy_newest_output_mp4(
+            host, "/w/outputs", "/w/render/raw.mp4")
+        assert source.endswith("second.mp4")
+        assert host.copies == ["/w/outputs/first.mp4",
+                               "/w/outputs/second.mp4"]
+
     def test_no_mp4_is_typed_failure(self):
         host = FakeHost(outputs="notes.txt")
         with pytest.raises(WanGPError, match="no .mp4 outputs"):
