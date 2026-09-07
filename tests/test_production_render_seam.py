@@ -84,6 +84,18 @@ def test_chain_pull_asset_falls_back_to_host_path_mapping(tmp_path):
         "/remote/wgp/acceptance/chain.png"
 
 
+def test_ref2va_render_dir_skips_existing_dirs_after_worker_restart(
+        tmp_path, monkeypatch):
+    """A fresh worker process must not reset to render-0000 and overwrite
+    an earlier cut's pulled artifact/provenance bundle."""
+    import host.wangp_adapter as adapter_module
+    from host.wangp_adapter import _next_render_dir
+
+    (tmp_path / "render-0000").mkdir()
+    monkeypatch.setattr(adapter_module, "_RENDER_SEQ", [0])
+    assert _next_render_dir(tmp_path).name == "render-0001"
+
+
 GOOD_LOG = ("loading model\nDenoising 20/20\nsaved\n"
             "Queue completed: 1/1 tasks in 1s\n")
 

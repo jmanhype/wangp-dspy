@@ -1152,6 +1152,15 @@ def production_ref2va_render(adapter, inp):
     return _P(inp.raw_render_path)
 
 
+def _next_render_dir(root):
+    """Allocate a collision-free render directory across worker restarts."""
+    render_index = _RENDER_SEQ[0]
+    while (root / f"render-{render_index:04d}").exists():
+        render_index += 1
+    _RENDER_SEQ[0] = render_index + 1
+    return root / f"render-{render_index:04d}"
+
+
 def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
                     raw_render_path=None, audio_source_path=None,
                     remux_output_path=None, settings_path=None,
@@ -1172,14 +1181,8 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     root = _P(os.path.abspath(str(root)))
     # The worker may be relaunched between jobs.  A process-local sequence
     # alone would reset to render-0000 and overwrite a prior cut's pulled
-    # artifact, corrupting its durable provenance.  Allocate the first
-    # unused directory in the local pull namespace, then keep the sequence
-    # monotonic for the lifetime of this process.
-    render_index = _RENDER_SEQ[0]
-    while (root / f"render-{render_index:04d}").exists():
-        render_index += 1
-    render_dir = root / f"render-{render_index:04d}"
-    _RENDER_SEQ[0] = render_index + 1
+    # artifact, corrupting its durable provenance.
+    render_dir = _next_render_dir(root)
     render_dir.mkdir(parents=True, exist_ok=True)
 
     def _default_render(inp):
