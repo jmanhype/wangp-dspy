@@ -8,6 +8,7 @@ status-only fields. Relaunch skips clips already `done`.
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import sqlite3
 import time
@@ -38,6 +39,16 @@ from services.jobs.states import ALLOWED_TRANSITIONS, InvalidTransition
 
 class JobNotFoundError(KeyError):
     """No job with that id in the queue."""
+
+
+class JobRetryError(ValueError):
+    """A failed job is not eligible for another attempt."""
+
+
+def failure_signature(failure_class: str, failure_detail: str) -> str:
+    """Stable, content-addressed identity for one failure outcome."""
+    raw = f"{failure_class}\n{failure_detail}".encode("utf-8", "replace")
+    return hashlib.sha256(raw).hexdigest()
 
 
 # ── dependency admissibility ─────────────────────────────────────────
@@ -81,6 +92,7 @@ class JobRecord:
     failure_count: int = 0
     failure_class: Optional[str] = None
     failure_detail: Optional[str] = None
+    retryable: bool = True
     created_at: float = field(default_factory=time.time)
 
     def to_json(self) -> Dict:
@@ -90,6 +102,7 @@ class JobRecord:
             "failure_count": self.failure_count,
             "failure_class": self.failure_class,
             "failure_detail": self.failure_detail,
+            "retryable": self.retryable,
             "created_at": self.created_at,
         }
 
@@ -155,6 +168,35 @@ class JobQueue:
         if "last_heartbeat" not in cols:
             self._db.execute(
                 "ALTER TABLE jobs ADD COLUMN last_heartbeat REAL")
+        if "retryable" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN retryable INTEGER NOT NULL "
+                "DEFAULT 1")
+        # Attempts and failures are append-only.  A retry creates a new
+        # attempt row pointing at its predecessor; its eventual failure is
+        # another immutable row, rather than an update of the old failure.
+        self._db.execute(
+            "CREATE TABLE IF NOT EXISTS job_attempts ("
+            " attempt_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            " job_id TEXT NOT NULL,"
+            " attempt_no INTEGER NOT NULL,"
+            " parent_attempt_id INTEGER,"
+            " status TEXT NOT NULL,"
+            " created_at REAL NOT NULL)")
+        self._db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_job_attempts_job "
+            "ON job_attempts(job_id, attempt_no)")
+        self._db.execute(
+            "CREATE TABLE IF NOT EXISTS job_attempt_failures ("
+            " failure_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            " attempt_id INTEGER NOT NULL,"
+            " failure_class TEXT NOT NULL,"
+            " failure_detail TEXT NOT NULL,"
+            " failure_signature TEXT NOT NULL,"
+            " created_at REAL NOT NULL)")
+        self._db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_attempt_failures_attempt "
+            "ON job_attempt_failures(attempt_id)")
 
     # -- lifecycle --------------------------------------------------
     def close(self) -> None:
@@ -267,7 +309,9 @@ class JobQueue:
             failure_count=row["failure_count"],
             failure_class=row["failure_class"],
             failure_detail=row["failure_detail"],
-            created_at=row["created_at"])
+            created_at=row["created_at"],
+            retryable=bool(row["retryable"]) if "retryable" in row.keys()
+            else True)
 
     def next_pending(self) -> Optional[str]:
         row = self._db.execute(
@@ -334,6 +378,159 @@ class JobQueue:
         return (rec.failure_class is not None
                 and rec.failure_count >= max_failures)
 
+    # -- append-only attempt history / failed-job retry ---------------
+    def _latest_attempt(self, job_id: str):
+        return self._db.execute(
+            "SELECT * FROM job_attempts WHERE job_id=? "
+            "ORDER BY attempt_no DESC, attempt_id DESC LIMIT 1",
+            (job_id,)).fetchone()
 
-__all__ = ["JobQueue", "JobRecord", "JobNotFoundError", "next_admissible",
-           "is_job_admissible", "job_needs"]
+    def _attempt_failure(self, attempt_id: int):
+        return self._db.execute(
+            "SELECT * FROM job_attempt_failures WHERE attempt_id=? "
+            "ORDER BY failure_id DESC LIMIT 1", (attempt_id,)).fetchone()
+
+    def _ensure_legacy_attempt(self, job_id: str):
+        """Materialize pre-migration jobs.failure_* into immutable history."""
+        latest = self._latest_attempt(job_id)
+        if latest is not None:
+            return latest
+        rec = self.get(job_id)
+        if not rec.failure_class or rec.failure_detail is None:
+            return None
+        now = time.time()
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,created_at) VALUES (?,?,?,?,?)",
+            (job_id, 1, None, "failed", now))
+        attempt_id = cur.lastrowid
+        self._db.execute(
+            "INSERT INTO job_attempt_failures(attempt_id,failure_class,"
+            "failure_detail,failure_signature,created_at) VALUES (?,?,?,?,?)",
+            (attempt_id, rec.failure_class, rec.failure_detail,
+             failure_signature(rec.failure_class, rec.failure_detail), now))
+        self._db.commit()
+        return self._latest_attempt(job_id)
+
+    def requeue_failed(self, job_id: str) -> int:
+        """Queue a new immutable attempt for a failed job.
+
+        The previous attempt/failure is never edited.  A deterministic
+        repeat of that failure on this new attempt disables further retry,
+        preventing an infinite drain loop.
+        """
+        rec = self.get(job_id)
+        if rec.state != "failed":
+            raise JobRetryError(
+                f"job {job_id} is {rec.state!r}, not retryable failed")
+        if not rec.retryable:
+            raise JobRetryError(
+                f"job {job_id} has repeated its failure signature; "
+                "retry disabled")
+        latest = self._ensure_legacy_attempt(job_id)
+        if latest is None or self._attempt_failure(latest["attempt_id"]) is None:
+            raise JobRetryError(
+                f"job {job_id} has no recorded failure attempt")
+        now = time.time()
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,created_at) VALUES (?,?,?,?,?)",
+            (job_id, int(latest["attempt_no"]) + 1,
+             latest["attempt_id"], "queued", now))
+        attempt_id = int(cur.lastrowid)
+        # The transition is deliberately after the append: if it fails,
+        # no old evidence was mutated and the new row remains auditable.
+        self.set_state(job_id, "pending")
+        self.clear_ownership(job_id)
+        return attempt_id
+
+    def requeue_failed_jobs(self) -> List[str]:
+        """Requeue every eligible failed job, skipping retry-disabled ones."""
+        retried: List[str] = []
+        for jid in list(self.list_state("failed")):
+            try:
+                self.requeue_failed(jid)
+            except JobRetryError:
+                continue
+            retried.append(jid)
+        return retried
+
+    def record_attempt_failure(self, job_id: str, *, failure_class: str,
+                               failure_detail: str) -> bool:
+        """Append a failure outcome and return True for a repeated retry.
+
+        The executor calls this after updating the job's current summary.
+        A fresh job gets attempt 1; a requeued job already has an immutable
+        ``queued`` attempt.  Neither row is ever updated.
+        """
+        latest = self._latest_attempt(job_id)
+        if latest is None:
+            now = time.time()
+            cur = self._db.execute(
+                "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+                "status,created_at) VALUES (?,?,?,?,?)",
+                (job_id, 1, None, "allocated", now))
+            latest = self._db.execute(
+                "SELECT * FROM job_attempts WHERE attempt_id=?",
+                (cur.lastrowid,)).fetchone()
+        # Legacy callers may still take failed -> preflight directly.  Do
+        # not overwrite that attempt: allocate a fresh immutable attempt so
+        # the same-signature guard remains effective for those callers too.
+        if self._attempt_failure(latest["attempt_id"]) is not None:
+            now = time.time()
+            cur = self._db.execute(
+                "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+                "status,created_at) VALUES (?,?,?,?,?)",
+                (job_id, int(latest["attempt_no"]) + 1,
+                 latest["attempt_id"], "allocated", now))
+            latest = self._db.execute(
+                "SELECT * FROM job_attempts WHERE attempt_id=?",
+                (cur.lastrowid,)).fetchone()
+        sig = failure_signature(failure_class, failure_detail)
+        parent_failure = None
+        if latest["parent_attempt_id"] is not None:
+            parent_failure = self._attempt_failure(
+                latest["parent_attempt_id"])
+        repeated = bool(parent_failure and
+                        parent_failure["failure_signature"] == sig)
+        now = time.time()
+        self._db.execute(
+            "INSERT INTO job_attempt_failures(attempt_id,failure_class,"
+            "failure_detail,failure_signature,created_at) VALUES (?,?,?,?,?)",
+            (latest["attempt_id"], failure_class, failure_detail, sig, now))
+        if repeated:
+            self._db.execute(
+                "UPDATE jobs SET retryable=0 WHERE job_id=?", (job_id,))
+        self._db.commit()
+        return repeated
+
+    def attempt_history(self, job_id: str) -> List[Dict]:
+        """Return immutable attempts with their optional failure evidence."""
+        self.get(job_id)  # preserve normal not-found behavior
+        rows = self._db.execute(
+            "SELECT * FROM job_attempts WHERE job_id=? ORDER BY attempt_no",
+            (job_id,)).fetchall()
+        history: List[Dict] = []
+        for row in rows:
+            failure = self._attempt_failure(row["attempt_id"])
+            history.append({
+                "attempt_id": row["attempt_id"],
+                "job_id": row["job_id"],
+                "attempt_no": row["attempt_no"],
+                "parent_attempt_id": row["parent_attempt_id"],
+                "status": "failed" if failure is not None
+                else row["status"],
+                "created_at": row["created_at"],
+                "failure_class": failure["failure_class"]
+                if failure is not None else None,
+                "failure_detail": failure["failure_detail"]
+                if failure is not None else None,
+                "failure_signature": failure["failure_signature"]
+                if failure is not None else None,
+            })
+        return history
+
+
+__all__ = ["JobQueue", "JobRecord", "JobNotFoundError", "JobRetryError",
+           "failure_signature", "next_admissible", "is_job_admissible",
+           "job_needs"]
