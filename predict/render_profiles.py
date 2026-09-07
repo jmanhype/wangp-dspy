@@ -14,7 +14,11 @@ import os
 import re
 from typing import List, Optional, Sequence
 
-from predict.job_config import SCRIPT_SEPARATOR, WanGPJobConfig
+from predict.job_config import (
+    CONTINUATION_FRAMES_MIN,
+    SCRIPT_SEPARATOR,
+    WanGPJobConfig,
+)
 from predict.prompt_director import RenderBrief
 from predict.profile_selector import ProfileDecision
 
@@ -30,6 +34,7 @@ from host.wangp_adapter import REF2VA_MODEL_TYPE  # noqa: E402
 # 2.333 — and a 4.0 floor rejected it. Floor at 2.33 (below any 3dp
 # rounding of 56/24) so the minimum WanGP-legal shot passes.
 REF2VA_MIN_SHOT_S = 2.33
+REF2VA_CONTINUATION_MIN_SHOT_S = 2.0
 REF2VA_MAX_SHOT_S = 15.0
 
 
@@ -110,6 +115,7 @@ class Ref2VAProfile(RenderProfile):
                        speaker_prompt: Optional[str] = None,
                        seed: Optional[int] = None,
                        audio_length_frames: Optional[int] = None,
+                       continuation: bool = False,
                        **kw) -> dict:
         # image refs: present + readable
         if not image_refs:
@@ -131,12 +137,16 @@ class Ref2VAProfile(RenderProfile):
                 f"Ref2VA guide duration {guide_duration_s}s != shot "
                 f"duration {shot_duration_s}s — must match EXACTLY "
                 "(G2 guide-alignment; both durations named)")
-        # 4-15s cap
-        if not (REF2VA_MIN_SHOT_S <= float(shot_duration_s)
+        # The ordinary Ref2VA profile keeps the proven 2.33s floor.  The
+        # continuation recipe is a separate, exact 48f/2s profile.
+        min_shot_s = (REF2VA_CONTINUATION_MIN_SHOT_S
+                      if continuation else REF2VA_MIN_SHOT_S)
+        # 2-15s cap for continuation; 2.33-15s for ordinary Ref2VA.
+        if not (min_shot_s <= float(shot_duration_s)
                 <= REF2VA_MAX_SHOT_S):
             raise ProfileError(
                 f"Ref2VA shot duration {shot_duration_s}s outside the "
-                f"4-15s cap ({REF2VA_MIN_SHOT_S}-{REF2VA_MAX_SHOT_S}s)")
+                f"{min_shot_s}-{REF2VA_MAX_SHOT_S}s cap")
         # WD-a1d9: audio data plane — audio_guide readable at submit
         # (same treatment as image_refs), provenance required+typed,
         # policy default-constructed (discard=True, source_master).
@@ -224,6 +234,17 @@ class Ref2VAProfile(RenderProfile):
         #     rides the multishot 5+17k grid for the multishot lane's
         #     own use and is never the Ref2VA authority.
         video_length = int(round(shot_duration_s * self.FPS))
+        if continuation:
+            if video_length != CONTINUATION_FRAMES_MIN:
+                raise ProfileError(
+                    "Ref2VA continuation is pinned to exactly "
+                    f"{CONTINUATION_FRAMES_MIN} frames (2.0s @ 24fps); "
+                    f"got {video_length}f from {shot_duration_s}s")
+            requested_frames = video_length
+            effective_video_length = video_length
+        else:
+            requested_frames = video_length
+            effective_video_length = None
         # NIGHT TWO / frames handling for sub-4s shots: WanGP SNAPS the
         # requested frames onto its own grid regardless of what we emit
         # (live: 56 requested -> 107 rendered on the multishot grid).
@@ -232,8 +253,10 @@ class Ref2VAProfile(RenderProfile):
         # real output duration; the caller's raw request is preserved
         # verbatim in `requested_frames` for audit/budgeting.
         from predict.job_config import normalize_frame_count
-        requested_frames = video_length
-        video_length = normalize_frame_count(video_length)
+        if effective_video_length is None:
+            video_length = normalize_frame_count(video_length)
+        else:
+            video_length = effective_video_length
         # audio-length == frame-count invariant: when the caller
         # passes the actual (padded) audio-guide frame length, it
         # MUST equal round(shot_duration_s*24) — a mismatch means the
@@ -278,9 +301,12 @@ class Ref2VAProfile(RenderProfile):
                 f"{b.subject}. {b.motion}." for b in briefs),
             prompt=prompt_text,
             width=480, height=832,
-            frames_per_shot=max(video_length, 96),
+            frames_per_shot=(video_length if continuation
+                             else max(video_length, 96)),
             force_fps="24",
             seed=effective_seed,
+            snap_frames=not continuation,
+            frames_floor=(CONTINUATION_FRAMES_MIN if continuation else 56),
         )
         # WD-l5bx review strong-rec: image_refs/audio_prompt_type ride
         # INSIDE the settings build (``extra``) and rule 4 (flat JSON)

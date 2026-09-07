@@ -34,6 +34,7 @@ SEED_POLICIES: FrozenSet[str] = frozenset(
 # here for the existing import surface; profile_selector adds NO
 # independent numeric bound.
 from predict.job_config import (  # noqa: F401
+    CONTINUATION_FRAMES_MIN,
     H3_FRAMES_MIN, H3_FRAMES_OFFSET, H3_FRAMES_STEP,
     SHOT_LENGTH_FLOOR_FRAMES,
 )
@@ -52,6 +53,11 @@ class ProfileDecision:
     shot_length_frames: int
     seed_policy: str
     wangp_profile: str
+    # Continuation is an explicit Ref2Va policy, not a generic H3 shot.
+    # Keeping it on the typed decision lets DSPy planning carry the
+    # distinction through to settings construction without smuggling a
+    # magic frame count in an untyped dict.
+    continuation: bool = False
 
     def __post_init__(self) -> None:
         if self.model not in MODELS:
@@ -64,10 +70,12 @@ class ProfileDecision:
         if (not isinstance(self.shot_length_frames, int)
                 or isinstance(self.shot_length_frames, bool)):
             raise ValueError("shot_length_frames must be an int")
-        if self.shot_length_frames < SHOT_LENGTH_FLOOR_FRAMES:
+        floor = (CONTINUATION_FRAMES_MIN
+                 if self.continuation else SHOT_LENGTH_FLOOR_FRAMES)
+        if self.shot_length_frames < floor:
             raise ValueError(
                 f"shot length {self.shot_length_frames}f is below the "
-                f"HARD FLOOR of {SHOT_LENGTH_FLOOR_FRAMES}f "
+                f"HARD FLOOR of {floor}f "
                 "(WanGP handler frames_minimum: 56)")
         if self.seed_policy not in SEED_POLICIES:
             raise ValueError(
@@ -113,4 +121,5 @@ def _parse_decision(raw: str) -> ProfileDecision:
         shot_length_frames=int(doc["shot_length_frames"]),
         seed_policy=str(doc["seed_policy"]),
         wangp_profile=str(doc["wangp_profile"]),
+        continuation=bool(doc.get("continuation", False)),
     )

@@ -20,7 +20,7 @@ Zero-model: deterministic validation only.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from typing import List, Optional
 
 SCRIPT_SEPARATOR = "\n---\n"
@@ -31,6 +31,10 @@ SCRIPT_SEPARATOR = "\n---\n"
 # 96f value was a SAFETY choice, not a model limit — it blocked
 # legitimate 2s-class cuts.
 SHOT_LENGTH_FLOOR_FRAMES = 56     # WanGP handler minimum (Selector layer)
+# Ref2VA's per-cut continuation task is a distinct handler path.  Its
+# validated recipe is exactly 48 frames (2 seconds @ 24fps); it must not be
+# silently promoted to the multishot grid.
+CONTINUATION_FRAMES_MIN = 48
 H3_FRAMES_MIN = 107               # measured H3 grid minimum (5+17k)
 H3_FRAMES_STEP = 17
 H3_FRAMES_OFFSET = 5
@@ -74,17 +78,22 @@ class WanGPJobConfig:
     embedded_guidance_scale: float = 6.0
     force_fps: str = "24"
     seed: int = 42
+    # Explicit policy knobs are kept out of persisted settings.  The
+    # generic H3 lane retains the 56f floor + 5+17k snap; the continuation
+    # lane opts into the validated 48f exact profile.
+    snap_frames: bool = field(default=True, repr=False, compare=False)
+    frames_floor: int = field(default=SHOT_LENGTH_FLOOR_FRAMES,
+                               repr=False, compare=False)
 
     def __post_init__(self) -> None:
         # construction IS validation (adapter-assert parity: the old
         # inline checks raised at build_settings time)
         validate_job_config(self)
-        # rule 3 applied HERE: the config's frames_per_shot is the
-        # EFFECTIVE (snapped) count H3 renders — callers pass the raw
-        # request and get back the grid value (sole-authority rule 3;
-        # validation passes 56..106 and snaps, per the rule-3 note).
-        object.__setattr__(self, "frames_per_shot",
-                           normalize_frame_count(self.frames_per_shot))
+        # rule 3 applied HERE for the generic H3 lane.  Continuation jobs
+        # deliberately opt out because their Ref2Va recipe pins 48f.
+        if self.snap_frames:
+            object.__setattr__(self, "frames_per_shot",
+                               normalize_frame_count(self.frames_per_shot))
 
     def to_settings_doc(self, *, flat: bool = True,
                         extra: Optional[dict] = None) -> dict:
@@ -100,6 +109,9 @@ class WanGPJobConfig:
         reader consumes a list of image paths), not a violation.
         """
         doc = dict(asdict(self))
+        # Internal validation policy is not part of the wgp settings schema.
+        doc.pop("snap_frames", None)
+        doc.pop("frames_floor", None)
         if extra:
             doc.update(extra)
         if not flat:
@@ -132,10 +144,14 @@ def validate_job_config(cfg: WanGPJobConfig, *,
         raise JobConfigError(
             "frames_per_shot must be an int (below the HARD floor "
             "it is a typed rejection)")
-    if cfg.frames_per_shot < SHOT_LENGTH_FLOOR_FRAMES:
+    if isinstance(cfg.frames_floor, bool) or not isinstance(
+            cfg.frames_floor, int) or cfg.frames_floor <= 0:
+        raise JobConfigError(
+            f"frames_floor must be a positive int, got {cfg.frames_floor!r}")
+    if cfg.frames_per_shot < cfg.frames_floor:
         raise JobConfigError(
             f"frames_per_shot {cfg.frames_per_shot}f is below the HARD "
-            f"floor of {SHOT_LENGTH_FLOOR_FRAMES}f (WanGP handler "
+            f"floor of {cfg.frames_floor}f (WanGP handler "
             f"frames_minimum; the "
             f"H3 minimum floor is {H3_FRAMES_MIN}f)")
     # rule 3: grid snap (single authority — normalize_frame_count)
