@@ -1,6 +1,6 @@
 # Finding #32 — premise/content coherence was not enforced
 
-**Status:** Confirmed 2026-09-07
+**Status:** Confirmed and guarded at plan/submit 2026-09-07
 
 ## Symptom
 
@@ -45,9 +45,10 @@ resolved and propagated unchanged.
 4. `_continuation_config` combines that global prompt with the Picture-N
    speaker prompt and emits the per-job manifest; `emit_render_manifest` does
    not add a premise/media coherence check.
-5. `DirectorRun.submit` persists the clips without a `premise_id` on each job,
-   so the queue cannot independently verify that its audio, plate, speaker
-   manifest, and prompt belong to the same premise.
+5. Before this finding was closed, `DirectorRun.submit` persisted the clips
+   without a `premise_id` on each job, so the queue could not independently
+   verify that its audio, plate, speaker manifest, and prompt belonged to the
+   same premise.
 
 ## Root cause
 
@@ -57,19 +58,34 @@ schemas pass, so the render and Whisper gates can succeed while the film is
 creatively about the wrong characters. The defect is a missing cross-artifact
 coherence invariant, not a default-premise fallback.
 
-## Minimal closing PR
+## Closing PR (implemented)
 
-Add a typed run/media contract that:
+`DirectorRun.plan` now requires a typed-by-schema `media_manifest` with this
+shape:
+
+```json
+{
+  "premise_id": "<resolved premise id>",
+  "plates": {"anchor": "...", "<character name>": "..."},
+  "audio": [{"path": "...", "speaker": "<character name or SN>"}]
+}
+```
+
+The guard:
 
 - persists `premise_id` and a canonical character/speaker roster in every run
   and clip manifest;
 - requires each script speaker, Picture-N/speaker-manifest ID, plate role, and
-  audio turn identity to resolve to that roster (or requires an explicit,
-  auditable alternate-media declaration);
+  audio turn identity to resolve to that roster;
 - rejects a mismatched bundle at plan/submit time before a queue job is
   emitted; and
 - adds a regression fixture reproducing the `lf-001` + Devil's Grandma mix and
   asserting fail-closed planning.
+
+`DirectorRun.submit` rechecks the premise/media binding on every clip and
+persists it into the queued job. The guard cannot infer the identity of pixels
+or waveform content from bytes alone; the explicit manifest is therefore the
+auditable source of media identity.
 
 ## Re-audit note
 
