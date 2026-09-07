@@ -137,7 +137,8 @@ def dry_run_report(queue) -> dict:
 
 # ── executor wiring ──────────────────────────────────────────────────
 
-def build_executor(queue, host=None, pre_render=None):
+def build_executor(queue, host=None, pre_render=None,
+                   whisper_transcriber=None, vision_judge=None):
     """Wire JobExecutor with the production render seams (no dry-run
     guard on the jobs path — see module docstring)."""
     from services.jobs.executor import JobExecutor, RenderOutcome
@@ -189,11 +190,33 @@ def build_executor(queue, host=None, pre_render=None):
     def ref2va_render(clip):
         return render(clip)
 
+    def qc(clip):
+        # Legacy FL2VA jobs retain their existing QC callback.  Ref2VA
+        # continuation jobs must pass the repo-owned audio stage: both
+        # pre/post Whisper gates are required, and optional visual judging is
+        # bound to the same cut artifact.
+        if clip.get("kind") != "ref2va_render":
+            return True, f"qc/{clip['clip_index']}.json"
+        from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
+        evidence_path = clip.get("qc_evidence_path")
+        qc_result = run_ref2va_qc_stage(
+            dict(clip), judge=None,
+            pre_audio_path=clip.get("audio_guide"),
+            post_audio_path=clip.get("mp4"),
+            intended_text=clip.get("dialogue_text") or clip.get("prompt"),
+            whisper_transcriber=whisper_transcriber,
+            evidence_path=evidence_path,
+            video_path=(clip.get("mp4") if vision_judge is not None else None),
+            expected_speaker=(clip.get("speaker_sn") if vision_judge is not None else None),
+            expected_action=(clip.get("action") or clip.get("motion")
+                             if vision_judge is not None else None),
+            vision_judge=vision_judge)
+        return True, qc_result.to_dict()
+
     return JobExecutor(queue=queue, preflight=preflight,
                        render=render, ref2va_render=ref2va_render,
                        pre_render=pre_render,
-                       qc=lambda clip: (True, f"qc/{clip['clip_index']}"
-                                        ".json"))
+                       qc=qc)
 
 
 def _read_host_log(host, log_path: str) -> str:

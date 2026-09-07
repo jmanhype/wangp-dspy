@@ -196,6 +196,32 @@ class TestRenderForJobWiring:
         with pytest.raises(TypeError, match="render_for_job"):
             run_jobs.build_executor(queue=None, host=object())
 
+    def test_ref2va_qc_wiring_runs_pre_and_post_whisper(self, tmp_path):
+        import scripts.run_jobs as run_jobs
+        guide = Path(tmp_path) / "guide.wav"
+        guide.write_bytes(b"wav")
+        source = Path(tmp_path) / "source.wav"
+        source.write_bytes(b"wav")
+        wmap = Path(tmp_path) / "whisper.json"
+        wmap.write_text("{}")
+        clip = {
+            "clip_index": 1, "kind": "ref2va_render",
+            "audio_guide": str(guide), "mp4": str(Path(tmp_path) / "cut.mp4"),
+            "dialogue_text": "The gate is open",
+            "audio_provenance": {
+                "source_master": str(source), "vocal_stem": str(source),
+                "whisper_map": str(wmap), "keeper_window_s": [0.0, 2.0],
+            },
+            "audio_policy": {"discard_rendered_audio": True},
+        }
+        ex = run_jobs.build_executor(
+            queue=None, host=FakeHost(),
+            whisper_transcriber=lambda _: "The gate is open")
+        ok, evidence = ex.qc(clip)
+        assert ok is True
+        assert evidence["whisper_gates"]["pre"]["passed"] is True
+        assert evidence["whisper_gates"]["post"]["phase"] == "post"
+
 
 class TestDryRunAndOnce:
     def test_dry_run_no_host_calls_no_state_mutation(self, tmp_path, capsys):

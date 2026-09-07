@@ -329,6 +329,8 @@ def _continuation_config(
         "speaker": next(c.name for c in plan.characters
                          if c.sn_tag == clip.speaker_sn),
         "speaker_sn": clip.speaker_sn,
+        "dialogue_text": clip.shot_prompt.partition("speaks: ")[2],
+        "action": "subtle natural listening and speaking motion",
         "prompt": f"{plan.global_prompt} {speaker_prompt}",
         "image_start": image_start,
         "image_refs": image_refs,
