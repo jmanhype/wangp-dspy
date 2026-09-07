@@ -5,7 +5,7 @@ Proves: signatures/director.py exposes the three pass contracts with
 the legacy strict-JSON descriptors carried verbatim; ShortFilmPlanner
 is a dspy.Module with named submodules (GEPA-targetable); the
 injected-callable constructor still works unchanged; and the DSPy
-path (dspy.utils.DummyLM) produces an IDENTICAL ProductionPlan from
+path (DummyLM) produces an IDENTICAL ProductionPlan from
 the same scripted responses (golden behavior).
 """
 from __future__ import annotations
@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 
 import dspy
+from dspy.utils import DummyLM  # test-debt: attr access broken by lazy dspy.utils
 import pytest
 
 from services.director.schema import CharacterProfile, ProductionPlan
@@ -185,7 +186,7 @@ def _dspy_planner():
 
 
 def test_dspy_path_runs_under_settings_lm(tmp_path):
-    lm = dspy.utils.DummyLM([
+    lm = DummyLM([
         {"beats": PASS1_JSON},
         {"shots": PASS2_JSON},
         {"notes": PASS3_JSON},
@@ -200,7 +201,7 @@ def test_dspy_path_runs_under_settings_lm(tmp_path):
 
 
 def test_dspy_path_planner_error_on_bad_json(tmp_path):
-    lm = dspy.utils.DummyLM([
+    lm = DummyLM([
         {"beats": "not json at all"},
     ])
     with dspy.context(lm=lm):
@@ -215,7 +216,7 @@ def test_dspy_path_pass2_grid_error(tmp_path):
         "start_image_ref": "PLATE",
         "audio_guide_ref": {"path": "GUIDE", "duration_s": 5.0},
         "duration_s": 5.0, "section": "act1"}]})
-    lm = dspy.utils.DummyLM([
+    lm = DummyLM([
         {"beats": PASS1_JSON}, {"shots": bad}, {"notes": PASS3_JSON},
     ])
     from services.director.renderers.h3_ref2va import GridError
@@ -232,7 +233,7 @@ def test_golden_identical_plan_before_after_refactor(tmp_path):
     ProductionPlans (which also equal the pre-refactor construction —
     trusted local mappings, not LLM paths, resolve refs)."""
     legacy_plan = ShortFilmPlanner(llm=FakeLLM()).plan(**_plan_kwargs(tmp_path))
-    lm = dspy.utils.DummyLM([
+    lm = DummyLM([
         {"beats": PASS1_JSON}, {"shots": PASS2_JSON},
         {"notes": PASS3_JSON},
     ])

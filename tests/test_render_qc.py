@@ -13,6 +13,7 @@
 import json
 
 import dspy
+from dspy.utils import DummyLM  # test-debt: attr access broken by lazy dspy.utils
 import pytest
 
 from predict.prompt_director import RenderBrief
@@ -43,8 +44,8 @@ def _crit(**over):
 
 
 def _lm(crit):
-    return dspy.utils.DummyLM([
-        {"reasoning": "r", "critique": json.dumps(crit)}])
+    return DummyLM([
+        {"rationale": "r", "critique": json.dumps(crit)}])
 
 
 # ── 1: signature shape ───────────────────────────────────────────────────
@@ -173,7 +174,7 @@ def test_full_pipeline_pass():
 
 def test_full_pipeline_malformed_critique_raises():
     qc = RenderQC(genre="edu")
-    lm = dspy.utils.DummyLM([{"reasoning": "r", "critique": "not json"}])
+    lm = DummyLM([{"rationale": "r", "critique": "not json"}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             qc.run(brief=BRIEF, decision=DECISION)

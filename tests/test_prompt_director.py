@@ -10,6 +10,7 @@ import json
 import re
 
 import dspy
+from dspy.utils import DummyLM  # test-debt: attr access broken by lazy dspy.utils
 import pytest
 
 from predict.prompt_director import (
@@ -31,7 +32,7 @@ GOOD_LM_JSON = json.dumps(GOOD_BRIEF)
 
 
 def _director_with_stub(answers):
-    lm = dspy.utils.DummyLM(answers)
+    lm = DummyLM(answers)
     director = PromptDirector()
     with dspy.context(lm=lm):
         yield director
@@ -72,7 +73,7 @@ def test_render_brief_valid_instance_has_sections():
 
 def test_director_returns_parsed_brief():
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"reasoning": "r", "brief": GOOD_LM_JSON}])
+    lm = DummyLM([{"rationale": "r", "brief": GOOD_LM_JSON}])
     with dspy.context(lm=lm):
         out = director(intent="astronaut on a dust-swept plain, archival look")
     assert isinstance(out.brief, RenderBrief)
@@ -135,7 +136,7 @@ def test_director_rejects_meta_hint_briefs():
     poisoned = dict(GOOD_BRIEF)
     poisoned["motion"] = "slow dolly in, then hard cut to close-up"
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": json.dumps(poisoned)}])
+    lm = DummyLM([{"rationale": "r", "brief": json.dumps(poisoned)}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             director(intent="x")
@@ -145,7 +146,7 @@ def test_director_rejects_meta_hint_briefs():
 
 def test_director_rejects_non_json_output():
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": "this is not json at all"}])
+    lm = DummyLM([{"brief": "this is not json at all"}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             director(intent="x")
@@ -154,7 +155,7 @@ def test_director_rejects_non_json_output():
 def test_director_rejects_missing_section_json():
     partial = json.dumps({"subject": "s", "motion": "m"})
     director = PromptDirector()
-    lm = dspy.utils.DummyLM([{"brief": partial}])
+    lm = DummyLM([{"brief": partial}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             director(intent="x")

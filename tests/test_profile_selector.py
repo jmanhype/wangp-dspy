@@ -9,6 +9,7 @@ Rules under test:
 import json
 
 import dspy
+from dspy.utils import DummyLM  # test-debt: attr access broken by lazy dspy.utils
 import pytest
 
 from predict.prompt_director import RenderBrief
@@ -34,8 +35,8 @@ GOOD_DECISION = {
 
 
 def _lm(decision):
-    return dspy.utils.DummyLM([
-        {"reasoning": "r", "decision": json.dumps(decision)}])
+    return DummyLM([
+        {"rationale": "r", "decision": json.dumps(decision)}])
 
 
 # ── 1: signature shape ───────────────────────────────────────────────────
@@ -124,8 +125,8 @@ def test_selector_rejects_unknown_profile_lm_output():
 
 def test_selector_rejects_non_json_output():
     sel = ProfileSelector()
-    lm = dspy.utils.DummyLM(
-        [{"reasoning": "r", "decision": "not json"}])
+    lm = DummyLM(
+        [{"rationale": "r", "decision": "not json"}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             sel(subject="s", motion="m", camera="c", style="y")
