@@ -39,6 +39,8 @@ class ContinuationExtras:
     video_source: Optional[str] = None
     keep_frames_video_source: str = ""
     audio_policy_discard_rendered: bool = True
+    video_length: int = 48
+    requested_frames: int = 48
 
     def validate(self) -> None:
         if self.image_prompt_type not in ALLOWED_IMAGE_PROMPT:
@@ -55,6 +57,10 @@ class ContinuationExtras:
         # G4: rendered audio never trusted when a guide is used
         if self.audio_prompt_type == "A" and not self.audio_policy_discard_rendered:
             raise JobConfigError("G4: discard_rendered_audio must be True when guiding audio")
+        if self.video_length != 48 or self.requested_frames != 48:
+            raise JobConfigError(
+                "continuation video_length/requested_frames are pinned "
+                "to exactly 48 frames (2.0s @ 24fps)")
 
     def to_extra(self) -> dict:
         self.validate()
@@ -66,6 +72,8 @@ class ContinuationExtras:
             "video_source": None,
             "video_guide": None,
             "keep_frames_video_source": self.keep_frames_video_source,
+            "video_length": self.video_length,
+            "requested_frames": self.requested_frames,
         }
         if self.image_start:
             d["image_start"] = self.image_start

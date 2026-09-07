@@ -29,6 +29,7 @@ from services.chain.plan import (
 from services.chain.keyframes import emit_fl2va_job, emit_r2i_job
 from services.director.renderers.h3_recipe import build_render_config
 from services.director.renderers.policy import check_duration_on_grid
+from predict.continuation_lane import ContinuationExtras
 
 OVERLAP_FRAMES = 22  # upstream H3_CHAIN_FORMAT_GUIDE default; see docs
 _FPS = 24
@@ -80,6 +81,7 @@ def build_chain_plan(
     durations_s: Sequence[float],
     audio_paths: Optional[Sequence[str]] = None,
     overlap_frames: int = OVERLAP_FRAMES,
+    continuation_mode: bool = False,
 ) -> ChainPlan:
     """Build a validated ChainPlan from script beats + roster + durations."""
     if len(script_lines) != len(durations_s):
@@ -90,8 +92,12 @@ def build_chain_plan(
         raise ChainPlanError(
             f"audio_paths ({len(audio_paths)}) must match script length "
             f"({len(script_lines)}) when given")
+    if not isinstance(continuation_mode, bool):
+        raise ChainPlanError("continuation_mode must be bool")
     if overlap_frames < 0:
         raise ChainPlanError(f"overlap_frames must be >= 0: {overlap_frames}")
+    if continuation_mode:
+        overlap_frames = 0
 
     name_to_sn = _sn(characters)
     try:
@@ -111,13 +117,22 @@ def build_chain_plan(
             raise ChainPlanError(
                 f"script line {i}: unknown speaker {speaker!r} (roster: "
                 f"{sorted(name_to_sn)})")
-        try:
-            full_frames = check_duration_on_grid(duration_s, _FPS)
-        except Exception as e:  # GridError from renderer policy
-            raise ChainPlanError(
-                f"script line {i}: duration {duration_s}s rejected by "
-                f"grid policy: {e}") from e
-        frames = full_frames if prev_clip is None else full_frames - overlap_frames
+        if continuation_mode:
+            if abs(float(duration_s) - 2.0) > 1e-9:
+                raise ChainPlanError(
+                    f"script line {i}: continuation duration must be "
+                    f"exactly 2.0s, got {duration_s!r}")
+            full_frames = 48
+            frames = 48
+        else:
+            try:
+                full_frames = check_duration_on_grid(duration_s, _FPS)
+            except Exception as e:  # GridError from renderer policy
+                raise ChainPlanError(
+                    f"script line {i}: duration {duration_s}s rejected by "
+                    f"grid policy: {e}") from e
+            frames = (full_frames if prev_clip is None
+                      else full_frames - overlap_frames)
         if frames <= 0:
             raise ChainPlanError(
                 f"script line {i}: full grid length {full_frames}f minus "
@@ -150,6 +165,7 @@ def build_chain_plan(
         clips=tuple(clips),
         overlap_frames=overlap_frames,
         fps=_FPS,
+        continuation_mode=continuation_mode,
     )
     validate_chain_plan(plan)
     return plan
@@ -213,28 +229,113 @@ def _shot1_recipe_config(plan: ChainPlan, clip: ChainClip,
     }
 
 
-def _continuation_config(plan: ChainPlan, clip: ChainClip) -> Dict[str, Any]:
-    """First-frame continuation: previous last frame in, plates stand down."""
+def _continuation_config(
+    plan: ChainPlan,
+    clip: ChainClip,
+    plate_paths: Optional[Sequence[str]] = None,
+) -> Dict[str, Any]:
+    """Ref2Va continuation with typed extras and a resolvable frame ref.
+
+    Before the prior render completes, chain:// is an explicit
+    placeholder. advance_chain replaces it with a verified PNG before
+    the dependent job is admitted.
+    """
+    # Preserve the legacy multishot/FL2VA manifest contract.  The stricter
+    # Ref2Va extras below are only for the explicit continuation profile.
+    if not plan.continuation_mode:
+        ref = clip.previous_clip_end_frame or {}
+        return {
+            "clip_index": clip.index,
+            "kind": "first_frame_continuation",
+            "prompt": f"{plan.global_prompt} {clip.shot_prompt}",
+            "image_start": {
+                "kind": "last_frame",
+                "clip_index": ref.get("clip_index"),
+                "frame": ref.get("frame"),
+            },
+            "image_refs": None,
+            "steps": _RECIPE_STEPS,
+            "spectrum_cache": True,
+            "resolution": [480, 832],
+            "frames": clip.frames,
+            "force_fps": _FPS,
+            "seed": clip.seed,
+            "audio": {"path": clip.audio.path, "apad": True,
+                      "start_s": clip.audio.start_s,
+                      "padded_duration_s": clip.audio.padded_duration_s},
+        }
+
+    refs = list(plate_paths or [])
+    if refs:
+        anchor = str(refs[0])
+        char_paths = [str(p) for p in refs[1:]]
+    else:
+        anchor = "plates/anchor.png"
+        char_paths = [f"plates/{c.sn_tag.lower()}-plate.png"
+                      for c in plan.characters]
+    by_sn = {c.sn_tag: char_paths[i] for i, c in
+             enumerate(plan.characters) if i < len(char_paths)}
+    silent = next((c for c in plan.characters
+                   if c.sn_tag != clip.speaker_sn), None)
+    silent_ref = (by_sn.get(silent.sn_tag) if silent is not None else anchor)
     ref = clip.previous_clip_end_frame or {}
+    if clip.index == 1:
+        image_start = anchor
+    else:
+        image_start = (
+            f"chain://clip{int(ref.get('clip_index', clip.index - 1)):04d}/"
+            "last_frame")
+    image_refs = [image_start, str(silent_ref)]
+    extras = ContinuationExtras(
+        image_prompt_type="S",
+        video_prompt_type="I",
+        audio_prompt_type="A",
+        image_start=image_start,
+        image_refs=image_refs,
+        audio_guide=clip.audio.path,
+        video_length=48,
+        requested_frames=48,
+    )
+    extra = extras.to_extra()
+    provenance = {
+        "source_master": clip.audio.path,
+        "vocal_stem": clip.audio.path,
+        "whisper_map": clip.audio.path,
+        "keeper_window_s": [0.0, 2.0],
+    }
     return {
         "clip_index": clip.index,
-        "kind": "first_frame_continuation",
+        "kind": "ref2va_render",
+        "model_type": "minimax_h3_ref2va_pruned",
         "prompt": f"{plan.global_prompt} {clip.shot_prompt}",
-        "image_start": {
-            "kind": "last_frame",
-            "clip_index": ref.get("clip_index"),
-            "frame": ref.get("frame"),
-        },
-        "image_refs": None,  # reference plates stand down after shot 1
+        "image_start": image_start,
+        "image_refs": image_refs,
+        "image_prompt_type": "S",
+        "video_prompt_type": "I",
+        "audio_prompt_type": "A",
+        "audio_guide": clip.audio.path,
+        "audio_provenance": provenance,
+        "audio_policy": {"discard_rendered_audio": True},
+        "guide_duration_s": 2.0,
+        "shot_duration_s": 2.0,
+        "audio_length_frames": 48,
+        "video_length": 48,
+        "requested_frames": 48,
+        "continuation_extras": extra,
         "steps": _RECIPE_STEPS,
         "spectrum_cache": True,
         "resolution": [480, 832],
-        "frames": clip.frames,
+        "frames": 48,
         "force_fps": _FPS,
         "seed": clip.seed,
+        "chain": {
+            "index": clip.index,
+            "previous": ref.get("clip_index"),
+            "re_anchor": clip.index == 1,
+        },
         "audio": {"path": clip.audio.path, "apad": True,
                   "start_s": clip.audio.start_s,
-                  "padded_duration_s": clip.audio.padded_duration_s},
+                  "padded_duration_s": 2.0},
     }
 
 
@@ -251,7 +352,10 @@ def emit_render_manifest(
     validate_chain_plan(plan)
     manifest: List[Dict[str, Any]] = []
     for clip in plan.clips:
-        if clip.index == 1:
+        if plan.continuation_mode:
+            manifest.append(_continuation_config(
+                plan, clip, plate_paths=plate_paths))
+        elif clip.index == 1:
             manifest.append(_shot1_recipe_config(
                 plan, clip, plan.characters, plate_paths, loras))
         elif clip.end_pose:
@@ -266,7 +370,8 @@ def emit_render_manifest(
                 "_last_frame.png",
                 needs=r2i["job_id"]))
         else:
-            manifest.append(_continuation_config(plan, clip))
+            manifest.append(_continuation_config(
+                plan, clip, plate_paths=plate_paths))
     return manifest
 
 

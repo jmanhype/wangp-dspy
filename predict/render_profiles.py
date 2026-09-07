@@ -115,6 +115,8 @@ class Ref2VAProfile(RenderProfile):
                        speaker_prompt: Optional[str] = None,
                        seed: Optional[int] = None,
                        audio_length_frames: Optional[int] = None,
+                       image_start: Optional[str] = None,
+                       video_prompt_type: str = "I",
                        continuation: bool = False,
                        **kw) -> dict:
         continuation = bool(continuation or
@@ -242,6 +244,10 @@ class Ref2VAProfile(RenderProfile):
                     "Ref2VA continuation is pinned to exactly "
                     f"{CONTINUATION_FRAMES_MIN} frames (2.0s @ 24fps); "
                     f"got {video_length}f from {shot_duration_s}s")
+            if not image_start:
+                raise ProfileError(
+                    "Ref2VA continuation requires image_start (the "
+                    "previous cut's resolved last-frame artifact)")
             requested_frames = video_length
             effective_video_length = video_length
         else:
@@ -326,6 +332,9 @@ class Ref2VAProfile(RenderProfile):
             extra={"image_refs": list(image_refs),
                    "audio_prompt_type": "A",
                    "audio_guide": str(audio_guide),
+                   "image_prompt_type": "S" if continuation else "I",
+                   "image_start": str(image_start) if image_start else None,
+                   "video_prompt_type": str(video_prompt_type),
                    # SETTINGS PARITY (2): the recipe's frame carrier —
                    # on-grid frames from shot_duration_s, matching the
                    # padded audio exactly. video_length is the
@@ -337,5 +346,4 @@ class Ref2VAProfile(RenderProfile):
                    "audio_provenance": audio_provenance.to_dict(),
                    "audio_policy": audio_policy.to_dict(),
                    "audio_qc": Ref2VAAudioQC.empty().to_dict(),
-                   "video_prompt_type": "I",
                    "multi_prompts_gen_type": "FG"})

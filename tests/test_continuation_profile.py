@@ -50,6 +50,7 @@ def test_continuation_profile_emits_exact_48_frames(tmp_path):
         audio_guide=str(wav),
         audio_provenance=prov,
         audio_length_frames=48,
+        image_start=str(image),
         continuation=True,
     )
     assert doc["requested_frames"] == 48

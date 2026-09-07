@@ -481,16 +481,41 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
     from pathlib import Path as _P
     from host.ref2va_runtime import Ref2VARuntimeInput
     from predict.audio_dataplane import AudioGuideProvenance
+    from predict.continuation_lane import ContinuationExtras
 
-    image_refs = _job_field(job, "image_refs")
-    audio_guide = _job_field(job, "audio_guide")
+    continuation_raw = _job_field(job, "continuation_extras")
+    continuation = None
+    if continuation_raw is not None:
+        if isinstance(continuation_raw, ContinuationExtras):
+            continuation = continuation_raw
+        elif isinstance(continuation_raw, Mapping):
+            try:
+                continuation = ContinuationExtras(**dict(continuation_raw))
+            except TypeError as e:
+                raise WanGPError(
+                    f"invalid continuation_extras fields: {e}") from e
+        else:
+            raise WanGPError(
+                "continuation_extras must be a mapping or "
+                f"ContinuationExtras, got {type(continuation_raw).__name__}")
+        try:
+            continuation.validate()
+        except JobConfigError as e:
+            raise WanGPError(f"continuation_extras rejected: {e}") from e
+
+    image_refs = (_job_field(job, "image_refs")
+                  or (continuation.image_refs if continuation else None))
+    audio_guide = (_job_field(job, "audio_guide")
+                   or (continuation.audio_guide if continuation else None))
     if not image_refs or not audio_guide:
         raise WanGPError(
             "ref2va job requires image_refs and audio_guide (job "
             "or embedded #57 recipe envelope) — got "
             f"image_refs={image_refs!r}, audio_guide={audio_guide!r}")
     prompt = _job_field(job, "prompt", "")
-    shot_s = float(_job_field(job, "shot_duration_s", 0.0) or 0.0)
+    shot_s = float(_job_field(
+        job, "shot_duration_s",
+        2.0 if continuation else 0.0) or 0.0)
     guide_s = float(_job_field(job, "guide_duration_s", shot_s) or 0.0)
     prov = _job_field(job, "audio_provenance")
     if prov is not None and not isinstance(prov, AudioGuideProvenance):
@@ -529,6 +554,16 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             # brief/script. seed: caller's recipe pin rides through.
             speaker_prompt=(prompt or None),
             seed=_job_field(job, "seed"),
+            continuation=continuation is not None,
+            image_start=(_job_field(job, "image_start")
+                          or (continuation.image_start
+                              if continuation else None)),
+            video_prompt_type=(_job_field(
+                job, "video_prompt_type",
+                continuation.video_prompt_type if continuation else "I")),
+            audio_length_frames=_job_field(
+                job, "audio_length_frames",
+                continuation.video_length if continuation else None),
         ),
     )
 

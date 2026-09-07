@@ -8,12 +8,9 @@ Ported (logic only, no ComfyUI dependency) from:
   speaker attribution, resume-safe state)
 
 Frame math at 24fps on this repo's 17k+5 frame grid (5/22/39/56/73/...
-frames): clip 1 delivers its full frame count; later clips deliver
-OVERLAP_FRAMES fewer because the chained context consumes the first
-OVERLAP_FRAMES frames (continuation overlap). Default 22 comes from the
-upstream H3_CHAIN_FORMAT_GUIDE; no vendored multishot implementation
-exists here to verify against, so it stays configurable (see
-docs/chain-controller.md).
+frames) is retained for the legacy multishot chain. The validated Ref2Va
+dialogue lane has an explicit continuation_mode: every clip is exactly
+48 frames (2s) and no overlap subtraction is applied.
 """
 from __future__ import annotations
 
@@ -133,6 +130,7 @@ class ChainPlan:
     clips: Tuple[ChainClip, ...] = field(default_factory=tuple)
     overlap_frames: int = 22
     fps: int = _DEFAULT_FPS
+    continuation_mode: bool = False
 
     def __post_init__(self) -> None:
         if not self.global_prompt.strip():
@@ -145,6 +143,12 @@ class ChainPlan:
             raise SchemaError("chain plan needs at least one clip")
         if not isinstance(self.overlap_frames, int) or self.overlap_frames < 0:
             raise SchemaError(f"overlap_frames must be int >= 0")
+        if not isinstance(self.continuation_mode, bool):
+            raise SchemaError("continuation_mode must be bool")
+        if self.continuation_mode and self.overlap_frames != 0:
+            raise SchemaError(
+                "continuation_mode uses exact 48-frame clips and requires "
+                "overlap_frames=0")
         tags = [c.sn_tag for c in self.characters]
         if len(set(tags)) != len(tags):
             raise SchemaError(f"duplicate sn_tags in characters: {tags}")
@@ -169,7 +173,8 @@ class ChainPlan:
             return cls(global_prompt=doc["global_prompt"], characters=chars,
                        clips=tuple(clips),
                        overlap_frames=doc.get("overlap_frames", 22),
-                       fps=doc.get("fps", _DEFAULT_FPS))
+                       fps=doc.get("fps", _DEFAULT_FPS),
+                       continuation_mode=doc.get("continuation_mode", False))
         except KeyError as e:
             raise SchemaError(f"missing field in chain plan JSON: {e}") from e
 
@@ -203,17 +208,23 @@ def validate_chain_plan(plan: ChainPlan) -> None:
             raise SchemaError(
                 f"clip {clip.index}: shot_prompt must be speaker-attributed "
                 f"(contain {clip.speaker_sn})")
-        # Frames on-grid. Clip 1 carries its FULL grid length; later
-        # clips are overlap-adjusted, so their effective count is checked
-        # against the grid in the sequence loop below (frames+overlap).
-        base = (clip.frames if clip.index == 1
-                else clip.frames + plan.overlap_frames)
-        if not _frames_on_grid(base):
-            raise SchemaError(
-                f"clip {clip.index}: effective grid length {base}f "
-                f"(frames={clip.frames}, overlap="
-                f"{0 if clip.index == 1 else plan.overlap_frames}) is off "
-                "the 17k+5 grid (5/22/39/56/73/...)")
+        if plan.continuation_mode:
+            if clip.frames != 48:
+                raise SchemaError(
+                    f"clip {clip.index}: continuation clips must be "
+                    f"exactly 48f, got {clip.frames}")
+        else:
+            # Frames on-grid. Clip 1 carries its FULL grid length; later
+            # clips are overlap-adjusted, so their effective count is
+            # checked against the grid in the sequence loop below.
+            base = (clip.frames if clip.index == 1
+                    else clip.frames + plan.overlap_frames)
+            if not _frames_on_grid(base):
+                raise SchemaError(
+                    f"clip {clip.index}: effective grid length {base}f "
+                    f"(frames={clip.frames}, overlap="
+                    f"{0 if clip.index == 1 else plan.overlap_frames}) is "
+                    "off the 17k+5 grid (5/22/39/56/73/...)")
         # Frames/duration agreement.
         if abs(clip.duration_s * fps - clip.frames) > 0.5:
             raise SchemaError(
@@ -239,8 +250,12 @@ def validate_chain_plan(plan: ChainPlan) -> None:
     prev = first
     for clip in plan.clips[1:]:
         expected_frames = clip.frames
-        # clip.frames must be a full grid count minus overlap.
-        if not _frames_on_grid(expected_frames + plan.overlap_frames):
+        if plan.continuation_mode:
+            if expected_frames != 48:
+                raise SchemaError(
+                    f"clip {clip.index}: continuation clips must be "
+                    f"exactly 48f, got {expected_frames}")
+        elif not _frames_on_grid(expected_frames + plan.overlap_frames):
             raise SchemaError(
                 f"clip {clip.index}: frames {expected_frames} + overlap "
                 f"{plan.overlap_frames} is off the 17k+5 grid — later "
