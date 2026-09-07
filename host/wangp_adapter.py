@@ -1170,8 +1170,16 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     # mapping (and silently fell through to the wrong-host path).
     # Absolutize against the CWD before any mapping happens.
     root = _P(os.path.abspath(str(root)))
-    render_dir = root / f"render-{_RENDER_SEQ[0]:04d}"
-    _RENDER_SEQ[0] += 1
+    # The worker may be relaunched between jobs.  A process-local sequence
+    # alone would reset to render-0000 and overwrite a prior cut's pulled
+    # artifact, corrupting its durable provenance.  Allocate the first
+    # unused directory in the local pull namespace, then keep the sequence
+    # monotonic for the lifetime of this process.
+    render_index = _RENDER_SEQ[0]
+    while (root / f"render-{render_index:04d}").exists():
+        render_index += 1
+    render_dir = root / f"render-{render_index:04d}"
+    _RENDER_SEQ[0] = render_index + 1
     render_dir.mkdir(parents=True, exist_ok=True)
 
     def _default_render(inp):
