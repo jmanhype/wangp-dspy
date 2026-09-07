@@ -31,13 +31,16 @@ SCRIPT_SEPARATOR = "\n---\n"
 # 96f value was a SAFETY choice, not a model limit — it blocked
 # legitimate 2s-class cuts.
 SHOT_LENGTH_FLOOR_FRAMES = 56     # WanGP handler minimum (Selector layer)
-# Ref2VA's per-cut continuation task is a distinct handler path.  Its
-# validated recipe is exactly 48 frames (2 seconds @ 24fps); it must not be
-# silently promoted to the multishot grid.
-CONTINUATION_FRAMES_MIN = 48
 H3_FRAMES_MIN = 107               # measured H3 grid minimum (5+17k)
 H3_FRAMES_STEP = 17
 H3_FRAMES_OFFSET = 5
+# Ref2VA's per-cut continuation task is a distinct handler path, but H3
+# still emits frames on its 5+17k latent grid. The smallest grid-aligned
+# continuation cut is 56 frames (2.333s @ 24fps); 48-frame requests have
+# been observed to return 45 frames and are not an admissible contract.
+CONTINUATION_FRAMES_MIN = 56
+CONTINUATION_FRAMES_STEP = H3_FRAMES_STEP
+CONTINUATION_FRAMES_OFFSET = H3_FRAMES_OFFSET
 
 # WD-l5bx review ruling: profile_selector re-exports these SAME
 # constants (below) as its selection-time hints. job_config is the
@@ -65,6 +68,18 @@ def normalize_frame_count(frame_count: int, minimum: int = H3_FRAMES_MIN,
     return math.ceil(max(0, frame_count - offset) / step) * step + offset
 
 
+def normalize_continuation_frame_count(frame_count: int) -> int:
+    """Normalize a continuation request onto H3's 5+17k grid.
+
+    Continuation cuts use the lower 56-frame handler floor (rather than the
+    generic multishot 107-frame floor), while retaining the same latent-grid
+    math. Snapping upward prevents a short render from truncating dialogue.
+    """
+    return normalize_frame_count(
+        frame_count, minimum=CONTINUATION_FRAMES_MIN,
+        step=CONTINUATION_FRAMES_STEP, offset=CONTINUATION_FRAMES_OFFSET)
+
+
 @dataclass(frozen=True)
 class WanGPJobConfig:
     model_type: str
@@ -80,7 +95,7 @@ class WanGPJobConfig:
     seed: int = 42
     # Explicit policy knobs are kept out of persisted settings.  The
     # generic H3 lane retains the 56f floor + 5+17k snap; the continuation
-    # lane opts into the validated 48f exact profile.
+    # lane opts into the validated 56f grid-aligned profile.
     snap_frames: bool = field(default=True, repr=False, compare=False)
     frames_floor: int = field(default=SHOT_LENGTH_FLOOR_FRAMES,
                                repr=False, compare=False)
@@ -90,7 +105,7 @@ class WanGPJobConfig:
         # inline checks raised at build_settings time)
         validate_job_config(self)
         # rule 3 applied HERE for the generic H3 lane.  Continuation jobs
-        # deliberately opt out because their Ref2Va recipe pins 48f.
+        # deliberately opt out because their Ref2Va recipe owns the grid count.
         if self.snap_frames:
             object.__setattr__(self, "frames_per_shot",
                                normalize_frame_count(self.frames_per_shot))

@@ -16,6 +16,7 @@ from typing import List, Optional, Sequence
 
 from predict.job_config import (
     CONTINUATION_FRAMES_MIN,
+    normalize_continuation_frame_count,
     SCRIPT_SEPARATOR,
     WanGPJobConfig,
 )
@@ -34,7 +35,7 @@ from predict.model_types import REF2VA_MODEL_TYPE  # noqa: E402
 # 2.333 — and a 4.0 floor rejected it. Floor at 2.33 (below any 3dp
 # rounding of 56/24) so the minimum WanGP-legal shot passes.
 REF2VA_MIN_SHOT_S = 2.33
-REF2VA_CONTINUATION_MIN_SHOT_S = 2.0
+REF2VA_CONTINUATION_MIN_SHOT_S = CONTINUATION_FRAMES_MIN / 24.0
 REF2VA_MAX_SHOT_S = 15.0
 
 
@@ -142,11 +143,11 @@ class Ref2VAProfile(RenderProfile):
                 f"Ref2VA guide duration {guide_duration_s}s != shot "
                 f"duration {shot_duration_s}s — must match EXACTLY "
                 "(G2 guide-alignment; both durations named)")
-        # The ordinary Ref2VA profile keeps the proven 2.33s floor.  The
-        # continuation recipe is a separate, exact 48f/2s profile.
+        # The ordinary Ref2VA profile keeps the proven 2.33s floor. The
+        # continuation recipe uses the same H3 grid at its 56f minimum.
         min_shot_s = (REF2VA_CONTINUATION_MIN_SHOT_S
                       if continuation else REF2VA_MIN_SHOT_S)
-        # 2-15s cap for continuation; 2.33-15s for ordinary Ref2VA.
+        # 2.33-15s cap for both continuation and ordinary Ref2VA.
         if not (min_shot_s <= float(shot_duration_s)
                 <= REF2VA_MAX_SHOT_S):
             raise ProfileError(
@@ -249,17 +250,19 @@ class Ref2VAProfile(RenderProfile):
         #     own use and is never the Ref2VA authority.
         video_length = int(round(shot_duration_s * self.FPS))
         if continuation:
-            if video_length != CONTINUATION_FRAMES_MIN:
+            aligned = normalize_continuation_frame_count(video_length)
+            if video_length != aligned:
                 raise ProfileError(
-                    "Ref2VA continuation is pinned to exactly "
-                    f"{CONTINUATION_FRAMES_MIN} frames (2.0s @ 24fps); "
-                    f"got {video_length}f from {shot_duration_s}s")
+                    "Ref2VA continuation duration must be grid-aligned "
+                    f"(5+17k, minimum {CONTINUATION_FRAMES_MIN}f); got "
+                    f"{video_length}f from {shot_duration_s}s (use "
+                    f"{aligned}f / {aligned / self.FPS:.3f}s)")
             if not image_start:
                 raise ProfileError(
                     "Ref2VA continuation requires image_start (the "
                     "previous cut's resolved last-frame artifact)")
-            requested_frames = video_length
-            effective_video_length = video_length
+            requested_frames = aligned
+            effective_video_length = aligned
         else:
             requested_frames = video_length
             effective_video_length = None

@@ -13,7 +13,12 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from predict.job_config import WanGPJobConfig, JobConfigError
+from predict.job_config import (
+    CONTINUATION_FRAMES_MIN,
+    normalize_continuation_frame_count,
+    WanGPJobConfig,
+    JobConfigError,
+)
 
 # Speaker attribution — VALIDATED 2026-09-06 (operator verdict "yes"):
 # seed frame + ONE face ref of the SILENT character (Picture-N bound) keeps
@@ -84,8 +89,8 @@ class ContinuationExtras:
     video_source: Optional[str] = None
     keep_frames_video_source: str = ""
     audio_policy_discard_rendered: bool = True
-    video_length: int = 48
-    requested_frames: int = 48
+    video_length: int = CONTINUATION_FRAMES_MIN
+    requested_frames: int = CONTINUATION_FRAMES_MIN
     # Persisted continuation envelopes include this optional slot even when
     # it is null.  Keeping it on the typed object makes the envelope
     # round-trip lossless while preserving the existing runtime behavior.
@@ -106,10 +111,19 @@ class ContinuationExtras:
         # G4: rendered audio never trusted when a guide is used
         if self.audio_prompt_type == "A" and not self.audio_policy_discard_rendered:
             raise JobConfigError("G4: discard_rendered_audio must be True when guiding audio")
-        if self.video_length != 48 or self.requested_frames != 48:
+        for name, value in (("video_length", self.video_length),
+                            ("requested_frames", self.requested_frames)):
+            if isinstance(value, bool) or not isinstance(value, int):
+                raise JobConfigError(
+                    f"continuation {name} must be an int, got {value!r}")
+            if value != normalize_continuation_frame_count(value):
+                raise JobConfigError(
+                    f"continuation {name} {value}f is off the H3 5+17k "
+                    "grid (expected 56, 73, 90, ...)")
+        if self.video_length != self.requested_frames:
             raise JobConfigError(
-                "continuation video_length/requested_frames are pinned "
-                "to exactly 48 frames (2.0s @ 24fps)")
+                "continuation video_length and requested_frames must "
+                "match the same grid-aligned frame count")
 
     def to_extra(self) -> dict:
         self.validate()

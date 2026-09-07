@@ -975,6 +975,24 @@ def copy_newest_output_mp4(host, outputs_dir: str, target: str, *,
         f"failed after revalidation (cp rc={rc}: {first_error})")
 
 
+def _host_frame_count(host, path: str) -> int:
+    """Count video frames where the artifact lives, through the host seam."""
+    rc, out, err = _probe(host, [
+        "ffprobe", "-v", "error", "-count_frames",
+        "-select_streams", "v:0", "-show_entries",
+        "stream=nb_read_frames", "-of", "csv=p=0", path,
+    ], timeout=120)
+    if rc != 0:
+        raise WanGPError(
+            f"ffprobe failed during continuation frame validation for "
+            f"{path!r}: {err.strip()[:200]}")
+    try:
+        return int(out.strip().split(",")[-1])
+    except (TypeError, ValueError):
+        raise WanGPError(
+            f"ffprobe returned no frame count for {path!r}: {out!r}")
+
+
 def production_ref2va_render(adapter, inp):
     """The production render seam for the ref2va lane — the PROVEN
     wgp invocation shape (live-verified on the 3090), all host
@@ -1069,6 +1087,20 @@ def production_ref2va_render(adapter, inp):
         host, adapter.wgp_outputs_dir, raw_host,
         newer_than=render_started,
         wait_timeout_s=min(float(adapter.timeout), 300.0))
+
+    # Ref2VA continuation clips are grid contracts, not best-effort frame
+    # requests.  Reject a model artifact whose actual count differs from the
+    # settings' grid-aligned video_length before remux/QC can bless it.
+    try:
+        expected_frames = int(settings_doc.get("video_length") or 0)
+    except (TypeError, ValueError):
+        expected_frames = 0
+    if expected_frames > 0:
+        actual_frames = _host_frame_count(host, raw_host)
+        if actual_frames != expected_frames:
+            raise WanGPError(
+                "continuation frame-count validation failed: expected "
+                f"{expected_frames}f, got {actual_frames}f in {raw_host!r}")
 
     audio_guide = ""
     audio_guide = str(settings_doc_host.get("audio_guide") or "")

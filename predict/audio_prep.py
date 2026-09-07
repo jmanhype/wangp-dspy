@@ -1,10 +1,10 @@
 """Repo-owned turn-audio preparation for the Ref2VA continuation lane.
 
-The renderer consumes one isolated speaker wav per cut.  This module is the
+The renderer consumes one isolated speaker wav per cut. This module is the
 only sanctioned place that turns a source wav into that guide: it probes the
-source, trims (never pads) to the cut duration, applies the recipe's +9 dB
-gain, and verifies the resulting duration/RMS before returning a path.  The
-default runner uses argv lists (no shell); tests and remote hosts can inject a
+source, trims or tail-pads to the grid-aligned cut duration, applies the
+recipe's +9 dB gain, and verifies the resulting duration/RMS before returning
+a path. The default runner uses argv lists (no shell); tests and remote hosts can inject a
 runner without creating an off-road helper script.
 """
 from __future__ import annotations
@@ -45,6 +45,9 @@ class PreparedTurnAudio:
             raise AudioPreparationError("target_duration_s: must be > 0")
         if self.measured_duration_s <= 0:
             raise AudioPreparationError("measured_duration_s: must be > 0")
+        if self.measured_duration_s + 0.05 < self.target_duration_s:
+            raise AudioPreparationError(
+                "measured_duration_s: output is shorter than cut duration")
         if self.measured_duration_s > self.target_duration_s + 0.05:
             raise AudioPreparationError(
                 "measured_duration_s: output exceeds cut duration")
@@ -115,6 +118,11 @@ def prepare_turn_audio(
 ) -> PreparedTurnAudio:
     """Prepare and verify one speaker-isolated wav.
 
+    A source longer than the target is trimmed. A shorter source is padded
+    with a silent tail to the target; this is required for grid-aligned H3
+    continuation cuts (for example, 2.0s dialogue in a 56-frame/2.333s
+    shot).
+
     ``runner`` receives one argv list for each ffprobe/ffmpeg invocation and
     must return an object with ``returncode``, ``stdout`` and ``stderr``
     attributes (``subprocess.CompletedProcess`` by default).  No shell syntax
@@ -143,14 +151,14 @@ def prepare_turn_audio(
                         "format=duration", "-of", "default=nw=1:nk=1",
                         source_path])
     source_duration = _duration_from_probe(source_probe, "source_duration_s")
-    if source_duration + 0.01 < float(target_duration_s):
-        raise AudioPreparationError(
-            f"source_duration_s: {source_duration:.3f}s is shorter than "
-            f"the {target_duration_s:.3f}s cut")
+    pad_duration = max(0.0, float(target_duration_s) - source_duration)
+    audio_filters = [f"volume={float(boost_db):.2f}dB"]
+    if pad_duration > 0.01:
+        audio_filters.append(f"apad=pad_dur={pad_duration:.6f}")
 
     render = run([
         "ffmpeg", "-y", "-i", source_path, "-t", f"{target_duration_s:.6f}",
-        "-af", f"volume={float(boost_db):.2f}dB", "-ac", "1", "-ar", "16000",
+        "-af", ",".join(audio_filters), "-ac", "1", "-ar", "16000",
         "-c:a", "pcm_s16le", str(output),
     ])
     if int(getattr(render, "returncode", 0)) != 0 or not output.is_file():

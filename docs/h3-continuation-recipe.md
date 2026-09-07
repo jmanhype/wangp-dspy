@@ -9,9 +9,9 @@ MODE A — packed single generation (15s, 362f):
     VRAM: 362f needs --profile 2 on a 24GB card.
 
 MODE B — last-frame chain (dialogue, per-cut speaker control):
-    Each 2s cut (48f) uses the previous cut's decoded last frame as
+    Each ~2.33s grid-aligned cut (56f = 5+17x3) uses the previous cut's decoded last frame as
     both image_start and the sole image_ref; audio_guide carries the
-    single-speaker wav (>=2s, RMS/transcript-gated); the prompt binds
+    single-speaker wav (2s speech plus a ~0.33s silence tail, RMS/transcript-gated); the prompt binds
     (S1) speaker-in-sync / (S2) lips-closed and swaps per turn.
     Seam measured 3.0-2.1/255 across a 6-cut chain (operator:
     "perfect continuation").
@@ -27,7 +27,7 @@ Config skeleton (wgp --process settings.json):
     image_refs  [<plate>]           image_refs  [<same frame>]
     video_length 362                audio_prompt_type "A"
     resolution  "480x832"           audio_guide <single-speaker wav>
-                                    video_length 48
+                                    video_length 56
 
 Prompt skeleton (both modes):
 

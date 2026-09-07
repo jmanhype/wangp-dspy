@@ -16,25 +16,25 @@ def _characters():
     ]
 
 
-def test_exact_two_second_chain_plan_uses_48_frames():
+def test_grid_aligned_chain_plan_uses_56_frames():
     from services.chain.controller import build_chain_plan
 
     plan = build_chain_plan(
-        _script(), _characters(), [2.0, 2.0],
+        _script(), _characters(), [56 / 24, 56 / 24],
         audio_paths=["a0.wav", "a1.wav"],
         continuation_mode=True,
     )
     assert plan.continuation_mode is True
     assert plan.overlap_frames == 0
-    assert [clip.frames for clip in plan.clips] == [48, 48]
-    assert [clip.duration_s for clip in plan.clips] == [2.0, 2.0]
+    assert [clip.frames for clip in plan.clips] == [56, 56]
+    assert [clip.duration_s for clip in plan.clips] == [56 / 24, 56 / 24]
 
 
 def test_continuation_manifest_has_ref2va_extras_and_chain_refs():
     from services.chain.controller import build_chain_plan, emit_render_manifest
 
     plan = build_chain_plan(
-        _script(), _characters(), [2.0, 2.0],
+        _script(), _characters(), [56 / 24, 56 / 24],
         audio_paths=["a0.wav", "a1.wav"],
         continuation_mode=True,
     )
@@ -50,7 +50,7 @@ def test_continuation_manifest_has_ref2va_extras_and_chain_refs():
     assert second["continuation_extras"]["image_refs"][0].startswith("chain://")
     assert second["continuation_extras"]["image_refs"][1] == "ada.png"
     assert second["continuation_extras"]["audio_guide"] == "a1.wav"
-    assert second["continuation_extras"]["video_length"] == 48
+    assert second["continuation_extras"]["video_length"] == 56
 
 
 def test_adapter_runtime_input_consumes_continuation_extras(tmp_path):
@@ -66,14 +66,14 @@ def test_adapter_runtime_input_consumes_continuation_extras(tmp_path):
         "prompt": "speaker says line",
         "image_refs": [str(image), str(image)],
         "audio_guide": str(wav),
-        "shot_duration_s": 2.0,
-        "guide_duration_s": 2.0,
-        "audio_length_frames": 48,
+        "shot_duration_s": 56 / 24,
+        "guide_duration_s": 56 / 24,
+        "audio_length_frames": 56,
         "audio_provenance": {
             "source_master": str(wav),
             "vocal_stem": str(wav),
             "whisper_map": str(wav),
-            "keeper_window_s": [0.0, 2.0],
+            "keeper_window_s": [0.0, 56 / 24],
         },
         "continuation_extras": {
             "image_prompt_type": "S",
@@ -82,8 +82,8 @@ def test_adapter_runtime_input_consumes_continuation_extras(tmp_path):
             "image_start": str(image),
             "image_refs": [str(image), str(image)],
             "audio_guide": str(wav),
-            "video_length": 48,
-            "requested_frames": 48,
+            "video_length": 56,
+            "requested_frames": 56,
         },
     }
     inp = _build_ref2va_runtime_input(

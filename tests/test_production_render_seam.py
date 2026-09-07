@@ -46,10 +46,12 @@ class FakeHost:
         return 0, "", ""
 
 
-def _settings(path: Path, *, steps=20, audio=None) -> Path:
+def _settings(path: Path, *, steps=20, audio=None, video_length=None) -> Path:
     doc = {"num_inference_steps": steps}
     if audio:
         doc["audio_guide"] = str(audio)
+    if video_length is not None:
+        doc["video_length"] = video_length
     p = path / "settings.json"
     p.write_text(json.dumps(doc))
     return p
@@ -279,6 +281,31 @@ class TestCopyAndMux:
         production_ref2va_render(
             _adapter(host, tmp_path), _Inp(s, tmp_path / "raw.mp4"))
         assert not any(c[0] == "ffmpeg" for c in host.calls)
+
+    @pytest.mark.parametrize(("actual", "raises"), [(45, True), (56, False)])
+    def test_continuation_frame_grid_is_strict(self, tmp_path, actual, raises):
+        class FrameHost(FakeHost):
+            def run_probe(self, argv, timeout=30):
+                if argv[:1] == ["ffprobe"]:
+                    self.calls.append(list(argv))
+                    return 0, f"{actual}\n", ""
+                return super().run_probe(argv, timeout=timeout)
+
+        host = FrameHost()
+        s = _settings(tmp_path, video_length=56)
+        host.responses = {
+            "setsid": lambda h, a: (0, "launched\n", ""),
+            "cat": lambda h, a: (0, GOOD_LOG, ""),
+        }
+        if raises:
+            with pytest.raises(WanGPError, match="frame-count validation"):
+                production_ref2va_render(
+                    _adapter(host, tmp_path),
+                    _Inp(s, tmp_path / "raw.mp4"))
+        else:
+            out = production_ref2va_render(
+                _adapter(host, tmp_path), _Inp(s, tmp_path / "raw.mp4"))
+            assert str(out).endswith("raw.mp4")
 
 
 class TestNewestOutput:

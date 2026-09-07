@@ -9,14 +9,19 @@ Ported (logic only, no ComfyUI dependency) from:
 
 Frame math at 24fps on this repo's 17k+5 frame grid (5/22/39/56/73/...
 frames) is retained for the legacy multishot chain. The validated Ref2Va
-dialogue lane has an explicit continuation_mode: every clip is exactly
-48 frames (2s) and no overlap subtraction is applied.
+dialogue lane has an explicit continuation_mode: every clip is grid-aligned
+from the 56-frame minimum (~2.33s) and no overlap subtraction is applied.
 """
 from __future__ import annotations
 
 import re
 from dataclasses import asdict, dataclass, field
 from typing import Any, Dict, Optional, Tuple
+
+from predict.job_config import (
+    CONTINUATION_FRAMES_MIN,
+    normalize_continuation_frame_count,
+)
 
 _SN_RE = re.compile(r"^S\d+$")
 _STATUS_VALUES = ("pending", "in_progress", "completed", "failed")
@@ -147,7 +152,7 @@ class ChainPlan:
             raise SchemaError("continuation_mode must be bool")
         if self.continuation_mode and self.overlap_frames != 0:
             raise SchemaError(
-                "continuation_mode uses exact 48-frame clips and requires "
+                "continuation_mode uses grid-aligned clips and requires "
                 "overlap_frames=0")
         tags = [c.sn_tag for c in self.characters]
         if len(set(tags)) != len(tags):
@@ -209,10 +214,11 @@ def validate_chain_plan(plan: ChainPlan) -> None:
                 f"clip {clip.index}: shot_prompt must be speaker-attributed "
                 f"(contain {clip.speaker_sn})")
         if plan.continuation_mode:
-            if clip.frames != 48:
+            if clip.frames != normalize_continuation_frame_count(clip.frames):
                 raise SchemaError(
-                    f"clip {clip.index}: continuation clips must be "
-                    f"exactly 48f, got {clip.frames}")
+                    f"clip {clip.index}: continuation frames must be "
+                    f"grid-aligned from {CONTINUATION_FRAMES_MIN}f, "
+                    f"got {clip.frames}")
         else:
             # Frames on-grid. Clip 1 carries its FULL grid length; later
             # clips are overlap-adjusted, so their effective count is
@@ -251,10 +257,12 @@ def validate_chain_plan(plan: ChainPlan) -> None:
     for clip in plan.clips[1:]:
         expected_frames = clip.frames
         if plan.continuation_mode:
-            if expected_frames != 48:
+            if expected_frames != normalize_continuation_frame_count(
+                    expected_frames):
                 raise SchemaError(
-                    f"clip {clip.index}: continuation clips must be "
-                    f"exactly 48f, got {expected_frames}")
+                    f"clip {clip.index}: continuation frames must be "
+                    f"grid-aligned from {CONTINUATION_FRAMES_MIN}f, "
+                    f"got {expected_frames}")
         elif not _frames_on_grid(expected_frames + plan.overlap_frames):
             raise SchemaError(
                 f"clip {clip.index}: frames {expected_frames} + overlap "

@@ -21,7 +21,7 @@ def test_lost_futures_index_resolves_a_premise():
     assert all(len(p.characters) >= 2 for p in index)
 
 
-def test_director_run_plans_six_exact_continuation_jobs(tmp_path):
+def test_director_run_plans_six_grid_aligned_continuation_jobs(tmp_path):
     audio = []
     for i in range(6):
         path = pathlib.Path(tmp_path) / f"turn{i + 1}.wav"
@@ -38,8 +38,8 @@ def test_director_run_plans_six_exact_continuation_jobs(tmp_path):
     planned = run.plan(_script(), audio_paths=audio, plate_paths=plates)
     assert planned.premise_id == "lf-001"
     assert len(planned.clips) == 6
-    assert all(c["frames"] == 48 for c in planned.clips)
-    assert all(c["continuation_extras"]["requested_frames"] == 48
+    assert all(c["frames"] == 56 for c in planned.clips)
+    assert all(c["continuation_extras"]["requested_frames"] == 56
                for c in planned.clips)
     record = json.loads(dataset.read_text().splitlines()[0])
     assert record["status"] == "planned"
@@ -73,11 +73,11 @@ def test_run_film_strict_flag_uses_repo_chain_path(tmp_path):
         script, plates_dir, characters=[
             {"name": "Mara", "sn_tag": "S1", "description": "keeper"},
             {"name": "Ivo", "sn_tag": "S2", "description": "engineer"},
-        ], audio_paths=audio, durations=[2.0] * 6,
+        ], audio_paths=audio, durations=[56 / 24] * 6,
         dry_run=True, continuation_mode=True)
     assert len(clips) == 6
     assert all(clip["kind"] == "ref2va_render" for clip in clips)
-    assert all(clip["frames"] == 48 for clip in clips)
+    assert all(clip["frames"] == 56 for clip in clips)
 
 
 def test_director_run_accepts_per_cut_silent_face_pairs(tmp_path):

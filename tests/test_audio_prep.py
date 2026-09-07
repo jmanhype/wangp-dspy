@@ -37,16 +37,31 @@ def test_prepare_turn_audio_trims_boosts_and_verifies(tmp_path):
     assert calls[1][-1] == str(output)
 
 
-def test_prepare_turn_audio_rejects_short_source(tmp_path):
+def test_prepare_turn_audio_pads_short_source_to_grid_cut(tmp_path):
     source = pathlib.Path(tmp_path) / "short.wav"
     source.write_bytes(b"raw")
+    output = pathlib.Path(tmp_path) / "out.wav"
+    calls = []
+    probes = iter(("2.000000\n", "2.333333\n"))
 
     def run(argv):
-        return SimpleNamespace(returncode=0, stdout="1.25\n", stderr="")
+        calls.append(list(argv))
+        if argv[0] == "ffprobe":
+            return SimpleNamespace(returncode=0, stdout=next(probes), stderr="")
+        if argv[0] == "ffmpeg" and "volumedetect" in argv:
+            return SimpleNamespace(returncode=0, stdout="",
+                                   stderr="mean_volume: -18.0 dB")
+        if argv[0] == "ffmpeg":
+            output.write_bytes(b"wav")
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
 
-    with pytest.raises(AudioPreparationError, match="shorter"):
-        prepare_turn_audio(str(source), str(tmp_path / "out.wav"),
-                           speaker_id="S1", runner=run)
+    prepared = prepare_turn_audio(
+        str(source), str(output), speaker_id="S1",
+        target_duration_s=56 / 24, runner=run)
+    assert prepared.measured_duration_s == 2.333333
+    render = next(c for c in calls if c[0] == "ffmpeg"
+                  and "volumedetect" not in c)
+    assert any("apad=pad_dur=0.333333" in arg for arg in render)
 
 
 def test_prepare_turn_audio_rejects_multispeaker_or_silent(tmp_path):

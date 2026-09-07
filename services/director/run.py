@@ -1,7 +1,7 @@
 """Repo-owned DirectorRun orchestration for a disposable continuation film.
 
 This is the narrow production seam between creative planning and the durable
-jobs queue.  It owns premise resolution, exact six-cut/2-second chain
+jobs queue.  It owns premise resolution, exact six-cut/grid-aligned chain
 planning, dataset-run emission, and job submission; rendering remains in
 ``JobExecutor``/``WanGPAdapter.render_for_job``.
 """
@@ -14,6 +14,7 @@ from typing import Callable, Optional, Sequence
 from services.chain.controller import build_chain_plan, emit_render_manifest
 from services.director.premises import Premise, resolve_premise
 from services.director.run_records import append_dataset_run
+from predict.job_config import CONTINUATION_FRAMES_MIN
 
 
 class DirectorRunError(ValueError):
@@ -29,7 +30,7 @@ class DirectorRunPlan:
 
 
 class DirectorRun:
-    """One repo-attributed, six-cut dialogue run."""
+    """One repo-attributed, six-cut grid-aligned dialogue run."""
 
     def __init__(self, *, run_id: str, premise: Premise | str | None = None,
                  dataset_run_path: str | Path | None = None,
@@ -62,7 +63,8 @@ class DirectorRun:
                     len(pair) != 2 for pair in plate_paths):
                 raise DirectorRunError(
                     "plate_paths: per-cut form must contain six [anchor, silent_face] pairs")
-        durations = [2.0] * 6
+        cut_duration_s = CONTINUATION_FRAMES_MIN / 24.0
+        durations = [cut_duration_s] * 6
         characters = [dict(c) for c in self.premise.characters]
         try:
             chain = build_chain_plan(
@@ -73,8 +75,11 @@ class DirectorRun:
         except Exception as exc:
             raise DirectorRunError(f"continuation planning failed: {exc}") from exc
         # A strict continuation manifest has one render job per dialogue turn.
-        if len(clips) != 6 or any(c.get("frames") != 48 for c in clips):
-            raise DirectorRunError("continuation plan did not emit six exact 48-frame jobs")
+        if len(clips) != 6 or any(
+                c.get("frames") != CONTINUATION_FRAMES_MIN for c in clips):
+            raise DirectorRunError(
+                "continuation plan did not emit six grid-aligned "
+                f"{CONTINUATION_FRAMES_MIN}-frame jobs")
         if self.dataset_run_path is not None:
             append_dataset_run(
                 self.dataset_run_path, run_id=self.run_id, status="planned",

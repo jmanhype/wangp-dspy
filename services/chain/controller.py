@@ -32,6 +32,10 @@ from services.director.renderers.policy import check_duration_on_grid
 from predict.continuation_lane import (
     ContinuationExtras, build_picture_n_speaker_prompt,
 )
+from predict.job_config import (
+    CONTINUATION_FRAMES_MIN,
+    normalize_continuation_frame_count,
+)
 from predict.speaker_manifest import SpeakerTurn, build_speaker_manifest
 from predict.model_types import REF2VA_MODEL_TYPE
 
@@ -122,12 +126,16 @@ def build_chain_plan(
                 f"script line {i}: unknown speaker {speaker!r} (roster: "
                 f"{sorted(name_to_sn)})")
         if continuation_mode:
-            if abs(float(duration_s) - 2.0) > 1e-9:
+            requested = int(round(float(duration_s) * _FPS))
+            aligned = normalize_continuation_frame_count(requested)
+            if requested != aligned:
                 raise ChainPlanError(
                     f"script line {i}: continuation duration must be "
-                    f"exactly 2.0s, got {duration_s!r}")
-            full_frames = 48
-            frames = 48
+                    f"grid-aligned (minimum {CONTINUATION_FRAMES_MIN}f), "
+                    f"got {duration_s!r} ({requested}f); use "
+                    f"{aligned / _FPS:.3f}s")
+            full_frames = aligned
+            frames = aligned
         else:
             try:
                 full_frames = check_duration_on_grid(duration_s, _FPS)
@@ -318,15 +326,15 @@ def _continuation_config(
         image_start=image_start,
         image_refs=image_refs,
         audio_guide=clip.audio.path,
-        video_length=48,
-        requested_frames=48,
+        video_length=clip.frames,
+        requested_frames=clip.frames,
     )
     extra = extras.to_extra()
     provenance = {
         "source_master": clip.audio.path,
         "vocal_stem": clip.audio.path,
         "whisper_map": clip.audio.path,
-        "keeper_window_s": [0.0, 2.0],
+        "keeper_window_s": [0.0, clip.duration_s],
     }
     return {
         "clip_index": clip.index,
@@ -347,16 +355,16 @@ def _continuation_config(
         "audio_provenance": provenance,
         "speaker_manifest": speaker_manifest,
         "audio_policy": {"discard_rendered_audio": True},
-        "guide_duration_s": 2.0,
-        "shot_duration_s": 2.0,
-        "audio_length_frames": 48,
-        "video_length": 48,
-        "requested_frames": 48,
+        "guide_duration_s": clip.duration_s,
+        "shot_duration_s": clip.duration_s,
+        "audio_length_frames": clip.frames,
+        "video_length": clip.frames,
+        "requested_frames": clip.frames,
         "continuation_extras": extra,
         "steps": _RECIPE_STEPS,
         "spectrum_cache": True,
         "resolution": [480, 832],
-        "frames": 48,
+        "frames": clip.frames,
         "force_fps": _FPS,
         "seed": clip.seed,
         "chain": {
@@ -366,7 +374,7 @@ def _continuation_config(
         },
         "audio": {"path": clip.audio.path, "apad": True,
                   "start_s": clip.audio.start_s,
-                  "padded_duration_s": 2.0},
+                  "padded_duration_s": clip.duration_s},
     }
 
 
