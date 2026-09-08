@@ -1,16 +1,19 @@
 # Finding #33 — no repo-owned acceptance bundle runner
 
-**Status:** Confirmed 2026-09-07; blocks the requested repo-only rerun.
+**Status:** Confirmed and runner implemented 2026-09-07; current bundle is
+blocked by Finding #35.
 
-`assets/acceptance/staging_r2.json` is a committed data bundle, but the repo
-has no CLI/module entrypoint that consumes it and performs the complete
+Before the closing PR, `assets/acceptance/staging_r2.json` was a committed data
+bundle without a repo-owned CLI/module entrypoint that consumed it and performed the complete
 `DirectorRun.plan -> DirectorRun.submit -> run_jobs` flow. `DirectorRun` is a
 Python API and `scripts/run_film.py` accepts hand-supplied script/plate
 arguments; neither reads the bundle format (including its media manifest).
 
-Starting the rerun therefore requires an ad-hoc wrapper, which would violate
-the repo-only acceptance rule and recreate the staging seam this guard was
-intended to remove.
+That gap is now closed by `scripts/run_acceptance.py`. It normalizes the
+bundle, resolves the premise, invokes `DirectorRun.plan`, submits to
+`JobQueue`, drains through `run_jobs`, assembles with `assemble_media`, and
+emits an append-only completed run record. It refuses before queue creation
+when the premise cannot be resolved (Finding #35).
 
 ## Minimal PR
 
