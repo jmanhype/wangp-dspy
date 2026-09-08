@@ -215,14 +215,20 @@ def build_executor(queue, host=None, pre_render=None,
         if adapter is None:
             raise RuntimeError(
                 "no host wired — run_jobs needs a host for real renders")
-        # NIGHT TWO fix 3: render-leg phased VRAM — on the localhost
-        # lane, llama-server (the QC stack preflight needed) is killed
-        # BEFORE the wgp render so it gets the VRAM.
-        if _is_localhost():
+        # The local Qwen judge and WanGP are mutually exclusive GPU tenants.
+        # Keep the judge up for preflight, stop it immediately before the
+        # render leg, and restore it before QC.  This applies to both an SSH
+        # target (the normal 3090 path) and a localhost SshHost.
+        judge_was_timeshared = _uses_local_vision_backend()
+        if judge_was_timeshared:
             free_vram_for_render(host)
-        # Never call adapter.render() here.  That legacy API accepts a
-        # brief/settings shape and cannot carry ContinuationExtras.
-        res = render_for_job(clip)
+        try:
+            # Never call adapter.render() here.  That legacy API accepts a
+            # brief/settings shape and cannot carry ContinuationExtras.
+            res = render_for_job(clip)
+        finally:
+            if judge_was_timeshared:
+                start_local_vision_judge(host)
         settings = getattr(res, "settings_path", "") or ""
         log = (str(Path(settings).parent) + "/render.log"
                if settings else "render.log")
@@ -323,11 +329,15 @@ def _queue_requires_vision(queue) -> bool:
     return False
 
 
-def _build_executor_with_optional_judge(queue, *, host, vision_judge):
+def _build_executor_with_optional_judge(queue, *, host, vision_judge,
+                                        pre_render=None):
     """Preserve the injectable test seam while wiring production judges."""
-    if vision_judge is None:
-        return build_executor(queue, host=host)
-    return build_executor(queue, host=host, vision_judge=vision_judge)
+    kwargs = {"host": host}
+    if vision_judge is not None:
+        kwargs["vision_judge"] = vision_judge
+    if pre_render is not None:
+        kwargs["pre_render"] = pre_render
+    return build_executor(queue, **kwargs)
 
 
 def _default_vision_judge(host=None):
@@ -339,7 +349,7 @@ def _default_vision_judge(host=None):
     """
     backend = (os.environ.get("WANGP_VISION_BACKEND") or
                "modelscope").strip().casefold()
-    if backend in {"local", "3090", "llama", "llama-server"}:
+    if backend in _LOCAL_VISION_BACKENDS:
         from qc.audio_critic.local_qwen_vision_judge import (
             build_local_qwen_vision_judge,
         )
@@ -355,7 +365,7 @@ def _default_vision_judge(host=None):
 
 
 def drain_once(queue, host=None, dry_run: bool = False, limit=None,
-               vision_judge=None):
+               vision_judge=None, pre_render=None):
     """Run admissible jobs until none remain (or `limit` jobs, for
      --once callers). Returns list of handled job ids. --dry-run emits
      what would run WITHOUT host calls and WITHOUT mutating state."""
@@ -367,6 +377,8 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None,
                   f"(kinds={[c.get('kind') for c in job.clips]})")
         return handled
     handled = []
+    effective_pre_render = (pre_render if pre_render is not None else
+                            _pre_render_default(host))
     while limit is None or len(handled) < limit:
         _recover_stale_active(queue)
         jid = next_admissible(queue)
@@ -374,7 +386,8 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None,
             return handled
         job = queue.get(jid)
         ex = _build_executor_with_optional_judge(
-            queue, host=host, vision_judge=vision_judge)
+            queue, host=host, vision_judge=vision_judge,
+            pre_render=effective_pre_render)
         ex.run_once()
         handled.append(jid)
         # r2i -> fl2va dependency: extract + record the last frame
@@ -444,7 +457,8 @@ def main(argv=None):
                 return 0
             from services.jobs.executor import JobExecutor
             ex = _build_executor_with_optional_judge(
-                queue, host=production_host, vision_judge=vision_judge)
+                queue, host=production_host, vision_judge=vision_judge,
+                pre_render=_pre_render_default(production_host))
             ex.run_once()
             print(f"ran {jid}: state={queue.get(jid).state}")
             return 0
@@ -477,6 +491,59 @@ def _is_localhost() -> bool:
     return os.environ.get("WANGP_SSH_TARGET", "") == "localhost"
 
 
+_LOCAL_VISION_BACKENDS = {"local", "3090", "llama", "llama-server"}
+DEFAULT_JUDGE_CTL = "/home/straughter/marathon/bin/judge_ctl.sh"
+DEFAULT_JUDGE_START_TIMEOUT = 180.0
+
+
+def _uses_local_vision_backend() -> bool:
+    """Whether the blocking judge is the render host's local Qwen server."""
+    return ((os.environ.get("WANGP_VISION_BACKEND") or
+             "modelscope").strip().casefold() in _LOCAL_VISION_BACKENDS)
+
+
+def _judge_ctl_path() -> str:
+    path = (os.environ.get("WANGP_JUDGE_CTL") or
+            DEFAULT_JUDGE_CTL).strip()
+    if not path:
+        raise RuntimeError("WANGP_JUDGE_CTL must not be empty")
+    # SshHost.run_probe forwards argv through a remote command line.  A path
+    # containing whitespace would be split by that transport and invoke the
+    # wrong command; fail closed instead of silently skipping VRAM control.
+    if any(char.isspace() for char in path):
+        raise RuntimeError("WANGP_JUDGE_CTL must not contain whitespace")
+    return path
+
+
+def _judge_start_timeout() -> float:
+    raw = os.environ.get("WANGP_JUDGE_START_TIMEOUT")
+    try:
+        value = float(raw) if raw else DEFAULT_JUDGE_START_TIMEOUT
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError(
+            "WANGP_JUDGE_START_TIMEOUT must be numeric") from exc
+    if value <= 0:
+        raise RuntimeError("WANGP_JUDGE_START_TIMEOUT must be positive")
+    return value
+
+
+def _run_judge_ctl(host, action: str, *, timeout: float) -> None:
+    if host is None or not callable(getattr(host, "run_probe", None)):
+        raise RuntimeError(
+            "a RenderHost with run_probe is required for judge lifecycle")
+    rc, out, err = host.run_probe([_judge_ctl_path(), action],
+                                  timeout=timeout)
+    if rc != 0:
+        detail = (err or out or "").strip()[-500:]
+        raise RuntimeError(
+            f"judge_ctl {action} failed (rc={rc}): {detail}")
+
+
+def start_local_vision_judge(host) -> None:
+    """Start the host-local judge and wait for its control-script health gate."""
+    _run_judge_ctl(host, "start", timeout=_judge_start_timeout())
+
+
 # NIGHT TWO (2026-09-03, live-verified shape on the 3090): the direct
 # llama-server launch fallback when the systemd unit is absent.
 LLAMA_SERVER_LOG = "/tmp/llama-server.log"
@@ -492,12 +559,25 @@ def llama_server_argv(log_path: str = LLAMA_SERVER_LOG) -> list:
 
 
 def free_vram_for_render(host) -> None:
-    """RENDER-LEG phased VRAM: kill llama-server so the wgp render gets
-    the VRAM (NIGHT TWO — the kill lives in the render leg, NOT in the
-    pre-preflight phase; preflight still needs the QC stack up).
+    """Stop the local judge before WanGP claims GPU memory.
+
+    The operator-owned control script is used on SSH and localhost alike;
+    unlike a bare ``pkill`` it also records the service transition and keeps
+    start/stop behavior idempotent for retries.
     """
-    host.run_probe(["pkill", "-f", "llama-server"], timeout=30)
+    _run_judge_ctl(host, "stop", timeout=30)
     host.run_probe(["sleep", "3"], timeout=30)
+
+
+def remote_judge_pre_render(host):
+    """Hook that brings the judge up before the preflight health probe.
+
+    The render closure stops it again immediately before WanGP, then starts
+    it in a ``finally`` block before the visual QC phase.
+    """
+    def _start(_clip):
+        start_local_vision_judge(host)
+    return _start
 
 
 def localhost_pre_render(clip) -> None:
@@ -550,11 +630,13 @@ def _qc_health_wait(run_fn, *, url=None,
 
 
 def _pre_render_default(host):
-    """Default-on phased QC/kill hook ONLY for localhost execution."""
+    """Default-on judge lifecycle hook for local-Qwen production runs."""
+    if not _uses_local_vision_backend():
+        return None
     target = os.environ.get("WANGP_SSH_TARGET", "")
     if target == "localhost":
         return localhost_pre_render
-    return None
+    return remote_judge_pre_render(host)
 
 
 if __name__ == "__main__":

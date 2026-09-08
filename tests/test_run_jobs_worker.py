@@ -173,6 +173,46 @@ class TestExecutorNeedsGating:
 
 
 class TestRenderForJobWiring:
+    def test_remote_local_judge_timeshare_wraps_render(
+            self, monkeypatch):
+        """The remote 3090 path must release judge VRAM for H3, then
+        restore the judge before the post-render QC phase."""
+        monkeypatch.setenv("WANGP_VISION_BACKEND", "local")
+        monkeypatch.setenv("WANGP_JUDGE_CTL", "/opt/judge_ctl.sh")
+
+        host = FakeHost()
+
+        class _Res:
+            video_path = "renders/out.mp4"
+            settings_path = "renders/render"
+
+        monkeypatch.setattr(
+            "host.wangp_adapter.WanGPAdapter.render_for_job",
+            lambda self, clip: _Res())
+        ex = run_jobs.build_executor(queue=None, host=host)
+        ex.render({"clip_index": 1})
+
+        lifecycle = [call for call in host.calls
+                     if call[:2] in (["/opt/judge_ctl.sh", "stop"],
+                                     ["/opt/judge_ctl.sh", "start"])
+                     or call[:1] == ["sleep"]]
+        assert lifecycle == [
+            ["/opt/judge_ctl.sh", "stop"], ["sleep", "3"],
+            ["/opt/judge_ctl.sh", "start"],
+        ]
+
+    def test_remote_local_judge_pre_render_starts_control_script(
+            self, monkeypatch):
+        monkeypatch.setenv("WANGP_VISION_BACKEND", "local")
+        monkeypatch.setenv("WANGP_SSH_TARGET", "3090")
+        monkeypatch.setenv("WANGP_JUDGE_CTL", "/opt/judge_ctl.sh")
+        host = FakeHost()
+
+        hook = run_jobs._pre_render_default(host)
+        assert hook is not None
+        hook({"clip_index": 1})
+        assert host.calls == [["/opt/judge_ctl.sh", "start"]]
+
     def test_build_executor_fails_closed_without_per_job_renderer(
             self, monkeypatch):
         """A production adapter without render_for_job must be rejected

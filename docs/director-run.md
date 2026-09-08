@@ -41,6 +41,8 @@ runs too):
 | `WANGP_LOCAL_VISION_ENDPOINT` | `http://localhost:8000/v1/chat/completions` | Remote-local Qwen-VL endpoint used when the local backend is selected. |
 | `WANGP_LOCAL_VISION_MODEL` | `q` | llama-server model name for the local vision judge. |
 | `WANGP_LOCAL_VISION_MAX_TOKENS` | `512` | Minimum response budget for reasoning Qwen-VL; the adapter still fails closed when no score JSON is returned. |
+| `WANGP_JUDGE_CTL` | `/home/straughter/marathon/bin/judge_ctl.sh` | Host control script used to stop the local judge before H3 rendering and start/health-check it before visual QC. |
+| `WANGP_JUDGE_START_TIMEOUT` | `180` | Timeout for the judge control script's model-load health check. |
 | `MODELSCOPE_VISION_BASE_URL` | `https://api-inference.modelscope.cn/v1` | ModelScope OpenAI-compatible base URL. |
 | `MODELSCOPE_VISION_MODEL` | `qwen3.8-max` | ModelScope vision deployment name. |
 | `MODELSCOPE_VISION_MAX_TOKENS` | `512` | Response budget for the ModelScope judge. |
