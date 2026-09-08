@@ -20,5 +20,6 @@ new hard gate and produce another meaningless verdict.
 Qwen-VL callable: it extracts start/middle/end frames, sends identity-aware
 image prompts, parses the three required scores, and fails closed on missing
 credentials, malformed responses, or extraction/API errors. `run_jobs.py` and
-`run_film.py` load it from `MODELSCOPE_API_KEY`/`MODELSCOPE_TOKEN` before
-production work; tests cover the API and frame contract.
+`run_film.py` load it from `MODELSCOPE_API_KEY`, `MODELSCOPE_TOKEN`, or
+`MODELSCOPE_API_TOKEN` before production work; tests cover the API and frame
+contract.
