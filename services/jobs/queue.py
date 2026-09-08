@@ -207,6 +207,7 @@ class JobQueue:
             " parent_attempt_id INTEGER,"
             " status TEXT NOT NULL,"
             " reopen_reason TEXT,"
+            " attempt_reason TEXT,"
             " created_at REAL NOT NULL)")
         attempt_cols = {
             r["name"] for r in self._db.execute(
@@ -215,6 +216,9 @@ class JobQueue:
         if "reopen_reason" not in attempt_cols:
             self._db.execute(
                 "ALTER TABLE job_attempts ADD COLUMN reopen_reason TEXT")
+        if "attempt_reason" not in attempt_cols:
+            self._db.execute(
+                "ALTER TABLE job_attempts ADD COLUMN attempt_reason TEXT")
         self._db.execute(
             "CREATE INDEX IF NOT EXISTS idx_job_attempts_job "
             "ON job_attempts(job_id, attempt_no)")
@@ -445,12 +449,14 @@ class JobQueue:
         self._db.commit()
         return self._latest_attempt(job_id)
 
-    def requeue_failed(self, job_id: str) -> int:
+    def requeue_failed(self, job_id: str, *, reason: str = "") -> int:
         """Queue a new immutable attempt for a failed job.
 
         The previous attempt/failure is never edited.  A deterministic
         repeat of that failure on this new attempt disables further retry,
-        preventing an infinite drain loop.
+        preventing an infinite drain loop.  ``reason`` is stored on the
+        newly queued attempt when supplied so automated retries are
+        distinguishable from an operator's generic failed-job retry.
         """
         rec = self.get(job_id)
         if rec.state != "failed":
@@ -465,11 +471,12 @@ class JobQueue:
             raise JobRetryError(
                 f"job {job_id} has no recorded failure attempt")
         now = time.time()
+        reason = str(reason or "").strip() or None
         cur = self._db.execute(
             "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
-            "status,created_at) VALUES (?,?,?,?,?)",
+            "status,attempt_reason,created_at) VALUES (?,?,?,?,?,?)",
             (job_id, int(latest["attempt_no"]) + 1,
-             latest["attempt_id"], "queued", now))
+             latest["attempt_id"], "queued", reason, now))
         attempt_id = int(cur.lastrowid)
         # The transition is deliberately after the append: if it fails,
         # no old evidence was mutated and the new row remains auditable.
@@ -604,6 +611,7 @@ class JobQueue:
                 "attempt_no": row["attempt_no"],
                 "parent_attempt_id": row["parent_attempt_id"],
                 "reopen_reason": row["reopen_reason"],
+                "attempt_reason": row["attempt_reason"],
                 "status": "failed" if failure is not None
                 else row["status"],
                 "created_at": row["created_at"],

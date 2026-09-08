@@ -2,6 +2,8 @@
 import pytest
 
 from services.jobs.executor import JobExecutor, RenderOutcome
+from services.jobs.queue import JobQueue
+from qc.audio_critic.ref2va_stage import Ref2VAQCStageError
 from services.jobs.states import InvalidTransition
 
 
@@ -267,3 +269,95 @@ def _qc_unavailable():
     def qc(clip):
         raise ConnectionError("QC service unavailable")
     return qc
+
+
+def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
+    """A stochastic attribution miss gets two fresh seeds, then stops.
+
+    The old render/log are retained in clip history, while the queue gets a
+    new immutable attempt row for each retry.  A third visual miss is
+    terminal and records the final seed rather than looping forever.
+    """
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="acceptance", clips=[{
+        "clip_index": 2, "status": "pending", "seed": 41,
+        "log": None, "mp4": None, "qc_verdict": None,
+    }])
+
+    def visual_miss(_clip):
+        raise Ref2VAQCStageError(
+            "visual gate failed: mouth/action/speaker attribution below pass bar")
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=visual_miss)
+
+    def mark_rendered_for_qc():
+        q.set_state(jid, "preflight")
+        q.set_state(jid, "rendering")
+        rec = q.get(jid)
+        clip = rec.clips[0]
+        clip.update({"status": "rendered", "log": "render.log",
+                     "mp4": f"cut-seed-{clip['seed']}.mp4",
+                     "qc_verdict": None})
+        q.update_clips(jid, rec.clips)
+        q.set_state(jid, "rendered_pending_qc")
+        q.set_state(jid, "qc")
+
+    # First miss: seed 41 -> 42, attempt 2 is queued.
+    mark_rendered_for_qc()
+    ex._qc_clips(q.get(jid))
+    rec = q.get(jid)
+    assert rec.state == "pending"
+    assert rec.clips[0]["seed"] == 42
+    assert rec.clips[0]["status"] == "pending"
+    assert rec.clips[0]["vision_retry_count"] == 1
+    assert rec.clips[0]["vision_retry_history"][0]["mp4"] == (
+        "cut-seed-41.mp4")
+    history = q.attempt_history(jid)
+    assert [row["status"] for row in history] == ["failed", "queued"]
+    assert "seed 41 -> 42" in history[-1]["attempt_reason"]
+
+    # Second miss: seed 42 -> 43, another immutable attempt is appended.
+    mark_rendered_for_qc()
+    ex._qc_clips(q.get(jid))
+    rec = q.get(jid)
+    assert rec.state == "pending"
+    assert rec.clips[0]["seed"] == 43
+    assert rec.clips[0]["vision_retry_count"] == 2
+    history = q.attempt_history(jid)
+    assert [row["status"] for row in history] == [
+        "failed", "failed", "queued"]
+    assert "seed 42 -> 43" in history[-1]["attempt_reason"]
+
+    # Third miss: retry budget exhausted; no fourth attempt is created.
+    mark_rendered_for_qc()
+    ex._qc_clips(q.get(jid))
+    rec = q.get(jid)
+    assert rec.state == "dead_letter"
+    assert rec.clips[0]["seed"] == 43
+    assert len(q.attempt_history(jid)) == 3
+    assert q.attempt_history(jid)[-1]["failure_detail"].endswith("seed=43")
+    q.close()
+
+
+def test_non_visual_qc_failure_does_not_seed_retry(tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="acceptance", clips=[{
+        "clip_index": 1, "status": "rendered", "seed": 9,
+        "log": "render.log", "mp4": "cut.mp4", "qc_verdict": None,
+    }])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.set_state(jid, "rendered_pending_qc")
+    q.set_state(jid, "qc")
+
+    def judge_timeout(_clip):
+        raise Ref2VAQCStageError("vision judge failed: timeout")
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=judge_timeout)
+    ex._qc_clips(q.get(jid))
+    assert q.get(jid).state == "failed"
+    assert q.get(jid).clips[0]["seed"] == 9
+    assert q.attempt_history(jid)[0]["status"] == "failed"
+    q.close()

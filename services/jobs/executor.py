@@ -32,6 +32,7 @@ from services.jobs.modes import (
 _DENOISE_COMPLETE_RE = re.compile(
     r"(?i)denoising:?\s[^\r\n]{0,200}?(\d+)/(\d+)\b")
 _LOG_TAIL_CHARS = 800
+_DEFAULT_VISION_RETRIES = 2
 
 # ── per-job-kind render-lane dispatch table (PR feat/ref2va-jobs-routing)
 # kind -> lane. Semantic product modes (PR #62 amendment): the four
@@ -87,6 +88,35 @@ def _unresolved_chain_ref(clip: dict) -> Optional[str]:
     return None
 
 
+def _is_visual_gate_failure(exc: Exception) -> bool:
+    """Return true only for a pixel-gate rejection.
+
+    The Ref2VA QC stage wraps ``VisionJudgeError`` in
+    ``Ref2VAQCStageError``.  Service failures (timeouts, malformed JSON,
+    missing frames) use different messages and must remain terminal rather
+    than being hidden by a seed retry.  Keep this predicate deliberately
+    narrow so the retry policy applies to the probabilistic attribution
+    failure the judge actually observed.
+    """
+    text = str(exc).casefold()
+    return "visual gate failed:" in text or "vision gate failed:" in text
+
+
+def _seed_value(clip: dict):
+    """Read a render seed without accepting an absent/invalid value."""
+    value = clip.get("seed")
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and value.strip():
+        try:
+            return int(value.strip())
+        except ValueError:
+            return None
+    return None
+
+
 class JobExecutor:
     """One trusted 3090; single-job step machine driver.
 
@@ -113,6 +143,16 @@ class JobExecutor:
         self.ref2va_render = ref2va_render
         self.qc = qc
         self.max_failures = max_failures
+        raw_retries = os.environ.get("WANGP_VISION_RETRIES")
+        try:
+            self.vision_retries = (int(raw_retries)
+                                   if raw_retries is not None
+                                   else _DEFAULT_VISION_RETRIES)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "WANGP_VISION_RETRIES must be a non-negative integer") from exc
+        if self.vision_retries < 0:
+            raise ValueError("WANGP_VISION_RETRIES must be non-negative")
         # Job picker: given the queue, return the next pending job id
         # to execute (or None). PRODUCTION DEFAULT is needs-aware —
         # a job whose `needs` dependency is not done can NEVER be
@@ -231,7 +271,17 @@ class JobExecutor:
                 if e.__class__.__name__ in {
                         "Ref2VAQCStageError", "WhisperGateError",
                         "VisionJudgeError"}:
-                    self._fail(job, "qc_gate", str(e))
+                    detail = str(e)
+                    if _is_visual_gate_failure(e):
+                        if self._retry_visual_gate(job, clip, detail):
+                            return
+                        # Include the seed on the terminal/exhausted
+                        # attempt too, so the durable failure signature and
+                        # operator report identify every render tried.
+                        seed = _seed_value(clip)
+                        if seed is not None:
+                            detail = f"{detail}; seed={seed}"
+                    self._fail(job, "qc_gate", detail)
                     return
                 # QC unavailable mid-job: park, do NOT fail
                 self.queue.set_state(job.job_id,
@@ -247,6 +297,79 @@ class JobExecutor:
                 log=clip["log"], mp4=clip["mp4"],
                 qc_verdict={"verdict": "KEEP", "path": qc_path})
         self.queue.set_state(job.job_id, "done")
+
+    def _retry_visual_gate(self, job, clip: dict, detail: str) -> bool:
+        """Requeue a visual-gate rejection with a bumped seed.
+
+        A failed judge score is expected stochastic noise for this recipe,
+        so permit two fresh render attempts.  Every attempt remains
+        append-only in the durable queue and the clip retains the prior
+        render/log plus the exact failure detail.  Missing or invalid seeds,
+        an exhausted budget, and queue implementations without the audited
+        retry seam all fail closed as ordinary QC failures.
+        """
+        count_raw = clip.get("vision_retry_count", 0)
+        try:
+            count = int(count_raw)
+        except (TypeError, ValueError):
+            return False
+        if count < 0 or count >= self.vision_retries:
+            return False
+        seed = _seed_value(clip)
+        if seed is None:
+            return False
+        requeue = getattr(self.queue, "requeue_failed", None)
+        update_clips = getattr(self.queue, "update_clips", None)
+        if not callable(requeue) or not callable(update_clips):
+            return False
+
+        # Include the seed in the failure signature.  Two different seeds
+        # are distinct probabilistic attempts; the queue's same-signature
+        # loop guard must still stop a deterministic repeat when a seed was
+        # accidentally not changed.
+        failure_detail = f"{detail}; seed={seed}"
+        self._fail(job, "qc_gate", failure_detail)
+        current = self.queue.get(job.job_id)
+        if current.state != "failed":
+            return False
+
+        next_seed = seed + 1
+        history = clip.get("vision_retry_history")
+        if not isinstance(history, list):
+            history = []
+        history = list(history)
+        history.append({
+            "attempt": count + 1,
+            "seed": seed,
+            "mp4": clip.get("mp4"),
+            "log": clip.get("log"),
+            "failure_class": "qc_gate",
+            "failure_detail": failure_detail,
+        })
+        # Reset only this clip's render/QC claims.  Chain metadata and all
+        # completed predecessor clips remain intact for the next attempt.
+        original = dict(clip)
+        clip["vision_retry_count"] = count + 1
+        clip["vision_retry_history"] = history
+        clip["seed"] = next_seed
+        clip["status"] = "pending"
+        clip["log"] = None
+        clip["mp4"] = None
+        clip["qc_verdict"] = None
+        update_clips(job.job_id, job.clips)
+        reason = (f"vision gate retry {count + 1}/{self.vision_retries}; "
+                  f"seed {seed} -> {next_seed}")
+        try:
+            requeue(job.job_id, reason=reason)
+        except Exception:
+            # The failed attempt and its clip history are durable even when
+            # a concurrent worker/state race prevents requeueing. Restore
+            # the artifact claim because the job remains terminal failed.
+            clip.clear()
+            clip.update(original)
+            update_clips(job.job_id, job.clips)
+            return True
+        return True
 
     # -- main driver -------------------------------------------------
     def run_once(self) -> Optional[str]:
