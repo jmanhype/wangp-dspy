@@ -83,7 +83,7 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
     assert len([part for part in content if part["type"] == "image_url"]) == 3
     assert "elderly grandmother with round glasses" in content[0]["text"]
     assert "flaming skeleton" in content[0]["text"]
-    assert "FINAL line" in content[0]["text"]
+    assert "exactly one JSON object" in content[0]["text"]
 
 
 def test_modelscope_judge_falls_back_to_reasoning_content(

@@ -260,18 +260,14 @@ class ModelScopeVisionJudge:
     @staticmethod
     def _prompt(expected_speaker: str, expected_action: str) -> str:
         return (
-            "Inspect the three frames from one video cut (start, middle, end). "
-            "Identity matters: use the speaker's description and the other "
-            "character's description, not a generic person match. Determine "
-            f"whether {expected_speaker} is the character whose mouth moves, "
-            "whether the other character remains silent with a closed mouth, "
-            f"and whether this action is present: {expected_action}. "
-            "Reason briefly internally without exposing chain-of-thought. "
-            "Do not explain your analysis. Put the final answer on the FINAL "
-            "line exactly as one JSON object and nothing else, with numeric "
-            '0..1 fields: {"mouth_sync": 0.0, "action_match": 0.0, '
-            '"speaker_attribution": 0.0}. Do not put markdown or prose on '
-            "that final line. Use 1.0 only for clear evidence."
+            "Visual QC for three frames (start, middle, end). Expected "
+            f"speaking identity and silent counterpart: {expected_speaker}. "
+            f"Expected action: {expected_action}. Score whether the expected "
+            "identity is the mouth-moving character, the counterpart stays "
+            "silent, and the action is visible. Do not explain or expose "
+            "reasoning. Respond with exactly one JSON object and nothing else: "
+            '{"mouth_sync": 0.0, "action_match": 0.0, '
+            '"speaker_attribution": 0.0}. Use 1.0 only for clear evidence.'
         )
 
     @staticmethod
