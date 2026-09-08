@@ -2,6 +2,7 @@
   "run_id": "acceptance-grid56-r2",
   "media_manifest": {
     "premise_id": "dg-acceptance",
+    "style_ref": "477f13b55846c16e1f11c255124ffe486c2a3c96c473ad9bec578983b8515aaf",
     "plates": {
       "anchor": "assets/acceptance/plate.png",
       "grandma": "assets/acceptance/face_grandma.png",

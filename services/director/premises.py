@@ -17,6 +17,9 @@ class Premise:
     title: str
     logline: str
     characters: tuple[dict, ...]
+    # Optional until every legacy Lost Futures entry has a registered visual
+    # anchor. Acceptance/production bundles must provide it when present.
+    style_ref: str = ""
 
     def __post_init__(self):
         if not self.id.strip() or not self.title.strip() or not self.logline.strip():
@@ -52,7 +55,8 @@ def load_lost_futures_index(path: Optional[str | Path] = None) -> tuple[Premise,
         premises = tuple(Premise(
             id=str(item["id"]), title=str(item["title"]),
             logline=str(item["logline"]),
-            characters=tuple(dict(c) for c in item["characters"]))
+            characters=tuple(dict(c) for c in item["characters"]),
+            style_ref=str(item.get("style_ref", "")).strip())
                          for item in payload["premises"])
     except (KeyError, TypeError) as exc:
         raise PremiseIndexError(f"index premise entry malformed: {exc}") from exc

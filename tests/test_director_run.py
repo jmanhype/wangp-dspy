@@ -1,4 +1,5 @@
 import json
+import hashlib
 import pathlib
 
 import pytest
@@ -121,6 +122,42 @@ def test_director_run_accepts_per_cut_silent_face_pairs(tmp_path):
                        media_manifest=media)
     assert planned.clips[0]["image_refs"][1] == str(face_b)
     assert planned.clips[1]["image_refs"][1] == str(face_a)
+
+
+def test_director_run_binds_registered_style_anchor_hash(tmp_path):
+    audio = []
+    for i in range(6):
+        path = pathlib.Path(tmp_path) / f"turn{i + 1}.wav"
+        path.write_bytes(b"wav")
+        audio.append(str(path))
+    anchor = pathlib.Path(tmp_path) / "plate.png"
+    mara = pathlib.Path(tmp_path) / "Mara.png"
+    ivo = pathlib.Path(tmp_path) / "Ivo.png"
+    for path in (anchor, mara, ivo):
+        path.write_bytes(path.name.encode())
+    style_ref = hashlib.sha256(anchor.read_bytes()).hexdigest()
+    premise = __import__("services.director.premises",
+                         fromlist=["Premise"]).Premise(
+        id="style-test", title="Style test", logline="style test",
+        style_ref=style_ref,
+        characters=({"name": "Mara", "sn_tag": "S1", "description": "keeper"},
+                    {"name": "Ivo", "sn_tag": "S2", "description": "engineer"}))
+    script = _script()
+    media = _media_manifest("style-test", script, audio, anchor,
+                            {"Mara": mara, "Ivo": ivo})
+    media["style_ref"] = style_ref
+    planned = DirectorRun(run_id="style-001", premise=premise).plan(
+        script, audio_paths=audio,
+        plate_paths=[str(anchor), str(mara), str(ivo)],
+        media_manifest=media)
+    assert planned.media_manifest["style_ref"] == style_ref
+
+    media["style_ref"] = "0" * 64
+    with pytest.raises(DirectorRunError, match="style_ref mismatch"):
+        DirectorRun(run_id="style-002", premise=premise).plan(
+            script, audio_paths=audio,
+            plate_paths=[str(anchor), str(mara), str(ivo)],
+            media_manifest=media)
 
 
 def test_director_run_rejects_unbound_media_manifest(tmp_path):

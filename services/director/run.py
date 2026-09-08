@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
+import hashlib
 from pathlib import Path
 from typing import Callable, Optional, Sequence
 
@@ -52,6 +53,15 @@ def _canonical_speaker(value, *, by_name: Mapping[str, dict],
         f"{sorted(by_name)}")
 
 
+def _sha256_file(path: str, *, label: str) -> str:
+    """Hash a registered visual anchor without accepting a missing file."""
+    try:
+        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    except OSError as exc:
+        raise DirectorRunError(
+            f"{label}: style anchor is unreadable: {path!r}") from exc
+
+
 def _validate_media_coherence(*, premise: Premise,
                               script_lines: Sequence[dict],
                               audio_paths: Sequence[str],
@@ -93,6 +103,29 @@ def _validate_media_coherence(*, premise: Premise,
         key: _canonical_path(raw_plates[key], label=f"plates.{key}")
         for key in expected_plate_keys
     }
+
+    # Style identity is separate from character identity.  When a premise
+    # registers a master plate hash, production must bind that exact hash and
+    # use matching anchor bytes. Legacy premises without style_ref remain
+    # valid until their manifests are upgraded; stray refs are rejected.
+    registered_style_ref = str(getattr(premise, "style_ref", "") or "").strip()
+    declared_style_ref = str(media_manifest.get("style_ref", "") or "").strip()
+    if registered_style_ref:
+        if declared_style_ref != registered_style_ref:
+            raise DirectorRunError(
+                "media_manifest.style_ref mismatch: expected registered "
+                f"style anchor {registered_style_ref!r}, got "
+                f"{declared_style_ref!r}")
+        actual_style_ref = _sha256_file(
+            canonical_plates["anchor"], label="plates.anchor")
+        if actual_style_ref != registered_style_ref:
+            raise DirectorRunError(
+                "plates.anchor does not match the premise's registered "
+                f"style_ref {registered_style_ref!r}; got {actual_style_ref!r}")
+    elif declared_style_ref:
+        raise DirectorRunError(
+            "media_manifest.style_ref is present but the premise has no "
+            "registered style anchor")
 
     # Match the actual refs emitted into each job.  For per-cut pairs, the
     # second ref must be the silent character's declared identity plate.
@@ -171,6 +204,7 @@ def _validate_media_coherence(*, premise: Premise,
 
     return {
         "premise_id": premise.id,
+        "style_ref": registered_style_ref,
         "plates": canonical_plates,
         "audio": canonical_audio,
         "characters": [

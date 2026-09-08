@@ -60,6 +60,7 @@ def _premise(bundle: Mapping):
                 id=str(raw["id"]), title=str(raw["title"]),
                 logline=str(raw["logline"]),
                 characters=tuple(dict(c) for c in raw["characters"]),
+                style_ref=str(raw.get("style_ref", "")).strip(),
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise AcceptanceBundleError(
@@ -153,6 +154,7 @@ def _normalize_inputs(bundle: Mapping, premise, *, root: Path) -> dict:
         })
     canonical_media = {
         "premise_id": str(media.get("premise_id")),
+        "style_ref": str(media.get("style_ref", "") or "").strip(),
         "plates": canonical_plates,
         "audio": canonical_audio,
     }

@@ -56,16 +56,17 @@
       "id": "dg-acceptance",
       "title": "Devil's Grandma",
       "logline": "The devil's grandmother won't stop feeding cookies to the tormented souls of hell.",
+      "style_ref": "477f13b55846c16e1f11c255124ffe486c2a3c96c473ad9bec578983b8515aaf",
       "characters": [
         {
           "name": "grandma",
           "sn_tag": "S1",
-          "description": "sweet elderly grandmother, round glasses, neat bun, cardigan, carries a plate of cookies and a glass of milk"
+          "description": "Pixar-style 3D elderly grandmother with round glasses, neat bun, cream cardigan, carrying a plate of cookies and a glass of milk"
         },
         {
           "name": "soul",
           "sn_tag": "S2",
-          "description": "skinny tormented soul, ragged, mildly on fire, bewildered"
+          "description": "Pixar-style 3D skinny tormented soul, ragged, mildly on fire, bewildered"
         }
       ]
     }
