@@ -50,6 +50,7 @@ def _bundle(tmp_path):
 def test_bundle_runner_refuses_unregistered_premise(tmp_path):
     bundle = _bundle(tmp_path)
     bundle.pop("premise")
+    bundle["media_manifest"]["premise_id"] = "dg-not-registered"
     path = tmp_path / "staging.json"
     path.write_text(json.dumps(bundle))
     with pytest.raises(AcceptanceBundleError, match="not registered"):

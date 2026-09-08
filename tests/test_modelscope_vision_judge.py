@@ -1,5 +1,6 @@
 import json
 import subprocess
+import time
 
 import pytest
 
@@ -27,6 +28,11 @@ class _Session:
     def post(self, *args, **kwargs):
         self.calls.append((args, kwargs))
         return _Response(self.payload)
+
+
+class _BlockingSession:
+    def post(self, *args, **kwargs):
+        time.sleep(10)
 
 
 def _fake_ffmpeg(monkeypatch):
@@ -92,5 +98,17 @@ def test_modelscope_judge_rejects_out_of_range_score(
     })
     judge = ModelScopeVisionJudge(api_key="test-key", session=session)
     with pytest.raises(ModelScopeVisionJudgeError, match="must be 0..1"):
+        judge(video_path=str(video), expected_speaker="Grandma",
+              expected_action="speaks")
+
+
+def test_modelscope_judge_bounds_blocked_upload(
+        tmp_path, monkeypatch):
+    _fake_ffmpeg(monkeypatch)
+    video = tmp_path / "cut.mp4"
+    video.write_bytes(b"video")
+    judge = ModelScopeVisionJudge(
+        api_key="test-key", timeout_s=0.1, session=_BlockingSession())
+    with pytest.raises(ModelScopeVisionJudgeError, match="including upload"):
         judge(video_path=str(video), expected_speaker="Grandma",
               expected_action="speaks")

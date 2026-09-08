@@ -16,8 +16,10 @@ import base64
 import json
 import os
 import re
+import signal
 import subprocess
 import tempfile
+import threading
 from pathlib import Path
 from typing import Any, Mapping, Optional
 
@@ -33,6 +35,10 @@ _SCORE_KEYS = ("mouth_sync", "action_match", "speaker_attribution")
 
 class ModelScopeVisionJudgeError(ValueError):
     """Typed configuration, media extraction, or API response failure."""
+
+
+class _ModelScopeDeadlineExceeded(TimeoutError):
+    """Internal wall-clock deadline for a request, including upload."""
 
 
 def _env_key() -> str:
@@ -112,13 +118,13 @@ class ModelScopeVisionJudge:
             "max_tokens": 256,
         }
         try:
-            response = self.session.post(
-                f"{self.base_url}/chat/completions",
-                headers={"Authorization": f"Bearer {self.api_key}",
-                         "Content-Type": "application/json"},
-                json=payload, timeout=self.timeout_s)
+            response = self._post_with_deadline(payload)
             response.raise_for_status()
             body = response.json()
+        except _ModelScopeDeadlineExceeded as exc:
+            raise ModelScopeVisionJudgeError(
+                f"ModelScope vision request timed out after "
+                f"{self.timeout_s:.3g}s (including upload)") from exc
         except Exception as exc:  # requests + malformed fake responses
             raise ModelScopeVisionJudgeError(
                 f"ModelScope vision request failed: {type(exc).__name__}: {exc}") from exc
@@ -143,6 +149,46 @@ class ModelScopeVisionJudge:
                     f"ModelScope vision score {key} must be 0..1, got {value!r}")
             result[key] = value
         return {**result, "critic": f"modelscope:{self.model}"}
+
+    def _post_with_deadline(self, payload: dict):
+        """POST with a real wall-clock bound around connect, upload, and read.
+
+        ``requests``' socket timeout does not reliably interrupt a blocked TLS
+        ``sendall`` while a large multimodal body is being uploaded.  The
+        production runner is synchronous, so a main-thread ``ITIMER_REAL``
+        guard provides the hard deadline without leaving a worker thread
+        behind.  Non-main-thread callers still receive the requests connect /
+        read timeout (and can provide their own process-level deadline).
+        """
+        url = f"{self.base_url}/chat/completions"
+        headers = {"Authorization": f"Bearer {self.api_key}",
+                   "Content-Type": "application/json"}
+        timeout = max(0.1, float(self.timeout_s))
+
+        def post():
+            # A tuple bounds connection and response waits; the surrounding
+            # signal bounds body upload too.
+            return self.session.post(
+                url, headers=headers, json=payload,
+                timeout=(min(timeout, 30.0), timeout))
+
+        if (threading.current_thread() is not threading.main_thread()
+                or not hasattr(signal, "setitimer")
+                or not hasattr(signal, "SIGALRM")):
+            return post()
+
+        previous = signal.getsignal(signal.SIGALRM)
+
+        def alarm_handler(_signum, _frame):
+            raise _ModelScopeDeadlineExceeded
+
+        signal.signal(signal.SIGALRM, alarm_handler)
+        signal.setitimer(signal.ITIMER_REAL, timeout)
+        try:
+            return post()
+        finally:
+            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.signal(signal.SIGALRM, previous)
 
     @staticmethod
     def _prompt(expected_speaker: str, expected_action: str) -> str:
