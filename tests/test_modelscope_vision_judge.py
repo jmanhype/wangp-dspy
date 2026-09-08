@@ -35,6 +35,11 @@ class _BlockingSession:
         time.sleep(10)
 
 
+class _TimeoutSession:
+    def post(self, *args, **kwargs):
+        raise TimeoutError("The write operation timed out")
+
+
 def _fake_ffmpeg(monkeypatch):
     def run(argv, **kwargs):
         if argv[0] == "ffprobe":
@@ -110,5 +115,18 @@ def test_modelscope_judge_bounds_blocked_upload(
     judge = ModelScopeVisionJudge(
         api_key="test-key", timeout_s=0.1, session=_BlockingSession())
     with pytest.raises(ModelScopeVisionJudgeError, match="including upload"):
+        judge(video_path=str(video), expected_speaker="Grandma",
+              expected_action="speaks")
+
+
+def test_modelscope_judge_surfaces_socket_timeout(
+        tmp_path, monkeypatch):
+    _fake_ffmpeg(monkeypatch)
+    video = tmp_path / "cut.mp4"
+    video.write_bytes(b"video")
+    judge = ModelScopeVisionJudge(
+        api_key="test-key", timeout_s=0.1, session=_TimeoutSession())
+    with pytest.raises(ModelScopeVisionJudgeError,
+                       match="including upload/read"):
         judge(video_path=str(video), expected_speaker="Grandma",
               expected_action="speaks")

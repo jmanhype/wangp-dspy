@@ -125,6 +125,10 @@ class ModelScopeVisionJudge:
             raise ModelScopeVisionJudgeError(
                 f"ModelScope vision request timed out after "
                 f"{self.timeout_s:.3g}s (including upload)") from exc
+        except (requests.exceptions.Timeout, TimeoutError) as exc:
+            raise ModelScopeVisionJudgeError(
+                f"ModelScope vision request timed out after "
+                f"{self.timeout_s:.3g}s (including upload/read)") from exc
         except Exception as exc:  # requests + malformed fake responses
             raise ModelScopeVisionJudgeError(
                 f"ModelScope vision request failed: {type(exc).__name__}: {exc}") from exc
