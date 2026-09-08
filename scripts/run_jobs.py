@@ -257,7 +257,8 @@ def build_executor(queue, host=None, pre_render=None,
             whisper_transcriber=whisper_transcriber,
             evidence_path=evidence_path,
             video_path=clip.get("mp4"),
-            expected_speaker=clip.get("speaker_sn"),
+            expected_speaker=(clip.get("speaker_description") or
+                              clip.get("speaker") or clip.get("speaker_sn")),
             expected_action=clip.get("action") or clip.get("motion"),
             vision_judge=vision_judge)
         return True, qc_result.to_dict()
@@ -302,7 +303,43 @@ def dry_run_plan(queue, limit=None) -> list:
     return planned
 
 
-def drain_once(queue, host=None, dry_run: bool = False, limit=None):
+def _queue_requires_vision(queue) -> bool:
+    """Whether any active/pending job uses the ref2va visual lane."""
+    from services.jobs.executor import render_lane_for
+    for state in ("rendered_pending_qc", "qc"):
+        for jid in queue.list_state(state):
+            job = queue.get(jid)
+            if any(render_lane_for(c.get("kind")) == "ref2va"
+                   for c in job.clips):
+                return True
+    # Only the next admissible pending job can reach the renderer now.  Do
+    # not require credentials merely because a blocked dependent is queued
+    # behind a non-visual prerequisite.
+    jid = next_admissible(queue)
+    if jid is not None:
+        job = queue.get(jid)
+        return any(render_lane_for(c.get("kind")) == "ref2va"
+                   for c in job.clips)
+    return False
+
+
+def _build_executor_with_optional_judge(queue, *, host, vision_judge):
+    """Preserve the injectable test seam while wiring production judges."""
+    if vision_judge is None:
+        return build_executor(queue, host=host)
+    return build_executor(queue, host=host, vision_judge=vision_judge)
+
+
+def _default_vision_judge():
+    """Load the configured ModelScope judge; missing credentials fail closed."""
+    from qc.audio_critic.modelscope_vision_judge import (
+        build_modelscope_vision_judge,
+    )
+    return build_modelscope_vision_judge()
+
+
+def drain_once(queue, host=None, dry_run: bool = False, limit=None,
+               vision_judge=None):
     """Run admissible jobs until none remain (or `limit` jobs, for
      --once callers). Returns list of handled job ids. --dry-run emits
      what would run WITHOUT host calls and WITHOUT mutating state."""
@@ -320,7 +357,8 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None):
         if jid is None:
             return handled
         job = queue.get(jid)
-        ex = build_executor(queue, host=host)
+        ex = _build_executor_with_optional_judge(
+            queue, host=host, vision_judge=vision_judge)
         ex.run_once()
         handled.append(jid)
         # r2i -> fl2va dependency: extract + record the last frame
@@ -372,6 +410,14 @@ def main(argv=None):
         if args.dry_run:
             print(json.dumps(dry_run_report(queue), indent=2))
             return 0
+        vision_judge = None
+        _recover_stale_active(queue)
+        if _queue_requires_vision(queue):
+            try:
+                vision_judge = _default_vision_judge()
+            except Exception as exc:
+                print(f"vision judge unavailable: {exc}", file=sys.stderr)
+                return 2
         if args.once:
             # --once: exactly ONE admissible job
             _recover_stale_active(queue)
@@ -380,16 +426,19 @@ def main(argv=None):
                 print("no admissible pending jobs")
                 return 0
             from services.jobs.executor import JobExecutor
-            ex = build_executor(queue, host=_default_host())
+            ex = _build_executor_with_optional_judge(
+                queue, host=_default_host(), vision_judge=vision_judge)
             ex.run_once()
             print(f"ran {jid}: state={queue.get(jid).state}")
             return 0
         if args.loop:
             while True:
-                drain_once(queue, host=_default_host())
+                drain_once(queue, host=_default_host(),
+                           vision_judge=vision_judge)
                 time.sleep(args.loop)
         # default: drain all admissible jobs once
-        handled = drain_once(queue, host=_default_host()) or []
+        handled = drain_once(queue, host=_default_host(),
+                             vision_judge=vision_judge) or []
         print(f"handled {len(handled)} job(s)")
         return 0
     finally:

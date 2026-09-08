@@ -255,6 +255,15 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
     if dry_run:
         return clips
 
+    if vision_judge is None:
+        # Production renders must carry a real visual judge before the first
+        # job is submitted.  Tests/operators can still inject a deterministic
+        # callable explicitly; a missing ModelScope key fails before GPU work.
+        from qc.audio_critic.modelscope_vision_judge import (
+            build_modelscope_vision_judge,
+        )
+        vision_judge = build_modelscope_vision_judge()
+
     from services.jobs.queue import JobQueue
     import scripts.run_jobs as rj
 

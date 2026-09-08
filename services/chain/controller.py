@@ -304,6 +304,8 @@ def _continuation_config(
             f"chain://clip{int(ref.get('clip_index', clip.index - 1)):04d}/"
             "last_frame")
     image_refs = [image_start, str(silent_ref)]
+    speaker_char = next(c for c in plan.characters
+                        if c.sn_tag == clip.speaker_sn)
     speaker_prompt = build_picture_n_speaker_prompt(
         speaker_sn=clip.speaker_sn,
         silent_sn=(silent.sn_tag if silent is not None else clip.speaker_sn),
@@ -340,9 +342,18 @@ def _continuation_config(
         "clip_index": clip.index,
         "kind": "ref2va_render",
         "model_type": REF2VA_MODEL_TYPE,
-        "speaker": next(c.name for c in plan.characters
-                         if c.sn_tag == clip.speaker_sn),
+        "speaker": speaker_char.name,
         "speaker_sn": clip.speaker_sn,
+        # The visual judge must verify identity, not merely detect a moving
+        # mouth. Keep both roster descriptions in the expected-speaker
+        # context so an unrelated face cannot pass activity-only QC.
+        "speaker_description": (
+            f"{speaker_char.sn_tag} ({speaker_char.name}): "
+            f"{speaker_char.description}; silent other "
+            f"{silent.sn_tag} ({silent.name}): {silent.description}"
+            if silent is not None else
+            f"{speaker_char.sn_tag} ({speaker_char.name}): "
+            f"{speaker_char.description}"),
         "dialogue_text": clip.shot_prompt.partition("speaks: ")[2],
         "action": "subtle natural listening and speaking motion",
         "prompt": f"{plan.global_prompt} {speaker_prompt}",
