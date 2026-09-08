@@ -78,10 +78,37 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
     assert len(session.calls) == 1
     payload = session.calls[0][1]["json"]
     assert payload["model"] == "Qwen/test"
+    assert payload["max_tokens"] >= 512
     content = payload["messages"][0]["content"]
     assert len([part for part in content if part["type"] == "image_url"]) == 3
     assert "elderly grandmother with round glasses" in content[0]["text"]
     assert "flaming skeleton" in content[0]["text"]
+    assert "FINAL line" in content[0]["text"]
+
+
+def test_modelscope_judge_falls_back_to_reasoning_content(
+        tmp_path, monkeypatch):
+    _fake_ffmpeg(monkeypatch)
+    video = tmp_path / "cut.mp4"
+    video.write_bytes(b"video")
+    session = _Session({
+        "choices": [{"finish_reason": "length", "message": {
+            "content": "",
+            "reasoning_content": (
+                "I inspected the grandmother and her silent companion. "
+                "The final score is {\"mouth_sync\": 0.7, "
+                "\"action_match\": 0.8, "
+                "\"speaker_attribution\": 0.9}")
+        }}],
+    })
+    judge = ModelScopeVisionJudge(api_key="test-key", session=session)
+
+    result = judge(video_path=str(video), expected_speaker="Grandma",
+                   expected_action="Grandma speaks")
+
+    assert result["mouth_sync"] == 0.7
+    assert result["action_match"] == 0.8
+    assert result["speaker_attribution"] == 0.9
 
 
 def test_modelscope_judge_requires_api_key(monkeypatch):

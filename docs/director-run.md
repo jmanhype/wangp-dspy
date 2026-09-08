@@ -40,8 +40,10 @@ runs too):
 | `WANGP_VISION_BACKEND` | `modelscope` | Blocking vision judge backend: `modelscope` or `local` (the 3090 llama-server). |
 | `WANGP_LOCAL_VISION_ENDPOINT` | `http://localhost:8000/v1/chat/completions` | Remote-local Qwen-VL endpoint used when the local backend is selected. |
 | `WANGP_LOCAL_VISION_MODEL` | `q` | llama-server model name for the local vision judge. |
+| `WANGP_LOCAL_VISION_MAX_TOKENS` | `512` | Minimum response budget for reasoning Qwen-VL; the adapter still fails closed when no score JSON is returned. |
 | `MODELSCOPE_VISION_BASE_URL` | `https://api-inference.modelscope.cn/v1` | ModelScope OpenAI-compatible base URL. |
 | `MODELSCOPE_VISION_MODEL` | `qwen3.8-max` | ModelScope vision deployment name. |
+| `MODELSCOPE_VISION_MAX_TOKENS` | `512` | Response budget for the ModelScope judge. |
 | `WANGP_SANCTIONED_DIRS` | keepers/Wan2GP outputs/qc_media | `:`-separated sanctioned asset roots for ref2va containment. |
 | `WANGP_STALENESS_S` | `600` | Stale-active job heartbeat timeout. |
 | `WANGP_LOAD_STALL_S` | `300` | Load-progress watchdog before first Denoising line. |

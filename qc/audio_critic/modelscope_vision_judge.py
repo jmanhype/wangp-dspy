@@ -15,7 +15,6 @@ from __future__ import annotations
 import base64
 import json
 import os
-import re
 import signal
 import subprocess
 import tempfile
@@ -48,24 +47,79 @@ def _env_key() -> str:
 
 
 def _json_object(text: str) -> dict:
-    """Extract the first JSON object from a model response."""
+    """Extract the final JSON object from a model response.
+
+    Reasoning-model responses can contain prose (and even earlier example
+    objects) before the answer.  ``JSONDecoder.raw_decode`` lets us inspect
+    every object-looking position without relying on a greedy regular
+    expression that can join two unrelated objects together.
+    """
     raw = str(text or "").strip()
+    if not raw:
+        raise ModelScopeVisionJudgeError(
+            "ModelScope vision response did not contain a JSON object")
+
+    decoder = json.JSONDecoder()
+    candidates: list[dict] = []
+    for index, char in enumerate(raw):
+        if char != "{":
+            continue
+        try:
+            value, _end = decoder.raw_decode(raw[index:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(value, dict):
+            candidates.append(value)
+    if candidates:
+        # The final object is the model's answer when the reasoning trace
+        # contains examples or intermediate JSON snippets.
+        scored = [candidate for candidate in candidates
+                  if any(key in candidate for key in _SCORE_KEYS)]
+        return (scored[-1] if scored else candidates[-1])
+
     try:
         value = json.loads(raw)
-    except json.JSONDecodeError:
-        match = re.search(r"\{.*\}", raw, flags=re.DOTALL)
-        if not match:
-            raise ModelScopeVisionJudgeError(
-                "ModelScope vision response did not contain a JSON object")
-        try:
-            value = json.loads(match.group(0))
-        except json.JSONDecodeError as exc:
-            raise ModelScopeVisionJudgeError(
-                f"ModelScope vision response JSON is invalid: {exc}") from exc
+    except json.JSONDecodeError as exc:
+        raise ModelScopeVisionJudgeError(
+            f"ModelScope vision response JSON is invalid: {exc}") from exc
     if not isinstance(value, dict):
         raise ModelScopeVisionJudgeError(
             "ModelScope vision response must be a JSON object")
     return value
+
+
+def _part_text(value: Any) -> str:
+    """Normalize OpenAI text content, including multimodal part arrays."""
+    if isinstance(value, list):
+        return "".join(
+            part.get("text", "") if isinstance(part, Mapping) else str(part)
+            for part in value
+        ).strip()
+    return str(value or "").strip()
+
+
+def _response_object(message: Mapping[str, Any], *, label: str) -> dict:
+    """Parse a score object from final content or reasoning fallback.
+
+    Qwen reasoning models may spend the whole generation budget in
+    ``reasoning_content`` and leave OpenAI-compatible ``content`` empty.
+    Content remains authoritative when present; the reasoning field is only
+    consulted when content is empty or contains no parseable JSON.
+    """
+    content = _part_text(message.get("content"))
+    reasoning = _part_text(message.get("reasoning_content"))
+    candidates = [text for text in (content, reasoning) if text]
+    if not candidates:
+        raise ModelScopeVisionJudgeError(
+            f"{label} vision response missing content and reasoning_content")
+    last_error: Optional[Exception] = None
+    for text in candidates:
+        try:
+            return _json_object(text)
+        except ModelScopeVisionJudgeError as exc:
+            last_error = exc
+    raise ModelScopeVisionJudgeError(
+        f"{label} vision response did not contain a JSON object") from last_error
 
 
 class ModelScopeVisionJudge:
@@ -75,6 +129,7 @@ class ModelScopeVisionJudge:
                  base_url: Optional[str] = None,
                  model: Optional[str] = None,
                  timeout_s: float = 180.0,
+                 max_tokens: Optional[int] = None,
                  session=None):
         self.api_key = (api_key or _env_key()).strip()
         if not self.api_key:
@@ -95,6 +150,15 @@ class ModelScopeVisionJudge:
             raise ModelScopeVisionJudgeError("timeout_s must be numeric") from exc
         if self.timeout_s <= 0:
             raise ModelScopeVisionJudgeError("timeout_s must be positive")
+        raw_max_tokens = (max_tokens if max_tokens is not None else
+                          os.environ.get("MODELSCOPE_VISION_MAX_TOKENS", "512"))
+        try:
+            self.max_tokens = int(raw_max_tokens)
+        except (TypeError, ValueError) as exc:
+            raise ModelScopeVisionJudgeError(
+                "max_tokens must be an integer") from exc
+        if self.max_tokens <= 0:
+            raise ModelScopeVisionJudgeError("max_tokens must be positive")
         self.session = session or requests
 
     def __call__(self, *, video_path: str, expected_speaker: str,
@@ -115,7 +179,7 @@ class ModelScopeVisionJudge:
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
             "temperature": 0,
-            "max_tokens": 256,
+            "max_tokens": self.max_tokens,
         }
         try:
             response = self._post_with_deadline(payload)
@@ -133,15 +197,14 @@ class ModelScopeVisionJudge:
             raise ModelScopeVisionJudgeError(
                 f"ModelScope vision request failed: {type(exc).__name__}: {exc}") from exc
         try:
-            text = body["choices"][0]["message"]["content"]
+            message = body["choices"][0]["message"]
         except (KeyError, IndexError, TypeError) as exc:
             raise ModelScopeVisionJudgeError(
-                "ModelScope vision response missing choices[0].message.content") from exc
-        if isinstance(text, list):
-            text = "".join(
-                part.get("text", "") if isinstance(part, Mapping) else str(part)
-                for part in text)
-        result = _json_object(str(text))
+                "ModelScope vision response missing choices[0].message") from exc
+        if not isinstance(message, Mapping):
+            raise ModelScopeVisionJudgeError(
+                "ModelScope vision response choices[0].message must be an object")
+        result = _response_object(message, label="ModelScope")
         for key in _SCORE_KEYS:
             try:
                 value = float(result[key])
@@ -203,9 +266,12 @@ class ModelScopeVisionJudge:
             f"whether {expected_speaker} is the character whose mouth moves, "
             "whether the other character remains silent with a closed mouth, "
             f"and whether this action is present: {expected_action}. "
-            "Return ONLY JSON with numeric 0..1 fields "
-            '"mouth_sync", "action_match", "speaker_attribution" and an '
-            'optional short "notes" string. Use 1.0 only for clear evidence.'
+            "Reason briefly internally without exposing chain-of-thought. "
+            "Put the final answer on the FINAL line exactly as one JSON object "
+            'with numeric 0..1 fields: {"mouth_sync": 0.0, '
+            '"action_match": 0.0, "speaker_attribution": 0.0}. '
+            "Do not put markdown or prose on that final line. Use 1.0 only "
+            "for clear evidence."
         )
 
     @staticmethod

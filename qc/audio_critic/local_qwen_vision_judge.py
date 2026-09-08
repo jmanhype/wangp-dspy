@@ -12,13 +12,12 @@ from __future__ import annotations
 import json
 import os
 import uuid
-from collections.abc import Mapping
 from typing import Optional
 
 from qc.audio_critic.modelscope_vision_judge import (
     ModelScopeVisionJudge,
     _SCORE_KEYS,
-    _json_object,
+    _response_object,
 )
 
 
@@ -35,7 +34,8 @@ class LocalQwenVisionJudge:
     """Callable judge backed by the 3090's local llama-server Qwen-VL."""
 
     def __init__(self, *, host, endpoint: Optional[str] = None,
-                 model: Optional[str] = None, timeout_s: float = 180.0):
+                 model: Optional[str] = None, timeout_s: float = 180.0,
+                 max_tokens: Optional[int] = None):
         if host is None or not callable(getattr(host, "run_probe", None)):
             raise LocalQwenVisionJudgeError(
                 "a RenderHost with run_probe is required for local vision")
@@ -58,6 +58,16 @@ class LocalQwenVisionJudge:
             raise LocalQwenVisionJudgeError("local vision model is required")
         if self.timeout_s <= 0:
             raise LocalQwenVisionJudgeError("local vision timeout must be positive")
+        raw_max_tokens = (max_tokens if max_tokens is not None else
+                          os.environ.get("WANGP_LOCAL_VISION_MAX_TOKENS", "512"))
+        try:
+            self.max_tokens = int(raw_max_tokens)
+        except (TypeError, ValueError) as exc:
+            raise LocalQwenVisionJudgeError(
+                "WANGP_LOCAL_VISION_MAX_TOKENS must be an integer") from exc
+        if self.max_tokens <= 0:
+            raise LocalQwenVisionJudgeError(
+                "local vision max_tokens must be positive")
 
     def __call__(self, *, video_path: str, expected_speaker: str,
                  expected_action: str) -> dict:
@@ -80,7 +90,10 @@ class LocalQwenVisionJudge:
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
             "temperature": 0,
-            "max_tokens": 256,
+            "max_tokens": self.max_tokens,
+            # llama-server's Qwen chat template supports disabling the
+            # reasoning trace so the score JSON is emitted in content.
+            "chat_template_kwargs": {"enable_thinking": False},
         }
         remote_payload = f"/tmp/wangp-local-vision-{uuid.uuid4().hex}.json"
         writer = getattr(self.host, "write_text", None)
@@ -102,16 +115,18 @@ class LocalQwenVisionJudge:
                     f"{(err or out or '').strip()[-400:]}")
             try:
                 body = json.loads(out)
-                text = body["choices"][0]["message"]["content"]
+                message = body["choices"][0]["message"]
             except (json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
                 raise LocalQwenVisionJudgeError(
                     "local Qwen-VL response missing "
-                    "choices[0].message.content") from exc
-            if isinstance(text, list):
-                text = "".join(
-                    part.get("text", "") if isinstance(part, Mapping)
-                    else str(part) for part in text)
-            result = _json_object(str(text))
+                    "choices[0].message") from exc
+            if not isinstance(message, dict):
+                raise LocalQwenVisionJudgeError(
+                    "local Qwen-VL response choices[0].message must be an object")
+            try:
+                result = _response_object(message, label="local Qwen-VL")
+            except ValueError as exc:
+                raise LocalQwenVisionJudgeError(str(exc)) from exc
             for key in _SCORE_KEYS:
                 try:
                     value = float(result[key])

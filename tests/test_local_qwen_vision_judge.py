@@ -47,6 +47,8 @@ def test_local_judge_posts_three_frames_through_host_seam(monkeypatch):
     assert result["critic"] == "local:qwen38-local"
     content = host.payload["messages"][0]["content"]
     assert len([part for part in content if part["type"] == "image_url"]) == 3
+    assert host.payload["max_tokens"] >= 512
+    assert host.payload["chat_template_kwargs"] == {"enable_thinking": False}
     assert any(call[0][0] == "curl" for call in host.calls
                if isinstance(call, tuple) and isinstance(call[0], list))
     assert any(call[0][0] == "rm" for call in host.calls
@@ -63,3 +65,26 @@ def test_local_judge_rejects_remote_transport_failure(monkeypatch):
     with pytest.raises(LocalQwenVisionJudgeError, match="request failed"):
         judge(video_path="cut.mp4", expected_speaker="Grandma",
               expected_action="Grandma speaks")
+
+
+def test_local_judge_falls_back_to_reasoning_content(monkeypatch):
+    monkeypatch.setattr(
+        ModelScopeVisionJudge, "_extract_frames",
+        staticmethod(lambda _path: [b"start", b"middle", b"end"]))
+    host = _Host(response={
+        "choices": [{"finish_reason": "length", "message": {
+            "content": "",
+            "reasoning_content": (
+                "Visual evidence is clear. Final answer: "
+                "{\"mouth_sync\": 0.6, \"action_match\": 0.7, "
+                "\"speaker_attribution\": 0.8}")
+        }}],
+    })
+    judge = LocalQwenVisionJudge(host=host)
+
+    result = judge(video_path="cut.mp4", expected_speaker="Grandma",
+                   expected_action="Grandma speaks")
+
+    assert result["mouth_sync"] == 0.6
+    assert result["action_match"] == 0.7
+    assert result["speaker_attribution"] == 0.8
