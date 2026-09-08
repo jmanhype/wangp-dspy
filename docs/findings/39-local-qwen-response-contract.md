@@ -20,10 +20,11 @@ response handling did not account for this deployment behavior.
 
 ## Fix
 
-The local and ModelScope adapters now request a 512-token minimum budget and
-ask for a single JSON object on the final line.  The local llama-server
-adapter additionally sends `chat_template_kwargs.enable_thinking=false` to
-disable Qwen's reasoning trace when supported.  Parsing remains strict:
+The local adapter now requests a 1024-token response budget and llama-server's
+JSON-object response grammar, while both adapters ask for a single JSON
+object on the final line.  The local llama-server adapter additionally sends
+`chat_template_kwargs.enable_thinking=false` to disable Qwen's reasoning
+trace when supported.  Parsing remains strict:
 non-empty `content` is preferred, then `reasoning_content` is used only as a
 fallback and must still contain all three numeric 0..1 scores.  Missing or
 ambiguous scores continue to fail closed.  Regression fixtures cover the

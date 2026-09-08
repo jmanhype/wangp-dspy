@@ -267,11 +267,11 @@ class ModelScopeVisionJudge:
             "whether the other character remains silent with a closed mouth, "
             f"and whether this action is present: {expected_action}. "
             "Reason briefly internally without exposing chain-of-thought. "
-            "Put the final answer on the FINAL line exactly as one JSON object "
-            'with numeric 0..1 fields: {"mouth_sync": 0.0, '
-            '"action_match": 0.0, "speaker_attribution": 0.0}. '
-            "Do not put markdown or prose on that final line. Use 1.0 only "
-            "for clear evidence."
+            "Do not explain your analysis. Put the final answer on the FINAL "
+            "line exactly as one JSON object and nothing else, with numeric "
+            '0..1 fields: {"mouth_sync": 0.0, "action_match": 0.0, '
+            '"speaker_attribution": 0.0}. Do not put markdown or prose on '
+            "that final line. Use 1.0 only for clear evidence."
         )
 
     @staticmethod

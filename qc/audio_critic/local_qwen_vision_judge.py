@@ -59,7 +59,7 @@ class LocalQwenVisionJudge:
         if self.timeout_s <= 0:
             raise LocalQwenVisionJudgeError("local vision timeout must be positive")
         raw_max_tokens = (max_tokens if max_tokens is not None else
-                          os.environ.get("WANGP_LOCAL_VISION_MAX_TOKENS", "512"))
+                          os.environ.get("WANGP_LOCAL_VISION_MAX_TOKENS", "1024"))
         try:
             self.max_tokens = int(raw_max_tokens)
         except (TypeError, ValueError) as exc:
@@ -91,6 +91,10 @@ class LocalQwenVisionJudge:
             "messages": [{"role": "user", "content": content}],
             "temperature": 0,
             "max_tokens": self.max_tokens,
+            # llama-server supports the OpenAI JSON-object grammar.  This
+            # prevents a visually uncertain cut from spending its entire
+            # budget on prose before emitting the required score object.
+            "response_format": {"type": "json_object"},
             # llama-server's Qwen chat template supports disabling the
             # reasoning trace so the score JSON is emitted in content.
             "chat_template_kwargs": {"enable_thinking": False},
