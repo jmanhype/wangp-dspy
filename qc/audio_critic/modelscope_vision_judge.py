@@ -6,7 +6,7 @@ three normalized 0..1 scores.  The adapter samples start/middle/end PNGs and
 sends them as image parts to ModelScope's OpenAI-compatible chat endpoint.
 
 No credentials are guessed.  ``MODELSCOPE_API_KEY`` (or the documented
-``MODELSCOPE_TOKEN`` alias) is required; model/base URL/timeout are
+``MODELSCOPE_TOKEN``/``MODELSCOPE_API_TOKEN`` aliases) is required; model/base URL/timeout are
 environment-overridable so the operator can select the ambassador Qwen-VL
 deployment without a code change.
 """
@@ -37,7 +37,8 @@ class ModelScopeVisionJudgeError(ValueError):
 
 def _env_key() -> str:
     return (os.environ.get("MODELSCOPE_API_KEY") or
-            os.environ.get("MODELSCOPE_TOKEN") or "").strip()
+            os.environ.get("MODELSCOPE_TOKEN") or
+            os.environ.get("MODELSCOPE_API_TOKEN") or "").strip()
 
 
 def _json_object(text: str) -> dict:
@@ -72,13 +73,15 @@ class ModelScopeVisionJudge:
         self.api_key = (api_key or _env_key()).strip()
         if not self.api_key:
             raise ModelScopeVisionJudgeError(
-                "MODELSCOPE_API_KEY (or MODELSCOPE_TOKEN) is required; "
+                "MODELSCOPE_API_KEY (or MODELSCOPE_TOKEN/MODELSCOPE_API_TOKEN) is required; "
                 "refusing to run an ungated vision judge")
         self.base_url = (base_url or
                          os.environ.get("MODELSCOPE_VISION_BASE_URL") or
+                         os.environ.get("MODELSCOPE_BASE_URL") or
                          DEFAULT_MODELSCOPE_BASE_URL).rstrip("/")
         self.model = (model or
                       os.environ.get("MODELSCOPE_VISION_MODEL") or
+                      os.environ.get("MODELSCOPE_MODEL") or
                       DEFAULT_MODELSCOPE_VISION_MODEL)
         try:
             self.timeout_s = float(timeout_s)
