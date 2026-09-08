@@ -1,0 +1,65 @@
+import json
+
+import pytest
+
+from qc.audio_critic.local_qwen_vision_judge import (
+    LocalQwenVisionJudge,
+    LocalQwenVisionJudgeError,
+)
+from qc.audio_critic.modelscope_vision_judge import ModelScopeVisionJudge
+
+
+class _Host:
+    def __init__(self, response=None, rc=0):
+        self.response = response or {
+            "choices": [{"message": {"content": json.dumps({
+                "mouth_sync": 0.9, "action_match": 0.8,
+                "speaker_attribution": 1.0,
+            })}}]
+        }
+        self.rc = rc
+        self.calls = []
+        self.payload = None
+
+    def write_text(self, path, text):
+        self.payload = json.loads(text)
+        self.calls.append(("write_text", path))
+        return path
+
+    def run_probe(self, argv, timeout=30):
+        self.calls.append((list(argv), timeout))
+        if argv[:1] == ["curl"]:
+            return self.rc, json.dumps(self.response), "local boom"
+        return 0, "", ""
+
+
+def test_local_judge_posts_three_frames_through_host_seam(monkeypatch):
+    monkeypatch.setattr(
+        ModelScopeVisionJudge, "_extract_frames",
+        staticmethod(lambda _path: [b"start", b"middle", b"end"]))
+    host = _Host()
+    judge = LocalQwenVisionJudge(host=host, model="qwen38-local")
+
+    result = judge(video_path="cut.mp4", expected_speaker="Grandma",
+                   expected_action="Grandma speaks")
+
+    assert result["mouth_sync"] == 0.9
+    assert result["critic"] == "local:qwen38-local"
+    content = host.payload["messages"][0]["content"]
+    assert len([part for part in content if part["type"] == "image_url"]) == 3
+    assert any(call[0][0] == "curl" for call in host.calls
+               if isinstance(call, tuple) and isinstance(call[0], list))
+    assert any(call[0][0] == "rm" for call in host.calls
+               if isinstance(call, tuple) and isinstance(call[0], list))
+
+
+def test_local_judge_rejects_remote_transport_failure(monkeypatch):
+    monkeypatch.setattr(
+        ModelScopeVisionJudge, "_extract_frames",
+        staticmethod(lambda _path: [b"start", b"middle", b"end"]))
+    host = _Host(rc=28)
+    judge = LocalQwenVisionJudge(host=host)
+
+    with pytest.raises(LocalQwenVisionJudgeError, match="request failed"):
+        judge(video_path="cut.mp4", expected_speaker="Grandma",
+              expected_action="Grandma speaks")

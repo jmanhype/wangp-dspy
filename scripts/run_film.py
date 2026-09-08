@@ -255,17 +255,15 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
     if dry_run:
         return clips
 
+    from services.jobs.queue import JobQueue
+    import scripts.run_jobs as rj
+
+    host = host or rj._default_host()
     if vision_judge is None:
         # Production renders must carry a real visual judge before the first
         # job is submitted.  Tests/operators can still inject a deterministic
-        # callable explicitly; a missing ModelScope key fails before GPU work.
-        from qc.audio_critic.modelscope_vision_judge import (
-            build_modelscope_vision_judge,
-        )
-        vision_judge = build_modelscope_vision_judge()
-
-    from services.jobs.queue import JobQueue
-    import scripts.run_jobs as rj
+        # callable explicitly; the selected backend fails before GPU work.
+        vision_judge = rj._default_vision_judge(host=host)
 
     q = JobQueue(str(db_path or "jobs.db"))
     try:
@@ -274,7 +272,6 @@ def run_film(script_file, plates_dir, *, characters, whisper_map="",
             clip = dict(c)
             clip["needs"] = prev
             prev = q.submit(plan_ref="film", clips=[clip])
-        host = host or rj._default_host()
         hook = pre_render if pre_render is not None \
             else rj._pre_render_default(host)
         _drain(q, host, pre_render=hook,

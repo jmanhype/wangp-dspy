@@ -19,7 +19,9 @@ new hard gate and produce another meaningless verdict.
 `qc/audio_critic/modelscope_vision_judge.py` now implements the ModelScope
 Qwen-VL callable: it extracts start/middle/end frames, sends identity-aware
 image prompts, parses the three required scores, and fails closed on missing
-credentials, malformed responses, or extraction/API errors. `run_jobs.py` and
-`run_film.py` load it from `MODELSCOPE_API_KEY`, `MODELSCOPE_TOKEN`, or
-`MODELSCOPE_API_TOKEN` before production work; tests cover the API and frame
+credentials, malformed responses, or extraction/API errors. The production
+selection also supports `WANGP_VISION_BACKEND=local`, which posts the same
+three-frame contract through the RenderHost seam to the 3090's llama-server
+without external credentials. `run_jobs.py` and `run_film.py` load the chosen
+backend before production work; tests cover both adapters and the frame
 contract.

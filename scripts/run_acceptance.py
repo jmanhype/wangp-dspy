@@ -196,8 +196,8 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     try:
         # Resolve credentials and host before submitting anything.  Missing
         # vision credentials must not leave a queue full of renderable jobs.
-        judge = vision_judge or run_jobs._default_vision_judge()
         host = host or run_jobs._default_host()
+        judge = vision_judge or run_jobs._default_vision_judge(host=host)
         job_ids = run.submit(plan, queue)
         handled = run_jobs.drain_once(
             queue, host=host, vision_judge=judge)

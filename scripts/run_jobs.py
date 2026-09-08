@@ -330,8 +330,24 @@ def _build_executor_with_optional_judge(queue, *, host, vision_judge):
     return build_executor(queue, host=host, vision_judge=vision_judge)
 
 
-def _default_vision_judge():
-    """Load the configured ModelScope judge; missing credentials fail closed."""
+def _default_vision_judge(host=None):
+    """Load the configured production vision judge.
+
+    ``WANGP_VISION_BACKEND=local`` selects the Qwen-VL llama-server on the
+    render host and avoids external credentials.  ModelScope remains the
+    default API backend and fails closed when its key is absent.
+    """
+    backend = (os.environ.get("WANGP_VISION_BACKEND") or
+               "modelscope").strip().casefold()
+    if backend in {"local", "3090", "llama", "llama-server"}:
+        from qc.audio_critic.local_qwen_vision_judge import (
+            build_local_qwen_vision_judge,
+        )
+        return build_local_qwen_vision_judge(host=host or _default_host())
+    if backend not in {"modelscope", "api", "remote"}:
+        raise ValueError(
+            f"unsupported WANGP_VISION_BACKEND {backend!r}; expected "
+            "modelscope or local")
     from qc.audio_critic.modelscope_vision_judge import (
         build_modelscope_vision_judge,
     )
@@ -411,10 +427,11 @@ def main(argv=None):
             print(json.dumps(dry_run_report(queue), indent=2))
             return 0
         vision_judge = None
+        production_host = _default_host()
         _recover_stale_active(queue)
         if _queue_requires_vision(queue):
             try:
-                vision_judge = _default_vision_judge()
+                vision_judge = _default_vision_judge(host=production_host)
             except Exception as exc:
                 print(f"vision judge unavailable: {exc}", file=sys.stderr)
                 return 2
@@ -427,17 +444,17 @@ def main(argv=None):
                 return 0
             from services.jobs.executor import JobExecutor
             ex = _build_executor_with_optional_judge(
-                queue, host=_default_host(), vision_judge=vision_judge)
+                queue, host=production_host, vision_judge=vision_judge)
             ex.run_once()
             print(f"ran {jid}: state={queue.get(jid).state}")
             return 0
         if args.loop:
             while True:
-                drain_once(queue, host=_default_host(),
+                drain_once(queue, host=production_host,
                            vision_judge=vision_judge)
                 time.sleep(args.loop)
         # default: drain all admissible jobs once
-        handled = drain_once(queue, host=_default_host(),
+        handled = drain_once(queue, host=production_host,
                              vision_judge=vision_judge) or []
         print(f"handled {len(handled)} job(s)")
         return 0

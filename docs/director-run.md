@@ -37,6 +37,11 @@ runs too):
 |---|---|---|
 | `WANGP_SSH_TARGET` | `3090` | SSH target for the render host. Set `localhost` when running ON the box (skips the ssh hop). |
 | `WANGP_QC_URL` | `http://localhost:8000/health` | Preflight QC healthz probe URL. |
+| `WANGP_VISION_BACKEND` | `modelscope` | Blocking vision judge backend: `modelscope` or `local` (the 3090 llama-server). |
+| `WANGP_LOCAL_VISION_ENDPOINT` | `http://localhost:8000/v1/chat/completions` | Remote-local Qwen-VL endpoint used when the local backend is selected. |
+| `WANGP_LOCAL_VISION_MODEL` | `q` | llama-server model name for the local vision judge. |
+| `MODELSCOPE_VISION_BASE_URL` | `https://api-inference.modelscope.cn/v1` | ModelScope OpenAI-compatible base URL. |
+| `MODELSCOPE_VISION_MODEL` | `qwen3.8-max` | ModelScope vision deployment name. |
 | `WANGP_SANCTIONED_DIRS` | keepers/Wan2GP outputs/qc_media | `:`-separated sanctioned asset roots for ref2va containment. |
 | `WANGP_STALENESS_S` | `600` | Stale-active job heartbeat timeout. |
 | `WANGP_LOAD_STALL_S` | `300` | Load-progress watchdog before first Denoising line. |
