@@ -106,7 +106,10 @@ class LocalQwenVisionJudge:
                 json.dumps(payload, separators=(",", ":")))
             rc, out, err = self.host.run_probe(
                 ["curl", "-fsS", "--max-time", str(int(self.timeout_s)),
-                 "-H", "Content-Type: application/json",
+                 # SshHost transmits argv through the remote command line;
+                 # keep the header as one token so the space in its value is
+                 # not re-tokenized by the remote shell.
+                 "-HContent-Type:application/json",
                  "--data-binary", f"@{remote_payload}", self.endpoint],
                 timeout=self.timeout_s + 30.0)
             if rc != 0:

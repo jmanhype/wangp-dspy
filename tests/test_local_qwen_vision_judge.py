@@ -49,8 +49,12 @@ def test_local_judge_posts_three_frames_through_host_seam(monkeypatch):
     assert len([part for part in content if part["type"] == "image_url"]) == 3
     assert host.payload["max_tokens"] >= 512
     assert host.payload["chat_template_kwargs"] == {"enable_thinking": False}
-    assert any(call[0][0] == "curl" for call in host.calls
-               if isinstance(call, tuple) and isinstance(call[0], list))
+    curl_calls = [call[0] for call in host.calls
+                  if isinstance(call, tuple) and isinstance(call[0], list)
+                  and call[0][0] == "curl"]
+    assert curl_calls
+    assert "-HContent-Type:application/json" in curl_calls[0]
+    assert "Content-Type: application/json" not in curl_calls[0]
     assert any(call[0][0] == "rm" for call in host.calls
                if isinstance(call, tuple) and isinstance(call[0], list))
 
