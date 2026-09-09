@@ -344,6 +344,9 @@ def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
     rec = q.get(jid)
     assert rec.state == "dead_letter"
     assert rec.clips[0]["seed"] == 43
+    assert len(rec.clips[0]["vision_rejections"]) == 3
+    assert all(item["raw_response"] for item in
+               rec.clips[0]["vision_rejections"])
     assert len(q.attempt_history(jid)) == 3
     assert q.attempt_history(jid)[-1]["failure_detail"].endswith("seed=43")
     q.close()
