@@ -34,11 +34,18 @@ def test_vision_judge_requires_mouth_action_and_speaker_alignment():
 
 
 def test_vision_judge_rejects_low_alignment():
-    with pytest.raises(VisionJudgeError, match="visual gate failed"):
+    raw_response = '{"mouth_sync": 0.6, "action_match": 0.9, "speaker_attribution": 0.9}'
+    with pytest.raises(VisionJudgeError, match="visual gate failed") as caught:
         run_vision_judge(
             "cut.mp4", expected_speaker="S1", expected_action="turns",
             judge=lambda **_: {"mouth_sync": 0.6, "action_match": 0.9,
-                               "speaker_attribution": 0.9})
+                               "speaker_attribution": 0.9,
+                               "raw_response": raw_response})
+    assert caught.value.scores == {
+        "mouth_sync": 0.6, "action_match": 0.9,
+        "speaker_attribution": 0.9,
+    }
+    assert caught.value.raw_response == raw_response
 
 
 def test_qc_stage_persists_integrated_vision_evidence(tmp_path):
@@ -57,3 +64,23 @@ def test_qc_stage_rejects_requested_vision_without_judge(tmp_path):
         run_ref2va_qc_stage(
             _doc(tmp_path), judge=None, video_path="cut.mp4",
             expected_speaker="S1", expected_action="turns", vision_judge=None)
+
+
+def test_qc_stage_preserves_vision_rejection_evidence(tmp_path):
+    raw_response = '{"mouth_sync": 0.1, "action_match": 0.8, "speaker_attribution": 0.2}'
+
+    def reject(**_):
+        return {"mouth_sync": 0.1, "action_match": 0.8,
+                "speaker_attribution": 0.2,
+                "raw_response": raw_response}
+
+    with pytest.raises(Ref2VAQCStageError) as caught:
+        run_ref2va_qc_stage(
+            _doc(tmp_path), judge=None, video_path="cut.mp4",
+            expected_speaker="S1", expected_action="turns",
+            vision_judge=reject)
+    assert caught.value.vision_scores == {
+        "mouth_sync": 0.1, "action_match": 0.8,
+        "speaker_attribution": 0.2,
+    }
+    assert caught.value.vision_raw_response == raw_response

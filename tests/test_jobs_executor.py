@@ -286,7 +286,12 @@ def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
 
     def visual_miss(_clip):
         raise Ref2VAQCStageError(
-            "visual gate failed: mouth/action/speaker attribution below pass bar")
+            "visual gate failed: mouth/action/speaker attribution below pass bar",
+            vision_scores={"mouth_sync": 0.2, "action_match": 0.8,
+                           "speaker_attribution": 0.1},
+            vision_raw_response=(
+                '{"mouth_sync": 0.2, "action_match": 0.8, '
+                '"speaker_attribution": 0.1}'))
 
     ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
                      render=lambda clip: None, qc=visual_miss)
@@ -313,6 +318,10 @@ def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
     assert rec.clips[0]["vision_retry_count"] == 1
     assert rec.clips[0]["vision_retry_history"][0]["mp4"] == (
         "cut-seed-41.mp4")
+    assert rec.clips[0]["vision_rejections"][0]["scores"][
+        "speaker_attribution"] == 0.1
+    assert '"mouth_sync": 0.2' in rec.clips[0]["vision_rejections"][0][
+        "raw_response"]
     history = q.attempt_history(jid)
     assert [row["status"] for row in history] == ["failed", "queued"]
     assert "seed 41 -> 42" in history[-1]["attempt_reason"]

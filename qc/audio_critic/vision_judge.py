@@ -14,7 +14,18 @@ from typing import Callable, Mapping, Optional
 
 
 class VisionJudgeError(ValueError):
-    """Typed rejection of absent or contradictory visual evidence."""
+    """Typed rejection of absent or contradictory visual evidence.
+
+    ``scores`` and ``raw_response`` preserve audit evidence when the gate
+    rejects a cut; without them the failure cannot be replayed offline.
+    """
+
+    def __init__(self, message: str, *, scores: Optional[Mapping] = None,
+                 raw_response: Optional[str] = None):
+        super().__init__(message)
+        self.scores = dict(scores or {})
+        self.raw_response = (str(raw_response)
+                             if raw_response is not None else None)
 
 
 @dataclass(frozen=True)
@@ -28,6 +39,7 @@ class VisionJudgeEvidence:
     pass_bar: float
     passed: bool
     notes: str = ""
+    raw_response: Optional[str] = None
 
     def to_dict(self) -> dict:
         return dataclasses.asdict(self)
@@ -53,27 +65,40 @@ def run_vision_judge(
         raw = judge(video_path=video_path,
                     expected_speaker=expected_speaker,
                     expected_action=expected_action)
+    except VisionJudgeError:
+        raise
     except Exception as exc:
-        raise VisionJudgeError(f"vision judge failed: {exc}") from exc
+        raise VisionJudgeError(
+            f"vision judge failed: {exc}",
+            scores=getattr(exc, "scores", None),
+            raw_response=getattr(exc, "raw_response", None),
+        ) from exc
     if not isinstance(raw, Mapping):
         raise VisionJudgeError("vision judge must return a mapping")
+    raw_response = raw.get("raw_response")
     values = {}
     for name in ("mouth_sync", "action_match", "speaker_attribution"):
         try:
             value = float(raw[name])
         except (KeyError, TypeError, ValueError) as exc:
-            raise VisionJudgeError(f"vision result missing numeric {name}") from exc
+            raise VisionJudgeError(
+                f"vision result missing numeric {name}",
+                scores=values, raw_response=raw_response) from exc
         if not math.isfinite(value) or not 0.0 <= value <= 1.0:
-            raise VisionJudgeError(f"vision result {name} must be 0..1, got {value!r}")
+            raise VisionJudgeError(
+                f"vision result {name} must be 0..1, got {value!r}",
+                scores=values, raw_response=raw_response)
         values[name] = value
     passed = min(values.values()) >= float(pass_bar)
     evidence = VisionJudgeEvidence(
         video_path=video_path, expected_speaker=expected_speaker,
         expected_action=expected_action, pass_bar=float(pass_bar),
-        passed=passed, notes=str(raw.get("notes", "")), **values)
+        passed=passed, notes=str(raw.get("notes", "")), raw_response=(
+            str(raw_response) if raw_response is not None else None), **values)
     if not passed:
         raise VisionJudgeError(
-            "visual gate failed: mouth/action/speaker attribution below pass bar")
+            "visual gate failed: mouth/action/speaker attribution below pass bar",
+            scores=values, raw_response=raw_response)
     return evidence
 
 

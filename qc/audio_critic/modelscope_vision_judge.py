@@ -35,6 +35,13 @@ _SCORE_KEYS = ("mouth_sync", "action_match", "speaker_attribution")
 class ModelScopeVisionJudgeError(ValueError):
     """Typed configuration, media extraction, or API response failure."""
 
+    def __init__(self, message: str, *, scores: Optional[Mapping] = None,
+                 raw_response: Optional[str] = None):
+        super().__init__(message)
+        self.scores = dict(scores or {})
+        self.raw_response = (str(raw_response)
+                             if raw_response is not None else None)
+
 
 class _ModelScopeDeadlineExceeded(TimeoutError):
     """Internal wall-clock deadline for a request, including upload."""
@@ -96,6 +103,19 @@ def _part_text(value: Any) -> str:
             for part in value
         ).strip()
     return str(value or "").strip()
+
+
+def _response_text(message: Mapping[str, Any]) -> str:
+    """Return the raw model text used for score parsing.
+
+    Keep both final content and a reasoning trace when a backend emits both;
+    this is diagnostic evidence, not a replacement for the strict parser.
+    """
+    content = _part_text(message.get("content"))
+    reasoning = _part_text(message.get("reasoning_content"))
+    if content and reasoning:
+        return f"{content}\n[reasoning_content]\n{reasoning}"
+    return content or reasoning
 
 
 def _response_object(message: Mapping[str, Any], *, label: str) -> dict:
@@ -204,18 +224,26 @@ class ModelScopeVisionJudge:
         if not isinstance(message, Mapping):
             raise ModelScopeVisionJudgeError(
                 "ModelScope vision response choices[0].message must be an object")
-        result = _response_object(message, label="ModelScope")
+        raw_response = _response_text(message)
+        try:
+            result = _response_object(message, label="ModelScope")
+        except ModelScopeVisionJudgeError as exc:
+            raise ModelScopeVisionJudgeError(
+                str(exc), raw_response=raw_response) from exc
         for key in _SCORE_KEYS:
             try:
                 value = float(result[key])
             except (KeyError, TypeError, ValueError) as exc:
                 raise ModelScopeVisionJudgeError(
-                    f"ModelScope vision response missing numeric {key}") from exc
+                    f"ModelScope vision response missing numeric {key}",
+                    raw_response=raw_response) from exc
             if not 0.0 <= value <= 1.0:
                 raise ModelScopeVisionJudgeError(
-                    f"ModelScope vision score {key} must be 0..1, got {value!r}")
+                    f"ModelScope vision score {key} must be 0..1, got {value!r}",
+                    raw_response=raw_response)
             result[key] = value
-        return {**result, "critic": f"modelscope:{self.model}"}
+        return {**result, "critic": f"modelscope:{self.model}",
+                "raw_response": raw_response}
 
     def _post_with_deadline(self, payload: dict):
         """POST with a real wall-clock bound around connect, upload, and read.

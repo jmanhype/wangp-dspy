@@ -44,6 +44,7 @@ def test_local_judge_posts_three_frames_through_host_seam(monkeypatch):
                    expected_action="Grandma speaks")
 
     assert result["mouth_sync"] == 0.9
+    assert '"mouth_sync": 0.9' in result["raw_response"]
     assert result["critic"] == "local:qwen38-local"
     content = host.payload["messages"][0]["content"]
     assert len([part for part in content if part["type"] == "image_url"]) == 3
@@ -93,3 +94,4 @@ def test_local_judge_falls_back_to_reasoning_content(monkeypatch):
     assert result["mouth_sync"] == 0.6
     assert result["action_match"] == 0.7
     assert result["speaker_attribution"] == 0.8
+    assert "Final answer" in result["raw_response"]

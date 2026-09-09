@@ -18,6 +18,7 @@ from qc.audio_critic.modelscope_vision_judge import (
     ModelScopeVisionJudge,
     _SCORE_KEYS,
     _response_object,
+    _response_text,
 )
 
 
@@ -28,6 +29,13 @@ DEFAULT_LOCAL_VISION_MODEL = "q"
 
 class LocalQwenVisionJudgeError(ValueError):
     """Typed local-host configuration, transport, or response failure."""
+
+    def __init__(self, message: str, *, scores=None,
+                 raw_response: Optional[str] = None):
+        super().__init__(message)
+        self.scores = dict(scores or {})
+        self.raw_response = (str(raw_response)
+                             if raw_response is not None else None)
 
 
 class LocalQwenVisionJudge:
@@ -130,21 +138,26 @@ class LocalQwenVisionJudge:
             if not isinstance(message, dict):
                 raise LocalQwenVisionJudgeError(
                     "local Qwen-VL response choices[0].message must be an object")
+            raw_response = _response_text(message)
             try:
                 result = _response_object(message, label="local Qwen-VL")
             except ValueError as exc:
-                raise LocalQwenVisionJudgeError(str(exc)) from exc
+                raise LocalQwenVisionJudgeError(
+                    str(exc), raw_response=raw_response) from exc
             for key in _SCORE_KEYS:
                 try:
                     value = float(result[key])
                 except (KeyError, TypeError, ValueError) as exc:
                     raise LocalQwenVisionJudgeError(
-                        f"local Qwen-VL response missing numeric {key}") from exc
+                        f"local Qwen-VL response missing numeric {key}",
+                        raw_response=raw_response) from exc
                 if not 0.0 <= value <= 1.0:
                     raise LocalQwenVisionJudgeError(
-                        f"local Qwen-VL score {key} must be 0..1, got {value!r}")
+                        f"local Qwen-VL score {key} must be 0..1, got {value!r}",
+                        raw_response=raw_response)
                 result[key] = value
-            return {**result, "critic": f"local:{self.model}"}
+            return {**result, "critic": f"local:{self.model}",
+                    "raw_response": raw_response}
         finally:
             # Cleanup is best effort; a failed cleanup never turns a real
             # visual result into a KEEP and never masks the original failure.

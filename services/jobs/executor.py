@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import os
 import re
+import json
 from dataclasses import dataclass
 from typing import Callable, Dict, Optional
 
@@ -115,6 +116,19 @@ def _seed_value(clip: dict):
         except ValueError:
             return None
     return None
+
+
+def _vision_rejection_evidence(exc: Exception) -> dict:
+    """Extract judge evidence carried by a visual-gate exception."""
+    scores = (getattr(exc, "vision_scores", None)
+              or getattr(exc, "scores", None) or {})
+    raw = (getattr(exc, "vision_raw_response", None)
+           if hasattr(exc, "vision_raw_response")
+           else getattr(exc, "raw_response", None))
+    return {
+        "scores": dict(scores) if isinstance(scores, dict) else {},
+        "raw_response": (str(raw) if raw is not None else None),
+    }
 
 
 class JobExecutor:
@@ -273,6 +287,12 @@ class JobExecutor:
                         "VisionJudgeError"}:
                     detail = str(e)
                     if _is_visual_gate_failure(e):
+                        evidence = _vision_rejection_evidence(e)
+                        self._persist_visual_rejection(
+                            job, clip, evidence, detail)
+                        if evidence["scores"] or evidence["raw_response"]:
+                            detail = (f"{detail}; vision_evidence="
+                                      f"{json.dumps(evidence, sort_keys=True)}")
                         if self._retry_visual_gate(job, clip, detail):
                             return
                         # Include the seed on the terminal/exhausted
@@ -297,6 +317,24 @@ class JobExecutor:
                 log=clip["log"], mp4=clip["mp4"],
                 qc_verdict={"verdict": "KEEP", "path": qc_path})
         self.queue.set_state(job.job_id, "done")
+
+    def _persist_visual_rejection(self, job, clip: dict,
+                                  evidence: dict, detail: str) -> None:
+        """Persist scores/raw judge text before any reseed/reset occurs."""
+        history = clip.get("vision_rejections")
+        if not isinstance(history, list):
+            history = []
+        entry = {
+            "attempt": len(history) + 1,
+            "seed": _seed_value(clip),
+            "scores": dict(evidence.get("scores") or {}),
+            "raw_response": evidence.get("raw_response"),
+            "failure_detail": detail,
+        }
+        clip["vision_rejections"] = [*history, entry]
+        update_clips = getattr(self.queue, "update_clips", None)
+        if callable(update_clips):
+            update_clips(job.job_id, job.clips)
 
     def _retry_visual_gate(self, job, clip: dict, detail: str) -> bool:
         """Requeue a visual-gate rejection with a bumped seed.

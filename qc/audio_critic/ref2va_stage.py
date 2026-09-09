@@ -31,7 +31,19 @@ __all__ = ["Ref2VAQCStageError", "plan_remux_command",
 
 
 class Ref2VAQCStageError(ValueError):
-    """Typed rejection for the remux planner + QC stage."""
+    """Typed rejection for the remux planner + QC stage.
+
+    Vision-gate rejections carry the judge's component scores and raw model
+    text through this wrapper so the durable executor can preserve them.
+    """
+
+    def __init__(self, message: str, *, vision_scores=None,
+                 vision_raw_response=None):
+        super().__init__(message)
+        self.vision_scores = dict(vision_scores or {})
+        self.vision_raw_response = (
+            str(vision_raw_response)
+            if vision_raw_response is not None else None)
 
 
 _SCORE_FIELDS = ("mouth_sync", "audio_fidelity",
@@ -182,7 +194,10 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 expected_action=expected_action, judge=vision_judge,
                 pass_bar=vision_pass_bar).to_dict()
         except VisionJudgeError as exc:
-            raise Ref2VAQCStageError(str(exc)) from exc
+            raise Ref2VAQCStageError(
+                str(exc), vision_scores=getattr(exc, "scores", None),
+                vision_raw_response=getattr(exc, "raw_response", None),
+            ) from exc
 
     if judge is None:
         qc = Ref2VAAudioQC(critic_version=None,
