@@ -53,6 +53,33 @@ _DEFAULT_LISTENING_DETAIL = (
 _DEFAULT_AMBIENCE = "quiet room tone, faint machinery hum"
 
 
+def _spatial_anchor_prompt(characters: Sequence[dict]) -> str:
+    """Describe the roster's left/right blocking as a hard continuation pin.
+
+    The acceptance roster is ordered left-to-right (grandma, then soul), so
+    retain that explicit identity wording where available. Other rosters get
+    the same invariant without guessing character semantics.
+    """
+    if len(characters) < 2:
+        return ("Spatial anchor: preserve the subject's exact position, scale, "
+                "wardrobe, and framing from <Picture 1>; do not re-stage.")
+    names = [str(c.get("name", "")).strip() for c in characters[:2]]
+    lowered = [name.casefold() for name in names]
+    grandma = next((names[i] for i, name in enumerate(lowered)
+                    if "grandma" in name or "grandmother" in name), None)
+    soul = next((names[i] for i, name in enumerate(lowered)
+                 if "soul" in name), None)
+    if grandma and soul:
+        return ("Spatial anchor: the grandmother remains on the LEFT and the "
+                "soul remains on the RIGHT, exactly as in <Picture 1> — "
+                "preserve positions, scale, wardrobe, and framing; do not "
+                "swap sides or re-stage the composition.")
+    return (f"Spatial anchor: {names[0]} (S1) remains on the LEFT and "
+            f"{names[1]} (S2) remains on the RIGHT, exactly as in "
+            "<Picture 1> — preserve positions, scale, wardrobe, and "
+            "framing; do not swap sides or re-stage the composition.")
+
+
 class ChainPlanError(ValueError):
     """Typed chain-controller rejection (bad inputs, off-grid, etc.)."""
 
@@ -70,7 +97,7 @@ def _global_prompt(characters: Sequence[dict]) -> str:
         f"{c['sn_tag']} ({c['name']}) is {c['description']}"
         for c in characters)
     return ("Throughout every scene identity and wardrobe stay locked: "
-            f"{pins}.")
+            f"{pins}. {_spatial_anchor_prompt(characters)}")
 
 
 def _speaker_template(speaker_sn: str, text: str) -> str:
@@ -353,7 +380,10 @@ def _continuation_config(
             f"{silent.sn_tag} ({silent.name}): {silent.description}"
             if silent is not None else
             f"{speaker_char.sn_tag} ({speaker_char.name}): "
-            f"{speaker_char.description}"),
+            f"{speaker_char.description}") + "; " +
+            _spatial_anchor_prompt([
+                {"name": c.name, "sn_tag": c.sn_tag}
+                for c in plan.characters]),
         "dialogue_text": clip.shot_prompt.partition("speaks: ")[2],
         "action": "subtle natural listening and speaking motion",
         "prompt": f"{plan.global_prompt} {speaker_prompt}",

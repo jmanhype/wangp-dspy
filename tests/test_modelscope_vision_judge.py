@@ -85,6 +85,8 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
     assert "elderly grandmother with round glasses" in content[0]["text"]
     assert "flaming skeleton" in content[0]["text"]
     assert "exactly one JSON object" in content[0]["text"]
+    assert "spatial anchor" in content[0]["text"]
+    assert "side swap" in content[0]["text"]
 
 
 def test_modelscope_judge_falls_back_to_reasoning_content(

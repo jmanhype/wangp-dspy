@@ -292,7 +292,10 @@ class ModelScopeVisionJudge:
             f"speaking identity and silent counterpart: {expected_speaker}. "
             f"Expected action: {expected_action}. Score whether the expected "
             "identity is the mouth-moving character, the counterpart stays "
-            "silent, and the action is visible. Do not explain or expose "
+            "silent, and the action is visible. Treat the start frame as the "
+            "spatial anchor: positions, left/right blocking, scale, wardrobe, "
+            "and framing must remain consistent; a side swap or re-staged "
+            "composition is a continuity failure. Do not explain or expose "
             "reasoning. Respond with exactly one JSON object and nothing else: "
             '{"mouth_sync": 0.0, "action_match": 0.0, '
             '"speaker_attribution": 0.0}. Use 1.0 only for clear evidence.'

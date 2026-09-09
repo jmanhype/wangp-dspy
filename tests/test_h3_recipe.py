@@ -81,6 +81,8 @@ def test_prompt_template_structure_exact():
             "mouth movement: (S1) says: <d>[English] The lamp will hold "
             "till morning.</d> <Subject 2> listens, mouth closed, head "
             "tilted, eyes on the speaker.") in p
+    assert "Spatial anchor" in p
+    assert "do not swap sides" in p
     assert p.rstrip().endswith(
         "Non-diegetic music: none. Ambient: room tone, faint brazier crackle.")
 

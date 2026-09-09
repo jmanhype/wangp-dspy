@@ -104,6 +104,16 @@ def _check_turbo_gate(loras: List[str], multi_ref: bool) -> None:
                 "single-ref closeups)")
 
 
+def _spatial_anchor_text(subject_count: int) -> str:
+    """Pin the reference frame's blocking for every multi-ref render."""
+    if subject_count < 2:
+        return ("Spatial anchor: preserve the subject's exact position, scale, "
+                "wardrobe, and framing from <Picture 1>; do not re-stage.")
+    return ("Spatial anchor: preserve each subject's exact left/right position, "
+            "scale, wardrobe, and framing from <Picture 1>; do not swap "
+            "sides, mirror, or re-stage the composition.")
+
+
 def _build_prompt(anchor_plate: str,
                   character_plates: List[Dict[str, str]],
                   speaker_index: int,
@@ -142,6 +152,7 @@ def _build_prompt(anchor_plate: str,
     summary += " ".join(
         f"{name} listens, mouth closed, {listening_detail}."
         for name in listener_names)
+    summary += " " + _spatial_anchor_text(n)
 
     # Continuous multi-line shots: [Shot N] At HH:MM:SSS timestamped
     # speaker attribution per the official guide.

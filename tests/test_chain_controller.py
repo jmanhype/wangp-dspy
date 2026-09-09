@@ -39,6 +39,12 @@ class TestBuildChainPlan:
         assert "Throughout every scene" in plan.global_prompt
         assert "S1" in plan.global_prompt and "red jacket" in plan.global_prompt
 
+    def test_global_prompt_pins_spatial_anchor(self):
+        plan = build_chain_plan(_script(), _characters(), DURATIONS)
+        assert "Spatial anchor" in plan.global_prompt
+        assert "LEFT" in plan.global_prompt and "RIGHT" in plan.global_prompt
+        assert "do not swap sides" in plan.global_prompt
+
     def test_shot_prompts_speaker_attributed_with_sn(self):
         plan = build_chain_plan(_script(), _characters(), DURATIONS)
         assert "S1" in plan.clips[0].shot_prompt
@@ -137,6 +143,13 @@ class TestRenderManifest:
         assert cfg2["frames"] == 56 - OVERLAP_FRAMES
         assert cfg2["steps"] == 20  # recipe steps carry over
         assert cfg2["prompt"].startswith(plan.global_prompt)
+
+    def test_continuation_speaker_description_carries_spatial_anchor(self):
+        plan = build_chain_plan(_script(), _characters(), DURATIONS,
+                                continuation_mode=True)
+        manifest = emit_render_manifest(
+            plan, plate_paths=["anchor.png", "ada.png", "bo.png"])
+        assert "Spatial anchor" in manifest[1]["speaker_description"]
 
     def test_shot1_prompt_prefixed_with_global(self):
         plan = build_chain_plan(_script(), _characters(), DURATIONS)
