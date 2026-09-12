@@ -52,5 +52,14 @@
     ],
     "notes": "Operator caught what the gates missed. Engineering acceptance passed (frames/gates/chain/ledger) but creative QC never ran: vision_judge None everywhere. VLM audit: only cut 1 shows grandma+soul; cuts 2-6 are entirely different people in different scenes (lighthouse/coastal), wrong speakers throughout, triple-panel glitch at 0:05. KEEP verdict RETRACTED \u2014 engineering-complete, creative-failed. Root cause #32 confirmed: the run explicitly used premise lf-001 (The Last Lighthouse; Mara/Ivo) while supplying a Devil's Grandma plate/audio bundle; no premise fallback occurred, and cross-artifact coherence was unenforced. Scaling to 186 premises HALTED.",
     "experiment": "acceptance-grid56"
+  },
+  {
+    "artifact": "outputs/2026-09-12-13h47m56s_seed904_...pinned frame. The.mp4 (native)",
+    "sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6",
+    "timestamp": "2026-09-12T14:30:43Z",
+    "verdict": "fucking perfect",
+    "flags": [],
+    "notes": "REPO-EXECUTED reproduction of perfect cut 1: byte-identical (md5 be96a3027d1f) to the Sept-6 original, through the corrected pipeline \u2014 conditioning forwarded, native audio preserved, no remux. First repo-native 'perfect'. Confirms multishot-dispatch + audio-replacement fix.",
+    "experiment": "v3-parity-replay-cut1"
   }
 ]
