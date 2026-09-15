@@ -1,0 +1,21 @@
+{
+  "model_type": "minimax_h3_ref2va_pruned",
+  "image_prompt_type": "S",
+  "image_start": "/home/straughter/speaker_test/v3_c2seed.png",
+  "video_prompt_type": "I",
+  "video_guide": null,
+  "video_source": null,
+  "keep_frames_video_source": "",
+  "audio_prompt_type": "A",
+  "audio_guide": "/home/straughter/marathon/v2/dialogue/dgshort_s.wav",
+  "audio_guide2": null,
+  "video_length": 56,
+  "seed": 904,
+  "prompt": "integrated_multimodal_description:\nSame fiery torture chamber, continuing directly from the previous frame. The same two people: the elderly grandmother with round glasses and cardigan, and the skinny tormented soul on the rack.\n(S1) The tormented soul, on-screen speaker: he protests in exasperated English, mouth in exact sync with the audio.\n(S2) The elderly grandmother shown in Picture 2 stays silent: her lips are pressed closed and motionless for the entire shot.\nClosed-mouth instruction: the woman in Picture 2 keeps her mouth fully closed while the soul speaks.\noverall_soundscape: crackling fire, bubbling cauldron.\nnon_diegetic_music: N/A",
+  "image_refs": [
+    "/home/straughter/speaker_test/v3_c2seed.png",
+    "/home/straughter/speaker_test/grandma_frame.png"
+  ],
+  "resolution": "480x832",
+  "premise": "blockmission"
+}
