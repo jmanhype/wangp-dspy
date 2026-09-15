@@ -8,7 +8,8 @@ generation gap, not a newly discovered H3 render regression.
 The operator authorized a new two-cut Archive of Rain trial with fresh isolated
 dialogue, the approved scene plate and the recovered v3 rendering recipe.
 The inspection used the actual Hermes checkout at HEAD
-23dd219ff76b406f8d41d81ea4f66583f936d966 plus its existing uncommitted repairs.
+the parity release candidate (`codex/golden-v3-lf003-repro`, now published)
+plus its source repairs.
 No generation or render command was executed on the GPU during this check.
 
 Required new lines:

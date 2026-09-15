@@ -2,13 +2,15 @@
 
 ## Decision
 
-**Exact reference pair verified; source-only checks green; not released.**
+**Exact reference pair verified; source-only checks green; release candidate
+committed and pushed for review.**
 
 Actual repository: `/Users/Shared/HermesWorkspace/wangp-dspy`.
 Branch: `codex/golden-v3-lf003-repro`.
-HEAD: `23dd219ff76b406f8d41d81ea4f66583f936d966`.
-The repair and this review are local/uncommitted. No commit, push, remote PR,
-GPU rerender or operator-verdict change was performed in this follow-up.
+HEAD: `43b04af680054c2d5a9ac6ddab2944bb9eefba9b`.
+The repair, provenance, tests, and golden fixtures are committed and pushed on
+`codex/golden-v3-lf003-repro`. `origin/main` remains unchanged; no GPU rerender
+or operator-verdict change was performed in this follow-up.
 
 ## Evidence independently checked
 
@@ -79,8 +81,8 @@ excluded from the source-only candidate and remain untouched.
 ## Separate finding/PR boundaries
 
 - **#50:** native conditioning/audio repair, exact recovered recipe, evidence
-  and golden regression gate. Locally proven; review/reconciliation with its
-  pre-existing dependencies still precedes any authorized commit or PR.
+  and golden regression gate. Committed and pushed on
+  `codex/golden-v3-lf003-repro`; review/merge remains separate from #51/#52.
 - **#51:** portable repository-identity tests and its finding document.
   Test-only change; production identity code is unchanged. Keep separate from
   the rendering PR.
@@ -99,9 +101,9 @@ The real golden run still needs its original host fixtures and renderer
 environment; passing source tests does not provision them. No new-premise or
 six-cut acceptance is inferred from identical two-cut bytes.
 
-Before publication, obtain the operator's explicit commit/push authorization,
-reconcile the overlapping pre-existing hunks, and preserve one finding per PR.
-After the release snapshot is approved, a separately recorded new-premise
+Before merge, review the pushed release candidate, reconcile the overlapping
+pre-existing hunks, and preserve one finding per PR. After the release snapshot
+is approved, a separately recorded new-premise
 two-cut trial is the next creative-generalization check—not another redundant
 render of the already-proven original pair.
 

@@ -48,7 +48,7 @@ prompt. Make the acceptance bundle select that fixture explicitly; keep
 hash-derived seeds and generic geometry as a separate, named recipe rather
 than silently substituting them.
 
-## Follow-up — 2026-09-13, locally verified repair (not merged)
+## Follow-up — 2026-09-13, locally verified repair (now pushed for review)
 
 The sections above preserve the original finding. Two corrections are now
 supported by recovered-script and live-run evidence:
@@ -80,14 +80,14 @@ The append-only verification record in that run's `runs.jsonl` has SHA256
 zero audio/video start timestamps. Read-only re-verification on 2026-09-13
 passed without a GPU rerender.
 
-**Status:** exact original-pair reproduction verified in the local development
-tree; source-only release validation and review remain distinct from that
-result. The repair is uncommitted on `codex/golden-v3-lf003-repro`, HEAD
-`23dd219ff76b406f8d41d81ea4f66583f936d966`. No commit, push, new-premise quality,
-fresh-clone GPU acceptance, or model chain-depth limit is implied.
+**Status:** exact original-pair reproduction and source-only validation are
+verified. The repair is committed and pushed on
+`codex/golden-v3-lf003-repro` at `43b04af680054c2d5a9ac6ddab2944bb9eefba9b`.
+Review/merge, new-premise quality, fresh-clone GPU acceptance, and any model
+chain-depth limit remain distinct and are not implied.
 
 See `docs/V3-PARITY-FIX-2026-09-12.md` for implementation and evidence paths.
 The subsequent source-only review passed both complete suites with 1,315
 passed and 1 skipped after the separate #51 test-portability fix. See
-`docs/V3-PARITY-RELEASE-READINESS-2026-09-13.md`; this does not change the
-uncommitted/review-required release status above.
+`docs/V3-PARITY-RELEASE-READINESS-2026-09-13.md`; the branch is published for
+review and has not been merged to `main`.

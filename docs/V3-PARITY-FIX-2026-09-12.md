@@ -6,10 +6,10 @@ Work is in `/Users/Shared/HermesWorkspace/wangp-dspy`, branch
 `codex/golden-v3-lf003-repro`, based at
 `6565d3e81d6d110d2ae2d7b831e09db189fc74da`. HEAD advanced during the work to
 `23dd219ff76b406f8d41d81ea4f66583f936d966` (the separate cut-1 operator-verdict
-commit). The repair code remains local and uncommitted. This is a dirty
-development checkout, **not** a fresh-clone acceptance run. Pre-existing edits
-were preserved. No claim here means the repair was merged or pushed, or that
-the operator has given a new whole-pair verdict.
+commit). The repair is now committed and pushed on
+`codex/golden-v3-lf003-repro` (current tip is recorded in the release-readiness
+review). This document still describes the source-only repair scope, **not** a
+fresh-clone GPU acceptance run or a new whole-pair operator verdict.
 
 The original audit describes the broken path. This document records repairs
 separately; it does not retroactively bless old renders.

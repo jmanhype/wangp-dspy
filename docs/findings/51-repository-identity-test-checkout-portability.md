@@ -3,9 +3,9 @@
 ## Status
 
 Confirmed 2026-09-13 during isolated source-only validation of the #50 repair.
-Test-only fix implemented and independently verified in both checkouts; no
-commit or PR has been created. This finding is separate from #50's
-render/conditioning repair.
+Test-only fix implemented and independently verified in both checkouts. It is
+committed as `e258e85` and pushed on `codex/golden-v3-lf003-repro`, separately
+from #50's render/conditioning repair.
 
 ## What was needed
 
@@ -51,11 +51,11 @@ The minimal PR changes only that test module and this finding:
 
 ## Validation scope
 
-The isolated candidate uses the existing Python environment and overlays
-uncommitted source, including disclosed pre-existing changes. It is a
-source-portability test, **not** a clean-dependency install, committed release,
-fresh-clone GPU acceptance, or a new creative-quality verdict. No GPU work was
-needed to discover this failure, and no original render evidence was changed.
+The isolated candidate used the existing Python environment and overlaid the
+then-uncommitted source, including disclosed pre-existing changes. It was a
+source-portability test, **not** a clean-dependency install, fresh-clone GPU
+acceptance, or a new creative-quality verdict. No GPU work was needed to
+discover this failure, and no original render evidence was changed.
 
 ## Fix verification — 2026-09-13
 
@@ -76,5 +76,6 @@ The original failing run is retained, not overwritten. Final JUnit files are
 `/tmp/wangp-parity-isolated-verified-20260913.xml`; archival evidence is grouped
 under `datasets/runs/provenance/v3-parity-release-check-20260913/`.
 
-**PR boundary:** this test-only correction is separately reviewable from #50.
-Passing it does not authorize a commit/push or reclassify any film verdict.
+**PR boundary:** this test-only correction remains separately reviewable from
+#50. Passing it does not reclassify any film verdict; the implementation is
+published on `codex/golden-v3-lf003-repro` and is not merged to `main`.
