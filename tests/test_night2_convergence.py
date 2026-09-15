@@ -24,7 +24,7 @@ CHARACTERS = [
      "description": "a lean man with soot-streaked cheeks, standing right"},
 ]
 WHISPER_MAP = "s4/films/satans-mom/qc/whisper_map.json"
-LOG_20_20 = "loading model\nDenoising 20/20\nQueue completed: 1/1"
+LOG_20_20 = "loading model\nDenoising 20/20\nQueue completed: 1/1 tasks"
 
 
 class _FakeHost:
@@ -48,6 +48,8 @@ class _FakeHost:
             return 0, "launched", ""
         if argv[:1] == ["cat"] and len(argv) == 2:
             return 0, self.files.get(argv[1], ""), ""
+        if argv[:1] == ["stat"]:
+            return 0, "9999999999\n", ""
         return 0, "out.mp4\n", ""
 
     # adapter render-path niceties (never needed on the fl2va seam)
@@ -139,6 +141,7 @@ class TestFix2LocalhostPreRender:
         """Patch subprocess.run inside run_jobs; record argv lists."""
         import scripts.run_jobs as rj
         ran = []
+        monkeypatch.setattr(rj.time, "sleep", lambda _seconds: None)
 
         class _P:
             def __init__(self, rc):
@@ -242,24 +245,21 @@ class TestFix3RenderLegKill:
                             lambda host, log: "Denoising 20/20")
         return rj, killed, _ProbeHost
 
-    def test_render_wrapper_kills_pre_render_localhost_only(self,
-                                                            monkeypatch):
-        rj, killed, _ProbeHost = self._wire(monkeypatch)
-        monkeypatch.setenv("WANGP_SSH_TARGET", "localhost")
-        ex = rj.build_executor(queue=None, host=_ProbeHost())
-        outcome = ex.render({"clip_index": 1})
-        assert outcome.log_text == "Denoising 20/20"
-        pkills = [c for c in killed if c[:2] == ["pkill", "-f"]]
-        assert pkills and pkills[0][2] == "llama-server"
-        assert [c for c in killed if c[:1] == ["sleep"]]
 
-        # remote lane: no kill
-        killed.clear()
-        monkeypatch.setenv("WANGP_SSH_TARGET", "3090")
-        ex2 = rj.build_executor(queue=None, host=_ProbeHost())
-        ex2.render({"clip_index": 2})
-        assert not [c for c in killed if c and c[0] == "pkill"], \
-            "remote lane must not run the localhost VRAM dance"
+    def test_render_wrapper_timeshares_on_both_host_targets(self, monkeypatch):
+        rj, calls, Host = self._wire(monkeypatch)
+        monkeypatch.setenv("WANGP_VISION_BACKEND", "local")
+        for target in ("localhost", "3090"):
+            calls.clear()
+            monkeypatch.setenv("WANGP_SSH_TARGET", target)
+            outcome = rj.build_executor(queue=None, host=Host()).render({"clip_index": 1})
+            assert outcome.log_text == "Denoising 20/20"
+            assert [rj._judge_ctl_path(), "stop"] in calls
+            assert [rj._judge_ctl_path(), "start"] in calls
+        calls.clear()
+        monkeypatch.setenv("WANGP_VISION_BACKEND", "modelscope")
+        rj.build_executor(queue=None, host=Host()).render({"clip_index": 2})
+        assert not calls
 
     def test_free_vram_for_render_argv(self):
         import scripts.run_jobs as rj
@@ -271,8 +271,7 @@ class TestFix3RenderLegKill:
                 return 0, "", ""
 
         rj.free_vram_for_render(_H())
-        assert seen[0][:2] == ["pkill", "-f"]
-        assert seen[0][2] == "llama-server"
+        assert seen[0] == [rj._judge_ctl_path(), "stop"]
         assert seen[1] == ["sleep", "3"]
 
 
@@ -350,9 +349,9 @@ class TestFix5Ref2vaFloor:
             audio_prompt_type="A", guide_duration_s=2.333,
             shot_duration_s=2.333, audio_guide=str(wav),
             audio_provenance=prov, audio_length_frames=56)
-        assert doc["frames_per_shot"] == 107  # 5+17k grid snap
+        assert "frames_per_shot" not in doc  # Ref2VA never dispatches multishot
         assert doc["requested_frames"] == 56  # FIX 6 below
-        assert doc["video_length"] == 107    # snapped (FIX 6)
+        assert doc["video_length"] == 56    # snapped (FIX 6)
 
     def test_2_32_rejected(self, tmp_path):
         from predict.render_profiles import Ref2VAProfile, ProfileError
@@ -422,7 +421,7 @@ class TestFix6SnappedFrames:
             audio_prompt_type="A", guide_duration_s=2.333,
             shot_duration_s=2.333, audio_guide=str(wav),
             audio_provenance=prov, audio_length_frames=56)
-        assert doc["video_length"] == 107
+        assert doc["video_length"] == 56
         assert doc["requested_frames"] == 56
 
 

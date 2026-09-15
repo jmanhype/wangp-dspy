@@ -275,7 +275,7 @@ class TestFix6ChainAutoAdvance:
         # ffmpeg last-frame extraction fired for the chain advance
         ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
         assert len(ffmpeg) == 1
-        assert ffmpeg[0][2:6] == ["-sseof", "-0.1", "-i",
+        assert ffmpeg[0][4:8] == ["-sseof", "-0.05", "-i",
                                   "render/clip0001/o.mp4"]
         # dependent's chain:// placeholder replaced with the png
         dep = q.get(ids[1])
@@ -300,7 +300,7 @@ class TestFix6ChainAutoAdvance:
         monkeypatch.setattr(
             WanGPAdapter, "render",
             lambda self, *a, **kw: legacy.append(a))
-        ex = rj.build_executor(queue=None, host=host)
+        ex = rj.build_executor(queue=None, host=host, whisper_transcriber=lambda p: "p")
         clip = {"clip_index": 1, "kind": "ref2va_render",
                 "image_refs": ["a.png"], "audio_guide": "g.wav",
                 "prompt": "p"}
@@ -331,6 +331,7 @@ class TestFix7EnvRoutingAndHook:
 
     def test_pre_render_default_on_for_localhost(self, monkeypatch):
         import scripts.run_jobs as rj
+        monkeypatch.setenv("WANGP_VISION_BACKEND", "local")
         monkeypatch.setenv("WANGP_SSH_TARGET", "localhost")
         assert rj._pre_render_default(None) is rj.localhost_pre_render
 

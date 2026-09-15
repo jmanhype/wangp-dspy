@@ -233,28 +233,50 @@ class DirectorRun:
 
     def plan(self, script_lines: Sequence[dict], *, audio_paths: Sequence[str],
              plate_paths: Sequence[str | Sequence[str]],
-             media_manifest: Mapping | None = None) -> DirectorRunPlan:
+             media_manifest: Mapping | None = None,
+             expected_cuts: int = 6,
+             recipe_name: str = "production",
+             seed_override: int | None = None,
+             durations_s: Sequence[float] | None = None) -> DirectorRunPlan:
         """Build the strict ContinuationExtras manifest (no GPU/subprocess).
 
         ``media_manifest`` is mandatory in practice (``None`` is rejected)
         because premise/audio/plate identity must be checked before queueing.
         """
-        if len(script_lines) != 6:
+        if isinstance(expected_cuts, bool) or not isinstance(expected_cuts, int) \
+                or expected_cuts <= 0:
+            raise DirectorRunError("expected_cuts: positive integer required")
+        if len(script_lines) != expected_cuts:
             raise DirectorRunError(
-                f"script_lines: acceptance run requires exactly 6 cuts, got {len(script_lines)}")
-        if len(audio_paths) != 6:
+                f"script_lines: expected exactly {expected_cuts} cuts, "
+                f"got {len(script_lines)}")
+        if len(audio_paths) != expected_cuts:
             raise DirectorRunError(
-                "audio_paths: six single-speaker turn wavs are required")
+                f"audio_paths: {expected_cuts} single-speaker turn wavs "
+                "are required")
         if len(plate_paths) < 2:
             raise DirectorRunError(
                 "plate_paths: anchor plus at least one silent-character face ref required")
         if isinstance(plate_paths[0], (list, tuple)):
-            if len(plate_paths) != 6 or any(
+            if len(plate_paths) != expected_cuts or any(
                     len(pair) != 2 for pair in plate_paths):
                 raise DirectorRunError(
                     "plate_paths: per-cut form must contain six [anchor, silent_face] pairs")
-        cut_duration_s = CONTINUATION_FRAMES_MIN / 24.0
-        durations = [cut_duration_s] * 6
+        if durations_s is None:
+            cut_duration_s = CONTINUATION_FRAMES_MIN / 24.0
+            durations = [cut_duration_s] * expected_cuts
+        else:
+            if len(durations_s) != expected_cuts:
+                raise DirectorRunError(
+                    "durations_s: one duration is required per cut")
+            try:
+                durations = [float(value) for value in durations_s]
+            except (TypeError, ValueError) as exc:
+                raise DirectorRunError(
+                    "durations_s: values must be numeric") from exc
+            if any(value <= 0 for value in durations):
+                raise DirectorRunError(
+                    "durations_s: values must be positive")
         characters = [dict(c) for c in self.premise.characters]
         canonical_media = _validate_media_coherence(
             premise=self.premise, script_lines=script_lines,
@@ -263,19 +285,19 @@ class DirectorRun:
         try:
             chain = build_chain_plan(
                 script_lines, characters, durations,
-                audio_paths=audio_paths, continuation_mode=True)
+                audio_paths=audio_paths, continuation_mode=True,
+                seed_override=seed_override)
             clips = tuple({**clip, "premise_id": self.premise.id,
                            "media_manifest": canonical_media}
                           for clip in emit_render_manifest(
-                              chain, plate_paths=plate_paths))
+                              chain, plate_paths=plate_paths,
+                              recipe_name=recipe_name))
         except Exception as exc:
             raise DirectorRunError(f"continuation planning failed: {exc}") from exc
         # A strict continuation manifest has one render job per dialogue turn.
-        if len(clips) != 6 or any(
-                c.get("frames") != CONTINUATION_FRAMES_MIN for c in clips):
+        if len(clips) != expected_cuts:
             raise DirectorRunError(
-                "continuation plan did not emit six grid-aligned "
-                f"{CONTINUATION_FRAMES_MIN}-frame jobs")
+                f"continuation plan did not emit {expected_cuts} jobs")
         if self.dataset_run_path is not None:
             append_dataset_run(
                 self.dataset_run_path, run_id=self.run_id, status="planned",

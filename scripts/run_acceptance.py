@@ -191,7 +191,11 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                       dataset_run_path=str(ledger))
     plan = run.plan(inputs["script"], audio_paths=inputs["audio"],
                     plate_paths=inputs["plates"],
-                    media_manifest=inputs["media"])
+                    media_manifest=inputs["media"],
+                    recipe_name=bundle.get("recipe_name", "golden_v3"),
+                    expected_cuts=bundle.get("expected_cuts", 6),
+                    durations_s=bundle.get("durations_s"),
+                    seed_override=bundle.get("seed", 904))
     queue = JobQueue(str(db))
     try:
         # Resolve credentials and host before submitting anything.  Missing
@@ -213,7 +217,7 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
 
     from services.director.run_records import append_dataset_run
     completed = append_dataset_run(
-        ledger, run_id=run_id, status="completed",
+        ledger, run_id=run_id, status="needs_review",
         payload={"premise_id": premise.id, "clip_count": len(job_ids),
                  "handled": handled, "assembly": assembly,
                  "bundle": str(bundle_file),

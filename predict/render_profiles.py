@@ -83,13 +83,16 @@ class H3Profile(RenderProfile):
 
 
 class Ref2VAProfile(RenderProfile):
-    """Second profile: image-refs + audio 'A' lip-sync lane.
+    """Second profile: image-refs + native audio 'A' Ref2VA lane.
 
     Contract (spec): image_refs present+readable at submit;
-    audio_prompt_type 'A' typed; guide duration == shot duration
-    (exact, typed rejection naming BOTH); 4-15s shot-duration cap;
-    <Picture N>/<Audio N> token contiguity (every referenced index
-    has a ref, numbering contiguous from 1).
+    audio_prompt_type 'A' typed; guide duration matches the ordinary
+    shot exactly (continuations allow the typed +0.1s envelope);
+    2.33s ordinary / 56/24s continuation floor and 15s cap;
+    <Picture N>/<Audio N> token contiguity
+    (every referenced index has a ref, numbering contiguous from 1).
+    The emitted envelope is a native single-cut job without multishot
+    script fields, and ``ref2va_wire_settings`` enforces the wire shape.
     """
 
     name = "ref2va"
@@ -115,11 +118,16 @@ class Ref2VAProfile(RenderProfile):
                        audio_policy: Optional[AudioPolicy] = None,
                        speaker_manifest: Optional[dict] = None,
                        speaker_prompt: Optional[str] = None,
+                       legacy_prompt: Optional[str] = None,
                        seed: Optional[int] = None,
                        audio_length_frames: Optional[int] = None,
                        image_start: Optional[str] = None,
                        video_prompt_type: str = "I",
                        continuation: bool = False,
+                       width: int = 480,
+                       height: int = 832,
+                       profile: int = 3,
+                       recipe_name: str = "production",
                        **kw) -> dict:
         continuation = bool(continuation or
                            getattr(decision, "continuation", False))
@@ -137,12 +145,15 @@ class Ref2VAProfile(RenderProfile):
             raise ProfileError(
                 "Ref2VA requires audio_prompt_type='A' (typed field; "
                 f"got {audio_prompt_type!r})")
-        # guide == shot duration (G2 source; exact match)
-        if abs(float(guide_duration_s) - float(shot_duration_s)) > 1e-9:
+        import math
+        if not math.isfinite(float(guide_duration_s)) or not math.isfinite(float(shot_duration_s)):
+            raise ProfileError("guide/shot duration must be finite")
+        if not continuation and abs(float(guide_duration_s) - float(shot_duration_s)) > 1e-9:
+            raise ProfileError(f"guide duration {guide_duration_s}s != shot duration {shot_duration_s}s")
+        if float(guide_duration_s) < 2.0 or float(guide_duration_s) > float(shot_duration_s) + 0.1:
             raise ProfileError(
-                f"Ref2VA guide duration {guide_duration_s}s != shot "
-                f"duration {shot_duration_s}s — must match EXACTLY "
-                "(G2 guide-alignment; both durations named)")
+                f"Ref2VA guide duration {guide_duration_s}s outside the 2s minimum / shot "
+                f"duration {shot_duration_s}s envelope (+0.1s tolerance)")
         # The ordinary Ref2VA profile keeps the proven 2.33s floor. The
         # continuation recipe uses the same H3 grid at its 56f minimum.
         min_shot_s = (REF2VA_CONTINUATION_MIN_SHOT_S
@@ -153,9 +164,12 @@ class Ref2VAProfile(RenderProfile):
             raise ProfileError(
                 f"Ref2VA shot duration {shot_duration_s}s outside the "
                 f"{min_shot_s}-{REF2VA_MAX_SHOT_S}s cap")
-        # WD-a1d9: audio data plane — audio_guide readable at submit
-        # (same treatment as image_refs), provenance required+typed,
-        # policy default-constructed (discard=True, source_master).
+        # WD-a1d9 audio data plane, updated for the native contract:
+        # audio_guide readable at submit (same treatment as image_refs),
+        # provenance required+typed, and policy defaults to preserving
+        # generated audio (discard=False) with its provenance window.
+        # Explicit discard=True remux belongs to non-Ref2VA external
+        # audio lanes, not this profile.
         if not audio_guide or not str(audio_guide).strip():
             raise ProfileError(
                 "Ref2VA requires audio_guide (path to the audio guide "
@@ -173,7 +187,9 @@ class Ref2VAProfile(RenderProfile):
                 f"{type(audio_provenance).__name__}")
         if audio_policy is None:
             audio_policy = AudioPolicy(
-                remux_window=tuple(audio_provenance.keeper_window_s))
+                discard_rendered_audio=False, remux_window=tuple(audio_provenance.keeper_window_s))
+        if audio_policy.discard_rendered_audio is not False:
+            raise ProfileError("Ref2VA requires native audio; discard/remux is not this recipe")
         if continuation:
             if speaker_manifest is not None:
                 from predict.speaker_manifest import (
@@ -225,78 +241,31 @@ class Ref2VAProfile(RenderProfile):
                         "level template ONLY, never the brief text "
                         "the runtime hands to the render (the runtime "
                         "contiguity check rejects them)")
-        # SETTINGS PARITY (live smoke 2026-09-02): the emitted doc must
-        # match the proven manual recipe shape (h3_recipe), which
-        # rendered grandma-perfect lip sync on the 3090. Three
-        # divergences broke the pipeline smoke:
-        #
-        # (1) prompt carried the WanGPJobConfig profile-tag default
-        #     ("ref2va") while the real speaker template went to
-        #     `script` — WanGP reads `prompt`, so the model got the
-        #     literal string "ref2va" and the mouth had nothing to
-        #     articulate. The FULL speaker template (subject
-        #     definitions + "(S1) says: <d>[English] ...</d>" +
-        #     listener mouth-closed clause) must reach `prompt`.
-        #     `script` is preserved for the multishot lane's own use
-        #     but is never the only carrier.
-        # (2) frames_per_shot snapped to the multishot grid (107 for
-        #     4.042s) with no video_length — the model paced mouth
-        #     motion for a different duration than the speech. The
-        #     recipe's frame math is round(duration_s*24) at 24fps
-        #     (h3_recipe: "frames = round(duration_s * 24)"), matching
-        #     the padded audio exactly. video_length is that value —
-        #     whole-frame aligned with the audio guide. frames_per_shot
-        #     rides the multishot 5+17k grid for the multishot lane's
-        #     own use and is never the Ref2VA authority.
+        # Ref2VA uses the single-cut handler grid, never the multishot floor.
         video_length = int(round(shot_duration_s * self.FPS))
-        if continuation:
-            aligned = normalize_continuation_frame_count(video_length)
-            if video_length != aligned:
-                raise ProfileError(
-                    "Ref2VA continuation duration must be grid-aligned "
-                    f"(5+17k, minimum {CONTINUATION_FRAMES_MIN}f); got "
-                    f"{video_length}f from {shot_duration_s}s (use "
-                    f"{aligned}f / {aligned / self.FPS:.3f}s)")
-            if not image_start:
-                raise ProfileError(
-                    "Ref2VA continuation requires image_start (the "
-                    "previous cut's resolved last-frame artifact)")
-            requested_frames = aligned
-            effective_video_length = aligned
-        else:
-            requested_frames = video_length
-            effective_video_length = None
-        # NIGHT TWO / frames handling for sub-4s shots: WanGP SNAPS the
-        # requested frames onto its own grid regardless of what we emit
-        # (live: 56 requested -> 107 rendered on the multishot grid).
-        # The emitted `video_length` must be the SNAPPED value the
-        # render will actually produce, so audio muxing matches the
-        # real output duration; the caller's raw request is preserved
-        # verbatim in `requested_frames` for audit/budgeting.
-        from predict.job_config import normalize_frame_count
-        if effective_video_length is None:
-            video_length = normalize_frame_count(video_length)
-        else:
-            video_length = effective_video_length
-        # audio-length == frame-count invariant: when the caller
-        # passes the actual (padded) audio-guide frame length, it
-        # MUST equal round(shot_duration_s*24) — a mismatch means the
-        # guide was sliced for a different duration than the shot.
-        if audio_length_frames is not None:
-            if int(audio_length_frames) != int(round(shot_duration_s * 24)):
-                raise ProfileError(
-                    f"Ref2VA audio guide length {audio_length_frames}f "
-                    f"!= shot duration frames "
-                    f"{int(round(shot_duration_s * 24))}f "
-                    f"({shot_duration_s}s @ {self.FPS}fps) — audio "
-                    "guide and video must cover the SAME duration for "
-                    "lip sync")
+        requested_frames = video_length
+        aligned = normalize_continuation_frame_count(video_length)
+        if continuation and video_length != aligned:
+            raise ProfileError(
+                f"Ref2VA duration must be grid-aligned (5+17k); got {video_length}f; use {aligned}f")
+        video_length = aligned
+        if continuation and not image_start:
+            raise ProfileError("Ref2VA continuation requires image_start")
+        guide_frames = int(round(float(guide_duration_s) * self.FPS))
+        if audio_length_frames is not None and int(audio_length_frames) != guide_frames:
+            raise ProfileError(
+                f"Ref2VA audio guide length {audio_length_frames}f != declared guide duration {guide_frames}f")
         # speaker template: required carrier of the real prompt text.
         # Brief subject+motion is NOT sufficient (verified live) — the
         # "(SN) says:" / listener mouth-closed structure must reach
         # WanGP's prompt field. Fallback is a deterministic derivation
         # from the briefs so the seam never ships the bare tag.
-        if speaker_prompt is not None:
+        if legacy_prompt is not None:
+            prompt_text = str(legacy_prompt)
+            if not prompt_text.strip():
+                raise ProfileError(
+                    "legacy_prompt must be nonempty when supplied")
+        elif speaker_prompt is not None:
             prompt_text = str(speaker_prompt)
             if not prompt_text.strip():
                 raise ProfileError(
@@ -324,48 +293,47 @@ class Ref2VAProfile(RenderProfile):
         #     h3_recipe — single source).
         effective_seed = (int(seed) if seed is not None
                           else self.RECIPE_SEED)
-        cfg = WanGPJobConfig(
-            model_type=REF2VA_MODEL_TYPE,
-            script=SCRIPT_SEPARATOR.join(
-                f"{b.subject}. {b.motion}." for b in briefs),
-            prompt=prompt_text,
-            width=480, height=832,
-            frames_per_shot=(video_length if continuation
-                             else max(video_length, 96)),
-            force_fps="24",
-            seed=effective_seed,
-            snap_frames=not continuation,
-            frames_floor=(CONTINUATION_FRAMES_MIN if continuation else 56),
-        )
-        # WD-l5bx review strong-rec: image_refs/audio_prompt_type ride
-        # INSIDE the settings build (``extra``) and rule 4 (flat JSON)
-        # is explicitly scoped to the GENERIC lane — the Ref2VA reader
-        # consumes a list of image paths, a sanctioned non-scalar
-        # extension of the wgp settings schema, not a rule violation.
-        #
-        # LIVE SMOKE fix 10: video_prompt_type "I" and
-        # multi_prompts_gen_type "FG" must ride in extra= — the
-        # WanGPJobConfig dataclass has NO such fields, so passing them
-        # to the ctor is silently dropped and wgp runs with wrong
-        # prompt-shape defaults.
-        extra = {"image_refs": list(image_refs),
-                   "audio_prompt_type": "A",
-                   "audio_guide": str(audio_guide),
-                   "image_prompt_type": "S" if continuation else "I",
-                   "image_start": str(image_start) if image_start else None,
-                   "video_prompt_type": str(video_prompt_type),
-                   # SETTINGS PARITY (2): the recipe's frame carrier —
-                   # on-grid frames from shot_duration_s, matching the
-                   # padded audio exactly. video_length is the
-                   # authoritative Ref2VA frame count; frames_per_shot
-                   # above rides the same grid so the two never
-                   # conflict.
-                   "video_length": video_length,
-                   "requested_frames": requested_frames,
-                   "audio_provenance": audio_provenance.to_dict(),
-                   "audio_policy": audio_policy.to_dict(),
-                   "audio_qc": Ref2VAAudioQC.empty().to_dict(),
-                   "multi_prompts_gen_type": "FG"}
+        # Job metadata stays in the local settings/manifest envelope. The
+        # transport serializes only ref2va_wire_settings() to WanGP.
+        doc = {
+            "model_type": REF2VA_MODEL_TYPE,
+            "prompt": prompt_text,
+            "resolution": f"{int(width)}x{int(height)}",
+            "seed": effective_seed,
+            "num_inference_steps": 20,
+            "force_fps": "24",
+            "image_refs": list(image_refs),
+            "audio_prompt_type": "A",
+            "audio_guide": str(audio_guide),
+            "audio_guide2": None,
+            "image_prompt_type": "S" if image_start else "I",
+            "image_start": str(image_start) if image_start else None,
+            "video_prompt_type": str(video_prompt_type),
+            "video_source": None,
+            "video_guide": None,
+            "keep_frames_video_source": "",
+            "video_length": video_length,
+            "requested_frames": requested_frames,
+            "audio_provenance": audio_provenance.to_dict(),
+            "audio_policy": audio_policy.to_dict(),
+            "audio_qc": Ref2VAAudioQC.empty().to_dict(),
+            "profile": int(profile),
+            "recipe_name": recipe_name,
+        }
         if speaker_manifest is not None:
-            extra["speaker_manifest"] = speaker_manifest
-        return cfg.to_settings_doc(flat=False, extra=extra)
+            doc["speaker_manifest"] = speaker_manifest
+        if recipe_name == "golden_v3":
+            from predict.v3_recipe import V3_RECIPE
+            if len(image_refs) != 2 or image_start != image_refs[0]:
+                raise ProfileError("golden_v3 requires [seed, silent_face] references")
+            if int(profile) != V3_RECIPE.profile:
+                raise ProfileError("golden_v3 requires profile 2")
+            doc["resolution"] = V3_RECIPE.resolution
+            # These keys were absent in the recovered baseline. Inherit
+            # pinned WanGP handler defaults, not multishot overrides.
+            doc.pop("num_inference_steps")
+            doc.pop("force_fps")
+            doc["recipe_version"] = V3_RECIPE.version
+        from predict.ref2va_settings import ref2va_wire_settings
+        ref2va_wire_settings(doc)
+        return doc

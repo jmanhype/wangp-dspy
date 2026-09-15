@@ -137,7 +137,8 @@ def test_golden_parity_smoke_case(tmp_path):
     assert "mouth closed" in doc["prompt"]          # listener clause
     assert "<Subject 1>" in doc["prompt"]           # subject defs
     # script preserved for the multishot lane but prompt is the carrier
-    assert doc["script"] and doc["prompt"] != doc["script"]
+    assert "script" not in doc
+    assert "frames_per_shot" not in doc
     # (2) NIGHT TWO: video_length is the SNAPPED count WanGP actually
     # renders (107 for a 97f request); requested_frames keeps the raw
     # request so consumers can audit the snap.

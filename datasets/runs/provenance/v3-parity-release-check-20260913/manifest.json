@@ -1,0 +1,132 @@
+{
+  "schema": "wangp-dspy.parity-source-review/v1",
+  "created_at_utc": "2026-09-13T14:02:06.156709+00:00",
+  "repository": {
+    "root": "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "head": "23dd219ff76b406f8d41d81ea4f66583f936d966",
+    "branch": "codex/golden-v3-lf003-repro",
+    "repair_uncommitted": true
+  },
+  "isolated_root": "/private/tmp/wangp-parity-source-only-20260913-bJlI0Z",
+  "scope": "Source-only candidate overlay including preexisting edits; existing venv reused. Not fresh dependencies, a committed release, GPU rerun, or new-premise quality.",
+  "test_results": {
+    "root-suite.xml": {
+      "tests": 1316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 1315
+    },
+    "isolated-suite.xml": {
+      "tests": 1316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 1315
+    },
+    "initial-isolated-failure.xml": {
+      "tests": 1314,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 1312
+    }
+  },
+  "golden_artifacts_passed": true,
+  "production_identity_unchanged_from_HEAD_sha256": "60987fe28e051de096addc3ac556cf08e868e8e6bbc2e3bb4d0e502dfeb7e0ce",
+  "fixed_identity_test_sha256": "69300dfd52946dcf929edf39b72c9e6117bb565f05d2c4fb70fdf4da99367595",
+  "final_documentation_ast": {
+    "host/ref2va_runtime.py": {
+      "before": "bad59034877beedc8a1919ec5933457bc63bbc8352bb0e10b4515c14b6cf3475",
+      "current": "bad59034877beedc8a1919ec5933457bc63bbc8352bb0e10b4515c14b6cf3475",
+      "executable_ast_unchanged": true,
+      "current_source_sha256": "d5adc04217bfa8223efa29a5688c1c62710897af60d44953d4a2918ad4ccc04b"
+    },
+    "predict/render_profiles.py": {
+      "before": "6618b6a0350cb17a1eb213eebf92ad97f0b6e7c6d1655081b7ba8b53442619e1",
+      "current": "6618b6a0350cb17a1eb213eebf92ad97f0b6e7c6d1655081b7ba8b53442619e1",
+      "executable_ast_unchanged": true,
+      "current_source_sha256": "b6096c7a7f6f036958b29431676f90b7b56d5d1d8d686bbdca1ceb3a6e26c282"
+    },
+    "predict/continuation_lane.py": {
+      "before": "e23342e405fc5b5fcdae1dd329f06f4b2d2b6ddfc98a70a526e47b62a9316c08",
+      "current": "e23342e405fc5b5fcdae1dd329f06f4b2d2b6ddfc98a70a526e47b62a9316c08",
+      "executable_ast_unchanged": true,
+      "current_source_sha256": "cb2efb42b67237b3ac32d262d0c226143abfe49eab68216da1e6e09308055e6a"
+    },
+    "qc/audio_critic/ref2va_stage.py": {
+      "before": "c7485dfc1ef42299a96e366ec4c87c3ca3d0a5205f4af547b9035a3f2f02fcba",
+      "current": "c7485dfc1ef42299a96e366ec4c87c3ca3d0a5205f4af547b9035a3f2f02fcba",
+      "executable_ast_unchanged": true,
+      "current_source_sha256": "626b35803427dc9a5dfaadb6665c4ebb2fc737cf7a5995644ea0fced7dc68c63"
+    }
+  },
+  "orchestration": {
+    "requested_worker_model": "zai-coding/glm-5.3",
+    "requested_worker_effort": "low",
+    "parent_runtime_model_independently_attested": false,
+    "completed_with_verified_artifacts": [
+      "source-only test",
+      "identity-test portability fix",
+      "native-audio documentation"
+    ],
+    "failed_with_429_retry_limit": [
+      "release inventory follow-up",
+      "evidence packaging"
+    ],
+    "fallback": "Parent finished reviewed inventory correction and local evidence packaging after provider retry exhaustion.",
+    "independent_parent_checks": [
+      "golden canary",
+      "both full pytest suites",
+      "documentation diffs and normalized AST",
+      "identity production file unchanged"
+    ]
+  },
+  "artifacts": {
+    "root-suite.xml": {
+      "source": "/tmp/wangp-parity-root-verified-20260913.xml",
+      "bytes": 152501,
+      "sha256": "e212ff79e24557147a246dc0d5bcea8ea1aa62b51b1d7f39556e0a1a66441bef"
+    },
+    "isolated-suite.xml": {
+      "source": "/tmp/wangp-parity-isolated-verified-20260913.xml",
+      "bytes": 152514,
+      "sha256": "431020097b91a7914b3491514a9f3c50e2ff363991beb60e4a9064b70392257f"
+    },
+    "initial-isolated-failure.xml": {
+      "source": "/tmp/wangp-parity-source-only-20260913-bJlI0Z/test-results.xml",
+      "bytes": 153052,
+      "sha256": "190e80df25a3cd042c3970ad4c3694dffcd2ae87c3de508993753d94c0e7ebf0"
+    },
+    "initial-isolated-failure.log": {
+      "source": "/tmp/wangp-parity-source-only-20260913-bJlI0Z/pytest-stdout.log",
+      "bytes": 3456,
+      "sha256": "938f1bbf4cc5a788f83e95de23566c0ac245d6ee1893ecefa72edd3838443dca"
+    },
+    "golden-recheck.json": {
+      "source": "/tmp/wangp-v3-canary-20260913.json",
+      "bytes": 2698,
+      "sha256": "d97f1ce6e9d5b6e245ae95d347a8cae9fed6df2d3491ae7742b4668d5a135286"
+    },
+    "documentation-ast-proof.md": {
+      "source": "/tmp/wangp-native-contract-docs-ast-comparison-20260913.md",
+      "bytes": 1479,
+      "sha256": "ccd03790216a8d89b62ffd2e154c83db7740cb04752c437ae88ac2f4fa6916ad"
+    },
+    "identity-test-fix.md": {
+      "source": "/tmp/wangp-identity-test-fix-20260913.md",
+      "bytes": 3009,
+      "sha256": "44972d595d2d60414db7d2206d4d73fb0c04cce305611c4ec6fca76ffa26d5e5"
+    },
+    "initial-source-only-result.json": {
+      "source": "/tmp/wangp-parity-source-only-result-20260913.json",
+      "bytes": 41388,
+      "sha256": "2fba58b0048e04ce335b07e3086668a8a6ff3c7b0df13acd488b68594c3bdff0"
+    },
+    "release-inventory-reviewed.md": {
+      "source": "/tmp/wangp-parity-release-inventory-20260913.md",
+      "bytes": 15380,
+      "sha256": "45e7c4ec1880d235f9968bf9d6c203a3429dff69a88e0e1609f0290011d42528"
+    }
+  }
+}

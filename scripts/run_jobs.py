@@ -108,8 +108,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 def extract_last_frame_argv(mp4: str, png: str) -> list:
     """The proven shape: last frame of mp4 -> png via -sseof -0.1."""
-    return ["ffmpeg", "-y", "-sseof", "-0.1", "-i", mp4,
-            "-frames:v", "1", png]
+    return ["ffmpeg", "-y", "-v", "error", "-sseof", "-0.05", "-i", mp4,
+            "-update", "1", "-frames:v", "1", png]
 
 
 def extract_last_frame(host, mp4: str, png: str) -> None:
@@ -199,7 +199,11 @@ def build_executor(queue, host=None, pre_render=None,
         # Production jobs get a real Whisper runner from the existing host
         # seam. Tests and custom operators may still inject a deterministic
         # transcriber explicitly.
-        whisper_transcriber = host_whisper_transcriber(host)
+        local_first_raw = (os.environ.get("WANGP_WHISPER_LOCAL_FIRST", "1")
+                           .strip().casefold())
+        local_first = local_first_raw not in {"0", "false", "no", "off"}
+        whisper_transcriber = host_whisper_transcriber(
+            host, local_first=local_first)
 
     # live smoke fix 3: qc_url="" made the preflight curl probe an
     # EMPTY URL — wire a real default (env-overridable).
@@ -215,6 +219,14 @@ def build_executor(queue, host=None, pre_render=None,
         if adapter is None:
             raise RuntimeError(
                 "no host wired — run_jobs needs a host for real renders")
+        if render_lane_for(clip.get("kind")) == "ref2va":
+            from qc.audio_critic.whisper_gate import run_whisper_gate
+            # This is genuinely PRE-render, before model loading/VRAM work.
+            # The later QC stage rechecks pre+native-post and persists both.
+            run_whisper_gate(
+                clip.get("audio_guide"),
+                clip.get("dialogue_text") or clip.get("prompt"),
+                transcriber=whisper_transcriber, phase="pre", pass_bar=0.6)
         # The local Qwen judge and WanGP are mutually exclusive GPU tenants.
         # Keep the judge up for preflight, stop it immediately before the
         # render leg, and restore it before QC.  This applies to both an SSH
@@ -254,11 +266,26 @@ def build_executor(queue, host=None, pre_render=None,
         if render_lane_for(clip.get("kind")) != "ref2va":
             return True, f"qc/{clip['clip_index']}.json"
         from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
+        from qc.audio_critic.ref2va_stage import Ref2VAQCStageError
+        import hashlib
+        final = Path(clip.get("mp4") or "")
+        try:
+            runtime_record = json.loads((final.parent / "runtime-evidence.json").read_text())
+            runtime = runtime_record["runtime"]
+            native = Path(runtime["raw_render_path"])
+            expected_hash = runtime_record["raw_render_hash"]
+            if (runtime.get("audio_carrier") != "native_h3"
+                    or hashlib.sha256(native.read_bytes()).hexdigest() != expected_hash
+                    or hashlib.sha256(final.read_bytes()).hexdigest() != expected_hash):
+                raise ValueError("native/final artifact hash or audio carrier mismatch")
+        except (OSError, KeyError, ValueError) as exc:
+            raise Ref2VAQCStageError(
+                f"native AV provenance required before QC; legacy remuxes must re-render: {exc}") from exc
         evidence_path = clip.get("qc_evidence_path")
         qc_result = run_ref2va_qc_stage(
             dict(clip), judge=None,
             pre_audio_path=clip.get("audio_guide"),
-            post_audio_path=clip.get("mp4"),
+            post_audio_path=str(native),
             intended_text=clip.get("dialogue_text") or clip.get("prompt"),
             whisper_transcriber=whisper_transcriber,
             evidence_path=evidence_path,
@@ -266,7 +293,8 @@ def build_executor(queue, host=None, pre_render=None,
             expected_speaker=(clip.get("speaker_description") or
                               clip.get("speaker") or clip.get("speaker_sn")),
             expected_action=clip.get("action") or clip.get("motion"),
-            vision_judge=vision_judge)
+            vision_judge=vision_judge,
+            reference_image_path=clip.get("image_start"))
         return True, qc_result.to_dict()
 
     return JobExecutor(queue=queue, preflight=preflight,

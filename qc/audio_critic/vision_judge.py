@@ -33,7 +33,9 @@ class VisionJudgeEvidence:
     video_path: str
     expected_speaker: str
     expected_action: str
-    mouth_sync: float
+    mouth_sync: Optional[float]
+    mouth_activity: float
+    av_sync_verified: bool
     action_match: float
     speaker_attribution: float
     pass_bar: float
@@ -52,6 +54,7 @@ def run_vision_judge(
     expected_action: str,
     judge: Optional[Callable],
     pass_bar: float = 0.7,
+    reference_image_path: Optional[str] = None,
 ) -> VisionJudgeEvidence:
     if not isinstance(video_path, str) or not video_path:
         raise VisionJudgeError("video_path: required")
@@ -62,9 +65,11 @@ def run_vision_judge(
     if not math.isfinite(float(pass_bar)) or not 0.0 <= float(pass_bar) <= 1.0:
         raise VisionJudgeError("pass_bar: must be between 0 and 1")
     try:
-        raw = judge(video_path=video_path,
-                    expected_speaker=expected_speaker,
-                    expected_action=expected_action)
+        kwargs = dict(video_path=video_path, expected_speaker=expected_speaker,
+                      expected_action=expected_action)
+        if reference_image_path is not None:
+            kwargs["reference_image_path"] = reference_image_path
+        raw = judge(**kwargs)
     except VisionJudgeError:
         raise
     except Exception as exc:
@@ -76,8 +81,11 @@ def run_vision_judge(
     if not isinstance(raw, Mapping):
         raise VisionJudgeError("vision judge must return a mapping")
     raw_response = raw.get("raw_response")
+    raw = dict(raw)
+    if "mouth_activity" not in raw and "mouth_sync" in raw:
+        raw["mouth_activity"] = raw["mouth_sync"]
     values = {}
-    for name in ("mouth_sync", "action_match", "speaker_attribution"):
+    for name in ("mouth_activity", "action_match", "speaker_attribution"):
         try:
             value = float(raw[name])
         except (KeyError, TypeError, ValueError) as exc:
@@ -93,7 +101,8 @@ def run_vision_judge(
     evidence = VisionJudgeEvidence(
         video_path=video_path, expected_speaker=expected_speaker,
         expected_action=expected_action, pass_bar=float(pass_bar),
-        passed=passed, notes=str(raw.get("notes", "")), raw_response=(
+        passed=passed, mouth_sync=None, av_sync_verified=False,
+        notes="Still-image visual QC only; phonetic AV synchrony is unmeasured. " + str(raw.get("notes", "")), raw_response=(
             str(raw_response) if raw_response is not None else None), **values)
     if not passed:
         raise VisionJudgeError(

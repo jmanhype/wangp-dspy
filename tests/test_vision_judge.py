@@ -27,22 +27,24 @@ def _doc(tmp_path):
 def test_vision_judge_requires_mouth_action_and_speaker_alignment():
     evidence = run_vision_judge(
         "cut.mp4", expected_speaker="S1", expected_action="turns toward gate",
-        judge=lambda **_: {"mouth_sync": 0.9, "action_match": 0.8,
+        judge=lambda **_: {"mouth_activity": 0.9, "action_match": 0.8,
                            "speaker_attribution": 0.95})
     assert evidence.passed is True
-    assert evidence.mouth_sync == 0.9
+    assert evidence.mouth_sync is None
+    assert evidence.mouth_activity == 0.9
+    assert evidence.av_sync_verified is False
 
 
 def test_vision_judge_rejects_low_alignment():
-    raw_response = '{"mouth_sync": 0.6, "action_match": 0.9, "speaker_attribution": 0.9}'
+    raw_response = '{"mouth_activity": 0.6, "action_match": 0.9, "speaker_attribution": 0.9}'
     with pytest.raises(VisionJudgeError, match="visual gate failed") as caught:
         run_vision_judge(
             "cut.mp4", expected_speaker="S1", expected_action="turns",
-            judge=lambda **_: {"mouth_sync": 0.6, "action_match": 0.9,
+            judge=lambda **_: {"mouth_activity": 0.6, "action_match": 0.9,
                                "speaker_attribution": 0.9,
                                "raw_response": raw_response})
     assert caught.value.scores == {
-        "mouth_sync": 0.6, "action_match": 0.9,
+        "mouth_activity": 0.6, "action_match": 0.9,
         "speaker_attribution": 0.9,
     }
     assert caught.value.raw_response == raw_response
@@ -52,7 +54,7 @@ def test_qc_stage_persists_integrated_vision_evidence(tmp_path):
     qc = run_ref2va_qc_stage(
         _doc(tmp_path), judge=None, video_path="cut.mp4",
         expected_speaker="S1", expected_action="turns toward gate",
-        vision_judge=lambda **_: {"mouth_sync": 0.9, "action_match": 0.9,
+        vision_judge=lambda **_: {"mouth_activity": 0.9, "action_match": 0.9,
                                   "speaker_attribution": 0.9})
     assert qc.vision_judge["passed"] is True
 
@@ -67,10 +69,10 @@ def test_qc_stage_rejects_requested_vision_without_judge(tmp_path):
 
 
 def test_qc_stage_preserves_vision_rejection_evidence(tmp_path):
-    raw_response = '{"mouth_sync": 0.1, "action_match": 0.8, "speaker_attribution": 0.2}'
+    raw_response = '{"mouth_activity": 0.1, "action_match": 0.8, "speaker_attribution": 0.2}'
 
     def reject(**_):
-        return {"mouth_sync": 0.1, "action_match": 0.8,
+        return {"mouth_activity": 0.1, "action_match": 0.8,
                 "speaker_attribution": 0.2,
                 "raw_response": raw_response}
 
@@ -80,7 +82,7 @@ def test_qc_stage_preserves_vision_rejection_evidence(tmp_path):
             expected_speaker="S1", expected_action="turns",
             vision_judge=reject)
     assert caught.value.vision_scores == {
-        "mouth_sync": 0.1, "action_match": 0.8,
+        "mouth_activity": 0.1, "action_match": 0.8,
         "speaker_attribution": 0.2,
     }
     assert caught.value.vision_raw_response == raw_response

@@ -22,8 +22,9 @@ def test_assemble_media_uses_repo_ffmpeg_argv_and_records_inputs(tmp_path):
 
     result = assemble_media(videos, str(output), runner=run)
     assert result["video_paths"] == videos
-    assert calls[0][:8] == ["ffmpeg", "-y", "-f", "concat", "-safe", "0",
-                             "-i", str(pathlib.Path(tmp_path) / ".concat-inputs.txt")]
+    assert calls[0][:8] == ["ffmpeg", "-y", "-v", "error", "-i", videos[0],
+                             "-i", videos[1]]
+    assert "[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1[v][a]" in calls[0]
     assert calls[0][-1] == str(output)
     assert "file '" + videos[0] + "'" in pathlib.Path(
         result["manifest_path"]).read_text()

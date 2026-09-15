@@ -403,7 +403,8 @@ class TestPromptShapeKeys:
     def test_settings_doc_contains_both_keys(self, tmp_path):
         doc = _build_ref2va_doc(tmp_path)
         assert doc["video_prompt_type"] == "I"
-        assert doc["multi_prompts_gen_type"] == "FG"
+        assert "multi_prompts_gen_type" not in doc
+        assert "script" not in doc
 
     def test_jobconfig_has_no_such_fields(self):
         from predict.job_config import WanGPJobConfig

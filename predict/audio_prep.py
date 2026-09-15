@@ -151,14 +151,25 @@ def prepare_turn_audio(
                         "format=duration", "-of", "default=nw=1:nk=1",
                         source_path])
     source_duration = _duration_from_probe(source_probe, "source_duration_s")
-    pad_duration = max(0.0, float(target_duration_s) - source_duration)
-    audio_filters = [f"volume={float(boost_db):.2f}dB"]
-    if pad_duration > 0.01:
-        audio_filters.append(f"apad=pad_dur={pad_duration:.6f}")
+    # Match the operator-validated v3 audio recipe.  VibeVoice files often
+    # carry a half-second lead-in; leaving it in the guide makes the rendered
+    # mouth move before the audible line.  Trim that lead-in, remove rumble,
+    # boost by +9 dB, then hard-trim and tail-pad to the exact cut envelope.
+    # The raw duration is not the effective duration after leading-silence
+    # removal, so a raw-duration-derived pad can still leave a short guide.
+    # Pad by the full target and let ``-t target`` clip the tail; this is
+    # deterministic and guarantees the guide reaches the exact cut envelope.
+    audio_filters = [
+        "silenceremove=start_periods=1:start_threshold=-40dB",
+        "highpass=f=100",
+        f"volume={float(boost_db):.2f}dB",
+        f"atrim=0:{float(target_duration_s):.6f}",
+        f"apad=pad_dur={float(target_duration_s):.6f}",
+    ]
 
     render = run([
         "ffmpeg", "-y", "-i", source_path, "-t", f"{target_duration_s:.6f}",
-        "-af", ",".join(audio_filters), "-ac", "1", "-ar", "16000",
+        "-af", ",".join(audio_filters), "-ac", "1", "-ar", "24000",
         "-c:a", "pcm_s16le", str(output),
     ])
     if int(getattr(render, "returncode", 0)) != 0 or not output.is_file():
@@ -189,4 +200,94 @@ def prepare_turn_audio(
         rms_db=rms_db, single_speaker=True)
 
 
-__all__ = ["AudioPreparationError", "PreparedTurnAudio", "prepare_turn_audio"]
+def prepare_v3_turn_audio(source_path: str, output_path: str, *,
+                          speaker_id: str, runner: Optional[Runner] = None) -> dict:
+    """Recovered v3 prep, explicitly distinct from exact-grid tail padding.
+
+    Do not use on already-prepared fixtures: it applies +9dB once. Preserve
+    the source sample rate/channels; trim to 2.4s and append .5s ONLY when the
+    trimmed result is under 2s, as the original did. Refuse if still too short.
+    """
+    from predict.v3_recipe import V3_RECIPE
+    import hashlib
+    import tempfile
+    if not speaker_id or not Path(source_path).is_file():
+        raise AudioPreparationError('speaker_id and readable source_path required')
+    if Path(source_path).resolve() == Path(output_path).resolve():
+        raise AudioPreparationError('v3 prep must not overwrite its source')
+    run = runner or _subprocess_runner
+    output = Path(output_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    command = ['ffmpeg', '-y', '-v', 'error', '-i', str(source_path),
+               '-af', V3_RECIPE.audio_filter, '-c:a', 'pcm_s16le', str(output)]
+    result = run(command)
+    if getattr(result, 'returncode', 0) != 0 or not output.is_file():
+        raise AudioPreparationError('v3 trim/highpass/boost failed')
+
+    def duration():
+        return _duration_from_probe(run([
+            'ffprobe', '-v', 'error', '-show_entries', 'format=duration',
+            '-of', 'csv=p=0', str(output)]), 'measured_duration_s')
+
+    measured = duration()
+    padded = measured < 2.0
+    if padded:
+        with tempfile.TemporaryDirectory(prefix='v3-audio-', dir=output.parent) as tmp:
+            pad = Path(tmp) / 'padded.wav'
+            result = run(['ffmpeg', '-y', '-v', 'error', '-i', str(output),
+                          '-af', 'apad=pad_dur=0.5', '-c:a', 'pcm_s16le', str(pad)])
+            if getattr(result, 'returncode', 0) != 0 or not pad.is_file():
+                raise AudioPreparationError('v3 minimum-duration padding failed')
+            output.write_bytes(pad.read_bytes())
+        measured = duration()
+    if not 2.0 <= measured <= 2.5:
+        raise AudioPreparationError(f'v3 measured duration {measured}s outside 2..2.5s')
+    rms = _rms_from_probe(run(['ffmpeg', '-v', 'info', '-i', str(output),
+                               '-af', 'volumedetect', '-f', 'null', '-']))
+    if rms < -60:
+        raise AudioPreparationError('v3 prepared audio is silent')
+    evidence = dict(recipe_version=V3_RECIPE.version, source_path=source_path,
+                    output_path=str(output), speaker_id=speaker_id, command=command,
+                    measured_duration_s=measured, boost_db=9.0, rms_db=rms,
+                    tail_padding_s=0.5 if padded else 0.0,
+                    source_sha256=hashlib.sha256(Path(source_path).read_bytes()).hexdigest(),
+                    guide_sha256=hashlib.sha256(output.read_bytes()).hexdigest())
+    import json
+    output.with_suffix('.prep.json').write_text(json.dumps(evidence, indent=2) + '\n')
+    return evidence
+
+
+__all__ = ["AudioPreparationError", "PreparedTurnAudio", "prepare_turn_audio", "prepare_v3_turn_audio"]
+
+
+def main(argv=None) -> int:
+    """Expose the recovered prep API without a disposable wrapper script."""
+    import argparse
+    import json
+    import sys
+
+    parser = argparse.ArgumentParser(description="Prepare one raw v3 dialogue turn")
+    parser.add_argument("--source", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--speaker", required=True)
+    args = parser.parse_args(argv)
+    source = Path(args.source).expanduser().resolve()
+    output = Path(args.output).expanduser().resolve()
+    evidence = output.with_suffix(".prep.json")
+    # Never double-process an existing guide or overwrite its evidence.
+    if output.suffix.casefold() != ".wav":
+        parser.error("--output must be a .wav path")
+    if output == source or evidence == source or output.exists() or evidence.exists():
+        parser.error("output and prep evidence must be new paths, distinct from source")
+    try:
+        result = prepare_v3_turn_audio(str(source), str(output),
+                                       speaker_id=args.speaker)
+    except (AudioPreparationError, OSError) as exc:
+        print(f"audio prep refused: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(result, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

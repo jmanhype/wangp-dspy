@@ -73,7 +73,7 @@ def test_render_brief_valid_instance_has_sections():
 
 def test_director_returns_parsed_brief():
     director = PromptDirector()
-    lm = DummyLM([{"rationale": "r", "brief": GOOD_LM_JSON}])
+    lm = DummyLM([{"reasoning": "r", "brief": GOOD_LM_JSON}])
     with dspy.context(lm=lm):
         out = director(intent="astronaut on a dust-swept plain, archival look")
     assert isinstance(out.brief, RenderBrief)
@@ -136,7 +136,7 @@ def test_director_rejects_meta_hint_briefs():
     poisoned = dict(GOOD_BRIEF)
     poisoned["motion"] = "slow dolly in, then hard cut to close-up"
     director = PromptDirector()
-    lm = DummyLM([{"rationale": "r", "brief": json.dumps(poisoned)}])
+    lm = DummyLM([{"reasoning": "r", "brief": json.dumps(poisoned)}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             director(intent="x")

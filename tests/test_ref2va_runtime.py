@@ -109,7 +109,7 @@ def test_happy_path_order_and_evidence(tmp_path):
         audio_artifacts=7.0))
     res = run_ref2va_runtime(inp)
     # exact call order through the injected seams
-    assert calls == ["render", "remux"]
+    assert calls == ["render"]
     # evidence shape
     assert res["settings_hash"] == hashlib.sha256(
         pathlib.Path(inp.settings_path).read_bytes()).hexdigest()
@@ -133,26 +133,13 @@ def test_manifest_written_and_readback(tmp_path):
                         "audio_policy", "audio_qc"}
 
 
-def test_explicit_source_second_input_never_render_audio(tmp_path):
-    seen = {}
-
-    def runner(argv):
-        seen["argv"] = argv
-        pathlib.Path(inp.remux_output_path).write_bytes(b"r" * 16)
-        return 0
-
-    inp, calls, dirs, files = _mk_input(tmp_path, runner=runner)
-    run_ref2va_runtime(inp)
-    argv = seen["argv"]
-    assert argv[0] == "ffmpeg"
-    inputs = [a for i, a in enumerate(argv) if i and argv[i - 1] == "-i"]
-    assert len(inputs) == 2
-    assert inputs[0] == str(inp.raw_render_path)
-    assert inputs[1] == str(inp.audio_source_path)
-    assert inputs[1] != inputs[0]
-    # argv LIST, no shell metacharacters anywhere
-    assert isinstance(argv, list)
-    assert not any(c in "".join(argv) for c in "|;&$`><")
+def test_native_audio_is_preserved_not_replaced(tmp_path):
+    inp, calls, _, _ = _mk_input(tmp_path)
+    result = run_ref2va_runtime(inp)
+    assert calls == ["render"]
+    assert inp.raw_render_path.read_bytes() == inp.remux_output_path.read_bytes()
+    assert result["raw_render_hash"] == result["remux_hash"]
+    assert result["runtime"]["audio_carrier"] == "native_h3"
 
 
 def test_settings_doc_persisted_deterministic(tmp_path):
@@ -184,15 +171,11 @@ def test_judge_none_not_eligible(tmp_path):
     assert res["verdict"] == "pending"
 
 
-def test_judged_requires_remux_evidence(tmp_path):
-    def runner(argv):
-        # rc=0 but NO remux file produced
-        return 0
-
-    inp, _, _, _ = _mk_input(tmp_path, runner=runner, judge=lambda **kw: dict(
-        mouth_sync=8.0, audio_fidelity=7.5, visual_motion_match=8.0,
-        audio_artifacts=7.0))
-    with pytest.raises(Ref2VARuntimeError, match="[Rr]emux"):
+def test_native_copy_failure_fails_closed(tmp_path, monkeypatch):
+    import shutil
+    monkeypatch.setattr(shutil, "copyfile", lambda *a: None)
+    inp, _, _, _ = _mk_input(tmp_path)
+    with pytest.raises(Ref2VARuntimeError):
         run_ref2va_runtime(inp)
 
 
@@ -207,10 +190,12 @@ def test_raw_render_missing_fails_closed(tmp_path):
         run_ref2va_runtime(inp)
 
 
-def test_ffmpeg_nonzero_fails_closed(tmp_path):
-    inp, _, _, _ = _mk_input(tmp_path, runner=lambda argv: 1)
-    with pytest.raises(Ref2VARuntimeError, match="ffmpeg|remux"):
-        run_ref2va_runtime(inp)
+def test_native_path_never_calls_external_audio_runner(tmp_path):
+    def forbidden(argv):
+        raise AssertionError("external-audio remux must never run")
+    inp, _, _, _ = _mk_input(tmp_path, runner=forbidden)
+    run_ref2va_runtime(inp)
+    assert inp.remux_output_path.read_bytes() == inp.raw_render_path.read_bytes()
 
 
 def test_path_escape_fails_closed(tmp_path):
@@ -237,12 +222,12 @@ def test_g4_violation_fails_closed(tmp_path):
 
     def g4_builder(self, briefs, decision, **kw):
         doc = orig(self, briefs, decision, **kw)
-        doc["audio_policy"]["discard_rendered_audio"] = False
+        doc["audio_policy"]["discard_rendered_audio"] = True
         return doc
 
     rt.Ref2VAProfile.build_settings = g4_builder
     try:
-        with pytest.raises(Ref2VARuntimeError, match="G4"):
+        with pytest.raises(Ref2VARuntimeError, match="native|G4"):
             run_ref2va_runtime(inp)
     finally:
         rt.Ref2VAProfile.build_settings = orig

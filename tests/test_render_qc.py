@@ -45,7 +45,7 @@ def _crit(**over):
 
 def _lm(crit):
     return DummyLM([
-        {"rationale": "r", "critique": json.dumps(crit)}])
+        {"reasoning": "r", "critique": json.dumps(crit)}])
 
 
 # ── 1: signature shape ───────────────────────────────────────────────────
@@ -174,7 +174,7 @@ def test_full_pipeline_pass():
 
 def test_full_pipeline_malformed_critique_raises():
     qc = RenderQC(genre="edu")
-    lm = DummyLM([{"rationale": "r", "critique": "not json"}])
+    lm = DummyLM([{"reasoning": "r", "critique": "not json"}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             qc.run(brief=BRIEF, decision=DECISION)

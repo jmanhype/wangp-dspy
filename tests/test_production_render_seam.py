@@ -39,6 +39,12 @@ class FakeHost:
         if first in self.responses:
             rc, out, err = self.responses[first](self, argv)
             return rc, out, err
+        if first == "sha256sum":
+            return 0, "a" * 64 + "  asset\n", ""
+        if first == "ffprobe":
+            if "json" in argv:
+                return 0, json.dumps({"streams": [{"duration": "2.1", "sample_rate": "24000", "channels": 1}]}), ""
+            return 0, "56\n", ""
         if argv[:2] == ["ls", "-t"]:
             return 0, self.outputs + "\n", ""
         if argv[:1] == ["stat"]:
@@ -47,11 +53,11 @@ class FakeHost:
 
 
 def _settings(path: Path, *, steps=20, audio=None, video_length=None) -> Path:
-    doc = {"num_inference_steps": steps}
-    if audio:
-        doc["audio_guide"] = str(audio)
-    if video_length is not None:
-        doc["video_length"] = video_length
+    doc = {"model_type": "minimax_h3_ref2va_pruned", "num_inference_steps": steps,
+           "prompt": "speaker speaks", "audio_guide": str(audio or path / "guide.wav"),
+           "audio_prompt_type": "A", "video_prompt_type": "I", "image_prompt_type": "S",
+           "image_start": str(path / "anchor.png"), "image_refs": [str(path / "anchor.png"), str(path / "silent.png")],
+           "video_length": video_length or 56, "seed": 904, "resolution": "480x832"}
     p = path / "settings.json"
     p.write_text(json.dumps(doc))
     return p
@@ -96,7 +102,7 @@ def test_ref2va_render_dir_skips_existing_dirs_after_worker_restart(
     assert _next_render_dir(tmp_path).name == "render-0001"
 
 
-GOOD_LOG = ("loading model\nDenoising 20/20\nsaved\n"
+GOOD_LOG = ("Encoding H3 prompt and references\nloading model\nDenoising 20/20\nsaved\n"
             "Queue completed: 1/1 tasks in 1s\n")
 
 
@@ -275,36 +281,17 @@ class TestCopyAndMux:
                        "out00042.mp4", str(tmp_path / "raw.mp4")]]
         assert str(out) == str(tmp_path / "raw.mp4")
 
-    def test_mux_only_with_audio_guide(self, tmp_path):
+    def test_audio_guide_never_replaces_native_audio(self, tmp_path):
         host = FakeHost()
-        guide = tmp_path / "guide.wav"
-        guide.write_bytes(b"RIFF")
-        s = _settings(tmp_path, audio=guide, video_length=56)
-        real_probe = host.run_probe
-        def probe(argv, timeout=30):
-            if argv[:1] == ["ffprobe"]:
-                return 0, "56\n", ""
-            return real_probe(argv, timeout=timeout)
-        host.run_probe = probe
-        host.responses = {
-            "setsid": lambda h, a: (0, "launched\n", ""),
-            "cat": lambda h, a: (0, GOOD_LOG, ""),
-        }
-        out = production_ref2va_render(
-            _adapter(host, tmp_path),
-            _Inp(s, tmp_path / "raw.mp4"))
-        ff = [c for c in host.calls if c[0] == "ffmpeg"]
-        assert len(ff) == 1
-        argv = ff[0]
-        assert argv[:2] == ["ffmpeg", "-y"]
-        maps = [argv[i + 1] for i, a in enumerate(argv) if a == "-map"]
-        assert maps == ["0:v", "1:a"]
-        assert argv[argv.index("-c:v") + 1] == "copy"
-        assert argv[argv.index("-c:a") + 1] == "aac"
-        assert "-shortest" not in argv
-        assert "-t" in argv
-        assert argv[argv.index("-t") + 1] == "2.333333"
-        assert str(out).endswith(".mux.mp4")
+        s = _settings(tmp_path, audio=tmp_path / "guide.wav", video_length=56)
+        host.responses = {"setsid": lambda h, a: (0, "launched\n", ""),
+                          "cat": lambda h, a: (0, GOOD_LOG, "")}
+        out = production_ref2va_render(_adapter(host, tmp_path), _Inp(s, tmp_path / "raw.mp4"))
+        assert not any(c[0] == "ffmpeg" for c in host.calls)
+        assert str(out).endswith("raw.mp4")
+        wire = json.loads((tmp_path / "wgp-settings.json").read_text())
+        assert wire["audio_guide"] == str(tmp_path / "guide.wav")
+        assert "script" not in wire
 
     def test_no_mux_without_audio_guide(self, tmp_path):
         host = FakeHost()
@@ -321,7 +308,7 @@ class TestCopyAndMux:
     def test_continuation_frame_grid_is_strict(self, tmp_path, actual, raises):
         class FrameHost(FakeHost):
             def run_probe(self, argv, timeout=30):
-                if argv[:1] == ["ffprobe"]:
+                if argv[:1] == ["ffprobe"] and "json" not in argv:
                     self.calls.append(list(argv))
                     return 0, f"{actual}\n", ""
                 return super().run_probe(argv, timeout=timeout)
@@ -344,6 +331,17 @@ class TestCopyAndMux:
 
 
 class TestNewestOutput:
+    def test_native_filename_with_spaces_and_punctuation_is_one_argv(self):
+        name = '2026-09-12_seed904_Same fiery chamber, grandma speaks.mp4'
+        host = FakeHost(outputs=name)
+        assert newest_output_mp4(host, '/w/outputs') == '/w/outputs/' + name
+        assert ['test', '-f', '/w/outputs/' + name] in host.calls
+
+    @pytest.mark.parametrize('name', ['../escape.mp4', 'sub/escape.mp4', 'bad\\path.mp4'])
+    def test_path_components_not_accepted_as_output_names(self, name):
+        with pytest.raises(WanGPError, match='no .mp4'):
+            newest_output_mp4(FakeHost(outputs=name), '/w/outputs')
+
     def test_discovery_ignores_prompt_text_and_requires_real_file(
             self, tmp_path):
         host = FakeHost(outputs="... as something.mp4\n"

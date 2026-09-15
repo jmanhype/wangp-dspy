@@ -29,7 +29,7 @@ DEFAULT_MODELSCOPE_BASE_URL = "https://api-inference.modelscope.cn/v1"
 # The operator's ambassador deployment exposes Qwen3.8-Max; keep this
 # overrideable because ModelScope may map the same service to a model ID.
 DEFAULT_MODELSCOPE_VISION_MODEL = "qwen3.8-max"
-_SCORE_KEYS = ("mouth_sync", "action_match", "speaker_attribution")
+_SCORE_KEYS = ("mouth_activity", "action_match", "speaker_attribution")
 
 
 class ModelScopeVisionJudgeError(ValueError):
@@ -182,14 +182,19 @@ class ModelScopeVisionJudge:
         self.session = session or requests
 
     def __call__(self, *, video_path: str, expected_speaker: str,
-                 expected_action: str) -> dict:
+                 expected_action: str, reference_image_path: Optional[str] = None) -> dict:
         return self.judge(video_path=video_path,
                           expected_speaker=expected_speaker,
-                          expected_action=expected_action)
+                          expected_action=expected_action, reference_image_path=reference_image_path)
 
     def judge(self, *, video_path: str, expected_speaker: str,
-              expected_action: str) -> dict:
+              expected_action: str, reference_image_path: Optional[str] = None) -> dict:
         frames = self._extract_frames(video_path)
+        if reference_image_path is not None:
+            ref = Path(reference_image_path)
+            if not ref.is_file():
+                raise ValueError(f"vision reference image missing: {ref}")
+            frames.insert(0, ref.read_bytes())
         prompt = self._prompt(expected_speaker, expected_action)
         content = [{"type": "text", "text": prompt}]
         for frame in frames:
@@ -230,6 +235,8 @@ class ModelScopeVisionJudge:
         except ModelScopeVisionJudgeError as exc:
             raise ModelScopeVisionJudgeError(
                 str(exc), raw_response=raw_response) from exc
+        if "mouth_activity" not in result and "mouth_sync" in result:
+            result["mouth_activity"] = result.pop("mouth_sync")
         for key in _SCORE_KEYS:
             try:
                 value = float(result[key])
@@ -288,17 +295,26 @@ class ModelScopeVisionJudge:
     @staticmethod
     def _prompt(expected_speaker: str, expected_action: str) -> str:
         return (
-            "Visual QC for three frames (start, middle, end). Expected "
+            "Visual QC: the last three images are generated start/middle/end frames. "
+            "If four images are supplied, the FIRST is the actual conditioning reference: "
+            "compare the generated FIRST frame against it too, not only against itself. Expected "
             f"speaking identity and silent counterpart: {expected_speaker}. "
             f"Expected action: {expected_action}. Score whether the expected "
-            "identity is the mouth-moving character, the counterpart stays "
-            "silent, and the action is visible. Treat the start frame as the "
+            "identity has visible mouth activity and the action is visible. "
+            "These are stills with NO AUDIO: phonetic lip-sync and silence cannot be "
+            "verified. Do not score AV synchrony. Treat the reference (or start frame if absent) as the "
             "spatial anchor: positions, left/right blocking, scale, wardrobe, "
             "and framing must remain consistent; a side swap or re-staged "
-            "composition is a continuity failure. Do not explain or expose "
-            "reasoning. Respond with exactly one JSON object and nothing else: "
-            '{"mouth_sync": 0.0, "action_match": 0.0, '
-            '"speaker_attribution": 0.0}. Use 1.0 only for clear evidence.'
+            "composition is a continuity failure. Score the visible match, not "
+            "whether audio was supplied: lack of audio alone is not a visual identity "
+            "or action failure. Respond with exactly one JSON object and nothing else. "
+            "Required numeric keys: mouth_activity, action_match, speaker_attribution. "
+            "Each value must be your observed score between 0 and 1; there are no "
+            "default scores to copy. Use 1 only for clear evidence, 0 for a clear "
+            "mismatch, and intermediate values for uncertainty. Include a notes "
+            "string with brief visible observations (identity, mouth poses, action, "
+            "composition); describe the mismatch when a score is low. Do not provide "
+            "hidden reasoning or claim phonetic/audio synchronization."
         )
 
     @staticmethod
@@ -314,7 +330,8 @@ class ModelScopeVisionJudge:
                 f"vision video artifact is missing: {video_path}")
         try:
             probe = subprocess.run(
-                ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                ["ffprobe", "-v", "error", "-select_streams", "v:0",
+                 "-show_entries", "stream=duration",
                  "-of", "default=noprint_wrappers=1:nokey=1", str(path)],
                 capture_output=True, text=True, check=False, timeout=60)
             if probe.returncode != 0:
@@ -337,9 +354,22 @@ class ModelScopeVisionJudge:
                      "-frames:v", "1", str(output)],
                     capture_output=True, text=True, check=False, timeout=120)
                 if proc.returncode != 0 or not output.is_file():
-                    raise ModelScopeVisionJudgeError(
-                        f"frame extraction failed at {timestamp:.3f}s: "
-                        f"{proc.stderr.strip()[:200]}")
+                    # A muxed AAC track can make format duration a few
+                    # milliseconds longer than the video stream. Retry the
+                    # final sample against the penultimate frame instead of
+                    # rejecting an otherwise valid artifact at the boundary.
+                    fallback = max(0.0, duration - 2.0 / 24.0)
+                    if index == len(times) - 1 and timestamp > fallback:
+                        proc = subprocess.run(
+                            ["ffmpeg", "-hide_banner", "-loglevel", "error",
+                             "-y", "-ss", f"{fallback:.6f}", "-i", str(path),
+                             "-frames:v", "1", str(output)],
+                            capture_output=True, text=True, check=False,
+                            timeout=120)
+                    if proc.returncode != 0 or not output.is_file():
+                        raise ModelScopeVisionJudgeError(
+                            f"frame extraction failed at {timestamp:.3f}s: "
+                            f"{proc.stderr.strip()[:200]}")
                 # Copy bytes out of TemporaryDirectory before it is cleaned.
                 frames.append(output.read_bytes())
         return frames

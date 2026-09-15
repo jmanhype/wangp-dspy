@@ -315,7 +315,9 @@ class JobExecutor:
             self.queue.update_clip(
                 job.job_id, clip["clip_index"], status="done",
                 log=clip["log"], mp4=clip["mp4"],
-                qc_verdict={"verdict": "KEEP", "path": qc_path})
+                qc_verdict={"verdict": (
+                    "NEEDS REVIEW" if render_lane_for(clip.get("kind")) == "ref2va"
+                    else "KEEP"), "path": qc_path})
         self.queue.set_state(job.job_id, "done")
 
     def _persist_visual_rejection(self, job, clip: dict,
@@ -346,6 +348,9 @@ class JobExecutor:
         an exhausted budget, and queue implementations without the audited
         retry seam all fail closed as ordinary QC failures.
         """
+        # A golden replay is a controlled comparison, not a seed search.
+        if clip.get("recipe_name") == "golden_v3":
+            return False
         count_raw = clip.get("vision_retry_count", 0)
         try:
             count = int(count_raw)

@@ -127,6 +127,20 @@ def host_whisper_transcriber(host, *, model: str = "small",
     def transcribe(audio_path):
         raw = str(audio_path)
         resolved = map_audio_path(raw)
+        # When local Whisper is unavailable, a pulled post-render artifact
+        # must be published to the mapped host namespace before the remote
+        # gate reads it.  The runtime intentionally keeps the final remux
+        # local, so mapping alone can otherwise produce a valid-looking but
+        # nonexistent remote path and a false 0.000 score.
+        if (not local_first and Path(raw).is_file()
+                and resolved != raw and callable(run_probe)):
+            rc, _out, _err = run_probe(["test", "-f", resolved], timeout=60)
+            if rc != 0:
+                makedirs = getattr(host, "makedirs", None)
+                pusher = getattr(host, "push_file", None)
+                if callable(makedirs) and callable(pusher):
+                    makedirs(str(Path(resolved).parent))
+                    pusher(raw, resolved)
         if local_first and resolved == raw and Path(raw).is_file():
             # The pull artifact is the source of truth for post-gate QC;
             # do not translate it into a remote path that may not exist.

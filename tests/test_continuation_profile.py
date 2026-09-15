@@ -55,7 +55,8 @@ def test_continuation_profile_emits_grid_aligned_56_frames(tmp_path):
     )
     assert doc["requested_frames"] == 56
     assert doc["video_length"] == 56
-    assert doc["frames_per_shot"] == 56
+    assert "frames_per_shot" not in doc
+    assert "script" not in doc
 
 
 def test_continuation_frame_normalizer_snaps_48_up_and_keeps_grid_values():

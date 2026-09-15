@@ -39,7 +39,7 @@ def test_builder_rejects_same_character_or_empty_line():
 def test_continuation_manifest_emits_typed_prompt(tmp_path):
     plan = build_chain_plan(
         [{"speaker": "Ada", "text": "The lights are back."}],
-        _chars(tmp_path), [2.0], continuation_mode=True)
+        _chars(tmp_path), [56/24], continuation_mode=True)
     manifest = emit_render_manifest(plan)
     assert "S1 (Picture 1)" in manifest[0]["prompt"]
     assert "S2 (Picture 2)" in manifest[0]["prompt"]

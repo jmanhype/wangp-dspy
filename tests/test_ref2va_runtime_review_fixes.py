@@ -120,9 +120,8 @@ def test_remux_argv_replanned_against_actual_raw(tmp_path):
     inp2 = Ref2VARuntimeInput(**{**inp.__dict__, "render": render,
                                  "runner": runner})
     res = run_ref2va_runtime(inp2)
-    inputs = [a for i, a in enumerate(seen["argv"])
-              if i and seen["argv"][i - 1] == "-i"]
-    assert inputs[0] == str(raw2)
+    assert seen == {}  # no mux is permitted
+    assert inp.remux_output_path.read_bytes() == raw2.read_bytes()
     assert res["runtime"]["raw_render_path"] == str(raw2)
 
 
@@ -261,7 +260,7 @@ def _doc_env(tmp_path):
         "audio_guide", "/nonexistent/definitely/missing.wav"),
      "audio_guide"),
     (lambda d: d["audio_policy"].__setitem__(
-        "discard_rendered_audio", False), "G4|discard"),
+        "discard_rendered_audio", True), "native|discard"),
 ])
 def test_invalid_settings_doc_fails_before_render_or_write(
         tmp_path, mutate, match):
@@ -310,7 +309,7 @@ def test_valid_settings_doc_still_passes(tmp_path):
                                          **kwargs)
     inp, calls = mk(doc)
     res = run_ref2va_runtime(inp)
-    assert calls == ["render", "remux"]
+    assert calls == ["render"]
     assert res["runtime"]["lane"] == "ref2va_runtime"
 
 

@@ -258,7 +258,7 @@ class TestChainAdvance:
         # ffmpeg extraction ran with the proven argv
         ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
         assert len(ffmpeg) == 1
-        assert ffmpeg[0][2:6] == ["-sseof", "-0.1", "-i",
+        assert ffmpeg[0][4:8] == ["-sseof", "-0.05", "-i",
                                   "render/clip0001/out.mp4"]
         # next job's image_refs[0] patched to the extracted frame
         nxt = q.get(ids[1])
@@ -312,7 +312,7 @@ class TestChainAdvance:
         advance_chain(q, host, ids[0])
         ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
         assert len(ffmpeg) == 1
-        assert ffmpeg[0][5] == "/remote/wgp/acceptance/render-0000/remux.mp4"
+        assert ffmpeg[0][7] == "/remote/wgp/acceptance/render-0000/remux.mp4"
         assert ffmpeg[0][-1].startswith("/remote/wgp/film/chain/")
         fetches = [c for c in host.calls if c[:1] == ["fetch"]]
         assert len(fetches) == 1
@@ -372,7 +372,7 @@ class TestChainAdvance:
             (str(local_mp4), "/remote/wgp/film/render-0000/remux.mp4")]
         ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
         assert len(ffmpeg) == 1
-        assert ffmpeg[0][5] == "/remote/wgp/film/render-0000/remux.mp4"
+        assert ffmpeg[0][7] == "/remote/wgp/film/render-0000/remux.mp4"
 
 
 # ── run_film dry-run ─────────────────────────────────────────────────

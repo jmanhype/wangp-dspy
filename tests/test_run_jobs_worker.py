@@ -76,9 +76,9 @@ class TestR2ILastFrame:
             "/run/render/clip0002/r2i.mp4",
             "/run/render/clip0002/r2i-clip0002_last_frame.png")
         assert argv == [
-            "ffmpeg", "-y", "-sseof", "-0.1",
+            "ffmpeg", "-y", "-v", "error", "-sseof", "-0.05",
             "-i", "/run/render/clip0002/r2i.mp4",
-            "-frames:v", "1",
+            "-update", "1", "-frames:v", "1",
             "/run/render/clip0002/r2i-clip0002_last_frame.png"]
 
     def test_extraction_failure_raises(self):
@@ -263,6 +263,7 @@ class TestRenderForJobWiring:
                 "mouth_sync": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
             })
+        _native_fixture(clip)
         ok, evidence = ex.qc(clip)
         assert ok is True
         assert evidence["whisper_gates"]["pre"]["passed"] is True
@@ -293,6 +294,7 @@ class TestRenderForJobWiring:
         ex = run_jobs.build_executor(
             queue=None, host=FakeHost(),
             whisper_transcriber=lambda _: "The gate is open")
+        _native_fixture(clip)
         with pytest.raises(Ref2VAQCStageError, match="vision judge is not wired"):
             ex.qc(clip)
 
@@ -574,3 +576,16 @@ class TestDryRunReportShape:
         assert len(report["would_run"]) == 1
         assert report["would_run"][0]["kinds"] == ["r2i_pose_target"]
         json.dumps(report)  # serializable
+
+
+def _native_fixture(clip):
+    import hashlib, json
+    clip["model_type"] = "minimax_h3_ref2va_pruned"
+    clip["audio_policy"] = {"discard_rendered_audio": False}
+    final = Path(clip["mp4"])
+    final.write_bytes(b"native-video-unit-fixture")
+    native = final.with_name("raw.mp4")
+    native.write_bytes(final.read_bytes())
+    (final.parent / "runtime-evidence.json").write_text(json.dumps({
+        "runtime": {"raw_render_path": str(native), "audio_carrier": "native_h3"},
+        "raw_render_hash": hashlib.sha256(native.read_bytes()).hexdigest()}))

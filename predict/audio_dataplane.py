@@ -82,6 +82,8 @@ class AudioPolicy:
     remux_window: Tuple[float, float] = (0.0, 0.0)
 
     def __post_init__(self):
+        if type(self.discard_rendered_audio) is not bool:
+            raise AudioDataPlaneError("discard_rendered_audio must be bool")
         if self.remux_source not in _REMUX_SOURCES:
             raise AudioDataPlaneError(
                 f"remux_source: must be one of {sorted(_REMUX_SOURCES)}, "

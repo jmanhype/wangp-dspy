@@ -88,29 +88,42 @@ class ContinuationExtras:
     audio_guide: Optional[str] = None
     video_source: Optional[str] = None
     keep_frames_video_source: str = ""
-    audio_policy_discard_rendered: bool = True
+    audio_policy_discard_rendered: bool = False
     video_length: int = CONTINUATION_FRAMES_MIN
     requested_frames: int = CONTINUATION_FRAMES_MIN
     # Persisted continuation envelopes include this optional slot even when
     # it is null.  Keeping it on the typed object makes the envelope
     # round-trip lossless while preserving the existing runtime behavior.
     video_guide: Optional[str] = None
+    # The September v2 dialogue lane predates the Picture-N prompt contract.
+    # Keep that recipe selectable explicitly rather than weakening validation
+    # for every continuation job.  Legacy mode still carries typed extras,
+    # audio isolation, frame/grid checks, and the native audio policy; it
+    # only permits the verbatim S1/S2 prose prompt used by the proven v2
+    # control.
+    legacy_v2_prompt: bool = False
 
     def validate(self) -> None:
+        if not isinstance(self.legacy_v2_prompt, bool):
+            raise JobConfigError("legacy_v2_prompt must be bool")
         if self.image_prompt_type not in ALLOWED_IMAGE_PROMPT:
             raise JobConfigError(f"image_prompt_type {self.image_prompt_type!r} not in {sorted(ALLOWED_IMAGE_PROMPT)}")
         if self.video_prompt_type not in ALLOWED_VIDEO_PROMPT:
             raise JobConfigError(f"video_prompt_type {self.video_prompt_type!r} not in {sorted(ALLOWED_VIDEO_PROMPT)}")
         if self.audio_prompt_type not in ALLOWED_AUDIO_PROMPT:
             raise JobConfigError(f"audio_prompt_type {self.audio_prompt_type!r} not allowed")
-        # Mode B: audio requires a guide >= 2s enforced at wav-prep; here: presence
+        # Mode B: audio conditioning requires a guide >= 2s (duration is
+        # enforced at wav-prep); here: presence. The guide is an input, not
+        # proof that generated native audio will pass downstream QC.
         if self.audio_prompt_type == "A" and not self.audio_guide:
             raise JobConfigError("audio_prompt_type 'A' requires audio_guide")
         if self.image_prompt_type == "S" and not self.image_start:
             raise JobConfigError("image_prompt_type 'S' requires image_start")
-        # G4: rendered audio never trusted when a guide is used
-        if self.audio_prompt_type == "A" and not self.audio_policy_discard_rendered:
-            raise JobConfigError("G4: discard_rendered_audio must be True when guiding audio")
+        # Native H3 audio is the output of conditioning, not a disposable
+        # track. Legacy external-audio remux jobs must be re-planned rather
+        # than weakening this native contract.
+        if self.audio_prompt_type == "A" and self.audio_policy_discard_rendered is not False:
+            raise JobConfigError("Ref2VA requires native audio (discard_rendered_audio=False); re-plan legacy remux jobs")
         for name, value in (("video_length", self.video_length),
                             ("requested_frames", self.requested_frames)):
             if isinstance(value, bool) or not isinstance(value, int):
@@ -137,6 +150,7 @@ class ContinuationExtras:
             "keep_frames_video_source": self.keep_frames_video_source,
             "video_length": self.video_length,
             "requested_frames": self.requested_frames,
+            "legacy_v2_prompt": self.legacy_v2_prompt,
         }
         if self.image_start:
             d["image_start"] = self.image_start
@@ -150,12 +164,14 @@ class ContinuationExtras:
     def from_dict(cls, payload: Mapping) -> "ContinuationExtras":
         """Normalize a persisted continuation envelope into typed fields.
 
-        ``to_extra`` intentionally stores the G4 audio policy as the nested
+        ``to_extra`` intentionally stores the audio policy as the nested
         ``audio_policy.discard_rendered_audio`` shape used by job manifests,
-        while the typed object keeps a flat field for validation.  This
-        loader is the single compatibility boundary between those shapes;
-        it also accepts the optional ``video_guide`` slot emitted by older
-        envelopes and remains strict about unknown fields.
+        while the typed object keeps a flat field for validation. Ref2VA
+        audio jobs use false (preserve native output); true is reserved for
+        explicit non-Ref2VA external-audio remux lanes. This loader is the
+        single compatibility boundary between those shapes; it also accepts
+        the optional ``video_guide`` slot emitted by older envelopes and
+        remains strict about unknown fields.
         """
         if isinstance(payload, cls):
             return payload
@@ -193,6 +209,7 @@ class ContinuationExtras:
             "video_guide", "keep_frames_video_source",
             "audio_policy_discard_rendered", "video_length",
             "requested_frames",
+            "legacy_v2_prompt",
         }
         unknown = set(data) - allowed
         if unknown:
@@ -225,10 +242,11 @@ def transcript_match_score(said: str, intended: str) -> float:
 
 def transcript_judge(settings_doc: dict, *, said: str, intended_turns: List[str],
                      pass_bar: float = 0.5) -> dict:
-    """Judge callable for run_ref2va_qc_stage: transcript-vs-script per turn.
+    """Transcript evidence helper: transcript-vs-intended-turns.
 
-    Returns the four score fields as required by the stage schema (map:
-    words_match = min over turns; others verbatim-honest placeholders).
+    Returns transcript evidence fields (worst-turn word match, bar, turn
+    count, and pass flag). It is evidence about generated speech, not an
+    automatic Ref2VA QC pass and not a claim of phonetic A/V synchrony.
     """
     scores = [transcript_match_score(said, t) for t in intended_turns]
     worst = min(scores) if scores else 0.0

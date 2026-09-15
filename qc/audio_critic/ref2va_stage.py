@@ -2,16 +2,20 @@
 
 Spec: docs/specs/s3-audio-manifest-qc.md (D2 + D3).
 
-D2 remux planner: emits the ffmpeg command as an ARGV LIST only
-(never a shell string); inputs/outputs must resolve under the job's
-sanctioned dirs (path-containment, GLM note N1). EXECUTION stays
-with the render driver — this module never runs the command.
+D2 remux planner (legacy/shared): emits the ffmpeg command as an ARGV
+LIST only (never a shell string); inputs/outputs must resolve under the
+job's sanctioned dirs (path-containment, GLM note N1). EXECUTION stays
+with an explicit caller — this module never runs the command. Ref2VA
+native lanes do not use this planner; it remains for explicit
+non-Ref2VA external-audio remux lanes with discard_rendered_audio=True.
 
 D3 QC stage: fills Ref2VAAudioQC fields. Schema-only path uses judge
 placeholders — critic_model='Qwen2-Audio-7B' present but scores None
 until a judge runs (honest placeholders, model identity verbatim,
-never fake scores). G3/G4 enforcement: QC REFUSES any artifact whose
-audio did not pass through the discard/remux policy.
+never fake scores). Policy enforcement is lane-specific: Ref2VA requires
+discard_rendered_audio=False and generated native audio; non-Ref2VA remux
+lanes require discard_rendered_audio=True. Neither policy setting is an
+automatic QC pass — the configured evidence gates still decide.
 """
 from __future__ import annotations
 
@@ -72,12 +76,13 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
                        keeper_window: Tuple[float, float],
                        output_path: str,
                        sanctioned_dirs: Sequence[str]) -> list:
-    """Plan the remux ffmpeg command. ARGV LIST ONLY — the render
-    driver executes it via subprocess without a shell.
+    """Plan an explicit non-Ref2VA remux ffmpeg command. ARGV LIST ONLY —
+    the caller executes it via subprocess without a shell.
 
-    Semantics (G4 discard/remux): video stream copied from the H3
-    render (rendered audio DISCARDED), audio taken from the policy's
-    remux_source restricted to the keeper window (-ss/-t).
+    Legacy/shared semantics (discard/remux): the video stream is copied
+    from the render, rendered audio is discarded, and audio is taken
+    from the explicit external source restricted to the keeper window
+    (-ss/-t). This is not the native Ref2VA path.
     """
     if not isinstance(policy, AudioPolicy):
         raise Ref2VAQCStageError(
@@ -90,7 +95,7 @@ def plan_remux_command(*, policy: AudioPolicy, render_path: str,
                 f"under the sanctioned dirs {list(sanctioned_dirs)}")
 
     # G4 corrective: the audio input is the caller's EXPLICIT keeper /
-    # full-mix source path — NEVER the render path. No fallback.
+    # full-mix source path — never silently the render path. No fallback.
     if source_path is None:
         raise Ref2VAQCStageError(
             "G4: plan_remux_command requires an explicit source_path "
@@ -127,24 +132,32 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                         post_audio_path: Optional[str] = None,
                         intended_text: Optional[str] = None,
                         whisper_transcriber: Optional[Callable] = None,
-                        whisper_pass_bar: float = 0.5,
+                        whisper_pass_bar: float = 0.6,
                         evidence_path: Optional[str] = None,
                         video_path: Optional[str] = None,
                         expected_speaker: Optional[str] = None,
                         expected_action: Optional[str] = None,
                         vision_judge: Optional[Callable] = None,
-                        vision_pass_bar: float = 0.7
+                        vision_pass_bar: float = 0.7,
+                        reference_image_path: Optional[str] = None
                         ) -> Ref2VAAudioQC:
-    """Ref2VA audio QC stage. Enforces G3/G4 first, then fills QC.
+    """Lane-aware Ref2VA-family audio QC stage, then fills QC evidence.
 
-    - G4 enforcement: the doc's audio_policy must have
-      discard_rendered_audio=True (rendered audio NEVER trusted).
-      Artifacts whose audio did not pass through the discard/remux
-      policy are REFUSED.
+    - Policy enforcement: Ref2VA settings must carry
+      discard_rendered_audio=False because generated native audio is the
+      carrier. Explicit non-Ref2VA external-audio remux settings must
+      carry discard_rendered_audio=True.
     - judge=None (schema-only): honest placeholders — critic_model
       present verbatim, scores None until a judge runs.
     - judge=callable: fills the four score fields from the judge's
       dict; critic identity reported verbatim.
+    - Whisper evidence, when requested, reads the input guide as ``pre``
+      and the generated native output as ``post``; identical paths are
+      rejected so a guide cannot masquerade as generated output.
+    - Vision evidence, when requested, checks still-image mouth activity,
+      action, and speaker attribution. It does not measure phonetic A/V
+      synchrony. Meeting these evidence bars is distinct from an implicit
+      pass for merely carrying native audio.
     """
     if not isinstance(settings_doc, dict):
         raise Ref2VAQCStageError(
@@ -156,10 +169,16 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             "G4: settings doc carries no audio_policy — QC refuses "
             "artifacts whose audio did not pass through the "
             "discard/remux policy")
-    if policy_d.get("discard_rendered_audio") is not True:
+    if type(policy_d.get("discard_rendered_audio")) is not bool:
         raise Ref2VAQCStageError(
-            "G4 violation: discard_rendered_audio is not True — "
-            "rendered audio is NEVER trusted; QC refuses this artifact")
+            "audio policy requires a boolean discard_rendered_audio")
+    from predict.model_types import REF2VA_MODEL_TYPE
+    if (settings_doc.get("model_type") == REF2VA_MODEL_TYPE
+            and policy_d["discard_rendered_audio"] is not False):
+        raise Ref2VAQCStageError("Ref2VA requires native audio, not guide replacement")
+    if (settings_doc.get("model_type") != REF2VA_MODEL_TYPE
+            and policy_d["discard_rendered_audio"] is not True):
+        raise Ref2VAQCStageError("G4: non-Ref2VA remux lanes require discard_rendered_audio=True")
 
     whisper_requested = any(x is not None for x in (
         pre_audio_path, post_audio_path, intended_text,
@@ -170,6 +189,8 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             raise Ref2VAQCStageError(
                 "Whisper pre/post gate requires pre_audio_path, "
                 "post_audio_path, and intended_text")
+        if Path(pre_audio_path).resolve() == Path(post_audio_path).resolve():
+            raise Ref2VAQCStageError("post Whisper must read native render, not the input guide")
         try:
             pre = run_whisper_gate(
                 pre_audio_path, intended_text, transcriber=whisper_transcriber,
@@ -192,7 +213,8 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             vision_evidence = run_vision_judge(
                 video_path, expected_speaker=expected_speaker,
                 expected_action=expected_action, judge=vision_judge,
-                pass_bar=vision_pass_bar).to_dict()
+                pass_bar=vision_pass_bar,
+                reference_image_path=reference_image_path).to_dict()
         except VisionJudgeError as exc:
             raise Ref2VAQCStageError(
                 str(exc), vision_scores=getattr(exc, "scores", None),

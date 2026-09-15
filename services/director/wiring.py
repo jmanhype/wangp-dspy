@@ -447,7 +447,7 @@ class MediaAssemblyError(ValueError):
 
 
 def assemble_media(video_paths: Sequence[str], output_path: str, *,
-                   runner=None) -> dict:
+                   runner=None, host=None) -> dict:
     """Concatenate rendered cut artifacts through the repo-owned ffmpeg seam.
 
     Paths are validated locally and passed as an argv list to the injected
@@ -476,8 +476,54 @@ def assemble_media(video_paths: Sequence[str], output_path: str, *,
 
     manifest.write_text("\n".join(_concat_line(p) for p in paths) + "\n",
                         encoding="utf-8")
-    argv = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i",
-            str(manifest), "-c", "copy", str(output)]
+    # Match the recovered pair's decoded AV concat, not packet-copy concat.
+    # AAC priming/unequal audio durations otherwise move later cut boundaries.
+    if output.resolve() in {Path(p).resolve() for p in paths}:
+        raise MediaAssemblyError("assembly output must not overwrite a source cut")
+    argv = ["ffmpeg", "-y", "-v", "error"]
+    for path in paths:
+        argv += ["-i", path]
+    inputs = "".join(f"[{i}:v][{i}:a]" for i in range(len(paths)))
+    argv += ["-filter_complex", f"{inputs}concat=n={len(paths)}:v=1:a=1[v][a]",
+             "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "18",
+             "-c:a", "aac", str(output)]
+    if host is not None:
+        if runner is not None:
+            raise MediaAssemblyError('choose either host assembly or injected local runner')
+        import hashlib
+        def probe(command):
+            rc, out, err = host.run_probe(command, timeout=300)
+            if rc:
+                raise MediaAssemblyError(f'host assembly {command[0]} failed: {err[:300]}')
+            return out
+        remote_paths = [host.map_path(p) for p in paths]
+        remote_output = host.map_path(str(output))
+        if remote_output in remote_paths:
+            raise MediaAssemblyError('mapped assembly output would overwrite a source cut')
+        host.makedirs(remote_output.rsplit('/', 1)[0])
+        for local, remote in zip(paths, remote_paths):
+            rc, _out, _err = host.run_probe(['test', '-f', remote], timeout=60)
+            if rc:
+                host.makedirs(remote.rsplit('/', 1)[0])
+                host.push_file(local, remote)
+            digest = hashlib.sha256(Path(local).read_bytes()).hexdigest()
+            if probe(['sha256sum', remote]).split()[0] != digest:
+                raise MediaAssemblyError('host assembly source SHA256 mismatch')
+        remote_argv = list(argv)
+        for i, token in enumerate(remote_argv[:-1]):
+            if token == '-i':
+                remote_argv[i+1] = remote_paths[len([x for x in remote_argv[:i] if x == '-i'])]
+        remote_argv[-1] = remote_output
+        version = probe(['ffmpeg', '-version'])
+        probe(remote_argv)
+        expected_hash = probe(['sha256sum', remote_output]).split()[0]
+        host.fetch_file(remote_output, str(output))
+        if hashlib.sha256(output.read_bytes()).hexdigest() != expected_hash:
+            raise MediaAssemblyError('pulled assembly SHA256 mismatch')
+        return {'output_path': str(output), 'video_paths': paths,
+                'manifest_path': str(manifest), 'command': remote_argv,
+                'execution_host': getattr(host, 'target', 'configured-host'),
+                'ffmpeg_version': version, 'output_sha256': expected_hash}
     run = runner or (lambda args: subprocess.run(list(args), check=False))
     result = run(argv)
     rc = int(getattr(result, "returncode", result if isinstance(result, int) else 0))

@@ -11,7 +11,7 @@ class TestContinuationExtras:
                                audio_guide="/x/t1.wav")
         d = e.to_extra()
         assert d["image_prompt_type"] == "S"
-        assert d["audio_policy"]["discard_rendered_audio"] is True
+        assert d["audio_policy"]["discard_rendered_audio"] is False
 
     def test_mode_a_valid(self):
         e = ContinuationExtras(audio_prompt_type="", image_start="/x/plate.png",
@@ -37,7 +37,7 @@ class TestContinuationExtras:
     def test_g4_violation_rejected(self):
         with pytest.raises(JobConfigError):
             ContinuationExtras(image_start="/x/s.png", audio_guide="/x/a.wav",
-                               audio_policy_discard_rendered=False).validate()
+                               audio_policy_discard_rendered=True).validate()
 
     def test_bad_image_prompt_type(self):
         with pytest.raises(JobConfigError):

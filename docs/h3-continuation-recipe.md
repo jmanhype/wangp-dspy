@@ -1,4 +1,101 @@
-"""H3 continuation-chain recipe — validated 2026-09-03/04 (operator-approved).
+# H3 dialogue continuation: recovered v3 contract
+
+## Correction — 2026-09-12
+
+**This section supersedes the historical recipe below for September 6 v3
+parity.** The earlier single-ref, compulsory tail-padding and external-remux
+contracts are not the recovered v3 recipe. The original pair has the
+operator's “perfect” verdict; new generations do not inherit that verdict.
+
+Source: `datasets/runs/provenance/v3_pair_generator.py`. Versioned values and
+verbatim prompts: `predict/v3_recipe.py`. Diagnosis:
+`docs/V3-PERFECT-PARITY-AUDIT-2026-09-12.md`. Repair status:
+`docs/V3-PARITY-FIX-2026-09-12.md`.
+
+### Renderer wire contract
+
+Use `golden_v3` in the repo planner. The Ref2VA payload must never pass through
+the generic multishot `WanGPJobConfig` serializer.
+
+| Setting | Recovered v3 value |
+|---|---|
+| model_type | `minimax_h3_ref2va_pruned` |
+| image_prompt_type | `S` |
+| image_start | Master frame for cut 1; extracted accepted predecessor frame thereafter |
+| video_prompt_type | `I` |
+| image_refs | Exactly `[image_start, silent_character_face]`, in order |
+| audio_prompt_type | `A` |
+| audio_guide | Prepared single-speaker WAV |
+| audio_guide2, video_source, video_guide | `null` |
+| keep_frames_video_source | Empty string |
+| video_length | 56 at 24 fps, approximately 2.333 seconds |
+| resolution | **Request** `480x832`; original **output** measured `704x576` |
+| seed | 904 for the golden control, no automatic reseeding |
+| CLI | `--profile 2 --attention sdpa` |
+| prompt | Recovered S1/S2 prose; Picture 2 binds the silent face |
+
+S1 is the current speaking role, not a permanent roster index. S2 is the silent
+character for that cut. The original baseline omitted explicit steps, FPS and
+guidance overrides; key absence matters too. The observed runtime uses 20
+steps, but this is not a complete environment lock.
+
+**No `script` or multishot fields may enter the renderer payload.** On the
+audited WanGP checkout they select a shortcut that drops image/audio
+conditioning. Policy, manifests and QC remain sidecars. The actual transport
+is `wgp-settings.json`; the separate `settings.json` is the repo audit doc.
+The log must show `Encoding H3 prompt and references`, with no `[MULTISHOT]`.
+`conditioning-evidence.json` records mapped hashes and measured guide data.
+
+### Audio and media operations
+
+For unprepared source audio, `prepare_v3_turn_audio()` uses the original filter:
+
+```text
+silenceremove=start_periods=1:start_threshold=-40dB,highpass=f=100,volume=9dB,atrim=0:2.4
+```
+
+Only when shorter than 2 seconds does it add a 0.5-second tail. No universal
+leading silence, resampling, time stretching or exact-grid fit. Already
+prepared fixtures are not boosted again. Probe actual duration, channels,
+sample rate and SHA256; do not invent guide duration from video length. The
+original grandma/soul guides measure approximately 2.330417/2.096 s, mono at
+24 kHz. The September 7 grid-padding acceptance amendment is a historical
+variant, not silently rewritten or claimed as exact September 6 parity.
+
+**Preserve native H3 audiovisual output.** Ref2VA requires
+`discard_rendered_audio=False`; neither adapter nor runtime replaces its audio
+with the guide. The compatibility filename `remux.mp4` currently remains, but
+must be byte-identical to `raw.mp4`, with hashes and `audio_carrier=native_h3`
+recorded. Old external-remux jobs need replanning, not silent adoption.
+
+Whisper gates the guide before GPU work and the **native** output afterward,
+at 0.6. Matching words is not a lip-sync measurement. Chaining uses:
+
+```text
+ffmpeg -y -v error -sseof -0.05 -i CUT.mp4 -update 1 -frames:v 1 NEXT_SEED.png
+```
+
+Assembly uses decoded audiovisual filter concat, H.264 CRF 18 + AAC—not
+concat-demuxer stream copy. Check actual assembled timestamps and frame count.
+
+### Honest quality boundary
+
+Three still frames can assess identity/composition/mouth activity against the
+actual input plate, **not** audio timing or phoneme/viseme synchronization.
+Evidence reports `mouth_sync=null`, `av_sync_verified=false`. Mechanical
+completion yields **NEEDS REVIEW**, never automatic KEEP for this lane.
+
+`scripts/run_v3_native_control.py` runs the exact pair through DirectorRun,
+queue, `render_for_job`, Whisper/vision QC, chaining and assembly. Compare the
+actual output with the original hashes and audible/visible content before
+claiming reproduction. Different-premise and deep-chain reliability require
+separate experiments.
+
+---
+
+## Historical September 3/4 notes — not the v3 contract
+
+The following is retained as historical context, not current v3 instructions.
 
 Two validated modes:
 
@@ -52,4 +149,3 @@ Known constraints (measured):
 Render (3090):
     cd ~/Wan2GP && ./venv/bin/python wgp.py --process <settings.json> \
         --profile 2 --attention sdpa
-"""

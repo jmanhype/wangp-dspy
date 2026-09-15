@@ -117,6 +117,7 @@ def build_chain_plan(
     audio_paths: Optional[Sequence[str]] = None,
     overlap_frames: int = OVERLAP_FRAMES,
     continuation_mode: bool = False,
+    seed_override: Optional[int] = None,
 ) -> ChainPlan:
     """Build a validated ChainPlan from script beats + roster + durations."""
     if len(script_lines) != len(durations_s):
@@ -186,7 +187,8 @@ def build_chain_plan(
             frames=frames,
             audio=ClipAudio(path=path, start_s=cursor_s,
                             padded_duration_s=frames / _FPS),
-            seed=_seed_for(line, i),
+            seed=(int(seed_override) if seed_override is not None
+                  else _seed_for(line, i)),
             status="pending",
             previous_clip_end_frame=(
                 None if prev_clip is None else {
@@ -272,6 +274,7 @@ def _continuation_config(
     plan: ChainPlan,
     clip: ChainClip,
     plate_paths: Optional[Sequence[str]] = None,
+    recipe_name: str = "production",
 ) -> Dict[str, Any]:
     """Ref2Va continuation with typed extras and a resolvable frame ref.
 
@@ -305,6 +308,7 @@ def _continuation_config(
         }
 
     refs = list(plate_paths or [])
+    explicit_silent = None
     if refs:
         anchor = str(refs[0])
         # DirectorRun also accepts the acceptance-run form
@@ -330,14 +334,31 @@ def _continuation_config(
         image_start = (
             f"chain://clip{int(ref.get('clip_index', clip.index - 1)):04d}/"
             "last_frame")
-    image_refs = [image_start, str(silent_ref)]
+    legacy_v2 = recipe_name == "v2_legacy"
+    golden = recipe_name == "golden_v3"
+    image_refs = [image_start] if legacy_v2 else [image_start, str(silent_ref)]
     speaker_char = next(c for c in plan.characters
                         if c.sn_tag == clip.speaker_sn)
-    speaker_prompt = build_picture_n_speaker_prompt(
-        speaker_sn=clip.speaker_sn,
-        silent_sn=(silent.sn_tag if silent is not None else clip.speaker_sn),
-        line=clip.shot_prompt.partition("speaks: ")[2],
-    )
+    speaker_prompt = None
+    if not legacy_v2:
+        speaker_prompt = build_picture_n_speaker_prompt(
+            speaker_sn=clip.speaker_sn,
+            silent_sn=(silent.sn_tag if silent is not None else clip.speaker_sn),
+            line=clip.shot_prompt.partition("speaks: ")[2],
+        )
+    if golden:
+        from predict.v3_recipe import build_v3_prompt
+        if silent is None or len(plan.characters) != 2:
+            raise ChainPlanError("golden_v3 requires exactly two character identities")
+        speaker_prompt = build_v3_prompt(
+            scene=plan.global_prompt.rstrip(". "),
+            identities=" and ".join(c.description for c in plan.characters),
+            speaker=f"{speaker_char.name}, {speaker_char.description}",
+            delivery="speaks natural English",
+            silent=f"{silent.name}, {silent.description}",
+            silent_noun="character", silent_pronoun="their",
+            speaker_noun=speaker_char.name,
+            soundscape="scene ambience", first=clip.index == 1)
     speaker_manifest = build_speaker_manifest([SpeakerTurn(
         # Each render job carries its own one-turn manifest.  The film-level
         # run ledger records clip_index separately; per-job manifests must
@@ -357,6 +378,7 @@ def _continuation_config(
         audio_guide=clip.audio.path,
         video_length=clip.frames,
         requested_frames=clip.frames,
+        legacy_v2_prompt=legacy_v2 or golden,
     )
     extra = extras.to_extra()
     provenance = {
@@ -365,6 +387,11 @@ def _continuation_config(
         "whisper_map": clip.audio.path,
         "keeper_window_s": [0.0, clip.duration_s],
     }
+    if recipe_name not in {"production", "golden_v3", "v2_legacy"}:
+        raise ChainPlanError(
+            f"unknown continuation recipe {recipe_name!r}; expected "
+            "production, golden_v3, or v2_legacy")
+    golden = recipe_name == "golden_v3"
     return {
         "clip_index": clip.index,
         "kind": "ref2va_render",
@@ -386,7 +413,9 @@ def _continuation_config(
                 for c in plan.characters]),
         "dialogue_text": clip.shot_prompt.partition("speaks: ")[2],
         "action": "subtle natural listening and speaking motion",
-        "prompt": f"{plan.global_prompt} {speaker_prompt}",
+        "prompt": (speaker_prompt if golden else f"{plan.global_prompt} {speaker_prompt}"
+                   if speaker_prompt is not None else
+                   f"{plan.global_prompt} {clip.shot_prompt}"),
         "image_start": image_start,
         "image_refs": image_refs,
         "image_prompt_type": "S",
@@ -395,16 +424,23 @@ def _continuation_config(
         "audio_guide": clip.audio.path,
         "audio_provenance": provenance,
         "speaker_manifest": speaker_manifest,
-        "audio_policy": {"discard_rendered_audio": True},
-        "guide_duration_s": clip.duration_s,
+        "audio_policy": {"discard_rendered_audio": False},
+        # Audio duration is unknown until probed. Never claim a WAV has the
+        # cut's frame length just because the plan does.
+        "guide_duration_s": None,
         "shot_duration_s": clip.duration_s,
-        "audio_length_frames": clip.frames,
+        "audio_length_frames": None,
         "video_length": clip.frames,
         "requested_frames": clip.frames,
         "continuation_extras": extra,
         "steps": _RECIPE_STEPS,
         "spectrum_cache": True,
         "resolution": [480, 832],
+        # The profile is a CLI-level WanGP selector. It is persisted in the
+        # job envelope so the host seam cannot silently substitute profile 3
+        # for the operator-validated v3 pair.
+        "profile": 2 if golden else 3,
+        "recipe_name": recipe_name,
         "frames": clip.frames,
         "force_fps": _FPS,
         "seed": clip.seed,
@@ -423,6 +459,7 @@ def emit_render_manifest(
     plan: ChainPlan,
     plate_paths: Optional[Sequence[str]] = None,
     loras: Optional[Sequence[str]] = None,
+    recipe_name: str = "production",
 ) -> List[Dict[str, Any]]:
     """Render-order manifest: shot 1 = 3-ref recipe, shots 2+ = continuations.
 
@@ -441,7 +478,8 @@ def emit_render_manifest(
                         "pair for every continuation clip")
                 cut_plates = plate_paths[clip.index - 1]
             manifest.append(_continuation_config(
-                plan, clip, plate_paths=cut_plates))
+                plan, clip, plate_paths=cut_plates,
+                recipe_name=recipe_name))
         elif clip.index == 1:
             manifest.append(_shot1_recipe_config(
                 plan, clip, plan.characters, plate_paths, loras))
@@ -458,7 +496,8 @@ def emit_render_manifest(
                 needs=r2i["job_id"]))
         else:
             manifest.append(_continuation_config(
-                plan, clip, plate_paths=plate_paths))
+                plan, clip, plate_paths=plate_paths,
+                recipe_name=recipe_name))
     return manifest
 
 

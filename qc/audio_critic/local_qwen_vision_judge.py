@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import os
 import uuid
+from pathlib import Path
 from typing import Optional
 
 from qc.audio_critic.modelscope_vision_judge import (
@@ -78,16 +79,21 @@ class LocalQwenVisionJudge:
                 "local vision max_tokens must be positive")
 
     def __call__(self, *, video_path: str, expected_speaker: str,
-                 expected_action: str) -> dict:
+                 expected_action: str, reference_image_path: Optional[str] = None) -> dict:
         return self.judge(video_path=video_path,
                           expected_speaker=expected_speaker,
-                          expected_action=expected_action)
+                          expected_action=expected_action, reference_image_path=reference_image_path)
 
     def judge(self, *, video_path: str, expected_speaker: str,
-              expected_action: str) -> dict:
+              expected_action: str, reference_image_path: Optional[str] = None) -> dict:
         # Reuse the exact three-frame extraction and identity-aware prompt
         # contract; only the transport/backend differs from ModelScope.
         frames = ModelScopeVisionJudge._extract_frames(video_path)
+        if reference_image_path is not None:
+            ref = Path(reference_image_path)
+            if not ref.is_file():
+                raise ValueError(f"vision reference image missing: {ref}")
+            frames.insert(0, ref.read_bytes())
         content = [{"type": "text",
                     "text": ModelScopeVisionJudge._prompt(
                         expected_speaker, expected_action)}]
@@ -144,6 +150,8 @@ class LocalQwenVisionJudge:
             except ValueError as exc:
                 raise LocalQwenVisionJudgeError(
                     str(exc), raw_response=raw_response) from exc
+            if "mouth_activity" not in result and "mouth_sync" in result:
+                result["mouth_activity"] = result.pop("mouth_sync")
             for key in _SCORE_KEYS:
                 try:
                     value = float(result[key])

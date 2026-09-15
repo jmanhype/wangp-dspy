@@ -1,0 +1,81 @@
+{
+  "schema": "wangp-dspy.v3-golden-canary/v1",
+  "recipe_version": "v3-pair-2026-09-06-native-v1",
+  "passed": true,
+  "artifacts": {
+    "cut1": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/render-0062/raw.mp4",
+      "sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6",
+      "md5": "be96a3027d1fa8f4b14454118ab4d97a",
+      "bytes": 1195705,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "2.333333",
+          "nb_read_frames": "56"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "2.304000",
+          "nb_read_frames": "72"
+        }
+      ]
+    },
+    "cut2": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/render-0063/raw.mp4",
+      "sha256": "617aa35d7ed542ef75be6b89594f249220559dbeeff809a9cadc2d38556bda65",
+      "md5": "6b485e84f875ccc30a87476b34bf38d3",
+      "bytes": 1229480,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "2.333333",
+          "nb_read_frames": "56"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "2.304000",
+          "nb_read_frames": "72"
+        }
+      ]
+    },
+    "pair": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/v3-native-fixed-20260912/assembled.mp4",
+      "sha256": "0146285a9ea6441b4688e1651a467c9af189e9b63e1403ffbf92938825294a51",
+      "md5": "c523919b6ac93a29edd43de75e424033",
+      "bytes": 757629,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "4.666667",
+          "nb_read_frames": "112"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "4.638000",
+          "nb_read_frames": "145"
+        }
+      ]
+    },
+    "seed": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/v3-native-fixed-20260912/chain/clip0002/chain_last_frame.png",
+      "sha256": "f40f44155a8d61862bf96b136108fd262a9a7f612bcaa04b8fa9becc32861656",
+      "md5": "48abe4dfaa4f7be734326c8cfd2a8415",
+      "bytes": 612688
+    }
+  },
+  "errors": [],
+  "scope": "Exact original two-cut artifacts and chain seed on the pinned environment; not new-premise quality or fresh-clone acceptance."
+}

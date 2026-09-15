@@ -249,7 +249,15 @@ class SshHost(LocalHost):
         (rc, stdout, stderr). Preflight's ONLY host surface — probes
         never render, so no remote `timeout` wrapper is needed beyond
         the local communicate timeout."""
-        proc = self.sp(self._ssh_base() + list(argv),
+        # OpenSSH joins its command arguments into a shell string; passing
+        # Python argv through unchanged loses boundaries (spaces in native
+        # WanGP filenames became multiple readlink/cp operands). Quote every
+        # argument of structured probes. A one-item prebuilt shell command
+        # remains the legacy detached-launch contract, not an asset argv.
+        import shlex
+        args = list(argv)
+        remote_command = args if len(args) == 1 else [shlex.join(args)]
+        proc = self.sp(self._ssh_base() + remote_command,
                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             out, err = proc.communicate(timeout=timeout)

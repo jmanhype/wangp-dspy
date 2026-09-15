@@ -72,7 +72,7 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
         expected_action="Grandma speaks while Soul remains still",
     )
 
-    assert result["mouth_sync"] == 0.9
+    assert result["mouth_activity"] == 0.9
     assert result["speaker_attribution"] == 1.0
     assert '"mouth_sync": 0.9' in result["raw_response"]
     assert result["critic"] == "modelscope:Qwen/test"
@@ -109,7 +109,7 @@ def test_modelscope_judge_falls_back_to_reasoning_content(
     result = judge(video_path=str(video), expected_speaker="Grandma",
                    expected_action="Grandma speaks")
 
-    assert result["mouth_sync"] == 0.7
+    assert result["mouth_activity"] == 0.7
     assert result["action_match"] == 0.8
     assert result["speaker_attribution"] == 0.9
     assert "The final score is" in result["raw_response"]

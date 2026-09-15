@@ -215,7 +215,7 @@ def test_ref2va_settings_extra_contains_audio_plane(tmp_path):
     assert prov["source_master"].endswith("master.wav")
     assert prov["keeper_window_s"] == [1.0, 5.0]
     pol = doc["audio_policy"]
-    assert pol == {"discard_rendered_audio": True,
+    assert pol == {"discard_rendered_audio": False,
                    "remux_source": "source_master",
                    "remux_window": [1.0, 5.0]}
     qc = doc["audio_qc"]

@@ -36,7 +36,7 @@ GOOD_DECISION = {
 
 def _lm(decision):
     return DummyLM([
-        {"rationale": "r", "decision": json.dumps(decision)}])
+        {"reasoning": "r", "decision": json.dumps(decision)}])
 
 
 # ── 1: signature shape ───────────────────────────────────────────────────
@@ -126,7 +126,7 @@ def test_selector_rejects_unknown_profile_lm_output():
 def test_selector_rejects_non_json_output():
     sel = ProfileSelector()
     lm = DummyLM(
-        [{"rationale": "r", "decision": "not json"}])
+        [{"reasoning": "r", "decision": "not json"}])
     with dspy.context(lm=lm):
         with pytest.raises(Exception):
             sel(subject="s", motion="m", camera="c", style="y")

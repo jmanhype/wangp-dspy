@@ -32,7 +32,11 @@ def test_prepare_turn_audio_trims_boosts_and_verifies(tmp_path):
     assert prepared.boost_db == 9.0
     assert prepared.rms_db == -18.4
     assert calls[1][:4] == ["ffmpeg", "-y", "-i", str(source)]
-    assert "volume=9.00dB" in calls[1]
+    assert any("volume=9.00dB" in arg for arg in calls[1])
+    assert any("silenceremove=start_periods=1" in arg for arg in calls[1])
+    assert any("highpass=f=100" in arg for arg in calls[1])
+    assert any("atrim=0:2.000000" in arg for arg in calls[1])
+    assert "24000" in calls[1]
     assert "-t" in calls[1] and "2.000000" in calls[1]
     assert calls[1][-1] == str(output)
 
@@ -61,7 +65,7 @@ def test_prepare_turn_audio_pads_short_source_to_grid_cut(tmp_path):
     assert prepared.measured_duration_s == 2.333333
     render = next(c for c in calls if c[0] == "ffmpeg"
                   and "volumedetect" not in c)
-    assert any("apad=pad_dur=0.333333" in arg for arg in render)
+    assert any("apad=pad_dur=2.333333" in arg for arg in render)
 
 
 def test_prepare_turn_audio_rejects_multispeaker_or_silent(tmp_path):

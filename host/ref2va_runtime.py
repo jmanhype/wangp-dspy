@@ -3,30 +3,36 @@ existing Ref2VA primitives end-to-end without touching the generic
 H3 adapter:
 
     Ref2VAProfile.build_settings  (typed settings; existing contract)
-      -> injected render callable (exactly once; production later
+      -> injected render callable (exactly once; production
          points this at WanGP/SshHost on the remote GPU host — NEVER
          hardcoded here)
       -> write_audio_manifest + readback_validate (existing)
-      -> plan_remux_command with EXPLICIT keeper/full-mix source
-         (existing planner; argv list only, no shell)
-      -> injected argv runner (rc must be 0; remux must exist)
+      -> preserve the generated native A/V render byte-for-byte at the
+         legacy remux.mp4 filename required by downstream callers
       -> evaluate_audio_artifact (existing audio-reactive lane)
       -> JSON-serializable evidence (hashes + QC + eligibility)
 
 Fail-closed: any missing/mismatched artifact, containment escape,
-nonzero ffmpeg, judge crash, or G4 policy violation raises the typed
-Ref2VARuntimeError BEFORE any QC/GEPA eligibility can be claimed.
+native-preservation hash mismatch, judge crash, or policy violation
+raises the typed Ref2VARuntimeError BEFORE any QC/GEPA eligibility can
+be claimed.
 
 PR #51 review hardening:
 - ALL four paths (settings/raw/source/remux) are containment-checked
   BEFORE any filesystem write, mkdir, or injected render call.
 - The render callable's RETURNED path is revalidated (containment +
-  G4 source != raw + on-disk) before manifest/remux; remux argv is
-  replanned against the ACTUAL raw path.
+  source != raw + on-disk) before the manifest is written and the
+  native render is preserved.
 - A prebuilt settings_doc is runtime-validated (see
   _validate_settings_doc for the exact, honestly-scoped boundary).
 - Policy construction failures and AudioDataPlaneError are wrapped
   as Ref2VARuntimeError — no raw ValueError leaks.
+
+Historical seam note: ``runner`` and ``safe_argv_runner`` remain in the
+public input/API surface for compatibility, but the native Ref2VA path
+does not invoke a planner or runner to replace its generated audio.
+``plan_remux_command`` remains the shared, explicit remux utility for
+non-Ref2VA external-audio lanes.
 """
 from __future__ import annotations
 
@@ -79,12 +85,11 @@ class Ref2VARuntimeInput:
 
     Either ``profile_build_kwargs`` (validated through
     Ref2VAProfile.build_settings) or a pre-validated ``settings_doc``
-    must be supplied — never both, never neither. ``render`` /
-    ``runner`` are injected seams: the render callable produces the
-    raw H3 render file (tests use tiny fixtures; production points at
-    WanGP/SshHost later); the runner receives an ARGV LIST (shell
-    semantics belong to the caller, who must exec without a shell —
-    see ``safe_argv_runner`` for a conservative default).
+    must be supplied — never both, never neither. ``render`` is the
+    active injected seam that produces the raw native H3 render file
+    (tests use tiny fixtures; production points at WanGP/SshHost).
+    ``runner`` is retained for constructor/API compatibility with the
+    legacy remux seam; this native runtime does not call it.
     """
     briefs: Sequence
     decision: Any
@@ -104,6 +109,7 @@ class Ref2VARuntimeInput:
     # the remux has been materialized in the pull namespace.
     continuation: bool = False
     frame_probe: Optional[Callable[[Path], int]] = None
+    completed_render_recovery: Optional[dict] = None
 
     def __post_init__(self):
         has_kw = self.profile_build_kwargs is not None
@@ -198,19 +204,20 @@ def _policy_from_doc(settings_doc: dict) -> AudioPolicy:
 def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
     """Runtime validation of a settings doc BEFORE any render/write.
 
-    Honest boundary (documented, per review): a COMPLETE
-    Ref2VAProfile reconstruction (briefs/decision, <Picture/Audio N>
-    token contiguity, guide==shot duration, 4-15s cap, image_refs)
-    is NOT re-derivable from the persisted doc — the script text is
-    flattened and the durations/decision are not carried. What IS
-    enforced here, fail-closed:
+    A complete reconstruction of the original briefs and profile decision
+    is not possible from this envelope. The host boundary separately probes
+    the actual guide and records mapped conditioning evidence. This runtime
+    validates the native wire shape and local manifest/path contracts rather
+    than claiming to repeat all planning or host checks. Enforced here:
       - dict type
-      - model_type == 'ref2va_lip_sync'
+      - model_type == predict.model_types.REF2VA_MODEL_TYPE
       - audio_prompt_type == 'A'
       - sanctioned audio manifest block present (all four keys) via
         build_audio_manifest + readback_validate
       - audio_policy typed through AudioPolicy
-      - discard_rendered_audio is True (G4)
+      - discard_rendered_audio is False (native audio preserved)
+      - ref2va_wire_settings accepts the doc as a native single-cut
+        envelope with no multishot/script dispatch fields
       - audio_guide is a readable path contained in sanctioned_dirs
     """
     if not isinstance(settings_doc, dict):
@@ -234,10 +241,14 @@ def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
         raise Ref2VARuntimeError(
             f"settings doc audio block rejected: {e}") from e
     policy = _policy_from_doc(settings_doc)
-    if policy.discard_rendered_audio is not True:
+    if policy.discard_rendered_audio is not False:
         raise Ref2VARuntimeError(
-            "G4: settings doc discard_rendered_audio must be True — "
-            "rendered audio is NEVER trusted")
+            "Ref2VA native audio policy requires discard_rendered_audio=False")
+    from predict.ref2va_settings import ref2va_wire_settings, Ref2VASettingsError
+    try:
+        ref2va_wire_settings(settings_doc)
+    except Ref2VASettingsError as exc:
+        raise Ref2VARuntimeError(str(exc)) from exc
     guide = settings_doc.get("audio_guide")
     if not isinstance(guide, str) or not guide.strip():
         raise Ref2VARuntimeError(
@@ -263,13 +274,15 @@ def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
 
 
 def safe_argv_runner(argv: list) -> int:
-    """Conservative default argv runner: exec WITHOUT a shell.
+    """Conservative legacy/shared argv runner: exec WITHOUT a shell.
 
     The runtime cannot inspect what an injected callable does
     internally — this helper only guarantees that WHEN it is used,
     the argv list is executed directly (no shell interpretation of
     metacharacters). argv must be a list of str; anything else is a
-    typed rejection. Returns the process exit code.
+    typed rejection. Returns the process exit code. Native Ref2VA
+    preservation does not invoke this helper; it remains available to
+    explicit non-Ref2VA remux callers.
     """
     if not isinstance(argv, list) or not all(
             isinstance(a, str) for a in argv):
@@ -322,8 +335,9 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
         json.dumps(settings_doc, indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
 
-    # G4 (pre-flight): the explicit audio source must NEVER be the raw
-    # render — rendered audio is never trusted.
+    # Anti-substitution pre-flight: the input guide/source must never
+    # masquerade as the generated native output by occupying the raw
+    # render path.
     try:
         if source.resolve() == raw.resolve():
             raise Ref2VARuntimeError(
@@ -338,10 +352,10 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
     if out is not None:
         raw = Path(out)
 
-    # (b2) REVALIDATE the returned raw path: containment, G4, and
-    # on-disk — BEFORE any manifest write or remux planning. A render
-    # callable returning a substituted path (including the audio
-    # source itself) fails closed here.
+    # (b2) REVALIDATE the returned raw path: containment, source/raw
+    # separation, and on-disk existence — BEFORE any manifest write or
+    # native preservation. A render callable returning a substituted
+    # path (including the audio source itself) fails closed here.
     if not _contained(raw, inp.sanctioned_dirs):
         raise Ref2VARuntimeError(
             f"containment violation: render() returned "
@@ -383,33 +397,22 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
             raise Ref2VARuntimeError(
                 f"speaker manifest gate rejected: {e}") from e
 
-    # (e) plan remux against the ACTUAL raw path: EXPLICIT source,
-    # containment enforced by the existing planner (argv list only —
-    # no shell strings anywhere)
-    policy = _policy_from_doc(settings_doc)
+    # Preserve the native A/V container byte-for-byte. The legacy remux.mp4
+    # filename is retained for caller compatibility; evidence explicitly
+    # names the native carrier and preserves the raw/final hashes.
+    import shutil
     try:
-        argv = plan_remux_command(
-            policy=policy, render_path=str(raw),
-            source_path=str(source),
-            keeper_window=tuple(policy.remux_window),
-            output_path=str(remux),
-            sanctioned_dirs=list(inp.sanctioned_dirs))
-    except Ref2VAQCStageError as e:
-        raise Ref2VARuntimeError(str(e)) from e
+        if remux.resolve() != raw.resolve():
+            shutil.copyfile(raw, remux)
+        if _sha256_file(raw) != _sha256_file(remux):
+            raise Ref2VARuntimeError("native audio/video preservation hash mismatch")
+    except OSError as exc:
+        raise Ref2VARuntimeError(f"native artifact preservation failed: {exc}") from exc
 
-    # (f) execute via injected runner; rc=0 + readable remux required
-    rc = inp.runner(argv)
-    if rc != 0:
-        raise Ref2VARuntimeError(
-            f"ffmpeg/remux runner returned rc={rc} — nonzero remux "
-            "exit is a hard failure")
-    if not remux.is_file():
-        raise Ref2VARuntimeError(
-            f"remux output missing after rc=0 runner: {remux} — "
-            "eligibility requires real remux evidence")
-
-    # Validate the FINAL artifact, after muxing. A raw 56-frame H3 output
-    # is not sufficient if audio timing truncates the remux to 53 frames.
+    # Validate the FINAL legacy-named artifact after preservation. This
+    # retains the historical frame-count output invariant (the old external
+    # remux could truncate 56 frames to 53) even though a byte-identical
+    # native copy cannot alter the stream.
     if inp.continuation:
         try:
             expected = int(settings_doc.get("video_length") or 0)
@@ -429,8 +432,9 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
                     "post-remux continuation frame-count validation failed: "
                     f"expected {expected}f, got {actual}f in {str(remux)!r}")
 
-    # (g) evaluate the REMUX artifact through the existing lane,
-    # forwarding the critic_version so it reaches the ACTUAL QC
+    # (g) evaluate the final legacy-named native artifact through the
+    # existing lane, forwarding critic_version to the ACTUAL QC. Native
+    # preservation does not itself constitute a QC pass.
     try:
         artifact = AudioReactiveInput(
             render_path=raw, settings_path=settings_path,
@@ -471,5 +475,8 @@ def run_ref2va_runtime(inp: Ref2VARuntimeInput) -> dict:
         "explicit_audio_source": str(source),
         "critic_version": qc_ver,
         "lane": "ref2va_runtime",
+        "audio_carrier": "native_h3",
+        "final_artifact_path": str(remux),
+        "native_preserved": True,
     }
     return evidence

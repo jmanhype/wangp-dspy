@@ -483,6 +483,12 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
     from predict.audio_dataplane import AudioGuideProvenance
     from predict.continuation_lane import ContinuationExtras
 
+    requested_policy = _job_field(job, "audio_policy")
+    if requested_policy is not None and (
+            not isinstance(requested_policy, dict)
+            or requested_policy.get("discard_rendered_audio") is not False):
+        raise WanGPError("Ref2VA native audio policy required; re-plan legacy discard/remux jobs")
+
     continuation_raw = _job_field(job, "continuation_extras")
     continuation = None
     if continuation_raw is not None:
@@ -513,6 +519,9 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             "or embedded #57 recipe envelope) — got "
             f"image_refs={image_refs!r}, audio_guide={audio_guide!r}")
     prompt = _job_field(job, "prompt", "")
+    legacy_v2_prompt = bool(
+        continuation is not None and
+        getattr(continuation, "legacy_v2_prompt", False))
     shot_s = float(_job_field(
         job, "shot_duration_s",
         2.0 if continuation else 0.0) or 0.0)
@@ -553,7 +562,11 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             # FULL speaker template (recipe-built) — it must reach
             # WanGP's prompt field, not die inside the flattened
             # brief/script. seed: caller's recipe pin rides through.
-            speaker_prompt=(prompt or None),
+            # The legacy v2 control uses its verbatim S1/S2 prose envelope,
+            # not the later Picture-N token contract.  The typed flag keeps
+            # this compatibility exception scoped to that recipe.
+            speaker_prompt=(None if legacy_v2_prompt else (prompt or None)),
+            legacy_prompt=(prompt if legacy_v2_prompt else None),
             seed=_job_field(job, "seed"),
             continuation=continuation is not None,
             image_start=(_job_field(job, "image_start")
@@ -562,11 +575,15 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
             video_prompt_type=(_job_field(
                 job, "video_prompt_type",
                 continuation.video_prompt_type if continuation else "I")),
+            width=int((_job_field(job, "resolution", [480, 832]) or [480, 832])[0]),
+            height=int((_job_field(job, "resolution", [480, 832]) or [480, 832])[1]),
+            profile=int(_job_field(job, "profile", DEFAULT_PROFILE_NUMBER)),
+            recipe_name=_job_field(job, "recipe_name", "production"),
             audio_length_frames=_job_field(
-                job, "audio_length_frames",
-                continuation.video_length if continuation else None),
+                job, "audio_length_frames", None),
         ),
         continuation=continuation is not None,
+        completed_render_recovery=_job_field(job, "completed_render_recovery"),
     )
 
 
@@ -639,7 +656,8 @@ def _load_stall_s() -> float:
 def build_wgp_lock_argv(settings_path: str, log_path: str, *,
                         wangp_dir: str = DEFAULT_WANGP_DIR,
                         venv_python: Optional[str] = None,
-                        wgp_script: Optional[str] = None) -> list:
+                        wgp_script: Optional[str] = None,
+                        profile: str | int | None = None) -> list:
     """The proven serial wgp invocation (live-verified 2026-09-02).
 
     TWO hardening rules learned on the box:
@@ -660,12 +678,14 @@ def build_wgp_lock_argv(settings_path: str, log_path: str, *,
     """
     venv_python = venv_python or f"{wangp_dir}/venv/bin/python"
     wgp_script = wgp_script or f"{wangp_dir}/wgp.py"
+    profile_number = (str(profile) if profile is not None
+                      else DEFAULT_PROFILE_NUMBER)
     shell = (
         f"cd {shlex.quote(wangp_dir)} && "
         "PYTHONUNBUFFERED=1 PYTORCH_ALLOC_CONF=expandable_segments:True "
         f"{shlex.quote(venv_python)} {shlex.quote(wgp_script)} "
         f"--process {shlex.quote(settings_path)} "
-        f"--profile {DEFAULT_PROFILE_NUMBER} --attention sdpa "
+        f"--profile {shlex.quote(profile_number)} --attention sdpa "
         f"> {shlex.quote(log_path)} 2>&1")
     return [f"flock {shlex.quote(WGP_QUEUE_LOCK)} "
             f"bash -c {shlex.quote(shell)}"]
@@ -674,7 +694,8 @@ def build_wgp_lock_argv(settings_path: str, log_path: str, *,
 def build_detached_wgp_argv(settings_path: str, log_path: str, *,
                             wangp_dir: str = DEFAULT_WANGP_DIR,
                             venv_python: Optional[str] = None,
-                            wgp_script: Optional[str] = None) -> list:
+                            wgp_script: Optional[str] = None,
+                            profile: str | int | None = None) -> list:
     """SSH-LIFETIME RENDERS (live smoke, verified twice): a wgp run
     owned by the worker's ssh channel dies or wedges when the channel
     drops. The seam therefore launches wgp DETACHED on the host
@@ -685,7 +706,8 @@ def build_detached_wgp_argv(settings_path: str, log_path: str, *,
     """
     lock_cmd = build_wgp_lock_argv(
         settings_path, log_path, wangp_dir=wangp_dir,
-        venv_python=venv_python, wgp_script=wgp_script)[0]
+        venv_python=venv_python, wgp_script=wgp_script,
+        profile=profile)[0]
     return [f"setsid nohup {lock_cmd} >/dev/null 2>&1 & echo launched"]
 
 
@@ -899,7 +921,7 @@ def _probe(host, argv, timeout=120):
 
 
 _OUTPUT_BASENAME_RE = re.compile(
-    r"^[A-Za-z0-9][A-Za-z0-9_.-]*\.mp4$", re.IGNORECASE)
+    r"^[A-Za-z0-9][^/\\\x00-\x1f\x7f]*\.mp4$", re.IGNORECASE)
 
 
 def newest_output_mp4(host, outputs_dir: str,
@@ -1035,8 +1057,21 @@ def production_ref2va_render(adapter, inp):
     except (OSError, ValueError) as e:
         raise WanGPError(
             f"settings document unreadable before host render: {e}") from e
-    settings_doc_host = _map_settings_assets(host, settings_doc)
-    settings_host = _host_path(host, str(settings_local))
+    from predict.ref2va_settings import ref2va_wire_settings
+    wire_doc = ref2va_wire_settings(settings_doc)
+    settings_doc_host = _map_settings_assets(host, wire_doc)
+    ref2va_wire_settings(settings_doc_host)
+    from host.ref2va_evidence import measure_conditioning
+    conditioning = measure_conditioning(
+        host, settings_doc_host, wgp_root=_wangp_dir_for(adapter))
+    settings_doc["guide_duration_s"] = conditioning["guide_duration_s"]
+    settings_doc["guide_probe"] = conditioning["guide_probe"]
+    settings_local.write_text(json.dumps(settings_doc, indent=2, sort_keys=True) + "\n")
+    (settings_local.parent / "conditioning-evidence.json").write_text(
+        json.dumps(conditioning, indent=2, sort_keys=True) + "\n")
+    (settings_local.parent / "wgp-settings.json").write_text(
+        json.dumps(settings_doc_host, indent=2, sort_keys=True) + "\n")
+    settings_host = _host_path(host, str(settings_local.with_name("wgp-settings.json")))
 
     # SshHost.write_text intentionally only pushes bytes; rsync does not
     # create a missing destination directory.  Create the run directory
@@ -1059,6 +1094,15 @@ def production_ref2va_render(adapter, inp):
         settings_host = writer(
             settings_host,
             json.dumps(settings_doc_host, indent=2, sort_keys=True) + "\n")
+    recovery = getattr(inp, "completed_render_recovery", None)
+    if recovery is not None:
+        # A new attempt/directory; the failed attempt stays immutable.
+        from host.ref2va_recovery import recover_completed_render
+        return recover_completed_render(
+            host=host, recovery=recovery, wire=settings_doc_host,
+            conditioning=conditioning, settings_local=settings_local,
+            raw_local=_P(inp.raw_render_path), wgp_root=_wangp_dir_for(adapter),
+            outputs_dir=adapter.wgp_outputs_dir)
     # ``write_text`` may return a normalized path; keep the directory used
     # for the detached log aligned with that returned host path.
     run_dir = settings_host.rsplit("/", 1)[0]
@@ -1068,8 +1112,11 @@ def production_ref2va_render(adapter, inp):
     # so a dropped ssh channel can never kill or wedge the render;
     # then POLL the log/artifacts for the N/N completion line.
     render_started = time.time()
+    profile = settings_doc.get("profile", DEFAULT_PROFILE_NUMBER)
     rc, _out, err = _probe(
-        host, build_detached_wgp_argv(settings_host, log_path),
+        host, build_detached_wgp_argv(settings_host, log_path,
+                                      profile=profile,
+                                      wangp_dir=_wangp_dir_for(adapter)),
         timeout=60)
     if rc != 0:
         raise WanGPError(
@@ -1078,12 +1125,17 @@ def production_ref2va_render(adapter, inp):
 
     # steps from the config (the runtime wrote settings before render)
     try:
-        steps = int(settings_doc.get("num_inference_steps") or 0)
+        steps = int(settings_doc.get("num_inference_steps") or 20)
     except (OSError, ValueError):
         steps = 0
     log_text = poll_render_completion(
         host, log_path, steps, timeout_s=float(adapter.timeout),
         expected_tasks=1)
+    (settings_local.parent / "render.log").write_text(log_text, encoding="utf-8")
+    if "[MULTISHOT]" in log_text:
+        raise WanGPError("Ref2VA dispatch violation: WanGP entered MULTISHOT; conditioning not guaranteed")
+    if "Encoding H3 prompt and references" not in log_text:
+        raise WanGPError("Ref2VA dispatch unverified: native H3 conditioning marker absent")
     if steps > 0 and not verify_denoise_steps(log_text, steps):
         raise WanGPError(
             "verify-before-trust rejected the render log for "
@@ -1115,37 +1167,8 @@ def production_ref2va_render(adapter, inp):
                 "continuation frame-count validation failed: expected "
                 f"{expected_frames}f, got {actual_frames}f in {raw_host!r}")
 
-    audio_guide = ""
-    audio_guide = str(settings_doc_host.get("audio_guide") or "")
-    if audio_guide:
-        mux_host = raw_host.rsplit(".", 1)[0] + ".mux.mp4"
-        try:
-            fps = float(settings_doc.get("force_fps") or 24.0)
-            mux_duration = (expected_frames / fps
-                            if expected_frames > 0 and fps > 0 else None)
-        except (TypeError, ValueError):
-            mux_duration = None
-        mux_args = [
-            "ffmpeg", "-y", "-i", raw_host,
-            "-i", audio_guide,
-            "-map", "0:v", "-map", "1:a",
-            "-c:v", "copy", "-c:a", "aac",
-        ]
-        if mux_duration is not None:
-            # Explicit output duration avoids AAC priming causing
-            # ``-shortest`` to truncate a grid-aligned video stream.
-            mux_args += ["-t", f"{mux_duration:.6f}"]
-        mux_args.append(mux_host)
-        rc, _o, err = _probe(host, mux_args)
-        if rc != 0:
-            raise WanGPError(
-                f"audio mux failed for {raw_host!r} (ffmpeg rc={rc}: "
-                f"{err.strip()[:200]})")
-        mux_local = str(inp.raw_render_path).rsplit(".", 1)[0] + ".mux.mp4"
-        fetcher = getattr(host, "fetch_file", None)
-        if callable(fetcher):
-            fetcher(mux_host, mux_local)
-        return _P(mux_local)
+    # Do not replace generated audio here. Pull the untouched native AV
+    # artifact so speech QC can expose loss of audio conditioning.
     fetcher = getattr(host, "fetch_file", None)
     if callable(fetcher):
         fetcher(raw_host, str(inp.raw_render_path))
@@ -1229,6 +1252,8 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
         evidence = _rt.run_ref2va_runtime(inp)
     except _rt.Ref2VARuntimeError as e:
         raise WanGPError(f"ref2va runtime rejected the job: {e}") from e
+    (render_dir / "runtime-evidence.json").write_text(
+        json.dumps(evidence, indent=2, sort_keys=True) + "\n")
 
     class _JobRenderResult:
         lane = REF2VA_LANE
