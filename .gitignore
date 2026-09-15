@@ -4,6 +4,18 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
+# Local desktop/agent metadata (never part of the harness source).
+.DS_Store
+.cos-smoke/
+.paivot/
+
+# Queue state and pulled render outputs are reproducible runtime artifacts;
+# keep them on disk for inspection without making them release inputs.
+datasets/*.db
+datasets/*.db-*
+datasets/*runs.jsonl
+datasets/runs/pull/
+
 # S4 film media intermediates (kept on disk, not in git — see s4/S4_DELIVERY.md)
 s4/films/satans-mom/renders/
 s4/films/satans-mom/remux/
