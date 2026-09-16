@@ -1,6 +1,7 @@
 # 69 — chain-source hashing still trusted remote-only bytes
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #100 / commit `ff1bf2a`; fail-closed streaming chain-source
+identity is on `main`.
 
 ## Evidence
 
@@ -39,3 +40,11 @@ The complete #62–#69 source-only follow-up stack passed:
 
 Evidence:
 `datasets/runs/provenance/qodo-followups-20260916/fullsuite.xml`.
+
+## Resolution
+
+`services/director/wiring.py` requires the accepted local chain source,
+hashes it with `hashlib.file_digest`, and verifies remote identity before
+extraction. Regression coverage is in `tests/test_director_wiring.py`; the
+committed stack-suite JUnit remains available. The full suite at `9b70be1`
+passed 1380 tests with one intentional skip and no failures.
