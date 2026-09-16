@@ -1,0 +1,31 @@
+{
+  "audio_guide": "/private/tmp/wangp-dspy-single-ledger-main70-fixed/assets/lf002-two-cut-20260913/prepared/nell-guide.wav",
+  "audio_policy": {
+    "discard_rendered_audio": false,
+    "remux_source": "source_master",
+    "remux_window": [
+      0.0,
+      2.3333333333333335
+    ]
+  },
+  "audio_provenance": {
+    "keeper_window_s": [
+      0.0,
+      2.3333333333333335
+    ],
+    "source_master": "/private/tmp/wangp-dspy-single-ledger-main70-fixed/assets/lf002-two-cut-20260913/prepared/nell-guide.wav",
+    "vocal_stem": "/private/tmp/wangp-dspy-single-ledger-main70-fixed/assets/lf002-two-cut-20260913/prepared/nell-guide.wav",
+    "whisper_map": "/private/tmp/wangp-dspy-single-ledger-main70-fixed/assets/lf002-two-cut-20260913/prepared/nell-guide.wav"
+  },
+  "audio_qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  }
+}
