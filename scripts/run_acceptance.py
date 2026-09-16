@@ -352,6 +352,14 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                 "dirty acceptance runs require WANGP_DIRTY_RUN_REASON")
     premise = _premise(bundle)
     inputs = _normalize_inputs(bundle, premise, root=ROOT)
+    golden_canary_spec = bundle.get("golden_canary")
+    if golden_canary_spec is not None and (
+            not isinstance(golden_canary_spec, Mapping)
+            or golden_canary_spec.get("recipe_version")
+            != "lf002-archive-of-rain-20260916-seed905-native-v1"):
+        raise AcceptanceBundleError(
+            "golden_canary.recipe_version must identify the pinned LF002 "
+            "native control")
     run_id = str(bundle["run_id"])
     if not run_id.strip():
         raise AcceptanceBundleError("run_id must be non-empty")
@@ -401,6 +409,24 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                 f"acceptance drain did not complete all jobs: {states}")
         videos = [job.clips[0]["mp4"] for job in jobs]
         assembly = assemble_media(videos, str(output))
+        golden_canary = None
+        if golden_canary_spec is not None:
+            if len(jobs) < 2:
+                raise AcceptanceBundleError(
+                    "LF002 golden canary requires two completed cuts")
+            from predict import lf002_canary
+            try:
+                golden_canary = lf002_canary.verify_lf002_canary(
+                    cut1=str(Path(jobs[0].clips[0]["mp4"]).with_name(
+                        "raw.mp4")),
+                    cut2=str(Path(jobs[1].clips[0]["mp4"]).with_name(
+                        "raw.mp4")),
+                    pair=str(output),
+                    chain=str(jobs[1].clips[0].get("image_start")),
+                    report_path=str(output.parent / "lf002-canary.json"))
+            except lf002_canary.LF002CanaryError as exc:
+                raise AcceptanceBundleError(
+                    f"LF002 golden canary rejected the run: {exc}") from exc
     finally:
         queue.close()
 
@@ -410,6 +436,7 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         payload={"premise_id": premise.id, "clip_count": len(job_ids),
                  "audio_carrier": "native_h3",
                  "handled": handled, "assembly": assembly,
+                 "golden_canary": golden_canary,
                  "repository_provenance": identity,
                  "dirty_run_reason": dirty_run_reason,
                  "bundle": str(bundle_file),

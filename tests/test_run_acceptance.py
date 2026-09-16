@@ -361,3 +361,66 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
     assert len(result["job_ids"]) == 6
     assert output.is_file()
     assert Path(result["ledger_path"]).is_file()
+
+
+def test_lf002_golden_canary_is_mandatory_when_requested(
+        tmp_path, monkeypatch):
+    bundle = _bundle(tmp_path)
+    bundle["expected_cuts"] = 2
+    bundle["golden_canary"] = {
+        "recipe_version": "lf002-archive-of-rain-20260916-seed905-native-v1"}
+    bundle["script_lines"] = bundle["script_lines"][:2]
+    bundle["audio_paths"] = bundle["audio_paths"][:2]
+    bundle["plate_paths"] = bundle["plate_paths"][:2]
+    bundle["media_manifest"]["audio"] = (
+        bundle["media_manifest"]["audio"][:2])
+    path = tmp_path / "staging.json"
+    path.write_text(json.dumps(bundle))
+    output = tmp_path / "assembled.mp4"
+
+    def fake_drain(queue, *, host, vision_judge):
+        for jid in queue.list_state("pending"):
+            job = queue.get(jid)
+            for state in ("preflight", "rendering"):
+                queue.set_state(jid, state)
+            mp4 = tmp_path / f"{jid}.mp4"
+            mp4.write_bytes(b"mp4")
+            queue.update_clip(jid, job.clips[0]["clip_index"],
+                              status="rendered", log="render.log",
+                              mp4=str(mp4), qc_verdict=None)
+            for state in ("rendered_pending_qc", "qc", "done"):
+                queue.set_state(jid, state)
+        return queue.list_state("done")
+
+    monkeypatch.setattr(
+        "scripts.run_acceptance.run_jobs.drain_once", fake_drain)
+
+    def fake_assemble(paths, out):
+        Path(out).write_bytes(b"assembled")
+        return {"output_path": str(out), "video_paths": list(paths)}
+
+    monkeypatch.setattr(
+        "scripts.run_acceptance.assemble_media", fake_assemble)
+    monkeypatch.setattr(
+        "scripts.run_acceptance.repository_identity",
+        lambda _root: {"clean_tree": True, "dirty_tree": False})
+
+    calls = []
+
+    def verify(**kwargs):
+        calls.append(kwargs)
+        return {"passed": True, "fixture": True}
+
+    monkeypatch.setattr(
+        "predict.lf002_canary.verify_lf002_canary", verify)
+    result = run_bundle(path, db_path=tmp_path / "jobs.db",
+                        output_path=output, host=type("Host", (), {
+                            "map_asset": staticmethod(
+                                lambda path: f"/remote/{path}"),
+                            "makedirs": staticmethod(lambda _path: None),
+                            "push_asset": staticmethod(lambda _path: None),
+                        })(), vision_judge=lambda **_: {})
+    assert len(calls) == 1
+    assert calls[0]["pair"] == str(output)
+    assert result["completed_record"]["payload"]["golden_canary"] == {
+        "passed": True, "fixture": True}
