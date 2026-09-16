@@ -34,7 +34,8 @@ from services.director.renderers.h3_recipe import (
 
 __all__ = ["WiringError", "plan_to_clips", "advance_chain",
     "sanitize_runtime_tokens", "chain_last_frame_ref",
-           "DEFAULT_RE_ANCHOR_EVERY", "assemble_media"]
+           "DEFAULT_RE_ANCHOR_EVERY", "assemble_media",
+           "probe_local_ffmpeg"]
 
 DEFAULT_RE_ANCHOR_EVERY = 3
 
@@ -470,10 +471,49 @@ class MediaAssemblyError(ValueError):
     """Typed rejection of missing or failed rendered media assembly."""
 
 
+def _libavformat_identity(version_output: str) -> Optional[str]:
+    """Normalize ffmpeg's libavformat line to the container identity."""
+    import re
+
+    match = re.search(
+        r"(?mi)^\s*libavformat\s+(\d+)\.\s*(\d+)\.\s*(\d+)\b",
+        version_output)
+    if match is None:
+        return None
+    major, minor, micro = match.groups()
+    return f"Lavf{major}.{minor}.{micro}"
+
+
+def probe_local_ffmpeg(executable: str) -> tuple[str, str]:
+    """Probe a local ffmpeg executable without interpreting a shell string."""
+    import subprocess
+
+    try:
+        probe = subprocess.run(
+            [executable, "-version"],
+            capture_output=True, text=True, check=False, timeout=30)
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise MediaAssemblyError(
+            f"unable to validate local ffmpeg {executable!r}: {exc}") from exc
+    if probe.returncode != 0:
+        raise MediaAssemblyError(
+            f"local ffmpeg version probe failed for {executable!r}"
+            f": {probe.stderr.strip()[:240]}")
+    output = probe.stdout or ""
+    version_line = next((line for line in output.splitlines() if line.strip()), "")
+    libavformat = _libavformat_identity(output)
+    if libavformat is None:
+        raise MediaAssemblyError(
+            "local ffmpeg version probe did not report libavformat for "
+            f"{executable!r}")
+    return version_line, libavformat
+
+
 def assemble_media(video_paths: Sequence[str], output_path: str, *,
                    runner=None, host=None,
                    ffmpeg_executable: str = "ffmpeg",
-                   expected_ffmpeg_version: Optional[str] = None) -> dict:
+                   expected_ffmpeg_version: Optional[str] = None,
+                   validated_ffmpeg_version: Optional[str] = None) -> dict:
     """Concatenate rendered cut artifacts through the repo-owned ffmpeg seam.
 
     Paths are validated locally and passed as an argv list to the injected
@@ -508,20 +548,12 @@ def assemble_media(video_paths: Sequence[str], output_path: str, *,
         raise MediaAssemblyError("assembly output must not overwrite a source cut")
     ffmpeg_version = None
     if host is None and expected_ffmpeg_version:
-        try:
-            probe = subprocess.run(
-                [ffmpeg_executable, "-version"],
-                capture_output=True, text=True, check=False, timeout=30)
-        except (OSError, subprocess.SubprocessError) as exc:
-            raise MediaAssemblyError(
-                f"unable to validate local ffmpeg {ffmpeg_executable!r}: "
-                f"{exc}") from exc
-        if probe.returncode != 0:
-            raise MediaAssemblyError(
-                f"local ffmpeg version probe failed for {ffmpeg_executable!r}"
-                f": {probe.stderr.strip()[:240]}")
-        ffmpeg_version = probe.stdout.splitlines()[0] if probe.stdout else ""
-        if expected_ffmpeg_version not in ffmpeg_version:
+        if validated_ffmpeg_version is None:
+            _version_line, ffmpeg_version = probe_local_ffmpeg(
+                ffmpeg_executable)
+        else:
+            ffmpeg_version = validated_ffmpeg_version
+        if ffmpeg_version != expected_ffmpeg_version:
             raise MediaAssemblyError(
                 "local ffmpeg version mismatch: golden assembly requires "
                 f"{expected_ffmpeg_version!r}, selected "

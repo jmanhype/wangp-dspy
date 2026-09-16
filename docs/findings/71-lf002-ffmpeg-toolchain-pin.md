@@ -30,3 +30,8 @@ The exact artifact canary remains the final authority.
 The strict single-ledger run at `ae15b7a` produced the exact pinned pair with
 the local `Lavf62.3.100` ffmpeg build. This PR adds the missing preflight and
 explicit executable selection for future workstations.
+
+## Follow-up
+
+Finding #72 corrects the ffmpeg identity parser and moves LF002 toolchain
+validation ahead of staging and rendering.

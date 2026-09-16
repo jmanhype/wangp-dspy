@@ -21,7 +21,11 @@ if str(ROOT) not in sys.path:
 
 from scripts import run_jobs  # noqa: E402
 from services.director.run_ledger import repository_identity  # noqa: E402
-from services.director.wiring import assemble_media  # noqa: E402
+from services.director.wiring import (
+    MediaAssemblyError,
+    assemble_media,
+    probe_local_ffmpeg,
+)  # noqa: E402
 
 
 class AcceptanceBundleError(ValueError):
@@ -197,7 +201,7 @@ def _require_completed_qc_evidence(clip: Mapping, *,
         return
 
 
-def _lf002_ffmpeg_config() -> tuple[str, str]:
+def _lf002_ffmpeg_config() -> tuple[str, str, str]:
     """Resolve the explicit local ffmpeg used by the pinned LF002 pair."""
     executable = os.environ.get("WANGP_LF002_FFMPEG", "").strip()
     expected = os.environ.get(
@@ -215,7 +219,16 @@ def _lf002_ffmpeg_config() -> tuple[str, str]:
         raise AcceptanceBundleError(
             f"WANGP_LF002_FFMPEG is not an executable absolute path: "
             f"{executable!r}")
-    return str(path), expected
+    try:
+        _version_line, actual_version = probe_local_ffmpeg(str(path))
+    except MediaAssemblyError as exc:
+        raise AcceptanceBundleError(f"LF002 {exc}") from exc
+    if actual_version != expected:
+        raise AcceptanceBundleError(
+            "LF002 ffmpeg version mismatch: golden assembly requires "
+            f"{expected!r}, selected {str(path)!r} reported "
+            f"{actual_version!r}")
+    return str(path), expected, actual_version
 
 
 def _prepare_completed_prefix(plan, prefix: Mapping,
@@ -406,6 +419,12 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         raise AcceptanceBundleError(
             "golden_canary.recipe_version must identify the pinned LF002 "
             "native control")
+    ffmpeg_executable = "ffmpeg"
+    expected_ffmpeg_version = None
+    validated_ffmpeg_version = None
+    if golden_canary_spec is not None:
+        (ffmpeg_executable, expected_ffmpeg_version,
+         validated_ffmpeg_version) = _lf002_ffmpeg_config()
     durations_s = bundle.get("durations_s")
     if durations_s is not None:
         if not isinstance(durations_s, (list, tuple)):
@@ -475,8 +494,6 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         videos = [job.clips[0]["mp4"] for job in jobs]
         assembly_videos = videos
         assembly_host = None
-        ffmpeg_executable = "ffmpeg"
-        expected_ffmpeg_version = None
         if golden_canary_spec is not None:
             # The pinned LF002 pair is a byte-exact local ffmpeg derivative:
             # assemble sibling native raw artifacts with the same local ffmpeg
@@ -488,12 +505,11 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                 for video in videos
             ]
             assembly_host = None
-            ffmpeg_executable, expected_ffmpeg_version = (
-                _lf002_ffmpeg_config())
         assembly = assemble_media(
             assembly_videos, str(output), host=assembly_host,
             ffmpeg_executable=ffmpeg_executable,
-            expected_ffmpeg_version=expected_ffmpeg_version)
+            expected_ffmpeg_version=expected_ffmpeg_version,
+            validated_ffmpeg_version=validated_ffmpeg_version)
         golden_canary = None
         if golden_canary_spec is not None:
             if len(jobs) < 2:
