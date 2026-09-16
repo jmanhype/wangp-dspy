@@ -51,12 +51,38 @@ def test_assemble_media_can_use_explicit_local_ffmpeg_executable(tmp_path):
     assert result["ffmpeg_executable"] == str(executable)
 
 
+def test_assemble_media_validates_libavformat_from_full_version_output(
+        tmp_path):
+    source = pathlib.Path(tmp_path) / "cut.mp4"
+    source.write_bytes(b"video")
+    output = pathlib.Path(tmp_path) / "film.mp4"
+    executable = pathlib.Path(tmp_path) / "pinned-ffmpeg"
+    executable.write_text(
+        "#!/bin/sh\n"
+        "printf 'ffmpeg version 8.0.1 Copyright (c) 2026\\n'\n"
+        "printf 'libavformat    62.  3.100 / 62.  3.100\\n'\n"
+    )
+    executable.chmod(0o755)
+
+    def run(_argv):
+        output.write_bytes(b"assembled")
+        return SimpleNamespace(returncode=0)
+
+    result = assemble_media(
+        [str(source)], str(output), runner=run,
+        ffmpeg_executable=str(executable),
+        expected_ffmpeg_version="Lavf62.3.100")
+    assert result["ffmpeg_version"] == "Lavf62.3.100"
+
+
 def test_assemble_media_rejects_wrong_local_ffmpeg_version(tmp_path):
     source = pathlib.Path(tmp_path) / "cut.mp4"
     source.write_bytes(b"video")
     executable = pathlib.Path(tmp_path) / "wrong-ffmpeg"
     executable.write_text(
-        "#!/bin/sh\nprintf 'ffmpeg version wrong build Lavf60.16.100\\n'\n")
+        "#!/bin/sh\n"
+        "printf 'ffmpeg version 8.0.1 Copyright (c) 2026\\n'\n"
+        "printf 'libavformat    60. 16.100 / 60. 16.100\\n'\n")
     executable.chmod(0o755)
 
     with pytest.raises(MediaAssemblyError, match="ffmpeg version mismatch"):

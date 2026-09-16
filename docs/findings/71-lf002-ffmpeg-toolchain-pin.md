@@ -24,3 +24,8 @@ For LF002 golden-canary runs:
 - persist the selected executable and probed version in assembly evidence.
 
 The exact artifact canary remains the final authority.
+
+## Follow-up
+
+Finding #72 corrects the ffmpeg identity parser and moves LF002 toolchain
+validation ahead of staging and rendering.

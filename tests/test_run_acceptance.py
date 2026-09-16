@@ -476,10 +476,11 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
     assemble_calls = []
 
     def fake_assemble(paths, out, host=None, *, ffmpeg_executable="ffmpeg",
-                      expected_ffmpeg_version=None):
+                      expected_ffmpeg_version=None,
+                      validated_ffmpeg_version=None):
         assemble_calls.append((
             list(paths), out, host, ffmpeg_executable,
-            expected_ffmpeg_version))
+            expected_ffmpeg_version, validated_ffmpeg_version))
         Path(out).write_bytes(b"assembled")
         return {"output_path": str(out), "video_paths": list(paths)}
     monkeypatch.setattr("scripts.run_acceptance.assemble_media",
@@ -516,7 +517,10 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     path.write_text(json.dumps(bundle))
     output = tmp_path / "assembled.mp4"
     pinned_ffmpeg = tmp_path / "pinned-ffmpeg"
-    pinned_ffmpeg.write_text("#!/bin/sh\nexit 0\n")
+    pinned_ffmpeg.write_text(
+        "#!/bin/sh\n"
+        "printf 'ffmpeg version 8.0.1 Copyright (c) 2026\\n'\n"
+        "printf 'libavformat    62.  3.100 / 62.  3.100\\n'\n")
     pinned_ffmpeg.chmod(0o755)
 
     def fake_drain(queue, *, host, vision_judge):
@@ -540,10 +544,11 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     assemble_calls = []
 
     def fake_assemble(paths, out, host=None, *, ffmpeg_executable="ffmpeg",
-                      expected_ffmpeg_version=None):
+                      expected_ffmpeg_version=None,
+                      validated_ffmpeg_version=None):
         assemble_calls.append((
             list(paths), out, host, ffmpeg_executable,
-            expected_ffmpeg_version))
+            expected_ffmpeg_version, validated_ffmpeg_version))
         Path(out).write_bytes(b"assembled")
         return {"output_path": str(out), "video_paths": list(paths)}
 
@@ -577,8 +582,57 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     assert assemble_calls[0][2] is None
     assert assemble_calls[0][3] == str(pinned_ffmpeg)
     assert assemble_calls[0][4] == "Lavf62.3.100"
+    assert assemble_calls[0][5] == "Lavf62.3.100"
     assert result["completed_record"]["payload"]["golden_canary"] == {
         "passed": True, "fixture": True}
+
+
+def test_lf002_invalid_ffmpeg_fails_before_staging_or_queue(
+        tmp_path, monkeypatch):
+    bundle = _bundle(tmp_path)
+    bundle["expected_cuts"] = 2
+    bundle["golden_canary"] = {
+        "recipe_version": "lf002-archive-of-rain-20260916-seed905-native-v1"}
+    bundle["script_lines"] = bundle["script_lines"][:2]
+    bundle["audio_paths"] = bundle["audio_paths"][:2]
+    bundle["plate_paths"] = bundle["plate_paths"][:2]
+    bundle["media_manifest"]["audio"] = (
+        bundle["media_manifest"]["audio"][:2])
+    path = tmp_path / "staging.json"
+    path.write_text(json.dumps(bundle))
+    executable = tmp_path / "wrong-ffmpeg"
+    executable.write_text(
+        "#!/bin/sh\n"
+        "printf 'ffmpeg version 8.0.1 Copyright (c) 2026\\n'\n"
+        "printf 'libavformat    60. 16.100 / 60. 16.100\\n'\n")
+    executable.chmod(0o755)
+    db_path = tmp_path / "jobs.db"
+    ledger_path = tmp_path / "runs.jsonl"
+    output_path = tmp_path / "assembled.mp4"
+
+    def forbidden_stage(*_args, **_kwargs):
+        raise AssertionError("invalid ffmpeg configuration must not stage")
+
+    def forbidden_director_run(*_args, **_kwargs):
+        raise AssertionError("invalid ffmpeg configuration must not plan")
+
+    monkeypatch.setattr(
+        "scripts.run_acceptance._stage_media_inputs", forbidden_stage)
+    monkeypatch.setattr(
+        "services.director.run.DirectorRun", forbidden_director_run)
+    monkeypatch.setattr(
+        "scripts.run_acceptance.repository_identity",
+        lambda _root: {"clean_tree": True, "dirty_tree": False})
+    monkeypatch.setenv("WANGP_LF002_FFMPEG", str(executable))
+    monkeypatch.setenv("WANGP_LF002_FFMPEG_EXPECTED", "Lavf62.3.100")
+
+    with pytest.raises(AcceptanceBundleError, match="version mismatch"):
+        run_bundle(path, db_path=db_path, ledger_path=ledger_path,
+                   output_path=output_path, host=object(),
+                   vision_judge=lambda **_: {})
+    assert not db_path.exists()
+    assert not ledger_path.exists()
+    assert not output_path.exists()
 
 
 def test_lf002_golden_run_requires_explicit_ffmpeg_configuration(
