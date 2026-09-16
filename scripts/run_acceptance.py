@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import os
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -18,6 +19,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import run_jobs  # noqa: E402
+from services.director.run_ledger import repository_identity  # noqa: E402
 from services.director.wiring import assemble_media  # noqa: E402
 
 
@@ -280,6 +282,19 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     """Execute one acceptance bundle through repo-owned seams."""
     bundle_file = Path(bundle_path).expanduser().resolve()
     bundle = _load_bundle(bundle_file)
+    identity = repository_identity(ROOT)
+    dirty_run_reason = None
+    if identity.get("dirty_tree", True):
+        if os.environ.get("WANGP_ALLOW_DIRTY_RUN") != "1":
+            raise AcceptanceBundleError(
+                "acceptance requires a clean repository tree; set "
+                "WANGP_ALLOW_DIRTY_RUN=1 and WANGP_DIRTY_RUN_REASON for "
+                "an explicitly non-release experiment")
+        dirty_run_reason = str(
+            os.environ.get("WANGP_DIRTY_RUN_REASON", "")).strip()
+        if not dirty_run_reason:
+            raise AcceptanceBundleError(
+                "dirty acceptance runs require WANGP_DIRTY_RUN_REASON")
     premise = _premise(bundle)
     inputs = _normalize_inputs(bundle, premise, root=ROOT)
     run_id = str(bundle["run_id"])
@@ -336,6 +351,8 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         payload={"premise_id": premise.id, "clip_count": len(job_ids),
                  "audio_carrier": "native_h3",
                  "handled": handled, "assembly": assembly,
+                 "repository_provenance": identity,
+                 "dirty_run_reason": dirty_run_reason,
                  "bundle": str(bundle_file),
                  "bundle_sha256": __import__("hashlib").sha256(
                      bundle_file.read_bytes()).hexdigest()})

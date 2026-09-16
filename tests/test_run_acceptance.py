@@ -54,7 +54,36 @@ def test_bundle_runner_refuses_unregistered_premise(tmp_path):
     bundle["media_manifest"]["premise_id"] = "dg-not-registered"
     path = tmp_path / "staging.json"
     path.write_text(json.dumps(bundle))
+    monkeypatch = pytest.MonkeyPatch()
+    monkeypatch.setattr(
+        "scripts.run_acceptance.repository_identity",
+        lambda _root: {"clean_tree": True, "dirty_tree": False})
     with pytest.raises(AcceptanceBundleError, match="not registered"):
+        run_bundle(path, db_path=tmp_path / "jobs.db")
+    monkeypatch.undo()
+
+
+def test_bundle_runner_refuses_unexplained_dirty_tree(
+        tmp_path, monkeypatch):
+    bundle = _bundle(tmp_path)
+    path = tmp_path / "staging.json"
+    path.write_text(json.dumps(bundle))
+    monkeypatch.setattr(
+        "scripts.run_acceptance.repository_identity",
+        lambda _root: {
+            "repo_root": str(tmp_path), "commit_sha": "a" * 40,
+            "clean_tree": False, "dirty_tree": True,
+            "status_sha256": "b" * 64, "tracked_diff_sha256": "c" * 64,
+            "changed_path_count": 1, "untracked_path_count": 0,
+        })
+    monkeypatch.delenv("WANGP_ALLOW_DIRTY_RUN", raising=False)
+    monkeypatch.delenv("WANGP_DIRTY_RUN_REASON", raising=False)
+    with pytest.raises(AcceptanceBundleError, match="clean repository"):
+        run_bundle(path, db_path=tmp_path / "jobs.db")
+
+    monkeypatch.setenv("WANGP_ALLOW_DIRTY_RUN", "1")
+    monkeypatch.delenv("WANGP_DIRTY_RUN_REASON", raising=False)
+    with pytest.raises(AcceptanceBundleError, match="DIRTY_RUN_REASON"):
         run_bundle(path, db_path=tmp_path / "jobs.db")
 
 
@@ -140,6 +169,9 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
         return {"output_path": str(out), "video_paths": list(paths)}
     monkeypatch.setattr("scripts.run_acceptance.assemble_media",
                         fake_assemble)
+    monkeypatch.setattr(
+        "scripts.run_acceptance.repository_identity",
+        lambda _root: {"clean_tree": True, "dirty_tree": False})
     result = run_bundle(
         path, db_path=tmp_path / "jobs.db", output_path=output,
         host=object(), vision_judge=lambda **_: {})

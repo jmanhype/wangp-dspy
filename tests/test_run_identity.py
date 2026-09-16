@@ -33,6 +33,10 @@ def test_repository_identity_resolves_repo_root_and_head():
     assert identity["commit_sha"] == expected_head
     assert len(identity["commit_sha"]) == 40
     assert all(c in "0123456789abcdef" for c in identity["commit_sha"])
+    assert isinstance(identity["clean_tree"], bool)
+    assert identity["clean_tree"] is not identity["dirty_tree"]
+    assert len(identity["status_sha256"]) == 64
+    assert len(identity["tracked_diff_sha256"]) == 64
 
 
 def test_repository_identity_default_ignores_cwd(monkeypatch, tmp_path):
@@ -91,8 +95,49 @@ def test_write_run_ledger_records_identity_atomically(tmp_path):
     assert not list(tmp_path.glob("*.tmp"))
 
 
+def test_write_run_ledger_preserves_dirty_provenance(tmp_path):
+    from services.director.run_ledger import write_run_ledger
+
+    identity = {
+        "repo_root": "/repo", "commit_sha": "a" * 40,
+        "clean_tree": False, "dirty_tree": True,
+        "status_sha256": "b" * 64,
+        "tracked_diff_sha256": "c" * 64,
+        "changed_path_count": 2, "untracked_path_count": 1,
+    }
+    path = write_run_ledger(
+        tmp_path / "dirty_ledger.json", run_id="dirty-run",
+        identity=identity, status="planned")
+    assert json.loads(path.read_text())["repository"] == identity
+
+
 def test_repository_identity_fails_closed_outside_git(tmp_path):
     from services.director.run_ledger import RepositoryIdentityError, repository_identity
 
     with pytest.raises(RepositoryIdentityError):
         repository_identity(tmp_path)
+
+
+def test_repository_identity_hashes_dirty_tree_state(tmp_path):
+    from services.director.run_ledger import repository_identity
+
+    source_root = Path(
+        _git(Path(__file__).resolve().parents[1], "rev-parse", "--show-toplevel"))
+    clone_root = (tmp_path / "dirty-checkout").resolve()
+    subprocess.run(
+        ["git", "clone", "--no-hardlinks", "--quiet",
+         str(source_root), str(clone_root)],
+        check=True)
+    clean = repository_identity(clone_root)
+    assert clean["clean_tree"] is True
+    assert clean["dirty_tree"] is False
+    assert clean["changed_path_count"] == 0
+
+    (clone_root / "README.md").write_text(
+        (clone_root / "README.md").read_text() + "\ndirty provenance test\n")
+    dirty = repository_identity(clone_root)
+    assert dirty["clean_tree"] is False
+    assert dirty["dirty_tree"] is True
+    assert dirty["changed_path_count"] == 1
+    assert dirty["tracked_diff_sha256"] != clean["tracked_diff_sha256"]
+    assert dirty["status_sha256"] != clean["status_sha256"]

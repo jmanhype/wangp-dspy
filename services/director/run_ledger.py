@@ -11,6 +11,7 @@ import json
 import os
 import subprocess
 import tempfile
+import hashlib
 from pathlib import Path
 from typing import Mapping, Optional
 
@@ -19,7 +20,7 @@ class RepositoryIdentityError(RuntimeError):
     """The run cannot be attributed to a concrete repository revision."""
 
 
-def _git(repo_root: Path, *args: str) -> str:
+def _git(repo_root: Path, *args: str, allow_empty: bool = False) -> str:
     try:
         proc = subprocess.run(
             ["git", "-C", str(repo_root), *args],
@@ -35,7 +36,7 @@ def _git(repo_root: Path, *args: str) -> str:
         raise RepositoryIdentityError(
             f"git {' '.join(args)} failed for {repo_root}: {detail}")
     value = proc.stdout.strip()
-    if not value:
+    if not value and not allow_empty:
         raise RepositoryIdentityError(
             f"git {' '.join(args)} returned no value for {repo_root}")
     return value
@@ -56,7 +57,25 @@ def repository_identity(repo_root: Optional[os.PathLike[str] | str] = None) -> d
     if len(sha) != 40 or any(c not in "0123456789abcdef" for c in sha):
         raise RepositoryIdentityError(
             f"git HEAD is not a lowercase 40-character SHA: {sha!r}")
-    return {"repo_root": str(root), "commit_sha": sha}
+    status = _git(root, "status", "--porcelain=v1",
+                  "--untracked-files=normal", allow_empty=True)
+    tracked_diff = _git(root, "diff", "HEAD", "--full-index",
+                        "--no-ext-diff", allow_empty=True)
+    status_lines = [line for line in status.splitlines() if line.strip()]
+    untracked_count = sum(line.startswith("?? ") for line in status_lines)
+    status_sha = hashlib.sha256(status.encode("utf-8", "replace")).hexdigest()
+    diff_sha = hashlib.sha256(
+        tracked_diff.encode("utf-8", "replace")).hexdigest()
+    return {
+        "repo_root": str(root),
+        "commit_sha": sha,
+        "clean_tree": not bool(status_lines),
+        "dirty_tree": bool(status_lines),
+        "status_sha256": status_sha,
+        "tracked_diff_sha256": diff_sha,
+        "changed_path_count": len(status_lines),
+        "untracked_path_count": untracked_count,
+    }
 
 
 def _validate_identity(identity: Mapping[str, str]) -> dict:
@@ -69,7 +88,35 @@ def _validate_identity(identity: Mapping[str, str]) -> dict:
     if len(sha) != 40 or any(c not in "0123456789abcdef" for c in sha):
         raise RepositoryIdentityError(
             "repository commit_sha must be a lowercase 40-character SHA")
-    return {"repo_root": root, "commit_sha": sha}
+    identity = dict(identity)
+    identity["repo_root"] = root
+    identity["commit_sha"] = sha
+    optional_ints = ("changed_path_count", "untracked_path_count")
+    optional_hashes = ("status_sha256", "tracked_diff_sha256")
+    for key in optional_ints:
+        if key not in identity:
+            continue
+        value = identity.get(key)
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise RepositoryIdentityError(
+                f"repository {key} must be a non-negative integer")
+        identity[key] = value
+    for key in optional_hashes:
+        if key not in identity:
+            continue
+        value = str(identity.get(key, "")).strip()
+        if len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
+            raise RepositoryIdentityError(
+                f"repository {key} must be a lowercase SHA-256")
+        identity[key] = value
+    for key in ("clean_tree", "dirty_tree"):
+        if key in identity:
+            value = identity.get(key)
+            if not isinstance(value, bool):
+                raise RepositoryIdentityError(
+                    f"repository {key} must be boolean")
+            identity[key] = value
+    return identity
 
 
 def write_run_ledger(
