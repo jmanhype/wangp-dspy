@@ -1,6 +1,7 @@
 # 67 — LF002 reproduction did not enforce its golden canary
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #98 / commit `3a95d79`; the LF002 golden canary is a
+mandatory acceptance gate on `main`.
 
 ## Evidence
 
@@ -29,3 +30,12 @@ Qodo review of PR #88 found four reproduction-contract gaps:
 
 The acceptance record now carries the mandatory canary result. A run that
 requests the LF002 golden contract cannot complete with mismatched bytes.
+
+## Resolution
+
+The committed LF002 fresh bundle carries `golden_canary`, the runner invokes
+`predict.lf002_canary.verify_lf002_canary` after assembly, and report errors
+are typed. Regression coverage is in `tests/test_lf002_canary.py` and
+`tests/test_run_acceptance.py`. The committed strict single-ledger evidence
+records `passed: true` with no errors. The full suite at `9b70be1` passed 1380
+tests with one intentional skip and no failures.
