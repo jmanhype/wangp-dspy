@@ -1,6 +1,7 @@
 # 63 — multi-turn transcript scoring masks omitted dialogue
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #94 / commit `a827110`; per-turn transcript attribution
+is on `main`.
 
 ## Evidence
 
@@ -22,3 +23,11 @@ Regression coverage proves:
 long turn present + short turn omitted → fail
 all turns present                     → per-turn scores 1.0
 ```
+
+## Resolution
+
+`predict.continuation_lane._turn_transcript_scores` attributes edit operations
+to intended turns, exposes `turn_scores`, and uses the worst turn as the gate
+summary. Regression coverage is in `tests/test_continuation_lane.py`. The full
+suite at `9b70be1` passed 1380 tests with one intentional skip and no
+failures.
