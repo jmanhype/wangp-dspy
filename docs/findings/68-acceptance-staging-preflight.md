@@ -1,6 +1,7 @@
 # 68 — acceptance staging preflight was incomplete
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #99 / commit `1ae4c0e`; complete staging preflight is on
+`main`.
 
 ## Evidence
 
@@ -25,3 +26,11 @@ Qodo review of PR #89 found three staging gaps:
 
 This prevents invalid bundles from reaching remote staging or creating a
 renderable queue.
+
+## Resolution
+
+`scripts/run_acceptance.py` now completes pure DirectorRun planning with
+`emit_record=False`, validates every local input before mapping/upload, uses
+POSIX destination semantics, and emits the ledger only after staging succeeds.
+Regression coverage is in `tests/test_run_acceptance.py`. The full suite at
+`9b70be1` passed 1380 tests with one intentional skip and no failures.
