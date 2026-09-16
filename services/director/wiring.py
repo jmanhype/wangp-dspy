@@ -16,6 +16,9 @@ chain re-anchors on the original anchor plate to stop drift.
 """
 from __future__ import annotations
 
+import hashlib
+from pathlib import Path
+
 from typing import Any, Dict, List, Optional, Sequence
 
 from services.director.renderers.h3_recipe import (
@@ -361,17 +364,34 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
             # transport before invoking remote ffmpeg.
             rc, _out, _err = host.run_probe(
                 ["test", "-f", remote_mp4], timeout=60)
-            if rc != 0:
-                from pathlib import Path
+            local_source = Path(str(mp4))
+            local_hash = None
+            if local_source.is_file():
+                local_hash = hashlib.sha256(
+                    local_source.read_bytes()).hexdigest()
+            remote_is_current = False
+            if rc == 0:
+                remote_is_current = local_hash is None
+                if local_hash is not None:
+                    hash_rc, hash_out, _hash_err = host.run_probe(
+                        ["sha256sum", remote_mp4], timeout=60)
+                    remote_hash = (hash_out.split()[0]
+                                   if hash_rc == 0 and hash_out.split()
+                                   else "")
+                    remote_is_current = remote_hash == local_hash
+            if not remote_is_current:
                 pusher = getattr(host, "push_file", None)
                 if not callable(pusher) or not Path(str(mp4)).is_file():
                     raise WiringError(
                         "accepted chain source is local-only and cannot be "
                         f"published to host: {mp4!r} -> {remote_mp4!r}")
                 pusher(str(mp4), remote_mp4)
-                verify_rc, _vo, verify_err = host.run_probe(
-                    ["test", "-f", remote_mp4], timeout=60)
-                if verify_rc != 0:
+                verify_rc, verify_out, verify_err = host.run_probe(
+                    ["sha256sum", remote_mp4], timeout=60)
+                verify_hash = (verify_out.split()[0]
+                               if verify_rc == 0 and verify_out.split()
+                               else "")
+                if verify_rc != 0 or verify_hash != local_hash:
                     raise WiringError(
                         "host did not retain published chain source "
                         f"{remote_mp4!r}: {verify_err.strip()[:200]}")
@@ -381,7 +401,6 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
                 raise WiringError(
                     "remote chain extraction requires host.fetch_file()")
             fetcher(remote_png, png)
-            from pathlib import Path
             if not Path(png).is_file():
                 raise WiringError(
                     f"remote chain frame was not pulled to {png!r}")

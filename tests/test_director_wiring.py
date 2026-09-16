@@ -337,7 +337,7 @@ class TestChainAdvance:
             def __init__(self):
                 super().__init__()
                 self.published = []
-                self.remote_files = set()
+                self.remote_files = {}
 
             def map_path(self, path):
                 rel = str(path).removeprefix(self.pull_root).lstrip("/")
@@ -348,6 +348,13 @@ class TestChainAdvance:
                 if argv[:2] == ["test", "-f"]:
                     return (0, "", "") if argv[2] in self.remote_files \
                         else (1, "", "missing")
+                if argv[:1] == ["sha256sum"]:
+                    data = self.remote_files.get(argv[1])
+                    if data is None:
+                        return 1, "", "missing"
+                    import hashlib
+                    digest = hashlib.sha256(data).hexdigest()
+                    return 0, digest + "  " + argv[1], ""
                 if argv[:2] == ["ffmpeg", "-y"]:
                     return 0, "", ""
                 if argv[:2] == ["mkdir", "-p"]:
@@ -356,7 +363,7 @@ class TestChainAdvance:
 
             def push_file(self, local, remote):
                 self.published.append((local, remote))
-                self.remote_files.add(remote)
+                self.remote_files[remote] = pathlib.Path(local).read_bytes()
                 return remote
 
             def fetch_file(self, remote, local):
@@ -373,6 +380,74 @@ class TestChainAdvance:
         ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
         assert len(ffmpeg) == 1
         assert ffmpeg[0][7] == "/remote/wgp/film/render-0000/remux.mp4"
+
+    def test_advance_replaces_stale_remote_final_before_extraction(
+            self, tmp_path):
+        """A occupied remote path is not evidence that it is the local cut."""
+        import hashlib
+        from services.director.wiring import advance_chain
+
+        q, ids, clips = self._queue_with_chain_jobs(tmp_path)
+        local_mp4 = tmp_path / "pull" / "film" / "render-0000" / "remux.mp4"
+        local_mp4.parent.mkdir(parents=True)
+        local_mp4.write_bytes(b"accepted-mp4")
+        expected_hash = hashlib.sha256(local_mp4.read_bytes()).hexdigest()
+        _finish(q, ids[0], clips[0]["clip_index"], str(local_mp4))
+
+        class StaleHost(_FakeHost):
+            pull_root = str(tmp_path / "pull")
+
+            def __init__(self):
+                super().__init__()
+                self.remote_files = {
+                    "/remote/wgp/film/render-0000/remux.mp4": b"stale-mp4"}
+                self.published = []
+
+            def map_path(self, path):
+                rel = str(path).removeprefix(self.pull_root).lstrip("/")
+                return "/remote/wgp/" + rel
+
+            def run_probe(self, argv, timeout=30):
+                self.calls.append(list(argv))
+                remote = argv[2] if len(argv) > 2 else ""
+                if argv[:2] == ["test", "-f"]:
+                    return (0, "", "") if remote in self.remote_files \
+                        else (1, "", "missing")
+                if argv[:1] == ["sha256sum"]:
+                    data = self.remote_files.get(argv[1])
+                    if data is None:
+                        return 1, "", "missing"
+                    return 0, hashlib.sha256(data).hexdigest() + "  " + remote, ""
+                if argv[:2] == ["ffmpeg", "-y"]:
+                    return 0, "", ""
+                if argv[:2] == ["mkdir", "-p"]:
+                    return 0, "", ""
+                return 0, "", ""
+
+            def push_file(self, local, remote):
+                self.published.append((local, remote))
+                self.remote_files[remote] = pathlib.Path(local).read_bytes()
+                return remote
+
+            def fetch_file(self, remote, local):
+                self.calls.append(["fetch", remote, local])
+                pathlib.Path(local).parent.mkdir(parents=True,
+                                                  exist_ok=True)
+                pathlib.Path(local).write_bytes(b"png")
+                return local
+
+        host = StaleHost()
+        advance_chain(q, host, ids[0])
+        assert host.published == [
+            (str(local_mp4), "/remote/wgp/film/render-0000/remux.mp4")]
+        hashes = [c for c in host.calls if c[:1] == ["sha256sum"]]
+        assert len(hashes) == 2  # stale check and post-push verification
+        assert host.remote_files[
+            "/remote/wgp/film/render-0000/remux.mp4"] == b"accepted-mp4"
+        assert hashlib.sha256(
+            host.remote_files[
+                "/remote/wgp/film/render-0000/remux.mp4"]).hexdigest() \
+            == expected_hash
 
 
 # ── run_film dry-run ─────────────────────────────────────────────────
