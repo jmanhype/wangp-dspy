@@ -12,6 +12,7 @@ import hashlib
 import os
 import sqlite3
 import time
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence
 
@@ -48,6 +49,40 @@ class JobRetryError(ValueError):
 def failure_signature(failure_class: str, failure_detail: str) -> str:
     """Stable, content-addressed identity for one failure outcome."""
     raw = f"{failure_class}\n{failure_detail}".encode("utf-8", "replace")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _asset_digest(value) -> object:
+    """Digest an input asset when available; otherwise preserve its path."""
+    if not isinstance(value, str) or not value.strip():
+        return value
+    path = Path(value)
+    try:
+        if not path.is_file():
+            return value
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return value
+
+
+def effective_render_fingerprint(clip: Dict) -> str:
+    """Identity of effective renderer inputs, excluding queue bookkeeping."""
+    if not isinstance(clip, dict):
+        raise ValueError("clip must be a mapping")
+    fields = (
+        "kind", "model_type", "recipe_name", "prompt", "seed", "profile",
+        "resolution", "steps", "image_start", "image_refs", "audio_guide",
+        "video_length", "requested_frames", "image_prompt_type",
+        "video_prompt_type", "audio_prompt_type", "legacy_v2_prompt",
+    )
+    payload = {name: clip.get(name) for name in fields}
+    payload["image_start_asset"] = _asset_digest(clip.get("image_start"))
+    refs = clip.get("image_refs")
+    if isinstance(refs, (list, tuple)):
+        payload["image_ref_assets"] = [_asset_digest(v) for v in refs]
+    payload["audio_guide_asset"] = _asset_digest(clip.get("audio_guide"))
+    raw = json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                     ensure_ascii=False).encode("utf-8", "replace")
     return hashlib.sha256(raw).hexdigest()
 
 
@@ -245,19 +280,46 @@ class JobQueue:
         if not clips:
             raise ValueError("a job needs at least one clip")
         job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
-        for c in clips:
+        prepared = []
+        for original in clips:
+            c = dict(original)
+            c["render_fingerprint"] = effective_render_fingerprint(c)
+            if not c.get("allow_deterministic_replay"):
+                self._reject_failed_fingerprint(c["render_fingerprint"])
             _check_chain_placeholders(c)
             _check_clip_artifacts(c.get("status", "pending"),
                                   c.get("log"), c.get("mp4"),
                                   c.get("qc_verdict"))
+            prepared.append(c)
         self._db.execute(
             "INSERT INTO jobs (job_id, state, plan_ref, clips, "
             "failure_count, failure_class, failure_detail, created_at) "
             "VALUES (?,?,?,?,?,?,?,?)",
-            (job_id, "pending", plan_ref, json.dumps(list(clips)),
+            (job_id, "pending", plan_ref, json.dumps(prepared),
              0, None, None, time.time()))
         self._db.commit()
         return job_id
+
+    def _reject_failed_fingerprint(self, fingerprint: str) -> None:
+        """Refuse a fresh submission identical to failed renderer inputs."""
+        rows = self._db.execute(
+            "SELECT clips FROM jobs "
+            "WHERE state IN ('failed','dead_letter')").fetchall()
+        for row in rows:
+            try:
+                clips = json.loads(row["clips"])
+            except (TypeError, json.JSONDecodeError):
+                continue
+            if not isinstance(clips, list):
+                continue
+            for clip in clips:
+                if (isinstance(clip, dict)
+                        and clip.get("render_fingerprint") == fingerprint):
+                    raise ValueError(
+                        "deterministic replay of failed renderer inputs "
+                        f"(fingerprint {fingerprint[:12]}…); change an "
+                        "effective input such as seed/prompt/refs/guide, "
+                        "or explicitly set allow_deterministic_replay")
 
     def set_state(self, job_id: str, state: str) -> None:
         rec = self.get(job_id)

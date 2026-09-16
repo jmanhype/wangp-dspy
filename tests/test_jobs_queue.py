@@ -6,7 +6,7 @@ import sqlite3
 import pytest
 
 from services.jobs.queue import (JobQueue, JobNotFoundError, JobRecord,
-                                 JobRetryError)
+                                 JobRetryError, effective_render_fingerprint)
 from services.jobs.states import InvalidTransition
 
 
@@ -52,6 +52,33 @@ def test_submit_rejects_orphaned_chain_placeholder(q):
                  "image_refs": ["chain://clip0001/last_frame", "face.png"]})
     with pytest.raises(ValueError, match="chain.*needs"):
         q.submit(plan_ref="p.json", clips=[clip])
+
+
+def test_failed_render_fingerprint_requires_change_or_explicit_replay(q):
+    base = {"clip_index": 1, "status": "pending", "log": None,
+            "mp4": None, "qc_verdict": None,
+            "kind": "ref2va_render", "prompt": "same prompt",
+            "seed": 904, "image_start": "seed.png",
+            "image_refs": ["seed.png", "silent.png"],
+            "audio_guide": "turn.wav", "video_length": 56}
+    first = q.submit(plan_ref="failed-run", clips=[dict(base)])
+    q.set_state(first, "preflight")
+    q.set_state(first, "rendering")
+    q.set_state(first, "failed")
+    assert q.get(first).clips[0]["render_fingerprint"] == (
+        effective_render_fingerprint(base))
+
+    with pytest.raises(ValueError, match="deterministic replay"):
+        q.submit(plan_ref="fake-regen", clips=[dict(base)])
+
+    changed = dict(base, seed=905)
+    second = q.submit(plan_ref="real-regen", clips=[changed])
+    assert q.get(second).clips[0]["render_fingerprint"] != (
+        q.get(first).clips[0]["render_fingerprint"])
+
+    explicit = dict(base, allow_deterministic_replay=True)
+    third = q.submit(plan_ref="explicit-replay", clips=[explicit])
+    assert q.get(third).clips[0]["allow_deterministic_replay"] is True
 
 
 def test_clip_artifact_claims_require_paths(q):
