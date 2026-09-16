@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 from typing import Mapping, Optional
 
-from services.director.run_ledger import repository_identity
+from services.director.run_ledger import _validate_identity, repository_identity
 
 
 class DatasetRunError(ValueError):
@@ -22,13 +22,12 @@ def append_dataset_run(path: str | Path, *, run_id: str, status: str,
         raise DatasetRunError("run_id: required")
     if not isinstance(status, str) or not status.strip():
         raise DatasetRunError("status: required")
-    identity = repository_identity(repo_root)
+    identity = _validate_identity(repository_identity(repo_root))
     record = {
         "schema_version": 1,
         "run_id": run_id,
         "status": status,
-        "repository": {"repo_root": identity["repo_root"],
-                        "commit_sha": identity["commit_sha"]},
+        "repository": identity,
         "payload": dict(payload or {}),
     }
     canonical = json.dumps(record, sort_keys=True,
