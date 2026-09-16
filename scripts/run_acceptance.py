@@ -275,6 +275,30 @@ def _submit_completed_prefix(plan, queue, prefix: Mapping,
     return ids
 
 
+def _stage_media_inputs(inputs: Mapping, host) -> None:
+    """Publish every local bundle input through the RenderHost contract."""
+    mapper = getattr(host, "map_asset", None)
+    makedirs = getattr(host, "makedirs", None)
+    pusher = getattr(host, "push_asset", None)
+    if not all(callable(value) for value in (mapper, makedirs, pusher)):
+        raise AcceptanceBundleError(
+            "acceptance staging requires RenderHost map_asset/makedirs/"
+            "push_asset; refusing direct transport")
+    paths = {str(path) for path in inputs["media"]["plates"].values()}
+    paths.update(str(entry["path"]) for entry in inputs["media"]["audio"])
+    for item in inputs["plates"]:
+        values = item if isinstance(item, (list, tuple)) else (item,)
+        paths.update(str(path) for path in values)
+    for local in sorted(paths):
+        try:
+            remote = mapper(local)
+            makedirs(remote.rsplit("/", 1)[0])
+            pusher(local)
+        except Exception as exc:
+            raise AcceptanceBundleError(
+                f"RenderHost staging failed for {local}: {exc}") from exc
+
+
 def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                ledger_path: str | Path | None = None,
                output_path: str | Path | None = None,
@@ -305,6 +329,12 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     output = Path(output_path or ROOT / "datasets" / "runs" / "pull" /
                   run_id / "assembled.mp4").resolve()
 
+    # Resolve host/judge and stage inputs before creating a queue. Missing
+    # credentials or transport seams must not leave renderable jobs behind.
+    host = host or run_jobs._default_host()
+    judge = vision_judge or run_jobs._default_vision_judge(host=host)
+    _stage_media_inputs(inputs, host)
+
     from services.director.run import DirectorRun
     from services.jobs.queue import JobQueue
     run = DirectorRun(run_id=run_id, premise=premise,
@@ -318,10 +348,8 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                     seed_override=bundle.get("seed", 904))
     queue = JobQueue(str(db))
     try:
-        # Resolve credentials and host before submitting anything.  Missing
-        # vision credentials must not leave a queue full of renderable jobs.
-        host = host or run_jobs._default_host()
-        judge = vision_judge or run_jobs._default_vision_judge(host=host)
+        # Credentials and input staging have already succeeded; queue only
+        # the fully resolved plan.
         prefix = bundle.get("completed_prefix")
         if prefix is None:
             job_ids = run.submit(plan, queue)

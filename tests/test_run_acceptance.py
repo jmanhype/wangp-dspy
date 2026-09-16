@@ -141,6 +141,57 @@ def test_completed_prefix_adopts_verified_cut_and_dependencies(tmp_path):
         target.close()
 
 
+def test_acceptance_stages_all_media_through_render_host():
+    from types import SimpleNamespace
+
+    from scripts.run_acceptance import _stage_media_inputs
+
+    calls = []
+
+    def map_asset(path):
+        calls.append(("map", path))
+        return f"/remote/{path}"
+
+    host = SimpleNamespace(
+        map_asset=map_asset,
+        makedirs=lambda path: calls.append(("mkdir", path)),
+        push_asset=lambda path: calls.append(("push", path)),
+    )
+    inputs = {
+        "plates": [["local/anchor.png", "local/silent.png"]],
+        "media": {
+            "plates": {
+                "anchor": "local/anchor.png",
+                "Speaker": "local/speaker.png",
+            },
+            "audio": [{"path": "local/turn.wav"}],
+        },
+    }
+    _stage_media_inputs(inputs, host)
+    assert calls == [
+        ("map", "local/anchor.png"),
+        ("mkdir", "/remote/local"),
+        ("push", "local/anchor.png"),
+        ("map", "local/silent.png"),
+        ("mkdir", "/remote/local"),
+        ("push", "local/silent.png"),
+        ("map", "local/speaker.png"),
+        ("mkdir", "/remote/local"),
+        ("push", "local/speaker.png"),
+        ("map", "local/turn.wav"),
+        ("mkdir", "/remote/local"),
+        ("push", "local/turn.wav"),
+    ]
+
+
+def test_acceptance_staging_requires_render_host_seams():
+    from scripts.run_acceptance import _stage_media_inputs
+
+    with pytest.raises(AcceptanceBundleError, match="RenderHost"):
+        _stage_media_inputs(
+            {"plates": [], "media": {"plates": {}, "audio": []}}, object())
+
+
 def test_bundle_runner_executes_repo_seams_and_records_assembly(
         tmp_path, monkeypatch):
     bundle = _bundle(tmp_path)
@@ -172,9 +223,14 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
     monkeypatch.setattr(
         "scripts.run_acceptance.repository_identity",
         lambda _root: {"clean_tree": True, "dirty_tree": False})
+    host = type("RenderHostStub", (), {
+        "map_asset": staticmethod(lambda path: f"/remote/{path}"),
+        "makedirs": staticmethod(lambda _path: None),
+        "push_asset": staticmethod(lambda _path: None),
+    })()
     result = run_bundle(
         path, db_path=tmp_path / "jobs.db", output_path=output,
-        host=object(), vision_judge=lambda **_: {})
+        host=host, vision_judge=lambda **_: {})
     assert result["run_id"] == "acceptance-test"
     assert len(result["job_ids"]) == 6
     assert output.is_file()
