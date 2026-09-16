@@ -1,6 +1,7 @@
 # 65 — completed-prefix reuse was not dependency- and QC-complete
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #96 / commit `c7a910b`; dependency- and QC-complete
+completed-prefix validation is on `main`.
 
 ## Evidence
 
@@ -24,3 +25,12 @@ after their immediate predecessor failed, with unresolved chain placeholders.
 
 QC evidence may be a path to an existing evidence file or the embedded Ref2VA
 QC document; empty placeholders are rejected.
+
+## Resolution
+
+The acceptance runner, drain path, DirectorRun planner, and durable queue now
+enforce immediate-predecessor dependencies, completed source state, usable QC
+evidence, and typed rejection of empty plate input. Regression coverage is in
+`tests/test_director_run.py` and `tests/test_run_acceptance.py`. The full
+suite at `9b70be1` passed 1380 tests with one intentional skip and no
+failures.
