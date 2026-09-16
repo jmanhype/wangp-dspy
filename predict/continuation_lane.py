@@ -232,12 +232,38 @@ def words(s: str) -> set:
     return set(re.findall(r"[a-z']+", s.lower()))
 
 
+def _word_tokens(s: str) -> List[str]:
+    return re.findall(r"[a-z']+", s.lower())
+
+
+def transcript_wer(said: str, intended: str) -> float:
+    """Token-level WER: insertions and repetitions lower the score.
+
+    The earlier unordered-set comparison treated “cookie cookie cookie” as a
+    perfect match for “cookie”.  Sequence edit distance preserves order and
+    penalizes every extra generated word.
+    """
+    hyp, ref = _word_tokens(said), _word_tokens(intended)
+    if not ref:
+        return 1.0 if hyp else 0.0
+    previous = list(range(len(ref) + 1))
+    for i, h in enumerate(hyp, 1):
+        current = [i]
+        for j, r in enumerate(ref, 1):
+            current.append(min(
+                previous[j] + 1,             # deletion
+                current[j - 1] + 1,          # insertion
+                previous[j - 1] + (h != r),  # substitution
+            ))
+        previous = current
+    return previous[-1] / len(ref)
+
+
 def transcript_match_score(said: str, intended: str) -> float:
-    """Word-overlap score vs intended line (0..1). PASS bar: >= 0.5."""
-    a, b = words(said), words(intended)
-    if not b:
+    """Sequence-sensitive transcript similarity: ``1 - token WER``."""
+    if not _word_tokens(intended):
         return 0.0
-    return len(a & b) / len(b)
+    return max(0.0, 1.0 - transcript_wer(said, intended))
 
 
 def transcript_judge(settings_doc: dict, *, said: str, intended_turns: List[str],
@@ -248,7 +274,14 @@ def transcript_judge(settings_doc: dict, *, said: str, intended_turns: List[str]
     count, and pass flag). It is evidence about generated speech, not an
     automatic Ref2VA QC pass and not a claim of phonetic A/V synchrony.
     """
-    scores = [transcript_match_score(said, t) for t in intended_turns]
+    if len(intended_turns) > 1:
+        # A film-level transcript is sequence-aware across turns; comparing
+        # the complete utterance to each turn separately would penalize the
+        # presence of the other intended lines.
+        scores = [transcript_match_score(said, " ".join(intended_turns))]
+    else:
+        scores = [transcript_match_score(said, t)
+                  for t in intended_turns]
     worst = min(scores) if scores else 0.0
     return {
         "transcript_words_match": round(worst, 3),

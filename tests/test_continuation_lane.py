@@ -2,7 +2,8 @@
 import pytest
 
 from predict.continuation_lane import (
-    ContinuationExtras, transcript_match_score, transcript_judge, JobConfigError)
+    ContinuationExtras, transcript_match_score, transcript_wer,
+    transcript_judge, JobConfigError)
 
 
 class TestContinuationExtras:
@@ -55,6 +56,19 @@ class TestTranscriptJudge:
 
     def test_empty_intended(self):
         assert transcript_match_score("anything", "") == 0.0
+
+    def test_repetition_insertions_are_penalized(self):
+        intended = "This is the last rain we have."
+        repeated = "This is the last, this is the last grain we have."
+        assert transcript_wer(repeated, intended) > 0.5
+        assert transcript_match_score(repeated, intended) < 0.5
+
+    def test_validated_whisper_mishears_still_pass(self):
+        assert transcript_match_score(
+            "matey, I am on fight!", "Lady, I am on fire!") >= 0.6
+        assert transcript_match_score(
+            "Who hushed now, dear? Have a cookie.",
+            "Oh hush now, dear. Have a cookie.") >= 0.6
 
     def test_judge_pass_and_fail(self):
         turns = ["the water is leaving the harbor", "say again post six"]
