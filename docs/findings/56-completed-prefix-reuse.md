@@ -1,6 +1,7 @@
 # 56 — completed-prefix reuse lacks a repo-owned contract
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #86 / commit `211cbe9`; verified completed-prefix reuse
+is on `main`.
 
 ## Evidence
 
@@ -23,3 +24,12 @@ clip index, and expected native SHA-256. The runner:
 7. records source-job provenance in the new queue.
 
 The prefix is evidence reuse, not artifact adoption by filename.
+
+## Resolution
+
+The acceptance runner, DirectorRun planning, and durable queue now support the
+typed `completed_prefix` contract. Regression coverage is in
+`tests/test_director_run.py` and `tests/test_run_acceptance.py`. Finding #65
+later strengthened dependency and QC validation; it did not reopen the reuse
+contract. The full suite at `9b70be1` passed 1380 tests with one intentional
+skip and no failures.
