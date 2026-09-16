@@ -133,5 +133,10 @@ the local assembly container identifies as `Lavf62.3.100`.
 Evidence:
 `datasets/runs/provenance/lf002-golden-20260916/single-ledger-20260916/`.
 
+For cross-checkout publication, only the canary report's four artifact `path`
+fields were normalized from producer-absolute to repository-relative paths.
+Their hashes, byte counts, and stream metadata are unchanged; the source-report
+hash is recorded in `verification.json`.
+
 Finding #71 subsequently made the local ffmpeg executable/build explicit and
 validated. That validation-only follow-up postdates this successful run.

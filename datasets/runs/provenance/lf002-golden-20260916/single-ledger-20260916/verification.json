@@ -44,5 +44,15 @@
     "All four pinned hashes match the operator-accepted LF002 control.",
     "The prior operator verdict transfers byte-for-byte; this record does not claim a new operator review."
   ],
-  "follow_up": "Finding #71 later pinned the explicit local ffmpeg executable/build; this successful run predates that validation-only follow-up."
+  "follow_up": "Finding #71 later pinned the explicit local ffmpeg executable/build; this successful run predates that validation-only follow-up.",
+  "publication_normalization": {
+    "source_lf002_canary_sha256": "48f50fc56c03267bb8e277b5e4c63067781ca6c2564420e9b6b1c9a353b99166",
+    "changed_fields": "artifacts.*.path only",
+    "normalization": "producer absolute paths replaced by repository-relative paths",
+    "integrity_fields_unchanged": [
+      "sha256",
+      "bytes",
+      "streams"
+    ]
+  }
 }
