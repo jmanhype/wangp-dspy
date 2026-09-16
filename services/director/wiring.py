@@ -471,7 +471,9 @@ class MediaAssemblyError(ValueError):
 
 
 def assemble_media(video_paths: Sequence[str], output_path: str, *,
-                   runner=None, host=None) -> dict:
+                   runner=None, host=None,
+                   ffmpeg_executable: str = "ffmpeg",
+                   expected_ffmpeg_version: Optional[str] = None) -> dict:
     """Concatenate rendered cut artifacts through the repo-owned ffmpeg seam.
 
     Paths are validated locally and passed as an argv list to the injected
@@ -504,7 +506,28 @@ def assemble_media(video_paths: Sequence[str], output_path: str, *,
     # AAC priming/unequal audio durations otherwise move later cut boundaries.
     if output.resolve() in {Path(p).resolve() for p in paths}:
         raise MediaAssemblyError("assembly output must not overwrite a source cut")
-    argv = ["ffmpeg", "-y", "-v", "error"]
+    ffmpeg_version = None
+    if host is None and expected_ffmpeg_version:
+        try:
+            probe = subprocess.run(
+                [ffmpeg_executable, "-version"],
+                capture_output=True, text=True, check=False, timeout=30)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise MediaAssemblyError(
+                f"unable to validate local ffmpeg {ffmpeg_executable!r}: "
+                f"{exc}") from exc
+        if probe.returncode != 0:
+            raise MediaAssemblyError(
+                f"local ffmpeg version probe failed for {ffmpeg_executable!r}"
+                f": {probe.stderr.strip()[:240]}")
+        ffmpeg_version = probe.stdout.splitlines()[0] if probe.stdout else ""
+        if expected_ffmpeg_version not in ffmpeg_version:
+            raise MediaAssemblyError(
+                "local ffmpeg version mismatch: golden assembly requires "
+                f"{expected_ffmpeg_version!r}, selected "
+                f"{ffmpeg_executable!r} reported {ffmpeg_version!r}")
+
+    argv = [ffmpeg_executable, "-y", "-v", "error"]
     for path in paths:
         argv += ["-i", path]
     inputs = "".join(f"[{i}:v][{i}:a]" for i in range(len(paths)))
@@ -556,4 +579,6 @@ def assemble_media(video_paths: Sequence[str], output_path: str, *,
             f"ffmpeg assembly failed (rc={rc}) for {output}; "
             f"inputs={paths}")
     return {"output_path": str(output), "video_paths": paths,
-            "manifest_path": str(manifest), "command": argv}
+            "manifest_path": str(manifest), "command": argv,
+            "ffmpeg_executable": ffmpeg_executable,
+            "ffmpeg_version": ffmpeg_version}

@@ -30,6 +30,42 @@ def test_assemble_media_uses_repo_ffmpeg_argv_and_records_inputs(tmp_path):
         result["manifest_path"]).read_text()
 
 
+def test_assemble_media_can_use_explicit_local_ffmpeg_executable(tmp_path):
+    source = pathlib.Path(tmp_path) / "cut.mp4"
+    source.write_bytes(b"video")
+    output = pathlib.Path(tmp_path) / "film.mp4"
+    executable = pathlib.Path(tmp_path) / "pinned-ffmpeg"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o755)
+    calls = []
+
+    def run(argv):
+        calls.append(list(argv))
+        output.write_bytes(b"assembled")
+        return SimpleNamespace(returncode=0)
+
+    result = assemble_media(
+        [str(source)], str(output), runner=run,
+        ffmpeg_executable=str(executable))
+    assert calls[0][0] == str(executable)
+    assert result["ffmpeg_executable"] == str(executable)
+
+
+def test_assemble_media_rejects_wrong_local_ffmpeg_version(tmp_path):
+    source = pathlib.Path(tmp_path) / "cut.mp4"
+    source.write_bytes(b"video")
+    executable = pathlib.Path(tmp_path) / "wrong-ffmpeg"
+    executable.write_text(
+        "#!/bin/sh\nprintf 'ffmpeg version wrong build Lavf60.16.100\\n'\n")
+    executable.chmod(0o755)
+
+    with pytest.raises(MediaAssemblyError, match="ffmpeg version mismatch"):
+        assemble_media(
+            [str(source)], str(pathlib.Path(tmp_path) / "film.mp4"),
+            ffmpeg_executable=str(executable),
+            expected_ffmpeg_version="Lavf62.3.100")
+
+
 def test_assemble_media_fails_closed_on_missing_cut(tmp_path):
     with pytest.raises(MediaAssemblyError, match="unreadable"):
         assemble_media([str(pathlib.Path(tmp_path) / "missing.mp4")],

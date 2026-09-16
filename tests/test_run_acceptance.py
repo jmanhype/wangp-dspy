@@ -456,7 +456,6 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
     path = tmp_path / "staging.json"
     path.write_text(json.dumps(bundle))
     output = tmp_path / "assembled.mp4"
-
     def fake_drain(queue, *, host, vision_judge):
         for jid in queue.list_state("pending"):
             job = queue.get(jid)
@@ -476,8 +475,11 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
                         fake_drain)
     assemble_calls = []
 
-    def fake_assemble(paths, out, host=None):
-        assemble_calls.append((list(paths), out, host))
+    def fake_assemble(paths, out, host=None, *, ffmpeg_executable="ffmpeg",
+                      expected_ffmpeg_version=None):
+        assemble_calls.append((
+            list(paths), out, host, ffmpeg_executable,
+            expected_ffmpeg_version))
         Path(out).write_bytes(b"assembled")
         return {"output_path": str(out), "video_paths": list(paths)}
     monkeypatch.setattr("scripts.run_acceptance.assemble_media",
@@ -513,6 +515,9 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     path = tmp_path / "staging.json"
     path.write_text(json.dumps(bundle))
     output = tmp_path / "assembled.mp4"
+    pinned_ffmpeg = tmp_path / "pinned-ffmpeg"
+    pinned_ffmpeg.write_text("#!/bin/sh\nexit 0\n")
+    pinned_ffmpeg.chmod(0o755)
 
     def fake_drain(queue, *, host, vision_judge):
         for jid in queue.list_state("pending"):
@@ -534,8 +539,11 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
 
     assemble_calls = []
 
-    def fake_assemble(paths, out, host=None):
-        assemble_calls.append((list(paths), out, host))
+    def fake_assemble(paths, out, host=None, *, ffmpeg_executable="ffmpeg",
+                      expected_ffmpeg_version=None):
+        assemble_calls.append((
+            list(paths), out, host, ffmpeg_executable,
+            expected_ffmpeg_version))
         Path(out).write_bytes(b"assembled")
         return {"output_path": str(out), "video_paths": list(paths)}
 
@@ -544,6 +552,7 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     monkeypatch.setattr(
         "scripts.run_acceptance.repository_identity",
         lambda _root: {"clean_tree": True, "dirty_tree": False})
+    monkeypatch.setenv("WANGP_LF002_FFMPEG", str(pinned_ffmpeg))
 
     calls = []
 
@@ -566,5 +575,17 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     assert len(assemble_calls) == 1
     assert all(path.endswith("raw.mp4") for path in assemble_calls[0][0])
     assert assemble_calls[0][2] is None
+    assert assemble_calls[0][3] == str(pinned_ffmpeg)
+    assert assemble_calls[0][4] == "Lavf62.3.100"
     assert result["completed_record"]["payload"]["golden_canary"] == {
         "passed": True, "fixture": True}
+
+
+def test_lf002_golden_run_requires_explicit_ffmpeg_configuration(
+        monkeypatch):
+    from scripts.run_acceptance import _lf002_ffmpeg_config
+
+    monkeypatch.delenv("WANGP_LF002_FFMPEG", raising=False)
+    monkeypatch.delenv("WANGP_LF002_FFMPEG_EXPECTED", raising=False)
+    with pytest.raises(AcceptanceBundleError, match="WANGP_LF002_FFMPEG"):
+        _lf002_ffmpeg_config()

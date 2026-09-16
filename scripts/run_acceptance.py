@@ -197,6 +197,27 @@ def _require_completed_qc_evidence(clip: Mapping, *,
         return
 
 
+def _lf002_ffmpeg_config() -> tuple[str, str]:
+    """Resolve the explicit local ffmpeg used by the pinned LF002 pair."""
+    executable = os.environ.get("WANGP_LF002_FFMPEG", "").strip()
+    expected = os.environ.get(
+        "WANGP_LF002_FFMPEG_EXPECTED", "Lavf62.3.100").strip()
+    if not executable:
+        raise AcceptanceBundleError(
+            "LF002 golden assembly requires WANGP_LF002_FFMPEG to name the "
+            "explicit local executable that matches the pinned ffmpeg build")
+    if not expected:
+        raise AcceptanceBundleError(
+            "WANGP_LF002_FFMPEG_EXPECTED must be nonempty")
+    path = Path(executable).expanduser()
+    if (not path.is_absolute() or not path.is_file()
+            or not os.access(path, os.X_OK)):
+        raise AcceptanceBundleError(
+            f"WANGP_LF002_FFMPEG is not an executable absolute path: "
+            f"{executable!r}")
+    return str(path), expected
+
+
 def _prepare_completed_prefix(plan, prefix: Mapping,
                               *, root: Path) -> Mapping:
     """Validate and materialize one verified completed cut without staging.
@@ -454,6 +475,8 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         videos = [job.clips[0]["mp4"] for job in jobs]
         assembly_videos = videos
         assembly_host = None
+        ffmpeg_executable = "ffmpeg"
+        expected_ffmpeg_version = None
         if golden_canary_spec is not None:
             # The pinned LF002 pair is a byte-exact local ffmpeg derivative:
             # assemble sibling native raw artifacts with the same local ffmpeg
@@ -465,8 +488,12 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                 for video in videos
             ]
             assembly_host = None
+            ffmpeg_executable, expected_ffmpeg_version = (
+                _lf002_ffmpeg_config())
         assembly = assemble_media(
-            assembly_videos, str(output), host=assembly_host)
+            assembly_videos, str(output), host=assembly_host,
+            ffmpeg_executable=ffmpeg_executable,
+            expected_ffmpeg_version=expected_ffmpeg_version)
         golden_canary = None
         if golden_canary_spec is not None:
             if len(jobs) < 2:

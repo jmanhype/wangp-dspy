@@ -65,6 +65,8 @@ export WANGP_VISION_BACKEND=local
 export WANGP_LOCAL_VISION_ENDPOINT=http://localhost:8000/v1/chat/completions
 export WANGP_LOCAL_VISION_MODEL=q
 export WANGP_WHISPER_LOCAL_FIRST=1
+export WANGP_LF002_FFMPEG=/opt/homebrew/bin/ffmpeg
+export WANGP_LF002_FFMPEG_EXPECTED=Lavf62.3.100
 export WANGP_ASSET_MAP='assets/lf002-two-cut-20260913=/home/straughter/acceptance/lf002-two-cut-20260913'
 export WANGP_SANCTIONED_DIRS='/home/straughter/acceptance/lf002-two-cut-20260913:/home/straughter/Wan2GP'
 

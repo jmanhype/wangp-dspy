@@ -29,3 +29,8 @@ For an LF002 golden-canary run:
 Do not route this specific golden-pair assembly through the renderer host.
 The canary remains the authority on whether the resulting bytes match the
 pinned control.
+
+## Follow-up
+
+Finding #71 pins and validates the explicit local ffmpeg executable/build so
+this contract no longer depends on ambient `PATH` lookup.
