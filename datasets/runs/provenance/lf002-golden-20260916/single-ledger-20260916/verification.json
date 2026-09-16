@@ -1,0 +1,58 @@
+{
+  "schema": "wangp-dspy.lf002-single-ledger-verification/v1",
+  "verified_at_utc": "2026-09-16T23:03:05Z",
+  "run_kind": "fresh_clone_no_prefix_single_ledger",
+  "status": "exact_hash_match",
+  "repository": {
+    "commit_sha": "ae15b7aa86d949e7dbc08d6df76ee4175b5b3571",
+    "clean_tree": true,
+    "dirty_tree": false,
+    "changed_path_count": 0,
+    "untracked_path_count": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "queue": {
+    "job_count": 2,
+    "all_states": [
+      "done",
+      "done"
+    ],
+    "completed_prefix": false
+  },
+  "artifact_sha256": {
+    "cut1": "64916cd42d40e0f81a51dd750d2134d194dd59c8318bf3d6f75fbc8649d97770",
+    "cut2": "c3131c041a2b586e15ab19280a0ede64aa294b2e6bdc9f26fde0e353fbc29ceb",
+    "chain": "1c1d86b0108c31a8318d428fcf626d3af6ffd0c0ba6269a8a69859eca6fb53de",
+    "pair": "ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527"
+  },
+  "golden_canary": {
+    "passed": true,
+    "errors": []
+  },
+  "assembly": {
+    "inputs": "sibling raw.mp4 artifacts",
+    "execution": "local",
+    "container_encoder": "Lavf62.3.100",
+    "video": "704x576, 24 fps, 112 frames",
+    "audio_duration_s": 4.638
+  },
+  "ledger_record_sha256": "5d748e9313309cff27515211ad2d078ab97547a178be85ae7a7e007f26f61eba",
+  "verdict_scope": [
+    "Both cuts were freshly rendered in one durable queue and one append-only run ledger.",
+    "No completed_prefix or prior-artifact adoption was used.",
+    "All four pinned hashes match the operator-accepted LF002 control.",
+    "The prior operator verdict transfers byte-for-byte; this record does not claim a new operator review."
+  ],
+  "follow_up": "Finding #71 later pinned the explicit local ffmpeg executable/build; this successful run predates that validation-only follow-up.",
+  "publication_normalization": {
+    "source_lf002_canary_sha256": "48f50fc56c03267bb8e277b5e4c63067781ca6c2564420e9b6b1c9a353b99166",
+    "changed_fields": "artifacts.*.path only",
+    "normalization": "producer absolute paths replaced by repository-relative paths",
+    "integrity_fields_unchanged": [
+      "sha256",
+      "bytes",
+      "streams"
+    ]
+  }
+}

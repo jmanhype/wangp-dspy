@@ -1,0 +1,20 @@
+{
+  "audio_guide": "/home/straughter/acceptance/lf002-single-ledger-main70/prepared/orin-guide.wav",
+  "audio_guide2": null,
+  "audio_prompt_type": "A",
+  "image_prompt_type": "S",
+  "image_refs": [
+    "/home/straughter/Wan2GP/lf002-two-cut-seed905-fresh-20260916/chain/clip0002/chain_last_frame.png",
+    "/home/straughter/acceptance/lf002-single-ledger-main70/nell-reference-candidate-v1.png"
+  ],
+  "image_start": "/home/straughter/Wan2GP/lf002-two-cut-seed905-fresh-20260916/chain/clip0002/chain_last_frame.png",
+  "keep_frames_video_source": "",
+  "model_type": "minimax_h3_ref2va_pruned",
+  "prompt": "integrated_multimodal_description:\nThroughout every scene identity and wardrobe stay locked: S1 (Nell) is a young adult female archive courier with warm brown skin, short curly dark hair and a mustard-yellow jacket, on the LEFT holding a small glass rain jar in the warm-lit archive of bottled weather shown in the reference frame, S2 (Orin) is an elderly male climate archivist with pale skin, swept-back silver hair, a clean-shaven face and a deep teal coat, on the RIGHT in the same warm-lit archive of bottled weather shown in the reference frame. Spatial anchor: Nell (S1) remains on the LEFT and Orin (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition, continuing directly from the previous frame. The same two people: a young adult female archive courier with warm brown skin, short curly dark hair and a mustard-yellow jacket, on the LEFT holding a small glass rain jar in the warm-lit archive of bottled weather shown in the reference frame and an elderly male climate archivist with pale skin, swept-back silver hair, a clean-shaven face and a deep teal coat, on the RIGHT in the same warm-lit archive of bottled weather shown in the reference frame.\n(S1) Orin, an elderly male climate archivist with pale skin, swept-back silver hair, a clean-shaven face and a deep teal coat, on the RIGHT in the same warm-lit archive of bottled weather shown in the reference frame, on-screen speaker: speaks natural English, mouth in exact sync with the audio.\n(S2) Nell, a young adult female archive courier with warm brown skin, short curly dark hair and a mustard-yellow jacket, on the LEFT holding a small glass rain jar in the warm-lit archive of bottled weather shown in the reference frame shown in Picture 2 stays silent: their lips are pressed closed and motionless for the entire shot.\nClosed-mouth instruction: the character in Picture 2 keeps their mouth fully closed while the Orin speaks.\noverall_soundscape: scene ambience.\nnon_diegetic_music: N/A",
+  "resolution": "480x832",
+  "seed": 905,
+  "video_guide": null,
+  "video_length": 56,
+  "video_prompt_type": "I",
+  "video_source": null
+}

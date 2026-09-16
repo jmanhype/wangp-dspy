@@ -24,3 +24,9 @@ For LF002 golden-canary runs:
 - persist the selected executable and probed version in assembly evidence.
 
 The exact artifact canary remains the final authority.
+
+## Validation
+
+The strict single-ledger run at `ae15b7a` produced the exact pinned pair with
+the local `Lavf62.3.100` ffmpeg build. This PR adds the missing preflight and
+explicit executable selection for future workstations.

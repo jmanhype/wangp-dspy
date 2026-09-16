@@ -1,0 +1,12 @@
+{
+  "schema": "wangp-dspy.speaker-manifest/v1",
+  "turns": [
+    {
+      "audio_path": "/private/tmp/wangp-dspy-single-ledger-main70-fixed/assets/lf002-two-cut-20260913/prepared/orin-guide.wav",
+      "intended_text": "Then don't spill a single drop.",
+      "picture_n": 1,
+      "speaker_id": "S2",
+      "turn_index": 1
+    }
+  ]
+}
