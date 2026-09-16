@@ -24,3 +24,11 @@ its hash differs, publish the local accepted artifact through
 `RenderHost.push_file` and verify the remote hash before extraction.
 
 Existence alone is never artifact identity.
+
+## Live verification
+
+The first fresh LF002 attempt produced the exact cut 1 hash but extracted a
+stale 480x832 remote artifact as its chain seed, causing cut 2 to fail native
+Whisper. After the hash check/publish/verify repair, the regenerated chain
+frame was the pinned 704x576 seed and the retried cut 2 reproduced the exact
+operator-accepted SHA-256. The assembled pair also matched exactly.

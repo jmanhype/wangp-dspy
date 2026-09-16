@@ -87,3 +87,27 @@ The acceptance passes only if:
 
 The operator’s earlier “perfect” verdict transfers byte-for-byte only if all
 pinned hashes match.
+
+## Fresh-checkout verification — 2026-09-16
+
+The fresh-checkout path reproduced all pinned LF002 hashes at commit
+`3faaf9a87ef3c7c87769bb73a5e5579b05b830ef`:
+
+- cut 1: `64916cd42d40e0f81a51dd750d2134d194dd59c8318bf3d6f75fbc8649d97770`
+- cut 2: `c3131c041a2b586e15ab19280a0ede64aa294b2e6bdc9f26fde0e353fbc29ceb`
+- chain: `1c1d86b0108c31a8318d428fcf626d3af6ffd0c0ba6269a8a69859eca6fb53de`
+- pair: `ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527`
+
+The operator reviewed the linked fresh-checkout assembled video and replied
+verbatim: **“Perfect.”**
+
+The first clean-tree attempt exposed Finding #60: a stale remote final artifact
+occupied the mapped chain-source path. After hash verification and repair,
+the corrected clean-tree retry reproduced the exact cut 2 and assembled pair.
+The successful final ledger used `completed_prefix` for the already-verified
+fresh cut 1; it was therefore a fresh-checkout reproduction, but not one
+uninterrupted no-prefix two-render ledger. That stricter bookkeeping run is
+still available if required.
+
+Machine-readable evidence:
+`datasets/runs/provenance/lf002-golden-20260916/fresh-clone-verification.json`.

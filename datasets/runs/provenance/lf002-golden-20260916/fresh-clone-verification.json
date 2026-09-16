@@ -1,0 +1,47 @@
+{
+  "schema": "wangp-dspy.lf002-fresh-clone-verification/v1",
+  "verified_at_utc": "2026-09-16T18:25:42Z",
+  "operator_verdict": "perfect",
+  "verbatim_user_message": "Perfect",
+  "repository": {
+    "commit_sha": "3faaf9a87ef3c7c87769bb73a5e5579b05b830ef",
+    "clean_tree": true,
+    "dirty_tree": false,
+    "changed_path_count": 0,
+    "untracked_path_count": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "artifact_sha256": {
+    "cut1": "64916cd42d40e0f81a51dd750d2134d194dd59c8318bf3d6f75fbc8649d97770",
+    "cut2": "c3131c041a2b586e15ab19280a0ede64aa294b2e6bdc9f26fde0e353fbc29ceb",
+    "pair": "ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527",
+    "chain": "1c1d86b0108c31a8318d428fcf626d3af6ffd0c0ba6269a8a69859eca6fb53de"
+  },
+  "operator_ledger_record_sha256": "28c848898bf8f545c6af4a861e5162c1afb95e2b59f704ef6624a570691087c0",
+  "superseded_operator_ledger_record_sha256": "d59ce5bcfc209b19e56edc1ce45b3c5c99a6faf08189cb9c13ea36439d10921b",
+  "ledger_correction_reason": "The superseded manual verdict import resolved services from the source checkout; the final record explicitly pins the fresh-checkout repo_root.",
+  "completed_run_id": "lf002-cut2-retry-after-finding60-20260916",
+  "execution_scope": [
+    "The checkout was freshly cloned from the local published branch.",
+    "Cut 1 was freshly rendered in the first clean-tree run and matched its pinned hash.",
+    "The first cut 2 failed closed after Finding #60 exposed a stale remote chain source.",
+    "Finding #60 was repaired at commit 3faaf9a and regression-tested.",
+    "The corrected clean-tree retry adopted the verified fresh cut 1 and freshly rendered cut 2.",
+    "Cut 2, chain frame, and assembled pair all matched the operator-accepted pinned hashes."
+  ],
+  "limitations": [
+    "The successful final ledger used completed_prefix for verified cut 1; it was not one uninterrupted no-prefix two-render ledger.",
+    "A separate no-prefix single-ledger run remains available as a stricter bookkeeping test if required.",
+    "The still-frame vision gate does not measure phonetic audiovisual synchrony; the exact artifact hash transfers the prior operator verdict."
+  ],
+  "tests": {
+    "command": "pytest -q",
+    "tests": 1339,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "time_s": 22.776,
+    "timestamp": "2026-09-16T13:26:33.811581-05:00"
+  }
+}

@@ -26,3 +26,11 @@ Publish the operator-accepted control as content-addressed provenance:
 
 This establishes a second golden control after Devil’s Grandma `v3_pair`. It
 does not claim that seed 905 is universally optimal for every future premise.
+
+## Verification — 2026-09-16
+
+A fresh checkout at `3faaf9a` reproduced the pinned cut 1, cut 2, chain frame,
+and assembled pair hashes exactly. The operator reviewed the linked result and
+replied verbatim: **“Perfect.”** The full suite passed with 1,339 tests, zero
+failures/errors, and one skip. See
+`datasets/runs/provenance/lf002-golden-20260916/fresh-clone-verification.json`.
