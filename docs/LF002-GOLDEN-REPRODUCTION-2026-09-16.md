@@ -113,3 +113,25 @@ still available if required.
 
 Machine-readable evidence:
 `datasets/runs/provenance/lf002-golden-20260916/fresh-clone-verification.json`.
+
+## Strict single-ledger verification — 2026-09-16
+
+A second fresh checkout at `ae15b7aa86d949e7dbc08d6df76ee4175b5b3571` ran
+the committed no-prefix bundle with both jobs in one durable queue and one
+append-only ledger:
+
+```text
+cut1:  64916cd42d40e0f81a51dd750d2134d194dd59c8318bf3d6f75fbc8649d97770
+cut2:  c3131c041a2b586e15ab19280a0ede64aa294b2e6bdc9f26fde0e353fbc29ceb
+chain: 1c1d86b0108c31a8318d428fcf626d3af6ffd0c0ba6269a8a69859eca6fb53de
+pair:   ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527
+```
+
+Both queue jobs are `done`; the mandatory golden canary passed with no errors;
+the local assembly container identifies as `Lavf62.3.100`.
+
+Evidence:
+`datasets/runs/provenance/lf002-golden-20260916/single-ledger-20260916/`.
+
+Finding #71 subsequently made the local ffmpeg executable/build explicit and
+validated. That validation-only follow-up postdates this successful run.
