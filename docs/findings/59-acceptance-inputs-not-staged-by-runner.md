@@ -1,6 +1,7 @@
 # 59 — acceptance inputs were not staged by the runner
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #89 / commit `d63e75b`; acceptance inputs stage through
+the RenderHost contract on `main`.
 
 ## Evidence
 
@@ -22,3 +23,11 @@ RenderHost.push_asset()
 ```
 
 Missing host seams fail closed. No direct scp/SSH transport is permitted.
+
+## Resolution
+
+`scripts/run_acceptance.py` resolves every media-manifest and per-cut plate
+input through the required host seams before queue creation. Regression
+coverage is in `tests/test_run_acceptance.py`; Finding #68 later added complete
+local preflight before remote upload. The full suite at `9b70be1` passed 1380
+tests with one intentional skip and no failures.
