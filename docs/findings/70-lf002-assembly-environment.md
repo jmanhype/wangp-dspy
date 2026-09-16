@@ -1,6 +1,7 @@
 # 70 — LF002 golden-pair assembly used the wrong ffmpeg environment
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #101 / commit `ae15b7a`; LF002 golden assembly is local
+on `main`.
 
 ## Evidence
 
@@ -34,3 +35,12 @@ pinned control.
 
 Finding #71 pins and validates the explicit local ffmpeg executable/build so
 this contract no longer depends on ambient `PATH` lookup.
+
+## Resolution
+
+The LF002 runner assembles sibling native `raw.mp4` artifacts locally before
+the exact-hash canary; regression coverage is in
+`tests/test_run_acceptance.py`. The committed strict single-ledger run
+reproduced both native cuts and the accepted pair. Findings #71 and #72 later
+pinned and prefetched the ffmpeg toolchain. The full suite at `9b70be1`
+passed 1380 tests with one intentional skip and no failures.
