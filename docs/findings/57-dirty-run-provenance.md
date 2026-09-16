@@ -1,6 +1,7 @@
 # 57 — dataset runs record HEAD but not dirty-tree state
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #87 / commit `08237d2`; dirty-tree provenance and the
+clean-tree default are on `main`.
 
 ## Evidence
 
@@ -27,3 +28,11 @@ WANGP_DIRTY_RUN_REASON=<non-empty operator-approved reason>
 ```
 
 The reason and full provenance are persisted in the completed run record.
+
+## Resolution
+
+Repository identity and acceptance-run gating landed with coverage in
+`tests/test_run_acceptance.py` and `tests/test_run_identity.py`. Finding #66
+later completed canonical dataset-run emission and untracked-content hashing.
+The full suite at `9b70be1` passed 1380 tests with one intentional skip and no
+failures.
