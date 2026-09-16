@@ -1,6 +1,7 @@
 # 71 — LF002 golden assembly depended on ambient PATH ffmpeg
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #102 / commit `383bb20`; strict evidence was published in
+PR #103 and the parser/preflight contract was completed by Finding #72.
 
 ## Evidence
 
@@ -35,3 +36,13 @@ explicit executable selection for future workstations.
 
 Finding #72 corrects the ffmpeg identity parser and moves LF002 toolchain
 validation ahead of staging and rendering.
+
+## Resolution
+
+LF002 golden assembly now requires an explicit absolute executable and build
+identity, uses that executable in argv, and records toolchain evidence.
+Regression coverage is in `tests/test_media_assembly.py` and
+`tests/test_run_acceptance.py`. The strict single-ledger evidence at commit
+`ae15b7a` matched all pinned hashes before this validation-only follow-up.
+The full suite at `9b70be1` passed 1380 tests with one intentional skip and
+no failures.
