@@ -1,6 +1,7 @@
 # 64 — render retry fingerprints were not canonical or attempt-scoped
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #95 / commit `24cb699`; canonical attempt-scoped
+renderer fingerprints are on `main`.
 
 ## Evidence
 
@@ -42,3 +43,11 @@ ignored Ref2VA steps edit                      → fingerprint unchanged
 seed mutation through update_clips             → fingerprint recomputed
 unattempted sibling in failed multi-clip job   → accepted
 ```
+
+## Resolution
+
+`services/jobs/queue.py` computes lane-aware canonical fingerprints and
+recomputes them on persistence; `services/jobs/executor.py` marks renderer
+admission before invocation. Regression coverage is in
+`tests/test_jobs_queue.py` and `tests/test_jobs_executor.py`. The full suite
+at `9b70be1` passed 1380 tests with one intentional skip and no failures.
