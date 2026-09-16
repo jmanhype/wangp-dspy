@@ -321,6 +321,37 @@ class JobQueue:
                         "effective input such as seed/prompt/refs/guide, "
                         "or explicitly set allow_deterministic_replay")
 
+    def submit_completed(self, *, plan_ref: str,
+                         clips: Sequence[Dict]) -> str:
+        """Insert already-verified evidence as a terminal completed job.
+
+        This is for an explicit completed-prefix replay: reuse an operator/QC
+        accepted earlier cut without rerendering it, while preserving the
+        dependency graph for its successor. Callers must supply actual log,
+        MP4, and QC-verdict paths; the queue never manufactures evidence.
+        """
+        if not plan_ref or not str(plan_ref).strip():
+            raise ValueError("plan_ref must be nonempty")
+        if not clips:
+            raise ValueError("a completed job needs at least one clip")
+        job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
+        prepared = []
+        for original in clips:
+            c = dict(original)
+            c["render_fingerprint"] = effective_render_fingerprint(c)
+            _check_chain_placeholders(c)
+            _check_clip_artifacts("done", c.get("log"), c.get("mp4"),
+                                  c.get("qc_verdict"))
+            prepared.append(c)
+        self._db.execute(
+            "INSERT INTO jobs (job_id, state, plan_ref, clips, "
+            "failure_count, failure_class, failure_detail, created_at) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (job_id, "done", plan_ref, json.dumps(prepared),
+             0, None, None, time.time()))
+        self._db.commit()
+        return job_id
+
     def set_state(self, job_id: str, state: str) -> None:
         rec = self.get(job_id)
         if state not in ALLOWED_TRANSITIONS.get(rec.state, frozenset()):

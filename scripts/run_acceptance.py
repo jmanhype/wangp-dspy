@@ -168,6 +168,111 @@ def _normalize_inputs(bundle: Mapping, premise, *, root: Path) -> dict:
             "media": canonical_media}
 
 
+def _submit_completed_prefix(plan, queue, prefix: Mapping,
+                             *, root: Path) -> list[str]:
+    """Adopt one verified completed cut, then submit only its dependents.
+
+    A completed-prefix replay is evidence reuse, not silent artifact adoption.
+    The source job must be done, its effective renderer fingerprint must match
+    the newly planned cut, native raw/final hashes must match, and the caller
+    must pin the expected SHA-256. The successor still renders through the
+    normal queue and gains its chain frame through ``advance_chain``.
+    """
+    from services.jobs.queue import JobQueue, effective_render_fingerprint
+
+    index = prefix.get("clip_index", 1)
+    if isinstance(index, bool) or not isinstance(index, int) or index != 1:
+        raise AcceptanceBundleError(
+            "completed_prefix.clip_index must be integer 1")
+    if len(plan.clips) < 2:
+        raise AcceptanceBundleError(
+            "completed_prefix requires a dependent successor clip")
+    db_path = _path(prefix.get("jobs_db"), root=root,
+                    label="completed_prefix.jobs_db")
+    job_id = prefix.get("job_id")
+    if not isinstance(job_id, str) or not job_id.strip():
+        raise AcceptanceBundleError("completed_prefix.job_id is required")
+    expected = prefix.get("expected_sha256")
+    if (not isinstance(expected, str)
+            or len(expected) != 64):
+        raise AcceptanceBundleError(
+            "completed_prefix.expected_sha256 must be a SHA-256 hex digest")
+
+    source_queue = JobQueue(db_path)
+    try:
+        try:
+            source = source_queue.get(job_id)
+        except Exception as exc:
+            raise AcceptanceBundleError(
+                f"completed_prefix job unreadable: {exc}") from exc
+        if source.state != "done":
+            raise AcceptanceBundleError(
+                f"completed_prefix job is {source.state!r}, not done")
+        matches = [c for c in source.clips
+                   if int(c.get("clip_index", -1)) == index]
+        if len(matches) != 1:
+            raise AcceptanceBundleError(
+                "completed_prefix job must contain exactly one matching clip")
+        old = matches[0]
+    finally:
+        source_queue.close()
+
+    planned = dict(plan.clips[index - 1])
+    old_fingerprint = effective_render_fingerprint(old)
+    planned_fingerprint = effective_render_fingerprint(planned)
+    if old_fingerprint != planned_fingerprint:
+        raise AcceptanceBundleError(
+            "completed_prefix effective renderer inputs differ from the new "
+            f"plan ({old_fingerprint[:12]}… != {planned_fingerprint[:12]}…)")
+
+    final = Path(str(old.get("mp4") or ""))
+    raw = final.with_name("raw.mp4")
+    log = Path(str(old.get("log") or ""))
+    if not final.is_file() or not raw.is_file() or not log.is_file():
+        raise AcceptanceBundleError(
+            "completed_prefix log/raw/final artifacts must exist on disk")
+    import hashlib
+    final_hash = hashlib.sha256(final.read_bytes()).hexdigest()
+    raw_hash = hashlib.sha256(raw.read_bytes()).hexdigest()
+    if final_hash != expected or raw_hash != expected:
+        raise AcceptanceBundleError(
+            "completed_prefix SHA-256 mismatch or raw/final divergence")
+    try:
+        runtime = json.loads(
+            (final.parent / "runtime-evidence.json").read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise AcceptanceBundleError(
+            f"completed_prefix runtime evidence unreadable: {exc}") from exc
+    if (runtime.get("runtime", {}).get("audio_carrier") != "native_h3"
+            or runtime.get("runtime", {}).get("native_preserved") is not True
+            or runtime.get("raw_render_hash") != raw_hash
+            or runtime.get("remux_hash") != final_hash):
+        raise AcceptanceBundleError(
+            "completed_prefix is not verified native H3 A/V evidence")
+
+    completed = dict(planned)
+    completed.update({
+        "status": "done",
+        "log": str(log.resolve()),
+        "mp4": str(final.resolve()),
+        "qc_verdict": old.get("qc_verdict"),
+        "completed_prefix_source": {
+            "jobs_db": db_path,
+            "job_id": job_id,
+            "clip_index": index,
+            "sha256": final_hash,
+        },
+    })
+    prefix_job = queue.submit_completed(
+        plan_ref=plan.run_id, clips=[completed])
+    ids = [prefix_job]
+    for clip in plan.clips[index:]:
+        job = dict(clip)
+        job["needs"] = prefix_job
+        ids.append(queue.submit(plan_ref=plan.run_id, clips=[job]))
+    return ids
+
+
 def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
                ledger_path: str | Path | None = None,
                output_path: str | Path | None = None,
@@ -202,7 +307,17 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         # vision credentials must not leave a queue full of renderable jobs.
         host = host or run_jobs._default_host()
         judge = vision_judge or run_jobs._default_vision_judge(host=host)
-        job_ids = run.submit(plan, queue)
+        prefix = bundle.get("completed_prefix")
+        if prefix is None:
+            job_ids = run.submit(plan, queue)
+        else:
+            if not isinstance(prefix, Mapping):
+                raise AcceptanceBundleError(
+                    "completed_prefix must be an object")
+            job_ids = _submit_completed_prefix(
+                plan, queue, prefix, root=ROOT)
+            from services.director.wiring import advance_chain
+            advance_chain(queue, host, job_ids[0])
         handled = run_jobs.drain_once(
             queue, host=host, vision_judge=judge)
         jobs = [queue.get(jid) for jid in job_ids]
@@ -219,6 +334,7 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     completed = append_dataset_run(
         ledger, run_id=run_id, status="needs_review",
         payload={"premise_id": premise.id, "clip_count": len(job_ids),
+                 "audio_carrier": "native_h3",
                  "handled": handled, "assembly": assembly,
                  "bundle": str(bundle_file),
                  "bundle_sha256": __import__("hashlib").sha256(

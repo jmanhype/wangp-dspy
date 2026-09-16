@@ -254,14 +254,15 @@ class DirectorRun:
             raise DirectorRunError(
                 f"audio_paths: {expected_cuts} single-speaker turn wavs "
                 "are required")
-        if len(plate_paths) < 2:
-            raise DirectorRunError(
-                "plate_paths: anchor plus at least one silent-character face ref required")
         if isinstance(plate_paths[0], (list, tuple)):
             if len(plate_paths) != expected_cuts or any(
                     len(pair) != 2 for pair in plate_paths):
                 raise DirectorRunError(
-                    "plate_paths: per-cut form must contain six [anchor, silent_face] pairs")
+                    "plate_paths: per-cut form must contain "
+                    "[anchor, silent_face] pairs for every cut")
+        elif len(plate_paths) < 2:
+            raise DirectorRunError(
+                "plate_paths: anchor plus at least one silent-character face ref required")
         if durations_s is None:
             cut_duration_s = CONTINUATION_FRAMES_MIN / 24.0
             durations = [cut_duration_s] * expected_cuts

@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from scripts.run_acceptance import AcceptanceBundleError, run_bundle
+from scripts.run_acceptance import _submit_completed_prefix
 
 
 def _bundle(tmp_path):
@@ -55,6 +56,60 @@ def test_bundle_runner_refuses_unregistered_premise(tmp_path):
     path.write_text(json.dumps(bundle))
     with pytest.raises(AcceptanceBundleError, match="not registered"):
         run_bundle(path, db_path=tmp_path / "jobs.db")
+
+
+def test_completed_prefix_adopts_verified_cut_and_dependencies(tmp_path):
+    from services.jobs.queue import JobQueue
+
+    raw = tmp_path / "raw.mp4"
+    final = tmp_path / "remux.mp4"
+    log = tmp_path / "render.log"
+    payload = b"native-av"
+    raw.write_bytes(payload)
+    final.write_bytes(payload)
+    log.write_bytes(b"log")
+    import hashlib
+    digest = hashlib.sha256(payload).hexdigest()
+    (tmp_path / "runtime-evidence.json").write_text(json.dumps({
+        "raw_render_hash": digest,
+        "remux_hash": digest,
+        "runtime": {"audio_carrier": "native_h3",
+                    "native_preserved": True},
+    }))
+
+    effective = {"kind": "ref2va_render", "prompt": "same",
+                 "seed": 905, "image_start": "seed.png",
+                 "image_refs": ["seed.png", "silent.png"],
+                 "audio_guide": "turn.wav", "video_length": 56}
+    source = JobQueue(tmp_path / "source.db")
+    source_jid = source.submit_completed(plan_ref="source-run", clips=[{
+        "clip_index": 1, **effective, "status": "done", "log": str(log),
+        "mp4": str(final),
+        "qc_verdict": {"verdict": "NEEDS REVIEW", "path": "qc.json"},
+    }])
+    source.close()
+
+    class Plan:
+        run_id = "prefix-run"
+        clips = ({ "clip_index": 1, **effective },
+                 { "clip_index": 2, **effective, "seed": 905 })
+
+    target = JobQueue(tmp_path / "target.db")
+    try:
+        ids = _submit_completed_prefix(
+            Plan(), target, {
+                "jobs_db": str(tmp_path / "source.db"),
+                "job_id": source_jid,
+                "expected_sha256": digest,
+            }, root=Path.cwd())
+        assert target.get(ids[0]).state == "done"
+        successor = target.get(ids[1])
+        assert successor.state == "pending"
+        assert successor.clips[0]["needs"] == ids[0]
+        assert target.get(ids[0]).clips[0][
+            "completed_prefix_source"]["sha256"] == digest
+    finally:
+        target.close()
 
 
 def test_bundle_runner_executes_repo_seams_and_records_assembly(
