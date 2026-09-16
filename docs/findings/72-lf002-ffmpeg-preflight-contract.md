@@ -1,6 +1,7 @@
 # 72 — LF002 ffmpeg validation parsed the wrong line and ran too late
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #104 / commit `9bfd319`; parser and preflight validation
+are on `main`.
 
 ## Evidence
 
@@ -30,3 +31,13 @@ repair:
   probed redundantly after rendering.
 
 The exact artifact canary remains the final authority.
+
+## Resolution
+
+`services.director.wiring.probe_local_ffmpeg` parses and normalizes the full
+libavformat identity. `scripts.run_acceptance._lf002_ffmpeg_config` probes
+before planning/staging/queueing and passes the validated identity to
+assembly. Regression coverage is in `tests/test_media_assembly.py` and
+`tests/test_run_acceptance.py`; the real Homebrew executable resolves as
+`Lavf62.3.100`. The full suite at `9b70be1` passed 1380 tests with one
+intentional skip and no failures.
