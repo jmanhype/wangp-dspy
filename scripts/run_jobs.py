@@ -282,6 +282,9 @@ def build_executor(queue, host=None, pre_render=None,
             raise Ref2VAQCStageError(
                 f"native AV provenance required before QC; legacy remuxes must re-render: {exc}") from exc
         evidence_path = clip.get("qc_evidence_path")
+        if isinstance(evidence_path, str) and evidence_path.strip():
+            evidence_path = str(
+                Path(evidence_path).expanduser().resolve())
         qc_result = run_ref2va_qc_stage(
             dict(clip), judge=None,
             pre_audio_path=clip.get("audio_guide"),

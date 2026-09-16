@@ -148,6 +148,28 @@ def test_director_run_accepts_one_cut_per_cut_pair(tmp_path):
     assert planned.clips[0]["image_refs"] == [str(anchor), str(silent)]
 
 
+def test_director_run_rejects_empty_plates_typed(tmp_path):
+    audio = pathlib.Path(tmp_path) / "turn1.wav"
+    anchor = pathlib.Path(tmp_path) / "plate.png"
+    silent = pathlib.Path(tmp_path) / "silent.png"
+    for path in (audio, anchor, silent):
+        path.write_bytes(b"fixture")
+    premise = __import__("services.director.premises",
+                         fromlist=["Premise"]).Premise(
+        id="empty-plates-test", title="Empty plates", logline="empty",
+        characters=({"name": "Mara", "sn_tag": "S1", "description": "speaker"},
+                    {"name": "Ivo", "sn_tag": "S2", "description": "silent"}))
+    script = [{"speaker": "Mara", "text": "One cut is ready."}]
+    media = _media_manifest(
+        "empty-plates-test", script, [audio], anchor,
+        {"Mara": anchor, "Ivo": silent})
+    with pytest.raises(DirectorRunError, match="plate_paths"):
+        DirectorRun(run_id="empty-plates-001", premise=premise).plan(
+            script, audio_paths=[str(audio)], plate_paths=[],
+            media_manifest=media, expected_cuts=1,
+            durations_s=[56 / 24])
+
+
 def test_director_run_binds_registered_style_anchor_hash(tmp_path):
     audio = []
     for i in range(6):

@@ -254,6 +254,9 @@ class DirectorRun:
             raise DirectorRunError(
                 f"audio_paths: {expected_cuts} single-speaker turn wavs "
                 "are required")
+        if not plate_paths:
+            raise DirectorRunError(
+                "plate_paths: anchor plus at least one silent-character face ref required")
         if isinstance(plate_paths[0], (list, tuple)):
             if len(plate_paths) != expected_cuts or any(
                     len(pair) != 2 for pair in plate_paths):

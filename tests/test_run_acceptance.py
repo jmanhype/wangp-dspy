@@ -111,10 +111,14 @@ def test_completed_prefix_adopts_verified_cut_and_dependencies(tmp_path):
                  "image_refs": ["seed.png", "silent.png"],
                  "audio_guide": "turn.wav", "video_length": 56}
     source = JobQueue(tmp_path / "source.db")
+    qc_evidence = tmp_path / "qc.json"
+    qc_evidence.write_text(json.dumps({
+        "whisper_gates": {}, "vision_judge": {}}))
     source_jid = source.submit_completed(plan_ref="source-run", clips=[{
         "clip_index": 1, **effective, "status": "done", "log": str(log),
         "mp4": str(final),
-        "qc_verdict": {"verdict": "NEEDS REVIEW", "path": "qc.json"},
+        "qc_verdict": {"verdict": "NEEDS REVIEW",
+                       "path": str(qc_evidence)},
     }])
     source.close()
 
@@ -139,6 +143,128 @@ def test_completed_prefix_adopts_verified_cut_and_dependencies(tmp_path):
             "completed_prefix_source"]["sha256"] == digest
     finally:
         target.close()
+
+
+def test_completed_prefix_chains_every_later_cut(tmp_path):
+    from services.jobs.queue import JobQueue
+
+    raw = tmp_path / "raw.mp4"
+    final = tmp_path / "remux.mp4"
+    log = tmp_path / "render.log"
+    payload = b"native-av"
+    raw.write_bytes(payload)
+    final.write_bytes(payload)
+    log.write_bytes(b"log")
+    import hashlib
+    digest = hashlib.sha256(payload).hexdigest()
+    qc_path = tmp_path / "qc.json"
+    qc_path.write_text(json.dumps({"whisper_gates": {}, "vision_judge": {}}))
+    (tmp_path / "runtime-evidence.json").write_text(json.dumps({
+        "raw_render_hash": digest,
+        "remux_hash": digest,
+        "runtime": {"audio_carrier": "native_h3",
+                    "native_preserved": True},
+    }))
+    effective = {"kind": "ref2va_render", "prompt": "same",
+                 "seed": 905, "image_start": "seed.png",
+                 "image_refs": ["seed.png", "silent.png"],
+                 "audio_guide": "turn.wav", "video_length": 56}
+    source = JobQueue(tmp_path / "source.db")
+    source_jid = source.submit_completed(plan_ref="source-run", clips=[{
+        "clip_index": 1, **effective, "status": "done", "log": str(log),
+        "mp4": str(final),
+        "qc_verdict": {"verdict": "NEEDS REVIEW", "path": str(qc_path)},
+    }])
+    source.close()
+
+    class Plan:
+        run_id = "prefix-chain"
+        clips = tuple({"clip_index": index, **effective}
+                      for index in range(1, 5))
+
+    target = JobQueue(tmp_path / "target.db")
+    try:
+        ids = _submit_completed_prefix(
+            Plan(), target, {
+                "jobs_db": str(tmp_path / "source.db"),
+                "job_id": source_jid,
+                "expected_sha256": digest,
+            }, root=Path.cwd())
+        assert [target.get(jid).clips[0]["needs"] for jid in ids[1:]] == [
+            ids[0], ids[1], ids[2]]
+    finally:
+        target.close()
+
+
+def test_completed_prefix_requires_qc_evidence(tmp_path):
+    from services.jobs.queue import JobQueue
+
+    raw = tmp_path / "raw.mp4"
+    final = tmp_path / "remux.mp4"
+    log = tmp_path / "render.log"
+    payload = b"native-av"
+    raw.write_bytes(payload)
+    final.write_bytes(payload)
+    log.write_bytes(b"log")
+    import hashlib
+    digest = hashlib.sha256(payload).hexdigest()
+    (tmp_path / "runtime-evidence.json").write_text(json.dumps({
+        "raw_render_hash": digest,
+        "remux_hash": digest,
+        "runtime": {"audio_carrier": "native_h3",
+                    "native_preserved": True},
+    }))
+    effective = {"kind": "ref2va_render", "prompt": "same",
+                 "seed": 905, "image_start": "seed.png",
+                 "image_refs": ["seed.png", "silent.png"],
+                 "audio_guide": "turn.wav", "video_length": 56}
+    source = JobQueue(tmp_path / "source.db")
+    qc_evidence = tmp_path / "initial-qc.json"
+    qc_evidence.write_text(json.dumps({
+        "whisper_gates": {}, "vision_judge": {}}))
+    source_jid = source.submit(plan_ref="source-no-qc", clips=[{
+        "clip_index": 1, **effective, "status": "done", "log": str(log),
+        "mp4": str(final),
+        "qc_verdict": {"verdict": "NEEDS REVIEW",
+                       "path": str(qc_evidence)},
+    }])
+    stored = json.loads(source._db.execute(
+        "SELECT clips FROM jobs WHERE job_id=?",
+        (source_jid,)).fetchone()["clips"])
+    stored[0]["qc_verdict"] = None
+    source._db.execute(
+        "UPDATE jobs SET state='done', clips=? WHERE job_id=?",
+        (json.dumps(stored), source_jid))
+    source._db.commit()
+    source.close()
+
+    class Plan:
+        run_id = "prefix-no-qc"
+        clips = ({ "clip_index": 1, **effective },
+                 { "clip_index": 2, **effective })
+
+    target = JobQueue(tmp_path / "target.db")
+    try:
+        with pytest.raises(AcceptanceBundleError, match="QC"):
+            _submit_completed_prefix(
+                Plan(), target, {
+                    "jobs_db": str(tmp_path / "source.db"),
+                    "job_id": source_jid,
+                    "expected_sha256": digest,
+                }, root=Path.cwd())
+    finally:
+        target.close()
+
+
+def test_completed_prefix_resolves_relative_qc_from_producer_root(tmp_path):
+    from scripts.run_acceptance import _require_completed_qc_evidence
+
+    evidence = tmp_path / "qc" / "1.json"
+    evidence.parent.mkdir()
+    evidence.write_text("{}")
+    _require_completed_qc_evidence(
+        {"qc_verdict": {"verdict": "NEEDS REVIEW", "path": "qc/1.json"}},
+        producer_root=tmp_path)
 
 
 def test_acceptance_stages_all_media_through_render_host():

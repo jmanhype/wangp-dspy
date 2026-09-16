@@ -170,6 +170,28 @@ def _normalize_inputs(bundle: Mapping, premise, *, root: Path) -> dict:
             "media": canonical_media}
 
 
+def _require_completed_qc_evidence(clip: Mapping, *,
+                                   producer_root: Path) -> None:
+    from services.jobs.queue import validate_completed_qc_verdict
+
+    verdict = clip.get("qc_verdict")
+    try:
+        validate_completed_qc_verdict(verdict)
+    except ValueError as exc:
+        raise AcceptanceBundleError(
+            f"completed_prefix QC verdict rejected: {exc}") from exc
+    evidence = verdict.get("path")
+    if isinstance(evidence, str):
+        evidence_path = Path(evidence)
+        if not evidence_path.is_absolute():
+            evidence_path = producer_root / evidence_path
+        evidence_path = evidence_path.resolve()
+        if not evidence_path.is_file():
+            raise AcceptanceBundleError(
+                f"completed_prefix QC evidence does not exist: {evidence!r}")
+        return
+
+
 def _submit_completed_prefix(plan, queue, prefix: Mapping,
                              *, root: Path) -> list[str]:
     """Adopt one verified completed cut, then submit only its dependents.
@@ -216,6 +238,12 @@ def _submit_completed_prefix(plan, queue, prefix: Mapping,
             raise AcceptanceBundleError(
                 "completed_prefix job must contain exactly one matching clip")
         old = matches[0]
+        if old.get("status") != "done":
+            raise AcceptanceBundleError(
+                "completed_prefix source clip is "
+                f"{old.get('status')!r}, not done")
+        _require_completed_qc_evidence(
+            old, producer_root=Path(db_path).parent.parent.resolve())
     finally:
         source_queue.close()
 
@@ -268,10 +296,13 @@ def _submit_completed_prefix(plan, queue, prefix: Mapping,
     prefix_job = queue.submit_completed(
         plan_ref=plan.run_id, clips=[completed])
     ids = [prefix_job]
+    previous_job = prefix_job
     for clip in plan.clips[index:]:
         job = dict(clip)
-        job["needs"] = prefix_job
-        ids.append(queue.submit(plan_ref=plan.run_id, clips=[job]))
+        job["needs"] = previous_job
+        job_id = queue.submit(plan_ref=plan.run_id, clips=[job])
+        ids.append(job_id)
+        previous_job = job_id
     return ids
 
 

@@ -133,6 +133,27 @@ def _with_render_fingerprint(clip: Dict) -> Dict:
     return prepared
 
 
+def validate_completed_qc_verdict(verdict) -> None:
+    """Require usable terminal review/evidence, not stringified nulls."""
+    if not isinstance(verdict, dict):
+        raise ValueError("completed clips require a mapping qc_verdict")
+    verdict_text = verdict.get("verdict")
+    if not isinstance(verdict_text, str) or verdict_text.strip() not in {
+            "KEEP", "NEEDS REVIEW"}:
+        raise ValueError(
+            "completed clips require an accepted workflow qc_verdict")
+    evidence = verdict.get("path")
+    if isinstance(evidence, str) and evidence.strip():
+        return
+    if isinstance(evidence, dict) and evidence and any(
+            evidence.get(key) is not None for key in (
+                "whisper_gates", "vision_judge", "pre", "post")):
+        return
+    raise ValueError(
+        "completed clips require a nonempty evidence path or embedded gate "
+        "evidence")
+
+
 # ── dependency admissibility ─────────────────────────────────────────
 # Single source of truth for `needs` gating. The EXECUTOR path must use
 # this too (reviewer blocker): a pending job whose needs-target is not
@@ -392,11 +413,11 @@ class JobQueue:
         job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
         prepared = []
         for original in clips:
-            c = dict(original)
-            c["render_fingerprint"] = effective_render_fingerprint(c)
+            c = _with_render_fingerprint(original)
             _check_chain_placeholders(c)
             _check_clip_artifacts("done", c.get("log"), c.get("mp4"),
                                   c.get("qc_verdict"))
+            validate_completed_qc_verdict(c.get("qc_verdict"))
             prepared.append(c)
         self._db.execute(
             "INSERT INTO jobs (job_id, state, plan_ref, clips, "
