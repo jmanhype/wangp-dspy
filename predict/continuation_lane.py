@@ -9,6 +9,7 @@ Judge implementations for the audio_critic stage:
 """
 from __future__ import annotations
 import re
+from difflib import SequenceMatcher
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import List, Optional
@@ -266,6 +267,39 @@ def transcript_match_score(said: str, intended: str) -> float:
     return max(0.0, 1.0 - transcript_wer(said, intended))
 
 
+def _turn_transcript_scores(said: str, intended_turns: List[str]) -> List[float]:
+    """Attribute sequence-edit errors to each intended dialogue turn."""
+    turn_tokens = [_word_tokens(turn) for turn in intended_turns]
+    turn_ids = [index for index, tokens in enumerate(turn_tokens)
+                for _ in tokens]
+    reference = [token for tokens in turn_tokens for token in tokens]
+    hypothesis = _word_tokens(said)
+    errors = [0] * len(turn_tokens)
+
+    matcher = SequenceMatcher(None, hypothesis, reference, autojunk=False)
+    for tag, hyp_start, hyp_end, ref_start, ref_end \
+            in matcher.get_opcodes():
+        if tag == "equal":
+            continue
+
+        # Replace/delete consumes one intended token per reference index.
+        for ref_index in range(ref_start, ref_end):
+            errors[turn_ids[ref_index]] += 1
+        # Any excess hypothesis words are insertions attributed to the
+        # nearest intended turn.
+        if hyp_end - hyp_start > ref_end - ref_start:
+            extra = (hyp_end - hyp_start) - (ref_end - ref_start)
+            turn = 0 if ref_end == 0 else turn_ids[ref_end - 1]
+            if turn < len(errors):
+                errors[turn] += extra
+
+    return [
+        max(0.0, 1.0 - (errors[index] / len(tokens)))
+        if tokens else 0.0
+        for index, tokens in enumerate(turn_tokens)
+    ]
+
+
 def transcript_judge(settings_doc: dict, *, said: str, intended_turns: List[str],
                      pass_bar: float = 0.5) -> dict:
     """Transcript evidence helper: transcript-vs-intended-turns.
@@ -274,18 +308,15 @@ def transcript_judge(settings_doc: dict, *, said: str, intended_turns: List[str]
     count, and pass flag). It is evidence about generated speech, not an
     automatic Ref2VA QC pass and not a claim of phonetic A/V synchrony.
     """
-    if len(intended_turns) > 1:
-        # A film-level transcript is sequence-aware across turns; comparing
-        # the complete utterance to each turn separately would penalize the
-        # presence of the other intended lines.
-        scores = [transcript_match_score(said, " ".join(intended_turns))]
-    else:
-        scores = [transcript_match_score(said, t)
-                  for t in intended_turns]
+    # Align the complete transcript against all intended turns, then require
+    # every turn to meet the bar. This prevents a long correctly transcribed
+    # turn from masking a completely omitted short turn.
+    scores = _turn_transcript_scores(said, intended_turns)
     worst = min(scores) if scores else 0.0
     return {
         "transcript_words_match": round(worst, 3),
         "transcript_pass_bar": pass_bar,
         "turn_count": len(intended_turns),
+        "turn_scores": [round(score, 3) for score in scores],
         "passes": worst >= pass_bar,
     }

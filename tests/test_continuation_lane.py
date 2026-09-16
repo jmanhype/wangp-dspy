@@ -78,3 +78,28 @@ class TestTranscriptJudge:
         bad = transcript_judge({}, said="completely unrelated gibberish",
                                intended_turns=turns)
         assert bad["passes"] is False
+
+    def test_missing_short_turn_is_not_masked_by_long_turn(self):
+        turns = [
+            "the water is leaving the harbor very carefully tonight",
+            "stop",
+        ]
+        said = "the water is leaving the harbor very carefully tonight"
+        result = transcript_judge({}, said=said, intended_turns=turns)
+        assert result["passes"] is False
+        assert result["turn_scores"][0] >= 0.5
+        assert result["turn_scores"][1] == 0.0
+
+    def test_multi_turn_scores_are_reported_per_turn(self):
+        turns = ["the water is leaving the harbor", "say again post six"]
+        result = transcript_judge(
+            {}, said="the water is leaving the harbor say again post six",
+            intended_turns=turns)
+        assert result["turn_scores"] == [1.0, 1.0]
+
+    def test_leading_insertion_is_charged_to_first_turn(self):
+        result = transcript_judge(
+            {}, said="x a b c d e",
+            intended_turns=["a b c d", "e"])
+        assert result["passes"] is True
+        assert result["turn_scores"] == [0.75, 1.0]
