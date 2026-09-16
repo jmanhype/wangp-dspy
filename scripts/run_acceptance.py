@@ -455,13 +455,16 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         assembly_videos = videos
         assembly_host = None
         if golden_canary_spec is not None:
-            # The pinned LF002 pair was assembled from native raw artifacts on
-            # the renderer host; using local remux paths changes the bytes.
+            # The pinned LF002 pair is a byte-exact local ffmpeg derivative:
+            # assemble sibling native raw artifacts with the same local ffmpeg
+            # environment that produced the operator-accepted control. Remote
+            # Linux ffmpeg produces a different muxer/encoder container even
+            # from byte-identical cuts.
             assembly_videos = [
                 str(Path(video).with_name("raw.mp4"))
                 for video in videos
             ]
-            assembly_host = host
+            assembly_host = None
         assembly = assemble_media(
             assembly_videos, str(output), host=assembly_host)
         golden_canary = None

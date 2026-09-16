@@ -19,6 +19,8 @@ Qodo review of PR #88 found four reproduction-contract gaps:
 - validate the pinned recipe version before staging or queueing;
 - invoke `verify_lf002_canary` after assembly and before recording completion;
 - verify raw cut 1, raw cut 2, assembled pair, and chain frame hashes;
+- assemble sibling raw cuts locally (see Finding #70: remote ffmpeg changes
+  the pinned pair container);
 - persist the canary report in the run’s ignored pull namespace;
 - preserve caller-supplied artifact paths in reports;
 - republish the committed canary with repository-relative paths;

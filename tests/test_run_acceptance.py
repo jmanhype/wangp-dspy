@@ -565,6 +565,6 @@ def test_lf002_golden_canary_is_mandatory_when_requested(
     assert calls[0]["pair"] == str(output)
     assert len(assemble_calls) == 1
     assert all(path.endswith("raw.mp4") for path in assemble_calls[0][0])
-    assert assemble_calls[0][2] is host
+    assert assemble_calls[0][2] is None
     assert result["completed_record"]["payload"]["golden_canary"] == {
         "passed": True, "fixture": True}
