@@ -120,3 +120,40 @@ def test_adapter_runtime_input_consumes_continuation_extras(tmp_path):
     assert inp.profile_build_kwargs["continuation"] is True
     assert inp.profile_build_kwargs["image_start"] == str(image)
     assert inp.profile_build_kwargs["image_refs"] == [str(image), str(image)]
+
+
+def test_adapter_rejects_top_level_external_audio_carrier(tmp_path):
+    from host.wangp_adapter import WanGPAdapter, WanGPError, _build_ref2va_runtime_input
+
+    image = tmp_path / "frame.png"
+    wav = tmp_path / "turn.wav"
+    for path in (image, wav):
+        path.write_bytes(b"fixture")
+    adapter = WanGPAdapter(output_dir=str(tmp_path))
+    job = {
+        "kind": "ref2va_render",
+        "prompt": "speaker says line",
+        "image_refs": [str(image), str(image)],
+        "image_start": str(image),
+        "audio_guide": str(wav),
+        "shot_duration_s": 56 / 24,
+        "guide_duration_s": 56 / 24,
+        "audio_length_frames": 56,
+        "audio_policy": {"discard_rendered_audio": False},
+        "audio_carrier": "external_source_remux",
+        "audio_provenance": {
+            "source_master": str(wav),
+            "vocal_stem": str(wav),
+            "whisper_map": str(wav),
+            "keeper_window_s": [0.0, 56 / 24],
+        },
+    }
+    with pytest.raises(WanGPError, match="native audio"):
+        _build_ref2va_runtime_input(
+            adapter, job, render=lambda _inp: "", runner=lambda _argv: 0,
+            raw_render_path=tmp_path / "raw.mp4",
+            audio_source_path=wav,
+            remux_output_path=tmp_path / "remux.mp4",
+            settings_path=tmp_path / "settings.json",
+            sanctioned_dirs=[str(tmp_path)],
+        )

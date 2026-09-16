@@ -315,6 +315,24 @@ def test_settings_doc_instead_of_builder(tmp_path):
     assert res["eligible_for_qc"] is False
 
 
+def test_prebuilt_settings_doc_rejects_top_level_external_carrier(tmp_path):
+    kwargs, keep, out, shots, files = _audio_env(tmp_path)
+    from predict.render_profiles import Ref2VAProfile
+    doc = Ref2VAProfile().build_settings([_brief()], _decision(), **kwargs)
+    doc["audio_carrier"] = "external_source_remux"
+    tmp = pathlib.Path(tmp_path)
+    inp = Ref2VARuntimeInput(
+        briefs=[_brief()], decision=_decision(), settings_doc=doc,
+        raw_render_path=tmp / "out" / "raw.mp4",
+        audio_source_path=pathlib.Path(files["master.wav"]),
+        remux_output_path=tmp / "out" / "remux.mp4",
+        settings_path=tmp / "out" / "settings.json",
+        sanctioned_dirs=[keep, out, shots],
+        render=lambda _inp: "", runner=lambda _argv: 0)
+    with pytest.raises(Ref2VARuntimeError, match="audio_carrier"):
+        run_ref2va_runtime(inp)
+
+
 # ── preservation: generic H3 lane untouched ──────────────────────────
 
 def test_generic_h3_untouched_and_no_gepa(tmp_path):

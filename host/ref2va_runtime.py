@@ -243,6 +243,10 @@ def _validate_settings_doc(settings_doc, sanctioned_dirs) -> dict:
     if policy.discard_rendered_audio is not False:
         raise Ref2VARuntimeError(
             "Ref2VA native audio policy requires discard_rendered_audio=False")
+    if settings_doc.get("audio_carrier", "native_h3") != "native_h3":
+        raise Ref2VARuntimeError(
+            "Ref2VA native audio policy requires top-level "
+            f"audio_carrier=native_h3, got {settings_doc.get('audio_carrier')!r}")
     from predict.ref2va_settings import ref2va_wire_settings, Ref2VASettingsError
     try:
         ref2va_wire_settings(settings_doc)

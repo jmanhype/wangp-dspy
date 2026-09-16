@@ -117,6 +117,7 @@ class Ref2VAProfile(RenderProfile):
                       audio_guide: Optional[str] = None,
                       audio_provenance: Optional[AudioGuideProvenance] = None,
                       audio_policy: Optional[AudioPolicy] = None,
+                      audio_carrier: Optional[str] = None,
                       speaker_manifest: Optional[dict] = None,
                        speaker_prompt: Optional[str] = None,
                        legacy_prompt: Optional[str] = None,
@@ -191,6 +192,10 @@ class Ref2VAProfile(RenderProfile):
                 discard_rendered_audio=False, remux_window=tuple(audio_provenance.keeper_window_s))
         if audio_policy.discard_rendered_audio is not False:
             raise ProfileError("Ref2VA requires native audio; discard/remux is not this recipe")
+        if audio_carrier is not None and audio_carrier != "native_h3":
+            raise ProfileError(
+                "Ref2VA requires top-level audio_carrier=native_h3, got "
+                f"{audio_carrier!r}")
         if continuation:
             if speaker_manifest is not None:
                 from predict.speaker_manifest import (

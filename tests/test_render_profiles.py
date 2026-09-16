@@ -238,6 +238,16 @@ def test_ref2va_rejects_external_audio_carrier(tmp_path):
             audio_policy=policy, **audio)
 
 
+def test_ref2va_rejects_top_level_external_audio_carrier(tmp_path):
+    p = Ref2VAProfile()
+    audio = _audio(tmp_path)
+    with pytest.raises(ProfileError, match="native_h3"):
+        p.build_settings(
+            [_brief()], _decision(), image_refs=_mkrefs(tmp_path),
+            audio_prompt_type="A", guide_duration_s=8.0, shot_duration_s=8.0,
+            audio_carrier="external_source_remux", **audio)
+
+
 # ── H3 harness preservation (byte-for-byte) ─────────────────────────
 
 def test_h3_settings_snapshot_unchanged():
