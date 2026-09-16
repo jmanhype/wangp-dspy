@@ -288,8 +288,9 @@ class TestChainAdvance:
         advance_chain(q, host, ids[2])
         assert host.calls == []
 
-    def test_advance_maps_remote_mp4_and_pulls_frame(self, tmp_path):
-        from services.director.wiring import advance_chain
+    def test_advance_fails_closed_without_local_source_identity(
+            self, tmp_path):
+        from services.director.wiring import WiringError, advance_chain
         q, ids, clips = self._queue_with_chain_jobs(tmp_path)
         local_mp4 = tmp_path / "pull" / "acceptance" / "render-0000" / "remux.mp4"
         _finish(q, ids[0], clips[0]["clip_index"], str(local_mp4))
@@ -309,16 +310,61 @@ class TestChainAdvance:
                 return local
 
         host = RemoteHost()
-        advance_chain(q, host, ids[0])
-        ffmpeg = [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
-        assert len(ffmpeg) == 1
-        assert ffmpeg[0][7] == "/remote/wgp/acceptance/render-0000/remux.mp4"
-        assert ffmpeg[0][-1].startswith("/remote/wgp/film/chain/")
-        fetches = [c for c in host.calls if c[:1] == ["fetch"]]
-        assert len(fetches) == 1
+        with pytest.raises(WiringError, match="local accepted chain source"):
+            advance_chain(q, host, ids[0])
+        assert not [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
+        assert not [c for c in host.calls if c[:1] == ["fetch"]]
         nxt = q.get(ids[1])
-        assert not nxt.clips[0]["image_refs"][0].startswith("chain://")
-        assert pathlib.Path(nxt.clips[0]["image_refs"][0]).is_file()
+        assert nxt.clips[0]["image_refs"][0].startswith("chain://")
+
+    def test_advance_hashes_local_source_without_loading_whole_file(
+            self, tmp_path, monkeypatch):
+        import hashlib
+        from services.director.wiring import WiringError, advance_chain
+
+        q, ids, clips = self._queue_with_chain_jobs(tmp_path)
+        local_mp4 = tmp_path / "pull" / "film" / "render-0000" / "remux.mp4"
+        local_mp4.parent.mkdir(parents=True)
+        payload = b"accepted-mp4"
+        local_mp4.write_bytes(payload)
+        expected_hash = hashlib.sha256(payload).hexdigest()
+        _finish(q, ids[0], clips[0]["clip_index"], str(local_mp4))
+
+        class MatchingRemoteHost(_FakeHost):
+            pull_root = str(tmp_path / "pull")
+
+            def map_path(self, path):
+                rel = str(path).removeprefix(self.pull_root).lstrip("/")
+                return "/remote/wgp/" + rel
+
+            def run_probe(self, argv, timeout=30):
+                self.calls.append(list(argv))
+                if argv[:1] == ["sha256sum"]:
+                    return 0, expected_hash + "  " + argv[1], ""
+                if argv[:2] == ["ffmpeg", "-y"]:
+                    return 0, "", ""
+                if argv[:2] == ["mkdir", "-p"]:
+                    return 0, "", ""
+                return 0, "", ""
+
+            def fetch_file(self, remote, local):
+                self.calls.append(["fetch", remote, local])
+                pathlib.Path(local).parent.mkdir(parents=True,
+                                                  exist_ok=True)
+                pathlib.Path(local).write_bytes(b"png")
+                return local
+
+        def forbidden_mp4_reads(self):
+            if self.suffix == ".mp4":
+                raise AssertionError(
+                    "chain hashing must stream MP4 bytes")
+            return b"test-fixture"
+
+        monkeypatch.setattr(pathlib.Path, "read_bytes", forbidden_mp4_reads)
+        host = MatchingRemoteHost()
+        advance_chain(q, host, ids[0])
+        assert not [c for c in host.calls if c[:1] == ["push_file"]]
+        assert [c for c in host.calls if c[:2] == ["ffmpeg", "-y"]]
 
     def test_advance_publishes_local_final_mp4_before_remote_extract(
             self, tmp_path):

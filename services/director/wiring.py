@@ -43,6 +43,12 @@ DEFAULT_RE_ANCHOR_EVERY = 3
 chain_last_frame_ref = "chain://clip{index:04d}/last_frame"
 
 
+def _sha256_file(path: Path) -> str:
+    """Hash a potentially large media artifact in bounded-size chunks."""
+    with path.open("rb") as source:
+        return hashlib.file_digest(source, "sha256").hexdigest()
+
+
 class WiringError(ValueError):
     """Typed director-wiring rejection (bad roster, off-grid, etc.)."""
 
@@ -365,20 +371,19 @@ def advance_chain(queue, host, job_id: str) -> Optional[str]:
             rc, _out, _err = host.run_probe(
                 ["test", "-f", remote_mp4], timeout=60)
             local_source = Path(str(mp4))
-            local_hash = None
-            if local_source.is_file():
-                local_hash = hashlib.sha256(
-                    local_source.read_bytes()).hexdigest()
+            if not local_source.is_file():
+                raise WiringError(
+                    "local accepted chain source is missing; refusing to "
+                    f"trust an unverified remote path: {mp4!r}")
+            local_hash = _sha256_file(local_source)
             remote_is_current = False
             if rc == 0:
-                remote_is_current = local_hash is None
-                if local_hash is not None:
-                    hash_rc, hash_out, _hash_err = host.run_probe(
-                        ["sha256sum", remote_mp4], timeout=60)
-                    remote_hash = (hash_out.split()[0]
-                                   if hash_rc == 0 and hash_out.split()
-                                   else "")
-                    remote_is_current = remote_hash == local_hash
+                hash_rc, hash_out, _hash_err = host.run_probe(
+                    ["sha256sum", remote_mp4], timeout=60)
+                remote_hash = (hash_out.split()[0]
+                               if hash_rc == 0 and hash_out.split()
+                               else "")
+                remote_is_current = remote_hash == local_hash
             if not remote_is_current:
                 pusher = getattr(host, "push_file", None)
                 if not callable(pusher) or not Path(str(mp4)).is_file():
