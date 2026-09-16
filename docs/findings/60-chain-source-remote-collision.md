@@ -1,6 +1,7 @@
 # 60 — chain advance trusts an occupied remote final-artifact path
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #90 / commit `3faaf9a`; chain-source identity checks are
+on `main`.
 
 ## Evidence
 
@@ -32,3 +33,11 @@ stale 480x832 remote artifact as its chain seed, causing cut 2 to fail native
 Whisper. After the hash check/publish/verify repair, the regenerated chain
 frame was the pinned 704x576 seed and the retried cut 2 reproduced the exact
 operator-accepted SHA-256. The assembled pair also matched exactly.
+
+## Resolution
+
+`services/director/wiring.py` now compares local and remote artifact identity
+before chain extraction, with regression coverage in
+`tests/test_director_wiring.py`. Finding #69 later required a present local
+source and streaming hashing. The full suite at `9b70be1` passed 1380 tests
+with one intentional skip and no failures.
