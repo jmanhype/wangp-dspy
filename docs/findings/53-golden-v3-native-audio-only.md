@@ -1,6 +1,7 @@
 # 53 — golden-v3 must reject external-source remux
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #83 / commit `be9e6d2`; native-only enforcement is on
+`main`.
 
 ## Evidence
 
@@ -27,3 +28,10 @@ that H3 generated a synchronized result.
 
 Acceptance tests reject an explicit external carrier, reject discard=true, prove
 the remux runner is never invoked, and prove native/final hashes match.
+
+## Resolution
+
+The repair is an ancestor of current `main`. Live regression coverage spans
+`tests/test_continuation_chain_extras.py`, `tests/test_ref2va_runtime.py`, and
+`tests/test_render_profiles.py`. The full suite at `9b70be1` passed 1380 tests
+with one intentional skip and no failures.
