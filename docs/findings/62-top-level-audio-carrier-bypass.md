@@ -1,6 +1,7 @@
 # 62 — top-level external audio carriers bypass native validation
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #93 / commit `0e79a71`; all three native-carrier
+boundaries reject external carriers on `main`.
 
 ## Evidence
 
@@ -30,3 +31,11 @@ Reject any top-level carrier other than `native_h3` at all three boundaries:
 
 Regression tests cover the job envelope, direct profile construction, and a
 mutated prebuilt settings document.
+
+## Resolution
+
+The adapter envelope, `Ref2VAProfile.build_settings`, and prebuilt settings
+validation all require `native_h3`. Regression coverage spans
+`tests/test_continuation_chain_extras.py`, `tests/test_ref2va_runtime.py`,
+and `tests/test_render_profiles.py`. The full suite at `9b70be1` passed 1380
+tests with one intentional skip and no failures.
