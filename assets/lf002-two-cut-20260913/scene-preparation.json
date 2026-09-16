@@ -62,5 +62,5 @@
   "vibevoice_backlog": "docs/findings/52-fresh-vibevoice-turn-entrypoint.md",
   "queued": true,
   "voice_approval": "operator-approval.json",
-  "staging_bundle": "staging.json"
+  "staging_bundle": "staging-two-cut-seed905-fresh-20260916.json"
 }

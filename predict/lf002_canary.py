@@ -42,8 +42,8 @@ def _probe(path: Path) -> list[dict]:
 
 def verify_lf002_canary(*, cut1: str, cut2: str, pair: str, chain: str,
                         report_path: str) -> dict:
-    paths = {key: Path(value).resolve() for key, value in dict(
-        cut1=cut1, cut2=cut2, pair=pair, chain=chain).items()}
+    supplied = dict(cut1=cut1, cut2=cut2, pair=pair, chain=chain)
+    paths = {key: Path(value).resolve() for key, value in supplied.items()}
     report = Path(report_path).resolve()
     if report in paths.values():
         raise LF002CanaryError("canary report must not overwrite an input")
@@ -55,7 +55,7 @@ def verify_lf002_canary(*, cut1: str, cut2: str, pair: str, chain: str,
             data = path.read_bytes()
             digest = hashlib.sha256(data).hexdigest()
             artifacts[key] = {
-                "path": str(path),
+                "path": str(supplied[key]),
                 "sha256": digest,
                 "bytes": len(data),
             }
@@ -101,8 +101,13 @@ def verify_lf002_canary(*, cut1: str, cut2: str, pair: str, chain: str,
             "quality claim."
         ),
     }
-    report.parent.mkdir(parents=True, exist_ok=True)
-    report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    try:
+        report.parent.mkdir(parents=True, exist_ok=True)
+        report.write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    except OSError as exc:
+        raise LF002CanaryError(
+            f"unable to write LF002 canary report {report}: {exc}") from exc
     if errors:
         raise LF002CanaryError("; ".join(errors))
     return result

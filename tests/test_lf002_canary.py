@@ -1,5 +1,6 @@
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
@@ -56,9 +57,40 @@ def test_matching_artifacts_and_streams_pass(monkeypatch, artifacts, tmp_path):
         **artifacts, report_path=report)
     assert result["passed"] is True
     assert result["operator_verdict"] == "perfect"
+    assert all(result["artifacts"][key]["path"] == str(path)
+               for key, path in artifacts.items())
 
 
 def test_report_cannot_overwrite_input(artifacts):
     with pytest.raises(lf002_canary.LF002CanaryError, match="overwrite"):
         lf002_canary.verify_lf002_canary(
             **artifacts, report_path=artifacts["pair"])
+
+
+def test_report_filesystem_failure_is_typed(tmp_path):
+    blocker = tmp_path / "blocker"
+    blocker.write_text("not a directory")
+    report = blocker / "nested" / "report.json"
+    with pytest.raises(
+            lf002_canary.LF002CanaryError, match="write LF002 canary report"):
+        lf002_canary.verify_lf002_canary(
+            cut1="cut1.mp4", cut2="cut2.mp4", pair="pair.mp4",
+            chain="chain.png", report_path=report)
+
+
+def test_published_lf002_provenance_is_reproducible_and_complete():
+    root = Path(__file__).resolve().parents[1]
+    asset_dir = root / "assets" / "lf002-two-cut-20260913"
+    provenance = (
+        root / "datasets" / "runs" / "provenance" /
+        "lf002-golden-20260916")
+    scene = json.loads((asset_dir / "scene-preparation.json").read_text())
+    bundle_name = scene["staging_bundle"]
+    assert (asset_dir / bundle_name).is_file()
+    bundle = json.loads((asset_dir / bundle_name).read_text())
+    assert bundle["golden_canary"]["recipe_version"] == (
+        lf002_canary.LF002_RECIPE_VERSION)
+    canary = json.loads((provenance / "canary.json").read_text())
+    assert canary["passed"] is True
+    assert all(not Path(value["path"]).is_absolute()
+               for value in canary["artifacts"].values())

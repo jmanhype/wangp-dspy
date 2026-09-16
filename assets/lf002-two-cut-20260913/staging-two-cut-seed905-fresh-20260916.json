@@ -3,6 +3,9 @@
   "recipe_name": "golden_v3",
   "expected_cuts": 2,
   "seed": 905,
+  "golden_canary": {
+    "recipe_version": "lf002-archive-of-rain-20260916-seed905-native-v1"
+  },
   "durations_s": [
     2.3333333333333335,
     2.3333333333333335
