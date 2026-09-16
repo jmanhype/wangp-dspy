@@ -24,6 +24,7 @@ import re
 import shlex
 import subprocess
 import time
+import uuid
 from dataclasses import dataclass
 from typing import Callable, Mapping, Optional, Sequence
 
@@ -118,6 +119,7 @@ DEFAULT_MAX_ATTEMPTS = 3
 # per-instance-agnostic render sequence: each render() call gets its own
 # numbered subdirectory under output_dir (F2 isolation)
 _RENDER_SEQ = [0]
+_NAMESPACE_RE = re.compile(r"[0-9a-f]{12}\Z")
 
 # transient stderr markers: gateway timeouts and decode chokes.
 # Word-boundary regex — a literal "504" inside frame numbers, ms counts
@@ -1176,13 +1178,28 @@ def production_ref2va_render(adapter, inp):
     return _P(inp.raw_render_path)
 
 
-def _next_render_dir(root):
-    """Allocate a collision-free render directory across worker restarts."""
+def _render_worker_root(root, namespace: str):
+    """Bind one adapter process to a path-safe remote render namespace."""
+    if not isinstance(namespace, str) or not _NAMESPACE_RE.fullmatch(namespace):
+        raise WanGPError(
+            "render namespace must be 12 lowercase hexadecimal characters")
+    return root / f"worker-{namespace}"
+
+
+def _next_render_dir(root, namespace: str = "000000000000"):
+    """Allocate a collision-free render directory across worker restarts.
+
+    The adapter namespace prevents two fresh checkouts from mapping
+    independently allocated ``render-0000`` directories onto the same remote
+    WanGP path. Local existing-directory checks still prevent a relaunched
+    worker in the same checkout from overwriting its pulled artifacts.
+    """
+    worker_root = _render_worker_root(root, namespace)
     render_index = _RENDER_SEQ[0]
-    while (root / f"render-{render_index:04d}").exists():
+    while (worker_root / f"render-{render_index:04d}").exists():
         render_index += 1
     _RENDER_SEQ[0] = render_index + 1
-    return root / f"render-{render_index:04d}"
+    return worker_root / f"render-{render_index:04d}"
 
 
 def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
@@ -1206,7 +1223,7 @@ def _run_ref2va_job(adapter, job: Mapping, *, render=None, runner=None,
     # The worker may be relaunched between jobs.  A process-local sequence
     # alone would reset to render-0000 and overwrite a prior cut's pulled
     # artifact, corrupting its durable provenance.
-    render_dir = _next_render_dir(root)
+    render_dir = _next_render_dir(root, adapter.render_namespace)
     render_dir.mkdir(parents=True, exist_ok=True)
 
     def _default_render(inp):
@@ -1282,8 +1299,7 @@ def _fl2va_render_dir(adapter):
     root = _P(adapter.output_dir if isinstance(
         adapter.output_dir, str) else "output")
     root = _P(os.path.abspath(str(root)))
-    render_dir = root / f"render-{_RENDER_SEQ[0]:04d}"
-    _RENDER_SEQ[0] += 1
+    render_dir = _next_render_dir(root, adapter.render_namespace)
     render_dir.mkdir(parents=True, exist_ok=True)
     return render_dir
 
@@ -1498,6 +1514,7 @@ class WanGPAdapter:
         self.venv_python = venv_python
         self.wgp_script = wgp_script
         self.output_dir = output_dir
+        self.render_namespace = uuid.uuid4().hex[:12]
         # WD-5zti: wgp IGNORES --output-dir at this pin and always
         # writes to <wgp_root>/outputs/ — the readback must scan there.
         self.wgp_outputs_dir = (
@@ -1624,12 +1641,15 @@ class WanGPAdapter:
 
     def render(self, briefs: Sequence[RenderBrief],
                decision: ProfileDecision) -> RenderResult:
+        from pathlib import Path as _P
         self._check_venv()
         settings = build_settings(briefs, decision)
         # F2: every render (and each of its retries) owns a private
         # subdirectory — renders never share output files
+        render_root = _render_worker_root(
+            _P(self.output_dir), self.render_namespace)
         render_dir = self.host.join(
-            self.output_dir,
+            str(render_root),
             f"render-{_RENDER_SEQ[0]:04d}")
         _RENDER_SEQ[0] += 1
         self.host.makedirs(render_dir)

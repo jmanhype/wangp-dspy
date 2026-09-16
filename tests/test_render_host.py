@@ -248,11 +248,14 @@ def test_pin5_local_readback_unchanged(tmp_path):
     assert result.attempts == 1
     assert len(result.video_paths) == 1
     rel = os.path.relpath(result.video_paths[0], str(tmp_path / "renders"))
-    assert rel.startswith("render-")
+    rel_parts = rel.replace(os.sep, "/").split("/")
+    assert rel_parts[0] == f"worker-{adapter.render_namespace}"
+    assert rel_parts[1].startswith("render-")
     assert "/attempt-1/" in rel.replace(os.sep, "/")
     assert os.path.isfile(result.video_paths[0])
     body = json.load(open(os.path.join(
-        str(tmp_path / "renders"), rel.split("/")[0], "settings.json")))
+        str(tmp_path / "renders"), rel_parts[0], rel_parts[1],
+        "settings.json")))
     assert body["force_fps"] == "24"
 
 

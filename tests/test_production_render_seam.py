@@ -97,9 +97,52 @@ def test_ref2va_render_dir_skips_existing_dirs_after_worker_restart(
     import host.wangp_adapter as adapter_module
     from host.wangp_adapter import _next_render_dir
 
-    (tmp_path / "render-0000").mkdir()
+    namespace = "123456789abc"
+    worker_root = tmp_path / f"worker-{namespace}"
+    (worker_root / "render-0000").mkdir(parents=True)
     monkeypatch.setattr(adapter_module, "_RENDER_SEQ", [0])
-    assert _next_render_dir(tmp_path).name == "render-0001"
+    assert _next_render_dir(tmp_path, namespace).name == "render-0001"
+
+
+def test_render_worker_namespaces_isolate_shared_remote_paths(
+        tmp_path, monkeypatch):
+    from pathlib import Path
+
+    import host.wangp_adapter as adapter_module
+    from host.wangp_adapter import _next_render_dir, _render_worker_root
+
+    monkeypatch.setattr(adapter_module, "_RENDER_SEQ", [0])
+    root_a = tmp_path / "checkout-a"
+    root_b = tmp_path / "checkout-b"
+    namespace_a = "123456789abc"
+    namespace_b = "abcdef123456"
+    dir_a = _next_render_dir(root_a, namespace_a)
+    monkeypatch.setattr(adapter_module, "_RENDER_SEQ", [0])
+    dir_b = _next_render_dir(root_b, namespace_b)
+    assert dir_a.parent == _render_worker_root(root_a, namespace_a)
+    assert dir_b.parent == _render_worker_root(root_b, namespace_b)
+    assert dir_a.name == dir_b.name == "render-0000"
+    assert dir_a != dir_b
+
+    def remote(path):
+        return "/remote/wgp/" + Path(path).relative_to(tmp_path).as_posix()
+
+    assert remote(dir_a) != remote(dir_b)
+    assert remote(dir_a).endswith(
+        "/checkout-a/worker-123456789abc/render-0000")
+    assert remote(dir_b).endswith(
+        "/checkout-b/worker-abcdef123456/render-0000")
+
+
+def test_adapter_instance_allocates_path_safe_render_namespace(tmp_path):
+    from host.wangp_adapter import _fl2va_render_dir
+
+    adapter = _adapter(FakeHost(), tmp_path)
+    other = _adapter(FakeHost(), tmp_path)
+    assert adapter.render_namespace != other.render_namespace
+    render_dir = _fl2va_render_dir(adapter)
+    assert render_dir.parent.name == f"worker-{adapter.render_namespace}"
+    assert render_dir.parent.parent == tmp_path / "out"
 
 
 GOOD_LOG = ("Encoding H3 prompt and references\nloading model\nDenoising 20/20\nsaved\n"
