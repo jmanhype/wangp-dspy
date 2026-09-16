@@ -25,3 +25,17 @@ Tests now prove:
 missing local source + occupied remote path → WiringError, no extraction
 matching local/remote hashes                   → no whole-MP4 Path.read_bytes
 ```
+
+## Stack verification
+
+The complete #62–#69 source-only follow-up stack passed:
+
+```text
+1375 tests
+0 failures
+0 errors
+1 skipped
+```
+
+Evidence:
+`datasets/runs/provenance/qodo-followups-20260916/fullsuite.xml`.

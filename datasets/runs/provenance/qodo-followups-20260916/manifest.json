@@ -1,0 +1,24 @@
+{
+  "schema": "wangp-dspy.qodo-followup-validation/v1",
+  "validated_at_utc": "2026-09-16T19:53:37Z",
+  "branch": "codex/finding-69-chain-source-identity",
+  "findings": [
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69
+  ],
+  "full_suite": {
+    "tests": 1375,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "time_s": 32.042,
+    "junit": "fullsuite.xml"
+  },
+  "scope": "Source-only Qodo follow-up validation; no GPU render is claimed by this manifest."
+}
