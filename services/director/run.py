@@ -235,9 +235,10 @@ class DirectorRun:
              plate_paths: Sequence[str | Sequence[str]],
              media_manifest: Mapping | None = None,
              expected_cuts: int = 6,
-             recipe_name: str = "production",
-             seed_override: int | None = None,
-             durations_s: Sequence[float] | None = None) -> DirectorRunPlan:
+            recipe_name: str = "production",
+            seed_override: int | None = None,
+            durations_s: Sequence[float] | None = None,
+            emit_record: bool = True) -> DirectorRunPlan:
         """Build the strict ContinuationExtras manifest (no GPU/subprocess).
 
         ``media_manifest`` is mandatory in practice (``None`` is rejected)
@@ -302,14 +303,33 @@ class DirectorRun:
         if len(clips) != expected_cuts:
             raise DirectorRunError(
                 f"continuation plan did not emit {expected_cuts} jobs")
-        if self.dataset_run_path is not None:
-            append_dataset_run(
-                self.dataset_run_path, run_id=self.run_id, status="planned",
-                payload={"premise_id": self.premise.id, "clip_count": len(clips),
-                         "durations_s": durations,
-                         "media_manifest": canonical_media})
-        return DirectorRunPlan(self.run_id, self.premise.id, chain, clips,
+        plan = DirectorRunPlan(self.run_id, self.premise.id, chain, clips,
                                canonical_media)
+        if emit_record:
+            self.emit_plan_record(plan, durations_s=durations)
+        return plan
+
+    def emit_plan_record(self, plan: DirectorRunPlan,
+                         *, durations_s: Sequence[float] | None = None) -> None:
+        """Append the planned lifecycle record after preflight/staging."""
+        if not isinstance(plan, DirectorRunPlan):
+            raise DirectorRunError("plan: expected a DirectorRunPlan")
+        if self.dataset_run_path is None:
+            return
+        if durations_s is None:
+            durations = [CONTINUATION_FRAMES_MIN / 24.0] * len(plan.clips)
+        else:
+            durations = [float(value) for value in durations_s]
+            if len(durations) != len(plan.clips) or any(
+                    value <= 0 for value in durations):
+                raise DirectorRunError(
+                    "durations_s: one positive duration is required per clip")
+        append_dataset_run(
+            self.dataset_run_path, run_id=self.run_id, status="planned",
+            payload={"premise_id": self.premise.id,
+                     "clip_count": len(plan.clips),
+                     "durations_s": durations,
+                     "media_manifest": plan.media_manifest})
 
     @staticmethod
     def submit(plan: DirectorRunPlan, queue) -> list[str]:

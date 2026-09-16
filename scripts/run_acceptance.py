@@ -13,6 +13,7 @@ import sys
 import os
 from collections.abc import Mapping
 from pathlib import Path
+from pathlib import PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -101,6 +102,10 @@ def _canonical_speaker(value, *, by_name, by_fold, by_sn, label):
 def _normalize_inputs(bundle: Mapping, premise, *, root: Path) -> dict:
     try:
         script = list(bundle["script_lines"])
+        for line_index, line in enumerate(script, 1):
+            if not isinstance(line, Mapping):
+                raise AcceptanceBundleError(
+                    f"script_lines[{line_index}]: each entry must be an object")
         audio = [_path(p, root=root, label=f"audio_paths[{i}]")
                  for i, p in enumerate(bundle["audio_paths"], 1)]
         plates_raw = bundle["plate_paths"]
@@ -192,9 +197,9 @@ def _require_completed_qc_evidence(clip: Mapping, *,
         return
 
 
-def _submit_completed_prefix(plan, queue, prefix: Mapping,
-                             *, root: Path) -> list[str]:
-    """Adopt one verified completed cut, then submit only its dependents.
+def _prepare_completed_prefix(plan, prefix: Mapping,
+                              *, root: Path) -> Mapping:
+    """Validate and materialize one verified completed cut without staging.
 
     A completed-prefix replay is evidence reuse, not silent artifact adoption.
     The source job must be done, its effective renderer fingerprint must match
@@ -293,10 +298,17 @@ def _submit_completed_prefix(plan, queue, prefix: Mapping,
             "sha256": final_hash,
         },
     })
+    return completed
+
+
+def _submit_prepared_completed_prefix(plan, queue,
+                                      completed: Mapping) -> list[str]:
+    """Insert a validated completed prefix and chain every dependent."""
     prefix_job = queue.submit_completed(
-        plan_ref=plan.run_id, clips=[completed])
+        plan_ref=plan.run_id, clips=[dict(completed)])
     ids = [prefix_job]
     previous_job = prefix_job
+    index = int(completed["clip_index"])
     for clip in plan.clips[index:]:
         job = dict(clip)
         job["needs"] = previous_job
@@ -304,6 +316,13 @@ def _submit_completed_prefix(plan, queue, prefix: Mapping,
         ids.append(job_id)
         previous_job = job_id
     return ids
+
+
+def _submit_completed_prefix(plan, queue, prefix: Mapping,
+                             *, root: Path) -> list[str]:
+    """Compatibility wrapper: validate, then submit a completed prefix."""
+    completed = _prepare_completed_prefix(plan, prefix, root=root)
+    return _submit_prepared_completed_prefix(plan, queue, completed)
 
 
 def _stage_media_inputs(inputs: Mapping, host) -> None:
@@ -320,10 +339,16 @@ def _stage_media_inputs(inputs: Mapping, host) -> None:
     for item in inputs["plates"]:
         values = item if isinstance(item, (list, tuple)) else (item,)
         paths.update(str(path) for path in values)
+    missing = sorted(path for path in paths if not Path(path).is_file())
+    if missing:
+        raise AcceptanceBundleError(
+            f"acceptance bundle inputs missing locally: {missing}")
     for local in sorted(paths):
         try:
             remote = mapper(local)
-            makedirs(remote.rsplit("/", 1)[0])
+            remote_parent = str(PurePosixPath(remote).parent)
+            if remote_parent not in {"", "."}:
+                makedirs(remote_parent)
             pusher(local)
         except Exception as exc:
             raise AcceptanceBundleError(
@@ -360,6 +385,15 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
         raise AcceptanceBundleError(
             "golden_canary.recipe_version must identify the pinned LF002 "
             "native control")
+    durations_s = bundle.get("durations_s")
+    if durations_s is not None:
+        if not isinstance(durations_s, (list, tuple)):
+            raise AcceptanceBundleError(
+                "durations_s: must be a list or tuple when provided")
+        for duration_index, value in enumerate(durations_s, 1):
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise AcceptanceBundleError(
+                    f"durations_s[{duration_index}]: numeric value required")
     run_id = str(bundle["run_id"])
     if not run_id.strip():
         raise AcceptanceBundleError("run_id must be non-empty")
@@ -368,36 +402,46 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     output = Path(output_path or ROOT / "datasets" / "runs" / "pull" /
                   run_id / "assembled.mp4").resolve()
 
-    # Resolve host/judge and stage inputs before creating a queue. Missing
-    # credentials or transport seams must not leave renderable jobs behind.
-    host = host or run_jobs._default_host()
-    judge = vision_judge or run_jobs._default_vision_judge(host=host)
-    _stage_media_inputs(inputs, host)
-
-    from services.director.run import DirectorRun
+    from services.director.run import DirectorRun, DirectorRunError
     from services.jobs.queue import JobQueue
     run = DirectorRun(run_id=run_id, premise=premise,
                       dataset_run_path=str(ledger))
-    plan = run.plan(inputs["script"], audio_paths=inputs["audio"],
-                    plate_paths=inputs["plates"],
-                    media_manifest=inputs["media"],
-                    recipe_name=bundle.get("recipe_name", "golden_v3"),
-                    expected_cuts=bundle.get("expected_cuts", 6),
-                    durations_s=bundle.get("durations_s"),
-                    seed_override=bundle.get("seed", 904))
+    try:
+        plan = run.plan(inputs["script"], audio_paths=inputs["audio"],
+                        plate_paths=inputs["plates"],
+                        media_manifest=inputs["media"],
+                        recipe_name=bundle.get("recipe_name", "golden_v3"),
+                        expected_cuts=bundle.get("expected_cuts", 6),
+                        durations_s=durations_s,
+                        seed_override=bundle.get("seed", 904),
+                        emit_record=False)
+    except DirectorRunError as exc:
+        raise AcceptanceBundleError(f"bundle plan rejected: {exc}") from exc
+
+    prepared_prefix = None
+    prefix = bundle.get("completed_prefix")
+    if prefix is not None:
+        if not isinstance(prefix, Mapping):
+            raise AcceptanceBundleError(
+                "completed_prefix must be an object")
+        prepared_prefix = _prepare_completed_prefix(
+            plan, prefix, root=ROOT)
+
+    # Complete pure planning before remote staging, but stage before creating
+    # a renderable queue. The planned ledger is emitted only after staging.
+    host = host or run_jobs._default_host()
+    judge = vision_judge or run_jobs._default_vision_judge(host=host)
+    _stage_media_inputs(inputs, host)
+    run.emit_plan_record(plan, durations_s=bundle.get("durations_s"))
     queue = JobQueue(str(db))
     try:
         # Credentials and input staging have already succeeded; queue only
         # the fully resolved plan.
-        prefix = bundle.get("completed_prefix")
-        if prefix is None:
+        if prepared_prefix is None:
             job_ids = run.submit(plan, queue)
         else:
-            if not isinstance(prefix, Mapping):
-                raise AcceptanceBundleError(
-                    "completed_prefix must be an object")
-            job_ids = _submit_completed_prefix(
-                plan, queue, prefix, root=ROOT)
+            job_ids = _submit_prepared_completed_prefix(
+                plan, queue, prepared_prefix)
             from services.director.wiring import advance_chain
             advance_chain(queue, host, job_ids[0])
         handled = run_jobs.drain_once(
@@ -408,7 +452,18 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
             raise AcceptanceBundleError(
                 f"acceptance drain did not complete all jobs: {states}")
         videos = [job.clips[0]["mp4"] for job in jobs]
-        assembly = assemble_media(videos, str(output))
+        assembly_videos = videos
+        assembly_host = None
+        if golden_canary_spec is not None:
+            # The pinned LF002 pair was assembled from native raw artifacts on
+            # the renderer host; using local remux paths changes the bytes.
+            assembly_videos = [
+                str(Path(video).with_name("raw.mp4"))
+                for video in videos
+            ]
+            assembly_host = host
+        assembly = assemble_media(
+            assembly_videos, str(output), host=assembly_host)
         golden_canary = None
         if golden_canary_spec is not None:
             if len(jobs) < 2:
