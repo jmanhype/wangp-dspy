@@ -425,6 +425,7 @@ def _continuation_config(
         "audio_provenance": provenance,
         "speaker_manifest": speaker_manifest,
         "audio_policy": {"discard_rendered_audio": False},
+        "audio_carrier": "native_h3",
         # Audio duration is unknown until probed. Never claim a WAV has the
         # cut's frame length just because the plan does.
         "guide_duration_s": None,

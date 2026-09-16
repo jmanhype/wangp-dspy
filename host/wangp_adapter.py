@@ -485,8 +485,9 @@ def _build_ref2va_runtime_input(adapter, job: Mapping, *,
 
     requested_policy = _job_field(job, "audio_policy")
     if requested_policy is not None and (
-            not isinstance(requested_policy, dict)
-            or requested_policy.get("discard_rendered_audio") is not False):
+            not isinstance(requested_policy, Mapping)
+            or requested_policy.get("discard_rendered_audio") is not False
+            or requested_policy.get("audio_carrier", "native_h3") != "native_h3"):
         raise WanGPError("Ref2VA native audio policy required; re-plan legacy discard/remux jobs")
 
     continuation_raw = _job_field(job, "continuation_extras")

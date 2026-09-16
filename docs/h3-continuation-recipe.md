@@ -62,11 +62,13 @@ original grandma/soul guides measure approximately 2.330417/2.096 s, mono at
 24 kHz. The September 7 grid-padding acceptance amendment is a historical
 variant, not silently rewritten or claimed as exact September 6 parity.
 
-**Preserve native H3 audiovisual output.** Ref2VA requires
-`discard_rendered_audio=False`; neither adapter nor runtime replaces its audio
-with the guide. The compatibility filename `remux.mp4` currently remains, but
-must be byte-identical to `raw.mp4`, with hashes and `audio_carrier=native_h3`
-recorded. Old external-remux jobs need replanning, not silent adoption.
+**Preserve native H3 audiovisual output.** The validated v3 recipe requires
+`audio_carrier=native_h3` and `discard_rendered_audio=False`. The guide WAV
+conditions generation; it is never overlaid afterward. The compatibility
+filename `remux.mp4` currently remains for downstream callers, but it must be
+byte-identical to `raw.mp4`, with both hashes and
+`audio_carrier=native_h3` recorded. External-audio derivatives cannot enter
+this recipe or pass its QC.
 
 Whisper gates the guide before GPU work and the **native** output afterward,
 at 0.6. Matching words is not a lip-sync measurement. Chaining uses:

@@ -1,6 +1,10 @@
 """Finding 5: chain manifests carry typed Ref2Va continuation extras."""
 from __future__ import annotations
 
+import pytest
+
+from predict.continuation_lane import ContinuationExtras, JobConfigError
+
 
 def _script():
     return [
@@ -51,6 +55,25 @@ def test_continuation_manifest_has_ref2va_extras_and_chain_refs():
     assert second["continuation_extras"]["image_refs"][1] == "ada.png"
     assert second["continuation_extras"]["audio_guide"] == "a1.wav"
     assert second["continuation_extras"]["video_length"] == 56
+
+
+def test_manifest_is_native_h3_and_rejects_remux_policy():
+    from services.chain.controller import build_chain_plan, emit_render_manifest
+
+    plan = build_chain_plan(
+        _script(), _characters(), [56 / 24, 56 / 24],
+        audio_paths=["a0.wav", "a1.wav"], continuation_mode=True)
+    manifest = emit_render_manifest(
+        plan, plate_paths=[["anchor.png", "bo.png"],
+                           ["anchor.png", "ada.png"]],
+        recipe_name="golden_v3")
+    assert all(c["audio_carrier"] == "native_h3" for c in manifest)
+    assert all(c["audio_policy"]["discard_rendered_audio"] is False
+               for c in manifest)
+    with pytest.raises(JobConfigError):
+        ContinuationExtras(
+            image_start="anchor.png", image_refs=["anchor.png", "bo.png"],
+            audio_guide="a0.wav", audio_policy_discard_rendered=True).validate()
 
 
 def test_adapter_runtime_input_consumes_continuation_extras(tmp_path):

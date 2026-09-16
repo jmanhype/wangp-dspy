@@ -83,7 +83,7 @@ class H3Profile(RenderProfile):
 
 
 class Ref2VAProfile(RenderProfile):
-    """Second profile: image-refs + native audio 'A' Ref2VA lane.
+    """Second profile: image-refs + explicit audio-carrier 'A' lane.
 
     Contract (spec): image_refs present+readable at submit;
     audio_prompt_type 'A' typed; guide duration matches the ordinary
@@ -91,8 +91,9 @@ class Ref2VAProfile(RenderProfile):
     2.33s ordinary / 56/24s continuation floor and 15s cap;
     <Picture N>/<Audio N> token contiguity
     (every referenced index has a ref, numbering contiguous from 1).
-    The emitted envelope is a native single-cut job without multishot
-    script fields, and ``ref2va_wire_settings`` enforces the wire shape.
+    The emitted envelope is a single-cut job without multishot script
+    fields, and ``ref2va_wire_settings`` enforces the wire shape. Native H3
+    output is the only validated carrier.
     """
 
     name = "ref2va"
@@ -113,10 +114,10 @@ class Ref2VAProfile(RenderProfile):
                        audio_prompt_type: str = "",
                        guide_duration_s: float = 0.0,
                        shot_duration_s: float = 0.0,
-                       audio_guide: Optional[str] = None,
-                       audio_provenance: Optional[AudioGuideProvenance] = None,
-                       audio_policy: Optional[AudioPolicy] = None,
-                       speaker_manifest: Optional[dict] = None,
+                      audio_guide: Optional[str] = None,
+                      audio_provenance: Optional[AudioGuideProvenance] = None,
+                      audio_policy: Optional[AudioPolicy] = None,
+                      speaker_manifest: Optional[dict] = None,
                        speaker_prompt: Optional[str] = None,
                        legacy_prompt: Optional[str] = None,
                        seed: Optional[int] = None,
@@ -316,6 +317,7 @@ class Ref2VAProfile(RenderProfile):
             "requested_frames": requested_frames,
             "audio_provenance": audio_provenance.to_dict(),
             "audio_policy": audio_policy.to_dict(),
+            "audio_carrier": "native_h3",
             "audio_qc": Ref2VAAudioQC.empty().to_dict(),
             "profile": int(profile),
             "recipe_name": recipe_name,

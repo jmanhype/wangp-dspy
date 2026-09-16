@@ -29,10 +29,9 @@ PR #51 review hardening:
   as Ref2VARuntimeError — no raw ValueError leaks.
 
 Historical seam note: ``runner`` and ``safe_argv_runner`` remain in the
-public input/API surface for compatibility, but the native Ref2VA path
-does not invoke a planner or runner to replace its generated audio.
-``plan_remux_command`` remains the shared, explicit remux utility for
-non-Ref2VA external-audio lanes.
+public input/API surface for compatibility, but the native Ref2VA path never
+invokes a planner or runner to replace generated audio.
+``plan_remux_command`` remains reserved for non-Ref2VA external-audio lanes.
 """
 from __future__ import annotations
 

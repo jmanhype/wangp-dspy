@@ -218,9 +218,24 @@ def test_ref2va_settings_extra_contains_audio_plane(tmp_path):
     assert pol == {"discard_rendered_audio": False,
                    "remux_source": "source_master",
                    "remux_window": [1.0, 5.0]}
+    assert doc["audio_carrier"] == "native_h3"
     qc = doc["audio_qc"]
     assert qc["critic_model"] == "Qwen2-Audio-7B"
     assert qc["mouth_sync"] is None  # not yet judged
+
+
+def test_ref2va_rejects_external_audio_carrier(tmp_path):
+    from predict.audio_dataplane import AudioPolicy
+    p = Ref2VAProfile()
+    audio = _audio(tmp_path)
+    policy = AudioPolicy(
+        discard_rendered_audio=True,
+        remux_window=(0.0, 8.0))
+    with pytest.raises(ProfileError, match="native audio"):
+        doc = p.build_settings(
+            [_brief()], _decision(), image_refs=_mkrefs(tmp_path),
+            audio_prompt_type="A", guide_duration_s=8.0, shot_duration_s=8.0,
+            audio_policy=policy, **audio)
 
 
 # ── H3 harness preservation (byte-for-byte) ─────────────────────────

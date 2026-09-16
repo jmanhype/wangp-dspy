@@ -198,6 +198,26 @@ def test_native_path_never_calls_external_audio_runner(tmp_path):
     assert inp.remux_output_path.read_bytes() == inp.raw_render_path.read_bytes()
 
 
+def test_external_source_remux_fails_closed_and_never_runs(tmp_path):
+    from predict.audio_dataplane import AudioPolicy
+
+    inp, calls, _, _ = _mk_input(tmp_path)
+    kwargs = dict(inp.profile_build_kwargs)
+    kwargs["audio_policy"] = AudioPolicy(
+        discard_rendered_audio=True,
+        remux_window=(0.0, 4.0),
+    )
+
+    def runner(argv):
+        raise AssertionError("Ref2VA must never execute external remux")
+
+    inp2 = Ref2VARuntimeInput(
+        **{**inp.__dict__, "profile_build_kwargs": kwargs, "runner": runner})
+    with pytest.raises(Ref2VARuntimeError, match="requires native audio"):
+        run_ref2va_runtime(inp2)
+    assert inp2.remux_output_path.exists() is False
+
+
 def test_path_escape_fails_closed(tmp_path):
     inp, calls, dirs, files = _mk_input(tmp_path)
     inp = Ref2VARuntimeInput(
