@@ -1,0 +1,66 @@
+{
+  "schema": "wangp-dspy.scene-preparation/v1",
+  "run_id": "lf002-two-cut-20260913",
+  "status": "cut1_rendered_visual_gate_rejected_cut2_blocked",
+  "premise_id": "lf-002",
+  "title": "Archive of Rain",
+  "approval": {
+    "scope": "scene plate including differing character stylization",
+    "user_message": "approved",
+    "date": "2026-09-13",
+    "plate": "plate-candidate-v1.png",
+    "sha256": "6604405b470e9e1179dd17d001ad8927dff6e4bf9757045738b779e38958091c"
+  },
+  "characters": [
+    {
+      "name": "Nell",
+      "sn_tag": "S1",
+      "description": "young adult female archive courier, warm brown skin, short curly dark hair, mustard-yellow jacket",
+      "screen_position": "left"
+    },
+    {
+      "name": "Orin",
+      "sn_tag": "S2",
+      "description": "elderly male climate archivist, pale skin, swept-back silver hair, clean-shaven, deep teal coat",
+      "screen_position": "right"
+    }
+  ],
+  "script_lines": [
+    {
+      "speaker": "Nell",
+      "text": "This is the last rain we have."
+    },
+    {
+      "speaker": "Orin",
+      "text": "Then don't spill a single drop."
+    }
+  ],
+  "rendering": {
+    "recipe_name": "golden_v3",
+    "expected_cuts": 2,
+    "frames_per_cut": 56,
+    "seed": 904,
+    "profile": 2,
+    "attention": "sdpa",
+    "audio_policy": "preserve native generated audio; never replace with guide WAV",
+    "references": "chained anchor plus silent-character reference, exactly two",
+    "verdict": "operator audiovisual review required"
+  },
+  "pending": [
+    "resolve cut1 visual-gate rejection: full frame sequence contradicts no-mouth-motion note",
+    "operator audiovisual review of cut1; native transcript repetition needs listening verification",
+    "cut2 render and gates, chain and assembly remain unexecuted"
+  ],
+  "reference_candidates": {
+    "Nell": "nell-reference-candidate-v1.png",
+    "Orin": "orin-reference-candidate-v1.png",
+    "method": "built-in image generation tool crop-style edits of approved plate",
+    "operator_approved": false
+  },
+  "voice_backend": "Qwen3-TTS-12Hz-1.7B-VoiceDesign (explicit operator-approved trial, not VibeVoice reproduction)",
+  "voice_trial": "qwen-voice-trial/manifest.json",
+  "vibevoice_backlog": "docs/findings/52-fresh-vibevoice-turn-entrypoint.md",
+  "queued": true,
+  "voice_approval": "operator-approval.json",
+  "staging_bundle": "staging.json"
+}

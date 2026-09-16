@@ -1,0 +1,78 @@
+{
+  "schema": "wangp-dspy.lf002-golden-canary/v1",
+  "recipe_version": "lf002-archive-of-rain-20260916-seed905-native-v1",
+  "passed": true,
+  "artifacts": {
+    "cut1": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-golden-20260916/cut1.mp4",
+      "sha256": "64916cd42d40e0f81a51dd750d2134d194dd59c8318bf3d6f75fbc8649d97770",
+      "bytes": 1391470,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "2.333333",
+          "nb_read_frames": "56"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "2.304000",
+          "nb_read_frames": "72"
+        }
+      ]
+    },
+    "cut2": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-golden-20260916/cut2.mp4",
+      "sha256": "c3131c041a2b586e15ab19280a0ede64aa294b2e6bdc9f26fde0e353fbc29ceb",
+      "bytes": 1069678,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "2.333333",
+          "nb_read_frames": "56"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "2.304000",
+          "nb_read_frames": "72"
+        }
+      ]
+    },
+    "pair": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-golden-20260916/pair.mp4",
+      "sha256": "ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527",
+      "bytes": 692519,
+      "streams": [
+        {
+          "codec_type": "video",
+          "r_frame_rate": "24/1",
+          "start_time": "0.000000",
+          "duration": "4.666667",
+          "nb_read_frames": "112"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "start_time": "0.000000",
+          "duration": "4.638000",
+          "nb_read_frames": "145"
+        }
+      ]
+    },
+    "chain": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-golden-20260916/chain_last_frame.png",
+      "sha256": "1c1d86b0108c31a8318d428fcf626d3af6ffd0c0ba6269a8a69859eca6fb53de",
+      "bytes": 808909
+    }
+  },
+  "errors": [],
+  "operator_verdict": "perfect",
+  "scope": "Exact operator-accepted LF002 two-cut native artifacts and chain seed on the pinned environment; not a universal new-premise quality claim."
+}

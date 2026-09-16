@@ -1,0 +1,36 @@
+{
+  "schema": "wangp-dspy.external-voice-trial/v1",
+  "trial": "lf002-qwen-voicedesign-20260913",
+  "status": "two_raw_voice_auditions_generated_awaiting_operator_listen",
+  "provider": "official qwen-tts-demo local Gradio interface",
+  "external_supplier": true,
+  "backend": "Qwen3-TTS VoiceDesign",
+  "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "model_revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "package_requested": "qwen-tts==0.1.1",
+  "device": "cuda:0",
+  "dtype": "bfloat16",
+  "flash_attention": false,
+  "max_new_tokens_override": 256,
+  "concurrency": 1,
+  "model_sha256": "391e8db219f292c515297cdceeb43e4eae67cdde35fa57e79a6a8a532fca0522",
+  "speech_tokenizer_sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258",
+  "seed": null,
+  "seed_note": "Official demo CLI exposes sampling controls but not an RNG-seed flag. Do not confuse this with H3 seed 904.",
+  "voice_reference_audio": null,
+  "voices": {
+    "Nell": "A young adult woman with a warm, clear mid-pitched voice and a natural neutral American accent. An alert courier sharing something precious, quietly earnest rather than theatrical. Speak the complete sentence briskly and fluidly, with crisp consonants, about two seconds, no dramatic pause or drawn-out final word. Clean close-mic speech, no music or sound effects.",
+    "Orin": "An older man with a low-mid-pitched, lightly weathered baritone and a natural neutral British accent. An experienced archivist giving a dry, affectionate warning, understated rather than gruff or theatrical. Speak the complete sentence briskly and fluidly, with crisp consonants, about two seconds, no dramatic pause or drawn-out final word. Clean close-mic speech, no music or sound effects."
+  },
+  "approval_scope": "User approved Qwen-backed two-line trial; generated samples must be heard before video",
+  "native_h3_audio_preserved": true,
+  "script_changed": false,
+  "artifacts": [
+    {"speaker": "Nell", "path": "nell-raw.wav", "duration_s": 1.6, "sample_rate": 24000, "channels": 1, "sha256": "2c90fb750c95f24b00321783cedbeb8caf36fde91a8e6bc98db517e107f87348", "event_id": "24f14760ce1f42a0a57e8d050b5b9f4f"},
+    {"speaker": "Orin", "path": "orin-raw.wav", "duration_s": 2.4, "sample_rate": 24000, "channels": 1, "sha256": "78a6c5f3730eba7a5c67f01022f3a85f5c15f8bd60d2b7b608b65ff5da0dbb12", "event_id": "ef3dd10996ff44d98581aec8947c946c"}
+  ],
+  "audio_prepared_for_h3": false,
+  "whisper_gate": "not_run_on_auditions",
+  "voice_quality_verdict": "awaiting_operator_listen",
+  "video_queued": false
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "wangp-dspy.operator-verdict/v1",
+  "run_id": "lf002-two-cut-seed905-prefix-20260916",
+  "verdict": "perfect",
+  "verbatim_user_message": "Perfect",
+  "timestamp_utc": "2026-09-16T15:32:19Z",
+  "artifact_sha256": "ef4c3944ef728862119b065838ac1ec5f1e1452d1f8b4fdbb0d683f06272a527",
+  "source_ledger_record_sha256": "95988b323bbe5a5e04cdac0305a8ef63076f7e6148b704f81a97e2d2d8c65be9",
+  "scope": "Two-cut Archive of Rain native H3 candidate; operator audiovisual acceptance only."
+}

@@ -1,0 +1,25 @@
+{
+  "recipe_version": "v3-pair-2026-09-06-native-v1",
+  "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/qwen-voice-trial/nell-raw.wav",
+  "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/prepared/nell-guide.wav",
+  "speaker_id": "Nell",
+  "command": [
+    "ffmpeg",
+    "-y",
+    "-v",
+    "error",
+    "-i",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/qwen-voice-trial/nell-raw.wav",
+    "-af",
+    "silenceremove=start_periods=1:start_threshold=-40dB,highpass=f=100,volume=9dB,atrim=0:2.4",
+    "-c:a",
+    "pcm_s16le",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/prepared/nell-guide.wav"
+  ],
+  "measured_duration_s": 2.084875,
+  "boost_db": 9.0,
+  "rms_db": -8.2,
+  "tail_padding_s": 0.5,
+  "source_sha256": "2c90fb750c95f24b00321783cedbeb8caf36fde91a8e6bc98db517e107f87348",
+  "guide_sha256": "6e27bee41468a3cbf1045f74bf4487de6ab699f21b0629dae7d3e808ff75f38f"
+}
