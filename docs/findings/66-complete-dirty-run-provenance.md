@@ -1,6 +1,7 @@
 # 66 — dirty-run provenance was incomplete
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #97 / commit `d52a45d`; complete dirty-run provenance is
+on `main`.
 
 ## Evidence
 
@@ -22,3 +23,13 @@ and mode, symlink target bytes where applicable, and regular-file bytes.
 
 The path entries include an explicit length prefix, avoiding ambiguous
 concatenations, and regular files are hashed in bounded chunks.
+
+## Resolution
+
+`services/director/run_ledger.py` captures deterministic untracked content
+identity and `services/director/run_records.py` preserves the complete
+repository provenance in canonical records. Regression coverage is in
+`tests/test_run_identity.py`. The strict LF002 single-ledger record also
+demonstrates a clean checkout with zero changed/untracked paths. The full
+suite at `9b70be1` passed 1380 tests with one intentional skip and no
+failures.
