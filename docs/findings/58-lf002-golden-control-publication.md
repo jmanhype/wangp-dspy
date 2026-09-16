@@ -1,6 +1,7 @@
 # 58 — the operator-perfect LF002 control was not a durable golden fixture
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #88 / commit `b560bcf`; fresh-clone reproduction was
+ratified in PR #91 / commit `d811410`.
 
 ## Evidence
 
@@ -34,3 +35,13 @@ and assembled pair hashes exactly. The operator reviewed the linked result and
 replied verbatim: **“Perfect.”** The full suite passed with 1,339 tests, zero
 failures/errors, and one skip. See
 `datasets/runs/provenance/lf002-golden-20260916/fresh-clone-verification.json`.
+
+## Resolution
+
+The committed control includes the approved plate/reference images, prepared
+guides, both native cuts, assembled pair, chain frame, bundle, canary, and
+operator approval. The later strict single-ledger evidence at
+`datasets/runs/provenance/lf002-golden-20260916/single-ledger-20260916/`
+reproduces all pinned hashes with two `done` durable jobs and no prefix reuse.
+The full suite at `9b70be1` passed 1380 tests with one intentional skip and no
+failures.
