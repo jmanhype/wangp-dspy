@@ -1,7 +1,8 @@
 
 # 55 — render retry allows an unchanged deterministic replay
 
-Status: OPEN; source repair staged for review.
+Status: CLOSED in PR #85 / commit `0ddfcb4`; deterministic replay rejection
+is on `main`.
 
 ## Evidence
 
@@ -27,3 +28,11 @@ A new submission with the same fingerprint as a failed or dead-letter clip is
 rejected unless it explicitly sets `allow_deterministic_replay`. Changing an
 effective input, notably seed 904 to 905, produces a different fingerprint and
 is accepted.
+
+## Resolution
+
+The initial replay guard landed in `services/jobs/queue.py` with regression
+coverage in `tests/test_jobs_queue.py`. Finding #64 later canonicalized and
+attempt-scoped the fingerprint without reopening unchanged deterministic
+rejection. The full suite at `9b70be1` passed 1380 tests with one intentional
+skip and no failures.
