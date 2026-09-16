@@ -10,11 +10,14 @@ from __future__ import annotations
 import json
 import hashlib
 import os
+import re
 import sqlite3
 import time
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence
+
+from predict.model_types import REF2VA_MODEL_TYPE, REF2VA_MODEL_TYPE_LEGACY
 
 # ACTIVE_STATES: a job in one of these is (normally) owned by a live
 # process; a crash mid-phase orphans it there (reviewer B2).
@@ -65,18 +68,40 @@ def _asset_digest(value) -> object:
         return value
 
 
+def _asset_reference(value) -> object:
+    if isinstance(value, dict):
+        return value.get("frame") or value.get("path")
+    return value
+
+
+def _is_ref2va_clip(clip: Dict) -> bool:
+    return (clip.get("kind") == "ref2va_render"
+            or clip.get("model_type") in {
+                REF2VA_MODEL_TYPE, REF2VA_MODEL_TYPE_LEGACY,
+                "minimax_h3_ref2va", "ref2va_lip_sync"})
+
+
 def effective_render_fingerprint(clip: Dict) -> str:
     """Identity of effective renderer inputs, excluding queue bookkeeping."""
     if not isinstance(clip, dict):
         raise ValueError("clip must be a mapping")
     fields = (
         "kind", "model_type", "recipe_name", "prompt", "seed", "profile",
-        "resolution", "steps", "image_start", "image_refs", "audio_guide",
+        "resolution", "image_start", "image_refs", "audio_guide",
         "video_length", "requested_frames", "image_prompt_type",
         "video_prompt_type", "audio_prompt_type", "legacy_v2_prompt",
     )
+    if not _is_ref2va_clip(clip):
+        # Top-level steps are not forwarded to the fixed-step Ref2VA profile;
+        # changing that ignored value must not masquerade as a new render.
+        fields = (*fields, "steps")
     payload = {name: clip.get(name) for name in fields}
-    payload["image_start_asset"] = _asset_digest(clip.get("image_start"))
+    image_start = _asset_reference(clip.get("image_start"))
+    image_end = _asset_reference(clip.get("image_end"))
+    payload["image_start"] = image_start
+    payload["image_end"] = image_end
+    payload["image_start_asset"] = _asset_digest(image_start)
+    payload["image_end_asset"] = _asset_digest(image_end)
     refs = clip.get("image_refs")
     if isinstance(refs, (list, tuple)):
         payload["image_ref_assets"] = [_asset_digest(v) for v in refs]
@@ -84,6 +109,28 @@ def effective_render_fingerprint(clip: Dict) -> str:
     raw = json.dumps(payload, sort_keys=True, separators=(",", ":"),
                      ensure_ascii=False).encode("utf-8", "replace")
     return hashlib.sha256(raw).hexdigest()
+
+
+def _clip_had_render_attempt(clip: Dict, failure_class,
+                             failure_detail, *, single_clip: bool = False) -> bool:
+    if clip.get("render_attempted") is True:
+        return True
+    if clip.get("status") in {"rendered", "rendered_pending_qc", "qc"}:
+        return True
+    if single_clip:
+        return True
+    index = clip.get("clip_index")
+    return (
+        failure_class in {"render_error", "truncated_render_log", "qc_reject"}
+        and index is not None
+        and re.search(rf"clip\s+{index}(?!\d)",
+                      str(failure_detail or "")) is not None)
+
+
+def _with_render_fingerprint(clip: Dict) -> Dict:
+    prepared = dict(clip)
+    prepared["render_fingerprint"] = effective_render_fingerprint(prepared)
+    return prepared
 
 
 # ── dependency admissibility ─────────────────────────────────────────
@@ -282,8 +329,7 @@ class JobQueue:
         job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
         prepared = []
         for original in clips:
-            c = dict(original)
-            c["render_fingerprint"] = effective_render_fingerprint(c)
+            c = _with_render_fingerprint(original)
             if not c.get("allow_deterministic_replay"):
                 self._reject_failed_fingerprint(c["render_fingerprint"])
             _check_chain_placeholders(c)
@@ -303,7 +349,7 @@ class JobQueue:
     def _reject_failed_fingerprint(self, fingerprint: str) -> None:
         """Refuse a fresh submission identical to failed renderer inputs."""
         rows = self._db.execute(
-            "SELECT clips FROM jobs "
+            "SELECT clips, failure_class, failure_detail FROM jobs "
             "WHERE state IN ('failed','dead_letter')").fetchall()
         for row in rows:
             try:
@@ -312,9 +358,18 @@ class JobQueue:
                 continue
             if not isinstance(clips, list):
                 continue
+            single_clip = len(clips) == 1
             for clip in clips:
-                if (isinstance(clip, dict)
-                        and clip.get("render_fingerprint") == fingerprint):
+                if not isinstance(clip, dict):
+                    continue
+                if not _clip_had_render_attempt(
+                        clip, row["failure_class"], row["failure_detail"],
+                        single_clip=single_clip):
+                    continue
+                prior = clip.get("render_fingerprint")
+                if prior is None:
+                    prior = effective_render_fingerprint(clip)
+                if prior == fingerprint:
                     raise ValueError(
                         "deterministic replay of failed renderer inputs "
                         f"(fingerprint {fingerprint[:12]}…); change an "
@@ -400,15 +455,45 @@ class JobQueue:
         else:
             raise JobNotFoundError(
                 f"clip {clip_index} not in job {job_id}")
-        self._db.execute("UPDATE jobs SET clips=? WHERE job_id=?",
-                         (json.dumps(clips), job_id))
-        self._db.commit()
+        self._persist_clips(job_id, clips)
 
     def update_clips(self, job_id: str, clips: Sequence[Dict]) -> None:
         """Public clip-blob write (replaces private _db poking for
         artifact bookkeeping like last_frame recording)."""
+        self._persist_clips(job_id, clips)
+
+    def update_render_inputs(self, job_id: str, clips: Sequence[Dict]) -> None:
+        """Persist intentional effective-input mutations and new identities."""
+        requested = []
+        for clip in clips:
+            item = dict(clip)
+            item["recompute_render_fingerprint"] = True
+            requested.append(item)
+        self._persist_clips(job_id, requested)
+
+    def mark_clip_render_attempt(self, job_id: str, clip_index: int) -> None:
+        """Persist that this clip reached the renderer admission boundary."""
+        rec = self.get(job_id)
+        clips = rec.clips
+        for clip in clips:
+            if clip.get("clip_index") == clip_index:
+                clip["render_attempted"] = True
+                break
+        else:
+            raise JobNotFoundError(
+                f"clip {clip_index} not in job {job_id}")
+        self._persist_clips(job_id, clips)
+
+    def _persist_clips(self, job_id: str, clips: Sequence[Dict]) -> None:
+        prepared = []
+        for clip in clips:
+            item = dict(clip)
+            if (item.pop("recompute_render_fingerprint", False)
+                    or "render_fingerprint" not in item):
+                item = _with_render_fingerprint(item)
+            prepared.append(item)
         self._db.execute("UPDATE jobs SET clips=? WHERE job_id=?",
-                         (json.dumps(list(clips)), job_id))
+                         (json.dumps(prepared), job_id))
         self._db.commit()
 
     def record_failure(self, job_id: str, *, failure_class: str) -> None:

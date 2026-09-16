@@ -81,6 +81,181 @@ def test_failed_render_fingerprint_requires_change_or_explicit_replay(q):
     assert q.get(third).clips[0]["allow_deterministic_replay"] is True
 
 
+def test_legacy_failed_clip_without_stored_fingerprint_is_rejected(q):
+    clip = {
+        "clip_index": 1, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "legacy", "seed": 904, "video_length": 56,
+    }
+    legacy = q.submit(plan_ref="legacy-failure", clips=[dict(clip)])
+    q.set_state(legacy, "preflight")
+    q.set_state(legacy, "rendering")
+    q.set_state(legacy, "failed")
+    row = q._db.execute(
+        "SELECT clips FROM jobs WHERE job_id=?", (legacy,)).fetchone()
+    stored = json.loads(row["clips"])
+    stored[0].pop("render_fingerprint")
+    q._db.execute(
+        "UPDATE jobs SET clips=?, failure_class=?, failure_detail=? "
+        "WHERE job_id=?",
+        (json.dumps(stored), "render_error",
+         "render failed for clip 1: deterministic", legacy))
+    q._db.commit()
+
+    with pytest.raises(ValueError, match="deterministic replay"):
+        q.submit(plan_ref="legacy-retry", clips=[dict(clip)])
+
+
+def test_fingerprint_includes_effective_image_end_content(tmp_path):
+    from services.jobs.queue import effective_render_fingerprint
+
+    first = tmp_path / "end-a.png"
+    second = tmp_path / "end-b.png"
+    first.write_bytes(b"a")
+    second.write_bytes(b"b")
+    base = {
+        "kind": "first_frame_continuation", "prompt": "same", "seed": 1,
+        "image_start": "start.png", "image_end": str(first),
+    }
+    changed = dict(base, image_end=str(second))
+    assert effective_render_fingerprint(base) != (
+        effective_render_fingerprint(changed))
+
+    mapped = dict(base, image_end={"frame": str(second)})
+    assert effective_render_fingerprint(mapped) == (
+        effective_render_fingerprint(changed))
+
+
+def test_ineffective_ref2va_step_edit_does_not_change_fingerprint():
+    from services.jobs.queue import effective_render_fingerprint
+
+    base = {
+        "kind": "ref2va_render", "model_type":
+            "minimax_h3_ref2va_pruned", "prompt": "same", "seed": 905,
+        "steps": 20, "video_length": 56,
+    }
+    changed = dict(base, steps=99)
+    assert effective_render_fingerprint(base) == (
+        effective_render_fingerprint(changed))
+
+
+def test_update_render_inputs_recomputes_fingerprint_on_seed_bump(q):
+    jid = q.submit(plan_ref="seed-mutation", clips=[{
+        "clip_index": 1, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "same", "seed": 904, "video_length": 56,
+    }])
+    original = q.get(jid).clips[0]["render_fingerprint"]
+    clips = q.get(jid).clips
+    clips[0]["seed"] = 905
+    q.update_render_inputs(jid, clips)
+    assert q.get(jid).clips[0]["seed"] == 905
+    assert q.get(jid).clips[0]["render_fingerprint"] != original
+
+
+def test_unattempted_clip_in_failed_multi_clip_job_is_not_denied(q):
+    first = {
+        "clip_index": 1, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "first", "seed": 904, "video_length": 56,
+    }
+    second = {
+        "clip_index": 2, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "second", "seed": 904, "video_length": 56,
+    }
+    failed = q.submit(plan_ref="multi-failure", clips=[first, second])
+    q.set_state(failed, "preflight")
+    q.set_state(failed, "rendering")
+    q.mark_clip_render_attempt(failed, 1)
+    clips = q.get(failed).clips
+    clips[0]["status"] = "rendered"
+    clips[0]["log"] = "one.log"
+    clips[0]["mp4"] = "one.mp4"
+    q.update_clips(failed, clips)
+    q.set_state(failed, "failed")
+
+    # The untouched second clip remains submittable in a new plan.
+    retry = q.submit(plan_ref="retry-unattempted", clips=[dict(second)])
+    assert q.get(retry).state == "pending"
+
+
+def test_completed_job_rejects_null_or_empty_qc_fields(q):
+    base = {"clip_index": 1, "status": "done", "log": "l",
+            "mp4": "m"}
+    with pytest.raises(ValueError, match="qc_verdict"):
+        q.submit_completed(plan_ref="null-qc", clips=[
+            dict(base, qc_verdict={"verdict": None, "path": None})])
+    with pytest.raises(ValueError, match="evidence"):
+        q.submit_completed(plan_ref="empty-qc", clips=[
+            dict(base, qc_verdict={"verdict": "NEEDS REVIEW", "path": {}})])
+
+
+def test_clip_ten_failure_does_not_block_clip_one(q):
+    first = {
+        "clip_index": 1, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "first", "seed": 904, "video_length": 56,
+    }
+    tenth = {
+        "clip_index": 10, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "tenth", "seed": 904, "video_length": 56,
+    }
+    failed = q.submit(plan_ref="clip-ten-failure", clips=[first, tenth])
+    q.set_state(failed, "preflight")
+    q.set_state(failed, "rendering")
+    q._db.execute(
+        "UPDATE jobs SET state='failed', failure_class=?, failure_detail=? "
+        "WHERE job_id=?",
+        ("render_error", "render failed for clip 10: boom", failed))
+    q._db.commit()
+    retry = q.submit(plan_ref="retry-clip-one", clips=[dict(first)])
+    assert q.get(retry).state == "pending"
+
+
+def test_bookkeeping_preserves_attempt_admission_fingerprint(q, tmp_path):
+    guide = tmp_path / "guide.wav"
+    guide.write_bytes(b"admitted")
+    clip = {
+        "clip_index": 1, "status": "pending", "log": None,
+        "mp4": None, "qc_verdict": None, "kind": "ref2va_render",
+        "prompt": "same", "seed": 904, "audio_guide": str(guide),
+        "video_length": 56,
+    }
+    jid = q.submit(plan_ref="stable-fingerprint", clips=[clip])
+    original = q.get(jid).clips[0]["render_fingerprint"]
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.mark_clip_render_attempt(jid, 1)
+
+    guide.write_bytes(b"changed-after-admission")
+    clips = q.get(jid).clips
+    clips[0].update(status="rendered", log="l", mp4="m")
+    q.update_clips(jid, clips)
+    assert q.get(jid).clips[0]["render_fingerprint"] == original
+
+    clips = q.get(jid).clips
+    clips[0]["seed"] = 905
+    q.update_render_inputs(jid, clips)
+    assert q.get(jid).clips[0]["render_fingerprint"] != original
+
+
+def test_falsey_mapping_frame_falls_back_to_path(tmp_path):
+    from services.jobs.queue import effective_render_fingerprint
+
+    first = tmp_path / "first.png"
+    second = tmp_path / "second.png"
+    first.write_bytes(b"1")
+    second.write_bytes(b"2")
+    base = {"kind": "first_frame_continuation", "prompt": "same",
+            "seed": 1}
+    left = dict(base, image_end={"frame": "", "path": str(first)})
+    right = dict(base, image_end={"frame": "", "path": str(second)})
+    assert effective_render_fingerprint(left) != (
+        effective_render_fingerprint(right))
+
+
 def test_clip_artifact_claims_require_paths(q):
     # every artifact claim in job records must carry a path — no
     # status-only fields (design constraint).

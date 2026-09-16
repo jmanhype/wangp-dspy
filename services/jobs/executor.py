@@ -243,6 +243,21 @@ class JobExecutor:
                         "executor — refusing to fall back to fl2va")
                     return
                 render_fn = self.ref2va_render
+            mark_attempt = getattr(
+                self.queue, "mark_clip_render_attempt", None)
+            if callable(mark_attempt):
+                try:
+                    mark_attempt(job.job_id, clip["clip_index"])
+                except Exception as exc:
+                    self._fail(
+                        job, "queue_admission_error",
+                        f"[lane={lane}] failed to persist render-admission "
+                        f"marker for clip {clip['clip_index']}: "
+                        f"{type(exc).__name__}: {exc}")
+                    return
+            # Keep the in-memory record aligned with the durable attempt flag
+            # even when a fake queue does not implement the mutation seam.
+            clip["render_attempted"] = True
             try:
                 outcome = render_fn(clip)
             except Exception as e:
@@ -399,7 +414,9 @@ class JobExecutor:
         clip["log"] = None
         clip["mp4"] = None
         clip["qc_verdict"] = None
-        update_clips(job.job_id, job.clips)
+        mutate_inputs = getattr(
+            self.queue, "update_render_inputs", update_clips)
+        mutate_inputs(job.job_id, job.clips)
         reason = (f"vision gate retry {count + 1}/{self.vision_retries}; "
                   f"seed {seed} -> {next_seed}")
         try:

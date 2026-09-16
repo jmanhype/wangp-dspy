@@ -98,6 +98,22 @@ def test_preflight_failure_sends_to_failed_not_render(tmp_path):
     assert q.jobs["job-1"].state == "failed"
 
 
+def test_render_admission_marker_failure_is_durable(tmp_path):
+    class MarkerFailureQueue(FakeQueue):
+        def mark_clip_render_attempt(self, jid, clip_index):
+            raise RuntimeError("database locked")
+
+    q = MarkerFailureQueue({"job-1": Job()})
+    ex = JobExecutor(
+        queue=q, preflight=lambda job: _pf(True),
+        render=_no_render_allowed(), qc=lambda clip: (True, "qc/1.json"))
+    assert ex.run_once() == "job-1"
+    job = q.jobs["job-1"]
+    assert job.state == "failed"
+    assert job.failure_class == "queue_admission_error"
+    assert "database locked" in job.failure_detail
+
+
 def test_render_ok_qc_unavailable_lands_in_rendered_pending_qc(tmp_path,
                                                                 ok_render):
     # tonight's live failure mode: NOT failed, resumable
