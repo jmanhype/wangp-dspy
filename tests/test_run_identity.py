@@ -141,3 +141,92 @@ def test_repository_identity_hashes_dirty_tree_state(tmp_path):
     assert dirty["changed_path_count"] == 1
     assert dirty["tracked_diff_sha256"] != clean["tracked_diff_sha256"]
     assert dirty["status_sha256"] != clean["status_sha256"]
+
+
+def test_repository_identity_hashes_untracked_contents(tmp_path):
+    from services.director.run_ledger import repository_identity
+
+    source_root = Path(
+        _git(Path(__file__).resolve().parents[1], "rev-parse", "--show-toplevel"))
+    clone_root = (tmp_path / "untracked-checkout").resolve()
+    subprocess.run(
+        ["git", "clone", "--no-hardlinks", "--quiet",
+         str(source_root), str(clone_root)],
+        check=True)
+    untracked = clone_root / "untracked-source.txt"
+    untracked.write_bytes(b"first")
+    first = repository_identity(clone_root)
+    untracked.write_bytes(b"second")
+    second = repository_identity(clone_root)
+    assert first["untracked_path_count"] == 1
+    assert second["untracked_path_count"] == 1
+    assert first["status_sha256"] == second["status_sha256"]
+    assert first["tracked_diff_sha256"] == second["tracked_diff_sha256"]
+    assert first["untracked_content_sha256"] != (
+        second["untracked_content_sha256"])
+
+
+def test_append_dataset_run_preserves_full_repository_identity(
+        tmp_path, monkeypatch):
+    import services.director.run_records as run_records
+
+    identity = {
+        "repo_root": "/repo", "commit_sha": "a" * 40,
+        "clean_tree": False, "dirty_tree": True,
+        "status_sha256": "b" * 64,
+        "tracked_diff_sha256": "c" * 64,
+        "untracked_content_sha256": "d" * 64,
+        "changed_path_count": 2, "untracked_path_count": 1,
+    }
+    monkeypatch.setattr(run_records, "repository_identity",
+                        lambda _root: identity)
+    record = run_records.append_dataset_run(
+        tmp_path / "runs.jsonl", run_id="dirty-run", status="planned")
+    assert record["repository"] == identity
+    assert json.loads(
+        (tmp_path / "runs.jsonl").read_text())["repository"] == identity
+
+
+def test_untracked_content_redistribution_changes_provenance(tmp_path):
+    from services.director.run_ledger import repository_identity
+
+    source_root = Path(
+        _git(Path(__file__).resolve().parents[1], "rev-parse", "--show-toplevel"))
+    clone_root = (tmp_path / "redistributed-checkout").resolve()
+    subprocess.run(
+        ["git", "clone", "--no-hardlinks", "--quiet",
+         str(source_root), str(clone_root)],
+        check=True)
+    first = clone_root / "a.txt"
+    second = clone_root / "b.txt"
+    first.write_bytes(b"AAAA")
+    second.write_bytes(b"BBBB")
+    before = repository_identity(clone_root)
+    first.write_bytes(b"AAAAB")
+    second.write_bytes(b"BBB")
+    after = repository_identity(clone_root)
+    assert before["untracked_path_count"] == 2
+    assert after["untracked_path_count"] == 2
+    assert before["untracked_content_sha256"] != (
+        after["untracked_content_sha256"])
+
+
+def test_untracked_embedded_repository_fails_closed(tmp_path):
+    from services.director.run_ledger import (
+        RepositoryIdentityError, repository_identity)
+
+    source_root = Path(
+        _git(Path(__file__).resolve().parents[1], "rev-parse", "--show-toplevel"))
+    clone_root = (tmp_path / "embedded-repository").resolve()
+    subprocess.run(
+        ["git", "clone", "--no-hardlinks", "--quiet",
+         str(source_root), str(clone_root)],
+        check=True)
+    assert repository_identity(clone_root)["clean_tree"] is True
+    embedded = clone_root / "embedded-repo"
+    embedded.mkdir()
+    subprocess.run(
+        ["git", "init", "--quiet", str(embedded)], check=True)
+    (embedded / "inner.txt").write_text("inner")
+    with pytest.raises(RepositoryIdentityError, match="embedded repository"):
+        repository_identity(clone_root)
