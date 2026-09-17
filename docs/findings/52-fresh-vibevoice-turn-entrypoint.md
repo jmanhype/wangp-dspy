@@ -1,7 +1,7 @@
 # 52 — Fresh dialogue still lacks a reusable VibeVoice entrypoint
 
-Status: OPEN; reconfirmation of the previously acknowledged external-WAV
-generation gap, not a newly discovered H3 render regression.
+Status: IMPLEMENTED IN LOCAL FINDING-52 CHANGESET; pending review/merge.
+This remains a VibeVoice supply-layer finding, not an H3 render regression.
 
 ## Observed during lf002-two-cut-20260913
 
@@ -35,16 +35,19 @@ Required new lines:
 This is a bounded inspection of known repo/host entrypoints, not a claim that
 no VibeVoice script exists anywhere on the machine.
 
-## Minimal proposed PR — not implemented in this run
+## Resolution in the Finding-52 changeset
 
-Add a reusable VibeVoice turn-supplier CLI/module accepting a manifest of
+`predict.vibevoice` now provides a reusable VibeVoice turn-supplier module and
+`python -m predict.vibevoice` CLI accepting a manifest of
 speaker, text, explicitly selected voice-reference path, output path and seed.
 Use the documented processor/model API, load once, and generate each speaker
 turn separately. Keep imports side-effect-free. Fail on missing inputs,
 generation errors or existing outputs unless explicitly resuming with matching
 provenance. Preserve raw WAVs and model/voice/input hashes, effective settings
-and generation logs. Transfer through the host asset seam; run the existing
-prepare_v3_turn_audio and Whisper pre-gate before queue submission.
+and generation logs. Transfer through the host asset seam; run repo audio
+preparation and the Whisper pre-gate before publication. The implementation is
+tested through injected backend/transcriber/ffmpeg seams; it did not load a
+model, contact the 3090, submit a job, or queue a render.
 
 Tests: two different speakers/texts map to two distinct generation calls and
 output files; missing reference fails before GPU work; output/provenance mismatch
@@ -57,5 +60,7 @@ may supply freshly generated VibeVoice turns instead of implementing this PR.
 
 Approved plate preserved. Two crop-style reference-image candidates generated
 with the built-in image tool; these are not deterministic pixel crops and are
-not separately operator-approved. Fresh WAVs absent. No bundle submitted,
-no video queued, no claim of a completed two-cut trial.
+not separately operator-approved. Fresh WAVs remain absent. No bundle was
+submitted, no video was queued, and no claim is made of a completed two-cut
+trial. The repository now has the bounded supplier entrypoint needed to create
+those WAVs when an operator explicitly authorizes a model-backed run.

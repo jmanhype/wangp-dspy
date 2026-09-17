@@ -1,0 +1,323 @@
+import json
+import subprocess
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+
+from predict.vibevoice import (
+    VibeVoiceError,
+    VibeVoiceBackend,
+    load_vibevoice_manifest,
+    main,
+    publish_vibevoice_turns,
+    supply_vibevoice_turns,
+)
+
+
+MODEL_SHA = "a" * 64
+
+
+class FakeBackend:
+    backend_kind = "fake"
+
+    def __init__(self):
+        self.generate_calls = []
+
+    def generate(self, turn, destination, seed):
+        self.generate_calls.append((turn, Path(destination), seed))
+        Path(destination).write_bytes(f"raw-{turn.speaker}".encode())
+
+
+def _audio_runner(argv):
+    if argv[0] == "ffprobe":
+        return SimpleNamespace(returncode=0, stdout="2.333333\n", stderr="")
+    if argv[0] == "ffmpeg" and "volumedetect" not in argv:
+        Path(argv[-1]).write_bytes(b"prepared-audio")
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+    return SimpleNamespace(
+        returncode=0, stdout="", stderr="mean_volume: -20.0 dB\n")
+
+
+def _manifest(tmp_path):
+    model = tmp_path / "model"
+    model.mkdir()
+    refs = []
+    for name in ("nell", "orin"):
+        ref = tmp_path / f"{name}-reference.wav"
+        ref.write_bytes(f"voice-{name}".encode())
+        refs.append(ref)
+    payload = {
+        "schema": "wangp-dspy.vibevoice-turns/v1",
+        "model": str(model),
+        "model_sha256": MODEL_SHA,
+        "seed": 42,
+        "turns": [
+            {
+                "speaker": "Nell",
+                "text": "This is the last rain we have.",
+                "voice_reference": str(refs[0]),
+                "output": "generated/nell.wav",
+                "target_duration_s": 2.333333,
+            },
+            {
+                "speaker": "Orin",
+                "text": "Then don't spill a single drop.",
+                "voice_reference": str(refs[1]),
+                "output": "generated/orin.wav",
+                "target_duration_s": 2.333333,
+            },
+        ],
+    }
+    path = tmp_path / "vibevoice.json"
+    path.write_text(json.dumps(payload))
+    return path
+
+
+def _transcriber(audio_path):
+    name = Path(audio_path).name
+    if name.startswith("nell"):
+        return "This is the last rain we have."
+    if name.startswith("orin"):
+        return "Then don't spill a single drop."
+    raise AssertionError(f"unexpected audio path: {audio_path}")
+
+
+def test_vibevoice_supplies_isolated_turns_with_provenance_and_pre_gate(
+        tmp_path):
+    manifest_path = _manifest(tmp_path)
+    manifest = load_vibevoice_manifest(manifest_path)
+    backend = FakeBackend()
+    report_path = tmp_path / "supply-report.json"
+
+    report = supply_vibevoice_turns(
+        manifest,
+        backend=backend,
+        transcriber=_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=report_path)
+
+    assert report["status"] == "complete"
+    assert [call[0].speaker for call in backend.generate_calls] == [
+        "Nell", "Orin"]
+    assert [call[1] for call in backend.generate_calls] == [
+        tmp_path / "generated" / "nell.wav",
+        tmp_path / "generated" / "orin.wav"]
+    assert len({call[1] for call in backend.generate_calls}) == 2
+    assert report["turns"][0]["prepared_path"] == str(
+        tmp_path / "generated" / "nell.prepared.wav")
+    assert report["turns"][1]["prepared_path"] == str(
+        tmp_path / "generated" / "orin.prepared.wav")
+    assert report["turns"][0]["whisper_gate"]["passed"] is True
+    assert report["turns"][1]["whisper_gate"]["passed"] is True
+    assert report_path.is_file()
+
+    provenance = json.loads(
+        (tmp_path / "generated" / "nell.wav.vibevoice.json").read_text())
+    assert provenance["model_sha256"] == MODEL_SHA
+    assert provenance["voice_reference_sha256"] == hashlib_sha256(
+        tmp_path / "nell-reference.wav")
+    assert provenance["output_sha256"] == hashlib_sha256(
+        tmp_path / "generated" / "nell.wav")
+    assert provenance["prepared_sha256"] == hashlib_sha256(
+        tmp_path / "generated" / "nell.prepared.wav")
+
+
+def test_missing_reference_fails_before_generation(tmp_path):
+    manifest_path = _manifest(tmp_path)
+    payload = json.loads(manifest_path.read_text())
+    payload["turns"][1]["voice_reference"] = str(
+        tmp_path / "missing-reference.wav")
+    manifest_path.write_text(json.dumps(payload))
+    manifest = load_vibevoice_manifest(manifest_path)
+    backend = FakeBackend()
+
+    with pytest.raises(VibeVoiceError, match="voice_reference.*not readable"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=_transcriber,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json")
+    assert backend.generate_calls == []
+
+
+def test_module_import_does_not_load_transformers():
+    repo_root = Path(__file__).resolve().parents[1]
+    result = subprocess.run(
+        [sys.executable, "-c",
+         "import sys; import predict.vibevoice; "
+         "print('transformers' in sys.modules)"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert result.stdout.strip() == "False"
+
+
+def test_backend_construction_is_first_transformers_import(
+        tmp_path, monkeypatch):
+    import builtins
+
+    model = tmp_path / "model"
+    model.mkdir()
+    real_import = builtins.__import__
+
+    def refuse_transformers(name, *args, **kwargs):
+        if name == "transformers":
+            raise RuntimeError("blocked before model load")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", refuse_transformers)
+    with pytest.raises(VibeVoiceError, match="backend unavailable"):
+        VibeVoiceBackend(model)
+
+
+def test_cli_runs_with_injected_backend_without_gpu(tmp_path, capsys):
+    manifest_path = _manifest(tmp_path)
+    created = []
+
+    def factory(model):
+        created.append(model)
+        return FakeBackend()
+
+    report_path = tmp_path / "cli-report.json"
+    exit_code = main(
+        [str(manifest_path), "--report", str(report_path)],
+        backend_factory=factory,
+        transcriber=_transcriber,
+        preparation_runner=_audio_runner,
+    )
+    assert exit_code == 0
+    assert created == [tmp_path / "model"]
+    assert report_path.is_file()
+    assert json.loads(report_path.read_text())["status"] == "complete"
+    assert json.loads(capsys.readouterr().out)["status"] == "complete"
+
+
+def test_existing_output_requires_resume_and_matching_provenance(tmp_path):
+    manifest_path = _manifest(tmp_path)
+    manifest = load_vibevoice_manifest(manifest_path)
+    backend = FakeBackend()
+    report_path = tmp_path / "report.json"
+    supply_vibevoice_turns(
+        manifest, backend=backend, transcriber=_transcriber,
+        preparation_runner=_audio_runner, report_path=report_path)
+    assert len(backend.generate_calls) == 2
+
+    with pytest.raises(VibeVoiceError, match="existing output"):
+        supply_vibevoice_turns(
+            manifest, backend=FakeBackend(), transcriber=_transcriber,
+            preparation_runner=_audio_runner, report_path=report_path)
+
+    report = supply_vibevoice_turns(
+        manifest, backend=backend, transcriber=_transcriber,
+        preparation_runner=_audio_runner, report_path=report_path,
+        resume=True)
+    assert report["resumed_turn_count"] == 2
+    assert len(backend.generate_calls) == 2
+
+    output = tmp_path / "generated" / "nell.wav"
+    output.write_bytes(b"tampered")
+    with pytest.raises(VibeVoiceError, match="output SHA-256 mismatch"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=_transcriber,
+            preparation_runner=_audio_runner, report_path=report_path,
+            resume=True)
+
+
+def test_generation_or_pre_gate_failure_never_publishes_or_queues_render(
+        tmp_path):
+    manifest_path = _manifest(tmp_path)
+    manifest = load_vibevoice_manifest(manifest_path)
+    report_path = tmp_path / "failed-report.json"
+
+    def bad_transcriber(audio_path):
+        if Path(audio_path).name.startswith("orin"):
+            return "completely unrelated words"
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="below pass bar"):
+        supply_vibevoice_turns(
+            manifest, backend=FakeBackend(), transcriber=bad_transcriber,
+            preparation_runner=_audio_runner, report_path=report_path)
+    failed_report = json.loads(report_path.read_text())
+    assert failed_report["status"] == "failed"
+    assert failed_report["completed_turn_count"] == 1
+    assert failed_report["turns"][1]["status"] == "pre_gate_failed"
+
+    class Host:
+        def __init__(self):
+            self.calls = []
+
+        def map_asset(self, path):
+            self.calls.append(("map", path))
+            return "/remote/" + Path(path).name
+
+        def makedirs(self, path):
+            self.calls.append(("mkdir", path))
+
+        def push_asset(self, path):
+            self.calls.append(("push", path))
+
+    host = Host()
+    with pytest.raises(VibeVoiceError, match="cannot publish incomplete"):
+        publish_vibevoice_turns(failed_report, host=host)
+    assert host.calls == []
+
+
+def test_publish_uses_render_host_asset_seam(tmp_path):
+    manifest_path = _manifest(tmp_path)
+    manifest = load_vibevoice_manifest(manifest_path)
+    report = supply_vibevoice_turns(
+        manifest, backend=FakeBackend(), transcriber=_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=tmp_path / "report.json")
+    calls = []
+
+    class Host:
+        def map_asset(self, path):
+            calls.append(("map", path))
+            return "/remote/audio/" + Path(path).name
+
+        def makedirs(self, path):
+            calls.append(("mkdir", path))
+
+        def push_asset(self, path):
+            calls.append(("push", path))
+
+    published = publish_vibevoice_turns(report, host=Host())
+    assert [item["local_path"] for item in published] == [
+        str(tmp_path / "generated" / "nell.prepared.wav"),
+        str(tmp_path / "generated" / "orin.prepared.wav")]
+    assert [item["remote_path"] for item in published] == [
+        "/remote/audio/nell.prepared.wav",
+        "/remote/audio/orin.prepared.wav"]
+    assert ("push", str(tmp_path / "generated" / "nell.prepared.wav")) in calls
+    assert all(kind != "render" for kind, _value in calls)
+
+
+def test_publish_rejects_tampered_prepared_audio_before_host_calls(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    report = supply_vibevoice_turns(
+        manifest, backend=FakeBackend(), transcriber=_transcriber,
+        preparation_runner=_audio_runner, report_path=tmp_path / "report.json")
+    Path(report["turns"][0]["prepared_path"]).write_bytes(b"tampered")
+
+    class Host:
+        def map_asset(self, _path):
+            raise AssertionError("host must not be called")
+
+        def makedirs(self, _path):
+            raise AssertionError("host must not be called")
+
+        def push_asset(self, _path):
+            raise AssertionError("host must not be called")
+
+    with pytest.raises(VibeVoiceError, match="prepared output SHA-256 mismatch"):
+        publish_vibevoice_turns(report, host=Host())
+
+
+def hashlib_sha256(path):
+    import hashlib
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
