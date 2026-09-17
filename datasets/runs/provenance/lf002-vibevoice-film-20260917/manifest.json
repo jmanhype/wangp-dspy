@@ -73,6 +73,16 @@
       "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
     },
     {
+      "bytes": 604,
+      "path": "operator-verdict.json",
+      "sha256": "0f806d6d4ab6c6977480733f4db069dc78727c2ce936cd7a3e8becab2e54e9a8"
+    },
+    {
+      "bytes": 1329,
+      "path": "operator-verdict.jsonl",
+      "sha256": "c967dd145de7a86ed8ba46458b580cc28ce3409fa6d22d90316c118f3c914ce7"
+    },
+    {
       "bytes": 639,
       "path": "probe.json",
       "sha256": "bac5c0abcec02b634a7c1bcf78750721390568df06de841d6a13f60b3b461946"
@@ -380,6 +390,11 @@
     "scope": "Two-cut Archive of Rain film using VibeVoice-generated turn guides and native H3 generated audiovisual output.",
     "timestamp_utc": "2026-09-17T17:49:22Z",
     "verbatim_user_message": "PERFECT!"
+  },
+  "operator_ledger": {
+    "path": "operator-verdict.jsonl",
+    "record_sha256": "9f1340c2cd898fe470946b21f3199469679601a7a6168cf34427175e32c886e3",
+    "emitted_from_clean_commit": "d85f6dc5f53d60161b89ee54514c4338370e8710"
   },
   "primary_artifacts": {
     "assembled": {
