@@ -15,7 +15,9 @@ from typing import Callable, Mapping, Sequence
 from predict.audio_prep import (
     AudioPreparationError, PreparedTurnAudio, prepare_turn_audio, _rms_from_probe,
 )
-from qc.audio_critic.whisper_gate import WhisperGateError, run_whisper_gate
+from qc.audio_critic.whisper_gate import (
+    DEFAULT_WHISPER_PASS_BAR, WhisperGateError, run_whisper_gate,
+)
 
 
 class VibeVoiceError(ValueError):
@@ -559,7 +561,7 @@ def supply_vibevoice_turns(
     preparation_runner: Callable[[Sequence[str]], object],
     report_path: str | Path,
     resume: bool = False,
-    pass_bar: float = 0.5,
+    pass_bar: float = DEFAULT_WHISPER_PASS_BAR,
     seed_retries: int = 2,
 ) -> dict:
     """Generate, prepare, and pre-gate each turn through injected seams."""
@@ -778,7 +780,7 @@ def supply_vibevoice_turns(
 def supply_vibevoice_turns_remote(
     manifest: VibeVoiceManifest, *, host, host_python: str, host_repo: str,
     host_model: str, report_path: str | Path, preparation_runner,
-    timeout: float = 1800, pass_bar: float = 0.5,
+    timeout: float = 1800, pass_bar: float = DEFAULT_WHISPER_PASS_BAR,
     whisper_model: str = "small",
     seed_retries: int = 2,
     gpu_lease=None, manage_gpu: bool = True,
@@ -1257,8 +1259,11 @@ def main(
     parser.add_argument(
         "--pass-bar",
         type=float,
-        default=0.5,
-        help="Whisper pre-gate minimum score (default: 0.5)",
+        default=DEFAULT_WHISPER_PASS_BAR,
+        help=(
+            "Whisper pre-gate minimum score "
+            f"(default: {DEFAULT_WHISPER_PASS_BAR})"
+        ),
     )
     parser.add_argument(
         "--seed-retries",

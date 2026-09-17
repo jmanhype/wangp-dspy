@@ -27,7 +27,9 @@ from typing import Callable, Optional, Sequence, Tuple
 from predict.audio_dataplane import (
     AudioDataPlaneError, AudioGuideProvenance, AudioPolicy, Ref2VAAudioQC,
 )
-from qc.audio_critic.whisper_gate import WhisperGateError, run_whisper_gate
+from qc.audio_critic.whisper_gate import (
+    DEFAULT_WHISPER_PASS_BAR, WhisperGateError, run_whisper_gate,
+)
 from qc.audio_critic.vision_judge import VisionJudgeError, run_vision_judge
 
 __all__ = ["Ref2VAQCStageError", "plan_remux_command",
@@ -133,7 +135,7 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                         post_audio_path: Optional[str] = None,
                         intended_text: Optional[str] = None,
                         whisper_transcriber: Optional[Callable] = None,
-                        whisper_pass_bar: float = 0.6,
+                        whisper_pass_bar: float = DEFAULT_WHISPER_PASS_BAR,
                         evidence_path: Optional[str] = None,
                         video_path: Optional[str] = None,
                         expected_speaker: Optional[str] = None,

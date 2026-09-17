@@ -1,3 +1,4 @@
+import inspect
 import json
 import pathlib
 
@@ -7,8 +8,9 @@ from qc.audio_critic.ref2va_stage import (
     Ref2VAQCStageError, run_ref2va_qc_stage,
 )
 from qc.audio_critic.whisper_gate import (
-    WhisperGateError, run_whisper_gate,
+    DEFAULT_WHISPER_PASS_BAR, WhisperGateError, run_whisper_gate,
 )
+from predict.vibevoice import supply_vibevoice_turns, supply_vibevoice_turns_remote
 
 
 def _doc(tmp_path):
@@ -44,8 +46,19 @@ def test_whisper_gate_rejects_mismatch():
     assert caught.value.evidence.to_dict() == {
         "phase": "post", "audio_path": "/tmp/turn.wav",
         "intended_text": "the gate is open", "transcript": "unrelated words",
-        "score": 0.0, "pass_bar": 0.5, "passed": False,
+        "score": 0.0, "pass_bar": DEFAULT_WHISPER_PASS_BAR, "passed": False,
     }
+
+
+def test_default_whisper_pass_bar_is_production_strict():
+    assert DEFAULT_WHISPER_PASS_BAR == 0.6
+
+
+def test_vibevoice_suppliers_use_the_gate_default():
+    for function in (run_whisper_gate, supply_vibevoice_turns,
+                     supply_vibevoice_turns_remote):
+        default = inspect.signature(function).parameters["pass_bar"].default
+        assert default is DEFAULT_WHISPER_PASS_BAR
 
 
 def test_whisper_gate_transport_failure_does_not_fabricate_evidence():
