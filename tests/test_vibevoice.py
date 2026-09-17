@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 from predict.vibevoice import (
+    _attempt_paths,
     VibeVoiceError,
     VibeVoiceBackend,
     load_vibevoice_manifest,
@@ -123,6 +124,254 @@ def test_vibevoice_supplies_isolated_turns_with_provenance_and_pre_gate(
         tmp_path / "generated" / "nell.wav")
     assert provenance["prepared_sha256"] == hashlib_sha256(
         tmp_path / "generated" / "nell.prepared.wav")
+
+
+def test_scored_rejection_retries_with_bumped_seed_and_preserves_evidence(
+        tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend = FakeBackend()
+    orin_calls = {"count": 0}
+
+    def flaky_transcriber(audio_path):
+        if Path(audio_path).name == "orin.prepared.wav":
+            orin_calls["count"] += 1
+            if orin_calls["count"] == 1:
+                return "When you ring, what shall come?"
+        return _transcriber(audio_path)
+
+    report = supply_vibevoice_turns(
+        manifest, backend=backend, transcriber=flaky_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=tmp_path / "report.json")
+
+    assert report["status"] == "complete"
+    assert [call[2] for call in backend.generate_calls] == [42, 42, 43]
+    orin = report["turns"][1]
+    assert orin["status"] == "complete"
+    assert orin["generation_seed"] == 43
+    assert orin["attempt_index"] == 2
+    assert len(orin["seed_rejections"]) == 1
+    assert orin["seed_rejections"][0]["generation_seed"] == 42
+    assert Path(orin["seed_rejections"][0]["output_path"]).is_file()
+    assert Path(orin["seed_rejections"][0]["prepared_path"]).is_file()
+    assert Path(orin["seed_rejections"][0]["provenance_path"]).is_file()
+    assert orin["whisper_gate"]["score"] == 1.0
+
+    provenance = json.loads(Path(orin["provenance_path"]).read_text())
+    assert provenance["generation_seed"] == 43
+    assert provenance["attempt_count"] == 2
+    assert provenance["seed_rejections"][0]["generation_seed"] == 42
+    assert provenance["seed_rejections"][0]["output_path"] == str(
+        tmp_path / "generated" / "orin.attempt-1.wav")
+    assert provenance["seed_rejections"][0]["whisper_gate"][
+        "transcript"] == "When you ring, what shall come?"
+    assert (tmp_path / "generated" / "orin.attempt-1.wav").is_file()
+    assert (tmp_path / "generated" / "orin.attempt-1.prepared.wav").is_file()
+
+
+def test_resume_preserves_retry_audit_fields(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    orin_calls = {"count": 0}
+
+    def flaky_transcriber(audio_path):
+        if Path(audio_path).name == "orin.prepared.wav":
+            orin_calls["count"] += 1
+            if orin_calls["count"] == 1:
+                return "unrelated words"
+        return _transcriber(audio_path)
+
+    supply_vibevoice_turns(
+        manifest, backend=FakeBackend(), transcriber=flaky_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=tmp_path / "fresh-report.json")
+    resumed = supply_vibevoice_turns(
+        manifest, backend=FakeBackend(), transcriber=_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=tmp_path / "resume-report.json", resume=True)
+    orin = resumed["turns"][1]
+    assert orin["generation_seed"] == 43
+    assert orin["attempt_index"] == 2
+    assert orin["attempt_count"] == 2
+    assert [item["generation_seed"] for item in orin["seed_rejections"]] == [42]
+
+
+def test_exhausted_scored_retries_fail_closed_and_retain_all_attempts(
+        tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend = FakeBackend()
+
+    def wrong_orin(audio_path):
+        if Path(audio_path).name.startswith("orin"):
+            return "When you ring, what shall come?"
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="below pass bar"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=wrong_orin,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json", seed_retries=2)
+
+    assert [call[2] for call in backend.generate_calls] == [42, 42, 43, 44]
+    report = json.loads((tmp_path / "report.json").read_text())
+    orin = report["turns"][1]
+    assert report["status"] == "failed"
+    assert orin["generation_seed"] == 44
+    assert orin["attempt_index"] == 3
+    assert [item["generation_seed"] for item in orin["seed_rejections"]] == [
+        42, 43, 44]
+    terminal_provenance = json.loads(Path(orin["provenance_path"]).read_text())
+    assert terminal_provenance["attempt_count"] == 3
+    assert [item["generation_seed"] for item in
+            terminal_provenance["seed_rejections"]] == [42, 43, 44]
+    assert Path(orin["output_path"]).is_file()
+    assert (tmp_path / "generated" / "orin.attempt-1.wav").is_file()
+    assert (tmp_path / "generated" / "orin.attempt-2.wav").is_file()
+    assert not (tmp_path / "generated" / "orin.attempt-3.wav").exists()
+
+
+def test_unscored_transcription_error_is_never_seed_retried(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend = FakeBackend()
+
+    def broken_orin(audio_path):
+        if Path(audio_path).name.startswith("orin"):
+            raise RuntimeError("whisper transport failed")
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="whisper transport failed"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=broken_orin,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json")
+    assert [call[2] for call in backend.generate_calls] == [42, 42]
+    assert not (tmp_path / "generated" / "orin.attempt-1.wav").exists()
+
+
+def test_retry_generation_failure_preserves_prior_rejection_evidence(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+
+    class SecondOrinGenerationFails(FakeBackend):
+        def __init__(self):
+            super().__init__()
+            self.received_seeds = []
+
+        def generate(self, turn, destination, seed):
+            self.received_seeds.append(seed)
+            if turn.speaker == "Orin" and len(
+                    [c for c in self.generate_calls if c[0].speaker == "Orin"]) == 1:
+                raise RuntimeError("model generation failed")
+            return super().generate(turn, destination, seed)
+
+    backend = SecondOrinGenerationFails()
+
+    def wrong_first_orin(audio_path):
+        if Path(audio_path).name == "orin.prepared.wav":
+            return "When you ring, what shall come?"
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="generation failed"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=wrong_first_orin,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json")
+    assert backend.received_seeds == [42, 42, 43]
+    report = json.loads((tmp_path / "report.json").read_text())
+    orin = report["turns"][1]
+    assert orin["status"] == "generation_failed"
+    assert len(orin["seed_rejections"]) == 1
+    assert Path(orin["seed_rejections"][0]["output_path"]).is_file()
+
+
+def test_missing_second_attempt_output_preserves_prior_rejection_evidence(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+
+    class SecondOrinOutputMissing(FakeBackend):
+        def generate(self, turn, destination, seed):
+            if turn.speaker == "Orin" and len(
+                    [c for c in self.generate_calls if c[0].speaker == "Orin"]) == 1:
+                return
+            return super().generate(turn, destination, seed)
+
+    def wrong_first_orin(audio_path):
+        if Path(audio_path).name == "orin.prepared.wav":
+            return "When you ring, what shall come?"
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="backend did not create output"):
+        supply_vibevoice_turns(
+            manifest, backend=SecondOrinOutputMissing(),
+            transcriber=wrong_first_orin, preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json")
+    report = json.loads((tmp_path / "report.json").read_text())
+    orin = report["turns"][1]
+    assert orin["status"] == "generation_failed"
+    assert [item["generation_seed"] for item in orin["seed_rejections"]] == [42]
+    assert Path(orin["seed_rejections"][0]["output_path"]).is_file()
+
+
+def test_resume_gate_failure_retains_scored_evidence(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    supply_vibevoice_turns(
+        manifest, backend=FakeBackend(), transcriber=_transcriber,
+        preparation_runner=_audio_runner,
+        report_path=tmp_path / "initial-report.json")
+
+    def changed_orin(audio_path):
+        if Path(audio_path).name.startswith("orin"):
+            return "different words entirely"
+        return _transcriber(audio_path)
+
+    with pytest.raises(VibeVoiceError, match="below pass bar"):
+        supply_vibevoice_turns(
+            manifest, backend=FakeBackend(), transcriber=changed_orin,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "resume-report.json", resume=True)
+    report = json.loads((tmp_path / "resume-report.json").read_text())
+    orin = report["turns"][1]
+    assert report["status"] == "failed"
+    assert orin["status"] == "pre_gate_failed"
+    assert orin["whisper_gate"]["passed"] is False
+    assert orin["whisper_gate"]["transcript"] == "different words entirely"
+
+
+@pytest.mark.parametrize("seed_retries", [-1, 11, 1.5, True])
+def test_invalid_seed_retry_budget_fails_before_generation(
+        tmp_path, seed_retries):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend = FakeBackend()
+    with pytest.raises(VibeVoiceError, match="seed_retries"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=_transcriber,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json",
+            seed_retries=seed_retries)
+    assert backend.generate_calls == []
+
+
+def test_cli_invalid_seed_retry_budget_fails_before_backend(tmp_path):
+    def forbidden(_model):
+        pytest.fail("invalid retry budget must reject before backend construction")
+
+    with pytest.raises(VibeVoiceError, match="seed_retries"):
+        main([str(_manifest(tmp_path)), "--seed-retries", "-1"],
+             backend_factory=forbidden, transcriber=_transcriber,
+             preparation_runner=_audio_runner)
+
+
+def test_retry_artifact_names_cannot_collide_with_turn_outputs(tmp_path):
+    manifest_path = _manifest(tmp_path)
+    payload = json.loads(manifest_path.read_text())
+    payload["turns"][0]["output"] = "generated/a.wav"
+    payload["turns"][1]["output"] = "generated/a.attempt-1.wav"
+    manifest_path.write_text(json.dumps(payload))
+    manifest = load_vibevoice_manifest(manifest_path)
+    backend = FakeBackend()
+    with pytest.raises(VibeVoiceError, match="paths must be unique"):
+        supply_vibevoice_turns(
+            manifest, backend=backend, transcriber=_transcriber,
+            preparation_runner=_audio_runner,
+            report_path=tmp_path / "report.json")
+    assert backend.generate_calls == []
 
 
 def test_missing_reference_fails_before_generation(tmp_path):
@@ -459,14 +708,50 @@ class SupplyHost:
         if self.defect and self.defect.startswith("rejected"):
             failed_index = 0 if self.defect == "rejected_first" else 1
             texts[str(manifest.turns[failed_index].output.with_suffix(".prepared.wav"))] = "unrelated words"
-            with pytest.raises(VibeVoiceError, match="below pass bar"):
-                supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
-                    preparation_runner=_audio_runner, report_path=report_path)
+            if self.defect == "rejected_then_generation_fails":
+                class SecondOrinGenerationFails(FakeBackend):
+                    def generate(self, turn, destination, seed):
+                        if (turn.speaker == "Orin" and len(
+                                [c for c in self.generate_calls
+                                 if c[0].speaker == "Orin"]) == 1):
+                            raise RuntimeError("model generation failed")
+                        return super().generate(turn, destination, seed)
+
+                with pytest.raises(VibeVoiceError, match="generation failed"):
+                    failing_backend = SecondOrinGenerationFails()
+                    failing_backend.backend_kind = VibeVoiceBackend.backend_kind
+                    supply_vibevoice_turns(
+                        manifest, backend=failing_backend,
+                        transcriber=texts.__getitem__,
+                        preparation_runner=_audio_runner, report_path=report_path)
+                return SimpleNamespace(returncode=1, stderr="generation failed")
+            if self.defect == "rejected_then_pass":
+                gate_calls = {"count": 0}
+                failed_path = str(
+                    manifest.turns[failed_index].output.with_suffix(".prepared.wav"))
+
+                def flaky_transcriber(audio_path):
+                    if audio_path == failed_path:
+                        gate_calls["count"] += 1
+                        if gate_calls["count"] == 1:
+                            return "unrelated words"
+                        return manifest.turns[failed_index].text
+                    return texts[audio_path]
+
+                supply_vibevoice_turns(manifest, backend=backend,
+                    transcriber=flaky_transcriber, preparation_runner=_audio_runner,
+                    report_path=report_path)
+            else:
+                with pytest.raises(VibeVoiceError, match="below pass bar"):
+                    supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
+                        preparation_runner=_audio_runner, report_path=report_path)
             if self.defect == "rejected_gate":
                 payload = json.loads(report_path.read_text())
                 payload["turns"][1]["whisper_gate"]["score"] = 0.4
                 report_path.write_text(json.dumps(payload))
-            return SimpleNamespace(returncode=1, stderr="pre-gate failed")
+            if self.defect != "rejected_then_pass":
+                return SimpleNamespace(returncode=1, stderr="pre-gate failed")
+            return SimpleNamespace(returncode=0, stderr="")
         supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
             preparation_runner=_audio_runner, report_path=report_path)
         if self.defect == "failed_run":
@@ -522,6 +807,8 @@ def test_remote_supply_stages_executes_and_fetches_only_through_host(tmp_path):
     assert Path(report["remote_report_path"]).is_file()
     assert len([c for c in host.calls if c[0] == "push_asset"]) == 2
     assert len([c for c in host.calls if c[0] == "run_argv"]) == 1
+    remote_argv = next(c[1] for c in host.calls if c[0] == "run_argv")
+    assert remote_argv[remote_argv.index("--seed-retries") + 1] == "2"
     assert len([c for c in host.calls if c[0] == "fetch_file"]) == 7
     lifecycle = [c for c in host.calls if c[0] in {"run_probe", "run_argv"}]
     assert [c[1][-1] for c in lifecycle[:2]] == ["stop", "3"]
@@ -548,6 +835,16 @@ def test_short_remote_reference_does_not_call_host(tmp_path):
     manifest, host, kwargs = _remote_supply(tmp_path)
     kwargs["preparation_runner"] = lambda _: SimpleNamespace(returncode=0, stdout="1.8")
     with pytest.raises(VibeVoiceError, match=">=2s"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert host.calls == []
+
+
+def test_existing_local_attempt_evidence_blocks_remote_run(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    stale_attempt = _attempt_paths(manifest.turns[1].output, 1)[0]
+    stale_attempt.parent.mkdir(parents=True, exist_ok=True)
+    stale_attempt.write_bytes(b"stale evidence")
+    with pytest.raises(VibeVoiceError, match="remote supply requires new local"):
         supply_vibevoice_turns_remote(manifest, **kwargs)
     assert host.calls == []
 
@@ -661,12 +958,54 @@ def test_remote_rejection_preserves_verified_listening_bundle_without_publicatio
         assert Path(record["output_path"]).is_file()
         assert Path(record["prepared_path"]).is_file()
         assert Path(record["provenance_path"]).is_file()
+    failed_rejections = report["turns"][1]["seed_rejections"]
+    assert [item["generation_seed"] for item in failed_rejections] == [42, 43, 44]
+    assert all(Path(item["output_path"]).is_file() for item in failed_rejections)
+    assert all(Path(item["prepared_path"]).is_file() for item in failed_rejections)
+    assert all(Path(item["provenance_path"]).is_file() for item in failed_rejections)
     assert (bundles[0] / "report.remote.json").is_file()
-    assert len(list(bundles[0].glob("*.provenance.remote.json"))) == 2
+    assert len(list(bundles[0].glob("*.provenance.remote.json"))) == 4
+    original_attempt = json.loads((
+        bundles[0] / "turn-2.attempt-1.wav.provenance.remote.json").read_text())
+    assert original_attempt["output"].startswith(str(host.root))
+    assert ".attempt-1.wav" in original_attempt["output"]
     calls = list(host.calls)
     with pytest.raises(VibeVoiceError, match="incomplete"):
         publish_vibevoice_turns(report, host=host)
     assert host.calls == calls
+
+
+def test_remote_retry_success_localizes_every_attempt_artifact(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path, "rejected_then_pass")
+    report = supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert report["status"] == "complete"
+    orin = report["turns"][1]
+    assert orin["generation_seed"] == 43
+    assert [item["generation_seed"] for item in orin["seed_rejections"]] == [42]
+    assert all(Path(item["output_path"]).is_file() for item in orin["seed_rejections"])
+    assert all(Path(item["prepared_path"]).is_file() for item in orin["seed_rejections"])
+    assert all(Path(item["provenance_path"]).is_file() for item in orin["seed_rejections"])
+    provenance = json.loads(Path(orin["provenance_path"]).read_text())
+    assert provenance["seed_rejections"][0][
+        "provenance_path"] == orin["seed_rejections"][0]["provenance_path"]
+    assert Path(provenance["seed_rejections"][0]["output_path"]).is_file()
+
+
+def test_remote_retry_generation_failure_preserves_prior_attempts(tmp_path):
+    manifest, host, kwargs = _remote_supply(
+        tmp_path, "rejected_then_generation_fails")
+    with pytest.raises(VibeVoiceError, match="rejected evidence"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    bundle = next((Path(kwargs["report_path"]).parent / "rejected").iterdir())
+    report = json.loads((bundle / "report.json").read_text())
+    orin = report["turns"][1]
+    assert report["status"] == "failed"
+    assert orin["status"] == "generation_failed"
+    assert [item["generation_seed"] for item in orin["seed_rejections"]] == [42]
+    assert Path(orin["seed_rejections"][0]["output_path"]).is_file()
+    assert Path(orin["seed_rejections"][0]["prepared_path"]).is_file()
+    assert Path(orin["seed_rejections"][0]["provenance_path"]).is_file()
+    assert not Path(orin["output_path"]).exists()
 
 
 @pytest.mark.parametrize("defect", ["rejected_missing", "rejected_hash", "rejected_provenance", "rejected_gate",
@@ -689,4 +1028,8 @@ def test_remote_first_turn_rejected_leaves_remaining_turn_pending(tmp_path):
     assert report["completed_turn_count"] == 0
     assert report["turns"][1]["status"] == "pending"
     assert not Path(report["turns"][1]["output_path"]).exists()
-    assert len([c for c in host.calls if c[0] == "fetch_file"]) == 4
+    assert [item["generation_seed"] for item in
+            report["turns"][0]["seed_rejections"]] == [42, 43, 44]
+    assert all(Path(item["provenance_path"]).is_file() for item in
+               report["turns"][0]["seed_rejections"])
+    assert len([c for c in host.calls if c[0] == "fetch_file"]) == 10
