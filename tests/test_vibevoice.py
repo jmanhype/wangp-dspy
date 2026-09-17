@@ -447,6 +447,8 @@ class SupplyHost:
 
     def run_argv(self, argv, *, cwd, timeout):
         self.calls.append(("run_argv", argv))
+        if self.defect == "raised_run":
+            raise RuntimeError("transport failed")
         assert argv[:3] == ["/host/python", "-m", "predict.vibevoice"]
         assert cwd == "/host/repo with spaces"
         manifest = load_vibevoice_manifest(argv[3])
@@ -465,6 +467,10 @@ class SupplyHost:
             payload["turns"][0]["whisper_gate"]["transcript"] = "wrong"
             report_path.write_text(json.dumps(payload))
         return SimpleNamespace(returncode=0, stderr="")
+
+    def run_probe(self, argv, *, timeout):
+        self.calls.append(("run_probe", argv))
+        return 0, "", ""
 
     def fetch_file(self, remote, local):
         self.calls.append(("fetch_file", remote))
@@ -500,6 +506,10 @@ def test_remote_supply_stages_executes_and_fetches_only_through_host(tmp_path):
     assert len([c for c in host.calls if c[0] == "push_asset"]) == 2
     assert len([c for c in host.calls if c[0] == "run_argv"]) == 1
     assert len([c for c in host.calls if c[0] == "fetch_file"]) == 7
+    lifecycle = [c for c in host.calls if c[0] in {"run_probe", "run_argv"}]
+    assert [c[1][-1] for c in lifecycle[:2]] == ["stop", "3"]
+    assert lifecycle[2][0] == "run_argv"
+    assert lifecycle[3][1][-1] == "start"
     for turn, record in zip(manifest.turns, report["turns"]):
         assert Path(record["prepared_path"]).is_file()
         assert record["prepared_sha256"] == hashlib_sha256(record["prepared_path"])
@@ -548,3 +558,69 @@ def test_remote_cli_never_constructs_local_backend(tmp_path, capsys):
                  "--report", str(kwargs["report_path"])], host=host,
                 backend_factory=forbidden, preparation_runner=_audio_runner) == 0
     assert json.loads(capsys.readouterr().out)["status"] == "complete"
+
+
+@pytest.mark.parametrize("failure", [None, "acquire", "release", "failed_run", "raised_run"])
+def test_remote_gpu_lease_order_and_fail_closed(tmp_path, failure):
+    manifest, host, kwargs = _remote_supply(tmp_path, failure)
+    class Lease:
+        def acquire(self, leased_host):
+            assert leased_host is host
+            host.calls.append(("acquire", None))
+            if failure == "acquire":
+                raise RuntimeError("stop failed")
+
+        def release(self, leased_host):
+            assert leased_host is host
+            host.calls.append(("release", None))
+            if failure == "release":
+                raise RuntimeError("start failed")
+
+    kwargs["gpu_lease"] = Lease()
+    if failure is None:
+        assert supply_vibevoice_turns_remote(manifest, **kwargs)["status"] == "complete"
+    else:
+        expected_error = RuntimeError if failure == "raised_run" else VibeVoiceError
+        with pytest.raises(expected_error):
+            supply_vibevoice_turns_remote(manifest, **kwargs)
+        assert not Path(kwargs["report_path"]).exists()
+        assert not any(t.output.exists() for t in manifest.turns)
+        assert not any(c[0] == "fetch_file" for c in host.calls)
+    order = [c[0] for c in host.calls if c[0] in {"acquire", "run_argv", "release"}]
+    assert order == (["acquire", "release"] if failure == "acquire"
+                     else ["acquire", "run_argv", "release"])
+
+
+def test_local_cli_never_uses_gpu_lease(tmp_path):
+    class ForbiddenLease:
+        def acquire(self, host):
+            pytest.fail("local supply must not acquire a remote lease")
+        def release(self, host):
+            pytest.fail("local supply must not release a remote lease")
+    assert main([str(_manifest(tmp_path))], backend_factory=lambda _: FakeBackend(),
+                transcriber=_transcriber, preparation_runner=_audio_runner,
+                gpu_lease=ForbiddenLease()) == 0
+
+
+def test_remote_cli_explicit_external_gpu_policy(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    assert main([str(manifest.source_path), "--host-python", kwargs["host_python"],
+                 "--host-repo", kwargs["host_repo"], "--host-model", kwargs["host_model"],
+                 "--report", str(kwargs["report_path"]), "--remote-gpu-lease", "none"],
+                host=host, preparation_runner=_audio_runner) == 0
+    assert not any(c[0] == "run_probe" for c in host.calls)
+
+
+@pytest.mark.parametrize("failed_action", ["stop", "start"])
+def test_default_remote_lease_rejects_judge_control_failure(tmp_path, failed_action):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    def probe(argv, *, timeout):
+        host.calls.append(("run_probe", argv))
+        return (1, "", "control failed") if argv[-1] == failed_action else (0, "", "")
+    host.run_probe = probe
+    with pytest.raises(VibeVoiceError, match="GPU lease .* failed"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert host.calls[-1][1][-1] == "start"
+    assert any(c[0] == "run_argv" for c in host.calls) == (failed_action == "start")
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)

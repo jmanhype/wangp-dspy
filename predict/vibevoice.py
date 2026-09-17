@@ -22,6 +22,18 @@ class VibeVoiceError(ValueError):
     """Typed rejection of an invalid or unsafe VibeVoice supply run."""
 
 
+class VibeVoiceJudgeLease:
+    """Timeshare the repo-managed judge; this is not a cross-process lock."""
+
+    def acquire(self, host) -> None:
+        from scripts.run_jobs import free_vram_for_render
+        free_vram_for_render(host)
+
+    def release(self, host) -> None:
+        from scripts.run_jobs import start_local_vision_judge
+        start_local_vision_judge(host)
+
+
 MANIFEST_SCHEMA = "wangp-dspy.vibevoice-turns/v1"
 PROVENANCE_SCHEMA = "wangp-dspy.vibevoice-provenance/v1"
 _SHA256_RE = re.compile(r"[0-9a-f]{64}")
@@ -575,12 +587,16 @@ def supply_vibevoice_turns_remote(
     host_model: str, report_path: str | Path, preparation_runner,
     timeout: float = 1800, pass_bar: float = 0.5,
     whisper_model: str = "small",
+    gpu_lease=None, manage_gpu: bool = True,
 ) -> dict:
     """Stage, execute the repo module, and verify a fresh host supply run.
 
     The configured asset map must cover the manifest directory. Host model,
     Python and repository paths are explicit host-namespace inputs; a local
     model installation is not required. Never reuses host or local outputs.
+    By default stop the repo-managed judge around remote execution and restore
+    it before fetching/publishing artifacts. Inject acquire/release(host) for
+    tests; manage_gpu=False is only for an externally managed dedicated GPU.
     """
     validate_voice_references(manifest, runner=preparation_runner)
     if not math.isfinite(timeout) or timeout <= 0:
@@ -594,6 +610,10 @@ def supply_vibevoice_turns_remote(
     if not all(isinstance(p, str) and Path(p).is_absolute()
                for p in (host_python, host_repo, host_model)):
         raise VibeVoiceError("host Python/repo/model must be absolute paths")
+    lease = (gpu_lease if gpu_lease is not None else VibeVoiceJudgeLease()) if manage_gpu else None
+    if lease is not None and not all(
+            callable(getattr(lease, method, None)) for method in ("acquire", "release")):
+        raise VibeVoiceError("gpu_lease: acquire/release(host) are required")
     destination = Path(report_path).resolve()
     remote_evidence = destination.with_name(destination.name + ".remote.json")
     outputs = [p for t in manifest.turns
@@ -624,12 +644,29 @@ def supply_vibevoice_turns_remote(
         turn["output"] = Path(turn["output"]).name
     if host.write_text(str(remote_manifest_path), json.dumps(payload)) != str(remote_manifest_path):
         raise VibeVoiceError("host manifest staging path mismatch")
-    result = host.run_argv([
+    command = [
         host_python, "-m", "predict.vibevoice", str(remote_manifest_path),
         "--report", str(remote_report_path), "--pass-bar", str(pass_bar),
         "--whisper-model", whisper_model, "--whisper-output-dir",
         str(Path(host_root) / "whisper"),
-    ], cwd=host_repo, timeout=timeout)
+    ]
+    try:
+        if lease is not None:
+            try:
+                if lease.acquire(host) is False:
+                    raise RuntimeError("acquire returned False")
+            except Exception as exc:
+                raise VibeVoiceError(f"GPU lease acquire failed: {exc}") from exc
+        result = host.run_argv(command, cwd=host_repo, timeout=timeout)
+    finally:
+        # Acquisition can stop the judge and then fail: restore even then.
+        # A failed restore prevents any successful report/artifact publication.
+        if lease is not None:
+            try:
+                if lease.release(host) is False:
+                    raise RuntimeError("release returned False")
+            except Exception as exc:
+                raise VibeVoiceError(f"GPU lease release failed: {exc}") from exc
     if getattr(result, "returncode", None) != 0:
         raise VibeVoiceError("host VibeVoice execution failed: " + str(
             getattr(result, "stderr", ""))[-2000:])
@@ -790,6 +827,7 @@ def main(
     transcriber=None,
     preparation_runner=None,
     host=None,
+    gpu_lease=None,
 ) -> int:
     """Run the reusable supplier entrypoint.
 
@@ -810,6 +848,10 @@ def main(
     parser.add_argument("--host-repo", help="absolute host repository checkout")
     parser.add_argument("--host-model", help="absolute host VibeVoice model directory")
     parser.add_argument("--remote-timeout", type=float, default=1800)
+    parser.add_argument(
+        "--remote-gpu-lease", choices=("judge", "none"), default="judge",
+        help="remote GPU policy: timeshare repo judge (default), or none for an externally managed GPU",
+    )
     parser.add_argument(
         "--report",
         help="supply report JSON (default: beside the manifest)",
@@ -874,7 +916,8 @@ def main(
             host_repo=args.host_repo, host_model=args.host_model,
             report_path=report_path, preparation_runner=preparation_runner,
             timeout=args.remote_timeout, pass_bar=args.pass_bar,
-            whisper_model=args.whisper_model)
+            whisper_model=args.whisper_model, gpu_lease=gpu_lease,
+            manage_gpu=args.remote_gpu_lease == "judge")
         print(json.dumps(report, sort_keys=True))
         return 0
     if any((args.host_python, args.host_repo, args.host_model)):
@@ -902,6 +945,7 @@ __all__ = [
     "MANIFEST_SCHEMA",
     "PROVENANCE_SCHEMA",
     "VibeVoiceError",
+    "VibeVoiceJudgeLease",
     "VibeVoiceBackend",
     "VibeVoiceManifest",
     "VibeVoiceTurn",
