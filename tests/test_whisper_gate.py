@@ -37,10 +37,23 @@ def test_whisper_gate_records_phase_and_score():
 
 
 def test_whisper_gate_rejects_mismatch():
-    with pytest.raises(WhisperGateError, match="below pass bar"):
+    with pytest.raises(WhisperGateError, match="below pass bar") as caught:
         run_whisper_gate(
             "/tmp/turn.wav", "the gate is open", phase="post",
             transcriber=lambda _: "unrelated words")
+    assert caught.value.evidence.to_dict() == {
+        "phase": "post", "audio_path": "/tmp/turn.wav",
+        "intended_text": "the gate is open", "transcript": "unrelated words",
+        "score": 0.0, "pass_bar": 0.5, "passed": False,
+    }
+
+
+def test_whisper_gate_transport_failure_does_not_fabricate_evidence():
+    def failed(_):
+        raise RuntimeError("unavailable")
+    with pytest.raises(WhisperGateError) as caught:
+        run_whisper_gate("a.wav", "hello", phase="pre", transcriber=failed)
+    assert caught.value.evidence is None
 
 
 def test_qc_stage_runs_both_gates_and_persists_evidence(tmp_path):

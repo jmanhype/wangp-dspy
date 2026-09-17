@@ -15,7 +15,7 @@ from typing import Callable, Mapping, Sequence
 from predict.audio_prep import (
     AudioPreparationError, PreparedTurnAudio, prepare_turn_audio, _rms_from_probe,
 )
-from qc.audio_critic.whisper_gate import run_whisper_gate
+from qc.audio_critic.whisper_gate import WhisperGateError, run_whisper_gate
 
 
 class VibeVoiceError(ValueError):
@@ -536,10 +536,14 @@ def supply_vibevoice_turns(
                     pass_bar=pass_bar,
                 )
             except Exception as exc:
+                evidence = exc.evidence if isinstance(exc, WhisperGateError) else None
                 record.update({
                     "status": "pre_gate_failed",
                     "prepared_path": str(prepared),
-                    "whisper_gate": {
+                    "provenance_path": str(provenance_path),
+                    "prepared_sha256": provenance["prepared_sha256"],
+                    "preparation": preparation,
+                    "whisper_gate": evidence.to_dict() if evidence is not None else {
                         "phase": "pre",
                         "audio_path": str(prepared),
                         "intended_text": turn.text,
@@ -667,9 +671,8 @@ def supply_vibevoice_turns_remote(
                     raise RuntimeError("release returned False")
             except Exception as exc:
                 raise VibeVoiceError(f"GPU lease release failed: {exc}") from exc
-    if getattr(result, "returncode", None) != 0:
-        raise VibeVoiceError("host VibeVoice execution failed: " + str(
-            getattr(result, "stderr", ""))[-2000:])
+    rejected = getattr(result, "returncode", None) != 0
+    rejected_root = destination.parent / "rejected" / Path(host_root).name
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     # Fetch to an empty private directory: a missing transfer can never be
@@ -677,32 +680,52 @@ def supply_vibevoice_turns_remote(
     with tempfile.TemporaryDirectory(prefix="vibevoice-pull-", dir=destination.parent) as tmp:
         scratch = Path(tmp)
         def fetch(remote, local):
-            host.fetch_file(str(remote), str(local))
+            try:
+                host.fetch_file(str(remote), str(local))
+            except Exception as exc:
+                raise VibeVoiceError(f"missing host artifact: {remote}") from exc
             if not local.is_file() or local.stat().st_size == 0:
                 raise VibeVoiceError(f"missing host artifact: {remote}")
         report_file = scratch / "report.json"
         fetch(remote_report_path, report_file)
         report = _read_json_object(report_file, "host report")
-        expected = _report(remote_manifest, [], status="complete")
+        expected = _report(remote_manifest, [], status="failed" if rejected else "complete")
         for field in ("schema", "manifest", "model_sha256", "seed", "status"):
             if report.get(field) != expected[field]:
                 raise VibeVoiceError(f"host report {field} mismatch")
         records = report.get("turns")
-        if (not isinstance(records, list) or len(records) != len(manifest.turns)
-                or report.get("completed_turn_count") != len(manifest.turns)):
+        if not isinstance(records, list) or len(records) != len(manifest.turns):
             raise VibeVoiceError("host report turn count mismatch")
+        statuses = [r.get("status") if isinstance(r, dict) else None for r in records]
+        completed_count = statuses.count("complete")
+        wanted_statuses = (["complete"] * completed_count + ["pre_gate_failed"]
+                           + ["pending"] * (len(records) - completed_count - 1)
+                           if rejected else ["complete"] * len(records))
+        if statuses != wanted_statuses or report.get("completed_turn_count") != completed_count:
+            raise VibeVoiceError("host report turn status/count mismatch")
         staged = []
         local_records = []
         for local_turn, remote_turn, record in zip(manifest.turns, remote_turns, records):
+            if rejected:
+                local_turn = VibeVoiceTurn(
+                    local_turn.turn_index, local_turn.speaker, local_turn.text,
+                    local_turn.voice_reference, rejected_root / remote_turn.output.name,
+                    local_turn.target_duration_s)
+            if record.get("status") == "pending":
+                if record != _pending_record(remote_turn):
+                    raise VibeVoiceError("host pending turn mismatch")
+                local_records.append(_pending_record(local_turn))
+                continue
             if not isinstance(record, dict):
                 raise VibeVoiceError("invalid host turn record")
-            for field, wanted in {**_pending_record(remote_turn), "status": "complete",
+            gate_passed = record["status"] == "complete"
+            for field, wanted in {**_pending_record(remote_turn), "status": record["status"],
                                   "prepared_path": str(_prepared_path(remote_turn.output)),
                                   "provenance_path": str(_provenance_path(remote_turn.output))}.items():
                 if record.get(field) != wanted:
                     raise VibeVoiceError(f"host turn {field} mismatch")
             gate = record.get("whisper_gate")
-            if (not isinstance(gate, dict) or gate.get("passed") is not True
+            if (not isinstance(gate, dict) or gate.get("passed") is not gate_passed
                     or gate.get("phase") != "pre" or gate.get("intended_text") != local_turn.text
                     or gate.get("audio_path") != str(_prepared_path(remote_turn.output))):
                 raise VibeVoiceError("host turn pre-gate missing or invalid")
@@ -711,6 +734,10 @@ def supply_vibevoice_turns_remote(
                     gate["audio_path"], local_turn.text,
                     transcriber=lambda _: gate.get("transcript"), phase="pre",
                     pass_bar=pass_bar).to_dict()
+            except WhisperGateError as exc:
+                if gate_passed or exc.evidence is None:
+                    raise VibeVoiceError("host turn transcript evidence invalid") from exc
+                checked_gate = exc.evidence.to_dict()
             except Exception as exc:
                 raise VibeVoiceError("host turn transcript evidence invalid") from exc
             if gate != checked_gate:
@@ -748,6 +775,11 @@ def supply_vibevoice_turns_remote(
                 raise VibeVoiceError("host preparation evidence invalid") from exc
             preparation = dict(preparation, source_path=str(local_turn.output),
                                output_path=str(_prepared_path(local_turn.output)))
+            if rejected:
+                original_provenance = scratch / f"{local_turn.turn_index}.remote.json"
+                original_provenance.write_bytes(provenance_file.read_bytes())
+                staged.append((original_provenance, rejected_root /
+                               (remote_turn.output.name + ".provenance.remote.json")))
             provenance.update(_base_provenance(manifest, local_turn, VibeVoiceBackend.backend_kind))
             provenance["preparation"] = preparation
             provenance["remote_execution"] = {
@@ -761,6 +793,23 @@ def supply_vibevoice_turns_remote(
                 whisper_gate=dict(gate, audio_path=str(_prepared_path(local_turn.output)))))
             staged.extend(((raw, local_turn.output), (prepared, _prepared_path(local_turn.output)),
                            (provenance_file, _provenance_path(local_turn.output))))
+        if rejected:
+            # Only a fully validated bundle is retained. Never use canonical
+            # output/report paths, even for the passing prefix of a failed run.
+            bundle = scratch / "rejected-bundle"
+            bundle.mkdir()
+            for source, target in staged:
+                os.replace(source, bundle / target.name)
+            os.replace(report_file, bundle / "report.remote.json")
+            audit = _report(manifest, local_records, status="failed",
+                            error=report.get("error"))
+            audit["remote_report_path"] = str(rejected_root / "report.remote.json")
+            audit["host_returncode"] = getattr(result, "returncode", None)
+            _write_json(bundle / "report.json", audit)
+            rejected_root.parent.mkdir(parents=True, exist_ok=True)
+            os.rename(bundle, rejected_root)
+            raise VibeVoiceError(
+                f"host VibeVoice execution failed; rejected evidence: {rejected_root}")
         for source, target in staged:
             target.parent.mkdir(parents=True, exist_ok=True)
             os.replace(source, target)

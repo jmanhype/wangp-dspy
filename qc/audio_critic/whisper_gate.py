@@ -18,6 +18,10 @@ from predict.continuation_lane import transcript_match_score
 class WhisperGateError(ValueError):
     """Typed, fail-closed transcript gate rejection."""
 
+    def __init__(self, message: str, *, evidence: WhisperGateEvidence | None = None):
+        super().__init__(message)
+        self.evidence = evidence
+
 
 @dataclass(frozen=True)
 class WhisperGateEvidence:
@@ -73,7 +77,7 @@ def run_whisper_gate(
     if not passed:
         raise WhisperGateError(
             f"{phase}: transcript score {score:.3f} below pass bar "
-            f"{float(pass_bar):.3f}")
+            f"{float(pass_bar):.3f}", evidence=evidence)
     return evidence
 
 
