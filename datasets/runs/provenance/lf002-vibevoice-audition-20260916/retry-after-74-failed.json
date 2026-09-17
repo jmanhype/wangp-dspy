@@ -1,0 +1,18 @@
+{
+  "status": "failed",
+  "stage": "vibevoice_device_map_auto_under_gpu_contention",
+  "run_kind": "audio_only_remote_supply",
+  "repository_commit": "d6cf619d58996543681917a750d170c9cefe7ba0",
+  "error_class": "NotImplementedError",
+  "error": "Cannot copy out of meta tensor; no data!",
+  "gpu_observation": {
+    "total_mib": 24576,
+    "used_mib": 7906,
+    "utilization_percent": 0,
+    "resident_process": "llama-server",
+    "resident_process_mib": 7816
+  },
+  "interpretation": "The VibeVoice weight set is approximately 16.7 GiB before runtime overhead. The live local vision judge consumed 7.8 GiB, so device_map=auto could not place the complete execution graph. The supplier needs the existing repository GPU lease/timeshare seam before host model load.",
+  "published_audio": false,
+  "video_render_submitted": false
+}
