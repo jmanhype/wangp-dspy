@@ -39,16 +39,17 @@
       "id": "lf-003",
       "title": "Borrowed Sunrise",
       "logline": "A night-shift astronomer admits that tomorrow's sunrise is only a projection.",
+      "style_ref": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210",
       "characters": [
         {
           "name": "Tess",
           "sn_tag": "S1",
-          "description": "a sleepless observatory astronomer"
+          "description": "a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room"
         },
         {
           "name": "Rho",
           "sn_tag": "S2",
-          "description": "a pragmatic station caretaker"
+          "description": "a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room"
         }
       ]
     },

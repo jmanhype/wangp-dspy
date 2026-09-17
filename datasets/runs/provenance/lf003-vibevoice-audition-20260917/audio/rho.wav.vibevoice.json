@@ -1,0 +1,35 @@
+{
+  "attempt_index": 1,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 42,
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.wav",
+  "output_sha256": "d43a01714100836b4d2a2fc30fd2bca401b20c477ea66f538db56bf3c33a947f",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.prepared.wav",
+    "rms_db": -16.9,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.wav",
+    "speaker_id": "Rho",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.prepared.wav",
+  "prepared_sha256": "a055879703e26d55fe9c794c5af442b46192c507e0a07edcf0814495036862fc",
+  "remote_execution": {
+    "manifest": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/manifest.json",
+    "model": "/home/straughter/models/VibeVoice-7B-hf",
+    "python": "/home/straughter/vb7-venv/bin/python",
+    "repo": "/home/straughter/wangp-dspy-vibevoice-20260916"
+  },
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 42,
+  "seed_rejections": [],
+  "speaker": "Rho",
+  "text": "Then give me a real horizon.",
+  "turn_index": 2,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/acceptance/lf003-v3/new_audio/lf003_rho_raw.wav",
+  "voice_reference_sha256": "cab74cbb71daa46b801ef8b6a380a9bbd95943ece5dff6cfe2d904df27d5c97d"
+}

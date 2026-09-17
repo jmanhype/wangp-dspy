@@ -1,0 +1,35 @@
+{
+  "attempt_index": 1,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 42,
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.wav",
+  "output_sha256": "bf828a4d80d029419254440e47d7ba6f065ce1fa13b7793904c703bae15ed2bd",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+    "rms_db": -15.0,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.wav",
+    "speaker_id": "Tess",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+  "prepared_sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f",
+  "remote_execution": {
+    "manifest": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/manifest.json",
+    "model": "/home/straughter/models/VibeVoice-7B-hf",
+    "python": "/home/straughter/vb7-venv/bin/python",
+    "repo": "/home/straughter/wangp-dspy-vibevoice-20260916"
+  },
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 42,
+  "seed_rejections": [],
+  "speaker": "Tess",
+  "text": "Tomorrow's sunrise is only a projection.",
+  "turn_index": 1,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/acceptance/lf003-v3/new_audio/lf003_tess_raw.wav",
+  "voice_reference_sha256": "6e9017ad9a19a01fdecb7a0e4af2ceb79b377d2376538ced3947bef5df136431"
+}

@@ -1,0 +1,75 @@
+{
+  "completed_turn_count": 2,
+  "manifest": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/manifest.json",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "resumed_turn_count": 0,
+  "schema": "wangp-dspy.vibevoice-report/v1",
+  "seed": 42,
+  "status": "complete",
+  "turns": [
+    {
+      "attempt_index": 1,
+      "generation_seed": 42,
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.prepared.wav",
+        "rms_db": -15.0,
+        "single_speaker": true,
+        "source_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.wav",
+        "speaker_id": "Tess",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.prepared.wav",
+      "prepared_sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f",
+      "provenance_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.wav.vibevoice.json",
+      "seed_rejections": [],
+      "speaker": "Tess",
+      "status": "complete",
+      "text": "Tomorrow's sunrise is only a projection.",
+      "turn_index": 1,
+      "whisper_gate": {
+        "audio_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-1.prepared.wav",
+        "intended_text": "Tomorrow's sunrise is only a projection.",
+        "pass_bar": 0.5,
+        "passed": true,
+        "phase": "pre",
+        "score": 0.833,
+        "transcript": "Tomorrow's sunrise is only a project."
+      }
+    },
+    {
+      "attempt_index": 1,
+      "generation_seed": 42,
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.prepared.wav",
+        "rms_db": -16.9,
+        "single_speaker": true,
+        "source_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.wav",
+        "speaker_id": "Rho",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.prepared.wav",
+      "prepared_sha256": "a055879703e26d55fe9c794c5af442b46192c507e0a07edcf0814495036862fc",
+      "provenance_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.wav.vibevoice.json",
+      "seed_rejections": [],
+      "speaker": "Rho",
+      "status": "complete",
+      "text": "Then give me a real horizon.",
+      "turn_index": 2,
+      "whisper_gate": {
+        "audio_path": "/home/straughter/wangp-dspy-vibevoice-lf003-20260917/.vibevoice-495da74cf9ff4a30bd7c1adf5a5b7ac7/turn-2.prepared.wav",
+        "intended_text": "Then give me a real horizon.",
+        "pass_bar": 0.5,
+        "passed": true,
+        "phase": "pre",
+        "score": 0.5,
+        "transcript": "than giving a real horizon."
+      }
+    }
+  ]
+}

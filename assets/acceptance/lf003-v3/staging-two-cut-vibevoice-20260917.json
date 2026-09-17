@@ -1,0 +1,91 @@
+{
+  "run_id": "lf003-two-cut-vibevoice-20260917",
+  "recipe_name": "golden_v3",
+  "audio_carrier": "native_h3",
+  "expected_cuts": 2,
+  "seed": 905,
+  "durations_s": [
+    2.3333333333333335,
+    2.3333333333333335
+  ],
+  "premise": {
+    "id": "lf-003",
+    "title": "Borrowed Sunrise",
+    "logline": "A night-shift astronomer admits that tomorrow's sunrise is only a projection.",
+    "style_ref": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210",
+    "characters": [
+      {
+        "name": "Tess",
+        "sn_tag": "S1",
+        "description": "a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room"
+      },
+      {
+        "name": "Rho",
+        "sn_tag": "S2",
+        "description": "a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room"
+      }
+    ]
+  },
+  "media_manifest": {
+    "premise_id": "lf-003",
+    "style_ref": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210",
+    "plates": {
+      "anchor": "assets/acceptance/lf003-v3/anchor.png",
+      "Tess": "assets/acceptance/lf003-v3/face_tess.png",
+      "Rho": "assets/acceptance/lf003-v3/face_rho.png"
+    },
+    "audio": [
+      {
+        "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+        "speaker": "Tess"
+      },
+      {
+        "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.prepared.wav",
+        "speaker": "Rho"
+      }
+    ]
+  },
+  "script_lines": [
+    {
+      "speaker": "Tess",
+      "text": "Tomorrow's sunrise is only a projection."
+    },
+    {
+      "speaker": "Rho",
+      "text": "Then give me a real horizon."
+    }
+  ],
+  "audio_paths": [
+    "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+    "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.prepared.wav"
+  ],
+  "plate_paths": [
+    [
+      "assets/acceptance/lf003-v3/anchor.png",
+      "assets/acceptance/lf003-v3/face_rho.png"
+    ],
+    [
+      "assets/acceptance/lf003-v3/anchor.png",
+      "assets/acceptance/lf003-v3/face_tess.png"
+    ]
+  ],
+  "vibevoice_provenance": {
+    "schema": "wangp-dspy.vibevoice-report/v1",
+    "report": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/report.json",
+    "repository_commit": "52ae71533a7d71d2ef5697967fd6c14b1edb680b",
+    "turns": [
+      {
+        "speaker": "Tess",
+        "generation_seed": 42,
+        "prepared_sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f",
+        "whisper_score": 0.833
+      },
+      {
+        "speaker": "Rho",
+        "generation_seed": 42,
+        "prepared_sha256": "a055879703e26d55fe9c794c5af442b46192c507e0a07edcf0814495036862fc",
+        "whisper_score": 0.5
+      }
+    ]
+  }
+}
