@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "stage": "vibevoice_input_device_placement",
+  "run_kind": "audio_only_remote_supply",
+  "repository_commit": "e10331135d4a66e4eecce9a40a8fe839bb6f15d2",
+  "model_path": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_tree_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "remote_checkout": "/home/straughter/wangp-dspy-vibevoice-20260916",
+  "error_class": "NotImplementedError",
+  "error": "Cannot copy out of meta tensor; no data!",
+  "interpretation": "AutoModelForTextToWaveform loaded with device_map=auto, but the supplier selected model.device for BatchFeature.to(); the exposed device was meta rather than a concrete execution device.",
+  "published_audio": false,
+  "video_render_submitted": false
+}

@@ -174,6 +174,83 @@ def test_backend_construction_is_first_transformers_import(
         VibeVoiceBackend(model)
 
 
+def _fake_transformers_backend(device_map, parameter_devices):
+    calls = []
+
+    class Inputs(dict):
+        def to(self, device, dtype):
+            calls.append(("to", device, dtype))
+            return self
+
+    def template(conversation, **kwargs):
+        calls.append(("template", conversation, kwargs))
+        return Inputs(input_ids="fake-tokens")
+
+    def generate(**kwargs):
+        calls.append(("generate", kwargs))
+        return b"fake-audio"
+
+    def save_audio(audio, destination):
+        calls.append(("save", destination))
+        Path(destination).write_bytes(audio)
+
+    backend = VibeVoiceBackend.__new__(VibeVoiceBackend)
+    backend.model = SimpleNamespace(
+        device="meta", dtype="float16", hf_device_map=device_map,
+        parameters=lambda: iter(SimpleNamespace(device=d) for d in parameter_devices),
+        generate=generate,
+    )
+    backend.processor = SimpleNamespace(
+        apply_chat_template=template, save_audio=save_audio)
+    backend.set_seed = lambda seed: calls.append(("seed", seed))
+    return backend, calls
+
+
+@pytest.mark.parametrize("placement", ["cuda:1", 1])
+def test_backend_meta_first_map_uses_concrete_cuda_per_turn(tmp_path, placement):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend, calls = _fake_transformers_backend(
+        {"offloaded": "meta", "cpu": "cpu", "disk": "disk", "decoder": placement},
+        ["meta"],
+    )
+    for turn in manifest.turns:
+        assert backend.generate(turn, turn.output, 42) == turn.output
+        assert turn.output.read_bytes() == b"fake-audio"
+    assert [c for c in calls if c[0] == "to"] == [("to", "cuda:1", "float16")] * 2
+    assert [c for c in calls if c[0] == "generate"] == [
+        ("generate", {"input_ids": "fake-tokens"})] * 2
+    assert [c for c in calls if c[0] == "seed"] == [("seed", 42)] * 2
+    assert [c for c in calls if c[0] == "template"] == [
+        ("template", [{"role": "0", "content": [
+            {"type": "audio", "url": str(turn.voice_reference)},
+            {"type": "text", "text": turn.text},
+        ]}], {"return_dict": True, "tokenize": True, "add_generation_prompt": True})
+        for turn in manifest.turns
+    ]
+
+
+def test_backend_skips_meta_parameters_to_find_concrete_device(tmp_path):
+    turn = load_vibevoice_manifest(_manifest(tmp_path)).turns[0]
+    backend, calls = _fake_transformers_backend(None, ["meta", "cpu", "cuda:2"])
+    backend.generate(turn, turn.output, 42)
+    assert ("to", "cuda:2", "float16") in calls
+    assert len([c for c in calls if c[0] == "generate"]) == 1
+
+
+@pytest.mark.parametrize("placements", [
+    ["meta", "meta"], ["cpu", "disk"], [], ["cuda", -1, True, "bogus:0"],
+])
+def test_backend_without_concrete_accelerator_rejects_before_generation(
+        tmp_path, placements):
+    turn = load_vibevoice_manifest(_manifest(tmp_path)).turns[0]
+    backend, calls = _fake_transformers_backend(
+        dict(enumerate(placements)), placements)
+    with pytest.raises(VibeVoiceError, match="no concrete accelerator"):
+        backend.generate(turn, turn.output, 42)
+    assert calls == []
+    assert not turn.output.exists()
+
+
 def test_cli_runs_with_injected_backend_without_gpu(tmp_path, capsys):
     manifest_path = _manifest(tmp_path)
     created = []
