@@ -18,6 +18,7 @@ import json
 import shutil
 import subprocess
 import time
+import shlex
 from typing import Callable, Optional, Sequence
 
 from host.wangp_adapter import WanGPError
@@ -161,6 +162,16 @@ class LocalHost:
                 "LocalHost.run requires a runner (adapter injects its own)")
         return runner(cmd, cwd, env, timeout)
 
+    def run_argv(self, cmd, *, cwd, timeout):
+        """Execute structured argv, never a caller-supplied shell program."""
+        return subprocess.run(list(cmd), cwd=cwd, timeout=timeout,
+                              capture_output=True, text=True, check=False)
+
+    def push_asset(self, local: str) -> str:
+        if not os.path.isfile(local):
+            raise PushError(f"asset source is not readable: {local!r}")
+        return self.map_asset(local)
+
     def fetch_videos(self, dirs: Sequence[str], local_dir: str,
                      newer_than: float) -> tuple:
         """Local: scan directly. Remote implementations pull then scan
@@ -268,6 +279,23 @@ class SshHost(LocalHost):
         return proc.returncode, \
             out.decode("utf-8", "replace"), \
             err.decode("utf-8", "replace")
+
+    def run_argv(self, cmd, *, cwd, timeout):
+        """Shell-quote every argv element; enforce timeout on the host."""
+        if not cmd or timeout <= 0:
+            raise RenderHostError("non-empty argv and positive timeout required")
+        command = ("cd -- " + shlex.quote(str(cwd)) + " && "
+                   + shlex.join(["timeout", str(timeout), *map(str, cmd)]))
+        proc = self.sp(self._ssh_base() + [command], stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate(timeout=timeout + 30)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            raise RemoteTimeoutError(f"remote command exceeded {timeout}s")
+        return _mkresult(proc.returncode, out.decode("utf-8", "replace"),
+                         err.decode("utf-8", "replace"))
 
     def map_path(self, local: str) -> str:
         """local pull_root namespace -> remote wgp_root namespace."""

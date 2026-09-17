@@ -13,6 +13,7 @@ from predict.vibevoice import (
     main,
     publish_vibevoice_turns,
     supply_vibevoice_turns,
+    supply_vibevoice_turns_remote,
 )
 
 
@@ -321,3 +322,152 @@ def test_publish_rejects_tampered_prepared_audio_before_host_calls(tmp_path):
 def hashlib_sha256(path):
     import hashlib
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+@pytest.mark.parametrize("duration", ["1.99", "nan", "inf", "N/A", ""])
+def test_short_or_invalid_reference_never_loads_backend(tmp_path, duration):
+    manifest_path = _manifest(tmp_path)
+    def runner(argv):
+        return SimpleNamespace(returncode=0, stdout=duration, stderr="")
+    def forbidden(_):
+        pytest.fail("backend factory must not execute")
+    with pytest.raises(VibeVoiceError, match=">=2s"):
+        main([str(manifest_path)], backend_factory=forbidden,
+             preparation_runner=runner, transcriber=_transcriber)
+    backend = FakeBackend()
+    with pytest.raises(VibeVoiceError, match=">=2s"):
+        supply_vibevoice_turns(load_vibevoice_manifest(manifest_path), backend=backend,
+            preparation_runner=runner, transcriber=_transcriber,
+            report_path=tmp_path / "report.json")
+    assert backend.generate_calls == []
+
+
+class SupplyHost:
+    """Host filesystem sandbox with a model-free repo module execution seam."""
+    def __init__(self, root, local_root, defect=None):
+        self.root, self.local_root, self.defect = root, local_root, defect
+        self.calls = []
+        (root / "model").mkdir(parents=True)
+
+    def map_asset(self, path):
+        self.calls.append(("map_asset", path))
+        return str(self.root / Path(path).relative_to(self.local_root))
+
+    def makedirs(self, path):
+        self.calls.append(("makedirs", path))
+        Path(path).mkdir(parents=True, exist_ok=True)
+
+    def push_asset(self, path):
+        self.calls.append(("push_asset", path))
+        mapped = self.map_asset(path)
+        Path(mapped).write_bytes(Path(path).read_bytes())
+        return mapped
+
+    def write_text(self, path, text):
+        self.calls.append(("write_text", path))
+        Path(path).write_text(text)
+        return path
+
+    def run_argv(self, argv, *, cwd, timeout):
+        self.calls.append(("run_argv", argv))
+        assert argv[:3] == ["/host/python", "-m", "predict.vibevoice"]
+        assert cwd == "/host/repo with spaces"
+        manifest = load_vibevoice_manifest(argv[3])
+        backend = FakeBackend()
+        backend.backend_kind = VibeVoiceBackend.backend_kind
+        texts = {str(t.output.with_suffix(".prepared.wav")): t.text for t in manifest.turns}
+        report_path = Path(argv[argv.index("--report") + 1])
+        supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
+            preparation_runner=_audio_runner, report_path=report_path)
+        if self.defect == "failed_run":
+            return SimpleNamespace(returncode=1, stderr="generation failed")
+        if self.defect == "bad_report":
+            report_path.write_text("{}")
+        if self.defect == "bad_gate":
+            payload = json.loads(report_path.read_text())
+            payload["turns"][0]["whisper_gate"]["transcript"] = "wrong"
+            report_path.write_text(json.dumps(payload))
+        return SimpleNamespace(returncode=0, stderr="")
+
+    def fetch_file(self, remote, local):
+        self.calls.append(("fetch_file", remote))
+        if self.defect == "missing" and remote.endswith("prepared.wav"):
+            return local
+        data = Path(remote).read_bytes()
+        if self.defect == "bad_hash" and remote.endswith("prepared.wav"):
+            data = b"tampered"
+        if self.defect == "bad_provenance" and remote.endswith("vibevoice.json"):
+            data = b"{}"
+        Path(local).write_bytes(data)
+        return local
+
+
+def _remote_supply(tmp_path, defect=None):
+    local = tmp_path / "local"
+    local.mkdir()
+    manifest = load_vibevoice_manifest(_manifest(local))
+    host = SupplyHost(tmp_path / "host", local, defect)
+    kwargs = dict(host=host, host_python="/host/python", host_repo="/host/repo with spaces",
+                  host_model=str(host.root / "model"), report_path=local / "report.json",
+                  preparation_runner=_audio_runner)
+    return manifest, host, kwargs
+
+
+def test_remote_supply_stages_executes_and_fetches_only_through_host(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    # A host-only model path does not require local model files.
+    manifest.model.rmdir()
+    report = supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert report["status"] == "complete"
+    assert Path(report["remote_report_path"]).is_file()
+    assert len([c for c in host.calls if c[0] == "push_asset"]) == 2
+    assert len([c for c in host.calls if c[0] == "run_argv"]) == 1
+    assert len([c for c in host.calls if c[0] == "fetch_file"]) == 7
+    for turn, record in zip(manifest.turns, report["turns"]):
+        assert Path(record["prepared_path"]).is_file()
+        assert record["prepared_sha256"] == hashlib_sha256(record["prepared_path"])
+        evidence = json.loads(Path(record["provenance_path"]).read_text())
+        assert evidence["voice_reference"] == str(turn.voice_reference)
+        assert evidence["prepared_sha256"] == record["prepared_sha256"]
+
+
+@pytest.mark.parametrize("defect", ["missing", "bad_hash", "bad_provenance", "bad_report", "bad_gate", "failed_run"])
+def test_remote_artifact_failure_never_publishes_complete_report(tmp_path, defect):
+    manifest, host, kwargs = _remote_supply(tmp_path, defect)
+    with pytest.raises(VibeVoiceError):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)
+
+
+def test_short_remote_reference_does_not_call_host(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    kwargs["preparation_runner"] = lambda _: SimpleNamespace(returncode=0, stdout="1.8")
+    with pytest.raises(VibeVoiceError, match=">=2s"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert host.calls == []
+
+
+def test_later_short_reference_rejects_all_turns_before_backend(tmp_path):
+    manifest = load_vibevoice_manifest(_manifest(tmp_path))
+    backend = FakeBackend()
+    def runner(argv):
+        if argv[0] == "ffprobe" and "orin-reference" in argv[-1]:
+            return SimpleNamespace(returncode=0, stdout="1.9", stderr="")
+        return _audio_runner(argv)
+    with pytest.raises(VibeVoiceError, match=">=2s"):
+        supply_vibevoice_turns(manifest, backend=backend, transcriber=_transcriber,
+            preparation_runner=runner, report_path=tmp_path / "report.json")
+    assert backend.generate_calls == []
+
+
+def test_remote_cli_never_constructs_local_backend(tmp_path, capsys):
+    manifest, host, kwargs = _remote_supply(tmp_path)
+    manifest.model.rmdir()
+    def forbidden(_):
+        pytest.fail("remote CLI must not construct a local backend")
+    assert main([str(manifest.source_path), "--host-python", kwargs["host_python"],
+                 "--host-repo", kwargs["host_repo"], "--host-model", kwargs["host_model"],
+                 "--report", str(kwargs["report_path"])], host=host,
+                backend_factory=forbidden, preparation_runner=_audio_runner) == 0
+    assert json.loads(capsys.readouterr().out)["status"] == "complete"
