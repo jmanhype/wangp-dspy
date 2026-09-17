@@ -5,6 +5,7 @@ the adapter diff must read as delegation only."""
 import json
 import os
 import posixpath
+import shlex
 
 import pytest
 
@@ -15,6 +16,23 @@ from host.render_host import (
     LocalHost, SshHost, RenderHostError, MissingExecutableError,
     PushError, PullError, RemoteTimeoutError,
 )
+
+
+def test_run_argv_preserves_remote_argument_boundaries(tmp_path):
+    calls = []
+    class Process:
+        returncode = 0
+        def communicate(self, timeout):
+            return b"ok", b""
+    def sp(argv, **kwargs):
+        calls.append(argv)
+        return Process()
+    host = SshHost(target="test-host", wgp_root="/host", pull_root=str(tmp_path), sp=sp)
+    argv = ["/venv with spaces/python", "-m", "predict.vibevoice", "/data/a'; echo BAD;.json"]
+    result = host.run_argv(argv, cwd="/repo with 'quotes'", timeout=60)
+    assert result.returncode == 0
+    tokens = shlex.split(calls[0][-1])
+    assert tokens == ["cd", "--", "/repo with 'quotes'", "&&", "timeout", "60", *argv]
 
 
 def _brief():

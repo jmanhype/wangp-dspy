@@ -5,11 +5,16 @@ import hashlib
 import json
 import os
 import re
+import math
+import tempfile
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
-from predict.audio_prep import AudioPreparationError, prepare_turn_audio
+from predict.audio_prep import (
+    AudioPreparationError, PreparedTurnAudio, prepare_turn_audio, _rms_from_probe,
+)
 from qc.audio_critic.whisper_gate import run_whisper_gate
 
 
@@ -333,7 +338,34 @@ def _preflight(manifest, backend, transcriber, preparation_runner) -> str:
         raise VibeVoiceError("transcriber: callable is required")
     if not callable(preparation_runner):
         raise VibeVoiceError("preparation_runner: callable is required")
+    validate_voice_references(manifest, runner=preparation_runner)
     return backend_kind
+
+
+def validate_voice_references(manifest, *, runner) -> None:
+    """Reject short/unreadable references without padding or model loading.
+
+    References must already be clean, isolated speaker recordings selected
+    by the operator. Duration probing is not a speaker-isolation classifier.
+    """
+    for reference in dict.fromkeys(t.voice_reference for t in manifest.turns):
+        if not reference.is_file():
+            raise VibeVoiceError(f"voice_reference: not readable: {reference}")
+        try:
+            result = runner(["ffprobe", "-v", "error", "-select_streams", "a:0",
+                             "-show_entries", "stream=duration", "-of",
+                             "default=nw=1:nk=1", str(reference)])
+            duration = float(result.stdout.strip())
+            if result.returncode != 0 or not math.isfinite(duration) or duration < 2:
+                raise ValueError("short or invalid duration")
+            rms = _rms_from_probe(runner([
+                "ffmpeg", "-v", "info", "-i", str(reference),
+                "-af", "volumedetect", "-f", "null", "-"]))
+            if not math.isfinite(rms) or rms < -60:
+                raise ValueError("silent reference")
+        except Exception as exc:
+            raise VibeVoiceError(
+                f"voice_reference must contain >=2s of clean audio: {reference}") from exc
 
 
 def _report(
@@ -502,6 +534,170 @@ def supply_vibevoice_turns(
     return completed
 
 
+def supply_vibevoice_turns_remote(
+    manifest: VibeVoiceManifest, *, host, host_python: str, host_repo: str,
+    host_model: str, report_path: str | Path, preparation_runner,
+    timeout: float = 1800, pass_bar: float = 0.5,
+    whisper_model: str = "small",
+) -> dict:
+    """Stage, execute the repo module, and verify a fresh host supply run.
+
+    The configured asset map must cover the manifest directory. Host model,
+    Python and repository paths are explicit host-namespace inputs; a local
+    model installation is not required. Never reuses host or local outputs.
+    """
+    validate_voice_references(manifest, runner=preparation_runner)
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise VibeVoiceError("remote timeout must be finite and positive")
+    if not math.isfinite(pass_bar) or not 0 <= pass_bar <= 1:
+        raise VibeVoiceError("pass_bar must be between 0 and 1")
+    required = ("map_asset", "makedirs", "push_asset", "write_text",
+                "run_argv", "fetch_file")
+    if not all(callable(getattr(host, method, None)) for method in required):
+        raise VibeVoiceError("host: remote supply requires RenderHost asset/argv seams")
+    if not all(isinstance(p, str) and Path(p).is_absolute()
+               for p in (host_python, host_repo, host_model)):
+        raise VibeVoiceError("host Python/repo/model must be absolute paths")
+    destination = Path(report_path).resolve()
+    remote_evidence = destination.with_name(destination.name + ".remote.json")
+    outputs = [p for t in manifest.turns
+               for p in (t.output, _prepared_path(t.output), _provenance_path(t.output))]
+    if any(p.exists() for p in [destination, remote_evidence, *outputs]):
+        raise VibeVoiceError("remote supply requires new local output/report paths")
+    run_root = manifest.source_path.parent / (".vibevoice-" + uuid.uuid4().hex)
+    host_root = host.map_asset(str(run_root))
+    if not isinstance(host_root, str) or not Path(host_root).is_absolute():
+        raise VibeVoiceError("host.map_asset must return an absolute run directory")
+    host.makedirs(host_root)
+    remote_turns = []
+    for turn in manifest.turns:
+        remote_ref = host.map_asset(str(turn.voice_reference))
+        host.makedirs(str(Path(remote_ref).parent))
+        if host.push_asset(str(turn.voice_reference)) != remote_ref:
+            raise VibeVoiceError("host reference staging path mismatch")
+        remote_turns.append(VibeVoiceTurn(
+            turn.turn_index, turn.speaker, turn.text, Path(remote_ref),
+            Path(host_root) / f"turn-{turn.turn_index}.wav", turn.target_duration_s))
+    remote_manifest_path = Path(host_root) / "manifest.json"
+    remote_report_path = Path(host_root) / "report.json"
+    remote_manifest = VibeVoiceManifest(
+        manifest.schema, Path(host_model), manifest.model_sha256, manifest.seed,
+        tuple(remote_turns), remote_manifest_path)
+    payload = remote_manifest.to_dict()
+    for turn in payload["turns"]:
+        turn["output"] = Path(turn["output"]).name
+    if host.write_text(str(remote_manifest_path), json.dumps(payload)) != str(remote_manifest_path):
+        raise VibeVoiceError("host manifest staging path mismatch")
+    result = host.run_argv([
+        host_python, "-m", "predict.vibevoice", str(remote_manifest_path),
+        "--report", str(remote_report_path), "--pass-bar", str(pass_bar),
+        "--whisper-model", whisper_model, "--whisper-output-dir",
+        str(Path(host_root) / "whisper"),
+    ], cwd=host_repo, timeout=timeout)
+    if getattr(result, "returncode", None) != 0:
+        raise VibeVoiceError("host VibeVoice execution failed: " + str(
+            getattr(result, "stderr", ""))[-2000:])
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    # Fetch to an empty private directory: a missing transfer can never be
+    # satisfied by stale local evidence. Publish only after ALL turns validate.
+    with tempfile.TemporaryDirectory(prefix="vibevoice-pull-", dir=destination.parent) as tmp:
+        scratch = Path(tmp)
+        def fetch(remote, local):
+            host.fetch_file(str(remote), str(local))
+            if not local.is_file() or local.stat().st_size == 0:
+                raise VibeVoiceError(f"missing host artifact: {remote}")
+        report_file = scratch / "report.json"
+        fetch(remote_report_path, report_file)
+        report = _read_json_object(report_file, "host report")
+        expected = _report(remote_manifest, [], status="complete")
+        for field in ("schema", "manifest", "model_sha256", "seed", "status"):
+            if report.get(field) != expected[field]:
+                raise VibeVoiceError(f"host report {field} mismatch")
+        records = report.get("turns")
+        if (not isinstance(records, list) or len(records) != len(manifest.turns)
+                or report.get("completed_turn_count") != len(manifest.turns)):
+            raise VibeVoiceError("host report turn count mismatch")
+        staged = []
+        local_records = []
+        for local_turn, remote_turn, record in zip(manifest.turns, remote_turns, records):
+            if not isinstance(record, dict):
+                raise VibeVoiceError("invalid host turn record")
+            for field, wanted in {**_pending_record(remote_turn), "status": "complete",
+                                  "prepared_path": str(_prepared_path(remote_turn.output)),
+                                  "provenance_path": str(_provenance_path(remote_turn.output))}.items():
+                if record.get(field) != wanted:
+                    raise VibeVoiceError(f"host turn {field} mismatch")
+            gate = record.get("whisper_gate")
+            if (not isinstance(gate, dict) or gate.get("passed") is not True
+                    or gate.get("phase") != "pre" or gate.get("intended_text") != local_turn.text
+                    or gate.get("audio_path") != str(_prepared_path(remote_turn.output))):
+                raise VibeVoiceError("host turn pre-gate missing or invalid")
+            try:
+                checked_gate = run_whisper_gate(
+                    gate["audio_path"], local_turn.text,
+                    transcriber=lambda _: gate.get("transcript"), phase="pre",
+                    pass_bar=pass_bar).to_dict()
+            except Exception as exc:
+                raise VibeVoiceError("host turn transcript evidence invalid") from exc
+            if gate != checked_gate:
+                raise VibeVoiceError("host turn gate evidence mismatch")
+            raw = scratch / f"{local_turn.turn_index}.wav"
+            prepared = _prepared_path(raw)
+            provenance_file = _provenance_path(raw)
+            fetch(remote_turn.output, raw)
+            fetch(_prepared_path(remote_turn.output), prepared)
+            fetch(_provenance_path(remote_turn.output), provenance_file)
+            provenance = _read_json_object(provenance_file, "host provenance")
+            for field, wanted in _base_provenance(
+                    remote_manifest, remote_turn, VibeVoiceBackend.backend_kind).items():
+                if provenance.get(field) != wanted:
+                    raise VibeVoiceError(f"host provenance {field} mismatch")
+            for field, path in (("voice_reference_sha256", local_turn.voice_reference),
+                                ("output_sha256", raw), ("prepared_sha256", prepared)):
+                if provenance.get(field) != _sha256(path):
+                    raise VibeVoiceError(f"host provenance {field} mismatch")
+            if record.get("prepared_sha256") != provenance["prepared_sha256"]:
+                raise VibeVoiceError("host report prepared hash mismatch")
+            preparation = provenance.get("preparation")
+            if (not isinstance(preparation, dict) or record.get("preparation") != preparation
+                    or preparation.get("source_path") != str(remote_turn.output)
+                    or preparation.get("output_path") != str(_prepared_path(remote_turn.output))
+                    or preparation.get("speaker_id") != local_turn.speaker
+                    or preparation.get("target_duration_s") != local_turn.target_duration_s):
+                raise VibeVoiceError("host preparation provenance mismatch")
+            try:
+                PreparedTurnAudio(**preparation)
+                for field in ("target_duration_s", "measured_duration_s", "boost_db", "rms_db"):
+                    if not math.isfinite(float(preparation[field])):
+                        raise ValueError("non-finite preparation evidence")
+            except (TypeError, ValueError) as exc:
+                raise VibeVoiceError("host preparation evidence invalid") from exc
+            preparation = dict(preparation, source_path=str(local_turn.output),
+                               output_path=str(_prepared_path(local_turn.output)))
+            provenance.update(_base_provenance(manifest, local_turn, VibeVoiceBackend.backend_kind))
+            provenance["preparation"] = preparation
+            provenance["remote_execution"] = {
+                "model": host_model, "repo": host_repo, "python": host_python,
+                "manifest": str(remote_manifest_path),
+            }
+            _write_json(provenance_file, provenance)
+            local_records.append(dict(record, output_path=str(local_turn.output),
+                prepared_path=str(_prepared_path(local_turn.output)),
+                provenance_path=str(_provenance_path(local_turn.output)), preparation=preparation,
+                whisper_gate=dict(gate, audio_path=str(_prepared_path(local_turn.output)))))
+            staged.extend(((raw, local_turn.output), (prepared, _prepared_path(local_turn.output)),
+                           (provenance_file, _provenance_path(local_turn.output))))
+        for source, target in staged:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            os.replace(source, target)
+        os.replace(report_file, remote_evidence)
+        localized = _report(manifest, local_records, status="complete")
+        localized["remote_report_path"] = str(remote_evidence)
+        _write_json(destination, localized)
+        return localized
+
+
 def publish_vibevoice_turns(report: Mapping, *, host) -> list[dict]:
     """Publish complete prepared WAVs through RenderHost's asset seam."""
     required_methods = ("map_asset", "makedirs", "push_asset")
@@ -557,6 +753,7 @@ def main(
     backend_factory=None,
     transcriber=None,
     preparation_runner=None,
+    host=None,
 ) -> int:
     """Run the reusable supplier entrypoint.
 
@@ -572,6 +769,11 @@ def main(
         description="Generate, prepare, and pre-gate isolated VibeVoice turns",
     )
     parser.add_argument("manifest", help="VibeVoice turn manifest JSON")
+    parser.add_argument("--remote-target", help="RenderHost SSH target")
+    parser.add_argument("--host-python", help="absolute host Python executable")
+    parser.add_argument("--host-repo", help="absolute host repository checkout")
+    parser.add_argument("--host-model", help="absolute host VibeVoice model directory")
+    parser.add_argument("--remote-timeout", type=float, default=1800)
     parser.add_argument(
         "--report",
         help="supply report JSON (default: beside the manifest)",
@@ -605,7 +807,6 @@ def main(
         else manifest.source_path.parent / "vibevoice-report.json"
     )
 
-    backend = (backend_factory or VibeVoiceBackend)(manifest.model)
     if transcriber is None:
         import subprocess
         from qc.audio_critic.whisper_cli import whisper_transcriber
@@ -621,6 +822,28 @@ def main(
         def preparation_runner(argv):
             return subprocess.run(
                 list(argv), capture_output=True, text=True, check=False)
+
+    validate_voice_references(manifest, runner=preparation_runner)
+    if args.remote_target or host is not None:
+        if args.resume:
+            raise VibeVoiceError("remote supply uses fresh runs; --resume is local only")
+        if not all((args.host_python, args.host_repo, args.host_model)):
+            raise VibeVoiceError("remote supply requires --host-python/--host-repo/--host-model")
+        if host is None:
+            from host.render_host import SshHost
+            host = SshHost(target=args.remote_target, wgp_root=args.host_repo,
+                           pull_root=str(manifest.source_path.parent))
+        report = supply_vibevoice_turns_remote(
+            manifest, host=host, host_python=args.host_python,
+            host_repo=args.host_repo, host_model=args.host_model,
+            report_path=report_path, preparation_runner=preparation_runner,
+            timeout=args.remote_timeout, pass_bar=args.pass_bar,
+            whisper_model=args.whisper_model)
+        print(json.dumps(report, sort_keys=True))
+        return 0
+    if any((args.host_python, args.host_repo, args.host_model)):
+        raise VibeVoiceError("host options require --remote-target")
+    backend = (backend_factory or VibeVoiceBackend)(manifest.model)
 
     report = supply_vibevoice_turns(
         manifest,
@@ -650,4 +873,6 @@ __all__ = [
     "load_vibevoice_manifest",
     "publish_vibevoice_turns",
     "supply_vibevoice_turns",
+    "supply_vibevoice_turns_remote",
+    "validate_voice_references",
 ]
