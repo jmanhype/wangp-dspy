@@ -1,0 +1,461 @@
+{
+  "accepted_attempts": [
+    {
+      "artifact": "run/render-0001/remux.mp4",
+      "cut": 1,
+      "seed": 906,
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3",
+      "speaker": "Nell",
+      "vision_passed": true,
+      "vision_speaker_attribution": 0.9,
+      "whisper_post_score": 1.0,
+      "whisper_pre_score": 0.857
+    },
+    {
+      "artifact": "run/render-0004/remux.mp4",
+      "cut": 2,
+      "post_transcript": "And don't spill a single drop.",
+      "seed": 907,
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8",
+      "speaker": "Orin",
+      "vision_passed": true,
+      "vision_speaker_attribution": 0.95,
+      "whisper_post_score": 0.833,
+      "whisper_pre_score": 1.0
+    }
+  ],
+  "execution": {
+    "bundle": "assets/lf002-two-cut-20260913/staging-two-cut-vibevoice-20260917.json",
+    "bundle_sha256": "33beadaee05d435b54a48cf8a6cf4475fdd764c864c3a5c5afc6e52c99ca165a",
+    "clean_tree": true,
+    "handled_attempts": [
+      "job-1789658871242-93c53697",
+      "job-1789658871242-93c53697",
+      "job-1789658871253-8f9522d7",
+      "job-1789658871253-8f9522d7",
+      "job-1789658871253-8f9522d7"
+    ],
+    "queue_jobs": [
+      "job-1789658871242-93c53697",
+      "job-1789658871253-8f9522d7"
+    ],
+    "repository_commit": "322af7cc05accf63b60f59865c8875ccf49533c2"
+  },
+  "files": [
+    {
+      "bytes": 2279,
+      "path": "TRANSCRIPTION_AND_TIMING_REPORT.md",
+      "sha256": "3b8f8c5ddfffcedceafffa59f7868c232f6c04e56eddb9cb448fa3df973f1b72"
+    },
+    {
+      "bytes": 728318,
+      "path": "assembled.mp4",
+      "sha256": "c3aa318cda87b56ae53a0994a09ea1ae21808cc7383ab9e63e09d24f616bead2"
+    },
+    {
+      "bytes": 809395,
+      "path": "chain_last_frame.png",
+      "sha256": "8a124cedee94816139491b6ae29fa3087ef00f3ec10d4c62bc53ce242f3d00b8"
+    },
+    {
+      "bytes": 84192,
+      "path": "contact_sheet.jpg",
+      "sha256": "9f262c5b37ac51ae1e7ae679728a74dd838ce4f64520e961aad3b1b9247d0957"
+    },
+    {
+      "bytes": 1421376,
+      "path": "cut1.mp4",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    {
+      "bytes": 1144382,
+      "path": "cut2.mp4",
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
+    },
+    {
+      "bytes": 604,
+      "path": "operator-verdict.json",
+      "sha256": "0f806d6d4ab6c6977480733f4db069dc78727c2ce936cd7a3e8becab2e54e9a8"
+    },
+    {
+      "bytes": 1329,
+      "path": "operator-verdict.jsonl",
+      "sha256": "c967dd145de7a86ed8ba46458b580cc28ce3409fa6d22d90316c118f3c914ce7"
+    },
+    {
+      "bytes": 639,
+      "path": "probe.json",
+      "sha256": "bac5c0abcec02b634a7c1bcf78750721390568df06de841d6a13f60b3b461946"
+    },
+    {
+      "bytes": 240,
+      "path": "run/concat-inputs.txt",
+      "sha256": "1db2eecdd1fd699b7c77171646016b9b907151e0a2b32185617ff4df98f48028"
+    },
+    {
+      "bytes": 73728,
+      "path": "run/jobs.db",
+      "sha256": "42c2e0ee07e475cce026fab30ecafd227b1431fbd59def9548ad576a6a4ca70e"
+    },
+    {
+      "bytes": 1115,
+      "path": "run/render-0000/audio_manifest.json",
+      "sha256": "5bc11f88c7b9b206eaf44cc4e404bb5e5992fe929897413ef8d997bb9c69f3dc"
+    },
+    {
+      "bytes": 11231,
+      "path": "run/render-0000/conditioning-evidence.json",
+      "sha256": "e2963ed1c1f60276fb0d51dafa11c7cd9cedd4fa6e7dc2ba8bde78d4bfc1234e"
+    },
+    {
+      "bytes": 787,
+      "path": "run/render-0000/qc-evidence.json",
+      "sha256": "4e40c97a2265119b5ae49abfe9e60813f87a7df490716a4eb445133299b41e0d"
+    },
+    {
+      "bytes": 1420663,
+      "path": "run/render-0000/raw.mp4",
+      "sha256": "fab8acb2ce4cf55b4dbcd0272983fefc4347a6fb98fe03bc78ac73a24299d62c"
+    },
+    {
+      "bytes": 1420663,
+      "path": "run/render-0000/remux.mp4",
+      "sha256": "fab8acb2ce4cf55b4dbcd0272983fefc4347a6fb98fe03bc78ac73a24299d62c"
+    },
+    {
+      "bytes": 6547,
+      "path": "run/render-0000/render.log",
+      "sha256": "fc821137df61975e2e252732635d208ffcc062fcac0a87c9abd73a65a4f2e40d"
+    },
+    {
+      "bytes": 2180,
+      "path": "run/render-0000/runtime-evidence.json",
+      "sha256": "ba61a54cb348b8aa41ff70e3a4259ba63d1ce1fa0bbcdf6f223ad369bad5ad7d"
+    },
+    {
+      "bytes": 4518,
+      "path": "run/render-0000/settings.json",
+      "sha256": "6891582b56e7231758efab40a2a6be103538cbcb499f4fb8096e83e038058c7d"
+    },
+    {
+      "bytes": 353,
+      "path": "run/render-0000/speaker_manifest.json",
+      "sha256": "79774f70049150496c436f3a5aee00dd71b9fa8819cf93cc30618ed9ca5fb802"
+    },
+    {
+      "bytes": 2768,
+      "path": "run/render-0000/wgp-settings.json",
+      "sha256": "f7aaf6b34b5a795c236a05c7630fdee2e0c943e0143068e2f5b5cd7ed26d50da"
+    },
+    {
+      "bytes": 1115,
+      "path": "run/render-0001/audio_manifest.json",
+      "sha256": "5bc11f88c7b9b206eaf44cc4e404bb5e5992fe929897413ef8d997bb9c69f3dc"
+    },
+    {
+      "bytes": 11231,
+      "path": "run/render-0001/conditioning-evidence.json",
+      "sha256": "06f0a83610b93b78ad7525d52f5a803aac5083e390c29bba1473b38d0298678d"
+    },
+    {
+      "bytes": 2807,
+      "path": "run/render-0001/qc-evidence.json",
+      "sha256": "9dfe4d61cd79ae06afe6ea6aaf5c938b861b9dd4b9082712b67199586de103e6"
+    },
+    {
+      "bytes": 1421376,
+      "path": "run/render-0001/raw.mp4",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    {
+      "bytes": 1421376,
+      "path": "run/render-0001/remux.mp4",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    {
+      "bytes": 6547,
+      "path": "run/render-0001/render.log",
+      "sha256": "7a970cd952390c7131caf390f934df8d8a72a78abff4c9d0241c0e9f1c911087"
+    },
+    {
+      "bytes": 2180,
+      "path": "run/render-0001/runtime-evidence.json",
+      "sha256": "9735b5940adb1d088a04772955c3684abbadf5af1e22f36541cdd6fbee97fa72"
+    },
+    {
+      "bytes": 4518,
+      "path": "run/render-0001/settings.json",
+      "sha256": "1aac92744c126c74324c0f1aa58ccf3f66cb62b8113bce9f0b288dcdf6e067ca"
+    },
+    {
+      "bytes": 353,
+      "path": "run/render-0001/speaker_manifest.json",
+      "sha256": "79774f70049150496c436f3a5aee00dd71b9fa8819cf93cc30618ed9ca5fb802"
+    },
+    {
+      "bytes": 2768,
+      "path": "run/render-0001/wgp-settings.json",
+      "sha256": "ebf347de107593f67bd08d61318eb1164e6d3ca00e22974b954974350ec602f1"
+    },
+    {
+      "bytes": 1115,
+      "path": "run/render-0002/audio_manifest.json",
+      "sha256": "16a3ef3c0507afec464718428aa7c55738224ba9766a87dfa237152516c5d34d"
+    },
+    {
+      "bytes": 11250,
+      "path": "run/render-0002/conditioning-evidence.json",
+      "sha256": "5f6646ba9b382f93a822457fcaa1d074b01a6e7020c46aa2cfe946167581c29c"
+    },
+    {
+      "bytes": 769,
+      "path": "run/render-0002/qc-evidence.json",
+      "sha256": "f17683dbc64ee377aae4d5bcd1b927f9d5c4774f93b26b16708481544e9a77d0"
+    },
+    {
+      "bytes": 1192129,
+      "path": "run/render-0002/raw.mp4",
+      "sha256": "89d34db04afb968a41b2ac17f9fa93074eb9d25eaf5188f134d4af1c8f95dc42"
+    },
+    {
+      "bytes": 1192129,
+      "path": "run/render-0002/remux.mp4",
+      "sha256": "89d34db04afb968a41b2ac17f9fa93074eb9d25eaf5188f134d4af1c8f95dc42"
+    },
+    {
+      "bytes": 6585,
+      "path": "run/render-0002/render.log",
+      "sha256": "4b6006ec889be1c65b3bc10cdeed98edd8f1dcb8322d2e9fb680d493e889ecff"
+    },
+    {
+      "bytes": 2180,
+      "path": "run/render-0002/runtime-evidence.json",
+      "sha256": "5d98fb36a5a42b5d240db89a1a105c57934bd27d37ea903e1efb3fd448f70cc0"
+    },
+    {
+      "bytes": 4600,
+      "path": "run/render-0002/settings.json",
+      "sha256": "c69c067a09e7b523c7fa3d38d2e504aa19208fcff9ead4efaedd6579965b92d7"
+    },
+    {
+      "bytes": 354,
+      "path": "run/render-0002/speaker_manifest.json",
+      "sha256": "1cb0736524ab7c81d2e8e052f5bf98785a8731fccdbc8bebea24b9955ed23c42"
+    },
+    {
+      "bytes": 2817,
+      "path": "run/render-0002/wgp-settings.json",
+      "sha256": "2d832e0acd7aa017b8df93c40350672e6886c167cbf772655504cb51fe3fbc1e"
+    },
+    {
+      "bytes": 1115,
+      "path": "run/render-0003/audio_manifest.json",
+      "sha256": "16a3ef3c0507afec464718428aa7c55738224ba9766a87dfa237152516c5d34d"
+    },
+    {
+      "bytes": 11250,
+      "path": "run/render-0003/conditioning-evidence.json",
+      "sha256": "db893e995bf596673752d83ac1e483bf962362db956b3b683a53e58847ef095b"
+    },
+    {
+      "bytes": 769,
+      "path": "run/render-0003/qc-evidence.json",
+      "sha256": "aa7887a810105a9528cf4e73b05b39a224385cccbf6df1ffe9b28701d1c8f262"
+    },
+    {
+      "bytes": 1073685,
+      "path": "run/render-0003/raw.mp4",
+      "sha256": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a"
+    },
+    {
+      "bytes": 1073685,
+      "path": "run/render-0003/remux.mp4",
+      "sha256": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a"
+    },
+    {
+      "bytes": 6585,
+      "path": "run/render-0003/render.log",
+      "sha256": "d6cbd311c3d8a5ab7471b37df050dfccb9506314cd8f61c58d3768794015df39"
+    },
+    {
+      "bytes": 2180,
+      "path": "run/render-0003/runtime-evidence.json",
+      "sha256": "84e0c94782faf23c320f0bef5bcaed2745681046ae2aa9de0c34573ddda5e617"
+    },
+    {
+      "bytes": 4600,
+      "path": "run/render-0003/settings.json",
+      "sha256": "fe9ab165a8f33e4269882bb33a6d806cb30e9db4e1de9ddb8c78fc5c8d1f3171"
+    },
+    {
+      "bytes": 354,
+      "path": "run/render-0003/speaker_manifest.json",
+      "sha256": "1cb0736524ab7c81d2e8e052f5bf98785a8731fccdbc8bebea24b9955ed23c42"
+    },
+    {
+      "bytes": 2817,
+      "path": "run/render-0003/wgp-settings.json",
+      "sha256": "cb52e1e0a639e4cd36884c8f24a0debc60e1bbe59382feb913689cbd98d9e975"
+    },
+    {
+      "bytes": 1115,
+      "path": "run/render-0004/audio_manifest.json",
+      "sha256": "16a3ef3c0507afec464718428aa7c55738224ba9766a87dfa237152516c5d34d"
+    },
+    {
+      "bytes": 11250,
+      "path": "run/render-0004/conditioning-evidence.json",
+      "sha256": "cb494236ce19d1db72b87d3ca20dc368b0713cb729ef53fa17c6e7a2b75e6882"
+    },
+    {
+      "bytes": 2812,
+      "path": "run/render-0004/qc-evidence.json",
+      "sha256": "7ee317067e75611d3cb6e2278a3b7034e7d3edc86c3981511f118d0eb2adb739"
+    },
+    {
+      "bytes": 1144382,
+      "path": "run/render-0004/raw.mp4",
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
+    },
+    {
+      "bytes": 1144382,
+      "path": "run/render-0004/remux.mp4",
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
+    },
+    {
+      "bytes": 6585,
+      "path": "run/render-0004/render.log",
+      "sha256": "131130530d31540be5101ac45ce68c70c7e127c92ff6066edeef49cf1768b34c"
+    },
+    {
+      "bytes": 2180,
+      "path": "run/render-0004/runtime-evidence.json",
+      "sha256": "dc629fd7fa81c297c1fb8d8d21b6725e66797d402f54a9e85437bb633bdb805c"
+    },
+    {
+      "bytes": 4600,
+      "path": "run/render-0004/settings.json",
+      "sha256": "fa9553e810feb3cc7c3254c61e09f7e6edb303506ffacc386bad787fe0959da1"
+    },
+    {
+      "bytes": 354,
+      "path": "run/render-0004/speaker_manifest.json",
+      "sha256": "1cb0736524ab7c81d2e8e052f5bf98785a8731fccdbc8bebea24b9955ed23c42"
+    },
+    {
+      "bytes": 2817,
+      "path": "run/render-0004/wgp-settings.json",
+      "sha256": "a4c983525657fd0094419d4bafe76699e2f5762c23b79d5eb06ae096a3bd3dd6"
+    },
+    {
+      "bytes": 4301,
+      "path": "run/runs.jsonl",
+      "sha256": "694a3409ec525f41a6301b10c6bb5069bf9122e454acfa8817277bebc327a0b6"
+    },
+    {
+      "bytes": 680,
+      "path": "source-hashes.txt",
+      "sha256": "2c20c3d9dfe5330288ae59d893be31485aac0b0c83b06814193eb124efc628f4"
+    },
+    {
+      "bytes": 1540,
+      "path": "status.json",
+      "sha256": "0bcf340e122a2366d719f54fbf9c7a207a4df2d59cbd0291cf0011a69d497212"
+    },
+    {
+      "bytes": 1779,
+      "path": "whisper-small.json",
+      "sha256": "bdf9efe5d266c1b835f223028249950a636e82d8a6f9912502b3a7df18f2ca36"
+    }
+  ],
+  "film": {
+    "audio_carrier": "native_h3",
+    "audio_pipeline": "VibeVoice turn guides -> native H3 audiovisual generation",
+    "clip_count": 2,
+    "duration_s": 4.666667,
+    "fps": 24,
+    "frames_per_clip": 56,
+    "post_render_audio_replacement": false,
+    "premise_id": "lf-002",
+    "resolution": "704x576",
+    "title": "Archive of Rain"
+  },
+  "known_limitations": [
+    "Still-frame vision QC does not measure phonetic audiovisual synchrony.",
+    "Cut 2 native speech says 'And' rather than 'Then'; operator accepted it as PERFECT.",
+    "This operator verdict is scoped to this premise, cast, guides, seeds, and artifact hashes; it is not a universal seed guarantee."
+  ],
+  "operator_verdict": {
+    "normalized_verdict": "perfect",
+    "scope": "Two-cut Archive of Rain film using VibeVoice-generated turn guides and native H3 generated audiovisual output.",
+    "timestamp_utc": "2026-09-17T17:49:22Z",
+    "verbatim_user_message": "PERFECT!"
+  },
+  "operator_ledger": {
+    "path": "operator-verdict.jsonl",
+    "record_sha256": "9f1340c2cd898fe470946b21f3199469679601a7a6168cf34427175e32c886e3",
+    "emitted_from_clean_commit": "d85f6dc5f53d60161b89ee54514c4338370e8710"
+  },
+  "primary_artifacts": {
+    "assembled": {
+      "bytes": 728318,
+      "path": "assembled.mp4",
+      "sha256": "c3aa318cda87b56ae53a0994a09ea1ae21808cc7383ab9e63e09d24f616bead2"
+    },
+    "chain": {
+      "bytes": 809395,
+      "path": "chain_last_frame.png",
+      "sha256": "8a124cedee94816139491b6ae29fa3087ef00f3ec10d4c62bc53ce242f3d00b8"
+    },
+    "cut1": {
+      "bytes": 1421376,
+      "path": "cut1.mp4",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    "cut2": {
+      "bytes": 1144382,
+      "path": "cut2.mp4",
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
+    }
+  },
+  "rejected_attempts_retained": [
+    {
+      "attempt_dir": "run/render-0000",
+      "cut": 1,
+      "post_score": 0.571,
+      "post_transcript": "This is the last great land we have to.",
+      "seed": 905
+    },
+    {
+      "attempt_dir": "run/render-0002",
+      "cut": 2,
+      "post_score": 0.5,
+      "post_transcript": "Don't spill a demated dare",
+      "seed": 905
+    },
+    {
+      "attempt_dir": "run/render-0003",
+      "cut": 2,
+      "post_score": 0.167,
+      "post_transcript": "Single speed is no drop.",
+      "seed": 906
+    }
+  ],
+  "run_id": "lf002-two-cut-vibevoice-20260917",
+  "schema": "wangp-dspy.operator-film-provenance/v1",
+  "scope": "Content-addressed preservation of the first operator-accepted LF002 film whose dialogue guides were generated through the repo-owned VibeVoice supplier.",
+  "status": "operator_accepted",
+  "voice_guides": {
+    "Nell": {
+      "path": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav",
+      "sha256": "ac1e4402b0720514f9ff6a7f2c1b8ed0a3791a25c6c34c45da2aaa90e9195cae",
+      "vibevoice_generation_seed": 42
+    },
+    "Orin": {
+      "path": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+      "rejected_seed_42_prepared_sha256": "3eb1bdde6b00d7919e87ed264717c75999f044f3dd1afb134b674744c32661f3",
+      "sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+      "vibevoice_generation_seed": 43
+    }
+  }
+}

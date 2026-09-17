@@ -1,0 +1,11 @@
+{
+  "artifact_sha256": "c3aa318cda87b56ae53a0994a09ea1ae21808cc7383ab9e63e09d24f616bead2",
+  "operator_ledger_record_sha256": "9f1340c2cd898fe470946b21f3199469679601a7a6168cf34427175e32c886e3",
+  "run_id": "lf002-two-cut-vibevoice-20260917",
+  "schema": "wangp-dspy.operator-verdict/v1",
+  "scope": "Operator audiovisual acceptance of the first repo-native LF002 VibeVoice-guided two-cut film.",
+  "source_ledger_record_sha256": "e72d94f12d721d4b0ce77b460517ae053a5c2e09855d23280e8f725a0eee5230",
+  "timestamp_utc": "2026-09-17T17:49:22Z",
+  "verbatim_user_message": "PERFECT!",
+  "verdict": "perfect"
+}

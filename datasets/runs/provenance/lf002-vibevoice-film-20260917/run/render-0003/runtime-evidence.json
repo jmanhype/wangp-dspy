@@ -1,0 +1,49 @@
+{
+  "artifact_hashes": {
+    "manifest": "16a3ef3c0507afec464718428aa7c55738224ba9766a87dfa237152516c5d34d",
+    "remux": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a",
+    "render": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a"
+  },
+  "audio_source": {
+    "explicit_source": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav"
+  },
+  "candidate_label": "",
+  "eligible_for_gepa": false,
+  "eligible_for_qc": false,
+  "gate_failures": 0,
+  "manifest_hash": "16a3ef3c0507afec464718428aa7c55738224ba9766a87dfa237152516c5d34d",
+  "provenance": {
+    "critic_model": "Qwen2-Audio-7B",
+    "judge_used": false,
+    "lane": "audio_reactive"
+  },
+  "qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  },
+  "raw_render_hash": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a",
+  "reason": "judge has not run \u2014 honest Qwen2-Audio-7B placeholder, scores None",
+  "remux_evidence": true,
+  "remux_hash": "5af3c4d5c123cb4442dc36fb5aba0f72d1be4cf9f1eecbd41684c06ee39e837a",
+  "runtime": {
+    "audio_carrier": "native_h3",
+    "critic_version": null,
+    "explicit_audio_source": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+    "final_artifact_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-b8bcbe524c47/render-0003/remux.mp4",
+    "lane": "ref2va_runtime",
+    "native_preserved": true,
+    "raw_render_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-b8bcbe524c47/render-0003/raw.mp4",
+    "remux_output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-b8bcbe524c47/render-0003/remux.mp4"
+  },
+  "seed": null,
+  "settings_hash": "fe9ab165a8f33e4269882bb33a6d806cb30e9db4e1de9ddb8c78fc5c8d1f3171",
+  "target_qc_score": null,
+  "verdict": "pending"
+}

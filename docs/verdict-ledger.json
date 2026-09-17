@@ -61,5 +61,16 @@
     "flags": [],
     "notes": "REPO-EXECUTED reproduction of perfect cut 1: byte-identical (md5 be96a3027d1f) to the Sept-6 original, through the corrected pipeline \u2014 conditioning forwarded, native audio preserved, no remux. First repo-native 'perfect'. Confirms multishot-dispatch + audio-replacement fix.",
     "experiment": "v3-parity-replay-cut1"
+  },
+  {
+    "artifact": "datasets/runs/provenance/lf002-vibevoice-film-20260917/assembled.mp4",
+    "sha256": "c3aa318cda87b56ae53a0994a09ea1ae21808cc7383ab9e63e09d24f616bead2",
+    "timestamp": "2026-09-17T17:49:22Z",
+    "verdict": "perfect",
+    "flags": [
+      "cut2-and-for-then-operator-accepted"
+    ],
+    "notes": "Operator verdict verbatim: PERFECT! First complete operator-accepted LF002 film using VibeVoice-generated turn guides and native H3 output. Cut 1 passed post-Whisper 1.000 on seed 906; cut 2 passed 0.833 on seed 907. Three scored native-drift attempts were rejected and retained. Full queue, render, QC, retry, review, and operator-verdict evidence is content-addressed under datasets/runs/provenance/lf002-vibevoice-film-20260917/.",
+    "experiment": "lf002-vibevoice-film"
   }
 ]

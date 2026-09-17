@@ -1,0 +1,23 @@
+{
+  "vision_judge": null,
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-a06885202980/render-0000/raw.mp4",
+      "intended_text": "This is the last rain we have.",
+      "pass_bar": 0.6,
+      "passed": false,
+      "phase": "post",
+      "score": 0.571,
+      "transcript": "This is the last great land we have to."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav",
+      "intended_text": "This is the last rain we have.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.857,
+      "transcript": "Oh, this is the last rain we have."
+    }
+  }
+}

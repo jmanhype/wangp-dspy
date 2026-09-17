@@ -1,0 +1,12 @@
+{
+  "schema": "wangp-dspy.speaker-manifest/v1",
+  "turns": [
+    {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+      "intended_text": "Then don't spill a single drop.",
+      "picture_n": 1,
+      "speaker_id": "S2",
+      "turn_index": 1
+    }
+  ]
+}
