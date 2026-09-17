@@ -1,0 +1,44 @@
+{
+  "completed_turn_count": 1,
+  "manifest": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/vibevoice-turns.json",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "remote_report_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/report.json.remote.json",
+  "resumed_turn_count": 0,
+  "schema": "wangp-dspy.vibevoice-report/v1",
+  "seed": 43,
+  "status": "complete",
+  "turns": [
+    {
+      "attempt_index": 1,
+      "generation_seed": 43,
+      "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.prepared.wav",
+        "rms_db": -17.8,
+        "single_speaker": true,
+        "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.wav",
+        "speaker_id": "Rho",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.prepared.wav",
+      "prepared_sha256": "3befaf0e9a4728737c90f0781054149f048169a199b7203b63bef76ee7e40297",
+      "provenance_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.wav.vibevoice.json",
+      "seed_rejections": [],
+      "speaker": "Rho",
+      "status": "complete",
+      "text": "Then give me a real horizon.",
+      "turn_index": 1,
+      "whisper_gate": {
+        "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.prepared.wav",
+        "intended_text": "Then give me a real horizon.",
+        "pass_bar": 0.6,
+        "passed": true,
+        "phase": "pre",
+        "score": 0.667,
+        "transcript": "than giving me a real horizon."
+      }
+    }
+  ]
+}
