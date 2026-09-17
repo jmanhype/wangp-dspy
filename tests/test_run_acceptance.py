@@ -500,6 +500,14 @@ def test_bundle_runner_executes_repo_seams_and_records_assembly(
     assert len(result["job_ids"]) == 6
     assert output.is_file()
     assert Path(result["ledger_path"]).is_file()
+    from services.jobs.queue import JobQueue
+    completed_queue = JobQueue(tmp_path / "jobs.db")
+    try:
+        for jid in result["job_ids"]:
+            assert all(clip["golden_replay"] is False
+                       for clip in completed_queue.get(jid).clips)
+    finally:
+        completed_queue.close()
 
 
 def test_lf002_golden_canary_is_mandatory_when_requested(

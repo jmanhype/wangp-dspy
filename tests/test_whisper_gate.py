@@ -69,6 +69,30 @@ def test_qc_stage_runs_both_gates_and_persists_evidence(tmp_path):
     assert payload["whisper_gates"]["pre"]["score"] == 1.0
 
 
+def test_qc_stage_persists_scored_post_rejection_evidence(tmp_path):
+    doc = _doc(tmp_path)
+    evidence_path = pathlib.Path(tmp_path) / "qc" / "whisper.json"
+
+    def transcriber(path):
+        if pathlib.Path(path).name == "pre.wav":
+            return "the gate is open"
+        return "unrelated mountain"
+
+    with pytest.raises(Ref2VAQCStageError) as caught:
+        run_ref2va_qc_stage(
+            doc, judge=None, pre_audio_path="pre.wav",
+            post_audio_path="post.wav", intended_text="the gate is open",
+            whisper_transcriber=transcriber,
+            evidence_path=str(evidence_path))
+
+    assert caught.value.whisper_evidence["pre"]["passed"] is True
+    assert caught.value.whisper_evidence["post"]["passed"] is False
+    payload = json.loads(evidence_path.read_text())
+    assert payload["whisper_gates"]["pre"]["score"] == 1.0
+    assert payload["whisper_gates"]["post"]["transcript"] == "unrelated mountain"
+    assert payload["whisper_gates"]["post"]["passed"] is False
+
+
 def test_qc_stage_requires_complete_pre_post_gate_inputs(tmp_path):
     with pytest.raises(Ref2VAQCStageError, match="pre_audio_path"):
         run_ref2va_qc_stage(

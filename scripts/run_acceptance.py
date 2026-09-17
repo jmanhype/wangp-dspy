@@ -458,6 +458,12 @@ def run_bundle(bundle_path: str | Path, *, db_path: str | Path | None = None,
     except DirectorRunError as exc:
         raise AcceptanceBundleError(f"bundle plan rejected: {exc}") from exc
 
+    # The golden_v3 recipe is also used for fresh production dialogue. Only
+    # a bundle carrying the LF002 golden canary is a deterministic replay;
+    # fresh stochastic gate failures may use the executor's bounded reseed.
+    for planned_clip in plan.clips:
+        planned_clip["golden_replay"] = golden_canary_spec is not None
+
     prepared_prefix = None
     prefix = bundle.get("completed_prefix")
     if prefix is not None:

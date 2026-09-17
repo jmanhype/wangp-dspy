@@ -389,3 +389,119 @@ def test_non_visual_qc_failure_does_not_seed_retry(tmp_path):
     assert q.get(jid).clips[0]["seed"] == 9
     assert q.attempt_history(jid)[0]["status"] == "failed"
     q.close()
+
+
+def test_scored_post_whisper_failure_retries_with_bumped_seed(tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="vibevoice-film", clips=[{
+        "clip_index": 1, "kind": "ref2va_render",
+        "recipe_name": "golden_v3", "golden_replay": False,
+        "status": "rendered", "seed": 905,
+        "log": "render.log", "mp4": "cut-905.mp4",
+        "qc_verdict": None, "qc_evidence_path": "attempt-905/qc-evidence.json",
+    }])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.set_state(jid, "rendered_pending_qc")
+    q.set_state(jid, "qc")
+
+    def native_drift(_clip):
+        raise Ref2VAQCStageError(
+            "post: transcript score 0.571 below pass bar 0.600",
+            whisper_evidence={
+                "pre": {"phase": "pre", "passed": True, "score": 0.857},
+                "post": {"phase": "post", "passed": False, "score": 0.571,
+                         "transcript": "This is the last great land we have to."},
+            })
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=native_drift)
+    ex._qc_clips(q.get(jid))
+    rec = q.get(jid)
+    assert rec.state == "pending"
+    assert rec.clips[0]["seed"] == 906
+    assert rec.clips[0]["whisper_retry_count"] == 1
+    rejection = rec.clips[0]["whisper_rejections"][0]
+    assert rejection["seed"] == 905
+    assert rejection["mp4"] == "cut-905.mp4"
+    assert rejection["evidence"]["post"]["passed"] is False
+    assert rec.clips[0]["whisper_retry_history"][0][
+        "qc_evidence_path"] == "attempt-905/qc-evidence.json"
+    assert rec.clips[0]["qc_evidence_path"] is None
+    history = q.attempt_history(jid)
+    assert [row["status"] for row in history] == ["failed", "queued"]
+    assert "whisper gate retry 1/2" in history[-1]["attempt_reason"]
+    assert "seed 905 -> 906" in history[-1]["attempt_reason"]
+    q.close()
+
+
+def test_scored_whisper_dead_letter_is_handled_once(tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="vibevoice-film", clips=[{
+        "clip_index": 1, "kind": "ref2va_render",
+        "recipe_name": "golden_v3", "golden_replay": False,
+        "status": "rendered", "seed": 905, "log": "render.log",
+        "mp4": "cut-905.mp4", "qc_verdict": None,
+    }])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.set_state(jid, "rendered_pending_qc")
+    q.set_state(jid, "qc")
+
+    def native_drift(_clip):
+        raise Ref2VAQCStageError(
+            "post: transcript score 0.571 below pass bar 0.600",
+            whisper_evidence={"post": {"passed": False, "score": 0.571,
+                                       "transcript": "wrong words"}})
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=native_drift,
+                     max_failures=1)
+    ex._qc_clips(q.get(jid))
+    rec = q.get(jid)
+    assert rec.state == "dead_letter"
+    assert rec.failure_count == 1
+    assert len(q.attempt_history(jid)) == 1
+    q.close()
+
+
+def test_unscored_whisper_failure_and_golden_replay_do_not_retry(tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    unscored = q.submit(plan_ref="vibevoice-film", clips=[{
+        "clip_index": 1, "kind": "ref2va_render", "recipe_name": "production",
+        "status": "rendered", "seed": 41, "log": "one.log", "mp4": "one.mp4",
+        "qc_verdict": None}])
+    q.set_state(unscored, "preflight")
+    q.set_state(unscored, "rendering")
+    q.set_state(unscored, "rendered_pending_qc")
+    q.set_state(unscored, "qc")
+    golden = q.submit(plan_ref="golden-control", clips=[{
+        "clip_index": 1, "kind": "ref2va_render", "recipe_name": "golden_v3",
+        "status": "rendered", "seed": 905, "log": "gold.log",
+        "mp4": "gold.mp4", "qc_verdict": None}])
+    q.set_state(golden, "preflight")
+    q.set_state(golden, "rendering")
+    q.set_state(golden, "rendered_pending_qc")
+    q.set_state(golden, "qc")
+
+    def transport_failure(_clip):
+        raise Ref2VAQCStageError("post: Whisper transcription failed")
+
+    def scored_native_drift(_clip):
+        raise Ref2VAQCStageError(
+            "post: transcript score 0.571 below pass bar 0.600",
+            whisper_evidence={"post": {"passed": False, "score": 0.571,
+                                       "transcript": "wrong words"}})
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=transport_failure)
+    ex._qc_clips(q.get(unscored))
+    assert q.get(unscored).state == "failed"
+    assert q.get(unscored).clips[0]["seed"] == 41
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=scored_native_drift)
+    ex._qc_clips(q.get(golden))
+    assert q.get(golden).state == "failed"
+    assert q.get(golden).clips[0]["seed"] == 905
+    q.close()

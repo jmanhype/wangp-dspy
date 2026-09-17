@@ -266,9 +266,12 @@ class TestRenderForJobWiring:
         _native_fixture(clip)
         ok, evidence = ex.qc(clip)
         assert ok is True
-        assert evidence["whisper_gates"]["pre"]["passed"] is True
-        assert evidence["whisper_gates"]["post"]["phase"] == "post"
-        assert evidence["vision_judge"]["passed"] is True
+        evidence_path = Path(evidence)
+        assert evidence_path == Path(clip["mp4"]).parent / "qc-evidence.json"
+        payload = json.loads(evidence_path.read_text())
+        assert payload["whisper_gates"]["pre"]["passed"] is True
+        assert payload["whisper_gates"]["post"]["phase"] == "post"
+        assert payload["vision_judge"]["passed"] is True
 
     def test_ref2va_qc_wiring_rejects_missing_vision_judge(self, tmp_path):
         """A ref2va job cannot produce a ledger KEEP without visual evidence."""
@@ -295,8 +298,52 @@ class TestRenderForJobWiring:
             queue=None, host=FakeHost(),
             whisper_transcriber=lambda _: "The gate is open")
         _native_fixture(clip)
-        with pytest.raises(Ref2VAQCStageError, match="vision judge is not wired"):
+        with pytest.raises(Ref2VAQCStageError,
+                           match="vision judge is not wired"):
             ex.qc(clip)
+        evidence_path = Path(clip["mp4"]).parent / "qc-evidence.json"
+        payload = json.loads(evidence_path.read_text())
+        assert payload["whisper_gates"]["pre"]["passed"] is True
+        assert payload["whisper_gates"]["post"]["passed"] is True
+        assert payload["vision_judge"] is None
+
+    def test_ref2va_qc_derives_evidence_path_from_each_artifact(
+            self, tmp_path):
+        import scripts.run_jobs as run_jobs
+        guide = Path(tmp_path) / "guide.wav"
+        guide.write_bytes(b"wav")
+        source = Path(tmp_path) / "source.wav"
+        source.write_bytes(b"wav")
+        wmap = Path(tmp_path) / "whisper.json"
+        wmap.write_text("{}")
+        base = {
+            "clip_index": 1, "kind": "ref2va_render",
+            "audio_guide": str(guide), "dialogue_text": "The gate is open",
+            "audio_provenance": {
+                "source_master": str(source), "vocal_stem": str(source),
+                "whisper_map": str(wmap), "keeper_window_s": [0.0, 2.0],
+            },
+            "speaker_sn": "S1", "action": "turns toward gate",
+        }
+        ex = run_jobs.build_executor(
+            queue=None, host=FakeHost(),
+            whisper_transcriber=lambda _: "The gate is open",
+            vision_judge=lambda **_: {
+                "mouth_sync": 0.9, "action_match": 0.9,
+                "speaker_attribution": 0.9,
+            })
+        evidence_paths = []
+        for attempt in (1, 2):
+            artifact_dir = tmp_path / f"render-{attempt:04d}"
+            artifact_dir.mkdir()
+            clip = dict(base, mp4=str(artifact_dir / "cut.mp4"))
+            _native_fixture(clip)
+            ok, evidence_path = ex.qc(clip)
+            assert ok is True
+            assert Path(evidence_path) == artifact_dir / "qc-evidence.json"
+            evidence_paths.append(Path(evidence_path))
+        assert evidence_paths[0] != evidence_paths[1]
+        assert all(path.is_file() for path in evidence_paths)
 
     @pytest.mark.parametrize("kind", [
         "ref2va_render", "REF2VA_IDENTITY_AUDIO",

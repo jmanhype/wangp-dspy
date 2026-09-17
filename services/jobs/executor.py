@@ -103,6 +103,23 @@ def _is_visual_gate_failure(exc: Exception) -> bool:
     return "visual gate failed:" in text or "vision gate failed:" in text
 
 
+def _is_post_whisper_failure(exc: Exception) -> bool:
+    """Return true only for a scored native-output transcript rejection."""
+    evidence = getattr(exc, "whisper_evidence", None)
+    if not isinstance(evidence, dict):
+        return False
+    post = evidence.get("post")
+    return (isinstance(post, dict)
+            and post.get("passed") is False
+            and isinstance(post.get("transcript"), str)
+            and isinstance(post.get("score"), (int, float)))
+
+
+def _whisper_rejection_evidence(exc: Exception) -> dict:
+    evidence = getattr(exc, "whisper_evidence", None)
+    return dict(evidence) if isinstance(evidence, dict) else {}
+
+
 def _seed_value(clip: dict):
     """Read a render seed without accepting an absent/invalid value."""
     value = clip.get("seed")
@@ -167,6 +184,18 @@ class JobExecutor:
                 "WANGP_VISION_RETRIES must be a non-negative integer") from exc
         if self.vision_retries < 0:
             raise ValueError("WANGP_VISION_RETRIES must be non-negative")
+        raw_whisper_retries = os.environ.get("WANGP_WHISPER_RETRIES")
+        try:
+            self.whisper_retries = (
+                int(raw_whisper_retries)
+                if raw_whisper_retries is not None
+                else _DEFAULT_VISION_RETRIES)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "WANGP_WHISPER_RETRIES must be a non-negative integer"
+            ) from exc
+        if self.whisper_retries < 0:
+            raise ValueError("WANGP_WHISPER_RETRIES must be non-negative")
         # Job picker: given the queue, return the next pending job id
         # to execute (or None). PRODUCTION DEFAULT is needs-aware —
         # a job whose `needs` dependency is not done can NEVER be
@@ -316,6 +345,19 @@ class JobExecutor:
                         seed = _seed_value(clip)
                         if seed is not None:
                             detail = f"{detail}; seed={seed}"
+                    elif _is_post_whisper_failure(e):
+                        evidence = _whisper_rejection_evidence(e)
+                        self._persist_whisper_rejection(
+                            job, clip, evidence, detail)
+                        if evidence:
+                            detail = (
+                                f"{detail}; whisper_evidence="
+                                f"{json.dumps(evidence, sort_keys=True)}")
+                        if self._retry_whisper_gate(job, clip, detail):
+                            return
+                        seed = _seed_value(clip)
+                        if seed is not None:
+                            detail = f"{detail}; seed={seed}"
                     self._fail(job, "qc_gate", detail)
                     return
                 # QC unavailable mid-job: park, do NOT fail
@@ -353,25 +395,60 @@ class JobExecutor:
         if callable(update_clips):
             update_clips(job.job_id, job.clips)
 
-    def _retry_visual_gate(self, job, clip: dict, detail: str) -> bool:
-        """Requeue a visual-gate rejection with a bumped seed.
+    def _persist_whisper_rejection(self, job, clip: dict,
+                                   evidence: dict, detail: str) -> None:
+        """Persist native pre/post transcript evidence before any retry."""
+        history = clip.get("whisper_rejections")
+        if not isinstance(history, list):
+            history = []
+        entry = {
+            "attempt": len(history) + 1,
+            "seed": _seed_value(clip),
+            "mp4": clip.get("mp4"),
+            "log": clip.get("log"),
+            "evidence": dict(evidence or {}),
+            "failure_detail": detail,
+        }
+        clip["whisper_rejections"] = [*history, entry]
+        update_clips = getattr(self.queue, "update_clips", None)
+        if callable(update_clips):
+            update_clips(job.job_id, job.clips)
 
-        A failed judge score is expected stochastic noise for this recipe,
-        so permit two fresh render attempts.  Every attempt remains
-        append-only in the durable queue and the clip retains the prior
-        render/log plus the exact failure detail.  Missing or invalid seeds,
+    def _retry_visual_gate(self, job, clip: dict, detail: str) -> bool:
+        return self._retry_scored_gate(
+            job, clip, detail, gate_name="vision",
+            retries=self.vision_retries)
+
+    def _retry_whisper_gate(self, job, clip: dict, detail: str) -> bool:
+        return self._retry_scored_gate(
+            job, clip, detail, gate_name="whisper",
+            retries=self.whisper_retries)
+
+    def _retry_scored_gate(self, job, clip: dict, detail: str, *,
+                           gate_name: str, retries: int) -> bool:
+        """Requeue a scored probabilistic gate rejection with a new seed.
+
+        Visual attribution misses and native post-Whisper drift are both
+        stochastic. Golden replay controls remain deterministic comparisons
+        and are not reseeded. Every attempt remains append-only in the
+        durable queue and retains prior render/log evidence. Missing/invalid
+        seeds,
         an exhausted budget, and queue implementations without the audited
         retry seam all fail closed as ordinary QC failures.
         """
         # A golden replay is a controlled comparison, not a seed search.
-        if clip.get("recipe_name") == "golden_v3":
+        # A production bundle may reuse the golden_v3 recipe while explicitly
+        # declining byte-exact replay status; such clips opt into retries.
+        if clip.get("golden_replay", clip.get("recipe_name") == "golden_v3"):
             return False
-        count_raw = clip.get("vision_retry_count", 0)
+        count_field = f"{gate_name}_retry_count"
+        history_field = f"{gate_name}_retry_history"
+        count_raw = clip.get(count_field, 0)
         try:
             count = int(count_raw)
         except (TypeError, ValueError):
             return False
-        if count < 0 or count >= self.vision_retries:
+        if count < 0 or count >= retries:
             return False
         seed = _seed_value(clip)
         if seed is None:
@@ -389,10 +466,14 @@ class JobExecutor:
         self._fail(job, "qc_gate", failure_detail)
         current = self.queue.get(job.job_id)
         if current.state != "failed":
-            return False
+            # _fail may exhaust the shared qc_gate budget and move the job
+            # directly to dead_letter. That failure is already durable;
+            # reporting it unhandled would make _qc_clips call _fail again
+            # from a terminal state.
+            return True
 
         next_seed = seed + 1
-        history = clip.get("vision_retry_history")
+        history = clip.get(history_field)
         if not isinstance(history, list):
             history = []
         history = list(history)
@@ -401,23 +482,27 @@ class JobExecutor:
             "seed": seed,
             "mp4": clip.get("mp4"),
             "log": clip.get("log"),
+            "qc_evidence_path": clip.get("qc_evidence_path"),
             "failure_class": "qc_gate",
             "failure_detail": failure_detail,
         })
         # Reset only this clip's render/QC claims.  Chain metadata and all
         # completed predecessor clips remain intact for the next attempt.
         original = dict(clip)
-        clip["vision_retry_count"] = count + 1
-        clip["vision_retry_history"] = history
+        clip[count_field] = count + 1
+        clip[history_field] = history
         clip["seed"] = next_seed
         clip["status"] = "pending"
         clip["log"] = None
         clip["mp4"] = None
         clip["qc_verdict"] = None
+        # Each new render occupies a new artifact directory. Do not point its
+        # QC stage at (and overwrite) the previous attempt's evidence file.
+        clip["qc_evidence_path"] = None
         mutate_inputs = getattr(
             self.queue, "update_render_inputs", update_clips)
         mutate_inputs(job.job_id, job.clips)
-        reason = (f"vision gate retry {count + 1}/{self.vision_retries}; "
+        reason = (f"{gate_name} gate retry {count + 1}/{retries}; "
                   f"seed {seed} -> {next_seed}")
         try:
             requeue(job.job_id, reason=reason)
