@@ -41,6 +41,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # Env-overridable via WANGP_QC_URL.
 DEFAULT_QC_URL = "http://localhost:8000/health"
 
+from qc.audio_critic.whisper_gate import (  # noqa: E402
+    DEFAULT_WHISPER_PASS_BAR,
+)
 from services.jobs.queue import (  # noqa: E402,F401
     JobQueue, is_job_admissible as _is_admissible_impl,
     next_admissible as _next_admissible_impl,
@@ -226,7 +229,8 @@ def build_executor(queue, host=None, pre_render=None,
             run_whisper_gate(
                 clip.get("audio_guide"),
                 clip.get("dialogue_text") or clip.get("prompt"),
-                transcriber=whisper_transcriber, phase="pre", pass_bar=0.6)
+                transcriber=whisper_transcriber, phase="pre",
+                pass_bar=DEFAULT_WHISPER_PASS_BAR)
         # The local Qwen judge and WanGP are mutually exclusive GPU tenants.
         # Keep the judge up for preflight, stop it immediately before the
         # render leg, and restore it before QC.  This applies to both an SSH

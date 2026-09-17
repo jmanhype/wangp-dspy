@@ -952,7 +952,7 @@ def test_remote_rejection_preserves_verified_listening_bundle_without_publicatio
     assert report["status"] == "failed"
     assert report["turns"][1]["whisper_gate"]["transcript"] == "unrelated words"
     assert report["turns"][1]["whisper_gate"]["score"] == 0.0
-    assert report["turns"][1]["whisper_gate"]["pass_bar"] == 0.5
+    assert report["turns"][1]["whisper_gate"]["pass_bar"] == 0.6
     assert report["turns"][1]["whisper_gate"]["passed"] is False
     for record in report["turns"]:
         assert Path(record["output_path"]).is_file()

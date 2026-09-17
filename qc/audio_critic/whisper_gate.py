@@ -15,6 +15,11 @@ from typing import Callable, Mapping, Optional
 from predict.continuation_lane import transcript_match_score
 
 
+# Production audio must clear the same bar at every handoff: supplier
+# generation/resume, pre-render admission, and post-render/native QC.
+DEFAULT_WHISPER_PASS_BAR = 0.6
+
+
 class WhisperGateError(ValueError):
     """Typed, fail-closed transcript gate rejection."""
 
@@ -43,7 +48,7 @@ def run_whisper_gate(
     *,
     transcriber: Optional[Callable[[str], object]],
     phase: str,
-    pass_bar: float = 0.5,
+    pass_bar: float = DEFAULT_WHISPER_PASS_BAR,
 ) -> WhisperGateEvidence:
     """Transcribe one artifact and compare it to the intended line."""
     if phase not in {"pre", "post"}:
@@ -81,4 +86,9 @@ def run_whisper_gate(
     return evidence
 
 
-__all__ = ["WhisperGateError", "WhisperGateEvidence", "run_whisper_gate"]
+__all__ = [
+    "DEFAULT_WHISPER_PASS_BAR",
+    "WhisperGateError",
+    "WhisperGateEvidence",
+    "run_whisper_gate",
+]
