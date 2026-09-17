@@ -1,0 +1,23 @@
+{
+  "vision_judge": null,
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-b8bcbe524c47/render-0003/raw.mp4",
+      "intended_text": "Then don't spill a single drop.",
+      "pass_bar": 0.6,
+      "passed": false,
+      "phase": "post",
+      "score": 0.167,
+      "transcript": "Single speed is no drop."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+      "intended_text": "Then don't spill a single drop.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 1.0,
+      "transcript": "then don't spill a single drop."
+    }
+  }
+}

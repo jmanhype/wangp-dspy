@@ -1,0 +1,48 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/acceptance/worker-a06885202980/render-0000/wgp-settings.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/acceptance/worker-a06885202980/render-0000/wgp-settings.json
+[load_settings] Loaded image: /home/straughter/acceptance/lf002-two-cut-20260913/plate-candidate-v1.png
+[load_settings] Loaded image: /home/straughter/acceptance/lf002-two-cut-20260913/plate-candidate-v1.png
+[load_settings] Loaded image: /home/straughter/acceptance/lf002-two-cut-20260913/orin-reference-candidate-v1.png
+[load_settings] Using path: /home/straughter/acceptance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_ref2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] integrated_multimodal_description:
+Throughout every scene id...
+Loading model MiniMax H3 Ref2VA Pruned 20B...
+Loading Model 'ckpts/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Switching to partial pinning since full requirements for pinned models is 51764.0 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : base size of 58.22 MB will be preloaded with a 370.96 MB async circular shuttle
+Unable to pin data of 'text_encoder' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : base size of 1483.75 MB will be preloaded with a 465.16 MB async circular shuttle
+Unable to pin data of 'vision_encoder' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Unable to pin data of 'vae' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'vae' (ModuleDict)
+Unable to pin data of 'video_encoder' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'video_encoder' (ModuleDict)
+Unable to pin data of 'audio_vae' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Unable to pin data of 'latent_upscaler' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM may be slower.
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Encoding Prompt  [0/1] Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Denoising                          [0/20] Denoising | 1m 27sH3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:50<16:02, 50.63s/steps]  [1/20] Denoising | 2m 17s / 18m 20sH3 denoising:  10%|█         | 2/20 [01:39<14:55, 49.73s/steps]  [2/20] Denoising | 3m 07s / 18m 04sH3 denoising:  15%|█▌        | 3/20 [02:28<13:59, 49.40s/steps]  [3/20] Denoising | 3m 56s / 17m 58sH3 denoising:  20%|██        | 4/20 [03:17<13:08, 49.26s/steps]  [4/20] Denoising | 4m 45s / 17m 56sH3 denoising:  25%|██▌       | 5/20 [04:06<12:17, 49.15s/steps]  [5/20] Denoising | 5m 34s / 17m 54sH3 denoising:  30%|███       | 6/20 [04:55<11:27, 49.10s/steps]  [6/20] Denoising | 6m 23s / 17m 53sH3 denoising:  35%|███▌      | 7/20 [05:44<10:38, 49.12s/steps]  [7/20] Denoising | 7m 12s / 17m 52sH3 denoising:  40%|████      | 8/20 [06:33<09:48, 49.05s/steps]  [8/20] Denoising | 8m 01s / 17m 51sH3 denoising:  45%|████▌     | 9/20 [07:22<08:59, 49.09s/steps]  [9/20] Denoising | 8m 50s / 17m 51sH3 denoising:  50%|█████     | 10/20 [08:11<08:10, 49.05s/steps]  [10/20] Denoising | 9m 39s / 17m 51sH3 denoising:  55%|█████▌    | 11/20 [09:00<07:20, 48.99s/steps]  [11/20] Denoising | 10m 28s / 17m 50sH3 denoising:  60%|██████    | 12/20 [09:49<06:30, 48.86s/steps]  [12/20] Denoising | 11m 16s / 17m 49sH3 denoising:  65%|██████▌   | 13/20 [10:38<05:42, 48.97s/steps]  [13/20] Denoising | 12m 05s / 17m 49sH3 denoising:  70%|███████   | 14/20 [11:27<04:53, 48.98s/steps]  [14/20] Denoising | 12m 54s / 17m 49sH3 denoising:  75%|███████▌  | 15/20 [12:16<04:04, 48.96s/steps]  [15/20] Denoising | 13m 43s / 17m 49sH3 denoising:  80%|████████  | 16/20 [13:05<03:16, 49.05s/steps]  [16/20] Denoising | 14m 33s / 17m 49sH3 denoising:  85%|████████▌ | 17/20 [13:54<02:27, 49.06s/steps]  [17/20] Denoising | 15m 22s / 17m 49sH3 denoising:  90%|█████████ | 18/20 [14:43<01:37, 48.93s/steps]  [18/20] Denoising | 16m 10s / 17m 49sH3 denoising:  95%|█████████▌| 19/20 [15:32<00:49, 49.07s/steps]  [19/20] Denoising | 17m 00s / 17m 49sH3 denoising: 100%|██████████| 20/20 [16:22<00:00, 49.17s/steps]H3 denoising: 100%|██████████| 20/20 [16:22<00:00, 49.11s/steps]
+  [20/20] VAE Decoding | 17m 49s / 17m 49s  [0/1] VAE Decoding of Video and Audio   Error saving metadata to MP4 outputs/2026-09-17-10h46m44s_seed905_integrated_multimodal_descriptionThroughout every scene identity and wardrobe stay locked S1 (Nel.mp4: No module named 'mutagen'
+Video file saved to Path: outputs/2026-09-17-10h46m44s_seed905_integrated_multimodal_descriptionThroughout every scene identity and wardrobe stay locked S1 (Nel.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 18m 34s

@@ -1,0 +1,36 @@
+{
+  "vision_judge": {
+    "action_match": 0.8,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "S1 (Nell): a young adult female archive courier with warm brown skin, short curly dark hair and a mustard-yellow jacket, on the LEFT holding a small glass rain jar in the warm-lit archive of bottled weather shown in the reference frame; silent other S2 (Orin): an elderly male climate archivist with pale skin, swept-back silver hair, a clean-shaven face and a deep teal coat, on the RIGHT in the same warm-lit archive of bottled weather shown in the reference frame; Spatial anchor: Nell (S1) remains on the LEFT and Orin (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition.",
+    "mouth_activity": 0.85,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The composition is consistent with the reference: Nell (S1) is on the left in the mustard jacket holding the jar, and Orin (S2) is on the right in the teal coat. Nell's mouth is clearly open in the middle frame, indicating visible speaking motion, while Orin remains silent with a closed mouth. The identity and spatial blocking are preserved across the frames.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.8,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The composition is consistent with the reference: Nell (S1) is on the left in the mustard jacket holding the jar, and Orin (S2) is on the right in the teal coat. Nell's mouth is clearly open in the middle frame, indicating visible speaking motion, while Orin remains silent with a closed mouth. The identity and spatial blocking are preserved across the frames.\"\n}",
+    "speaker_attribution": 0.9,
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-a08dc195c192/render-0001/remux.mp4"
+  },
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-a08dc195c192/render-0001/raw.mp4",
+      "intended_text": "This is the last rain we have.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "post",
+      "score": 1.0,
+      "transcript": "This is the last rain we have."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav",
+      "intended_text": "This is the last rain we have.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.857,
+      "transcript": "Oh, this is the last rain we have."
+    }
+  }
+}

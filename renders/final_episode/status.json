@@ -1,0 +1,20 @@
+{
+  "schema": "wangp-dspy.final-episode/v1",
+  "run_id": "lf002-two-cut-vibevoice-20260917",
+  "premise_id": "lf-002",
+  "title": "Archive of Rain",
+  "decision": "OPERATOR PERFECT",
+  "operator_verdict": "perfect",
+  "verbatim_user_message": "PERFECT!",
+  "operator_timestamp_utc": "2026-09-17T17:49:22Z",
+  "artifact_role": "assembled_two_cut_final_episode",
+  "artifact_path": "/Users/Shared/HermesWorkspace/wangp-dspy/renders/final_episode/lf002-vibevoice-20260917.mp4",
+  "sha256": "c3aa318cda87b56ae53a0994a09ea1ae21808cc7383ab9e63e09d24f616bead2",
+  "keeper_path": "/Users/Shared/HermesWorkspace/wangp-dspy/renders/keepers/lf002-two-cut-vibevoice-20260917.mp4",
+  "provenance_manifest": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-film-20260917/manifest.json",
+  "audio_carrier": "native_h3",
+  "known_issues": [
+    "Cut 2 says 'And' rather than 'Then'; operator accepted the performance verbatim.",
+    "Phonetic audiovisual synchrony is not instrumentally measured."
+  ]
+}
