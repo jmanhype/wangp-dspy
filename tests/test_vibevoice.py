@@ -456,6 +456,17 @@ class SupplyHost:
         backend.backend_kind = VibeVoiceBackend.backend_kind
         texts = {str(t.output.with_suffix(".prepared.wav")): t.text for t in manifest.turns}
         report_path = Path(argv[argv.index("--report") + 1])
+        if self.defect and self.defect.startswith("rejected"):
+            failed_index = 0 if self.defect == "rejected_first" else 1
+            texts[str(manifest.turns[failed_index].output.with_suffix(".prepared.wav"))] = "unrelated words"
+            with pytest.raises(VibeVoiceError, match="below pass bar"):
+                supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
+                    preparation_runner=_audio_runner, report_path=report_path)
+            if self.defect == "rejected_gate":
+                payload = json.loads(report_path.read_text())
+                payload["turns"][1]["whisper_gate"]["score"] = 0.4
+                report_path.write_text(json.dumps(payload))
+            return SimpleNamespace(returncode=1, stderr="pre-gate failed")
         supply_vibevoice_turns(manifest, backend=backend, transcriber=texts.__getitem__,
             preparation_runner=_audio_runner, report_path=report_path)
         if self.defect == "failed_run":
@@ -474,12 +485,18 @@ class SupplyHost:
 
     def fetch_file(self, remote, local):
         self.calls.append(("fetch_file", remote))
-        if self.defect == "missing" and remote.endswith("prepared.wav"):
+        if self.defect == "rejected_report_missing" and remote.endswith("report.json"):
+            return local
+        if self.defect == "rejected_raw_missing" and remote.endswith("turn-2.wav"):
+            return local
+        if self.defect in {"missing", "rejected_missing"} and remote.endswith("prepared.wav"):
             return local
         data = Path(remote).read_bytes()
-        if self.defect == "bad_hash" and remote.endswith("prepared.wav"):
+        if self.defect == "rejected_raw_hash" and remote.endswith("turn-2.wav"):
             data = b"tampered"
-        if self.defect == "bad_provenance" and remote.endswith("vibevoice.json"):
+        if self.defect in {"bad_hash", "rejected_hash"} and remote.endswith("prepared.wav"):
+            data = b"tampered"
+        if self.defect in {"bad_provenance", "rejected_provenance"} and remote.endswith("vibevoice.json"):
             data = b"{}"
         Path(local).write_bytes(data)
         return local
@@ -585,7 +602,7 @@ def test_remote_gpu_lease_order_and_fail_closed(tmp_path, failure):
             supply_vibevoice_turns_remote(manifest, **kwargs)
         assert not Path(kwargs["report_path"]).exists()
         assert not any(t.output.exists() for t in manifest.turns)
-        assert not any(c[0] == "fetch_file" for c in host.calls)
+        assert any(c[0] == "fetch_file" for c in host.calls) == (failure == "failed_run")
     order = [c[0] for c in host.calls if c[0] in {"acquire", "run_argv", "release"}]
     assert order == (["acquire", "release"] if failure == "acquire"
                      else ["acquire", "run_argv", "release"])
@@ -624,3 +641,52 @@ def test_default_remote_lease_rejects_judge_control_failure(tmp_path, failed_act
     assert any(c[0] == "run_argv" for c in host.calls) == (failed_action == "start")
     assert not Path(kwargs["report_path"]).exists()
     assert not any(t.output.exists() for t in manifest.turns)
+
+
+def test_remote_rejection_preserves_verified_listening_bundle_without_publication(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path, "rejected")
+    with pytest.raises(VibeVoiceError, match="rejected evidence"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)
+    bundles = list((Path(kwargs["report_path"]).parent / "rejected").iterdir())
+    assert len(bundles) == 1
+    report = json.loads((bundles[0] / "report.json").read_text())
+    assert report["status"] == "failed"
+    assert report["turns"][1]["whisper_gate"]["transcript"] == "unrelated words"
+    assert report["turns"][1]["whisper_gate"]["score"] == 0.0
+    assert report["turns"][1]["whisper_gate"]["pass_bar"] == 0.5
+    assert report["turns"][1]["whisper_gate"]["passed"] is False
+    for record in report["turns"]:
+        assert Path(record["output_path"]).is_file()
+        assert Path(record["prepared_path"]).is_file()
+        assert Path(record["provenance_path"]).is_file()
+    assert (bundles[0] / "report.remote.json").is_file()
+    assert len(list(bundles[0].glob("*.provenance.remote.json"))) == 2
+    calls = list(host.calls)
+    with pytest.raises(VibeVoiceError, match="incomplete"):
+        publish_vibevoice_turns(report, host=host)
+    assert host.calls == calls
+
+
+@pytest.mark.parametrize("defect", ["rejected_missing", "rejected_hash", "rejected_provenance", "rejected_gate",
+                                  "rejected_raw_missing", "rejected_raw_hash", "rejected_report_missing"])
+def test_remote_rejected_missing_or_tampered_evidence_fails_closed(tmp_path, defect):
+    manifest, host, kwargs = _remote_supply(tmp_path, defect)
+    with pytest.raises(VibeVoiceError):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)
+    assert not (Path(kwargs["report_path"]).parent / "rejected").exists()
+
+
+def test_remote_first_turn_rejected_leaves_remaining_turn_pending(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path, "rejected_first")
+    with pytest.raises(VibeVoiceError, match="rejected evidence"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    bundle = next((Path(kwargs["report_path"]).parent / "rejected").iterdir())
+    report = json.loads((bundle / "report.json").read_text())
+    assert report["completed_turn_count"] == 0
+    assert report["turns"][1]["status"] == "pending"
+    assert not Path(report["turns"][1]["output_path"]).exists()
+    assert len([c for c in host.calls if c[0] == "fetch_file"]) == 4
