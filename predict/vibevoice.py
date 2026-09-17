@@ -38,7 +38,16 @@ class VibeVoiceJudgeLease:
 
 MANIFEST_SCHEMA = "wangp-dspy.vibevoice-turns/v1"
 PROVENANCE_SCHEMA = "wangp-dspy.vibevoice-provenance/v1"
+HOST_ENVIRONMENT_SCHEMA = "wangp-dspy.vibevoice-host-environment/v1"
 _SHA256_RE = re.compile(r"[0-9a-f]{64}")
+_HOST_ENVIRONMENT_PROGRAM = (
+    "import json, platform, sys; "
+    "print(json.dumps({"
+    "'resolved_python': sys.executable, "
+    "'python_implementation': platform.python_implementation(), "
+    "'python_version': platform.python_version(), "
+    "'platform': platform.platform()}))"
+)
 
 
 @dataclass(frozen=True)
@@ -361,6 +370,59 @@ def _validate_attempt_namespaces(
                 "turn outputs and seed-retry evidence paths must be unique: "
                 f"{normalized}")
         seen[normalized] = True
+
+
+def _bounded_process_output(value: object, limit: int = 4000) -> str:
+    text = value if isinstance(value, str) else ""
+    return text[-limit:]
+
+
+def _process_diagnostic(result: object) -> dict:
+    return {
+        "returncode": getattr(result, "returncode", None),
+        "stdout": _bounded_process_output(getattr(result, "stdout", "")),
+        "stderr": _bounded_process_output(getattr(result, "stderr", "")),
+    }
+
+
+def _probe_host_environment(host, *, host_python: str, host_repo: str,
+                            timeout: float) -> tuple[dict, dict | None]:
+    """Probe and return durable identity for the selected host interpreter."""
+    evidence = {
+        "schema": HOST_ENVIRONMENT_SCHEMA,
+        "requested_python": host_python,
+        "repo": host_repo,
+    }
+    try:
+        result = host.run_argv(
+            [host_python, "-I", "-c", _HOST_ENVIRONMENT_PROGRAM],
+            cwd=host_repo, timeout=min(timeout, 30.0))
+    except Exception as exc:
+        evidence["probe"] = {
+            "returncode": None,
+            "stdout": "",
+            "stderr": f"{type(exc).__name__}: {exc}"[-4000:],
+        }
+        return evidence, None
+
+    evidence["probe"] = _process_diagnostic(result)
+    if getattr(result, "returncode", None) != 0:
+        return evidence, None
+    lines = [line for line in str(
+        getattr(result, "stdout", "")).splitlines() if line.strip()]
+    try:
+        payload = json.loads(lines[-1]) if lines else None
+    except json.JSONDecodeError:
+        payload = None
+    if not isinstance(payload, dict):
+        return evidence, None
+    required = ("resolved_python", "python_implementation",
+                "python_version", "platform")
+    if any(not isinstance(payload.get(field), str) or not payload[field].strip()
+           for field in required):
+        return evidence, None
+    evidence.update({field: payload[field] for field in required})
+    return evidence, payload
 
 
 def _base_provenance(
@@ -814,13 +876,24 @@ def supply_vibevoice_turns_remote(
         raise VibeVoiceError("gpu_lease: acquire/release(host) are required")
     destination = Path(report_path).resolve()
     remote_evidence = destination.with_name(destination.name + ".remote.json")
+    host_environment_path = destination.with_name(
+        destination.name + ".host_environment.json")
     outputs = [p for t in manifest.turns
                for p in (t.output, _prepared_path(t.output), _provenance_path(t.output))]
     outputs.extend(path for t in manifest.turns
                    for attempt in range(1, seed_retries + 2)
                    for path in _attempt_paths(t.output, attempt))
-    if any(p.exists() for p in [destination, remote_evidence, *outputs]):
+    if any(p.exists() for p in [
+            destination, remote_evidence, host_environment_path, *outputs]):
         raise VibeVoiceError("remote supply requires new local output/report paths")
+    host_environment, decoded_environment = _probe_host_environment(
+        host, host_python=host_python, host_repo=host_repo, timeout=timeout)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    _write_json(host_environment_path, host_environment)
+    if decoded_environment is None:
+        raise VibeVoiceError(
+            "host Python environment probe failed: "
+            f"{host_environment['probe']}")
     run_root = manifest.source_path.parent / (".vibevoice-" + uuid.uuid4().hex)
     host_root = host.map_asset(str(run_root))
     if not isinstance(host_root, str) or not Path(host_root).is_absolute():
@@ -881,8 +954,18 @@ def supply_vibevoice_turns_remote(
             try:
                 host.fetch_file(str(remote), str(local))
             except Exception as exc:
+                if str(remote) == str(remote_report_path):
+                    raise VibeVoiceError(
+                        f"missing host artifact: {remote}; "
+                        f"host_process={_process_diagnostic(result)}; "
+                        f"host_environment={host_environment}") from exc
                 raise VibeVoiceError(f"missing host artifact: {remote}") from exc
             if not local.is_file() or local.stat().st_size == 0:
+                if str(remote) == str(remote_report_path):
+                    raise VibeVoiceError(
+                        f"missing host artifact: {remote}; "
+                        f"host_process={_process_diagnostic(result)}; "
+                        f"host_environment={host_environment}")
                 raise VibeVoiceError(f"missing host artifact: {remote}")
         report_file = scratch / "report.json"
         fetch(remote_report_path, report_file)
@@ -1129,7 +1212,12 @@ def supply_vibevoice_turns_remote(
             provenance["seed_rejections"] = localized_rejections
             provenance["remote_execution"] = {
                 "model": host_model, "repo": host_repo, "python": host_python,
+                "resolved_python": host_environment["resolved_python"],
+                "python_implementation": host_environment["python_implementation"],
+                "python_version": host_environment["python_version"],
+                "platform": host_environment["platform"],
                 "manifest": str(remote_manifest_path),
+                "environment_evidence": str(host_environment_path),
             }
             _write_json(provenance_file, provenance)
             local_records.append(dict(record, output_path=str(local_turn.output),
@@ -1151,6 +1239,8 @@ def supply_vibevoice_turns_remote(
                             error=report.get("error"))
             audit["remote_report_path"] = str(rejected_root / "report.remote.json")
             audit["host_returncode"] = getattr(result, "returncode", None)
+            audit["host_environment"] = host_environment
+            audit["host_environment_path"] = str(host_environment_path)
             _write_json(bundle / "report.json", audit)
             rejected_root.parent.mkdir(parents=True, exist_ok=True)
             os.rename(bundle, rejected_root)
@@ -1162,6 +1252,8 @@ def supply_vibevoice_turns_remote(
         os.replace(report_file, remote_evidence)
         localized = _report(manifest, local_records, status="complete")
         localized["remote_report_path"] = str(remote_evidence)
+        localized["host_environment"] = host_environment
+        localized["host_environment_path"] = str(host_environment_path)
         _write_json(destination, localized)
         return localized
 
