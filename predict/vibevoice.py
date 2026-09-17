@@ -104,6 +104,41 @@ class VibeVoiceManifest:
         }
 
 
+def _vibevoice_execution_device(model: object) -> str:
+    """Resolve an accelerator placement, never the first (possibly meta) tensor.
+
+    Accelerate may offload parameters to meta/CPU/disk while dispatching work
+    to an accelerator. Prefer its device map, then concrete parameter devices.
+    Do not guess a CUDA index or fall back to model.device / CPU.
+    """
+    def concrete_device(value: object) -> str | None:
+        # Accelerate device maps also encode CUDA ordinals as integers.
+        if isinstance(value, int) and not isinstance(value, bool):
+            return f"cuda:{value}" if value >= 0 else None
+        device = str(value)
+        if re.fullmatch(r"(?:cuda|xpu|npu|hpu):[0-9]+", device):
+            return device
+        if device in {"mps", "mps:0"}:
+            return device
+        return None
+
+    device_map = getattr(model, "hf_device_map", None)
+    if isinstance(device_map, Mapping):
+        for value in device_map.values():
+            device = concrete_device(value)
+            if device is not None:
+                return device
+    parameters = getattr(model, "parameters", None)
+    if callable(parameters):
+        for parameter in parameters():
+            device = concrete_device(getattr(parameter, "device", None))
+            if device is not None:
+                return device
+    raise VibeVoiceError(
+        "VibeVoice execution device: no concrete accelerator in "
+        "hf_device_map or model parameters (meta/cpu/disk are not executable)")
+
+
 class VibeVoiceBackend:
     """Transformers backend using the validated VibeVoice-7B API.
 
@@ -158,13 +193,14 @@ class VibeVoiceBackend:
             ],
         }]
         try:
+            execution_device = _vibevoice_execution_device(self.model)
             self.set_seed(seed)
             inputs = self.processor.apply_chat_template(
                 conversation,
                 return_dict=True,
                 tokenize=True,
                 add_generation_prompt=True,
-            ).to(self.model.device, self.model.dtype)
+            ).to(execution_device, self.model.dtype)
             audio = self.model.generate(**inputs)
             self.processor.save_audio(audio, str(destination_path))
         except Exception as exc:
