@@ -1,0 +1,64 @@
+{
+  "attempt_count": 2,
+  "attempt_index": 2,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 43,
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.wav",
+  "output_sha256": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+    "rms_db": -15.2,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.wav",
+    "speaker_id": "Orin",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+  "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+  "remote_execution": {
+    "manifest": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/manifest.json",
+    "model": "/home/straughter/models/VibeVoice-7B-hf",
+    "python": "/home/straughter/vb7-venv/bin/python",
+    "repo": "/home/straughter/wangp-dspy-vibevoice-20260916"
+  },
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 42,
+  "seed_rejections": [
+    {
+      "attempt_index": 1,
+      "generation_seed": 42,
+      "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.prepared.wav",
+        "rms_db": -21.2,
+        "single_speaker": true,
+        "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.wav",
+        "speaker_id": "Orin",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.prepared.wav",
+      "prepared_sha256": "3eb1bdde6b00d7919e87ed264717c75999f044f3dd1afb134b674744c32661f3",
+      "provenance_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.wav.vibevoice.json",
+      "whisper_gate": {
+        "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.attempt-1.prepared.wav",
+        "intended_text": "Then don't spill a single drop.",
+        "pass_bar": 0.5,
+        "passed": false,
+        "phase": "pre",
+        "score": 0.0,
+        "transcript": "When you ring, what shall come?"
+      }
+    }
+  ],
+  "speaker": "Orin",
+  "text": "Then don't spill a single drop.",
+  "turn_index": 2,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/prepared/orin-guide.wav",
+  "voice_reference_sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+}

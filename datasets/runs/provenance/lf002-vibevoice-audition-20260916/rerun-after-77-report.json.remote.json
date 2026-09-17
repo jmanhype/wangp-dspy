@@ -1,0 +1,103 @@
+{
+  "completed_turn_count": 2,
+  "manifest": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/manifest.json",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "resumed_turn_count": 0,
+  "schema": "wangp-dspy.vibevoice-report/v1",
+  "seed": 42,
+  "status": "complete",
+  "turns": [
+    {
+      "attempt_index": 1,
+      "generation_seed": 42,
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.prepared.wav",
+        "rms_db": -16.5,
+        "single_speaker": true,
+        "source_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.wav",
+        "speaker_id": "Nell",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.prepared.wav",
+      "prepared_sha256": "ac1e4402b0720514f9ff6a7f2c1b8ed0a3791a25c6c34c45da2aaa90e9195cae",
+      "provenance_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.wav.vibevoice.json",
+      "seed_rejections": [],
+      "speaker": "Nell",
+      "status": "complete",
+      "text": "This is the last rain we have.",
+      "turn_index": 1,
+      "whisper_gate": {
+        "audio_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-1.prepared.wav",
+        "intended_text": "This is the last rain we have.",
+        "pass_bar": 0.5,
+        "passed": true,
+        "phase": "pre",
+        "score": 0.857,
+        "transcript": "Oh, this is the last rain we have."
+      }
+    },
+    {
+      "attempt_index": 2,
+      "generation_seed": 43,
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.prepared.wav",
+        "rms_db": -15.2,
+        "single_speaker": true,
+        "source_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.wav",
+        "speaker_id": "Orin",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.prepared.wav",
+      "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+      "provenance_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.wav.vibevoice.json",
+      "seed_rejections": [
+        {
+          "attempt_index": 1,
+          "generation_seed": 42,
+          "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.wav",
+          "preparation": {
+            "boost_db": 9.0,
+            "measured_duration_s": 2.333333,
+            "output_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.prepared.wav",
+            "rms_db": -21.2,
+            "single_speaker": true,
+            "source_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.wav",
+            "speaker_id": "Orin",
+            "target_duration_s": 2.333333
+          },
+          "prepared_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.prepared.wav",
+          "prepared_sha256": "3eb1bdde6b00d7919e87ed264717c75999f044f3dd1afb134b674744c32661f3",
+          "provenance_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.wav.vibevoice.json",
+          "whisper_gate": {
+            "audio_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.attempt-1.prepared.wav",
+            "intended_text": "Then don't spill a single drop.",
+            "pass_bar": 0.5,
+            "passed": false,
+            "phase": "pre",
+            "score": 0.0,
+            "transcript": "When you ring, what shall come?"
+          }
+        }
+      ],
+      "speaker": "Orin",
+      "status": "complete",
+      "text": "Then don't spill a single drop.",
+      "turn_index": 2,
+      "whisper_gate": {
+        "audio_path": "/home/straughter/wangp-dspy-vibevoice-evidence-20260917/.vibevoice-c8bd9e52553c48918672dd4951d74d85/turn-2.prepared.wav",
+        "intended_text": "Then don't spill a single drop.",
+        "pass_bar": 0.5,
+        "passed": true,
+        "phase": "pre",
+        "score": 1.0,
+        "transcript": "then don't spill a single drop."
+      }
+    }
+  ]
+}

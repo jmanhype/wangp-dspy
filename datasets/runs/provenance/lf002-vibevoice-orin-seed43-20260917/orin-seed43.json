@@ -1,0 +1,15 @@
+{
+  "schema": "wangp-dspy.vibevoice-turns/v1",
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "seed": 43,
+  "turns": [
+    {
+      "speaker": "Orin",
+      "text": "Then don't spill a single drop.",
+      "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/assets/lf002-two-cut-20260913/prepared/orin-guide.wav",
+      "output": "audio/orin-seed43.wav",
+      "target_duration_s": 2.333333
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "wangp-dspy.vibevoice-audition-evidence/v1",
+  "run_id": "lf002-vibevoice-audition-20260916",
+  "status": "complete",
+  "executed_at": "2026-09-17",
+  "repository_commit": "a86c33b3fd9101b3ff6f07e99316550c07593144",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "manifest": "vibevoice-turns.json",
+  "manifest_sha256": "32e4b7c45430463d22ef8e54194348f0a20a6f255613621b5be461aef8705891",
+  "complete_report": "rerun-after-77-report.json",
+  "complete_report_sha256": "3f7c6d49a3574ee78c9353f98c134ee73a2ab30a091641359dc662125a5bec90",
+  "complete_remote_report": "rerun-after-77-report.json.remote.json",
+  "complete_remote_report_sha256": "65616ba7eea3802aa90b29bef0f21de1a8329f2a377c72231daf7fa420b1ef73",
+  "turns": [
+    {
+      "speaker": "Nell",
+      "base_seed": 42,
+      "generation_seed": 42,
+      "attempt_index": 1,
+      "raw": "audio/nell.wav",
+      "raw_sha256": "dea626ef050c40a60e9b3b2453634499a707e3fcbba7fd2bafc9c3ca75599c17",
+      "prepared": "audio/nell.prepared.wav",
+      "prepared_sha256": "ac1e4402b0720514f9ff6a7f2c1b8ed0a3791a25c6c34c45da2aaa90e9195cae",
+      "provenance": "audio/nell.wav.vibevoice.json",
+      "provenance_sha256": "9d397527ac8e62a6f92d47bc73458bc4a27efc51d1678f0040cb4f960005e1d0",
+      "whisper_score": 0.857,
+      "whisper_transcript": "Oh, this is the last rain we have."
+    },
+    {
+      "speaker": "Orin",
+      "base_seed": 42,
+      "generation_seed": 43,
+      "attempt_index": 2,
+      "raw": "audio/orin.wav",
+      "raw_sha256": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+      "prepared": "audio/orin.prepared.wav",
+      "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+      "provenance": "audio/orin.wav.vibevoice.json",
+      "provenance_sha256": "f4461cee1c7a25ca6a57aeb1b23e0c259ae583d33d5c51ca056220974395af73",
+      "whisper_score": 1.0,
+      "whisper_transcript": "then don't spill a single drop.",
+      "rejected_attempts": [
+        {
+          "generation_seed": 42,
+          "raw": "audio/orin.attempt-1.wav",
+          "raw_sha256": "a57e0223ed31990113332e8dc8a72940e5c150f13455f3e98a848eec90ae01e2",
+          "prepared": "audio/orin.attempt-1.prepared.wav",
+          "prepared_sha256": "3eb1bdde6b00d7919e87ed264717c75999f044f3dd1afb134b674744c32661f3",
+          "provenance": "audio/orin.attempt-1.wav.vibevoice.json",
+          "provenance_sha256": "4ebc7e1c90866ca75d195df7005bfe5aeb4efd01e4312f7abeb2effb9c43b442",
+          "whisper_score": 0.0,
+          "whisper_transcript": "When you ring, what shall come?"
+        }
+      ]
+    }
+  ],
+  "cross_checks": {
+    "seed_42_failure_matches_pre77_rejected_bundle": true,
+    "seed_43_success_matches_isolated_probe": {
+      "probe_manifest": "../lf002-vibevoice-orin-seed43-20260917/orin-seed43.json",
+      "probe_report": "../lf002-vibevoice-orin-seed43-20260917/report.json",
+      "raw_sha256": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+      "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3"
+    }
+  },
+  "historical_failures_retained": [
+    "failed-run.json",
+    "retry-after-74-failed.json",
+    "rejected/.vibevoice-790fe7ee497140a18bbf4feb00a46e6f/"
+  ]
+}
