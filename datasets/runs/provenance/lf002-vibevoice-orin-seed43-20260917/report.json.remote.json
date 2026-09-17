@@ -1,0 +1,40 @@
+{
+  "completed_turn_count": 1,
+  "manifest": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/manifest.json",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "resumed_turn_count": 0,
+  "schema": "wangp-dspy.vibevoice-report/v1",
+  "seed": 43,
+  "status": "complete",
+  "turns": [
+    {
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.wav",
+      "preparation": {
+        "boost_db": 9.0,
+        "measured_duration_s": 2.333333,
+        "output_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.prepared.wav",
+        "rms_db": -15.2,
+        "single_speaker": true,
+        "source_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.wav",
+        "speaker_id": "Orin",
+        "target_duration_s": 2.333333
+      },
+      "prepared_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.prepared.wav",
+      "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+      "provenance_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.wav.vibevoice.json",
+      "speaker": "Orin",
+      "status": "complete",
+      "text": "Then don't spill a single drop.",
+      "turn_index": 1,
+      "whisper_gate": {
+        "audio_path": "/home/straughter/wangp-dspy-vibevoice-orin-seed43-20260917/.vibevoice-9a16825c4920499db6c2c3ed427b39bc/turn-1.prepared.wav",
+        "intended_text": "Then don't spill a single drop.",
+        "pass_bar": 0.5,
+        "passed": true,
+        "phase": "pre",
+        "score": 1.0,
+        "transcript": "then don't spill a single drop."
+      }
+    }
+  ]
+}

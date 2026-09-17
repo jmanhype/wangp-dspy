@@ -1,0 +1,93 @@
+{
+  "run_id": "lf002-two-cut-vibevoice-20260917",
+  "recipe_name": "golden_v3",
+  "audio_carrier": "native_h3",
+  "expected_cuts": 2,
+  "seed": 905,
+  "durations_s": [
+    2.3333333333333335,
+    2.3333333333333335
+  ],
+  "premise": {
+    "id": "lf-002",
+    "title": "Archive of Rain",
+    "logline": "In an archive of bottled weather, Nell brings Orin the last rain they have.",
+    "style_ref": "6604405b470e9e1179dd17d001ad8927dff6e4bf9757045738b779e38958091c",
+    "characters": [
+      {
+        "name": "Nell",
+        "sn_tag": "S1",
+        "description": "a young adult female archive courier with warm brown skin, short curly dark hair and a mustard-yellow jacket, on the LEFT holding a small glass rain jar in the warm-lit archive of bottled weather shown in the reference frame"
+      },
+      {
+        "name": "Orin",
+        "sn_tag": "S2",
+        "description": "an elderly male climate archivist with pale skin, swept-back silver hair, a clean-shaven face and a deep teal coat, on the RIGHT in the same warm-lit archive of bottled weather shown in the reference frame"
+      }
+    ]
+  },
+  "media_manifest": {
+    "premise_id": "lf-002",
+    "style_ref": "6604405b470e9e1179dd17d001ad8927dff6e4bf9757045738b779e38958091c",
+    "plates": {
+      "anchor": "assets/lf002-two-cut-20260913/plate-candidate-v1.png",
+      "Nell": "assets/lf002-two-cut-20260913/nell-reference-candidate-v1.png",
+      "Orin": "assets/lf002-two-cut-20260913/orin-reference-candidate-v1.png"
+    },
+    "audio": [
+      {
+        "path": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav",
+        "speaker": "Nell"
+      },
+      {
+        "path": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav",
+        "speaker": "Orin"
+      }
+    ]
+  },
+  "script_lines": [
+    {
+      "speaker": "Nell",
+      "text": "This is the last rain we have."
+    },
+    {
+      "speaker": "Orin",
+      "text": "Then don't spill a single drop."
+    }
+  ],
+  "audio_paths": [
+    "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/nell.prepared.wav",
+    "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.prepared.wav"
+  ],
+  "plate_paths": [
+    [
+      "assets/lf002-two-cut-20260913/plate-candidate-v1.png",
+      "assets/lf002-two-cut-20260913/orin-reference-candidate-v1.png"
+    ],
+    [
+      "assets/lf002-two-cut-20260913/plate-candidate-v1.png",
+      "assets/lf002-two-cut-20260913/nell-reference-candidate-v1.png"
+    ]
+  ],
+  "vibevoice_provenance": {
+    "schema": "wangp-dspy.vibevoice-audition-evidence/v1",
+    "evidence": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/evidence.json",
+    "report": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/rerun-after-77-report.json",
+    "repository_commit": "a86c33b3fd9101b3ff6f07e99316550c07593144",
+    "turns": [
+      {
+        "speaker": "Nell",
+        "generation_seed": 42,
+        "prepared_sha256": "ac1e4402b0720514f9ff6a7f2c1b8ed0a3791a25c6c34c45da2aaa90e9195cae",
+        "whisper_score": 0.857
+      },
+      {
+        "speaker": "Orin",
+        "generation_seed": 43,
+        "prepared_sha256": "d2c97d6f77bc7fa4a5266e9cb5898a7ad56310f186b1bc887151f39855aafed3",
+        "whisper_score": 1.0,
+        "rejected_seed_42_sha256": "3eb1bdde6b00d7919e87ed264717c75999f044f3dd1afb134b674744c32661f3"
+      }
+    ]
+  }
+}
