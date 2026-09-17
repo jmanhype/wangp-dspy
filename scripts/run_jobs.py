@@ -285,7 +285,9 @@ def build_executor(queue, host=None, pre_render=None,
         if isinstance(evidence_path, str) and evidence_path.strip():
             evidence_path = str(
                 Path(evidence_path).expanduser().resolve())
-        qc_result = run_ref2va_qc_stage(
+        else:
+            evidence_path = str(final.parent / "qc-evidence.json")
+        run_ref2va_qc_stage(
             dict(clip), judge=None,
             pre_audio_path=clip.get("audio_guide"),
             post_audio_path=str(native),
@@ -298,7 +300,7 @@ def build_executor(queue, host=None, pre_render=None,
             expected_action=clip.get("action") or clip.get("motion"),
             vision_judge=vision_judge,
             reference_image_path=clip.get("image_start"))
-        return True, qc_result.to_dict()
+        return True, evidence_path
 
     return JobExecutor(queue=queue, preflight=preflight,
                        render=render, ref2va_render=ref2va_render,

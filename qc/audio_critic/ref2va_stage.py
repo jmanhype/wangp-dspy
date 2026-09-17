@@ -42,12 +42,13 @@ class Ref2VAQCStageError(ValueError):
     """
 
     def __init__(self, message: str, *, vision_scores=None,
-                 vision_raw_response=None):
+                 vision_raw_response=None, whisper_evidence=None):
         super().__init__(message)
         self.vision_scores = dict(vision_scores or {})
         self.vision_raw_response = (
             str(vision_raw_response)
             if vision_raw_response is not None else None)
+        self.whisper_evidence = dict(whisper_evidence or {})
 
 
 _SCORE_FIELDS = ("mouth_sync", "audio_fidelity",
@@ -180,6 +181,21 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             and policy_d["discard_rendered_audio"] is not True):
         raise Ref2VAQCStageError("G4: non-Ref2VA remux lanes require discard_rendered_audio=True")
 
+    def persist_evidence(whisper_payload, vision_payload=None) -> None:
+        if not evidence_path:
+            return
+        try:
+            p = Path(evidence_path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(json.dumps(
+                {"whisper_gates": whisper_payload,
+                 "vision_judge": vision_payload},
+                indent=2, sort_keys=True) + "\n")
+        except OSError as exc:
+            raise Ref2VAQCStageError(
+                f"evidence_path: unable to persist Whisper evidence: {exc}"
+            ) from exc
+
     whisper_requested = any(x is not None for x in (
         pre_audio_path, post_audio_path, intended_text,
         whisper_transcriber))
@@ -191,15 +207,31 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 "post_audio_path, and intended_text")
         if Path(pre_audio_path).resolve() == Path(post_audio_path).resolve():
             raise Ref2VAQCStageError("post Whisper must read native render, not the input guide")
+        whisper_evidence = None
         try:
             pre = run_whisper_gate(
                 pre_audio_path, intended_text, transcriber=whisper_transcriber,
                 phase="pre", pass_bar=whisper_pass_bar)
+        except WhisperGateError as exc:
+            partial = None
+            if exc.evidence is not None:
+                partial = exc.evidence.to_dict()
+            persist_evidence({"pre": partial, "post": None})
+            raise Ref2VAQCStageError(
+                str(exc), whisper_evidence={
+                    "pre": partial, "post": None}) from exc
+        try:
             post = run_whisper_gate(
                 post_audio_path, intended_text, transcriber=whisper_transcriber,
                 phase="post", pass_bar=whisper_pass_bar)
         except WhisperGateError as exc:
-            raise Ref2VAQCStageError(str(exc)) from exc
+            partial = None
+            if exc.evidence is not None:
+                partial = exc.evidence.to_dict()
+            whisper_evidence = {"pre": pre.to_dict(), "post": partial}
+            persist_evidence(whisper_evidence)
+            raise Ref2VAQCStageError(
+                str(exc), whisper_evidence=whisper_evidence) from exc
         whisper_evidence = {"pre": pre.to_dict(), "post": post.to_dict()}
 
     vision_requested = any(x is not None for x in (
@@ -216,9 +248,11 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 pass_bar=vision_pass_bar,
                 reference_image_path=reference_image_path).to_dict()
         except VisionJudgeError as exc:
+            persist_evidence(whisper_evidence)
             raise Ref2VAQCStageError(
                 str(exc), vision_scores=getattr(exc, "scores", None),
                 vision_raw_response=getattr(exc, "raw_response", None),
+                whisper_evidence=whisper_evidence,
             ) from exc
 
     if judge is None:
@@ -238,14 +272,5 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                                vision_judge=vision_evidence, **scores)
         except AudioDataPlaneError as e:
             raise Ref2VAQCStageError(f"judge scores out of range: {e}") from e
-    if evidence_path:
-        try:
-            p = Path(evidence_path)
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(json.dumps({"whisper_gates": whisper_evidence,
-                                     "vision_judge": vision_evidence},
-                                    indent=2, sort_keys=True) + "\n")
-        except OSError as exc:
-            raise Ref2VAQCStageError(
-                f"evidence_path: unable to persist Whisper evidence: {exc}") from exc
+    persist_evidence(whisper_evidence, vision_evidence)
     return qc

@@ -1,0 +1,38 @@
+{
+  "schema": "wangp-dspy.ref2va-whisper-rejection-evidence/v1",
+  "run_id": "lf002-two-cut-vibevoice-20260917",
+  "status": "render_complete_post_whisper_rejected",
+  "repository_commit": "5a312566e81985027399e39d7df9f21bc342a77d",
+  "queue_job_id": "job-1789655627023-7fac1cf0",
+  "dependent_job_id": "job-1789655627026-4229c19e",
+  "dependent_state_after_failure": "pending",
+  "render": {
+    "model_type": "minimax_h3_ref2va_pruned",
+    "recipe_name": "golden_v3",
+    "seed": 905,
+    "video_length": 56,
+    "duration_s": 2.3333333333333335,
+    "denoise_steps_complete": 20,
+    "wangp_queue_runtime_s": 1141,
+    "native_av_preserved": true,
+    "raw_sha256": "fab8acb2ce4cf55b4dbcd0272983fefc4347a6fb98fe03bc78ac73a24299d62c",
+    "remux_sha256": "fab8acb2ce4cf55b4dbcd0272983fefc4347a6fb98fe03bc78ac73a24299d62c"
+  },
+  "post_whisper": {
+    "intended_text": "This is the last rain we have.",
+    "transcript": "This is the last great land we have to.",
+    "score": 0.571,
+    "pass_bar": 0.6,
+    "passed": false
+  },
+  "artifacts": {
+    "video": "remux.mp4",
+    "render_log": "render.log",
+    "settings": "settings.json",
+    "host_settings": "wgp-settings.json",
+    "runtime_evidence": "runtime-evidence.json",
+    "conditioning_evidence": "conditioning-evidence.json",
+    "transcript_file": "post-whisper-small.txt"
+  },
+  "interpretation": "WanGP accepted image_start, both image references, the 56-frame contract, and the VibeVoice guide. It completed denoising and native A/V decode. The failure is scored native post-Whisper drift, not a backend conditioning or duration rejection."
+}
