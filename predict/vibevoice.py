@@ -327,6 +327,40 @@ def _prepared_path(output: Path) -> Path:
     return output.with_suffix(".prepared.wav")
 
 
+def _attempt_paths(output: Path, attempt_index: int) -> tuple[Path, Path, Path]:
+    raw = output.with_name(f"{output.stem}.attempt-{attempt_index}.wav")
+    prepared = raw.with_suffix(".prepared.wav")
+    provenance = raw.with_name(raw.name + ".vibevoice.json")
+    return raw, prepared, provenance
+
+
+def _generation_seed(manifest: VibeVoiceManifest, attempt_index: int) -> int:
+    return manifest.seed + attempt_index - 1
+
+
+def _validate_seed_retries(value: int) -> None:
+    if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 10:
+        raise VibeVoiceError("seed_retries: integer from 0 through 10 required")
+
+
+def _validate_attempt_namespaces(
+        manifest: VibeVoiceManifest, seed_retries: int) -> None:
+    paths = []
+    for turn in manifest.turns:
+        paths.extend((turn.output, _prepared_path(turn.output),
+                      _provenance_path(turn.output)))
+        for attempt_index in range(1, seed_retries + 2):
+            paths.extend(_attempt_paths(turn.output, attempt_index))
+    seen = {}
+    for path in paths:
+        normalized = str(path)
+        if normalized in seen:
+            raise VibeVoiceError(
+                "turn outputs and seed-retry evidence paths must be unique: "
+                f"{normalized}")
+        seen[normalized] = True
+
+
 def _base_provenance(
     manifest: VibeVoiceManifest, turn: VibeVoiceTurn, backend_kind: str
 ) -> dict:
@@ -450,6 +484,73 @@ def _pending_record(turn: VibeVoiceTurn) -> dict:
     }
 
 
+def _load_or_prepare_turn(
+    *,
+    manifest: VibeVoiceManifest,
+    turn: VibeVoiceTurn,
+    backend_kind: str,
+    provenance: dict,
+    prepared: Path,
+    preparation_runner: Callable[[Sequence[str]], object],
+) -> tuple[dict, dict]:
+    if prepared.is_file():
+        provenance = _read_json_object(
+            _provenance_path(turn.output), "provenance")
+        preparation = provenance.get("preparation")
+        if not isinstance(preparation, dict):
+            raise VibeVoiceError(
+                f"prepared output lacks preparation provenance: {prepared}")
+        _validate_provenance(
+            manifest, turn, backend_kind, provenance, require_prepared=True)
+        return provenance, preparation
+    try:
+        prepared_audio = prepare_turn_audio(
+            str(turn.output), str(prepared), speaker_id=turn.speaker,
+            target_duration_s=turn.target_duration_s,
+            runner=preparation_runner)
+    except AudioPreparationError as exc:
+        raise VibeVoiceError(f"audio preparation failed: {exc}") from exc
+    preparation = prepared_audio.to_dict()
+    provenance.update({
+        "preparation": preparation,
+        "prepared_sha256": _sha256(prepared),
+    })
+    _write_json(_provenance_path(turn.output), provenance)
+    return provenance, preparation
+
+
+def _gate_payload(exc: Exception, prepared: Path, turn: VibeVoiceTurn) -> dict:
+    evidence = exc.evidence if isinstance(exc, WhisperGateError) else None
+    if evidence is None:
+        return {
+            "phase": "pre",
+            "audio_path": str(prepared),
+            "intended_text": turn.text,
+            "passed": False,
+            "error": str(exc),
+        }
+    return evidence.to_dict()
+
+
+def _retry_audit_from_provenance(
+        provenance: Mapping, manifest: VibeVoiceManifest) -> dict:
+    generation_seed = provenance.get("generation_seed", manifest.seed)
+    attempt_index = provenance.get("attempt_index", 1)
+    attempt_count = provenance.get("attempt_count", attempt_index)
+    seed_rejections = provenance.get("seed_rejections", [])
+    if (isinstance(generation_seed, bool) or not isinstance(generation_seed, int)
+            or isinstance(attempt_index, bool) or not isinstance(attempt_index, int)
+            or isinstance(attempt_count, bool) or not isinstance(attempt_count, int)
+            or not isinstance(seed_rejections, list)):
+        raise VibeVoiceError("provenance retry audit is invalid")
+    return {
+        "generation_seed": generation_seed,
+        "attempt_index": attempt_index,
+        "attempt_count": attempt_count,
+        "seed_rejections": seed_rejections,
+    }
+
+
 def supply_vibevoice_turns(
     manifest: VibeVoiceManifest,
     *,
@@ -459,15 +560,19 @@ def supply_vibevoice_turns(
     report_path: str | Path,
     resume: bool = False,
     pass_bar: float = 0.5,
+    seed_retries: int = 2,
 ) -> dict:
     """Generate, prepare, and pre-gate each turn through injected seams."""
+    _validate_seed_retries(seed_retries)
     backend_kind = _preflight(manifest, backend, transcriber, preparation_runner)
+    _validate_attempt_namespaces(manifest, seed_retries)
     report_destination = Path(report_path)
     records = [_pending_record(turn) for turn in manifest.turns]
     resumed_count = 0
 
     for index, turn in enumerate(manifest.turns):
         record = records[index]
+        seed_rejections = []
         provenance_path = _provenance_path(turn.output)
         prepared = _prepared_path(turn.output)
         try:
@@ -481,14 +586,65 @@ def supply_vibevoice_turns(
                     manifest, turn, backend_kind, provenance,
                     require_prepared=prepared.is_file())
                 resumed_count += 1
-            else:
-                if provenance_path.exists():
+
+            if turn.output.exists() and resume:
+                provenance, preparation = _load_or_prepare_turn(
+                    manifest=manifest, turn=turn, backend_kind=backend_kind,
+                    provenance=provenance, prepared=prepared,
+                    preparation_runner=preparation_runner)
+                try:
+                    gate = run_whisper_gate(
+                        str(prepared), turn.text, transcriber=transcriber,
+                        phase="pre", pass_bar=pass_bar)
+                except Exception as exc:
+                    gate_payload = _gate_payload(exc, prepared, turn)
+                    record.update({
+                        "status": "pre_gate_failed",
+                        "prepared_path": str(prepared),
+                        "provenance_path": str(provenance_path),
+                        "prepared_sha256": provenance["prepared_sha256"],
+                        "preparation": preparation,
+                        "whisper_gate": gate_payload,
+                    })
+                    _write_json(report_destination, _report(
+                        manifest, records, status="failed", error=str(exc)))
+                    raise VibeVoiceError(str(exc)) from exc
+                record.update({
+                    "status": "complete",
+                    "provenance_path": str(provenance_path),
+                    "prepared_path": preparation["output_path"],
+                    "prepared_sha256": provenance["prepared_sha256"],
+                    "preparation": preparation,
+                    "whisper_gate": gate.to_dict(),
+                    **_retry_audit_from_provenance(provenance, manifest),
+                })
+                _write_json(report_destination, _report(
+                    manifest, records, status="in_progress",
+                    resumed_turn_count=resumed_count))
+                continue
+
+            if provenance_path.exists():
+                raise VibeVoiceError(
+                    f"orphan provenance exists without output: {provenance_path}")
+            for attempt_index in range(1, seed_retries + 2):
+                preserved_raw, preserved_prepared, preserved_provenance = (
+                    _attempt_paths(turn.output, attempt_index))
+                if any(path.exists() for path in (
+                        preserved_raw, preserved_prepared, preserved_provenance)):
                     raise VibeVoiceError(
-                        f"orphan provenance exists without output: {provenance_path}")
+                        "existing seed-retry evidence requires a fresh run: "
+                        f"{preserved_raw}")
+                generation_seed = _generation_seed(manifest, attempt_index)
                 turn.output.parent.mkdir(parents=True, exist_ok=True)
                 try:
-                    backend.generate(turn, turn.output, manifest.seed)
+                    backend.generate(turn, turn.output, generation_seed)
                 except Exception as exc:
+                    record.update({
+                        "status": "generation_failed",
+                        "generation_seed": generation_seed,
+                        "attempt_index": attempt_index,
+                        "seed_rejections": seed_rejections,
+                    })
                     raise VibeVoiceError(
                         f"generation failed for {turn.output}: {exc}") from exc
                 if not turn.output.is_file():
@@ -498,81 +654,114 @@ def supply_vibevoice_turns(
                 provenance.update({
                     "voice_reference_sha256": _sha256(turn.voice_reference),
                     "output_sha256": _sha256(turn.output),
+                    "generation_seed": generation_seed,
+                    "attempt_index": attempt_index,
                 })
                 _write_json(provenance_path, provenance)
+                provenance, preparation = _load_or_prepare_turn(
+                    manifest=manifest, turn=turn, backend_kind=backend_kind,
+                    provenance=provenance, prepared=prepared,
+                    preparation_runner=preparation_runner)
 
-            if prepared.is_file():
-                provenance = _read_json_object(provenance_path, "provenance")
-                preparation = provenance.get("preparation")
-                if not isinstance(preparation, dict):
-                    raise VibeVoiceError(
-                        f"prepared output lacks preparation provenance: {prepared}")
-                _validate_provenance(
-                    manifest, turn, backend_kind, provenance, require_prepared=True)
-            else:
                 try:
-                    prepared_audio = prepare_turn_audio(
-                        str(turn.output),
-                        str(prepared),
-                        speaker_id=turn.speaker,
-                        target_duration_s=turn.target_duration_s,
-                        runner=preparation_runner,
-                    )
-                except AudioPreparationError as exc:
-                    raise VibeVoiceError(f"audio preparation failed: {exc}") from exc
-                preparation = prepared_audio.to_dict()
-                provenance.update({
-                    "preparation": preparation,
-                    "prepared_sha256": _sha256(prepared),
-                })
-                _write_json(provenance_path, provenance)
+                    gate = run_whisper_gate(
+                        str(prepared), turn.text, transcriber=transcriber,
+                        phase="pre", pass_bar=pass_bar)
+                except Exception as exc:
+                    gate_payload = _gate_payload(exc, prepared, turn)
+                    rejection = {
+                        "attempt_index": attempt_index,
+                        "generation_seed": generation_seed,
+                        "output_path": str(turn.output),
+                        "prepared_path": str(prepared),
+                        "provenance_path": str(provenance_path),
+                        "prepared_sha256": provenance["prepared_sha256"],
+                        "preparation": preparation,
+                        "whisper_gate": gate_payload,
+                    }
+                    record.update({
+                        "status": "pre_gate_failed",
+                        "prepared_path": str(prepared),
+                        "provenance_path": str(provenance_path),
+                        "prepared_sha256": provenance["prepared_sha256"],
+                        "preparation": preparation,
+                        "whisper_gate": gate_payload,
+                        "generation_seed": generation_seed,
+                        "attempt_index": attempt_index,
+                        "seed_rejections": [*seed_rejections, rejection],
+                    })
+                    _write_json(report_destination, _report(
+                        manifest, records, status="failed", error=str(exc)))
+                    scored = (isinstance(exc, WhisperGateError)
+                              and exc.evidence is not None)
+                    if not scored or attempt_index > seed_retries:
+                        if scored:
+                            provenance.update({
+                                "attempt_count": attempt_index,
+                                "seed_rejections": [*seed_rejections, rejection],
+                            })
+                            _write_json(provenance_path, provenance)
+                        raise VibeVoiceError(str(exc)) from exc
 
-            try:
-                gate = run_whisper_gate(
-                    str(prepared),
-                    turn.text,
-                    transcriber=transcriber,
-                    phase="pre",
-                    pass_bar=pass_bar,
-                )
-            except Exception as exc:
-                evidence = exc.evidence if isinstance(exc, WhisperGateError) else None
+                    rejection.update({
+                        "output_path": str(preserved_raw),
+                        "prepared_path": str(preserved_prepared),
+                        "provenance_path": str(preserved_provenance),
+                        "preparation": dict(preparation,
+                            source_path=str(preserved_raw),
+                            output_path=str(preserved_prepared)),
+                        "whisper_gate": dict(gate_payload,
+                            audio_path=str(preserved_prepared)),
+                    })
+                    provenance.update({
+                        "attempt_count": attempt_index,
+                        "seed_rejections": [*seed_rejections, rejection],
+                        "output": str(preserved_raw),
+                        "prepared_path": str(preserved_prepared),
+                        "preparation": dict(preparation,
+                            source_path=str(preserved_raw),
+                            output_path=str(preserved_prepared)),
+                    })
+                    _write_json(provenance_path, provenance)
+                    os.replace(turn.output, preserved_raw)
+                    os.replace(prepared, preserved_prepared)
+                    os.replace(provenance_path, preserved_provenance)
+                    seed_rejections = list(record["seed_rejections"])
+                    _write_json(report_destination, _report(
+                        manifest, records, status="failed", error=str(exc)))
+                    record.clear()
+                    record.update(_pending_record(turn))
+                    continue
+
+                if attempt_index > 1:
+                    provenance.update({
+                        "attempt_count": attempt_index,
+                        "seed_rejections": seed_rejections,
+                    })
+                    _write_json(provenance_path, provenance)
                 record.update({
-                    "status": "pre_gate_failed",
-                    "prepared_path": str(prepared),
+                    "status": "complete",
                     "provenance_path": str(provenance_path),
+                    "prepared_path": preparation["output_path"],
                     "prepared_sha256": provenance["prepared_sha256"],
                     "preparation": preparation,
-                    "whisper_gate": evidence.to_dict() if evidence is not None else {
-                        "phase": "pre",
-                        "audio_path": str(prepared),
-                        "intended_text": turn.text,
-                        "passed": False,
-                        "error": str(exc),
-                    },
+                    "whisper_gate": gate.to_dict(),
+                    "generation_seed": generation_seed,
+                    "attempt_index": attempt_index,
+                    "seed_rejections": seed_rejections,
                 })
-                failed = _report(
-                    manifest, records, status="failed", error=str(exc))
-                _write_json(report_destination, failed)
-                raise VibeVoiceError(str(exc)) from exc
-
-            record.update({
-                "status": "complete",
-                "provenance_path": str(provenance_path),
-                "prepared_path": preparation["output_path"],
-                "prepared_sha256": provenance["prepared_sha256"],
-                "preparation": preparation,
-                "whisper_gate": gate.to_dict(),
-            })
-            _write_json(report_destination, _report(
-                manifest, records, status="in_progress",
-                resumed_turn_count=resumed_count))
+                _write_json(report_destination, _report(
+                    manifest, records, status="in_progress",
+                    resumed_turn_count=resumed_count))
+                break
         except Exception as exc:
             if record.get("status") == "pre_gate_failed":
                 raise
             error = str(exc) or exc.__class__.__name__
             if record.get("status") == "pending":
                 record["status"] = "generation_failed"
+                if seed_rejections:
+                    record["seed_rejections"] = seed_rejections
             _write_json(report_destination, _report(
                 manifest, records, status="failed", error=error,
                 resumed_turn_count=resumed_count))
@@ -591,6 +780,7 @@ def supply_vibevoice_turns_remote(
     host_model: str, report_path: str | Path, preparation_runner,
     timeout: float = 1800, pass_bar: float = 0.5,
     whisper_model: str = "small",
+    seed_retries: int = 2,
     gpu_lease=None, manage_gpu: bool = True,
 ) -> dict:
     """Stage, execute the repo module, and verify a fresh host supply run.
@@ -603,6 +793,8 @@ def supply_vibevoice_turns_remote(
     tests; manage_gpu=False is only for an externally managed dedicated GPU.
     """
     validate_voice_references(manifest, runner=preparation_runner)
+    _validate_seed_retries(seed_retries)
+    _validate_attempt_namespaces(manifest, seed_retries)
     if not math.isfinite(timeout) or timeout <= 0:
         raise VibeVoiceError("remote timeout must be finite and positive")
     if not math.isfinite(pass_bar) or not 0 <= pass_bar <= 1:
@@ -622,6 +814,9 @@ def supply_vibevoice_turns_remote(
     remote_evidence = destination.with_name(destination.name + ".remote.json")
     outputs = [p for t in manifest.turns
                for p in (t.output, _prepared_path(t.output), _provenance_path(t.output))]
+    outputs.extend(path for t in manifest.turns
+                   for attempt in range(1, seed_retries + 2)
+                   for path in _attempt_paths(t.output, attempt))
     if any(p.exists() for p in [destination, remote_evidence, *outputs]):
         raise VibeVoiceError("remote supply requires new local output/report paths")
     run_root = manifest.source_path.parent / (".vibevoice-" + uuid.uuid4().hex)
@@ -651,6 +846,7 @@ def supply_vibevoice_turns_remote(
     command = [
         host_python, "-m", "predict.vibevoice", str(remote_manifest_path),
         "--report", str(remote_report_path), "--pass-bar", str(pass_bar),
+        "--seed-retries", str(seed_retries),
         "--whisper-model", whisper_model, "--whisper-output-dir",
         str(Path(host_root) / "whisper"),
     ]
@@ -698,9 +894,22 @@ def supply_vibevoice_turns_remote(
             raise VibeVoiceError("host report turn count mismatch")
         statuses = [r.get("status") if isinstance(r, dict) else None for r in records]
         completed_count = statuses.count("complete")
-        wanted_statuses = (["complete"] * completed_count + ["pre_gate_failed"]
-                           + ["pending"] * (len(records) - completed_count - 1)
-                           if rejected else ["complete"] * len(records))
+        if rejected:
+            terminal = records[completed_count] if completed_count < len(records) else {}
+            terminal_status = terminal.get("status")
+            prior_rejections = terminal.get("seed_rejections")
+            terminal_ok = (
+                terminal_status == "pre_gate_failed"
+                or (terminal_status == "generation_failed"
+                    and isinstance(prior_rejections, list) and prior_rejections))
+            if not terminal_ok:
+                raise VibeVoiceError(
+                    "host failed run must end with scored gate or retry evidence")
+            wanted_statuses = (
+                ["complete"] * completed_count + [terminal_status]
+                + ["pending"] * (len(records) - completed_count - 1))
+        else:
+            wanted_statuses = ["complete"] * len(records)
         if statuses != wanted_statuses or report.get("completed_turn_count") != completed_count:
             raise VibeVoiceError("host report turn status/count mismatch")
         staged = []
@@ -719,29 +928,162 @@ def supply_vibevoice_turns_remote(
             if not isinstance(record, dict):
                 raise VibeVoiceError("invalid host turn record")
             gate_passed = record["status"] == "complete"
-            for field, wanted in {**_pending_record(remote_turn), "status": record["status"],
-                                  "prepared_path": str(_prepared_path(remote_turn.output)),
-                                  "provenance_path": str(_provenance_path(remote_turn.output))}.items():
+            generation_failed = record["status"] == "generation_failed"
+            expected_fields = {**_pending_record(remote_turn), "status": record["status"]}
+            if not generation_failed:
+                expected_fields.update({
+                    "prepared_path": str(_prepared_path(remote_turn.output)),
+                    "provenance_path": str(_provenance_path(remote_turn.output)),
+                })
+            for field, wanted in expected_fields.items():
                 if record.get(field) != wanted:
                     raise VibeVoiceError(f"host turn {field} mismatch")
             gate = record.get("whisper_gate")
-            if (not isinstance(gate, dict) or gate.get("passed") is not gate_passed
+            if generation_failed:
+                if gate is not None:
+                    raise VibeVoiceError("host generation failure must not invent gate evidence")
+            elif (not isinstance(gate, dict) or gate.get("passed") is not gate_passed
                     or gate.get("phase") != "pre" or gate.get("intended_text") != local_turn.text
                     or gate.get("audio_path") != str(_prepared_path(remote_turn.output))):
                 raise VibeVoiceError("host turn pre-gate missing or invalid")
-            try:
-                checked_gate = run_whisper_gate(
-                    gate["audio_path"], local_turn.text,
-                    transcriber=lambda _: gate.get("transcript"), phase="pre",
-                    pass_bar=pass_bar).to_dict()
-            except WhisperGateError as exc:
-                if gate_passed or exc.evidence is None:
+            if not generation_failed:
+                try:
+                    checked_gate = run_whisper_gate(
+                        gate["audio_path"], local_turn.text,
+                        transcriber=lambda _: gate.get("transcript"), phase="pre",
+                        pass_bar=pass_bar).to_dict()
+                except WhisperGateError as exc:
+                    if gate_passed or exc.evidence is None:
+                        raise VibeVoiceError(
+                            "host turn transcript evidence invalid") from exc
+                    checked_gate = exc.evidence.to_dict()
+                except Exception as exc:
                     raise VibeVoiceError("host turn transcript evidence invalid") from exc
-                checked_gate = exc.evidence.to_dict()
-            except Exception as exc:
-                raise VibeVoiceError("host turn transcript evidence invalid") from exc
-            if gate != checked_gate:
-                raise VibeVoiceError("host turn gate evidence mismatch")
+                if gate != checked_gate:
+                    raise VibeVoiceError("host turn gate evidence mismatch")
+            raw_rejections = record.get("seed_rejections")
+            if not isinstance(raw_rejections, list):
+                raise VibeVoiceError("host turn seed rejection evidence missing")
+            if generation_failed and not raw_rejections:
+                raise VibeVoiceError("host generation failure lacks prior retry evidence")
+            pre_gate_failed = record["status"] == "pre_gate_failed"
+            final_attempt_index = (
+                len(raw_rejections) if pre_gate_failed else len(raw_rejections) + 1)
+            if record.get("attempt_index") != final_attempt_index:
+                raise VibeVoiceError("host turn attempt index mismatch")
+            if record.get("generation_seed") != _generation_seed(
+                    remote_manifest, final_attempt_index):
+                raise VibeVoiceError("host turn generation seed mismatch")
+            localized_rejections = []
+            for rejection_index, rejection in enumerate(raw_rejections, start=1):
+                if not isinstance(rejection, dict):
+                    raise VibeVoiceError("host seed rejection evidence invalid")
+                final_failed_rejection = (
+                    pre_gate_failed and rejection_index == len(raw_rejections))
+                if final_failed_rejection:
+                    remote_attempt_raw = remote_turn.output
+                    remote_attempt_prepared = _prepared_path(remote_turn.output)
+                    remote_attempt_provenance = _provenance_path(remote_turn.output)
+                else:
+                    (remote_attempt_raw, remote_attempt_prepared,
+                     remote_attempt_provenance) = _attempt_paths(
+                        remote_turn.output, rejection_index)
+                expected_seed = _generation_seed(remote_manifest, rejection_index)
+                if (rejection.get("attempt_index") != rejection_index
+                        or rejection.get("generation_seed") != expected_seed
+                        or rejection.get("output_path") != str(remote_attempt_raw)
+                        or rejection.get("prepared_path") != str(remote_attempt_prepared)
+                        or rejection.get("provenance_path") != str(
+                            remote_attempt_provenance)):
+                    raise VibeVoiceError("host seed rejection path or seed mismatch")
+                rejection_gate = rejection.get("whisper_gate")
+                if (not isinstance(rejection_gate, dict)
+                        or rejection_gate.get("passed") is not False
+                        or rejection_gate.get("phase") != "pre"
+                        or rejection_gate.get("intended_text") != local_turn.text
+                        or rejection_gate.get("audio_path") != str(
+                            remote_attempt_prepared)):
+                    raise VibeVoiceError("host seed rejection gate invalid")
+                if final_failed_rejection and rejection_gate != gate:
+                    raise VibeVoiceError("host final rejection gate mismatch")
+
+                if final_failed_rejection:
+                    local_attempt_raw = local_turn.output
+                    local_attempt_prepared = _prepared_path(local_turn.output)
+                    local_attempt_provenance = _provenance_path(local_turn.output)
+                else:
+                    local_attempt_raw, local_attempt_prepared, local_attempt_provenance = (
+                        _attempt_paths(local_turn.output, rejection_index))
+                localized_preparation = rejection.get("preparation")
+                if not isinstance(localized_preparation, dict):
+                    raise VibeVoiceError("host seed rejection preparation missing")
+                localized_preparation = dict(localized_preparation,
+                    source_path=str(local_attempt_raw),
+                    output_path=str(local_attempt_prepared))
+                localized_rejections.append(dict(rejection,
+                    output_path=str(local_attempt_raw),
+                    prepared_path=str(local_attempt_prepared),
+                    provenance_path=str(local_attempt_provenance),
+                    preparation=localized_preparation,
+                    whisper_gate=dict(rejection_gate, audio_path=str(
+                        local_attempt_prepared))))
+
+                if final_failed_rejection:
+                    continue
+                attempt_raw = scratch / f"{local_turn.turn_index}.attempt-{rejection_index}.wav"
+                attempt_prepared = _prepared_path(attempt_raw)
+                attempt_provenance = _provenance_path(attempt_raw)
+                fetch(remote_attempt_raw, attempt_raw)
+                fetch(remote_attempt_prepared, attempt_prepared)
+                fetch(remote_attempt_provenance, attempt_provenance)
+                if rejected:
+                    original_attempt_provenance = scratch / (
+                        f"{local_turn.turn_index}.attempt-{rejection_index}.remote.json")
+                    original_attempt_provenance.write_bytes(
+                        attempt_provenance.read_bytes())
+                    staged.append((original_attempt_provenance, rejected_root / (
+                        remote_attempt_raw.name + ".provenance.remote.json")))
+                attempt_provenance_data = _read_json_object(
+                    attempt_provenance, "host attempt provenance")
+                attempt_base = _base_provenance(
+                    remote_manifest, remote_turn, VibeVoiceBackend.backend_kind)
+                attempt_base.update({
+                    "output": str(remote_attempt_raw),
+                    "prepared_path": str(remote_attempt_prepared),
+                })
+                for field, wanted in attempt_base.items():
+                    if attempt_provenance_data.get(field) != wanted:
+                        raise VibeVoiceError(
+                            f"host attempt provenance {field} mismatch")
+                if (attempt_provenance_data.get("generation_seed") != expected_seed
+                        or attempt_provenance_data.get("attempt_index") != rejection_index):
+                    raise VibeVoiceError("host attempt seed provenance mismatch")
+                for field, path in (
+                        ("voice_reference_sha256", local_turn.voice_reference),
+                        ("output_sha256", attempt_raw),
+                        ("prepared_sha256", attempt_prepared)):
+                    if attempt_provenance_data.get(field) != _sha256(path):
+                        raise VibeVoiceError("host attempt provenance hash mismatch")
+                attempt_preparation = attempt_provenance_data.get("preparation")
+                if (not isinstance(attempt_preparation, dict)
+                        or rejection.get("preparation") != attempt_preparation):
+                    raise VibeVoiceError("host attempt preparation mismatch")
+                attempt_provenance_data["preparation"] = localized_preparation
+                attempt_provenance_data.update(_base_provenance(
+                    manifest, local_turn, VibeVoiceBackend.backend_kind))
+                attempt_provenance_data["output"] = str(local_attempt_raw)
+                attempt_provenance_data["prepared_path"] = str(local_attempt_prepared)
+                attempt_provenance_data["seed_rejections"] = localized_rejections[:-1]
+                _write_json(attempt_provenance, attempt_provenance_data)
+                staged.extend((
+                    (attempt_raw, local_attempt_raw),
+                    (attempt_prepared, local_attempt_prepared),
+                    (attempt_provenance, local_attempt_provenance)))
+            if generation_failed:
+                local_records.append(dict(record,
+                    output_path=str(local_turn.output),
+                    seed_rejections=localized_rejections))
+                continue
             raw = scratch / f"{local_turn.turn_index}.wav"
             prepared = _prepared_path(raw)
             provenance_file = _provenance_path(raw)
@@ -782,6 +1124,7 @@ def supply_vibevoice_turns_remote(
                                (remote_turn.output.name + ".provenance.remote.json")))
             provenance.update(_base_provenance(manifest, local_turn, VibeVoiceBackend.backend_kind))
             provenance["preparation"] = preparation
+            provenance["seed_rejections"] = localized_rejections
             provenance["remote_execution"] = {
                 "model": host_model, "repo": host_repo, "python": host_python,
                 "manifest": str(remote_manifest_path),
@@ -790,7 +1133,8 @@ def supply_vibevoice_turns_remote(
             local_records.append(dict(record, output_path=str(local_turn.output),
                 prepared_path=str(_prepared_path(local_turn.output)),
                 provenance_path=str(_provenance_path(local_turn.output)), preparation=preparation,
-                whisper_gate=dict(gate, audio_path=str(_prepared_path(local_turn.output)))))
+                whisper_gate=dict(gate, audio_path=str(_prepared_path(local_turn.output))),
+                seed_rejections=localized_rejections))
             staged.extend(((raw, local_turn.output), (prepared, _prepared_path(local_turn.output)),
                            (provenance_file, _provenance_path(local_turn.output))))
         if rejected:
@@ -917,6 +1261,12 @@ def main(
         help="Whisper pre-gate minimum score (default: 0.5)",
     )
     parser.add_argument(
+        "--seed-retries",
+        type=int,
+        default=2,
+        help="scored pre-gate seed retries; each retry bumps the seed by one",
+    )
+    parser.add_argument(
         "--whisper-model",
         default="small",
         help="local Whisper model for the required pre-gate (default: small)",
@@ -927,6 +1277,7 @@ def main(
         help="isolated local Whisper transcript directory",
     )
     args = parser.parse_args(argv)
+    _validate_seed_retries(args.seed_retries)
     manifest = load_vibevoice_manifest(args.manifest)
     report_path = (
         Path(args.report)
@@ -966,6 +1317,7 @@ def main(
             report_path=report_path, preparation_runner=preparation_runner,
             timeout=args.remote_timeout, pass_bar=args.pass_bar,
             whisper_model=args.whisper_model, gpu_lease=gpu_lease,
+            seed_retries=args.seed_retries,
             manage_gpu=args.remote_gpu_lease == "judge")
         print(json.dumps(report, sort_keys=True))
         return 0
@@ -981,6 +1333,7 @@ def main(
         report_path=report_path,
         resume=args.resume,
         pass_bar=args.pass_bar,
+        seed_retries=args.seed_retries,
     )
     print(json.dumps(report, sort_keys=True))
     return 0
