@@ -696,6 +696,16 @@ class SupplyHost:
 
     def run_argv(self, argv, *, cwd, timeout):
         self.calls.append(("run_argv", argv))
+        if argv[:2] == ["/host/python", "-I"]:
+            if self.defect == "environment_probe_failed":
+                return SimpleNamespace(
+                    returncode=1, stdout="", stderr="bad host python")
+            return SimpleNamespace(returncode=0, stderr="", stdout=json.dumps({
+                "resolved_python": "/resolved/python",
+                "python_implementation": "TestPython",
+                "python_version": "9.8.7",
+                "platform": "test-platform",
+            }))
         if self.defect == "raised_run":
             raise RuntimeError("transport failed")
         assert argv[:3] == ["/host/python", "-m", "predict.vibevoice"]
@@ -705,6 +715,9 @@ class SupplyHost:
         backend.backend_kind = VibeVoiceBackend.backend_kind
         texts = {str(t.output.with_suffix(".prepared.wav")): t.text for t in manifest.turns}
         report_path = Path(argv[argv.index("--report") + 1])
+        if self.defect == "pre_report_crash":
+            return SimpleNamespace(
+                returncode=1, stdout="", stderr="Unrecognized processing class")
         if self.defect and self.defect.startswith("rejected"):
             failed_index = 0 if self.defect == "rejected_first" else 1
             texts[str(manifest.turns[failed_index].output.with_suffix(".prepared.wav"))] = "unrelated words"
@@ -806,20 +819,58 @@ def test_remote_supply_stages_executes_and_fetches_only_through_host(tmp_path):
     assert report["status"] == "complete"
     assert Path(report["remote_report_path"]).is_file()
     assert len([c for c in host.calls if c[0] == "push_asset"]) == 2
-    assert len([c for c in host.calls if c[0] == "run_argv"]) == 1
-    remote_argv = next(c[1] for c in host.calls if c[0] == "run_argv")
+    assert len([c for c in host.calls if c[0] == "run_argv"]) == 2
+    remote_argv = next(c[1] for c in host.calls
+                       if c[0] == "run_argv" and "--seed-retries" in c[1])
     assert remote_argv[remote_argv.index("--seed-retries") + 1] == "2"
     assert len([c for c in host.calls if c[0] == "fetch_file"]) == 7
     lifecycle = [c for c in host.calls if c[0] in {"run_probe", "run_argv"}]
-    assert [c[1][-1] for c in lifecycle[:2]] == ["stop", "3"]
-    assert lifecycle[2][0] == "run_argv"
-    assert lifecycle[3][1][-1] == "start"
+    assert lifecycle[0][0] == "run_argv"
+    assert [c[1][-1] for c in lifecycle[1:3]] == ["stop", "3"]
+    assert lifecycle[3][0] == "run_argv"
+    assert lifecycle[4][1][-1] == "start"
     for turn, record in zip(manifest.turns, report["turns"]):
         assert Path(record["prepared_path"]).is_file()
         assert record["prepared_sha256"] == hashlib_sha256(record["prepared_path"])
         evidence = json.loads(Path(record["provenance_path"]).read_text())
         assert evidence["voice_reference"] == str(turn.voice_reference)
         assert evidence["prepared_sha256"] == record["prepared_sha256"]
+        assert evidence["remote_execution"]["python"] == "/host/python"
+        assert evidence["remote_execution"]["resolved_python"] == "/resolved/python"
+        assert evidence["remote_execution"]["python_version"] == "9.8.7"
+    environment_path = Path(report["host_environment_path"])
+    assert environment_path.is_file()
+    environment = json.loads(environment_path.read_text())
+    assert environment["requested_python"] == "/host/python"
+    assert environment["resolved_python"] == "/resolved/python"
+    assert environment["python_version"] == "9.8.7"
+
+
+def test_remote_pre_report_crash_preserves_host_diagnostics(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path, "pre_report_crash")
+    with pytest.raises(VibeVoiceError, match="Unrecognized processing class"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)
+    evidence_path = Path(kwargs["report_path"]).with_name(
+        Path(kwargs["report_path"]).name + ".host_environment.json")
+    evidence = json.loads(evidence_path.read_text())
+    assert evidence["requested_python"] == "/host/python"
+    assert evidence["resolved_python"] == "/resolved/python"
+    assert evidence["probe"]["returncode"] == 0
+
+
+def test_remote_environment_probe_failure_is_terminal_and_evidenced(tmp_path):
+    manifest, host, kwargs = _remote_supply(tmp_path, "environment_probe_failed")
+    with pytest.raises(VibeVoiceError, match="bad host python"):
+        supply_vibevoice_turns_remote(manifest, **kwargs)
+    assert not Path(kwargs["report_path"]).exists()
+    assert not any(t.output.exists() for t in manifest.turns)
+    evidence_path = Path(kwargs["report_path"]).with_name(
+        Path(kwargs["report_path"]).name + ".host_environment.json")
+    evidence = json.loads(evidence_path.read_text())
+    assert evidence["probe"]["stderr"] == "bad host python"
+    assert "resolved_python" not in evidence
 
 
 @pytest.mark.parametrize("defect", ["missing", "bad_hash", "bad_provenance", "bad_report", "bad_gate", "failed_run"])
@@ -901,8 +952,9 @@ def test_remote_gpu_lease_order_and_fail_closed(tmp_path, failure):
         assert not any(t.output.exists() for t in manifest.turns)
         assert any(c[0] == "fetch_file" for c in host.calls) == (failure == "failed_run")
     order = [c[0] for c in host.calls if c[0] in {"acquire", "run_argv", "release"}]
-    assert order == (["acquire", "release"] if failure == "acquire"
-                     else ["acquire", "run_argv", "release"])
+    assert order == (
+        ["run_argv", "acquire", "release"] if failure == "acquire"
+        else ["run_argv", "acquire", "run_argv", "release"])
 
 
 def test_local_cli_never_uses_gpu_lease(tmp_path):
@@ -935,7 +987,9 @@ def test_default_remote_lease_rejects_judge_control_failure(tmp_path, failed_act
     with pytest.raises(VibeVoiceError, match="GPU lease .* failed"):
         supply_vibevoice_turns_remote(manifest, **kwargs)
     assert host.calls[-1][1][-1] == "start"
-    assert any(c[0] == "run_argv" for c in host.calls) == (failed_action == "start")
+    assert any(
+        c[0] == "run_argv" and c[1][1:3] == ["-m", "predict.vibevoice"]
+        for c in host.calls) == (failed_action == "start")
     assert not Path(kwargs["report_path"]).exists()
     assert not any(t.output.exists() for t in manifest.turns)
 
