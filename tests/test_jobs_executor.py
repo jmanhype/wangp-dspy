@@ -368,6 +368,40 @@ def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
     q.close()
 
 
+def test_av_sync_gate_retries_with_seed_bump_and_preserves_evidence(tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="acceptance", clips=[{
+        "clip_index": 1, "status": "rendered", "seed": 90,
+        "log": "render.log", "mp4": "cut-90.mp4", "qc_verdict": None,
+    }])
+    q.set_state(jid, "preflight")
+    q.set_state(jid, "rendering")
+    q.set_state(jid, "rendered_pending_qc")
+    q.set_state(jid, "qc")
+
+    def sync_miss(_clip):
+        raise Ref2VAQCStageError(
+            "audiovisual SyncNet gate failed",
+            av_sync_evidence={
+                "passed": False, "confidence": .2,
+                "offset_frames_25fps": 8,
+            })
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=sync_miss)
+    ex._qc_clips(q.get(jid))
+    record = q.get(jid)
+    clip = record.clips[0]
+    assert record.state == "pending"
+    assert clip["seed"] == 91
+    assert clip["av_sync_retry_count"] == 1
+    assert clip["av_sync_rejections"][0]["evidence"]["confidence"] == .2
+    assert clip["av_sync_rejections"][0]["mp4"] == "cut-90.mp4"
+    assert "av_sync gate retry 1/2" in q.attempt_history(
+        jid)[-1]["attempt_reason"]
+    q.close()
+
+
 def test_non_visual_qc_failure_does_not_seed_retry(tmp_path):
     q = JobQueue(str(tmp_path / "jobs.db"))
     jid = q.submit(plan_ref="acceptance", clips=[{

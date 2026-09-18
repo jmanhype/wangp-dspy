@@ -15,6 +15,22 @@ from scripts import run_jobs  # noqa: E402
 from services.jobs.queue import JobQueue  # noqa: E402
 
 
+def _syncnet_evidence(**overrides):
+    payload = {
+        "method": "syncnet_v2_multicrop/v1",
+        "model_sha256": (
+            "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442"),
+        "offset_frames_25fps": 0,
+        "offset_seconds": 0.0,
+        "confidence": 2.0,
+        "passed": True,
+        "phonetic_sync_verified": False,
+        "crop_results": [],
+    }
+    payload.update(overrides)
+    return payload
+
+
 class FakeHost:
     def __init__(self):
         self.calls = []
@@ -262,7 +278,9 @@ class TestRenderForJobWiring:
             vision_judge=lambda **_: {
                 "mouth_sync": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
-            })
+                "speaker_mouth_bbox": [.2, .3, .05, .05],
+            },
+            av_sync_judge=lambda **_: _syncnet_evidence())
         _native_fixture(clip)
         ok, evidence = ex.qc(clip)
         assert ok is True
@@ -272,6 +290,7 @@ class TestRenderForJobWiring:
         assert payload["whisper_gates"]["pre"]["passed"] is True
         assert payload["whisper_gates"]["post"]["phase"] == "post"
         assert payload["vision_judge"]["passed"] is True
+        assert payload["av_sync_gate"]["passed"] is True
 
     def test_ref2va_qc_wiring_rejects_missing_vision_judge(self, tmp_path):
         """A ref2va job cannot produce a ledger KEEP without visual evidence."""
@@ -331,7 +350,9 @@ class TestRenderForJobWiring:
             vision_judge=lambda **_: {
                 "mouth_sync": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
-            })
+                "speaker_mouth_bbox": [.2, .3, .05, .05],
+            },
+            av_sync_judge=lambda **_: _syncnet_evidence())
         evidence_paths = []
         for attempt in (1, 2):
             artifact_dir = tmp_path / f"render-{attempt:04d}"

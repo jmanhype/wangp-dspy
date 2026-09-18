@@ -82,7 +82,9 @@ def test_profile_golden_payload_has_no_multishot_defaults(tmp_path):
 def test_three_stills_cannot_claim_lip_sync_even_with_perfect_scores():
     from qc.audio_critic.vision_judge import run_vision_judge
     result = run_vision_judge('clip.mp4', expected_speaker='grandma', expected_action='speaks',
-        judge=lambda **kw: dict(mouth_sync=1, action_match=1, speaker_attribution=1))
+            judge=lambda **kw: dict(
+                mouth_sync=1, action_match=1, speaker_attribution=1,
+                speaker_mouth_bbox=[.2, .3, .05, .05]))
     assert result.passed
     assert result.mouth_sync is None
     assert result.av_sync_verified is False
