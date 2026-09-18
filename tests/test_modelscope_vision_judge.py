@@ -60,7 +60,9 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
             "choices": [{"message": {"content": json.dumps({
                 "mouth_sync": 0.9, "action_match": 0.8,
                 "speaker_attribution": 1.0, "notes": "identity holds",
-                "speaker_mouth_bbox": [.2, .3, .05, .05],
+                "speaker_mouth_bboxes": [
+                    [.2, .3, .05, .05], [.21, .31, .05, .05],
+                    [.2, .32, .06, .05]],
             })}}],
     })
     judge = ModelScopeVisionJudge(
@@ -88,7 +90,6 @@ def test_modelscope_judge_extracts_three_frames_and_parses_scores(
     assert "exactly one JSON object" in content[0]["text"]
     assert "spatial anchor" in content[0]["text"]
     assert "side swap" in content[0]["text"]
-    assert "speaker_mouth_bbox" in content[0]["text"]
 
 
 def test_modelscope_judge_falls_back_to_reasoning_content(
@@ -104,7 +105,9 @@ def test_modelscope_judge_falls_back_to_reasoning_content(
                 "The final score is {\"mouth_sync\": 0.7, "
                 "\"action_match\": 0.8, "
                 "\"speaker_attribution\": 0.9, "
-                "\"speaker_mouth_bbox\": [0.2, 0.3, 0.05, 0.05]}")
+                "\"speaker_mouth_bboxes\": [[0.2, 0.3, 0.05, 0.05], "
+                "[0.21, 0.31, 0.05, 0.05], "
+                "[0.2, 0.32, 0.06, 0.05]]}")
         }}],
     })
     judge = ModelScopeVisionJudge(api_key="test-key", session=session)

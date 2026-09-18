@@ -88,7 +88,8 @@ class LocalQwenVisionJudge:
               expected_action: str, reference_image_path: Optional[str] = None) -> dict:
         # Reuse the exact three-frame extraction and identity-aware prompt
         # contract; only the transport/backend differs from ModelScope.
-        frames = ModelScopeVisionJudge._extract_frames(video_path)
+        generated_frames = ModelScopeVisionJudge._extract_frames(video_path)
+        frames = list(generated_frames)
         if reference_image_path is not None:
             ref = Path(reference_image_path)
             if not ref.is_file():
@@ -100,36 +101,31 @@ class LocalQwenVisionJudge:
         for frame in frames:
             content.append({"type": "image_url", "image_url": {
                 "url": ModelScopeVisionJudge._data_url(frame)}})
-        payload = {
-            "model": self.model,
-            "messages": [{"role": "user", "content": content}],
-            "temperature": 0,
-            "max_tokens": self.max_tokens,
-            # llama-server supports the OpenAI JSON-object grammar.  This
-            # prevents a visually uncertain cut from spending its entire
-            # budget on prose before emitting the required score object.
-            "response_format": {"type": "json_object"},
-            # llama-server's Qwen chat template supports disabling the
-            # reasoning trace so the score JSON is emitted in content.
-            "chat_template_kwargs": {"enable_thinking": False},
-        }
-        remote_payload = f"/tmp/wangp-local-vision-{uuid.uuid4().hex}.json"
-        writer = getattr(self.host, "write_text", None)
-        if not callable(writer):
-            raise LocalQwenVisionJudgeError(
-                "RenderHost must expose write_text for local vision payloads")
-        try:
+        def request(content):
+            remote_payload = f"/tmp/wangp-local-vision-{uuid.uuid4().hex}.json"
+            writer = getattr(self.host, "write_text", None)
+            if not callable(writer):
+                raise LocalQwenVisionJudgeError(
+                    "RenderHost must expose write_text for local vision payloads")
             remote_payload = writer(
                 remote_payload,
-                json.dumps(payload, separators=(",", ":")))
+                json.dumps({
+                    "model": self.model,
+                    "messages": [{"role": "user", "content": content}],
+                    "temperature": 0,
+                    "max_tokens": self.max_tokens,
+                    "response_format": {"type": "json_object"},
+                    "chat_template_kwargs": {"enable_thinking": False},
+                }, separators=(",", ":")))
             rc, out, err = self.host.run_probe(
                 ["curl", "-fsS", "--max-time", str(int(self.timeout_s)),
-                 # SshHost transmits argv through the remote command line;
-                 # keep the header as one token so the space in its value is
-                 # not re-tokenized by the remote shell.
                  "-HContent-Type:application/json",
                  "--data-binary", f"@{remote_payload}", self.endpoint],
                 timeout=self.timeout_s + 30.0)
+            try:
+                self.host.run_probe(["rm", remote_payload], timeout=30)
+            except Exception:
+                pass
             if rc != 0:
                 raise LocalQwenVisionJudgeError(
                     f"local Qwen-VL request failed (rc={rc}): "
@@ -139,40 +135,50 @@ class LocalQwenVisionJudge:
                 message = body["choices"][0]["message"]
             except (json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
                 raise LocalQwenVisionJudgeError(
-                    "local Qwen-VL response missing "
-                    "choices[0].message") from exc
+                    "local Qwen-VL response missing choices[0].message") from exc
             if not isinstance(message, dict):
                 raise LocalQwenVisionJudgeError(
                     "local Qwen-VL response choices[0].message must be an object")
             raw_response = _response_text(message)
             try:
-                result = _response_object(message, label="local Qwen-VL")
+                return _response_object(message, label="local Qwen-VL"), raw_response
             except ValueError as exc:
                 raise LocalQwenVisionJudgeError(
                     str(exc), raw_response=raw_response) from exc
-            if "mouth_activity" not in result and "mouth_sync" in result:
-                result["mouth_activity"] = result.pop("mouth_sync")
-            for key in _SCORE_KEYS:
-                try:
-                    value = float(result[key])
-                except (KeyError, TypeError, ValueError) as exc:
-                    raise LocalQwenVisionJudgeError(
-                        f"local Qwen-VL response missing numeric {key}",
-                        raw_response=raw_response) from exc
-                if not 0.0 <= value <= 1.0:
-                    raise LocalQwenVisionJudgeError(
-                        f"local Qwen-VL score {key} must be 0..1, got {value!r}",
-                        raw_response=raw_response)
-                result[key] = value
-            return {**result, "critic": f"local:{self.model}",
-                    "raw_response": raw_response}
-        finally:
-            # Cleanup is best effort; a failed cleanup never turns a real
-            # visual result into a KEEP and never masks the original failure.
+
+        result, raw_response = request(content)
+        if "mouth_activity" not in result and "mouth_sync" in result:
+            result["mouth_activity"] = result.pop("mouth_sync")
+        for key in _SCORE_KEYS:
             try:
-                self.host.run_probe(["rm", remote_payload], timeout=30)
-            except Exception:
-                pass
+                value = float(result[key])
+            except (KeyError, TypeError, ValueError) as exc:
+                raise LocalQwenVisionJudgeError(
+                    f"local Qwen-VL response missing numeric {key}",
+                    raw_response=raw_response) from exc
+            if not 0.0 <= value <= 1.0:
+                raise LocalQwenVisionJudgeError(
+                    f"local Qwen-VL score {key} must be 0..1, got {value!r}",
+                    raw_response=raw_response)
+            result[key] = value
+
+        locator_content = [{"type": "text", "text": (
+            "Locate the EXPECTED SPEAKER'S MOUTH in each of these three "
+            "DISTINCT generated start/middle/end frames. Expected speaker "
+            f"and silent counterpart: {expected_speaker}. Return STRICT JSON "
+            "only as {\"speaker_mouth_bboxes\": [[x,y,width,height], ...]} "
+            "with exactly three normalized 0..1 arrays in frame order. Each "
+            "box tightly covers only the speaker's lips/mouth opening—not "
+            "chin, jaw, neck, or whole face. The mouth may be closed; still "
+            "locate the lips.")}]
+        for frame in generated_frames:
+            locator_content.append({"type": "image_url", "image_url": {
+                "url": ModelScopeVisionJudge._data_url(frame)}})
+        locator, locator_raw = request(locator_content)
+        result["speaker_mouth_bboxes"] = locator["speaker_mouth_bboxes"]
+        result["mouth_bbox_raw_response"] = locator_raw
+        return {**result, "critic": f"local:{self.model}",
+                "raw_response": raw_response}
 
 
 def build_local_qwen_vision_judge(**kwargs) -> LocalQwenVisionJudge:

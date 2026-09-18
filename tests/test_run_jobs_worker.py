@@ -31,6 +31,11 @@ def _syncnet_evidence(**overrides):
     return payload
 
 
+def _mouth_bboxes():
+    return [[.2, .3, .05, .05], [.21, .31, .05, .05],
+            [.2, .32, .06, .05]]
+
+
 class FakeHost:
     def __init__(self):
         self.calls = []
@@ -278,7 +283,7 @@ class TestRenderForJobWiring:
             vision_judge=lambda **_: {
                 "mouth_sync": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
-                "speaker_mouth_bbox": [.2, .3, .05, .05],
+                "speaker_mouth_bboxes": _mouth_bboxes(),
             },
             av_sync_judge=lambda **_: _syncnet_evidence())
         _native_fixture(clip)
@@ -350,7 +355,7 @@ class TestRenderForJobWiring:
             vision_judge=lambda **_: {
                 "mouth_sync": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
-                "speaker_mouth_bbox": [.2, .3, .05, .05],
+                "speaker_mouth_bboxes": _mouth_bboxes(),
             },
             av_sync_judge=lambda **_: _syncnet_evidence())
         evidence_paths = []
