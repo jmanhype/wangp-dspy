@@ -11,6 +11,8 @@ from __future__ import annotations
 import json
 import math
 import os
+import hashlib
+from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
 from qc.audio_critic.syncnet_runner import (
@@ -93,6 +95,12 @@ class RemoteSyncNetAVSyncJudge:
         if not callable(getattr(host, "map_path", None)):
             raise AVSyncGateError(
                 "a RenderHost with map_path is required for SyncNet")
+        if not callable(getattr(host, "makedirs", None)):
+            raise AVSyncGateError(
+                "a RenderHost with makedirs is required for SyncNet")
+        if not callable(getattr(host, "push_file", None)):
+            raise AVSyncGateError(
+                "a RenderHost with push_file is required for SyncNet")
         self.host = host
         self.model_path = (
             model_path or os.environ.get("WANGP_SYNCNET_MODEL") or
@@ -121,12 +129,28 @@ class RemoteSyncNetAVSyncJudge:
     def __call__(self, *, video_path: str,
                  speaker_mouth_bbox: object) -> dict:
         bbox = _parse_bbox(speaker_mouth_bbox)
+        local_video = Path(video_path)
+        if not local_video.is_file():
+            raise AVSyncGateError(
+                f"local SyncNet video artifact is missing: {video_path}")
+        video_sha256 = hashlib.sha256(local_video.read_bytes()).hexdigest()
         remote_video = self.host.map_path(video_path)
+        # The native final/remux artifact is produced in the local pull
+        # namespace.  The remote worker directory may contain only raw.mp4;
+        # never silently score a different host-side file.  Publish the exact
+        # final artifact and make the remote runner verify its hash.
+        self.host.makedirs(str(Path(remote_video).parent))
+        pushed = self.host.push_file(str(local_video), str(remote_video))
+        if pushed != str(remote_video):
+            raise AVSyncGateError(
+                "SyncNet host video staging path mismatch: "
+                f"{pushed!r} != {str(remote_video)!r}")
         command = [
             self.host_python, "-m", "qc.audio_critic.syncnet_runner",
             "--video", str(remote_video),
             "--bbox", *(str(value) for value in bbox),
             "--model", self.model_path,
+            "--video-sha256", video_sha256,
         ]
         result = self.host.run_argv(
             command, cwd=self.host_repo, timeout=self.timeout_s)
@@ -145,7 +169,10 @@ class RemoteSyncNetAVSyncJudge:
                 f"remote SyncNet execution failed "
                 f"(rc={getattr(result, 'returncode', None)}): {detail}",
                 evidence=payload)
-        return _validate_evidence(payload, video_path, bbox)
+        evidence = _validate_evidence(payload, video_path, bbox)
+        evidence["video_sha256"] = video_sha256
+        evidence["remote_video_path"] = str(remote_video)
+        return evidence
 
 
 def build_remote_syncnet_judge(host, **kwargs) -> RemoteSyncNetAVSyncJudge:

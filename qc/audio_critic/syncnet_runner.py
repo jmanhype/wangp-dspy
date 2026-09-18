@@ -259,16 +259,21 @@ def aggregate_results(results: Sequence[CropResult]) -> dict:
 
 
 def run(video_path: str | Path, bbox: Sequence[float],
-        model_path: str | Path) -> dict:
+        model_path: str | Path,
+        video_sha256: str | None = None) -> dict:
     path = Path(video_path)
     model = Path(model_path)
     if not path.is_file() or not model.is_file():
         raise SyncNetRunnerError("video and SyncNet model paths are required")
+    if video_sha256 is not None and _sha256(path) != video_sha256:
+        raise SyncNetRunnerError("video SHA-256 mismatch")
     results = _evaluate_crops(
         path, bbox, model, DEFAULT_CROP_FACTORS, batch_size=10, vshift=10)
     evidence = aggregate_results(results)
     evidence["video_path"] = str(path)
     evidence["speaker_mouth_bbox"] = [float(value) for value in bbox]
+    if video_sha256 is not None:
+        evidence["video_sha256"] = video_sha256
     return evidence
 
 
@@ -277,9 +282,12 @@ def main(argv=None) -> int:
     parser.add_argument("--video", required=True)
     parser.add_argument("--bbox", nargs=4, type=float, required=True)
     parser.add_argument("--model", required=True)
+    parser.add_argument("--video-sha256")
     args = parser.parse_args(argv)
     try:
-        payload = run(args.video, args.bbox, args.model)
+        payload = run(
+            args.video, args.bbox, args.model,
+            video_sha256=args.video_sha256)
     except Exception as exc:
         print(json.dumps({
             "status": "failed", "error": f"{type(exc).__name__}: {exc}"}))
