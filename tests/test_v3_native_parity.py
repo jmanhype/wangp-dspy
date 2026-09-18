@@ -84,7 +84,9 @@ def test_three_stills_cannot_claim_lip_sync_even_with_perfect_scores():
     result = run_vision_judge('clip.mp4', expected_speaker='grandma', expected_action='speaks',
             judge=lambda **kw: dict(
                 mouth_sync=1, action_match=1, speaker_attribution=1,
-                speaker_mouth_bbox=[.2, .3, .05, .05]))
+                speaker_mouth_bboxes=[[.2, .3, .05, .05],
+                                      [.21, .31, .05, .05],
+                                      [.2, .32, .06, .05]]))
     assert result.passed
     assert result.mouth_sync is None
     assert result.av_sync_verified is False

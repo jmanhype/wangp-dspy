@@ -7,7 +7,6 @@ from qc.audio_critic.ref2va_stage import (
     Ref2VAQCStageError, run_ref2va_qc_stage,
 )
 from qc.audio_critic.vision_judge import VisionJudgeError, run_vision_judge
-from qc.audio_critic.av_sync_gate import run_av_sync_gate
 
 
 def _sync_evidence(**overrides):
@@ -24,6 +23,11 @@ def _sync_evidence(**overrides):
     }
     payload.update(overrides)
     return payload
+
+
+def _mouth_bboxes():
+    return [[.2, .3, .05, .05], [.21, .31, .05, .05],
+            [.2, .32, .06, .05]]
 
 
 def _doc(tmp_path):
@@ -47,28 +51,54 @@ def test_vision_judge_requires_mouth_action_and_speaker_alignment():
         "cut.mp4", expected_speaker="S1", expected_action="turns toward gate",
         judge=lambda **_: {"mouth_activity": 0.9, "action_match": 0.8,
                            "speaker_attribution": 0.95,
-                           "speaker_mouth_bbox": [.2, .3, .05, .05]})
+                           "speaker_mouth_bboxes": _mouth_bboxes()})
     assert evidence.passed is True
     assert evidence.mouth_sync is None
     assert evidence.mouth_activity == 0.9
     assert evidence.av_sync_verified is False
-    assert evidence.speaker_mouth_bbox == (.2, .3, .05, .05)
+    assert evidence.speaker_mouth_bboxes == tuple(
+        tuple(bbox) for bbox in _mouth_bboxes())
+    assert evidence.speaker_mouth_bbox == (.2, .31, .05, .05)
 
 
 def test_vision_judge_rejects_low_alignment():
-    raw_response = '{"mouth_activity": 0.6, "action_match": 0.9, "speaker_attribution": 0.9}'
+    raw_response = '{"mouth_activity": 0.9, "action_match": 0.6, "speaker_attribution": 0.9}'
     with pytest.raises(VisionJudgeError, match="visual gate failed") as caught:
         run_vision_judge(
             "cut.mp4", expected_speaker="S1", expected_action="turns",
-            judge=lambda **_: {"mouth_activity": 0.6, "action_match": 0.9,
+            judge=lambda **_: {"mouth_activity": 0.9, "action_match": 0.6,
                                "speaker_attribution": 0.9,
-                               "speaker_mouth_bbox": [.2, .3, .05, .05],
+                               "speaker_mouth_bboxes": _mouth_bboxes(),
                                "raw_response": raw_response})
     assert caught.value.scores == {
-        "mouth_activity": 0.6, "action_match": 0.9,
+        "mouth_activity": 0.9, "action_match": 0.6,
         "speaker_attribution": 0.9,
     }
     assert caught.value.raw_response == raw_response
+
+
+def test_vision_judge_rejects_unstable_mouth_bbox_consensus():
+    with pytest.raises(VisionJudgeError, match="lack spatial consensus"):
+        run_vision_judge(
+            "cut.mp4", expected_speaker="S1", expected_action="speaks",
+            judge=lambda **_: {
+                "mouth_activity": 0.9, "action_match": 0.9,
+                "speaker_attribution": 0.9,
+                "speaker_mouth_bboxes": [
+                    [.2, .3, .05, .05], [.2, .31, .05, .05],
+                    [.2, .45, .05, .05]]})
+
+
+def test_still_mouth_activity_is_descriptive_not_blocking():
+    evidence = run_vision_judge(
+        "cut.mp4", expected_speaker="S1", expected_action="speaks",
+        judge=lambda **_: {
+            "mouth_activity": 0.1, "action_match": 0.95,
+            "speaker_attribution": 0.98,
+            "speaker_mouth_bboxes": _mouth_bboxes()})
+    assert evidence.passed is True
+    assert evidence.mouth_activity == 0.1
+    assert evidence.av_sync_verified is False
 
 
 def test_qc_stage_persists_integrated_vision_evidence(tmp_path):
@@ -78,7 +108,7 @@ def test_qc_stage_persists_integrated_vision_evidence(tmp_path):
         expected_speaker="S1", expected_action="turns toward gate",
         vision_judge=lambda **_: {"mouth_activity": 0.9, "action_match": 0.9,
                                   "speaker_attribution": 0.9,
-                                  "speaker_mouth_bbox": [.2, .3, .05, .05]},
+                                  "speaker_mouth_bboxes": _mouth_bboxes()},
         evidence_path=str(evidence_path),
         av_sync_judge=lambda **_: _sync_evidence())
     assert qc.vision_judge["passed"] is True
@@ -97,7 +127,7 @@ def test_qc_stage_preserves_av_sync_rejection_evidence(tmp_path):
             vision_judge=lambda **_: {
                 "mouth_activity": 0.9, "action_match": 0.9,
                 "speaker_attribution": 0.9,
-                "speaker_mouth_bbox": [.2, .3, .05, .05]},
+                "speaker_mouth_bboxes": _mouth_bboxes()},
             evidence_path=str(evidence_path),
             av_sync_judge=lambda **_: rejected)
     assert caught.value.av_sync_evidence["confidence"] == .2
@@ -121,7 +151,7 @@ def test_qc_stage_preserves_vision_rejection_evidence(tmp_path):
     def reject(**_):
         return {"mouth_activity": 0.1, "action_match": 0.8,
                 "speaker_attribution": 0.2,
-                "speaker_mouth_bbox": [.2, .3, .05, .05],
+                "speaker_mouth_bboxes": _mouth_bboxes(),
                 "raw_response": raw_response}
 
     with pytest.raises(Ref2VAQCStageError) as caught:

@@ -15,7 +15,9 @@ class _Host:
             "choices": [{"message": {"content": json.dumps({
                 "mouth_sync": 0.9, "action_match": 0.8,
                 "speaker_attribution": 1.0,
-                "speaker_mouth_bbox": [.2, .3, .05, .05],
+                "speaker_mouth_bboxes": [
+                    [.2, .3, .05, .05], [.21, .31, .05, .05],
+                    [.2, .32, .06, .05]],
             })}}]
         }
         self.rc = rc
@@ -85,7 +87,9 @@ def test_local_judge_falls_back_to_reasoning_content(monkeypatch):
                 "Visual evidence is clear. Final answer: "
                 "{\"mouth_sync\": 0.6, \"action_match\": 0.7, "
                 "\"speaker_attribution\": 0.8, "
-                "\"speaker_mouth_bbox\": [0.2, 0.3, 0.05, 0.05]}")
+                "\"speaker_mouth_bboxes\": [[0.2, 0.3, 0.05, 0.05], "
+                "[0.21, 0.31, 0.05, 0.05], "
+                "[0.2, 0.32, 0.06, 0.05]]}")
         }}],
     })
     judge = LocalQwenVisionJudge(host=host)
