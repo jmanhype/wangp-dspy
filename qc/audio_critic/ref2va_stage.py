@@ -30,6 +30,9 @@ from predict.audio_dataplane import (
 from qc.audio_critic.whisper_gate import (
     DEFAULT_WHISPER_PASS_BAR, WhisperGateError, run_whisper_gate,
 )
+from qc.audio_critic.av_sync_gate import (
+    AVSyncGateError, run_av_sync_gate,
+)
 from qc.audio_critic.vision_judge import VisionJudgeError, run_vision_judge
 
 __all__ = ["Ref2VAQCStageError", "plan_remux_command",
@@ -44,13 +47,16 @@ class Ref2VAQCStageError(ValueError):
     """
 
     def __init__(self, message: str, *, vision_scores=None,
-                 vision_raw_response=None, whisper_evidence=None):
+                vision_raw_response=None, whisper_evidence=None,
+                av_sync_evidence=None):
         super().__init__(message)
         self.vision_scores = dict(vision_scores or {})
         self.vision_raw_response = (
             str(vision_raw_response)
             if vision_raw_response is not None else None)
         self.whisper_evidence = dict(whisper_evidence or {})
+        self.av_sync_evidence = dict(
+            av_sync_evidence) if isinstance(av_sync_evidence, dict) else None
 
 
 _SCORE_FIELDS = ("mouth_sync", "audio_fidelity",
@@ -142,7 +148,8 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                         expected_action: Optional[str] = None,
                         vision_judge: Optional[Callable] = None,
                         vision_pass_bar: float = 0.7,
-                        reference_image_path: Optional[str] = None
+                        reference_image_path: Optional[str] = None,
+                        av_sync_judge: Optional[Callable] = None
                         ) -> Ref2VAAudioQC:
     """Lane-aware Ref2VA-family audio QC stage, then fills QC evidence.
 
@@ -157,10 +164,9 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
     - Whisper evidence, when requested, reads the input guide as ``pre``
       and the generated native output as ``post``; identical paths are
       rejected so a guide cannot masquerade as generated output.
-    - Vision evidence, when requested, checks still-image mouth activity,
-      action, and speaker attribution. It does not measure phonetic A/V
-      synchrony. Meeting these evidence bars is distinct from an implicit
-      pass for merely carrying native audio.
+    - Vision evidence checks still-image identity/activity, supplies a
+      speaker mouth bbox, and the blocking SyncNet gate measures temporal
+      audio/lip synchrony. Phonetic correctness remains operator-reviewed.
     """
     if not isinstance(settings_doc, dict):
         raise Ref2VAQCStageError(
@@ -183,7 +189,8 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             and policy_d["discard_rendered_audio"] is not True):
         raise Ref2VAQCStageError("G4: non-Ref2VA remux lanes require discard_rendered_audio=True")
 
-    def persist_evidence(whisper_payload, vision_payload=None) -> None:
+    def persist_evidence(whisper_payload, vision_payload=None,
+                         av_sync_payload=None) -> None:
         if not evidence_path:
             return
         try:
@@ -191,7 +198,8 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(json.dumps(
                 {"whisper_gates": whisper_payload,
-                 "vision_judge": vision_payload},
+                 "vision_judge": vision_payload,
+                 "av_sync_gate": av_sync_payload},
                 indent=2, sort_keys=True) + "\n")
         except OSError as exc:
             raise Ref2VAQCStageError(
@@ -257,10 +265,24 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 whisper_evidence=whisper_evidence,
             ) from exc
 
+    av_sync_evidence = None
+    if vision_requested:
+        bbox = (vision_evidence or {}).get("speaker_mouth_bbox")
+        try:
+            av_sync_evidence = run_av_sync_gate(
+                video_path, speaker_mouth_bbox=bbox, judge=av_sync_judge)
+        except AVSyncGateError as exc:
+            persist_evidence(
+                whisper_evidence, vision_evidence, exc.evidence)
+            raise Ref2VAQCStageError(
+                str(exc), whisper_evidence=whisper_evidence,
+                av_sync_evidence=exc.evidence) from exc
+
     if judge is None:
         qc = Ref2VAAudioQC(critic_version=None,
                            whisper_gates=whisper_evidence,
-                           vision_judge=vision_evidence)
+                           vision_judge=vision_evidence,
+                           av_sync_gate=av_sync_evidence)
     else:
         scores = judge(settings_doc=settings_doc)
         unknown = [k for k in scores if k not in _SCORE_FIELDS]
@@ -271,8 +293,9 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
         try:
             qc = Ref2VAAudioQC(critic_version=critic_version,
                                whisper_gates=whisper_evidence,
-                               vision_judge=vision_evidence, **scores)
+                               vision_judge=vision_evidence,
+                               av_sync_gate=av_sync_evidence, **scores)
         except AudioDataPlaneError as e:
             raise Ref2VAQCStageError(f"judge scores out of range: {e}") from e
-    persist_evidence(whisper_evidence, vision_evidence)
+    persist_evidence(whisper_evidence, vision_evidence, av_sync_evidence)
     return qc

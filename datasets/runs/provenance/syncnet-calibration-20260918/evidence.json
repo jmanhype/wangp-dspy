@@ -1,0 +1,75 @@
+{
+  "schema": "wangp-dspy.syncnet-calibration/v1",
+  "timestamp_utc": "2026-09-18T00:41:44Z",
+  "method": "syncnet_v2_multicrop/v1",
+  "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+  "pass_bars": {
+    "max_abs_offset_frames_25fps": 10,
+    "min_confidence": 1.0
+  },
+  "cuts": [
+    {
+      "label": "v3-original-cut1",
+      "operator_verdict": "perfect",
+      "artifact_sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6",
+      "speaker_mouth_bbox": [0.55, 0.32, 0.04, 0.04],
+      "median_offset_frames_25fps": -3,
+      "confidence": 1.320225,
+      "passed": true
+    },
+    {
+      "label": "v3-original-cut2",
+      "operator_verdict": "perfect",
+      "artifact_sha256": "617aa35d7ed542ef75be6b89594f249220559dbeeff809a9cadc2d38556bda65",
+      "speaker_mouth_bbox": [0.72, 0.44, 0.06, 0.08],
+      "median_offset_frames_25fps": -2,
+      "confidence": 2.888998,
+      "passed": true
+    },
+    {
+      "label": "lf002-nell",
+      "operator_verdict": "PERFECT",
+      "artifact_sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3",
+      "speaker_mouth_bbox": [0.22, 0.28, 0.08, 0.06],
+      "median_offset_frames_25fps": -1,
+      "confidence": 4.387499,
+      "passed": true
+    },
+    {
+      "label": "lf002-orin",
+      "operator_verdict": "PERFECT",
+      "artifact_sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8",
+      "speaker_mouth_bbox": [0.68, 0.24, 0.06, 0.04],
+      "median_offset_frames_25fps": 0,
+      "confidence": 3.067707,
+      "passed": true
+    },
+    {
+      "label": "lf003-tess",
+      "operator_verdict": "unrated",
+      "artifact_sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5",
+      "speaker_mouth_bbox": [0.33, 0.19, 0.03, 0.03],
+      "median_offset_frames_25fps": -1,
+      "confidence": 2.491247,
+      "passed": true
+    },
+    {
+      "label": "lf003-rho",
+      "operator_verdict": "unrated",
+      "artifact_sha256": "3cf09694842a50ee2543d547d1ce05ed99959fd6f68416431845cfd0aec73318",
+      "speaker_mouth_bbox": [0.59, 0.16, 0.04, 0.04],
+      "median_offset_frames_25fps": 8,
+      "confidence": 0.481373,
+      "passed": false
+    }
+  ],
+  "integrated_recheck": {
+    "label": "v3-original-cut1",
+    "artifact_sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6",
+    "vision_bbox": [0.52, 0.38, 0.06, 0.04],
+    "median_offset_frames_25fps": -8,
+    "confidence": 1.705909,
+    "passed": true
+  },
+  "scope": "Live 3090 backend calibration against preserved operator-accepted and unrated artifacts; not a phonetic-correctness claim."
+}

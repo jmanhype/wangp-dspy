@@ -167,7 +167,8 @@ def dry_run_report(queue) -> dict:
 # ── executor wiring ──────────────────────────────────────────────────
 
 def build_executor(queue, host=None, pre_render=None,
-                   whisper_transcriber=None, vision_judge=None):
+                   whisper_transcriber=None, vision_judge=None,
+                   av_sync_judge=None):
     """Wire JobExecutor with the production render seams (no dry-run
     guard on the jobs path — see module docstring)."""
     from services.jobs.executor import JobExecutor, RenderOutcome, render_lane_for
@@ -271,6 +272,7 @@ def build_executor(queue, host=None, pre_render=None,
             return True, f"qc/{clip['clip_index']}.json"
         from qc.audio_critic.ref2va_stage import run_ref2va_qc_stage
         from qc.audio_critic.ref2va_stage import Ref2VAQCStageError
+        from qc.audio_critic.av_sync_gate import build_remote_syncnet_judge
         import hashlib
         final = Path(clip.get("mp4") or "")
         try:
@@ -303,7 +305,13 @@ def build_executor(queue, host=None, pre_render=None,
                               clip.get("speaker") or clip.get("speaker_sn")),
             expected_action=clip.get("action") or clip.get("motion"),
             vision_judge=vision_judge,
-            reference_image_path=clip.get("image_start"))
+            reference_image_path=clip.get("image_start"),
+            # Lazy construction preserves the “vision judge is not wired”
+            # failure when no visual judge exists; SyncNet is only built
+            # after vision has produced a mouth bbox.
+            av_sync_judge=(
+                av_sync_judge if av_sync_judge is not None else
+                lambda **kwargs: build_remote_syncnet_judge(host)(**kwargs)))
         return True, evidence_path
 
     return JobExecutor(queue=queue, preflight=preflight,
@@ -367,13 +375,15 @@ def _queue_requires_vision(queue) -> bool:
 
 
 def _build_executor_with_optional_judge(queue, *, host, vision_judge,
-                                        pre_render=None):
+                                        pre_render=None, av_sync_judge=None):
     """Preserve the injectable test seam while wiring production judges."""
     kwargs = {"host": host}
     if vision_judge is not None:
         kwargs["vision_judge"] = vision_judge
     if pre_render is not None:
         kwargs["pre_render"] = pre_render
+    if av_sync_judge is not None:
+        kwargs["av_sync_judge"] = av_sync_judge
     return build_executor(queue, **kwargs)
 
 
@@ -402,7 +412,7 @@ def _default_vision_judge(host=None):
 
 
 def drain_once(queue, host=None, dry_run: bool = False, limit=None,
-               vision_judge=None, pre_render=None):
+               vision_judge=None, pre_render=None, av_sync_judge=None):
     """Run admissible jobs until none remain (or `limit` jobs, for
      --once callers). Returns list of handled job ids. --dry-run emits
      what would run WITHOUT host calls and WITHOUT mutating state."""
@@ -424,7 +434,7 @@ def drain_once(queue, host=None, dry_run: bool = False, limit=None,
         job = queue.get(jid)
         ex = _build_executor_with_optional_judge(
             queue, host=host, vision_judge=vision_judge,
-            pre_render=effective_pre_render)
+            pre_render=effective_pre_render, av_sync_judge=av_sync_judge)
         ex.run_once()
         handled.append(jid)
         # r2i -> fl2va dependency: extract + record the last frame

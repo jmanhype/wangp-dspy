@@ -313,8 +313,11 @@ class ModelScopeVisionJudge:
             "default scores to copy. Use 1 only for clear evidence, 0 for a clear "
             "mismatch, and intermediate values for uncertainty. Include a notes "
             "string with brief visible observations (identity, mouth poses, action, "
-            "composition); describe the mismatch when a score is low. Do not provide "
-            "hidden reasoning or claim phonetic/audio synchronization."
+            "composition); describe the mismatch when a score is low. Also include "
+            "speaker_mouth_bbox as [x,y,width,height] normalized to 0..1 in the LAST "
+            "generated frame, tightly covering the expected speaker's mouth/lower "
+            "face. Do not provide hidden reasoning or claim phonetic/audio "
+            "synchronization."
         )
 
     @staticmethod

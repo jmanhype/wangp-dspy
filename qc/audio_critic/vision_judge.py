@@ -10,7 +10,7 @@ from __future__ import annotations
 import dataclasses
 import math
 from dataclasses import dataclass
-from typing import Callable, Mapping, Optional
+from typing import Callable, Mapping, Optional, Tuple
 
 
 class VisionJudgeError(ValueError):
@@ -36,6 +36,7 @@ class VisionJudgeEvidence:
     mouth_sync: Optional[float]
     mouth_activity: float
     av_sync_verified: bool
+    speaker_mouth_bbox: Tuple[float, float, float, float]
     action_match: float
     speaker_attribution: float
     pass_bar: float
@@ -97,11 +98,31 @@ def run_vision_judge(
                 f"vision result {name} must be 0..1, got {value!r}",
                 scores=values, raw_response=raw_response)
         values[name] = value
+    bbox_raw = raw.get("speaker_mouth_bbox")
+    if (not isinstance(bbox_raw, (list, tuple)) or len(bbox_raw) != 4):
+        raise VisionJudgeError(
+            "vision result must include speaker_mouth_bbox [x,y,w,h]",
+            scores=values, raw_response=raw_response)
+    try:
+        bbox = tuple(float(value) for value in bbox_raw)
+    except (TypeError, ValueError) as exc:
+        raise VisionJudgeError(
+            "speaker_mouth_bbox values must be numeric",
+            scores=values, raw_response=raw_response) from exc
+    if (not all(math.isfinite(value) for value in bbox)
+            or any(value < 0.0 or value > 1.0 for value in bbox)
+            or bbox[2] <= 0.0 or bbox[3] <= 0.0
+            or bbox[0] + bbox[2] > 1.0001
+            or bbox[1] + bbox[3] > 1.0001):
+        raise VisionJudgeError(
+            "speaker_mouth_bbox must be normalized and fit inside the frame",
+            scores=values, raw_response=raw_response)
     passed = min(values.values()) >= float(pass_bar)
     evidence = VisionJudgeEvidence(
         video_path=video_path, expected_speaker=expected_speaker,
         expected_action=expected_action, pass_bar=float(pass_bar),
         passed=passed, mouth_sync=None, av_sync_verified=False,
+        speaker_mouth_bbox=bbox,
         notes="Still-image visual QC only; phonetic AV synchrony is unmeasured. " + str(raw.get("notes", "")), raw_response=(
             str(raw_response) if raw_response is not None else None), **values)
     if not passed:

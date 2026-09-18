@@ -128,6 +128,7 @@ class Ref2VAAudioQC:
     notes: str = ""
     whisper_gates: Optional[dict] = None
     vision_judge: Optional[dict] = None
+    av_sync_gate: Optional[dict] = None
 
     def __post_init__(self):
         for name in _QC_SCORE_FIELDS:
@@ -147,6 +148,10 @@ class Ref2VAAudioQC:
             raise AudioDataPlaneError(
                 f"vision_judge: must be a dict or None, got "
                 f"{type(self.vision_judge).__name__}")
+        if self.av_sync_gate is not None and not isinstance(self.av_sync_gate, dict):
+            raise AudioDataPlaneError(
+                f"av_sync_gate: must be a dict or None, got "
+                f"{type(self.av_sync_gate).__name__}")
 
     @classmethod
     def empty(cls) -> "Ref2VAAudioQC":

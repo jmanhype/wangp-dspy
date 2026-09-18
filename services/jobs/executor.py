@@ -115,6 +115,14 @@ def _is_post_whisper_failure(exc: Exception) -> bool:
             and isinstance(post.get("score"), (int, float)))
 
 
+def _is_av_sync_failure(exc: Exception) -> bool:
+    """Return true only for scored SyncNet rejection evidence."""
+    evidence = getattr(exc, "av_sync_evidence", None)
+    return (isinstance(evidence, dict)
+            and evidence.get("passed") is False
+            and isinstance(evidence.get("confidence"), (int, float)))
+
+
 def _whisper_rejection_evidence(exc: Exception) -> dict:
     evidence = getattr(exc, "whisper_evidence", None)
     return dict(evidence) if isinstance(evidence, dict) else {}
@@ -146,6 +154,11 @@ def _vision_rejection_evidence(exc: Exception) -> dict:
         "scores": dict(scores) if isinstance(scores, dict) else {},
         "raw_response": (str(raw) if raw is not None else None),
     }
+
+
+def _av_sync_rejection_evidence(exc: Exception) -> dict:
+    evidence = getattr(exc, "av_sync_evidence", None)
+    return dict(evidence) if isinstance(evidence, dict) else {}
 
 
 class JobExecutor:
@@ -354,6 +367,33 @@ class JobExecutor:
                                 f"{detail}; whisper_evidence="
                                 f"{json.dumps(evidence, sort_keys=True)}")
                         if self._retry_whisper_gate(job, clip, detail):
+                            return
+                        seed = _seed_value(clip)
+                        if seed is not None:
+                            detail = f"{detail}; seed={seed}"
+                    elif _is_av_sync_failure(e):
+                        evidence = _av_sync_rejection_evidence(e)
+                        history = clip.get("av_sync_rejections")
+                        if not isinstance(history, list):
+                            history = []
+                        clip["av_sync_rejections"] = [*history, {
+                            "attempt": len(history) + 1,
+                            "seed": _seed_value(clip),
+                            "mp4": clip.get("mp4"),
+                            "log": clip.get("log"),
+                            "evidence": evidence,
+                            "failure_detail": detail,
+                        }]
+                        update_clips = getattr(self.queue, "update_clips", None)
+                        if callable(update_clips):
+                            update_clips(job.job_id, job.clips)
+                        if evidence:
+                            detail = (
+                                f"{detail}; av_sync_evidence="
+                                f"{json.dumps(evidence, sort_keys=True)}")
+                        if self._retry_scored_gate(
+                                job, clip, detail, gate_name="av_sync",
+                                retries=self.vision_retries):
                             return
                         seed = _seed_value(clip)
                         if seed is not None:
