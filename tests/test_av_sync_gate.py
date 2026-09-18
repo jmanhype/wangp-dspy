@@ -80,39 +80,66 @@ class _Host:
             returncode=0, stdout=json.dumps(_evidence(status="complete")),
             stderr="")
         self.calls = []
+        self.pushed = []
 
     def map_path(self, path):
-        return "/host/" + str(path).replace("\\", "/")
+        return "/host/" + str(path).replace("\\", "/").lstrip("/")
+
+    def makedirs(self, path):
+        self.calls.append((["mkdir", "-p", path], None))
+
+    def push_file(self, local, remote):
+        self.pushed.append((local, remote))
+        self.calls.append((["rsync", local, remote], None))
+        return remote
 
     def run_argv(self, argv, *, cwd, timeout):
         self.calls.append((argv, cwd, timeout))
         return self.result
 
 
-def test_remote_syncnet_dispatches_repo_module_through_host():
+def test_remote_syncnet_dispatches_repo_module_through_host(tmp_path):
     host = _Host()
+    video = tmp_path / "syncnet-video.mp4"
+    video.write_bytes(b"exact-final-artifact")
     judge = RemoteSyncNetAVSyncJudge(
         host=host, model_path="/models/syncnet.model",
         host_python="/host/python", host_repo="/host/repo")
     evidence = judge(
-        video_path="pull/cut.mp4",
+        video_path=str(video),
         speaker_mouth_bbox=[.2, .3, .1, .1])
-    argv, cwd, timeout = host.calls[0]
+    argv, cwd, timeout = next(
+        call for call in host.calls if call[0][:1] == ["/host/python"])
     assert argv[:3] == ["/host/python", "-m", "qc.audio_critic.syncnet_runner"]
-    assert argv[argv.index("--video") + 1] == "/host/pull/cut.mp4"
+    expected_remote = "/host" + str(video)
+    assert argv[argv.index("--video") + 1] == expected_remote
     assert argv[argv.index("--model") + 1] == "/models/syncnet.model"
+    assert len(argv[argv.index("--video-sha256") + 1]) == 64
     assert cwd == "/host/repo"
     assert timeout == judge.timeout_s
     assert evidence["method"] == SYNCNET_METHOD
+    assert evidence["remote_video_path"] == expected_remote
+    assert host.pushed == [(str(video), expected_remote)]
 
 
 def test_remote_syncnet_failure_includes_bounded_process_output():
     host = _Host(SimpleNamespace(
         returncode=2, stdout="", stderr="torch unavailable"))
+    video = Path("/tmp/wangp-syncnet-test-missing-final.mp4")
+    video.write_bytes(b"exact-final-artifact")
     judge = RemoteSyncNetAVSyncJudge(host=host)
     with pytest.raises(AVSyncGateError, match="torch unavailable"):
-        judge(video_path="pull/cut.mp4",
+        judge(video_path=str(video),
               speaker_mouth_bbox=[.2, .3, .1, .1])
+
+
+def test_remote_syncnet_requires_exact_local_final_artifact(tmp_path):
+    host = _Host()
+    judge = RemoteSyncNetAVSyncJudge(host=host)
+    with pytest.raises(AVSyncGateError, match="local SyncNet video"):
+        judge(video_path=str(tmp_path / "missing.mp4"),
+              speaker_mouth_bbox=[.2, .3, .1, .1])
+    assert not host.pushed
 
 
 def test_live_calibration_evidence_matches_preserved_artifacts():
