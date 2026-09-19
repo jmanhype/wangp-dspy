@@ -9,11 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-28T02:38:46Z
 created_by: speed
 updated_at: 2026-08-28T04:08:50Z
-content_hash: "sha256:f30a8384a6e957dc541f2c8cbf8a2a700f4905be4e221e3a7ca22e7e5a185d23"
+content_hash: "sha256:62cb9ba397bfb9cbd304f8e97d69f79b07d193b7ff710e0ca69563417abb1ac3"
 assignee: dev-WD-l5bx
 follows: [WD-g3cu]
 closed_at: 2026-08-28T04:08:50Z
 led_to: [WD-clms, WD-ice0]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -194,9 +195,11 @@ naming the gate.
 - 2026-08-28T02:41:16Z auto-follows: linked to predecessor WD-g3cu
 - 2026-08-28T02:41:16Z claimed by dev-WD-l5bx
 - 2026-08-28T04:08:50Z status: in_progress -> closed
+- 2026-09-19T20:39:21Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-g3cu]]
 - Led to: [[WD-clms]], [[WD-ice0]]
 
