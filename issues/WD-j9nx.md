@@ -1,13 +1,15 @@
 ---
 id: WD-j9nx
 title: "DSPy-native video-gen pipeline"
-status: open
+status: closed
 priority: 2
 type: epic
 created_at: 2026-08-22T04:04:21Z
 created_by: speed
-updated_at: 2026-08-28T18:28:34Z
-content_hash: "sha256:117c06dd464bb4e3e97688c858c10ff595e1962390ee1a70cfc7f6edbec4e5b4"
+updated_at: 2026-09-19T20:39:43Z
+content_hash: "sha256:f140042034c649de829239b19f6a74390a358c3f9b763fabaefc78bf15cf7549"
+closed_at: 2026-09-19T20:39:43Z
+close_reason: "Completion gate passed: all 32 child stories closed; WD-h25b is the accepted capstone with merged PR #41, byte-identical final artifact, independent evidence validation, and clean full-suite result; scoped backlog lint and RTM checks both PASSED."
 ---
 
 ## Description
@@ -52,7 +54,7 @@ plateaus).
 
 
 ## History
-
+- 2026-09-19T20:39:43Z status: open -> closed
 
 ## Links
 
