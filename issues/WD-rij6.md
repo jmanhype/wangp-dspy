@@ -12,6 +12,7 @@ content_hash: "sha256:c5f9b4aa75e28684784632151b6695c833670a6389101a0394bf91c94f
 follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
+labels: [delivered]
 ---
 
 ## Description
