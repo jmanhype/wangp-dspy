@@ -7,8 +7,8 @@ type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T05:34:17Z
-content_hash: "sha256:e7958cb76a3bb0a425169528e17844c8c40a8eec946ac38a958cde7921e7024e"
+updated_at: 2026-09-19T05:34:53Z
+content_hash: "sha256:e7594843dd6c1027103e01a39fbde4074105837f3fd598f430205136ea6ae42d"
 assignee: dev-WD-ft6r
 follows: [WD-v4ou]
 labels: [delivered]
@@ -186,3 +186,20 @@ status: in_progress
 
 ### 2026-09-19T03:50:51Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-09-19T05:34:53Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Independent coordinator reran compilation, 20-test full unittest discovery, pvg verify, privacy/mode source checks, and delivery-manifest hash verification.
+- Delivery manifest SHA-256: 7b4b38775852e3231e9d15902c800c7fadab256862e38349c7f22f0a5c827dea.
+
+### proof
+- [x] AC #1: Feedback record contains verdict/correction/notes/time and event/prompt hashes.
+- [x] AC #2: Append-only mode-0600 JSONL behavior is tested.
+- [x] AC #3: Event join and all required report metrics are tested.
+- [x] AC #4: Raw prompts are rejected/omitted and only hashes persist.
+- [x] AC #5: Malformed input fails without changing existing bytes.
+- [x] AC #6: Full 20-test router+feedback discovery passes.
+
