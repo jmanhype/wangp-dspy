@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:32:28Z
-content_hash: "sha256:cfe10300bd5b0c4cd34eb298c00889809ff5be073a68cee5c4aa17e05bb8beb0"
+updated_at: 2026-09-19T03:35:14Z
+content_hash: "sha256:1d595786ddede991705faa03358e4feff424c5220d56bedba69d77605530338f"
 labels: [discovered-by-pm]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -102,6 +102,141 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+### CI/Test Results
+Commands run:
+ - /usr/bin/python3 -m py_compile /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py
+ - /usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p 'test_router.py' -v
+ - pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py /Users/speed/.codex/skill-router/README.md --format=text
+ - Static security/scope scan over hook, tests, and README.
+ - Fresh Codex app-bundle exec integration probe with one-time reviewed hook-trust bypass.
+Summary: compile PASS; tests PASS 13/13, 0 failures, 0 errors, 0 skipped; pvg verify PASS with 0 issues; fresh process PASS with exact requested skill and one automatic hash-only event.
+Coverage: syntax matrix, real-index exact resolution, natural-language false-positive check, unknown skill fallback, malformed stdin, missing database, existing symptom-ranking behavior, and fresh UserPromptSubmit integration.
+Commit SHA: cc6eb8053290f54f1389cf05b59b11339923e20952b094ba8adb41fd4a4bd01c
+This is the deterministic machine-global artifact-manifest SHA, not a wangp-dspy Git commit.
+
+### Implementation
+- Added .
+- Added exact normalization and longest-match selection to prevent broad Supabase CLI 2.75.0
+
+Usage:
+  supabase [command]
+
+Quick Start:
+  bootstrap            Bootstrap a Supabase project from a starter template
+
+Local Development:
+  db                   Manage Postgres databases
+  gen                  Run code generation tools
+  init                 Initialize a local project
+  inspect              Tools to inspect your Supabase project
+  link                 Link to a Supabase project
+  login                Authenticate using an access token
+  logout               Log out and delete access tokens locally
+  migration            Manage database migration scripts
+  seed                 Seed a Supabase project from supabase/config.toml
+  services             Show versions of all Supabase services
+  start                Start containers for Supabase local development
+  status               Show status of local Supabase containers
+  stop                 Stop all local Supabase containers
+  test                 Run tests on local Supabase containers
+  unlink               Unlink a Supabase project
+
+Management APIs:
+  backups              Manage Supabase physical backups
+  branches             Manage Supabase preview branches
+  config               Manage Supabase project configurations
+  domains              Manage custom domain names for Supabase projects
+  encryption           Manage encryption keys of Supabase projects
+  functions            Manage Supabase Edge functions
+  network-bans         Manage network bans
+  network-restrictions Manage network restrictions
+  orgs                 Manage Supabase organizations
+  postgres-config      Manage Postgres database config
+  projects             Manage Supabase projects
+  secrets              Manage Supabase secrets
+  snippets             Manage Supabase SQL snippets
+  ssl-enforcement      Manage SSL enforcement configuration
+  sso                  Manage Single Sign-On (SSO) authentication for projects
+  storage              Manage Supabase Storage objects
+  vanity-subdomains    Manage vanity subdomains for Supabase projects
+
+Additional Commands:
+  completion           Generate the autocompletion script for the specified shell
+  help                 Help about any command
+
+Flags:
+      --create-ticket                                  create a support ticket for any CLI error
+      --debug                                          output debug logs to stderr
+      --dns-resolver [ native | https ]                lookup domain names using the specified resolver (default native)
+      --experimental                                   enable experimental features
+  -h, --help                                           help for supabase
+      --network-id string                              use the specified docker network instead of a generated one
+  -o, --output [ env | pretty | json | toml | yaml ]   output format of status variables (default pretty)
+      --profile string                                 use a specific profile for connecting to Supabase API (default "supabase")
+  -v, --version                                        version for supabase
+      --workdir string                                 path to a Supabase project directory
+      --yes                                            answer yes to all prompts
+
+Use "supabase [command] --help" for more information about a command. from shadowing .
+- Explicit candidates use score 1.0 and term_overlap 1.0.
+- Explicit resolution runs before FTS ranking and returns exactly one candidate.
+- Ordinary prompts retain the existing FTS path.
+- Updated README to document explicit invocation behavior.
+
+### Fresh Integration
+- Prompt form: explicit .
+- Event count increased from 22 to 23.
+- Fresh Codex final message reported  with score 1.0.
+- Event recorded prompt SHA-256 , duration 264 ms, and no raw prompt.
+- The model correctly explained anon-role RLS filtering versus service-role bypass.
+
+### Scope/Security
+- Hook registration hash unchanged: .
+- Config hash unchanged: .
+- Static scan found no network, subprocess, eval/exec, or stub markers.
+- No raw prompt persistence, hook-registration change, or automatic skill execution was added.
+- Changed artifact hashes:
+  - hook.py 
+  - test_router.py 
+  - README.md 
+
+### AC Verification
+| AC | Status | Evidence |
+|---|---|---|
+| 1 | PASS | Syntax matrix covers all six requested forms. |
+| 2 | PASS |  does not resolve explicitly; longest exact match prevents broad prefix shadowing. |
+| 3 | PASS | Explicit handle returns one requested skill at score 1.0. |
+| 4 | PASS | Candidate name/path come from SQLite and use existing shape. |
+| 5 | PASS | Existing symptom-specific and short-domain tests pass. |
+| 6 | PASS | Unknown explicit, malformed, and missing-database tests pass fail-open/fallback behavior. |
+| 7 | PASS | Static scan and hashes confirm no prohibited behavior/registration changes. |
+| 8 | PASS | 13/13 tests pass, 0 skipped. |
+| 9 | PASS | pvg verify reports 0 issues. |
+
+LEARNINGS:
+- Explicit invocation must be parsed as a distinct command syntax; literal skill-name occurrence is not enough.
+- Longest normalized-name selection is necessary when one skill name is a prefix of another.
+- An early explicit-marker check avoids spending resolver time on ordinary prompts.
+
+## nd_contract
+status: delivered
+
+### evidence
+- RED, tests, pvg verify, static scan, unchanged registration/config hashes, fresh Codex process, event-log delta, and artifact hashes recorded above.
+
+### proof
+- [x] AC #1: all explicit syntax forms resolve.
+- [x] AC #2: exact normalization avoids natural-language false positives.
+- [x] AC #3: explicit request returns exactly one score-1.0 candidate.
+- [x] AC #4: candidate uses indexed name/path and existing shape.
+- [x] AC #5: non-explicit ranking remains unchanged and tested.
+- [x] AC #6: unknown/malformed/missing-state paths fail open or fall back.
+- [x] AC #7: no prohibited behavior added.
+- [x] AC #8: full suite passes 13/13.
+- [x] AC #9: pvg verify is clean.
+
 ## nd_contract
 status: in_progress
 
