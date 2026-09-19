@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:07:27Z
-content_hash: "sha256:ae4261126a2a47b41d52fda465012648ce192ff6d0cbb7f27dd67754125a7b71"
+content_hash: "sha256:221eed51c2382203eafc0c9fc4155ad55b1a7933bb3a76bf27edebde12be57b2"
 assignee: dev-WD-ice0
 follows: [WD-clms]
 ---
@@ -51,3 +51,6 @@ Current run: lf003-two-cut-vibevoice-rhostrong-20260918 at main 8d865dc.
 - Follows: [[WD-clms]]
 
 ## Comments
+
+### 2026-09-19T03:07:27Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
