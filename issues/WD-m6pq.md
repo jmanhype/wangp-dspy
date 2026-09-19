@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:36:26Z
-content_hash: "sha256:a22d1e4787e58848b5ec4b0056ff6890b3ceefd6afab43d2828e1c97764780e8"
+updated_at: 2026-09-19T03:43:58Z
+content_hash: "sha256:dde95a8a8eb02054b619830a7177922df831a8f8760d68e4a6bad8ae04a76f30"
 labels: [discovered-by-pm, accepted]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -104,7 +104,29 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### CI/Test Results
+
+Commands run:
+ - `/usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p test_router.py -v`
+ - `pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py --format=text`
+
+Summary: independently verified 16 tests passed with zero skips, and pvg verify passed for both files with zero issues. Exact invocation resolution precedes FTS, returns one indexed name/path candidate with score 1.0, preserves fail-open behavior, and leaves ordinary ranking unchanged.
+
+Artifact SHA-256: hook.py 1bab463b7909fa930eca519d923ec0435a5af1a8a9cafc75c17f6fc058206abb; test_router.py ed0982728bf8419363b5df3643cd47fbcdcb60cbceb3eaae610f1380abc5e02a.
+
+### AC Verification
+
+- [x] AC #1: resolver covers dollar, use/invoke/load skill, use/invoke/load the ... skill, and skill: syntax.
+- [x] AC #2: casefold and non-alphanumeric normalization require exact indexed-name equality; `define a goal` does not resolve.
+- [x] AC #3: successful explicit resolution returns exactly one score-1.0 candidate before FTS.
+- [x] AC #4: candidate name and path come from SQLite and retain the existing dictionary shape.
+- [x] AC #5: ordinary prompts retain the existing FTS and symptom-ranking path.
+- [x] AC #6: malformed input, missing database, SQLite errors, and unknown skills fail open or fall back without blocking.
+- [x] AC #7: no network, raw-prompt persistence, hook-registration change, or automatic execution added.
+- [x] AC #8: full suite passes 16/16 with no skipped tests.
+- [x] AC #9: pvg verify reports zero issues for both changed files.
 
 ## nd_contract
 status: accepted
