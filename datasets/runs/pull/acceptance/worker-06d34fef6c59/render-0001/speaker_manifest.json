@@ -1,0 +1,12 @@
+{
+  "schema": "wangp-dspy.speaker-manifest/v1",
+  "turns": [
+    {
+      "audio_path": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "intended_text": "Then give me a real horizon.",
+      "picture_n": 1,
+      "speaker_id": "S2",
+      "turn_index": 1
+    }
+  ]
+}

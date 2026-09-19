@@ -1,0 +1,50 @@
+{
+  "artifact_hashes": {
+    "manifest": "d1b22dc42e23770bc3a6fe5a22aef13c1fe9924f5fafd5e8f7a6ee2d9a00b10d",
+    "remux": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5",
+    "render": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+  },
+  "audio_source": {
+    "explicit_source": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav"
+  },
+  "candidate_label": "",
+  "eligible_for_gepa": false,
+  "eligible_for_qc": false,
+  "gate_failures": 0,
+  "manifest_hash": "d1b22dc42e23770bc3a6fe5a22aef13c1fe9924f5fafd5e8f7a6ee2d9a00b10d",
+  "provenance": {
+    "critic_model": "Qwen2-Audio-7B",
+    "judge_used": false,
+    "lane": "audio_reactive"
+  },
+  "qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "av_sync_gate": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  },
+  "raw_render_hash": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5",
+  "reason": "judge has not run \u2014 honest Qwen2-Audio-7B placeholder, scores None",
+  "remux_evidence": true,
+  "remux_hash": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5",
+  "runtime": {
+    "audio_carrier": "native_h3",
+    "critic_version": null,
+    "explicit_audio_source": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+    "final_artifact_path": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/pull/acceptance/worker-b24f3c42f3b7/render-0000/remux.mp4",
+    "lane": "ref2va_runtime",
+    "native_preserved": true,
+    "raw_render_path": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/pull/acceptance/worker-b24f3c42f3b7/render-0000/raw.mp4",
+    "remux_output_path": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/pull/acceptance/worker-b24f3c42f3b7/render-0000/remux.mp4"
+  },
+  "seed": null,
+  "settings_hash": "732007f59429ff272727aba1bbfcfc92f338583bba904d5f53ad92d62226f2c5",
+  "target_qc_score": null,
+  "verdict": "pending"
+}
