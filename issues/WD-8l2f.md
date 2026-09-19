@@ -11,7 +11,7 @@ updated_at: 2026-09-19T16:52:14Z
 content_hash: "sha256:6b371ca05af989fab46049d05b712fe54471384c628196f082f9630c21d41b98"
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-19T16:52:13Z
 close_reason: "Accepted: independently reran core targeted suites, focused moving/diagnostic tests, compilation, pvg verify, git diff check, semantic scan, and hash inspection. Valid per-frame motion is descriptive evidence; malformed boxes, identity/speaker gates, median SyncNet input, and blocking SyncNet behavior remain enforced."
 ---
