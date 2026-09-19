@@ -8,7 +8,7 @@ parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
 updated_at: 2026-09-19T03:31:49Z
-content_hash: "sha256:238ed987d82346f193f6bce8c98cc2251d0c5e639f1a878b1a7ebdca54d46668"
+content_hash: "sha256:47e794d3571d08d7ac3a946c46263dee583656663b548ad8b84ead523c019f50"
 labels: [discovered-by-pm]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -122,3 +122,6 @@ status: in_progress
 - Follows: [[WD-8r8a]]
 
 ## Comments
+
+### 2026-09-19T03:31:49Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
