@@ -7,10 +7,10 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T13:07:35Z
-content_hash: "sha256:c74e4227beedb7adeade7f8bf8aece956ebad4eb78e16c7904f0fb747f85ba11"
+updated_at: 2026-09-19T14:57:39Z
+content_hash: "sha256:af4cf328ddc7cb38055c73a63ad8b5b494caf5e3e262b3c67b8d1dbed6357c1e"
 assignee: dev-WD-rij6
-follows: [WD-ice0]
+follows: [WD-ice0, WD-clms]
 ---
 
 ## Description
@@ -195,9 +195,11 @@ status: new
 - 2026-09-19T13:07:35Z status: open -> in_progress
 - 2026-09-19T13:07:35Z auto-follows: linked to predecessor WD-ice0
 - 2026-09-19T13:07:35Z claimed by dev-WD-rij6
+- 2026-09-19T14:57:39Z status: in_progress -> in_progress
+- 2026-09-19T14:57:39Z auto-follows: linked to predecessor WD-clms
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-ice0]]
+- Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments
