@@ -8,12 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-27T18:21:37Z
 created_by: speed
 updated_at: 2026-08-27T18:35:50Z
-content_hash: "sha256:1544c5143647c51e5fa458ccf66b417bc0e438a9b4ecf252920a30703356403a"
+content_hash: "sha256:1d28587fe913a494160b8c0f1c385be41eb47223dd9b3567999c25e4f1edc305"
 assignee: dev-WD-4s1b
 follows: [WD-gq8y, WD-4jpr, WD-4k56]
 labels: [delivered]
 closed_at: 2026-08-27T18:35:50Z
 led_to: [WD-7185]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -46,9 +47,11 @@ status: delivered
 - 2026-08-27T18:26:16Z status: in_progress -> in_progress
 - 2026-08-27T18:26:16Z auto-follows: linked to predecessor WD-4k56
 - 2026-08-27T18:35:50Z status: in_progress -> closed
+- 2026-09-19T20:39:22Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-gq8y]], [[WD-4jpr]], [[WD-4k56]]
 - Led to: [[WD-7185]]
 
