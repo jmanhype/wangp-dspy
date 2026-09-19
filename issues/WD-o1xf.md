@@ -1,14 +1,15 @@
 ---
 id: WD-o1xf
 title: "Tune Skill Router symptom specificity"
-status: open
+status: in_progress
 priority: 0
 type: task
 parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
-updated_at: 2026-09-19T02:48:59Z
-content_hash: "sha256:6b930d6e2fe7827ec5c2c43d000a6575a0d9613a8781c7b4a5b3f0a7ab2bca61"
+updated_at: 2026-09-19T02:49:20Z
+content_hash: "sha256:02f30d8bf6169c1dd8142c8899e9542b636171532c1029740feefc438de0149e"
+assignee: dev-WD-o1xf
 ---
 
 ## Description
@@ -71,7 +72,8 @@ status: new
 
 
 ## History
-
+- 2026-09-19T02:49:20Z status: open -> in_progress
+- 2026-09-19T02:49:20Z claimed by dev-WD-o1xf
 
 ## Links
 - Parent: [[WD-dic4]]
