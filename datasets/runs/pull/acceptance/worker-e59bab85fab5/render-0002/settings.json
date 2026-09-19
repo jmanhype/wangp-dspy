@@ -1,0 +1,72 @@
+{
+  "audio_carrier": "native_h3",
+  "audio_guide": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+  "audio_guide2": null,
+  "audio_policy": {
+    "discard_rendered_audio": false,
+    "remux_source": "source_master",
+    "remux_window": [
+      0.0,
+      2.3333333333333335
+    ]
+  },
+  "audio_prompt_type": "A",
+  "audio_provenance": {
+    "keeper_window_s": [
+      0.0,
+      2.3333333333333335
+    ],
+    "source_master": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+    "vocal_stem": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+    "whisper_map": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav"
+  },
+  "audio_qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "av_sync_gate": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  },
+  "guide_duration_s": 2.333333,
+  "guide_probe": {
+    "channels": 1,
+    "duration": "2.333333",
+    "sample_rate": "24000"
+  },
+  "image_prompt_type": "S",
+  "image_refs": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/assets/acceptance/lf003-v3/face_rho.png"
+  ],
+  "image_start": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+  "keep_frames_video_source": "",
+  "model_type": "minimax_h3_ref2va_pruned",
+  "profile": 2,
+  "prompt": "integrated_multimodal_description:\nThroughout every scene identity and wardrobe stay locked: S1 (Tess) is a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room, S2 (Rho) is a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room. Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition, continuing directly from the previous frame. The same two people: a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room and a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room.\n(S1) Tess, a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room, on-screen speaker: speaks natural English, mouth in exact sync with the audio.\n(S2) Rho, a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room shown in Picture 2 stays silent: their lips are pressed closed and motionless for the entire shot.\nClosed-mouth instruction: the character in Picture 2 keeps their mouth fully closed while the Tess speaks.\noverall_soundscape: scene ambience.\nnon_diegetic_music: N/A",
+  "recipe_name": "golden_v3",
+  "recipe_version": "v3-pair-2026-09-06-native-v1",
+  "requested_frames": 56,
+  "resolution": "480x832",
+  "seed": 906,
+  "speaker_manifest": {
+    "schema": "wangp-dspy.speaker-manifest/v1",
+    "turns": [
+      {
+        "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+        "intended_text": "The projector died at midnight.",
+        "picture_n": 1,
+        "speaker_id": "S1",
+        "turn_index": 1
+      }
+    ]
+  },
+  "video_guide": null,
+  "video_length": 56,
+  "video_prompt_type": "I",
+  "video_source": null
+}

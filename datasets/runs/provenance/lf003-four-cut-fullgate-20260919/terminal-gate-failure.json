@@ -1,0 +1,21 @@
+{
+  "schema": "wangp-dspy.terminal-gate-failure/v1",
+  "recorded_utc": "2026-09-19T14:37:57Z",
+  "run_id": "lf003-four-cut-fullgate-20260919",
+  "story": "WD-rij6",
+  "repository_commit": "35201a11bb1839fd5ba83739eed690227aabe199",
+  "clean_tree_before_execution": true,
+  "job_id": "job-1789824118538-02ca412d",
+  "cut": 3,
+  "speaker": "Tess",
+  "failure_class": "qc_gate",
+  "failure_detail": "vision result must include three speaker_mouth_bboxes [x,y,w,h]",
+  "whisper_pre": 1.0,
+  "whisper_post": 1.0,
+  "identity_vision": null,
+  "mouth_box_consensus": null,
+  "syncnet": null,
+  "cut4_state": "pending",
+  "assembly": null,
+  "disposition": "Fail closed at cut 3; do not render cut 4 or assemble; file finding 84; no latent-carry implementation."
+}

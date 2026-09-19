@@ -1,0 +1,47 @@
+{
+  "schema": "wangp-dspy.execution-commands/v1",
+  "repository_commit": "35201a11bb1839fd5ba83739eed690227aabe199",
+  "commands": [
+    {
+      "step": "plan_probe",
+      "command": "model-free DirectorRun.plan over the four-cut bundle",
+      "result": "PASS: 4 cuts, Tess/Rho/Tess/Rho, seed 906 for every cut, 56 frames every cut, chain://clip0001..0003 predecessors",
+      "preserved_by": "tests/test_lf003_fourcut_gate_failure.py"
+    },
+    {
+      "step": "vibevoice_supply",
+      "command": "datasets/runs/pull/run_vibevoice_fourcut.sh",
+      "selected_environment": {
+        "WANGP_ASSET_MAP": "worktree LF003 assets and supply namespace -> isolated remote VibeVoice checkout namespaces",
+        "pass_bar": 0.8,
+        "seed": 45
+      },
+      "result": "PASS: remote report complete; Tess cut 3 Whisper 1.000; Rho cut 4 Whisper 0.833; no seed rejections"
+    },
+    {
+      "step": "acceptance_initial",
+      "command": "datasets/runs/pull/run_fourcut_acceptance.sh",
+      "result": "REJECTED before queue: exit 2, ModelScope vision credentials absent"
+    },
+    {
+      "step": "acceptance_vision_retry",
+      "command": "datasets/runs/pull/run_fourcut_acceptance.sh with WANGP_VISION_BACKEND=local",
+      "result": "REJECTED after queue creation: exit 2, local whisper executable absent; cut 1 failed before render"
+    },
+    {
+      "step": "queue_retry",
+      "command": "datasets/runs/pull/retry_fourcut_queue.sh",
+      "selected_environment": {
+        "WANGP_VISION_BACKEND": "local",
+        "WANGP_WHISPER_LOCAL_FIRST": "0"
+      },
+      "result": "FAIL-CLOSED: process exit 0 after handling 3 jobs; cuts 1-2 done, cut 3 failed the three-frame mouth-box gate, cut 4 pending"
+    },
+    {
+      "step": "artifact_review",
+      "command": "local ffmpeg/ffprobe probes, thumbnail contact sheets, decoded-frame PSNR, and Whisper evidence report",
+      "result": "PASS as evidence generation: all three rendered cuts are 704x576, 24 fps, 56 frames, 2.333333 s with AAC audio; cut 3 frame PSNR 36.526770-38.853586 dB"
+    }
+  ],
+  "notes": "The queue worker's process exit 0 does not mean gate success; the durable queue and gate_failed ledger record are authoritative."
+}

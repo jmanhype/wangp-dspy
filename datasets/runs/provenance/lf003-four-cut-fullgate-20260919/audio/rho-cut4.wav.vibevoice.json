@@ -1,0 +1,40 @@
+{
+  "attempt_index": 1,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 45,
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/rho-cut4.wav",
+  "output_sha256": "f6f595cfca6de8f59059189dac48d2ed060bc8cdf000e4d1800bea1ee47576ea",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+    "rms_db": -19.7,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/rho-cut4.wav",
+    "speaker_id": "Rho",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+  "prepared_sha256": "c001101d6dfc49cd3b59b358192bcc37ed93c4084ccb89e52306488afb1794c2",
+  "remote_execution": {
+    "environment_evidence": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/vibevoice-report.json.host_environment.json",
+    "manifest": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/pull/lf003-four-cut-fullgate-20260919/.vibevoice-4de89bdc86a441bfaa5728c6e68b11ed/manifest.json",
+    "model": "/home/straughter/models/VibeVoice-7B-hf",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "/home/straughter/vb7-venv/bin/python",
+    "python_implementation": "CPython",
+    "python_version": "3.11.14",
+    "repo": "/home/straughter/wangp-dspy-vibevoice-20260916",
+    "resolved_python": "/home/straughter/vb7-venv/bin/python"
+  },
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 45,
+  "seed_rejections": [],
+  "speaker": "Rho",
+  "text": "Then we will watch the stars.",
+  "turn_index": 2,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/assets/acceptance/lf003-v3/new_audio/lf003_rho_raw.wav",
+  "voice_reference_sha256": "cab74cbb71daa46b801ef8b6a380a9bbd95943ece5dff6cfe2d904df27d5c97d"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "wangp-dspy.speaker-manifest/v1",
+  "turns": [
+    {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "picture_n": 1,
+      "speaker_id": "S1",
+      "turn_index": 1
+    }
+  ]
+}

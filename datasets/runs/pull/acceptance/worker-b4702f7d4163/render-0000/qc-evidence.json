@@ -1,0 +1,114 @@
+{
+  "av_sync_gate": {
+    "confidence": 3.199512,
+    "crop_factors": [
+      4.0,
+      8.0,
+      12.0
+    ],
+    "crop_results": [
+      {
+        "confidence": 3.483488082885742,
+        "factor": 4.0,
+        "minimum_distance": 13.650508880615234,
+        "offset_frames": -1
+      },
+      {
+        "confidence": 3.1995115280151367,
+        "factor": 8.0,
+        "minimum_distance": 13.603947639465332,
+        "offset_frames": -1
+      },
+      {
+        "confidence": 3.034470558166504,
+        "factor": 12.0,
+        "minimum_distance": 13.978632926940918,
+        "offset_frames": -1
+      }
+    ],
+    "method": "syncnet_v2_multicrop/v1",
+    "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+    "offset_frames_25fps": -1,
+    "offset_seconds": -0.04,
+    "pass_bar": {
+      "max_abs_offset_frames_25fps": 10,
+      "min_confidence": 1.0
+    },
+    "passed": true,
+    "phonetic_sync_verified": false,
+    "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-b4702f7d4163/render-0000/remux.mp4",
+    "speaker_mouth_bbox": [
+      0.33,
+      0.2,
+      0.02,
+      0.01
+    ],
+    "status": "complete",
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4",
+    "video_sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+  },
+  "vision_judge": {
+    "action_match": 0.9,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; silent other S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room; Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition.",
+    "mouth_activity": 0.85,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames maintain the correct spatial anchor with Tess (S1) on the left and Rho (S2) on the right. Identity and wardrobe (navy jacket with star pin, red knit cap, olive jacket) are preserved. In the middle frame, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the action to the expected speaker.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor with Tess (S1) on the left and Rho (S2) on the right. Identity and wardrobe (navy jacket with star pin, red knit cap, olive jacket) are preserved. In the middle frame, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the action to the expected speaker.\"\n}",
+    "speaker_attribution": 0.95,
+    "speaker_mouth_bbox": [
+      0.33,
+      0.2,
+      0.02,
+      0.01
+    ],
+    "speaker_mouth_bboxes": [
+      [
+        0.33,
+        0.2,
+        0.02,
+        0.01
+      ],
+      [
+        0.33,
+        0.19,
+        0.02,
+        0.01
+      ],
+      [
+        0.33,
+        0.2,
+        0.02,
+        0.01
+      ]
+    ],
+    "speaker_mouth_center_spread": [
+      0.0,
+      0.010000000000000009
+    ],
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4"
+  },
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/raw.mp4",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "post",
+      "score": 0.833,
+      "transcript": "Tomorrow's sunrise is only a project."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.833,
+      "transcript": "Tomorrow's sunrise is only a project."
+    }
+  }
+}

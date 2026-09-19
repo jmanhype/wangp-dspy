@@ -1,0 +1,13 @@
+{
+  "schema": "wangp-dspy.acceptance-rejection/v1",
+  "recorded_utc": "2026-09-19T13:21:21Z",
+  "attempt": "run_bundle before queue creation",
+  "command": "datasets/runs/pull/run_fourcut_acceptance.sh",
+  "result": {
+    "returncode": 2,
+    "stderr": "acceptance refused: ModelScopeVisionJudgeError: MODELSCOPE_API_KEY (or MODELSCOPE_TOKEN/MODELSCOPE_API_TOKEN) is required; refusing to run an ungated vision judge",
+    "stdout": ""
+  },
+  "disposition": "No queue, render, ledger, or assembly was created. Retry selects the existing repository-owned local Qwen vision backend with WANGP_VISION_BACKEND=local; no QC threshold is changed.",
+  "gate": "vision-judge backend fail-closed preflight"
+}

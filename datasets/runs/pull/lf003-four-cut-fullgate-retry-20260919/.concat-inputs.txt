@@ -1,0 +1,4 @@
+file '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4'
+file '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/remux.mp4'
+file '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/remux.mp4'
+file '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/remux.mp4'

@@ -1,0 +1,40 @@
+{
+  "attempt_index": 1,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 45,
+  "model": "/home/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "fbe9b2f08f17be48396b9132f27b446c47451975df13b2272edca71e5a6048fb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/tess-cut3.wav",
+  "output_sha256": "640e27ea0e669c66ecb502d243474cfcd145df8955efc59023982c1e4ffe021e",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+    "rms_db": -17.3,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/tess-cut3.wav",
+    "speaker_id": "Tess",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+  "prepared_sha256": "f660d9564d073056110f1bc210c79c6ed83c4773c6e02743e688c11607cecfe7",
+  "remote_execution": {
+    "environment_evidence": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/vibevoice-report.json.host_environment.json",
+    "manifest": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/pull/lf003-four-cut-fullgate-20260919/.vibevoice-4de89bdc86a441bfaa5728c6e68b11ed/manifest.json",
+    "model": "/home/straughter/models/VibeVoice-7B-hf",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "/home/straughter/vb7-venv/bin/python",
+    "python_implementation": "CPython",
+    "python_version": "3.11.14",
+    "repo": "/home/straughter/wangp-dspy-vibevoice-20260916",
+    "resolved_python": "/home/straughter/vb7-venv/bin/python"
+  },
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 45,
+  "seed_rejections": [],
+  "speaker": "Tess",
+  "text": "The projector died at midnight.",
+  "turn_index": 1,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/assets/acceptance/lf003-v3/new_audio/lf003_tess_raw.wav",
+  "voice_reference_sha256": "6e9017ad9a19a01fdecb7a0e4af2ceb79b377d2376538ced3947bef5df136431"
+}

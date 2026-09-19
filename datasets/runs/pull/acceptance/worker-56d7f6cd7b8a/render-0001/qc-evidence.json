@@ -1,0 +1,114 @@
+{
+  "av_sync_gate": {
+    "confidence": 0.58634,
+    "crop_factors": [
+      4.0,
+      8.0,
+      12.0
+    ],
+    "crop_results": [
+      {
+        "confidence": 0.2728137969970703,
+        "factor": 4.0,
+        "minimum_distance": 10.554861068725586,
+        "offset_frames": -10
+      },
+      {
+        "confidence": 0.5863399505615234,
+        "factor": 8.0,
+        "minimum_distance": 10.41807746887207,
+        "offset_frames": -1
+      },
+      {
+        "confidence": 0.8080368041992188,
+        "factor": 12.0,
+        "minimum_distance": 11.336686134338379,
+        "offset_frames": 0
+      }
+    ],
+    "method": "syncnet_v2_multicrop/v1",
+    "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+    "offset_frames_25fps": -1,
+    "offset_seconds": -0.04,
+    "pass_bar": {
+      "max_abs_offset_frames_25fps": 10,
+      "min_confidence": 1.0
+    },
+    "passed": false,
+    "phonetic_sync_verified": false,
+    "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4",
+    "speaker_mouth_bbox": [
+      0.605,
+      0.165,
+      0.025,
+      0.015
+    ],
+    "status": "complete",
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4",
+    "video_sha256": "342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522"
+  },
+  "vision_judge": {
+    "action_match": 0.85,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room; silent other S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition.",
+    "mouth_activity": 0.1,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames maintain the correct spatial anchor: Tess (S1) is on the left in the navy jacket with the star pin, and Rho (S2) is on the right in the olive jacket and red knit cap. The composition and scale are consistent with the reference. Rho's mouth is slightly open in the generated frames, suggesting a speaking state, while Tess's mouth is closed, consistent with a listening role. The action is subtle but visible in the slight change of Rho's head and mouth position.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.1,\n  \"action_match\": 0.85,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor: Tess (S1) is on the left in the navy jacket with the star pin, and Rho (S2) is on the right in the olive jacket and red knit cap. The composition and scale are consistent with the reference. Rho's mouth is slightly open in the generated frames, suggesting a speaking state, while Tess's mouth is closed, consistent with a listening role. The action is subtle but visible in the slight change of Rho's head and mouth position.\"\n}",
+    "speaker_attribution": 0.95,
+    "speaker_mouth_bbox": [
+      0.605,
+      0.165,
+      0.025,
+      0.015
+    ],
+    "speaker_mouth_bboxes": [
+      [
+        0.605,
+        0.165,
+        0.025,
+        0.015
+      ],
+      [
+        0.605,
+        0.165,
+        0.025,
+        0.015
+      ],
+      [
+        0.605,
+        0.165,
+        0.025,
+        0.015
+      ]
+    ],
+    "speaker_mouth_center_spread": [
+      0.0,
+      0.0
+    ],
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4"
+  },
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/raw.mp4",
+      "intended_text": "Then give me a real horizon.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "post",
+      "score": 0.667,
+      "transcript": "can give me a real horizon here."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "intended_text": "Then give me a real horizon.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.833,
+      "transcript": "can give me a real horizon."
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "wangp-dspy.frame-psnr/v1",
+  "method": "ffmpeg PSNR over decoded PNG frames 0, 28, and 55",
+  "frame_000_vs_028_average_psnr_db": 36.52677,
+  "frame_000_vs_055_average_psnr_db": 38.853586,
+  "frame_028_vs_055_average_psnr_db": 36.84949,
+  "interpretation": "High frame-to-frame similarity; this is quantitative support for the near-static contact-sheet observation, not a substitute for the rejected mouth-box gate."
+}

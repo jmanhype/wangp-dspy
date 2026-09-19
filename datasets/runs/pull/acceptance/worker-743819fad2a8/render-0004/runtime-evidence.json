@@ -1,0 +1,50 @@
+{
+  "artifact_hashes": {
+    "manifest": "00c4728188f7587ee4b812dc72c2e43c7b4749ec49ef6f1dd3b1a0e86ab759a4",
+    "remux": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c",
+    "render": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c"
+  },
+  "audio_source": {
+    "explicit_source": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+  },
+  "candidate_label": "",
+  "eligible_for_gepa": false,
+  "eligible_for_qc": false,
+  "gate_failures": 0,
+  "manifest_hash": "00c4728188f7587ee4b812dc72c2e43c7b4749ec49ef6f1dd3b1a0e86ab759a4",
+  "provenance": {
+    "critic_model": "Qwen2-Audio-7B",
+    "judge_used": false,
+    "lane": "audio_reactive"
+  },
+  "qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "av_sync_gate": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  },
+  "raw_render_hash": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c",
+  "reason": "judge has not run \u2014 honest Qwen2-Audio-7B placeholder, scores None",
+  "remux_evidence": true,
+  "remux_hash": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c",
+  "runtime": {
+    "audio_carrier": "native_h3",
+    "critic_version": null,
+    "explicit_audio_source": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+    "final_artifact_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4",
+    "lane": "ref2va_runtime",
+    "native_preserved": true,
+    "raw_render_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/raw.mp4",
+    "remux_output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4"
+  },
+  "seed": null,
+  "settings_hash": "ed32523eb7a2a1cc7d67a1db4166896391fbc02078c1f69d3883f6ee5af22424",
+  "target_qc_score": null,
+  "verdict": "pending"
+}
