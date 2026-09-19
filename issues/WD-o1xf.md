@@ -8,7 +8,7 @@ parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
 updated_at: 2026-09-19T02:53:23Z
-content_hash: "sha256:476057da66c1fd69162ecb0239902a519f76f1ceb06ecd15a2c8611925116366"
+content_hash: "sha256:4b5120a1603469169824a53462d820379f3f7db71bdb2de3f740d4443909f5c2"
 assignee: dev-WD-o1xf
 labels: [delivered]
 ---
@@ -70,6 +70,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-18.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Commands run:
  - /usr/bin/python3 -m py_compile /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py
