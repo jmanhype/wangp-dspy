@@ -7,10 +7,10 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
-updated_at: 2026-09-19T16:33:08Z
-content_hash: "sha256:82c4fa4b4f0fd416f0ed93765dc45392d0c5e1f325e17eecf76974ee58710009"
+updated_at: 2026-09-19T16:50:49Z
+content_hash: "sha256:cc0ec80f9f045c3bd4a7e3f876d6238c6d4397ad1cc969a3db71eb1a18591db6"
 assignee: dev-WD-8l2f
-follows: [WD-v66o]
+follows: [WD-v66o, WD-sf9i]
 blocks: [WD-rij6]
 ---
 
@@ -204,10 +204,12 @@ status: new
 - 2026-09-19T16:33:08Z auto-follows: linked to predecessor WD-v66o
 - 2026-09-19T16:33:08Z claimed by dev-WD-8l2f
 - 2026-09-19T16:33:09Z dep_added: blocks WD-rij6
+- 2026-09-19T16:50:49Z status: in_progress -> in_progress
+- 2026-09-19T16:50:49Z auto-follows: linked to predecessor WD-sf9i
 
 ## Links
 - Parent: [[WD-j9nx]]
 - Blocks: [[WD-rij6]]
-- Follows: [[WD-v66o]]
+- Follows: [[WD-v66o]], [[WD-sf9i]]
 
 ## Comments

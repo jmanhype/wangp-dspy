@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
 updated_at: 2026-09-19T15:35:09Z
-content_hash: "sha256:aac348dde0fe54030c87334d2bcd971a635330bdb097d5590b57d5fb0c5e7ed8"
+content_hash: "sha256:715098e3d3779844b135db77c5b92d7b81d87a75ab778eb45af5e54b9586c6e5"
 assignee: dev-WD-sf9i
 follows: [WD-ice0, WD-clms]
 labels: [accepted]
 closed_at: 2026-09-19T15:35:08Z
 close_reason: "Accepted: independently reran compilation, 34 vision/executor tests, 27 adapter/ref2va runtime tests, preserved LF003 evidence tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Malformed mouth-box evidence remains blocking and is now replayable through every durable evidence boundary."
-led_to: [WD-v66o]
+led_to: [WD-v66o, WD-8l2f]
 ---
 
 ## Description
@@ -253,6 +253,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-ice0]], [[WD-clms]]
-- Led to: [[WD-v66o]]
+- Led to: [[WD-v66o]], [[WD-8l2f]]
 
 ## Comments
