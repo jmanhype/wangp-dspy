@@ -10,6 +10,7 @@ created_by: speed
 updated_at: 2026-09-19T20:43:44Z
 content_hash: "sha256:636c1f8ce4c156d79da99510650d298b3a021db275698af284655e6da23e271c"
 assignee: dev-WD-dd81
+labels: [delivered]
 ---
 
 ## Description
