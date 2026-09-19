@@ -11,6 +11,7 @@ updated_at: 2026-09-19T14:57:39Z
 content_hash: "sha256:af4cf328ddc7cb38055c73a63ad8b5b494caf5e3e262b3c67b8d1dbed6357c1e"
 assignee: dev-WD-rij6
 follows: [WD-ice0, WD-clms]
+labels: [delivered]
 ---
 
 ## Description
