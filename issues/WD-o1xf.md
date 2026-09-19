@@ -10,7 +10,7 @@ created_by: speed
 updated_at: 2026-09-19T02:53:56Z
 content_hash: "sha256:1b86af760a169fa3ae901037dff95ce725f1d4de94e28fe9da62f5e2c4f6c8b8"
 assignee: dev-WD-o1xf
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-19T02:53:56Z
 close_reason: "Accepted: symptom-specific Supabase RLS debugging now outranks the broad Supabase skill under meta-language prompts, with 9/9 tests, clean pvg verify, fresh-process confirmation, and unchanged hook registration."
 ---
