@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
-updated_at: 2026-09-19T16:50:49Z
-content_hash: "sha256:75193c5efbefcd0b666251158d8d7d394cd8a81c892ff9c51dee08d189f65ee5"
+updated_at: 2026-09-19T16:51:50Z
+content_hash: "sha256:7c0544be659a759f07af30aa29c662dddcc316eb0a77699dff38249bb3fcbd9f"
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
 blocks: [WD-rij6]
@@ -198,6 +198,59 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8l2f
+git diff --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m py_compile qc/audio_critic/vision_judge.py tests/test_vision_judge.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_vision_judge.py tests/test_local_qwen_vision_judge.py tests/test_modelscope_vision_judge.py tests/test_ref2va_runtime.py tests/test_jobs_executor.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_av_sync_gate.py -k 'not live_calibration'
+pvg verify qc/audio_critic/vision_judge.py tests/test_vision_judge.py --include-tests --format=text
+```
+
+Independent coordinator results:
+
+- `git diff --check`: exit 0.
+- Compilation: exit 0.
+- Independent core targeted suite: 93 tests passed.
+- Focused moving/diagnostic/SyncNet tests: 3/3 passed.
+- `pvg verify`: passed with 2 files scanned and zero issues.
+- Worker’s expanded checkout-local evidence suite: 176/176 passed, zero skipped, using temporarily copied untracked fixtures that were removed afterward.
+- Diagnostic replay used accepted WD-v66o artifact SHA-256 `bb6f0c97ed24cbada1a19c7e352d2ccd1bbc07bbb2594765d802d6cce19e8664` and preserved video SHA-256 `08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d`.
+- Replay result: vision passed with center spreads `[0.0475, 0.0175]`; median SyncNet box remains `[0.310, 0.190, 0.020, 0.015]`; `av_sync_verified=false`.
+
+### CI/Test Results
+
+```text
+independent core targeted suite: 93 passed
+focused moving/diagnostic/SyncNet tests: 3 passed
+worker expanded evidence suite: 176 passed
+pvg verify: PASSED (2 files scanned, 0 issues)
+```
+
+Summary: valid per-frame mouth movement no longer fails the still-frame gate solely on center spread. Exact three-box shape/range validation, identity/speaker pass bars, median-box derivation, and blocking SyncNet authority remain unchanged; x/y motion is preserved as evidence.
+
+Commit SHA: 794fdcb
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Exact three valid boxes mandatory | PASS | Validation tests retained. |
+| 2. Malformed/out-of-range/zero-area/frame-escaping boxes fail | PASS | Expanded parameterization. |
+| 3. Valid LF003 moving boxes pass still-frame validation | PASS | Moving-box and diagnostic replay tests. |
+| 4. Center spreads and median box recorded | PASS | `speaker_mouth_center_spread` evidence assertions. |
+| 5. Action/speaker pass bars unchanged | PASS | Semantic scan and low-alignment test. |
+| 6. Moving fixture supplies exact median to fake SyncNet | PASS | Captured fake SyncNet kwargs test. |
+| 7. Fake SyncNet failure still blocks | PASS | Integrated QC failure test. |
+| 8. Existing targeted suites green | PASS | 93 independent and 176 worker evidence tests. |
+| 9. WD-v66o diagnostic replay uses recorded hashes/spreads | PASS | Replay test and hashes above. |
+| 10. `git diff --check` passes | PASS | Exit 0. |
+
+Non-AC discovery: fresh story worktrees cannot run the full LF003/SyncNet evidence suites because required preserved media/fixtures are untracked in the primary checkout. This is filed separately and does not alter WD-8l2f.
 
 
 ## nd_contract
