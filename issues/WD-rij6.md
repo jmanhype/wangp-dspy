@@ -7,12 +7,12 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T20:28:47Z
+updated_at: 2026-09-19T20:28:48Z
 content_hash: "sha256:1609238d9c5216ae80946297705a2341e7a89f5d36b10114aeb83f77e7bf58e6"
 follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-19T20:28:47Z
 close_reason: "Accepted: independently reran targeted LF003/vision/executor tests, full 1,526-test suite, manifest/content-hash checks, queue/ledger inspection, ffprobe, contact-sheet review, and staged-secret scan. Four fresh cuts passed all gates; two governed rejections are preserved; assembly is repository-owned and explicitly operator_review_pending."
 ---
