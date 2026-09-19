@@ -7,8 +7,9 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:28:09Z
+updated_at: 2026-09-19T03:28:10Z
 content_hash: "sha256:58b30e50dcacada8ccca4d9a42f40fa51f21945e6e8b78f29b0e9378be142e0c"
+labels: [discovered-by-pm]
 ---
 
 ## Description
