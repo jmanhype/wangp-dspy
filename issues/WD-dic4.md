@@ -1,13 +1,15 @@
 ---
 id: WD-dic4
 title: "Codex Skill Router calibration"
-status: open
+status: closed
 priority: 0
 type: epic
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
-updated_at: 2026-09-19T02:48:59Z
-content_hash: "sha256:05c1a25f0f936a3371bb5b401c3b00edd6818edac218ebfd8f64648a74238175"
+updated_at: 2026-09-19T02:54:10Z
+content_hash: "sha256:e9fb0ff573d2581b5a71d9b983bf5913a87bebeb49fab00013c7e12f230e2b85"
+closed_at: 2026-09-19T02:54:10Z
+close_reason: "All child stories accepted; Skill Router symptom-specific calibration met the epic outcomes."
 ---
 
 ## Description
@@ -61,7 +63,7 @@ Adjust local scoring only; no network or persistence changes.
 
 
 ## History
-
+- 2026-09-19T02:54:10Z status: open -> closed
 
 ## Links
 
