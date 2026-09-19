@@ -11,7 +11,7 @@ updated_at: 2026-09-19T15:35:08Z
 content_hash: "sha256:fcadc44b786c4d12a337bbebfd8bc5d1e68e649ddb1d92634d64976b03e7b99b"
 assignee: dev-WD-sf9i
 follows: [WD-ice0, WD-clms]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-19T15:35:08Z
 close_reason: "Accepted: independently reran compilation, 34 vision/executor tests, 27 adapter/ref2va runtime tests, preserved LF003 evidence tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Malformed mouth-box evidence remains blocking and is now replayable through every durable evidence boundary."
 ---
