@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:43:58Z
-content_hash: "sha256:dde95a8a8eb02054b619830a7177922df831a8f8760d68e4a6bad8ae04a76f30"
+updated_at: 2026-09-19T03:47:55Z
+content_hash: "sha256:a92cb63405143c8455f8ace4b2a1098c2225426d818db2d3cdff99ca39f53b31"
 labels: [discovered-by-pm, accepted]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -104,6 +104,22 @@ status: new
 
 
 ## Notes
+## Reconciliation After Accepted-Artifact Drift
+
+Summary: a post-acceptance refactor transiently changed hook.py and test_router.py after this story closed. The accepted versions were recovered byte-for-byte from the recorded session output and restored.
+
+Commands run after restoration:
+ - `/usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p test_router.py -v`
+ - `pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py --format=text`
+
+Results: 13 tests passed with zero failures/errors/skips; pvg verify passed with zero issues.
+
+Restored artifact SHA-256:
+ - hook.py 3b4546e67cdd4111266d861e16e868eec5ed9eaeb99a52cd37dad74f52de793c
+ - test_router.py 55fad915e2a9d4dca834a34b45eaa5863cc938f86769fcfc2ab21b6458442bc1
+
+The accepted README hash 010e5f6876d62ed57801014132e0928099ac9bb29ecab388dd9f738d2e2fe8c0 remained unchanged throughout. The transient 16-test implementation was withdrawn; it was not the accepted artifact.
+
 ## Implementation Evidence
 
 ### CI/Test Results
