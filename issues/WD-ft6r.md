@@ -8,7 +8,7 @@ parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
 updated_at: 2026-09-19T03:50:31Z
-content_hash: "sha256:45e805722a9192b9e0cfe28d68385319f9e0ec983ce6999965f3df5716b6cea8"
+content_hash: "sha256:1210a3fcf54572f571b22f7a1db1b93f81f8248a72ad25461624b2f8e8d18fb6"
 assignee: dev-WD-ft6r
 ---
 
@@ -76,7 +76,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed 2026-09-19 from pvg loop next under the machine-global infrastructure exception; no repository worktree applies.
+
+### proof
+- [ ] Feedback implementation and tests pending.
 
 ## History
 - 2026-09-19T03:50:31Z status: open -> in_progress
