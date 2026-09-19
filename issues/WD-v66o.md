@@ -7,10 +7,10 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:36:38Z
 created_by: speed
-updated_at: 2026-09-19T15:36:51Z
-content_hash: "sha256:074d5e260f3757215d58a8e6f25478730ce476b60de562e8e719b0c7ba98513f"
+updated_at: 2026-09-19T16:17:24Z
+content_hash: "sha256:46844e806e1ed7ad3790b7219240f365f9960af394dd8e5a9573c18439b70347"
 assignee: dev-WD-v66o
-follows: [WD-sf9i]
+follows: [WD-sf9i, WD-ice0]
 ---
 
 ## Description
@@ -178,9 +178,11 @@ status: new
 - 2026-09-19T15:36:51Z status: open -> in_progress
 - 2026-09-19T15:36:51Z auto-follows: linked to predecessor WD-sf9i
 - 2026-09-19T15:36:51Z claimed by dev-WD-v66o
+- 2026-09-19T16:17:24Z status: in_progress -> in_progress
+- 2026-09-19T16:17:24Z auto-follows: linked to predecessor WD-ice0
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-sf9i]]
+- Follows: [[WD-sf9i]], [[WD-ice0]]
 
 ## Comments
