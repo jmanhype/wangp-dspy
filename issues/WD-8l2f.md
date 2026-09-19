@@ -1,14 +1,16 @@
 ---
 id: WD-8l2f
 title: "Allow valid per-frame mouth motion before SyncNet"
-status: open
+status: in_progress
 priority: 0
 type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
-updated_at: 2026-09-19T16:32:57Z
-content_hash: "sha256:6a31772cde461d2a966693451b12e3887444d12e8a1bfe96dff2b3e9059f15e4"
+updated_at: 2026-09-19T16:33:08Z
+content_hash: "sha256:412f8b3212f48f1ea31c86e1bf2ce0f8de1b55274790ff7f1edfa19345b24b35"
+assignee: dev-WD-8l2f
+follows: [WD-v66o]
 ---
 
 ## Description
@@ -197,9 +199,12 @@ status: new
 
 
 ## History
-
+- 2026-09-19T16:33:08Z status: open -> in_progress
+- 2026-09-19T16:33:08Z auto-follows: linked to predecessor WD-v66o
+- 2026-09-19T16:33:08Z claimed by dev-WD-8l2f
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-v66o]]
 
 ## Comments
