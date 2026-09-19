@@ -7,8 +7,8 @@ type: task
 parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
-updated_at: 2026-09-19T03:13:39Z
-content_hash: "sha256:cb72b36be6e191fb8f96af86bdfc86ab5ec4524ae63c907c2edcb0a5dd66db32"
+updated_at: 2026-09-19T03:25:28Z
+content_hash: "sha256:c84f414bdca76798b2fe0c243b559e9cdfd4af1b686502770131b56fae391c40"
 assignee: dev-WD-8r8a
 ---
 
@@ -66,6 +66,69 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+### CI/Test Results
+Commands run:
+ - Local prompt-history shape audit with /usr/bin/python3.
+ - /usr/bin/python3 -m py_compile /tmp/sr_natural_calibration.py
+ - /usr/bin/python3 /tmp/sr_natural_calibration.py
+ - /usr/bin/python3 -m json.tool /Users/speed/.codex/skill-router/calibration-20260919-natural50.json
+ - Event-log line-count before/after comparison.
+ - Router source/config hash comparison.
+Summary: calibration PASS for 50 unique natural prompts; JSON validation PASS; event log unchanged at 19 lines; zero network calls; zero raw prompt leaks; source/config hashes unchanged.
+Coverage: 50 latest-per-thread natural prompts selected from 64 local histories containing 472 entries.
+Commit SHA: d318d661ac3287b35aa5e77c7fda4c9efc410b37dccd8e76193e8e3527149e03
+This is a deterministic machine-global artifact manifest SHA, not a wangp-dspy Git commit.
+
+### Calibration Results
+- Suggestions/abstentions: 35 suggest, 15 abstain.
+- Latency: median 3.057 ms, p95 44.278 ms, maximum 72.310 ms.
+- Obvious conversational prompts: 2, false-positive suggestions 0.
+- Literal skill-name references: 7; top-1 1, top-3 1. This metric is caveated because common names such as github/agents can appear as ordinary language.
+- Detected explicit skill invocations: 2; top-1 0, top-3 0.
+- Natural prompts needing manual review: 41.
+- Recommendation: file a focused follow-up to resolve explicit skill invocations locally before probabilistic ranking; do not globally change thresholds from this observational sample.
+
+### AC Verification
+| AC | Status | Evidence |
+|---|---|---|
+| 1 | PASS | Source was local .codex-global-state.json; privacy block records network_calls=0. |
+| 2 | PASS | Latest non-empty prompt per thread, deduplicated; 64 histories and 472 entries summarized. |
+| 3 | PASS | 50 unique natural prompts processed. |
+| 4 | PASS | JSON and Markdown reports created under /Users/speed/.codex/skill-router. |
+| 5 | PASS | Reports use SHA-256; fail-closed leak checks passed. |
+| 6 | PASS | Decisions, latency, distributions, literal/explicit metrics, false positives, and review count reported. |
+| 7 | PASS | hooks.json, config.json, and hook.py hashes remained unchanged. |
+| 8 | PASS | Follow-up recommendation recorded: exact explicit-invocation resolver. |
+
+### Artifacts
+- JSON: /Users/speed/.codex/skill-router/calibration-20260919-natural50.json
+- Markdown: /Users/speed/.codex/skill-router/calibration-20260919-natural50.md
+- JSON SHA-256: e2ef842e5913dada6aa899307a26444a57f4dafea1a6b221fd0f36bdfe873972
+- Markdown SHA-256: 4478f94cd90cd97bdef538675abc8991454daa53926b58fb5030663286991436
+
+LEARNINGS:
+- Literal substring matching is invalid for short skill names; contiguous token matching and a separate explicit-invocation detector are required.
+- A raw-substring privacy check can falsely reject a two-character conversational prompt; exact JSON-value/line checks avoid that while preserving fail-closed behavior.
+- Calibration latency is comfortably below the hook budget, but explicit invocation correctness is a separate failure mode from lexical ranking quality.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Calibration artifacts, privacy checks, source/config hashes, event-log invariance, and report hashes recorded above.
+
+### proof
+- [x] AC #1: local-only source used.
+- [x] AC #2: selection method and source counts recorded.
+- [x] AC #3: 50 unique prompts processed.
+- [x] AC #4: JSON and Markdown reports created.
+- [x] AC #5: no raw prompt persisted.
+- [x] AC #6: all required metrics reported.
+- [x] AC #7: router source/config unchanged.
+- [x] AC #8: focused follow-up recommendation recorded.
+
 ## nd_contract
 status: in_progress
 
