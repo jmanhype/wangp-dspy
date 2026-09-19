@@ -8,8 +8,8 @@ labels: [film-lane, phase-2]
 parent: WD-j9nx
 created_at: 2026-08-28T02:38:46Z
 created_by: speed
-updated_at: 2026-08-28T04:08:50Z
-content_hash: "sha256:62cb9ba397bfb9cbd304f8e97d69f79b07d193b7ff710e0ca69563417abb1ac3"
+updated_at: 2026-09-19T20:50:31Z
+content_hash: "sha256:973c10b2e317335dcbfbbfec32a6cbb120d47f8e32d95f9ad5fb6aa7fb5f3816"
 assignee: dev-WD-l5bx
 follows: [WD-g3cu]
 closed_at: 2026-08-28T04:08:50Z
@@ -210,3 +210,6 @@ naming the gate.
 
 ### 2026-08-28T04:08:49Z speed
 S1 DELIVERED: PR #37 merged (GLM re-review PASS after fix round; Luna mechanical PASS — zero duplicate enforcement sites verified per-rule, all six gates entry-point unskippable, 442 tests, RED trail genuine, clean-room confirmed). Nits logged: G3 run_pipeline wiring (S3 territory), render_profiles max(frames,96) constant import.
+
+### 2026-09-19T20:50:31Z speed
+Backlog hygiene: the historical Luna validator note was incorrectly stored as a standalone issues/ file without nd frontmatter, so pvg lint treated it as a malformed story. The full validator content remains preserved in nd/backlog history at commit 7cb43fd1cf76ac8225887a7ba9f038d7c64f6ad6. The malformed standalone file is removed; WD-l5bx remains the authoritative accepted story.
