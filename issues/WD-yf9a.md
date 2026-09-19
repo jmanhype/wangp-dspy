@@ -1,14 +1,16 @@
 ---
 id: WD-yf9a
 title: "Add consent-gated Jev semantic reranking"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:43Z
 created_by: speed
-updated_at: 2026-09-19T03:49:43Z
-content_hash: "sha256:c19c359eb82a6234316babd847642bed5cbf040066f9664d95b0e0716c0880b1"
+updated_at: 2026-09-19T05:45:02Z
+content_hash: "sha256:4a6d92764cda8af89a7fdc8d5ab7cebf08a05e82b5342b601b6633a091b00aaf"
+assignee: dev-WD-yf9a
+follows: [WD-8tkc]
 ---
 
 ## Description
@@ -81,9 +83,12 @@ status: new
 
 
 ## History
-
+- 2026-09-19T05:45:02Z status: open -> in_progress
+- 2026-09-19T05:45:02Z auto-follows: linked to predecessor WD-8tkc
+- 2026-09-19T05:45:02Z claimed by dev-WD-yf9a
 
 ## Links
 - Parent: [[WD-fehf]]
+- Follows: [[WD-8tkc]]
 
 ## Comments
