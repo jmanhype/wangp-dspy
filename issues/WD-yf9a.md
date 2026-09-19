@@ -11,7 +11,7 @@ updated_at: 2026-09-19T05:59:41Z
 content_hash: "sha256:8639707084f40aa1c2599f628aa376491546a161f9b235d4ff4d2acff827a9aa"
 assignee: dev-WD-yf9a
 follows: [WD-8tkc, WD-ft6r]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-19T05:59:41Z
 close_reason: "Accepted: independently reran compilation, full 27-test discovery, pvg verify, default/off network probe, static network/SkillRanker scan, source privacy review, and artifact hash verification. Jev reranking is consent-gated, bounded, timeout-limited, fail-open, and disabled in current production config."
 ---
