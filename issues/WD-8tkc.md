@@ -1,14 +1,16 @@
 ---
 id: WD-8tkc
 title: "Add local Skill Router health and quality reports"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:43Z
 created_by: speed
-updated_at: 2026-09-19T03:49:43Z
-content_hash: "sha256:6a9243e262b5b19177f5bef89a88b859cc7192b014f6ffd261d0f1b20ba1293d"
+updated_at: 2026-09-19T05:35:15Z
+content_hash: "sha256:4494abb26a9f2da45f91f6cf5fb3e65ac7b0e01373173b57a1356e571028feb2"
+assignee: dev-WD-8tkc
+follows: [WD-ft6r]
 ---
 
 ## Description
@@ -77,9 +79,12 @@ status: new
 
 
 ## History
-
+- 2026-09-19T05:35:15Z status: open -> in_progress
+- 2026-09-19T05:35:15Z auto-follows: linked to predecessor WD-ft6r
+- 2026-09-19T05:35:15Z claimed by dev-WD-8tkc
 
 ## Links
 - Parent: [[WD-fehf]]
+- Follows: [[WD-ft6r]]
 
 ## Comments
