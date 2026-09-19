@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:50:51Z
-content_hash: "sha256:388adacbd77716c7e413c2477f48d9ea4b6d84498ef34672bd6fc209541eba75"
+content_hash: "sha256:5716892eb8574e62b19545a8d34f25aaaf92b2d98bcca78d9f411d5d4163521a"
 assignee: dev-WD-ice0
 follows: [WD-clms, WD-cz6a, WD-l5bx]
 labels: [accepted]
 closed_at: 2026-09-19T03:50:50Z
 close_reason: "Accepted: operator creative verdict KEEP after full machine-gate evidence review."
-led_to: [WD-rij6]
+led_to: [WD-rij6, WD-sf9i]
 ---
 
 ## Description
@@ -173,7 +173,7 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-clms]], [[WD-cz6a]], [[WD-l5bx]]
-- Led to: [[WD-rij6]]
+- Led to: [[WD-rij6]], [[WD-sf9i]]
 
 ## Comments
 

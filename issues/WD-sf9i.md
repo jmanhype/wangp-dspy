@@ -1,14 +1,16 @@
 ---
 id: WD-sf9i
 title: "Preserve malformed LF003 cut3 mouth-localizer evidence"
-status: open
+status: in_progress
 priority: 0
 type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
-updated_at: 2026-09-19T15:00:51Z
-content_hash: "sha256:d3d9e22679130adce32ba96b3992a04a42904c103d95a6a2e71027a16bc21a4a"
+updated_at: 2026-09-19T15:01:07Z
+content_hash: "sha256:30ef044e14d02620550032ad3c88b239e2d905e1c5b2665317a69052a9bdd60f"
+assignee: dev-WD-sf9i
+follows: [WD-ice0]
 ---
 
 ## Description
@@ -161,9 +163,12 @@ status: new
 
 
 ## History
-
+- 2026-09-19T15:01:07Z status: open -> in_progress
+- 2026-09-19T15:01:07Z auto-follows: linked to predecessor WD-ice0
+- 2026-09-19T15:01:07Z claimed by dev-WD-sf9i
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Follows: [[WD-ice0]]
 
 ## Comments
