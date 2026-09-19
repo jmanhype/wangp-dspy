@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
-updated_at: 2026-09-19T15:33:18Z
-content_hash: "sha256:b7b3d267ce7dbe8b4b54009adc04357784189ab3d06327191369ba60a510068a"
+updated_at: 2026-09-19T15:34:51Z
+content_hash: "sha256:1ce001c456bb31eed28af4d093b1d4a99fb0c4dc90fd3368b5fb462078e3cbba"
 assignee: dev-WD-sf9i
 follows: [WD-ice0, WD-clms]
 blocks: [WD-rij6]
@@ -162,6 +162,58 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-sf9i
+git diff --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m py_compile qc/audio_critic/vision_judge.py qc/audio_critic/ref2va_stage.py services/jobs/executor.py tests/test_vision_judge.py tests/test_jobs_executor.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_vision_judge.py tests/test_jobs_executor.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_local_qwen_vision_judge.py tests/test_modelscope_vision_judge.py tests/test_ref2va_runtime.py
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_lf003_fourcut_gate_failure.py
+```
+
+Independent coordinator results:
+
+- `git diff --check`: exit 0.
+- Compilation: exit 0.
+- Vision/executor tests: 34/34 passed.
+- Vision adapter/ref2va runtime tests: 27/27 passed.
+- Preserved LF003 evidence test: 4/4 passed.
+- Diagnostic JSON parsed successfully and contains both identity and mouth-localizer raw responses plus SHA-256 hashes.
+- Forbidden-material scan found no API keys, bearer tokens, passwords, private keys, base64 frames, or image URLs.
+- Offline diagnostic used preserved cut-3 video hash `08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d`; no render, cut 4, assembly, or queue mutation occurred.
+
+### CI/Test Results
+
+```text
+34 vision/executor tests passed
+27 vision adapter/ref2va runtime tests passed
+4 preserved LF003 evidence tests passed
+git diff --check: PASS
+```
+
+Summary: malformed or missing three-box mouth-localizer output remains blocking, while VisionJudgeError, Ref2VA QC evidence, and executor rejection history now preserve parsed scores plus separate identity and locator raw responses. The preserved cut-3 diagnostic proves the local judge currently returns two boxes despite strong identity scores.
+
+Commit SHA: f30a8b5
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Malformed boxes remain blocking; thresholds unchanged | PASS | `VisionJudgeError` path and tests. |
+| 2. Error preserves scores and both raw responses | PASS | Parameterized vision tests. |
+| 3. Ref2VA persists `vision_rejection` with Whisper evidence | PASS | `test_qc_stage_preserves_vision_rejection_evidence`. |
+| 4. Executor history preserves evidence without prompts/credentials | PASS | `test_malformed_vision_contract_failure_is_terminal_and_evidence_preserved`. |
+| 5. Missing/wrong-count/non-numeric/out-of-range/valid cases covered | PASS | Parameterized malformed locator tests. |
+| 6. Offline cut-3 diagnostic persisted with hashes | PASS | Diagnostic JSON SHA-256 `698b2c16106e8262fe3a56b070d6eed9665d8803b5d8ad7be214832bbdff3771`. |
+| 7. Existing tests remain green | PASS | 34 + 27 + 4 targeted tests passed. |
+| 8. `git diff --check` passes | PASS | Exit 0. |
+
+Non-AC note: `pvg verify services/jobs/executor.py ...` reports a pre-existing bare `pass` at executor line 603 from commit `3d98d331`. It is unrelated to this change and was not hidden or altered.
 
 
 ## nd_contract
