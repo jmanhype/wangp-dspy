@@ -1,16 +1,16 @@
 ---
 id: WD-ice0
 title: "LF003 full-gate acceptance: strong Rho guide"
-status: open
+status: in_progress
 priority: 0
 type: task
 parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:29:27Z
-content_hash: "sha256:e8c07073098a6d9b0cc597821d63cb4fd50f2c0dea2fa6b73929b23d56819db7"
+content_hash: "sha256:f8536f83370d5704ab140e22e4b4000b778ece47c44337ab63a8a48e9e806c95"
 assignee: dev-WD-ice0
-follows: [WD-clms, WD-cz6a]
+follows: [WD-clms, WD-cz6a, WD-l5bx]
 ---
 
 ## Description
@@ -50,10 +50,12 @@ DELIVERED EVIDENCE: PR #143 merged at main 35201a1 (data commit 690fde1). Clean 
 - 2026-09-19T03:07:44Z auto-follows: linked to predecessor WD-cz6a
 - 2026-09-19T03:07:44Z claimed by dev-WD-ice0
 - 2026-09-19T03:13:39Z status: in_progress -> open
+- 2026-09-19T03:29:27Z status: open -> in_progress
+- 2026-09-19T03:29:28Z auto-follows: linked to predecessor WD-l5bx
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Follows: [[WD-clms]], [[WD-cz6a]]
+- Follows: [[WD-clms]], [[WD-cz6a]], [[WD-l5bx]]
 
 ## Comments
 
