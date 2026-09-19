@@ -1,13 +1,15 @@
 ---
 id: WD-wzbl
 title: "Codex Skill Router natural-use calibration"
-status: open
+status: closed
 priority: 0
 type: epic
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
-updated_at: 2026-09-19T03:13:39Z
-content_hash: "sha256:7c2fac78add30a928fe6a5f1e7d7ac11cbe37e8cc7bf2199f605cf1df0395bb8"
+updated_at: 2026-09-19T03:36:27Z
+content_hash: "sha256:cd6901e2b3a3753cf6b92fa2443d7595b0f9217d4694d8f6c669816a22860e56"
+closed_at: 2026-09-19T03:36:27Z
+close_reason: "All child stories accepted; natural-use calibration completed and its explicit-invocation follow-up fixed."
 ---
 
 ## Description
@@ -62,7 +64,7 @@ Use the latest stored prompt per history thread, deduplicate prompts, exclude sy
 
 
 ## History
-
+- 2026-09-19T03:36:27Z status: open -> closed
 
 ## Links
 
