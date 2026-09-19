@@ -1,0 +1,32 @@
+{
+  "audio_guide": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+  "audio_policy": {
+    "discard_rendered_audio": false,
+    "remux_source": "source_master",
+    "remux_window": [
+      0.0,
+      2.3333333333333335
+    ]
+  },
+  "audio_provenance": {
+    "keeper_window_s": [
+      0.0,
+      2.3333333333333335
+    ],
+    "source_master": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+    "vocal_stem": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+    "whisper_map": "/private/tmp/wangp-dspy-rhostrong-8d865dc/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav"
+  },
+  "audio_qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "av_sync_gate": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  }
+}

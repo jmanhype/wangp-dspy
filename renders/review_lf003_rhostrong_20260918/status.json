@@ -1,0 +1,13 @@
+{
+  "schema": "wangp-dspy.render-review-status/v1",
+  "run_id": "lf003-two-cut-vibevoice-rhostrong-20260918",
+  "artifact": "datasets/runs/pull/lf003-two-cut-vibevoice-rhostrong-20260918/assembled.mp4",
+  "artifact_sha256": "1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad",
+  "classification": "final_candidate",
+  "decision": "mechanically_eligible_operator_review_pending",
+  "known_issues": [
+    "Whisper hears the Rho line as 'can give me a real horizon here' rather than the exact scripted text.",
+    "SyncNet verifies temporal audio/lip embedding alignment, not phoneme-level correctness."
+  ],
+  "keeper_path": null
+}

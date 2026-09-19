@@ -1,0 +1,77 @@
+{
+  "schema": "wangp-dspy.acceptance-film-manifest/v1",
+  "run_id": "lf003-two-cut-vibevoice-rhostrong-20260918",
+  "execution_repository": {
+    "commit_sha": "8d865dc5aafce70c7162dda6e47d9f2686e2e09f",
+    "repo_root": "/private/tmp/wangp-dspy-rhostrong-8d865dc",
+    "clean_tree": true,
+    "changed_path_count": 0,
+    "untracked_path_count": 0
+  },
+  "bundle": {
+    "path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-rhostrong-20260918.json",
+    "sha256": "df9012a3dcd2819d73ccacc9f7dbf9754c4a298a58869079424b46c611bdb361"
+  },
+  "jobs_db": {
+    "path": "datasets/lf003-two-cut-vibevoice-rhostrong-20260918.jobs.db",
+    "sha256": "7d454c69c3c718b0933eadd7d8b74a2e08194434f36827b8fe2b0623be7328e2"
+  },
+  "ledger": {
+    "path": "datasets/lf003-two-cut-vibevoice-rhostrong-20260918.runs.jsonl",
+    "sha256": "c1c6316483da5c9ae9349863991f22d0bd84c812be60e301f78aef797f9d1842",
+    "record_sha256": "d858a9fbdd155e72e321fc675ffbf146c2927cdc1580abea4ac539760c947504"
+  },
+  "cuts": [
+    {
+      "speaker": "Tess",
+      "job_id": "job-1789785157619-8d3817d8",
+      "seed": 906,
+      "artifact": "datasets/runs/pull/acceptance/worker-b24f3c42f3b7/render-0000/remux.mp4",
+      "sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5",
+      "whisper_pre": 0.833,
+      "whisper_post": 0.833,
+      "vision_action": 0.9,
+      "vision_speaker": 0.95,
+      "mouth_boxes": [
+        [0.33, 0.19, 0.02, 0.01],
+        [0.33, 0.19, 0.02, 0.01],
+        [0.33, 0.19, 0.02, 0.01]
+      ],
+      "syncnet_confidence": 3.336197,
+      "syncnet_offset_frames_25fps": -1
+    },
+    {
+      "speaker": "Rho",
+      "job_id": "job-1789785157620-6fb3e2eb",
+      "seed": 906,
+      "artifact": "datasets/runs/pull/acceptance/worker-06d34fef6c59/render-0001/remux.mp4",
+      "sha256": "342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522",
+      "whisper_pre": 0.833,
+      "whisper_post": 0.667,
+      "vision_action": 0.85,
+      "vision_speaker": 0.95,
+      "mouth_boxes": [
+        [0.605, 0.155, 0.025, 0.015],
+        [0.605, 0.155, 0.025, 0.015],
+        [0.605, 0.155, 0.025, 0.015]
+      ],
+      "syncnet_confidence": 1.967893,
+      "syncnet_offset_frames_25fps": -1
+    }
+  ],
+  "assembled": {
+    "path": "datasets/runs/pull/lf003-two-cut-vibevoice-rhostrong-20260918/assembled.mp4",
+    "sha256": "1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad",
+    "duration_s": 4.666667,
+    "frames": 112,
+    "resolution": [704, 576],
+    "fps": 24
+  },
+  "review": {
+    "path": "renders/review_lf003_rhostrong_20260918",
+    "transcription_report": "renders/review_lf003_rhostrong_20260918/audio_analysis/TRANSCRIPTION_AND_TIMING_REPORT.md"
+  },
+  "status": "mechanically_eligible_final_candidate",
+  "operator_verdict": "pending",
+  "scope": "Both cuts passed every machine gate. Phonetic correctness and creative acceptance remain operator-reviewed; SyncNet does not claim phonetic correctness."
+}
