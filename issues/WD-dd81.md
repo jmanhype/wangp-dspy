@@ -1,16 +1,18 @@
 ---
 id: WD-dd81
 title: "Define the thin Talker-Reasoner bridge contract"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
-updated_at: 2026-09-19T20:43:44Z
-content_hash: "sha256:0e471650a8e394cba5c355a00f7145accb9e91c13e95bf29fd49387703230ec7"
+updated_at: 2026-09-19T20:44:00Z
+content_hash: "sha256:6a79f1ec5f305984058a21f16939854bd70f277528bc62b1b49270c887ebc31c"
 assignee: dev-WD-dd81
 labels: [delivered]
+closed_at: 2026-09-19T20:44:00Z
+close_reason: "Accepted: independently re-read and AST-verified all four cited source seams on current main; the 299-line docs-only delivery stays in budget, preserves PersonaPlex/Moshi and Voxtral capability facts, adds the fifth-session target audio bus and staged adaptation, defaults to privacy-safe hash-bearing events, and keeps run_bundle as the sole release-quality path. Exact primary-interpreter pipeline test passed 11/11; independent contract validation passed 24/24; git diff checks and scoped pvg verify passed."
 ---
 
 ## Description
@@ -703,6 +705,7 @@ status: delivered
 - 2026-09-19T20:40:14Z status: open -> in_progress
 - 2026-09-19T20:40:14Z claimed by dev-WD-dd81
 - 2026-09-19T20:43:44Z status: in_progress -> in_progress
+- 2026-09-19T20:44:00Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-1te5]]
