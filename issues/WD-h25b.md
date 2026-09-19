@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
 updated_at: 2026-09-19T20:38:33Z
-content_hash: "sha256:06566aaa833d54204bc13e9ae08762a0c19a3f7a4918a9ff74883269dca6e5ae"
+content_hash: "sha256:48e18c67e94c2da4044796ddf0684c36cd67b5aa7f8ab27e0042f71275832e27"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52, WD-8l2f]
 labels: [accepted]
@@ -76,6 +76,18 @@ attribution, master locks, job JSONs) + PR. This is the movie.
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Formatting repair for the delivery-proof parser; this addendum restates the already measured results in the contract shape required by `pvg story verify-delivery`.
