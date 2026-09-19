@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:29:28Z
-content_hash: "sha256:f8536f83370d5704ab140e22e4b4000b778ece47c44337ab63a8a48e9e806c95"
+content_hash: "sha256:0c857350c4e3aa8b2aa0bffb9103e81dcc1ffc77daaf924d303bd7dff348b473"
 assignee: dev-WD-ice0
 follows: [WD-clms, WD-cz6a, WD-l5bx]
 labels: [delivered]
@@ -41,6 +41,17 @@ Current run: lf003-two-cut-vibevoice-rhostrong-20260918 at main 8d865dc.
 ## Notes
 IN-PROGRESS: Clean detached execution worktree /tmp/wangp-dspy-rhostrong-8d865dc at SHA 8d865dc. Live run ID lf003-two-cut-vibevoice-rhostrong-20260918. Required ignored LF003 plate assets were copied into that clean worktree and Git status remains clean. Do not run pvg loop next during execution; this lane is the recorded developer.
 DELIVERED EVIDENCE: PR #143 merged at main 35201a1 (data commit 690fde1). Clean execution worktree /private/tmp/wangp-dspy-rhostrong-8d865dc at 8d865dc; repository_provenance clean_tree=true, changed_path_count=0. Both queue jobs done with zero failures. Tess SHA 2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5; Rho SHA 342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522; assembled SHA 1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad. Gates: Tess Whisper .833/.833, vision .90/.95, mouth boxes unanimous, SyncNet 3.336197 offset -1. Rho Whisper .833/.667, vision .85/.95, mouth boxes unanimous, SyncNet 1.967893 offset -1. Assembly 112 frames, 4.666667s, 704x576, audio present. Tests: targeted LF003 evidence/bundle/fullgate tests PASS; full pytest suite exit 0. Operator verdict intentionally pending; manifest status mechanically_eligible_final_candidate, keeper_path null. Proof AC1 clean worktree; AC2 no completed_prefix; AC3 all gates PASS; AC4 chain and assembly verified; AC5 durable queue/ledger/evidence committed; AC6 no thresholds weakened.
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-18.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
 
 ## History
 - 2026-09-19T03:07:26Z status: open -> in_progress
