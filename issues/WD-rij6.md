@@ -10,7 +10,6 @@ created_by: speed
 updated_at: 2026-09-19T14:59:28Z
 content_hash: "sha256:4e4cc09fd8ef9a113b3e11c2173fb0749ce5bfb57a7bf7509dde77440bf31a17"
 follows: [WD-ice0, WD-clms]
-labels: [delivered]
 ---
 
 ## Description
