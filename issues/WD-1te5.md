@@ -1,13 +1,15 @@
 ---
 id: WD-1te5
 title: "Thin Talker-Reasoner bridge for governed film direction"
-status: open
+status: closed
 priority: 1
 type: epic
 created_at: 2026-09-19T04:14:03Z
 created_by: speed
-updated_at: 2026-09-19T04:38:57Z
-content_hash: "sha256:b19ddba9fe5c6c4ea32af703ce5748160147c2f54f68d3cfde1b6d805b1cc85b"
+updated_at: 2026-09-19T20:44:36Z
+content_hash: "sha256:20284f64e7275aaab31ad63fda98d6e08067cc158d27cc77377dc45cbec635b7"
+closed_at: 2026-09-19T20:44:36Z
+close_reason: "Completion gate passed: capstone WD-dd81 is accepted and merged at main commit 6fc7c61; docs contract remained within 299 lines, all four source seams were independently verified, exact pipeline test passed 11/11, independent validation passed 24/24, and scoped backlog lint plus RTM passed."
 ---
 
 ## Description
@@ -204,7 +206,7 @@ status: new
 
 
 ## History
-
+- 2026-09-19T20:44:36Z status: open -> closed
 
 ## Links
 
