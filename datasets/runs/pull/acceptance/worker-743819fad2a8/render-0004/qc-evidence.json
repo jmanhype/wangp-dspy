@@ -1,0 +1,24 @@
+{
+  "av_sync_gate": null,
+  "vision_judge": null,
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/raw.mp4",
+      "intended_text": "Then we will watch the stars.",
+      "pass_bar": 0.6,
+      "passed": false,
+      "phase": "post",
+      "score": 0.167,
+      "transcript": "Then we will watch the star or your group pull."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+      "intended_text": "Then we will watch the stars.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.833,
+      "transcript": "then we will watch the star."
+    }
+  }
+}

@@ -1,0 +1,715 @@
+{
+  "assembled": {
+    "audio_channels": 2,
+    "audio_codec": "aac",
+    "audio_sample_rate": "32000",
+    "bytes": 1161485,
+    "duration_s": 9.333333,
+    "fps": "24/1",
+    "frames": 224,
+    "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/assembled.mp4",
+    "resolution": [
+      704,
+      576
+    ],
+    "sha256": "5a8676922d16c954d579c096c5eb9891ce33758ef1ebda27e98f03c632422063"
+  },
+  "bundle": {
+    "bytes": 4937,
+    "path": "datasets/runs/provenance/lf003-four-cut-fullgate-retry-20260919/bundle.json",
+    "sha256": "2ecf63deae1da43d9d865996946b082b3a6968d1fbf0ba30ab6bbdf3a122ce28"
+  },
+  "chain_frames": {
+    "cut1_final_frame_input_to_cut2": {
+      "bytes": 845550,
+      "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0002/chain_last_frame.png",
+      "sha256": "41434f5bcfe8749bc2394e8829a5986b7891834a0198c3b4bdfd6bec38b0c249"
+    },
+    "cut2_final_frame_input_to_cut3": {
+      "bytes": 824264,
+      "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0003/chain_last_frame.png",
+      "sha256": "863c29eec362c4ac846e284f09151d310b73386e24e82878c2617495fc68c3d4"
+    },
+    "cut3_final_frame_input_to_cut4": {
+      "bytes": 804220,
+      "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0004/chain_last_frame.png",
+      "sha256": "08c8f4b257b80173da090e91ef64475a8ffb93ef87806674923dfe9df1b7b6a4"
+    }
+  },
+  "cuts": [
+    {
+      "artifacts": {
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/audio_manifest.json": {
+          "bytes": 1261,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/audio_manifest.json",
+          "sha256": "1cb6a5b3e09436a0e655efcfff62b192c532354a4ef379f4c325b659785ccd4b"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/conditioning-evidence.json": {
+          "bytes": 11447,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/conditioning-evidence.json",
+          "sha256": "79122277a97994893fc2b19325c713eaf8ed1068287848716770ed1834ebef8d"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/qc-evidence.json": {
+          "bytes": 4638,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/qc-evidence.json",
+          "sha256": "d6c3830206fbdbf8c577f7a53fe00203c459c6e11b7088ba17234ead507842bb"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/raw.mp4": {
+          "bytes": 1226274,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/raw.mp4",
+          "sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4": {
+          "bytes": 1226274,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4",
+          "sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/render.log": {
+          "bytes": 6648,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/render.log",
+          "sha256": "8615007578c244191df6e40a04e97264b793c3c230b77a696411920a1a352b51"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/runtime-evidence.json": {
+          "bytes": 2356,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/runtime-evidence.json",
+          "sha256": "18103eeb277139e480cb7bc888ec6f1d1fad079f0083c567f37fa95bf1d3a64b"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/settings.json": {
+          "bytes": 4346,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/settings.json",
+          "sha256": "ba03acf2a8d5428ee27f2c59bda81b8ba257b15dfb1a4a006e94d3f0e1cf215b"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/speaker_manifest.json": {
+          "bytes": 393,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/speaker_manifest.json",
+          "sha256": "37f96627cf29cfc7b3034b5116cdfddbe111d2c9f86e4aac0e8f156bb3c2696c"
+        },
+        "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/wgp-settings.json": {
+          "bytes": 2473,
+          "path": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/wgp-settings.json",
+          "sha256": "b71e43c2a2027b490dc6d00b94cd0d7358f3f2fdeb418d3c4eeef4b1f5e6b19b"
+        }
+      },
+      "chain_input": {
+        "bytes": 673909,
+        "path": "assets/acceptance/lf003-v3/anchor.png",
+        "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210"
+      },
+      "cut": 1,
+      "failure_class": null,
+      "failure_count": 0,
+      "identity_vision_passed": true,
+      "job_id": "job-1789839742823-a5fab8d0",
+      "mouth_boxes": [
+        [
+          0.33,
+          0.2,
+          0.02,
+          0.01
+        ],
+        [
+          0.33,
+          0.19,
+          0.02,
+          0.01
+        ],
+        [
+          0.33,
+          0.2,
+          0.02,
+          0.01
+        ]
+      ],
+      "mouth_center_spread": [
+        0.0,
+        0.010000000000000009
+      ],
+      "render_directory": "datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000",
+      "seed": 906,
+      "speaker": "Tess",
+      "state": "done",
+      "syncnet_confidence": 3.199512,
+      "syncnet_offset_frames_25fps": -1,
+      "syncnet_passed": true,
+      "vision_action": 0.9,
+      "vision_speaker": 0.95,
+      "whisper_post": 0.833,
+      "whisper_post_transcript": "Tomorrow's sunrise is only a project.",
+      "whisper_pre": 0.833,
+      "whisper_pre_transcript": "Tomorrow's sunrise is only a project."
+    },
+    {
+      "artifacts": {
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/audio_manifest.json": {
+          "bytes": 1265,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/audio_manifest.json",
+          "sha256": "fb25677f4acf85bc237b469b654ebbd5f1bdedc1bdfa3544c8fea030e33513f2"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/conditioning-evidence.json": {
+          "bytes": 11458,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/conditioning-evidence.json",
+          "sha256": "c85b3d7d2b704ea4a7dbc9699dafb45472529774be4b92cd1fcab5869af9331b"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/qc-evidence.json": {
+          "bytes": 4718,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/qc-evidence.json",
+          "sha256": "44d7757168cad07067cec76fddac05b5a71160b81c239c0efe77f33e6f86a36d"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/raw.mp4": {
+          "bytes": 1091408,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/raw.mp4",
+          "sha256": "0ce7932e7d399513165b557644c7633235b9c9c3a6227b6472e8aec9e175e76a"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/remux.mp4": {
+          "bytes": 1091408,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/remux.mp4",
+          "sha256": "0ce7932e7d399513165b557644c7633235b9c9c3a6227b6472e8aec9e175e76a"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/render.log": {
+          "bytes": 6669,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/render.log",
+          "sha256": "5eeec0c5633565d3b5596fa025d3c2c6d72e3636b48b1f21d985ce123bf2ec6a"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/runtime-evidence.json": {
+          "bytes": 2358,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/runtime-evidence.json",
+          "sha256": "0e137235f64cf0ede7fd647c75f7973afe9b8bf49eae60ce58771bd75f5bdce9"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/settings.json": {
+          "bytes": 4462,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/settings.json",
+          "sha256": "e197b1d034e811b0b3449d011d0a9e21df8b570a45c7700fefd4ca0ab6b85e59"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/speaker_manifest.json": {
+          "bytes": 382,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/speaker_manifest.json",
+          "sha256": "e7ce37e9d120a151734da64122249d60eeab94807f0383668b479b284a26c955"
+        },
+        "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/wgp-settings.json": {
+          "bytes": 2503,
+          "path": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/wgp-settings.json",
+          "sha256": "be8aac542e86f56886c87a30fda061fe170e5dda3e32e1772b88ea7cd0ac6d30"
+        }
+      },
+      "chain_input": {
+        "bytes": 845550,
+        "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0002/chain_last_frame.png",
+        "sha256": "41434f5bcfe8749bc2394e8829a5986b7891834a0198c3b4bdfd6bec38b0c249"
+      },
+      "cut": 2,
+      "failure_class": "qc_gate",
+      "failure_count": 1,
+      "identity_vision_passed": true,
+      "job_id": "job-1789839742824-a3f59d2a",
+      "mouth_boxes": [
+        [
+          0.61,
+          0.16,
+          0.02,
+          0.01
+        ],
+        [
+          0.61,
+          0.15,
+          0.02,
+          0.02
+        ],
+        [
+          0.605,
+          0.165,
+          0.025,
+          0.015
+        ]
+      ],
+      "mouth_center_spread": [
+        0.0025000000000000577,
+        0.012500000000000011
+      ],
+      "render_directory": "datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002",
+      "seed": 907,
+      "speaker": "Rho",
+      "state": "done",
+      "syncnet_confidence": 1.88513,
+      "syncnet_offset_frames_25fps": -2,
+      "syncnet_passed": true,
+      "vision_action": 0.9,
+      "vision_speaker": 0.95,
+      "whisper_post": 0.833,
+      "whisper_post_transcript": "Give me a real horizon",
+      "whisper_pre": 0.833,
+      "whisper_pre_transcript": "can give me a real horizon."
+    },
+    {
+      "artifacts": {
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/audio_manifest.json": {
+          "bytes": 1277,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/audio_manifest.json",
+          "sha256": "3cbe62d9f294e6f14276896dd7b6dcf68bcc25daca4011f52dd9c25c0f12f04b"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/conditioning-evidence.json": {
+          "bytes": 11460,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/conditioning-evidence.json",
+          "sha256": "8187349445f41df462204f04dddb6afd97c776793936aa2ecde7a5946ba8150e"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/qc-evidence.json": {
+          "bytes": 4649,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/qc-evidence.json",
+          "sha256": "06846a6ecfb14f778eb8967219d87339e280fe6cc86f137255ec39e437f2e04f"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/raw.mp4": {
+          "bytes": 1009630,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/raw.mp4",
+          "sha256": "0947723568bf59bcec9ad723973c352f0554de5f04cc125706cc68e6c82c7f65"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/remux.mp4": {
+          "bytes": 1009630,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/remux.mp4",
+          "sha256": "0947723568bf59bcec9ad723973c352f0554de5f04cc125706cc68e6c82c7f65"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/render.log": {
+          "bytes": 6671,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/render.log",
+          "sha256": "75db3cb6c5b1e385a1e1bcdf28bc4de3af2ea8ead6560811253ed2f99017ff7c"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/runtime-evidence.json": {
+          "bytes": 2364,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/runtime-evidence.json",
+          "sha256": "dd6e97d8c54b00ca9b154eda57beacf1134c44d8b051354f850eb9a5bc2c50ce"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/settings.json": {
+          "bytes": 4480,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/settings.json",
+          "sha256": "e0a4c138fa0f930c0f5f21621742ac438124162ae8c81635077382c62f6fc80b"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/speaker_manifest.json": {
+          "bytes": 388,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/speaker_manifest.json",
+          "sha256": "ccb70b29cd2244f8a0dba9138c8f95cc878e6375419d772fc83169e864154780"
+        },
+        "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/wgp-settings.json": {
+          "bytes": 2506,
+          "path": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/wgp-settings.json",
+          "sha256": "d1357ded34894fc5fc39adced2fff504e56de4587691be6518cb1b6c14682f0a"
+        }
+      },
+      "chain_input": {
+        "bytes": 824264,
+        "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0003/chain_last_frame.png",
+        "sha256": "863c29eec362c4ac846e284f09151d310b73386e24e82878c2617495fc68c3d4"
+      },
+      "cut": 3,
+      "failure_class": null,
+      "failure_count": 0,
+      "identity_vision_passed": true,
+      "job_id": "job-1789839742825-13937d70",
+      "mouth_boxes": [
+        [
+          0.33,
+          0.2,
+          0.02,
+          0.01
+        ],
+        [
+          0.33,
+          0.2,
+          0.02,
+          0.03
+        ],
+        [
+          0.31,
+          0.19,
+          0.02,
+          0.01
+        ]
+      ],
+      "mouth_center_spread": [
+        0.020000000000000018,
+        0.020000000000000018
+      ],
+      "render_directory": "datasets/runs/pull/acceptance/worker-5004a664779d/render-0003",
+      "seed": 906,
+      "speaker": "Tess",
+      "state": "done",
+      "syncnet_confidence": 3.395669,
+      "syncnet_offset_frames_25fps": -1,
+      "syncnet_passed": true,
+      "vision_action": 0.95,
+      "vision_speaker": 0.95,
+      "whisper_post": 1.0,
+      "whisper_post_transcript": "The projector died at midnight.",
+      "whisper_pre": 1.0,
+      "whisper_pre_transcript": "The projector died at midnight."
+    },
+    {
+      "artifacts": {
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/audio_manifest.json": {
+          "bytes": 1273,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/audio_manifest.json",
+          "sha256": "00c4728188f7587ee4b812dc72c2e43c7b4749ec49ef6f1dd3b1a0e86ab759a4"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/conditioning-evidence.json": {
+          "bytes": 11460,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/conditioning-evidence.json",
+          "sha256": "6df247aa6b9a736b7848af4fcb8be7659028ebf975f9f613d44b2c127d6db742"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/qc-evidence.json": {
+          "bytes": 4732,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/qc-evidence.json",
+          "sha256": "aeedb019b768846cf31607811e03bb35eeff1dfd68925f193f54ab3be899dfa8"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/raw.mp4": {
+          "bytes": 993237,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/raw.mp4",
+          "sha256": "b195fdd409db73cecab7cf448421ed9e5ec3e93b7066aaf637e83dd7b00b6276"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/remux.mp4": {
+          "bytes": 993237,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/remux.mp4",
+          "sha256": "b195fdd409db73cecab7cf448421ed9e5ec3e93b7066aaf637e83dd7b00b6276"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/render.log": {
+          "bytes": 6670,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/render.log",
+          "sha256": "47c13f7afccce099254926979c2fa74cfc4364ae8b680db9a925116bb64a37c5"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/runtime-evidence.json": {
+          "bytes": 2362,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/runtime-evidence.json",
+          "sha256": "b38bcdb083708122f9d8d35f352f71bb0d926b50b3827d1cfe03eabac3ba7084"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/settings.json": {
+          "bytes": 4473,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/settings.json",
+          "sha256": "7462a9add8274fbf00f000b0182df5f9fe14c23706e101e47ba0610879ef9f7f"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/speaker_manifest.json": {
+          "bytes": 385,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/speaker_manifest.json",
+          "sha256": "a6e5155627711cad60fec42e60defe2b98ed3431805a52c71d040ee83760597c"
+        },
+        "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/wgp-settings.json": {
+          "bytes": 2505,
+          "path": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/wgp-settings.json",
+          "sha256": "914e11c6b2b4eedb3388095383ad4b004277d819beb86089b97c7a3a336f3390"
+        }
+      },
+      "chain_input": {
+        "bytes": 804220,
+        "path": "datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/chain/clip0004/chain_last_frame.png",
+        "sha256": "08c8f4b257b80173da090e91ef64475a8ffb93ef87806674923dfe9df1b7b6a4"
+      },
+      "cut": 4,
+      "failure_class": "qc_gate",
+      "failure_count": 1,
+      "identity_vision_passed": true,
+      "job_id": "job-1789839742825-87aa96f5",
+      "mouth_boxes": [
+        [
+          0.59,
+          0.15,
+          0.02,
+          0.01
+        ],
+        [
+          0.605,
+          0.15,
+          0.025,
+          0.025
+        ],
+        [
+          0.61,
+          0.16,
+          0.02,
+          0.01
+        ]
+      ],
+      "mouth_center_spread": [
+        0.020000000000000018,
+        0.010000000000000009
+      ],
+      "render_directory": "datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005",
+      "seed": 907,
+      "speaker": "Rho",
+      "state": "done",
+      "syncnet_confidence": 4.62325,
+      "syncnet_offset_frames_25fps": -2,
+      "syncnet_passed": true,
+      "vision_action": 0.9,
+      "vision_speaker": 0.95,
+      "whisper_post": 0.667,
+      "whisper_post_transcript": "then we will watch the star star.",
+      "whisper_pre": 0.833,
+      "whisper_pre_transcript": "then we will watch the star."
+    }
+  ],
+  "entry_acceptance": {
+    "bytes": 1527,
+    "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/operator-acceptance.json",
+    "sha256": "3f27b2610a31e556872db28defb1463cfcce6cf9d76b93ed2a11dab5b43f21f5"
+  },
+  "execution_log": {
+    "bytes": 4902,
+    "path": "datasets/runs/provenance/lf003-four-cut-fullgate-retry-20260919/execution.log",
+    "sha256": "aaa297b091773ec1f3839531d20c9bd64b0271dbc91d555198f531e1bbc7edfd"
+  },
+  "execution_repository": {
+    "changed_path_count": 0,
+    "clean_tree": true,
+    "commit_sha": "52654ff6bda49a931863f27bc9396be9b3e4d39e",
+    "dirty_tree": false,
+    "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6",
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_path_count": 0
+  },
+  "generated_utc": "2026-09-19T20:26:01.524448+00:00",
+  "jobs_db": {
+    "bytes": 86016,
+    "path": "datasets/lf003-four-cut-fullgate-retry-20260919.jobs.db",
+    "sha256": "77a44a76dca4c335e544bd64ef0f4f801ed18c16f3a7adb7c242d3d7d0a83678"
+  },
+  "ledger": {
+    "bytes": 5721,
+    "line_sha256": [
+      "0b4f3ab4806f2eb28db8a46f831a9afd10168b6526a1801157c72b8169d2e478",
+      "815163210608b581fbee9547af4db53b82f9b3c2ec73c73e87f87034a62a2339"
+    ],
+    "path": "datasets/lf003-four-cut-fullgate-retry-20260919.runs.jsonl",
+    "sha256": "b3b6c989cf918a92a2132087c78d7aab36f258eb444400778c435fc7986a1689"
+  },
+  "no_completed_prefix": true,
+  "operator_verdict": "not_requested",
+  "pre_execution_identity": {
+    "bytes": 632,
+    "path": "datasets/runs/provenance/lf003-four-cut-fullgate-retry-20260919/pre-execution-identity.json",
+    "sha256": "b46d3aa5bfd9332321da6ca9ef271e2f21232c1620dc198a2eae5caee7a9151c"
+  },
+  "rejected_attempt_artifacts": {
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/audio_manifest.json": {
+      "bytes": 1265,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/audio_manifest.json",
+      "sha256": "fb25677f4acf85bc237b469b654ebbd5f1bdedc1bdfa3544c8fea030e33513f2"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/conditioning-evidence.json": {
+      "bytes": 11458,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/conditioning-evidence.json",
+      "sha256": "1c68189fb256af4f7ffed75d528a7ff14d82d70aec4009ced66204d5794fc8ef"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/qc-evidence.json": {
+      "bytes": 4844,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/qc-evidence.json",
+      "sha256": "11026087e76171c36787574ace76e721685bf570a5fbbf2004b802708d9a2bcb"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/raw.mp4": {
+      "bytes": 1041230,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/raw.mp4",
+      "sha256": "342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4": {
+      "bytes": 1041230,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4",
+      "sha256": "342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/render.log": {
+      "bytes": 6669,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/render.log",
+      "sha256": "93ec3a93987f9df29bb62635b714ebc429909ee8bd91b75142523f5e42d51189"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/runtime-evidence.json": {
+      "bytes": 2358,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/runtime-evidence.json",
+      "sha256": "1044da7bf305eea8214be2a81bfdcd075e14bb9fc9ef956dda6092e6de8aaa1a"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/settings.json": {
+      "bytes": 4462,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/settings.json",
+      "sha256": "248544d1b21a0499cdb8bca4981f5bb1adc7649ab1a80c5a20d2b22b740f563d"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/speaker_manifest.json": {
+      "bytes": 382,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/speaker_manifest.json",
+      "sha256": "e7ce37e9d120a151734da64122249d60eeab94807f0383668b479b284a26c955"
+    },
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/wgp-settings.json": {
+      "bytes": 2503,
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/wgp-settings.json",
+      "sha256": "c0045373fe763954addf40fee393720645eed5dd0424532057d4eab67d78e727"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/audio_manifest.json": {
+      "bytes": 1273,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/audio_manifest.json",
+      "sha256": "00c4728188f7587ee4b812dc72c2e43c7b4749ec49ef6f1dd3b1a0e86ab759a4"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/conditioning-evidence.json": {
+      "bytes": 11460,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/conditioning-evidence.json",
+      "sha256": "8204ba90dab5997bf987f46cb8750dd6f8c6b4490e072e46aded4ea6098ad4c8"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/qc-evidence.json": {
+      "bytes": 874,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/qc-evidence.json",
+      "sha256": "7b836834bc1a789782d415a11f3971e1774655291fcaf7098986202254d43f75"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/raw.mp4": {
+      "bytes": 969720,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/raw.mp4",
+      "sha256": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4": {
+      "bytes": 969720,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4",
+      "sha256": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/render.log": {
+      "bytes": 6671,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/render.log",
+      "sha256": "2a87b093d71792288a024234d6cf548caf70c135336a5aecd1806a971c7304c0"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/runtime-evidence.json": {
+      "bytes": 2362,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/runtime-evidence.json",
+      "sha256": "7da3471e05414ba1582abfb7d6e4b1c094a68b7dba7b620ca0d06a13dc8e8605"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/settings.json": {
+      "bytes": 4473,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/settings.json",
+      "sha256": "ed32523eb7a2a1cc7d67a1db4166896391fbc02078c1f69d3883f6ee5af22424"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/speaker_manifest.json": {
+      "bytes": 385,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/speaker_manifest.json",
+      "sha256": "a6e5155627711cad60fec42e60defe2b98ed3431805a52c71d040ee83760597c"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/wgp-settings.json": {
+      "bytes": 2505,
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/wgp-settings.json",
+      "sha256": "3f5d1e9c19e6ad089e7fe6c76895b4742855244bfaa64d4ca2a6654fa8718c28"
+    }
+  },
+  "rejected_attempts": {
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4": {
+      "bytes": 1041230,
+      "cut": 2,
+      "failure_detail": "audiovisual SyncNet gate failed",
+      "gate": "SyncNet",
+      "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/remux.mp4",
+      "render_log": {
+        "bytes": 6669,
+        "path": "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/render.log",
+        "sha256": "93ec3a93987f9df29bb62635b714ebc429909ee8bd91b75142523f5e42d51189"
+      },
+      "seed": 906,
+      "sha256": "342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522"
+    },
+    "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4": {
+      "bytes": 969720,
+      "cut": 4,
+      "failure_detail": "post: transcript score 0.167 below pass bar 0.600",
+      "gate": "post-Whisper",
+      "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/remux.mp4",
+      "render_log": {
+        "bytes": 6671,
+        "path": "datasets/runs/pull/acceptance/worker-743819fad2a8/render-0004/render.log",
+        "sha256": "2a87b093d71792288a024234d6cf548caf70c135336a5aecd1806a971c7304c0"
+      },
+      "seed": 906,
+      "sha256": "836f50980cb049912bc86fcd3f3014f86c748da21a3253417f31895cded3932c"
+    }
+  },
+  "retry_of": {
+    "reason": "cut 3 lacked three mouth boxes; WD-sf9i, WD-v66o, WD-8l2f, and WD-2p52 subsequently landed",
+    "run_id": "lf003-four-cut-fullgate-20260919"
+  },
+  "review": {
+    "audio_16k": {
+      "bytes": 298062,
+      "path": "renders/review_lf003_fourcut_retry_20260919/audio_analysis/assembled.16k.wav",
+      "sha256": "3bb3ec6d85154aab223c03ad9ea58d9bf478fb633898127caf47b3f79f0ed22b"
+    },
+    "contact_sheet": {
+      "bytes": 169092,
+      "path": "renders/review_lf003_fourcut_retry_20260919/contact_sheet.jpg",
+      "sha256": "7586b91ccd26e5cda2417839f7f985c4354079d9643f412c5cb3d60c148d6678"
+    },
+    "cut_first_frames": {
+      "cut1": {
+        "bytes": 41915,
+        "path": "renders/review_lf003_fourcut_retry_20260919/cut1.first-frame.jpg",
+        "sha256": "a2da4438f127ec353243dba7edbd674c7d53f4eb635fd53afd9726b445a7c891"
+      },
+      "cut2": {
+        "bytes": 40809,
+        "path": "renders/review_lf003_fourcut_retry_20260919/cut2.first-frame.jpg",
+        "sha256": "27cc5cfe52f08fe96c792214725234e2f7af3c0e0c052c6f1ed47ece271dcc48"
+      },
+      "cut3": {
+        "bytes": 40666,
+        "path": "renders/review_lf003_fourcut_retry_20260919/cut3.first-frame.jpg",
+        "sha256": "335eae8e02bdab800cb58cdeabe9f40f5bde855e18c3bbc4276a5c3005513f1d"
+      },
+      "cut4": {
+        "bytes": 41141,
+        "path": "renders/review_lf003_fourcut_retry_20260919/cut4.first-frame.jpg",
+        "sha256": "fc806179cdcb143c4dd6638b85f02a98f866ca038fc6b9626a75d0ae7bcb6480"
+      }
+    },
+    "probe": {
+      "bytes": 4321,
+      "path": "renders/review_lf003_fourcut_retry_20260919/probe.json",
+      "sha256": "b2c85a9fd0838a22b2592815c5a52b9e580095df2493b3427f7096bc6217e208"
+    },
+    "report": {
+      "bytes": 1810,
+      "path": "renders/review_lf003_fourcut_retry_20260919/audio_analysis/TRANSCRIPTION_AND_TIMING_REPORT.md",
+      "sha256": "04a23ac102816922ea76e0b72a302449724a3cd8636c50fdc51378013cb2de1b"
+    }
+  },
+  "run_id": "lf003-four-cut-fullgate-retry-20260919",
+  "schema": "wangp-dspy.acceptance-film-manifest/v2",
+  "scope": "All four cuts passed Whisper, identity vision, three-frame mouth localization, and blocking SyncNet. Two governed seed retries were required and their rejections are preserved. Phonetic correctness and creative acceptance remain operator-reviewed.",
+  "status": "mechanically_eligible_operator_review_pending",
+  "threshold_changes": [],
+  "vibevoice_supply": {
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav": {
+      "bytes": 112078,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+      "sha256": "c001101d6dfc49cd3b59b358192bcc37ed93c4084ccb89e52306488afb1794c2"
+    },
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav": {
+      "bytes": 112078,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+      "sha256": "f660d9564d073056110f1bc210c79c6ed83c4773c6e02743e688c11607cecfe7"
+    },
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json": {
+      "bytes": 5147,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json",
+      "sha256": "2f7bba2906b78c02e952f0613a603b7979cc414985e8ce76a94fb1328c6bf8ab"
+    },
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json.host_environment.json": {
+      "bytes": 651,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json.host_environment.json",
+      "sha256": "339f76be4c927576f68ecfcb9adc946f5e6ed74365b6bee17031ead3a1946b01"
+    },
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json.remote.json": {
+      "bytes": 4217,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json.remote.json",
+      "sha256": "8a3608a599cce688e833a7c6df6360df0310615207b2b0b5931de8ab25f4bed2"
+    },
+    "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-turns.json": {
+      "bytes": 848,
+      "path": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-turns.json",
+      "sha256": "aeec357322bfbf4a31de12bbb9d48380c2ee980cea8129d3f1bd719d4f542dec"
+    },
+    "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav": {
+      "bytes": 112078,
+      "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f"
+    },
+    "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav": {
+      "bytes": 112078,
+      "path": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "sha256": "d7607d276a371132c148cb39552796db27325e4b2f022d9ee3ba02bb295a5322"
+    }
+  }
+}

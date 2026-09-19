@@ -1,0 +1,95 @@
+{
+  "completed_record": {
+    "payload": {
+      "assembly": {
+        "command": [
+          "ffmpeg",
+          "-y",
+          "-v",
+          "error",
+          "-i",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4",
+          "-i",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/remux.mp4",
+          "-i",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/remux.mp4",
+          "-i",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/remux.mp4",
+          "-filter_complex",
+          "[0:v][0:a][1:v][1:a][2:v][2:a][3:v][3:a]concat=n=4:v=1:a=1[v][a]",
+          "-map",
+          "[v]",
+          "-map",
+          "[a]",
+          "-c:v",
+          "libx264",
+          "-crf",
+          "18",
+          "-c:a",
+          "aac",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/assembled.mp4"
+        ],
+        "ffmpeg_executable": "ffmpeg",
+        "ffmpeg_version": null,
+        "manifest_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/.concat-inputs.txt",
+        "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/assembled.mp4",
+        "video_paths": [
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-b4702f7d4163/render-0000/remux.mp4",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-35cb1b7d8260/render-0002/remux.mp4",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-5004a664779d/render-0003/remux.mp4",
+          "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-70f8bec2dd8f/render-0005/remux.mp4"
+        ]
+      },
+      "audio_carrier": "native_h3",
+      "bundle": "/private/tmp/lf003-four-cut-fullgate-retry-20260919.bundle.json",
+      "bundle_sha256": "2ecf63deae1da43d9d865996946b082b3a6968d1fbf0ba30ab6bbdf3a122ce28",
+      "clip_count": 4,
+      "dirty_run_reason": null,
+      "golden_canary": null,
+      "handled": [
+        "job-1789839742823-a5fab8d0",
+        "job-1789839742824-a3f59d2a",
+        "job-1789839742824-a3f59d2a",
+        "job-1789839742825-13937d70",
+        "job-1789839742825-87aa96f5",
+        "job-1789839742825-87aa96f5"
+      ],
+      "premise_id": "lf-003",
+      "repository_provenance": {
+        "changed_path_count": 0,
+        "clean_tree": true,
+        "commit_sha": "52654ff6bda49a931863f27bc9396be9b3e4d39e",
+        "dirty_tree": false,
+        "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6",
+        "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "untracked_path_count": 0
+      }
+    },
+    "record_sha256": "c5840cce5ed876036fec53b97d26d92b8df24ce1ed2d6ef3b16291140146a86e",
+    "repository": {
+      "changed_path_count": 0,
+      "clean_tree": true,
+      "commit_sha": "52654ff6bda49a931863f27bc9396be9b3e4d39e",
+      "dirty_tree": false,
+      "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6",
+      "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "untracked_path_count": 0
+    },
+    "run_id": "lf003-four-cut-fullgate-retry-20260919",
+    "schema_version": 1,
+    "status": "needs_review"
+  },
+  "job_ids": [
+    "job-1789839742823-a5fab8d0",
+    "job-1789839742824-a3f59d2a",
+    "job-1789839742825-13937d70",
+    "job-1789839742825-87aa96f5"
+  ],
+  "ledger_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/lf003-four-cut-fullgate-retry-20260919.runs.jsonl",
+  "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/assembled.mp4",
+  "run_id": "lf003-four-cut-fullgate-retry-20260919"
+}

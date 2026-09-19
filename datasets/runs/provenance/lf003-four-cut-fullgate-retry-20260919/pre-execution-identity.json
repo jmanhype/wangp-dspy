@@ -1,0 +1,14 @@
+{
+  "repository_identity": {
+    "changed_path_count": 0,
+    "clean_tree": true,
+    "commit_sha": "52654ff6bda49a931863f27bc9396be9b3e4d39e",
+    "dirty_tree": false,
+    "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6",
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_path_count": 0
+  },
+  "schema": "wangp-dspy.pre-execution-identity/v1"
+}
