@@ -11,6 +11,7 @@ updated_at: 2026-09-19T05:58:30Z
 content_hash: "sha256:3da040fb152ddea65d1320357daa316b0b9772e7cada8261a472a394b43dac21"
 assignee: dev-WD-yf9a
 follows: [WD-8tkc, WD-ft6r]
+labels: [delivered]
 ---
 
 ## Description
