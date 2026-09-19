@@ -7,9 +7,10 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-28T04:16:07Z
 created_by: speed
-updated_at: 2026-08-28T05:42:40Z
-content_hash: "sha256:943e88e6c8505c39eec60c5a4b9218ccb0eeb73826941bc083f60d7a6c9b27d8"
-closed_at: 2026-08-28T05:42:40Z
+updated_at: 2026-08-28T13:44:01Z
+content_hash: "sha256:19021e94c3d99ad1543420ac0b806ae4a657d1eb882ea090e6002ed60f0dd341"
+closed_at: 2026-08-28T13:43:54Z
+close_reason: "Evidence verified 2026-08-28 (WD-clms pre-work): PR #38 MERGED at 7405d76 (mergedAt 2026-08-28T05:42:37Z, on main); suite green 480 passed at main head (baseline was 442 at d10af46, AC required >=442); binding grep gate zero matches; CLI check_diarization.py exit 0 + --convert renders <d>Name</d> shape on valid fixture. All ACs met."
 ---
 
 ## Description
@@ -49,7 +50,7 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 
 
 ## History
-- 2026-08-28T05:42:40Z status: open -> closed
+- 2026-08-28T13:43:54Z status: open -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
@@ -59,5 +60,5 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 ### 2026-08-28T04:16:19Z speed
 2026-08-28 sol-max: filed under epic WD-j9nx (film lane S2). Spec/plan pair authored by orchestrator in working tree at docs/specs/s2-diarization.md + docs/plans/s2-diarization.md (#9 templates). Dispatch: deepseek-fixer, primary checkout, branch feat/wd-s2-diarization off main @ d10af46 (baseline 442 tests). Standing automerge order applies after Luna+GLM parallel gates.
 
-### 2026-08-28T05:42:40Z speed
-S2 DELIVERED: PR #38 merged (GLM re-review-equivalent relay verification + Luna mechanical PASS all 5 lanes — 25+ rule fixtures, G5 integration with negative controls proving the pass non-vacuous, determinism sha-pinned, 480 tests). Note: PR body said 492 dots, measured 480 — cosmetic description drift, suite green. pvg capture arg quirk noted for follow-up.
+### 2026-08-28T13:44:01Z speed
+2026-08-28 sol-max (WD-clms pre-work): evidence-verified closure. PR #38 MERGED (mergeCommit 7405d76, mergedAt 2026-08-28T05:42:37Z) and is on main; suite green at main head: 480 passed (AC required >=442 vs baseline d10af46); binding grep gate zero matches for faster_whisper/pyannote across predict/host/scripts/tests; CLI surface verified live — check_diarization.py exit 0 + summary on tests/fixtures/diarization_valid.json, --convert emits <d>SPEAKER_00</d>/<d>SPEAKER_01</d> attribution lines. All six ACs satisfied; closing.

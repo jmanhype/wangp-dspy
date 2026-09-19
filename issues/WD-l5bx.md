@@ -9,10 +9,11 @@ parent: WD-j9nx
 created_at: 2026-08-28T02:38:46Z
 created_by: speed
 updated_at: 2026-08-28T04:08:50Z
-content_hash: "sha256:5cee037c7cdf5aa47ae508a37545300d41bbc9178315ea86fe65e3f1f0fd9562"
+content_hash: "sha256:68f5951c7efae462ec6b60b96700e957f7460dbff3f72947f7f71c9c6c916c1a"
 assignee: dev-WD-l5bx
 follows: [WD-g3cu]
 closed_at: 2026-08-28T04:08:50Z
+led_to: [WD-clms]
 ---
 
 ## Description
@@ -197,6 +198,7 @@ naming the gate.
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-g3cu]]
+- Led to: [[WD-clms]]
 
 ## Comments
 
