@@ -1,14 +1,14 @@
 ---
 id: WD-h25b
 title: "S4: Satan's Mom — multi-shot MV through the full governed pipeline"
-status: in_progress
+status: open
 priority: 1
 type: task
 parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
-updated_at: 2026-09-19T20:29:41Z
-content_hash: "sha256:526bb0c6b4152ede4a4862a33c2de8742a90f5a0469deb5326a6be441c8bc543"
+updated_at: 2026-09-19T20:32:15Z
+content_hash: "sha256:d987ac59cad471ee9bf8b6264cec43cec4369ed6570539632e2a8a4e5b0ef5bd"
 assignee: dev-WD-h25b
 follows: [WD-rij6]
 ---
@@ -79,6 +79,7 @@ attribution, master locks, job JSONs) + PR. This is the movie.
 - 2026-09-19T20:29:41Z status: open -> in_progress
 - 2026-09-19T20:29:41Z auto-follows: linked to predecessor WD-rij6
 - 2026-09-19T20:29:41Z claimed by dev-WD-h25b
+- 2026-09-19T20:32:15Z status: in_progress -> open
 
 ## Links
 - Parent: [[WD-j9nx]]
