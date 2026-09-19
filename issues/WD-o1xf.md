@@ -1,16 +1,18 @@
 ---
 id: WD-o1xf
 title: "Tune Skill Router symptom specificity"
-status: in_progress
+status: closed
 priority: 0
 type: task
 parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
-updated_at: 2026-09-19T02:53:55Z
-content_hash: "sha256:d6342bea9be660bdc34b0b45a50e94dbaa431892d68c6cc430ce90a2cde97e83"
+updated_at: 2026-09-19T02:53:56Z
+content_hash: "sha256:1b86af760a169fa3ae901037dff95ce725f1d4de94e28fe9da62f5e2c4f6c8b8"
 assignee: dev-WD-o1xf
 labels: [delivered]
+closed_at: 2026-09-19T02:53:56Z
+close_reason: "Accepted: symptom-specific Supabase RLS debugging now outranks the broad Supabase skill under meta-language prompts, with 9/9 tests, clean pvg verify, fresh-process confirmation, and unchanged hook registration."
 ---
 
 ## Description
@@ -183,6 +185,7 @@ status: in_progress
 - 2026-09-19T02:49:20Z status: open -> in_progress
 - 2026-09-19T02:49:20Z claimed by dev-WD-o1xf
 - 2026-09-19T02:53:23Z status: in_progress -> in_progress
+- 2026-09-19T02:53:56Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-dic4]]
