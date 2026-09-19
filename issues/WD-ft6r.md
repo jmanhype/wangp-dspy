@@ -1,14 +1,14 @@
 ---
 id: WD-ft6r
 title: "Add hash-scoped feedback and evaluation for Skill Router"
-status: in_progress
+status: open
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T03:50:31Z
-content_hash: "sha256:1210a3fcf54572f571b22f7a1db1b93f81f8248a72ad25461624b2f8e8d18fb6"
+updated_at: 2026-09-19T03:50:51Z
+content_hash: "sha256:b6f532ee25074d0e11969a52cfcce1ec22e9ae74e5422b4ad2b9909a543a919f"
 assignee: dev-WD-ft6r
 ---
 
@@ -88,6 +88,7 @@ status: in_progress
 ## History
 - 2026-09-19T03:50:31Z status: open -> in_progress
 - 2026-09-19T03:50:31Z claimed by dev-WD-ft6r
+- 2026-09-19T03:50:51Z status: in_progress -> open
 
 ## Links
 - Parent: [[WD-fehf]]
