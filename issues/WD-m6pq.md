@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:35:15Z
-content_hash: "sha256:bbcbee695a95987c3dfc49679e6e528adee87c9f1f356298f71c7669c891b9f6"
+updated_at: 2026-09-19T03:35:37Z
+content_hash: "sha256:818c26bc2979a73d3d766f02fb8e2af0b46eb543a1d3e54a369770f458d7336b"
 labels: [discovered-by-pm, delivered]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -275,3 +275,50 @@ status: in_progress
 
 ### 2026-09-19T03:31:49Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-09-19T03:35:37Z speed
+## Implementation Evidence (DELIVERED)
+
+Commands run:
+ - /usr/bin/python3 -m py_compile /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py
+ - /usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p 'test_router.py' -v
+ - pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py /Users/speed/.codex/skill-router/README.md --format=text
+ - Fresh Codex app-bundle exec integration probe with one-time reviewed hook-trust bypass
+Summary: compile PASS; tests PASS 13/13 with 0 failures, 0 errors, and 0 skipped; pvg verify PASS with 0 issues; fresh process PASS with exact requested skill and one automatic hash-only event.
+Commit SHA: cc6eb8053290f54f1389cf05b59b11339923e20952b094ba8adb41fd4a4bd01c
+This SHA is the deterministic machine-global artifact manifest snapshot, not a wangp-dspy Git commit.
+
+Implementation:
+- Added resolve_explicit_invocation with exact command-syntax parsing and longest normalized-name selection.
+- Explicit candidates return with score 1.0 before FTS ranking.
+- Non-explicit prompts retain the existing ranking path.
+- README documents explicit invocation behavior.
+
+Fresh integration:
+- Event count increased from 22 to 23.
+- Fresh Codex reported supabase-rls-frontend-debugging at score 1.0.
+- Event duration was 264 ms and stored only the prompt hash and candidate metadata.
+
+Scope and security:
+- Hook registration and config remained unchanged.
+- Static scan found no network, subprocess, eval, exec, or stub markers.
+- No raw prompt persistence, hook registration change, or skill execution behavior was added.
+- Changed artifact hashes: hook.py 3b4546e67cdd4111266d861e16e868eec5ed9eaeb99a52cd37dad74f52de793c; test_router.py 55fad915e2a9d4dca834a34b45eaa5863cc938f86769fcfc2ab21b6458442bc1; README.md 010e5f6876d62ed57801014132e0928099ac9bb29ecab388dd9f738d2e2fe8c0.
+
+## nd_contract
+status: delivered
+
+### evidence
+- RED/GREEN tests, pvg verify, static scan, unchanged registration/config hashes, fresh Codex integration, event delta, and artifact hashes are recorded in Notes and this comment.
+
+### proof
+- [x] AC #1: all six explicit syntax forms resolve.
+- [x] AC #2: exact normalization prevents natural-language false positives.
+- [x] AC #3: explicit requests return exactly one score-1.0 candidate.
+- [x] AC #4: candidate uses indexed name/path and existing shape.
+- [x] AC #5: non-explicit ranking behavior remains covered.
+- [x] AC #6: unknown/malformed/missing-state paths fail open or fall back.
+- [x] AC #7: no prohibited behavior added.
+- [x] AC #8: full suite passes 13/13.
+- [x] AC #9: pvg verify reports zero issues.
+
