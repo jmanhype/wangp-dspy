@@ -9,7 +9,7 @@ created_at: 2026-09-19T03:28:09Z
 created_by: speed
 updated_at: 2026-09-19T03:36:26Z
 content_hash: "sha256:d9ecb50fb6fb9b5a5fbd7a270a01762ff03d9eddb983704e24bab9a7a036af6d"
-labels: [discovered-by-pm, delivered]
+labels: [discovered-by-pm, delivered, accepted]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
 closed_at: 2026-09-19T03:36:26Z
