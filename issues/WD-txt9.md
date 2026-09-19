@@ -9,12 +9,13 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:55:11Z
 created_by: speed
 updated_at: 2026-08-25T00:20:54Z
-content_hash: "sha256:c50754251c140b699c613136520324ff22dac5707cbd2b80da39da5279e283e2"
+content_hash: "sha256:d7567e33c4f627db819052c0b0b319fdcff6d8828c2fb04f131c72a2a23fbb3b"
 assignee: jmanhype-glm
 follows: [WD-mhr2]
 closed_at: 2026-08-25T00:20:54Z
 close_reason: "Prescription fully executed: baseline recorded, GEPA compiled (948s, full loop), side-by-side verified, plateau documented with evidence. Cost gate stop. Unlock for improvement: scale dataset."
 led_to: [WD-n0ab, WD-oa4i, WD-4k56, WD-qbcj]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -34,9 +35,11 @@ Optimizer research verdict: GEPA (not MIPROv2) because RenderQC already emits fe
 - 2026-08-24T23:47:11Z auto-follows: linked to predecessor WD-mhr2
 - 2026-08-24T23:47:11Z claimed by jmanhype-glm
 - 2026-08-25T00:20:54Z status: in_progress -> closed
+- 2026-09-19T20:39:24Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-mhr2]]
 - Led to: [[WD-n0ab]], [[WD-oa4i]], [[WD-4k56]], [[WD-qbcj]]
 
