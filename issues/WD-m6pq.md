@@ -8,7 +8,7 @@ parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
 updated_at: 2026-09-19T03:36:26Z
-content_hash: "sha256:d9ecb50fb6fb9b5a5fbd7a270a01762ff03d9eddb983704e24bab9a7a036af6d"
+content_hash: "sha256:a22d1e4787e58848b5ec4b0056ff6890b3ceefd6afab43d2828e1c97764780e8"
 labels: [discovered-by-pm, accepted]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -104,6 +104,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-18.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-19]: Evidence reviewed and meets the bar. Delivery proof passed 9/9; artifact hashes match; hook registration/config remained unchanged; static security scan is clean; the calibration report substantiates the bug; and fresh Codex integration proved exact skill resolution at score 1.0.
 
