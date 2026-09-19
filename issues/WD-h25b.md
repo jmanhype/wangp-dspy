@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
 updated_at: 2026-09-19T20:39:00Z
-content_hash: "sha256:3c9789dbc92e64e42b4f115ec5373950ee10cb7360aae351e90b6826ca9c6fa7"
+content_hash: "sha256:47c544ecffd358f5a598c178df67f829d1b08e0b32b1038748d2494378c6d013"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52, WD-8l2f]
 labels: [accepted, capstone]
 closed_at: 2026-09-19T20:38:33Z
 close_reason: "Accepted as an already-merged legacy delivery, not a new render: PR #41 is MERGED at 15cca89, implementation c20ecd8 is an ancestor of current main 9007abf, final SHA f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac matches, timeline/attribution/job/run/QC/G4/whisper evidence validates, and a clean detached-main full suite passes 1526 tests with 0 failures. Non-AC doc mismatch recorded: delivery text says 480x832 but measured final is 832x480. Historical Luna/GLM dispatch is not reconstructible from PR metadata and is not claimed; acceptance is reconciled to current protected-main evidence and the operator completion directive."
-blocked_by: [WD-2p52, WD-8l2f, WD-ice0, WD-rij6, WD-sf9i, WD-v66o, WD-clms]
+blocked_by: [WD-2p52, WD-8l2f, WD-ice0, WD-rij6, WD-sf9i, WD-v66o, WD-clms, WD-cz6a]
 ---
 
 ## Description
@@ -255,10 +255,11 @@ status: delivered
 - 2026-09-19T20:39:20Z dep_added: blocked_by WD-sf9i
 - 2026-09-19T20:39:20Z dep_added: blocked_by WD-v66o
 - 2026-09-19T20:39:20Z dep_added: blocked_by WD-clms
+- 2026-09-19T20:39:20Z dep_added: blocked_by WD-cz6a
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Blocked by: [[WD-2p52]], [[WD-8l2f]], [[WD-ice0]], [[WD-rij6]], [[WD-sf9i]], [[WD-v66o]], [[WD-clms]]
+- Blocked by: [[WD-2p52]], [[WD-8l2f]], [[WD-ice0]], [[WD-rij6]], [[WD-sf9i]], [[WD-v66o]], [[WD-clms]], [[WD-cz6a]]
 - Follows: [[WD-rij6]], [[WD-2p52]], [[WD-8l2f]]
 
 ## Comments

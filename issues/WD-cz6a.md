@@ -8,10 +8,11 @@ parent: WD-j9nx
 created_at: 2026-08-28T04:16:07Z
 created_by: speed
 updated_at: 2026-08-28T13:44:01Z
-content_hash: "sha256:c9ba6d627559af130434153b899b77f757c4dde014157b1fabcfc9fd6014d5e4"
+content_hash: "sha256:1177017eb59be10872dd233f997a2bb9861e0e26c59cb2105287cfdbdedf51a0"
 closed_at: 2026-08-28T13:43:54Z
 close_reason: "Evidence verified 2026-08-28 (WD-clms pre-work): PR #38 MERGED at 7405d76 (mergedAt 2026-08-28T05:42:37Z, on main); suite green 480 passed at main head (baseline was 442 at d10af46, AC required >=442); binding grep gate zero matches; CLI check_diarization.py exit 0 + --convert renders <d>Name</d> shape on valid fixture. All ACs met."
 led_to: [WD-ice0]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -52,9 +53,11 @@ Dispatch target: deepseek-fixer (routine measured-first implementation against a
 
 ## History
 - 2026-08-28T13:43:54Z status: open -> closed
+- 2026-09-19T20:39:20Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Led to: [[WD-ice0]]
 
 ## Comments
