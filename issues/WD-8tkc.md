@@ -1,17 +1,19 @@
 ---
 id: WD-8tkc
 title: "Add local Skill Router health and quality reports"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:43Z
 created_by: speed
-updated_at: 2026-09-19T05:44:42Z
-content_hash: "sha256:e0787059bbaabae0279cf987e44d66fc45fc8cf6aeed604ce72ad8803f2673fd"
+updated_at: 2026-09-19T05:44:51Z
+content_hash: "sha256:4c7b8bc0498a471bd5be4d55068eaea62fc75f5e210d5f5f8f74f9533295a1c9"
 assignee: dev-WD-8tkc
 follows: [WD-ft6r, WD-v4ou]
 labels: [delivered]
+closed_at: 2026-09-19T05:44:51Z
+close_reason: "Accepted: independently reran compilation, full 23-test discovery, pvg verify, both report CLI formats, real-artifact aggregation, JSON privacy probe, and hash verification. Missing feedback is honestly degraded; no raw prompts/secrets are emitted; prior accepted router artifacts remain unchanged."
 ---
 
 ## Description
@@ -154,6 +156,7 @@ status: delivered
 - 2026-09-19T05:35:15Z claimed by dev-WD-8tkc
 - 2026-09-19T05:44:02Z status: in_progress -> in_progress
 - 2026-09-19T05:44:02Z auto-follows: linked to predecessor WD-v4ou
+- 2026-09-19T05:44:51Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-fehf]]
