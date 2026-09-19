@@ -1,5 +1,6 @@
 import pytest
 from host.wangp_adapter import WanGPAdapter, FRAME_COUNT_UNVERIFIED
+from tests.lf003_fixtures import verify_lf003_fixtures
 
 
 @pytest.fixture(autouse=True)
@@ -11,3 +12,9 @@ def _stub_ffprobe_for_fake_videos(monkeypatch):
     monkeypatch.setattr(
         WanGPAdapter, "_ffprobe_frames",
         staticmethod(lambda host, path: FRAME_COUNT_UNVERIFIED))
+
+
+@pytest.fixture
+def lf003_fixtures():
+    """Fail closed before LF003/AV tests use portable evidence bytes."""
+    return verify_lf003_fixtures()

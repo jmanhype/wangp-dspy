@@ -10,7 +10,8 @@ BUNDLE_PATH = ROOT / (
     "staging-two-cut-vibevoice-fullgate-20260918.json")
 
 
-def test_fullgate_bundle_plans_two_fresh_chained_cuts(tmp_path):
+def test_fullgate_bundle_plans_two_fresh_chained_cuts(
+        tmp_path, lf003_fixtures):
     bundle = _load_bundle(BUNDLE_PATH)
     assert "completed_prefix" not in bundle
     calibration = Path(
