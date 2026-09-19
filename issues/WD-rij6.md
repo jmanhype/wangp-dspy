@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
 updated_at: 2026-09-19T20:28:48Z
-content_hash: "sha256:7c08fe7dd8b7c2e4eff6c265a6f7f82aff53765bc2af04924047803aced6efbc"
+content_hash: "sha256:33a676f1a678ee8827d2bc3f7ee7a592ebfcf80554325f721b1bc176030ac483"
 follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
@@ -16,6 +16,7 @@ labels: [accepted]
 closed_at: 2026-09-19T20:28:47Z
 close_reason: "Accepted: independently reran targeted LF003/vision/executor tests, full 1,526-test suite, manifest/content-hash checks, queue/ledger inspection, ffprobe, contact-sheet review, and staged-secret scan. Four fresh cuts passed all gates; two governed rejections are preserved; assembly is repository-owned and explicitly operator_review_pending."
 led_to: [WD-h25b]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -355,9 +356,11 @@ status: delivered
 - 2026-09-19T20:27:58Z status: in_progress -> in_progress
 - 2026-09-19T20:27:58Z auto-follows: linked to predecessor WD-v66o
 - 2026-09-19T20:28:47Z status: in_progress -> closed
+- 2026-09-19T20:39:20Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Was blocked by: [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]]
 - Follows: [[WD-ice0]], [[WD-clms]], [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]], [[WD-v66o]]
 - Led to: [[WD-h25b]]
