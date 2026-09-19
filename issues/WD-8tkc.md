@@ -8,7 +8,7 @@ parent: WD-fehf
 created_at: 2026-09-19T03:49:43Z
 created_by: speed
 updated_at: 2026-09-19T05:44:02Z
-content_hash: "sha256:c82718e9dcd0deff14d5f0e1e73c0d6937f6c32b23b4f452d93997da72b54333"
+content_hash: "sha256:9cdbc56413f3c52ec20ca28ec9ac4dd6463a0abeea249a5f88ebe4e5a165b87a"
 assignee: dev-WD-8tkc
 follows: [WD-ft6r, WD-v4ou]
 labels: [delivered]
@@ -77,6 +77,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
