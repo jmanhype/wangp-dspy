@@ -8,7 +8,7 @@ labels: [security, tooling, upstream, accepted]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
 updated_at: 2026-09-19T20:48:56Z
-content_hash: "sha256:f4087b8f060cdfed906a50219662a09760d66619881ccd93c6c07d40754d5d7f"
+content_hash: "sha256:1844e19ac69d68d4d1b7f920be5ef98f2c13f9184b4a195dc500ccd012e497c1"
 assignee: dev-WD-r8n9
 closed_at: 2026-09-19T20:48:56Z
 close_reason: "Accepted: upstream issue #93927 is closed by merged PR #110218 at 1e76efbe. Independently executed the exact fixed scanner in an isolated worktree against paivot-hermes: caution, 136 findings, 0 criticals, confirmation/force behavior restored. The installed Hermes runtime still reproduces dangerous because it is 4,398 commits behind; no global runtime was mutated. The story is resolved upstream with the previously recommended no-local-bypass decision, while runtime upgrade remains an explicit operator action."
@@ -24,6 +24,16 @@ Hermes plugin_guard scan_plugin rates paivot-hermes DANGEROUS (110 findings) —
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
