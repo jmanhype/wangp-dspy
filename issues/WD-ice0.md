@@ -1,14 +1,14 @@
 ---
 id: WD-ice0
 title: "LF003 full-gate acceptance: strong Rho guide"
-status: in_progress
+status: open
 priority: 0
 type: task
 parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
-updated_at: 2026-09-19T03:07:26Z
-content_hash: "sha256:20d642691383379df922eb60196470c8e15558ca2551a648bc07b05f3b0c9c24"
+updated_at: 2026-09-19T03:07:27Z
+content_hash: "sha256:ae4261126a2a47b41d52fda465012648ce192ff6d0cbb7f27dd67754125a7b71"
 assignee: dev-WD-ice0
 follows: [WD-clms]
 ---
@@ -44,6 +44,7 @@ Current run: lf003-two-cut-vibevoice-rhostrong-20260918 at main 8d865dc.
 - 2026-09-19T03:07:26Z status: open -> in_progress
 - 2026-09-19T03:07:27Z auto-follows: linked to predecessor WD-clms
 - 2026-09-19T03:07:27Z claimed by dev-WD-ice0
+- 2026-09-19T03:07:27Z status: in_progress -> open
 
 ## Links
 - Parent: [[WD-j9nx]]
