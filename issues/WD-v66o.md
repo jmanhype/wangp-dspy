@@ -1,17 +1,19 @@
 ---
 id: WD-v66o
 title: "Recover exact three-frame LF003 mouth localization"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:36:38Z
 created_by: speed
-updated_at: 2026-09-19T16:18:16Z
-content_hash: "sha256:25767250cb4955d8ec8efabd100118569256c096be701fbf8b891053797fd9dd"
+updated_at: 2026-09-19T16:18:31Z
+content_hash: "sha256:0f22d5e99558c31dc90d024ba3adc0b91270883abb46984ecf6ca5ca26721c14"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
 labels: [delivered]
+closed_at: 2026-09-19T16:18:31Z
+close_reason: "Accepted: independently reran compilation, 87 targeted tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Per-frame localization is bounded and evidence-complete; unchanged integrated consensus correctly failed closed, while diagnostic SyncNet passed. No threshold was weakened."
 ---
 
 ## Description
@@ -247,6 +249,7 @@ status: delivered
 - 2026-09-19T15:36:51Z claimed by dev-WD-v66o
 - 2026-09-19T16:17:24Z status: in_progress -> in_progress
 - 2026-09-19T16:17:24Z auto-follows: linked to predecessor WD-ice0
+- 2026-09-19T16:18:31Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
