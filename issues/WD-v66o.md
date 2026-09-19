@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:36:38Z
 created_by: speed
-updated_at: 2026-09-19T16:17:24Z
-content_hash: "sha256:070cb8026e1d9a4dd51a5cd00a06c9a2515cc23dd4532fb893f602cbb45f25cc"
+updated_at: 2026-09-19T16:18:16Z
+content_hash: "sha256:25767250cb4955d8ec8efabd100118569256c096be701fbf8b891053797fd9dd"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
 labels: [delivered]
@@ -173,6 +173,62 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-v66o
+git diff --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m py_compile qc/audio_critic/local_qwen_vision_judge.py tests/test_local_qwen_vision_judge.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_local_qwen_vision_judge.py tests/test_modelscope_vision_judge.py tests/test_vision_judge.py tests/test_ref2va_runtime.py tests/test_completed_ref2va_recovery.py tests/test_jobs_executor.py tests/test_lf003_rhostrong_film_evidence.py
+```
+
+Independent coordinator results:
+
+- `git diff --check`: exit 0.
+- Compilation: exit 0.
+- Targeted suite: 87/87 passed.
+- Diagnostic SHA-256:
+  `bb6f0c97ed24cbada1a19c7e352d2ccd1bbc07bbb2594765d802d6cce19e8664`.
+- Preserved cut-3 video SHA-256 remained:
+  `08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d`.
+- Per-frame localizer recovered exactly three frame-ordered boxes:
+  - start `[0.315, 0.205, 0.025, 0.015]`
+  - middle `[0.310, 0.190, 0.020, 0.030]`
+  - end `[0.270, 0.190, 0.020, 0.010]`
+- Integrated `run_vision_judge()` remained unchanged and correctly failed closed on x-center spread `0.0475` versus the existing `0.03` consensus limit.
+- Diagnostic-only SyncNet passed using the median box `[0.310, 0.190, 0.020, 0.015]`:
+  confidence `3.166184`, offset `-1` frame at 25 fps.
+- The diagnostic explicitly records `integrated_vision_consensus_passed=false`; the SyncNet diagnostic did not override the blocking integrated vision gate.
+- Forbidden-material scan found no credentials, bearer tokens, passwords, private keys, base64 frames, or image URLs.
+
+### CI/Test Results
+
+```text
+87 targeted tests passed
+git diff --check: PASS
+python compilation: PASS
+```
+
+Summary: replaced the ambiguous combined three-frame mouth request with bounded per-frame requests, strict singular-box validation, at-most-one malformed-response retry per frame, canonical per-attempt raw evidence, exact frame-order output, and no synthetic/carry-over box. The preserved cut-3 diagnostic recovered three real boxes; unchanged integrated vision correctly rejected their spatial-consensus spread, and diagnostic SyncNet passed.
+
+Commit SHA: 43a0fab
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Production uses bounded per-frame requests | PASS | Source and model-free payload tests. |
+| 2. Exactly three normalized frame-order boxes, no synthetic box | PASS | Tests and live diagnostic. |
+| 3. Malformed responses retry once and all invalid families fail closed | PASS | Local-judge test suite. |
+| 4. Structured canonical per-attempt raw evidence is safe | PASS | Canonical localizer evidence plus forbidden-material scan. |
+| 5. Existing integrated validator remains unchanged | PASS | Integrated result failed closed on spatial consensus with unchanged `0.03` threshold. |
+| 6. Model-free paths fully covered | PASS | Included in 87/87 targeted tests. |
+| 7. Preserved-artifact diagnostic records real per-frame disposition | PASS | Diagnostic hash `bb6f0c97ed24cbada1a19c7e352d2ccd1bbc07bbb2594765d802d6cce19e8664`. |
+| 8. SyncNet run when valid boxes recovered | PASS | Diagnostic-only pass: confidence `3.166184`, offset `-1`; integrated consensus remained failed. |
+| 9. Existing targeted tests remain green | PASS | 87/87. |
+| 10. `git diff --check` passes | PASS | Exit 0. |
 
 
 ## nd_contract
