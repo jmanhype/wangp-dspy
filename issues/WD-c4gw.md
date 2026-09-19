@@ -9,10 +9,11 @@ parent: WD-j9nx
 created_at: 2026-08-27T19:37:43Z
 created_by: speed
 updated_at: 2026-08-28T00:23:56Z
-content_hash: "sha256:cb14a66c2ddad5901533e7c715d3979026115de14385571ad92e3c51b22eb92b"
+content_hash: "sha256:874f30df18dce8673c0226544fcf823c64b43860bedd4050ff44a784c52c8379"
 assignee: speed
 follows: [WD-7185]
 closed_at: 2026-08-28T00:23:56Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -54,9 +55,11 @@ Acceptance criteria:
 - 2026-08-27T19:37:58Z auto-follows: linked to predecessor WD-7185
 - 2026-08-27T19:37:58Z claimed by speed
 - 2026-08-28T00:23:56Z status: in_progress -> closed
+- 2026-09-19T20:39:22Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-7185]]
 
 ## Comments
