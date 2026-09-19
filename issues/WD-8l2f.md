@@ -8,12 +8,13 @@ parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
 updated_at: 2026-09-19T16:52:14Z
-content_hash: "sha256:4b6c2c8039429fa8e92411b879202ad62a43814094f50d37bd7cd8e23a821c39"
+content_hash: "sha256:7983aa7cd8c305c22e21c0d0f1c3f0aeb4f65872f8972503a4a5fc839b324b7c"
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
 labels: [accepted]
 closed_at: 2026-09-19T16:52:13Z
 close_reason: "Accepted: independently reran core targeted suites, focused moving/diagnostic tests, compilation, pvg verify, git diff check, semantic scan, and hash inspection. Valid per-frame motion is descriptive evidence; malformed boxes, identity/speaker gates, median SyncNet input, and blocking SyncNet behavior remain enforced."
+led_to: [WD-2p52]
 ---
 
 ## Description
@@ -289,5 +290,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-v66o]], [[WD-sf9i]]
+- Led to: [[WD-2p52]]
 
 ## Comments
