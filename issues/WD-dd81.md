@@ -10,7 +10,7 @@ created_by: speed
 updated_at: 2026-09-19T20:44:00Z
 content_hash: "sha256:6a79f1ec5f305984058a21f16939854bd70f277528bc62b1b49270c887ebc31c"
 assignee: dev-WD-dd81
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-19T20:44:00Z
 close_reason: "Accepted: independently re-read and AST-verified all four cited source seams on current main; the 299-line docs-only delivery stays in budget, preserves PersonaPlex/Moshi and Voxtral capability facts, adds the fifth-session target audio bus and staged adaptation, defaults to privacy-safe hash-bearing events, and keeps run_bundle as the sole release-quality path. Exact primary-interpreter pipeline test passed 11/11; independent contract validation passed 24/24; git diff checks and scoped pvg verify passed."
 ---
