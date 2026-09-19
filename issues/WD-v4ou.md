@@ -1,16 +1,18 @@
 ---
 id: WD-v4ou
 title: "Keep the Skill Router index automatically fresh"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T04:54:41Z
-content_hash: "sha256:8986333e5a6d0ba5da3fddf503b8a11fe14e0de6b3b9da4721c7f49ad95bbba3"
+updated_at: 2026-09-19T04:54:49Z
+content_hash: "sha256:49c35c3167c9b9461a6a9a355c0c4c3adfcdfc69072aa4b36d9b927f9394aac4"
 assignee: dev-WD-v4ou
 labels: [delivered]
+closed_at: 2026-09-19T04:54:49Z
+close_reason: "Accepted: independently reran compilation, 17-test unittest discovery, pvg verify, SQLite integrity/mode/schema/dedup checks, and artifact hash verification. Automatic freshness is local, bounded, fail-open, privacy-preserving, and regression-tested; hook registration/config hashes remained unchanged."
 ---
 
 ## Description
@@ -229,6 +231,7 @@ status: delivered
 - 2026-09-19T04:41:33Z claimed by dev-WD-v4ou
 - 2026-09-19T04:53:12Z status: in_progress -> open
 - 2026-09-19T04:53:42Z status: open -> in_progress
+- 2026-09-19T04:54:49Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-fehf]]
