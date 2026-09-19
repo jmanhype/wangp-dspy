@@ -11,6 +11,7 @@ updated_at: 2026-09-19T16:17:24Z
 content_hash: "sha256:46844e806e1ed7ad3790b7219240f365f9960af394dd8e5a9573c18439b70347"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
+labels: [delivered]
 ---
 
 ## Description
