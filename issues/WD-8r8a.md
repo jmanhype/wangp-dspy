@@ -1,16 +1,18 @@
 ---
 id: WD-8r8a
 title: "Run 50-prompt local Skill Router calibration"
-status: in_progress
+status: closed
 priority: 0
 type: task
 parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:26:33Z
-content_hash: "sha256:8c6dff6f281618eb0d857d1f4a74c62d62cccc788f12f61b51ee33faa95d2fc8"
+content_hash: "sha256:30e24e171d40f79ba0e5567354ed58f45632eb4d0f3e5a6d1b2bf726cdfda819"
 assignee: dev-WD-8r8a
 labels: [delivered]
+closed_at: 2026-09-19T03:26:33Z
+close_reason: "Accepted: 50-prompt local calibration completed with hash-only reports, unchanged router implementation, zero network/raw-prompt leakage, and a focused explicit-invocation follow-up recommendation."
 ---
 
 ## Description
@@ -165,6 +167,7 @@ status: in_progress
 - 2026-09-19T03:13:39Z status: open -> in_progress
 - 2026-09-19T03:13:39Z claimed by dev-WD-8r8a
 - 2026-09-19T03:25:28Z status: in_progress -> in_progress
+- 2026-09-19T03:26:33Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-wzbl]]
