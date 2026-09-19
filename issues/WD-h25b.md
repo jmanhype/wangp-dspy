@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
 updated_at: 2026-09-19T20:37:49Z
-content_hash: "sha256:5dac6275a86747c1fb04b2854cafdabdff250d5a2a1bce3656ccc9f1e9e065e4"
+content_hash: "sha256:65f31c691df89b9e898500b9c6aade18d2bfc1cf717aabad935425349b15e5ad"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52, WD-8l2f]
 labels: [delivered]
@@ -74,6 +74,18 @@ attribution, master locks, job JSONs) + PR. This is the movie.
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
