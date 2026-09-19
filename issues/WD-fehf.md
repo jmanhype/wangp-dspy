@@ -1,13 +1,15 @@
 ---
 id: WD-fehf
 title: "Complete Codex Skill Router production roadmap"
-status: open
+status: closed
 priority: 0
 type: epic
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T03:49:42Z
-content_hash: "sha256:534284593ba0b9d8fa8f750cedc3d2a93f945336d75477728d405e83e3d67eb1"
+updated_at: 2026-09-19T06:00:21Z
+content_hash: "sha256:e9d1240bc5e8d1440288d7ea6fdd54ed67bcd5d33901c0a370e743e3540cf0ad"
+closed_at: 2026-09-19T06:00:21Z
+close_reason: "Accepted completion gate: all four production stories closed; independent final suite passed 27/27; pvg verify passed 9 files with 0 issues; production report confirms local-only disabled network, hash-only privacy, current freshness, and SQLite integrity ok. Missing feedback.jsonl is honestly reported as degraded and is not a functional blocker."
 ---
 
 ## Description
@@ -66,7 +68,7 @@ Keep local lexical routing as the default fast path. Add infrastructure around i
 
 
 ## History
-
+- 2026-09-19T06:00:21Z status: open -> closed
 
 ## Links
 
