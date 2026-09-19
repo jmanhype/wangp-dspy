@@ -10,6 +10,7 @@ updated_at: 2026-09-19T06:00:21Z
 content_hash: "sha256:e9d1240bc5e8d1440288d7ea6fdd54ed67bcd5d33901c0a370e743e3540cf0ad"
 closed_at: 2026-09-19T06:00:21Z
 close_reason: "Accepted completion gate: all four production stories closed; independent final suite passed 27/27; pvg verify passed 9 files with 0 issues; production report confirms local-only disabled network, hash-only privacy, current freshness, and SQLite integrity ok. Missing feedback.jsonl is honestly reported as degraded and is not a functional blocker."
+labels: [accepted]
 ---
 
 ## Description
