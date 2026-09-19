@@ -8,7 +8,7 @@ parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
 updated_at: 2026-09-19T04:53:12Z
-content_hash: "sha256:e7b4ed2184f36416e58be9950fe5119349cee4ff4ef64986787c4a37b6086df4"
+content_hash: "sha256:3961a79995f40b6fca708cfd74682ee49b2b1ee019dc2c952bcf44ffa1470a8f"
 assignee: dev-WD-v4ou
 ---
 
@@ -90,3 +90,6 @@ status: new
 - Parent: [[WD-fehf]]
 
 ## Comments
+
+### 2026-09-19T04:53:12Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
