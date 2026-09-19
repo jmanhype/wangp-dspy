@@ -1,13 +1,15 @@
 ---
 id: WD-mf14
 title: "Codex local agent tooling reliability"
-status: open
+status: closed
 priority: 1
 type: epic
 created_at: 2026-09-19T01:54:10Z
 created_by: speed
-updated_at: 2026-09-19T01:54:10Z
-content_hash: "sha256:61343f91a685eea96bbeeed15f4bbe84bc272e83c0d2653309afd3be753833f1"
+updated_at: 2026-09-19T02:24:39Z
+content_hash: "sha256:6ab554e8bfbe18e4ee57e3ebbaf64481ddfd194fde5dded0f9b5426165a3b3fc"
+closed_at: 2026-09-19T02:24:39Z
+close_reason: "All child stories accepted; automatic local Codex skill router met the epic outcomes."
 ---
 
 ## Description
@@ -61,7 +63,7 @@ Infrastructure exception: artifacts under /Users/speed/.codex are machine-global
 
 
 ## History
-
+- 2026-09-19T02:24:39Z status: open -> closed
 
 ## Links
 
