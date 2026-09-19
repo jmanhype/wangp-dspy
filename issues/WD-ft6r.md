@@ -1,17 +1,19 @@
 ---
 id: WD-ft6r
 title: "Add hash-scoped feedback and evaluation for Skill Router"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T05:34:53Z
-content_hash: "sha256:e7594843dd6c1027103e01a39fbde4074105837f3fd598f430205136ea6ae42d"
+updated_at: 2026-09-19T05:35:03Z
+content_hash: "sha256:52363cd27127450716f30d4968996e93694276fae356dfbb4779531f0616bb44"
 assignee: dev-WD-ft6r
 follows: [WD-v4ou]
 labels: [delivered]
+closed_at: 2026-09-19T05:35:03Z
+close_reason: "Accepted: independently reran compilation, full 20-test discovery, pvg verify, privacy/mode source inspection, and hash verification. Feedback is hash-scoped, append-only, mode-0600, fail-closed on malformed input, and preserves WD-v4ou automatic-freshness artifacts unchanged."
 ---
 
 ## Description
@@ -177,6 +179,7 @@ status: in_progress
 - 2026-09-19T04:54:55Z auto-follows: linked to predecessor WD-v4ou
 - 2026-09-19T04:54:55Z claimed by dev-WD-ft6r
 - 2026-09-19T05:33:20Z status: in_progress -> in_progress
+- 2026-09-19T05:35:03Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-fehf]]
