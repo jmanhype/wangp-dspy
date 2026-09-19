@@ -10,7 +10,7 @@ created_by: speed
 updated_at: 2026-09-19T03:26:33Z
 content_hash: "sha256:30e24e171d40f79ba0e5567354ed58f45632eb4d0f3e5a6d1b2bf726cdfda819"
 assignee: dev-WD-8r8a
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-19T03:26:33Z
 close_reason: "Accepted: 50-prompt local calibration completed with hash-only reports, unchanged router implementation, zero network/raw-prompt leakage, and a focused explicit-invocation follow-up recommendation."
 ---
