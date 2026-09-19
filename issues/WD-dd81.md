@@ -8,7 +8,7 @@ parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
 updated_at: 2026-09-19T20:44:00Z
-content_hash: "sha256:6a79f1ec5f305984058a21f16939854bd70f277528bc62b1b49270c887ebc31c"
+content_hash: "sha256:233ca38a519f0d01457b708369aba7157e192a595d528895714657edf9469b08"
 assignee: dev-WD-dd81
 labels: [accepted]
 closed_at: 2026-09-19T20:44:00Z
@@ -602,6 +602,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
