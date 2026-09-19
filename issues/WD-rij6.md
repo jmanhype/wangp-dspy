@@ -7,8 +7,8 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T20:27:58Z
-content_hash: "sha256:b21c891b265fe1abf4cc80e39d4da3a73c0c338e0fef2e60ca336b4c557b0762"
+updated_at: 2026-09-19T20:28:33Z
+content_hash: "sha256:117f95ec3610f664e0b7dde28d8aaf16f6ac527008ca6e6ebee7ad4e0248ec15"
 follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
@@ -191,6 +191,47 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6
+uv run --frozen --extra dev pytest -q tests/test_lf003_fourcut_retry_success.py tests/test_lf003_fourcut_gate_failure.py tests/test_lf003_fixture_manifest.py tests/test_av_sync_gate.py tests/test_lf003_fullgate_bundle.py tests/test_lf003_strict_vibevoice_bundle.py tests/test_lf003_vibevoice_bundle.py tests/test_lf003_rhostrong_film_evidence.py tests/test_vision_judge.py tests/test_local_qwen_vision_judge.py tests/test_ref2va_runtime.py tests/test_jobs_executor.py -rs
+uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-rij6-full.xml
+ffprobe -v error -show_format -show_streams -of json datasets/runs/pull/lf003-four-cut-fullgate-retry-20260919/assembled.mp4
+git diff --check
+git diff --cached --check
+```
+
+### CI/Test Results
+
+```text
+targeted LF003/vision/executor suite: 107 passed, 0 skipped
+full suite JUnit: tests=1526 errors=0 failures=0 skipped=1
+final manifest test: 5 passed
+git diff checks: PASS
+staged text secret scan: PASS (56 files)
+```
+
+Summary: the governed four-cut retry completed from clean commit 52654ff with no completed_prefix, one durable queue, one append-only ledger, and all four cuts freshly rendered through the repository path. Cut 2 required one governed SyncNet reseed and cut 4 required one governed post-Whisper reseed; both rejections remain preserved. All four final cuts passed pre/post Whisper, identity vision, three-frame mouth localization, and blocking SyncNet. Repository-owned assembly is 224 frames, 704x576, 24 fps, 9.333333 seconds, and status remains mechanically_eligible_operator_review_pending.
+
+Commit SHA: 5989810
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Prior operator acceptance and exact hashes recorded | PASS | Retry manifest references preserved operator acceptance. |
+| 2. Clean-checkout identity before execution | PASS | `pre-execution-identity.json`, commit 52654ff, clean tree. |
+| 3. Four fresh renders through queue/render_for_job, no prefix | PASS | Queue has four done jobs; bundle has no completed_prefix. |
+| 4. Correct speakers and predecessor chaining | PASS | Tess/Rho/Tess/Rho; three chain frames hashed. |
+| 5. Every cut passes all gates | PASS | Manifest and queue gate table. |
+| 6. Every rejection preserved and hashed | PASS | Seed-906 cut2 SyncNet and seed-906 cut4 Whisper evidence committed. |
+| 7. Repository-owned four-cut assembly | PASS | Assembled SHA 5a8676922d16c954d579c096c5eb9891ce33758ef1ebda27e98f03c632422063. |
+| 8. Honest operator-review status | PASS | `mechanically_eligible_operator_review_pending`; verdict `not_requested`. |
+| 9. Continuity failure handled separately | PASS | Prior Finding 84 preserved; successful current-gate retry did not infer latent carry. |
+| 10. Evidence committed, hashable, no secrets | PASS | 80-file evidence commit 5989810; text secret scan PASS. |
 
 
 ## nd_contract
