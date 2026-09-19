@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:28:36Z
-content_hash: "sha256:2c3af88783ef84d46558b20b32c24b7436c9026cfbf95970fd039d12390e4179"
+updated_at: 2026-09-19T03:28:37Z
+content_hash: "sha256:5ba0d9809518a5ee20be35aec7d72eeb21bd0c3be63578b78a7a2da6f9801a48"
 labels: [discovered-by-pm]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -102,7 +102,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed 2026-09-19 under the machine-global infrastructure exception; changes are confined to /Users/speed/.codex/skill-router and no repository worktree applies.
+
+### proof
+- [ ] RED tests and implementation pending.
 
 ## History
 - 2026-09-19T03:28:36Z status: open -> in_progress
