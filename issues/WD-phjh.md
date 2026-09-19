@@ -1,15 +1,17 @@
 ---
 id: WD-phjh
 title: "Hand off Talker-Reasoner implementation to canonical repository"
-status: in_progress
+status: closed
 priority: 1
 type: task
 created_at: 2026-09-19T23:53:37Z
 created_by: speed
-updated_at: 2026-09-19T23:54:33Z
-content_hash: "sha256:deddf93e230ca89e988c5c204dd75807014dfbad8544a87dde7b9e4c52dc8060"
+updated_at: 2026-09-19T23:55:18Z
+content_hash: "sha256:320ca40789ecb47ab0c872d406c0cc4318c809281951ce1aad44a2fe098d862d"
 assignee: dev-WD-phjh
 labels: [delivered]
+closed_at: 2026-09-19T23:55:18Z
+close_reason: "Accepted: independently verified the canonical private repository, current M1 commit f7bc6e0, tags, and the 18-line documentation-only diff. Both accepted records now clearly preserve WD-dd81 governance while directing future implementation to talker-reasoner-system. Exact pipeline test passed 11/11; diff and scoped verify passed; PR #144 records the review."
 ---
 
 ## Description
@@ -195,6 +197,7 @@ status: delivered
 - 2026-09-19T23:53:45Z status: open -> in_progress
 - 2026-09-19T23:53:45Z claimed by dev-WD-phjh
 - 2026-09-19T23:54:33Z status: in_progress -> in_progress
+- 2026-09-19T23:55:18Z status: in_progress -> closed
 
 ## Links
 
