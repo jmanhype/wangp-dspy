@@ -9,11 +9,12 @@ parent: WD-j9nx
 created_at: 2026-08-28T06:39:20Z
 created_by: speed
 updated_at: 2026-08-28T17:28:22Z
-content_hash: "sha256:75d3ae7f9bb8d98a1baf583b4227f36babc626f99ccd9109a785098516ec927d"
+content_hash: "sha256:c5009b4b4f40c6bbe5f586589f9eb10fd297c5636b5a8daba7fc65c3f8d9ea0f"
 assignee: batmanosama
 follows: [WD-l5bx]
 closed_at: 2026-08-28T17:28:22Z
 led_to: [WD-ice0, WD-rij6, WD-sf9i]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -124,9 +125,11 @@ S4 (Satan's Mom MV, critical path).
 - 2026-08-28T13:42:02Z auto-follows: linked to predecessor WD-l5bx
 - 2026-08-28T13:42:02Z claimed by batmanosama
 - 2026-08-28T17:28:22Z status: in_progress -> closed
+- 2026-09-19T20:39:20Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-l5bx]]
 - Led to: [[WD-ice0]], [[WD-rij6]], [[WD-sf9i]]
 
