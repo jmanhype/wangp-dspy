@@ -47,13 +47,17 @@ class Ref2VAQCStageError(ValueError):
     """
 
     def __init__(self, message: str, *, vision_scores=None,
-                vision_raw_response=None, whisper_evidence=None,
-                av_sync_evidence=None):
+                vision_raw_response=None,
+                vision_mouth_bbox_raw_response=None,
+                whisper_evidence=None, av_sync_evidence=None):
         super().__init__(message)
         self.vision_scores = dict(vision_scores or {})
         self.vision_raw_response = (
             str(vision_raw_response)
             if vision_raw_response is not None else None)
+        self.vision_mouth_bbox_raw_response = (
+            str(vision_mouth_bbox_raw_response)
+            if vision_mouth_bbox_raw_response is not None else None)
         self.whisper_evidence = dict(whisper_evidence or {})
         self.av_sync_evidence = dict(
             av_sync_evidence) if isinstance(av_sync_evidence, dict) else None
@@ -190,17 +194,20 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
         raise Ref2VAQCStageError("G4: non-Ref2VA remux lanes require discard_rendered_audio=True")
 
     def persist_evidence(whisper_payload, vision_payload=None,
-                         av_sync_payload=None) -> None:
+                         av_sync_payload=None,
+                         vision_rejection=None) -> None:
         if not evidence_path:
             return
         try:
             p = Path(evidence_path)
             p.parent.mkdir(parents=True, exist_ok=True)
+            payload = {"whisper_gates": whisper_payload,
+                       "vision_judge": vision_payload,
+                       "av_sync_gate": av_sync_payload}
+            if vision_rejection is not None:
+                payload["vision_rejection"] = vision_rejection
             p.write_text(json.dumps(
-                {"whisper_gates": whisper_payload,
-                 "vision_judge": vision_payload,
-                 "av_sync_gate": av_sync_payload},
-                indent=2, sort_keys=True) + "\n")
+                payload, indent=2, sort_keys=True) + "\n")
         except OSError as exc:
             raise Ref2VAQCStageError(
                 f"evidence_path: unable to persist Whisper evidence: {exc}"
@@ -258,10 +265,19 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
                 pass_bar=vision_pass_bar,
                 reference_image_path=reference_image_path).to_dict()
         except VisionJudgeError as exc:
-            persist_evidence(whisper_evidence)
+            vision_rejection = {
+                "failure_detail": str(exc),
+                "scores": dict(exc.scores),
+                "raw_response": exc.raw_response,
+                "mouth_bbox_raw_response": exc.mouth_bbox_raw_response,
+            }
+            persist_evidence(whisper_evidence,
+                             vision_rejection=vision_rejection)
             raise Ref2VAQCStageError(
                 str(exc), vision_scores=getattr(exc, "scores", None),
                 vision_raw_response=getattr(exc, "raw_response", None),
+                vision_mouth_bbox_raw_response=getattr(
+                    exc, "mouth_bbox_raw_response", None),
                 whisper_evidence=whisper_evidence,
             ) from exc
 

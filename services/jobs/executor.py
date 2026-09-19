@@ -150,10 +150,23 @@ def _vision_rejection_evidence(exc: Exception) -> dict:
     raw = (getattr(exc, "vision_raw_response", None)
            if hasattr(exc, "vision_raw_response")
            else getattr(exc, "raw_response", None))
+    mouth_raw = (getattr(exc, "vision_mouth_bbox_raw_response", None)
+                 if hasattr(exc, "vision_mouth_bbox_raw_response")
+                 else getattr(exc, "mouth_bbox_raw_response", None))
     return {
         "scores": dict(scores) if isinstance(scores, dict) else {},
         "raw_response": (str(raw) if raw is not None else None),
+        "mouth_bbox_raw_response": (
+            str(mouth_raw) if mouth_raw is not None else None),
     }
+
+
+def _has_vision_rejection_evidence(exc: Exception) -> bool:
+    """Whether a terminal vision-contract failure carries durable evidence."""
+    evidence = _vision_rejection_evidence(exc)
+    return (bool(evidence["scores"])
+            or evidence["raw_response"] is not None
+            or evidence["mouth_bbox_raw_response"] is not None)
 
 
 def _av_sync_rejection_evidence(exc: Exception) -> dict:
@@ -347,7 +360,8 @@ class JobExecutor:
                         evidence = _vision_rejection_evidence(e)
                         self._persist_visual_rejection(
                             job, clip, evidence, detail)
-                        if evidence["scores"] or evidence["raw_response"]:
+                        if (evidence["scores"] or evidence["raw_response"]
+                                or evidence["mouth_bbox_raw_response"]):
                             detail = (f"{detail}; vision_evidence="
                                       f"{json.dumps(evidence, sort_keys=True)}")
                         if self._retry_visual_gate(job, clip, detail):
@@ -358,6 +372,16 @@ class JobExecutor:
                         seed = _seed_value(clip)
                         if seed is not None:
                             detail = f"{detail}; seed={seed}"
+                    elif _has_vision_rejection_evidence(e):
+                        evidence = _vision_rejection_evidence(e)
+                        self._persist_visual_rejection(
+                            job, clip, evidence, detail)
+                        if (evidence["scores"] or evidence["raw_response"]
+                                or evidence["mouth_bbox_raw_response"]):
+                            detail = (f"{detail}; vision_evidence="
+                                      f"{json.dumps(evidence, sort_keys=True)}")
+                        self._fail(job, "qc_gate", detail)
+                        return
                     elif _is_post_whisper_failure(e):
                         evidence = _whisper_rejection_evidence(e)
                         self._persist_whisper_rejection(
@@ -428,6 +452,8 @@ class JobExecutor:
             "seed": _seed_value(clip),
             "scores": dict(evidence.get("scores") or {}),
             "raw_response": evidence.get("raw_response"),
+            "mouth_bbox_raw_response": evidence.get(
+                "mouth_bbox_raw_response"),
             "failure_detail": detail,
         }
         clip["vision_rejections"] = [*history, entry]
