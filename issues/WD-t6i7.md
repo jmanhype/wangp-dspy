@@ -8,12 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-22T20:12:56Z
 created_by: speed
 updated_at: 2026-08-23T01:38:52Z
-content_hash: "sha256:3f361ee8b0bfc82bf15d7624549fc61f2b4872ef52a1a7757fc7f827b88aaea1"
+content_hash: "sha256:9ae10bf09892625759b9369be5b82cbb5e3dcb2c3e97083f237f74adfca3ee26"
 assignee: dev-WD-t6i7
 labels: [accepted]
 closed_at: 2026-08-23T01:38:48Z
 close_reason: "real 3090 render + QC PASS (6.0/5.0/7.0 surreal) + audit ok; both code fixes merged (b3796c0, 9788f25); three follow-up stories seeded (WD-5zti, WD-d3b9, WD-h0vk)"
 led_to: [WD-5zti, WD-d3b9]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -53,9 +54,11 @@ status: delivered
 - 2026-08-22T22:15:11Z claimed by dev-WD-t6i7
 - 2026-08-22T22:42:33Z status: in_progress -> in_progress
 - 2026-08-23T01:38:48Z status: in_progress -> closed
+- 2026-09-19T20:39:24Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Led to: [[WD-5zti]], [[WD-d3b9]]
 
 ## Comments
