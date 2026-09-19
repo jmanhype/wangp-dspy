@@ -7,8 +7,8 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:36:38Z
 created_by: speed
-updated_at: 2026-09-19T16:18:31Z
-content_hash: "sha256:0f22d5e99558c31dc90d024ba3adc0b91270883abb46984ecf6ca5ca26721c14"
+updated_at: 2026-09-19T16:18:32Z
+content_hash: "sha256:dad63e462c380e9623f975c19f6c536a930d76e8438a17fbfe6165d18f297ebd"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
 labels: [accepted]
@@ -175,6 +175,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Commands run:
