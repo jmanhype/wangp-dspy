@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
 updated_at: 2026-09-19T14:59:28Z
-content_hash: "sha256:48727db2bb4156ef69d7ec78a669f6bc9376fae8a2e075562fbd1c5b40e5a77c"
+content_hash: "sha256:810235499476eff1f252c2e9bcc3ac8a453f527997604ca401d40ca5f61f3b26"
 follows: [WD-ice0, WD-clms]
 labels: [rejected]
 ---
@@ -189,6 +189,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-19.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence
 
 Commands run:
