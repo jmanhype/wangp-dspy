@@ -7,8 +7,8 @@ type: task
 parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
-updated_at: 2026-09-19T03:25:28Z
-content_hash: "sha256:139089c75cad7ae8bcf515a1ed1d430b889f2ebeeb33b6bf11cab323a82d8b0b"
+updated_at: 2026-09-19T03:25:42Z
+content_hash: "sha256:a8365a61c90836054f48d2cd2cc137d0f6ce917671eb583953fce5eb040fedf8"
 assignee: dev-WD-8r8a
 labels: [delivered]
 ---
@@ -160,3 +160,29 @@ status: in_progress
 - Parent: [[WD-wzbl]]
 
 ## Comments
+
+### 2026-09-19T03:25:42Z speed
+## Implementation Evidence (DELIVERED)
+
+Commands run:
+ - /usr/bin/python3 -m py_compile /tmp/sr_natural_calibration.py
+ - /usr/bin/python3 /tmp/sr_natural_calibration.py
+ - /usr/bin/python3 -m json.tool /Users/speed/.codex/skill-router/calibration-20260919-natural50.json
+Summary: 50-prompt local calibration PASS; JSON validation PASS; zero network calls; zero raw prompt leaks; event log unchanged at 19 lines; router source/config hashes unchanged.
+Commit SHA: d318d661ac3287b35aa5e77c7fda4c9efc410b37dccd8e76193e8e3527149e03
+
+## nd_contract
+status: delivered
+
+### evidence
+- Reports, metrics, privacy checks, hashes, and recommendation are recorded in Notes.
+
+### proof
+- [x] AC #1: local-only source used.
+- [x] AC #2: latest-per-thread deduplication recorded.
+- [x] AC #3: 50 unique prompts processed.
+- [x] AC #4: JSON and Markdown reports created.
+- [x] AC #5: no raw prompt persisted.
+- [x] AC #6: required metrics reported.
+- [x] AC #7: router source/config unchanged.
+- [x] AC #8: explicit-invocation follow-up recommended.
