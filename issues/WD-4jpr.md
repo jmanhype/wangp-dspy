@@ -8,11 +8,12 @@ parent: WD-j9nx
 created_at: 2026-08-27T16:29:10Z
 created_by: speed
 updated_at: 2026-08-27T16:32:02Z
-content_hash: "sha256:98de42f8b6f4b4ce9f7542a2e393d1e3a36178c11dbbbb9366b87eed627a7555"
+content_hash: "sha256:39f9c98fae04ba797b4cab7a461db489cc12cc80f8fb4f2a977742970d9e1a7c"
 assignee: speed
 follows: [WD-4k56]
 closed_at: 2026-08-27T16:32:02Z
 led_to: [WD-gq8y, WD-4s1b]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -38,9 +39,11 @@ Note: story created via paivot_story story_create (WD-4jpr); AC section patch no
 - 2026-08-27T16:29:34Z auto-follows: linked to predecessor WD-4k56
 - 2026-08-27T16:29:34Z claimed by speed
 - 2026-08-27T16:32:02Z status: in_progress -> closed
+- 2026-09-19T20:39:21Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-4k56]]
 - Led to: [[WD-gq8y]], [[WD-4s1b]]
 
