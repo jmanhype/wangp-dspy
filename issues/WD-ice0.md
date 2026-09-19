@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:13:39Z
-content_hash: "sha256:55f4aa61a893677461b966fc83f41e00606f732448e60aa9b75e1e6b5947e350"
+content_hash: "sha256:29cc0a3f56ed64cacc1627a2465f4c5f2ddcc56506e12e7d2889dc8789ea356e"
 assignee: dev-WD-ice0
 follows: [WD-clms, WD-cz6a]
 ---
@@ -57,4 +57,7 @@ IN-PROGRESS: Clean detached execution worktree /tmp/wangp-dspy-rhostrong-8d865dc
 ## Comments
 
 ### 2026-09-19T03:07:27Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-09-19T03:13:39Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
