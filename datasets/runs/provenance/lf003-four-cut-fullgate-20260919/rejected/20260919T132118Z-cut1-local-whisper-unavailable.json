@@ -1,0 +1,23 @@
+{
+  "schema": "wangp-dspy.queue-attempt-rejection/v1",
+  "recorded_utc": "2026-09-19T13:23:16Z",
+  "run_id": "lf003-four-cut-fullgate-20260919",
+  "job_id": "job-1789824118536-95d6bf4c",
+  "cut": 1,
+  "speaker": "Tess",
+  "render_started": false,
+  "failure_class": "render_error",
+  "failure_detail": "[lane=ref2va] render failed for clip 1: WhisperGateError: pre: Whisper transcription failed: local Whisper command failed to start: [Errno 2] No such file or directory: 'whisper'",
+  "queue_state": {
+    "job_states": {
+      "job-1789824118536-95d6bf4c": "failed",
+      "job-1789824118538-6fd0857f": "pending",
+      "job-1789824118538-02ca412d": "pending",
+      "job-1789824118539-9502eb5e": "pending"
+    },
+    "failed_job_failure_count": 1
+  },
+  "jobs_db_sha256_at_rejection": "47f16b05ea4b396c037e3cdaba100fad2e7f5da3b4f978e178861cdc181e7f03",
+  "ledger_sha256_at_rejection": "b61c25482b83de78934efcede6106665bc487dfcc1ef22bc08c48e5403700178",
+  "disposition": "Preserve this failed attempt in the same durable queue. Retry through scripts/run_jobs.py --retry-failed after selecting repository-owned remote Whisper with WANGP_WHISPER_LOCAL_FIRST=0. No threshold, seed, input, or QC rule is changed."
+}

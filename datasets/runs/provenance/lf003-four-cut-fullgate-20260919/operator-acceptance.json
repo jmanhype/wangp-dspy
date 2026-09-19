@@ -1,0 +1,22 @@
+{
+  "authorization_scope": "Accept the LF003 two-cut entry artifact and authorize the four-cut full-gate probe; no acceptance of the future four-cut artifact is implied.",
+  "operator_verbatim": "i agree to everything you may continue on all fronts",
+  "prior_run": {
+    "assembled_path": "datasets/runs/pull/lf003-two-cut-vibevoice-rhostrong-20260918/assembled.mp4",
+    "assembled_sha256": "1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad",
+    "baseline_commit": "35201a11bb1839fd5ba83739eed690227aabe199",
+    "bundle_path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-rhostrong-20260918.json",
+    "bundle_sha256": "df9012a3dcd2819d73ccacc9f7dbf9754c4a298a58869079424b46c611bdb361",
+    "execution_commit": "8d865dc5aafce70c7162dda6e47d9f2686e2e09f",
+    "ledger_path": "datasets/lf003-two-cut-vibevoice-rhostrong-20260918.runs.jsonl",
+    "ledger_sha256": "c1c6316483da5c9ae9349863991f22d0bd84c812be60e301f78aef797f9d1842",
+    "needs_review_record_line_sha256": "92180c776a820a58a3f725aa9e92308aba84f67c4dd1c1585853ba2537cbe996",
+    "planned_record_line_sha256": "4c08dfe429499fc38bd20d0e9796b4d4d9ae06c4cd417bc1748b3b8c3969e502",
+    "run_id": "lf003-two-cut-vibevoice-rhostrong-20260918",
+    "story_embedded_assembled_hash_length": 63,
+    "story_embedded_assembled_hash_text": "1c1184fbcf504ffbc4657926e13d20c6dd039e41dcf54bfe6e61919032b21ad",
+    "story_embedded_hash_valid": false
+  },
+  "recorded_utc": "2026-09-19T13:16:50.073735Z",
+  "schema": "wangp-dspy.operator-acceptance/v1"
+}

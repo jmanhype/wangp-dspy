@@ -1,0 +1,12 @@
+{
+  "schema": "wangp-dspy.speaker-manifest/v1",
+  "turns": [
+    {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+      "intended_text": "The projector died at midnight.",
+      "picture_n": 1,
+      "speaker_id": "S1",
+      "turn_index": 1
+    }
+  ]
+}

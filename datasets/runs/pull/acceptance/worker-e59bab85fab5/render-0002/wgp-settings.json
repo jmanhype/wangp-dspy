@@ -1,0 +1,20 @@
+{
+  "audio_guide": "/home/straughter/Wan2GP/lf003-four-cut-fullgate-20260919/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+  "audio_guide2": null,
+  "audio_prompt_type": "A",
+  "image_prompt_type": "S",
+  "image_refs": [
+    "/home/straughter/Wan2GP/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+    "/home/straughter/Wan2GP/lf003-four-cut-fullgate-20260919/assets/lf003-v3/face_rho.png"
+  ],
+  "image_start": "/home/straughter/Wan2GP/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+  "keep_frames_video_source": "",
+  "model_type": "minimax_h3_ref2va_pruned",
+  "prompt": "integrated_multimodal_description:\nThroughout every scene identity and wardrobe stay locked: S1 (Tess) is a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room, S2 (Rho) is a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room. Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition, continuing directly from the previous frame. The same two people: a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room and a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room.\n(S1) Tess, a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room, on-screen speaker: speaks natural English, mouth in exact sync with the audio.\n(S2) Rho, a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room shown in Picture 2 stays silent: their lips are pressed closed and motionless for the entire shot.\nClosed-mouth instruction: the character in Picture 2 keeps their mouth fully closed while the Tess speaks.\noverall_soundscape: scene ambience.\nnon_diegetic_music: N/A",
+  "resolution": "480x832",
+  "seed": 906,
+  "video_guide": null,
+  "video_length": 56,
+  "video_prompt_type": "I",
+  "video_source": null
+}
