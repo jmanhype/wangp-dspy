@@ -8,7 +8,7 @@ parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:25:28Z
-content_hash: "sha256:742af5cb0c7c29f565431d79b85f3bde5781954bda5e65e6350d56412508e8df"
+content_hash: "sha256:139089c75cad7ae8bcf515a1ed1d430b889f2ebeeb33b6bf11cab323a82d8b0b"
 assignee: dev-WD-8r8a
 labels: [delivered]
 ---
@@ -67,6 +67,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-18.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 ### CI/Test Results
