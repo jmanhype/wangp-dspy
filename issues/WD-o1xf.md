@@ -8,7 +8,7 @@ parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
 updated_at: 2026-09-19T02:53:56Z
-content_hash: "sha256:1b86af760a169fa3ae901037dff95ce725f1d4de94e28fe9da62f5e2c4f6c8b8"
+content_hash: "sha256:69ce9c48d18eca64dec07245398d72c3533ff61e27b5f43f52d4343c58c62245"
 assignee: dev-WD-o1xf
 labels: [accepted]
 closed_at: 2026-09-19T02:53:56Z
@@ -72,6 +72,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-18.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-19]: Evidence reviewed and meets the bar. The RED regression reproduced the live ranking defect; the scoring change passed 9/9 tests, zero pvg verify findings, local and fresh-process ordering checks, short-domain behavior, unchanged hook registration, and no prohibited network/persistence behavior.
 
