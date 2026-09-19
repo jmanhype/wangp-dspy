@@ -7,8 +7,8 @@ type: task
 parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
-updated_at: 2026-09-19T20:40:14Z
-content_hash: "sha256:f581be929242a2b703ccec5dd731997ef7bedb16a5c8a5fa6a979d34880a8783"
+updated_at: 2026-09-19T20:43:44Z
+content_hash: "sha256:fa83992068d7217cd16d9a48e8f96137e0fb645df6fc63568a4ec2adf8dd7284"
 assignee: dev-WD-dd81
 ---
 
@@ -599,6 +599,87 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dd81
+pvg issues show WD-dd81 --json
+git merge main --no-edit
+git add docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md
+git diff --cached --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py
+python3 /Users/speed/Documents/Codex/2026-09-18/yes-paivot-pvg-is-designed-for/work/validate_wd_dd81.py
+pvg verify docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md
+git commit -m 'docs: define thin Talker-Reasoner bridge'
+git diff --check
+```
+
+Material state:
+
+- Story worktree: `/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dd81`
+- Base/current protected main before docs commit: `9007abf`
+- Delivery commit: `5458a25`
+- Files: `docs/specs/talker-reasoner-bridge.md` and `docs/plans/talker-reasoner-bridge.md`
+- Total changed lines: 299, within the under-300 budget.
+- Spec SHA-256: `f776ff529f333fc4f8efdb17339efbf2dc01107bf43bff235597aa63a7b06583`
+- Plan SHA-256: `f61b6ba0d2ed55693218cefb5c20843dbeaf5257fcd9cf9220c7a4af9763d415`
+- The preserved draft was repaired to include the fifth-session target audio bus, `needs_tools -> film_request`, asynchronous reasoner behavior, clean TTS first, policy confirmation, and deferred Redis/Postgres/Mem0/Cognee/Zep/Letta stages.
+- Independent AST validation confirmed all four current source seams: `Pipeline.forward`, `run_bundle`, `SshHost.run_argv/push_file/fetch_file`, and `VibeVoiceBackend.generate`.
+- Broad word scan found only the policy word “credentials”; precise secret-value regex scan found zero hits.
+
+### CI/Test Results
+
+```text
+git diff --cached --check: PASS (exit 0, no output)
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py:
+...........                                                              [100%]
+11 passed
+
+Independent contract validation: PASS (24/24 checks)
+pvg verify docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md:
+VERIFY: PASSED (0 files scanned, 0 issues)
+post-commit git diff --check: PASS
+```
+
+Summary: the docs-only boundary contract is complete on a clean story branch fast-forwarded to current main. It defines exactly three first-slice routes, separates talker/transcription/call-emission/execution/routing/memory capabilities, maps the full fifth-session audio-bus architecture to staged repo-local work, and makes `run_bundle()` the sole release-quality film execution path. Raw prompt/audio bytes are transient only; persisted events carry hashes and repository identity by default.
+
+Commit SHA: 5458a25
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Self-contained spec exists | PASS | 273-line spec plus 26-line plan fragment; total 299 lines |
+| 2. Four API seams copied and mapped | PASS | Story-normalized signatures copied; current-source AST signatures independently verified |
+| 3. Capability facts correct | PASS | PersonaPlex/Moshi marked no native tool protocol; Voxtral Small and Realtime roles separated |
+| 4. First slice thin | PASS | Three routes, fixed small action surface, no durable platform, no unconsented network |
+| 5. Versioned hash event contract | PASS | `talker-reasoner-event/v1`; input/action/tool/artifact hashes, latency, rejection, repository identity |
+| 6. Rollout/kill criteria and follow-up map | PASS | Measurable table plus nine dependency-ordered follow-up stories |
+| 7. Ref2VA gates preserved | PASS | `run_bundle()` explicitly sole release path; no QC bypass or seam change |
+| 8. diff check | PASS | `git diff --cached --check` and post-commit `git diff --check` exit 0 |
+| 9. pipeline contract test | PASS | Exact primary interpreter command from story worktree: 11 passed |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Delivery commit SHA: `5458a25`.
+- Spec SHA-256: `f776ff529f333fc4f8efdb17339efbf2dc01107bf43bff235597aa63a7b06583`.
+- Plan SHA-256: `f61b6ba0d2ed55693218cefb5c20843dbeaf5257fcd9cf9220c7a4af9763d415`.
+- Independent validation and test outputs above.
+
+### proof
+- [x] AC #1: Spec and plan exist and are self-contained.
+- [x] AC #2: Four source seams copied and consumer-mapped.
+- [x] AC #3: Capability matrix preserves verified model facts.
+- [x] AC #4: First implementation explicitly thin.
+- [x] AC #5: Hash-bearing privacy-safe event contract defined.
+- [x] AC #6: Rollout/kill gates and dependency map defined.
+- [x] AC #7: Existing Ref2VA governance and `run_bundle()` boundary preserved.
+- [x] AC #8: Diff check passed.
+- [x] AC #9: Exact pipeline test command passed with 11 tests.
 
 
 ## History
