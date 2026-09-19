@@ -8,7 +8,7 @@ parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
 updated_at: 2026-09-19T20:43:44Z
-content_hash: "sha256:636c1f8ce4c156d79da99510650d298b3a021db275698af284655e6da23e271c"
+content_hash: "sha256:0e471650a8e394cba5c355a00f7145accb9e91c13e95bf29fd49387703230ec7"
 assignee: dev-WD-dd81
 labels: [delivered]
 ---
@@ -600,6 +600,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
