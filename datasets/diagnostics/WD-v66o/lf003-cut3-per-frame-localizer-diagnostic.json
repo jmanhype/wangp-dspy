@@ -1,0 +1,160 @@
+{
+  "schema": "wangp-dspy.wd-v66o.per-frame-localizer-diagnostic/v1",
+  "created_at": "2026-09-19T16:09:24.653446+00:00",
+  "story_id": "WD-v66o",
+  "diagnostic_scope": "offline per-frame localizer and existing SyncNet diagnostic on preserved LF003 cut 3; no render, no cut 4, no assembly, no queue mutation, no operator acceptance",
+  "replacement": {
+    "authorized": true,
+    "replaces_artifact_sha256": "7864ccf7205424686a8638d3102951404625edf0e497d41f016f4199c2a502bb",
+    "reason": "prior /tmp harness imported the primary checkout and lost evidence at an outer JSON boundary; this replacement pins imports to the assigned worktree and records tracebacks/structured evidence"
+  },
+  "source": {
+    "base_commit": "cfcd5e46fd20bf0e24fdbb4fbd416f4bec3bf0f0",
+    "worktree": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-v66o",
+    "production_file_sha256": "f295414f4f351b1b256430ff2de4ccdef1a5ece3e4e85f687d21a9e3a3055a82",
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-e59bab85fab5/render-0002/remux.mp4",
+    "video_sha256": "08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d",
+    "reference_image_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+    "reference_image_sha256": "045a28a664b718c4edc1833a68b32882073f7afdddf4b5367c375b9e5e7fd72a",
+    "expected_speaker": "S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; silent other S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT in the same glass-dome observatory control room; Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> — preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition.",
+    "expected_action": "subtle natural listening and speaking motion"
+  },
+  "judge": {
+    "implementation": "LocalQwenVisionJudge",
+    "endpoint": "http://localhost:8000/v1/chat/completions",
+    "model": "q",
+    "max_tokens": 1024,
+    "timeout_s": 180.0
+  },
+  "localizer": {
+    "disposition": "valid_three_boxes",
+    "speaker_mouth_bboxes": [
+      [
+        0.315,
+        0.205,
+        0.025,
+        0.015
+      ],
+      [
+        0.31,
+        0.19,
+        0.02,
+        0.03
+      ],
+      [
+        0.27,
+        0.19,
+        0.02,
+        0.01
+      ]
+    ],
+    "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.315,0.205,0.025,0.015],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.315, 0.205, 0.025, 0.015]}\\n```\",\"raw_response_sha256\":\"d98f0e0bda7f093b20d9637f3fcb3cc329fcc83c0db9e4b149de77afd9ead3ad\",\"status\":\"success\"}],\"bbox\":[0.315,0.205,0.025,0.015],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.31,0.19,0.02,0.03],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.31, 0.19, 0.02, 0.03]}\\n```\",\"raw_response_sha256\":\"4cfac44afbd1b9ab3da41fb0afc4406d899e2ad12f42d9d1a27075741503d790\",\"status\":\"success\"}],\"bbox\":[0.31,0.19,0.02,0.03],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.27,0.19,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.27, 0.19, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"68959919d46659351afc4bfae6856dfbf126815de7ebc9e23c8639126880bb32\",\"status\":\"success\"}],\"bbox\":[0.27,0.19,0.02,0.01],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+    "mouth_bbox_raw_response_sha256": "b6ec9d321f2e2ed505a6230f79a48aac8f2ad44eeacc1a671bf5c9fc76541d05",
+    "identity_raw_response": "{\n  \"mouth_activity\": 0.95,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor with Tess (S1) on the left and Rho (S2) on the right. Identity and wardrobe (navy jacket with star pin, red knit cap, olive jacket) are preserved. In the middle frame, Tess exhibits clear mouth activity (open mouth) consistent with speaking, while Rho remains silent with a closed mouth. The start and end frames show a neutral, closed-mouth pose, but the visible speaking action in the middle frame confirms the expected behavior.\"\n}",
+    "identity_raw_response_sha256": "50e2548079cdfa6f5388d7f43aa5f82a4d165a79f154c619525d84c5c4a2df72",
+    "scores": {
+      "mouth_activity": 0.95,
+      "action_match": 0.9,
+      "speaker_attribution": 0.95
+    }
+  },
+  "integrated_vision_judge": {
+    "disposition": "fail_closed",
+    "failure_detail": "speaker_mouth_bboxes lack spatial consensus",
+    "scores": {
+      "mouth_activity": 0.95,
+      "action_match": 0.9,
+      "speaker_attribution": 0.95
+    },
+    "raw_response": "{\n  \"mouth_activity\": 0.95,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor with Tess (S1) on the left and Rho (S2) on the right. Identity and wardrobe (navy jacket with star pin, red knit cap, olive jacket) are preserved. In the middle frame, Tess exhibits clear mouth activity (open mouth) consistent with speaking, while Rho remains silent with a closed mouth. The start and end frames show a neutral, closed-mouth pose, but the visible speaking action in the middle frame confirms the expected behavior.\"\n}",
+    "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.315,0.205,0.025,0.015],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.315, 0.205, 0.025, 0.015]}\\n```\",\"raw_response_sha256\":\"d98f0e0bda7f093b20d9637f3fcb3cc329fcc83c0db9e4b149de77afd9ead3ad\",\"status\":\"success\"}],\"bbox\":[0.315,0.205,0.025,0.015],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.31,0.19,0.02,0.03],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.31, 0.19, 0.02, 0.03]}\\n```\",\"raw_response_sha256\":\"4cfac44afbd1b9ab3da41fb0afc4406d899e2ad12f42d9d1a27075741503d790\",\"status\":\"success\"}],\"bbox\":[0.31,0.19,0.02,0.03],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.27,0.19,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.27, 0.19, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"68959919d46659351afc4bfae6856dfbf126815de7ebc9e23c8639126880bb32\",\"status\":\"success\"}],\"bbox\":[0.27,0.19,0.02,0.01],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}"
+  },
+  "harness_preflight_attempt": {
+    "disposition": "fail_closed",
+    "failure_detail": "speaker_mouth_bbox: expected [x, y, width, height]",
+    "evidence": null,
+    "inference_executed": false
+  },
+  "syncnet": {
+    "disposition": "passed",
+    "evidence": {
+      "confidence": 3.166184,
+      "crop_factors": [
+        4.0,
+        8.0,
+        12.0
+      ],
+      "crop_results": [
+        {
+          "confidence": 2.5188426971435547,
+          "factor": 4.0,
+          "minimum_distance": 9.547781944274902,
+          "offset_frames": -1
+        },
+        {
+          "confidence": 3.166184425354004,
+          "factor": 8.0,
+          "minimum_distance": 11.2987642288208,
+          "offset_frames": -1
+        },
+        {
+          "confidence": 5.036975860595703,
+          "factor": 12.0,
+          "minimum_distance": 8.55014419555664,
+          "offset_frames": -1
+        }
+      ],
+      "method": "syncnet_v2_multicrop/v1",
+      "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+      "offset_frames_25fps": -1,
+      "offset_seconds": -0.04,
+      "pass_bar": {
+        "max_abs_offset_frames_25fps": 10,
+        "min_confidence": 1.0
+      },
+      "passed": true,
+      "phonetic_sync_verified": false,
+      "speaker_mouth_bbox": [
+        0.31,
+        0.19,
+        0.02,
+        0.015
+      ],
+      "status": "complete",
+      "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-e59bab85fab5/render-0002/remux.mp4",
+      "video_sha256": "08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d",
+      "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-e59bab85fab5/render-0002/remux.mp4"
+    },
+    "diagnostic_only": true,
+    "integrated_vision_consensus_passed": false,
+    "input_bbox_source": "per_coordinate_median_of_three_recorded_frame_boxes",
+    "input_bbox": [
+      0.31,
+      0.19,
+      0.02,
+      0.015
+    ],
+    "source_boxes": [
+      [
+        0.315,
+        0.205,
+        0.025,
+        0.015
+      ],
+      [
+        0.31,
+        0.19,
+        0.02,
+        0.03
+      ],
+      [
+        0.27,
+        0.19,
+        0.02,
+        0.01
+      ]
+    ],
+    "video_sha256": "08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d",
+    "executed_at": "2026-09-19T16:14:45.924486+00:00"
+  }
+}

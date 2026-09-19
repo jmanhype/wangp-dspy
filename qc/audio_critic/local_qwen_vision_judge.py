@@ -10,6 +10,8 @@ contract as the ModelScope adapter.
 from __future__ import annotations
 
 import json
+import hashlib
+import math
 import os
 import uuid
 from pathlib import Path
@@ -32,11 +34,16 @@ class LocalQwenVisionJudgeError(ValueError):
     """Typed local-host configuration, transport, or response failure."""
 
     def __init__(self, message: str, *, scores=None,
-                 raw_response: Optional[str] = None):
+                 raw_response: Optional[str] = None,
+                 mouth_bbox_raw_response: Optional[str] = None,
+                 transport_failure: bool = False):
         super().__init__(message)
         self.scores = dict(scores or {})
         self.raw_response = (str(raw_response)
                              if raw_response is not None else None)
+        self.mouth_bbox_raw_response = (str(mouth_bbox_raw_response)
+                                        if mouth_bbox_raw_response is not None else None)
+        self.transport_failure = bool(transport_failure)
 
 
 class LocalQwenVisionJudge:
@@ -106,7 +113,8 @@ class LocalQwenVisionJudge:
             writer = getattr(self.host, "write_text", None)
             if not callable(writer):
                 raise LocalQwenVisionJudgeError(
-                    "RenderHost must expose write_text for local vision payloads")
+                    "RenderHost must expose write_text for local vision payloads",
+                    transport_failure=True)
             remote_payload = writer(
                 remote_payload,
                 json.dumps({
@@ -129,7 +137,8 @@ class LocalQwenVisionJudge:
             if rc != 0:
                 raise LocalQwenVisionJudgeError(
                     f"local Qwen-VL request failed (rc={rc}): "
-                    f"{(err or out or '').strip()[-400:]}")
+                    f"{(err or out or '').strip()[-400:]}",
+                    transport_failure=True)
             try:
                 body = json.loads(out)
                 message = body["choices"][0]["message"]
@@ -162,21 +171,111 @@ class LocalQwenVisionJudge:
                     raw_response=raw_response)
             result[key] = value
 
-        locator_content = [{"type": "text", "text": (
-            "Locate the EXPECTED SPEAKER'S MOUTH in each of these three "
-            "DISTINCT generated start/middle/end frames. Expected speaker "
-            f"and silent counterpart: {expected_speaker}. Return STRICT JSON "
-            "only as {\"speaker_mouth_bboxes\": [[x,y,width,height], ...]} "
-            "with exactly three normalized 0..1 arrays in frame order. Each "
-            "box tightly covers only the speaker's lips/mouth opening—not "
-            "chin, jaw, neck, or whole face. The mouth may be closed; still "
-            "locate the lips.")}]
-        for frame in generated_frames:
-            locator_content.append({"type": "image_url", "image_url": {
-                "url": ModelScopeVisionJudge._data_url(frame)}})
-        locator, locator_raw = request(locator_content)
-        result["speaker_mouth_bboxes"] = locator["speaker_mouth_bboxes"]
-        result["mouth_bbox_raw_response"] = locator_raw
+        def attempt_evidence(status, raw_response, *, error=None, bbox=None):
+            evidence = {
+                "status": status,
+                "raw_response": (str(raw_response)
+                                 if raw_response is not None else None),
+                "raw_response_sha256": (hashlib.sha256(
+                    str(raw_response).encode()).hexdigest()
+                    if raw_response is not None else None),
+            }
+            if error is not None:
+                evidence["error"] = str(error)
+            if bbox is not None:
+                evidence["bbox"] = list(bbox)
+            return evidence
+
+        def valid_bbox(response):
+            if not isinstance(response, dict):
+                raise ValueError("mouth response must be a JSON object")
+            if "speaker_mouth_bbox" not in response:
+                raise ValueError("mouth response missing speaker_mouth_bbox")
+            raw_bbox = response["speaker_mouth_bbox"]
+            if (not isinstance(raw_bbox, (list, tuple))
+                    or len(raw_bbox) != 4):
+                raise ValueError("speaker_mouth_bbox must be [x,y,width,height]")
+            if any(isinstance(value, bool) or
+                   not isinstance(value, (int, float))
+                   for value in raw_bbox):
+                raise ValueError("speaker_mouth_bbox values must be numeric")
+            bbox = [float(value) for value in raw_bbox]
+            if (not all(math.isfinite(value) for value in bbox)
+                    or any(value < 0.0 or value > 1.0 for value in bbox)
+                    or bbox[2] <= 0.0 or bbox[3] <= 0.0
+                    or bbox[0] + bbox[2] > 1.0
+                    or bbox[1] + bbox[3] > 1.0):
+                raise ValueError(
+                    "speaker_mouth_bbox must be normalized and fit the frame")
+            return bbox
+
+        def canonical_evidence():
+            return json.dumps(
+                {"schema": "wangp-dspy.local-qwen-mouth-localizer/v1",
+                 "frames": frame_evidence},
+                sort_keys=True, separators=(",", ":"))
+
+        frame_roles = ("start", "middle", "end")
+        frame_evidence = []
+        bboxes = []
+        for frame_index, frame_role in enumerate(frame_roles):
+            frame_record = {
+                "frame_index": frame_index, "frame_role": frame_role,
+                "status": "in_progress", "attempts": []}
+            frame_evidence.append(frame_record)
+            for attempt_number in (1, 2):
+                locator_content = [{"type": "text", "text": (
+                    f"Locate the EXPECTED SPEAKER'S MOUTH in this one "
+                    f"{frame_role} generated frame. Expected speaker "
+                    f"and silent counterpart: {expected_speaker}. Return "
+                    "STRICT JSON only as "
+                    '{"speaker_mouth_bbox": [x,y,width,height]} '
+                    "with normalized 0..1 coordinates. The box tightly covers "
+                    "only the speaker's lips/mouth opening—not chin, jaw, "
+                    "neck, or whole face. The mouth may be closed; still "
+                    "locate the lips.")},
+                    {"type": "image_url", "image_url": {"url": (
+                        ModelScopeVisionJudge._data_url(
+                            generated_frames[frame_index]))}}]
+                try:
+                    locator, locator_raw = request(locator_content)
+                    try:
+                        bbox = valid_bbox(locator)
+                    except ValueError as exc:
+                        raise LocalQwenVisionJudgeError(
+                            str(exc), raw_response=locator_raw) from exc
+                    frame_record["attempts"].append(attempt_evidence(
+                        "success", locator_raw, bbox=bbox))
+                    frame_record["status"] = "success"
+                    frame_record["bbox"] = bbox
+                    bboxes.append(bbox)
+                    break
+                except LocalQwenVisionJudgeError as exc:
+                    transport_failure = exc.transport_failure
+                    attempt_raw_response = exc.raw_response
+                    attempt_error = exc
+                except Exception as exc:
+                    transport_failure = True
+                    attempt_raw_response = None
+                    attempt_error = exc
+                status = ("transport_failure" if transport_failure
+                          else "malformed")
+                frame_record["attempts"].append(attempt_evidence(
+                    status, attempt_raw_response, error=attempt_error))
+                frame_record["status"] = (
+                    "transport_failure" if transport_failure
+                    else "retry_exhausted")
+                if transport_failure or attempt_number == 2:
+                    raise LocalQwenVisionJudgeError(
+                        f"frame {frame_index + 1} mouth localization "
+                        f"failed: {attempt_error}",
+                        scores={key: result[key] for key in _SCORE_KEYS},
+                        raw_response=raw_response,
+                        mouth_bbox_raw_response=canonical_evidence(),
+                        transport_failure=transport_failure) from attempt_error
+
+        result["speaker_mouth_bboxes"] = bboxes
+        result["mouth_bbox_raw_response"] = canonical_evidence()
         return {**result, "critic": f"local:{self.model}",
                 "raw_response": raw_response}
 
