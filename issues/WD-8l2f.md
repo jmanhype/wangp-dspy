@@ -12,6 +12,7 @@ content_hash: "sha256:cc0ec80f9f045c3bd4a7e3f876d6238c6d4397ad1cc969a3db71eb1a18
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
 blocks: [WD-rij6]
+labels: [delivered]
 ---
 
 ## Description
