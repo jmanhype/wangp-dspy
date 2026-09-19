@@ -7,7 +7,7 @@ type: epic
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
 updated_at: 2026-09-19T02:54:10Z
-content_hash: "sha256:e9fb0ff573d2581b5a71d9b983bf5913a87bebeb49fab00013c7e12f230e2b85"
+content_hash: "sha256:df258bdf4f83172d6bc19d4fcd94712a3e837946048d6902a491ce039f918efa"
 closed_at: 2026-09-19T02:54:10Z
 close_reason: "All child stories accepted; Skill Router symptom-specific calibration met the epic outcomes."
 labels: [accepted]
@@ -61,7 +61,17 @@ Adjust local scoring only; no network or persistence changes.
 
 
 ## Notes
+## nd_contract
+status: accepted
 
+### evidence
+- Child WD-o1xf accepted and closed on 2026-09-19.
+- Live meta-language diagnostic now ranks supabase-rls-frontend-debugging above broad supabase, while short domain prompts retain broad-domain suggestions.
+
+### proof
+- [x] Symptom-specific skills outrank broad same-domain skills for detailed diagnostic prompts.
+- [x] Short domain-only prompts still receive useful broad-domain suggestions.
+- [x] Ranking remains local, deterministic, private, and fail-open.
 
 ## History
 - 2026-09-19T02:54:10Z status: open -> closed
