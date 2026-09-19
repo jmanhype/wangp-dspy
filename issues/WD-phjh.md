@@ -6,8 +6,8 @@ priority: 1
 type: task
 created_at: 2026-09-19T23:53:37Z
 created_by: speed
-updated_at: 2026-09-19T23:53:45Z
-content_hash: "sha256:39e98c3aaf91a3e9baa65f668b26e92bbf52b45888adbe39875980152a01786e"
+updated_at: 2026-09-19T23:54:33Z
+content_hash: "sha256:c2374a0b8e30fc7082224a714250e70cd39bba2e326a9eb8a640c54d1f8acf52"
 assignee: dev-WD-phjh
 ---
 
@@ -96,6 +96,86 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-phjh
+git diff --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py
+pvg verify docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md --format=text
+shasum -a 256 docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md
+git add docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md
+git diff --cached --check
+git commit -m 'docs: hand off Talker-Reasoner implementation'
+cd /Users/Shared/HermesWorkspace/talker-reasoner-system
+git status --short --branch
+git remote -v
+git rev-parse HEAD
+git ls-remote --tags origin m0-complete m1-complete
+```
+
+Material state:
+
+- Documentation commit: `3fe976b`
+- Base: `6fc7c61`
+- Changed files:
+  - `docs/specs/talker-reasoner-bridge.md` (+9 lines)
+  - `docs/plans/talker-reasoner-bridge.md` (+9 lines)
+- Total change: 18 inserted lines, within the under-30 budget.
+- Spec SHA-256: `7957f12c0ab67798a98063d75e46126cdf7d5cc6aca28dc734df5725dfa95fd8`
+- Plan SHA-256: `bbf262ad0d48768c9cfb98fdb8d9264169e3626b2b518738605688b5eea1026b`
+- Canonical repository verified as private `jmanhype/talker-reasoner-system`, default branch `main`, URL `https://github.com/jmanhype/talker-reasoner-system`.
+- Canonical M1 commit verified at `f7bc6e076dfaff20f7389c84f8077da3dd5756ab`.
+- No imports, source code, model behavior, pipeline behavior, or accepted tracker history were removed.
+
+### CI/Test Results
+
+```text
+git diff --check: PASS
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py:
+...........                                                              [100%]
+11 passed
+1 pre-existing host/wangp_adapter.py SyntaxWarning
+
+pvg verify docs/specs/talker-reasoner-bridge.md docs/plans/talker-reasoner-bridge.md:
+VERIFY: PASSED (0 files scanned, 0 issues)
+
+git diff --cached --check: PASS
+```
+
+Summary: the accepted WD-dd81 contract and plan now carry a prominent canonical-repository handoff status while remaining historical governance records in wangp-dspy. Future implementation work is directed to talker-reasoner-system without coupling the repositories.
+
+Commit SHA: 3fe976b
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Both documents name canonical repo | PASS | Spec and plan both link `https://github.com/jmanhype/talker-reasoner-system` |
+| 2. Historical governance status explicit | PASS | Spec: accepted boundary contract; plan: accepted historical planning record |
+| 3. Future implementation directed correctly | PASS | Both status blocks say future implementation belongs in Talker-Reasoner repository |
+| 4. No source/history rewrite | PASS | Only 18 documentation status lines changed |
+| 5. Diff check | PASS | Working and staged checks exited 0 |
+| 6. Pipeline contract test | PASS | Exact command passed 11/11 |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA: `3fe976b`.
+- Spec SHA-256: `7957f12c0ab67798a98063d75e46126cdf7d5cc6aca28dc734df5725dfa95fd8`.
+- Plan SHA-256: `bbf262ad0d48768c9cfb98fdb8d9264169e3626b2b518738605688b5eea1026b`.
+- Exact pipeline test: 11 passed.
+
+### proof
+- [x] AC #1: Canonical repository named in both documents.
+- [x] AC #2: Historical governance role stated in both documents.
+- [x] AC #3: Future implementation ownership stated in both documents.
+- [x] AC #4: No source, behavior, or history removed.
+- [x] AC #5: Diff checks passed.
+- [x] AC #6: Exact pipeline command passed.
 
 
 ## History
