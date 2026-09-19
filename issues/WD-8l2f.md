@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
 updated_at: 2026-09-19T16:52:14Z
-content_hash: "sha256:6b371ca05af989fab46049d05b712fe54471384c628196f082f9630c21d41b98"
+content_hash: "sha256:4b6c2c8039429fa8e92411b879202ad62a43814094f50d37bd7cd8e23a821c39"
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
 labels: [accepted]
@@ -199,6 +199,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Commands run:
