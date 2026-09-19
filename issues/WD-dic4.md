@@ -10,6 +10,7 @@ updated_at: 2026-09-19T02:54:10Z
 content_hash: "sha256:e9fb0ff573d2581b5a71d9b983bf5913a87bebeb49fab00013c7e12f230e2b85"
 closed_at: 2026-09-19T02:54:10Z
 close_reason: "All child stories accepted; Skill Router symptom-specific calibration met the epic outcomes."
+labels: [accepted]
 ---
 
 ## Description
