@@ -8,13 +8,14 @@ parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
 updated_at: 2026-09-19T03:50:51Z
-content_hash: "sha256:6b772ff216852e5ee4f0e9b81823cf226b7819a52f6d03648a352376be967963"
+content_hash: "sha256:8204aa901a830dbfefb5d73e8790c03b5f8c097c8e633dac5a8128e932d7833c"
 assignee: dev-WD-ice0
 follows: [WD-clms, WD-cz6a, WD-l5bx]
 labels: [accepted]
 closed_at: 2026-09-19T03:50:50Z
 close_reason: "Accepted: operator creative verdict KEEP after full machine-gate evidence review."
 led_to: [WD-rij6, WD-sf9i, WD-v66o]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -169,9 +170,11 @@ status: delivered
 - 2026-09-19T03:29:27Z status: open -> in_progress
 - 2026-09-19T03:29:28Z auto-follows: linked to predecessor WD-l5bx
 - 2026-09-19T03:50:50Z status: in_progress -> closed
+- 2026-09-19T20:39:20Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-clms]], [[WD-cz6a]], [[WD-l5bx]]
 - Led to: [[WD-rij6]], [[WD-sf9i]], [[WD-v66o]]
 
