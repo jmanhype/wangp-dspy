@@ -8,13 +8,14 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:27Z
 created_by: speed
 updated_at: 2026-08-23T03:23:30Z
-content_hash: "sha256:fc5dbee0a92e0a370cb71291c6345785494032444b2d84116b23e001eb6b7b60"
+content_hash: "sha256:91fc29e7073731610f03564d0e167b8ffb70f2d0239d845b601193eea1274533"
 assignee: dev-WD-5zti
 follows: [WD-t6i7, WD-h0vk]
 led_to: [WD-d3b9, WD-h0vk, WD-u10f]
 labels: [accepted]
 closed_at: 2026-08-23T03:23:29Z
 close_reason: "delivered: PR #8 (46cbff4) merged, Luna+GLM PASS, RED verified on main"
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -84,9 +85,11 @@ status: delivered
 - 2026-08-23T03:23:13Z status: open -> in_progress
 - 2026-08-23T03:23:13Z auto-follows: linked to predecessor WD-h0vk
 - 2026-08-23T03:23:29Z status: in_progress -> closed
+- 2026-09-19T20:39:22Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-t6i7]], [[WD-h0vk]]
 - Led to: [[WD-d3b9]], [[WD-h0vk]], [[WD-u10f]]
 
