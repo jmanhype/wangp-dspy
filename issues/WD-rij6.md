@@ -8,12 +8,11 @@ parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
 updated_at: 2026-09-19T15:02:12Z
-content_hash: "sha256:a759c904f0ce237a6b4aed74fb9a1c748755b87aad1d793bb7730c8a3706ea1e"
+content_hash: "sha256:9867ff18a03d070fc7f6ec5f604fcba7dbb1d662fc4f4f46dbf4319c6d980486"
 follows: [WD-ice0, WD-clms]
 labels: [rejected]
 defer_until: 2026-09-20
-was_blocked_by: [WD-sf9i]
-blocked_by: [WD-8l2f]
+was_blocked_by: [WD-sf9i, WD-8l2f]
 ---
 
 ## Description
@@ -278,11 +277,11 @@ status: delivered
 - 2026-09-19T15:02:12Z status: open -> deferred
 - 2026-09-19T15:35:08Z dep_removed: was_blocked_by WD-sf9i
 - 2026-09-19T16:33:09Z dep_added: blocked_by WD-8l2f
+- 2026-09-19T16:52:14Z dep_removed: was_blocked_by WD-8l2f
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Blocked by: [[WD-8l2f]]
-- Was blocked by: [[WD-sf9i]]
+- Was blocked by: [[WD-sf9i]], [[WD-8l2f]]
 - Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments

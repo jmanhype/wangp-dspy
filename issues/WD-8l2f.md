@@ -1,18 +1,19 @@
 ---
 id: WD-8l2f
 title: "Allow valid per-frame mouth motion before SyncNet"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
-updated_at: 2026-09-19T16:51:50Z
-content_hash: "sha256:7c0544be659a759f07af30aa29c662dddcc316eb0a77699dff38249bb3fcbd9f"
+updated_at: 2026-09-19T16:52:14Z
+content_hash: "sha256:6b371ca05af989fab46049d05b712fe54471384c628196f082f9630c21d41b98"
 assignee: dev-WD-8l2f
 follows: [WD-v66o, WD-sf9i]
-blocks: [WD-rij6]
 labels: [delivered]
+closed_at: 2026-09-19T16:52:13Z
+close_reason: "Accepted: independently reran core targeted suites, focused moving/diagnostic tests, compilation, pvg verify, git diff check, semantic scan, and hash inspection. Valid per-frame motion is descriptive evidence; malformed boxes, identity/speaker gates, median SyncNet input, and blocking SyncNet behavior remain enforced."
 ---
 
 ## Description
@@ -270,10 +271,11 @@ status: delivered
 - 2026-09-19T16:33:09Z dep_added: blocks WD-rij6
 - 2026-09-19T16:50:49Z status: in_progress -> in_progress
 - 2026-09-19T16:50:49Z auto-follows: linked to predecessor WD-sf9i
+- 2026-09-19T16:52:14Z status: in_progress -> closed
+- 2026-09-19T16:52:14Z dep_removed: no_longer_blocks WD-rij6
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Blocks: [[WD-rij6]]
 - Follows: [[WD-v66o]], [[WD-sf9i]]
 
 ## Comments
