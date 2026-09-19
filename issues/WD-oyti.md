@@ -8,8 +8,9 @@ parent: WD-j9nx
 created_at: 2026-08-28T00:33:41Z
 created_by: speed
 updated_at: 2026-08-28T00:50:32Z
-content_hash: "sha256:d840cf7eba03f2ddcca22ae40e1272df49eb2cffdd253b1d57d874348e9600f4"
+content_hash: "sha256:f0f461b61bb0dfef523ea58855b2f70c26c2a213667d09112a9a5fd2532a3673"
 closed_at: 2026-08-28T00:50:32Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -50,9 +51,11 @@ Implement the inferred-marker convention from docs/extraction/shuohao-skills/inf
 
 ## History
 - 2026-08-28T00:50:32Z status: open -> closed
+- 2026-09-19T20:39:23Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 
 ## Comments
 
