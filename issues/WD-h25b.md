@@ -11,6 +11,7 @@ updated_at: 2026-09-19T20:37:49Z
 content_hash: "sha256:5dac6275a86747c1fb04b2854cafdabdff250d5a2a1bce3656ccc9f1e9e065e4"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52, WD-8l2f]
+labels: [delivered]
 ---
 
 ## Description
