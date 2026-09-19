@@ -1,14 +1,15 @@
 ---
 id: WD-dd81
 title: "Define the thin Talker-Reasoner bridge contract"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
-updated_at: 2026-09-19T04:14:14Z
-content_hash: "sha256:cd394a80a2941a06b14516c61e5ba3be892f90c6ac4bc69bc0037104fdaa7409"
+updated_at: 2026-09-19T04:15:44Z
+content_hash: "sha256:f8ab9dc8ad3b570a5e5805531a20978683a4415c49904157950f18ed25ab0848"
+assignee: dev-WD-dd81
 ---
 
 ## Description
@@ -207,7 +208,8 @@ status: new
 
 
 ## History
-
+- 2026-09-19T04:15:44Z status: open -> in_progress
+- 2026-09-19T04:15:44Z claimed by dev-WD-dd81
 
 ## Links
 - Parent: [[WD-1te5]]
