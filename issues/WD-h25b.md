@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
-updated_at: 2026-09-19T20:33:49Z
-content_hash: "sha256:71cd58086190c0fa9b090fe746f1f3e79436892a8131297c61086e49c17d697e"
+updated_at: 2026-09-19T20:37:48Z
+content_hash: "sha256:7da096ff570954871e5b8e80c7c4aa20c772c56c26b3e4fd752c8c9e6958ee58"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52]
 ---
@@ -73,6 +73,77 @@ attribution, master locks, job JSONs) + PR. This is the movie.
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy
+pvg loop recover
+pvg nd sync
+pvg loop status
+pvg loop next --json
+pvg issues show WD-h25b --json
+gh pr view 41 --json number,state,title,headRefName,baseRefName,mergeCommit,url,reviewDecision,statusCheckRollup,comments,reviews
+git merge-base --is-ancestor c20ecd8 main
+python3 scripts/check_diarization.py s4/films/satans-mom/dialogue/timeline.json
+python3 /Users/speed/Documents/Codex/2026-09-18/yes-paivot-pvg-is-designed-for/work/validate_wd_h25b.py
+git worktree add --detach /tmp/wd-h25b-verify main
+cd /tmp/wd-h25b-verify && uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-h25b-clean-full.xml
+```
+
+Material state:
+
+- Current protected `main`: `9007abf`.
+- S4 implementation commit `c20ecd808302d90f3e607e089fa59f402288fb5a` is an ancestor of `main`.
+- PR #41 is MERGED with merge commit `15cca89a57d050b86c285aabd54a7905f23575f2`: https://github.com/jmanhype/wangp-dspy/pull/41
+- Final artifact: `/Users/Shared/HermesWorkspace/wangp-dspy/s4/films/satans-mom/final/satans_mom.mp4`
+- Final SHA-256: `f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac`
+- ffprobe: H264+AAC, 832x480, 24 fps, 752 video frames, 34.783667 seconds.
+- Timeline validator: exit 0; 3 speakers, 6 segments, 33.672 seconds.
+- Attribution order: GRANDMA, PRISONER, GRANDMA, DEVIL, GRANDMA, DEVIL.
+- Recorded master locks: cut1 `d7ca20745552a2eb7679a98d59dd8346f7feca418cc8c55bb82aca61e474c7dd`; cut2 `03f1e067378f34ca18f30b2596853d83d2f2320a7e559df1566a34db7119cfe0`; cut3 `61feaa038ccc91dfdfa22bb083c8667a908ce4e797b0cde5c476b620699901d9`.
+- Six job/run records (supersedes the minimum three renders), all 4.0-8.616 seconds, with recorded render/remux SHA-256 values and the proven S2.5 Ref2VA shape.
+- Per-shot QC scores: 8, 9, 9, 9, 7, 9; all meet threshold 7.0.
+- G4 audio doctrine is recorded for all six cuts: H3 audio stripped; real edge-TTS remuxed.
+- Recorded final whisper result: PASS, six authored lines in order.
+- Independent validation: 17/18 checks passed. The only failure is non-AC delivery metadata: `S4_DELIVERY.md` says 480x832 while ffprobe measures the final at 832x480. This is recorded as a follow-up documentation defect, not grounds to rerender.
+- Clean detached worktree at `main` (`/tmp/wd-h25b-verify`) full suite: 1,526 tests, 0 errors, 0 failures, 1 skipped, 43.444 seconds.
+- Primary-checkout full suite had 10 failures caused solely by unrelated foreign untracked worktree `/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dd81`; repository identity failed closed as designed. The clean-worktree run above is the authoritative result.
+
+Historical reconciliation:
+
+- The August PR metadata no longer contains reconstructible Luna/GLM gate dispatch artifacts; PR #41 has no reviews/status checks recorded.
+- Acceptance is reconciled to the operator's completion directive and current protected-main evidence: merged implementation, byte-identical final hash, independently rerun timeline/evidence checks, and a clean full current test suite. No claim is made that the historical Luna/GLM dispatch is newly proven.
+
+## CI/Test Results
+
+- `/tmp/wd-h25b-clean-full.xml`: tests=1526, errors=0, failures=0, skipped=1, time=43.444.
+- `/tmp/wd-h25b-current-full.xml`: tests=1526, errors=0, failures=10, skipped=1; all failures share the unrelated foreign-worktree repository-identity cause.
+
+## Summary
+
+WD-h25b was already implemented and merged through PR #41. Current protected-main validation confirms the film, hashes, timeline, six run records, QC scores, audio doctrine, final whisper evidence, and full test suite. The stale open tracker story should be delivered and accepted without another GPU run.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commands and measured outputs above.
+- Implementation commit SHA: `c20ecd808302d90f3e607e089fa59f402288fb5a`.
+- PR #41 merge commit SHA: `15cca89a57d050b86c285aabd54a7905f23575f2`.
+- Final film SHA-256: `f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac`.
+
+### proof
+- [x] AC #1: Three master locks recorded (cut1 in preflight contract; cuts 2-3 in `masters/shas.txt`).
+- [x] AC #2: Timeline independently validated by `scripts/check_diarization.py` with exit 0.
+- [x] AC #3: Six `<d>NAME</d>` attribution blocks match timeline speaker order.
+- [x] AC #4: Six live Ref2VA shot records exceed the minimum three-render requirement.
+- [x] AC #5: Per-shot VLM QC verdicts recorded at 8/9/9/9/7/9 versus threshold 7.0.
+- [x] AC #6: G4 real-TTS remux doctrine recorded for all six cuts.
+- [x] AC #7: Final mp4 exists, hash matches, and recorded whisper gate passes.
+- [x] AC #8: Six per-shot run records plus `state.json` trail are tracked.
+- [x] AC #9 (reconciled): PR #41 is merged; historical Luna/GLM dispatch is not reconstructible and is explicitly not claimed as newly proven.
 
 
 ## History
