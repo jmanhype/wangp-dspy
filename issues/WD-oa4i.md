@@ -8,11 +8,12 @@ parent: WD-j9nx
 created_at: 2026-08-26T04:26:29Z
 created_by: speed
 updated_at: 2026-08-27T19:36:50Z
-content_hash: "sha256:4334b2b9d8c0dc7b30784feb6e232bb2371d5dfe6e9b27acbdd558d1383dffdc"
+content_hash: "sha256:05edeae5260b1a9e1d6623945d478d3b3c8f2f4469af804153843d1df33de9ab"
 assignee: dev-WD-oa4i
 follows: [WD-txt9, WD-mhr2]
 labels: [delivered, pm-accepted]
 closed_at: 2026-08-27T16:12:52Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -40,9 +41,11 @@ Acceptance criteria:
 - 2026-08-27T16:12:25Z status: in_progress -> in_progress
 - 2026-08-27T16:12:25Z auto-follows: linked to predecessor WD-mhr2
 - 2026-08-27T16:12:52Z status: in_progress -> closed
+- 2026-09-19T20:39:23Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
