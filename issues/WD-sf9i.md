@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
 updated_at: 2026-09-19T15:33:18Z
-content_hash: "sha256:eeddc06964c3721760b5c0bd879d84ae7f6e1b8e2dca9081934352484c0b1edf"
+content_hash: "sha256:b7b3d267ce7dbe8b4b54009adc04357784189ab3d06327191369ba60a510068a"
 assignee: dev-WD-sf9i
 follows: [WD-ice0, WD-clms]
 blocks: [WD-rij6]
@@ -162,6 +162,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
