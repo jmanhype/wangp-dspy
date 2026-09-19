@@ -8,7 +8,7 @@ parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
 updated_at: 2026-09-19T05:35:04Z
-content_hash: "sha256:52363cd27127450716f30d4968996e93694276fae356dfbb4779531f0616bb44"
+content_hash: "sha256:a043e2b3956e68fbbbe17e82519f225fc0df3f2b683e2617f96b40ed5da52983"
 assignee: dev-WD-ft6r
 follows: [WD-v4ou]
 labels: [accepted]
@@ -80,6 +80,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Commands run:
