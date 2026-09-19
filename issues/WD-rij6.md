@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
 updated_at: 2026-09-19T14:59:28Z
-content_hash: "sha256:4e4cc09fd8ef9a113b3e11c2173fb0749ce5bfb57a7bf7509dde77440bf31a17"
+content_hash: "sha256:48727db2bb4156ef69d7ec78a669f6bc9376fae8a2e075562fbd1c5b40e5a77c"
 follows: [WD-ice0, WD-clms]
 labels: [rejected]
 ---
@@ -265,3 +265,6 @@ status: delivered
 - Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments
+
+### 2026-09-19T14:59:28Z speed
+EXPECTED: A governed four-cut run with all cuts passing full gates and a final assembled operator-review candidate. DELIVERED: A valid fail-closed probe and preserved evidence, but only cuts 1-2 passed; cut 3 lacked three speaker_mouth_bboxes, cut 4 was not rendered, and no four-cut assembly exists. GAP: WD-rij6 acceptance is not met. FIX: Keep story branch 8db5339 as authoritative failure evidence; handle Finding 84 in its own story before retrying depth four. Do not weaken gates or infer latent carry.
