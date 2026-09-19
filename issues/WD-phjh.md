@@ -1,13 +1,14 @@
 ---
 id: WD-phjh
 title: "Hand off Talker-Reasoner implementation to canonical repository"
-status: open
+status: in_progress
 priority: 1
 type: task
 created_at: 2026-09-19T23:53:37Z
 created_by: speed
-updated_at: 2026-09-19T23:53:37Z
-content_hash: "sha256:23c95f40650ab267c24c502fd8b131db2ff0f5d07a72cda09d7c12914b223e2b"
+updated_at: 2026-09-19T23:53:45Z
+content_hash: "sha256:39e98c3aaf91a3e9baa65f668b26e92bbf52b45888adbe39875980152a01786e"
+assignee: dev-WD-phjh
 ---
 
 ## Description
@@ -98,7 +99,8 @@ status: new
 
 
 ## History
-
+- 2026-09-19T23:53:45Z status: open -> in_progress
+- 2026-09-19T23:53:45Z claimed by dev-WD-phjh
 
 ## Links
 
