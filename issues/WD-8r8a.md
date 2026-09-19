@@ -1,14 +1,15 @@
 ---
 id: WD-8r8a
 title: "Run 50-prompt local Skill Router calibration"
-status: open
+status: in_progress
 priority: 0
 type: task
 parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:13:39Z
-content_hash: "sha256:6cfe2499564eddf2f2d29d86ea6109d19180267d9a1fef88efc72e489991b9fc"
+content_hash: "sha256:8ca37d7c9240768fb8ee940a186e1e03b6ca5d53bb0244ed657be95d1c7ca07e"
+assignee: dev-WD-8r8a
 ---
 
 ## Description
@@ -68,7 +69,8 @@ status: new
 
 
 ## History
-
+- 2026-09-19T03:13:39Z status: open -> in_progress
+- 2026-09-19T03:13:39Z claimed by dev-WD-8r8a
 
 ## Links
 - Parent: [[WD-wzbl]]
