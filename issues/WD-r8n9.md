@@ -1,15 +1,17 @@
 ---
 id: WD-r8n9
 title: "scanner: DANGEROUS verdict on own repo's test fixtures blocks plugin install — quarantine scanner-bait tests"
-status: in_progress
+status: closed
 priority: 2
 type: bug
 labels: [security, tooling, upstream, delivered]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
-updated_at: 2026-09-19T20:48:51Z
-content_hash: "sha256:052e0069197786a82319c1e74f1bea0c90b1cdc57f6c79c8c77bfb0ce10e9571"
+updated_at: 2026-09-19T20:48:56Z
+content_hash: "sha256:f4087b8f060cdfed906a50219662a09760d66619881ccd93c6c07d40754d5d7f"
 assignee: dev-WD-r8n9
+closed_at: 2026-09-19T20:48:56Z
+close_reason: "Accepted: upstream issue #93927 is closed by merged PR #110218 at 1e76efbe. Independently executed the exact fixed scanner in an isolated worktree against paivot-hermes: caution, 136 findings, 0 criticals, confirmation/force behavior restored. The installed Hermes runtime still reproduces dangerous because it is 4,398 commits behind; no global runtime was mutated. The story is resolved upstream with the previously recommended no-local-bypass decision, while runtime upgrade remains an explicit operator action."
 ---
 
 ## Description
@@ -104,6 +106,7 @@ status: delivered
 - 2026-09-19T20:48:25Z status: open -> in_progress
 - 2026-09-19T20:48:25Z claimed by dev-WD-r8n9
 - 2026-09-19T20:48:50Z status: in_progress -> in_progress
+- 2026-09-19T20:48:56Z status: in_progress -> closed
 
 ## Links
 
