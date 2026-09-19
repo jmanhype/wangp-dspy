@@ -1,14 +1,14 @@
 ---
 id: WD-m6pq
 title: "Bug: Skill Router misses explicit skill invocations"
-status: open
+status: in_progress
 priority: 0
 type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:31:49Z
-content_hash: "sha256:47e794d3571d08d7ac3a946c46263dee583656663b548ad8b84ead523c019f50"
+updated_at: 2026-09-19T03:32:28Z
+content_hash: "sha256:cfe10300bd5b0c4cd34eb298c00889809ff5be073a68cee5c4aa17e05bb8beb0"
 labels: [discovered-by-pm]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -116,6 +116,8 @@ status: in_progress
 - 2026-09-19T03:28:37Z auto-follows: linked to predecessor WD-8r8a
 - 2026-09-19T03:28:37Z claimed by dev-WD-m6pq
 - 2026-09-19T03:31:49Z status: in_progress -> open
+- 2026-09-19T03:32:28Z status: open -> in_progress
+- 2026-09-19T03:32:28Z claimed by dev-WD-m6pq
 
 ## Links
 - Parent: [[WD-wzbl]]
