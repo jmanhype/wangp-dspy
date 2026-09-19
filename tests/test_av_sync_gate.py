@@ -142,7 +142,8 @@ def test_remote_syncnet_requires_exact_local_final_artifact(tmp_path):
     assert not host.pushed
 
 
-def test_live_calibration_evidence_matches_preserved_artifacts():
+def test_live_calibration_evidence_matches_preserved_artifacts(
+        lf003_fixtures):
     root = Path(__file__).resolve().parents[1]
     payload = json.loads((root / (
         "datasets/runs/provenance/syncnet-calibration-20260918/"

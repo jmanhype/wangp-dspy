@@ -1,0 +1,36 @@
+{
+  "vision_judge": {
+    "action_match": 0.8,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; silent other S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room; Spatial anchor: Tess (S1) remains on the LEFT and Rho (S2) remains on the RIGHT, exactly as in <Picture 1> \u2014 preserve positions, scale, wardrobe, and framing; do not swap sides or re-stage the composition.",
+    "mouth_activity": 0.85,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The reference image (Picture 1) establishes the spatial anchor with Tess (S1) on the left and Rho (S2) on the right. The generated frames (Pictures 2 and 3) maintain this composition perfectly. In the generated frames, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the speaking action to S1. The subtle change in head angle and mouth shape between the two generated frames indicates visible speaking motion.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.8,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The reference image (Picture 1) establishes the spatial anchor with Tess (S1) on the left and Rho (S2) on the right. The generated frames (Pictures 2 and 3) maintain this composition perfectly. In the generated frames, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the speaking action to S1. The subtle change in head angle and mouth shape between the two generated frames indicates visible speaking motion.\"\n}",
+    "speaker_attribution": 0.95,
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/remux.mp4"
+  },
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/raw.mp4",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "post",
+      "score": 0.833,
+      "transcript": "Tomorrow's sunrise is only a project."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.833,
+      "transcript": "Tomorrow's sunrise is only a project."
+    }
+  }
+}

@@ -20,7 +20,8 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def test_lf003_vibevoice_bundle_plans_two_grid_aligned_cuts(tmp_path):
+def test_lf003_vibevoice_bundle_plans_two_grid_aligned_cuts(
+        tmp_path, lf003_fixtures):
     bundle = _load_bundle(BUNDLE_PATH)
     premise = _premise(bundle)
     inputs = _normalize_inputs(bundle, premise, root=ROOT)
@@ -43,7 +44,8 @@ def test_lf003_vibevoice_bundle_plans_two_grid_aligned_cuts(tmp_path):
     assert "golden_canary" not in bundle
 
 
-def test_lf003_bundle_matches_vibevoice_report_and_style_anchor():
+def test_lf003_bundle_matches_vibevoice_report_and_style_anchor(
+        lf003_fixtures):
     bundle = _load_bundle(BUNDLE_PATH)
     report_path = ROOT / bundle["vibevoice_provenance"]["report"]
     report = json.loads(report_path.read_text())

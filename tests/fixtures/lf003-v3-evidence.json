@@ -1,0 +1,145 @@
+{
+  "schema": "wangp-dspy.lf003-v3-evidence-fixtures/v1",
+  "jobs_db_source_root": "/Users/Shared/HermesWorkspace/wangp-dspy",
+  "jobs_db_job_id": "job-1789670002207-48b8a6ab",
+  "artifacts": [
+    {
+      "key": "bundle-base",
+      "path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-20260917.json",
+      "size_bytes": 2920,
+      "sha256": "f077c006ac95761e3785c10bf1cbdd66457cc583302fb22ec62ede02996deba7"
+    },
+    {
+      "key": "bundle-fullgate",
+      "path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-fullgate-20260918.json",
+      "size_bytes": 3210,
+      "sha256": "2f274d97791a8e5b2810a15a426aa506a26a0d2de0d1957cf827e929456a7af2"
+    },
+    {
+      "key": "bundle-strict",
+      "path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-strict-20260917.json",
+      "size_bytes": 3362,
+      "sha256": "98ab1d26c67a7f2ca75656805f75f2dc7693143086b6fc06e1bd4e6d25e184b5"
+    },
+    {
+      "key": "plate-anchor",
+      "path": "assets/acceptance/lf003-v3/anchor.png",
+      "size_bytes": 673909,
+      "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210"
+    },
+    {
+      "key": "plate-rho",
+      "path": "assets/acceptance/lf003-v3/face_rho.png",
+      "size_bytes": 152442,
+      "sha256": "87e24404c5fa0359aa3d1fd56147cc7ee0ee99fd5e5a19a6c1926848fa2415a0"
+    },
+    {
+      "key": "plate-tess",
+      "path": "assets/acceptance/lf003-v3/face_tess.png",
+      "size_bytes": 150997,
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6"
+    },
+    {
+      "key": "jobs-db",
+      "path": "datasets/lf003-two-cut-vibevoice-20260917.jobs.db",
+      "size_bytes": 61440,
+      "sha256": "e41e0f039efec08fb8f48e4eab57a7a1abebb472d72330ce3cde589a52a4ce0f"
+    },
+    {
+      "key": "calibration-evidence",
+      "path": "datasets/runs/provenance/syncnet-calibration-20260918/evidence.json",
+      "size_bytes": 2657,
+      "sha256": "81f4ffed1a2cc92beca7d707069e3ddf4b2331c5e9e2adc9be00b11045fe52f0"
+    },
+    {
+      "key": "calibration-v3-cut1",
+      "path": "datasets/runs/provenance/v3-original/v3_c1.mp4",
+      "size_bytes": 1195705,
+      "sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6"
+    },
+    {
+      "key": "calibration-v3-cut2",
+      "path": "datasets/runs/provenance/v3-original/v3_c2.mp4",
+      "size_bytes": 1229480,
+      "sha256": "617aa35d7ed542ef75be6b89594f249220559dbeeff809a9cadc2d38556bda65"
+    },
+    {
+      "key": "calibration-lf002-nell",
+      "path": "datasets/runs/pull/acceptance/worker-a08dc195c192/render-0001/remux.mp4",
+      "size_bytes": 1421376,
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    {
+      "key": "calibration-lf002-orin",
+      "path": "datasets/runs/pull/acceptance/worker-0646f3fdb158/render-0004/remux.mp4",
+      "size_bytes": 1144382,
+      "sha256": "395b78195a0aa7da284a8cff9e43cb19e757e18977b83c2028cdc212063c39e8"
+    },
+    {
+      "key": "calibration-lf003-tess",
+      "path": "datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/remux.mp4",
+      "size_bytes": 1226274,
+      "sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+    },
+    {
+      "key": "calibration-lf003-rho",
+      "path": "datasets/runs/pull/acceptance/worker-4e52f8dc1fc7/render-0000/remux.mp4",
+      "size_bytes": 1061543,
+      "sha256": "3cf09694842a50ee2543d547d1ce05ed99959fd6f68416431845cfd0aec73318"
+    },
+    {
+      "key": "strict-tess-raw",
+      "path": "datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/raw.mp4",
+      "size_bytes": 1226274,
+      "sha256": "2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5"
+    },
+    {
+      "key": "strict-tess-render-log",
+      "path": "datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/render.log",
+      "size_bytes": 6463,
+      "sha256": "6106fb8f813ff2e063233463a4baf6d1e782a3414b7517d23347171d2eed231b"
+    },
+    {
+      "key": "strict-tess-qc-evidence",
+      "path": "datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/qc-evidence.json",
+      "size_bytes": 2918,
+      "sha256": "88e26426ee5da63afef10bc326347218e53ed3251242a477cb5c2001c9911a91"
+    },
+    {
+      "key": "strict-tess-runtime-evidence",
+      "path": "datasets/runs/pull/acceptance/worker-94129b34bdd8/render-0000/runtime-evidence.json",
+      "size_bytes": 2180,
+      "sha256": "b9be42591d5dda6a6b79cc69a7e9e508c5bec29e8a3c5000be6c8cbaa707ea03"
+    },
+    {
+      "key": "audio-tess",
+      "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "size_bytes": 112078,
+      "sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f"
+    },
+    {
+      "key": "audio-rho-base",
+      "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/rho.prepared.wav",
+      "size_bytes": 112078,
+      "sha256": "a055879703e26d55fe9c794c5af442b46192c507e0a07edcf0814495036862fc"
+    },
+    {
+      "key": "audio-rho-strict",
+      "path": "datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/audio/rho.prepared.wav",
+      "size_bytes": 112078,
+      "sha256": "3befaf0e9a4728737c90f0781054149f048169a199b7203b63bef76ee7e40297"
+    },
+    {
+      "key": "report-base",
+      "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/report.json",
+      "size_bytes": 3879,
+      "sha256": "d57b774187acbcb71b5a9ff1da9e2c3326e589b6d537a16327b7ca5ecf885327"
+    },
+    {
+      "key": "report-rho-strict",
+      "path": "datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/report.json",
+      "size_bytes": 2206,
+      "sha256": "117d91492b6556f0dc157bf93e90b7cf816cc7b360e5dec2a8c48acc57b2d9be"
+    }
+  ]
+}
