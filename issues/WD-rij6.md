@@ -7,9 +7,9 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T17:24:53Z
-content_hash: "sha256:80aa6a4d269f0900d81f96a41dc7606c72837773468929a2f37e506753530c77"
-follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52]
+updated_at: 2026-09-19T20:27:58Z
+content_hash: "sha256:c5f9b4aa75e28684784632151b6695c833670a6389101a0394bf91c94fb61b5b"
+follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 labels: [rejected]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
@@ -286,11 +286,13 @@ status: delivered
 - 2026-09-19T17:24:53Z auto-follows: linked to predecessor WD-8l2f
 - 2026-09-19T17:24:53Z auto-follows: linked to predecessor WD-2p52
 - 2026-09-19T17:24:53Z claimed by dev-WD-rij6
+- 2026-09-19T20:27:58Z status: in_progress -> in_progress
+- 2026-09-19T20:27:58Z auto-follows: linked to predecessor WD-v66o
 
 ## Links
 - Parent: [[WD-j9nx]]
 - Was blocked by: [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]]
-- Follows: [[WD-ice0]], [[WD-clms]], [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]]
+- Follows: [[WD-ice0]], [[WD-clms]], [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]], [[WD-v66o]]
 
 ## Comments
 
