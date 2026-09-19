@@ -1,17 +1,18 @@
 ---
 id: WD-rij6
 title: "LF003 full-gate four-cut chain-depth probe"
-status: open
+status: in_progress
 priority: 0
 type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T17:24:40Z
-content_hash: "sha256:56b9cfab7726c37515dd664b214489e4e9aa52581d09f14b27039dc6638a6c84"
-follows: [WD-ice0, WD-clms]
+updated_at: 2026-09-19T17:24:53Z
+content_hash: "sha256:80aa6a4d269f0900d81f96a41dc7606c72837773468929a2f37e506753530c77"
+follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52]
 labels: [rejected]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
+assignee: dev-WD-rij6
 ---
 
 ## Description
@@ -280,11 +281,16 @@ status: delivered
 - 2026-09-19T16:58:55Z dep_added: blocked_by WD-2p52
 - 2026-09-19T17:23:44Z dep_removed: was_blocked_by WD-2p52
 - 2026-09-19T17:24:39Z status: deferred -> open
+- 2026-09-19T17:24:53Z status: open -> in_progress
+- 2026-09-19T17:24:53Z auto-follows: linked to predecessor WD-sf9i
+- 2026-09-19T17:24:53Z auto-follows: linked to predecessor WD-8l2f
+- 2026-09-19T17:24:53Z auto-follows: linked to predecessor WD-2p52
+- 2026-09-19T17:24:53Z claimed by dev-WD-rij6
 
 ## Links
 - Parent: [[WD-j9nx]]
 - Was blocked by: [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]]
-- Follows: [[WD-ice0]], [[WD-clms]]
+- Follows: [[WD-ice0]], [[WD-clms]], [[WD-sf9i]], [[WD-8l2f]], [[WD-2p52]]
 
 ## Comments
 
