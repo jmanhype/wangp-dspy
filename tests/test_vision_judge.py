@@ -89,6 +89,42 @@ def test_vision_judge_rejects_unstable_mouth_bbox_consensus():
                     [.2, .45, .05, .05]]})
 
 
+@pytest.mark.parametrize(
+    ("bboxes", "message"),
+    [
+        (None, "must include three speaker_mouth_bboxes"),
+        ([.2, .3, .05, .05], "must include three speaker_mouth_bboxes"),
+        ([[.2, .3, .05, .05], [.21, .31, .05, .05]],
+         "must include three speaker_mouth_bboxes"),
+        ([[.2, .3, .05, .05], [.21, "bad", .05, .05],
+          [.2, .32, .06, .05]], "values must be numeric"),
+        ([[.2, .3, .05, .05], [-.21, .31, .05, .05],
+          [.2, .32, .06, .05]], "must be normalized and fit inside the frame"),
+    ],
+)
+def test_vision_judge_preserves_malformed_locator_evidence(bboxes, message):
+    identity_raw = '{"action_match": 0.9}'
+    locator_raw = '{"speaker_mouth_bboxes": "malformed"}'
+
+    with pytest.raises(VisionJudgeError, match=message) as caught:
+        run_vision_judge(
+            "cut.mp4", expected_speaker="S1", expected_action="speaks",
+            judge=lambda **_: {
+                "mouth_activity": 0.9, "action_match": 0.9,
+                "speaker_attribution": 0.9,
+                "speaker_mouth_bboxes": bboxes,
+                "raw_response": identity_raw,
+                "mouth_bbox_raw_response": locator_raw,
+            })
+
+    assert caught.value.scores == {
+        "mouth_activity": 0.9, "action_match": 0.9,
+        "speaker_attribution": 0.9,
+    }
+    assert caught.value.raw_response == identity_raw
+    assert caught.value.mouth_bbox_raw_response == locator_raw
+
+
 def test_still_mouth_activity_is_descriptive_not_blocking():
     evidence = run_vision_judge(
         "cut.mp4", expected_speaker="S1", expected_action="speaks",
@@ -164,3 +200,45 @@ def test_qc_stage_preserves_vision_rejection_evidence(tmp_path):
         "speaker_attribution": 0.2,
     }
     assert caught.value.vision_raw_response == raw_response
+
+
+def test_qc_stage_preserves_malformed_locator_evidence_after_whisper(tmp_path):
+    evidence_path = tmp_path / "qc.json"
+    identity_raw = '{"action_match": 0.9}'
+    locator_raw = '{"speaker_mouth_bboxes": [["bad"]]}'
+
+    def malformed_locator(**_):
+        return {"mouth_activity": 0.9, "action_match": 0.9,
+                "speaker_attribution": 0.9,
+                "speaker_mouth_bboxes": [["bad"]],
+                "raw_response": identity_raw,
+                "mouth_bbox_raw_response": locator_raw}
+
+    with pytest.raises(Ref2VAQCStageError,
+                       match="must include three speaker_mouth_bboxes") as caught:
+        run_ref2va_qc_stage(
+            _doc(tmp_path), judge=None, pre_audio_path="pre.wav",
+            post_audio_path="post.wav", intended_text="the gate is open",
+            whisper_transcriber=lambda _: "the gate is open",
+            video_path="cut.mp4", expected_speaker="S1",
+            expected_action="turns", vision_judge=malformed_locator,
+            evidence_path=str(evidence_path))
+
+    assert caught.value.vision_scores == {
+        "mouth_activity": 0.9, "action_match": 0.9,
+        "speaker_attribution": 0.9,
+    }
+    assert caught.value.vision_raw_response == identity_raw
+    assert caught.value.vision_mouth_bbox_raw_response == locator_raw
+    payload = json.loads(evidence_path.read_text())
+    assert payload["whisper_gates"]["pre"]["passed"] is True
+    assert payload["whisper_gates"]["post"]["passed"] is True
+    assert payload["vision_judge"] is None
+    assert payload["vision_rejection"] == {
+        "failure_detail": (
+            "vision result must include three speaker_mouth_bboxes [x,y,w,h]"),
+        "scores": {"mouth_activity": 0.9, "action_match": 0.9,
+                   "speaker_attribution": 0.9},
+        "raw_response": identity_raw,
+        "mouth_bbox_raw_response": locator_raw,
+    }

@@ -368,6 +368,48 @@ def test_visual_gate_retries_with_seed_bump_and_append_only_history(tmp_path):
     q.close()
 
 
+def test_malformed_vision_contract_preserves_both_raw_responses_without_retry(
+        tmp_path):
+    q = JobQueue(str(tmp_path / "jobs.db"))
+    jid = q.submit(plan_ref="acceptance", clips=[{
+        "clip_index": 2, "status": "rendered", "seed": 906,
+        "log": "render.log", "mp4": "cut-906.mp4", "qc_verdict": None,
+    }])
+    identity_raw = '{"action_match": 0.9}'
+    locator_raw = '{"speaker_mouth_bboxes": "not-three-boxes"}'
+
+    def malformed_locator(_clip):
+        raise Ref2VAQCStageError(
+            "vision result must include three speaker_mouth_bboxes [x,y,w,h]",
+            vision_scores={"mouth_activity": 0.9, "action_match": 0.9,
+                           "speaker_attribution": 0.9},
+            vision_raw_response=identity_raw,
+            vision_mouth_bbox_raw_response=locator_raw)
+
+    ex = JobExecutor(queue=q, preflight=lambda job: _pf(True),
+                     render=lambda clip: None, qc=malformed_locator)
+    for state in ("preflight", "rendering", "rendered_pending_qc", "qc"):
+        q.set_state(jid, state)
+    ex._qc_clips(q.get(jid))
+
+    rec = q.get(jid)
+    assert rec.state == "failed"
+    assert rec.clips[0]["seed"] == 906
+    assert "vision_retry_count" not in rec.clips[0]
+    rejection = rec.clips[0]["vision_rejections"][0]
+    assert rejection["scores"] == {
+        "mouth_activity": 0.9, "action_match": 0.9,
+        "speaker_attribution": 0.9,
+    }
+    assert rejection["raw_response"] == identity_raw
+    assert rejection["mouth_bbox_raw_response"] == locator_raw
+    assert "prompt" not in rejection
+    assert "credential" not in rejection
+    assert '"raw_response"' in rec.failure_detail
+    assert '"mouth_bbox_raw_response"' in rec.failure_detail
+    q.close()
+
+
 def test_av_sync_gate_retries_with_seed_bump_and_preserves_evidence(tmp_path):
     q = JobQueue(str(tmp_path / "jobs.db"))
     jid = q.submit(plan_ref="acceptance", clips=[{
