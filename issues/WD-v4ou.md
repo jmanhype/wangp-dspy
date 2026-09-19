@@ -1,14 +1,14 @@
 ---
 id: WD-v4ou
 title: "Keep the Skill Router index automatically fresh"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
-updated_at: 2026-09-19T04:53:12Z
-content_hash: "sha256:3961a79995f40b6fca708cfd74682ee49b2b1ee019dc2c952bcf44ffa1470a8f"
+updated_at: 2026-09-19T04:53:42Z
+content_hash: "sha256:be0e7d54a21eb866a864cba79c8dd78756729616c47401cc8c4afd3f7270ff06"
 assignee: dev-WD-v4ou
 ---
 
@@ -85,6 +85,7 @@ status: new
 - 2026-09-19T04:41:33Z status: open -> in_progress
 - 2026-09-19T04:41:33Z claimed by dev-WD-v4ou
 - 2026-09-19T04:53:12Z status: in_progress -> open
+- 2026-09-19T04:53:42Z status: open -> in_progress
 
 ## Links
 - Parent: [[WD-fehf]]
