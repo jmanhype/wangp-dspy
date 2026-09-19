@@ -10,6 +10,7 @@ updated_at: 2026-09-19T03:36:27Z
 content_hash: "sha256:cd6901e2b3a3753cf6b92fa2443d7595b0f9217d4694d8f6c669816a22860e56"
 closed_at: 2026-09-19T03:36:27Z
 close_reason: "All child stories accepted; natural-use calibration completed and its explicit-invocation follow-up fixed."
+labels: [accepted]
 ---
 
 ## Description
