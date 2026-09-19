@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-09-19T15:36:38Z
 created_by: speed
 updated_at: 2026-09-19T16:18:32Z
-content_hash: "sha256:1053acdb12219bfa97c0712f06f4158965854534d146fce9cc4e78e779f87235"
+content_hash: "sha256:c5f4fa9c722f7247f4e1bec47dc0203365f6bb0228675067f88948e29b83237a"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
 labels: [accepted]
 closed_at: 2026-09-19T16:18:31Z
 close_reason: "Accepted: independently reran compilation, 87 targeted tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Per-frame localization is bounded and evidence-complete; unchanged integrated consensus correctly failed closed, while diagnostic SyncNet passed. No threshold was weakened."
-led_to: [WD-8l2f]
+led_to: [WD-8l2f, WD-2p52]
 ---
 
 ## Description
@@ -267,6 +267,6 @@ status: delivered
 ## Links
 - Parent: [[WD-j9nx]]
 - Follows: [[WD-sf9i]], [[WD-ice0]]
-- Led to: [[WD-8l2f]]
+- Led to: [[WD-8l2f]], [[WD-2p52]]
 
 ## Comments
