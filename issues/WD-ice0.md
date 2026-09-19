@@ -7,8 +7,8 @@ type: task
 parent: WD-j9nx
 created_at: 2026-09-19T03:07:16Z
 created_by: speed
-updated_at: 2026-09-19T03:29:28Z
-content_hash: "sha256:0c857350c4e3aa8b2aa0bffb9103e81dcc1ffc77daaf924d303bd7dff348b473"
+updated_at: 2026-09-19T03:29:46Z
+content_hash: "sha256:5f3325a69f902f138b29f35b1aa4ead87f6c3ff7a8202d52b65c05a51169df28"
 assignee: dev-WD-ice0
 follows: [WD-clms, WD-cz6a, WD-l5bx]
 labels: [delivered]
@@ -41,7 +41,52 @@ Current run: lf003-two-cut-vibevoice-rhostrong-20260918 at main 8d865dc.
 ## Notes
 IN-PROGRESS: Clean detached execution worktree /tmp/wangp-dspy-rhostrong-8d865dc at SHA 8d865dc. Live run ID lf003-two-cut-vibevoice-rhostrong-20260918. Required ignored LF003 plate assets were copied into that clean worktree and Git status remains clean. Do not run pvg loop next during execution; this lane is the recorded developer.
 DELIVERED EVIDENCE: PR #143 merged at main 35201a1 (data commit 690fde1). Clean execution worktree /private/tmp/wangp-dspy-rhostrong-8d865dc at 8d865dc; repository_provenance clean_tree=true, changed_path_count=0. Both queue jobs done with zero failures. Tess SHA 2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5; Rho SHA 342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522; assembled SHA 1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad. Gates: Tess Whisper .833/.833, vision .90/.95, mouth boxes unanimous, SyncNet 3.336197 offset -1. Rho Whisper .833/.667, vision .85/.95, mouth boxes unanimous, SyncNet 1.967893 offset -1. Assembly 112 frames, 4.666667s, 704x576, audio present. Tests: targeted LF003 evidence/bundle/fullgate tests PASS; full pytest suite exit 0. Operator verdict intentionally pending; manifest status mechanically_eligible_final_candidate, keeper_path null. Proof AC1 clean worktree; AC2 no completed_prefix; AC3 all gates PASS; AC4 chain and assembly verified; AC5 durable queue/ledger/evidence committed; AC6 no thresholds weakened.
+## Implementation Evidence (DELIVERED)
 
+### CI/Test Results
+
+Commands run:
+ - `./.venv/bin/python -m py_compile tests/test_lf003_rhostrong_film_evidence.py`
+ - `./.venv/bin/pytest -q tests/test_lf003_rhostrong_film_evidence.py tests/test_lf003_rhostrong_bundle.py tests/test_lf003_fullgate_bundle.py`
+ - `./.venv/bin/pytest -q`
+ - `git diff --check`
+ - PR review/merge: GitHub PR #143
+
+Summary: targeted LF003 evidence/bundle/fullgate tests PASS; full suite exit 0; Qodo found no material issues; PR #143 merged clean. Commit SHA: merge `35201a1`; data commit `690fde1`; execution SHA `8d865dc`.
+
+### AC Verification
+
+| AC | Status | Evidence |
+|---|---|---|
+| 1 clean worktree at recorded SHA | PASS | run repository_provenance clean_tree=true, changed_path_count=0, commit 8d865dc |
+| 2 two fresh cuts, no prefix | PASS | bundle contains no completed_prefix; both jobs submitted fresh |
+| 3 every cut passes all machine gates | PASS | both qc-evidence JSON files have pre/post Whisper, vision, three mouth boxes, and SyncNet all passed |
+| 4 chain and assembly | PASS | cut 2 chain.previous=1; assembled MP4 has 112 frames, 4.666667s, 704x576, audio |
+| 5 durable ledger/evidence or fail-closed | PASS | queue DB, run ledger, both render bundles, chain PNG, review bundle, and manifest committed at PR #143 |
+| 6 no weakened gates | PASS | production Whisper bar remained 0.6; supplier guide bar was stricter 0.8; SyncNet pass bars remained confidence >=1.0 and abs offset <=10 |
+
+### Artifact Hashes
+
+- Tess: `2fa58b7fe4278286dd769d73b150b41f8f987d9a1272725c42bc497b27c5eae5`
+- Rho: `342e7ba406d369568813121f06aae0b6c2664c890ecdf5580601b435fd70a522`
+- Assembled: `1c1184fbcf504ffbc4657926e13d20c6dd039e41dc6c54bfe6e61919032b21ad`
+
+Operator verdict remains pending by design; this delivery claims machine eligibility, not creative acceptance.
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR #143 merge 35201a1 and data commit 690fde1 preserve the full execution bundle.
+- Clean execution provenance, queue, ledger, per-cut QC, chain, assembly, and review evidence are committed.
+
+### proof
+- [x] AC #1: clean detached worktree at 8d865dc with ignored plates staged and Git tree clean.
+- [x] AC #2: two fresh cuts; no completed-prefix shortcut.
+- [x] AC #3: all machine gates passed for both cuts.
+- [x] AC #4: cut 2 chained from cut 1; assembly is 112 frames with audio.
+- [x] AC #5: durable evidence bundle committed.
+- [x] AC #6: no gate threshold weakened.
 
 ## nd_contract
 status: delivered
