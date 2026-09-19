@@ -1,14 +1,15 @@
 ---
 id: WD-r8n9
 title: "scanner: DANGEROUS verdict on own repo's test fixtures blocks plugin install — quarantine scanner-bait tests"
-status: open
+status: in_progress
 priority: 2
 type: bug
 labels: [security, tooling, upstream]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
-updated_at: 2026-08-28T01:57:28Z
-content_hash: "sha256:c090cf5cc94b5caaa0ff1516d4d86848b9af30f3e56edc09ab554c9a0802c57b"
+updated_at: 2026-09-19T20:48:25Z
+content_hash: "sha256:3ce4b3d7ec4a5c04492f4be23066733e267f2a0e6db45b31fc2bb8ceba977932"
+assignee: dev-WD-r8n9
 ---
 
 ## Description
@@ -24,7 +25,8 @@ Hermes plugin_guard scan_plugin rates paivot-hermes DANGEROUS (110 findings) —
 
 
 ## History
-
+- 2026-09-19T20:48:25Z status: open -> in_progress
+- 2026-09-19T20:48:25Z claimed by dev-WD-r8n9
 
 ## Links
 
