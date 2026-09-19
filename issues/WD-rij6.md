@@ -1,17 +1,18 @@
 ---
 id: WD-rij6
 title: "LF003 full-gate four-cut chain-depth probe"
-status: open
+status: deferred
 priority: 2
 type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T15:01:58Z
-content_hash: "sha256:ef1c1d6677177dbac4a32c2a328c3aa2619b9587a9db0db686b429cbcf4c13d2"
+updated_at: 2026-09-19T15:02:12Z
+content_hash: "sha256:0839553c4b57d3842036d728f7c57eeef9b4add730bf6efad1da7b3864e45ec7"
 follows: [WD-ice0, WD-clms]
 labels: [rejected]
 blocked_by: [WD-sf9i]
+defer_until: 2026-09-20
 ---
 
 ## Description
@@ -273,6 +274,7 @@ status: delivered
 - 2026-09-19T14:59:28Z status: in_progress -> open
 - 2026-09-19T14:59:28Z released by speed
 - 2026-09-19T15:01:26Z dep_added: blocked_by WD-sf9i
+- 2026-09-19T15:02:12Z status: open -> deferred
 
 ## Links
 - Parent: [[WD-j9nx]]
