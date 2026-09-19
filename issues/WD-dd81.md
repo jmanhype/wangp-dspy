@@ -7,10 +7,10 @@ type: task
 parent: WD-1te5
 created_at: 2026-09-19T04:14:14Z
 created_by: speed
-updated_at: 2026-09-19T20:44:00Z
+updated_at: 2026-09-19T20:44:28Z
 content_hash: "sha256:233ca38a519f0d01457b708369aba7157e192a595d528895714657edf9469b08"
 assignee: dev-WD-dd81
-labels: [accepted]
+labels: [accepted, capstone]
 closed_at: 2026-09-19T20:44:00Z
 close_reason: "Accepted: independently re-read and AST-verified all four cited source seams on current main; the 299-line docs-only delivery stays in budget, preserves PersonaPlex/Moshi and Voxtral capability facts, adds the fifth-session target audio bus and staged adaptation, defaults to privacy-safe hash-bearing events, and keeps run_bundle as the sole release-quality path. Exact primary-interpreter pipeline test passed 11/11; independent contract validation passed 24/24; git diff checks and scoped pvg verify passed."
 ---
