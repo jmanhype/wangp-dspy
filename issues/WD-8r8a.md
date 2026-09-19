@@ -8,7 +8,7 @@ parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:26:33Z
-content_hash: "sha256:30e24e171d40f79ba0e5567354ed58f45632eb4d0f3e5a6d1b2bf726cdfda819"
+content_hash: "sha256:f026fea9eac5f572c9b5eac8bd5142b9653432edacabec0885d42fbcc59cff77"
 assignee: dev-WD-8r8a
 labels: [accepted]
 closed_at: 2026-09-19T03:26:33Z
@@ -69,6 +69,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-18.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-19]: Calibration evidence reviewed and meets the bar. Report covers 50 unique local natural prompts, validates JSON, confirms zero network calls and raw-prompt leaks, leaves the event log unchanged, preserves router hashes, and records the explicit-invocation follow-up recommendation.
 
