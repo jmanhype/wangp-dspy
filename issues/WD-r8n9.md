@@ -7,8 +7,8 @@ type: bug
 labels: [security, tooling, upstream, delivered]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
-updated_at: 2026-09-19T20:48:50Z
-content_hash: "sha256:f531054c30370415b25efa051c18404bed69be3a6c3ea53ef90778470d7c7d87"
+updated_at: 2026-09-19T20:48:51Z
+content_hash: "sha256:052e0069197786a82319c1e74f1bea0c90b1cdc57f6c79c8c77bfb0ce10e9571"
 assignee: dev-WD-r8n9
 ---
 
@@ -22,6 +22,18 @@ Hermes plugin_guard scan_plugin rates paivot-hermes DANGEROUS (110 findings) —
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
