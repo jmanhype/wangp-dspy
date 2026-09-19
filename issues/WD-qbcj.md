@@ -9,10 +9,11 @@ parent: WD-j9nx
 created_at: 2026-08-27T15:18:07Z
 created_by: speed
 updated_at: 2026-08-27T16:12:52Z
-content_hash: "sha256:a50f43353b9a108c2e9f4e967078cc44a50583200276d217885cd5d48bc17742"
+content_hash: "sha256:752c8a09c4c504dbc940eca89ded9983691754ae35cc93f88e4fc7939bbaef22"
 assignee: sol-max
 follows: [WD-txt9, WD-mhr2, WD-pt60, WD-xzqp]
 closed_at: 2026-08-27T16:12:52Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -75,9 +76,11 @@ status: delivered
 - 2026-08-27T15:57:11Z status: in_progress -> in_progress
 - 2026-08-27T15:57:11Z auto-follows: linked to predecessor WD-xzqp
 - 2026-08-27T16:12:52Z status: in_progress -> closed
+- 2026-09-19T20:39:23Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-txt9]], [[WD-mhr2]], [[WD-pt60]], [[WD-xzqp]]
 
 ## Comments
