@@ -8,9 +8,10 @@ parent: WD-j9nx
 created_at: 2026-09-19T16:32:57Z
 created_by: speed
 updated_at: 2026-09-19T16:33:08Z
-content_hash: "sha256:412f8b3212f48f1ea31c86e1bf2ce0f8de1b55274790ff7f1edfa19345b24b35"
+content_hash: "sha256:82c4fa4b4f0fd416f0ed93765dc45392d0c5e1f325e17eecf76974ee58710009"
 assignee: dev-WD-8l2f
 follows: [WD-v66o]
+blocks: [WD-rij6]
 ---
 
 ## Description
@@ -202,9 +203,11 @@ status: new
 - 2026-09-19T16:33:08Z status: open -> in_progress
 - 2026-09-19T16:33:08Z auto-follows: linked to predecessor WD-v66o
 - 2026-09-19T16:33:08Z claimed by dev-WD-8l2f
+- 2026-09-19T16:33:09Z dep_added: blocks WD-rij6
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-rij6]]
 - Follows: [[WD-v66o]]
 
 ## Comments
