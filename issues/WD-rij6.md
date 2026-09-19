@@ -8,9 +8,10 @@ parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
 updated_at: 2026-09-19T14:59:28Z
-content_hash: "sha256:810235499476eff1f252c2e9bcc3ac8a453f527997604ca401d40ca5f61f3b26"
+content_hash: "sha256:ef1c1d6677177dbac4a32c2a328c3aa2619b9587a9db0db686b429cbcf4c13d2"
 follows: [WD-ice0, WD-clms]
 labels: [rejected]
+blocked_by: [WD-sf9i]
 ---
 
 ## Description
@@ -271,9 +272,11 @@ status: delivered
 - 2026-09-19T14:57:39Z auto-follows: linked to predecessor WD-clms
 - 2026-09-19T14:59:28Z status: in_progress -> open
 - 2026-09-19T14:59:28Z released by speed
+- 2026-09-19T15:01:26Z dep_added: blocked_by WD-sf9i
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocked by: [[WD-sf9i]]
 - Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments
