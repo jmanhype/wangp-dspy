@@ -7,7 +7,7 @@ type: epic
 created_at: 2026-09-19T01:54:10Z
 created_by: speed
 updated_at: 2026-09-19T02:24:39Z
-content_hash: "sha256:6ab554e8bfbe18e4ee57e3ebbaf64481ddfd194fde5dded0f9b5426165a3b3fc"
+content_hash: "sha256:98c40b7c5ab28e3682fdc0bfa132b012ff311fbed4bf4dab92929e11487a9f91"
 closed_at: 2026-09-19T02:24:39Z
 close_reason: "All child stories accepted; automatic local Codex skill router met the epic outcomes."
 labels: [accepted]
@@ -61,7 +61,17 @@ Infrastructure exception: artifacts under /Users/speed/.codex are machine-global
 
 
 ## Notes
+## nd_contract
+status: accepted
 
+### evidence
+- Child WD-59q6 accepted and closed on 2026-09-19.
+- Epic outcome demonstrated by a fail-open automatic UserPromptSubmit router, preserved existing hooks with rollback, local-only ranking, and telemetry that does not persist raw prompt text.
+
+### proof
+- [x] Every global Codex tooling change in this epic is represented by accepted Paivot story WD-59q6 with command evidence.
+- [x] Hook failures fail open and do not block normal prompts.
+- [x] Prompt text is not persisted by routing telemetry.
 
 ## History
 - 2026-09-19T02:24:39Z status: open -> closed
