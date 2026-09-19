@@ -47,6 +47,8 @@ class VisionJudgeEvidence:
     action_match: float
     speaker_attribution: float
     pass_bar: float
+    # Normalized (x-center, y-center) spread across the three source frames.
+    speaker_mouth_center_spread: Tuple[float, float]
     passed: bool
     notes: str = ""
     raw_response: Optional[str] = None
@@ -119,6 +121,9 @@ def run_vision_judge(
             scores=values, raw_response=raw_response,
             mouth_bbox_raw_response=mouth_bbox_raw_response)
     try:
+        if any(isinstance(value, bool) for bbox in bboxes_raw
+               for value in bbox):
+            raise ValueError("boolean values are not numeric")
         bboxes = tuple(
             tuple(float(value) for value in bbox) for bbox in bboxes_raw)
     except (TypeError, ValueError) as exc:
@@ -130,20 +135,18 @@ def run_vision_judge(
         if (not all(math.isfinite(value) for value in bbox)
                 or any(value < 0.0 or value > 1.0 for value in bbox)
                 or bbox[2] <= 0.0 or bbox[3] <= 0.0
-                or bbox[0] + bbox[2] > 1.0001
-                or bbox[1] + bbox[3] > 1.0001):
+                or bbox[0] + bbox[2] > 1.0
+                or bbox[1] + bbox[3] > 1.0):
             raise VisionJudgeError(
                 "speaker_mouth_bboxes must be normalized and fit inside the frame",
                 scores=values, raw_response=raw_response,
                 mouth_bbox_raw_response=mouth_bbox_raw_response)
     centers = [(bbox[0] + bbox[2] / 2.0, bbox[1] + bbox[3] / 2.0)
                for bbox in bboxes]
-    if (max(x for x, _ in centers) - min(x for x, _ in centers) > 0.03
-            or max(y for _, y in centers) - min(y for _, y in centers) > 0.03):
-        raise VisionJudgeError(
-            "speaker_mouth_bboxes lack spatial consensus",
-            scores=values, raw_response=raw_response,
-            mouth_bbox_raw_response=mouth_bbox_raw_response)
+    center_spread = (
+        max(x for x, _ in centers) - min(x for x, _ in centers),
+        max(y for _, y in centers) - min(y for _, y in centers),
+    )
     bbox = tuple(median(bbox[index] for bbox in bboxes) for index in range(4))
     # mouth_activity is descriptive evidence only. A three-still judge cannot
     # infer temporal speech motion reliably; SyncNet owns that blocking gate.
@@ -155,6 +158,7 @@ def run_vision_judge(
         passed=passed, mouth_sync=None, av_sync_verified=False,
         speaker_mouth_bboxes=bboxes,
         speaker_mouth_bbox=bbox,
+        speaker_mouth_center_spread=center_spread,
         notes="Still-image visual QC only; phonetic AV synchrony is unmeasured. " + str(raw.get("notes", "")), raw_response=(
             str(raw_response) if raw_response is not None else None), **values)
     if not passed:
