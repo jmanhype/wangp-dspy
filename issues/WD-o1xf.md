@@ -8,7 +8,7 @@ parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
 updated_at: 2026-09-19T02:53:23Z
-content_hash: "sha256:4b5120a1603469169824a53462d820379f3f7db71bdb2de3f740d4443909f5c2"
+content_hash: "sha256:0729b1be903a898abc9e9565eae5aed36d8f5e4189c3c9d6031119dd08b79596"
 assignee: dev-WD-o1xf
 labels: [delivered]
 ---
@@ -139,3 +139,27 @@ status: in_progress
 - Parent: [[WD-dic4]]
 
 ## Comments
+
+### 2026-09-19T02:53:23Z speed
+## Implementation Evidence (DELIVERED)
+
+Commands run:
+ - /usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p 'test_router.py' -v
+ - pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py --format=text
+ - Fresh Codex app-bundle exec verification with one-time reviewed hook-trust bypass
+Summary: 9/9 tests PASS, 0 failures, 0 errors, 0 skipped; pvg verify PASS with 0 issues; fresh-session top candidate supabase-rls-frontend-debugging; automatic event added; duration 16 ms; short-domain behavior preserved.
+Commit SHA: b53f655eb88f67c11dbef361349bf8fb7d40d7a885126bc1c3bb66d30967ec96
+
+## nd_contract
+status: delivered
+
+### evidence
+- Deterministic local scoring change capped one-token exact-name boosts at 0.70; regression and short-domain tests added.
+
+### proof
+- [x] AC #1: live-style regression test added and reproduced the defect before the fix.
+- [x] AC #2: specific Supabase RLS skill now outranks broad Supabase skill.
+- [x] AC #3: short domain prompt still returns Supabase.
+- [x] AC #4: 9/9 tests pass.
+- [x] AC #5: pvg verify zero issues.
+- [x] AC #6: no network, persistence, registration, or skill-execution behavior added.
