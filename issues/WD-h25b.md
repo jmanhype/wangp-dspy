@@ -8,7 +8,7 @@ parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
 updated_at: 2026-09-19T20:32:15Z
-content_hash: "sha256:d987ac59cad471ee9bf8b6264cec43cec4369ed6570539632e2a8a4e5b0ef5bd"
+content_hash: "sha256:45e5e0a6a1de2c16dd22ec29b7e8e4864dbb0757916b0db985d378834cebc9c5"
 assignee: dev-WD-h25b
 follows: [WD-rij6]
 ---
@@ -86,3 +86,6 @@ attribution, master locks, job JSONs) + PR. This is the movie.
 - Follows: [[WD-rij6]]
 
 ## Comments
+
+### 2026-09-19T20:32:15Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
