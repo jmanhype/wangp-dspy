@@ -11,7 +11,7 @@ updated_at: 2026-09-19T16:18:31Z
 content_hash: "sha256:0f22d5e99558c31dc90d024ba3adc0b91270883abb46984ecf6ca5ca26721c14"
 assignee: dev-WD-v66o
 follows: [WD-sf9i, WD-ice0]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-19T16:18:31Z
 close_reason: "Accepted: independently reran compilation, 87 targeted tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Per-frame localization is bounded and evidence-complete; unchanged integrated consensus correctly failed closed, while diagnostic SyncNet passed. No threshold was weakened."
 ---
