@@ -7,7 +7,7 @@ type: epic
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
 updated_at: 2026-09-19T06:00:21Z
-content_hash: "sha256:e9d1240bc5e8d1440288d7ea6fdd54ed67bcd5d33901c0a370e743e3540cf0ad"
+content_hash: "sha256:feaedd3add60cf9c62befd6fa0ea6555a2829db0eccd3e89df6c78d92c628810"
 closed_at: 2026-09-19T06:00:21Z
 close_reason: "Accepted completion gate: all four production stories closed; independent final suite passed 27/27; pvg verify passed 9 files with 0 issues; production report confirms local-only disabled network, hash-only privacy, current freshness, and SQLite integrity ok. Missing feedback.jsonl is honestly reported as degraded and is not a functional blocker."
 labels: [accepted]
@@ -66,6 +66,16 @@ Keep local lexical routing as the default fast path. Add infrastructure around i
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## History
