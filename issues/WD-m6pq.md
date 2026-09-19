@@ -7,8 +7,8 @@ type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:35:37Z
-content_hash: "sha256:818c26bc2979a73d3d766f02fb8e2af0b46eb543a1d3e54a369770f458d7336b"
+updated_at: 2026-09-19T03:36:25Z
+content_hash: "sha256:82bf4afec0a85615ece3c77446b294bafdbe9af3479e0808bb9dcd34def5580b"
 labels: [discovered-by-pm, delivered]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
@@ -102,7 +102,17 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-19]: Evidence reviewed and meets the bar. Delivery proof passed 9/9; artifact hashes match; hook registration/config remained unchanged; static security scan is clean; the calibration report substantiates the bug; and fresh Codex integration proved exact skill resolution at score 1.0.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed delivery proof, artifact hashes, calibration rationale, security/scope checks, and fresh integration evidence.
+
+### proof
+- [x] AC-by-AC verified from recorded evidence.
 
 ## nd_contract
 status: delivered
