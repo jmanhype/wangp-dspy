@@ -1,18 +1,20 @@
 ---
 id: WD-rij6
 title: "LF003 full-gate four-cut chain-depth probe"
-status: in_progress
+status: closed
 priority: 0
 type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T20:28:33Z
-content_hash: "sha256:117f95ec3610f664e0b7dde28d8aaf16f6ac527008ca6e6ebee7ad4e0248ec15"
+updated_at: 2026-09-19T20:28:47Z
+content_hash: "sha256:1609238d9c5216ae80946297705a2341e7a89f5d36b10114aeb83f77e7bf58e6"
 follows: [WD-ice0, WD-clms, WD-sf9i, WD-8l2f, WD-2p52, WD-v66o]
 was_blocked_by: [WD-sf9i, WD-8l2f, WD-2p52]
 assignee: dev-WD-rij6
 labels: [delivered]
+closed_at: 2026-09-19T20:28:47Z
+close_reason: "Accepted: independently reran targeted LF003/vision/executor tests, full 1,526-test suite, manifest/content-hash checks, queue/ledger inspection, ffprobe, contact-sheet review, and staged-secret scan. Four fresh cuts passed all gates; two governed rejections are preserved; assembly is repository-owned and explicitly operator_review_pending."
 ---
 
 ## Description
@@ -339,6 +341,7 @@ status: delivered
 - 2026-09-19T17:24:53Z claimed by dev-WD-rij6
 - 2026-09-19T20:27:58Z status: in_progress -> in_progress
 - 2026-09-19T20:27:58Z auto-follows: linked to predecessor WD-v66o
+- 2026-09-19T20:28:47Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-j9nx]]
