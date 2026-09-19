@@ -1,17 +1,19 @@
 ---
 id: WD-m6pq
 title: "Bug: Skill Router misses explicit skill invocations"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 parent: WD-wzbl
 created_at: 2026-09-19T03:28:09Z
 created_by: speed
-updated_at: 2026-09-19T03:36:25Z
-content_hash: "sha256:82bf4afec0a85615ece3c77446b294bafdbe9af3479e0808bb9dcd34def5580b"
+updated_at: 2026-09-19T03:36:26Z
+content_hash: "sha256:d9ecb50fb6fb9b5a5fbd7a270a01762ff03d9eddb983704e24bab9a7a036af6d"
 labels: [discovered-by-pm, delivered]
 assignee: dev-WD-m6pq
 follows: [WD-8r8a]
+closed_at: 2026-09-19T03:36:26Z
+close_reason: "Accepted: explicit skill invocations now resolve locally to the exact indexed skill before FTS ranking, with 13/13 tests, clean pvg verify, unchanged registration/config, and fresh Codex integration proof."
 ---
 
 ## Description
@@ -276,6 +278,7 @@ status: in_progress
 - 2026-09-19T03:32:28Z status: open -> in_progress
 - 2026-09-19T03:32:28Z claimed by dev-WD-m6pq
 - 2026-09-19T03:35:15Z status: in_progress -> in_progress
+- 2026-09-19T03:36:26Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-wzbl]]
