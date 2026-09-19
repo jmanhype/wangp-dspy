@@ -8,12 +8,12 @@ parent: WD-fehf
 created_at: 2026-09-19T03:49:42Z
 created_by: speed
 updated_at: 2026-09-19T04:54:50Z
-content_hash: "sha256:807d560425ef43a607ea78116b98bea0d4fd55baef8ed0b7b350485010ff98a6"
+content_hash: "sha256:d4e3147b4228b961dad84baaa2729a6bded356d9f92583523e904ce47c155b8c"
 assignee: dev-WD-v4ou
 labels: [accepted]
 closed_at: 2026-09-19T04:54:49Z
 close_reason: "Accepted: independently reran compilation, 17-test unittest discovery, pvg verify, SQLite integrity/mode/schema/dedup checks, and artifact hash verification. Automatic freshness is local, bounded, fail-open, privacy-preserving, and regression-tested; hook registration/config hashes remained unchanged."
-led_to: [WD-ft6r]
+led_to: [WD-ft6r, WD-8tkc]
 ---
 
 ## Description
@@ -248,7 +248,7 @@ status: delivered
 
 ## Links
 - Parent: [[WD-fehf]]
-- Led to: [[WD-ft6r]]
+- Led to: [[WD-ft6r]], [[WD-8tkc]]
 
 ## Comments
 
