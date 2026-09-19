@@ -1,5 +1,14 @@
 # PLAN FRAGMENT — Thin Talker-Reasoner Bridge follow-up sequencing
 
+## Status
+
+Accepted historical planning record for WD-dd81.
+
+Canonical implementation moved to
+[talker-reasoner-system](https://github.com/jmanhype/talker-reasoner-system).
+This plan remains governance and requirements provenance; future follow-up
+implementation belongs in the Talker-Reasoner repository, not here.
+
 Status: planning input only; do not execute until WD-dd81 is signed off and
 follow-up stories exist. This story changes documentation only.
 

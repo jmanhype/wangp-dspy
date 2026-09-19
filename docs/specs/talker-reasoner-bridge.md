@@ -1,5 +1,14 @@
 # SPEC — Thin Talker-Reasoner Bridge
 
+## Status
+
+Accepted historical boundary contract for WD-dd81.
+
+Canonical implementation moved to
+[talker-reasoner-system](https://github.com/jmanhype/talker-reasoner-system).
+This document remains the original governance and requirements record; future
+implementation changes belong in the Talker-Reasoner repository, not here.
+
 Status: DRAFT — review contract, not an implementation · Story: WD-dd81 ·
 Date: 2026-09-19 · Verified source baseline: commit `9007abf`
 
