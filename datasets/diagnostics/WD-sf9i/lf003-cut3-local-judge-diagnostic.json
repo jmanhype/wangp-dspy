@@ -1,0 +1,38 @@
+{
+  "actual_responses": {
+    "identity_raw_response": "{\n  \"mouth_activity\": 0.95,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor: Tess (S1) is on the left in the navy jacket with the star pin, and Rho (S2) is on the right in the olive jacket and red cap. In the middle frame, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the action to the expected speaker. The identity and wardrobe are preserved across the sequence.\"\n}",
+    "identity_raw_response_sha256": "d368e1fca2fdab1c84373c8e4ec388d350820c9df6bbaf6b51fccc8b541da7e6",
+    "mouth_bbox_raw_response": "```json\n{\"speaker_mouth_bboxes\": [[0.31, 0.19, 0.03, 0.03], [0.31, 0.2, 0.03, 0.02]]}\n```",
+    "mouth_bbox_raw_response_sha256": "b8eb0573cba5f6037db925c5e75c82f92b47873310cafa68c9a0f17e5a9ea651"
+  },
+  "created_at": "2026-09-19T15:11:09.191689+00:00",
+  "diagnostic_scope": "offline local judge call on preserved LF003 cut 3; no render, no cut 4, no assembly, no queue mutation, no acceptance",
+  "integrated_corrected_path": {
+    "failure_detail": "vision result must include three speaker_mouth_bboxes [x,y,w,h]",
+    "mouth_bbox_raw_response": "```json\n{\"speaker_mouth_bboxes\": [[0.31, 0.19, 0.03, 0.03], [0.31, 0.2, 0.03, 0.02]]}\n```",
+    "raw_response": "{\n  \"mouth_activity\": 0.95,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames maintain the correct spatial anchor: Tess (S1) is on the left in the navy jacket with the star pin, and Rho (S2) is on the right in the olive jacket and red cap. In the middle frame, Tess's mouth is clearly open in a speaking pose, while Rho's mouth remains closed, correctly attributing the action to the expected speaker. The identity and wardrobe are preserved across the sequence.\"\n}",
+    "scores": {
+      "action_match": 0.9,
+      "mouth_activity": 0.95,
+      "speaker_attribution": 0.95
+    },
+    "status": "blocking_vision_judge_error"
+  },
+  "judge": {
+    "endpoint": "http://localhost:8000/v1/chat/completions",
+    "implementation": "LocalQwenVisionJudge",
+    "max_tokens": 1024,
+    "model": "q",
+    "timeout_s": 180.0
+  },
+  "schema": "wangp-dspy.wd-sf9i.local-judge-diagnostic/v1",
+  "source": {
+    "commit": "8db5339",
+    "expected_action": "subtle natural listening and speaking motion",
+    "reference_image_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/lf003-four-cut-fullgate-20260919/chain/clip0003/chain_last_frame.png",
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6/datasets/runs/pull/acceptance/worker-e59bab85fab5/render-0002/remux.mp4",
+    "video_sha256": "08acf7d3601b3489e15ddf76e6f50d741a9d6550b04cc784f29cb952fbe9b47d",
+    "worktree": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6"
+  },
+  "story_id": "WD-sf9i"
+}

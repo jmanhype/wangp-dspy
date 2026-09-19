@@ -17,16 +17,21 @@ from statistics import median
 class VisionJudgeError(ValueError):
     """Typed rejection of absent or contradictory visual evidence.
 
-    ``scores`` and ``raw_response`` preserve audit evidence when the gate
-    rejects a cut; without them the failure cannot be replayed offline.
+    ``scores``, ``raw_response``, and ``mouth_bbox_raw_response`` preserve
+    audit evidence when the gate rejects a cut; without both exact model
+    responses the failure cannot be replayed offline.
     """
 
     def __init__(self, message: str, *, scores: Optional[Mapping] = None,
-                 raw_response: Optional[str] = None):
+                 raw_response: Optional[str] = None,
+                 mouth_bbox_raw_response: Optional[str] = None):
         super().__init__(message)
         self.scores = dict(scores or {})
         self.raw_response = (str(raw_response)
                              if raw_response is not None else None)
+        self.mouth_bbox_raw_response = (
+            str(mouth_bbox_raw_response)
+            if mouth_bbox_raw_response is not None else None)
 
 
 @dataclass(frozen=True)
@@ -42,6 +47,8 @@ class VisionJudgeEvidence:
     action_match: float
     speaker_attribution: float
     pass_bar: float
+    # Normalized (x-center, y-center) spread across the three source frames.
+    speaker_mouth_center_spread: Tuple[float, float]
     passed: bool
     notes: str = ""
     raw_response: Optional[str] = None
@@ -80,10 +87,13 @@ def run_vision_judge(
             f"vision judge failed: {exc}",
             scores=getattr(exc, "scores", None),
             raw_response=getattr(exc, "raw_response", None),
+            mouth_bbox_raw_response=getattr(
+                exc, "mouth_bbox_raw_response", None),
         ) from exc
     if not isinstance(raw, Mapping):
         raise VisionJudgeError("vision judge must return a mapping")
     raw_response = raw.get("raw_response")
+    mouth_bbox_raw_response = raw.get("mouth_bbox_raw_response")
     raw = dict(raw)
     if "mouth_activity" not in raw and "mouth_sync" in raw:
         raw["mouth_activity"] = raw["mouth_sync"]
@@ -94,11 +104,13 @@ def run_vision_judge(
         except (KeyError, TypeError, ValueError) as exc:
             raise VisionJudgeError(
                 f"vision result missing numeric {name}",
-                scores=values, raw_response=raw_response) from exc
+                scores=values, raw_response=raw_response,
+                mouth_bbox_raw_response=mouth_bbox_raw_response) from exc
         if not math.isfinite(value) or not 0.0 <= value <= 1.0:
             raise VisionJudgeError(
                 f"vision result {name} must be 0..1, got {value!r}",
-                scores=values, raw_response=raw_response)
+                scores=values, raw_response=raw_response,
+                mouth_bbox_raw_response=mouth_bbox_raw_response)
         values[name] = value
     bboxes_raw = raw.get("speaker_mouth_bboxes")
     if (not isinstance(bboxes_raw, (list, tuple)) or len(bboxes_raw) != 3
@@ -106,30 +118,35 @@ def run_vision_judge(
                    for item in bboxes_raw)):
         raise VisionJudgeError(
             "vision result must include three speaker_mouth_bboxes [x,y,w,h]",
-            scores=values, raw_response=raw_response)
+            scores=values, raw_response=raw_response,
+            mouth_bbox_raw_response=mouth_bbox_raw_response)
     try:
+        if any(isinstance(value, bool) for bbox in bboxes_raw
+               for value in bbox):
+            raise ValueError("boolean values are not numeric")
         bboxes = tuple(
             tuple(float(value) for value in bbox) for bbox in bboxes_raw)
     except (TypeError, ValueError) as exc:
         raise VisionJudgeError(
             "speaker_mouth_bbox values must be numeric",
-            scores=values, raw_response=raw_response) from exc
+            scores=values, raw_response=raw_response,
+            mouth_bbox_raw_response=mouth_bbox_raw_response) from exc
     for bbox in bboxes:
         if (not all(math.isfinite(value) for value in bbox)
                 or any(value < 0.0 or value > 1.0 for value in bbox)
                 or bbox[2] <= 0.0 or bbox[3] <= 0.0
-                or bbox[0] + bbox[2] > 1.0001
-                or bbox[1] + bbox[3] > 1.0001):
+                or bbox[0] + bbox[2] > 1.0
+                or bbox[1] + bbox[3] > 1.0):
             raise VisionJudgeError(
                 "speaker_mouth_bboxes must be normalized and fit inside the frame",
-                scores=values, raw_response=raw_response)
+                scores=values, raw_response=raw_response,
+                mouth_bbox_raw_response=mouth_bbox_raw_response)
     centers = [(bbox[0] + bbox[2] / 2.0, bbox[1] + bbox[3] / 2.0)
                for bbox in bboxes]
-    if (max(x for x, _ in centers) - min(x for x, _ in centers) > 0.03
-            or max(y for _, y in centers) - min(y for _, y in centers) > 0.03):
-        raise VisionJudgeError(
-            "speaker_mouth_bboxes lack spatial consensus",
-            scores=values, raw_response=raw_response)
+    center_spread = (
+        max(x for x, _ in centers) - min(x for x, _ in centers),
+        max(y for _, y in centers) - min(y for _, y in centers),
+    )
     bbox = tuple(median(bbox[index] for bbox in bboxes) for index in range(4))
     # mouth_activity is descriptive evidence only. A three-still judge cannot
     # infer temporal speech motion reliably; SyncNet owns that blocking gate.
@@ -141,12 +158,14 @@ def run_vision_judge(
         passed=passed, mouth_sync=None, av_sync_verified=False,
         speaker_mouth_bboxes=bboxes,
         speaker_mouth_bbox=bbox,
+        speaker_mouth_center_spread=center_spread,
         notes="Still-image visual QC only; phonetic AV synchrony is unmeasured. " + str(raw.get("notes", "")), raw_response=(
             str(raw_response) if raw_response is not None else None), **values)
     if not passed:
         raise VisionJudgeError(
             "visual gate failed: mouth/action/speaker attribution below pass bar",
-            scores=values, raw_response=raw_response)
+            scores=values, raw_response=raw_response,
+            mouth_bbox_raw_response=mouth_bbox_raw_response)
     return evidence
 
 
