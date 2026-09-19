@@ -9,12 +9,13 @@ parent: WD-j9nx
 created_at: 2026-08-24T14:54:53Z
 created_by: speed
 updated_at: 2026-08-24T15:11:39Z
-content_hash: "sha256:bcc0bf0d6c3767120d71270d994d8046930a4584681a39201871c9dda7a5c105"
+content_hash: "sha256:0865d4dc7374a19d458d0cc177428b5f8e5374d4488170ea1c55f8f72580e0d4"
 assignee: jmanhype-glm
 follows: [WD-xzqp]
 closed_at: 2026-08-24T15:11:39Z
 close_reason: "PR #21 merged: Pipeline dspy.Module (one-call artifact chain, typed boundary failures, evidence trail) + tasks.py genre registry. 7 e2e stub tests, full suite 244 green."
 led_to: [WD-mhr2, WD-qbcj, WD-4k56]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -34,9 +35,11 @@ The epic's core gap: stages exist and are individually tested but NOTHING chains
 - 2026-08-24T15:07:34Z auto-follows: linked to predecessor WD-xzqp
 - 2026-08-24T15:07:34Z claimed by jmanhype-glm
 - 2026-08-24T15:11:39Z status: in_progress -> closed
+- 2026-09-19T20:39:23Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-xzqp]]
 - Led to: [[WD-mhr2]], [[WD-qbcj]], [[WD-4k56]]
 
