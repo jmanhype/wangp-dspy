@@ -8,8 +8,9 @@ parent: WD-j9nx
 created_at: 2026-08-28T00:53:49Z
 created_by: speed
 updated_at: 2026-08-28T01:36:12Z
-content_hash: "sha256:119d35b3f1243337e8233fceae93e2e52134ca05f9954f59a140a7bd8a32ab12"
+content_hash: "sha256:2b32ec7f8c4abb2caca472b7d3acb00d5796205062102bd0e9c23b0501e593cf"
 closed_at: 2026-08-28T01:36:12Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -47,9 +48,11 @@ Apply to OUR QC failure vocabulary: classify each recurring failure as **gate-fa
 
 ## History
 - 2026-08-28T01:36:12Z status: open -> closed
+- 2026-09-19T20:39:24Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 
 ## Comments
 
