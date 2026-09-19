@@ -7,8 +7,8 @@ type: feature
 parent: WD-j9nx
 created_at: 2026-09-19T13:07:14Z
 created_by: speed
-updated_at: 2026-09-19T14:57:39Z
-content_hash: "sha256:5b4a56a4379eb31bf49fa8d7c0e552c39384c53ca3dd120898943c9968bbe40b"
+updated_at: 2026-09-19T14:58:14Z
+content_hash: "sha256:a2fa0ae6fd1db68fd815019f7242889c1d0caccdb47902ff738838787c79f91d"
 assignee: dev-WD-rij6
 follows: [WD-ice0, WD-clms]
 labels: [delivered]
@@ -190,6 +190,56 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-rij6
+git diff --check
+git diff --cached --check
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m py_compile tests/test_lf003_fourcut_gate_failure.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_lf003_fourcut_gate_failure.py tests/test_lf003_rhostrong_film_evidence.py tests/test_lf003_rhostrong_bundle.py tests/test_lf003_fullgate_bundle.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_vibevoice.py
+```
+
+Independent coordinator results:
+
+- Formatting checks: exit 0.
+- Targeted evidence tests: 9/9 passed.
+- VibeVoice suite: 67/67 passed.
+- Confirmed no `assembled.mp4` exists for the failed four-cut run.
+- Manifest status: `gate_failed_cut3`.
+- Cut 3 failed because the vision result lacked three required `speaker_mouth_bboxes`; cut 4 remained pending.
+- All 77 evidence/input/test files were committed for preservation on story branch `story/WD-rij6`.
+
+### CI/Test Results
+
+```text
+9 targeted evidence tests passed
+67 VibeVoice tests passed
+git diff --check: PASS
+git diff --cached --check: PASS
+```
+
+Summary: the four-cut probe executed as a governed fail-closed experiment. Cuts 1–2 passed all gates; cut 3 passed pre/post Whisper but failed the required three-frame mouth-box evidence contract; cut 4 was not rendered and no four-cut assembly was produced. Finding 84 and all rejection evidence were preserved.
+
+Commit SHA: 8db5339
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Prior operator acceptance recorded | PASS | `operator-acceptance.json` and manifest. |
+| 2. Clean-checkout identity | PASS | `pre-execution-identity.json`. |
+| 3. Four fresh renders / no prefix | FAIL | Three rendered; cut 4 pending after cut 3 gate failure. |
+| 4. Speaker and predecessor chaining | PARTIAL/FAIL | Cuts 1–3 chained; cut 4 not rendered. |
+| 5. Every cut passes every gate | FAIL | Cut 3 lacks three mouth boxes; SyncNet not run. |
+| 6. Preserve rejected attempts/evidence | PASS | Two infrastructure rejections and terminal gate failure preserved. |
+| 7. Four-cut assembly | FAIL / correctly not attempted | No assembled artifact exists. |
+| 8. Honest status/no automatic acceptance | PASS | `gate_failed_cut3`; operator verdict `not_requested`. |
+| 9. Separate continuity finding if cut 3/4 fails | PASS | Finding 84 filed. |
+| 10. Evidence staged/hashable/no secrets | PASS | 77 files committed and targeted evidence tests pass. |
 
 
 ## nd_contract
