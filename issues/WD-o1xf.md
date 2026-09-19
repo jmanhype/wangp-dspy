@@ -8,7 +8,7 @@ parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
 updated_at: 2026-09-19T02:49:20Z
-content_hash: "sha256:02f30d8bf6169c1dd8142c8899e9542b636171532c1029740feefc438de0149e"
+content_hash: "sha256:68b263e7093fb1a1fb82b29305865754e3e671b7de9a8ae31cfb3b2fa1c4b2ad"
 assignee: dev-WD-o1xf
 ---
 
@@ -69,7 +69,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed 2026-09-19 under the same machine-global infrastructure exception as WD-59q6: changes are confined to /Users/speed/.codex/skill-router and no repository story worktree applies.
+- Do not poll pvg loop next during implementation because the orphan-worktree heuristic resets this global-config task.
+
+### proof
+- [ ] Ranking regression and verification pending.
 
 ## History
 - 2026-09-19T02:49:20Z status: open -> in_progress
