@@ -4,7 +4,7 @@ title: "scanner: DANGEROUS verdict on own repo's test fixtures blocks plugin ins
 status: closed
 priority: 2
 type: bug
-labels: [security, tooling, upstream, delivered]
+labels: [security, tooling, upstream, delivered, accepted]
 created_at: 2026-08-24T14:04:28Z
 created_by: speed
 updated_at: 2026-09-19T20:48:56Z
