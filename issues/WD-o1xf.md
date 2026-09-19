@@ -7,8 +7,8 @@ type: task
 parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
-updated_at: 2026-09-19T02:53:23Z
-content_hash: "sha256:0729b1be903a898abc9e9565eae5aed36d8f5e4189c3c9d6031119dd08b79596"
+updated_at: 2026-09-19T02:53:39Z
+content_hash: "sha256:ddb3b65f08b01f2b93c8f9ccfefc86a58ac3fff15da0d84aadacdd9ea78a4c30"
 assignee: dev-WD-o1xf
 labels: [delivered]
 ---
@@ -70,7 +70,44 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### CI/Test Results
+- Commands run:
+  - /usr/bin/python3 -m py_compile /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py
+  - /usr/bin/python3 -m unittest discover -s /Users/speed/.codex/skill-router -p 'test_router.py' -v
+  - pvg verify /Users/speed/.codex/skill-router/hook.py /Users/speed/.codex/skill-router/test_router.py --format=text
+  - Fresh Codex app-bundle exec verification.
+- Summary: compile PASS; unit/integration/current-index tests PASS 9/9, 0 failures, 0 errors, 0 skipped; pvg verify PASS 0 issues; fresh Codex process PASS with top candidate supabase-rls-frontend-debugging and one automatic event added.
+- Coverage: 9 targeted tests plus fresh-process integration proof.
+- Commit SHA: b53f655eb88f67c11dbef361349bf8fb7d40d7a885126bc1c3bb66d30967ec96
+
+### AC Verification
+| AC | Requirement | Status | Evidence |
+|---|---|---|---|
+| 1 | Live-style regression test | PASS | test_live_meta_language_prefers_specific_current_index_skill initially failed, then passed. |
+| 2 | Specific skill outranks broad skill | PASS | Fresh process and local probe ranked supabase-rls-frontend-debugging first. |
+| 3 | Short domain prompt still works | PASS | Use Supabase database query returned supabase first at 0.9621. |
+| 4 | Existing suite passes | PASS | 9/9 tests, 0 failures/errors/skips. |
+| 5 | pvg verify clean | PASS | VERIFY PASSED, 2 files, 0 issues. |
+| 6 | No prohibited behavior added | PASS | Only hook.py scoring and test_router.py changed; registration hash unchanged. |
+
+LEARNINGS:
+- Keep validator-facing proof sections literal and explicit.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Exact test, verify, live-process, and hash evidence recorded above.
+
+### proof
+- [x] AC #1: regression added and reproduced.
+- [x] AC #2: specific skill ranks above broad skill.
+- [x] AC #3: short prompt still returns Supabase.
+- [x] AC #4: 9/9 tests pass.
+- [x] AC #5: pvg verify zero issues.
+- [x] AC #6: no network/persistence/registration/execution behavior added.
 
 ## nd_contract
 status: delivered
