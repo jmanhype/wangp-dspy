@@ -8,13 +8,14 @@ parent: WD-j9nx
 created_at: 2026-08-22T23:20:39Z
 created_by: speed
 updated_at: 2026-08-23T03:22:03Z
-content_hash: "sha256:5b7da6259a3978d836c8895d9c7599fb562b41cd0ac56a64ff9bd7ea0b254e0f"
+content_hash: "sha256:fe4165f728acc5a15afc478c8d9730042c8a82b01fabf38c87245615f25f7cf4"
 assignee: dev-WD-d3b9
 follows: [WD-5zti, WD-t6i7]
 labels: [accepted]
 closed_at: 2026-08-23T03:21:58Z
 close_reason: "wgp exits 0 on skipped tasks; empty readback now raises typed WanGPError with 5-line stdout tail, hard failure no retry. Merged PR #9 (9238555). Luna+GLM PASS; RED verified."
 led_to: [WD-h0vk]
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -60,9 +61,11 @@ status: delivered
 - 2026-08-23T03:21:39Z status: in_progress -> in_progress
 - 2026-08-23T03:21:39Z auto-follows: linked to predecessor WD-t6i7
 - 2026-08-23T03:21:58Z status: in_progress -> closed
+- 2026-09-19T20:39:22Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-5zti]], [[WD-t6i7]]
 - Led to: [[WD-h0vk]]
 

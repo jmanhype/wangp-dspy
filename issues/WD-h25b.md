@@ -8,13 +8,13 @@ parent: WD-j9nx
 created_at: 2026-08-28T19:10:45Z
 created_by: speed
 updated_at: 2026-09-19T20:39:00Z
-content_hash: "sha256:9b34f64c74a14b61e1162387033f5527658ad8e4e75099fe04db80b74242df0b"
+content_hash: "sha256:42c0058ddb8e508d9974beceb737f7cb82744b50e9ec4986d6df99627caa5768"
 assignee: dev-WD-h25b
 follows: [WD-rij6, WD-2p52, WD-8l2f]
 labels: [accepted, capstone]
 closed_at: 2026-09-19T20:38:33Z
 close_reason: "Accepted as an already-merged legacy delivery, not a new render: PR #41 is MERGED at 15cca89, implementation c20ecd8 is an ancestor of current main 9007abf, final SHA f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac matches, timeline/attribution/job/run/QC/G4/whisper evidence validates, and a clean detached-main full suite passes 1526 tests with 0 failures. Non-AC doc mismatch recorded: delivery text says 480x832 but measured final is 832x480. Historical Luna/GLM dispatch is not reconstructible from PR metadata and is not claimed; acceptance is reconciled to current protected-main evidence and the operator completion directive."
-blocked_by: [WD-2p52, WD-8l2f, WD-ice0, WD-rij6, WD-sf9i, WD-v66o, WD-clms, WD-cz6a, WD-l5bx, WD-n0ab, WD-23r7, WD-4jpr, WD-4k56, WD-4s1b, WD-5zti, WD-7185, WD-c4gw]
+blocked_by: [WD-2p52, WD-8l2f, WD-ice0, WD-rij6, WD-sf9i, WD-v66o, WD-clms, WD-cz6a, WD-l5bx, WD-n0ab, WD-23r7, WD-4jpr, WD-4k56, WD-4s1b, WD-5zti, WD-7185, WD-c4gw, WD-d3b9]
 ---
 
 ## Description
@@ -265,10 +265,11 @@ status: delivered
 - 2026-09-19T20:39:22Z dep_added: blocked_by WD-5zti
 - 2026-09-19T20:39:22Z dep_added: blocked_by WD-7185
 - 2026-09-19T20:39:22Z dep_added: blocked_by WD-c4gw
+- 2026-09-19T20:39:22Z dep_added: blocked_by WD-d3b9
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Blocked by: [[WD-2p52]], [[WD-8l2f]], [[WD-ice0]], [[WD-rij6]], [[WD-sf9i]], [[WD-v66o]], [[WD-clms]], [[WD-cz6a]], [[WD-l5bx]], [[WD-n0ab]], [[WD-23r7]], [[WD-4jpr]], [[WD-4k56]], [[WD-4s1b]], [[WD-5zti]], [[WD-7185]], [[WD-c4gw]]
+- Blocked by: [[WD-2p52]], [[WD-8l2f]], [[WD-ice0]], [[WD-rij6]], [[WD-sf9i]], [[WD-v66o]], [[WD-clms]], [[WD-cz6a]], [[WD-l5bx]], [[WD-n0ab]], [[WD-23r7]], [[WD-4jpr]], [[WD-4k56]], [[WD-4s1b]], [[WD-5zti]], [[WD-7185]], [[WD-c4gw]], [[WD-d3b9]]
 - Follows: [[WD-rij6]], [[WD-2p52]], [[WD-8l2f]]
 
 ## Comments
