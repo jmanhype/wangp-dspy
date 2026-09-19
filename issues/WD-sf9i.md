@@ -1,18 +1,19 @@
 ---
 id: WD-sf9i
 title: "Preserve malformed LF003 cut3 mouth-localizer evidence"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
-updated_at: 2026-09-19T15:34:51Z
-content_hash: "sha256:1ce001c456bb31eed28af4d093b1d4a99fb0c4dc90fd3368b5fb462078e3cbba"
+updated_at: 2026-09-19T15:35:08Z
+content_hash: "sha256:fcadc44b786c4d12a337bbebfd8bc5d1e68e649ddb1d92634d64976b03e7b99b"
 assignee: dev-WD-sf9i
 follows: [WD-ice0, WD-clms]
-blocks: [WD-rij6]
 labels: [delivered]
+closed_at: 2026-09-19T15:35:08Z
+close_reason: "Accepted: independently reran compilation, 34 vision/executor tests, 27 adapter/ref2va runtime tests, preserved LF003 evidence tests, git diff --check, diagnostic/hash inspection, and forbidden-material scan. Malformed mouth-box evidence remains blocking and is now replayable through every durable evidence boundary."
 ---
 
 ## Description
@@ -233,10 +234,11 @@ status: delivered
 - 2026-09-19T15:01:26Z dep_added: blocks WD-rij6
 - 2026-09-19T15:33:17Z status: in_progress -> in_progress
 - 2026-09-19T15:33:17Z auto-follows: linked to predecessor WD-clms
+- 2026-09-19T15:35:08Z status: in_progress -> closed
+- 2026-09-19T15:35:08Z dep_removed: no_longer_blocks WD-rij6
 
 ## Links
 - Parent: [[WD-j9nx]]
-- Blocks: [[WD-rij6]]
 - Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments
