@@ -7,8 +7,8 @@ type: task
 parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
-updated_at: 2026-09-19T03:25:42Z
-content_hash: "sha256:a8365a61c90836054f48d2cd2cc137d0f6ce917671eb583953fce5eb040fedf8"
+updated_at: 2026-09-19T03:26:33Z
+content_hash: "sha256:8c6dff6f281618eb0d857d1f4a74c62d62cccc788f12f61b51ee33faa95d2fc8"
 assignee: dev-WD-8r8a
 labels: [delivered]
 ---
@@ -67,7 +67,17 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-19]: Calibration evidence reviewed and meets the bar. Report covers 50 unique local natural prompts, validates JSON, confirms zero network calls and raw-prompt leaks, leaves the event log unchanged, preserves router hashes, and records the explicit-invocation follow-up recommendation.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed delivery proof and independently validated report structure, metrics, privacy fields, and artifact hashes.
+
+### proof
+- [x] AC-by-AC verified from recorded evidence.
 
 ## nd_contract
 status: delivered
