@@ -11,7 +11,7 @@ updated_at: 2026-09-19T05:44:51Z
 content_hash: "sha256:4c7b8bc0498a471bd5be4d55068eaea62fc75f5e210d5f5f8f74f9533295a1c9"
 assignee: dev-WD-8tkc
 follows: [WD-ft6r, WD-v4ou]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-19T05:44:51Z
 close_reason: "Accepted: independently reran compilation, full 23-test discovery, pvg verify, both report CLI formats, real-artifact aggregation, JSON privacy probe, and hash verification. Missing feedback is honestly degraded; no raw prompts/secrets are emitted; prior accepted router artifacts remain unchanged."
 ---
