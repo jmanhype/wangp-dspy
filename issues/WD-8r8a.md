@@ -8,7 +8,7 @@ parent: WD-wzbl
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:13:39Z
-content_hash: "sha256:8ca37d7c9240768fb8ee940a186e1e03b6ca5d53bb0244ed657be95d1c7ca07e"
+content_hash: "sha256:cb72b36be6e191fb8f96af86bdfc86ab5ec4524ae63c907c2edcb0a5dd66db32"
 assignee: dev-WD-8r8a
 ---
 
@@ -66,7 +66,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed 2026-09-19 for local observational calibration under the machine-global infrastructure exception; no repository worktree applies.
+
+### proof
+- [ ] Calibration execution and report pending.
 
 ## History
 - 2026-09-19T03:13:39Z status: open -> in_progress
