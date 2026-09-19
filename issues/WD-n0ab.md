@@ -8,11 +8,12 @@ parent: WD-j9nx
 created_at: 2026-08-25T01:30:30Z
 created_by: speed
 updated_at: 2026-08-28T02:13:04Z
-content_hash: "sha256:cf121059949bf991c7343ef0f7bdb8dc6bb61caca62859cbd27072f4483811e0"
+content_hash: "sha256:0243e2e6a0d76780084803b3ee4be0d13609a971cf2f35e23d88a3c3c09377a0"
 assignee: dev-WD-n0ab
 follows: [WD-txt9, WD-mhr2]
 labels: [fix-merged-pending-delivery]
 closed_at: 2026-08-28T02:13:04Z
+blocks: [WD-h25b]
 ---
 
 ## Description
@@ -45,9 +46,11 @@ status: delivered
 - 2026-08-25T01:44:46Z status: in_progress -> in_progress
 - 2026-08-25T01:44:46Z auto-follows: linked to predecessor WD-mhr2
 - 2026-08-28T02:13:04Z status: in_progress -> closed
+- 2026-09-19T20:39:21Z dep_added: blocks WD-h25b
 
 ## Links
 - Parent: [[WD-j9nx]]
+- Blocks: [[WD-h25b]]
 - Follows: [[WD-txt9]], [[WD-mhr2]]
 
 ## Comments
