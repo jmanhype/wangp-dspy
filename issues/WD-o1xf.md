@@ -7,8 +7,8 @@ type: task
 parent: WD-dic4
 created_at: 2026-09-19T02:48:59Z
 created_by: speed
-updated_at: 2026-09-19T02:53:39Z
-content_hash: "sha256:ddb3b65f08b01f2b93c8f9ccfefc86a58ac3fff15da0d84aadacdd9ea78a4c30"
+updated_at: 2026-09-19T02:53:55Z
+content_hash: "sha256:d6342bea9be660bdc34b0b45a50e94dbaa431892d68c6cc430ce90a2cde97e83"
 assignee: dev-WD-o1xf
 labels: [delivered]
 ---
@@ -70,6 +70,18 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-19]: Evidence reviewed and meets the bar. The RED regression reproduced the live ranking defect; the scoring change passed 9/9 tests, zero pvg verify findings, local and fresh-process ordering checks, short-domain behavior, unchanged hook registration, and no prohibited network/persistence behavior.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed delivery proof, test counts, fresh-process evidence, hashes, and scope checks.
+
+### proof
+- [x] AC-by-AC verified from recorded and independently spot-checked evidence.
+
 ## Implementation Evidence
 
 ### CI/Test Results
