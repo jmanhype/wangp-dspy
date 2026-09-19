@@ -7,10 +7,10 @@ type: bug
 parent: WD-j9nx
 created_at: 2026-09-19T15:00:51Z
 created_by: speed
-updated_at: 2026-09-19T15:01:07Z
-content_hash: "sha256:9bcb30b841a74934714af8fec2d17cb0d1c4d5a76bfc2c858dceb67f6d993856"
+updated_at: 2026-09-19T15:33:17Z
+content_hash: "sha256:eeddc06964c3721760b5c0bd879d84ae7f6e1b8e2dca9081934352484c0b1edf"
 assignee: dev-WD-sf9i
-follows: [WD-ice0]
+follows: [WD-ice0, WD-clms]
 blocks: [WD-rij6]
 ---
 
@@ -168,10 +168,12 @@ status: new
 - 2026-09-19T15:01:07Z auto-follows: linked to predecessor WD-ice0
 - 2026-09-19T15:01:07Z claimed by dev-WD-sf9i
 - 2026-09-19T15:01:26Z dep_added: blocks WD-rij6
+- 2026-09-19T15:33:17Z status: in_progress -> in_progress
+- 2026-09-19T15:33:17Z auto-follows: linked to predecessor WD-clms
 
 ## Links
 - Parent: [[WD-j9nx]]
 - Blocks: [[WD-rij6]]
-- Follows: [[WD-ice0]]
+- Follows: [[WD-ice0]], [[WD-clms]]
 
 ## Comments
