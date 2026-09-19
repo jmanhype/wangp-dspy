@@ -7,7 +7,7 @@ type: epic
 created_at: 2026-09-19T03:13:39Z
 created_by: speed
 updated_at: 2026-09-19T03:36:27Z
-content_hash: "sha256:cd6901e2b3a3753cf6b92fa2443d7595b0f9217d4694d8f6c669816a22860e56"
+content_hash: "sha256:347778b4bf4ea202867f12ffec5697c37b1c315eddcd95c7212bdd03e1ecca16"
 closed_at: 2026-09-19T03:36:27Z
 close_reason: "All child stories accepted; natural-use calibration completed and its explicit-invocation follow-up fixed."
 labels: [accepted]
@@ -62,7 +62,17 @@ Use the latest stored prompt per history thread, deduplicate prompts, exclude sy
 
 
 ## Notes
+## nd_contract
+status: accepted
 
+### evidence
+- WD-8r8a produced a privacy-preserving 50-prompt local calibration report.
+- WD-m6pq resolved the discovered explicit-invocation defect and was verified in a fresh Codex process.
+
+### proof
+- [x] Calibration report exists with hashes and no raw prompt text.
+- [x] Explicit skill requests now resolve to the exact indexed skill before ranking.
+- [x] Router implementation remained local, private, and fail-open.
 
 ## History
 - 2026-09-19T03:36:27Z status: open -> closed
