@@ -9,10 +9,11 @@ parent: WD-h73w
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
 updated_at: 2026-09-20T19:48:28Z
-content_hash: "sha256:3bfaca9cbf78088ac54a7bddeac7fc0bdfe16df071a3e26c0280e35611193518"
+content_hash: "sha256:f8330d82587816e9538e1ea2066eda2a4545a5fab0783166d64cfddfb77b6737"
 was_blocked_by: [WD-rb1f]
 closed_at: 2026-09-20T19:48:19Z
 close_reason: "Superseded: initial story body duplicated boundary sections during repair; replacement carries the corrected executable contract."
+blocks: [WD-42no]
 ---
 
 ## Description
@@ -228,9 +229,11 @@ status: new
 - 2026-09-20T19:46:39Z dep_added: blocked_by WD-rb1f
 - 2026-09-20T19:48:18Z dep_removed: was_blocked_by WD-rb1f
 - 2026-09-20T19:48:19Z status: open -> closed
+- 2026-09-20T19:48:47Z dep_added: blocks WD-42no
 
 ## Links
 - Parent: [[WD-h73w]]
+- Blocks: [[WD-42no]]
 - Was blocked by: [[WD-rb1f]]
 
 ## Comments
