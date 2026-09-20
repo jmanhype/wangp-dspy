@@ -8,3 +8,7 @@ issues/
 .piv-loop-state.json
 .piv-loop-snapshot.json
 .dispatcher-state.json
+
+# Volatile project-vault UI/generated settings
+.obsidian/workspace.json
+knowledge/.settings.yaml
