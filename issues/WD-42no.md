@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T23:37:24Z
-content_hash: "sha256:0fe57be250efad7e9ef9c3e85057b35153e32d7e9c769abc3c88d984d263a686"
+updated_at: 2026-09-20T23:42:42Z
+content_hash: "sha256:15243c1ec395bb2b2266c9551e9dc3113328a8ed576895fc558a53efbcb0cb72"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c]
 assignee: dev-WD-42no
@@ -93,6 +93,40 @@ status: new
 
 
 ## Notes
+## Root Cause: Declared Clip Duration vs Guide Audio Length
+
+Cut-2's dead-letter is explained by a plan-input defect, not by seed luck alone.
+
+| Item | Value | Source |
+| --- | --- | --- |
+| brief `durations_s` | `4.458333` per turn (107 frames @24fps) | `datasets/content_briefs/lf004-operator-dogfood/brief.json` |
+| actual guide audio, all four turns | `2.333333` s (56 frames @24fps) | `ffprobe` on the four `audio_paths` guides |
+| Content Brief Gateway default | `56.0/24.0` = 2.333 s | `predict/content_brief.py` (`DEFAULT_DURATION_S`) |
+| LF003 accepted per-cut policy | 56 frames/cut; assembly 224 frames / 9.333 s | WD-rij6 |
+
+Consequences measured on disk:
+
+- Every 107-frame clip carries ~2.125 s of speech time with no guide content; the renderer fills it, observed as the intended line spoken twice (seed 904 `7351334145399bd4`, seed 905 `93075b7b7633289b`, both post-Whisper 0.167) or as double-exposure motion (seed 906 `cb1293c6e987f6a5`, vision `action_match` 0.1).
+- `plan.json` sets `guide_duration_s := shot_duration_s` (4.458) instead of the guide's measured 2.333 s, so `services/director/renderers/policy.py::check_guide_duration()` compares two plan-declared values and passes trivially; the real audio file length is never inspected.
+- `keeper_window_s` / `audio_policy.remux_window` are `[0.0, 4.458333]` although the master is 2.333 s long.
+- Cut 1 also required two retries before passing, i.e. every LF004 cut hit the same mismatch.
+
+Nothing was relaxed: no gate, no retry policy, no artifact. No fourth render was started.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Root cause recorded above with measured hashes/durations; write-up at `docs/findings/85-lf004-guide-duration-mismatch.md` in the `dev-WD-42no` worktree.
+- Cut 1 `done`; cut 2 `dead_letter` after three `qc_gate` failures; cuts 3/4 `pending` behind cut 2.
+- Approved plan hash `70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86` is the only hash approved so far.
+
+### proof
+- [x] Fail closed at cut 2 rather than relaxing Whisper/vision/retry gates.
+- [x] Root cause identified from disk evidence (guide length vs declared duration).
+- [ ] Operator decision required before any further render: approve a corrected plan hash (gateway default 56/24 s per turn, matching the LF003-accepted policy) for one governed recovery execution, or authorize re-seeding the current 107-frame plan.
+- [ ] Corrected render passes every declared gate and yields the reviewable artifact.
+
 ## Fail-Closed LF004 Boundary Evidence
 
 The approved execution did not proceed to cuts 3/4. Cut 2 exhausted the accepted three-attempt QC retry policy and is durable-queue dead-lettered:
