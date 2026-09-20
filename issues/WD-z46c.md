@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:12:30Z
-content_hash: "sha256:fc7b3c6a90564dad29b7b327875e4d85bfa8d3d5a6ea25916bdac437bc13fd38"
+content_hash: "sha256:d819a656ed86c0677b69d4c09a159f90b7ac378867f2b7f606cf931d1c56fceb"
 blocks: [WD-42no]
 assignee: dev-WD-z46c
 follows: [WD-rj6e, WD-rb1f]
@@ -93,6 +93,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-20.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
