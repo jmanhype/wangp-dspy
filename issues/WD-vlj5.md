@@ -1,13 +1,14 @@
 ---
 id: WD-vlj5
 title: "Ignore Paivot and Obsidian runtime state in wangp-dspy"
-status: open
+status: in_progress
 priority: 2
 type: task
 created_at: 2026-09-20T02:04:36Z
 created_by: speed
-updated_at: 2026-09-20T02:04:36Z
-content_hash: "sha256:776318866b209e8dc5399c39f0461d41849c62b65e0aca961c78f0789e43c6a7"
+updated_at: 2026-09-20T02:04:55Z
+content_hash: "sha256:24a073e97df1fa53d59096580ad3f9c74c369a8530c226c6c06c04c57ca0f748"
+assignee: dev-WD-vlj5
 ---
 
 ## Description
@@ -108,7 +109,8 @@ status: new
 
 
 ## History
-
+- 2026-09-20T02:04:55Z status: open -> in_progress
+- 2026-09-20T02:04:55Z claimed by dev-WD-vlj5
 
 ## Links
 
