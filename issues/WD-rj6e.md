@@ -4,11 +4,11 @@ title: "E2e: execute exactly one approved LF004 governed render"
 status: closed
 priority: 0
 type: task
-labels: [e2e, capstone]
+labels: [e2e]
 parent: WD-h73w
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-20T19:48:19Z
+updated_at: 2026-09-20T19:48:28Z
 content_hash: "sha256:3bfaca9cbf78088ac54a7bddeac7fc0bdfe16df071a3e26c0280e35611193518"
 was_blocked_by: [WD-rb1f]
 closed_at: 2026-09-20T19:48:19Z
