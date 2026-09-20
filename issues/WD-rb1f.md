@@ -9,7 +9,8 @@ parent: WD-h73w
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
 updated_at: 2026-09-20T19:46:39Z
-content_hash: "sha256:49c3af6f8890c698f516174d00c1378bd0b57eab5a83f3ae158b49353460f568"
+content_hash: "sha256:c83a482a913f184d81adda5bae8a1e5a496ecb73e4501b1531d6b6c72cb70883"
+blocks: [WD-rj6e]
 ---
 
 ## Description
@@ -84,9 +85,10 @@ status: new
 
 
 ## History
-
+- 2026-09-20T19:46:39Z dep_added: blocks WD-rj6e
 
 ## Links
 - Parent: [[WD-h73w]]
+- Blocks: [[WD-rj6e]]
 
 ## Comments
