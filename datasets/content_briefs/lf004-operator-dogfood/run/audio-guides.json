@@ -1,0 +1,14 @@
+{
+  "schema_version": "wangp-dspy.audio-guides/v1",
+  "plates": {
+    "anchor": {"source": "assets/acceptance/lf003-v3/anchor.png", "staged": "anchor.png", "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210"},
+    "Tess": {"source": "assets/acceptance/lf003-v3/face_tess.png", "staged": "Tess.png", "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6"},
+    "Rho": {"source": "assets/acceptance/lf003-v3/face_rho.png", "staged": "Rho.png", "sha256": "87e24404c5fa0359aa3d1fd56147cc7ee0ee99fd5e5a19a6c1926848fa2415a0"}
+  },
+  "turns": [
+    {"speaker": "Tess", "text": "Tomorrow's sunrise is only a projection.", "audio": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav", "sha256": "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f", "provenance": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.wav.vibevoice.json", "report": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/report.json", "whisper_transcript": "Tomorrow's sunrise is only a project.", "whisper_passed": true},
+    {"speaker": "Rho", "text": "Then give me a real horizon.", "audio": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav", "sha256": "d7607d276a371132c148cb39552796db27325e4b2f022d9ee3ba02bb295a5322", "provenance": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.wav.vibevoice.json", "report": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/report.json", "whisper_transcript": "can give me a real horizon.", "whisper_passed": true},
+    {"speaker": "Tess", "text": "The projector died at midnight.", "audio": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav", "sha256": "f660d9564d073056110f1bc210c79c6ed83c4773c6e02743e688c11607cecfe7", "provenance": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.wav.vibevoice.json", "report": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json", "whisper_transcript": "The projector died at midnight.", "whisper_passed": true},
+    {"speaker": "Rho", "text": "Then we will watch the stars.", "audio": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav", "sha256": "c001101d6dfc49cd3b59b358192bcc37ed93c4084ccb89e52306488afb1794c2", "provenance": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.wav.vibevoice.json", "report": "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/vibevoice-report.json", "whisper_transcript": "then we will watch the star.", "whisper_passed": true}
+  ]
+}
