@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:47:21Z
-content_hash: "sha256:9aa579dd07f5ede65222bc9f6b7e3ae45a692dfbb1fdfd9155c573d1646704e8"
+updated_at: 2026-09-20T23:37:24Z
+content_hash: "sha256:0fe57be250efad7e9ef9c3e85057b35153e32d7e9c769abc3c88d984d263a686"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c]
 assignee: dev-WD-42no
@@ -93,6 +93,29 @@ status: new
 
 
 ## Notes
+## Fail-Closed LF004 Boundary Evidence
+
+The approved execution did not proceed to cuts 3/4. Cut 2 exhausted the accepted three-attempt QC retry policy and is durable-queue dead-lettered:
+
+- Seed 904 raw SHA-256 `7351334145399bd4b26454760e97869da412e3015d441ea31516365c4ad3b397`: post-Whisper score 0.167; transcript included hallucinated preceding dialogue.
+- Seed 905 raw SHA-256 `93075b7b7633289b2f956fb23d4fe40061650c140aff9f6af2195daa6b7d65ff`: post-Whisper score 0.167; intended line repeated.
+- Seed 906 raw SHA-256 `cb1293c6e987f6a5224b3649c27392b9f75cbec769b4a1ed1ad1f944c64e71de`: Whisper pre/post passed (post score 1.0), but identity/action vision rejected ghosting/double-exposure artifacts (`action_match=0.1`, `speaker_attribution=0.1`).
+- Queue states: cut 1 `done`; cut 2 `dead_letter` after 3 `qc_gate` failures; cuts 3/4 remain `pending` behind cut 2.
+- Contact sheets and hashes: `datasets/runs/provenance/lf004-operator-dogfood-20260920/cut2-deadletter-review/`.
+- Independent seed-905 visual re-judge passed identity/action but observed the speaker mouth closed; it is not a substitute because post-Whisper and AV gates remain failed.
+
+No gate was relaxed and no fourth render was started. Continuing with seed 907 would exceed the current approved retry policy and needs a new explicit operator-approved recovery story.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Durable queue and attempt failure records above; dead-letter review artifacts on disk.
+
+### proof
+- [x] Fail closed at cut 2 rather than relaxing Whisper/vision/retry gates.
+- [ ] Operator decision required before any additional render or recovery story.
+
 ## Operator Render Approval
 
 Approved UTC: 2026-09-20T20:47:21Z
