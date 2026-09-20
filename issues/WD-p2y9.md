@@ -8,7 +8,7 @@ parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
 updated_at: 2026-09-20T17:46:34Z
-content_hash: "sha256:1e65dbcd7b55ae7f53a950e92d64120104a00f6b3f0d1d512046da5d02125f1e"
+content_hash: "sha256:559896dc3c1dbe30bb44f44cb9e5f79f3ec66320e23bf224f1b93a6771fc0d4a"
 labels: [e2e, capstone, walking-skeleton, accepted]
 was_blocked_by: [WD-073e]
 assignee: dev-WD-p2y9
@@ -83,6 +83,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-20.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-20]: Independently reviewed the five-file/591-line diff and reran focused gateway tests, gateway plus continuation CLI tests, the full suite, py_compile, scoped verifier, CLI help, and whitespace/static checks. The gateway invokes the existing dry-run path, emits repository-attributed canonical JSON, and creates no queue database or GPU/host work.
 
