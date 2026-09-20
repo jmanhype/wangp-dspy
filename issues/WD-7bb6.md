@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-20T02:00:53Z
 created_by: speed
-updated_at: 2026-09-20T02:01:04Z
-content_hash: "sha256:8aa13b8e448ee31f777da63381b0997f324887bca7bb23734b8a9f45fc2e2a8c"
+updated_at: 2026-09-20T02:02:42Z
+content_hash: "sha256:ad216b050fff17ae66193e2cfc5fde4f0e7c6c852dc961c5de665abe34cc6527"
 assignee: dev-WD-7bb6
 ---
 
@@ -89,6 +89,54 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-7bb6
+grep -n '832x480' s4/S4_DELIVERY.md
+ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 s4/films/satans-mom/final/satans_mom.mp4
+shasum -a 256 s4/films/satans-mom/final/satans_mom.mp4
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py
+git diff --check
+git diff --cached --check
+```
+
+### CI/Test Results
+
+```text
+documented resolution: 832x480
+ffprobe resolution: 832,480
+final SHA-256: f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac
+pipeline contract: 11 passed
+diff checks: PASS
+```
+
+Summary: the one-line S4 delivery metadata now matches the preserved final artifact. The film was not modified.
+
+Commit SHA: 2aa264d87bca13e725dbb3d7e81e10aa70a2841d
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Document says 832x480 | PASS | s4/S4_DELIVERY.md line 9 |
+| 2. ffprobe matches | PASS | 832,480 |
+| 3. Film hash unchanged | PASS | f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac |
+| 4. Pipeline contract | PASS | 11/11 |
+| 5. Diff hygiene | PASS | exit 0 |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA: `2aa264d87bca13e725dbb3d7e81e10aa70a2841d`.
+- ffprobe: `832,480`.
+- Final film SHA unchanged.
+
+### proof
+- [x] AC #1 through #5 verified.
 
 
 ## History
