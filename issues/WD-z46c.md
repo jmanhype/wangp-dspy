@@ -8,11 +8,11 @@ labels: [e2e, writing-skeleton]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:12:29Z
-content_hash: "sha256:4d01d1cd8ba1512ad6db9b4c67c850f8c5003cfa72dbf363bf7c8461f7af0f51"
+updated_at: 2026-09-20T20:12:30Z
+content_hash: "sha256:fc7b3c6a90564dad29b7b327875e4d85bfa8d3d5a6ea25916bdac437bc13fd38"
 blocks: [WD-42no]
 assignee: dev-WD-z46c
-follows: [WD-rj6e]
+follows: [WD-rj6e, WD-rb1f]
 ---
 
 ## Description
@@ -153,10 +153,12 @@ status: delivered
 - 2026-09-20T19:51:05Z status: open -> in_progress
 - 2026-09-20T19:51:05Z auto-follows: linked to predecessor WD-rj6e
 - 2026-09-20T19:51:05Z claimed by dev-WD-z46c
+- 2026-09-20T20:12:30Z status: in_progress -> in_progress
+- 2026-09-20T20:12:30Z auto-follows: linked to predecessor WD-rb1f
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocks: [[WD-42no]]
-- Follows: [[WD-rj6e]]
+- Follows: [[WD-rj6e]], [[WD-rb1f]]
 
 ## Comments
