@@ -1,13 +1,14 @@
 ---
 id: WD-yiw8
 title: "Remove accidental Talker-Reasoner artifacts from wangp-dspy"
-status: open
+status: in_progress
 priority: 1
 type: task
 created_at: 2026-09-20T01:58:29Z
 created_by: speed
-updated_at: 2026-09-20T01:58:29Z
-content_hash: "sha256:3a717048bf37d9ac1be29de0fd05ddf8f3c44f0385c115a036ac2a0917ace27b"
+updated_at: 2026-09-20T01:58:45Z
+content_hash: "sha256:402ce579b7d2d27eca2e1d7bce8d683c807e25ed83ec0d7d1b947a3e96af84c0"
+assignee: dev-WD-yiw8
 ---
 
 ## Description
@@ -91,7 +92,8 @@ status: new
 
 
 ## History
-
+- 2026-09-20T01:58:45Z status: open -> in_progress
+- 2026-09-20T01:58:45Z claimed by dev-WD-yiw8
 
 ## Links
 
