@@ -4,11 +4,11 @@ title: "E2e: prepare real LF004 no-GPU content-brief plan"
 status: open
 priority: 0
 type: task
-labels: [e2e, writing-skeleton, accepted]
+labels: [e2e, writing-skeleton]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:16:34Z
+updated_at: 2026-09-20T20:16:35Z
 content_hash: "sha256:6a350ba9dd6d11b63e0a9e0572a2ec4e39ed1ef6ca2aeeb346b86b07713fe014"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
