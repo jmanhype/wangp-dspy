@@ -6,7 +6,7 @@ gag film through the full governed pipeline, plus its evidence chain.
 ## The movie
 
 `films/satans-mom/final/satans_mom.mp4` — 34.78s, 6 dialogue shots across 3
-master-plate compositions, 480x832 @ 24fps. sha256 in `runs/final_film.json`.
+master-plate compositions, 832x480 @ 24fps. sha256 in `runs/final_film.json`.
 
 ## Pipeline (all six gates)
 
