@@ -6,8 +6,8 @@ priority: 1
 type: task
 created_at: 2026-09-20T02:09:52Z
 created_by: speed
-updated_at: 2026-09-20T02:10:11Z
-content_hash: "sha256:5a300be763151174673b616b3c6e0040af15fdf44e7a3c9cc2ed37bfef30d3c7"
+updated_at: 2026-09-20T02:11:57Z
+content_hash: "sha256:91eb632182abae4070506ffd174e243774e470560713dd32e5ef9d79cfca8e90"
 assignee: dev-WD-4wio
 ---
 
@@ -79,6 +79,51 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-4wio
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_lf003_fixture_manifest.py
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q --junitxml=/tmp/wd-4wio-full.xml
+git diff --check
+git diff --cached --check
+```
+
+### CI/Test Results
+
+```text
+targeted LF003 fixture tests: 3 passed
+full suite JUnit: tests=1526 errors=0 failures=0 skipped=1 time=42.271
+git diff checks: PASS
+```
+
+Summary: the fixture test retains strict source-root removal for a fresh worktree but correctly permits the canonical same-root no-op staging case while still requiring the current repository root in staged clips.
+
+Commit SHA: b9eca7571a44e02f6b7e30cd50f2467bd7a740fe
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Fresh-root rebase remains asserted | PASS | Conditional assertions execute when roots differ |
+| 2. Same-root no-op accepted | PASS | Canonical-root case no longer demands impossible absence |
+| 3. Current root still required | PASS | `assert str(ROOT) in clips` retained |
+| 4. Targeted fixture test | PASS | 3/3 |
+| 5. Full suite | PASS | 1,526 tests, 0 failures |
+| 6. Diff hygiene | PASS | exit 0 |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA: `b9eca7571a44e02f6b7e30cd50f2467bd7a740fe`.
+- Targeted tests: 3 passed.
+- Full suite: 1,526 passed, 0 failed, 1 skipped.
+
+### proof
+- [x] AC #1 through #6 verified.
 
 
 ## History
