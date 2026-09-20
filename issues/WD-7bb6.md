@@ -1,15 +1,17 @@
 ---
 id: WD-7bb6
 title: "Correct Satan's Mom final-film resolution metadata"
-status: in_progress
+status: closed
 priority: 2
 type: task
 created_at: 2026-09-20T02:00:53Z
 created_by: speed
 updated_at: 2026-09-20T02:02:42Z
-content_hash: "sha256:dfb1f70ea6336e3d37342a9960dc44040080b5a55d98831853c7c7a4489a16ed"
+content_hash: "sha256:359380dd3e331eb55977277ce1d65862ba3ccf70d74d0b32033fb7ee6ec6e9da"
 assignee: dev-WD-7bb6
 labels: [delivered]
+closed_at: 2026-09-20T02:02:42Z
+close_reason: "Accepted: documentation now matches independent ffprobe dimensions 832x480; final film hash remains exactly f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac; exact pipeline test passes 11/11; diff checks pass."
 ---
 
 ## Description
@@ -156,6 +158,7 @@ status: delivered
 - 2026-09-20T02:01:04Z status: open -> in_progress
 - 2026-09-20T02:01:04Z claimed by dev-WD-7bb6
 - 2026-09-20T02:02:42Z status: in_progress -> in_progress
+- 2026-09-20T02:02:42Z status: in_progress -> closed
 
 ## Links
 
