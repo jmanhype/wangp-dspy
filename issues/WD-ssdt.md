@@ -8,12 +8,14 @@ labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-20T23:54:34Z
-content_hash: "sha256:743928939ff9e29623df358fea382ce4b3dad6d2f6685bd760dfb29c20ed529e"
+updated_at: 2026-09-20T23:56:12Z
+content_hash: "sha256:1bb86b19b4df4e2ad8e3880c909b5ef5e8e5956136ae879fb2103737f1f17b3e"
 blocks: [WD-42no]
 ---
 
 ## Description
+REPLACE_TEST
+
 ## USER INTENT
 The operator wants the no-GPU Content Brief Gateway to refuse physically impossible plans before any render authorization or GPU work, while preserving every existing valid no-GPU plan and every existing QC, AV, and retry gate.
 
