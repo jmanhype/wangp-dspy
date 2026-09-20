@@ -22,6 +22,12 @@
       "sha256": "98ab1d26c67a7f2ca75656805f75f2dc7693143086b6fc06e1bd4e6d25e184b5"
     },
     {
+      "key": "bundle-rhostrong",
+      "path": "assets/acceptance/lf003-v3/staging-two-cut-vibevoice-rhostrong-20260918.json",
+      "size_bytes": 3211,
+      "sha256": "df9012a3dcd2819d73ccacc9f7dbf9754c4a298a58869079424b46c611bdb361"
+    },
+    {
       "key": "plate-anchor",
       "path": "assets/acceptance/lf003-v3/anchor.png",
       "size_bytes": 673909,
@@ -130,6 +136,12 @@
       "sha256": "3befaf0e9a4728737c90f0781054149f048169a199b7203b63bef76ee7e40297"
     },
     {
+      "key": "audio-rho-strong",
+      "path": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "size_bytes": 112078,
+      "sha256": "d7607d276a371132c148cb39552796db27325e4b2f022d9ee3ba02bb295a5322"
+    },
+    {
       "key": "report-base",
       "path": "datasets/runs/provenance/lf003-vibevoice-audition-20260917/report.json",
       "size_bytes": 3879,
@@ -140,6 +152,12 @@
       "path": "datasets/runs/provenance/lf003-vibevoice-rho-strict-20260917/report.json",
       "size_bytes": 2206,
       "sha256": "117d91492b6556f0dc157bf93e90b7cf816cc7b360e5dec2a8c48acc57b2d9be"
+    },
+    {
+      "key": "report-rho-strong",
+      "path": "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/report.json",
+      "size_bytes": 3069,
+      "sha256": "e79045ed37b5e08cf2c0a0a65935581bf58b53f139c322759ca2d6b734c14c53"
     }
   ]
 }

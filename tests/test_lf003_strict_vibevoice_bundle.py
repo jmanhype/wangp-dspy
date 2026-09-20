@@ -20,17 +20,17 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def test_strict_bundle_audio_meets_production_whisper_bar():
+def test_strict_bundle_audio_meets_production_whisper_bar(lf003_fixtures):
     bundle = _load_bundle(BUNDLE_PATH)
     entries = bundle["vibevoice_provenance"]["reports"]
     assert [entry["speaker"] for entry in entries] == ["Tess", "Rho"]
 
-    for entry in entries:
+    for entry, relative_audio in zip(entries, bundle["audio_paths"]):
         report = json.loads((ROOT / entry["report"]).read_text())
         turn = next(
             item for item in report["turns"]
             if item["speaker"] == entry["speaker"])
-        audio = ROOT / turn["prepared_path"]
+        audio = ROOT / relative_audio
         assert _sha256(audio) == entry["prepared_sha256"]
         assert _sha256(audio) == turn["prepared_sha256"]
         assert turn["whisper_gate"]["passed"] is True

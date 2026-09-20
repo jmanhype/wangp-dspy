@@ -12,13 +12,13 @@ BUNDLE_PATH = ROOT / (
     "staging-two-cut-vibevoice-rhostrong-20260918.json")
 
 
-def test_rhostrong_bundle_uses_strong_fresh_vibevoice_guide():
+def test_rhostrong_bundle_uses_strong_fresh_vibevoice_guide(lf003_fixtures):
     bundle = _load_bundle(BUNDLE_PATH)
     assert "completed_prefix" not in bundle
     rho = bundle["vibevoice_provenance"]["reports"][1]
     report = json.loads((ROOT / rho["report"]).read_text())
     turn = report["turns"][0]
-    audio = ROOT / turn["prepared_path"]
+    audio = ROOT / bundle["audio_paths"][1]
     digest = hashlib.sha256(audio.read_bytes()).hexdigest()
 
     assert rho["generation_seed"] == 44
