@@ -9,7 +9,7 @@ created_by: speed
 updated_at: 2026-09-20T02:11:58Z
 content_hash: "sha256:66312f80f90dd28a3b70c0be2a0db92ceb68ae00c76e4824bf66a4eba07ce9a2"
 assignee: dev-WD-4wio
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-20T02:11:58Z
 close_reason: "Accepted: targeted fixture suite passes 3/3 and full suite passes 1,526 tests with 0 failures/1 skip in the story worktree. The repair preserves fresh-root rebase assertions and permits only the valid canonical same-root no-op case; diff checks pass."
 ---
