@@ -7,8 +7,8 @@ type: task
 parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
-updated_at: 2026-09-20T17:20:19Z
-content_hash: "sha256:f51a03bf61b09feefc2ca9737ce8e3f27996f66caa180f06a3b333b31cacde7e"
+updated_at: 2026-09-20T17:46:15Z
+content_hash: "sha256:37560e7ac733a3af829281b429302c8f87a386431953aa49ad3381066c94d961"
 labels: [e2e, capstone, walking-skeleton]
 was_blocked_by: [WD-073e]
 assignee: dev-WD-p2y9
@@ -81,7 +81,73 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-p2y9
+uv run --frozen --extra dev pytest -q tests/test_content_brief.py
+uv run --frozen --extra dev pytest -q tests/test_content_brief.py tests/test_run_film_cli.py
+uv run --frozen --extra dev pytest -q
+pvg verify predict/content_brief.py scripts/run_content_brief.py tests/test_content_brief.py --format=text
+python3 -m py_compile predict/content_brief.py scripts/run_content_brief.py tests/test_content_brief.py
+uv run --frozen --extra dev python scripts/run_content_brief.py --help
+git diff --check
+git diff --cached --check
+```
+
+### CI/Test Results
+
+```text
+tests/test_content_brief.py: 11 passed, 0 failed, 0 skipped
+content brief + continuation CLI: 19 passed, 0 failed, 0 skipped
+full suite: 1,546 collected tests, 0 errors, 0 failures, 1 existing skip
+pvg verify: PASSED, 3 files scanned, 0 issues
+py_compile: PASS
+CLI help: PASS
+whitespace checks: PASS
+story diff: 5 files, 591 insertions
+```
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Versioned typed brief | PASS | `wangp-dspy.content-brief/v1` validates title, premise, cast, dialogue, durations, and audio shape. |
+| 2. Speakers resolve exactly once | PASS | Roster uniqueness and speaker membership checks. |
+| 3. Character plates resolve | PASS | Exactly one `Character.*` file is required per cast member. |
+| 4. Audio paths match and exist | PASS | Relative-path resolution, count validation, and file existence tests. |
+| 5. Duration policy validated | PASS | Deterministic 56-frame default or one positive finite value per turn. |
+| 6. CLI invokes existing dry-run path | PASS | `run_content_brief.py` calls `run_film(..., dry_run=True)`; integration test emits four clips. |
+| 7. Plan provenance/summary | PASS | Output records brief hash, repository identity, inputs, roster, dialogue, clips, duration, and explicit no-GPU/no-queue flags. |
+| 8. Invalid briefs fail before side effects | PASS | Missing plate/audio tests assert run directory is not created. |
+| 9. Existing run_film unchanged | PASS | Existing suite and new gateway tests pass; no run_film source changed in this story. |
+
+Summary: added the first operator-facing typed content-brief gateway, including canonical no-GPU plan output, deterministic duration defaults, plate/audio validation, and repository provenance.
+
+Commit SHA: d61e4ac0329d69c34e689bdf6fa4b366f7257317
+
+## nd_contract
+status: delivered
+
+### evidence
+- Focused gateway suite: 11/11 passed.
+- Gateway + CLI suite: 19/19 passed.
+- Full suite: 0 errors/failures, 1 existing skip.
+- Scoped verifier: 3 files, 0 issues.
+- Story commit: `d61e4ac0329d69c34e689bdf6fa4b366f7257317`.
+
+### proof
+- [x] AC #1: Versioned brief schema validated.
+- [x] AC #2: Cast and speaker resolution validated.
+- [x] AC #3: Plates resolved uniquely.
+- [x] AC #4: Audio paths validated.
+- [x] AC #5: Duration policy validated.
+- [x] AC #6: Existing run_film dry-run path invoked without GPU/host work.
+- [x] AC #7: Canonical provenance-bearing plan emitted.
+- [x] AC #8: Invalid inputs fail before output side effects.
+- [x] AC #9: Existing behavior preserved.
 
 ## History
 - 2026-09-20T17:09:02Z dep_added: blocked_by WD-073e
