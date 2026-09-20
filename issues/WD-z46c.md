@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:14:46Z
-content_hash: "sha256:3f0ee3049c55348571af29f3bc2fa505ee692c9f99932de8e5b587e06adc20e9"
+content_hash: "sha256:5c793e73921efefb936259df8d0a5342e07f344752fd74fd210a456f881802a1"
 assignee: dev-WD-z46c
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
@@ -94,6 +94,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-20.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-20]: Independently reviewed the 10-file/149-line LF004 packet, reran the exact gateway command, stable canonical verifier, targeted gateway tests, scoped verifier, file-count/no-jobs checks, and whitespace checks. The packet remains operator_review_pending/no_render_started. PR 147 required CI passed with CLEAN merge state.
 
