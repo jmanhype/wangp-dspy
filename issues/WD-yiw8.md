@@ -9,7 +9,7 @@ created_by: speed
 updated_at: 2026-09-20T01:59:54Z
 content_hash: "sha256:4f8f5a240fc5ff51502e1efd1fc57378a39f537f9908d293950ef2a5429ef6cd"
 assignee: dev-WD-yiw8
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-20T01:59:54Z
 close_reason: "Accepted: current main no longer contains the two accidental Talker-Reasoner documents; tracked-tree scan has zero matches; exact pipeline test passes 11/11; diff checks pass; and history was preserved by an ordinary deletion commit."
 ---
