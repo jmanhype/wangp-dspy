@@ -7,8 +7,8 @@ type: task
 parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
-updated_at: 2026-09-20T17:46:15Z
-content_hash: "sha256:99b224cad541659fc33a2305583716588f673247a77318ef8e3715d06d6a9146"
+updated_at: 2026-09-20T17:46:34Z
+content_hash: "sha256:b256eba30031e1153fb65e1b34f584c3c4dd0c0b77786bef137aac5fa52e583d"
 labels: [e2e, capstone, walking-skeleton, delivered]
 was_blocked_by: [WD-073e]
 assignee: dev-WD-p2y9
@@ -81,7 +81,21 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-20]: Independently reviewed the five-file/591-line diff and reran focused gateway tests, gateway plus continuation CLI tests, the full suite, py_compile, scoped verifier, CLI help, and whitespace/static checks. The gateway invokes the existing dry-run path, emits repository-attributed canonical JSON, and creates no queue database or GPU/host work.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Gateway suite: 11/11 passed.
+- Gateway + CLI suite: 19/19 passed.
+- Full suite: 0 errors/failures, 1 existing skip.
+- Scoped verifier: 3 files, 0 issues.
+- Story commit: d61e4ac0329d69c34e689bdf6fa4b366f7257317.
+
+### proof
+- [x] AC-by-AC independently verified from implementation, tests, CLI output, and Git state.
 
 ## nd_contract
 status: delivered
