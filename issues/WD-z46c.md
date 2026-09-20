@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:16:35Z
-content_hash: "sha256:6a350ba9dd6d11b63e0a9e0572a2ec4e39ed1ef6ca2aeeb346b86b07713fe014"
+content_hash: "sha256:35c523853d884f405192a0f5708a2329590608c5ab68a41b6ff2da851dd7632a"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -190,3 +190,6 @@ status: delivered
 - Follows: [[WD-rj6e]], [[WD-rb1f]]
 
 ## Comments
+
+### 2026-09-20T20:16:35Z speed
+EXPECTED: checkout-independent canonical replay and render-compatible duration contract. DELIVERED: verifier only stripped the current ROOT, and four 56-frame clips conflict with pinned Wan2GP Ref2VA 107-frame minimum. FIX: structurally normalize all generation-root absolute paths, regenerate LF004 with 107-frame/4.458333333333333-second durations, update canonical/review evidence, and verify from a differently located checkout.
