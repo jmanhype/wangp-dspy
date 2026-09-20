@@ -9,8 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:16:34Z
-content_hash: "sha256:a0ddfd22ee6252ca2c1f91d19f54cfa36873a1539342364be01ff056cdafe37e"
-assignee: dev-WD-z46c
+content_hash: "sha256:6a350ba9dd6d11b63e0a9e0572a2ec4e39ed1ef6ca2aeeb346b86b07713fe014"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -184,6 +183,7 @@ status: delivered
 - 2026-09-20T20:14:45Z status: in_progress -> closed
 - 2026-09-20T20:14:46Z dep_removed: no_longer_blocks WD-42no
 - 2026-09-20T20:16:34Z status: closed -> open
+- 2026-09-20T20:16:34Z released by speed
 
 ## Links
 - Parent: [[WD-h73w]]
