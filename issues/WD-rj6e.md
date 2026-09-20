@@ -1,16 +1,18 @@
 ---
 id: WD-rj6e
 title: "E2e: execute exactly one approved LF004 governed render"
-status: open
+status: closed
 priority: 0
 type: task
 labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-20T19:47:53Z
-content_hash: "sha256:89e89feeb071bfd57822d7621edf9738a24237d67d0e67f45d618a2d7b966780"
+updated_at: 2026-09-20T19:48:19Z
+content_hash: "sha256:3bfaca9cbf78088ac54a7bddeac7fc0bdfe16df071a3e26c0280e35611193518"
 was_blocked_by: [WD-rb1f]
+closed_at: 2026-09-20T19:48:19Z
+close_reason: "Superseded: initial story body duplicated boundary sections during repair; replacement carries the corrected executable contract."
 ---
 
 ## Description
@@ -225,6 +227,7 @@ status: new
 ## History
 - 2026-09-20T19:46:39Z dep_added: blocked_by WD-rb1f
 - 2026-09-20T19:48:18Z dep_removed: was_blocked_by WD-rb1f
+- 2026-09-20T19:48:19Z status: open -> closed
 
 ## Links
 - Parent: [[WD-h73w]]
