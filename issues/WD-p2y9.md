@@ -8,8 +8,9 @@ parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
 updated_at: 2026-09-20T17:09:01Z
-content_hash: "sha256:7caa1e68eaa302a120746dc7e856fe7ea4658025f9354fa66b2034b17ac79a6c"
+content_hash: "sha256:b290e95e6feea3b658a6434789808cc134bfbce14289c86ae04796212797a64a"
 labels: [e2e, capstone, walking-skeleton]
+blocked_by: [WD-073e]
 ---
 
 ## Description
@@ -81,9 +82,10 @@ status: new
 
 
 ## History
-
+- 2026-09-20T17:09:02Z dep_added: blocked_by WD-073e
 
 ## Links
 - Parent: [[WD-qeh4]]
+- Blocked by: [[WD-073e]]
 
 ## Comments
