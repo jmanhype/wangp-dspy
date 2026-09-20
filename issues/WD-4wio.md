@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-20T02:09:52Z
 created_by: speed
 updated_at: 2026-09-20T02:11:58Z
-content_hash: "sha256:66312f80f90dd28a3b70c0be2a0db92ceb68ae00c76e4824bf66a4eba07ce9a2"
+content_hash: "sha256:86ec94f6dd4ea9f00d351609cf38a2d61fdd5e8e2a15eda8e9abd5181ddc2cd3"
 assignee: dev-WD-4wio
 labels: [accepted]
 closed_at: 2026-09-20T02:11:58Z
@@ -82,6 +82,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-19.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
