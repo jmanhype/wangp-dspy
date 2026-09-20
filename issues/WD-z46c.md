@@ -8,8 +8,8 @@ labels: [e2e, writing-skeleton, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:20:03Z
-content_hash: "sha256:ba1983f65f83adf95f0724cd361be067e9126466268624e02974e266b8d79c1e"
+updated_at: 2026-09-20T20:23:10Z
+content_hash: "sha256:545f265b984bd7607582281c1f648f71563b76a33ad34853e31df26e1b58b25b"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -93,7 +93,8 @@ status: new
 
 
 ## Notes
-
+## PM Decision
+ACCEPTED [2026-09-20 after rework]: Independently reran exact gateway, canonical verifier, cross-checkout verification, targeted tests, scoped verifier, and whitespace checks. All four clips now match pinned Wan2GP's 107-frame minimum, and canonical replay is checkout-independent. PR 147 required CI passed and both review threads are resolved with concrete evidence.
 
 ## nd_contract
 status: delivered
