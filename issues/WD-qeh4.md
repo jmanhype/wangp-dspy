@@ -10,6 +10,7 @@ updated_at: 2026-09-20T17:49:22Z
 content_hash: "sha256:1ddd045408833aa00e6a4fc6546d9b90dcb73debd10fa8fb79019aca5c948cd0"
 closed_at: 2026-09-20T17:49:22Z
 close_reason: "All child stories accepted: WD-073e repaired the continuation CLI and WD-p2y9 delivered the operator content-brief gateway. Required PR CI passed for both merges."
+labels: [accepted]
 ---
 
 ## Description
