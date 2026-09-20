@@ -4,7 +4,7 @@ title: "E2e: prepare real LF004 no-GPU content-brief plan"
 status: in_progress
 priority: 0
 type: task
-labels: [e2e, writing-skeleton]
+labels: [e2e, writing-skeleton, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
