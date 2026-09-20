@@ -9,6 +9,7 @@ created_by: speed
 updated_at: 2026-09-20T02:02:42Z
 content_hash: "sha256:5b6183e16e92d12088945aa5096f741fc8369438a2e1f39a55ea8347c8681a55"
 assignee: dev-WD-7bb6
+labels: [delivered]
 ---
 
 ## Description
