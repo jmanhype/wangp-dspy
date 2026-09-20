@@ -8,7 +8,7 @@ parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
 updated_at: 2026-09-20T17:46:15Z
-content_hash: "sha256:0c16a3d47413a3e2063721cb206b89073d94735f5a08d7e7ef76223410ea5541"
+content_hash: "sha256:99b224cad541659fc33a2305583716588f673247a77318ef8e3715d06d6a9146"
 labels: [e2e, capstone, walking-skeleton, delivered]
 was_blocked_by: [WD-073e]
 assignee: dev-WD-p2y9
@@ -81,6 +81,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-20.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
