@@ -1,7 +1,7 @@
 ---
 id: WD-z46c
 title: "E2e: prepare real LF004 no-GPU content-brief plan"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [e2e, writing-skeleton, rejected]
@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:20:02Z
-content_hash: "sha256:44d9eac06d4dc8184edcf5214c32aee1ae3192613436cbf1f82c75376c00c804"
+content_hash: "sha256:c49531fda715e321fa4d9429c52b2669fbfcb7b25e2f12e1d032c9af6325f922"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -224,6 +224,7 @@ status: delivered
 - 2026-09-20T20:14:46Z dep_removed: no_longer_blocks WD-42no
 - 2026-09-20T20:16:34Z status: closed -> open
 - 2026-09-20T20:16:34Z released by speed
+- 2026-09-20T20:20:02Z status: open -> in_progress
 
 ## Links
 - Parent: [[WD-h73w]]
