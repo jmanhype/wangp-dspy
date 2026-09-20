@@ -35,6 +35,7 @@ def test_lf003_jobs_db_fixture_rebases_embedded_paths(tmp_path):
         clips = db.execute(
             "SELECT clips FROM jobs WHERE job_id=?", (staged["job_id"],)
         ).fetchone()[0]
-    assert fixtures.jobs_db_source_root + "/assets/" not in clips
-    assert fixtures.jobs_db_source_root + "/datasets/" not in clips
+    if fixtures.jobs_db_source_root != str(ROOT):
+        assert fixtures.jobs_db_source_root + "/assets/" not in clips
+        assert fixtures.jobs_db_source_root + "/datasets/" not in clips
     assert str(ROOT) in clips
