@@ -1,15 +1,15 @@
 ---
 id: WD-z46c
 title: "E2e: prepare real LF004 no-GPU content-brief plan"
-status: closed
+status: open
 priority: 0
 type: task
 labels: [e2e, writing-skeleton, accepted]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:14:46Z
-content_hash: "sha256:5c793e73921efefb936259df8d0a5342e07f344752fd74fd210a456f881802a1"
+updated_at: 2026-09-20T20:16:34Z
+content_hash: "sha256:a0ddfd22ee6252ca2c1f91d19f54cfa36873a1539342364be01ff056cdafe37e"
 assignee: dev-WD-z46c
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
@@ -183,6 +183,7 @@ status: delivered
 - 2026-09-20T20:12:30Z auto-follows: linked to predecessor WD-rb1f
 - 2026-09-20T20:14:45Z status: in_progress -> closed
 - 2026-09-20T20:14:46Z dep_removed: no_longer_blocks WD-42no
+- 2026-09-20T20:16:34Z status: closed -> open
 
 ## Links
 - Parent: [[WD-h73w]]
