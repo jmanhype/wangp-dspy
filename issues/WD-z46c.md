@@ -8,8 +8,8 @@ labels: [e2e, writing-skeleton, rejected]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T20:16:35Z
-content_hash: "sha256:32dfaa23ba418db6520bdd2ba81ba87a1a8206d651e3be96f3ad64591c96847c"
+updated_at: 2026-09-20T20:20:02Z
+content_hash: "sha256:44d9eac06d4dc8184edcf5214c32aee1ae3192613436cbf1f82c75376c00c804"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -93,7 +93,37 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+
+- Exact Content Brief Gateway replay - four clips, typed brief hash `sha256:4d8a0597ea40783f5928ed534fa002ca139595b321204f0d34be05f4ee5a9a59`.
+- `uv run --frozen --extra dev python datasets/content_briefs/lf004-operator-dogfood/run/verify.py --canonical-sha 70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86` - verified and replay identical.
+- Cross-checkout verification from a differently located detached Git worktree - same canonical identity.
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py` - 11 passed.
+- `pvg verify ...` - 0 issues.
+- `git diff --check` and `git diff --cached --check` - pass.
+
+### Rework Results
+
+- Canonicalization derives both verifying ROOT and recorded generation repo_root and normalizes paths beneath either root.
+- Every clip now uses 107 frames/audio frames, 4.458-second clip duration, and 17.832-second total duration, matching pinned Wan2GP MiniMax H3 Ref2VA minimum.
+- The review packet records the new stable canonical identity and explains mutable generation-time raw hashes.
+- No render, queue, GPU, model inference, SSH, or host work was started.
+
+Commit SHA: f554e09ddaa992bb6bc8f4916d44a364a7db44c8
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework command outputs above.
+- Commit `f554e09ddaa992bb6bc8f4916d44a364a7db44c8`.
+
+### proof
+- [x] Rework #1: Canonical replay is checkout-independent.
+- [x] Rework #2: Plan duration and frame contract match pinned Wan2GP.
+- [x] Rework #3: Review evidence and verifier use the new canonical identity.
 
 ## nd_contract
 status: rejected
