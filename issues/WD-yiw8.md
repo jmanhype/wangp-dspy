@@ -1,15 +1,17 @@
 ---
 id: WD-yiw8
 title: "Remove accidental Talker-Reasoner artifacts from wangp-dspy"
-status: in_progress
+status: closed
 priority: 1
 type: task
 created_at: 2026-09-20T01:58:29Z
 created_by: speed
 updated_at: 2026-09-20T01:59:54Z
-content_hash: "sha256:8f7970bdac98a59c64923dbfed52121c8f2183f1a94fa8326f56d576310267d5"
+content_hash: "sha256:4f8f5a240fc5ff51502e1efd1fc57378a39f537f9908d293950ef2a5429ef6cd"
 assignee: dev-WD-yiw8
 labels: [delivered]
+closed_at: 2026-09-20T01:59:54Z
+close_reason: "Accepted: current main no longer contains the two accidental Talker-Reasoner documents; tracked-tree scan has zero matches; exact pipeline test passes 11/11; diff checks pass; and history was preserved by an ordinary deletion commit."
 ---
 
 ## Description
@@ -162,6 +164,7 @@ status: delivered
 - 2026-09-20T01:58:45Z status: open -> in_progress
 - 2026-09-20T01:58:45Z claimed by dev-WD-yiw8
 - 2026-09-20T01:59:53Z status: in_progress -> in_progress
+- 2026-09-20T01:59:54Z status: in_progress -> closed
 
 ## Links
 
