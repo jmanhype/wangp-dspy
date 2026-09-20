@@ -1,16 +1,17 @@
 ---
 id: WD-rb1f
 title: "E2e: prepare real LF004 no-GPU content-brief plan"
-status: open
+status: closed
 priority: 0
 type: task
 labels: [e2e, writing-skeleton]
 parent: WD-h73w
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-20T19:47:53Z
-content_hash: "sha256:975df223e3e63f8c6a6d99c9be0cca542dbd9b6797e96256ff6323f77083af96"
-blocks: [WD-rj6e]
+updated_at: 2026-09-20T19:48:18Z
+content_hash: "sha256:47ff58d0f7ce9b8f9b807a7c721388ff1e8928953f1bdd696684d550aceacc5f"
+closed_at: 2026-09-20T19:48:18Z
+close_reason: "Superseded: initial story body duplicated boundary sections during repair; replacement carries the corrected executable contract."
 ---
 
 ## Description
@@ -226,9 +227,10 @@ status: new
 
 ## History
 - 2026-09-20T19:46:39Z dep_added: blocks WD-rj6e
+- 2026-09-20T19:48:18Z status: open -> closed
+- 2026-09-20T19:48:18Z dep_removed: no_longer_blocks WD-rj6e
 
 ## Links
 - Parent: [[WD-h73w]]
-- Blocks: [[WD-rj6e]]
 
 ## Comments
