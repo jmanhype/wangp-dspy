@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -121,6 +122,19 @@ def _plan_with_lm(rows, characters, *, lm=None):
 
 
 LM_CHOICES = ("none", "glm")
+
+
+def _positive_duration(value: str) -> float:
+    """argparse type for one positive, finite continuation duration."""
+    try:
+        duration = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            f"{value!r} must be a number") from exc
+    if not math.isfinite(duration) or duration <= 0:
+        raise argparse.ArgumentTypeError(
+            f"{value!r} must be a positive finite number of seconds")
+    return duration
 
 
 def build_lm(which: str):
@@ -327,7 +341,7 @@ def rj_next_admissible(queue):
     return next_admissible(queue)
 
 
-def main(argv=None):
+def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="run_film", description="Director entrypoint: script -> "
         "plan -> chain clips -> renders.")
@@ -344,7 +358,21 @@ def main(argv=None):
                    help="emit the job clips; no queue, no host calls")
     p.add_argument("--continuation", action="store_true",
                    help="strict six-cut Ref2VA continuation (requires turn wavs)")
+    p.add_argument("--audio", action="append", metavar="PATH",
+                   help="ordered turn WAV; repeat once per script row "
+                        "(required with --continuation)")
+    p.add_argument("--duration-s", action="append", type=_positive_duration,
+                   metavar="NUMBER",
+                   help="ordered turn duration in seconds; repeat once per "
+                        "turn (optional)")
+    return p
+
+
+def main(argv=None):
+    p = build_parser()
     args = p.parse_args(argv)
+    if args.continuation and not args.audio:
+        p.error("--continuation requires one --audio PATH per script row")
 
     characters = []
     for spec in args.characters:
@@ -355,10 +383,22 @@ def main(argv=None):
                 f"got {spec!r}")
         characters.append({"name": parts[0], "sn_tag": parts[1],
                            "description": parts[2]})
+    if args.continuation:
+        rows = parse_script(args.script)
+        if len(args.audio) != len(rows):
+            p.error(
+                "--audio needs one ordered PATH per script row: "
+                f"expected {len(rows)}, got {len(args.audio)}")
+        if args.duration_s is not None and len(args.duration_s) != len(rows):
+            p.error(
+                "--duration-s needs one value per script row: "
+                f"expected {len(rows)}, got {len(args.duration_s)}")
     clips = run_film(args.script, args.plates,
                      characters=characters,
                      whisper_map=args.whisper_map,
                      lm=build_lm(args.lm),
+                     durations=args.duration_s,
+                     audio_paths=args.audio,
                      db_path=None if args.dry_run else args.db,
                      dry_run=args.dry_run,
                      continuation_mode=args.continuation)
