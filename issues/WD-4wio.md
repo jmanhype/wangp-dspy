@@ -1,13 +1,14 @@
 ---
 id: WD-4wio
 title: "Make LF003 fixture portability test primary-checkout safe"
-status: open
+status: in_progress
 priority: 1
 type: task
 created_at: 2026-09-20T02:09:52Z
 created_by: speed
-updated_at: 2026-09-20T02:09:52Z
-content_hash: "sha256:c5c291277d3c98173c6482a2d238bb5026575f51b34f64d61d7bcbf04e93460a"
+updated_at: 2026-09-20T02:10:11Z
+content_hash: "sha256:5a300be763151174673b616b3c6e0040af15fdf44e7a3c9cc2ed37bfef30d3c7"
+assignee: dev-WD-4wio
 ---
 
 ## Description
@@ -81,7 +82,8 @@ status: new
 
 
 ## History
-
+- 2026-09-20T02:10:11Z status: open -> in_progress
+- 2026-09-20T02:10:11Z claimed by dev-WD-4wio
 
 ## Links
 
