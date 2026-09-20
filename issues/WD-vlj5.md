@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-20T02:04:36Z
 created_by: speed
-updated_at: 2026-09-20T02:04:55Z
-content_hash: "sha256:24a073e97df1fa53d59096580ad3f9c74c369a8530c226c6c06c04c57ca0f748"
+updated_at: 2026-09-20T02:06:54Z
+content_hash: "sha256:383d6b32658446a910469add3039a4bee11b0337991644491999d1d38ba59c07"
 assignee: dev-WD-vlj5
 ---
 
@@ -106,6 +106,63 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-vlj5
+git rm --cached .vault/.obsidian/workspace.json
+git check-ignore -v .vault/issues/issue.md
+git check-ignore -v .vault/.nd.yaml
+git check-ignore -v .vault/.piv-loop-state.json
+git check-ignore -v .vault/.piv-loop-snapshot.json
+git check-ignore -v .vault/.dispatcher-state.json
+git check-ignore -v .vault/.vlt.lock
+git check-ignore -v .vault/.guard/guard.json
+git check-ignore -v .vault/.obsidian/workspace.json
+git check-ignore -v .vault/knowledge/.settings.yaml
+git check-ignore -q .vault/knowledge/durable-note.md
+git status --short
+git diff --check
+git diff --cached --check
+```
+
+### CI/Test Results
+
+```text
+runtime ignore checks: all 9 paths matched expected rules in .vault/.gitignore
+durable knowledge example: not ignored / eligible for explicit tracking
+story worktree after commit: clean
+git diff checks: PASS
+```
+
+Summary: generated Paivot runtime exclusions already live in `.vault/.gitignore`; this story adds volatile Obsidian workspace and generated project-vault settings exclusions there, removes the workspace file from the tracked tree, and preserves explicit tracking eligibility for durable knowledge notes.
+
+Commit SHA: 3bbc31d3f8d7556b2096927947847961f77a9c4e
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Paivot runtime paths ignored | PASS | Existing `.vault/.gitignore` rules verified for all 7 generated paths |
+| 2. Volatile workspace ignored/untracked | PASS | File removed from index; ignore rule added |
+| 3. Generated settings ignored | PASS | `.vault/knowledge/.settings.yaml` rule added |
+| 4. Durable knowledge remains trackable | PASS | Example durable note not ignored |
+| 5. check-ignore proof | PASS | All expected rules reported |
+| 6. Story checkout clean | PASS | `git status --short` empty after commit |
+| 7. Diff hygiene | PASS | `git diff --check` exit 0 |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA: `3bbc31d3f8d7556b2096927947847961f77a9c4e`.
+- 9 runtime ignore checks passed.
+- Durable knowledge remains eligible.
+
+### proof
+- [x] AC #1 through #7 verified.
 
 
 ## History
