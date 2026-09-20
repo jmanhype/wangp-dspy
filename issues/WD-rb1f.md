@@ -1,0 +1,92 @@
+---
+id: WD-rb1f
+title: "E2e: prepare real LF004 no-GPU content-brief plan"
+status: open
+priority: 0
+type: task
+labels: [e2e, writing-skeleton]
+parent: WD-h73w
+created_at: 2026-09-20T19:46:39Z
+created_by: speed
+updated_at: 2026-09-20T19:46:39Z
+content_hash: "sha256:49c3af6f8890c698f516174d00c1378bd0b57eab5a83f3ae158b49353460f568"
+---
+
+## Description
+## USER INTENT
+A content operator wants a real brief, cast plates, and accepted voice tracks to pass through the no-GPU Content Brief Gateway and yield a reviewable run_film dry-run plan.
+
+## Context (Embedded)
+Use only repository-owned LF003 assets. Source plates are under `assets/acceptance/lf003-v3/`; accepted VibeVoice tracks are under `datasets/runs/provenance/lf003-*`. The four dialogue strings must exactly match the selected audio transcripts.
+
+## OUT OF SCOPE
+- GPU, model inference, SSH, queue submission, host preflight, or rendering.
+- Changing Content Brief Gateway behavior.
+- Creating a second content brief.
+- Operator render approval in this story.
+
+## DIFF BUDGET
+- ~6 files, under 150 changed LOC.
+
+## Boundary Map
+PRODUCES:
+- datasets/content_briefs/lf004-operator-dogfood/brief.json -> typed `wangp-dspy.content-brief/v1` input
+- datasets/content_briefs/lf004-operator-dogfood/plates/ -> exactly `anchor.*`, `Tess.*`, and `Rho.*`
+- datasets/content_briefs/lf004-operator-dogfood/plan.json -> canonical no-GPU content plan
+- datasets/content_briefs/lf004-operator-dogfood/run/ -> script, audio guides, and run ledger
+- datasets/content_briefs/lf004-operator-dogfood/review.md -> hashes, provenance, and explicit no-render status
+
+CONSUMES:
+- predict/content_brief.py -> load_content_brief(...) and build_run_film_inputs(...)
+- scripts/run_content_brief.py -> main(...)
+- assets/acceptance/lf003-v3/* -> repository-owned plates
+- datasets/runs/provenance/lf003-*/audio/*.prepared.wav -> accepted voice tracks
+
+## Acceptance Criteria
+1. Exactly one real brief uses `wangp-dspy.content-brief/v1`, two named characters, a non-placeholder premise, and four dialogue turns exactly matching selected repository-owned audio transcripts.
+2. The plates directory contains exactly one `anchor.*`, one `Tess.*`, and one `Rho.*`; source and staged SHA-256 hashes are recorded.
+3. Every audio path resolves inside the repository to an existing accepted WAV and each source SHA-256 is recorded.
+4. The gateway emits exactly four clips with `dry_run=true`, `gpu_work=false`, and `queue_submitted=false`.
+5. The run directory contains planning artifacts and a run ledger but no jobs database.
+6. The review packet records brief hash, canonical plan SHA-256, run-ledger SHA-256, input hashes, repository commit, and explicit operator-review-pending/no-render status.
+7. Re-running the gateway on the same inputs and repository state reproduces the canonical plan identity.
+8. Existing gateway tests remain green and no pipeline source behavior changes.
+
+## Testing Requirements
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py`
+- `uv run --frozen --extra dev python scripts/run_content_brief.py --brief datasets/content_briefs/lf004-operator-dogfood/brief.json --plates datasets/content_briefs/lf004-operator-dogfood/plates --output datasets/content_briefs/lf004-operator-dogfood/plan.json --run-dir datasets/content_briefs/lf004-operator-dogfood/run`
+- A recorded hash/provenance verification command covering every artifact in AC #6.
+- `git diff --check`
+
+## nd_contract
+status: new
+
+### evidence
+- Derived from the operator-selected one-real-render dogfood goal.
+
+### proof
+- [ ] AC #1: Real typed brief and dialogue/audio match.
+- [ ] AC #2: Plate set is exact and hash-recorded.
+- [ ] AC #3: Audio set is repository-owned and hash-recorded.
+- [ ] AC #4: Four-clip no-GPU/no-queue plan is emitted.
+- [ ] AC #5: Run side effects are limited to planning artifacts.
+- [ ] AC #6: Review packet has complete provenance and no-render status.
+- [ ] AC #7: Canonical replay is deterministic.
+- [ ] AC #8: Existing behavior remains green.
+
+## Acceptance Criteria
+
+
+## Design
+
+
+## Notes
+
+
+## History
+
+
+## Links
+- Parent: [[WD-h73w]]
+
+## Comments
