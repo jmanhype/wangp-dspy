@@ -1,15 +1,17 @@
 ---
 id: WD-vlj5
 title: "Ignore Paivot and Obsidian runtime state in wangp-dspy"
-status: in_progress
+status: closed
 priority: 2
 type: task
 created_at: 2026-09-20T02:04:36Z
 created_by: speed
-updated_at: 2026-09-20T02:06:54Z
-content_hash: "sha256:b790ccfeac0952c5c54852168b94936e758d3559c3aea28269652ab6dc88fb21"
+updated_at: 2026-09-20T02:06:55Z
+content_hash: "sha256:8828a0f0eae90f0590a5ca92edbda4573fdfea80cee2f9dc1740aee55e814158"
 assignee: dev-WD-vlj5
 labels: [delivered]
+closed_at: 2026-09-20T02:06:55Z
+close_reason: "Accepted: all generated Paivot runtime paths are ignored by the existing vault-local rules; volatile Obsidian workspace and generated settings are now ignored; workspace state is removed from the tracked tree; durable knowledge remains explicitly trackable; story checkout is clean and diff checks pass."
 ---
 
 ## Description
@@ -182,6 +184,7 @@ status: delivered
 - 2026-09-20T02:04:55Z status: open -> in_progress
 - 2026-09-20T02:04:55Z claimed by dev-WD-vlj5
 - 2026-09-20T02:06:54Z status: in_progress -> in_progress
+- 2026-09-20T02:06:55Z status: in_progress -> closed
 
 ## Links
 
