@@ -1,7 +1,7 @@
 ---
 id: WD-42no
 title: "E2e: execute exactly one approved LF004 governed render"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [e2e, capstone]
@@ -9,9 +9,11 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:47:21Z
-content_hash: "sha256:cb0f6b7953be3ca79274c2d4f963895c3d81771d508fe55eb9d4cb182f61c982"
+content_hash: "sha256:9aa579dd07f5ede65222bc9f6b7e3ae45a692dfbb1fdfd9155c573d1646704e8"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c]
+assignee: dev-WD-42no
+follows: [WD-z46c]
 ---
 
 ## Description
@@ -103,10 +105,14 @@ Authorization: exactly one governed LF004 production execution through the accep
 - 2026-09-20T19:48:47Z dep_added: blocked_by WD-rb1f
 - 2026-09-20T19:48:47Z dep_added: blocked_by WD-rj6e
 - 2026-09-20T20:14:46Z dep_removed: was_blocked_by WD-z46c
+- 2026-09-20T20:47:21Z status: open -> in_progress
+- 2026-09-20T20:47:21Z auto-follows: linked to predecessor WD-z46c
+- 2026-09-20T20:47:21Z claimed by dev-WD-42no
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocked by: [[WD-rb1f]], [[WD-rj6e]]
 - Was blocked by: [[WD-z46c]]
+- Follows: [[WD-z46c]]
 
 ## Comments
