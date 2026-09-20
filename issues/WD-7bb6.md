@@ -9,7 +9,7 @@ created_by: speed
 updated_at: 2026-09-20T02:02:43Z
 content_hash: "sha256:359380dd3e331eb55977277ce1d65862ba3ccf70d74d0b32033fb7ee6ec6e9da"
 assignee: dev-WD-7bb6
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-20T02:02:42Z
 close_reason: "Accepted: documentation now matches independent ffprobe dimensions 832x480; final film hash remains exactly f1efca116edf17adcdb4279faec14e2e27bc0557c3ac97855037c385bdd78aac; exact pipeline test passes 11/11; diff checks pass."
 ---
