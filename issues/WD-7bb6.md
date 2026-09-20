@@ -1,13 +1,14 @@
 ---
 id: WD-7bb6
 title: "Correct Satan's Mom final-film resolution metadata"
-status: open
+status: in_progress
 priority: 2
 type: task
 created_at: 2026-09-20T02:00:53Z
 created_by: speed
-updated_at: 2026-09-20T02:00:53Z
-content_hash: "sha256:454be5461c0989c5b45f0e807c30e831c37ef62730c31e11bf24a760435358dd"
+updated_at: 2026-09-20T02:01:04Z
+content_hash: "sha256:8aa13b8e448ee31f777da63381b0997f324887bca7bb23734b8a9f45fc2e2a8c"
+assignee: dev-WD-7bb6
 ---
 
 ## Description
@@ -91,7 +92,8 @@ status: new
 
 
 ## History
-
+- 2026-09-20T02:01:04Z status: open -> in_progress
+- 2026-09-20T02:01:04Z claimed by dev-WD-7bb6
 
 ## Links
 
