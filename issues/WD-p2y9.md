@@ -1,16 +1,18 @@
 ---
 id: WD-p2y9
 title: "E2e: turn operator brief into validated run_film plan"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-qeh4
 created_at: 2026-09-20T17:09:01Z
 created_by: speed
-updated_at: 2026-09-20T17:09:01Z
-content_hash: "sha256:558e87aa72410d628c0414d376c7acff47bb812af290f168d3539772904b1261"
+updated_at: 2026-09-20T17:20:19Z
+content_hash: "sha256:f51a03bf61b09feefc2ca9737ce8e3f27996f66caa180f06a3b333b31cacde7e"
 labels: [e2e, capstone, walking-skeleton]
 was_blocked_by: [WD-073e]
+assignee: dev-WD-p2y9
+follows: [WD-073e]
 ---
 
 ## Description
@@ -84,9 +86,13 @@ status: new
 ## History
 - 2026-09-20T17:09:02Z dep_added: blocked_by WD-073e
 - 2026-09-20T17:17:32Z dep_removed: was_blocked_by WD-073e
+- 2026-09-20T17:20:19Z status: open -> in_progress
+- 2026-09-20T17:20:19Z auto-follows: linked to predecessor WD-073e
+- 2026-09-20T17:20:19Z claimed by dev-WD-p2y9
 
 ## Links
 - Parent: [[WD-qeh4]]
 - Was blocked by: [[WD-073e]]
+- Follows: [[WD-073e]]
 
 ## Comments
