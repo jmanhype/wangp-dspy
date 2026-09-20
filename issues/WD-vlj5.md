@@ -9,7 +9,7 @@ created_by: speed
 updated_at: 2026-09-20T02:06:55Z
 content_hash: "sha256:8828a0f0eae90f0590a5ca92edbda4573fdfea80cee2f9dc1740aee55e814158"
 assignee: dev-WD-vlj5
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-20T02:06:55Z
 close_reason: "Accepted: all generated Paivot runtime paths are ignored by the existing vault-local rules; volatile Obsidian workspace and generated settings are now ignored; workspace state is removed from the tracked tree; durable knowledge remains explicitly trackable; story checkout is clean and diff checks pass."
 ---
