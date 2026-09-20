@@ -1,16 +1,18 @@
 ---
 id: WD-z46c
 title: "E2e: prepare real LF004 no-GPU content-brief plan"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [e2e, writing-skeleton]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T19:48:19Z
-content_hash: "sha256:dfbf10177566d6fa7df48f019985a27c5e521a68430ba4a059569799ce8ebaf0"
+updated_at: 2026-09-20T19:51:05Z
+content_hash: "sha256:14b08a640d1c187c42997bfe9049647057f4cd20028ed7c6243fbae20159685f"
 blocks: [WD-42no]
+assignee: dev-WD-z46c
+follows: [WD-rj6e]
 ---
 
 ## Description
@@ -95,9 +97,13 @@ status: new
 
 ## History
 - 2026-09-20T19:48:19Z dep_added: blocks WD-42no
+- 2026-09-20T19:51:05Z status: open -> in_progress
+- 2026-09-20T19:51:05Z auto-follows: linked to predecessor WD-rj6e
+- 2026-09-20T19:51:05Z claimed by dev-WD-z46c
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocks: [[WD-42no]]
+- Follows: [[WD-rj6e]]
 
 ## Comments
