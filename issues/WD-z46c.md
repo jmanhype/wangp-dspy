@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:20:03Z
-content_hash: "sha256:c49531fda715e321fa4d9429c52b2669fbfcb7b25e2f12e1d032c9af6325f922"
+content_hash: "sha256:ba1983f65f83adf95f0724cd361be067e9126466268624e02974e266b8d79c1e"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:14:45Z
 close_reason: "Accepted: real four-clip no-GPU LF004 plan has complete provenance and stable canonical replay; explicit operator render approval remains required."
@@ -93,6 +93,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-20.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
