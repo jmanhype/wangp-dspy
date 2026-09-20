@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-20T02:09:52Z
 created_by: speed
 updated_at: 2026-09-20T02:11:58Z
-content_hash: "sha256:6af266d47e1ee121eee4fa533c8421fec6cade43874456c81fd5137606a3e7f9"
+content_hash: "sha256:32d7c6cdd9026f510f2613d7ca4d5a09dd32382896ba8f99f099d0ea44253f21"
 assignee: dev-WD-4wio
 labels: [delivered]
 ---
@@ -80,6 +80,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-19.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
