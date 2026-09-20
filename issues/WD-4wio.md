@@ -1,15 +1,17 @@
 ---
 id: WD-4wio
 title: "Make LF003 fixture portability test primary-checkout safe"
-status: in_progress
+status: closed
 priority: 1
 type: task
 created_at: 2026-09-20T02:09:52Z
 created_by: speed
 updated_at: 2026-09-20T02:11:58Z
-content_hash: "sha256:32d7c6cdd9026f510f2613d7ca4d5a09dd32382896ba8f99f099d0ea44253f21"
+content_hash: "sha256:66312f80f90dd28a3b70c0be2a0db92ceb68ae00c76e4824bf66a4eba07ce9a2"
 assignee: dev-WD-4wio
 labels: [delivered]
+closed_at: 2026-09-20T02:11:58Z
+close_reason: "Accepted: targeted fixture suite passes 3/3 and full suite passes 1,526 tests with 0 failures/1 skip in the story worktree. The repair preserves fresh-root rebase assertions and permits only the valid canonical same-root no-op case; diff checks pass."
 ---
 
 ## Description
@@ -143,6 +145,7 @@ status: delivered
 - 2026-09-20T02:10:11Z status: open -> in_progress
 - 2026-09-20T02:10:11Z claimed by dev-WD-4wio
 - 2026-09-20T02:11:57Z status: in_progress -> in_progress
+- 2026-09-20T02:11:58Z status: in_progress -> closed
 
 ## Links
 
