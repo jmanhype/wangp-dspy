@@ -8,8 +8,8 @@ labels: [e2e, writing-skeleton]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T19:51:05Z
-content_hash: "sha256:14b08a640d1c187c42997bfe9049647057f4cd20028ed7c6243fbae20159685f"
+updated_at: 2026-09-20T20:12:29Z
+content_hash: "sha256:4d01d1cd8ba1512ad6db9b4c67c850f8c5003cfa72dbf363bf7c8461f7af0f51"
 blocks: [WD-42no]
 assignee: dev-WD-z46c
 follows: [WD-rj6e]
@@ -93,7 +93,60 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py` - 11 passed.
+- Exact Content Brief Gateway replay - 4 clips, typed brief hash `sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd`, and stable canonical plan `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8`.
+- `uv run --frozen --extra dev python datasets/content_briefs/lf004-operator-dogfood/run/verify.py --canonical-sha 620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8` - status verified, replay identical.
+- `pvg verify datasets/content_briefs/lf004-operator-dogfood/run/verify.py datasets/content_briefs/lf004-operator-dogfood/review.md --include-tests --format=text` - 1 file scanned, 0 issues.
+- `git diff --check` and `git diff --cached --check` - pass.
+
+### CI/Test Results
+
+- Gateway tests: 11/11 passed.
+- LF004 packet files: exactly 10.
+- Dialogue turns: exactly 4.
+- Plan clips: exactly 4.
+- Jobs databases: 0.
+- GPU/model/SSH/queue/render/host work: none.
+- Two clean out-of-repository gateway replays: identical canonical plan identity.
+- In-place raw plan and run-ledger hashes may change because generated files embed dirty-repository identity; the review packet records packet-generation hashes and the verifier pins only stable canonical identity.
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Real typed brief/audio | PASS | Two-character LF004 brief and four exact repository-owned transcript matches. |
+| 2. Exact plate set | PASS | Only anchor.png, Tess.png, Rho.png; source/staged hashes match. |
+| 3. Repository-owned audio | PASS | Four accepted WAV paths and hashes verified. |
+| 4. Four no-GPU clips | PASS | dry_run=true, gpu_work=false, queue_submitted=false. |
+| 5. Planning-only run directory | PASS | script/guides/ledger/verifier only; no jobs.db. |
+| 6. Review provenance/status | PASS | Hashes, commit, inputs, operator_review_pending, and no_render_started recorded. |
+| 7. Deterministic canonical replay | PASS | Stable canonical identity reproduced twice by verifier plus one exact in-place rerun. |
+| 8. Existing behavior | PASS | Gateway tests pass with no tracked source changes. |
+
+Summary: created the first real LF004 operator dogfood review packet while leaving render explicitly unapproved and unstarted.
+
+Commit SHA: a0fe446f772bc2f8be723eaf9541ea61b529a314
+
+## nd_contract
+status: delivered
+
+### evidence
+- Required command outputs above.
+- Commit `a0fe446f772bc2f8be723eaf9541ea61b529a314`.
+
+### proof
+- [x] AC #1: Real typed brief and dialogue/audio match.
+- [x] AC #2: Plate set is exact and hash-recorded.
+- [x] AC #3: Audio set is repository-owned and hash-recorded.
+- [x] AC #4: Four-clip no-GPU/no-queue plan is emitted.
+- [x] AC #5: Run side effects are limited to planning artifacts.
+- [x] AC #6: Review packet has complete provenance and no-render status.
+- [x] AC #7: Canonical replay is deterministic.
+- [x] AC #8: Existing behavior remains green.
 
 ## History
 - 2026-09-20T19:48:19Z dep_added: blocks WD-42no
