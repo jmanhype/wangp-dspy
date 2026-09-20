@@ -6,8 +6,8 @@ priority: 1
 type: task
 created_at: 2026-09-20T01:58:29Z
 created_by: speed
-updated_at: 2026-09-20T01:58:45Z
-content_hash: "sha256:402ce579b7d2d27eca2e1d7bce8d683c807e25ed83ec0d7d1b947a3e96af84c0"
+updated_at: 2026-09-20T01:59:53Z
+content_hash: "sha256:7080bf6a64697332bc9058f18f3ec210e76552a51694bc7fa0e041927dbd8ee0"
 assignee: dev-WD-yiw8
 ---
 
@@ -89,6 +89,60 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+
+```bash
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-yiw8
+git grep -Ini -e 'talker-reasoner' -e 'talker_reasoner' -e 'talk_reasoner'
+test ! -e docs/specs/talker-reasoner-bridge.md
+test ! -e docs/plans/talker-reasoner-bridge.md
+/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q tests/test_pipeline.py
+git diff --check
+git diff --cached --check
+git commit -m 'docs(WD-yiw8): remove accidental Talker-Reasoner artifacts'
+```
+
+### CI/Test Results
+
+```text
+current-tree Talker-Reasoner scan: PASS/no matches
+targeted pipeline contract: 11 passed
+git diff checks: PASS
+story commit: 2 files deleted, 317 lines removed
+```
+
+Summary: the two accidentally merged Talker-Reasoner documents are removed from current wangp-dspy main. Git history was not rewritten, and the film pipeline contract remains green.
+
+Commit SHA: e335526909595ba775d62ec662bebe1f43a3f2b6
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Spec absent | PASS | File deleted |
+| 2. Plan absent | PASS | File deleted |
+| 3. No current TR references | PASS | git grep returned no matches |
+| 4. Pipeline contract | PASS | 11/11 passed |
+| 5. Diff hygiene | PASS | Working/staged checks exit 0 |
+| 6. History preserved | PASS | Ordinary deletion commit; no rewrite/rebase |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA: `e335526909595ba775d62ec662bebe1f43a3f2b6`.
+- Talker-Reasoner current-tree scan: 0 matches.
+- Pipeline test: 11 passed.
+
+### proof
+- [x] AC #1: spec absent.
+- [x] AC #2: plan absent.
+- [x] AC #3: no current references.
+- [x] AC #4: pipeline test passed.
+- [x] AC #5: diff checks passed.
+- [x] AC #6: history not rewritten.
 
 
 ## History
