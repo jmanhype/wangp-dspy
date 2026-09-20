@@ -9,7 +9,7 @@ created_at: 2026-09-20T17:09:01Z
 created_by: speed
 updated_at: 2026-09-20T17:46:15Z
 content_hash: "sha256:0c16a3d47413a3e2063721cb206b89073d94735f5a08d7e7ef76223410ea5541"
-labels: [e2e, capstone, walking-skeleton]
+labels: [e2e, capstone, walking-skeleton, delivered]
 was_blocked_by: [WD-073e]
 assignee: dev-WD-p2y9
 follows: [WD-073e]
