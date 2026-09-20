@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T19:48:47Z
-content_hash: "sha256:3d1bebfee70b2a098ab74267dfe0b2b22a7c0653756e306ff2ca82f859e3c444"
+updated_at: 2026-09-20T20:47:21Z
+content_hash: "sha256:cb0f6b7953be3ca79274c2d4f963895c3d81771d508fe55eb9d4cb182f61c982"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c]
 ---
@@ -91,7 +91,12 @@ status: new
 
 
 ## Notes
+## Operator Render Approval
 
+Approved UTC: 2026-09-20T20:47:21Z
+Operator response: yes
+Exact canonical plan SHA-256: 70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86
+Authorization: exactly one governed LF004 production execution through the accepted Wangp pipeline. This approval does not authorize a second independent run, live-hook changes, or unrelated work.
 
 ## History
 - 2026-09-20T19:48:19Z dep_added: blocked_by WD-z46c
