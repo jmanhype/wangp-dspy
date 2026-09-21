@@ -1,16 +1,18 @@
 ---
 id: WD-ssdt
 title: "Reject content-brief guide duration mismatches before planning"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:01:36Z
-content_hash: "sha256:669cdd4c930293666f654a96c529c60e16355964ef028644077a7a66ca79865a"
+updated_at: 2026-09-21T00:02:05Z
+content_hash: "sha256:b7d1fa25772b5d28816f0152892c46d915d1dadcbe382e0b6d09987d83562c2f"
 blocks: [WD-42no]
+assignee: dev-WD-ssdt
+follows: [WD-z46c]
 ---
 ## Description
 Reject a supplied content-brief guide whose measured duration contradicts the declared turn before any no-GPU plan or run artifact is emitted.
@@ -156,9 +158,13 @@ status: new
 
 ## History
 - 2026-09-20T23:53:58Z dep_added: blocks WD-42no
+- 2026-09-21T00:02:05Z status: open -> in_progress
+- 2026-09-21T00:02:05Z auto-follows: linked to predecessor WD-z46c
+- 2026-09-21T00:02:05Z claimed by dev-WD-ssdt
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocks: [[WD-42no]]
+- Follows: [[WD-z46c]]
 
 ## Comments
