@@ -4,10 +4,10 @@ title: "Dogfood one real content brief through governed film"
 status: closed
 priority: 0
 type: epic
-labels: [e2e]
+labels: [e2e, accepted]
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-21T04:42:48Z
+updated_at: 2026-09-21T04:42:49Z
 content_hash: "sha256:08978a292253270c33e7c69cecfc21e8fef95829ca223629dc15f691c5928c2d"
 closed_at: 2026-09-21T04:42:48Z
 close_reason: "All child stories are closed and accepted; mechanical capstone complete, operator creative verdict remains pending."
