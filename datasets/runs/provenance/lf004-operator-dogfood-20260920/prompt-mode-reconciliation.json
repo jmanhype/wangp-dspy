@@ -1,0 +1,10 @@
+{
+  "backup_sha256": "ab7eef75f8462d29d99ea6b527a232bbd381f49aa10b3dbc857a0def976f9b4f",
+  "before_sha256": "ab7eef75f8462d29d99ea6b527a232bbd381f49aa10b3dbc857a0def976f9b4f",
+  "reason": "temporarily restored the accepted Wan2GP FG all-lines-one-prompt mode because the current global PG default parsed the approved multiline prompt as five tasks",
+  "render_time_value": "FG",
+  "restored_equal_before": true,
+  "restored_sha256": "ab7eef75f8462d29d99ea6b527a232bbd381f49aa10b3dbc857a0def976f9b4f",
+  "schema_version": 1,
+  "settings_path": "/home/straughter/Wan2GP/models/_settings.json"
+}

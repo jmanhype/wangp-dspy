@@ -1,0 +1,21 @@
+{
+  "clip_count": 4,
+  "dry_run": true,
+  "plates_dir": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates",
+  "premise_id": "LF004 Operator Dogfood: Borrowed Sunrise",
+  "repository": {
+    "changed_path_count": 2,
+    "clean_tree": false,
+    "commit_sha": "4b99b3a98fd3764cfad6635ae0743e7a07585c96",
+    "dirty_tree": true,
+    "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125",
+    "status_sha256": "10718cc28045918b4bd03811dc985d1e617b30325a50b48a758069d703e5bd28",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_content_sha256": "d532f04a4c76cf246845e5dc718617a47771af26027f08e33b06262bb7f2d932",
+    "untracked_path_count": 2
+  },
+  "run_id": "run",
+  "schema_version": 1,
+  "script": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood-56f/run/script.txt",
+  "status": "planned"
+}

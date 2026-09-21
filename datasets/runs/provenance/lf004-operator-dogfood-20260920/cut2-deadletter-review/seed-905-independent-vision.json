@@ -1,0 +1,49 @@
+{
+  "evidence": {
+    "action_match": 0.85,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT",
+    "mouth_activity": 0.1,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The spatial composition is preserved with the man (Rho) on the right and the woman (Tess) on the left, matching the reference. The man's mouth is closed in all generated frames, showing no visible articulation or speaking motion, which results in a low mouth_activity score. However, the identity is correctly attributed to the man on the right, and the overall scene and character poses remain consistent with the expected listening/speaking context.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.1,\n  \"action_match\": 0.85,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The spatial composition is preserved with the man (Rho) on the right and the woman (Tess) on the left, matching the reference. The man's mouth is closed in all generated frames, showing no visible articulation or speaking motion, which results in a low mouth_activity score. However, the identity is correctly attributed to the man on the right, and the overall scene and character poses remain consistent with the expected listening/speaking context.\"\n}",
+    "speaker_attribution": 0.95,
+    "speaker_mouth_bbox": [
+      0.67,
+      0.27,
+      0.03,
+      0.01
+    ],
+    "speaker_mouth_bboxes": [
+      [
+        0.67,
+        0.27,
+        0.03,
+        0.01
+      ],
+      [
+        0.66,
+        0.27,
+        0.03,
+        0.01
+      ],
+      [
+        0.67,
+        0.26,
+        0.04,
+        0.01
+      ]
+    ],
+    "speaker_mouth_center_spread": [
+      0.015000000000000013,
+      0.010000000000000009
+    ],
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-7b851d1e3cf5/render-0001/remux.mp4"
+  },
+  "passed": true,
+  "reference_image_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png",
+  "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-7b851d1e3cf5/render-0001/remux.mp4"
+}

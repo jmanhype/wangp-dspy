@@ -1,0 +1,13 @@
+command: ssh -o BatchMode=yes -o ConnectTimeout=15 3090 ...
+2026-09-20T20:51:43Z
+ssh=PASS
+NVIDIA GeForce RTX 3090, 24576 MiB, 7904 MiB, 0 %
+3502805, /home/straughter/llama.cpp/build/bin/llama-server, 7816 MiB
+Avail
+  14G
+wan2gp=PASS
+wgp_entry=PASS
+syncnet_model=PASS
+syncnet_python=PASS
+syncnet_repo=PASS
+{"status":"ok"}

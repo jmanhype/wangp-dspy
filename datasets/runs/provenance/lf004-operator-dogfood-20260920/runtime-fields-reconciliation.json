@@ -1,0 +1,40 @@
+{
+  "canonical_plan_sha256": "70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86",
+  "jobs": [
+    {
+      "action": "subtle natural listening and speaking motion",
+      "clip_index": 1,
+      "job_id": "job-1789937516351-1da5e2de",
+      "model_type": "minimax_h3_ref2va_pruned",
+      "speaker_description": "S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; silent S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room",
+      "status": "rendered"
+    },
+    {
+      "action": "subtle natural listening and speaking motion",
+      "clip_index": 2,
+      "job_id": "job-1789937516353-d1fadb98",
+      "model_type": "minimax_h3_ref2va_pruned",
+      "speaker_description": "S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room; silent S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room",
+      "status": null
+    },
+    {
+      "action": "subtle natural listening and speaking motion",
+      "clip_index": 3,
+      "job_id": "job-1789937516354-18609a49",
+      "model_type": "minimax_h3_ref2va_pruned",
+      "speaker_description": "S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room; silent S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room",
+      "status": null
+    },
+    {
+      "action": "subtle natural listening and speaking motion",
+      "clip_index": 4,
+      "job_id": "job-1789937516354-df17b987",
+      "model_type": "minimax_h3_ref2va_pruned",
+      "speaker_description": "S2 (Rho): a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room; silent S1 (Tess): a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room",
+      "status": null
+    }
+  ],
+  "reason": "content-brief queue path omitted QC/runtime fields present in accepted Ref2VA jobs; reconciled from approved plan and rendered settings",
+  "reopened_attempt_id": 8,
+  "schema_version": 1
+}
