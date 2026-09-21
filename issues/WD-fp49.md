@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T18:46:13Z
-content_hash: "sha256:90c654ec4b1a0427ff8d2702fb9c2fe098fab3e93d56db090ed09ab8684d72ae"
+content_hash: "sha256:a7647483c2960e95a33f1f1db37add3b78c688017d8b2dafc4fd70b6fb33bed2"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj]
 closed_at: 2026-09-21T18:46:12Z
@@ -103,6 +103,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
