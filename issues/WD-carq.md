@@ -340,13 +340,17 @@ status: delivered
 - [x] Drift detected per pinned field class, with missing and tampered manifests rejected.
 
 ## nd_contract
-status: in_progress
+status: delivered
 
 ### evidence
-- Claimed by dev-WD-carq; implementation started from story branch story/WD-carq at 68e6f6f.
+- Head 982c047188414d38b690c4992fcb371ccde0495e on story/WD-carq; exact-head CI check 106549314311 completed/success.
+- `tests/test_recipe.py` 33 passed; full suite 1652 passed / 0 failed / 0 errors / 1 skipped; `uv build` wheel plus sdist.
+- Fail-closed probes: deleted `assembled.mp4` -> write exit 2 with `required artifact is missing from this run review bundle` and no output file, verify exit 2 with no `verified=true`; tampered bundle copy -> exit 2 `pinned.assembled_media.sha256 status=changed`; two copies -> one unique recipe sha256; 14-case nested shape matrix -> exit 2.
 
 ### proof
-- [ ] Pending implementation
+- [x] AC #2: the same logical run is byte-stable across two copied bundles.
+- [x] AC #3: missing required artifacts fail closed at write and verify with field-specific diagnostics.
+- [x] AC #3/#4: consumed provenance sections and nested cut mappings fail as typed input, never exit 4.
 
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-lvix
