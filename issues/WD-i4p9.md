@@ -9,9 +9,9 @@ parent: WD-hc3p
 created_at: 2026-09-21T13:52:45Z
 created_by: speed
 updated_at: 2026-09-21T13:52:45Z
-content_hash: "sha256:669988be3f4be11b8145171505fecd92424346b47b53789fcc2eb45be1bd3150"
+content_hash: "sha256:390c5ecb0a3905b49d7ab737dc397805949807423524758d3d48d7f7ebd4aff0"
 blocked_by: [WD-6i9i]
-blocks: [WD-1nad, WD-zvaf]
+blocks: [WD-1nad]
 ---
 
 ## Description
@@ -109,10 +109,11 @@ status: new
 - 2026-09-21T13:52:46Z dep_added: blocked_by WD-6i9i
 - 2026-09-21T13:52:46Z dep_added: blocks WD-1nad
 - 2026-09-21T13:52:47Z dep_added: blocks WD-zvaf
+- 2026-09-21T13:53:23Z dep_removed: no_longer_blocks WD-zvaf
 
 ## Links
 - Parent: [[WD-hc3p]]
-- Blocks: [[WD-1nad]], [[WD-zvaf]]
+- Blocks: [[WD-1nad]]
 - Blocked by: [[WD-6i9i]]
 
 ## Comments
