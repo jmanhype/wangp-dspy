@@ -9,8 +9,7 @@ parent: WD-uc6y
 created_at: 2026-09-21T13:53:24Z
 created_by: speed
 updated_at: 2026-09-21T13:53:24Z
-content_hash: "sha256:dbeb0ae1cc54a8d142d8b4b32ec5a31ed7585df1ed4d2c27d7860baba2f39073"
-blocks: [WD-7128]
+content_hash: "sha256:e9bcb05cb8f463b240a718f8ec6bf8e84e92d24acfa8dad95bc07b660ccc86a4"
 ---
 
 ## Description
@@ -102,9 +101,9 @@ status: new
 - 2026-09-21T13:53:24Z dep_added: blocks WD-7128
 - 2026-09-21T13:53:26Z dep_added: blocks WD-eukh
 - 2026-09-21T13:54:10Z dep_removed: no_longer_blocks WD-eukh
+- 2026-09-21T13:54:11Z dep_removed: no_longer_blocks WD-7128
 
 ## Links
 - Parent: [[WD-uc6y]]
-- Blocks: [[WD-7128]]
 
 ## Comments
