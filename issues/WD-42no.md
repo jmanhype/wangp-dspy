@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T00:43:07Z
-content_hash: "sha256:e615a340d50dad8171c619341bc545e5d4f32bf10f16d487afbd550b1733c7e1"
+updated_at: 2026-09-21T00:43:43Z
+content_hash: "sha256:11e4276d8f0400e1607f64eeea8409f85c689f4cd8ed486048d5893a568d8881"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt]
 assignee: dev-WD-42no
@@ -93,6 +93,52 @@ status: new
 
 
 ## Notes
+## Provenance Durability Finding + Preservation (dispatcher, 2026-09-21)
+
+The LF004 execution provenance was **not in git**. Measured in the `dev-WD-42no` worktree:
+
+```text
+git ls-files datasets/runs/provenance/lf004-operator-dogfood-20260920 | wc -l   -> 0
+find      datasets/runs/provenance/lf004-operator-dogfood-20260920 -type f | wc -l -> 47
+```
+
+All 47 files existed only as untracked worktree files, including the 14 reconciliation
+scripts the approved execution depended on (`reconcile_audio_policy_and_continue.sh`,
+`fix_manifest_indexes_and_continue.sh`, `reconcile_runtime_fields_and_continue.sh`,
+`reconcile_whisper_map_and_continue.sh`, `clarify_speaker_and_continue.sh`,
+`run_lf004_once.sh`, `stage_assets_and_retry_once.sh`, `finalize_lf004.py`, and the
+seed-905 re-judge). The loop had already flagged this worktree for recovery, so the
+accepted evidence trail and the recovery execution inputs were one cleanup away from
+being lost.
+
+Preserved and hash-verified outside the worktree:
+
+- Location: `/Users/Shared/HermesWorkspace/lf004-provenance-preserved-20260921/`
+- Contents: the 47 provenance files, the 56-frame candidate brief, and finding 85.
+- Manifest: `MANIFEST.json` — 48 entries, per-file sha256 + size.
+- `MANIFEST.json` sha256: `1b3865666017f3195e36b166a03c5966325e57fc9c1e47d6e322296c6ba73c50`
+- Integrity re-check: 48 verified, 0 mismatches (`INTEGRITY_OK`).
+
+Recommendation: the WD-42no delivery must commit this provenance into the repository so
+the evidence trail and recovery inputs are version-controlled rather than depending on a
+single worktree directory.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Durability measurement: 0 tracked / 47 on-disk provenance files for the approved LF004 execution.
+- Preservation copy with per-file sha256 manifest `1b386566...`; 48/48 hashes verified.
+- Corrected candidate plan `620f2ba4...` (replay-verified) recorded in the previous note block.
+- Guard rejection of the approved brief on main `4b99b3a`: exit 1, typed mismatch error, zero artifacts.
+
+### proof
+- [x] Accept-ed evidence trail and recovery inputs preserved and hash-verified.
+- [x] Corrected plan candidate produced for operator approval.
+- [ ] Operator approval of `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8` (or an alternative).
+- [ ] Provenance committed into the repository as part of the delivery.
+- [ ] One governed recovery execution passing every declared gate with a reviewable artifact.
+
 ## Recovery Preflight Evidence (dispatcher, 2026-09-21)
 
 ### 1. The merged guard rejects the approved LF004 brief
