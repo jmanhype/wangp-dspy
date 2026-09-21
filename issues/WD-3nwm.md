@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:01:40Z
-content_hash: "sha256:a71e661a784925508d95ddd771e733b78301a4c3c28c0cbd8c21fd236aae3a0f"
+content_hash: "sha256:e639b24511440af2a19a330a9996779a7cc6e9888243cdb5459057a12da8d27a"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -155,3 +155,38 @@ status: in_progress
 - Blocks: [[WD-lhm4]], [[WD-fq1o]]
 
 ## Comments
+
+### 2026-09-21T15:01:40Z speed
+## PM Decision
+REJECTED [2026-09-21]:
+
+EXPECTED: The story Boundary Map requires a conservative repository-owned source-available/no-redistribution licence notice pending explicit operator relicensing, and the PM brief requires a real, complete Apache-2.0 text if Apache is used.
+DELIVERED: `LICENSE` is labelled Apache-2.0 and grants Apache redistribution rights, but no operator authorization for that licence choice exists in this story or epic; the dispatcher evidence itself only flags it after the fact. Independently compared with the canonical Apache-2.0 text, the delivered file also omits the clause “For the purposes of this License,” before the Derivative Works exclusion at LICENSE:43-44. The new test only checks the strings “Apache License” and “Version 2.0”, so it does not prove completeness.
+GAP: The licence both exceeds story authority and is not a byte/word-complete canonical Apache-2.0 instrument. This is a legal-boundary defect, not a style issue.
+FIX: Obtain an explicit operator licence decision. Either restore the conservative no-redistribution notice required by the story, or, if the operator explicitly chooses Apache-2.0, replace LICENSE with the complete canonical text and strengthen the test to detect material omissions; update README, CONTRIBUTING, THIRD_PARTY_NOTICES, and evidence with that authorized decision.
+
+EXPECTED: README factual review paths must not lie.
+DELIVERED: README:79 states that `datasets/runs/pull/acceptance/*/render-*/` contain `raw.mp4`, `remux.mp4`, `render.log`, `settings.json`, `runtime-evidence.json`, and `qc-evidence.json`. On main there are 19 matching render directories; four are incomplete (worker-0646f3fdb158/render-0004, worker-4e52f8dc1fc7/render-0000, worker-94129b34bdd8/render-0000, and worker-a08dc195c192/render-0001).
+GAP: The wildcard makes a universal factual claim that the committed evidence contradicts.
+FIX: Scope the README claim to the four complete LF004 recovery worker directories, or accurately describe preserved partial/rejected attempts; do not modify historical evidence.
+
+EXPECTED: Delivery proof includes exact command output/pass-fail counts, coverage where applicable, an AC-by-AC table, and LEARNINGS; warnings are owned.
+DELIVERED: Dispatcher evidence omits the full-suite count and warning ownership, AC table, coverage statement, and LEARNINGS. My independent runs passed the 3-test doc suite and full suite (exit 0, one optional-host skip), but the full suite emits a StarletteDeprecationWarning from fastapi/testclient.py:1 that is not owned by a DISCOVERED_BUG block.
+GAP: Story delivery requirements and the PM proof contract are incomplete even though the quickstart behavior itself reproduced successfully.
+FIX: Add the required evidence table, exact targeted/full results, warning ownership/discovered-bug block, and LEARNINGS without changing production scope.
+
+## Independently reproduced passing evidence
+- Head 59dcf65f660c22f0f66f72ee1791fc9a868effc3; production-path diff versus main exits 0.
+- README quickstart reproduced in a fresh clone: clips=4, schema `wangp-dspy.content-plan/v1`, duration 9.332, dry_run=true, gpu_work=false, queue_submitted=false, clean_tree=true, script.txt/run_ledger.json present.
+- Targeted doc test: 3 passed. Mutation of a README copy's plates path made the executed quickstart fail. Missing ffprobe, invalid title, missing Tess plate, and an untracked embedded repository reproduced the documented typed/fail-closed errors.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Independent static, behavioral, licence, history, CI, and test verification at 59dcf65f.
+- Blockers: unauthorized/incomplete Apache licence choice; misleading universal review-artifact wildcard; incomplete delivery proof.
+
+### proof
+- [ ] AC #4: authorized and legally complete licence notice
+- [ ] AC #8: every factual review/evidence claim and complete delivery evidence must survive independent review
