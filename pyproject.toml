@@ -39,6 +39,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["wangp", "predict", "evaluate", "host", "signatures", "qc", "services", "scripts"]
+force-include = { "wangp.toml" = "wangp.toml" }
 
 [tool.hatch.build.targets.sdist]
 # The Maestro excerpt corpus is third-party test material under upstream

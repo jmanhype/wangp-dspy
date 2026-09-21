@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
 import pytest
 
@@ -25,6 +26,17 @@ CHARACTERS = [
 ]
 WHISPER_MAP = "s4/films/satans-mom/qc/whisper_map.json"
 LOG_20_20 = "loading model\nDenoising 20/20\nQueue completed: 1/1 tasks"
+
+
+@pytest.fixture(autouse=True)
+def complete_render_host_config(monkeypatch, tmp_path):
+    """Supply an explicit host to render-seam tests without GPU work."""
+
+    monkeypatch.setenv("WANGP_CONFIG", str(tmp_path / "absent-config.toml"))
+    monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+    monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
+    monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+    monkeypatch.setenv("WANGP_WGP_PYTHON", sys.executable)
 
 
 class _FakeHost:
@@ -249,7 +261,7 @@ class TestFix3RenderLegKill:
     def test_render_wrapper_timeshares_on_both_host_targets(self, monkeypatch):
         rj, calls, Host = self._wire(monkeypatch)
         monkeypatch.setenv("WANGP_VISION_BACKEND", "local")
-        for target in ("localhost", "3090"):
+        for target in ("localhost", "configured-alias"):
             calls.clear()
             monkeypatch.setenv("WANGP_SSH_TARGET", target)
             outcome = rj.build_executor(queue=None, host=Host()).render({"clip_index": 1})
@@ -438,8 +450,10 @@ class TestFix7EnvTarget:
 
     def test_default_unchanged(self, monkeypatch):
         import scripts.run_jobs as rj
+        from wangp.config import HostConfigError
         monkeypatch.delenv("WANGP_SSH_TARGET", raising=False)
-        assert rj._default_host().target == "3090"
+        with pytest.raises(HostConfigError, match="host.target"):
+            rj._default_host()
 
 
 # ── FIX 8: no SyntaxWarning in job_config ─────────────────────────────

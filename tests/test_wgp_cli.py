@@ -324,10 +324,20 @@ def test_local_doctor_hashes_manifest_model_contents(tmp_path: Path) -> None:
 
 def test_configured_host_is_reported_without_implicit_probe() -> None:
     result = _wgp(
-        "doctor", env_updates={"WANGP_SSH_TARGET": "unreachable.invalid"}
+        "doctor",
+        env_updates={
+            "WANGP_SSH_TARGET": "unreachable.invalid",
+            "WANGP_WGP_ROOT": "/configured/wgp-root",
+            "WANGP_PULL_ROOT": "/configured/pull-root",
+            "WANGP_WGP_PYTHON": "/configured/python",
+        },
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "[PASS] host_configuration: Render host configured" in result.stdout
+    assert "[PASS] host_configuration:" in result.stdout
+    assert "host.target=unreachable.invalid [environment]" in result.stdout
+    assert "host.wgp_root=/configured/wgp-root [environment]" in result.stdout
+    assert "host.pull_root=/configured/pull-root [environment]" in result.stdout
+    assert "host.wgp_python=/configured/python [environment]" in result.stdout
     assert "ssh_reachable" not in result.stdout
 
 
@@ -419,9 +429,14 @@ def test_doctor_json_is_deterministic_and_secret_free() -> None:
     first = _wgp("doctor", "--json", env_updates={"WANGP_SSH_TARGET": None})
     second = _wgp("doctor", "--json", env_updates={"WANGP_SSH_TARGET": None})
     assert first.returncode == second.returncode == 0
-    assert first.stdout == second.stdout
-    payload = json.loads(first.stdout)
-    assert payload["ready"] is True
+    first_payload = json.loads(first.stdout)
+    second_payload = json.loads(second.stdout)
+    for payload in (first_payload, second_payload):
+        for check in payload["checks"]:
+            if check["kind"] == "local_disk_headroom":
+                check["detail"] = "free-space"
+    assert first_payload == second_payload
+    assert first_payload["ready"] is True
     assert "unreachable.invalid" not in first.stdout
 
 

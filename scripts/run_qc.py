@@ -17,11 +17,14 @@ Usage: run_qc.py <local_video> <run_record.json> <genre>
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+
+from wangp.config import HostConfigError, load_host_config, require_host_config
 
 QC_DIR = "/home/straughter/qwen3vl-video"
 THRESHOLDS = {"surreal": 4.5, "music": 5.0, "edu": 8.0, "comedy": 7.0}
@@ -56,7 +59,11 @@ open(OUT, "w").write(json.dumps({{
 
 
 def _ssh(cmd: str, timeout: int = 620) -> str:
-    r = subprocess.run(["ssh", "-o", "ConnectTimeout=15", "3090", cmd],
+    target = require_host_config(
+        load_host_config(environ=os.environ)
+    ).target
+    assert target is not None
+    r = subprocess.run(["ssh", "-o", "ConnectTimeout=15", target.value, cmd],
                        capture_output=True, text=True, timeout=timeout)
     if r.returncode != 0:
         raise RuntimeError(f"ssh failed: {r.stderr[-300:]}")
@@ -65,11 +72,14 @@ def _ssh(cmd: str, timeout: int = 620) -> str:
 
 def critique(local_video: str, genre: str) -> dict:
     """Full QC leg. Returns {critic, score, verdict, summary, latency}."""
+    config = require_host_config(load_host_config(environ=os.environ))
+    target = config.target
+    assert target is not None
     remote_name = Path(local_video).name.replace(".mp4", "_qc.mp4")
     remote_fast = remote_name.replace(".mp4", "_fast.mp4")
 
     subprocess.run(["rsync", "-q", local_video,
-                    f"3090:{QC_DIR}/{remote_name}"], check=True,
+                    f"{target.value}:{QC_DIR}/{remote_name}"], check=True,
                    timeout=300)
 
     # write the critique helper, remux, critique, fetch result
@@ -102,7 +112,11 @@ def critique(local_video: str, genre: str) -> dict:
 
 if __name__ == "__main__":
     video, run_json, genre = sys.argv[1], sys.argv[2], sys.argv[3]
-    qc = critique(video, genre)
+    try:
+        qc = critique(video, genre)
+    except HostConfigError as exc:
+        print(f"configuration error: {exc}", file=sys.stderr)
+        raise SystemExit(2)
     rec = json.loads(Path(run_json).read_text())
     rec["qc"] = qc
     Path(run_json).write_text(json.dumps(rec, indent=2, default=str))

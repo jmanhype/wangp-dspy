@@ -79,11 +79,17 @@ uv run wgp plan --brief datasets/content_briefs/lf004-operator-dogfood-56f/brief
 
 `doctor` is safe in the no-host lane: it checks the local environment and reports the render-host seam as skipped. Planning keeps the same canonical no-GPU summary and prints the plan and ledger paths. See [docs/wgp-cli.md](docs/wgp-cli.md) for `brief validate`, durable `status`, provenance `review`, explicit host preflight, JSON output, and stable exit codes.
 
+## Render-host configuration
+
+The no-GPU lane requires no host. Rendering requires one complete host configuration with the keys `host.target`, `host.wgp_root`, and `host.pull_root`, plus an explicit absolute `host.wgp_python` for a remote Conda, virtual-environment, or system-Python Wan2GP install. Resolution precedence is environment variable, then `~/.config/wangp/config.toml` (or the file named by `WANGP_CONFIG`), then repository `wangp.toml`, then safe local detection. The variables are `WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, `WANGP_PULL_ROOT`, and `WANGP_WGP_PYTHON`.
+
+The committed `wangp.toml` is a commented template; it deliberately contains no host. Detection only checks local filesystem markers for a sibling `Wan2GP/wgp.py` checkout and never probes SSH, DNS, GPU, model, or remote services. With no complete host, `wgp doctor` remains ready and `wgp plan` works, while a render entry point fails before SSH with the exact missing keys. See [docs/configuration.md](docs/configuration.md).
+
 ## Optional GPU render lane
 
-Actual rendering is intentionally separate from planning. The current production seam selects its SSH destination with `WANGP_SSH_TARGET`; the default literal target is `3090`, and the current Wan2GP root is `/home/straughter/Wan2GP`. Configure your SSH config and host assets before attempting this lane. Running directly on the render host can use `WANGP_SSH_TARGET=localhost`.
+Actual rendering is intentionally separate from planning. Configure a complete host as described above, verify it with `wgp doctor`, and use `wgp doctor --probe-host --models MANIFEST` only when you explicitly want the existing preflight checks to contact that host. Running directly on the render host can set `host.target = "localhost"` (or `WANGP_SSH_TARGET=localhost`) while still supplying its absolute Wan2GP and pull roots.
 
-Host preflight checks SSH, model hashes, disk headroom, GPU state, and the QC service before queue admission. A first-class host configuration file is planned by story WD-fp49; until then, the environment variable and committed run-specific launchers are the supported configuration surface. Do not start a render merely to test this repository: CI and the quickstart prove the no-GPU path.
+Host preflight checks SSH, model hashes, disk headroom, GPU state, and the QC service before queue admission. The configured root is passed unchanged to that existing seam. Do not start a render merely to test this repository: CI and the quickstart prove the no-GPU path.
 
 ## Reviewing governed results
 
@@ -110,8 +116,8 @@ Read `probe.json` for duration, frame count, resolution, and SHA-256. Read `qc-e
 - **Missing ffmpeg or ffprobe:** `ffprobe` is required for planning; brief validation probes supplied guide audio and fails before emitting a plan if `ffprobe` is unavailable or returns an unusable duration. `ffmpeg` is required only for paths that prepare or post-process media (materializing absent guides, remuxing, assembly). Install both and verify with `command -v ffprobe` and `command -v ffmpeg`.
 - **Invalid brief or audio duration:** the CLI reports a typed `ContentBriefError` naming the field or turn. Correct the JSON, speaker roster, plate count, or guide duration and rerun. No partial plan should be trusted after a failure.
 - **Missing or duplicate plates:** the plates directory must contain exactly one `anchor.*` and exactly one plate per named character. Resolve accidental duplicates or add the missing file; do not edit the plan to bypass discovery.
-- **No render host configured:** the default `3090` target is an SSH identity, not an auto-discovery mechanism. Configure a reachable alias or set `WANGP_SSH_TARGET` explicitly. Story WD-fp49 will replace this environment-variable-only configuration.
-- **Render-host disk headroom:** preflight blocks admission when `/home/straughter/Wan2GP` lacks the configured free space. Free capacity or choose sanctioned storage without deleting run evidence; then rerun preflight.
+- **No render host configured:** this is expected for planning and is reported as a skipped doctor check. Before rendering, set `host.target`, `host.wgp_root`, `host.pull_root`, and (for a remote renderer) `host.wgp_python` in `wangp.toml`, your user config, or the matching environment variables. Partial configuration fails closed and names every missing key.
+- **Render-host disk headroom:** preflight blocks admission when the configured Wan2GP root lacks the configured free space. Free capacity or choose sanctioned storage without deleting run evidence; then rerun preflight.
 - **Gate rejection:** open the failed worker's `qc-evidence.json`, its `render.log`, the queue database, and the run ledger. The failure class names the gate (for example Whisper, identity vision, mouth-box consensus, or SyncNet), and bounded retries preserve each attempt. Do not weaken a gate or fabricate a score to continue.
 - **Opaque untracked embedded worktree:** planning can fail with `RepositoryIdentityError: untracked embedded repository or opaque directory changes are not safely hashable`. This is intentional fail-closed provenance behavior when Git reports an untracked directory such as `.claude/worktrees/*`: Wangp cannot safely attribute a plan to unknown, mutable content. Preserve any needed evidence, inspect `git status --short --untracked-files=normal`, remove only a disposable registered worktree with Git's worktree commands, move genuinely unrelated opaque content outside the checkout, or run from a fresh clean checkout. Do not disable provenance or ignore untracked paths.
 

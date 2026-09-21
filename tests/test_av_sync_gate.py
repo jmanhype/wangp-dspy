@@ -1,5 +1,6 @@
 import json
 import hashlib
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -11,6 +12,17 @@ from qc.audio_critic.av_sync_gate import (
 from qc.audio_critic.syncnet_runner import (
     CropResult, SYNCNET_METHOD, SYNCNET_MODEL_SHA256, aggregate_results,
 )
+
+
+@pytest.fixture(autouse=True)
+def complete_render_host_config(monkeypatch, tmp_path):
+    """Resolve the SyncNet interpreter from an explicit test host."""
+
+    monkeypatch.setenv("WANGP_CONFIG", str(tmp_path / "absent-config.toml"))
+    monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+    monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
+    monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+    monkeypatch.setenv("WANGP_WGP_PYTHON", sys.executable)
 
 
 def _evidence(**overrides):

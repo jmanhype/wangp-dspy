@@ -19,6 +19,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from wangp.gpu_sequencing import gpu_sequence_environment
+
 INTENTS = [
     ("lighthouse", "a lighthouse beacon sweeping a black ocean at night, storm building, waves exploding against the rocks"),
     ("ps2_neighborhood", "2004 PS2 real-time cutscene, low-poly West Coast crime game, urban neighborhood, orange smog sunset, boxy lowriders, fast-food drive-thru, liquor store parking lot, chain-link fences, stucco apartments, awkward NPC blocking, stiff poses, low-res compressed textures, vertex lighting, baked bloom, jaggies, no anti-aliasing"),
@@ -37,8 +39,9 @@ DECISION = {
 FIXED_SEED = 424242
 
 
-def run(cmd, *, timeout=1200, check=True):
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+def run(cmd, *, timeout=1200, check=True, env=None):
+    r = subprocess.run(
+        cmd, capture_output=True, text=True, timeout=timeout, env=env)
     if check and r.returncode:
         raise RuntimeError(f"command failed ({r.returncode}): {' '.join(cmd)}\n{r.stderr[-1000:]}")
     return r
@@ -117,8 +120,12 @@ def render_one(brief, variant, label, root):
     from host.render_host import LocalHost
     out_root = root / "render_work" / variant / label
     out_root.mkdir(parents=True, exist_ok=True)
+    from wangp.config import load_host_config, require_host_config
+
+    wgp_root = require_host_config(load_host_config()).wgp_root
+    assert wgp_root is not None
     adapter = WanGPAdapter(host=LocalHost(), output_dir=str(out_root),
-                           wgp_outputs_dir="/home/straughter/Wan2GP/outputs",
+                           wgp_outputs_dir=f"{wgp_root.value}/outputs",
                            timeout=1800)
     import host.wangp_adapter as adapter_mod
     original = adapter_mod.derive_seed
@@ -192,7 +199,11 @@ def main():
     if args.dry_run:
         return 0
 
-    run(["bash", str(REPO / "scripts/gpu_seq.sh"), "stop-critic"], timeout=300)
+    run(
+        ["bash", str(REPO / "scripts/gpu_seq.sh"), "stop-critic"],
+        timeout=300,
+        env=gpu_sequence_environment(),
+    )
     try:
         for row in manifest["intents"]:
             for variant in ("baseline", "gepa_candidate"):
@@ -204,7 +215,11 @@ def main():
                 print(f"RENDER {variant}/{row['label']}", flush=True)
                 spec["render"] = render_one(brief, variant, row["label"], root)
     finally:
-        run(["bash", str(REPO / "scripts/gpu_seq.sh"), "start-critic"], timeout=360)
+        run(
+            ["bash", str(REPO / "scripts/gpu_seq.sh"), "start-critic"],
+            timeout=360,
+            env=gpu_sequence_environment(),
+        )
     for row in manifest["intents"]:
         for variant in ("baseline", "gepa_candidate"):
             spec = row["variants"].get(variant, {})

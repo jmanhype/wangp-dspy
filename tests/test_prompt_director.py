@@ -192,7 +192,7 @@ def test_m1_voice_over_with_space_rejected():
 
 
 def test_m1_transitional_word_rejected():
-    """transition\w* must catch 'transitional', not just 'transition'."""
+    """transition\\w* must catch 'transitional', not just 'transition'."""
     poisoned = dict(GOOD_BRIEF)
     poisoned["camera"] = "transitional whip pan between setups"
     with pytest.raises(Exception):

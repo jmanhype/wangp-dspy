@@ -105,9 +105,24 @@ class RemoteSyncNetAVSyncJudge:
         self.model_path = (
             model_path or os.environ.get("WANGP_SYNCNET_MODEL") or
             "/home/straughter/models/syncnet_v2/syncnet_v2.model")
+        resolved_python = host_python or os.environ.get("WANGP_SYNCNET_PYTHON")
+        if resolved_python is None:
+            from wangp.config import (
+                HostConfigError,
+                load_host_config,
+                require_wgp_python,
+            )
+
+            try:
+                configured_python = require_wgp_python(
+                    load_host_config(environ=os.environ)
+                )
+            except HostConfigError as exc:
+                raise AVSyncGateError(str(exc)) from exc
+            resolved_python = configured_python.value
         self.host_python = (
             host_python or os.environ.get("WANGP_SYNCNET_PYTHON") or
-            "/home/straughter/Wan2GP/venv/bin/python")
+            resolved_python)
         self.host_repo = (
             host_repo or os.environ.get("WANGP_SYNCNET_REPO") or
             "/home/straughter/wangp-dspy-vibevoice-20260916")

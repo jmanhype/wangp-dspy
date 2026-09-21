@@ -71,6 +71,8 @@ class _Inp:
 
 def _adapter(host, tmp_path):
     return WanGPAdapter(host=host, output_dir=str(tmp_path / "out"),
+                        venv_python="/configured/python",
+                        wgp_script="/home/straughter/Wan2GP/wgp.py",
                         wgp_outputs_dir="/home/straughter/Wan2GP/outputs",
                         runner=lambda *a: None)
 
@@ -153,7 +155,8 @@ class TestCommandShape:
     def test_lock_argv_shape(self):
         argv = build_wgp_lock_argv(
             "/run/settings.json", "/run/render.log",
-            wangp_dir="/home/straughter/Wan2GP")
+            wangp_dir="/home/straughter/Wan2GP",
+            wgp_python="/configured/python")
         # ssh joins argv elements with spaces before the remote shell
         # parses: ONE pre-joined element, shlex-quoted, round-trips.
         assert isinstance(argv, list) and len(argv) == 1
@@ -166,7 +169,7 @@ class TestCommandShape:
         assert "PYTHONUNBUFFERED=1" in shell
         assert "PYTORCH_ALLOC_CONF=expandable_segments:True" in shell
         # ABSOLUTE interpreter + script paths (ssh cwd != Wan2GP)
-        assert "/home/straughter/Wan2GP/venv/bin/python" in shell
+        assert "/configured/python" in shell
         assert "/home/straughter/Wan2GP/wgp.py --process " \
                "/run/settings.json" in shell
         assert "--profile 3" in shell

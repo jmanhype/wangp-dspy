@@ -48,6 +48,13 @@ from services.jobs.queue import (  # noqa: E402,F401
     JobQueue, is_job_admissible as _is_admissible_impl,
     next_admissible as _next_admissible_impl,
 )
+from wangp.config import (  # noqa: E402
+    HostConfigError,
+    host_config_error,
+    load_host_config,
+    missing_host_keys,
+    render_host,
+)
 
 
 def is_admissible(job, done_jobs) -> bool:
@@ -213,11 +220,13 @@ def build_executor(queue, host=None, pre_render=None,
     # EMPTY URL — wire a real default (env-overridable).
     qc_url = (os.environ.get("WANGP_QC_URL")
               or DEFAULT_QC_URL)
+    disk_root = getattr(host, "wgp_root", None)
 
     def preflight(job):
         return run_preflight(
             host, models=[], min_free_gb=0.0,
-            disk_path="/home/straughter/Wan2GP", qc_url=qc_url)
+            disk_path=str(disk_root) if disk_root is not None else "",
+            qc_url=qc_url)
 
     def render(clip):
         if adapter is None:
@@ -487,7 +496,11 @@ def main(argv=None):
             print(json.dumps(dry_run_report(queue), indent=2))
             return 0
         vision_judge = None
-        production_host = _default_host()
+        try:
+            production_host = _default_host()
+        except HostConfigError as exc:
+            print(f"configuration error: {exc}", file=sys.stderr)
+            return 2
         _recover_stale_active(queue)
         if _queue_requires_vision(queue):
             try:
@@ -524,29 +537,32 @@ def main(argv=None):
 
 
 def _default_host():
-    from host.render_host import SshHost
-    # LIVE FIX 7 (2026-09-03): WANGP_SSH_TARGET env override for
-    # on-host execution (e.g. WANGP_SSH_TARGET=localhost on the 3090
-    # itself); default unchanged.
-    target = os.environ.get("WANGP_SSH_TARGET") or "3090"
-    return SshHost(target=target,
-                   wgp_root="/home/straughter/Wan2GP",
-                   pull_root="datasets/runs/pull")
+    config = load_host_config()
+    missing = missing_host_keys(config)
+    if config.wgp_python is None:
+        missing += ("host.wgp_python",)
+    if missing:
+        raise host_config_error(config, missing)
+    return render_host(config)
 
 
 def _is_localhost() -> bool:
     return os.environ.get("WANGP_SSH_TARGET", "") == "localhost"
 
 
-_LOCAL_VISION_BACKENDS = {"local", "3090", "llama", "llama-server"}
+_LOCAL_VISION_BACKENDS = {"local", "llama", "llama-server"}
 DEFAULT_JUDGE_CTL = "/home/straughter/marathon/bin/judge_ctl.sh"
 DEFAULT_JUDGE_START_TIMEOUT = 180.0
 
 
 def _uses_local_vision_backend() -> bool:
     """Whether the blocking judge is the render host's local Qwen server."""
-    return ((os.environ.get("WANGP_VISION_BACKEND") or
-             "modelscope").strip().casefold() in _LOCAL_VISION_BACKENDS)
+    backend = ((os.environ.get("WANGP_VISION_BACKEND") or
+                "modelscope").strip().casefold())
+    configured_target = load_host_config().target
+    return backend in _LOCAL_VISION_BACKENDS or (
+        configured_target is not None and backend == configured_target.value
+    )
 
 
 def _judge_ctl_path() -> str:
