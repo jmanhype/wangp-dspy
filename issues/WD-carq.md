@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T22:27:52Z
-content_hash: "sha256:68dd4ccc6f511343a7f21ce9106d4f36b8e76e6d2735283794e34551fe615a5d"
+content_hash: "sha256:2cd72eed4e9177b1b47760f79d3a7c91afc5ce2fa3e335c59835c16c19d9096d"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49]
@@ -200,3 +200,31 @@ status: in_progress
 
 ### 2026-09-21T13:59:07Z speed
 Self-contained evidence note: the canonical tracked LF004 inputs are datasets/content_briefs/lf004-operator-dogfood-56f/plan.json, datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db, and datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/final-provenance.json. All recipe tests must treat these as read-only and write derived recipes only to temporary storage.
+
+### 2026-09-21T22:27:52Z speed
+## PM Decision
+REJECTED [2026-09-21]: Independently reproduced correctness and safety failures at head 9464a1bbe4151a0c0ed50f9519d0758aeaeeb1b9.
+
+EXPECTED: Recipe verification must prove locally available artifact/input/queue hashes, represent unrecorded values honestly as missing, use the completed run's configuration and per-cut gate evidence, verify run identity, support established provenance formats, reject malformed evidence as typed input, and write atomically without predictable symlink-following temporary paths.
+DELIVERED: wangp/recipe.py:119-174 copies recorded digests and resolves configuration from the current environment; wangp/recipe.py:75-94 collapses per-cut gates with first-value-wins setdefault; wangp/recipe.py:220-250 treats null==null as unchanged and excludes top-level run_id; wangp/recipe.py:177-185 uses a PID-named temporary file with Path.write_bytes; consumed provenance shapes are not validated. Reproduced: appended a byte to a copied assembled.mp4 while preserving final-provenance.json, then verify exited 0/drift=0; deleted final_media.sha256, wrote null, and verify exited 0/drift=0; changed cut 4 whisper.post.pass_bar from 0.6 to 0.99 and verify stayed 0/drift=0; changed the run to another run_id and verify stayed 0/drift=0; WANGP_* overrides changed eight configuration fields; path-keyed older-plan input produced raw_plan_sha256=null; cuts=[null] exited 4 as an internal AttributeError; a pre-created PID-named symlink caused write_recipe to overwrite the symlink victim.
+GAP: These failures violate AC #3, #4, #8/#9 and the honesty/read-only security expectations. PR #155 has eight unresolved review threads covering these defects. Targeted/full tests and CI pass, but tests do not exercise these required drift or failure paths.
+FIX: (1) resolve expected run-local artifacts/inputs/DB paths safely and hash current contents, reporting absent/mismatched references as field-specific drift; (2) distinguish and report unrecorded/null evidence as missing, with a test that a run lacking final_media.sha256 cannot verify clean; (3) source configuration from durable render-time evidence, emitting explicit null/missing for legacy runs; (4) retain gates/models per stable cut id or fail on inconsistent cuts, with a later-cut mutation test; (5) compare and report run_id; (6) support plan_sha256 and repository-relative path-keyed input formats, rejecting ambiguity; (7) validate provenance/cut mappings as RecipeError/exit 2; (8) replace the PID temp path with exclusive, unpredictable no-follow creation and atomic replacement, with a symlink attack test. Re-run LF004 mutation/failure matrix and all existing tests.
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM execution artifacts in /tmp/wd-carq-review.ZHyAXb at review head 9464a1bbe4151a0c0ed50f9519d0758aeaeeb1b9.
+- Recipe mutation classes changed/exit 2; current-evidence deletion=missing and addition=added; missing/malformed/wrong-schema recipes exit 2 without traceback.
+- Read-only/no-SSH pass: write+verify rc 0, ssh.log 0 lines, full run listing identical before/after.
+- wgp doctor ready=true; wgp plan summary clip_count=4, planned_duration_s=9.332, dry_run=true, gpu_work=false, queue_submitted=false.
+- tests/test_recipe.py -q: 11 passed; full pytest -q: exit 0, one skip, one known Starlette/httpx warning; uv build: wheel+sdist; exact-head CI test run 35661982020/check 106539096496 SUCCESS.
+- Protected-path diff rc 0; no authored "3090" or /home/straughter/Wan2GP additions.
+
+### proof
+- [ ] AC #3: verification does not hash current artifacts/inputs/queue contents and accepts a tampered assembled.mp4.
+- [ ] AC #3/#8: unrecorded null evidence verifies clean instead of reporting missing.
+- [ ] AC #1/#3: configuration is resolved from the reviewer/writer machine rather than completed-run evidence.
+- [ ] AC #1/#3: later-cut gate changes are hidden by first-value-wins collapse.
+- [ ] AC #3: a different run can verify against another run's recipe because run_id is excluded.
+- [ ] Required format compatibility, input-shape validation, and atomic symlink-safe output are not met.
