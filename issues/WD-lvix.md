@@ -8,11 +8,11 @@ labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T21:07:55Z
-content_hash: "sha256:de8df5ccdde7a7926ad51f2ac505784e50043816d4950032865d788ad90a322c"
+updated_at: 2026-09-21T21:08:02Z
+content_hash: "sha256:5eb710041e0ae57ccb3f180082ef8d928f2febd8a8c3d201333cc1fb02e49fde"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
-follows: [WD-fp49, WD-m1sj, WD-lhm4]
+follows: [WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
 assignee: dev-WD-lvix
 ---
 
@@ -360,12 +360,14 @@ status: in_progress
 - 2026-09-21T20:44:07Z status: open -> in_progress
 - 2026-09-21T20:44:07Z auto-follows: linked to predecessor WD-lhm4
 - 2026-09-21T20:44:07Z claimed by dev-WD-lvix
+- 2026-09-21T21:08:02Z status: in_progress -> in_progress
+- 2026-09-21T21:08:02Z auto-follows: linked to predecessor WD-3nwm
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-carq]], [[WD-fq1o]]
 - Was blocked by: [[WD-fp49]]
-- Follows: [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]]
+- Follows: [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]], [[WD-3nwm]]
 
 ## Comments
 
