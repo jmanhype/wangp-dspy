@@ -8,8 +8,8 @@ labels: [integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T21:24:39Z
-content_hash: "sha256:eb23cdd0ea6a4eff4d4db932368b27bcf85e624c2ac314c94a7fc57101418df4"
+updated_at: 2026-09-21T22:21:10Z
+content_hash: "sha256:81c999093b18410213af39cbbcf7685e78ce9786fe9c773591943b011af8b871"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 assignee: dev-WD-carq
@@ -115,6 +115,49 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: added `wangp/recipe.py` plus the `wgp recipe write|verify` verb pair. A recipe is a versioned manifest (`wangp-dspy.render-recipe/v1`) pinning a finished run's logical inputs, and `verify` reports per-field drift against a freshly rebuilt manifest. Both verbs are local and read-only. Implemented directly by the dispatcher after two worker streams died on this story (both had started on an unsafe variant that reworked the render fingerprint and added a hardcoded host path; that work was reverted).
+
+Commands run:
+- `uv run --frozen --extra dev wgp recipe write --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921 --out <tmp>/recipe.json` -> exit 0, `pinned_fields=30`, recipe sha256 recorded.
+- `uv run --frozen --extra dev wgp recipe verify --recipe <tmp>/recipe.json --run <same run>` -> exit 0, `drift=0 verified=true`.
+- `uv run --frozen --extra dev pytest tests/test_recipe.py -q` -> 11 passed.
+- `uv run --frozen --extra dev pytest -q` -> exit 0 (known Starlette/httpx deprecation warning only).
+- `uv build --out-dir <tmp>` -> wheel + sdist.
+- `git diff --exit-code main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` -> exit 0.
+- `grep -rn "3090\|/home/straughter/Wan2GP" wangp/recipe.py tests/test_recipe.py docs/recipe.md README.md | wc -l` -> 0.
+
+Commit: 9464a1bbe415
+
+## CI/Test Results
+
+- Required CI run at head `9464a1bbe415`: conclusion **success** (PR #155).
+- Targeted recipe suite: **11 passed** (real subprocess invocations of the installed `wgp` entry point).
+- Full suite: exit 0.
+- Build: `wangp_dspy-0.1.0-py3-none-any.whl` and `wangp_dspy-0.1.0.tar.gz`.
+- No GPU, no host work, no queue submission, no model inference.
+
+### Acceptance criteria
+
+- [x] Versioned recipe manifest pins the run's logical inputs (repository VERSION, brief semantic + raw hashes, canonical + raw plan hashes, resolved configuration with per-key source, recorded model/settings hashes, retry policy, gate thresholds from per-cut evidence, per-cut and assembled media hashes, queue database digest).
+- [x] `wgp recipe write` records a recipe from existing evidence; `wgp recipe verify` reports per-field drift as `changed`/`missing`/`added`.
+- [x] Exit codes follow the CLI contract: 0 clean, 2 on drift / missing recipe / malformed or wrong-schema manifest, 4 unexpected internal.
+- [x] No-GPU reconstruction proven against the committed LF004 recovery run (write + clean verify, no host call, run bundle unchanged).
+- [x] Limits stated in the artifact itself: lossy pixels are not byte-reproducible; unrecorded inputs are reported `missing`, never assumed.
+- [x] Documentation: README section plus `docs/recipe.md` (what is pinned, what is not promised, how to verify).
+- [x] No protected engine semantics changed; `services/jobs/queue.py` byte-identical to main; no hardcoded host literals added.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Recipe write/verify output, 11 real-process tests, full suite, build, protected-path parity, literal scan, CI run at 9464a1b.
+
+### proof
+- [x] Versioned recipe manifest built from a real run's evidence and verified clean against it.
+- [x] Drift detected per pinned field class, with missing and tampered manifests rejected.
+
 ## nd_contract
 status: in_progress
 
