@@ -22,6 +22,14 @@ from wangp.diagnostics import (
 
 ROOT = Path(__file__).resolve().parents[1]
 BRIEF = ROOT / "datasets/content_briefs/lf004-operator-dogfood-56f/brief.json"
+CURRENT_GATE_EVIDENCE = ROOT / (
+    "datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/"
+    "qc-evidence.json"
+)
+PRODUCTION_REJECTION_EVIDENCE = ROOT / (
+    "datasets/runs/provenance/lf004-operator-dogfood-20260920/"
+    "cut2-deadletter-review/evidence.json"
+)
 
 
 def _digest(path: Path) -> str:
@@ -291,7 +299,7 @@ def test_gate_rejection_surfaces_qc_scores_path_and_review_command(
     assert review.returncode == 0, review.stdout + review.stderr
     human = result.stdout + review.stdout
     assert "diagnostic code=GATE_REJECTED" in human
-    assert "gate(s): whisper_post, identity_action_vision, mouth_box_localization, syncnet_audiovisual_sync" in human
+    assert "gate(s): whisper_post, identity_action_vision, syncnet_audiovisual_sync" in human
     assert '"post": {"pass_bar": 0.6, "passed": false, "score": 0.42' in human
     assert '"action_match": 0.4' in human
     assert '"speaker_attribution": 0.5' in human
@@ -342,6 +350,225 @@ def test_retryable_and_deterministic_replay_queue_branches(tmp_path: Path) -> No
     assert "never set allow_deterministic_replay merely to loop" in blocked.remediation
 
 
+def test_queue_preflight_rows_classify_recorded_subchecks(tmp_path: Path) -> None:
+    cases = {
+        "MODEL_MISSING": (
+            "preflight failed: missing /models/wan.safetensors: "
+            "No such file or directory"
+        ),
+        "MODEL_HASH_MISMATCH": (
+            "preflight failed: hash mismatch /models/wan.safetensors: "
+            "expected abc123456789… got def987654321…"
+        ),
+        "DISK_HEADROOM_BELOW_THRESHOLD": (
+            "preflight failed: 49G free on /render-root (min 50.0G)"
+        ),
+    }
+    for index, (expected_code, detail) in enumerate(cases.items()):
+        database = tmp_path / f"preflight-{index}.db"
+        queue, job_id = _queue(database)
+        _record_failure(
+            queue,
+            job_id,
+            failure_class="preflight",
+            detail=detail,
+        )
+        queue.close()
+
+        result = _wgp("status", "--db", str(database), "--job", job_id, "--json")
+
+        assert result.returncode == 0, result.stdout + result.stderr
+        diagnostic = json.loads(result.stdout)["diagnostics"][job_id][0]
+        assert diagnostic["code"] == expected_code
+        assert diagnostic["metadata"]["failure_class"] == "preflight"
+
+
+def test_production_vision_rejection_uses_real_persisted_shape(
+    tmp_path: Path,
+) -> None:
+    evidence = tmp_path / "qc-evidence.json"
+    committed = json.loads(PRODUCTION_REJECTION_EVIDENCE.read_text(encoding="utf-8"))
+    evidence.write_text(
+        json.dumps(committed["906"]["qc_evidence"], indent=2), encoding="utf-8"
+    )
+    database = tmp_path / "jobs.db"
+    queue, job_id = _queue(database, evidence_path=evidence)
+    _record_failure(
+        queue,
+        job_id,
+        failure_class="qc_gate",
+        detail=(
+            "visual gate failed: mouth/action/speaker attribution below pass bar; "
+            "seed=906"
+        ),
+    )
+    queue.close()
+
+    result = _wgp("status", "--db", str(database), "--job", job_id, "--json")
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    diagnostic = json.loads(result.stdout)["diagnostics"][job_id][0]
+    assert diagnostic["code"] == "GATE_REJECTED"
+    assert diagnostic["metadata"]["gates"] == ["identity_action_vision"]
+    vision = diagnostic["metadata"]["gate_metrics"]["vision"]
+    assert vision == {
+        "action_match": 0.1,
+        "speaker_attribution": 0.1,
+        "mouth_activity": 0.2,
+        "pass_bar": 0.7,
+        "passed": False,
+        "speaker_mouth_bboxes": None,
+        "speaker_mouth_center_spread": None,
+    }
+
+
+def test_current_gate_evidence_wins_over_labelled_history(tmp_path: Path) -> None:
+    historical = tmp_path / "attempt-1-qc-evidence.json"
+    historical_payload = json.loads(CURRENT_GATE_EVIDENCE.read_text(encoding="utf-8"))
+    historical_payload["av_sync_gate"]["confidence"] = 0.11
+    historical_payload["av_sync_gate"]["offset_frames_25fps"] = 99
+    historical_payload["whisper_gates"]["post"]["score"] = 0.11
+    historical.write_text(json.dumps(historical_payload, indent=2), encoding="utf-8")
+    database = tmp_path / "jobs.db"
+    queue, job_id = _queue(database, evidence_path=CURRENT_GATE_EVIDENCE)
+    current_clips = queue.get(job_id).clips
+    current_clips[0]["av_sync_rejections"] = [{
+        "attempt": 1,
+        "qc_evidence_path": str(historical),
+        "failure_class": "qc_gate",
+        "failure_detail": "historical audiovisual SyncNet gate failed; seed=904",
+    }]
+    queue.update_clips(job_id, current_clips)
+    _record_failure(
+        queue,
+        job_id,
+        failure_class="qc_gate",
+        detail="audiovisual SyncNet gate failed; seed=905",
+    )
+    queue.close()
+
+    result = _wgp("status", "--db", str(database), "--job", job_id, "--json")
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    metadata = json.loads(result.stdout)["diagnostics"][job_id][0]["metadata"]
+    metrics = metadata["gate_metrics"]
+    assert metrics["syncnet"]["confidence"] == 0.58634
+    assert metrics["syncnet"]["offset_frames_25fps"] == -1
+    assert metrics["whisper"]["post"]["score"] == 0.667
+    historical_metrics = metadata["historical_gate_metrics"]
+    assert len(historical_metrics) == 1
+    assert historical_metrics[0]["attempt"] == 1
+    assert historical_metrics[0]["source"] == str(historical)
+    assert historical_metrics[0]["gate_metrics"]["syncnet"]["confidence"] == 0.11
+    assert historical_metrics[0]["gate_metrics"]["syncnet"]["offset_frames_25fps"] == 99
+    assert historical_metrics[0]["gate_metrics"]["whisper"]["post"]["score"] == 0.11
+
+
+def test_executor_retryable_lane_and_admission_classes_keep_retry_guidance(
+    tmp_path: Path,
+) -> None:
+    cases = {
+        "ref2va_lane_unavailable": (
+            "clip 1 is a ref2va_render job but no ref2va renderer was wired "
+            "into the executor — refusing to fall back to fl2va"
+        ),
+        "queue_admission_error": (
+            "[lane=ref2va] failed to persist render-admission marker for clip 1: "
+            "ValueError: stale attempt"
+        ),
+    }
+    for index, (failure_class, detail) in enumerate(cases.items()):
+        database = tmp_path / f"retry-{index}.db"
+        queue, job_id = _queue(database)
+        _record_failure(queue, job_id, failure_class=failure_class, detail=detail)
+        record = queue.get(job_id)
+        history = queue.attempt_history(job_id)
+        queue.close()
+
+        diagnostic = classify_queue_failure(record, history, db_path=database)
+
+        assert diagnostic.code == "RETRY_ELIGIBLE"
+        assert diagnostic.metadata["failure_class"] == failure_class
+        assert diagnostic.next_command == (
+            f".venv/bin/python scripts/run_jobs.py --db {database} --retry-failed"
+        )
+
+
+def test_credential_shaped_queue_path_is_redacted_in_both_renderers(
+    tmp_path: Path,
+) -> None:
+    database = tmp_path / "api_key=super-secret-value" / "jobs.db"
+    database.parent.mkdir()
+    queue, job_id = _queue(database)
+    _record_failure(
+        queue,
+        job_id,
+        failure_class="new_transport",
+        detail="upstream rejected authorization: Basic abcdef123456",
+    )
+    queue.close()
+
+    human = _wgp("status", "--db", str(database), "--job", job_id)
+    machine = _wgp("status", "--db", str(database), "--job", job_id, "--json")
+
+    assert human.returncode == machine.returncode == 0
+    for output in (human.stdout, machine.stdout):
+        assert "super-secret-value" not in output
+        assert "abcdef123456" not in output
+        assert "api_key=<redacted>" in output
+    assert json.loads(machine.stdout)["db_path"].endswith("api_key=<redacted>/jobs.db")
+    direct = FailureDiagnostic(
+        "SECRET_URL", "error", "credential URL", "https://user:pass@example.test",
+        "query token=super-secret-value", "inspect both credential forms",
+        f"wgp inspect {shlex.quote('https://user:pass@example.test')}",
+        ("https://user:pass@example.test?token=super-secret-value",),
+    )
+    mapped = direct.mapping()
+    rendered = render_diagnostic(direct)
+    for output in (json.dumps(mapped), rendered):
+        assert "user:pass" not in output
+        assert "super-secret-value" not in output
+        assert "https://<redacted>@example.test" in output
+        assert "token=<redacted>" in output
+    assert shlex.split(mapped["next_command"])[1] == "inspect"
+
+
+def test_invalid_review_run_command_is_shell_safe(tmp_path: Path) -> None:
+    unsafe_name = "run-' ; TOUCHED=1; #"
+    run = tmp_path / unsafe_name
+    run.mkdir()
+    expected_command = f"wgp review {shlex.quote(str(run))}"
+
+    human = _wgp("review", str(run))
+    machine = _wgp("review", str(run), "--json")
+
+    assert human.returncode == machine.returncode == 2
+    assert f"next: {expected_command}" in human.stderr
+    payload = json.loads(machine.stdout)
+    assert payload["diagnostics"][0]["next_command"] == expected_command
+    assert shlex.split(payload["diagnostics"][0]["next_command"])[1] == "review"
+
+
+def test_review_missing_job_json_returns_structured_diagnostic(
+    tmp_path: Path,
+) -> None:
+    database = tmp_path / "jobs.db"
+    queue, _ = _queue(database)
+    queue.close()
+
+    result = _wgp(
+        "review", "--db", str(database), "--job", "missing-job", "--json"
+    )
+
+    assert result.returncode == 2
+    assert result.stderr == ""
+    payload = json.loads(result.stdout)
+    diagnostic = payload["diagnostics"][0]
+    assert diagnostic["code"] == "INPUT_INVALID"
+    assert "missing-job" in diagnostic["observed"]
+    assert diagnostic["metadata"]["source"] == str(database)
+
+
 def test_unknown_failure_and_secret_redaction(tmp_path: Path) -> None:
     database = tmp_path / "jobs.db"
     queue, job_id = _queue(database)
@@ -361,7 +588,7 @@ def test_unknown_failure_and_secret_redaction(tmp_path: Path) -> None:
     assert "super-secret-value" not in result.stdout
     assert "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234" not in result.stdout
     assert "api_key=<redacted>" in result.stdout
-    assert "Bearer <redacted>" in result.stdout
+    assert "bearer <redacted>" in result.stdout
 
     direct = FailureDiagnostic(
         "SECRET_EXAMPLE", "error", "Redaction", "token=abc123",

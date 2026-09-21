@@ -25,6 +25,7 @@ from wangp.diagnostics import (
     FailureDiagnostic,
     classify_host_configuration,
     classify_preflight,
+    redact_sensitive,
 )
 from services.jobs.preflight import PreflightCheck, PreflightReport
 
@@ -44,12 +45,12 @@ class DoctorCheck:
     remediation: str = ""
 
     def mapping(self) -> dict[str, str]:
-        return {
+        return redact_sensitive({
             "kind": self.kind,
             "status": self.status,
             "detail": self.detail,
             "remediation": self.remediation,
-        }
+        })
 
 
 @dataclass

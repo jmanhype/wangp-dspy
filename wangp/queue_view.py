@@ -35,7 +35,7 @@ class QueueStatus:
     diagnostics: dict[str, list[dict[str, Any]]]
 
     def mapping(self) -> dict[str, Any]:
-        return asdict(self)
+        return redact_sensitive(asdict(self))
 
 
 def _failure_summary(record: Any) -> str:
@@ -170,13 +170,13 @@ def collect_queue_review(
             job["job_id"] for job in status.jobs
         ]:
             evidence.extend(queue_evidence_paths(queue.get(identifier)))
-    return status.mapping(), evidence
+    return status.mapping(), list(redact_sensitive(evidence))
 
 
 def render_status(status: QueueStatus) -> str:
     """Render queue counts and concise per-job summaries."""
 
-    lines = [f"queue={status.db_path}"]
+    lines = [f"queue={redact_sensitive(status.db_path)}"]
     lines.extend(
         f"{state}={count}" for state, count in status.state_counts.items()
     )
@@ -193,7 +193,7 @@ def render_status(status: QueueStatus) -> str:
                 f"  {line}"
                 for line in render_diagnostic_mapping(diagnostic).splitlines()
             )
-    return "\n".join(lines)
+    return redact_sensitive("\n".join(lines))
 
 
 def render_queue_review(
@@ -201,7 +201,7 @@ def render_queue_review(
 ) -> str:
     """Render clips, failures, attempts, and referenced evidence paths."""
 
-    lines = [f"queue={payload['db_path']}"]
+    lines = [f"queue={redact_sensitive(payload['db_path'])}"]
     for job in payload["jobs"]:
         lines.append(
             f"{job['job_id']} state={job['state']} "
@@ -227,7 +227,7 @@ def render_queue_review(
             )
     if evidence:
         lines.append("evidence:")
-        lines.extend(f"  {path}" for path in evidence)
+        lines.extend(f"  {redact_sensitive(path)}" for path in evidence)
     return "\n".join(lines)
 
 
@@ -314,7 +314,7 @@ def render_run_review(payload: dict[str, Any]) -> str:
         f"  {item['status']} {item['path']} {item['detail']}"
         for item in payload["hash_checks"]
     )
-    return "\n".join(lines)
+    return redact_sensitive("\n".join(lines))
 
 
 __all__ = [

@@ -18,10 +18,18 @@ from wangp.config import ENVIRONMENT_KEYS, HostConfig, missing_host_keys
 
 
 _SECRET_ASSIGNMENT = re.compile(
-    r"(?i)\b(api[_-]?key|token|password|secret|authorization)\b\s*[:=]\s*\S+"
+    r"(?i)\b(?P<label>api[_-]?key|access[_-]?token|session[_-]?token|"
+    r"auth[_-]?token|token|password|passwd|secret|client[_-]?secret|"
+    r"authorization)\b\s*[:=]\s*[^\s/&?#]+"
 )
-_BEARER = re.compile(r"(?i)\bbearer\s+[a-z0-9._~+/=-]+", re.IGNORECASE)
+_CREDENTIAL_URL = re.compile(
+    r"(?i)\b((?:https?|ssh|ftp)://)[^/\s:@]+:[^@\s/]+@"
+)
+_AUTH_SCHEME = re.compile(
+    r"(?i)\b(?P<scheme>bearer|basic)\s+[a-z0-9._~+/=-]+"
+)
 _LONG_KEY = re.compile(r"\b(?:sk|rk)-[A-Za-z0-9_-]{16,}\b")
+_PRODUCTION_VISION_PASS_BAR = 0.7
 _DISK = re.compile(
     r"(?P<available>\d+(?:\.\d+)?)G free on (?P<path>.+?) "
     r"\(min (?P<minimum>\d+(?:\.\d+)?)G\)$"
@@ -39,10 +47,13 @@ def redact_sensitive(value: Any) -> Any:
     """Redact credential-shaped text while retaining paths, states, and hashes."""
 
     if isinstance(value, str):
-        value = _SECRET_ASSIGNMENT.sub(
-            lambda match: f"{match.group(1)}=<redacted>", value
+        value = _CREDENTIAL_URL.sub(r"\1<redacted>@", value)
+        value = _AUTH_SCHEME.sub(
+            lambda match: f"{match.group('scheme')} <redacted>", value
         )
-        value = _BEARER.sub("Bearer <redacted>", value)
+        value = _SECRET_ASSIGNMENT.sub(
+            lambda match: f"{match.group('label')}=<redacted>", value
+        )
         return _LONG_KEY.sub("<redacted-key>", value)
     if isinstance(value, Mapping):
         return {str(key): redact_sensitive(item) for key, item in value.items()}
@@ -66,7 +77,7 @@ class FailureDiagnostic:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
     def mapping(self) -> dict[str, Any]:
-        return {
+        return redact_sensitive({
             "code": self.code,
             "severity": self.severity,
             "title": self.title,
@@ -76,21 +87,25 @@ class FailureDiagnostic:
             "next_command": self.next_command,
             "evidence_refs": list(self.evidence_refs),
             "metadata": redact_sensitive(dict(self.metadata)),
-        }
+        })
 
 
 def render_diagnostic(diagnostic: FailureDiagnostic) -> str:
     """Render the diagnostic contract without a traceback or secret value."""
 
+    title = str(redact_sensitive(diagnostic.title))
     lines = [
-        f"diagnostic code={diagnostic.code} severity={diagnostic.severity}: {diagnostic.title}",
+        f"diagnostic code={redact_sensitive(diagnostic.code)} "
+        f"severity={redact_sensitive(diagnostic.severity)}: {title}",
         f"  observed: {redact_sensitive(diagnostic.observed)}",
         f"  why: {redact_sensitive(diagnostic.why)}",
         f"  remediation: {redact_sensitive(diagnostic.remediation)}",
     ]
     if diagnostic.next_command:
-        lines.append(f"  next: {diagnostic.next_command}")
-    lines.extend(f"  evidence: {path}" for path in diagnostic.evidence_refs)
+        lines.append(f"  next: {redact_sensitive(diagnostic.next_command)}")
+    lines.extend(
+        f"  evidence: {redact_sensitive(path)}" for path in diagnostic.evidence_refs
+    )
     if diagnostic.metadata:
         lines.append(
             "  details: "
@@ -306,7 +321,7 @@ def classify_host_configuration(config: HostConfig) -> FailureDiagnostic | None:
     )
 
 
-def _evidence_paths(record: Any) -> list[str]:
+def _direct_evidence_paths(record: Any) -> list[str]:
     paths: list[str] = []
     clips = record.clips if isinstance(record.clips, list) else []
     for clip in clips:
@@ -320,18 +335,45 @@ def _evidence_paths(record: Any) -> list[str]:
         if isinstance(verdict, Mapping) and isinstance(verdict.get("path"), str):
             if verdict["path"] not in paths:
                 paths.append(verdict["path"])
+
+    return paths
+
+
+def _historical_evidence_entries(record: Any) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    clips = record.clips if isinstance(record.clips, list) else []
+    for clip in clips:
+        if not isinstance(clip, Mapping):
+            continue
         for history_key in (
             "whisper_retry_history", "vision_rejections", "av_sync_rejections"
         ):
             history = clip.get(history_key)
-            for entry in history if isinstance(history, list) else []:
+            for position, entry in enumerate(
+                history if isinstance(history, list) else []
+            ):
                 if not isinstance(entry, Mapping):
                     continue
-                for key in ("qc_evidence_path", "mp4", "log"):
-                    value = entry.get(key)
-                    if isinstance(value, str) and value.strip() and value not in paths:
-                        paths.append(value)
-    return paths
+                path = entry.get("qc_evidence_path")
+                if not isinstance(path, str) or not path.strip() or path in seen:
+                    continue
+                seen.add(path)
+                entries.append({
+                    "attempt": entry.get("attempt", position + 1),
+                    "source": path,
+                    "recorded_reason": str(
+                        entry.get("failure_detail") or "historical reason unavailable"
+                    ),
+                })
+    return entries
+
+
+def _evidence_paths(record: Any) -> list[str]:
+    return [
+        *_direct_evidence_paths(record),
+        *(entry["source"] for entry in _historical_evidence_entries(record)),
+    ]
 
 
 def _read_json(path: str) -> Any:
@@ -350,66 +392,130 @@ def _metric_number(value: Any) -> float | None:
         return None
 
 
+def _mentions_mouth_boxes(detail: str) -> bool:
+    lowered = detail.casefold()
+    return any(
+        phrase in lowered
+        for phrase in (
+            "mouth box", "mouth boxes", "mouth bbox", "mouth_bboxes",
+            "speaker_mouth_bboxes", "speaker mouth bbox",
+        )
+    )
+
+
+def _gate_metrics(
+    payload: Mapping[str, Any], reason: str
+) -> tuple[dict[str, Any], list[str]]:
+    metrics: dict[str, Any] = {}
+    gates: list[str] = []
+    whisper = payload.get("whisper_gates")
+    if isinstance(whisper, Mapping):
+        metrics["whisper"] = {}
+        for phase in ("pre", "post"):
+            item = whisper.get(phase)
+            if isinstance(item, Mapping):
+                metrics["whisper"][phase] = {
+                    "score": _metric_number(item.get("score")),
+                    "pass_bar": _metric_number(item.get("pass_bar")),
+                    "passed": item.get("passed"),
+                    "transcript": item.get("transcript"),
+                }
+                if item.get("passed") is False and f"whisper_{phase}" not in gates:
+                    gates.append(f"whisper_{phase}")
+
+    vision = payload.get("vision_judge")
+    production_rejection = False
+    if not isinstance(vision, Mapping):
+        vision = payload.get("vision_rejection")
+        production_rejection = isinstance(vision, Mapping)
+    scores = vision.get("scores") if isinstance(vision, Mapping) else None
+    if not isinstance(scores, Mapping) and isinstance(vision, Mapping):
+        scores = vision
+    if isinstance(scores, Mapping):
+        boxes = scores.get("speaker_mouth_bboxes")
+        if not isinstance(boxes, list) and isinstance(vision, Mapping):
+            boxes = vision.get("speaker_mouth_bboxes")
+        pass_bar = _metric_number(scores.get("pass_bar"))
+        if pass_bar is None and isinstance(vision, Mapping):
+            pass_bar = _metric_number(vision.get("pass_bar"))
+        if pass_bar is None and production_rejection:
+            pass_bar = _PRODUCTION_VISION_PASS_BAR
+        passed = scores.get(
+            "passed", vision.get("passed") if isinstance(vision, Mapping) else None
+        )
+        if passed is None and production_rejection:
+            passed = False
+        metrics["vision"] = {
+            "action_match": _metric_number(scores.get("action_match")),
+            "speaker_attribution": _metric_number(scores.get("speaker_attribution")),
+            "mouth_activity": _metric_number(scores.get("mouth_activity")),
+            "pass_bar": pass_bar,
+            "passed": passed,
+            "speaker_mouth_bboxes": boxes if isinstance(boxes, list) else None,
+            "speaker_mouth_center_spread": (
+                vision.get("speaker_mouth_center_spread")
+                if isinstance(vision, Mapping) else None
+            ),
+        }
+        if passed is False and "identity_action_vision" not in gates:
+            gates.append("identity_action_vision")
+        failure_detail = str(vision.get("failure_detail") or "") if isinstance(
+            vision, Mapping
+        ) else ""
+        if _mentions_mouth_boxes(failure_detail or reason):
+            gates.append("mouth_box_localization")
+
+    sync = payload.get("av_sync_gate")
+    if isinstance(sync, Mapping):
+        metrics["syncnet"] = {
+            "confidence": _metric_number(sync.get("confidence")),
+            "offset_frames_25fps": sync.get("offset_frames_25fps"),
+            "offset_seconds": _metric_number(sync.get("offset_seconds")),
+            "passed": sync.get("passed"),
+            "model_sha256": sync.get("model_sha256"),
+        }
+        if sync.get("passed") is False and "syncnet_audiovisual_sync" not in gates:
+            gates.append("syncnet_audiovisual_sync")
+    return metrics, gates
+
+
 def _gate_summary(record: Any) -> tuple[list[str], dict[str, Any], list[str]]:
-    paths = [path for path in _evidence_paths(record) if path.endswith("qc-evidence.json")]
+    paths = _evidence_paths(record)
+    current_paths = [
+        path for path in _direct_evidence_paths(record)
+        if path.endswith("qc-evidence.json")
+    ]
     metrics: dict[str, Any] = {}
     gates: list[str] = []
     reason = str(record.failure_detail or "gate rejection reason unavailable")
-    for path in paths:
+    for path in current_paths:
         payload = _read_json(path)
         if not isinstance(payload, Mapping):
             continue
-        whisper = payload.get("whisper_gates")
-        if isinstance(whisper, Mapping):
-            metrics["whisper"] = {}
-            for phase in ("pre", "post"):
-                item = whisper.get(phase)
-                if isinstance(item, Mapping):
-                    metrics["whisper"][phase] = {
-                        "score": _metric_number(item.get("score")),
-                        "pass_bar": _metric_number(item.get("pass_bar")),
-                        "passed": item.get("passed"),
-                        "transcript": item.get("transcript"),
-                    }
-                    if item.get("passed") is False and f"whisper_{phase}" not in gates:
-                        gates.append(f"whisper_{phase}")
-        vision = payload.get("vision_judge") or payload.get("vision_rejection")
-        scores = vision.get("scores") if isinstance(vision, Mapping) else None
-        if not isinstance(scores, Mapping) and isinstance(vision, Mapping):
-            scores = vision
-        if isinstance(scores, Mapping):
-            boxes = scores.get("speaker_mouth_bboxes")
-            if not isinstance(boxes, list) and isinstance(vision, Mapping):
-                boxes = vision.get("speaker_mouth_bboxes")
-            metrics["vision"] = {
-                "action_match": _metric_number(scores.get("action_match")),
-                "speaker_attribution": _metric_number(scores.get("speaker_attribution")),
-                "mouth_activity": _metric_number(scores.get("mouth_activity")),
-                "pass_bar": _metric_number(scores.get("pass_bar")),
-                "passed": scores.get(
-                    "passed", vision.get("passed") if isinstance(vision, Mapping) else None
-                ),
-                "speaker_mouth_bboxes": boxes,
-                "speaker_mouth_center_spread": (
-                    vision.get("speaker_mouth_center_spread")
-                    if isinstance(vision, Mapping) else None
-                ),
-            }
-            if metrics["vision"]["passed"] is False and "identity_action_vision" not in gates:
-                gates.append("identity_action_vision")
-            if not isinstance(boxes, list) or len(boxes) != 3:
-                gates.append("mouth_box_localization")
-        sync = payload.get("av_sync_gate")
-        if isinstance(sync, Mapping):
-            metrics["syncnet"] = {
-                "confidence": _metric_number(sync.get("confidence")),
-                "offset_frames_25fps": sync.get("offset_frames_25fps"),
-                "offset_seconds": _metric_number(sync.get("offset_seconds")),
-                "passed": sync.get("passed"),
-                "model_sha256": sync.get("model_sha256"),
-            }
-            if sync.get("passed") is False and "syncnet_audiovisual_sync" not in gates:
-                gates.append("syncnet_audiovisual_sync")
+        attempt_metrics, attempt_gates = _gate_metrics(payload, reason)
+        metrics.update(attempt_metrics)
+        for gate in attempt_gates:
+            if gate not in gates:
+                gates.append(gate)
+
+    historical: list[dict[str, Any]] = []
+    for entry in _historical_evidence_entries(record):
+        if not entry["source"].endswith("qc-evidence.json"):
+            continue
+        payload = _read_json(entry["source"])
+        if not isinstance(payload, Mapping):
+            continue
+        entry_metrics, entry_gates = _gate_metrics(
+            payload, entry["recorded_reason"]
+        )
+        historical.append({
+            "attempt": entry["attempt"],
+            "source": entry["source"],
+            "gate_metrics": entry_metrics,
+            "gates": entry_gates,
+            "recorded_reason": entry["recorded_reason"],
+        })
+
     if not gates:
         lowered = reason.casefold()
         if "whisper" in lowered:
@@ -422,22 +528,53 @@ def _gate_summary(record: Any) -> tuple[list[str], dict[str, Any], list[str]]:
             gates.append("syncnet_audiovisual_sync")
         else:
             gates.append(str(record.failure_class or "qc"))
-    return gates, {"gate_metrics": metrics, "recorded_reason": reason}, paths
+    return gates, {
+        "gate_metrics": metrics,
+        "recorded_reason": reason,
+        "historical_gate_metrics": historical,
+    }, paths
 
 
 def _review_command(db_path: str | Path | None, job_id: str) -> str:
-    database = shlex.quote(str(db_path or "jobs.db"))
-    return f"wgp review --db {database} --job {shlex.quote(job_id)}"
+    return shlex.join([
+        "wgp", "review", "--db", str(db_path or "jobs.db"),
+        "--job", job_id,
+    ])
 
 
 def _retry_command(db_path: str | Path | None, *, dead_letter: bool) -> str:
-    database = shlex.quote(str(db_path or "jobs.db"))
+    command = [
+        ".venv/bin/python", "scripts/run_jobs.py",
+        "--db", str(db_path or "jobs.db"),
+    ]
     if dead_letter:
-        return (
-            f".venv/bin/python scripts/run_jobs.py --db {database} "
-            "--retry-dead-letter --reason \"operator reviewed preserved evidence\""
+        command.extend([
+            "--retry-dead-letter",
+            "--reason", "operator reviewed preserved evidence",
+        ])
+    else:
+        command.append("--retry-failed")
+    return shlex.join(command)
+
+
+def _queue_preflight_diagnostic(detail: str) -> FailureDiagnostic:
+    if _MODEL_HASH.search(detail) or _MODEL_MISSING.search(detail):
+        return _model_diagnostic(detail)
+    if _DISK.search(detail) or re.search(r"\bdf\s+.+\s+rc=", detail):
+        return _disk_diagnostic(PreflightCheck("disk_headroom", False, detail))
+
+    lowered = detail.casefold()
+    if "ssh" in lowered or "renderhosterror" in lowered:
+        return _host_unreachable(
+            PreflightCheck("ssh_reachable", False, detail), None
         )
-    return f".venv/bin/python scripts/run_jobs.py --db {database} --retry-failed"
+    return FailureDiagnostic(
+        "PREFLIGHT_UNKNOWN", "error", "Unrecognized preflight sub-check failed",
+        detail,
+        "The durable preflight row did not identify one of the diagnosed sub-checks.",
+        "Inspect the preserved row and file the unclassified preflight detail; do not bypass preflight.",
+        None, ("queue:preflight",), {"failure_class": "preflight"},
+    )
 
 
 def _with_queue_context(
@@ -535,7 +672,11 @@ def classify_queue_failure(
         )
 
     lowered = detail.casefold()
-    if failure_class == "preflight" or "ssh" in lowered or "renderhosterror" in lowered:
+    if failure_class == "preflight":
+        return _with_queue_context(
+            _queue_preflight_diagnostic(detail), base_metadata, evidence_refs
+        )
+    if "ssh" in lowered or "renderhosterror" in lowered:
         return _with_queue_context(
             _host_unreachable(PreflightCheck("ssh_reachable", False, detail), None),
             base_metadata, evidence_refs,
@@ -550,7 +691,8 @@ def classify_queue_failure(
         )
 
     known_retry_class = failure_class in {
-        "render_error", "truncated_render_log", "unresolved_chain_ref"
+        "render_error", "truncated_render_log", "unresolved_chain_ref",
+        "ref2va_lane_unavailable", "queue_admission_error",
     }
     if record.state == "failed" and record.retryable and known_retry_class:
         return FailureDiagnostic(

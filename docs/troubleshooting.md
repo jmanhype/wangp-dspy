@@ -19,8 +19,11 @@ has the same JSON shape:
 ```
 
 Human output uses the same vocabulary: `diagnostic code=…`, `observed`, `why`,
-`remediation`, `next`, `evidence`, and `details`. Credential-shaped values are
-redacted; paths, states, hashes, gate scores, and counts are retained.
+`remediation`, `next`, `evidence`, and `details`. Every diagnostic field is
+redacted in both renderers, including query-string assignments, Bearer/Basic
+values, URL user information, and credential-shaped path segments. Ordinary
+paths, states, hashes, gate scores, and counts are retained. Suggested shell
+commands quote untrusted paths and arguments.
 
 ## Failure catalog
 
@@ -48,6 +51,10 @@ Wangp does not download, overwrite, or relax the digest. Inspect with:
 uv run --frozen --extra dev wgp doctor --models models.json
 ```
 
+Durable executor rows use the generic `preflight` failure class. Their recorded
+detail is classified into these model codes (or the disk code below) before any
+SSH fallback.
+
 ### `DISK_HEADROOM_BELOW_THRESHOLD`
 
 The remote render volume must retain at least **50 GB**. The diagnostic records
@@ -61,10 +68,16 @@ The queue diagnostic reads the preserved `qc-evidence.json` and reports:
 
 - Whisper pre/post `score`, `pass_bar`, transcript, and failed phase;
 - identity/action vision `speaker_attribution`, `action_match`, `mouth_activity`,
-  `pass_bar`, and three-frame mouth boxes/spread;
-- mouth-box localization when three valid boxes are absent;
+  `pass_bar`, and mouth boxes/spread when that evidence was persisted;
+- mouth-box localization only when the recorded failure concerns boxes;
 - SyncNet `confidence`, `offset_frames_25fps`, `offset_seconds`, model hash, and
   passed state.
+
+Production `vision_rejection` evidence may contain only the failure detail,
+scores, and raw responses. New rejection evidence records the effective pass
+bar, while diagnostics recover the historical production default of `0.7`.
+Preserved retry evidence is labelled separately under
+`historical_gate_metrics`; it never replaces current-attempt scores or gates.
 
 It includes the exact recorded failure reason and the preserved evidence path.
 Inspect it with `wgp review --db DB --job ID`. Fix the effective input or gate
@@ -94,8 +107,10 @@ to create a retry loop.
 ### `RETRY_ELIGIBLE`
 
 The job is failed but below the terminal policy and has not repeated its
-signature. Inspect the attempt first; the diagnostic shows the existing
-`scripts/run_jobs.py --retry-failed` command. Diagnostics do not execute it.
+signature. This includes bounded renderer errors and retryable Ref2VA
+lane/admission failures. Inspect the attempt first; the diagnostic shows the
+existing safely quoted `scripts/run_jobs.py --retry-failed` command.
+Diagnostics do not execute it.
 
 ### `PROVENANCE_ARTIFACT_MISSING` and `PROVENANCE_HASH_MISMATCH`
 

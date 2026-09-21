@@ -6,6 +6,7 @@ import argparse
 import contextlib
 import json
 import io
+import shlex
 import sqlite3
 import sys
 from pathlib import Path
@@ -18,6 +19,7 @@ from wangp.doctor import DoctorCheck, collect_doctor_checks
 from wangp.diagnostics import (
     classify_input_failure,
     classify_provenance_failures,
+    redact_sensitive,
     render_diagnostic,
     render_diagnostic_mapping,
 )
@@ -38,11 +40,14 @@ EXIT_INTERNAL = 4
 
 
 def _emit_json(payload: Mapping[str, Any]) -> None:
-    print(json.dumps(dict(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=False))
+    print(json.dumps(
+        redact_sensitive(dict(payload)), sort_keys=True,
+        separators=(",", ":"), ensure_ascii=False
+    ))
 
 
 def _error(message: str) -> None:
-    print(f"wgp: error: {message}", file=sys.stderr)
+    print(f"wgp: error: {redact_sensitive(message)}", file=sys.stderr)
 
 
 def _load_models(path: str | None) -> list[dict[str, str]] | None:
@@ -122,9 +127,11 @@ def _run_doctor(args: argparse.Namespace) -> int:
             symbol = {"pass": "PASS", "failed": "FAIL", "skipped": "SKIP"}[
                 check.status
             ]
-            print(f"[{symbol}] {check.kind}: {check.detail}")
+            print(f"[{symbol}] {check.kind}: {redact_sensitive(check.detail)}")
             if check.status != "pass":
-                print(f"       remediation: {check.remediation}")
+                print(
+                    f"       remediation: {redact_sensitive(check.remediation)}"
+                )
         for diagnostic in report.diagnostics:
             print(render_diagnostic(diagnostic))
         print(f"ready={'yes' if report.ready else 'no'}")
@@ -204,13 +211,22 @@ def _run_review(args: argparse.Namespace) -> int:
             payload["evidence"] = evidence
         if args.run is not None:
             payload["run_review"] = review_run(args.run)
-    except (FileNotFoundError, ValueError) as exc:
+    except (FileNotFoundError, ValueError, JobNotFoundError) as exc:
+        message = str(exc)
+        if isinstance(exc, JobNotFoundError):
+            message = f"queue job not found: {args.job or exc.args[0]}"
+        if args.run is not None:
+            next_command = f"wgp review {shlex.quote(str(args.run))}"
+        elif args.db is not None:
+            next_command = shlex.join([
+                "wgp", "review", "--db", str(args.db)
+            ])
+        else:
+            next_command = None
         diagnostic = classify_input_failure(
-            str(exc),
-            source=args.run,
-            next_command=(
-                f"wgp review {args.run}" if args.run is not None else None
-            ),
+            message,
+            source=args.run if args.run is not None else args.db,
+            next_command=next_command,
         )
         if args.json:
             _emit_json({"diagnostics": [diagnostic.mapping()]})

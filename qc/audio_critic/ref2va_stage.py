@@ -268,6 +268,7 @@ def run_ref2va_qc_stage(settings_doc: dict, *, judge: Optional[Callable],
             vision_rejection = {
                 "failure_detail": str(exc),
                 "scores": dict(exc.scores),
+                "pass_bar": float(vision_pass_bar),
                 "raw_response": exc.raw_response,
                 "mouth_bbox_raw_response": exc.mouth_bbox_raw_response,
             }
