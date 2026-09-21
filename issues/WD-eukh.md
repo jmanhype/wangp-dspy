@@ -9,8 +9,8 @@ parent: WD-uc6y
 created_at: 2026-09-21T13:53:25Z
 created_by: speed
 updated_at: 2026-09-21T13:53:25Z
-content_hash: "sha256:9a950d68671449fc7e6c01c267b0ba019670f35ad1a2447a1bdb4d9d76a305d6"
-blocked_by: [WD-e0nu, WD-7128, WD-88u4, WD-zwwr]
+content_hash: "sha256:892c5c4fdf1e64c206bc3d69074d6f2d12ffdbeb7a1025b9a9e9efa1a020effb"
+blocked_by: [WD-e0nu, WD-7128, WD-88u4, WD-zwwr, WD-7dgi]
 ---
 
 ## Description
@@ -97,9 +97,10 @@ status: new
 - 2026-09-21T13:53:26Z dep_added: blocked_by WD-7128
 - 2026-09-21T13:53:26Z dep_added: blocked_by WD-88u4
 - 2026-09-21T13:53:26Z dep_added: blocked_by WD-zwwr
+- 2026-09-21T13:53:26Z dep_added: blocked_by WD-7dgi
 
 ## Links
 - Parent: [[WD-uc6y]]
-- Blocked by: [[WD-e0nu]], [[WD-7128]], [[WD-88u4]], [[WD-zwwr]]
+- Blocked by: [[WD-e0nu]], [[WD-7128]], [[WD-88u4]], [[WD-zwwr]], [[WD-7dgi]]
 
 ## Comments
