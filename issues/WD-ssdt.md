@@ -1,18 +1,19 @@
 ---
 id: WD-ssdt
 title: "Reject content-brief guide duration mismatches before planning"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [bug, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:19:14Z
-content_hash: "sha256:5876a787d23a3ae033912143c0ae3c72f34fb5860bd5ded09f0e91556857a175"
-blocks: [WD-42no]
+updated_at: 2026-09-21T00:25:02Z
+content_hash: "sha256:830208940b000584b95786ff394e123f3a5ebe879430d3c4ecce2a74b3a12b2d"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e]
+closed_at: 2026-09-21T00:25:02Z
+close_reason: "Accepted: independently re-ran targeted and full pytest at e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b (19/19 targeted; full exit 0 with one disclosed WANGP_3090 live-hardware skip); diff contains only predict/content_brief.py and tests/test_content_brief.py, with policy/wiring/CLI byte-identical to main; real ffprobe preflight compares every supplied guide to declared/default duration at 1e-6 before any side effect; amendment fallback rejects audio_filler_policy and every mismatch; negative CLI paths and my adversarial probes left no plan, run dir, ledger, or jobs DB; integration fixtures use real ffmpeg/ffprobe with no mocks or skips; no QC/AV/retry/vision/Whisper/mouth-box/SyncNet gate changed."
 ---
 ## Description
 Reject a supplied content-brief guide whose measured duration contradicts the declared turn before any no-GPU plan or run artifact is emitted.
@@ -285,10 +286,11 @@ status: new
 - 2026-09-21T00:02:05Z claimed by dev-WD-ssdt
 - 2026-09-21T00:16:50Z status: in_progress -> in_progress
 - 2026-09-21T00:16:50Z auto-follows: linked to predecessor WD-rj6e
+- 2026-09-21T00:25:02Z status: in_progress -> closed
+- 2026-09-21T00:25:02Z dep_removed: no_longer_blocks WD-42no
 
 ## Links
 - Parent: [[WD-h73w]]
-- Blocks: [[WD-42no]]
 - Follows: [[WD-z46c]], [[WD-rj6e]]
 
 ## Comments
