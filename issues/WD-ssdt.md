@@ -8,11 +8,11 @@ labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:16:44Z
-content_hash: "sha256:c35b076faa27dcac817b2b31d4f7f34b517389640823bcfc6ba9d12c26ad76c1"
+updated_at: 2026-09-21T00:16:50Z
+content_hash: "sha256:09f5f72c4585862508cf3a177fb1123dd2aa38489e9428a40d0a8aabee01659a"
 blocks: [WD-42no]
 assignee: dev-WD-ssdt
-follows: [WD-z46c]
+follows: [WD-z46c, WD-rj6e]
 ---
 ## Description
 Reject a supplied content-brief guide whose measured duration contradicts the declared turn before any no-GPU plan or run artifact is emitted.
@@ -254,10 +254,12 @@ status: new
 - 2026-09-21T00:02:05Z status: open -> in_progress
 - 2026-09-21T00:02:05Z auto-follows: linked to predecessor WD-z46c
 - 2026-09-21T00:02:05Z claimed by dev-WD-ssdt
+- 2026-09-21T00:16:50Z status: in_progress -> in_progress
+- 2026-09-21T00:16:50Z auto-follows: linked to predecessor WD-rj6e
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocks: [[WD-42no]]
-- Follows: [[WD-z46c]]
+- Follows: [[WD-z46c]], [[WD-rj6e]]
 
 ## Comments
