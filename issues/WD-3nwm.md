@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:01:40Z
-content_hash: "sha256:e639b24511440af2a19a330a9996779a7cc6e9888243cdb5459057a12da8d27a"
+content_hash: "sha256:bd45e84ca7fc123c0a032a6bababee52980bd3faba43e5cf30ba925705d403ac"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,6 +98,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-21.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
 
 
 ## nd_contract
