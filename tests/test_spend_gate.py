@@ -155,10 +155,22 @@ def test_clipped_probability_disclosure_is_protected() -> None:
 
 
 def test_live_row_replacement_is_atomic_and_leaves_no_temporary() -> None:
-    row = rows()[0]
+    """Replacement must be atomic and content-bound, not environment-dependent.
+
+    row_id folds in source-git availability, which legitimately differs between
+    this evidence checkout and a fresh clone, so equality is asserted on
+    content-derived fields instead of the whole row.
+    """
+    cut = json.loads(LF004.read_text())["cuts"][0]
+    row = next(item for item in rows() if item["qc_evidence_sha256"] == cut["qc_evidence_sha256"])
     qc = Path(row["source_path"]) / "qc-evidence.json"
     target = qc.parent / "spend-gate-row.json"
-    assert write_live_row(qc, repository_root=ROOT) == write_live_row(qc, repository_root=ROOT)
-    assert target.exists() and json.loads(target.read_text())["row_id"] == row["row_id"]
+    assert qc.is_file()
+    first, first_bytes = write_live_row(qc, repository_root=ROOT), None
+    first_bytes = first.read_bytes()
+    assert write_live_row(qc, repository_root=ROOT).read_bytes() == first_bytes
+    payload = json.loads(first.read_text())
+    assert payload["qc_evidence_sha256"] == row["qc_evidence_sha256"]
+    assert payload["clip_index"] == row["clip_index"] and payload["source_path"] == row["source_path"]
     assert not list(qc.parent.glob("*.tmp-*"))
     target.unlink()
