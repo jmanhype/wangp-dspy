@@ -1,17 +1,17 @@
 ---
 id: WD-fp49
 title: "Resolve render hosts from zero-config configuration"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T18:47:35Z
-content_hash: "sha256:77eb3f9a93d4978feb163d4caa9963138719f6096faa14feb95794a685371207"
+updated_at: 2026-09-21T18:48:28Z
+content_hash: "sha256:c0d816643d57b445c66357e3028e8af85a29f3275f14cd2fb3c59fc54eb2d91e"
 was_blocked_by: [WD-lhm4]
-follows: [WD-lhm4, WD-m1sj]
+follows: [WD-lhm4, WD-m1sj, WD-3nwm]
 closed_at: 2026-09-21T18:46:12Z
 close_reason: "Accepted: Rework at b35bad39836a802bf66c8eddc6cf551c647e0ef9 restores the declared public signature `render_host(config: HostConfig) -> SshHost` via a TYPE_CHECKING-only import while keeping the runtime host.render_host import lazy. Independently verified AST parameters/annotations/return, lazy import False, one-file rework delta, unchanged worktree, targeted 9 tests passed, zero forbidden literals, protected engine paths unchanged, and required CI run 35640030136/test job 106466823007 SUCCESS at the exact head. Prior independent review already passed precedence, no-GPU plan/doctor, no-SSH fail-closed behavior, provenance, pass-through, engine semantics, full suite, build artifacts, and budget explanation."
 assignee: dev-WD-fp49
@@ -319,11 +319,14 @@ Corrected boundary:
 - 2026-09-21T18:46:12Z dep_removed: no_longer_blocks WD-lvix
 - 2026-09-21T18:46:12Z dep_removed: no_longer_blocks WD-fq1o
 - 2026-09-21T18:47:35Z status: closed -> open
+- 2026-09-21T18:48:28Z status: open -> in_progress
+- 2026-09-21T18:48:28Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-21T18:48:28Z claimed by dev-WD-fp49
 
 ## Links
 - Parent: [[WD-t534]]
 - Was blocked by: [[WD-lhm4]]
-- Follows: [[WD-lhm4]], [[WD-m1sj]]
+- Follows: [[WD-lhm4]], [[WD-m1sj]], [[WD-3nwm]]
 
 ## Comments
 
