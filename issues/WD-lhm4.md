@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:28:42Z
-content_hash: "sha256:ae01cf9f4c80d113d5e28956301d742012c010cbff88c4c80341305b00008c85"
+updated_at: 2026-09-21T16:28:43Z
+content_hash: "sha256:f4fc3a960deb3da9e07cba19515ffc3b94cc6cf01f2f3366a1c56eb18af7d055"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -110,6 +110,11 @@ status: new
 
 ## Notes
 Delivery correction: the prior in_progress contract is stale; WD-lhm4 is delivered at 0e50b5a with PR #152 and green CI 35624803571.
+### DISCOVERED_BUG
+  title: pvg story deliver is not idempotent after label add
+  context: A race/ordering in  added the delivered label and appended transition evidence, then returned exit 1 with . The story ends in the correct  +  state, but retrying the documented transition fails.
+  affected_files: pvg story-delivery transition implementation
+  discovered_during: WD-lhm4
 
 ## nd_contract
 status: delivered
