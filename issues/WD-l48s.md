@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T13:14:06Z
-content_hash: "sha256:e60b5d39be621b72fd30ae1228a005ce2e2ed9f4e6f81ac5520e07df6b542d14"
+content_hash: "sha256:cfb2f85179de647d546cf481970949a0e1ebfaf9cf481350bff2e6832fa1ca62"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 assignee: dev-WD-l48s
@@ -164,6 +164,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (Rework 3: eight pre-merge review defects)
 
 PROOF:
