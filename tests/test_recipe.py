@@ -18,7 +18,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921"
-SCHEMA = "wangp-dspy.render-recipe/v2"
+SCHEMA = "wangp-dspy.render-recipe/v3"
 
 
 def wgp(*args: str, env: dict[str, str] | None = None) -> subprocess.CompletedProcess:
@@ -64,6 +64,33 @@ def _mutate(recipe: dict, field: str, value: object) -> None:
     node[parts[-1]] = value
 
 
+def _set(payload: dict, path: str, value: object) -> None:
+    """Set a dotted, list-indexable path (``cuts.0.whisper.pre``)."""
+    parts = path.split(".")
+    node: object = payload
+    for part in parts[:-1]:
+        node = node[int(part)] if isinstance(node, list) else node[part]
+    last = parts[-1]
+    if isinstance(node, list):
+        node[int(last)] = value
+    else:
+        node[last] = value
+
+
+def _flatten(value: object, prefix: str = "") -> dict[str, object]:
+    if isinstance(value, dict):
+        flat: dict[str, object] = {}
+        for key, item in value.items():
+            flat.update(_flatten(item, f"{prefix}.{key}" if prefix else str(key)))
+        return flat
+    if isinstance(value, list):
+        flat = {}
+        for index, item in enumerate(value):
+            flat.update(_flatten(item, f"{prefix}[{index}]"))
+        return flat
+    return {prefix: value}
+
+
 def test_recipe_write_pins_real_provenance_values(tmp_path: Path) -> None:
     recipe = json.loads(_write_recipe(tmp_path).read_text(encoding="utf-8"))
     provenance = _provenance(RUN)
@@ -74,21 +101,23 @@ def test_recipe_write_pins_real_provenance_values(tmp_path: Path) -> None:
     assert pinned["plan"]["raw_plan_sha256"] == provenance["inputs"]["plan_sha256"]
     assert pinned["brief"]["raw_sha256"] == provenance["inputs"]["brief_sha256"]
     assert pinned["assembled_media"]["recorded_sha256"] == provenance["final_media"]["sha256"]
-    if "file" in pinned["assembled_media"]:
-        # Artifact present in this checkout: it is pinned by live hash.
-        assert pinned["assembled_media"]["file"]["sha256"] == provenance["final_media"]["sha256"]
-    else:
-        # Artifact absent (for example a CI checkout without render media): it is
-        # recorded as explicitly unavailable rather than pinned as a null.
-        labels = {entry["label"] for entry in pinned["unavailable_artifacts"]}
-        assert "assembled_media" in labels
+    assert pinned["assembled_media"]["sha256"] == provenance["final_media"]["sha256"]
+    assert pinned["assembled_media"]["path"] == "assembled.mp4"
+    assert pinned["queue_database"]["sha256"] == provenance["queue_evidence"]["database_sha256"]
     assert pinned["retry_policy"] == provenance["retry_policy"]
     assert pinned["recorded_settings_hashes"] == provenance["settings_hashes"]
     assert pinned["repository_version"] == (ROOT / "VERSION").read_text().strip()
     assert len(pinned["cut_gate_thresholds"]) == len(provenance["cuts"])
     assert pinned["cut_gate_thresholds"][3]["whisper_post_pass_bar"] == (
         provenance["cuts"][3]["whisper"]["post"]["pass_bar"])
+    assert pinned["cuts"][0]["sha256"] == provenance["cuts"][0]["av_sync"]["video_sha256"]
+    assert pinned["cuts"][0]["recorded_video_sha256"] == (
+        provenance["cuts"][0]["av_sync"]["video_sha256"])
     assert any("lossy" in entry for entry in recipe["not_promised"])
+    # Logical identity is checkout-independent: nothing absolute is pinned.
+    flat = _flatten(pinned)
+    assert [key for key, value in flat.items()
+            if isinstance(value, str) and value.startswith("/")] == []
 
 
 def test_clean_recipe_verifies_with_no_drift(tmp_path: Path) -> None:
@@ -105,7 +134,63 @@ def test_modified_media_is_detected(tmp_path: Path) -> None:
     media.write_bytes(media.read_bytes() + b"\x00")
     result = _verify(recipe, bundle)
     assert result.returncode == 2, result.stdout + result.stderr
-    assert "pinned.assembled_media.file.sha256 status=changed" in result.stdout
+    assert "pinned.assembled_media.sha256 status=changed" in result.stdout
+
+
+def test_run_owned_artifact_is_read_from_the_bundle_under_review(
+    tmp_path: Path,
+) -> None:
+    """A bundle copy must be hashed from its own bytes, not another checkout."""
+    bundle = _copy_run(tmp_path)
+    media = bundle / "assembled.mp4"
+    media.write_bytes(media.read_bytes() + b"tampered")
+    recorded = _provenance(bundle)["final_media"]["sha256"]
+    recipe = json.loads(_write_recipe(tmp_path, bundle).read_text(encoding="utf-8"))
+    pinned = recipe["pinned"]["assembled_media"]
+    assert pinned["recorded_sha256"] == recorded
+    assert pinned["sha256"] != recorded, "stale absolute path was substituted"
+    assert len(pinned["sha256"]) == 64
+
+
+def test_cut_media_hash_is_read_from_bytes(tmp_path: Path) -> None:
+    """Per-cut media are re-hashed from the repository, not copied from the run."""
+    recipe = json.loads(_write_recipe(tmp_path).read_text(encoding="utf-8"))
+    recipe["pinned"]["cuts"][1]["sha256"] = "0" * 64
+    mutated = tmp_path / "mutated.json"
+    mutated.write_text(json.dumps(recipe, sort_keys=True), encoding="utf-8")
+    result = _verify(mutated)
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "pinned.cuts[1].sha256 status=changed" in result.stdout
+
+
+def test_deleted_required_artifact_fails_closed_at_write(tmp_path: Path) -> None:
+    """Absence must never be laundered into a clean recipe."""
+    bundle = _copy_run(tmp_path)
+    (bundle / "assembled.mp4").unlink()
+    out = tmp_path / "absent.json"
+    result = wgp("recipe", "write", "--run", str(bundle), "--out", str(out))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "missing from this run review bundle" in (result.stdout + result.stderr)
+    assert not out.exists()
+
+
+def test_deleted_required_artifact_fails_closed_at_verify(tmp_path: Path) -> None:
+    recipe = _write_recipe(tmp_path)
+    bundle = _copy_run(tmp_path)
+    (bundle / "assembled.mp4").unlink()
+    result = _verify(recipe, bundle)
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "missing from this run review bundle" in (result.stdout + result.stderr)
+    assert "verified=true" not in result.stdout
+
+
+def test_two_bundle_copies_are_byte_identical(tmp_path: Path) -> None:
+    """The same logical run must produce one recipe, wherever it is copied."""
+    first = _copy_run(tmp_path, "first")
+    second = _copy_run(tmp_path, "second")
+    one = _write_recipe(tmp_path, first, "one.json").read_bytes()
+    two = _write_recipe(tmp_path, second, "two.json").read_bytes()
+    assert one == two
 
 
 @pytest.mark.parametrize(
@@ -182,14 +267,37 @@ def test_path_keyed_plan_hash_is_resolved(tmp_path: Path) -> None:
     assert recipe["pinned"]["plan"]["raw_plan_sha256"] == digest
 
 
-def test_malformed_run_evidence_is_a_typed_input_error(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    "path",
+    [
+        "cuts",
+        "cuts.0",
+        "cuts.0.whisper",
+        "cuts.0.whisper.pre",
+        "cuts.0.vision",
+        "cuts.0.av_sync",
+        "cuts.0.av_sync.pass_bar",
+        "inputs",
+        "operator_approval",
+        "final_media",
+        "queue_evidence",
+        "settings_hashes",
+        "retry_policy",
+        "reconciliation",
+    ],
+)
+def test_malformed_run_evidence_is_a_typed_input_error(
+    tmp_path: Path, path: str
+) -> None:
+    """Every consumed section is validated as typed input, never an AttributeError."""
     bundle = _copy_run(tmp_path)
     payload = _provenance(bundle)
-    payload["cuts"] = [None]
+    _set(payload, path, None if path == "cuts.0" else "scalar")
     _write_provenance(bundle, payload)
     result = wgp("recipe", "write", "--run", str(bundle), "--out", str(tmp_path / "r.json"))
     assert result.returncode == 2, result.stdout + result.stderr
-    assert "not an object" in (result.stdout + result.stderr)
+    message = result.stdout + result.stderr
+    assert "not an object" in message or "not a list" in message
 
 
 def test_write_is_symlink_safe(tmp_path: Path) -> None:

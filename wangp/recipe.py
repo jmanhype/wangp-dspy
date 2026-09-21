@@ -28,7 +28,7 @@ from typing import Any, Mapping
 
 from wangp.diagnostics import redact_sensitive
 
-RECIPE_SCHEMA = "wangp-dspy.render-recipe/v2"
+RECIPE_SCHEMA = "wangp-dspy.render-recipe/v3"
 NOT_PROMISED = (
     "byte-identical pixels: a generative render is lossy, so the same recipe may "
     "produce different pixels when re-rendered with a different seed, model "
@@ -107,30 +107,112 @@ def _provenance(bundle: Path) -> dict[str, Any]:
         if not isinstance(cut, Mapping):
             raise RecipeError(
                 f"final provenance cut {index} is not an object")
+        for section in ("whisper", "vision", "av_sync", "media", "gates"):
+            value = cut.get(section)
+            if value is not None and not isinstance(value, Mapping):
+                raise RecipeError(
+                    f"final provenance cut {index} field {section!r} is not an object")
+        whisper = cut.get("whisper")
+        if isinstance(whisper, Mapping):
+            for phase in ("pre", "post"):
+                value = whisper.get(phase)
+                if value is not None and not isinstance(value, Mapping):
+                    raise RecipeError(
+                        f"final provenance cut {index} whisper {phase!r} is not "
+                        f"an object")
+        av_sync = cut.get("av_sync")
+        if isinstance(av_sync, Mapping):
+            bar = av_sync.get("pass_bar")
+            if bar is not None and not isinstance(bar, Mapping):
+                raise RecipeError(
+                    f"final provenance cut {index} field 'av_sync.pass_bar' is "
+                    f"not an object")
+    for name in (
+        "inputs", "operator_approval", "final_media", "queue_evidence",
+        "settings_hashes", "retry_policy", "reconciliation",
+    ):
+        value = payload.get(name)
+        if value is not None and not isinstance(value, Mapping):
+            raise RecipeError(f"final provenance field {name!r} is not an object")
     return payload
 
 
-def _recorded_file(bundle: Path, raw_path: Any) -> dict[str, Any] | None:
-    """Describe one referenced file by re-hashing its current bytes.
+def _mapping_section(
+    payload: Mapping[str, Any], name: str, *, where: str = "final provenance"
+) -> Mapping[str, Any]:
+    """A provenance section that must be a mapping when present."""
+    value = payload.get(name)
+    if value is None:
+        return {}
+    if not isinstance(value, Mapping):
+        raise RecipeError(f"{where} field {name!r} is not an object")
+    return value
 
-    A review bundle is verified as it sits on disk: when the recorded path is
-    absolute (provenance stores the worktree that produced it) but a file of the
-    same name exists inside this bundle, the in-bundle copy is the artifact under
-    review and is the one hashed.
+
+def _repository_tail(raw_path: str) -> Path | None:
+    """The repository-relative tail of a recorded path, if it has one."""
+    parts = Path(raw_path).parts
+    for marker in ("datasets", "renders"):
+        if marker in parts:
+            return Path(*parts[parts.index(marker):])
+    return None
+
+
+def _pin_path(
+    bundle: Path,
+    repository_root: Path,
+    raw_path: Any,
+    *,
+    label: str,
+    run_directory: str | None = None,
+) -> tuple[str, str]:
+    """Pin one required artifact; return (stored relative path, live sha256).
+
+    Stored paths are never absolute: an artifact owned by the run directory is
+    stored bundle-relative, anything else repository-relative. That keeps two
+    copies of the same run byte-identical.
+
+    An artifact the run recorded as living in its own directory is read from the
+    bundle under review and nowhere else: a missing in-bundle artifact is a typed
+    failure, never a silent substitution of the same name from another checkout.
+    Artifacts recorded elsewhere (queue database, per-cut acceptance media) are
+    read from this repository, which is the authorized evidence root.
     """
     if not isinstance(raw_path, str) or not raw_path.strip():
-        return None
+        raise RecipeError(f"{label}: the run did not record an artifact path")
     recorded = Path(raw_path)
-    in_bundle = bundle / recorded.name
-    if in_bundle.is_file():
-        candidate = in_bundle.resolve()
-    elif recorded.is_absolute():
-        candidate = recorded
-    else:
-        candidate = (bundle / recorded).resolve()
-    if not candidate.is_file():
-        return {"path": str(candidate), "sha256": None, "present": False}
-    return {"path": str(candidate), "sha256": _sha256_file(candidate), "present": True}
+    if recorded.is_absolute():
+        if run_directory is not None and recorded.parent.name == run_directory:
+            target = bundle / recorded.name
+            if not target.is_file():
+                raise RecipeError(
+                    f"{label}: required artifact is missing from this run review "
+                    f"bundle: {recorded.name}")
+            return recorded.name, _sha256_file(target)
+        tail = _repository_tail(raw_path)
+        if tail is None:
+            raise RecipeError(
+                f"{label}: recorded path is outside the repository and cannot be "
+                f"pinned portably: {raw_path}")
+        target = repository_root / tail
+        if not target.is_file():
+            raise RecipeError(
+                f"{label}: required artifact is missing from this checkout: "
+                f"{tail.as_posix()}")
+        return tail.as_posix(), _sha256_file(target)
+    for candidate_root in (bundle, repository_root):
+        target = candidate_root / recorded
+        if target.is_file():
+            return recorded.as_posix(), _sha256_file(target)
+    raise RecipeError(f"{label}: required artifact is missing: {raw_path}")
+
+
+def _run_directory_name(media: Mapping[str, Any]) -> str | None:
+    """Basename of the run's own directory, as the run recorded it."""
+    path = media.get("path")
+    if not isinstance(path, str) or not path.strip():
+        return None
+    return Path(path).parent.name or None
 
 
 def _cut_gate_thresholds(cut: Mapping[str, Any]) -> dict[str, Any]:
@@ -152,60 +234,30 @@ def _cut_gate_thresholds(cut: Mapping[str, Any]) -> dict[str, Any]:
     return thresholds
 
 
-def _cut_media(bundle: Path, cut: Mapping[str, Any]) -> dict[str, Any]:
+def _cut_media(
+    bundle: Path,
+    repository_root: Path,
+    cut: Mapping[str, Any],
+    run_directory: str | None,
+) -> dict[str, Any]:
     av_sync = cut.get("av_sync") or {}
-    recorded = av_sync.get("video_sha256")
-    raw_path = av_sync.get("video_path")
-    entry: dict[str, Any] = {
-        "clip_index": cut.get("clip_index"),
-        "recorded_video_sha256": recorded,
-        "video": _recorded_file(bundle, raw_path),
+    clip_index = cut.get("clip_index")
+    stored, live = _pin_path(
+        bundle, repository_root, av_sync.get("video_path"),
+        label=f"cut {clip_index} video", run_directory=run_directory)
+    return {
+        "clip_index": clip_index,
+        "recorded_video_sha256": av_sync.get("video_sha256"),
+        "path": stored,
+        "sha256": live,
     }
-    return entry
-
-
-def _split_available(recipe: dict[str, Any]) -> dict[str, Any]:
-    """Compare only artifacts that could actually be hashed when pinning.
-
-    A checkout without the render media (a CI checkout, or a bundle whose
-    artifacts were never committed) cannot hash those files. Rather than pinning
-    a null that would compare equal to another null -- the defect the v1 recipe
-    shipped with -- unavailable artifacts are recorded explicitly and excluded
-    from comparison. An artifact that WAS hashed and has since disappeared or
-    changed is still reported as ``missing``/``changed``.
-    """
-    pinned = recipe.get("pinned") or {}
-    unavailable: list[dict[str, Any]] = []
-    containers = [
-        ("assembled_media", pinned.get("assembled_media")),
-        ("queue_database", pinned.get("queue_database")),
-    ]
-    for label, container in containers:
-        entry = container.get("file") if isinstance(container, dict) else None
-        if isinstance(entry, dict) and entry.get("present") is False:
-            unavailable.append({
-                "label": label, "path": entry.get("path"),
-                "reason": "file not present when the recipe was written",
-            })
-            container.pop("file", None)
-    for index, cut in enumerate(pinned.get("cuts") or []):
-        entry = cut.get("video") if isinstance(cut, dict) else None
-        if isinstance(entry, dict) and entry.get("present") is False:
-            unavailable.append({
-                "label": f"cuts[{index}].video", "path": entry.get("path"),
-                "reason": "file not present when the recipe was written",
-            })
-            cut.pop("video", None)
-    if unavailable:
-        pinned["unavailable_artifacts"] = unavailable
-    return recipe
 
 
 def _plan_hashes(provenance: Mapping[str, Any]) -> dict[str, Any]:
     """Canonical and raw plan identity, including path-keyed older formats."""
-    approval = provenance.get("operator_approval") or {}
-    reconciliation = provenance.get("reconciliation") or {}
-    inputs = provenance.get("inputs") or {}
+    approval = _mapping_section(provenance, "operator_approval")
+    reconciliation = _mapping_section(provenance, "reconciliation")
+    inputs = _mapping_section(provenance, "inputs")
     canonical = approval.get("canonical_plan_sha256") or reconciliation.get(
         "canonical_plan_sha256")
     raw = inputs.get("plan_sha256")
@@ -234,19 +286,24 @@ def build_recipe(
         # Informational only: which host this checkout resolves. Recorded in
         # `context` and never compared, because it is not run-owned evidence.
         context_configuration = _local_context_configuration(root, environ)
-    inputs = provenance.get("inputs") or {}
-    approval = provenance.get("operator_approval") or {}
-    media = provenance.get("final_media") or {}
-    queue = provenance.get("queue_evidence") or {}
+    inputs = _mapping_section(provenance, "inputs")
+    approval = _mapping_section(provenance, "operator_approval")
+    media = _mapping_section(provenance, "final_media")
+    queue = _mapping_section(provenance, "queue_evidence")
+    settings = _mapping_section(provenance, "settings_hashes")
+    retry_policy = _mapping_section(provenance, "retry_policy")
+    run_directory = _run_directory_name(media)
+    assembled_path, assembled_hash = _pin_path(
+        bundle, root, media.get("path"), label="assembled media",
+        run_directory=run_directory)
+    queue_path, queue_hash = _pin_path(
+        bundle, root, queue.get("database_path"), label="queue database")
     version_path = root / "VERSION"
     repository_version = (
         version_path.read_text(encoding="utf-8").strip()
         if version_path.is_file() else None
     )
-    recorded_settings = {
-        str(name): str(digest)
-        for name, digest in (provenance.get("settings_hashes") or {}).items()
-    }
+    recorded_settings = {str(name): str(digest) for name, digest in settings.items()}
     recipe = {
         "schema_version": RECIPE_SCHEMA,
         "pinned": {
@@ -260,17 +317,22 @@ def build_recipe(
             },
             "assembled_media": {
                 "recorded_sha256": media.get("sha256"),
-                "file": _recorded_file(bundle, media.get("path")),
+                "path": assembled_path,
+                "sha256": assembled_hash,
             },
-            "cuts": [_cut_media(bundle, cut) for cut in provenance.get("cuts") or []],
+            "cuts": [
+                _cut_media(bundle, root, cut, run_directory)
+                for cut in provenance.get("cuts") or []
+            ],
             "cut_gate_thresholds": [
                 _cut_gate_thresholds(cut) for cut in provenance.get("cuts") or []
             ],
             "recorded_settings_hashes": recorded_settings,
-            "retry_policy": dict(provenance.get("retry_policy") or {}),
+            "retry_policy": dict(retry_policy),
             "queue_database": {
                 "recorded_sha256": queue.get("database_sha256"),
-                "file": _recorded_file(bundle, queue.get("database_path")),
+                "path": queue_path,
+                "sha256": queue_hash,
             },
         },
         # Informational only: the verifying machine's own configuration. Never
@@ -281,7 +343,6 @@ def build_recipe(
         },
         "not_promised": list(NOT_PROMISED),
     }
-    _split_available(recipe)
     return redact_sensitive(recipe)
 
 
