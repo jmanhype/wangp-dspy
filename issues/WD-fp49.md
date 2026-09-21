@@ -4,7 +4,7 @@ title: "Resolve render hosts from zero-config configuration"
 status: open
 priority: 1
 type: feature
-labels: [integration, delivered]
+labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
