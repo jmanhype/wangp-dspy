@@ -1,0 +1,53 @@
+{
+  "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+  "discovered_bug": true,
+  "jobs": [
+    {
+      "clip_index": 1,
+      "job_id": "job-1789954232380-922bf583",
+      "missing_before_reconcile": [
+        "audio_policy",
+        "audio_carrier",
+        "speaker_manifest",
+        "dialogue_text"
+      ],
+      "state_before": "failed"
+    },
+    {
+      "clip_index": 2,
+      "job_id": "job-1789954232381-bc7b18bf",
+      "missing_before_reconcile": [
+        "audio_policy",
+        "audio_carrier",
+        "speaker_manifest",
+        "dialogue_text"
+      ],
+      "state_before": "pending"
+    },
+    {
+      "clip_index": 3,
+      "job_id": "job-1789954232381-2c187f71",
+      "missing_before_reconcile": [
+        "audio_policy",
+        "audio_carrier",
+        "speaker_manifest",
+        "dialogue_text"
+      ],
+      "state_before": "pending"
+    },
+    {
+      "clip_index": 4,
+      "job_id": "job-1789954232382-59119d72",
+      "missing_before_reconcile": [
+        "audio_policy",
+        "audio_carrier",
+        "speaker_manifest",
+        "dialogue_text"
+      ],
+      "state_before": "pending"
+    }
+  ],
+  "reason": "content-brief queue envelope omitted accepted Ref2VA audio/QC/runtime fields",
+  "reopened_attempt_id": 2,
+  "schema_version": 1
+}

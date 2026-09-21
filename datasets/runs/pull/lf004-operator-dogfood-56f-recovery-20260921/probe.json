@@ -1,0 +1,32 @@
+{
+  "ffprobe": {
+    "format": {
+      "duration": "9.333333",
+      "size": "1371560"
+    },
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "avg_frame_rate": "24/1",
+        "codec_name": "h264",
+        "codec_type": "video",
+        "height": 576,
+        "index": 0,
+        "nb_frames": "224",
+        "width": 704
+      },
+      {
+        "avg_frame_rate": "0/0",
+        "channels": 2,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "index": 1,
+        "nb_frames": "292",
+        "sample_rate": "32000"
+      }
+    ]
+  },
+  "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
+  "sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7"
+}

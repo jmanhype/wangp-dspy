@@ -1,0 +1,47 @@
+{
+  "audio_paths": [
+    "../../runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+    "../../runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+    "../../runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+    "../../runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+  ],
+  "characters": [
+    {
+      "description": "a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room",
+      "name": "Tess",
+      "sn_tag": "S1"
+    },
+    {
+      "description": "a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room",
+      "name": "Rho",
+      "sn_tag": "S2"
+    }
+  ],
+  "dialogue": [
+    {
+      "speaker": "Tess",
+      "text": "Tomorrow's sunrise is only a projection."
+    },
+    {
+      "speaker": "Rho",
+      "text": "Then give me a real horizon."
+    },
+    {
+      "speaker": "Tess",
+      "text": "The projector died at midnight."
+    },
+    {
+      "speaker": "Rho",
+      "text": "Then we will watch the stars."
+    }
+  ],
+  "durations_s": [
+    2.3333333333333335,
+    2.3333333333333335,
+    2.3333333333333335,
+    2.3333333333333335
+  ],
+  "premise": "At a night-shift observatory, Tess's projected dawn fails and Rho insists on the real sky above them.",
+  "schema_version": "wangp-dspy.content-brief/v1",
+  "title": "LF004 Operator Dogfood: Borrowed Sunrise"
+}

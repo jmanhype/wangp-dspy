@@ -1,0 +1,74 @@
+{
+  "audio_carrier": "native_h3",
+  "audio_guide": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+  "audio_guide2": null,
+  "audio_policy": {
+    "discard_rendered_audio": false,
+    "remux_source": "source_master",
+    "remux_window": [
+      0.0,
+      2.3333333333333335
+    ]
+  },
+  "audio_prompt_type": "A",
+  "audio_provenance": {
+    "keeper_window_s": [
+      0.0,
+      2.3333333333333335
+    ],
+    "source_master": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+    "vocal_stem": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+    "whisper_map": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+  },
+  "audio_qc": {
+    "audio_artifacts": null,
+    "audio_fidelity": null,
+    "av_sync_gate": null,
+    "critic_model": "Qwen2-Audio-7B",
+    "critic_version": null,
+    "mouth_sync": null,
+    "notes": "",
+    "vision_judge": null,
+    "visual_motion_match": null,
+    "whisper_gates": null
+  },
+  "force_fps": "24",
+  "guide_duration_s": 2.333333,
+  "guide_probe": {
+    "channels": 1,
+    "duration": "2.333333",
+    "sample_rate": "24000"
+  },
+  "image_prompt_type": "S",
+  "image_refs": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png"
+  ],
+  "image_start": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png",
+  "keep_frames_video_source": "",
+  "model_type": "minimax_h3_ref2va_pruned",
+  "num_inference_steps": 20,
+  "profile": 3,
+  "prompt": "the composition anchor is the two-shot composition anchor: two characters framed left and right.\n\n(S1) (from the composition anchor):\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\n\n(S2) (from the composition anchor):\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\n\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S2) speaks with lively animated mouth movement: (S2) says: <d>[English] Then we will watch the stars.</d> (S1) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\n\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.",
+  "recipe_name": "production",
+  "requested_frames": 56,
+  "resolution": "480x832",
+  "seed": 904,
+  "speaker_manifest": {
+    "schema": "wangp-dspy.speaker-manifest/v1",
+    "turns": [
+      {
+        "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+        "intended_text": "Then we will watch the stars.",
+        "picture_n": 1,
+        "speaker_id": "S2",
+        "turn_index": 1
+      }
+    ]
+  },
+  "video_guide": null,
+  "video_length": 56,
+  "video_prompt_type": "I",
+  "video_source": null
+}

@@ -1,0 +1,25 @@
+{
+  "all_declared_gates_passed": true,
+  "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+  "final_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
+  "final_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+  "fingerprint_correction": "393182e4459c23bedf17a0f1fb1fb76819d6d9548bc0a0aeedec33fe2963fb56",
+  "post_correction_db_sha256": "fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4",
+  "pre_correction_db_sha256": "4049fa0815deae648dbd07c24cf28d49d027817f45cc9a4c8e3020227b22906c",
+  "production_run_rerun": false,
+  "render_rerun": false,
+  "repository": {
+    "changed_path_count": 13,
+    "clean_tree": false,
+    "commit_sha": "d7abe1f2b2b61a45e89f73422fe5607e11e4bf00",
+    "dirty_tree": true,
+    "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125",
+    "status_sha256": "5cd35d302391b873aa429b92f269e62ab8fdbbd0982377a062675aaa2a40adf6",
+    "tracked_diff_sha256": "824e5261014981261bcf930a2033296ed8bdff3d4d76287f39e69da70c0d9aaf",
+    "untracked_content_sha256": "7f1ad767ba7e473214ac78f3246aac6f2596f8d440cd1628ff2fa40dd8e3f32f",
+    "untracked_path_count": 8
+  },
+  "run_id": "lf004-operator-dogfood-56f-recovery-20260921",
+  "schema_version": 1,
+  "status": "operator_review_pending"
+}

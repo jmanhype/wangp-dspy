@@ -1,0 +1,46 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/acceptance/worker-fda9bc258c06/render-0003/wgp-settings.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/acceptance/worker-fda9bc258c06/render-0003/wgp-settings.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/anchor.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/anchor.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Rho.png
+[load_settings] Using path: /home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_ref2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] the composition anchor is the two-shot composition anchor: t...
+Loading model MiniMax H3 Ref2VA Pruned 20B...
+Loading Model 'ckpts/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Encoding Prompt  [0/1] Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Denoising                          [0/20] Denoising | 1m 45sH3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:52<16:46, 52.99s/steps]  [1/20] Denoising | 2m 38s / 19m 26sH3 denoising:  10%|█         | 2/20 [01:45<15:50, 52.82s/steps]  [2/20] Denoising | 3m 31s / 19m 23sH3 denoising:  15%|█▌        | 3/20 [02:38<15:01, 53.01s/steps]  [3/20] Denoising | 4m 24s / 19m 25sH3 denoising:  20%|██        | 4/20 [03:32<14:09, 53.10s/steps]  [4/20] Denoising | 5m 17s / 19m 26sH3 denoising:  25%|██▌       | 5/20 [04:25<13:17, 53.14s/steps]  [5/20] Denoising | 6m 11s / 19m 27sH3 denoising:  30%|███       | 6/20 [05:18<12:26, 53.29s/steps]  [6/20] Denoising | 7m 04s / 19m 29sH3 denoising:  35%|███▌      | 7/20 [06:12<11:34, 53.40s/steps]  [7/20] Denoising | 7m 58s / 19m 30sH3 denoising:  40%|████      | 8/20 [07:05<10:40, 53.35s/steps]  [8/20] Denoising | 8m 51s / 19m 30sH3 denoising:  45%|████▌     | 9/20 [07:59<09:49, 53.58s/steps]  [9/20] Denoising | 9m 45s / 19m 32sH3 denoising:  50%|█████     | 10/20 [08:53<08:56, 53.62s/steps]  [10/20] Denoising | 10m 39s / 19m 33sH3 denoising:  55%|█████▌    | 11/20 [09:46<08:01, 53.49s/steps]  [11/20] Denoising | 11m 32s / 19m 32sH3 denoising:  60%|██████    | 12/20 [10:39<07:06, 53.32s/steps]  [12/20] Denoising | 12m 25s / 19m 32sH3 denoising:  65%|██████▌   | 13/20 [11:33<06:14, 53.50s/steps]  [13/20] Denoising | 13m 19s / 19m 33sH3 denoising:  70%|███████   | 14/20 [12:27<05:21, 53.52s/steps]  [14/20] Denoising | 14m 13s / 19m 33sH3 denoising:  75%|███████▌  | 15/20 [13:20<04:27, 53.48s/steps]  [15/20] Denoising | 15m 06s / 19m 33sH3 denoising:  80%|████████  | 16/20 [14:14<03:34, 53.58s/steps]  [16/20] Denoising | 16m 00s / 19m 33sH3 denoising:  85%|████████▌ | 17/20 [15:08<02:41, 53.73s/steps]  [17/20] Denoising | 16m 54s / 19m 34sH3 denoising:  90%|█████████ | 18/20 [16:02<01:47, 53.68s/steps]  [18/20] Denoising | 17m 47s / 19m 34sH3 denoising:  95%|█████████▌| 19/20 [16:55<00:53, 53.68s/steps]  [19/20] Denoising | 18m 41s / 19m 35sH3 denoising: 100%|██████████| 20/20 [17:49<00:00, 53.62s/steps]H3 denoising: 100%|██████████| 20/20 [17:49<00:00, 53.46s/steps]
+  [20/20] VAE Decoding | 19m 35s / 19m 35s  [0/1] VAE Decoding of Video and Audio   Error saving metadata to MP4 outputs/2026-09-20-22h04m26s_seed904_the composition anchor is the two-shot composition anchor two characters framed left and right.(S1.mp4: No module named 'mutagen'
+Video file saved to Path: outputs/2026-09-20-22h04m26s_seed904_the composition anchor is the two-shot composition anchor two characters framed left and right.(S1.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 20m 22s

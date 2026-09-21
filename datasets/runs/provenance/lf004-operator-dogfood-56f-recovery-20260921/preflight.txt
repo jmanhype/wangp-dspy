@@ -1,0 +1,5 @@
+LF004 56-frame recovery preflight 2026-09-21T01:30:28Z
+NVIDIA GeForce RTX 3090, 24576 MiB, 7900 MiB, 0 %
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p4  800G  778G   14G  99% /
+{"status":"ok"}

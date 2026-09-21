@@ -1,0 +1,55 @@
+{
+  "command": [
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py",
+    "run-film"
+  ],
+  "environment": {
+    "WANGP_ASSET_MAP": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates=/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates;/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance=/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance",
+    "WANGP_QC_URL": "http://localhost:8000/health",
+    "WANGP_RECOVERY_SETUP_ONLY": "1",
+    "WANGP_SYNCNET_MODEL": "/home/straughter/models/syncnet_v2/syncnet_v2.model",
+    "WANGP_SYNCNET_PYTHON": "/home/straughter/Wan2GP/venv/bin/python",
+    "WANGP_SYNCNET_REPO": "/home/straughter/wangp-dspy-vibevoice-20260916",
+    "WANGP_VISION_BACKEND": "local",
+    "WANGP_WHISPER_LOCAL_FIRST": "0"
+  },
+  "execution_count": 1,
+  "expanded_run_film_inputs": {
+    "audio": [
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+    ],
+    "characters": "Tess:S1:... Rho:S2:...",
+    "db": "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db",
+    "duration_s": [
+      2.3333333333333335,
+      2.3333333333333335,
+      2.3333333333333335,
+      2.3333333333333335
+    ],
+    "plates": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates",
+    "run_ledger": "datasets/lf004-operator-dogfood-56f-recovery-20260921.run_ledger.json",
+    "script": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood-56f/run/script.txt"
+  },
+  "input_verification": {
+    "brief_hash": "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd",
+    "brief_sha256": "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767",
+    "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+    "guide_sha256": [
+      "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f",
+      "d7607d276a371132c148cb39552796db27325e4b2f022d9ee3ba02bb295a5322",
+      "f660d9564d073056110f1bc210c79c6ed83c4773c6e02743e688c11607cecfe7",
+      "c001101d6dfc49cd3b59b358192bcc37ed93c4084ccb89e52306488afb1794c2"
+    ],
+    "plan_sha256": "d0650b2e6b9d6fdbb1807ef82622c9c9a17888a0d4896e0c245feab146013943",
+    "replay": [
+      "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+      "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"
+    ],
+    "run_ledger_sha256": "1ca179cf04fde53ccad4e8b9bf046fc4e121090bd29f7133fa9ad821ba61cbf7",
+    "status": "verified"
+  },
+  "schema_version": 1
+}

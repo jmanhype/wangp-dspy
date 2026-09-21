@@ -1,0 +1,11 @@
+{
+  "event": "postprocess-only recovery",
+  "failure": "first finalize could not open film.contact_sheet.jpg because its parent review directory did not exist",
+  "final_media_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+  "final_status": "operator_review_pending",
+  "fix": "create the review parent before ffmpeg in recover_once.contact_sheet; rerun only recover_once.py finalize",
+  "production_run_rerun": false,
+  "queue_terminal_state": "4 done",
+  "render_rerun": false,
+  "schema_version": 1
+}

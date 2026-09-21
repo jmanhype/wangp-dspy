@@ -1,0 +1,22 @@
+/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/host/wangp_adapter.py:828: SyntaxWarning: invalid escape sequence '\s'
+  """Verify-before-trust: the log must show a COMPLETE N/N denoise
+{
+  "clips": 4,
+  "dry_run": false
+}
+clip 0001: speaker=Tess frames=107 re_anchor=True
+clip 0002: speaker=Rho frames=107 re_anchor=False
+clip 0003: speaker=Tess frames=107 re_anchor=False
+clip 0004: speaker=Rho frames=107 re_anchor=True
+requeued 1 failed job(s)
+handled 1 job(s)
+requeued 0 failed job(s)
+handled 0 job(s)
+handled 1 job(s)
+handled 1 job(s)
+handled 1 job(s)
+handled 1 job(s)
+handled 1 job(s)
+handled 1 job(s)
+handled 2 job(s)
+handled 3 job(s)

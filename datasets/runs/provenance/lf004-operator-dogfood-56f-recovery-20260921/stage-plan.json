@@ -1,0 +1,34 @@
+{
+  "assets": [
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Rho.png"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Tess.png"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/anchor.png"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav"
+    },
+    {
+      "local": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+      "remote": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+    }
+  ],
+  "root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125",
+  "schema_version": 1
+}

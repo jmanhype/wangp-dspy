@@ -1,0 +1,123 @@
+{
+  "904": {
+    "contact_sheet": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf004-operator-dogfood-20260920/cut2-deadletter-review/seed-904.contact_sheet.jpg",
+    "contact_sheet_sha256": "c2212b2c02bd2ccb3c09894ff8a52b3b0f63d7d1f9255581093dbd2a721f7dcd",
+    "probe": {
+      "duration_s": 4.458333,
+      "frame_count": "107",
+      "height": 832,
+      "width": 480
+    },
+    "qc_evidence": {
+      "av_sync_gate": null,
+      "vision_judge": null,
+      "whisper_gates": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-9f75aa6f6ecc/render-0000/raw.mp4",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": false,
+          "phase": "post",
+          "score": 0.167,
+          "transcript": "Ah, do we miss him?\nThen give me a real horizon."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "can give me a real horizon."
+        }
+      }
+    },
+    "raw_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-9f75aa6f6ecc/render-0000/raw.mp4",
+    "raw_sha256": "7351334145399bd4b26454760e97869da412e3015d441ea31516365c4ad3b397",
+    "remux_sha256": "7351334145399bd4b26454760e97869da412e3015d441ea31516365c4ad3b397"
+  },
+  "905": {
+    "contact_sheet": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf004-operator-dogfood-20260920/cut2-deadletter-review/seed-905.contact_sheet.jpg",
+    "contact_sheet_sha256": "d2b91fb6efa65781472a1f55a16424ea33c5cf6418a286058c9e313ca148d900",
+    "probe": {
+      "duration_s": 4.458333,
+      "frame_count": "107",
+      "height": 832,
+      "width": 480
+    },
+    "qc_evidence": {
+      "av_sync_gate": null,
+      "vision_judge": null,
+      "whisper_gates": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-7b851d1e3cf5/render-0001/raw.mp4",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": false,
+          "phase": "post",
+          "score": 0.167,
+          "transcript": "then give me a real horizon.\nGive me a real horizon."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "can give me a real horizon."
+        }
+      }
+    },
+    "raw_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-7b851d1e3cf5/render-0001/raw.mp4",
+    "raw_sha256": "93075b7b7633289b2f956fb23d4fe40061650c140aff9f6af2195daa6b7d65ff",
+    "remux_sha256": "93075b7b7633289b2f956fb23d4fe40061650c140aff9f6af2195daa6b7d65ff"
+  },
+  "906": {
+    "contact_sheet": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf004-operator-dogfood-20260920/cut2-deadletter-review/seed-906.contact_sheet.jpg",
+    "contact_sheet_sha256": "f040c6b0f290fec98c0b9bd0369d36195da265e6e6e7ce2a947c38b7a9f822eb",
+    "probe": {
+      "duration_s": 4.458333,
+      "frame_count": "107",
+      "height": 832,
+      "width": 480
+    },
+    "qc_evidence": {
+      "av_sync_gate": null,
+      "vision_judge": null,
+      "vision_rejection": {
+        "failure_detail": "visual gate failed: mouth/action/speaker attribution below pass bar",
+        "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.67,0.28,0.03,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.67, 0.28, 0.03, 0.01]}\\n```\",\"raw_response_sha256\":\"727165cb62f8e0b56a29ea7d50e7eca7dfa73f32925cc8de1f40f4d5d8dabf14\",\"status\":\"success\"}],\"bbox\":[0.67,0.28,0.03,0.01],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.87,0.24,0.11,0.04],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.87, 0.24, 0.11, 0.04]}\\n```\",\"raw_response_sha256\":\"52486e84a49fced87a1fce04a294a3dfede51fb72e04938f9d3675e09226e372\",\"status\":\"success\"}],\"bbox\":[0.87,0.24,0.11,0.04],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.32,0.25,0.1,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.32, 0.25, 0.1, 0.02]}\\n```\",\"raw_response_sha256\":\"2bb8aa828348d267a3ea9d0726c10e52984add55373ffae6c88e8f94e519291c\",\"status\":\"success\"}],\"bbox\":[0.32,0.25,0.1,0.02],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+        "raw_response": "{\n  \"mouth_activity\": 0.2,\n  \"action_match\": 0.1,\n  \"speaker_attribution\": 0.1,\n  \"notes\": \"The generated frames exhibit severe visual artifacts, specifically a double-exposure or ghosting effect that duplicates the characters and distorts the scene. The expected identity (Rho, the man on the right) is present but heavily obscured by the overlay of a second figure. The composition is compromised by these artifacts, making it difficult to verify the spatial anchor or clear identity. The mouth activity is indistinct due to the visual noise, and the expected subtle listening/speaking action is not clearly visible.\"\n}",
+        "scores": {
+          "action_match": 0.1,
+          "mouth_activity": 0.2,
+          "speaker_attribution": 0.1
+        }
+      },
+      "whisper_gates": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-d1c1953af087/render-0002/raw.mp4",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "post",
+          "score": 1.0,
+          "transcript": "Then give me a real horizon."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "can give me a real horizon."
+        }
+      }
+    },
+    "raw_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-42no/datasets/runs/pull/acceptance/worker-d1c1953af087/render-0002/raw.mp4",
+    "raw_sha256": "cb1293c6e987f6a5224b3649c27392b9f75cbec769b4a1ed1ad1f944c64e71de",
+    "remux_sha256": "cb1293c6e987f6a5224b3649c27392b9f75cbec769b4a1ed1ad1f944c64e71de"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "final_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+  "review_visuals": {
+    "cuts": [
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut1.contact_sheet.jpg",
+        "sha256": "a8b6b85913f51c627dd56cb30ef0d36dfeee75605e6c50c26ec40f75c07ea8a7"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut2.contact_sheet.jpg",
+        "sha256": "4cb5967099e3986e69684fadae0e60177761ecc4102878ec03f6532d0acbb1e0"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut3.contact_sheet.jpg",
+        "sha256": "2c49387a7ad391c42acc8f57e4727f5aad98914ba8f00dcd1e7d802349ccd64c"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut4.contact_sheet.jpg",
+        "sha256": "384e734d486a1084429dc6e1861ace94ea4f2646fbf127f7cf8baa119385efb6"
+      }
+    ],
+    "film": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/film.contact_sheet.jpg",
+      "sha256": "ab03e022521c907c7b618254029ef937560fc66a402f3f98ddee693be34c531b"
+    }
+  },
+  "status": "operator_review_pending"
+}

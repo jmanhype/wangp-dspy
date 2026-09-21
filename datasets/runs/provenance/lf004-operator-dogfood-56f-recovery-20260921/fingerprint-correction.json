@@ -1,0 +1,39 @@
+{
+  "correction": "post_render_effective_input_fingerprint",
+  "jobs": [
+    {
+      "clip_index": 1,
+      "effective": "62d36fd617e01d6d2a0ac39d71c4d3dd8f4901c6726cc4fc4de90fb291828d24",
+      "job_id": "job-1789954232380-922bf583",
+      "stored_after": "62d36fd617e01d6d2a0ac39d71c4d3dd8f4901c6726cc4fc4de90fb291828d24",
+      "stored_before": "1effe80a8d63d7376d8eeae5741e206433439f9944a9687546456eaeae96b46a"
+    },
+    {
+      "clip_index": 2,
+      "effective": "d415212b45e8c166e614674d19ad846df426476fe8a248cf8a53955b4d5483cb",
+      "job_id": "job-1789954232381-bc7b18bf",
+      "stored_after": "d415212b45e8c166e614674d19ad846df426476fe8a248cf8a53955b4d5483cb",
+      "stored_before": "713509534a62c518cb9b78edbd2f77e35f4101c3ab116be8973fe0800ad2cc5b"
+    },
+    {
+      "clip_index": 3,
+      "effective": "ea6b2ae51e5e96f89306cfdfaa6927e93c3550f49dffc45d6a52b5570bd1ed22",
+      "job_id": "job-1789954232381-2c187f71",
+      "stored_after": "ea6b2ae51e5e96f89306cfdfaa6927e93c3550f49dffc45d6a52b5570bd1ed22",
+      "stored_before": "4a91166e09694f5b96c610a3c4c0056e5196c35bedefaca3f7e16d9061ce8ad2"
+    },
+    {
+      "clip_index": 4,
+      "effective": "78cac4c5969e7319ea05cbeb90bbd3ef2e8f0243e853138d3d123a9d5001cb40",
+      "job_id": "job-1789954232382-59119d72",
+      "stored_after": "78cac4c5969e7319ea05cbeb90bbd3ef2e8f0243e853138d3d123a9d5001cb40",
+      "stored_before": "7b2aca2e76721f2b7af79edebcb66cdaa16d9f9124d7f798c4ae65e1771f04d8"
+    }
+  ],
+  "method": "JobQueue.update_render_inputs",
+  "post_correction_db_sha256": "fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4",
+  "pre_correction_db_sha256": "4049fa0815deae648dbd07c24cf28d49d027817f45cc9a4c8e3020227b22906c",
+  "production_run_rerun": false,
+  "render_rerun": false,
+  "schema_version": 1
+}
