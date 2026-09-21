@@ -15,6 +15,7 @@ from typing import Any, Mapping
 CONTENT_BRIEF_SCHEMA = "wangp-dspy.content-brief/v1"
 DEFAULT_DURATION_S = 56.0 / 24.0
 AUDIO_DURATION_TOLERANCE_S = 0.000001
+FFPROBE_TIMEOUT_S = 10.0
 _SN_TAG = re.compile(r"^S\d+$")
 _ALLOWED_KEYS = {
     "schema_version", "title", "premise", "characters", "dialogue",
@@ -216,23 +217,50 @@ def _probe_duration_output(output: str, path: Path) -> float:
     return measured
 
 
-def _probe_audio_duration(path: Path) -> float:
+def _decode_audio_probe(output: str, path: Path) -> float:
+    try:
+        payload = json.loads(output)
+    except json.JSONDecodeError as exc:
+        raise ContentBriefError(
+            f"ffprobe returned invalid JSON for {path}"
+        ) from exc
+    streams = payload.get("streams") if isinstance(payload, dict) else None
+    if not isinstance(streams, list) or not streams:
+        raise ContentBriefError(f"no audio stream in {path}")
+    stream = streams[0]
+    if not isinstance(stream, dict) or stream.get("codec_type") != "audio":
+        raise ContentBriefError(f"no audio stream in {path}")
+    format_data = payload.get("format")
+    if not isinstance(format_data, dict) or "duration" not in format_data:
+        raise ContentBriefError(f"no audio duration for {path}")
+    return _probe_duration_output(str(format_data["duration"]), path)
+
+
+def _probe_audio_duration(
+    path: Path, timeout_s: float = FFPROBE_TIMEOUT_S
+) -> float:
     """Measure one guide with the real ffprobe binary, failing closed."""
 
     command = [
-        "ffprobe", "-v", "error", "-show_entries", "format=duration",
-        "-of", "default=noprint_wrappers=1:nokey=1", str(path),
+        "ffprobe", "-v", "error", "-select_streams", "a:0",
+        "-show_entries", "stream=codec_type:format=duration",
+        "-of", "json", str(path),
     ]
     try:
         result = subprocess.run(
             command, capture_output=True, text=True, check=False,
+            timeout=timeout_s,
         )
+    except subprocess.TimeoutExpired as exc:
+        raise ContentBriefError(
+            f"ffprobe timed out after {timeout_s}s for {path}"
+        ) from exc
     except (OSError, subprocess.SubprocessError) as exc:
         raise ContentBriefError(f"cannot probe audio duration for {path}: {exc}") from exc
     if result.returncode != 0:
         detail = result.stderr.strip() or f"exit status {result.returncode}"
         raise ContentBriefError(f"cannot probe audio duration for {path}: {detail}")
-    return _probe_duration_output(result.stdout, path)
+    return _decode_audio_probe(result.stdout, path)
 
 
 def _check_audio_duration(

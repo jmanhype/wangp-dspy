@@ -11,6 +11,7 @@ from predict.content_brief import (
     DEFAULT_DURATION_S,
     ContentBriefError,
     _check_audio_duration,
+    _probe_audio_duration,
     build_run_film_inputs,
     load_content_brief,
     _probe_duration_output,
@@ -53,6 +54,18 @@ def _write_real_wav(path: Path, duration_s: float) -> None:
             "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
             "-f", "lavfi", "-i", "anullsrc=r=24000:cl=mono",
             "-t", f"{duration_s:.6f}", str(path),
+        ],
+        check=True,
+    )
+
+
+def _write_video_only_mp4(path: Path, duration_s: float) -> None:
+    subprocess.run(
+        [
+            "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+            "-f", "lavfi",
+            "-i", f"color=c=black:s=64x64:d={duration_s:.6f}:r=24",
+            "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(path),
         ],
         check=True,
     )
@@ -116,6 +129,15 @@ def test_audio_duration_tolerance_is_one_microsecond() -> None:
     _check_audio_duration(1, path, 2.0, 2.0000005)
     with pytest.raises(ContentBriefError, match="audio duration mismatch"):
         _check_audio_duration(1, path, 2.0, 2.0000011)
+
+
+def test_probe_timeout_fails_closed_with_real_ffprobe(tmp_path: Path) -> None:
+    guide = tmp_path / "guide.wav"
+    _write_real_wav(guide, DEFAULT_DURATION_S)
+
+    with pytest.raises(ContentBriefError, match="ffprobe timed out"):
+        _probe_audio_duration(guide, timeout_s=0.000001)
+    assert not (tmp_path / "run").exists()
 
 
 @pytest.mark.parametrize(
@@ -204,6 +226,10 @@ def test_cli_rejects_bad_guides_without_artifacts(tmp_path: Path) -> None:
             {"audio_paths": ["one.wav", "two.wav", "three.wav", "four.wav"]},
             "cannot probe audio duration",
         ),
+        "video_only": (
+            {"audio_paths": ["one.wav", "two.wav", "three.wav", "four.mp4"]},
+            "no audio stream",
+        ),
     }
     for label, (mutation, message) in cases.items():
         case_dir = tmp_path / label
@@ -214,6 +240,8 @@ def test_cli_rejects_bad_guides_without_artifacts(tmp_path: Path) -> None:
                 _write_real_wav(case_dir / name, DEFAULT_DURATION_S)
             if label == "mismatch":
                 _write_real_wav(case_dir / "four.wav", 2.333333)
+            elif label == "video_only":
+                _write_video_only_mp4(case_dir / "four.mp4", DEFAULT_DURATION_S)
             else:
                 (case_dir / "four.wav").write_bytes(b"not a wav")
         output = case_dir / "plans" / "plan.json"
