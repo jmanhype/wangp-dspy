@@ -111,6 +111,25 @@ The preserved LF004 recovery run is the clearest review example:
 
 Read `probe.json` for duration, frame count, resolution, and SHA-256. Read `qc-evidence.json` for a rejected or accepted cut's transcript, vision, mouth-box, and SyncNet details. Read `final-provenance.json` by section (its top-level keys are serialized alphabetically, so do not read it as a narrative order): repository and input identities, per-cut gate results and media hashes, retry policy, assembly command, final-media hash, and operator approval status. Older LF002/LF003 review exports also appear under `renders/review_*`.
 
+## Reproducible recipes
+
+A finished run can be pinned to a versioned recipe and later verified against it,
+so you can tell whether the artifact in front of you is the one the recipe
+describes:
+
+```bash
+uv run --frozen --extra dev wgp recipe write --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921 --out /tmp/recipe.json
+uv run --frozen --extra dev wgp recipe verify --recipe /tmp/recipe.json --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921
+```
+
+`verify` exits `0` when every pinned field is unchanged and `2` when it reports
+drift, naming each field as `changed`, `missing`, or `added`. The manifest pins
+the repository version, the brief and plan identities, the resolved
+configuration, the recorded model/settings hashes, the retry policy, the gate
+thresholds in force, and the media hashes. It deliberately does **not** promise
+byte-identical pixels: a generative render is lossy, so a re-render may differ
+even with an identical recipe. See [docs/recipe.md](docs/recipe.md).
+
 ## Troubleshooting
 
 `wgp doctor`, `wgp status`, and `wgp review` emit typed diagnostics in human and JSON modes: what happened, why, the safe next command, and the evidence path. See the complete [failure catalog](docs/troubleshooting.md) for SSH, model, disk, gate, retry, provenance, and unknown-class codes.
