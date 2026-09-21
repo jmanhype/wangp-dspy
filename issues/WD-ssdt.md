@@ -8,8 +8,8 @@ labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:02:05Z
-content_hash: "sha256:b7d1fa25772b5d28816f0152892c46d915d1dadcbe382e0b6d09987d83562c2f"
+updated_at: 2026-09-21T00:16:44Z
+content_hash: "sha256:c35b076faa27dcac817b2b31d4f7f34b517389640823bcfc6ba9d12c26ad76c1"
 blocks: [WD-42no]
 assignee: dev-WD-ssdt
 follows: [WD-z46c]
@@ -119,6 +119,99 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### CI/Test Results
+- Commands run:
+  - `uv run --frozen --extra dev pytest -q tests/test_content_brief.py`
+  - `uv run --frozen --extra dev pytest -q`
+  - `uv run --frozen --extra dev pytest --collect-only -q`
+  - `uv run --frozen --extra dev --with pytest-cov pytest -q --cov=predict.content_brief --cov-report=term tests/test_content_brief.py`
+  - `git diff --check`
+  - `pvg verify predict/content_brief.py tests/test_content_brief.py --format=text`
+- Targeted result: PASS, 19/19 executed (0 skipped).
+- Full-suite result: exit 0; 1,553 collected, 1 pre-existing live-3090 skip, therefore 1,552 passed and 0 failed.
+- Coverage: `predict/content_brief.py` 169 statements, 15 missed, 91%.
+- Exact targeted tail:
+
+```text
+...................                                                        [100%]
+```
+
+- Exact full-suite tail (quiet mode does not print a count line):
+
+```text
+.................                                                        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-ssdt/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable.html
+```
+
+- A separate `-rs` full run identified the sole skip as `tests/test_jobs_integration_3090.py:20: set WANGP_3090=1 to run the live 3090 preflight probe`. It was not run because this story forbids GPU/remote work.
+- `git diff --check`: PASS (empty output).
+- `pvg verify`: `VERIFY: PASSED (2 files scanned, 0 issues)`.
+- Real local toolchain: `/opt/homebrew/bin/ffmpeg` and `/opt/homebrew/bin/ffprobe`, both version 8.0.1. Integration fixtures are generated through ffmpeg and measured through ffprobe with no mocks or skip conditions.
+
+### Commit / PR
+- Branch: `story/WD-ssdt`
+- Commit: `e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/148
+- Diff budget: 2 files, 175 insertions, 1 deletion (176 changed lines, below 250).
+
+### AC Verification
+| AC | Requirement | Code Location | Test / Artifact Evidence | Status |
+|---|---|---|---|---|
+| 1 | Resolve and really probe every supplied guide before output side effects | `predict/content_brief.py:283-296` (missing check, real ffprobe loop, first mkdir afterward) | `tests/test_content_brief.py:79-106`, `:146-162`, `:190-246`; negative assertions cover no run dir; CLI cases reject missing and corrupt guides | PASS |
+| 2 | Declared/default duration must match measured duration within `0.000001 s`, with typed turn/path/declared/measured mismatch detail | `predict/content_brief.py:17`, `:238-245`, `:288-292` | `tests/test_content_brief.py:114-118` (tolerance), `:146-162` and `:190-246` (real mismatch) | PASS |
+| 3 | PM Amendment supersedes declaration bypass; fallback is no filler policy | `predict/content_brief.py:19-22` leaves `audio_filler_policy` unknown; `:64-75` mapping/hash remains unchanged | `tests/test_content_brief.py:128-143` rejects the field; `:71-75` pins the no-policy brief hash | PASS (materialized-filler variant deliberately dropped under amendment) |
+| 4 | No declaration may authorize trimming/concealing a mismatch | Same guard at `predict/content_brief.py:238-245`, `:288-292`; no bypass branch | Every mismatch test at `tests/test_content_brief.py:146-162`, `:190-246` is rejected | PASS (PM-amendment fallback) |
+| 5 | Matching supplied guide remains valid and emitted guide/shot/frame/window values remain consistent | Guard accepts equality at `predict/content_brief.py:238-245`; unchanged downstream emitter `services/director/wiring.py:286-303` | `tests/test_content_brief.py:164-188` checks 56 frames, audio frames, keeper window, and calls unchanged `check_guide_duration` | PASS |
+| 6 | No-audio/default behavior and prior no-policy brief hash remain compatible | `predict/content_brief.py:282-293` probes only supplied guides; mapping unchanged at `:64-75` | `tests/test_content_brief.py:59-76` pins prior hash; `:248-277` validates canonical no-audio no-GPU plan | PASS |
+| 7 | LF004 shape rejected; LF003-equivalent 56-frame shape accepted | Mismatch guard at `predict/content_brief.py:288-292` | `tests/test_content_brief.py:146-162` and mismatch CLI case `:190-246` use 2.333333 s vs 4.458333333333333 s; `:164-188` accepts four 56-frame/default-duration real WAVs | PASS |
+| 8 | CLI fail-closed before plan/ledger/jobs; success remains no-GPU/queue-free | `scripts/run_content_brief.py:50-53` preflights before `run_film`, `:54-64` dry run, `:86-95` summary/plan write | `tests/test_content_brief.py:190-246` asserts plan, run dir, run ledger, and jobs DB are absent for all negative CLI cases; `:164-188` and `:248-277` assert dry-run/no-GPU/no-queue summary | PASS |
+| 9 | No gate/retry/renderer semantics changed | Diff contains only `predict/content_brief.py` and `tests/test_content_brief.py`; `services/director/renderers/policy.py` is byte-identical to main | `git diff --stat`; `tests/test_content_brief.py:164-188` invokes existing `check_guide_duration` unchanged | PASS |
+
+### Gate / Scope Non-Regression
+- Source diff inspection: only `predict/content_brief.py` and `tests/test_content_brief.py` changed.
+- No change to Whisper, vision, mouth-box, SyncNet, QC threshold, retry, provenance, renderer, `services/director/wiring.py`, or `services/director/renderers/policy.py`.
+- `check_guide_duration` retains its existing `1e-9` guide-vs-shot comparison; the new measured-vs-declared preflight is separate and uses `0.000001 s`.
+- No GPU, render, remote host call, queue submission, or model inference was performed. The committed LF004 brief/plan dataset was not edited.
+
+LEARNINGS:
+- ffprobe's six-decimal duration output is comfortably sufficient for the mandated one-microsecond planning tolerance, including the LF004's multi-second discrepancy.
+- Putting the ffprobe/probe-output parsing and duration comparison in small helpers made it possible to test numeric fail-closed paths and the tolerance directly without mocking the real integration path.
+- The PM amendment's no-policy fallback kept the change inside budget while preserving the invariant that the renderer consumes a guide whose real duration already matches the declared turn.
+
+### OBSERVATIONS (unrelated)
+- The full suite contains an environment-gated live 3090 test and two pre-existing warning sources; details are below.
+- `pvg notes search 'content brief guide duration ffprobe'` failed in this checkout because `.paivot/config.yaml` names vault `Claude`, while the available vault is `.vault`; a direct vlt search of `.vault` returned no additional context. Story context remained complete through `pvg nd show WD-ssdt`.
+
+### DISCOVERED_BUG (pre-existing test/infrastructure issues)
+  title: Full suite still has an environment-gated live 3090 test
+  context: The full suite reports one skip at tests/test_jobs_integration_3090.py:20 (`set WANGP_3090=1`). It could not be executed under this story's no-GPU/no-remote constraint.
+  affected_files: tests/test_jobs_integration_3090.py
+  discovered_during: WD-ssdt
+
+  title: FastAPI TestClient emits Starlette deprecation warning
+  context: Full-suite runs warn from .venv/lib/python3.14/site-packages/fastapi/testclient.py:1 that using httpx with starlette.testclient is deprecated. This is dependency/test-client behavior outside the story's allowed files.
+  affected_files: tests/qc/audio_critic tests importing fastapi.testclient; project dependency versions
+  discovered_during: WD-ssdt
+
+  title: Cold-cache prompt-director test emits invalid escape warning
+  context: The first full-suite run emitted SyntaxWarning at tests/test_prompt_director.py:195 for `"\w"`. Subsequent cached runs did not repeat it, but the source issue remains outside this story's allowed diff scope.
+  affected_files: tests/test_prompt_director.py
+  discovered_during: WD-ssdt
+
+  title: Repo notes adapter names an unavailable vault
+  context: pvg notes search fails because .paivot/config.yaml sets notes vault to `Claude`, but vlt reports available vaults including `.vault` and not `Claude`.
+  affected_files: .paivot/config.yaml
+  discovered_during: WD-ssdt
+
 ## PM Amendment (dispatcher review, 2026-09-20)
 
 Supersedes the declaration-only bypass semantics in AC #3 and AC #4. All other
