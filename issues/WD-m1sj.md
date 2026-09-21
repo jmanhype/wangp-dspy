@@ -1,14 +1,15 @@
 ---
 id: WD-m1sj
 title: "uv build cannot produce a wheel: duplicate qc/audio_critic package declaration"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
 updated_at: 2026-09-21T17:45:39Z
-content_hash: "sha256:0dfd3e9a773a1fbfacf57b5077ff588d0454daa8c9f1a3788ecf843835b83818"
+content_hash: "sha256:78c432f890ded2036f9f541fceedd518b33c797a29072562149507fa819f312a"
+follows: [WD-lhm4]
 ---
 
 ## Description
@@ -63,9 +64,11 @@ Residual, disclosed and NOT part of this bug: a wheel-installed `wgp plan` still
 No tracker state for other stories was changed.
 
 ## History
-
+- 2026-09-21T17:45:39Z status: open -> in_progress
+- 2026-09-21T17:45:39Z auto-follows: linked to predecessor WD-lhm4
 
 ## Links
 - Parent: [[WD-t534]]
+- Follows: [[WD-lhm4]]
 
 ## Comments
