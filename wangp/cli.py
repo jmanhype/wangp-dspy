@@ -31,6 +31,14 @@ from wangp.queue_view import (
     render_status,
     review_run,
 )
+from wangp.recipe import (
+    RecipeError,
+    build_recipe,
+    load_recipe,
+    pinned_field_count,
+    verify_recipe,
+    write_recipe,
+)
 
 
 EXIT_OK = 0
@@ -44,6 +52,11 @@ def _emit_json(payload: Mapping[str, Any]) -> None:
         redact_sensitive(dict(payload)), sort_keys=True,
         separators=(",", ":"), ensure_ascii=False
     ))
+
+
+def _repository_root() -> Path:
+    """Repository root of the checkout running this CLI."""
+    return Path(__file__).resolve().parents[1]
 
 
 def _error(message: str) -> None:
@@ -254,6 +267,58 @@ def _run_review(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _run_recipe_write(args: argparse.Namespace) -> int:
+    try:
+        recipe = build_recipe(args.run, _repository_root())
+        path, digest = write_recipe(recipe, args.out)
+    except RecipeError as exc:
+        diagnostic = classify_input_failure(
+            str(exc), source=args.run, next_command=f"wgp review {shlex.quote(str(args.run))}")
+        if args.json:
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
+    pinned = pinned_field_count(recipe)
+    run_id = (recipe.get("pinned") or {}).get("run_id")
+    if args.json:
+        _emit_json({"recipe": {"path": str(path), "sha256": digest,
+                               "schema_version": recipe["schema_version"],
+                               "run_id": run_id, "pinned_fields": pinned}})
+    else:
+        print(f"recipe={path}")
+        print(f"sha256={digest}")
+        print(f"run_id={run_id} pinned_fields={pinned}")
+    return EXIT_OK
+
+
+def _run_recipe_verify(args: argparse.Namespace) -> int:
+    try:
+        recipe = load_recipe(args.recipe)
+        drift = verify_recipe(args.recipe, args.run, _repository_root())
+    except RecipeError as exc:
+        diagnostic = classify_input_failure(
+            str(exc), source=args.recipe,
+            next_command=f"wgp recipe write --run {shlex.quote(str(args.run))} --out <path>")
+        if args.json:
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
+    if args.json:
+        _emit_json({"recipe": {"path": str(Path(args.recipe).expanduser().resolve()),
+                               "run_id": (recipe.get("pinned") or {}).get("run_id"),
+                               "drift": drift, "drift_count": len(drift),
+                               "verified": not drift}})
+    else:
+        print(f"recipe={Path(args.recipe).expanduser().resolve()}")
+        for entry in drift:
+            print(f"drift field={entry['field']} status={entry['status']} "
+                  f"expected={entry['expected']!r} observed={entry['observed']!r}")
+        print(f"drift={len(drift)} verified={'true' if not drift else 'false'}")
+    return EXIT_OK if not drift else EXIT_INPUT
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the stable parser without registering unstable verbs."""
 
@@ -307,6 +372,22 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--job", help="select one queue job id")
     review.add_argument("--json", action="store_true")
     review.set_defaults(handler=_run_review)
+
+    recipe = commands.add_parser(
+        "recipe", help="write or verify a versioned render recipe")
+    recipe_commands = recipe.add_subparsers(dest="recipe_verb", required=True)
+    recipe_write = recipe_commands.add_parser(
+        "write", help="pin a finished run's logical recipe to a file")
+    recipe_write.add_argument("--run", required=True, help="run review-bundle directory")
+    recipe_write.add_argument("--out", required=True, help="recipe output path")
+    recipe_write.add_argument("--json", action="store_true")
+    recipe_write.set_defaults(handler=_run_recipe_write)
+    recipe_verify = recipe_commands.add_parser(
+        "verify", help="verify a run against its recipe and report drift")
+    recipe_verify.add_argument("--recipe", required=True, help="recipe file to verify")
+    recipe_verify.add_argument("--run", required=True, help="run review-bundle directory")
+    recipe_verify.add_argument("--json", action="store_true")
+    recipe_verify.set_defaults(handler=_run_recipe_verify)
     return parser
 
 
