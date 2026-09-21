@@ -10,7 +10,7 @@ created_by: speed
 updated_at: 2026-09-21T17:50:34Z
 content_hash: "sha256:1ac0c2b7c7ceb1daf90c85864e1a8e21401927df8a1afed870f5665cc3445b22"
 follows: [WD-lhm4, WD-3nwm]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-21T17:50:34Z
 close_reason: "Accepted: independently verified on main 5dadcda that uv build emits exactly one wheel and one sdist, the wheel contains qc/audio_critic/__init__.py once, required CI test/build checks pass, and the installed wgp doctor works from the wheel; engine and gate paths are unchanged."
 ---
