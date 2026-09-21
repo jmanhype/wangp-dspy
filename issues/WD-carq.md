@@ -8,8 +8,8 @@ labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:08:40Z
-content_hash: "sha256:87725e114c1bf5ce04e9137c744883db044b232428622d336409625bbb812dab"
+updated_at: 2026-09-21T23:10:03Z
+content_hash: "sha256:e4ca5d1f8f6aa5298654d4767bab0b77883d3cab68bbec5cefc0f6208034eb69"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
@@ -109,6 +109,15 @@ status: new
 
 
 ## Acceptance Criteria
+
+- [x] AC #1: `wangp/recipe.py` builds a versioned recipe (`wangp-dspy.render-recipe/v3`) that pins the run's logical identity: repository `VERSION`, brief semantic and raw hashes, canonical and raw plan hashes, recorded settings hashes, retry policy, per-cut gate thresholds, per-cut and assembled media digests, and the queue database digest.
+- [x] AC #2: `wgp recipe write` records that recipe from existing committed evidence and `wgp recipe verify` reports per-field drift as `changed` / `missing` / `added` with exit code 2 for drift and typed input errors.
+- [x] AC #3: referenced artifacts are re-hashed from their current bytes; an artifact the run recorded inside its own directory is read from the bundle under review only, and a required artifact that cannot be hashed fails closed instead of being omitted or substituted from another checkout.
+- [x] AC #4: consumed provenance sections and nested cut mappings are validated as typed input (`inputs`, `operator_approval`, `final_media`, `queue_evidence`, `settings_hashes`, `retry_policy`, `reconciliation`, cut `whisper`/`pre`/`post`, `vision`, `av_sync`, `av_sync.pass_bar`, `media`, `gates`), so malformed evidence exits 2 rather than 4.
+- [x] AC #5: pinned paths are bundle- or repository-relative, so the same logical run produces a byte-identical recipe in two independent copies.
+- [x] AC #6: the recipe verbs are local and read-only: no SSH, no host contact, no GPU, no queue submission, and no mutation of committed evidence or protected engine files.
+- [x] AC #7: `README.md` and `docs/recipe.md` document what is pinned, what is not promised (lossy pixels, unrecorded inputs, verifying host configuration), and how to verify a recipe.
+- [x] AC #8: verification evidence is recorded in the notes below: targeted recipe suite, full suite, build, exact-head CI, mutation/failure matrix, and read-only checks.
 
 
 ## Design
@@ -431,3 +440,16 @@ status: rejected
 - [ ] AC #2: same logical run is not byte-stable across two copied bundles.
 - [ ] AC #3: a required missing artifact can verify clean and an absolute path can substitute a stale worktree.
 - [ ] PR thread 8: consumed nested provenance shapes still escape RecipeError as exit-4 AttributeError.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Delivery after the third rejection: head 982c047188414d38b690c4992fcb371ccde0495e on story/WD-carq; exact-head CI check 106549314311 completed/success (PR #155).
+- `tests/test_recipe.py` 33 passed; full suite 1652 passed / 0 failed / 0 errors / 1 skipped; `uv build` wheel plus sdist.
+- Delete-before-write and delete-before-verify fail closed with `required artifact is missing from this run review bundle`; a tampered bundle copy fails with `pinned.assembled_media.sha256 status=changed`; two copies produce one unique recipe sha256; the 14-case nested shape matrix exits 2; flattened pinned contains zero absolute paths.
+
+### proof
+- [x] AC #2: the same logical run is byte-stable across two copied bundles.
+- [x] AC #3: missing required artifacts fail closed at write and verify with field-specific diagnostics.
+- [x] AC #3/#4: consumed provenance sections and nested cut mappings fail as typed input, never exit 4.
