@@ -1,17 +1,19 @@
 ---
 id: WD-carq
 title: "Reproduce renders from a versioned recipe manifest"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T13:59:07Z
-content_hash: "sha256:86a9313aeb7434619a5c5284f6a4411f45f1a370b6de2b55df2aaad2d84666ba"
+updated_at: 2026-09-21T21:23:49Z
+content_hash: "sha256:b63c23a1412511a9c8a19602967dfe7ccec5ca660ef9a8e8f08525eb478cbf5a"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
+assignee: dev-WD-carq
+follows: [WD-lvix]
 ---
 
 ## Description
@@ -119,11 +121,15 @@ status: new
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-lvix
 - 2026-09-21T13:56:17Z dep_added: blocks WD-fq1o
 - 2026-09-21T21:19:22Z dep_removed: was_blocked_by WD-lvix
+- 2026-09-21T21:23:49Z status: open -> in_progress
+- 2026-09-21T21:23:49Z auto-follows: linked to predecessor WD-lvix
+- 2026-09-21T21:23:49Z claimed by dev-WD-carq
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-fq1o]]
 - Was blocked by: [[WD-lvix]]
+- Follows: [[WD-lvix]]
 
 ## Comments
 
