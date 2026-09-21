@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T17:29:56Z
-content_hash: "sha256:83eccc9c8c2798e2a4ac9fd121aa4d2f031020279887d7386c1e5a45ce2619ab"
+updated_at: 2026-09-21T17:30:15Z
+content_hash: "sha256:403cfb385cf51f75d285fe40bd23d242e20f52fb453bb74b43fa7c9fcfadba5d"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -117,7 +117,7 @@ Delivery correction: the prior in_progress contract is stale; WD-lhm4 is deliver
   discovered_during: WD-lhm4
 DISCOVERED_BUG clarification: the failed transition command was pvg story deliver WD-lhm4. Its exact stderr was: labels add WD-lhm4 delivered: Error: label delivered already exists on WD-lhm4. The intended story state is in_progress with delivered label, and that final state is present.
 Commit: faeac0c9092952f78e5c5944f0dabf4e805b4db2
-
+SHA: faeac0c9092952f78e5c5944f0dabf4e805b4db2
 
 ## nd_contract
 status: delivered
