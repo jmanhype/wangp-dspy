@@ -8,8 +8,8 @@ labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-20T23:57:08Z
-content_hash: "sha256:e2d7d6e4e82a43baac2325a722e6eab3bff5e29a97b61b1764bc244c176645ad"
+updated_at: 2026-09-21T00:01:36Z
+content_hash: "sha256:669cdd4c930293666f654a96c529c60e16355964ef028644077a7a66ca79865a"
 blocks: [WD-42no]
 ---
 ## Description
@@ -117,7 +117,42 @@ status: new
 
 
 ## Notes
+## PM Amendment (dispatcher review, 2026-09-20)
 
+Supersedes the declaration-only bypass semantics in AC #3 and AC #4. All other
+acceptance criteria, tests, budget, and out-of-scope entries stand unchanged.
+
+1. The guard compares the declared turn duration against the measured duration of
+   the guide artifact that the render will actually consume.
+2. A measured/declared mismatch is rejected. No field value — including
+   `audio_filler_policy` — may by itself authorize acceptance of a guide whose
+   measured duration differs from the declared duration.
+3. `audio_filler_policy` is retained only if the implementation materializes the
+   filler into the prepared guide (for example tail silence appended with real
+   ffmpeg, then measured with real ffprobe) so that the measured duration of that
+   prepared artifact equals the declared duration within `0.000001` s. The guard
+   then verifies the materialized artifact; the policy is recorded in
+   `audio_provenance.filler_policy` for audit, and is never an acceptance bypass.
+4. If materializing the filler exceeds the story's diff budget, drop
+   `audio_filler_policy` from this story entirely and reject every
+   measured/declared mismatch. A later story may add materialized padding.
+
+Rationale: the LF004 failure was the renderer filling unfilled speech time by
+repeating the intended line (post-Whisper 0.167 on seeds 904 and 905) and by
+double-exposure motion (seed 906). A declaration that changes no audio byte would
+re-open exactly that failing configuration while making it look governed.
+AC #7 (LF004 shape regressively rejected; WD-rij6 56-frame shape accepted) stands
+as written and is the primary regression.
+
+## nd_contract
+status: new
+
+### evidence
+- Created 2026-09-20 from measured LF004 guide-duration mismatch evidence under WD-h73w and the accepted WD-rij6 56-frame control.
+- Dispatcher review 2026-09-20: story verified against source; a declaration-only filler bypass was rejected and replaced by a materialization requirement.
+
+### proof
+- [ ] Pending implementation.
 
 ## History
 - 2026-09-20T23:53:58Z dep_added: blocks WD-42no
