@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:22:47Z
-content_hash: "sha256:bb365568e811367ce2fb4e1c16adceaa38d85f3404c7df45528fefa07ce01d10"
+updated_at: 2026-09-21T16:22:48Z
+content_hash: "sha256:825acafd87b0ca28af261277725196d22c78108281ca6ae924e42436c183b458"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -109,6 +109,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## nd_contract
 status: in_progress
 
