@@ -9,7 +9,8 @@ parent: WD-59qe
 created_at: 2026-09-21T13:51:59Z
 created_by: speed
 updated_at: 2026-09-21T13:51:59Z
-content_hash: "sha256:8247d03499cfefa2e9f97c0eecdf0d5dcf6871659f39230007aec81ddc43c8c4"
+content_hash: "sha256:b3181aeb5732e4d92709fb16e2b26b18aff4cacd1637c72ec31c774a720eb1f1"
+blocked_by: [WD-fkrk]
 ---
 
 ## Description
@@ -104,9 +105,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:51:59Z dep_added: blocked_by WD-fkrk
 
 ## Links
 - Parent: [[WD-59qe]]
+- Blocked by: [[WD-fkrk]]
 
 ## Comments
