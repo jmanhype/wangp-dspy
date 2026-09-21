@@ -7,8 +7,8 @@ type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
-updated_at: 2026-09-21T17:50:34Z
-content_hash: "sha256:1ac0c2b7c7ceb1daf90c85864e1a8e21401927df8a1afed870f5665cc3445b22"
+updated_at: 2026-09-21T17:50:35Z
+content_hash: "sha256:5d2ad1065fa076e33624b9bfd24bcbee3200f01dfa6882ac889e68c50ed92d3d"
 follows: [WD-lhm4, WD-3nwm]
 labels: [accepted]
 closed_at: 2026-09-21T17:50:34Z
@@ -50,6 +50,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-21]: Independently reproduced the acceptance criterion directly on main 5dadcdafc680ee41999079e55bd085dd2e73439c; WD-lhm4/PR #152 is provenance only.
 
