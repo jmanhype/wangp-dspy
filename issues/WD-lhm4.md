@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:41:16Z
-content_hash: "sha256:a679538b25285db049415f520f971f8bfe47cfe08af8efd31dbc526616135edd"
+updated_at: 2026-09-21T15:47:28Z
+content_hash: "sha256:cb0cbb98b9754349e00104806f66b031d768a743fd0519adafab5c3c4fdb1c77"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -109,7 +109,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed by dev-WD-lhm4; implementation started at main bc9b13f on story/WD-lhm4.
+
+### proof
+- [ ] Pending implementation
 
 ## History
 - 2026-09-21T13:56:15Z dep_added: blocked_by WD-3nwm
