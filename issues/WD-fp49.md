@@ -8,8 +8,8 @@ labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T18:48:28Z
-content_hash: "sha256:5fb0c8af76e490f31a6dfc98a913829cf977690050a465902a01a05e9d31a53e"
+updated_at: 2026-09-21T19:16:28Z
+content_hash: "sha256:4303ab225a789ad3d7c27c7da1d5bd996e078b1635ca47716bf06f507e97a4e3"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj, WD-3nwm]
 closed_at: 2026-09-21T18:46:12Z
@@ -104,6 +104,97 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (Rejection 2 rework)
+
+Commands run:
+- RED at b35bad3: `uv run --frozen --extra dev pytest tests/test_wd_fp49_rework.py -q` — exit 1; all 14 newly authored review-regression tests failed against the rejected behavior.
+- GREEN at 9df6f88: `uv run --frozen --extra dev pytest tests/test_wd_fp49_rework.py -q` — 15 passed (the added run-jobs exact-key test brings the file to 15).
+- Required targeted run at 9df6f88: `uv run --frozen --extra dev pytest tests/test_host_config.py tests/test_runtime_host_wiring.py tests/test_wd_fp49_rework.py -q` — 24 passed.
+- Full suite at 9df6f88: `uv run --frozen --extra dev pytest -q` — exit 0; 1,603 collected, 1,602 passed and the pre-existing optional live-host test skipped. Output retained one pre-existing third-party `StarletteDeprecationWarning` from FastAPI's TestClient import; no project test failed.
+- Packaging at 9df6f88: `uv build --out-dir /tmp/wd-fp49-dist-head.8Z10Gj` — wheel and sdist built; SHA-256 wheel `d33b360de5500483286e965efe7f71c8be2e2f0f7a4725ca8e3c31d4a16a617a`, sdist `2aff350c425937450f550097aca967b32259f99ae80095746ae61564383114c9`; wheel contains `wangp.toml=true`.
+- Protected engine check: `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — exit 0.
+- Forbidden-literal check: `grep -RInE '"3090"|/home/straughter/Wan2GP' host services scripts predict qc --exclude-dir=datasets --exclude='*test*'` — COUNT=0.
+- No-GPU doctor: exit 0, `host_configuration` SKIP, `ready=yes`, and all four resolved fields reported.
+- No-GPU plan: exit 0, `clips=4`, `gpu_work=false`, `queue_submitted=false`.
+- No-host render entry: exit 2 before SSH with `missing host.target, host.wgp_root, host.wgp_python` and the exact environment/config remediation; no traceback or hang.
+- `pvg verify README.md docs/configuration.md docs/wgp-cli.md wangp.toml wangp/config.py wangp/doctor.py wangp/gpu_sequencing.py scripts/ab_render_qc.py scripts/run_batch.py scripts/run_qc.py scripts/marathon/... tests/test_wd_fp49_rework.py --include-tests --format=text` — `VERIFY: PASSED (12 files scanned, 0 issues)`.
+- Full changed-path `pvg verify ... --include-tests` — FAILED with 9 pre-existing bare-pass/empty-return findings in legacy portions of `host/wangp_adapter.py`, `scripts/run_jobs.py`, and existing tests (`host/wangp_adapter.py:464,894,919,925`; `scripts/run_jobs.py:82`; `tests/test_night2_convergence.py:246`; `tests/test_seam_hardening.py:312,376`; `tests/test_run_jobs_worker.py:477`). Repairing those control-flow stubs would exceed this configuration-rework scope; the newly authored configuration/module/test surface passes above.
+- Push and CI: `git push origin story/WD-fp49`; `gh run watch 35643179609 --repo jmanhype/wangp-dspy --exit-status --interval 10` — success.
+
+Summary: all eleven pre-merge review defects are fixed as configuration plumbing; precedence and fail-closed behavior remain intact, local detection can no longer mix machines, installed users stage outside site-packages, remote marathon use is rejected before local filesystem access, sequencing carries the resolved target, and Wan2GP/remote-SyncNet interpreters are explicitly configurable rather than assumed under `<wgp_root>/venv/bin/python`.
+
+### Commit and PR
+- Branch: `story/WD-fp49`
+- Commit: `9df6f888b304ff5ccc97981aed3558fadd430266`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/153
+- CI run: `35643179609` (`CI`), head `9df6f888b304ff5ccc97981aed3558fadd430266`, conclusion `success`; required `test` job `106477194196` passed in 1m58s.
+
+### Review Finding Verification
+| # | Rejection finding | Fix | Test / evidence |
+| --- | --- | --- | --- |
+| 1 | `run_qc.py` `NameError` | `scripts/run_qc.py:20` imports `os` for both configuration reads. | `tests/test_wd_fp49_rework.py:75` executes the real script with no host: RED returned 1 plus `NameError`; GREEN returns 2 with one actionable message. |
+| 2 | documented user config ignored | `wangp/config.py:95` uses `Path.home()/.config/wangp/config.toml` when XDG is unset. | `tests/test_wd_fp49_rework.py:98` loads a real file from the documented default path and checks provenance. |
+| 3 | batch/A-B lose TOML target | `wangp/gpu_sequencing.py:11` resolves the shared config; `scripts/run_batch.py:55,123` and `scripts/ab_render_qc.py:205,221` pass that environment to every `gpu_seq.sh` call. | File-only resolution test at `tests/test_wd_fp49_rework.py:119`; AST caller-coverage test at `:165` checks all four call sites. |
+| 4 | marathon remote root used locally | `scripts/marathon/driver.sh:10-13` resolves target/root/interpreter and rejects any non-`localhost` target before `mkdir`, output discovery, `cp`, `cd`, or render execution. | Real subprocess test at `tests/test_wd_fp49_rework.py:194` exits 2 with `localhost-only` and proves `/home/straughter/marathon` was not created. |
+| 5 | adapter `None` reaches `os.path.isfile` | `host/wangp_adapter.py:1596-1608` validates missing root/interpreter keys and raises shared `HostConfigError` before host execution. | Real render-entry test at `tests/test_wd_fp49_rework.py:231`; RED reproduced raw `TypeError`, GREEN names `host.wgp_root` and `host.wgp_python`. |
+| 6 | partial config mixes machines | `wangp/config.py:277-291` applies target/root local detection only as an atomic pair when neither is explicit. | `tests/test_wd_fp49_rework.py:301` covers explicit-target-only and explicit-root-only near a real local `Wan2GP/wgp.py` marker. |
+| 7 | installed pull root in site-packages | `wangp/config.py:172-184` uses repository staging only for source checkouts and `${XDG_DATA_HOME:-~/.local/share}/wangp/runs/pull` for installed templates. | `tests/test_wd_fp49_rework.py:337` builds an installed layout and rejects any pull root beneath site-packages. |
+| 8 | relative roots accepted | `wangp/config.py:108-116` validates file and environment values; root/interpreter fields must be absolute. | Parameterized file+environment tests at `tests/test_wd_fp49_rework.py:370` cover `wgp_root`, `pull_root`, and `wgp_python`. |
+| 9 | SyncNet requires unused host keys | `qc/audio_critic/av_sync_gate.py:110-123` resolves only `host.wgp_python`; it no longer calls `require_host_config`. | `tests/test_wd_fp49_rework.py:398` supplies a real host object plus only `WANGP_WGP_PYTHON`; construction succeeds without target/root/pull. |
+| 10 | `<root>/venv/bin/python` assumption | Added optional `host.wgp_python` / `WANGP_WGP_PYTHON`; adapter and detached seams consume it at `host/wangp_adapter.py:122-128,685-713,1560-1567`. Safe localhost detection may use the current executable. | `tests/test_wd_fp49_rework.py:420` proves adapter and lock argv use Conda/system/venv executable instead of root-derived venv; existing explicit-override tests remain green. |
+| 11 | inline marathon shell chains | Repository/config/output/triage/job/render helpers replace `cd && pwd`, `ls | head`, inline job Python, and direct `./venv/bin/python`. | Source-discipline test at `tests/test_wd_fp49_rework.py:221`; helper implementations are `scripts/marathon/repository-root.sh`, `resolve-config.sh/.py`, `latest-output.py`, `triage-outputs.py`, `prepare-job.py`, `job-premise.py`, `render-job.sh`, and `disk-usage-percent.sh`. |
+
+### Acceptance Criteria Verification
+| AC | Requirement | Evidence | Status |
+| --- | --- | --- | --- |
+| 1 | Precedence/provenance | Existing precedence tests plus `wangp/config.py:233-275`; doctor reports all settings. | PASS |
+| 2 | Environment overrides and localhost | Existing complete-host test; `ENVIRONMENT_KEYS` includes all four overrides. | PASS |
+| 3 | Safe local detection, no probes/guessing | Atomic local-marker detection at `wangp/config.py:277-291`; detection tests. | PASS |
+| 4 | Runtime call sites complete/fail closed | `run_jobs`, adapter, sequencing, QC, marathon, and legacy seams use shared config; targeted/static tests. | PASS |
+| 5 | No operator fallback regression | Exact active-source scan COUNT=0 plus existing static runtime test. | PASS |
+| 6 | No-GPU planning preserved | Manual doctor/plan outputs above and existing CLI integration tests. | PASS |
+| 7 | One actionable pre-SSH render error | Manual exit-2 output above; exact keys and remediation. | PASS |
+| 8 | Partial/invalid config rejected with context | Missing-key, unknown-key, type, absolute-path, and atomic-detection tests. | PASS |
+| 9 | Existing explicit-host behavior and engine semantics unchanged | Explicit host/interpreter tests; protected-path diff exit 0. | PASS |
+
+PROOF:
+- Producing head: `9df6f888b304ff5ccc97981aed3558fadd430266`.
+- Full suite: exit 0, 1,602 passed / 1 optional live-host skipped.
+- Build: exit 0; wheel contains `wangp.toml`.
+- Required CI: run `35643179609`, head `9df6f888b304ff5ccc97981aed3558fadd430266`, conclusion `success`.
+- No GPU, SSH, remote host, or model inference was run.
+
+LEARNINGS:
+- File-only host configuration must be propagated into subprocess environments; a shared resolver is safer than duplicating one override at one call site.
+- Local target and root detection must be atomic or a nearby checkout can silently splice into a remote host.
+- Interpreter location is installation-specific and belongs in configuration, not in a path convention attached to `wgp_root`.
+
+### OBSERVATIONS
+- The full pytest output retains a pre-existing FastAPI/TestClient deprecation warning, and CI emits runner/action deprecation annotations; both are unrelated to this diff.
+- Full changed-path `pvg verify` still reports the nine legacy stub markers listed above; the newly authored files and primary configuration surface pass.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework commit: 9df6f888b304ff5ccc97981aed3558fadd430266.
+- Targeted tests: 24 passed; review-regression file: 15 passed; full suite: 1,602 passed / 1 skipped.
+- Build wheel SHA-256: d33b360de5500483286e965efe7f71c8be2e2f0f7a4725ca8e3c31d4a16a617a and contains wangp.toml.
+- CI run 35643179609 at exact pushed head: success.
+
+### proof
+- [x] Review finding 1: real run_qc entry reaches actionable HostConfigError, not NameError.
+- [x] Review finding 2: documented ~/.config/wangp/config.toml default is loaded.
+- [x] Review finding 3: all gpu_seq callers receive file-resolved WANGP_SSH_TARGET.
+- [x] Review finding 4: marathon rejects remote targets before local filesystem use.
+- [x] Review finding 5: adapter raises actionable HostConfigError before LocalHost.check_executable(None).
+- [x] Review finding 6: explicit target/root never combines with the other locally detected value.
+- [x] Review finding 7: installed pull root is user data, never site-packages.
+- [x] Review finding 8: relative root/interpreter values fail with source and field context.
+- [x] Review finding 9: SyncNet requires only the interpreter it uses.
+- [x] Review finding 10: Wan2GP interpreter is explicit and no longer root/venv-derived.
+- [x] Review finding 11: marathon output/config work moved to helper scripts.
+
 ## nd_contract
 status: in_progress
 
