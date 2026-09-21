@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:35:04Z
-content_hash: "sha256:751a995ddbf449892fcc2e509afc4546f411d627d147583fc758e2f3b4f85952"
+content_hash: "sha256:118e9825515fcfb3fa7298c9a96700c7937ad5174bd68828f6e5c2dc0ec9be5c"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 assignee: dev-WD-l48s
@@ -164,7 +164,54 @@ status: new
 
 
 ## Notes
+## Rejection 2 (pre-merge review, PR #150): eight correctness findings
 
+Independent code review of the accepted artifact found eight real defects. The first is
+headline-level and I verified it myself:
+
+1. **Inverted decision polarity (verified).** `_bad()` supplies the positive label, so the
+   fitted `probability` estimates **P(bad)**. The code then does
+   `raw_decisions = "admit" if probability >= 0.5 else "reject"` and
+   `calibrated_model = "abstain" if confidence < 0.70 else "admit" if calibrated >= 0.5 else "reject"`,
+   and the threshold sweep uses `admit if calibrated >= threshold`. Every one of those admits the
+   rows most likely to FAIL. Observed in the artifact: a row with `raw_probability = 1.0`
+   (certain bad) is recorded as `admit`. The raw table, the calibrated table, the correctness
+   counts and the exploratory sweep are therefore all computed against inverted decisions.
+   Required: admit when P(bad) is LOW. Keep the frozen `calibrated_confidence_threshold = 0.70`
+   semantics (abstain when max(p, 1-p) < 0.70), and make the admit/reject direction explicit and
+   tested in both the raw, calibrated and sweep policies.
+2. `_load_queue_rows` keeps only `clips[0]` per job and `_queue_match` returns that record on a
+   job-id match alone, so later clips inherit the first clip's fingerprint and artifact paths.
+   Represent queue records per (job_id, clip_index), load every serialized clip, and require both
+   to match.
+3. `_score` turns an absent queue record or attempt count into zero and then adds one, so an
+   unmatched rejected bad row contributes a fabricated avoided attempt. Track unknown attempt
+   counts as unknown and exclude them from (or report them separately from) the avoided-work
+   metric.
+4. `_bootstrap` resamples run groups with replacement and concatenates their rows, but `_score`
+   divides by the number of DISTINCT groups, so duplicated draws inflate the numerator. Divide by
+   the number of group draws, keeping duplicates as distinct bootstrap units.
+5. `replay_baselines` accepts and records `false_admit_budget` but `_score` hard-codes 0.10, so a
+   caller using another budget gets metrics labelled with it while feasibility and the primary
+   result still use ten percent. Thread the configured budget through scoring and bootstrap.
+6. The preregistration requires a feasible policy whose confidence interval beats BOTH baselines;
+   the decision returns `warrant_future_training_story` whenever any policy merely meets the
+   budget. Implement the registered comparison (or record an explicit amendment if the rule is
+   being changed).
+7. Canonical rows carry machine-specific absolute paths and path-bearing fields, which is why
+   `row_id` is not reproducible across checkouts and why a fresh clone cannot rebuild the corpus.
+   Canonicalize stored paths relative to the repository and drop path-only fields from the hashed
+   identity.
+8. `verify_artifact` checks only the corpus digest and the manifest self-digest; it ignores the
+   declared schema-drift digest and the corpus row count, so a swapped `schema-drift.json` or a
+   manifest with a false row count passes verification. Verify both.
+
+Also required: tests that would fail against each defect (especially a polarity test asserting a
+low-P(bad) row is admitted and a high-P(bad) row is not), a regenerated artifact with updated
+hashes, and CI green at the new head. No GPU work and no change to any QC/AV/retry/renderer/gate
+semantics. The accepted corpus counts (36/18/5) and the honest headline (`insufficient_data`,
+`infeasible_at_budget`) must remain true after the fixes; if the polarity fix changes the
+per-baseline numbers, report the corrected table rather than preserving stale values.
 
 ## nd_contract
 status: accepted
