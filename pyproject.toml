@@ -36,6 +36,11 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["predict", "evaluate", "host", "signatures", "qc", "qc/audio_critic", "qc/comic_critics", "services", "services/director", "services/director/planners", "services/director/renderers"]
 
+[tool.hatch.build.targets.sdist]
+# The Maestro excerpt corpus is third-party test material under upstream
+# non-commercial terms; keep it out of distributable artifacts.
+exclude = ["tests/fixtures/maestro_reference"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
