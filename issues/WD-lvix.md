@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T20:40:19Z
-content_hash: "sha256:07ddf97299d23e134e2da42d2102b93fffed8a8281341f7e094a77bace9f6619"
+content_hash: "sha256:dcc4955f97dd081623e379ff21722410edf32f5a3cd92358f5560d032ba76775"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 follows: [WD-fp49, WD-m1sj]
@@ -246,3 +246,20 @@ status: in_progress
 - Follows: [[WD-fp49]], [[WD-m1sj]]
 
 ## Comments
+
+### 2026-09-21T20:40:19Z speed
+## PM Decision
+REJECTED [2026-09-21]: Independently reproduced seven unresolved PR review defects at head 789acd6.
+
+EXPECTED: Typed diagnostics must be correct for every real durable input, redact every emitted field, produce safe copyable commands, and preserve JSON shape at review boundaries.
+DELIVERED: CI/build/read-only/no-regression checks pass, but real CLI reproduction shows seven correctness/security gaps.
+GAP/FIX (all testable):
+1. Queue rows with failure_class=preflight and actual model/disk details are classified HOST_UNREACHABLE. Add real JobQueue CLI tests for missing model, hash mismatch, and 49G/50G disk details; required codes are MODEL_MISSING, MODEL_HASH_MISMATCH, and DISK_HEADROOM_BELOW_THRESHOLD.
+2. Production vision_rejection evidence (failure_detail plus scores, without passed/boxes) is labeled mouth_box_localization and omits identity_action_vision/pass_bar. Parse the production schema and persist or recover the required pass bar; report mouth-box failure only when the recorded failure concerns boxes.
+3. Retry history overwrites current gate metrics: current evidence confidence 0.58634/offset -1/post score 0.667 rendered as historical 0.11/99/0.11. Use the current attempt as primary and key history separately; test differing current/historical values.
+4. next_command and evidence_refs bypass redaction in JSON and human output; a real DB path containing api_key=super-secret-value is emitted verbatim. Recursively redact every externally emitted field and test both modes.
+5. Invalid review RUN paths are interpolated into next_command without shell quoting, yielding executable syntax. Use shlex.quote or omit the command; test a path containing shell metacharacters.
+6. Retryable ref2va_lane_unavailable and queue_admission_error classes render UNKNOWN_FAILURE without retry guidance. Include them or derive eligibility from durable policy; test both failed retryable rows.
+7. review --db DB --job MISSING --json emits plain stderr, not diagnostic JSON. Include JobNotFoundError in the JSON-aware review boundary; require one parsable diagnostic and exit 2.
+
+The known WD-7zrq verify-delivery format-only failures were not used in this decision.
