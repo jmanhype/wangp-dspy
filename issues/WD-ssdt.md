@@ -1,15 +1,15 @@
 ---
 id: WD-ssdt
 title: "Reject content-brief guide duration mismatches before planning"
-status: closed
+status: open
 priority: 0
 type: bug
-labels: [bug, accepted]
+labels: [bug, rejected]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:25:02Z
-content_hash: "sha256:e5fe3944fdf07239db45b7674dc5db3541edd2c03c5a650752e80ccc2c5b929d"
+updated_at: 2026-09-21T00:27:17Z
+content_hash: "sha256:98082a458c164c93bba267469471259e602911aec50a6dd7196d3b9a8cf8f70d"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e]
 closed_at: 2026-09-21T00:25:02Z
@@ -300,6 +300,7 @@ status: new
 - 2026-09-21T00:16:50Z auto-follows: linked to predecessor WD-rj6e
 - 2026-09-21T00:25:02Z status: in_progress -> closed
 - 2026-09-21T00:25:02Z dep_removed: no_longer_blocks WD-42no
+- 2026-09-21T00:27:17Z status: closed -> open
 
 ## Links
 - Parent: [[WD-h73w]]
