@@ -8,8 +8,8 @@ labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:40:36Z
-content_hash: "sha256:b30e66adf1ee73971ef77754dc915019bbabb53ebc85fdb7c5bc02b7235e5e14"
+updated_at: 2026-09-21T17:26:24Z
+content_hash: "sha256:5ff318da226710078c75edc2d954e398194b51f47337b846fc89aa872feab87d"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -116,7 +116,93 @@ Delivery correction: the prior in_progress contract is stale; WD-lhm4 is deliver
   affected_files: pvg story-delivery transition implementation
   discovered_during: WD-lhm4
 DISCOVERED_BUG clarification: the failed transition command was pvg story deliver WD-lhm4. Its exact stderr was: labels add WD-lhm4 delivered: Error: label delivered already exists on WD-lhm4. The intended story state is in_progress with delivered label, and that final state is present.
+## Implementation Evidence
 
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_wgp_cli.py` — PASS, 17/17.
+- `uv run --frozen --extra dev pytest -q` — PASS, 1,578 passed / 1 pre-existing environment-gated skip / 0 failed; one owned Starlette deprecation warning shown below.
+- `uv run --frozen --extra dev wgp --help` — PASS; exact stable verbs: `doctor`, `brief`, `plan`, `status`, `review`.
+- `git diff --check` — PASS.
+- `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py qc/ host/ scripts/run_film.py scripts/run_jobs.py` — PASS (exit 0). `services/jobs/preflight.py` is also unchanged.
+- `pvg verify .github/workflows/ci.yml docs/wgp-cli.md pyproject.toml tests/test_wgp_cli.py wangp/cli.py wangp/doctor.py wangp/queue_view.py --include-tests --format=text` — `VERIFY: PASSED (4 files scanned, 0 issues)`.
+- `uv build` — PASS, produced both `dist/wangp_dspy-0.1.0.tar.gz` and `dist/wangp_dspy-0.1.0-py3-none-any.whl`.
+- Wheel/install smoke outside the source checkout: `uv venv /tmp/wd-lhm4-wheel-smoke.J2dcjM/venv`; `uv pip install --python .../venv/bin/python dist/wangp_dspy-0.1.0-py3-none-any.whl`; then from `/tmp/wd-lhm4-wheel-smoke.J2dcjM`, with `WANGP_SSH_TARGET` and `PYTHONPATH` unset, `.../venv/bin/wgp doctor` — exit 0 / `ready=yes`. Imported module origins were both under the throwaway venv site-packages, not the repository. Wheel SHA-256: `ac8dcb9903b824a4be9fcb6850fbb31ee4ba4b81798fb53efc1839f04b91cc0c`; sdist SHA-256: `d7ccbe167290ff74f27d261ad1c216ff1396ba3bc7df601d7e13072295d1e497`.
+- Subprocess-enabled Coverage.py run of the targeted CLI suite — TOTAL **83%** (`cli.py` 84%, `doctor.py` 70%, `queue_view.py` 92%, `__init__.py` 100%).
+- Required CI at the exact pushed head: run **35631378806**, workflow `CI`, head SHA below, status `completed`, conclusion `success`, URL https://github.com/jmanhype/wangp-dspy/actions/runs/35631378806.
+
+Summary: Fixed all seven PR-review defects while preserving the delegated engine seams; built and installed a real wheel outside the repository; made queue review filesystem-immutable; and verified the full suite, packaging, CLI, and CI at the pushed head.
+
+Commit SHA: `faeac0c9092952f78e5c5944f0dabf4e805b4db2` (branch `story/WD-lhm4`, PR #152).
+
+### Review-finding evidence
+| Finding | Fix and evidence | Status |
+|---|---|---|
+| 1. Installed entry point imports unpackaged `scripts` at startup | `wangp/cli.py:136` now imports the gateway only inside `_run_plan`; `pyproject.toml:41` ships the required top-level packages without duplicate nested entries. `tests/test_wgp_cli.py:441` builds wheel+sdist, installs into a fresh venv outside the repo, runs `wgp doctor`, and proves module origins are venv site-packages. Manual smoke above also exited 0 with `ready=yes`. | PASS |
+| 2. `status`/`review` mutate queue filesystems | `wangp/queue_view.py:62` opens through a read-only `JobQueue` adapter using `mode=ro&immutable=1` (`wangp/queue_view.py:69`) plus `PRAGMA query_only=ON`; no WAL/SHM sidecars are created. `tests/test_wgp_cli.py:147` and `:171` copy the committed LF004 DB into fresh temporary directories and assert directory listing and SHA-256 are unchanged. Manual reproduction observed `before=q.db`, `after=q.db`, and identical SHA-256 `fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4` for both verbs. | PASS |
+| 3. Missing provenance exits 0 | `wangp/queue_view.py:217` rejects a missing bundle/provenance file and `:253` rejects zero recognized pairs as typed input errors. `tests/test_wgp_cli.py:193` covers both absent and `{}` provenance and expects exit 2 with explicit messages. | PASS |
+| 4. Corrupt local model passes | `wangp/doctor.py:116` streams 1 MiB chunks through SHA-256; `wangp/doctor.py:128` reports every missing/unreadable/mismatched local model. `tests/test_wgp_cli.py:299` uses a real corrupt file and wrong digest, expecting exit 3 and remediation. | PASS |
+| 5. Host probe with no manifest succeeds | `wangp/doctor.py:242` requires at least one valid `remote_path`; `wangp/doctor.py:291` appends a failed `model_files` check without contacting a host. `tests/test_wgp_cli.py:330` expects exit 3, actionable detail/remediation, and no `ssh_reachable` check. | PASS |
+| 6. Full render host passes disk check | `wangp/doctor.py:18` sets the documented remote minimum to 50 GB and `wangp/doctor.py:226` passes it to the unchanged preflight seam. `tests/test_wgp_cli.py:356` runs the real five-check subprocess path against a 49G report and expects `disk_headroom` failure with `(min 50.0G)`. | PASS |
+| 7. Valid remote models fail path validation | Manifest loading now separates `local_path` and `remote_path` (`wangp/cli.py:42`). `wangp/doctor.py:200` resolves relative paths under the Wan2GP root and preserves absolute remote paths. `tests/test_wgp_cli.py:356` proves a missing local path does not invalidate valid relative and absolute remote files, checks real hashes, and reports all five kinds; `tests/test_wgp_cli.py:396` proves a genuinely missing remote model fails. | PASS |
+
+### Packaging and CI
+- `uv build` now emits both distributables; the nested Hatch package declarations that duplicated `qc/audio_critic` were removed at `pyproject.toml:41`. This packaging correction also satisfies **WD-m1sj** by reference; WD-m1sj tracker state was intentionally not touched.
+- CI now runs `uv build` and asserts exactly one `.whl` plus one `.tar.gz` at `.github/workflows/ci.yml:34`. The required run completed successfully at the pushed head.
+
+### AC Verification
+| AC # | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Installed `wgp`; exact stable help verbs | `pyproject.toml:19`, `pyproject.toml:41`, `tests/test_wgp_cli.py:67`, wheel smoke | PASS |
+| 2 | Typed validation without planning | `wangp/cli.py:125`, `tests/test_wgp_cli.py:75` | PASS |
+| 3 | Delegated no-GPU/no-submit plan | lazy gateway import `wangp/cli.py:136`, `tests/test_wgp_cli.py:93` | PASS |
+| 4 | Read-only real queue status | `wangp/queue_view.py:62`, `tests/test_wgp_cli.py:147` | PASS |
+| 5 | Read-only clips/failures/attempts/evidence | `wangp/queue_view.py:128`, `tests/test_wgp_cli.py:171` | PASS |
+| 6 | Local doctor coverage/remediation | `wangp/doctor.py:113`, `wangp/doctor.py:291`, `tests/test_wgp_cli.py:192`, `:299` | PASS |
+| 7 | Explicit five-kind host preflight / default no-call | `wangp/doctor.py:200`, `:214`, `:242`; `tests/test_wgp_cli.py:330`, `:356`, `:396` | PASS |
+| 8 | Stable exit codes and deterministic JSON | `wangp/cli.py:266`, docs, `tests/test_wgp_cli.py:420` | PASS |
+| 9 | No engine/queue/QC semantic changes | protected-file diff exit 0; `services/jobs/preflight.py` unchanged; tests exercise wrappers | PASS |
+
+### Diff-budget explanation
+`git diff --numstat main...HEAD` measures **1,538 insertions / 1 deletion across 9 files**, not under 650: `wangp/` runtime 922 lines, no-mock subprocess tests 521 lines, operator docs 85 lines, and packaging/CI 10 lines. The runtime scope inherently spans five verbs, canonical JSON/error contracts, ten local doctor checks, five remote checks, separate local/remote model namespaces, streaming hashes, immutable SQLite review, and recursive provenance verification. The test scope is similarly inherent: real CLI subprocesses, committed queue fixture byte/listing identity, local subprocess preflight command fixtures, and build/install/out-of-repo wheel validation. I therefore retained the wider auditable integration coverage rather than weakening it to fit a line target.
+
+### Owned warnings and remaining defect
+- Full-suite warning (pre-existing): `StarletteDeprecationWarning: Using 'httpx' with 'starlette.testclient' is deprecated; install 'httpx2' instead` from `.venv/.../fastapi/testclient.py:1`. Test outcome remains 1,578 passed / 1 skipped / 0 failed.
+- Successful CI still emits runner annotations: `actions/setup-python@v5` and `astral-sh/setup-uv@v6` target deprecated Node.js 20 (forced to Node 24), and `ubuntu-latest` will migrate to Ubuntu 26 on 2026-10-19.
+- Remaining out-of-scope installed-wheel defect: from `/tmp/wd-lhm4-wheel-smoke.J2dcjM`, command `env -u WANGP_SSH_TARGET -u PYTHONPATH ./venv/bin/wgp plan --brief <repo>/datasets/content_briefs/lf004-operator-dogfood-56f/brief.json --plates <repo>/datasets/content_briefs/lf004-operator-dogfood/plates --out ./plan.json --run-dir ./run` exits **4** with `RepositoryIdentityError: git rev-parse --show-toplevel failed for .../site-packages: fatal: not a git repository`. Startup/import and doctor are fixed, but the existing planning gateway assumes a Git checkout; no unauthorized gateway semantic change was made in this story.
+
+### DISCOVERED_BUG
+  title: Installed wgp plan assumes a Git checkout for repository identity
+  context: A wheel-installed `wgp plan` starts and imports correctly outside the source tree, but the delegated planning gateway resolves repository identity from installed site-packages and fails before planning. This is beyond WD-lhm4's seven review defects and would alter gateway semantics if fixed here.
+  affected_files: `scripts/run_content_brief.py`, `scripts/run_film.py`, `services/director/run_ledger.py`
+  discovered_during: WD-lhm4
+
+LEARNINGS:
+- `mode=ro` alone can still create SQLite WAL/SHM sidecars; `immutable=1` was required to prove both byte and directory immutability for the committed WAL-mode queue.
+- The wheel failure was packaging plus import timing, not gateway behavior: lazy dispatch and shipping the delegated scripts package preserves semantics while making startup work.
+- Local executable command fixtures exercise the real preflight subprocess seam and path/hash handling without SSH, GPU, model inference, or Python mocks.
+- Separating `local_path` from Wan2GP-relative/absolute `remote_path` is necessary; one path cannot be valid in both filesystem namespaces.
+- CI build verification caught the Hatch duplicate-package problem that source-tree editable installs hide.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `faeac0c9092952f78e5c5944f0dabf4e805b4db2`; pushed branch `story/WD-lhm4`; PR #152.
+- Targeted CLI tests: 17 passed. Full suite: 1,578 passed, 1 skipped, 0 failed. Coverage: 83%.
+- `uv build`: wheel and sdist both produced and hash-recorded. Throwaway-venv `wgp doctor`: exit 0, ready=yes.
+- Required CI run 35631378806 at exact head: completed/success.
+- Protected engine diff, `git diff --check`, and `pvg verify` all passed.
+
+### proof
+- [x] AC #1: installed stable `wgp` surface and exact help verbs are wheel-tested.
+- [x] AC #2: typed brief validation and no-write behavior are subprocess-tested.
+- [x] AC #3: plan delegates to the existing no-GPU gateway and remains no-submit.
+- [x] AC #4: status is database-byte and filesystem-listing immutable on the committed queue.
+- [x] AC #5: review is database-byte and filesystem-listing immutable and reports durable evidence.
+- [x] AC #6: local doctor verifies supplied local model hashes and reports actionable failures/skips.
+- [x] AC #7: host probing requires explicit remote models, checks all five kinds, uses 50 GB minimum, and stays no-call by default.
+- [x] AC #8: exit codes and deterministic secret-free JSON are documented and tested.
+- [x] AC #9: protected gateway/runner/queue/QC semantics are unchanged.
 
 ## nd_contract
 status: rejected
