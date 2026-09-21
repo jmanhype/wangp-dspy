@@ -9,12 +9,12 @@ parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
 updated_at: 2026-09-21T00:38:34Z
-content_hash: "sha256:74453562047641d484452a3c8c93c923373f88f6547a981cb1782dccab09aa0e"
+content_hash: "sha256:2c032f5fba95560ba66a8f312ae31dc3855cbd135ba9f0d94256b5c171200f37"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e, WD-rb1f]
 closed_at: 2026-09-21T00:38:33Z
 close_reason: "Accepted rework 792cbed4ff17979cec791e045d45698faedb2497: clean branch HEAD verified; independently re-ran targeted and full pytest (20/20 targeted; full exit 0 with the sole disclosed WANGP_3090 live-hardware skip); cumulative diff is 2 files/232 changed LOC only and protected policy, wiring, and CLI files are byte-identical to main; real ffprobe selects a:0 and requires an audio stream plus valid duration, and subprocess.run has a real 10 s production timeout with typed TimeoutExpired handling; my real video-only MP4 CLI probe and blocking-FIFO/short-timeout probes failed closed with no plan, run dir, ledger, or jobs DB; new tests use real ffmpeg/ffprobe with no mocks, skips, or env gating."
-led_to: [WD-g125]
+led_to: [WD-g125, WD-42no]
 ---
 ## Description
 Reject a supplied content-brief guide whose measured duration contradicts the declared turn before any no-GPU plan or run artifact is emitted.
@@ -329,7 +329,7 @@ status: new
 ## Links
 - Parent: [[WD-h73w]]
 - Follows: [[WD-z46c]], [[WD-rj6e]], [[WD-rb1f]]
-- Led to: [[WD-g125]]
+- Led to: [[WD-g125]], [[WD-42no]]
 
 ## Comments
 
