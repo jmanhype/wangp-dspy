@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T23:18:59Z
-content_hash: "sha256:1c5a7c1aef8dc96127650fc2a52664da443830ddca16d7ea9328cf8848bb6325"
+content_hash: "sha256:150611ae8e852f001340f7e63f152d4f3c8500189bd227c964f10d49084a8b94"
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
 assignee: dev-WD-carq
@@ -125,6 +125,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Summary: `wangp/recipe.py` plus `wgp recipe write|verify` deliver a versioned render recipe (`wangp-dspy.render-recipe/v3`) that pins a finished run's logical identity and re-reads the world when verifying. Run-owned artifacts are read only from the bundle under review, everything else resolves repository-relative, and a required artifact that cannot be hashed is a typed failure. All three defects in the third rejection FIX list are closed.
