@@ -7,8 +7,8 @@ type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
-updated_at: 2026-09-21T17:45:49Z
-content_hash: "sha256:2dcf6ff1ee54047392c4cb3b86619f0dc08d3be6d30465b1505dcddaeded9b52"
+updated_at: 2026-09-21T17:46:12Z
+content_hash: "sha256:0b6bd43c35795261bc6b0037dce6e616e2dfb975ad67247c853a765c95e8c8d3"
 follows: [WD-lhm4, WD-3nwm]
 labels: [delivered]
 ---
@@ -48,6 +48,45 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: `uv build` now produces both a wheel and an sdist, and the installed `wgp` entry point runs outside the source checkout. The duplicate/nested package declarations were removed and the shipped package list corrected (it must include `wangp` and `scripts`), fixing the packaging defect and the installed-CLI startup failure together.
+
+Commands run:
+- `uv build` at head `faeac0c9092952f78e5c5944f0dabf4e805b4db2` -> exit 0, exactly one wheel and one sdist.
+- `uv venv <tmp>/venv` and `uv pip install --python <tmp>/venv/bin/python <wheel>` -> exit 0.
+- `cd /tmp && <tmp>/venv/bin/wgp doctor` with `PYTHONPATH` and `WANGP_SSH_TARGET` unset -> exit 0, `ready=yes`, imports resolved from the venv site-packages.
+- `git diff --exit-code main -- services/ qc/ host/ predict/` -> exit 0.
+
+Commit: 5dadcdafc680ee41999079e55bd085dd2e73439c
+
+## CI/Test Results
+
+- Run 35631378806 at story head `faeac0c9092952f78e5c5944f0dabf4e805b4db2`: `test` completed, conclusion **success**.
+- Run 35633778277 at main `5dadcdafc680ee41999079e55bd085dd2e73439c` after squash merge: completed, conclusion **success**.
+- CI now builds both artifacts and asserts exactly one wheel and one sdist (`.github/workflows/ci.yml`).
+- Wheel sha256 `ac8dcb9903b824a4be9fcb6850fbb31ee4ba4b81798fb53efc1839f04b91cc0c`; sdist sha256 `d7ccbe167290ff74f27d261ad1c216ff1396ba3bc7df601d7e13072295d1e497`.
+- Independent PM acceptance of WD-lhm4 reproduced the wheel build and the installed `wgp doctor` run in a throwaway venv and marked the installed-command finding FIXED.
+
+### Acceptance criteria
+
+- [x] AC1: `uv build` produces a wheel without the duplicate-package failure (exit 0, wheel hash recorded above).
+- [x] AC2: `uv build` produces an sdist (exit 0, sdist hash recorded above).
+- [x] AC3: CI verifies both artifacts (runs 35631378806 and 35633778277 both success; workflow asserts one wheel and one sdist).
+- [x] AC4: the installed package is usable, not just the source tree (wheel installed in a venv outside the repo; `wgp doctor` exit 0 from a foreign cwd).
+- [x] AC5: no engine or gate semantics changed (`git diff --exit-code main -- services/ qc/ host/ predict/` exit 0).
+
+Disclosed, NOT part of this bug: a wheel-installed `wgp plan` still requires a git checkout for repository identity (exit 4 from a non-repo cwd), recorded as a discovered defect in WD-lhm4.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Build, install, and CI evidence above; three independent parties (developer, dispatcher, PM acceptor) reproduced the wheel build.
+
+### proof
+- [x] Wheel builds successfully and CI verifies both artifacts.
+
 ## Implementation Evidence
 
 Summary: The `uv build` wheel failure is fixed. The duplicate/nested package declarations were removed from `[tool.hatch.build.targets.wheel].packages`, and the wheel now ships the packages the CLI needs (`wangp`, `scripts`), so both a wheel and an sdist build and the installed `wgp` entry point runs outside the source checkout. Fix landed via WD-lhm4 / PR #152, merged to main as `5dadcdafc680ee41999079e55bd085dd2e73439c`.
