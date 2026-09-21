@@ -4,7 +4,7 @@ title: "Deliver stable wgp verbs with doctor preflight"
 status: closed
 priority: 1
 type: feature
-labels: [integration, delivered]
+labels: [integration, delivered, accepted]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
