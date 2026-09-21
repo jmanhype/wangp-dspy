@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-21T04:42:23Z
-content_hash: "sha256:de177544c4377d752b10764e912f57538b7299c0cc9b7b5839d5e5e4066212c9"
+content_hash: "sha256:3c24c662e6d2d030327dab4a99c92eacf92ff9861f1cd13c371af5de9e07bfec"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
@@ -97,6 +97,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-20.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
