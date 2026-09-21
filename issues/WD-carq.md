@@ -8,8 +8,8 @@ labels: [integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T21:23:49Z
-content_hash: "sha256:b63c23a1412511a9c8a19602967dfe7ccec5ca660ef9a8e8f08525eb478cbf5a"
+updated_at: 2026-09-21T21:24:39Z
+content_hash: "sha256:eb23cdd0ea6a4eff4d4db932368b27bcf85e624c2ac314c94a7fc57101418df4"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 assignee: dev-WD-carq
@@ -115,7 +115,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed by dev-WD-carq; implementation started from story branch story/WD-carq at 68e6f6f.
+
+### proof
+- [ ] Pending implementation
 
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-lvix
