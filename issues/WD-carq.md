@@ -4,11 +4,11 @@ title: "Reproduce renders from a versioned recipe manifest"
 status: in_progress
 priority: 2
 type: feature
-labels: [integration, external-integration, rejected-x3, delivered]
+labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:02:43Z
+updated_at: 2026-09-21T23:02:50Z
 content_hash: "sha256:7ea46c0e3a6aeb7801e88ba16e75db5e06d581917bcfeb15c4f47f1f9be892fe"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
