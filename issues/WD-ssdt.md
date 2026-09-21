@@ -4,7 +4,7 @@ title: "Reject content-brief guide duration mismatches before planning"
 status: in_progress
 priority: 0
 type: bug
-labels: [bug, rejected]
+labels: [bug]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
