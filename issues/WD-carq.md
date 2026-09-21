@@ -4,7 +4,7 @@ title: "Reproduce renders from a versioned recipe manifest"
 status: open
 priority: 2
 type: feature
-labels: [integration, external-integration]
+labels: [integration, external-integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
