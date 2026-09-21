@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T19:35:34Z
-content_hash: "sha256:865a7580f4e5228543a22af9ab02a4bdb808201b664bd2502614073541a2c765"
+updated_at: 2026-09-21T19:41:32Z
+content_hash: "sha256:a48694c7190877887b187629f3bcfa835adb7ce0c1a1f82dfd5a919743d604a4"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 assignee: dev-WD-lvix
@@ -105,7 +105,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed by dev-WD-lvix; implementation started from main 071a1ff.
+
+### proof
+- [ ] Pending implementation
 
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-fp49
