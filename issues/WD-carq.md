@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T22:21:11Z
-content_hash: "sha256:4a9dba1737ecdfa31beafef0a5b38384cd0a05da4bb28b03f1f38fd2069b7571"
+content_hash: "sha256:5072e7a641175606dae0166c33a8d93b097847403f36b81360142033a1423c3c"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 assignee: dev-WD-carq
@@ -115,6 +115,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: added `wangp/recipe.py` plus the `wgp recipe write|verify` verb pair. A recipe is a versioned manifest (`wangp-dspy.render-recipe/v1`) pinning a finished run's logical inputs, and `verify` reports per-field drift against a freshly rebuilt manifest. Both verbs are local and read-only. Implemented directly by the dispatcher after two worker streams died on this story (both had started on an unsafe variant that reworked the render fingerprint and added a hardcoded host path; that work was reverted).
