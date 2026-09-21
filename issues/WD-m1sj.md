@@ -8,11 +8,12 @@ parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
 updated_at: 2026-09-21T17:50:35Z
-content_hash: "sha256:5d2ad1065fa076e33624b9bfd24bcbee3200f01dfa6882ac889e68c50ed92d3d"
+content_hash: "sha256:09cd007826704a150e619cf189cceb765e251f80a8302f36affaebdd0434e4be"
 follows: [WD-lhm4, WD-3nwm]
 labels: [accepted]
 closed_at: 2026-09-21T17:50:34Z
 close_reason: "Accepted: independently verified on main 5dadcda that uv build emits exactly one wheel and one sdist, the wheel contains qc/audio_critic/__init__.py once, required CI test/build checks pass, and the installed wgp doctor works from the wheel; engine and gate paths are unchanged."
+led_to: [WD-fp49]
 ---
 
 ## Description
@@ -197,5 +198,6 @@ No tracker state for other stories was changed.
 ## Links
 - Parent: [[WD-t534]]
 - Follows: [[WD-lhm4]], [[WD-3nwm]]
+- Led to: [[WD-fp49]]
 
 ## Comments
