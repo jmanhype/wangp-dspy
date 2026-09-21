@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, rejected, rejected
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:22:13Z
-content_hash: "sha256:00944d2507a824c1007bb7a856b233f687724deafd14cc2a94e99b27e35be12c"
+updated_at: 2026-09-21T15:26:25Z
+content_hash: "sha256:829850bf43a7331fdbf291f84f676d6295024cb87bf233967ce41e40150a1a89"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,7 +98,32 @@ status: new
 
 
 ## Notes
+## Rework round 2 (head e23b2dc) — four remaining findings fixed
 
+Round-2 review rejected on four points. Three were my errors.
+
+1. **Stale Apache claims (mine).** `CHANGELOG.md` still said the 0.1.0 hygiene contract shipped an "Apache-2.0 licence", and `CONTRIBUTING.md` said contributions are offered under Apache-2.0. Both now describe the source-available notice accurately and state that adopting an OSS licence is an open owner decision.
+2. **False "excluded from any package build" claim (mine).** Review built an sdist and found all three Maestro fixture files inside it. I did not just reword: the corpus is now excluded from sdists via `[tool.hatch.build.targets.sdist] exclude` in `pyproject.toml`, proven by building an sdist with **0** `maestro_reference` entries, and the claim is locked by a test assertion so it cannot silently become false again.
+3. **Wrong recorded CI run id (mine).** The previous note cited run `35612305086`, which does not exist. The real run for head `58ff84d` was `35616727522`. Corrected here: the current required run is **35618725749** at head `e23b2dc508573f63b887796872c592ef30208daf`, conclusion **SUCCESS**.
+4. **Unowned full-suite warning + missing evidence.** Owned below with the full-suite evidence and LEARNINGS.
+
+### Discovered defect filed (not a story regression)
+
+`WD-m1sj` — "uv build cannot produce a wheel: duplicate qc/audio_critic package declaration" (P1, parent WD-t534). `uv build --sdist` succeeds; the wheel fails because `[tool.hatch.build.targets.wheel].packages` lists both `qc` and `qc/audio_critic`. This directly blocks installability, so it is now tracked on the product-stability epic.
+
+### Full-suite evidence at this head
+
+- Targeted: `uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py` -> 3 passed, exit 0.
+- Full: `uv run --frozen --extra dev pytest -q` -> exit 0; 1,562 collected, 1,561 passed, 1 skipped (the optional GPU/host-gated `tests/test_jobs_integration_3090.py`), 0 failed.
+- Owned warning: `StarletteDeprecationWarning` from `fastapi/testclient.py:1` (recommends `httpx2` for Starlette's TestClient). It is a pre-existing, dev-extra-only dependency notice, not a story regression and not a failure; it needs a dependency decision (bump or pin httpx) and is recorded here rather than silently ignored.
+- Packaging evidence: `uv build --sdist` exits 0; sdist `wangp_dspy-0.1.0.tar.gz` sha256 `d3a7d0e3f0a727bc4861221e7b2534b7fae41b64e71f6562f641368aaeb0cac4`; `maestro_reference` entries in that sdist: 0.
+
+### LEARNINGS
+
+- A claimed exclusion must be executed, not asserted: the only reason this is true now is that a distribution was actually built and inspected.
+- Licence posture has to be swept across every document, not just LICENSE: CHANGELOG and CONTRIBUTING silently carried a contradictory grant.
+- Do not cite a run id from memory; read it from `gh pr view`/`gh run list` at the moment of writing the note.
+- Documentation deliverables need claim-level verification, not style review: three of the four round-1 findings were factual falsehoods in prose.
 
 ## nd_contract
 status: rejected
