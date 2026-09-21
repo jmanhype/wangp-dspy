@@ -9,7 +9,8 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
 updated_at: 2026-09-21T13:56:17Z
-content_hash: "sha256:b4d8de06838d2c626e7be2bf48ee96b00c34ad81052a914dff5add26355f9373"
+content_hash: "sha256:dd79b1d44156e523b2be529cddd8a34e53114962bd2df25ad7def2cdaf040ec7"
+blocked_by: [WD-3nwm]
 ---
 
 ## Description
@@ -92,9 +93,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:56:17Z dep_added: blocked_by WD-3nwm
 
 ## Links
 - Parent: [[WD-t534]]
+- Blocked by: [[WD-3nwm]]
 
 ## Comments
