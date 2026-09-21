@@ -8,8 +8,8 @@ labels: [bug, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:33:31Z
-content_hash: "sha256:4d1a7b2360e2ab87d0028f1efa289b4933d64f98253e37c7b8a8a53aa27e8aa0"
+updated_at: 2026-09-21T00:33:57Z
+content_hash: "sha256:68e2a4acb37f5349dec47dc5ae8e3f61b03660e2b038120a8b4f893e1f14d121"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e, WD-rb1f]
 closed_at: 2026-09-21T00:25:02Z
@@ -463,3 +463,37 @@ LEARNINGS:
 - Probing only container duration was insufficient: stream selection plus an explicit `codec_type == audio` check is needed to keep video-only media out of audio plans.
 - A bounded subprocess timeout must be part of planning preflight, not only render-side policy; otherwise a local metadata probe can become an unbounded CLI hang.
 - Exposing the timeout only as a helper default kept production at 10 seconds while allowing a real ffprobe expiry test with a sub-microsecond bound and no fake executable or mock.
+
+### 2026-09-21T00:33:57Z speed
+## Implementation Evidence
+Summary: PASS — rework targeted 20/20; full suite 1,553 passed and 1 pre-existing no-GPU-constrained skip; coverage 90%; git diff --check, pvg verify, and protected-file byte-identity check passed.
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py`
+- `uv run --frozen --extra dev pytest -q`
+- `uv run --frozen --extra dev pytest --collect-only -q`
+- `uv run --frozen --extra dev --with pytest-cov pytest -q --cov=predict.content_brief --cov-report=term tests/test_content_brief.py`
+- `git diff --check`
+- `pvg verify predict/content_brief.py tests/test_content_brief.py --format=text`
+- `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py scripts/run_content_brief.py`
+Commit SHA: 792cbed4ff17979cec791e045d45698faedb2497
+PR: https://github.com/jmanhype/wangp-dspy/pull/148
+
+Detailed review-fix evidence, exact output tails, real video-only and timeout coverage, artifact-absence assertions, and the updated AC table are in the immediately preceding rework evidence comment.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework commit 792cbed4ff17979cec791e045d45698faedb2497 on story/WD-ssdt; PR #148 remains open.
+- Real audio-stream validation, bounded ffprobe timeout, targeted/full tests, coverage, diff check, pvg verify, and protected-file identity checks all passed.
+
+### proof
+- [x] AC #1: Real audio-stream and duration preflight fails closed before side effects, including video-only and timed-out probes.
+- [x] AC #2: Declared/default versus measured audio duration retains the exact 0.000001 s tolerance and typed mismatch detail.
+- [x] AC #3 (PM Amendment): `audio_filler_policy` remains rejected/absent; no declaration bypass exists.
+- [x] AC #4 (PM Amendment): Every measured/declared mismatch remains rejected.
+- [x] AC #5: Matching audio guides retain consistent downstream fields and unchanged `check_guide_duration` behavior.
+- [x] AC #6: No-audio/default planning and the prior no-policy brief hash remain compatible.
+- [x] AC #7: LF004 shape is rejected and LF003-equivalent 56-frame shape is accepted.
+- [x] AC #8: CLI negative paths leave no plan/run dir/ledger/jobs DB; successful plans remain no-GPU/no-queue.
+- [x] AC #9: Protected policy/wiring/CLI files remain byte-identical to main and no QC/AV/retry/provenance/renderer semantics changed.
