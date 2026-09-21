@@ -8,13 +8,14 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T01:02:37Z
-content_hash: "sha256:0725e870e14a113aaa34ac7ea6e86571f605d0d083858324296b150889cc3b5e"
+updated_at: 2026-09-21T01:02:47Z
+content_hash: "sha256:157b2256be10663d95e5be98e4aad9c3695938757fd6f514eeee0c45737ccf4b"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt]
 assignee: dev-WD-42no
 follows: [WD-z46c]
 ---
+
 
 
 ## Description
@@ -245,7 +246,7 @@ WD-h73w using the accepted 56-frame-per-cut policy, or direct an alternative
 ### 4. Required deliverables for the recovery execution
 
 - Commit the corrected brief + plan into the repository and record brief/plan/run-ledger hashes.
-- Provide a corrected verification script; the existing `run/verify.py` hard-asserts 107 frames and `planned_duration_s == 17.832`, which is specific to the defective plan.
+- Provide a corrected verification script; the existing `datasets/content_briefs/lf004-operator-dogfood/run/verify.py` hard-asserts 107 frames and `planned_duration_s == 17.832`, which is specific to the defective plan.
 - Execute exactly one governed render through the accepted pipeline with the three-attempt policy, all declared gates, and preserved review artifacts.
 
 ## nd_contract
@@ -345,4 +346,5 @@ Authorization: exactly one governed LF004 production execution through the accep
 - Follows: [[WD-z46c]]
 
 ## Comments
+
 
