@@ -9,7 +9,7 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-21T04:32:33Z
-content_hash: "sha256:378d79d2a2f2eac9350e876b5f78b7bb91ba62b34a962100b7795a36156a5e68"
+content_hash: "sha256:e692b30d5dfcff1dba6a985ce66783262778d8f00b3a3747b059836568f06c11"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
@@ -95,6 +95,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-20.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Capstone Closure Evidence (dispatcher, 2026-09-21)
 
 The originally approved plan `70280fdc...` is provably unsatisfiable: the merged guard rejects
