@@ -1,0 +1,120 @@
+---
+id: WD-u85z
+title: "Reproduce renders from a versioned recipe manifest"
+status: open
+priority: 2
+type: feature
+labels: [integration]
+parent: WD-8zod
+created_at: 2026-09-21T13:54:13Z
+created_by: speed
+updated_at: 2026-09-21T13:54:13Z
+content_hash: "sha256:1ca7e8ae3103dee797d7c670d7c5081e68789b9de585dad07352a673a98e61e1"
+---
+
+## Description
+## USER INTENT
+Observable outcome: a user can verify a render recipe that says exactly what code, configuration, model assets, settings, inputs, and repository version produced a result, plus a documented no-GPU way to verify/reconstruct that recipe before authorizing another governed render.
+
+## Context (Embedded)
+- Existing provenance already provides strong raw material: `repository_identity(repo_root) -> dict`, plan/job/prompt/guide/plate SHA-256 manifests from `DirectorOrchestrator`, `effective_render_fingerprint(clip: Dict) -> str`, durable queue attempt rows, and per-render `settings.json`, `wgp-settings.json`, logs, QC evidence, and final provenance.
+- The committed LF004 recovery evidence demonstrates both the goal and the portability hazard: useful hashes exist, but plans/settings record absolute paths from another worktree. A portable recipe must canonicalize repository-relative input identity and hash content, not stable absolute checkout paths.
+- Infrastructure model checks expect sequence entries containing `path` and `sha256`; a reusable model manifest must retain that shape while adding model identity, source, licence/usage constraint, and verification status.
+- Third-party code/model assets are not vendored by this story and remain governed by `THIRD_PARTY_NOTICES.md`. The recipe records identity/hash/source and never grants rights or downloads assets.
+- Actual render execution remains exclusively the existing governed queue/runner path. This story adds recipe export, verification, and dry-run reconstruction only.
+- Root `VERSION` and `CHANGELOG.md` are created by the first story. Release verification must tie those files, package metadata, recipe schema, and tag-ready naming together without tagging or pushing.
+
+## OUT OF SCOPE
+- Executing a GPU render, contacting a host, downloading models, or mutating remote state.
+- Changing renderer settings, model choice, gate thresholds, retries, provenance semantics, or queue submission.
+- Byte-identical re-encoding of historical media; this story proves recipe/input reconstruction and verification, not lossy renderer determinism claims.
+- Replacing `docs/CHANGELOG.md`, existing final provenance, or accepted render artifacts.
+- Creating a Git tag, release branch, commit, or publish artifact.
+
+## DIFF BUDGET
+- Roughly 10 authored files, under 700 authored changed LOC.
+
+## Boundary Map
+PRODUCES:
+- wangp/recipe.py -> `build_render_recipe(plan_path: Path, *, repository_root: Path, model_manifest_path: Path | None = None) -> RenderRecipe`
+- wangp/recipe.py -> `write_render_recipe(recipe: RenderRecipe, output_path: Path) -> Path`
+- wangp/recipe.py -> `verify_render_recipe(recipe_path: Path, *, repository_root: Path) -> RecipeVerification`
+- wangp/recipe.py -> `plan_render_from_recipe(recipe_path: Path, *, dry_run: bool = True) -> RecipeExecutionPlan`
+- wangp/model-manifest.json -> ordered model entries with `path`, `sha256`, identity/source, usage constraint, and verification role.
+- wangp/release.py -> `verify_release(repository_root: Path) -> ReleaseVerification`
+- docs/render-recipe.md -> recipe schema, export/verify/dry-run commands, model manifest rules, and release checklist.
+- README.md -> reproduction/release section linking the full recipe document.
+- pyproject.toml -> package/version integration remains consistent with `VERSION`.
+- tests/test_render_recipe.py -> `test_lf004_recipe_is_portable_and_byte_stable() -> None`
+
+CONSUMES:
+- WD-i8w6: VERSION -> semantic version `0.1.0`
+  spec: recipe and release records embed/read the same version source.
+- WD-i8w6: CHANGELOG.md -> root release entry
+  spec: release verification requires an entry for the current version.
+- WD-k32a: wangp/cli.py -> `main(argv: Sequence[str] | None = None) -> int`
+  spec: recipe/release verbs follow the established stable exit-code and JSON contracts.
+- WD-zkcu: wangp/config.py -> `load_host_config(*, repository_root: Path | None = None, environ: Mapping[str, str] | None = None) -> HostConfig`
+  spec: a real render plan records resolved host identity/path requirements without secrets and fails closed when incomplete.
+- (existing): services/director/run_ledger.py -> `repository_identity(repo_root: Optional[os.PathLike[str] | str] = None) -> dict`
+  spec: source of commit/dirty-tree status and hashes.
+- (existing): services/jobs/queue.py -> `effective_render_fingerprint(clip: Dict) -> str`
+  spec: canonical effective renderer-input identity excluding queue bookkeeping.
+- (existing): services/jobs/queue.py -> `JobQueue.get(self, job_id: str) -> JobRecord`
+  spec: durable job/clip/attempt evidence used to reconstruct and verify the recipe.
+- (existing): predict/ref2va_settings.py -> `ref2va_wire_settings(doc: dict) -> dict`
+  spec: existing settings normalization contract; recipe verifies rather than inventing renderer fields.
+
+## Required Outcomes
+1. Canonical recipe schema records repository version/identity, brief and plan hashes, per-clip prompt/guide/plate/settings/effective-fingerprint hashes, model manifest digest, host requirements, existing runner entrypoint identity, and a deterministic no-GPU reproduction command.
+2. Recipe export reads the real committed plan/settings/evidence and never mutates accepted artifacts; it canonicalizes checkout-specific paths so the same logical recipe is byte-stable across two clean temporary worktrees.
+3. Recipe verification proves every locally available tracked input/model-manifest/reference hash and fails with a typed, field-specific diagnostic for missing files, hash mismatch, incomplete host configuration, version mismatch, or unsupported schema.
+4. Model manifest entries retain `path` and `sha256`, add identity/source/licence or usage constraint, and cover the render-required H3/VAE plus gate-required SyncNet/Whisper/Qwen classes; unavailable external assets are explicitly unverified rather than assumed present.
+5. `wgp recipe reconstruct --dry-run` rebuilds the job/clip effective identities from the recipe without host/GPU work and reports the exact existing governed runner command that would be required for a real execution; real execution remains outside this story.
+6. Release verification checks `VERSION`, package version, root changelog current-version entry, recipe schema compatibility, clean-tree rule, and prints tag-ready `v<VERSION>` guidance without creating a tag.
+7. Verification/report output is available in human and stable JSON form and links unresolved infrastructure classes to the established diagnostics.
+8. No renderer, model selection, gate, retry, provenance, or queue-transition semantics change; existing evidence files remain unchanged.
+
+## Testing Requirements
+- Unit: schema validation, canonicalization, version consistency, missing/hash-mismatch failures, and model-manifest shape.
+- Integration: MANDATORY (no mocks). Export from the committed LF004 plan/settings evidence into temporary storage, write it twice, and assert canonical byte stability and expected clip/fingerprint coverage.
+- Portability integration: MANDATORY (no mocks). Build/read the same logical recipe from two clean temporary worktrees and assert equality after canonicalizing repository-relative paths.
+- Dry-run integration: MANDATORY (no mocks). Run real recipe reconstruction against the committed evidence and assert reconstructed effective fingerprints match the source queue/plan without any host or GPU call.
+- Release integration: MANDATORY (no mocks). Run release verification at the current authored version and at a deliberately temporary mismatched-version copy, asserting pass and typed fail respectively.
+- Commands: `uv run --frozen --extra dev pytest tests/test_render_recipe.py` and `uv run --frozen --extra dev pytest -q`.
+
+## MANDATORY SKILLS
+- pvg
+
+## Delivery Requirements
+- Developer must paste recipe hashes, verification output, two-worktree stability evidence, and targeted/full test output into notes.
+- Developer must include an AC verification table proving accepted artifacts were read-only.
+- Developer must use `pvg story deliver`.
+- No GPU, SSH, remote model download, commit, tag, push, or release publication is authorized.
+
+## nd_contract
+status: new
+
+### evidence
+- Created 2026-09-21 from verified repository identity, effective fingerprint, queue, settings, and LF004 provenance surfaces at main 3094b14.
+
+### proof
+- [ ] Pending implementation
+
+
+## Acceptance Criteria
+
+
+## Design
+
+
+## Notes
+
+
+## History
+
+
+## Links
+- Parent: [[WD-8zod]]
+
+## Comments
