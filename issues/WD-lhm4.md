@@ -1,0 +1,116 @@
+---
+id: WD-lhm4
+title: "Deliver stable wgp verbs with doctor preflight"
+status: open
+priority: 1
+type: feature
+labels: [integration]
+parent: WD-t534
+created_at: 2026-09-21T13:56:15Z
+created_by: speed
+updated_at: 2026-09-21T13:56:15Z
+content_hash: "sha256:522c12fefe8679a0d53334f1c0a63ebc47efd6b6ddb1765efff0286897bddc2e"
+---
+
+## Description
+## USER INTENT
+An operator wants stable `wgp` verbs and a doctor preflight instead of memorizing internal script paths. The CLI must make the accepted gateway and durable queue usable without duplicating or altering their semantics.
+
+## Context (Embedded)
+- `pyproject.toml` currently declares no console script.
+- The no-GPU gateway is `scripts/run_content_brief.py::main(argv: list[str] | None = None) -> int`; it validates a brief, performs deterministic dry planning, and writes `wangp-dspy.content-plan/v1`.
+- The durable queue exposes `services.jobs.queue.JobQueue.get(job_id: str) -> JobRecord`, `list_state(state: str) -> List[str]`, and `attempt_history(job_id: str) -> List[Dict]`. `JobRecord` carries `job_id`, `state`, `plan_ref`, `clips`, `failure_count`, `failure_class`, `failure_detail`, `retryable`, and `created_at`.
+- Existing no-host planning/reporting helpers are `scripts.run_jobs.dry_run_report(queue) -> dict` and `dry_run_plan(queue, limit=None) -> list`; both are read-only when used with `--dry-run`.
+- Existing infrastructure preflight is `services.jobs.preflight.run_preflight(host, *, models: Sequence[dict], min_free_gb: float, disk_path: str, qc_url: str) -> PreflightReport`. Its checks are exactly `ssh_reachable`, `model_files`, `disk_headroom`, `gpu_state`, and `qc_available`; each failed `PreflightCheck` carries kind and detail.
+- Doctor must be safe by default: no SSH/network/GPU/model call unless an explicit host probe is requested. Local doctor still reports Python, dependency imports, ffmpeg, ffprobe, host configuration status, supplied model manifest status, and local disk headroom.
+- Stable command surface: `wgp doctor`, `wgp brief validate`, `wgp plan`, `wgp status`, and `wgp review`.
+
+## OUT OF SCOPE
+- Reimplementing content validation, planning, queue selection, rendering, retries, or QC: the CLI delegates to existing seams.
+- Host configuration-file resolution/auto-detection: the following zero-config story extends doctor and render wiring.
+- Detailed typed remediation mapping beyond doctor/check-level messages: the failure-UX story owns cross-class diagnostics.
+- Any installer or GUI.
+- A live remote-host test, GPU work, model inference, or paid hosted service.
+
+## DIFF BUDGET
+- Roughly 8 authored files, under 650 authored changed LOC.
+
+## Boundary Map
+PRODUCES:
+- pyproject.toml -> console-script contract `wgp = "wangp.cli:main"` and packaged `wangp` module.
+- wangp/__init__.py -> `__version__: str`
+- wangp/cli.py -> `main(argv: Sequence[str] | None = None) -> int`
+- wangp/doctor.py -> `collect_doctor_checks(models: Sequence[Mapping[str, str]] | None = None, *, probe_host: bool = False) -> DoctorReport`
+- wangp/queue_view.py -> `collect_status(db_path: str | Path, *, job_id: str | None = None) -> QueueStatus`
+- docs/wgp-cli.md -> stable verb reference, exit-code contract, JSON output contract, and no-host safety rule.
+- README.md -> short entry-point section linking the full CLI reference.
+- tests/test_wgp_cli.py -> `test_wgp_plan_wraps_gateway_with_no_gpu_work() -> None`
+
+CONSUMES:
+- WD-3nwm: README.md -> quickstart contract
+  spec: the CLI entry-point section must extend, not replace, the tested clone-to-plan path.
+- (existing): scripts/run_content_brief.py -> `main(argv: list[str] | None = None) -> int`
+  spec: `wgp brief validate` uses the same loader validation without writing; `wgp plan` forwards arguments to this main and preserves its exit status and output file contract.
+- (existing): scripts/run_jobs.py -> `dry_run_report(queue) -> dict`
+  spec: read-only pending/admissibility presentation; `wgp status` never advances queue state.
+- (existing): services/jobs/queue.py -> `JobQueue.get(self, job_id: str) -> JobRecord`
+  spec: direct read of durable state and failure summary.
+- (existing): services/jobs/queue.py -> `JobQueue.list_state(self, state: str) -> List[str]`
+  spec: ordered job ids by state for counts and summaries.
+- (existing): services/jobs/queue.py -> `JobQueue.attempt_history(self, job_id: str) -> List[Dict]`
+  spec: immutable attempt and failure evidence for `wgp review`.
+- (existing): services/jobs/preflight.py -> `run_preflight(host, *, models: Sequence[dict], min_free_gb: float, disk_path: str, qc_url: str) -> PreflightReport`
+  spec: used only under explicit `wgp doctor --probe-host`; no implicit network call.
+
+## Required Outcomes
+1. Installing the project exposes `wgp`, and `wgp --help` lists exactly the stable verbs above with local, no-GPU defaults.
+2. `wgp brief validate BRIEF` performs the existing typed validation without creating a run directory or plan, succeeds with the brief hash, and returns nonzero with a field-specific human message for invalid input.
+3. `wgp plan` wraps the existing gateway command, emits the same canonical plan fields and exit code, and performs no SSH, queue submission, model inference, or GPU work.
+4. `wgp status --db DB` opens the real SQLite queue read-only, displays state counts and concise per-job state/failure summaries, and leaves job rows, attempt rows, timestamps, and file bytes unchanged.
+5. `wgp review --db DB [--job ID]` displays job clips, durable failure summary, immutable attempt history, and referenced evidence paths without changing retry eligibility or state.
+6. `wgp doctor` reports Python version, required dependency imports, ffmpeg, ffprobe, host-configuration status, supplied model-manifest coverage, and local disk headroom; every failed/skipped check includes one concrete remediation and no stack trace.
+7. Explicit `wgp doctor --probe-host --models MANIFEST` wraps the existing preflight and reports all five existing check kinds; without that flag doctor performs no SSH or hosted-service call.
+8. Stable exit codes are documented and tested: 0 success, 2 usage/input/configuration error, 3 failed doctor check, and 4 unexpected internal error; machine-readable `--json` output is deterministic and excludes environment secrets.
+9. No gateway, runner, queue-transition, retry, renderer, or QC behavior changes; tests demonstrate the wrapper delegates rather than copying implementation logic.
+
+## Testing Requirements
+- Unit: parser routing, exit-code mapping, human/JSON rendering, doctor pass/fail/skip presentation, and no-write validation behavior.
+- Integration: MANDATORY (no mocks). Invoke the actual CLI in subprocesses: validate the committed brief, plan it into temporary storage, and inspect a copy of the committed LF004 queue database for status/review without byte mutation.
+- Doctor integration: MANDATORY (no mocks). Run local doctor against the actual interpreter/dependency/tool environment and a real temporary JSON model manifest containing at least one missing local file; no SSH flag is passed and no network call is made.
+- Commands: `uv run --frozen --extra dev pytest tests/test_wgp_cli.py`, `uv run --frozen --extra dev pytest -q`, and the documented `wgp --help` command.
+
+## MANDATORY SKILLS
+- pvg
+
+## Delivery Requirements
+- Developer must paste CLI transcripts and targeted/full test output into notes.
+- Developer must include an AC verification table mapping each verb and exit code to a real test.
+- Developer must use `pvg story deliver`.
+- No GPU, SSH, remote host work, model inference, paid hosted service, commit, or push is authorized.
+
+## nd_contract
+status: new
+
+### evidence
+- Created 2026-09-21 from the measured absence of a console script and the verified gateway, queue, and preflight APIs at main 3094b14.
+
+### proof
+- [ ] Pending implementation
+
+
+## Acceptance Criteria
+
+
+## Design
+
+
+## Notes
+
+
+## History
+
+
+## Links
+- Parent: [[WD-t534]]
+
+## Comments
