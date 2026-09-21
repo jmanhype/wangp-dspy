@@ -1,16 +1,18 @@
 ---
 id: WD-m1sj
 title: "uv build cannot produce a wheel: duplicate qc/audio_critic package declaration"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
 updated_at: 2026-09-21T17:50:34Z
-content_hash: "sha256:f841dc0d77dc75e99352f9a25531096a2ed0ab79b1b49ebba95b730770549690"
+content_hash: "sha256:1ac0c2b7c7ceb1daf90c85864e1a8e21401927df8a1afed870f5665cc3445b22"
 follows: [WD-lhm4, WD-3nwm]
 labels: [delivered]
+closed_at: 2026-09-21T17:50:34Z
+close_reason: "Accepted: independently verified on main 5dadcda that uv build emits exactly one wheel and one sdist, the wheel contains qc/audio_critic/__init__.py once, required CI test/build checks pass, and the installed wgp doctor works from the wheel; engine and gate paths are unchanged."
 ---
 
 ## Description
@@ -178,6 +180,7 @@ No tracker state for other stories was changed.
 - 2026-09-21T17:45:39Z auto-follows: linked to predecessor WD-lhm4
 - 2026-09-21T17:45:49Z status: in_progress -> in_progress
 - 2026-09-21T17:45:49Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-21T17:50:34Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-t534]]
