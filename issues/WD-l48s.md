@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:31:06Z
-content_hash: "sha256:53d2cb84947cd3be9adc4fa7da187fa37acf72707798adf60d148a158cc4cbbb"
+content_hash: "sha256:982458082c947036de3928e8a12168b560a47b8d4c4df5d41f8b435d06f92d03"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 ---
@@ -163,6 +163,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Rework 3: CI caught an environment-dependent assertion in my own test (head 5f0035b)
 
 The first rework pushed a new test that compared a whole corpus row against a freshly
