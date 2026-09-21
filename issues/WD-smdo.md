@@ -9,9 +9,9 @@ parent: WD-j3wm
 created_at: 2026-09-21T13:55:23Z
 created_by: speed
 updated_at: 2026-09-21T13:55:23Z
-content_hash: "sha256:0075f11f44a2fe591265d6d28d5d4f8cb5caaaddfdd17a586e2ae4b77f95eca0"
+content_hash: "sha256:3dc16734a48aee0ff4bfdadbb1abb0aecf7cb32c520d0a6482087f334e22044b"
 blocked_by: [WD-ak43]
-blocks: [WD-7e73]
+blocks: [WD-7e73, WD-smem]
 ---
 
 ## Description
@@ -112,10 +112,11 @@ status: new
 ## History
 - 2026-09-21T13:55:23Z dep_added: blocked_by WD-ak43
 - 2026-09-21T13:55:23Z dep_added: blocks WD-7e73
+- 2026-09-21T13:55:24Z dep_added: blocks WD-smem
 
 ## Links
 - Parent: [[WD-j3wm]]
-- Blocks: [[WD-7e73]]
+- Blocks: [[WD-7e73]], [[WD-smem]]
 - Blocked by: [[WD-ak43]]
 
 ## Comments
