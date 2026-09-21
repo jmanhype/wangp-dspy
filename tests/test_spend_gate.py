@@ -9,6 +9,7 @@ from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
 from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _gate, build_corpus,
                                  write_completed_run_rows, write_live_row)
 from training.spend_gate_replay import replay_baselines
+from training.spend_gate_replay import _deterministic_eval
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "datasets/spend-gate/v1"
@@ -123,3 +124,41 @@ def test_tracked_build_requires_a_git_worktree(tmp_path: Path) -> None:
     with pytest.raises(SpendGateSourceError) as error:
         build_corpus(tmp_path, evidence_mode="tracked")
     assert "requires a git working tree" in str(error.value)
+
+
+def test_missing_facing_sidecar_still_reaches_admit() -> None:
+    """Production falls back to the declared facing requirement without a sidecar.
+
+    Before the correction this branch returned abstain for every row, so no row
+    could ever be admitted. The resolution contradiction rejects the real rows
+    earlier, so this test builds an otherwise-consistent row to exercise it.
+    """
+    source = next(row for row in rows()
+                  if row["preflight"].get("plate_available") and row["preflight"]["plate_facing"] is None)
+    row = json.loads(json.dumps(source))
+    video = next(stream for stream in row["media"]["ffprobe"]["streams"] if stream["codec_type"] == "video")
+    video["width"], video["height"] = row["preflight"]["width"], row["preflight"]["height"]
+    video["nb_frames"] = row["preflight"]["requested_frames"]
+    assert _deterministic_eval(row) == ("admit", None)
+    row["preflight"]["plate_facing"] = "profile"
+    assert _deterministic_eval(row) == ("reject", "plate_not_camera_facing")
+
+
+def test_clipped_probability_disclosure_is_protected() -> None:
+    report = replay_baselines(ARTIFACT / "corpus.jsonl", bootstrap_samples=20)
+    raw, calibrated = report.metrics["raw_probability_policy"], report.metrics["calibrated_probability_policy"]
+    assert raw["log_loss_clip"] == 1e-15 and calibrated["log_loss_clip"] == 1e-15
+    assert raw["clipped_probability_rows"] == report.metrics["complete_row_count"]
+    assert calibrated["clipped_probability_rows"] == 0
+    assert raw["log_loss"] > 5.0
+    assert "Clipped probability rows" in report.markdown
+
+
+def test_live_row_replacement_is_atomic_and_leaves_no_temporary() -> None:
+    row = rows()[0]
+    qc = Path(row["source_path"]) / "qc-evidence.json"
+    target = qc.parent / "spend-gate-row.json"
+    assert write_live_row(qc, repository_root=ROOT) == write_live_row(qc, repository_root=ROOT)
+    assert target.exists() and json.loads(target.read_text())["row_id"] == row["row_id"]
+    assert not list(qc.parent.glob("*.tmp-*"))
+    target.unlink()

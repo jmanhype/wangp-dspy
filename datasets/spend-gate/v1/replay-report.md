@@ -39,7 +39,9 @@ run contradicts its own plan, not that the render was artistically bad.
 - Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.
 - Probabilities are clipped at 1e-15 for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.
 - The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.
-- The committed corpus is all-local: 15 of its 36 rows come from source media that are not tracked by git. A fresh clone can REPLAY the committed corpus but cannot REBUILD it; a tracked rebuild yields 21 rows / 13 complete.
+- The committed corpus is all-local: 15 of its 36 rows come from source media that are not tracked by git (delivered remux.mp4 is untracked for 12 rows, 16 rows have at least one untracked artifact, 20 rows have all ten artifacts tracked). A fresh clone can REPLAY the committed corpus but cannot REBUILD it; a tracked rebuild yields 21 rows / 13 complete.
+- PREREGISTRATION AMENDMENT: the transparent heuristic's duration tolerance was corrected from the frozen 1e-9 to the production 1e-6 after first results, because 1e-9 was itself a defect that rejected every recorded row. The amendment is recorded in preregistration.json `amendments`; the primary metric, decision rule, budget, seed and folds were not changed.
+- The production QC seam that would emit a live row during a run is deliberately NOT implemented here: services/ must not depend on training/, and a recording hook inside the QC loop could fail a render attempt. The recording guarantee is satisfied by the standalone post-run recorder plus the indexer; the in-run seam needs its own story.
 
 ## Exploratory sensitivity only
 
