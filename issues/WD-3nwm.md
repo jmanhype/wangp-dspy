@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T14:45:53Z
-content_hash: "sha256:3806c7c97fe99bb3f3190e455d978be385cecea7bd876a6f62b77e6f5ae239de"
+updated_at: 2026-09-21T14:45:54Z
+content_hash: "sha256:47e4b23d23a3d3055985ab2ad81ab571613a2f9d94d63ad3a8f043391b6ee78c"
 blocks: [WD-lhm4, WD-fq1o]
 assignee: dev-WD-3nwm
 ---
@@ -99,6 +99,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Delivery Evidence (dispatcher-completed; developer stream disconnected after commit)
 
 The developer agent committed and pushed, then its stream died before delivering. I verified the
