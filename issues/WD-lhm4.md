@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:26:40Z
-content_hash: "sha256:fa368cc3c3021f069b31d5f0b02ed5055614f795a25266e077ebb66328bc02d9"
+updated_at: 2026-09-21T16:27:43Z
+content_hash: "sha256:9946f9abe25c7b2ffe20a3acf08b8ab9682519c5fa3304749d6f1dd3cf762f08"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -109,6 +109,8 @@ status: new
 
 
 ## Notes
+Delivery correction: the prior in_progress contract is stale; WD-lhm4 is delivered at 0e50b5a with PR #152 and green CI 35624803571.
+
 ## nd_contract
 status: delivered
 
