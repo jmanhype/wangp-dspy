@@ -9,10 +9,10 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:40:49Z
-content_hash: "sha256:c53e6ec1b2f3929125460b248f8328a90e3cb2b347a27b3c85dc1492f88c8fdc"
+content_hash: "sha256:7306d4f288fd2ff4d6ff28a8555db8bed9bb68d1e3f34c1d678314568dc271af"
 closed_at: 2026-09-21T15:36:37Z
 close_reason: "Accepted: independently verified head e23b2dc508573f63b887796872c592ef30208daf: PR 151 and CI run 35618725749 both identify that head with SUCCESS; targeted README suite 3 passed; full suite 1561 passed, 1 optional host-gated skip, 0 failures; independent sdist build produced sha256 d3a7d0e3f0a727bc4861221e7b2534b7fae41b64e71f6562f641368aaeb0cac4 with zero maestro_reference entries, and removing the exclusion in an external copy failed the locking test; root documentation consistently preserves the no-grant notice and third-party boundaries; production-path diff versus main is clean and scope is the eight expected files."
-led_to: [WD-lhm4]
+led_to: [WD-lhm4, WD-m1sj]
 ---
 
 ## Description
@@ -292,7 +292,7 @@ status: in_progress
 
 ## Links
 - Parent: [[WD-t534]]
-- Led to: [[WD-lhm4]]
+- Led to: [[WD-lhm4]], [[WD-m1sj]]
 
 ## Comments
 

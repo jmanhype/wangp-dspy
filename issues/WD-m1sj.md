@@ -7,9 +7,9 @@ type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
-updated_at: 2026-09-21T17:45:48Z
-content_hash: "sha256:cb253fb05690cabdd9f0a6215e15124716bf362c602c6bbba3c1c8eedb9acaca"
-follows: [WD-lhm4]
+updated_at: 2026-09-21T17:45:49Z
+content_hash: "sha256:2dcf6ff1ee54047392c4cb3b86619f0dc08d3be6d30465b1505dcddaeded9b52"
+follows: [WD-lhm4, WD-3nwm]
 labels: [delivered]
 ---
 
@@ -114,9 +114,11 @@ No tracker state for other stories was changed.
 ## History
 - 2026-09-21T17:45:39Z status: open -> in_progress
 - 2026-09-21T17:45:39Z auto-follows: linked to predecessor WD-lhm4
+- 2026-09-21T17:45:49Z status: in_progress -> in_progress
+- 2026-09-21T17:45:49Z auto-follows: linked to predecessor WD-3nwm
 
 ## Links
 - Parent: [[WD-t534]]
-- Follows: [[WD-lhm4]]
+- Follows: [[WD-lhm4]], [[WD-3nwm]]
 
 ## Comments
