@@ -4,11 +4,11 @@ title: "Reject content-brief guide duration mismatches before planning"
 status: closed
 priority: 0
 type: bug
-labels: [bug, delivered]
+labels: [bug, delivered, accepted]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:38:33Z
+updated_at: 2026-09-21T00:38:34Z
 content_hash: "sha256:b1492035f6c9856dd8d9e6c1f6df43d22446103879f59cfc86898f272783f268"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e, WD-rb1f]
