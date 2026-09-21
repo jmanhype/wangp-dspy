@@ -10,13 +10,24 @@ PROVENANCE="$ROOT/datasets/runs/provenance/$RUN_ID"
 REMOTE_WGP=/home/straughter/Wan2GP/wgp_config.json
 REMOTE_MODELS=/home/straughter/Wan2GP/models/_settings.json
 PYTHON="$ROOT/.venv/bin/python"
+COMMAND_RECORD="$PROVENANCE/execution-command.json"
+if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" == "1" ]]; then
+  COMMAND_RECORD="$PROVENANCE/setup-command.json"
+fi
 
 if [[ ! -x "$PYTHON" ]]; then PYTHON=/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python; fi
-if [[ -e "$DB" || -e "$PROVENANCE/execution-command.json" ]]; then
+if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" != "1" && ( -e "$DB" || -e "$PROVENANCE/execution-command.json" ) ]]; then
   echo "refusing a second LF004 recovery execution" >&2
   exit 3
 fi
 mkdir -p "$PROVENANCE"
+cd "$ROOT"
+export RECOVERY_ROOT="$ROOT"
+export LF004_COMMAND_RECORD="$COMMAND_RECORD"
+
+"$PYTHON" "$BASE/run/verify.py" \
+  --canonical-sha 620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8 \
+  2>&1 | tee "$PROVENANCE/input-verification.json"
 
 export WANGP_VISION_BACKEND=local
 export WANGP_WHISPER_LOCAL_FIRST=0
@@ -29,17 +40,23 @@ export WANGP_SYNCNET_REPO=/home/straughter/wangp-dspy-vibevoice-20260916
 "$PYTHON" - <<'PY'
 import json, os
 from pathlib import Path
-root = Path.cwd()
+root = Path(os.environ["RECOVERY_ROOT"])
 base = root / "datasets/content_briefs/lf004-operator-dogfood-56f"
 source = root / "datasets/content_briefs/lf004-operator-dogfood"
-guides = [root / "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav", root / "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav", root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav", root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"]
-command = ["scripts/run_film.py", "--script", str(base / "run/script.txt"), "--plates", str(source / "plates"), "--characters", "Tess:S1:a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room", "Rho:S2:a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room", "--db", "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db", *[item for value in [2.3333333333333335] * 4 for item in ("--duration-s", str(value))], *[item for guide in guides for item in ("--audio", str(guide))]]
-payload = {"schema_version": 1, "execution_count": 1, "command": command, "environment": {key: value for key, value in os.environ.items() if key.startswith("WANGP_")}, "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"}
-out = root / "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/execution-command.json"
+command = [str(base / "run/recover_once.py"), "run-film"]
+expanded = {"script": str(base / "run/script.txt"), "plates": str(source / "plates"), "characters": "Tess:S1:... Rho:S2:...", "db": "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db", "run_ledger": "datasets/lf004-operator-dogfood-56f-recovery-20260921.run_ledger.json", "duration_s": [2.3333333333333335] * 4, "audio": [str(root / "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav"), str(root / "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav"), str(root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav"), str(root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav")]}
+verification = json.loads((root / "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/input-verification.json").read_text())
+payload = {"schema_version": 1, "execution_count": 1, "command": command, "expanded_run_film_inputs": expanded, "input_verification": verification, "environment": {key: value for key, value in os.environ.items() if key.startswith("WANGP_")}}
+out = Path(os.environ["LF004_COMMAND_RECORD"])
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 print(json.dumps(payload, sort_keys=True))
 PY
+
+if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" == "1" ]]; then
+  "$PYTHON" "$BASE/run/recover_once.py" stage-assets --root "$ROOT" --dry-run "$PROVENANCE/stage-plan.json"
+  exit 0
+fi
 
 {
   echo "LF004 56-frame recovery preflight $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -54,22 +71,7 @@ PY
 available_kb=$(ssh -o BatchMode=yes 3090 df -k /home/straughter/Wan2GP | awk 'NR==2 {print $4}')
 (( available_kb >= 10 * 1024 * 1024 ))
 
-"$PYTHON" - <<'PY'
-from pathlib import Path, PurePosixPath
-from host.render_host import SshHost
-root = Path.cwd()
-source = root / "datasets/content_briefs/lf004-operator-dogfood"
-run_id = "lf004-operator-dogfood-56f-recovery-20260921"
-remote = f"/home/straughter/Wan2GP/{run_id}"
-asset_map = {str(source / "plates"): f"{remote}/plates", str(root / "datasets/runs/provenance"): f"{remote}/datasets/runs/provenance"}
-host = SshHost(target="3090", wgp_root="/home/straughter/Wan2GP", pull_root="datasets/runs/pull", asset_map=asset_map)
-paths = [*sorted((source / "plates").glob("*.png")), root / "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav", root / "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav", root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav", root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"]
-for path in paths:
-    destination = host.map_asset(str(path))
-    host.makedirs(str(PurePosixPath(destination).parent))
-    assert host.push_asset(str(path)) == destination
-    print(f"staged {path.relative_to(root)} -> {destination}")
-PY
+"$PYTHON" "$BASE/run/recover_once.py" stage-assets --root "$ROOT" "$PROVENANCE/staged-assets.json"
 
 scp -q 3090:$REMOTE_WGP "$PROVENANCE/wgp-config.before.json"
 scp -q 3090:$REMOTE_MODELS "$PROVENANCE/wan2gp-models-settings.before.json"
@@ -95,17 +97,7 @@ scp -q "$PROVENANCE/wan2gp-models-settings.render.json" 3090:$REMOTE_MODELS
 
 cd "$ROOT"
 set -o pipefail
-"$PYTHON" scripts/run_film.py \
-  --script "$BASE/run/script.txt" \
-  --plates "$SOURCE/plates" \
-  --characters 'Tess:S1:a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room' 'Rho:S2:a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room' \
-  --db "$DB" \
-  --duration-s 2.3333333333333335 --duration-s 2.3333333333333335 --duration-s 2.3333333333333335 --duration-s 2.3333333333333335 \
-  --audio "$ROOT/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav" \
-  --audio "$ROOT/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav" \
-  --audio "$ROOT/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav" \
-  --audio "$ROOT/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav" \
-  2>&1 | tee "$PROVENANCE/execution.log"
+"$PYTHON" "$BASE/run/recover_once.py" run-film 2>&1 | tee "$PROVENANCE/execution.log"
 
 "$PYTHON" "$BASE/run/recover_once.py" reconcile
 "$PYTHON" scripts/run_jobs.py --db "$DB" 2>&1 | tee -a "$PROVENANCE/execution.log"

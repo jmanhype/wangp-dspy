@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-import hashlib, json, sqlite3, subprocess, sys
+import hashlib, importlib.util, json, os, sqlite3, subprocess, sys
 from pathlib import Path
 from typing import Any
 
@@ -12,9 +12,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from host.wangp_adapter import DEFAULT_MAX_ATTEMPTS  # noqa: E402
+from predict.content_brief import load_content_brief  # noqa: E402
 from services.director.run_ledger import repository_identity, write_run_ledger  # noqa: E402
 from services.director.wiring import assemble_media  # noqa: E402
-from services.jobs.queue import JobQueue  # noqa: E402
+from services.jobs.queue import JobQueue, effective_render_fingerprint  # noqa: E402
 
 BASE = ROOT / "datasets/content_briefs/lf004-operator-dogfood-56f"
 RUN_ID = "lf004-operator-dogfood-56f-recovery-20260921"
@@ -23,6 +24,9 @@ PULL = ROOT / "datasets/runs/pull" / RUN_ID
 PROVENANCE = ROOT / "datasets/runs/provenance" / RUN_ID
 LEDGER = ROOT / f"datasets/{RUN_ID}.run_ledger.json"
 PLAN_SHA = "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"
+RAW_BRIEF_SHA = "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767"
+SEMANTIC_BRIEF_HASH = "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd"
+RAW_PLAN_SHA = "d0650b2e6b9d6fdbb1807ef82622c9c9a17888a0d4896e0c245feab146013943"
 SPEAKERS = {
     1: "Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT",
     2: "Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT",
@@ -40,13 +44,107 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
 
-def reconcile() -> None:
+def canonical_sha(plan: dict[str, Any]) -> str:
+    spec = importlib.util.spec_from_file_location("lf004_verify", BASE / "run/verify.py")
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module.canonical_sha(plan)
+
+
+def verify_recovery_inputs(brief_path: Path | None = None, plan_path: Path | None = None) -> dict[str, str]:
+    brief_path = brief_path or BASE / "brief.json"
+    plan_path = plan_path or BASE / "plan.json"
+    raw_brief = sha(brief_path)
+    brief = load_content_brief(brief_path)
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    actual = {"raw_brief_sha256": raw_brief, "semantic_brief_hash": brief.brief_hash, "raw_plan_sha256": sha(plan_path), "canonical_plan_sha256": canonical_sha(plan)}
+    expected = {"raw_brief_sha256": RAW_BRIEF_SHA, "semantic_brief_hash": SEMANTIC_BRIEF_HASH, "raw_plan_sha256": RAW_PLAN_SHA, "canonical_plan_sha256": PLAN_SHA}
+    if actual != expected:
+        raise ValueError(f"approved LF004 input hash mismatch: {actual}")
+    return actual
+
+
+def staging_plan(root: Path) -> list[dict[str, str]]:
+    source = root / "datasets/content_briefs/lf004-operator-dogfood"
+    remote = "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921"
+    guides = [
+        "lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+        "lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+        "lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+        "lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+    ]
+    paths = [*sorted((source / "plates").glob("*.png")), *(root / "datasets/runs/provenance" / item for item in guides)]
+    destinations = [f"{remote}/plates/{path.name}" if path.parent == source / "plates" else f"{remote}/datasets/runs/provenance/{path.relative_to(root / 'datasets/runs/provenance')}" for path in paths]
+    return [{"local": str(path), "remote": remote_path} for path, remote_path in zip(paths, destinations, strict=True)]
+
+
+def stage_assets(root: Path, *, dry_run: bool, output: Path | None = None) -> list[dict[str, str]]:
+    from pathlib import PurePosixPath
+    from host.render_host import SshHost
+
+    plan = staging_plan(root)
+    if dry_run:
+        if output is not None:
+            write_json(output, {"schema_version": 1, "root": str(root), "assets": plan})
+        return plan
+    source = root / "datasets/content_briefs/lf004-operator-dogfood"
+    remote = "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921"
+    host = SshHost(target="3090", wgp_root="/home/straughter/Wan2GP", pull_root=str(root / "datasets/runs/pull"), asset_map={str(source / "plates"): f"{remote}/plates", str(root / "datasets/runs/provenance"): f"{remote}/datasets/runs/provenance"})
+    staged = []
+    for item in plan:
+        local = Path(item["local"])
+        destination = host.map_asset(str(local))
+        host.makedirs(str(PurePosixPath(destination).parent))
+        assert host.push_asset(str(local)) == destination
+        staged.append({"local": str(local), "remote": destination})
+    if output is not None:
+        write_json(output, {"schema_version": 1, "root": str(root), "assets": staged})
+    return staged
+
+
+def run_film_once() -> list[dict[str, Any]]:
+    from scripts.run_film import run_film
+
+    verify_recovery_inputs()
     plan = json.loads((BASE / "plan.json").read_text(encoding="utf-8"))
+    return run_film(
+        BASE / "run/script.txt", BASE.parent / "lf004-operator-dogfood/plates",
+        characters=plan["characters"], durations=[56.0 / 24.0] * 4,
+        audio_paths=[clip["audio_guide"] for clip in plan["clips"]],
+        db_path=DB, run_ledger_path=LEDGER,
+        premise_id="LF004 Operator Dogfood: Borrowed Sunrise")
+
+
+def correct_fingerprints() -> None:
+    before_sha = sha(DB)
     queue = JobQueue(str(DB))
+    records: list[dict[str, Any]] = []
+    try:
+        jobs = sorted((queue.get(job_id) for job_id in queue.list_state("done")), key=lambda job: job.clips[0]["clip_index"])
+        assert [job.clips[0]["clip_index"] for job in jobs] == [1, 2, 3, 4]
+        for job in jobs:
+            clips = [dict(clip) for clip in job.clips]
+            old = clips[0].get("render_fingerprint")
+            effective = effective_render_fingerprint(clips[0])
+            queue.update_render_inputs(job.job_id, clips)
+            corrected = queue.get(job.job_id).clips[0]
+            assert corrected["render_fingerprint"] == effective_render_fingerprint(corrected)
+            records.append({"job_id": job.job_id, "clip_index": corrected["clip_index"], "stored_before": old, "effective": effective, "stored_after": corrected["render_fingerprint"]})
+    finally:
+        queue.close()
+    payload = {"schema_version": 1, "correction": "post_render_effective_input_fingerprint", "render_rerun": False, "production_run_rerun": False, "method": "JobQueue.update_render_inputs", "pre_correction_db_sha256": before_sha, "post_correction_db_sha256": sha(DB), "jobs": records}
+    write_json(PROVENANCE / "fingerprint-correction.json", payload)
+
+
+def reconcile(db_path: Path = DB, provenance: Path = PROVENANCE, brief_path: Path | None = None, plan_path: Path | None = None) -> None:
+    verify_recovery_inputs(brief_path, plan_path)
+    plan = json.loads((plan_path or BASE / "plan.json").read_text(encoding="utf-8"))
+    queue = JobQueue(str(db_path))
     records: list[dict[str, Any]] = []
     reopened: int | None = None
     try:
-        states = ("failed", "dead_letter", "pending", "rendered_pending_qc", "qc")
+        states = ("done", "failed", "dead_letter", "pending", "rendered_pending_qc", "qc")
         ids = [job_id for state in states for job_id in queue.list_state(state)]
         jobs = sorted((queue.get(job_id) for job_id in ids), key=lambda job: job.clips[0]["clip_index"])
         assert [job.clips[0]["clip_index"] for job in jobs] == [1, 2, 3, 4]
@@ -56,7 +154,7 @@ def reconcile() -> None:
             missing = [name for name in ("audio_policy", "audio_carrier", "speaker_manifest", "dialogue_text") if name not in clip]
             clip.update({"audio_policy": {"discard_rendered_audio": False, "remux_source": "source_master", "remux_window": clip["audio_provenance"]["keeper_window_s"]}, "audio_carrier": "native_h3", "speaker_manifest": {"schema": "wangp-dspy.speaker-manifest/v1", "turns": [{"turn_index": 1, "speaker_id": clip["speaker_sn"], "picture_n": 1, "audio_path": clip["audio_guide"], "intended_text": dialogue["text"]}]}, "dialogue_text": dialogue["text"], "profile": 3, "recipe_name": "production", "model_type": "minimax_h3_ref2va_pruned", "audio_prompt_type": "A", "video_prompt_type": "I", "image_prompt_type": "S" if clip["chain"]["re_anchor"] else "I", "image_start": clip["image_refs"][0] if clip["chain"]["re_anchor"] else None, "action": "subtle natural listening and speaking motion", "speaker_description": SPEAKERS[int(clip["clip_index"])], "premise_id": "lf004-operator-dogfood", "resolution": [480, 832], "requested_frames": 56, "video_length": 56, "force_fps": 24, "steps": 20, "audio": {"path": clip["audio_guide"], "apad": True, "start_s": 0.0, "padded_duration_s": 56 / 24}})
             clip["audio_provenance"] = {**clip["audio_provenance"], "whisper_map": clip["audio_guide"]}
-            queue.update_clips(job.job_id, clips)
+            queue.update_render_inputs(job.job_id, clips)
             records.append({"job_id": job.job_id, "clip_index": clip["clip_index"], "state_before": job.state, "missing_before_reconcile": missing})
         terminal = queue.list_state("failed") + queue.list_state("dead_letter")
         assert len(terminal) <= 1, terminal
@@ -66,7 +164,7 @@ def reconcile() -> None:
             reopened = queue.reopen_dead_letter(terminal[0], reason="reapply recorded LF004 content-brief queue reconciliation before QC")
     finally:
         queue.close()
-    write_json(PROVENANCE / "recovery-reconciliation.json", {
+    write_json(provenance / "recovery-reconciliation.json", {
         "schema_version": 1, "canonical_plan_sha256": PLAN_SHA, "reopened_attempt_id": reopened,
         "reason": "content-brief queue envelope omitted accepted Ref2VA audio/QC/runtime fields",
         "discovered_bug": any(record["missing_before_reconcile"] for record in records), "jobs": records,
@@ -148,6 +246,15 @@ def finalize() -> None:
 def main(argv: list[str]) -> int:
     if argv == ["reconcile"]:
         reconcile()
+    elif argv == ["correct-fingerprints"]:
+        correct_fingerprints()
+    elif argv == ["run-film"]:
+        run_film_once()
+    elif len(argv) >= 3 and argv[0] == "stage-assets" and argv[1] == "--root":
+        rest = argv[3:]
+        dry_run = "--dry-run" in rest
+        values = [item for item in rest if item != "--dry-run"]
+        stage_assets(Path(argv[2]), dry_run=dry_run, output=Path(values[0]) if values else None)
     elif argv == ["finalize"]:
         finalize()
     else:
