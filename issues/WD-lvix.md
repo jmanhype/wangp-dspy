@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T19:41:32Z
-content_hash: "sha256:a48694c7190877887b187629f3bcfa835adb7ce0c1a1f82dfd5a919743d604a4"
+updated_at: 2026-09-21T20:28:15Z
+content_hash: "sha256:4dc3bc9bbcc12dacba880431b4e00cc6c93b3ef4ad315cadede128973145d869"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 assignee: dev-WD-lvix
@@ -105,6 +105,107 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_failure_diagnostics.py -q` → 9 passed.
+- `uv run --frozen --extra dev pytest -q` → exit 0, 100%, 1,612 tests collected (one existing progress skip), existing FastAPI/Starlette deprecation warning shown below.
+- `uv build --out-dir /tmp/wd-lvix-dist-789acd6` → both artifacts built.
+- `pvg verify wangp/diagnostics.py wangp/cli.py wangp/doctor.py wangp/queue_view.py tests/test_failure_diagnostics.py docs/troubleshooting.md README.md docs/wgp-cli.md --format=text` → `VERIFY: PASSED`.
+- `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` → clean.
+- `git push -u origin story/WD-lvix` → pushed `789acd6`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/154
+- CI: run `35650821847`, head `789acd6e7c5f01c82d0967b30fa8abf7da9485a0`, conclusion `success` (read with `gh run view 35650821847 --json ...`).
+
+Summary: read-only typed diagnostics now cover preflight SSH/model/disk, QC gate evidence, retry/dead-letter state, deterministic replay, provenance inconsistency, unknown failures, and typed brief input across `wgp doctor`, `wgp status`, and `wgp review` in human and JSON modes.
+
+### Build evidence
+- Wheel: `/tmp/wd-lvix-dist-789acd6/wangp_dspy-0.1.0-py3-none-any.whl`
+- Wheel SHA-256: `dd381235d033f4f67c6576c6dc9afa14fe14c715d4343a37a751c0fd63b1618d`
+- Sdist: `/tmp/wd-lvix-dist-789acd6/wangp_dspy-0.1.0.tar.gz`
+- Sdist SHA-256: `654f011e52d6e539393759616a1b78b579c38ab404be0609e095aae0fa07d25f`
+
+### Immutable queue evidence
+- Real dead-letter database SHA-256 before `wgp status --db ... --json`: `2b532d16f7ed336ec192b2425c1a95c1f702ab8191372c5ece5178e2c2a2f68d`
+- Same database SHA-256 after status: `2b532d16f7ed336ec192b2425c1a95c1f702ab8191372c5ece5178e2c2a2f68d`
+- Status emitted one canonical JSON line and no SQLite sidecar/journal was created.
+
+### Representative before → after diagnostics
+| Failure class | Before at main | After at 789acd6 |
+| --- | --- | --- |
+| SSH unreachable | `[FAIL] ssh_reachable: ssh probe rc=255: ... Connection refused` plus generic `Verify SSH with 'ssh <target> true'.` | `HOST_UNREACHABLE`: observed target/probe result, why, safe `ssh -o BatchMode=yes TARGET true`, and `preflight:ssh_reachable`. Host-key/auth variants map to distinct codes. |
+| Missing model | `[FAIL] model_files: missing /path` plus generic placement line | `MODEL_MISSING`: exact path, why admission refused, no-download remediation, doctor command, and path/check evidence. |
+| Corrupt model | `[FAIL] model_files: sha256 mismatch /path (expected …, got …)` | `MODEL_HASH_MISMATCH`: exact path plus expected and actual SHA-256 prefixes in observed output and machine metadata. |
+| Low disk | `[FAIL] disk_headroom: 49G free on /path (min 50.0G)` plus generic cleanup line | `DISK_HEADROOM_BELOW_THRESHOLD`: measured 49.0 GiB, required 50.0 GiB, exact mount, read-only `df` command, no automatic deletion. |
+| Gate refusal | Queue line only: `failure=qc_gate x1: audiovisual SyncNet gate failed`; review did not surface `qc_evidence_path` or scores | `GATE_REJECTED`: declared gates, exact reason, Whisper pre/post scores/bars, action/identity vision scores, mouth boxes, SyncNet confidence/offset, preserved evidence path, exact review command, no-threshold-bypass language, and eligible retry command. |
+| Retry exhaustion | State/attempt rows only; no statement that automatic retry stopped | `RETRY_EXHAUSTED`: job id, 3 failures, 3 immutable attempts, retryability, retained DB/evidence paths, explicit no-automatic-retry statement, and audited reason-reopen command. |
+| Deterministic replay / eligible retry | Raw failure class/detail and `retryable` flag | `DETERMINISTIC_REPLAY_BLOCKED` or `RETRY_ELIGIBLE` with signature semantics, effective-input requirement/authorization warning, or exact existing retry command. |
+| Provenance inconsistency | Review hash row plus generic one-line integrity error | `PROVENANCE_HASH_MISMATCH` / `PROVENANCE_ARTIFACT_MISSING`: artifact, expected hash, why, exact JSON review command, artifact and provenance paths. |
+| Unknown / invalid brief | Unknown class was bare `class=... detail=...`; brief error was one plain line | `UNKNOWN_FAILURE` preserves original class/detail/evidence and asks for it to be filed; `INPUT_INVALID` gives field/path, cause, rerun command, and evidence. |
+
+Representative captured outputs are in local artifacts `/tmp/wd-lvix-before.txt` and `/tmp/wd-lvix-after.txt`; the latter was regenerated at the pushed implementation. Machine output uses the documented stable keys (`code`, `severity`, `title`, `observed`, `why`, `remediation`, `next_command`, `evidence_refs`, `metadata`) and redacts credential-shaped values.
+
+### AC verification
+| Required outcome | Status | Code/test evidence |
+| --- | --- | --- |
+| 1 stable diagnostic value/JSON shape | PASS | `wangp/diagnostics.py`; JSON-key and human-render tests in `tests/test_failure_diagnostics.py`. |
+| 2 host target/config/cause, no raw traceback | PASS | `_host_unreachable`, `_ssh_cause`, `classify_host_configuration`; SSH cause, doctor wiring, and default-no-SSH-log test. |
+| 3 exact model path/hash state and safe manifest command | PASS | `_model_diagnostic`; actual local missing/corrupt-file test and doctor integration. |
+| 4 measured/required disk values and non-destructive remediation | PASS | `_disk_diagnostic`; 49-vs-50 GiB and failed-measurement tests. |
+| 5 declared gate, reason, evidence, review command, no bypass | PASS | `_gate_summary`/`classify_queue_failure`; real queue + real `qc-evidence.json` CLI test. |
+| 6 retry/dead-letter/deterministic branching | PASS | `classify_queue_failure`; real public JobQueue failure/requeue/dead-letter and repeated-signature tests. |
+| 7 stable unknown diagnostic | PASS | `UNKNOWN_FAILURE`; unknown real queue row and secret-redaction test. |
+| 8 doctor/status/review human+JSON, secret-free, stable exits | PASS | wiring in `wangp/doctor.py`, `queue_view.py`, `cli.py`; CLI JSON/human and exit-code tests. |
+| 9 queue/attempt/gate bytes and decisions unchanged | PASS | read-only `QueueStatus` path plus unchanged protected-file diff and before/after SHA proof. |
+
+### Failure-class map
+| Required class | Diagnostic | Test | Evidence |
+| --- | --- | --- | --- |
+| Render host unreachable/key/auth | `HOST_UNREACHABLE`, `HOST_KEY_REJECTED`, `HOST_AUTHENTICATION_FAILED` | `test_preflight_distinguishes_ssh_failure_causes`, `test_doctor_host_diagnostics_are_explicit_and_default_makes_no_ssh_call` | explicit preflight output; fake `ssh` log empty without `--probe-host` |
+| Missing/corrupt model | `MODEL_MISSING`, `MODEL_HASH_MISMATCH` | `test_preflight_model_and_disk_diagnostics_preserve_measured_evidence`, existing doctor tests | actual filesystem paths and SHA-256 prefixes |
+| Disk headroom | `DISK_HEADROOM_BELOW_THRESHOLD` | same preflight test | 49.0 measured / 50.0 required / mount path |
+| Gate rejection | `GATE_REJECTED` | `test_gate_rejection_surfaces_qc_scores_path_and_review_command` | real queue, attempts, and `qc-evidence.json` |
+| Retry exhaustion/dead letter | `RETRY_EXHAUSTED` | `test_real_queue_failure_emits_remediation_and_resume_hint` | three public queue attempts + unchanged DB hash |
+| Incomplete/inconsistent provenance | `PROVENANCE_ARTIFACT_MISSING`, `PROVENANCE_HASH_MISMATCH` | `test_review_provenance_failure_uses_shared_diagnostic_vocabulary` | real bundle/artifact/expected hash |
+| Invalid brief / unknown class | `INPUT_INVALID`, `UNKNOWN_FAILURE` | final two integration tests | real invalid brief and real unknown queue failure |
+
+PROOF:
+- Commit: `789acd6e7c5f01c82d0967b30fa8abf7da9485a0` on `story/WD-lvix`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/154
+- CI: run `35650821847` / head `789acd6e7c5f01c82d0967b30fa8abf7da9485a0` / `success`.
+- Required test/build workflow ran both test suite and both distributables and completed successfully.
+
+LEARNINGS:
+- Reusing `PreflightCheck.detail`, `JobRecord`, and immutable attempt history kept classification presentation-only and made the byte-for-byte queue proof straightforward.
+- The local doctor and remote preflight model-mismatch strings use different punctuation; both must be accepted without changing `services/jobs/preflight.py`.
+- Credential redaction has to cover serialized attempt history as well as the new diagnostic metadata; otherwise the original failure detail can leak through JSON.
+- Diagnostics for a failed `df` must retain the named mount even when no free-space value was measured.
+
+### OBSERVATIONS (pre-existing, not changed)
+- Full pytest output includes `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead` from `fastapi/testclient.py`.
+- GitHub CI success logs include runner/action deprecation annotations for Node 20 actions and the future `ubuntu-latest` migration.
+- Diff-budget risk: the delivered test/documentation-heavy change is larger than the story's rough <500-LOC budget (1,375 insertions), driven by the mandated no-mock CLI coverage for every named class. No scope beyond WD-lvix was implemented.
+
+DISCOVERED_BUG:
+  title: FastAPI TestClient emits Starlette httpx deprecation warning
+  context: Full suite and CI pass, but pytest reports `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead` at import of `fastapi/testclient.py`. This is dependency-level and pre-existing, not caused by diagnostics.
+  affected_files: pyproject.toml; tests that import FastAPI TestClient
+  discovered_during: WD-lvix
+
+## nd_contract
+status: delivered
+
+### evidence
+- Implementation commit `789acd6e7c5f01c82d0967b30fa8abf7da9485a0`; PR #154; CI run 35650821847 success.
+- Targeted tests 9 passed; full suite exit 0 at 100%; wheel/sdist built; pvg verify passed; protected semantic files unchanged.
+
+### proof
+- [x] Stable diagnostic shape and human/JSON rendering.
+- [x] SSH causes/configuration, model path/hash, disk threshold/measurement, gate evidence/reason, retry/dead-letter, deterministic replay, provenance, unknown, and typed input diagnostics.
+- [x] Real CLI/queue/filesystem tests and immutable queue-byte proof.
+- [x] Full suite, build, protected-file diff, push, PR, and required CI green.
+
+
 ## nd_contract
 status: in_progress
 
