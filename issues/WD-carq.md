@@ -8,8 +8,8 @@ labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:10:03Z
-content_hash: "sha256:e4ca5d1f8f6aa5298654d4767bab0b77883d3cab68bbec5cefc0f6208034eb69"
+updated_at: 2026-09-21T23:10:21Z
+content_hash: "sha256:51afbd71b60bf1a683b61c1942f646223b7a9e6f0e10aad8ddf2eb4e4207446c"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
@@ -357,9 +357,14 @@ status: delivered
 - Fail-closed probes: deleted `assembled.mp4` -> write exit 2 with `required artifact is missing from this run review bundle` and no output file, verify exit 2 with no `verified=true`; tampered bundle copy -> exit 2 `pinned.assembled_media.sha256 status=changed`; two copies -> one unique recipe sha256; 14-case nested shape matrix -> exit 2.
 
 ### proof
-- [x] AC #2: the same logical run is byte-stable across two copied bundles.
-- [x] AC #3: missing required artifacts fail closed at write and verify with field-specific diagnostics.
-- [x] AC #3/#4: consumed provenance sections and nested cut mappings fail as typed input, never exit 4.
+- [x] AC #1: recipe v3 pins run identity, plan and brief hashes, per-cut gate thresholds, per-cut and assembled media digests, queue database digest, settings and retry policy (64 pinned fields, zero absolute paths).
+- [x] AC #2: the same logical run is byte-stable across two independent bundle copies (one unique recipe sha256).
+- [x] AC #3: missing required artifacts fail closed at write and verify with field-specific diagnostics; no historical absolute path from another checkout is substituted.
+- [x] AC #4: every consumed provenance section and nested cut mapping exits 2 as typed input, never exit 4 (14-case matrix).
+- [x] AC #5: pinned paths are bundle- or repository-relative only, so copies stay byte-identical.
+- [x] AC #6: the verbs are local and read-only: no SSH, no host contact, no GPU, no queue submission, committed evidence and protected engine files byte-identical.
+- [x] AC #7: README and docs/recipe.md document what is pinned, what is not promised, and how to verify.
+- [x] AC #8: evidence recorded in the notes above (targeted suite, full suite, build, exact-head CI check 106549314311, mutation matrix, read-only checks).
 
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-lvix
