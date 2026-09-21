@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T07:00:16Z
-content_hash: "sha256:bf719f3b227d517819e6e6f8897196dcd33c92f200607d6120c7608563b7ce42"
+content_hash: "sha256:06b2d56285cd9571b167d589dd247dae696fd647689a0d772c554a33c21d37b6"
 assignee: dev-WD-l48s
 ---
 
@@ -223,6 +223,7 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 ## History
 - 2026-09-21T05:46:58Z status: open -> in_progress
 - 2026-09-21T05:46:58Z claimed by dev-WD-l48s
+- 2026-09-21T07:00:16Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-as25]]
