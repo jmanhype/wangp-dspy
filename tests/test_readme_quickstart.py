@@ -113,8 +113,16 @@ def test_repository_hygiene_and_readme_contract() -> None:
     assert (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.1.0"
     assert project["project"]["version"] == "0.1.0"
     assert project["project"]["requires-python"] == ">=3.11"
-    assert "Apache License" in license_text
-    assert "Version 2.0" in license_text
+    # Licensing is an owner decision. The repository ships a deliberate source-available
+    # notice that grants no rights, so this test fails if the licence is changed silently in
+    # either direction: a missing reserved-rights notice, or an OSS grant nobody authorised.
+    assert "All rights reserved" in license_text
+    assert "NO LICENCE GRANTED" in license_text
+    assert "Apache License" not in license_text and "MIT License" not in license_text
+    # The third-party notice must disclose the test-only Maestro excerpt corpus rather than
+    # claiming nothing third-party is checked in.
+    assert "maestro_reference" in notices
+    assert "test-only reference corpus" in notices
 
     for phrase in (
         "typed content brief",

@@ -15,7 +15,9 @@ Wangp is a governed short-film generation engine for the MiniMax H3 / Wan2GP ren
 
 - Python 3.11 or newer.
 - [`uv`](https://docs.astral.sh/uv/) for reproducible environment installation.
-- `ffmpeg` and `ffprobe` on `PATH`.
+- `ffprobe` on `PATH` for planning; `ffmpeg` as well for the paths that prepare or
+  post-process media (materializing absent guides, remuxing, assembly). Planning a brief whose
+  guides already exist needs `ffprobe` only.
 - A clean Git checkout for provenance-bearing planning and rendering.
 - Optional for renders only: an SSH-reachable GPU host with the Wan2GP environment and required models.
 
@@ -76,18 +78,25 @@ Host preflight checks SSH, model hashes, disk headroom, GPU state, and the QC se
 
 The preserved LF004 recovery run is the clearest review example:
 
-- Pull-local worker artifacts: `datasets/runs/pull/acceptance/*/render-*/` — `raw.mp4`, `remux.mp4`, `render.log`, `settings.json`, `runtime-evidence.json`, and `qc-evidence.json`.
+- The four accepted LF004 recovery worker directories under
+  `datasets/runs/pull/acceptance/<worker>/render-*/` — `worker-511ee9ee6a8f/render-0000`,
+  `worker-8c113b8f1396/render-0001`, `worker-99f88572dfb7/render-0002`,
+  `worker-fda9bc258c06/render-0003` — each carrying `raw.mp4` or `remux.mp4`, `render.log`,
+  `settings.json`, `runtime-evidence.json`, and `qc-evidence.json`. Other
+  `datasets/runs/pull/acceptance/*` directories are deliberately preserved partial or refused
+  attempts and are not all complete; treat a directory as authoritative only when its
+  `qc-evidence.json` exists.
 - Staging and immutable provenance: `datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/`.
 - Final review bundle: `datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/`.
 - Film and machine probe: `assembled.mp4` and `probe.json` in the final review bundle.
 - Human review aids: `review/cut*.contact_sheet.jpg`, `review/film.contact_sheet.jpg`, and `review.md` in that bundle.
 - Gate-to-source chain: `final-provenance.json` in the same bundle.
 
-Read `probe.json` for duration, frame count, resolution, and SHA-256. Read `qc-evidence.json` for a rejected or accepted cut's transcript, vision, mouth-box, and SyncNet details. Read `final-provenance.json` from the top down: repository and input identities, per-cut gate results and media hashes, retry policy, assembly command, final-media hash, and operator approval status. Older LF002/LF003 review exports also appear under `renders/review_*`.
+Read `probe.json` for duration, frame count, resolution, and SHA-256. Read `qc-evidence.json` for a rejected or accepted cut's transcript, vision, mouth-box, and SyncNet details. Read `final-provenance.json` by section (its top-level keys are serialized alphabetically, so do not read it as a narrative order): repository and input identities, per-cut gate results and media hashes, retry policy, assembly command, final-media hash, and operator approval status. Older LF002/LF003 review exports also appear under `renders/review_*`.
 
 ## Troubleshooting
 
-- **Missing ffmpeg or ffprobe:** install both and ensure `command -v ffmpeg` and `command -v ffprobe` resolve before planning. Brief validation probes supplied audio and fails before emitting a plan if either tool is unavailable or returns an unusable audio duration.
+- **Missing ffmpeg or ffprobe:** `ffprobe` is required for planning; brief validation probes supplied guide audio and fails before emitting a plan if `ffprobe` is unavailable or returns an unusable duration. `ffmpeg` is required only for paths that prepare or post-process media (materializing absent guides, remuxing, assembly). Install both and verify with `command -v ffprobe` and `command -v ffmpeg`.
 - **Invalid brief or audio duration:** the CLI reports a typed `ContentBriefError` naming the field or turn. Correct the JSON, speaker roster, plate count, or guide duration and rerun. No partial plan should be trusted after a failure.
 - **Missing or duplicate plates:** the plates directory must contain exactly one `anchor.*` and exactly one plate per named character. Resolve accidental duplicates or add the missing file; do not edit the plan to bypass discovery.
 - **No render host configured:** the default `3090` target is an SSH identity, not an auto-discovery mechanism. Configure a reachable alias or set `WANGP_SSH_TARGET` explicitly. Story WD-fp49 will replace this environment-variable-only configuration.

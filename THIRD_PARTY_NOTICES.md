@@ -1,10 +1,12 @@
 # Third-party notices and model constraints
 
-This notice identifies third-party material that Wangp references, adapts, downloads, or invokes. It is factual attribution, not legal advice. **The Apache-2.0 licence for this repository covers only repository-owned code and documentation. It does not licence, relicence, or waive conditions for third-party models, weights, datasets, hosted services, or their outputs.**
+This notice identifies third-party material that Wangp references, adapts, downloads, or invokes. It is factual attribution, not legal advice. **The repository licence in [LICENSE](LICENSE) is a source-available notice that grants no rights, and it covers only repository-owned code and documentation. It does not licence, relicence, or waive conditions for third-party models, weights, datasets, hosted services, or their outputs.**
 
 ## Maestro and Wan2GP / H3 stack
 
-- Wangp's Director architecture was pattern-matched from Maestro as an idea/spec reference. The repository records Maestro as licensed under **WanGP Non-Commercial Evaluation 1.1**. No Maestro source is vendored or copied verbatim; `tests/test_no_maestro_verbatim.py` continuously rejects shared verbatim code runs.
+- Wangp's Director architecture was pattern-matched from Maestro as an idea/spec reference. The repository records Maestro as licensed under **WanGP Non-Commercial Evaluation 1.1**.
+- This repository does commit a **test-only reference corpus** of Maestro excerpts under `tests/fixtures/maestro_reference/` (three text files). It exists solely so `tests/test_no_maestro_verbatim.py` can detect verbatim reuse; it is third-party material carrying Maestro's upstream terms, it is excluded from the shipped product surface and from any package build, and it must not be redistributed or reused outside that test role.
+- No verbatim Maestro code runs are present in production code: the guard rejects shared non-trivial verbatim runs (at least 21 significant lines) between the reference corpus and the production tree. That is a narrower and checkable claim than "no Maestro source is copied anywhere in the repository", which is not true of the fixture corpus above.
 - The production renderer targets the external Wan2GP environment and MiniMax H3 / Ref2VA handler/checkpoints under `/home/straughter/Wan2GP`. Wan2GP, Maestro, MiniMax H3 models, model settings, and generated media remain subject to their respective upstream licences, terms, and use policies.
 - Do not assume commercial redistribution rights for H3/Wan2GP artifacts. Obtain and record the applicable current terms before redistribution or commercial use.
 
