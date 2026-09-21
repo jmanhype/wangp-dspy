@@ -110,17 +110,16 @@ class RemoteSyncNetAVSyncJudge:
             from wangp.config import (
                 HostConfigError,
                 load_host_config,
-                require_host_config,
+                require_wgp_python,
             )
 
             try:
-                configured_root = require_host_config(
+                configured_python = require_wgp_python(
                     load_host_config(environ=os.environ)
-                ).wgp_root
+                )
             except HostConfigError as exc:
                 raise AVSyncGateError(str(exc)) from exc
-            assert configured_root is not None
-            resolved_python = f"{configured_root.value}/venv/bin/python"
+            resolved_python = configured_python.value
         self.host_python = (
             host_python or os.environ.get("WANGP_SYNCNET_PYTHON") or
             resolved_python)

@@ -17,6 +17,7 @@ Usage: run_qc.py <local_video> <run_record.json> <genre>
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys

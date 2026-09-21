@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,13 +14,17 @@ if TYPE_CHECKING:  # pragma: no cover - typing only, keeps the runtime import la
 
 
 HOST_KEYS = ("host.target", "host.wgp_root", "host.pull_root")
-_ENVIRONMENT_KEYS = {
+OPTIONAL_HOST_KEYS = ("host.wgp_python",)
+ALL_HOST_KEYS = HOST_KEYS + OPTIONAL_HOST_KEYS
+ENVIRONMENT_KEYS = {
     "host.target": "WANGP_SSH_TARGET",
     "host.wgp_root": "WANGP_WGP_ROOT",
     "host.pull_root": "WANGP_PULL_ROOT",
+    "host.wgp_python": "WANGP_WGP_PYTHON",
 }
-_HOST_FIELDS = {"target", "wgp_root", "pull_root"}
-_FIELD_NAMES = ("target", "wgp_root", "pull_root")
+_HOST_FIELDS = {"target", "wgp_root", "pull_root", "wgp_python"}
+_FIELD_NAMES = ("target", "wgp_root", "pull_root", "wgp_python")
+_ABSOLUTE_PATH_FIELDS = {"wgp_root", "pull_root", "wgp_python"}
 
 
 class HostConfigError(ValueError):
@@ -48,6 +53,7 @@ class HostConfig:
     target: HostSetting | None
     wgp_root: HostSetting | None
     pull_root: HostSetting | None
+    wgp_python: HostSetting | None
     repository_root: Path
     repository_config: Path
     user_config: Path
@@ -57,6 +63,9 @@ class HostConfig:
         return not missing_host_keys(self)
 
     def settings(self) -> tuple[HostSetting | None, ...]:
+        return (self.target, self.wgp_root, self.pull_root, self.wgp_python)
+
+    def required_settings(self) -> tuple[HostSetting | None, ...]:
         return (self.target, self.wgp_root, self.pull_root)
 
 
@@ -65,7 +74,7 @@ def missing_host_keys(config: HostConfig) -> tuple[str, ...]:
 
     return tuple(
         key
-        for key, setting in zip(HOST_KEYS, config.settings(), strict=True)
+        for key, setting in zip(HOST_KEYS, config.required_settings(), strict=True)
         if setting is None
     )
 
@@ -88,8 +97,21 @@ def _user_config_path(environ: Mapping[str, str]) -> Path:
     if selected:
         return Path(selected).expanduser()
     configured_home = environ.get("XDG_CONFIG_HOME", "").strip()
-    base = Path(configured_home).expanduser() if configured_home else Path.home()
+    base = (
+        Path(configured_home).expanduser()
+        if configured_home
+        else Path.home() / ".config"
+    )
     return base / "wangp" / "config.toml"
+
+
+def _validate_path_field(field: str, value: str, context: str) -> str:
+    if field in _ABSOLUTE_PATH_FIELDS and not Path(value).is_absolute():
+        raise HostConfigError(
+            f"{context}: field host.{field} must be an absolute path "
+            f"(got {value!r})"
+        )
+    return value
 
 
 def _read_host_table(path: Path, source: str) -> dict[str, str]:
@@ -121,6 +143,8 @@ def _read_host_table(path: Path, source: str) -> dict[str, str]:
                 f"{path}: field host.{field} must be a nonempty string "
                 f"(got {type(table[field]).__name__})"
             )
+        assert isinstance(table[field], str)
+        _validate_path_field(field, table[field], str(path))
     return {
         field: value
         for field, value in table.items()
@@ -145,8 +169,22 @@ def _detect_wgp_root(repository_root: Path) -> Path | None:
     return None
 
 
+def _default_pull_root(repository_root: Path, environ: Mapping[str, str]) -> Path:
+    """Keep source runs local, but never derive data from site-packages."""
+
+    if (repository_root / "pyproject.toml").is_file():
+        return repository_root / "datasets" / "runs" / "pull"
+    selected_data = environ.get("XDG_DATA_HOME", "").strip()
+    data_home = (
+        Path(selected_data).expanduser()
+        if selected_data
+        else Path.home() / ".local" / "share"
+    )
+    return data_home / "wangp" / "runs" / "pull"
+
+
 def _actionable_message(keys: tuple[str, ...], config: HostConfig) -> str:
-    environment = ", ".join(_ENVIRONMENT_KEYS[key] for key in keys)
+    environment = ", ".join(ENVIRONMENT_KEYS[key] for key in keys)
     file_keys = ", ".join(keys)
     return (
         f"render host is not configured: missing {file_keys}. "
@@ -165,6 +203,24 @@ def require_host_config(config: HostConfig) -> HostConfig:
     return config
 
 
+def require_wgp_python(config: HostConfig) -> HostSetting:
+    """Return the explicit Wan2GP interpreter without requiring SSH keys."""
+
+    if config.wgp_python is None:
+        raise HostConfigError(
+            _actionable_message(("host.wgp_python",), config)
+        )
+    return config.wgp_python
+
+
+def host_config_error(
+    config: HostConfig, keys: tuple[str, ...]
+) -> HostConfigError:
+    """Build the shared actionable error for the supplied host keys."""
+
+    return HostConfigError(_actionable_message(keys, config))
+
+
 def load_host_config(
     *,
     repository_root: Path | None = None,
@@ -178,10 +234,14 @@ def load_host_config(
     user_path = _user_config_path(environment)
 
     layers: list[tuple[str, Path | None, dict[str, str] | None]] = []
-    for key, variable in _ENVIRONMENT_KEYS.items():
+    for key, variable in ENVIRONMENT_KEYS.items():
         value = environment.get(variable, "")
         if _nonempty(value):
             assert isinstance(value, str)
+            field = key.removeprefix("host.")
+            value = _validate_path_field(
+                field, value, f"environment {variable}"
+            )
             layers.append((key, None, {key.removeprefix("host."): value}))
     if user_path.is_file():
         user_values = _read_host_table(user_path, "user config")
@@ -212,30 +272,44 @@ def load_host_config(
             )
 
     detected_root = _detect_wgp_root(root)
-    if "wgp_root" not in resolved and detected_root is not None:
+    # Local detection is all-or-nothing. Filling only one side of target/root
+    # for an explicit setting would combine two machines into one host.
+    if detected_root is not None and not any(
+        field in resolved for field in ("target", "wgp_root")
+    ):
         resolved["wgp_root"] = HostSetting(
             key="host.wgp_root",
             value=str(detected_root),
             source="detection",
             origin=detected_root,
         )
-    if "target" not in resolved and detected_root is not None:
         resolved["target"] = HostSetting(
             key="host.target", value="localhost", source="detection"
         )
     if "pull_root" not in resolved:
-        detected_pull = root / "datasets" / "runs" / "pull"
+        detected_pull = _default_pull_root(root, environment)
         resolved["pull_root"] = HostSetting(
             key="host.pull_root",
             value=str(detected_pull),
             source="detection",
             origin=root,
         )
+    if "wgp_python" not in resolved:
+        local_target = resolved.get("target")
+        if local_target is not None and local_target.value == "localhost":
+            interpreter = Path(sys.executable).resolve()
+            resolved["wgp_python"] = HostSetting(
+                key="host.wgp_python",
+                value=str(interpreter),
+                source="detection",
+                origin=interpreter,
+            )
 
     return HostConfig(
         target=resolved.get("target"),
         wgp_root=resolved.get("wgp_root"),
         pull_root=resolved.get("pull_root"),
+        wgp_python=resolved.get("wgp_python"),
         repository_root=root,
         repository_config=repository_path,
         user_config=user_path,
@@ -259,12 +333,16 @@ def render_host(config: HostConfig) -> SshHost:
 
 
 __all__ = [
+    "ALL_HOST_KEYS",
+    "ENVIRONMENT_KEYS",
     "HOST_KEYS",
     "HostConfig",
     "HostConfigError",
     "HostSetting",
     "load_host_config",
     "missing_host_keys",
+    "host_config_error",
     "render_host",
     "require_host_config",
+    "require_wgp_python",
 ]

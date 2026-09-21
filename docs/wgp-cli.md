@@ -45,9 +45,9 @@ these check kinds:
 Remote model hashes are checked at their Wan2GP-relative or absolute remote paths, and
 the render volume must retain at least **50 GB** free.
 The host is complete only when `host.target`, `host.wgp_root`, and `host.pull_root` all resolve;
-`WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, and `WANGP_PULL_ROOT` override their file values. Without
-`--probe-host`, doctor makes no SSH or hosted-service call. Every failed or skipped check has one
-concrete remediation line.
+`WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, `WANGP_PULL_ROOT`, and `WANGP_WGP_PYTHON` override their
+file values. Without `--probe-host`, doctor makes no SSH or hosted-service call. Every failed or
+skipped check has one concrete remediation line.
 
 ## Status and review
 

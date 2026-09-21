@@ -53,7 +53,8 @@ class FakeHost:
 class TestLockArgv:
     def test_single_element(self):
         argv = build_wgp_lock_argv(
-            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python"
         )
         assert isinstance(argv, list)
         assert len(argv) == 1
@@ -61,7 +62,8 @@ class TestLockArgv:
 
     def test_shlex_round_trip(self):
         argv = build_wgp_lock_argv(
-            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python"
         )
         parts = shlex.split(argv[0])
         assert parts[0] == "flock"
@@ -73,7 +75,8 @@ class TestLockArgv:
 
     def test_no_flock_dash_c_flag(self):
         argv = build_wgp_lock_argv(
-            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python"
         )
         assert " -c " not in argv[0].replace("bash -c", "BASH_C")
 
@@ -82,6 +85,7 @@ class TestLockArgv:
             "/run/my settings.json",
             "/run/my render.log",
             wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python",
         )
         parts = shlex.split(argv[0])
         inner = shlex.split(parts[4])
@@ -89,11 +93,12 @@ class TestLockArgv:
 
     def test_absolute_interpreter_and_script(self):
         argv = build_wgp_lock_argv(
-            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python"
         )
         inner = shlex.split(shlex.split(argv[0])[4])
         assert inner[1] == CONFIGURED_WGP_ROOT
-        py = [a for a in inner if a.endswith("/venv/bin/python")]
+        py = [a for a in inner if a == "/configured/python"]
         wgp = [a for a in inner if a.endswith("/wgp.py")]
         assert py and py[0].startswith("/")
         assert wgp and wgp[0].startswith("/")
@@ -108,6 +113,7 @@ class TestDetachedLaunch:
             "/run/s.json",
             "/run/render.log",
             wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python",
         )
         assert len(argv) == 1
         s = argv[0]
@@ -121,6 +127,7 @@ class TestDetachedLaunch:
             "/run/s.json",
             "/run/render.log",
             wangp_dir=CONFIGURED_WGP_ROOT,
+            wgp_python="/configured/python",
         )
         parts = shlex.split(argv[0])
         assert parts[:2] == ["setsid", "nohup"]

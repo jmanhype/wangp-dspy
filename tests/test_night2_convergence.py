@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
 import pytest
 
@@ -35,6 +36,7 @@ def complete_render_host_config(monkeypatch, tmp_path):
     monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
     monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
     monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+    monkeypatch.setenv("WANGP_WGP_PYTHON", sys.executable)
 
 
 class _FakeHost:

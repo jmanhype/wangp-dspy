@@ -329,6 +329,7 @@ def test_configured_host_is_reported_without_implicit_probe() -> None:
             "WANGP_SSH_TARGET": "unreachable.invalid",
             "WANGP_WGP_ROOT": "/configured/wgp-root",
             "WANGP_PULL_ROOT": "/configured/pull-root",
+            "WANGP_WGP_PYTHON": "/configured/python",
         },
     )
     assert result.returncode == 0, result.stdout + result.stderr
@@ -336,6 +337,7 @@ def test_configured_host_is_reported_without_implicit_probe() -> None:
     assert "host.target=unreachable.invalid [environment]" in result.stdout
     assert "host.wgp_root=/configured/wgp-root [environment]" in result.stdout
     assert "host.pull_root=/configured/pull-root [environment]" in result.stdout
+    assert "host.wgp_python=/configured/python [environment]" in result.stdout
     assert "ssh_reachable" not in result.stdout
 
 

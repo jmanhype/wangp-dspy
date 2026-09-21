@@ -12,6 +12,7 @@ import time
 from pathlib import Path
 
 from wangp.config import load_host_config, require_host_config
+from wangp.gpu_sequencing import gpu_sequence_environment
 
 REPO = Path(__file__).resolve().parent.parent
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 5
@@ -51,8 +52,7 @@ def gpu(seq):
     for attempt in (1, 2):
         r = sh(["bash", str(REPO / "scripts" / "gpu_seq.sh"), seq],
                timeout=tmo,
-               env={**os.environ,
-                    "WANGP_SSH_TARGET": HOST_TARGET.value})
+               env=gpu_sequence_environment(os.environ))
         if r.returncode == 0:
             break
         print(f"[gpu:{seq}] attempt {attempt} failed rc={r.returncode}; "
@@ -120,7 +120,7 @@ for intent in INTENTS:
     healthy = False
     for attempt in range(30):  # ~150s max for model load
         chk = sh(["bash", str(REPO / "scripts" / "gpu_seq.sh"), "status"],
-                 timeout=60)
+                 timeout=60, env=gpu_sequence_environment(os.environ))
         if "critic: up" in (chk.stdout or ""):
             # process up; verify endpoint actually serves
             ep = subprocess.run(

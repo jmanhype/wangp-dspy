@@ -78,6 +78,7 @@ def test_safe_detection_uses_local_wgp_marker_and_never_guesses_remote() -> None
         root = base / "repository"
         checkout = base / "Wan2GP"
         root.mkdir()
+        (root / "pyproject.toml").write_text("", encoding="utf-8")
         checkout.mkdir()
         (checkout / "wgp.py").write_text("", encoding="utf-8")
         config = load_host_config(

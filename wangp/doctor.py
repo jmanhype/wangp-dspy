@@ -13,7 +13,10 @@ from pathlib import Path
 from typing import Mapping, Sequence
 
 from wangp.config import (
+    ALL_HOST_KEYS,
     HostConfig,
+    OPTIONAL_HOST_KEYS,
+    ENVIRONMENT_KEYS,
     load_host_config,
     missing_host_keys,
     render_host,
@@ -185,7 +188,7 @@ def _host_detail(config: HostConfig) -> str:
     return "; ".join(
         _host_setting(config, key, setting)
         for key, setting in zip(
-            ("host.target", "host.wgp_root", "host.pull_root"),
+            ALL_HOST_KEYS,
             config.settings(),
             strict=True,
         )
@@ -193,12 +196,18 @@ def _host_detail(config: HostConfig) -> str:
 
 
 def _host_check(config: HostConfig) -> DoctorCheck:
-    if missing_host_keys(config):
+    missing_render_keys = missing_host_keys(config)
+    if config.wgp_python is None:
+        missing_render_keys += OPTIONAL_HOST_KEYS
+    if missing_render_keys:
+        variables = ", ".join(
+            ENVIRONMENT_KEYS[key] for key in missing_render_keys
+        )
         return _skip(
             "host_configuration",
             _host_detail(config) + "; the no-GPU lane remains ready",
-            "Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT "
-            "(or the corresponding [host] keys) for GPU work.",
+            f"Set {variables} (or the corresponding [host] keys) "
+            "for GPU work.",
         )
     return _pass(
         "host_configuration",

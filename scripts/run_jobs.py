@@ -48,7 +48,13 @@ from services.jobs.queue import (  # noqa: E402,F401
     JobQueue, is_job_admissible as _is_admissible_impl,
     next_admissible as _next_admissible_impl,
 )
-from wangp.config import HostConfigError, load_host_config, render_host  # noqa: E402
+from wangp.config import (  # noqa: E402
+    HostConfigError,
+    host_config_error,
+    load_host_config,
+    missing_host_keys,
+    render_host,
+)
 
 
 def is_admissible(job, done_jobs) -> bool:
@@ -531,7 +537,13 @@ def main(argv=None):
 
 
 def _default_host():
-    return render_host(load_host_config())
+    config = load_host_config()
+    missing = missing_host_keys(config)
+    if config.wgp_python is None:
+        missing += ("host.wgp_python",)
+    if missing:
+        raise host_config_error(config, missing)
+    return render_host(config)
 
 
 def _is_localhost() -> bool:
