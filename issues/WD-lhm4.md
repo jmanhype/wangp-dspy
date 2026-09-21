@@ -1,17 +1,19 @@
 ---
 id: WD-lhm4
 title: "Deliver stable wgp verbs with doctor preflight"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T13:59:00Z
-content_hash: "sha256:4cc2b0a53e205a0675cfb46040c12ce7b17cb5f327b0f9c5041b0116e355ae4e"
+updated_at: 2026-09-21T15:41:16Z
+content_hash: "sha256:a679538b25285db049415f520f971f8bfe47cfe08af8efd31dbc526616135edd"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
+assignee: dev-WD-lhm4
+follows: [WD-3nwm]
 ---
 
 ## Description
@@ -114,11 +116,15 @@ status: new
 - 2026-09-21T13:56:16Z dep_added: blocks WD-fp49
 - 2026-09-21T13:56:17Z dep_added: blocks WD-fq1o
 - 2026-09-21T15:36:38Z dep_removed: was_blocked_by WD-3nwm
+- 2026-09-21T15:41:16Z status: open -> in_progress
+- 2026-09-21T15:41:16Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-21T15:41:16Z claimed by dev-WD-lhm4
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-fp49]], [[WD-fq1o]]
 - Was blocked by: [[WD-3nwm]]
+- Follows: [[WD-3nwm]]
 
 ## Comments
 
