@@ -1541,6 +1541,9 @@ class WanGPAdapter:
             configured_root = load_host_config().wgp_root
             if configured_root is not None:
                 resolved_root = configured_root.value
+        if (resolved_root is None and isinstance(wgp_outputs_dir, str)
+                and wgp_outputs_dir.endswith("/outputs")):
+            resolved_root = wgp_outputs_dir.rsplit("/outputs", 1)[0]
         self.venv_python = venv_python or (
             f"{resolved_root}/venv/bin/python" if resolved_root else None
         )

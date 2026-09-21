@@ -44,7 +44,6 @@ def main():
     lane = parse_lane(None)
     from predict.lm_wiring import creative_lm
     from predict.pipeline import Pipeline, PipelineStageError
-    from host.render_host import SshHost
     from host.wangp_adapter import WanGPAdapter
     from wangp.config import HostConfigError, load_host_config, render_host
 
@@ -61,12 +60,7 @@ def main():
     run_id = time.strftime("%Y%m%d-%H%M%S")
     run_path = RUN_DIR / f"{run_id}.json"
 
-    config = load_host_config(environ=os.environ)
-    host = render_host(config)
-    wgp_root = config.wgp_root
-    assert wgp_root is not None
-    adapter = WanGPAdapter(host=host,
-                           output_dir=f"{wgp_root.value}/outputs")
+    adapter = None
     if lane == "ref2va":
         # ref2va lane: route through the adapter's per-job model
         # routing (recipe-configured path). Dry-run safe: adapter=None
@@ -79,7 +73,13 @@ def main():
                   "render seam is wired — set WANGP_DRY_RUN=1",
                   file=sys.stderr)
             raise SystemExit(3)
-        adapter = None
+    else:
+        config = load_host_config(environ=os.environ)
+        host = render_host(config)
+        wgp_root = config.wgp_root
+        assert wgp_root is not None
+        adapter = WanGPAdapter(host=host,
+                               output_dir=f"{wgp_root.value}/outputs")
     lm = creative_lm()
 
     p = Pipeline(genre=GENRE, creative_lm=lm, adapter=adapter)
