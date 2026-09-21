@@ -8,8 +8,8 @@ labels: [bug, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:17:33Z
-content_hash: "sha256:49346a37c4fd0fc0ab618172282f72c15891b35f1b9940567bd18e6091b0a967"
+updated_at: 2026-09-21T00:18:05Z
+content_hash: "sha256:64842f150e44dd905a1ac3c209b81b07ad14cc23c83af33e48cffc3d9684d80a"
 blocks: [WD-42no]
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e]
@@ -292,3 +292,23 @@ status: new
 - Follows: [[WD-z46c]], [[WD-rj6e]]
 
 ## Comments
+
+### 2026-09-21T00:18:05Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Branch/PR: story/WD-ssdt at e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b; PR #148.
+- Targeted: 19/19 passed; full suite: 1,552 passed, 1 pre-existing no-GPU-constrained skip; coverage 91%; git diff --check and pvg verify passed.
+- Full evidence, exact output tails, artifact-absence assertions, and AC table are in `## Implementation Evidence (DELIVERED)` above.
+
+### proof
+- [x] AC #1: Real ffprobe preflight occurs before run/script/plan side effects; missing/corrupt/non-numeric/non-positive guides fail closed.
+- [x] AC #2: Declared/default versus measured duration uses the 0.000001 s tolerance and typed turn/path/duration mismatch detail.
+- [x] AC #3 (PM Amendment): `audio_filler_policy` is dropped entirely and rejected as unknown; no declaration bypass exists.
+- [x] AC #4 (PM Amendment): Every measured/declared mismatch is rejected; no filler authorization or trimming exists.
+- [x] AC #5: Matching real guides remain accepted with consistent downstream guide/shot/frame/window values and unchanged `check_guide_duration`.
+- [x] AC #6: No-audio/default planning remains successful and the prior no-policy brief hash is pinned.
+- [x] AC #7: LF004-style mismatch is rejected without artifacts; LF003-equivalent 56-frame guides are accepted.
+- [x] AC #8: CLI rejection leaves no plan/run dir/ledger/jobs DB; successful plans remain dry-run, no-GPU, and queue-free.
+- [x] AC #9: Diff inspection confirms no Whisper/vision/mouth-box/SyncNet/QC/retry/provenance/renderer-policy semantic change.
