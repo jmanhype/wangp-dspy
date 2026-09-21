@@ -1,7 +1,7 @@
 ---
 id: WD-3nwm
 title: "Ship repository hygiene with a tested README quickstart"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [walking-skeleton, integration, external-integration, rejected, rejected-x3]
@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:26:25Z
-content_hash: "sha256:829850bf43a7331fdbf291f84f676d6295024cb87bf233967ce41e40150a1a89"
+content_hash: "sha256:1067af26ce9c85d0acc65b2577a02d4e09226f14c53eef3def9e1052729c3363"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -244,6 +244,7 @@ status: in_progress
 - 2026-09-21T15:08:50Z status: open -> in_progress
 - 2026-09-21T15:22:13Z status: in_progress -> open
 - 2026-09-21T15:22:13Z released by speed
+- 2026-09-21T15:26:25Z status: open -> in_progress
 
 ## Links
 - Parent: [[WD-t534]]
