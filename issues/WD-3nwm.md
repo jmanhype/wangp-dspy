@@ -1,16 +1,17 @@
 ---
 id: WD-3nwm
 title: "Ship repository hygiene with a tested README quickstart"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [walking-skeleton, integration, external-integration, rejected-x3, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:26:25Z
-content_hash: "sha256:2ebb3a99f9fb7e5e12a8e9eb57977b2c625ccb4cdc203aa6c24bed9804a177f4"
-blocks: [WD-lhm4, WD-fq1o]
+updated_at: 2026-09-21T15:36:37Z
+content_hash: "sha256:d86864dce0fef140e54979edaf8d8ec873a54318f6524093a4ff3c5f132a94eb"
+closed_at: 2026-09-21T15:36:37Z
+close_reason: "Accepted: independently verified head e23b2dc508573f63b887796872c592ef30208daf: PR 151 and CI run 35618725749 both identify that head with SUCCESS; targeted README suite 3 passed; full suite 1561 passed, 1 optional host-gated skip, 0 failures; independent sdist build produced sha256 d3a7d0e3f0a727bc4861221e7b2534b7fae41b64e71f6562f641368aaeb0cac4 with zero maestro_reference entries, and removing the exclusion in an external copy failed the locking test; root documentation consistently preserves the no-grant notice and third-party boundaries; production-path diff versus main is clean and scope is the eight expected files."
 ---
 
 ## Description
@@ -257,10 +258,12 @@ status: in_progress
 - 2026-09-21T15:22:13Z status: in_progress -> open
 - 2026-09-21T15:22:13Z released by speed
 - 2026-09-21T15:26:25Z status: open -> in_progress
+- 2026-09-21T15:36:37Z status: in_progress -> closed
+- 2026-09-21T15:36:38Z dep_removed: no_longer_blocks WD-lhm4
+- 2026-09-21T15:36:38Z dep_removed: no_longer_blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-lhm4]], [[WD-fq1o]]
 
 ## Comments
 
