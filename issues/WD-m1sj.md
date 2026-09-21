@@ -7,8 +7,8 @@ type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
-updated_at: 2026-09-21T17:46:12Z
-content_hash: "sha256:0b6bd43c35795261bc6b0037dce6e616e2dfb975ad67247c853a765c95e8c8d3"
+updated_at: 2026-09-21T17:50:34Z
+content_hash: "sha256:f841dc0d77dc75e99352f9a25531096a2ed0ab79b1b49ebba95b730770549690"
 follows: [WD-lhm4, WD-3nwm]
 labels: [delivered]
 ---
@@ -48,6 +48,29 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-21]: Independently reproduced the acceptance criterion directly on main 5dadcdafc680ee41999079e55bd085dd2e73439c; WD-lhm4/PR #152 is provenance only.
+
+### Direct evidence
+- uv build --out-dir /tmp/wd-m1sj-build.4eiwgo exited 0 and produced exactly wangp_dspy-0.1.0-py3-none-any.whl (sha256 acf99e3a77732be611a7d1a95e84ae007542fbf7dc397163eed9d5b64597a9c0) and wangp_dspy-0.1.0.tar.gz (sha256 ff3cbcde0d0cda785e81a2ad33c1bf28258f8e7c0514a25e28faf879754f7d08).
+- Wheel listing contained qc/audio_critic/__init__.py exactly once and had no duplicate archive entries; pyproject.toml wheel packages no longer nests qc/audio_critic under qc.
+- Installed the built wheel into a throwaway venv outside the repo; from /tmp with PYTHONPATH and WANGP_SSH_TARGET unset, wgp doctor exited 0 with ready=yes, and wangp and scripts both resolved under that venv site-packages.
+- GitHub run 35633778277 at main 5dadcda completed success; required test job 106446069368 and its Build both distributables step succeeded. The workflow runs uv build and asserts exactly one .whl and one .tar.gz.
+- git diff --exit-code main -- services/ qc/ host/ predict/ scripts/run_film.py scripts/run_jobs.py exited 0; the parent-to-main diff in those paths also exited 0. Packaging configuration changes are confined to pyproject.toml and .github/workflows/ci.yml (the referenced PR also carries the separate WD-lhm4 CLI implementation).
+
+## nd_contract
+status: accepted
+
+### evidence
+- Independently built, inspected, installed, and smoke-tested both artifacts on main.
+- Independently queried GitHub for required CI status.
+
+### proof
+- [x] uv build produces one wheel and one sdist.
+- [x] CI verifies both artifacts and required test succeeded.
+- [x] Installed wgp works from the wheel without source-tree PYTHONPATH.
+- [x] Engine and gate paths are unchanged.
+
 ## Implementation Evidence
 
 Summary: `uv build` now produces both a wheel and an sdist, and the installed `wgp` entry point runs outside the source checkout. The duplicate/nested package declarations were removed and the shipped package list corrected (it must include `wangp` and `scripts`), fixing the packaging defect and the installed-CLI startup failure together.
