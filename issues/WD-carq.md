@@ -1,18 +1,19 @@
 ---
 id: WD-carq
 title: "Reproduce renders from a versioned recipe manifest"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [integration, external-integration, rejected, rejected-x3]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:02:37Z
-content_hash: "sha256:fe5a64409fbed2f3f33158b0aa121a52aafbe0c0f65f51cd50a0f9927ed6e7bc"
+updated_at: 2026-09-21T23:02:42Z
+content_hash: "sha256:4463fb7e0741e96c2de272e33e94143b0ac8031223f76b217630e44f1beb4290"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
-follows: [WD-lvix, WD-fp49]
+follows: [WD-lvix, WD-fp49, WD-m1sj]
+assignee: dev-WD-carq
 ---
 
 ## Description
@@ -258,12 +259,15 @@ status: in_progress
 - 2026-09-21T22:21:11Z auto-follows: linked to predecessor WD-fp49
 - 2026-09-21T22:27:52Z status: in_progress -> open
 - 2026-09-21T22:27:52Z released by speed
+- 2026-09-21T23:02:42Z status: open -> in_progress
+- 2026-09-21T23:02:42Z auto-follows: linked to predecessor WD-m1sj
+- 2026-09-21T23:02:42Z claimed by dev-WD-carq
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-fq1o]]
 - Was blocked by: [[WD-lvix]]
-- Follows: [[WD-lvix]], [[WD-fp49]]
+- Follows: [[WD-lvix]], [[WD-fp49]], [[WD-m1sj]]
 
 ## Comments
 
