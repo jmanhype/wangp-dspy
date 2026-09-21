@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T07:00:17Z
-content_hash: "sha256:06b2d56285cd9571b167d589dd247dae696fd647689a0d772c554a33c21d37b6"
+content_hash: "sha256:67270801cef60fdfe08c582d045bba7159ce8549f508e28f4a5e40cbc9497ee5"
 assignee: dev-WD-l48s
 ---
 
@@ -162,6 +162,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Delivery Evidence (head 7a46211, dispatcher-completed after a provider 429)
 
 The developer agent was rate-limited out (429) mid-story. I completed the delivery myself after
