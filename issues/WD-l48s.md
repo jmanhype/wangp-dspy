@@ -12,6 +12,7 @@ updated_at: 2026-09-21T12:35:04Z
 content_hash: "sha256:751a995ddbf449892fcc2e509afc4546f411d627d147583fc758e2f3b4f85952"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
+assignee: dev-WD-l48s
 ---
 
 ## Description
