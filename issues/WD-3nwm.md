@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T14:01:33Z
-content_hash: "sha256:cbd08507e1177647215d3e25f9547a531f7a220bc60539f6852e852c265a2d7a"
+updated_at: 2026-09-21T14:06:37Z
+content_hash: "sha256:369bef923d8cf27f3fdd7d45a5a15dcbac79b482d6ab0f5fc67524d2cdf13099"
 blocks: [WD-lhm4, WD-fq1o]
 assignee: dev-WD-3nwm
 ---
@@ -99,7 +99,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed by dispatcher as dev-WD-3nwm on 2026-09-21.
+- Baseline verified at main/story commit 3094b14; no epic/WD-t534 ref was present.
+
+### proof
+- [ ] Pending documentation and tested quickstart implementation
 
 ## History
 - 2026-09-21T13:56:15Z dep_added: blocks WD-lhm4
