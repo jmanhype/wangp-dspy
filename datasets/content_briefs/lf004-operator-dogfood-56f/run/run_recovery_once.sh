@@ -9,13 +9,27 @@ DB="$ROOT/datasets/$RUN_ID.jobs.db"
 PROVENANCE="$ROOT/datasets/runs/provenance/$RUN_ID"
 REMOTE_WGP=/home/straughter/Wan2GP/wgp_config.json
 REMOTE_MODELS=/home/straughter/Wan2GP/models/_settings.json
-PYTHON="$ROOT/.venv/bin/python"
 COMMAND_RECORD="$PROVENANCE/execution-command.json"
 if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" == "1" ]]; then
   COMMAND_RECORD="$PROVENANCE/setup-command.json"
 fi
 
-if [[ ! -x "$PYTHON" ]]; then PYTHON=/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python; fi
+if [[ -n "${RECOVERY_PYTHON:-}" ]]; then
+  PYTHON="$RECOVERY_PYTHON"
+elif [[ -x "$ROOT/.venv/bin/python" ]]; then
+  PYTHON="$ROOT/.venv/bin/python"
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON="$(command -v python3)"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON="$(command -v python)"
+else
+  echo "RECOVERY_PYTHON_ERROR: set RECOVERY_PYTHON or provide python3/python on PATH" >&2
+  exit 127
+fi
+if [[ ! -x "$PYTHON" ]]; then
+  echo "RECOVERY_PYTHON_ERROR: interpreter is not executable: $PYTHON" >&2
+  exit 127
+fi
 if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" != "1" && ( -e "$DB" || -e "$PROVENANCE/execution-command.json" ) ]]; then
   echo "refusing a second LF004 recovery execution" >&2
   exit 3

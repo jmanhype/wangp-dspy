@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -90,7 +91,8 @@ def make_launcher_root(target: Path) -> Path:
 
 def run_launcher(launcher: Path, cwd: Path) -> subprocess.CompletedProcess[str]:
     cwd.mkdir(parents=True, exist_ok=True)
-    return subprocess.run(["bash", str(launcher)], cwd=cwd, text=True, capture_output=True, env={**os.environ, "WANGP_RECOVERY_SETUP_ONLY": "1"}, check=False)
+    environment = {**os.environ, "RECOVERY_PYTHON": sys.executable, "WANGP_RECOVERY_SETUP_ONLY": "1"}
+    return subprocess.run(["bash", str(launcher)], cwd=cwd, text=True, capture_output=True, env=environment, check=False)
 
 
 def test_launcher_setup_is_root_relative_from_foreign_cwd(tmp_path: Path) -> None:
