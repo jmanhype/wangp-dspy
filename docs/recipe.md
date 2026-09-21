@@ -1,6 +1,6 @@
 # Render recipes
 
-A **render recipe** is a small versioned manifest (`wangp-dspy.render-recipe/v1`)
+A **render recipe** is a small versioned manifest (`wangp-dspy.render-recipe/v2`)
 that pins the logical inputs of one finished run, plus a verifier that reports
 where a run has drifted from the recipe that describes it.
 
@@ -17,19 +17,34 @@ A recipe answers both without re-running anything and without a GPU.
 
 | Field group | Contents |
 | --- | --- |
+| `run_id` | The run identity. A different run cannot verify against this recipe. |
 | `repository_version` | The repository `VERSION` at the time the recipe was written. |
-| `plan` | The canonical plan hash (the identity the operator approves) and the raw plan file hash. |
+| `plan` | The canonical plan hash (the identity the operator approves) and the raw plan hash, read from `inputs.plan_sha256` or from the path-keyed form older runs used. |
 | `brief` | The semantic brief hash and the raw brief file hash. |
-| `configuration` | The resolved `host.target`, `host.wgp_root`, `host.pull_root`, and `host.wgp_python`, each with the source that supplied it. Values are redacted like every other `wgp` output. |
-| `model_and_settings_hashes` | The per-file hashes the run recorded for its model settings. |
+| `assembled_media` | The hash the run recorded **and** the hash of the file present in this bundle, recomputed at verify time. |
+| `cuts` | Per-cut recorded video hash plus the hash of the cut file present in this bundle, recomputed at verify time. |
+| `cut_gate_thresholds` | The pass bars **per cut** (Whisper pre/post, vision, SyncNet confidence/offset and model hash), so a change confined to a later cut is still visible. |
+| `recorded_settings_hashes` | The per-file hashes the run recorded for its model settings. |
 | `retry_policy` | The retry ceiling in force (`DEFAULT_MAX_ATTEMPTS`, per-cut attempts). |
-| `gate_thresholds` | The declared pass bars and model identity recovered from the run's per-cut evidence (Whisper pre/post, vision, SyncNet confidence/offset, SyncNet model hash). |
-| `media` | The assembled film hash and the per-cut video hashes. |
-| `queue_database_sha256` | The durable queue database the run used. |
+| `queue_database` | The queue database digest the run recorded, plus the hash of the file present now. |
+
+`context.configuration` (the host configuration resolved on **this** machine,
+with the source of each value) is recorded for information only and is never
+compared — it is not evidence the run produced, so it can never manufacture
+drift.
 
 Anything the run did not record cannot be pinned. Where a field is absent
-(for example a renderer checkpoint hash the run never wrote down), it appears as
-`null` and verification reports it as `missing` rather than inventing a value.
+(for example a renderer checkpoint hash the run never wrote down or a media hash
+the run omitted), it appears as `null` and verification reports it as `missing`
+rather than treating absence as agreement.
+
+Verification **re-reads the world**: referenced artifacts are re-hashed from
+their current bytes rather than compared against a copy of the hash already
+stored in the manifest. Appending a byte to `assembled.mp4`, editing a recorded
+input, or swapping in a different run all change the observed values and are
+reported as drift. When provenance records an absolute path from the worktree
+that produced it, the file of the same name inside the bundle under review is
+the artifact that gets hashed.
 
 ## Write and verify
 
@@ -65,5 +80,7 @@ run bundle, and never mutate a queue.
   or host environment. The recipe pins the *logical* recipe, not the bits.
 - **Anything the run did not record.** An unrecorded input is reported as
   missing instead of being silently assumed equal.
+- **The verifying machine.** Host configuration is context, not evidence; it is
+  recorded and never compared.
 - **Operator acceptance.** A recipe records `creative_acceptance` state only as
   far as the run's provenance does; it never asserts a creative verdict.

@@ -123,12 +123,15 @@ uv run --frozen --extra dev wgp recipe verify --recipe /tmp/recipe.json --run da
 ```
 
 `verify` exits `0` when every pinned field is unchanged and `2` when it reports
-drift, naming each field as `changed`, `missing`, or `added`. The manifest pins
-the repository version, the brief and plan identities, the resolved
-configuration, the recorded model/settings hashes, the retry policy, the gate
-thresholds in force, and the media hashes. It deliberately does **not** promise
-byte-identical pixels: a generative render is lossy, so a re-render may differ
-even with an identical recipe. See [docs/recipe.md](docs/recipe.md).
+drift, naming each field as `changed`, `missing`, or `added`. Verification
+re-hashes the artifacts in the bundle rather than trusting the hashes stored in
+the manifest, so a modified film or input is detected; a field the run never
+recorded is reported `missing` instead of assumed equal. The manifest pins the
+run identity, repository version, brief and plan identities, per-cut gate
+thresholds, recorded model/settings hashes, retry policy, and media hashes, and
+records the verifying machine's host configuration as non-compared context. It
+deliberately does **not** promise byte-identical pixels: a generative render is
+lossy. See [docs/recipe.md](docs/recipe.md).
 
 ## Troubleshooting
 

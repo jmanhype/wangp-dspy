@@ -280,14 +280,15 @@ def _run_recipe_write(args: argparse.Namespace) -> int:
             print(render_diagnostic(diagnostic), file=sys.stderr)
         return EXIT_INPUT
     pinned = pinned_field_count(recipe)
+    run_id = (recipe.get("pinned") or {}).get("run_id")
     if args.json:
         _emit_json({"recipe": {"path": str(path), "sha256": digest,
                                "schema_version": recipe["schema_version"],
-                               "run_id": recipe["run_id"], "pinned_fields": pinned}})
+                               "run_id": run_id, "pinned_fields": pinned}})
     else:
         print(f"recipe={path}")
         print(f"sha256={digest}")
-        print(f"run_id={recipe['run_id']} pinned_fields={pinned}")
+        print(f"run_id={run_id} pinned_fields={pinned}")
     return EXIT_OK
 
 
@@ -306,7 +307,7 @@ def _run_recipe_verify(args: argparse.Namespace) -> int:
         return EXIT_INPUT
     if args.json:
         _emit_json({"recipe": {"path": str(Path(args.recipe).expanduser().resolve()),
-                               "run_id": recipe.get("run_id"),
+                               "run_id": (recipe.get("pinned") or {}).get("run_id"),
                                "drift": drift, "drift_count": len(drift),
                                "verified": not drift}})
     else:
