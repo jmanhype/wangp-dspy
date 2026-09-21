@@ -8,8 +8,8 @@ labels: [bug, rejected]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:27:17Z
-content_hash: "sha256:98082a458c164c93bba267469471259e602911aec50a6dd7196d3b9a8cf8f70d"
+updated_at: 2026-09-21T00:33:26Z
+content_hash: "sha256:f68f9ca55e8cef4d570a8e62b0afc579b010eb55c11f678009f156f01512eab1"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e]
 closed_at: 2026-09-21T00:25:02Z
@@ -352,3 +352,102 @@ status: delivered
 
 ### proof
 - [x] AC #1 through AC #9 verified in the detailed implementation evidence table, with AC #3/#4 satisfied by the PM Amendment's no-policy mismatch-rejection fallback.
+
+### 2026-09-21T00:33:26Z speed
+## Implementation Evidence (REWORK DELIVERED)
+
+### Review Defect Fixes
+- HIGH video-only guide defect: fixed. `_decode_audio_probe` requires a selected stream with `codec_type == "audio"` (`predict/content_brief.py:220-236`), and the real probe uses `-select_streams a:0` (`:244-247`). A positive container duration alone cannot pass.
+- MEDIUM stuck-probe defect: fixed. Production preflight has `FFPROBE_TIMEOUT_S = 10.0` (`predict/content_brief.py:18`), passes that bound to `subprocess.run` (`:239-253`), and converts `TimeoutExpired` to typed `ContentBriefError` before any output side effect (`:254-257`).
+- Existing measured-vs-declared comparison remains exactly `abs(declared_s - measured_s) <= 0.000001`; no tolerance or gate behavior was retuned.
+- Qodo review threads were not manually resolved.
+
+### New Real Coverage
+- `tests/test_content_brief.py:62-71` produces a real video-only MP4 with ffmpeg (`color` video, `-an`, H.264).
+- `tests/test_content_brief.py:229-258` sends that MP4 through the real `main(...)`/ffprobe path, expects `ContentBriefError("no audio stream")`, and asserts the output plan, run directory, run ledger, and jobs database are all absent.
+- `tests/test_content_brief.py:134-140` launches real ffprobe against a real WAV with a deliberately sub-microsecond timeout and asserts the typed `ffprobe timed out` error plus no run directory. There are no mocks or skips.
+
+### CI/Test Results
+Summary: PASS — targeted 20/20; full suite 1,553 passed, 1 pre-existing live-3090 skip; coverage 90%; diff check, pvg verify, and protected-file byte-identity check passed.
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py`
+- `uv run --frozen --extra dev pytest -q`
+- `uv run --frozen --extra dev pytest --collect-only -q`
+- `uv run --frozen --extra dev --with pytest-cov pytest -q --cov=predict.content_brief --cov-report=term tests/test_content_brief.py`
+- `git diff --check`
+- `pvg verify predict/content_brief.py tests/test_content_brief.py --format=text`
+- `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py scripts/run_content_brief.py`
+Commit SHA: 792cbed4ff17979cec791e045d45698faedb2497
+PR: https://github.com/jmanhype/wangp-dspy/pull/148
+
+Exact targeted tail:
+
+```text
+....................                                                      [100%]
+```
+
+Exact full-suite tail:
+
+```text
+............                                                            [ 78%]
+................................................................            [ 83%]
+................................................................            [ 88%]
+................................................................            [ 92%]
+................................................................            [ 97%]
+..........................................                               [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-ssdt/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable.html
+```
+
+Collection reported 1,554 tests. The quiet full run exited zero with one `s`, so it executed 1,553 passes and the known `WANGP_3090` live-hardware skip. Coverage:
+
+```text
+Name                       Stmts   Miss  Cover
+----------------------------------------------
+predict/content_brief.py     187     19    90%
+----------------------------------------------
+TOTAL                       187     19    90%
+```
+
+Other checks:
+
+```text
+$ git diff --check
+# empty output; PASS
+
+$ pvg verify predict/content_brief.py tests/test_content_brief.py --format=text
+VERIFY: PASSED (2 files scanned, 0 issues)
+
+$ git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py scripts/run_content_brief.py
+# exit 0; empty output
+```
+
+### Commit / Scope
+- Branch: `story/WD-ssdt`
+- Commit: `792cbed4ff17979cec791e045d45698faedb2497`
+- PR state after push: OPEN, head `792cbed4ff17979cec791e045d45698faedb2497`, base `main`.
+- Cumulative story diff versus main: 2 files, 231 insertions, 1 deletion (232 changed LOC, below 250).
+- Only `predict/content_brief.py` and `tests/test_content_brief.py` differ from main.
+- `services/director/renderers/policy.py`, `services/director/wiring.py`, and `scripts/run_content_brief.py` are byte-identical to main.
+
+### AC Verification (updated)
+| AC | Requirement | Code Location | Test / Artifact Evidence | Status |
+|---|---|---|---|---|
+| 1 | Real guide/audio probe before side effects; missing, unreadable, failed, non-numeric/non-positive, no-audio, and timed-out probes fail closed | `predict/content_brief.py:220-263`, `:310-324` | `tests/test_content_brief.py:118-140`, `:212-258`; negative CLI assertions cover absent plan/run dir/ledger/jobs DB | PASS |
+| 2 | Declared/default versus measured duration at `0.000001 s`, with detailed mismatch error | `predict/content_brief.py:17`, `:266-273`, `:316-320` | `tests/test_content_brief.py:127-131`, `:168-186`, `:212-258` | PASS |
+| 3 | PM Amendment fallback: no declaration bypass | `predict/content_brief.py:20-23`, `:64-75` | `tests/test_content_brief.py:143-166` rejects `audio_filler_policy`; `:84-88` pins prior hash | PASS |
+| 4 | No mismatch authorization/concealment | `predict/content_brief.py:266-273`, `:316-320` | Every real mismatch case in `tests/test_content_brief.py:168-186`, `:212-258` rejects | PASS |
+| 5 | Matching guide and downstream duration/frame consistency preserved | Unchanged `services/director/wiring.py:286-303`; preflight accepts matching audio | `tests/test_content_brief.py:188-209` verifies frames, audio frames, keeper window, and existing `check_guide_duration` | PASS |
+| 6 | No-audio/default plan and prior brief hash preserved | `predict/content_brief.py:310-321`; mapping unchanged | `tests/test_content_brief.py:74-89`, `:272-301` | PASS |
+| 7 | LF004 shape rejected; LF003 shape accepted | `predict/content_brief.py:316-320` | `tests/test_content_brief.py:168-186`, `:212-258`, `:188-209` | PASS |
+| 8 | CLI fail-closed and no-GPU/no-queue behavior | Unchanged `scripts/run_content_brief.py:50-64`, `:86-95`; preflight called first | `tests/test_content_brief.py:212-258`, `:188-209`, `:272-301` | PASS |
+| 9 | No QC/AV/retry/provenance/renderer semantic change | Diff limited to two allowed files; protected files byte-identical to main | `git diff --stat main`; `git diff --exit-code main -- ...` exit 0 | PASS |
+
+LEARNINGS:
+- Probing only container duration was insufficient: stream selection plus an explicit `codec_type == audio` check is needed to keep video-only media out of audio plans.
+- A bounded subprocess timeout must be part of planning preflight, not only render-side policy; otherwise a local metadata probe can become an unbounded CLI hang.
+- Exposing the timeout only as a helper default kept production at 10 seconds while allowing a real ffprobe expiry test with a sub-microsecond bound and no fake executable or mock.
