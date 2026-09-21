@@ -4,11 +4,11 @@ title: "Ship repository hygiene with a tested README quickstart"
 status: open
 priority: 1
 type: feature
-labels: [walking-skeleton, integration]
+labels: [walking-skeleton, integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T13:56:15Z
+updated_at: 2026-09-21T13:56:44Z
 content_hash: "sha256:9a3bbbf19887e125bce1554b2b8ddfcfacd2f7774b27a5810a47426d8f676a99"
 blocks: [WD-lhm4, WD-fq1o]
 ---
