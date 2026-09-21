@@ -8,8 +8,8 @@ labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:03:06Z
-content_hash: "sha256:a0b582827a9ba6269f4071308778e4f910294f641caab7aad771acc68565088f"
+updated_at: 2026-09-21T23:08:40Z
+content_hash: "sha256:a08f052d0607e09fc21fbcaeb32ae9fe6fcd36ae0e28f72b3e75ab7b9e366e54"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4]
@@ -115,6 +115,47 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: `wangp/recipe.py` plus `wgp recipe write|verify` deliver a versioned render recipe (`wangp-dspy.render-recipe/v3`) that pins a finished run's logical identity and re-reads the world when verifying. Run-owned artifacts are read only from the bundle under review, everything else resolves repository-relative, and a required artifact that cannot be hashed is a typed failure. All three defects in the third rejection FIX list are closed.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_recipe.py -q` -> 33 passed.
+- `uv run --frozen --extra dev pytest -q` -> 1652 tests, 0 failures, 0 errors, 1 skipped.
+- `uv run --frozen --extra dev wgp recipe write --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921 --out <tmp>/real.json` -> pinned_fields=64, zero absolute paths.
+- `uv run --frozen --extra dev wgp recipe verify --recipe <tmp>/real.json --run <same run>` -> drift=0 verified=true.
+- `uv build --out-dir <tmp>` -> wheel + sdist.
+
+SHA: 982c047188414d38b690c4992fcb371ccde0495e
+
+### CI/Test Results
+
+- Required CI check `test` at head `982c047188414d38b690c4992fcb371ccde0495e`: status completed, conclusion success (check id 106549314311, PR #155).
+- Targeted recipe suite 33 passed; full suite 1652 passed / 0 failed / 0 errors / 1 skipped; uv build produced wheel and sdist.
+- Direct probes at head 982c047 (workdir /tmp/wgp-ev.Uil823, no GPU, no host contact): two bundle copies produce one unique recipe sha256; one byte appended to a copied assembled.mp4 -> exit 2 with `pinned.assembled_media.sha256 status=changed`; deleted assembled.mp4 -> write exit 2 `required artifact is missing from this run review bundle` with no output file, verify exit 2 with no verified=true.
+- Read-only: `git status --porcelain datasets` -> 0 lines; fake-ssh test proves no SSH call; protected-path diff vs main -> exit 0; literal scan for 3090 or /home/straughter/Wan2GP -> 0 hits.
+
+### Acceptance criteria
+
+- [x] AC #1: recipe v3 pins run identity, plan/brief hashes, per-cut gate thresholds, per-cut and assembled media digests, queue database digest, settings and retry policy.
+- [x] AC #2: two copies of the same logical run produce byte-identical recipes; pinned paths are bundle- or repository-relative only.
+- [x] AC #3: a required missing artifact fails closed at write and at verify, and no historical absolute path from another checkout is ever substituted.
+- [x] AC #3/#4: every consumed provenance section and nested cut mapping (whisper pre/post, vision, av_sync, av_sync.pass_bar, media, gates, inputs, operator_approval, final_media, queue_evidence, settings_hashes, retry_policy, reconciliation) exits 2 as typed input instead of exit 4.
+- [x] AC #8: no renderer, queue, provenance, gate, retry, or model-selection semantics changed; protected engine paths are byte-identical to main and committed evidence is untouched.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head 982c047188414d38b690c4992fcb371ccde0495e on story/WD-carq; exact-head CI check 106549314311 SUCCESS.
+- tests/test_recipe.py 33 passed; full suite 1652 passed / 0 failed / 1 skipped; uv build wheel plus sdist.
+- Fail-closed delete-before-write and delete-before-verify probes, tampered bundle copy probe, two-copy byte stability, and the 14-case nested shape matrix all pass.
+
+### proof
+- [x] AC #2: same logical run is byte-stable across two copied bundles.
+- [x] AC #3: missing required artifacts fail closed at write and verify with field-specific diagnostics.
+- [x] AC #3/#4: consumed sections and nested cut mappings fail as typed input, never exit 4.
+
 ## Implementation Evidence
 
 Summary: `wangp/recipe.py` + `wgp recipe write|verify` deliver a versioned render
