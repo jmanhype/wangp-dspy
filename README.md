@@ -68,6 +68,17 @@ The command validates the committed LF004 brief, probes its four committed WAV g
 
 `tests/test_readme_quickstart.py` extracts and executes both commands in a clean temporary Git worktree. The test also proves that an invalid brief and a missing cast plate fail with typed `ContentBriefError` output before a partial plan is written.
 
+## `wgp` operator CLI
+
+The product command is `wgp`. It is a thin wrapper over the tested engine seams, not a second planner:
+
+```bash
+uv run wgp doctor
+uv run wgp plan --brief datasets/content_briefs/lf004-operator-dogfood-56f/brief.json --plates datasets/content_briefs/lf004-operator-dogfood/plates --out "${TMPDIR:-/tmp}/wangp-cli/plan.json"
+```
+
+`doctor` is safe in the no-host lane: it checks the local environment and reports the render-host seam as skipped. Planning keeps the same canonical no-GPU summary and prints the plan and ledger paths. See [docs/wgp-cli.md](docs/wgp-cli.md) for `brief validate`, durable `status`, provenance `review`, explicit host preflight, JSON output, and stable exit codes.
+
 ## Optional GPU render lane
 
 Actual rendering is intentionally separate from planning. The current production seam selects its SSH destination with `WANGP_SSH_TARGET`; the default literal target is `3090`, and the current Wan2GP root is `/home/straughter/Wan2GP`. Configure your SSH config and host assets before attempting this lane. Running directly on the render host can use `WANGP_SSH_TARGET=localhost`.
