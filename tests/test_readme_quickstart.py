@@ -185,11 +185,15 @@ def test_readme_quickstart_runs_in_clean_worktree() -> None:
             text=True,
             capture_output=True,
         )
-        env = {
-            "PATH": os.environ["PATH"],
-            "HOME": os.environ["HOME"],
-            "TMPDIR": str(output_root),
-        }
+        # Inherit the caller's environment so documented install commands behave as they
+        # would for a real user: a wholesale replacement discards proxy, certificate,
+        # credential, and package-index settings and produces false failures wherever
+        # those are required. Only TMPDIR is overridden, to keep outputs out of the checkout.
+        env = {**os.environ, "TMPDIR": str(output_root)}
+        # Keep the no-GPU guarantee while inheriting everything else: remove only the
+        # variables that could point the quickstart at a render host.
+        for host_variable in ("WANGP_SSH_TARGET", "WANGP_3090"):
+            env.pop(host_variable, None)
         try:
             assert subprocess.run(
                 ["git", "status", "--short"],
