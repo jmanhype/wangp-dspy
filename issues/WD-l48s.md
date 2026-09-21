@@ -1,15 +1,16 @@
 ---
 id: WD-l48s
 title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [walking-skeleton, capstone, e2e]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T05:44:13Z
-content_hash: "sha256:54f3b7e75164dc96e332cf213131ad5080aecfc7eefad1098ad8694dd2cb6cc2"
+updated_at: 2026-09-21T05:46:58Z
+content_hash: "sha256:f07f73baba09748453ca6b9fa802e234d719b602f3df83bf9d3999b02c354138"
+assignee: dev-WD-l48s
 ---
 
 ## Description
@@ -164,7 +165,8 @@ status: new
 
 
 ## History
-
+- 2026-09-21T05:46:58Z status: open -> in_progress
+- 2026-09-21T05:46:58Z claimed by dev-WD-l48s
 
 ## Links
 - Parent: [[WD-as25]]
