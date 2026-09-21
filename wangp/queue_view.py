@@ -65,7 +65,9 @@ class _ReadOnlyJobQueue(JobQueue):
     def __init__(self, db_path: str | Path):
         self.db_path = str(db_path)
         path = Path(db_path).expanduser().resolve()
-        self._db = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+        self._db = sqlite3.connect(
+            path.as_uri() + "?mode=ro&immutable=1", uri=True
+        )
         self._db.row_factory = sqlite3.Row
         self._db.execute("PRAGMA query_only=ON")
 

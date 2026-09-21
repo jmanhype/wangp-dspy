@@ -149,6 +149,7 @@ def test_status_reads_queue_and_mutates_no_bytes(tmp_path: Path) -> None:
     shutil.copy2(QUEUE, copied)
     source_digest = _digest(QUEUE)
     copied_digest = _digest(copied)
+    before_names = sorted(path.name for path in tmp_path.iterdir())
     result = _wgp(
         "status", "--db", str(copied), "--json", env_updates={
             "WANGP_SSH_TARGET": None,
@@ -164,12 +165,14 @@ def test_status_reads_queue_and_mutates_no_bytes(tmp_path: Path) -> None:
     assert len(payload["attempts"][JOB]) == 2
     assert _digest(QUEUE) == source_digest
     assert _digest(copied) == copied_digest
+    assert sorted(path.name for path in tmp_path.iterdir()) == before_names
 
 
 def test_review_reports_queue_attempts_and_evidence(tmp_path: Path) -> None:
     copied = tmp_path / QUEUE.name
     shutil.copy2(QUEUE, copied)
     before = _digest(copied)
+    before_names = sorted(path.name for path in tmp_path.iterdir())
     result = _wgp("review", "--db", str(copied), "--job", JOB)
     assert result.returncode == 0, result.stdout + result.stderr
     assert "clip=1" in result.stdout
@@ -178,6 +181,7 @@ def test_review_reports_queue_attempts_and_evidence(tmp_path: Path) -> None:
     assert "reapply recorded LF004" in result.stdout
     assert "evidence:" in result.stdout
     assert _digest(copied) == before
+    assert sorted(path.name for path in tmp_path.iterdir()) == before_names
 
 
 def test_review_verifies_final_provenance_artifact_hashes() -> None:
