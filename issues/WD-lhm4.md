@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T17:28:57Z
-content_hash: "sha256:cfafd7f07138256c173b6e263c56b12963fbbb43787104543f24a5a1e5fac6dc"
+updated_at: 2026-09-21T17:29:56Z
+content_hash: "sha256:83eccc9c8c2798e2a4ac9fd121aa4d2f031020279887d7386c1e5a45ce2619ab"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -435,3 +435,20 @@ status: rejected
 - [ ] pvg story verify-delivery WD-lhm4 passes.
 - [ ] The diff-budget overrun is explained or reduced.
 - [ ] The full-suite warning is owned or eliminated.
+
+### 2026-09-21T17:29:56Z speed
+## Implementation Evidence
+
+Commands run: targeted/full pytest, git diff checks, pvg verify, uv build, throwaway-venv wheel doctor smoke, and required CI watch/read.
+Summary: all seven review defects fixed at faeac0c9092952f78e5c5944f0dabf4e805b4db2; 17 targeted passed, 1578 full passed / 1 skip, CI 35631378806 success.
+Commit: faeac0c9092952f78e5c5944f0dabf4e805b4db2
+
+## nd_contract
+status: delivered
+
+### evidence
+- Full authoritative evidence is in the story Implementation Evidence note above.
+- Producing commit: faeac0c9092952f78e5c5944f0dabf4e805b4db2.
+
+### proof
+- [x] AC #1 through AC #9 verified with commands, tests, build smoke, and CI evidence.
