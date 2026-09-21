@@ -110,13 +110,75 @@ def _lf004_reference(repository_root: Path, qc_hash: str) -> dict[str, Any] | No
     return None
 
 
+def _queue_record_key(job_id: str, clip_index: int) -> str:
+    """Return the stable composite key for one serialized queue clip."""
+
+    return f"{job_id}\x1f{int(clip_index)}"
+
+
+def _is_path_field(key: str) -> bool:
+    return key == "path" or key == "filename" or key.endswith("_path")
+
+
+def _canonical_stored_path(value: Any, repository_root: Path) -> Any:
+    if not isinstance(value, str) or not value:
+        return value
+    path = Path(value)
+    if not path.is_absolute():
+        return path.as_posix()
+    try:
+        resolved = path.resolve()
+        return resolved.relative_to(repository_root).as_posix()
+    except ValueError:
+        resolved = None
+    # Historical evidence can point at another checkout of this same repository
+    # or at a renderer host. Preserve useful in-repository suffixes, but never
+    # persist the machine or checkout that happened to write the evidence.
+    for anchor in ("datasets", "assets"):
+        if anchor in path.parts:
+            parts = path.parts
+            return Path(*parts[parts.index(anchor):]).as_posix()
+    return f"external/{path.name}"
+
+
+def _canonicalize_paths(value: Any, repository_root: Path) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: _canonical_stored_path(item, repository_root) if _is_path_field(key)
+            else _canonicalize_paths(item, repository_root)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_canonicalize_paths(item, repository_root) for item in value]
+    return value
+
+
+def _row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
+    """Remove checkout-only path fields before deriving the stable row ID."""
+
+    def without_paths(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {key: without_paths(item) for key, item in value.items() if not _is_path_field(key)}
+        if isinstance(value, list):
+            return [without_paths(item) for item in value]
+        return value
+
+    identity = without_paths(row)
+    identity.pop("source_git_available", None)
+    return identity
+
+
 def _queue_match(queue_rows: Mapping[str, Mapping[str, Any]] | None, render_dir: Path, job_id: str | None, clip_index: int | None) -> tuple[str | None, Mapping[str, Any] | None]:
-    if job_id and queue_rows and job_id in queue_rows:
-        return job_id, queue_rows[job_id]
+    records = queue_rows or {}
+    if job_id is not None and clip_index is not None:
+        exact = records.get(_queue_record_key(job_id, clip_index))
+        if exact is not None:
+            return str(exact["job_id"]), exact
     for candidate, row in sorted((queue_rows or {}).items()):
-        if (row.get("clip_index") == clip_index and row.get("render_dir") == render_dir.name
+        if ((job_id is None or row.get("job_id") == job_id) and row.get("clip_index") == clip_index
+                and row.get("render_dir") == render_dir.name
                 and row.get("render_parent") == render_dir.parent.name):
-            return candidate, row
+            return str(row["job_id"]), row
     return None, None
 
 
@@ -165,7 +227,7 @@ def normalize_row(render_dir: Path, *, repository_root: Path,
         "clip_index": index, "job_id": matched_id, "dialogue": turn.get("intended_text"),
         "speaker": turn.get("speaker_id"), "seed": wgp.get("seed", settings.get("seed")),
         "render_fingerprint": (queue or {}).get("render_fingerprint") or conditioning.get("wire_settings_sha256"),
-        "qc_evidence_path": qc_path.as_posix(), "qc_evidence_sha256": qc_hash,
+        "qc_evidence_path": (relative_dir / "qc-evidence.json").as_posix(), "qc_evidence_sha256": qc_hash,
         "gates": gates, "whisper": qc.get("whisper_gates"), "vision": qc.get("vision_judge"),
         "av_sync": qc.get("av_sync_gate"), "media": media,
         "gate_coverage": {"whisper_pre": whisper_pre, "whisper_post": whisper_post, "vision": vision_gate, "av_sync": av_gate},
@@ -180,11 +242,16 @@ def normalize_row(render_dir: Path, *, repository_root: Path,
     if reference is not None:
         for key in ("av_sync", "clip_index", "dialogue", "gates", "job_id", "media", "qc_evidence_path", "qc_evidence_sha256", "render_fingerprint", "seed", "speaker", "vision", "whisper"):
             row[key] = reference.get(key)
-        reference_queue = queue_rows.get(str(reference.get("job_id"))) if queue_rows else None
-        if reference_queue:
-            row["queue_join_status"] = "matched"; row["queue"] = {k: reference_queue.get(k) for k in ("job_id", "state", "failure_count", "failure_class", "attempt_count", "last_failure")}
-        row["run_group_id"] = "lf004-operator-dogfood-56f-recovery-20260921"
-    row["row_id"] = f"sg-{_hash_bytes(canonical_json(row).encode())}"; return SpendGateRow(row)
+            reference_clip_index = reference.get("clip_index")
+            reference_queue = None
+            if queue_rows and reference_clip_index is not None:
+                reference_queue = queue_rows.get(_queue_record_key(str(reference.get("job_id")), int(reference_clip_index)))
+            if reference_queue:
+                row["queue_join_status"] = "matched"; row["queue"] = {k: reference_queue.get(k) for k in ("job_id", "state", "failure_count", "failure_class", "attempt_count", "last_failure")}
+            row["run_group_id"] = "lf004-operator-dogfood-56f-recovery-20260921"
+    row = _canonicalize_paths(row, repository_root)
+    row["row_id"] = f"sg-{_hash_bytes(canonical_json(_row_identity(row)).encode())}"
+    return SpendGateRow(row)
 
 
 def _load_queue_rows(repository_root: Path) -> dict[str, dict[str, Any]]:
@@ -198,11 +265,22 @@ def _load_queue_rows(repository_root: Path) -> dict[str, dict[str, Any]]:
             jobs = {row["job_id"]: dict(row) for row in db.execute("SELECT * FROM jobs")}
             attempts = {job_id: [dict(row) for row in db.execute("SELECT * FROM job_attempts WHERE job_id=? ORDER BY attempt_no", (job_id,))] for job_id in jobs}
         for job_id, job in jobs.items():
-            clips = json.loads(job["clips"]); clip = clips[0] if clips else {}
-            qc_value = clip.get("qc_verdict")
-            qc_path = qc_value.get("path") if isinstance(qc_value, dict) else None
+            clips = json.loads(job["clips"])
             history = attempts.get(job_id, [])
-            rows[job_id] = {"job_id": job_id, "state": job["state"], "failure_count": job["failure_count"], "failure_class": job["failure_class"], "attempt_count": len(history), "last_failure": history[-1] if history else None, "plan_ref": job["plan_ref"], "clip_index": clip.get("clip_index"), "render_fingerprint": clip.get("render_fingerprint"), "render_dir": Path(qc_path).parent.name if qc_path else None, "render_parent": Path(qc_path).parent.parent.name if qc_path else None, "queue_db_path": relative.as_posix(), "queue_db_sha256": _hash_file(db_path)}
+            for clip in clips:
+                if not isinstance(clip, dict) or clip.get("clip_index") is None:
+                    continue
+                clip_index = int(clip["clip_index"])
+                qc_value = clip.get("qc_verdict")
+                qc_path = qc_value.get("path") if isinstance(qc_value, dict) else None
+                rows[_queue_record_key(job_id, clip_index)] = {
+                    "job_id": job_id, "state": job["state"], "failure_count": job["failure_count"],
+                    "failure_class": job["failure_class"], "attempt_count": len(history),
+                    "last_failure": history[-1] if history else None, "plan_ref": job["plan_ref"],
+                    "clip_index": clip_index, "render_fingerprint": clip.get("render_fingerprint"),
+                    "render_dir": Path(qc_path).parent.name if qc_path else None,
+                    "render_parent": Path(qc_path).parent.parent.name if qc_path else None,
+                    "queue_db_path": relative.as_posix(), "queue_db_sha256": _hash_file(db_path)}
     return rows
 
 
@@ -261,6 +339,8 @@ def write_corpus(corpus: SpendGateCorpus, output_dir: Path) -> Path:
     prereg = {"schema": "wangp-dspy.spend-gate-prereg/v1", "label": "bad iff whisper_post, vision, or av_sync usable outcome is fail",
         "group_key": "run_group_id", "folds": "sorted leave-one-run-group-out", "seed": 17,
         "bootstrap_samples": 2000, "false_admit_budget": 0.10, "calibrated_confidence_threshold": 0.70,
+        "model_probability": "P(bad)",
+        "decision_polarity": "admit only when P(bad) is low; calibrated rows abstain when max(P(bad), 1-P(bad)) < 0.70",
         "transparent_heuristic": "admit only when native_h3, guide duration matches 56/24 within AUDIO_DURATION_TOLERANCE_S (1e-6), and prompt length is at least 500 characters",
         "amendments": [
             {"field": "transparent_heuristic", "at": "2026-09-21",
@@ -302,6 +382,14 @@ def verify_artifact(output_dir: Path) -> dict[str, Any]:
     corpus = (output_dir / "corpus.jsonl").read_text(encoding="utf-8")
     expected = manifest.get("corpus_sha256")
     if expected != _hash_bytes(corpus.encode()): raise SpendGateSourceError("corpus SHA-256 does not match manifest")
+    drift = (output_dir / "schema-drift.json").read_text(encoding="utf-8")
+    expected_drift = manifest.get("schema_drift_sha256")
+    if expected_drift != _hash_bytes(drift.encode()):
+        raise SpendGateSourceError("schema-drift SHA-256 does not match manifest")
+    row_count = len([line for line in corpus.splitlines() if line])
+    declared_count = manifest.get("row_count")
+    if not isinstance(declared_count, int) or declared_count != row_count:
+        raise SpendGateSourceError(f"manifest row count {declared_count!r} does not match corpus row count {row_count}")
     recorded = manifest.pop("manifest_sha256", None)
     if recorded != _hash_bytes(canonical_json(manifest).encode()):
         raise SpendGateSourceError("manifest SHA-256 does not match payload")
