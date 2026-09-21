@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:16:33Z
-content_hash: "sha256:4dedf8dc98246cc6e6e0dde8936b57989c8207c940f9709cbfc2ca203dd81c3b"
+content_hash: "sha256:0ba4f93006af630308ae007c0dbbccbec28c8847ea4afd044e0a0ca9f483d5bb"
 ---
 
 ## Description
@@ -242,3 +242,40 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - Parent: [[WD-as25]]
 
 ## Comments
+
+### 2026-09-21T12:16:33Z speed
+## PM Decision
+REJECTED [2026-09-21]: Independently reproduced the corpus and the three replay corrections, but the delivery does not satisfy the story's production-recording or preregistration contract.
+
+### Independently reproduced
+- Corpus: 36 rows; gate outcomes 36/0 Whisper pre, 27/9 Whisper post, 25/0 vision, 13/5 AV; 18 complete rows; 5 bad complete rows; replay uses 7 complete-row run groups (the full 36-row corpus has 13 row-group labels). All unusable gate outcomes are explicit null; AV failure classes are 4 null_value, 1 execution_error, 13 undeclared, 18 usable.
+- Corrections: at 1e-9, 18/18 complete rows reject for measured_guide_contradicts_declared_shot (gap 3.3333333338e-07); at 1e-6 that reason disappears and the sole reason is delivered_resolution_contradicts_envelope. A missing facing sidecar changes from abstain to reachable admit. Raw log-loss clipping is disclosed as 18/18 rows at epsilon 1e-15.
+- WD-rf1a: all 18 recorded complete rows plan 480x832 while recorded ffprobe reports 704x576; spot-checked source settings/WGP and remux hashes agree with the rows.
+- Verification: 8/8 targeted tests pass at 7a462111210ca626cd5d3c43be1d4b310dac7cf1; GitHub test check run 35570749029 is SUCCESS at that SHA; repeated all-local regeneration is byte-identical; tracked rebuild is 21 rows / 13 complete.
+
+EXPECTED: Required Outcome 9 says the production QC completion seam invokes write_live_row once evidence exists, preserves gate/retry decisions and timings, and fails closed with a typed recording error.
+DELIVERED: Only the standalone post-run helper exists (training/spend_gate.py:318-329). services/jobs/executor.py:_qc_clips still runs QC and updates the queue without calling the recorder; tests merely exercise write_completed_run_rows and do not invoke the production seam.
+GAP: Future production QC rows are not guaranteed to be recorded, and there is no seam/timing integration proof.
+FIX: Wire the post-QC recorder into the real completion path without changing admission/retry semantics, and add a real integration test that proves one atomic spend-gate-row.json per completed cut plus typed failure while decisions/timings remain unchanged.
+
+EXPECTED: AC 7 says the transparent heuristic is fixed in preregistration.json before results and replay follows it.
+DELIVERED: preregistration.json specifies a 1e-9 guide comparison, while the corrected implementation uses 1e-6 (training/spend_gate_replay.py:143-150) after results were observed.
+GAP: The post-hoc correction is substantively right but is not disclosed as an amendment, so the report still calls the policy preregistered unchanged.
+FIX: Disclose a dated correction/amendment in both preregistration and report, retain the original 1e-9 result as an exploratory/pre-correction sensitivity row, and add a test tying the amended tolerance and disclosure together.
+
+EXPECTED: The test contract covers atomic replacement and the two other corrected behaviors.
+DELIVERED: The tolerance regression test fails against a temporary pre-fix copy, but no committed test covers missing-sidecar facing fallback or clipped-row disclosure; the live-row test does not prove replacement of an existing output, and it writes transiently into real local evidence rather than a copied evidence directory.
+GAP: Corrections 2 and 3 can silently regress; atomic failure/replacement behavior is unproven.
+FIX: Add focused tests for sidecar fallback admit reachability and clip-count disclosure, and test atomic success/failure against copied real evidence.
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM independently reran corpus derivation, tracked/all-local rebuilds, replay comparisons, targeted pytest, boundary diff, manifest hashes, and PR check lookup at head 7a462111210ca626cd5d3c43be1d4b310dac7cf1.
+- Production seam gap verified from services/jobs/executor.py and tests/test_spend_gate.py.
+
+### proof
+- [ ] AC #9: production QC seam invocation, timing preservation, and typed failure are unproven.
+- [ ] AC #7: implemented transparent heuristic no longer matches the frozen preregistration and the post-hoc change is undisclosed.
+- [ ] Testing Requirements: facing fallback, clip disclosure, and atomic replacement coverage are insufficient.
