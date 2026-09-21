@@ -1,7 +1,7 @@
 ---
 id: WD-l48s
 title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [walking-skeleton, capstone, e2e, rejected]
@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:19:41Z
-content_hash: "sha256:7217a8219172f93262bbafe2d64e9b7e90c215c2bd971017191cb9624c32e3be"
+content_hash: "sha256:736f5e46e6049c814127f589bda686e6abde3bb192683d0031c71464f3382050"
 ---
 
 ## Description
@@ -296,6 +296,7 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - 2026-09-21T07:00:16Z status: in_progress -> in_progress
 - 2026-09-21T12:16:33Z status: in_progress -> open
 - 2026-09-21T12:16:33Z released by speed
+- 2026-09-21T12:19:41Z status: open -> in_progress
 
 ## Links
 - Parent: [[WD-as25]]
