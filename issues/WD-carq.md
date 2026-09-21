@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T22:46:46Z
-content_hash: "sha256:b900e947c3c9b42a6fc4236bbd303cca5c2e444b16bbab2af422aa666ffde604"
+content_hash: "sha256:a92fa413db662ee5b04679259b30a9363021a173e23fbc54f97d9f54b0d60b9f"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49]
@@ -238,3 +238,25 @@ status: rejected
 - [ ] AC #1/#3: later-cut gate changes are hidden by first-value-wins collapse.
 - [ ] AC #3: a different run can verify against another run's recipe because run_id is excluded.
 - [ ] Required format compatibility, input-shape validation, and atomic symlink-safe output are not met.
+
+### 2026-09-21T22:46:46Z speed
+## PM Decision
+REJECTED [2026-09-21]: The eight requested v1 defect classes were independently re-tested at c35838539a09ae26d89453c527282e83e3b8e2bf and the headline mutations now fail correctly, but re-review found two substantive correctness gaps and one portability regression.
+
+EXPECTED: Required run artifacts cannot be made invisible by deleting them before recipe write; verification must not return verified=true when required media is absent, and artifact resolution must stay inside the run bundle or another explicitly authorized evidence root. Every consumed provenance section and nested cut mapping must be shape-validated as typed input. The story also requires checkout-specific paths to be canonicalized so the same logical run is byte-stable across clean temporary worktrees.
+DELIVERED: At head c358385, an exact copied LF004 bundle with assembled.mp4 deleted still had recipe write and verify both exit 0; the recipe silently hashed /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/.../assembled.mp4 through the absolute-path fallback in wangp/recipe.py:123-130. With that fallback removed in an isolated probe, _split_available (wangp/recipe.py:167-201) omitted the missing file from pinned comparison and verify still returned drift=0/verified=true. Only top-level provenance and cut-array item types are validated (wangp/recipe.py:98-110); cuts[0].whisper='scalar', final_media='scalar', and inputs='scalar' each exit 4 with AttributeError. Two byte-identical run copies produced recipe SHA-256 values 9c1fb67d... and 23e0b683... because absolute assembled paths were pinned.
+GAP: These paths allow absence laundering and stale-worktree substitution, leave part of PR thread 8 unresolved, and violate the required missing-artifact honesty and logical-recipe portability contract. The verified eight-defect matrix, targeted/full tests, build, no-SSH/read-only checks, no-GPU lane, protected-path parity, literal scan, and CI run 35663630153 otherwise passed.
+FIX: (1) Constrain referenced-file resolution to the run bundle or an explicitly declared/authorized evidence root; never fall back from a missing in-bundle artifact to an arbitrary historical absolute path. (2) Make required unavailable artifacts fail recipe write or produce a non-clean/unverified result with an explicit unavailable diagnostic; permit omission only for a declared optional/off-repo artifact class and surface that state in verification output. Add real-process tests for delete-before-write and stale-absolute-path substitution. (3) Validate inputs, operator_approval, final_media, queue_evidence, settings_hashes, retry_policy, and nested cut whisper/vision/av_sync shapes as RecipeError/exit 2 before attribute access. (4) Canonicalize artifact path identity (or omit non-semantic absolute paths) and add a two-copy byte-stability test. Re-run the mutation matrix, targeted/full suites, build, and exact-head CI.
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM execution artifacts under /tmp/wd-carq-pm-v2-c358385 at head c35838539a09ae26d89453c527282e83e3b8e2bf.
+- Eight requested defect probes passed; unavailable-artifact, nested malformed-provenance, and two-worktree portability probes failed.
+- tests/test_recipe.py: 15 passed; full pytest: 1633 passed, 1 skipped, one known Starlette/httpx warning; uv build produced wheel+sdist; CI test job 106544339638/run 35663630153 SUCCESS.
+
+### proof
+- [ ] AC #2: same logical run is not byte-stable across two copied bundles.
+- [ ] AC #3: a required missing artifact can verify clean and an absolute path can substitute a stale worktree.
+- [ ] PR thread 8: consumed nested provenance shapes still escape RecipeError as exit-4 AttributeError.
