@@ -8,8 +8,8 @@ labels: [release, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-21T23:28:18Z
-content_hash: "sha256:5128201c5943fd0858534e68bdba493e36ba41fd16270c4ad7fcc686ed83fe74"
+updated_at: 2026-09-21T23:54:13Z
+content_hash: "sha256:2ead5b4e512ca22b361f58600e112a2d2d5db9616d5aa5107de735ace24ae772"
 blocks: [WD-fq1o]
 assignee: dev-WD-9rjd
 follows: [WD-carq]
@@ -106,7 +106,71 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: Added a read-only release boundary map: `verify_release(repository_root)` compares root/package/CLI versions, requires the exact changelog entry, builds the committed LF004 recipe in memory against `wangp-dspy.render-recipe/v3`, and reuses fail-closed repository identity. `wgp release verify [--json]` follows the established 0/2/4 CLI contract and reports tag-ready `v0.1.0` without creating a Git object, distribution, tag, or release. README links the appended release checklist.
+
+Commands run:
+- `pvg verify wangp/release.py wangp/cli.py docs/recipe.md README.md tests/test_release.py --format=text` -> `VERIFY: PASSED (3 files scanned, 0 issues)`.
+- `uv run --frozen --extra dev pytest tests/test_release.py -q` -> exit 0, `.. [100%]`, 2 passed.
+- `uv run --frozen --extra dev pytest -q` -> exit 0; 1,654 tests collected, 1,653 passed, 1 skipped, 0 failed, 0 errors. Output retained the known pre-existing `StarletteDeprecationWarning` from `fastapi/testclient.py:1` (`httpx2` recommendation); no new warning or failure was introduced.
+- `uv build --out-dir /tmp/wd-9rjd-build.c7H7dM` -> exit 0, built `wangp_dspy-0.1.0.tar.gz` and `wangp_dspy-0.1.0-py3-none-any.whl`.
+- `uv run --frozen --extra dev wgp release verify` -> exit 0 and the human transcript below.
+- `uv run --frozen --extra dev wgp release verify --json` -> exit 0 and the stable JSON transcript below.
+- `gh api repos/jmanhype/wangp-dspy/commits/8863df869ffbfcdf4e1a4e00b27caeac888b8920/check-runs` -> exact-head `test` check 106562126535 completed/success.
+- `git push origin story/WD-9rjd` -> pushed only story/WD-9rjd; PR #156 opened for CI (`https://github.com/jmanhype/wangp-dspy/pull/156`).
+- Read-only snapshot of all tracked release inputs before/after both real-repository CLI modes -> identical SHA-256 `4dd745a9bcbd26ed246bedbe2a938c3db35260b59c5ef340a276a2419dfa1fce`; `git status --porcelain` count remained 0.
+
+SHA: 8863df869ffbfcdf4e1a4e00b27caeac888b8920
+
+### CI/Test Results
+
+- Targeted: `2 passed` / 0 failed / 0 errors / 0 skipped, exit 0.
+- Full: `1653 passed, 1 skipped, 0 failed, 0 errors`, exit 0. The only skip is the existing optional host/GPU-gated test; the only warning is the known Starlette/httpx deprecation cited above.
+- Build artifacts:
+  - `wangp_dspy-0.1.0.tar.gz` SHA-256 `fd34d0537bb12b43cae3c6ae869157078836e99bf9fe919e8bae455537e62f57`.
+  - `wangp_dspy-0.1.0-py3-none-any.whl` SHA-256 `423095acb25a4e33061e2464979566ad4d8f8331b94ab9f7a5f1c69fe09ee7fd`.
+- Exact-head CI: check-run id `106562126535`, name `test`, status `completed`, conclusion `success`, at SHA `8863df869ffbfcdf4e1a4e00b27caeac888b8920` (run `35669361289`).
+- Human CLI transcript: `version=0.1.0`; all four checks pass; `tag-ready=v0.1.0`; `tag_created=false`; `v0.1.0 is tag-ready; no tag was created`; `release=ready`; exit 0.
+- Stable JSON transcript (complete): `{"release":{"checks":[{"expected":"0.1.0","message":null,"name":"version","observed":{"VERSION":"0.1.0","pyproject.toml":"0.1.0","wangp.__version__":"0.1.0"},"source":"VERSION, pyproject.toml, wangp/__init__.py","status":"pass"},{"expected":"0.1.0","message":null,"name":"changelog","observed":"0.1.0","source":"CHANGELOG.md","status":"pass"},{"expected":"wangp-dspy.render-recipe/v3","message":null,"name":"recipe_schema","observed":"wangp-dspy.render-recipe/v3","source":"wangp/recipe.py, datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921","status":"pass"},{"expected":"clean_tree=true changed_path_count=0 untracked_path_count=0","message":null,"name":"tree","observed":{"changed_path_count":0,"clean_tree":true,"commit_sha":"8863df869ffbfcdf4e1a4e00b27caeac888b8920","dirty_tree":false,"status_sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","tracked_diff_sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","untracked_content_sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","untracked_path_count":0},"source":"services.director.run_ledger.repository_identity","status":"pass"}],"guidance":"v0.1.0 is tag-ready; no tag was created","ready":true,"tag":"v0.1.0","tag_created":false,"version":"0.1.0"}}`.
+- No network/SSH and read-only integration proof: every real-process test runs under a Python audit hook rejecting `socket.connect`, `socket.getaddrinfo`, and `urllib.Request`, puts a logging fake `ssh` first on PATH, removes all `WANGP_*` host variables, and asserts the SSH log is never created. Each success/failure case compares pre/post hashes and Git status. The deliberate mismatch mutations and commits exist only in a temporary shared-object clone; the real repository remained clean and byte-identical.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | `wangp/release.py:139-159` is local/read-only and reports version `0.1.0`; `tests/test_release.py:90-116` proves clean clone and real-repository success plus no network/SSH/read-only behavior. |
+| 2 | PASS | `wangp/release.py:65-88` compares `VERSION`, pyproject metadata, and `wangp.__version__` with expected/observed values; `tests/test_release.py:123-148` proves a typed version mismatch. |
+| 3 | PASS | `wangp/release.py:91-102` requires the exact root heading; `tests/test_release.py:126-148` proves the missing current-entry class. |
+| 4 | PASS | `wangp/release.py:105-119` builds committed LF004 evidence in memory and checks v3 without writing a recipe; `tests/test_release.py:128-148` proves v4 is rejected. |
+| 5 | PASS | `wangp/release.py:122-155` consumes `repository_identity`, reports all tree counts, and preserves `RepositoryIdentityError` as a failed tree verdict; dirty/untracked integration is at `tests/test_release.py:150-158`. |
+| 6 | PASS | Human and stable JSON output at `wangp/cli.py:323-354` names `v0.1.0`, `tag_created=false`, and no-tag guidance; exact transcripts are recorded above. |
+| 7 | PASS | `wangp/cli.py:323-343` maps `ReleaseError` to diagnostic output and exit 2 without traceback; parser wiring is at `wangp/cli.py:427-433`; unexpected failures retain the existing exit-4 path. |
+| 8 | PASS | `tests/test_release.py:119-158` is real subprocess integration with no mocks and covers clean human/JSON plus version, changelog, recipe-schema, and dirty-tree failures. |
+| 9 | PASS | `README.md:136-149` links the command and boundaries to `docs/recipe.md:88-110`, including exit codes and clean-tree troubleshooting. |
+| 10 | PASS | Targeted suite 2 passed, full suite 1653 passed/1 skipped, build succeeded, and exact-head CI succeeded. `git diff main..HEAD --name-only` contains only README.md, docs/recipe.md, wangp/cli.py, wangp/release.py, and tests/test_release.py; no renderer, queue, provenance, retry, QC, diagnostic, or recipe semantics file changed. |
+| 11 | PASS | The actual human and JSON commands were run in the clean real repository with the complete transcripts above; repository hashes were unchanged and the audit/fake-ssh test proves no remote endpoint was contacted. Reviewer confirmation can reproduce the same local commands. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head `8863df869ffbfcdf4e1a4e00b27caeac888b8920` on `story/WD-9rjd`; pushed only to that branch; PR #156.
+- Targeted release suite: 2 passed / 0 failed. Full suite: 1653 passed / 1 skipped / 0 failed. Build: wheel and sdist succeeded. Exact-head CI check `106562126535`: completed/success.
+- Read-only input digest before and after both real CLI modes: `4dd745a9bcbd26ed246bedbe2a938c3db35260b59c5ef340a276a2419dfa1fce`. Network audit hook and fake SSH recorded no call. No tag, Git release object, distribution publication, main push, GPU, model inference, SSH, or render-host work occurred.
+
+### proof
+- [x] AC #1: Local read-only command reports `0.1.0`, performs no network/SSH/GPU call, and writes no repository artifact.
+- [x] AC #2: All three version sources are compared with field-specific expected/observed diagnostics.
+- [x] AC #3: The exact current-version root changelog entry is required.
+- [x] AC #4: Committed LF004 evidence proves v3 recipe compatibility without a recipe output; unsupported schema fails.
+- [x] AC #5: Existing repository-identity discipline is consumed; dirty/untracked state and fail-closed identity errors remain typed tree failures.
+- [x] AC #6: Human and deterministic JSON outputs prove every check, value, verdict, tag guidance, and `tag_created:false`.
+- [x] AC #7: Typed verification failures exit 2 without traceback; unexpected internals retain exit 4.
+- [x] AC #8: Real-process tests cover clean success and all four required mismatch classes with no mocks.
+- [x] AC #9: README links the documented release checklist, no-tag boundary, and clean-tree troubleshooting.
+- [x] AC #10: Targeted suite, full suite, build, and exact-head CI are green; protected semantic files are unchanged.
+- [x] AC #11: Actual clean-checkout human/JSON commands, byte-identity evidence, and no-network/no-SSH evidence are recorded for reviewer reproduction.
 
 ## History
 - 2026-09-21T23:25:44Z dep_added: blocks WD-fq1o
