@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T16:34:13Z
-content_hash: "sha256:c895540f7a790bac13d382b239d5f751608d683002aa414cbb3e5c83e37aaa56"
+content_hash: "sha256:c1e7c000f051c003e28f6a1b0271d73ea76fd130b11da7b81ba922b6671b5c1d"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -115,6 +115,17 @@ Delivery correction: the prior in_progress contract is stale; WD-lhm4 is deliver
   affected_files: pvg story-delivery transition implementation
   discovered_during: WD-lhm4
 DISCOVERED_BUG clarification: the failed transition command was pvg story deliver WD-lhm4. Its exact stderr was: labels add WD-lhm4 delivered: Error: label delivered already exists on WD-lhm4. The intended story state is in_progress with delivered label, and that final state is present.
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-21.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
 
 ## nd_contract
 status: delivered
