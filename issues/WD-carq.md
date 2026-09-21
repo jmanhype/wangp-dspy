@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T23:02:43Z
-content_hash: "sha256:1c0607a72a923264a126870744bcebf5d7a6b4fc7edaf8cb9156691885902b14"
+content_hash: "sha256:7ea46c0e3a6aeb7801e88ba16e75db5e06d581917bcfeb15c4f47f1f9be892fe"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4]
@@ -115,6 +115,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework Evidence (v3 recipe contract)
 
 Summary: after the third rejection, `wangp/recipe.py` was rebuilt on schema
