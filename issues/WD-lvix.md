@@ -4,11 +4,11 @@ title: "Present actionable failure diagnostics"
 status: closed
 priority: 2
 type: feature
-labels: [integration, delivered]
+labels: [integration, delivered, accepted]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T21:19:22Z
+updated_at: 2026-09-21T21:19:23Z
 content_hash: "sha256:39e6eb73ffdb1a13ba30eaf3c5544d143927f35b6bd1d92b49aff92c9406d899"
 was_blocked_by: [WD-fp49]
 follows: [WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
