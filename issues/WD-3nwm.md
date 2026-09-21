@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:08:50Z
-content_hash: "sha256:63822c3e2465d01061ba4b6abe64a7ea65cf74b70e78eb0cf85282c869f10006"
+updated_at: 2026-09-21T15:08:51Z
+content_hash: "sha256:1a0077f300beabfb2cdedb5d31b116b22ec6132c06d5735bb8b28d899e0fecdd"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,6 +98,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework (head 58ff84d) — four review findings fixed
 
 The independent acceptor rejected the first delivery on four real findings. All are resolved.
