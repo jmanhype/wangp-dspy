@@ -9,7 +9,8 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T13:56:16Z
-content_hash: "sha256:8c516a94a6c270da01dbf357c61ecf7c2e266fb9f6caf7888a59d98ed127bc83"
+content_hash: "sha256:fa26a442334800048312d80d881ad951c903a27f06fcb6ef0a3a36d7de1adc08"
+blocked_by: [WD-lvix]
 ---
 
 ## Description
@@ -114,9 +115,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:56:16Z dep_added: blocked_by WD-lvix
 
 ## Links
 - Parent: [[WD-t534]]
+- Blocked by: [[WD-lvix]]
 
 ## Comments
