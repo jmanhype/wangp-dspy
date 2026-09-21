@@ -9,8 +9,8 @@ parent: WD-r0eh
 created_at: 2026-09-21T13:48:42Z
 created_by: speed
 updated_at: 2026-09-21T13:48:42Z
-content_hash: "sha256:0a68f302b2bc80eeeb9e56766a26673fde825f99f24257b38f73436cf3eac929"
-blocked_by: [WD-d788, WD-ltb1]
+content_hash: "sha256:378a82d260dc13582ec05455113d6609a56c9df44a2d239e4c6cff13705c1f57"
+blocked_by: [WD-d788, WD-ltb1, WD-j80j]
 ---
 
 ## Description
@@ -95,9 +95,10 @@ status: new
 ## History
 - 2026-09-21T13:48:42Z dep_added: blocked_by WD-d788
 - 2026-09-21T13:48:42Z dep_added: blocked_by WD-ltb1
+- 2026-09-21T13:48:42Z dep_added: blocked_by WD-j80j
 
 ## Links
 - Parent: [[WD-r0eh]]
-- Blocked by: [[WD-d788]], [[WD-ltb1]]
+- Blocked by: [[WD-d788]], [[WD-ltb1]], [[WD-j80j]]
 
 ## Comments
