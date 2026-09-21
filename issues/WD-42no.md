@@ -4,7 +4,7 @@ title: "E2e: execute exactly one approved LF004 governed render"
 status: in_progress
 priority: 0
 type: task
-labels: [e2e, capstone]
+labels: [e2e, capstone, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
