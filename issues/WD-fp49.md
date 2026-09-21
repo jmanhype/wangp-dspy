@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T18:39:27Z
-content_hash: "sha256:7d333bc68cdc74885b686ce406b765049bcf61f8462cd8b1757393ee820d99be"
+content_hash: "sha256:440cd454ed30c6de877e340f770d1af20a6a20a535a28371230f444fd15a3317"
 blocks: [WD-lvix, WD-fq1o]
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj]
@@ -244,3 +244,23 @@ Corrected boundary:
 - Follows: [[WD-lhm4]], [[WD-m1sj]]
 
 ## Comments
+
+### 2026-09-21T18:39:27Z speed
+## PM Decision
+REJECTED [2026-09-21]:
+EXPECTED: The story Boundary Map produces `wangp/config.py -> render_host(config: HostConfig) -> SshHost`, and the pm_acceptor quality gate requires a type specification on every public function.
+DELIVERED: `wangp/config.py:242` exports `def render_host(config: HostConfig):` with no return annotation. An AST audit reports `render_host: parameter_annotations=[True] returns=False`.
+GAP: The public API does not match the declared boundary contract and fails the public-function type gate. This is not the known tracker-format friction.
+FIX: Add a type-checking-only `SshHost` reference (avoiding the runtime import cycle) and declare `render_host(config: HostConfig) -> SshHost`; keep behavior unchanged. Re-run `uv run --frozen --extra dev pytest tests/test_host_config.py tests/test_runtime_host_wiring.py -q` and the full suite.
+
+Independently reproduced passing evidence: precedence fixtures (environment over user over repository, per key; XDG user config; local marker detection), forbidden literal grep 20 -> 0 (raw byte count 23 -> 0), exact no-host plan fields, one actionable render error, fake-SSH log never created, doctor provenance without probes, protected engine diff exit 0, targeted 9 passed, full 1587 passed / 1 optional live-host skip, reproducible wheel/sdist hashes, and CI run 35637843176 success at 4aa2e92a7376d49075f3fdc14360f67198d660de. The 1,151-LOC overrun explanation is credible (test LOC independently measures exactly 440 and the broad causes are visible in the diff).
+
+## nd_contract
+status: rejected
+
+### evidence
+- AST audit of `wangp/config.py`: `render_host` lacks a return annotation at line 242.
+- All required behavioral, static, build, and CI verification otherwise passed at the delivered head.
+
+### proof
+- [ ] Boundary Map: `render_host(config: HostConfig) -> SshHost` public signature is not implemented as declared.
