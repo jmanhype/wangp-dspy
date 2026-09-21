@@ -31,3 +31,8 @@ jobs:
           sudo apt-get install --no-install-recommends -y ffmpeg
       - name: Run test suite
         run: uv run --frozen --extra dev pytest -q
+      - name: Build both distributables
+        run: |
+          uv build
+          test "$(find dist -maxdepth 1 -name '*.whl' | wc -l)" -eq 1
+          test "$(find dist -maxdepth 1 -name '*.tar.gz' | wc -l)" -eq 1
