@@ -8,12 +8,12 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T20:28:15Z
-content_hash: "sha256:4dc3bc9bbcc12dacba880431b4e00cc6c93b3ef4ad315cadede128973145d869"
+updated_at: 2026-09-21T20:28:22Z
+content_hash: "sha256:d63bf41ed2b38176b51f4ab9c6845da573f7f3f2f5f4e406624f31d74ca776f0"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 assignee: dev-WD-lvix
-follows: [WD-fp49]
+follows: [WD-fp49, WD-m1sj]
 ---
 
 ## Description
@@ -223,11 +223,13 @@ status: in_progress
 - 2026-09-21T19:35:34Z status: open -> in_progress
 - 2026-09-21T19:35:34Z auto-follows: linked to predecessor WD-fp49
 - 2026-09-21T19:35:34Z claimed by dev-WD-lvix
+- 2026-09-21T20:28:22Z status: in_progress -> in_progress
+- 2026-09-21T20:28:22Z auto-follows: linked to predecessor WD-m1sj
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-carq]], [[WD-fq1o]]
 - Was blocked by: [[WD-fp49]]
-- Follows: [[WD-fp49]]
+- Follows: [[WD-fp49]], [[WD-m1sj]]
 
 ## Comments
