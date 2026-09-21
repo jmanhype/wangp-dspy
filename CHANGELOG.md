@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial repository hygiene contract: README with an executed no-GPU quickstart, Apache-2.0 licence, machine-readable version, contribution guide, and third-party model notices.
+- Initial repository hygiene contract: README with an executed no-GPU quickstart, a machine-readable version, a contribution guide, third-party model notices, and a conservative source-available [LICENSE](LICENSE) that grants no rights. Adopting an open-source licence remains an open owner decision.
 - Typed Content Brief Gateway and `scripts/run_content_brief.py` for canonical no-GPU planning (`efcba33`, PR #146).
 - Committed LF004 operator dogfood brief, plates, audio-guide map, plan, and review input (`26c7c67`, PR #147).
 - Preserved LF003 four-cut full-gate chain evidence, including per-cut media, QC evidence, assembly, probes, and contact sheets (`5989810`).

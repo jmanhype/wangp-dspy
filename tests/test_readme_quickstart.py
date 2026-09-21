@@ -123,6 +123,10 @@ def test_repository_hygiene_and_readme_contract() -> None:
     # claiming nothing third-party is checked in.
     assert "maestro_reference" in notices
     assert "test-only reference corpus" in notices
+    # The notice claims the third-party fixture corpus is excluded from distributable
+    # artifacts; keep that claim true by asserting the sdist exclusion is configured.
+    sdist = project["tool"]["hatch"]["build"]["targets"]["sdist"]
+    assert "tests/fixtures/maestro_reference" in sdist["exclude"]
 
     for phrase in (
         "typed content brief",

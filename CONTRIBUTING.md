@@ -44,6 +44,6 @@ Keep generated outputs outside the checkout unless a story explicitly asks you t
 
 ## Changes and licensing
 
-Repository-owned contributions are offered under the [Apache-2.0](LICENSE) licence. Third-party models and weights remain governed by [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); this repository cannot relicence them or grant rights to their outputs.
+Repository-owned contributions are accepted for inclusion under the repository's [LICENSE](LICENSE) notice, which is source-available and grants no rights. Adopting an open-source licence is an owner decision that is currently open; do not assume redistribution rights until it is recorded. Third-party models and weights remain governed by [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); this repository cannot relicence them or grant rights to their outputs.
 
 For operator-facing release history, update [CHANGELOG.md](CHANGELOG.md). For architecture and process decision records, continue the existing corpus in `docs/`.
