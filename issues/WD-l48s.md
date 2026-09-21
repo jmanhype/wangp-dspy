@@ -8,8 +8,8 @@ labels: [walking-skeleton, capstone, e2e, rejected]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T12:35:04Z
-content_hash: "sha256:118e9825515fcfb3fa7298c9a96700c7937ad5174bd68828f6e5c2dc0ec9be5c"
+updated_at: 2026-09-21T13:14:00Z
+content_hash: "sha256:14eca1c76580d7650735851d8ce1b81e0e4cfc694046b1bb146a22c7eed5152b"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 assignee: dev-WD-l48s
@@ -164,6 +164,104 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (Rework 3: eight pre-merge review defects)
+
+PROOF:
+
+### Commit / PR
+- Branch: story/WD-l48s
+- Pushed head: c7963e82bd013ac7757933c9f44444583ae47425
+- Commits: 579f8b9c6100593324993df2c41ee82aa611ef73 (implementation), c8e2ad003de4c41641cb5df32c393a5fc2dce81c (row-identity hardening), c7963e82bd013ac7757933c9f44444583ae47425 (CI environment-independent assertion)
+- PR: https://github.com/jmanhype/wangp-dspy/pull/150
+- PR state after push: OPEN, MERGEABLE, mergeStateStatus=CLEAN, required test=SUCCESS.
+- Intermediate CI 35603399376 failed at c8e2ad0 because I briefly added a whole-row ID comparison across host environments. It was removed in c7963e8; assertions now target identity-independent path fields and content-derived replay fields, as required.
+
+### Eight-defect verification
+| # | Review finding | Fix / code evidence | Regression evidence | Artifact evidence |
+|---|---|---|---|---|
+| 1 | P(bad) polarity was inverted | `_raw_probability_decision`, `_calibrated_probability_decision`, and `_threshold_probability_decision` admit only when P(bad) is low; calibrated confidence remains `max(p,1-p) >= 0.70` (training/spend_gate_replay.py:153-173, 309-329, 327-329) | tests/test_spend_gate.py:105-118 asserts low P(bad) admits, high P(bad) rejects/does not admit, and sweep direction | replay-metrics.json records `model_probability_definition="P(bad)"`, explicit `decision_polarity`, and corrected raw/calibrated/sweep tables |
+| 2 | Queue loader retained only clips[0] and joined on job ID alone | Queue keys are `(job_id, clip_index)` composites; every serialized clip is loaded; exact and fallback matches require clip identity plus path identity (training/spend_gate.py:113-181, 257-283) | tests/test_spend_gate.py:121-141 builds a real two-clip SQLite queue and proves clip 2 gets clip 2's fingerprint | corpus queue rows and LF004 joins regenerate at 36 rows with the expected 5 tracked DB sources |
+| 3 | Unknown attempts became 0+1 avoided attempts | `_known_attempt_count` preserves unknown as null; `_score` excludes unknown rejected-bad rows from the numerator and reports exclusions (training/spend_gate_replay.py:176-208) | tests/test_spend_gate.py:144-157 asserts known attempt cost 3, one unknown excluded, and metric 1.0 rather than fabricated 2.0 | replay-metrics baseline fields `known_attempt_rejected_bad_rows`, `unknown_attempt_rows`, and `unknown_attempt_rejected_bad_rows_excluded`; report discloses deterministic_preflight=5 exclusions |
+| 4 | Bootstrap numerator used distinct groups rather than draws | `_score(group_draws=...)` divides by the number of group draws; `_bootstrap` passes `len(draws)` (training/spend_gate_replay.py:181-208, 211-227) | tests/test_spend_gate.py:158-159 asserts duplicated group draw value 0.75, not the inflated distinct-denominator value | bootstrap fields regenerate byte-identically under seed 17 |
+| 5 | False-admit budget hard-coded 0.10 in scoring | `false_admit_budget` threads through `_score`, probability tables, bootstrap, and every sweep row (training/spend_gate_replay.py:181-227, 317-329) | tests/test_spend_gate.py:160-168 asserts 0.10 infeasible versus 0.50 feasible and proves bootstrap receives the configured budget | replay-metrics records `false_admit_budget=0.1` and all feasibility uses that value |
+| 6 | Decision warranted on feasibility alone | `_decision_rule` requires a feasible challenger CI lower bound to beat BOTH deterministic and transparent baseline upper bounds; insufficient-data remains first (training/spend_gate_replay.py:251-282, 324-326) | tests/test_spend_gate.py:171-186 proves a feasible but weaker CI is `not_warranted`, while a CI beating both comparators warrants | replay-metrics `decision_rule_evaluation` records comparators/stage; current honest decision remains `insufficient_data` |
+| 7 | Absolute/path-only fields made row IDs checkout-dependent | Paths are recursively canonicalized relative to repository anchors; path fields, source-git availability, and plate path availability are excluded from row identity (training/spend_gate.py:119-168, 252-253) | tests/test_spend_gate.py:189-212 proves path/availability changes do not alter identity but content hash changes do; fresh-checkout replay remains environment-independent | corpus contains no absolute path values; canonical corpus SHA below |
+| 8 | verify_artifact ignored drift digest and row count | `verify_artifact` checks corpus digest, schema-drift digest, manifest self-digest, and declared row count versus nonempty corpus lines (training/spend_gate.py:379-394) | tests/test_spend_gate.py:215-226 tampers schema drift and a self-consistent false row count and requires typed failures | CLI `--verify-artifact` passes on the committed artifact |
+
+### Corrected replay result (polarity fixed; stale values not preserved)
+Corpus/headline invariants:
+- Rows: 36 total / 18 complete / 5 bad / 7 complete-row run groups
+- Decision: `insufficient_data`
+- Primary result: `infeasible_at_budget`
+- Primary metric: undefined/null (no feasible calibrated policy at budget)
+
+| Baseline | Admitted | Abstained | False admit | Avoided/run | Bootstrap 95% CI |
+|---|---:|---:|---:|---:|---:|
+| always_admit | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
+| deterministic_preflight | 0 | 0 | undefined | undefined | undefined |
+| transparent_heuristic | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
+| calibrated_model | 5 | 13 | 0.800 | undefined | undefined |
+
+Raw versus calibrated:
+| Policy | Coverage | Correct | Incorrect | False admit | Brier | Log loss |
+|---|---:|---:|---:|---:|---:|---:|
+| raw P(bad) | 13/18 | 10 | 8 | 0.308 | 0.444 | 15.351 |
+| calibrated | 5/18 | 1 | 4 | 0.800 | 0.254 | 0.736 |
+
+Exploratory sweep (maximum tolerated P(bad)): thresholds 0.5, 0.6, 0.7, 0.8, and 0.9 each admit 18 rows with false-admit 0.278. Sweep remains exploratory and did not select the primary result.
+
+### Artifact evidence / determinism
+- corpus.jsonl SHA-256: 4bf1fb1e9e6367c43933176f21d2597b366c8c7b9074f5d99d9840340f46188e
+- manifest.json file SHA-256: 90c7f8f41652f33b32470b56381bf3a587aebedaa858c19fd31991f229d6d455
+- manifest self-digest: 43eb41ef07a77569532886dbc6df88c410176141b8630727105161744366ecbd
+- preregistration.json SHA-256: 84ad3471aa4ed6d22ea69904285d2a05c157c5198e2ef84286d92e448e081479
+- replay-metrics.json SHA-256: 2aea4f6c5de8bb63d1ff6ead2915f96b8b5f39469ff90feead64e8ae0dda2afd
+- replay-report.md SHA-256: 5a5c41d0f6753b8b14507ce44bdd47b4fc0ec69584962c317bbf7dc562637b79
+- schema-drift.json SHA-256: 538712be86789709c8d296a3cca08c45861ffa1df8fab0a3b452de0f261d0c5f
+- `verify_artifact` validated corpus digest, schema-drift digest, row count 36, and manifest self-digest.
+- Two consecutive all-local builds to the same external output directory produced identical SHA-256 manifests for all six artifact files (`diff -u ... == no differences`).
+
+### CI/Test Results
+- Commands run:
+  - `uv run --frozen --extra dev pytest -q tests/test_spend_gate.py`
+  - `uv run --frozen --extra dev pytest -q`
+  - `uv run --frozen --extra dev python scripts/build_spend_gate_corpus.py --repository-root . --evidence-mode all-local --output-dir datasets/spend-gate/v1 --replay --verify-artifact`
+  - `git diff --check`
+  - `git diff --exit-code main -- services/ qc/ host/ predict/ scripts/run_film.py scripts/run_jobs.py`
+  - `pvg verify ... --format=text`
+- Targeted tail: `................. [100%]` — 17/17 tests PASS, 0 failed, 0 skipped.
+- Full-suite tail: progress completed at 100%; 1,575 PASS, 1 pre-existing optional-host test skipped (`tests/test_jobs_integration_3090.py:15-17`, not run because GPU/host work is explicitly forbidden), 0 failed. Collection: 1,576 tests.
+- Coverage: stdlib `trace` measured 100% executed-line coverage for both changed training modules from the targeted suite (`training.spend_gate`: 275 lines; `training.spend_gate_replay`: 294 lines). The frozen dev environment has no coverage package, so stdlib trace was used.
+- `git diff --check`: PASS (no output).
+- Protected-path parity: exit 0. No production runner, QC, AV, retry, renderer, or gate semantics changed.
+- `pvg verify`: `VERIFY: PASSED (4 files scanned, 0 issues)`.
+- Required CI at pushed head: run 35603725188, head c7963e82bd013ac7757933c9f44444583ae47425, workflow CI, conclusion SUCCESS (test job 106345685155).
+- No GPU, remote host, render, queue submission, model inference, package publication, or gate mutation was run.
+
+### Warnings / observations (not silently ignored)
+- Local full suite exposes one pre-existing dependency warning: FastAPI/Starlette TestClient deprecates httpx compatibility at `.venv/lib/python3.14/site-packages/fastapi/testclient.py:1`.
+- Final CI is green but emits runner annotations that actions/setup-python@v5 and astral/set-uv@v6 are forced from deprecated Node.js 20 onto Node 24, and ubuntu-latest will migrate to Ubuntu 26 on 2026-10-19.
+- `pvg notes search` could not be used in this checkout because `.paivot/config.yaml` names vault `Claude`, while the available vault list does not contain it. I did not alter unrelated vault configuration.
+
+LEARNINGS:
+- Model probability direction must be named at every policy boundary: P(bad), confidence, and threshold direction are three separate contracts and can still be combined backwards.
+- Queue identity is clip-level, not job-level; a composite key makes the wrong-clip join impossible without changing the public queue mapping type.
+- Attempt utility is undefined until a durable attempt count is present. Reporting exclusions is more honest than treating null as zero.
+- Cross-environment tests must compare content-derived fields, not whole row IDs: ffprobe/toolchain and local evidence availability can legitimately differ even after path canonicalization.
+
+### DISCOVERED_BUG (reported, not created)
+  title: pvg notes points at unavailable Claude vault
+  context: `pvg notes search "WD-l48s spend gate replay polarity"` and a simpler query failed with `vlt: vault "Claude" not found`; `.paivot/config.yaml` selects `Claude` while available vaults include `.vault`, `nd-vault`, `Obsidian Vault`, and others. This blocked the developer skill's optional knowledge search but not nd story operations.
+  affected_files: .paivot/config.yaml
+  discovered_during: WD-l48s
+
+### DISCOVERED_BUG (reported, not created)
+  title: Full suite emits FastAPI/Starlette httpx deprecation warning
+  context: Every full pytest run warns at fastapi/testclient.py import that using httpx with starlette.testclient is deprecated and recommends httpx2. Tests still pass, but this is a future-breaking dependency warning.
+  affected_files: .venv/lib/python3.14/site-packages/fastapi/testclient.py (dependency surface, no story file changed)
+  discovered_during: WD-l48s
+
+
 ## Rejection 2 (pre-merge review, PR #150): eight correctness findings
 
 Independent code review of the accepted artifact found eight real defects. The first is
