@@ -9,9 +9,9 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T13:56:16Z
-content_hash: "sha256:8436658d9102a8aa4fe6acb6c838d9e444bb45cad316ee402b0b19aefe57756e"
+content_hash: "sha256:35237eb7a707bbce19ab3a9e9dd9ee80f2877fb22154d0e5c2ca5c4f5a2777db"
 blocked_by: [WD-fp49]
-blocks: [WD-carq]
+blocks: [WD-carq, WD-fq1o]
 ---
 
 ## Description
@@ -108,10 +108,11 @@ status: new
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-fp49
 - 2026-09-21T13:56:16Z dep_added: blocks WD-carq
+- 2026-09-21T13:56:17Z dep_added: blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-carq]]
+- Blocks: [[WD-carq]], [[WD-fq1o]]
 - Blocked by: [[WD-fp49]]
 
 ## Comments
