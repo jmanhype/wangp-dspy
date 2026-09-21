@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T01:02:47Z
-content_hash: "sha256:0fdc6f31e8898dfe28ef3ed7ed302ca0582ff46e5c995641e2dbc42ff70d920a"
+updated_at: 2026-09-21T04:32:33Z
+content_hash: "sha256:30260acd8aef7446d103059fdcdd846aa6c5131f8086ed3b35c5a9eed3e24f29"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
@@ -95,6 +95,60 @@ status: new
 
 
 ## Notes
+## Capstone Closure Evidence (dispatcher, 2026-09-21)
+
+The originally approved plan `70280fdc...` is provably unsatisfiable: the merged guard rejects
+its brief before planning. The operator approved the corrected 56-frame plan `620f2ba4...`
+(see "## Operator Recovery Approval" above), and that single governed execution was delivered,
+independently accepted, and merged as WD-g125 (PR #149 squash `3094b14b`, required CI green on
+main, run 35561263575).
+
+Acceptance-criteria mapping, all verified against main `3094b14b`:
+
+1. Execution began only after the exact approved plan hash was recorded in nd -> the corrected
+   plan hash `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286cd` is recorded above with the
+   operator's literal approval; the committed plan's canonical hash was independently recomputed
+   to that value by three separate actors (developer, PM acceptor, dispatcher).
+2. Exactly one governed production execution and every governed retry recorded -> durable queue
+   `datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db` (4 jobs all `done`, max failure
+   count 1, retry ceiling 3), `execution_count == 1`, execution marker present, no second run.
+3. Host and pipeline preflight passed -> `preflight.txt` and the execution marker.
+4. Every emitted cut passed all declared gates -> per-cut `qc-evidence.json`: Whisper pre and post,
+   identity/composition vision, three-frame mouth-box localization, blocking SyncNet (confidences
+   4.054347 / 2.481187 / 2.808661 / 2.244520, all above the 1.0 bar; offsets within +/-10 frames).
+5. Assembly completed and media properties recorded -> `assembled.mp4` sha256
+   `2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7`, 224 frames @24fps,
+   704x576, H.264, AAC stereo 32 kHz, 9.333333 s.
+6. Human-reviewable packet emitted -> film contact sheet `ab03e022...` plus four per-cut sheets
+   (`a8b6b859...`, `4cb59670...`, `2c49387a...`, `384e734d...`), all hash-recorded.
+7. Provenance ties brief, plan, inputs, queue, settings, retries, QC, assembly, repository state
+   and final hash -> `final-provenance.json` (sha256 `61bfe3b2...`) with the full hash chain, plus
+   the preserved first-attempt manifest `1b386566...` (48/48 entries verified).
+8. `operator_review_pending` recorded and no creative acceptance claimed -> status field in
+   `final-provenance.json`.
+9. No unrelated source behavior changed -> production-source parity against main exits 0 and
+   `DEFAULT_MAX_ATTEMPTS == 3`; every QC/AV/retry/provenance/renderer gate is byte-identical.
+
+The operator's creative verdict on the film remains outstanding and is deliberately not claimed.
+
+## nd_contract
+status: delivered
+
+### evidence
+- WD-g125 accepted at `952b45ae2b65087514383bb5b402a6c50f4f6907` and merged as PR #149 squash `3094b14b01eb41723f90e58f537f80cce847a5ad`; required CI green on main (run 35561263575).
+- All nine capstone criteria mapped to hash-identified artifacts above; no second render occurred and no gate was relaxed.
+
+### proof
+- [x] Story 1: exact approved plan hash recorded before execution.
+- [x] Story 2: one execution and all retries accounted for.
+- [x] Story 3: host and pipeline preflight passed.
+- [x] Story 4: all declared cut gates passed.
+- [x] Story 5: final media properties and hash recorded.
+- [x] Story 6: review visuals available and hashed.
+- [x] Story 7: end-to-end provenance complete.
+- [x] Story 8: operator review remains pending.
+- [x] Story 9: no unrelated behavior changes.
+
 ## Operator Recovery Approval
 
 Approved UTC: 2026-09-21T00:54:03Z
