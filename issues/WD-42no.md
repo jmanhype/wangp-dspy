@@ -8,8 +8,8 @@ labels: [e2e, capstone, accepted]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T04:42:23Z
-content_hash: "sha256:3c24c662e6d2d030327dab4a99c92eacf92ff9861f1cd13c371af5de9e07bfec"
+updated_at: 2026-09-21T05:02:57Z
+content_hash: "sha256:66ba46528d8e2e6efb5804abfa7457f91ef2f7b519a29b09e75fe3124256d45f"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
@@ -97,7 +97,61 @@ status: new
 
 
 ## Notes
+## Operator Creative Verdict — KEEP
 
+Recorded UTC: 2026-09-21 (operator message: "i approve")
+
+Verdict: **keep / operator_accepted** for the approved recovery film
+`datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4`
+sha256 `2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7`.
+
+Nothing accepted was mutated to record this. The film, its `final-provenance.json`
+(`61bfe3b2...`), and the preserved 48-entry manifest (`1b386566...`) remain byte-identical;
+the verdict is recorded as a separate additive record.
+
+- Record file: `datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json`
+- Record sha256: `e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d`
+- Delivery: WD-g125 accepted at `952b45ae`, merged PR #149 squash `3094b14b`, required CI green on main.
+
+```json
+{
+ "artifact": {
+  "audio": "aac stereo 32 kHz",
+  "duration_s": 9.333333,
+  "fps": "24/1",
+  "frames": 224,
+  "path": "datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
+  "resolution": "704x576",
+  "sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+  "video": "h264"
+ },
+ "creative_acceptance": "accepted",
+ "delivery": {
+  "merge_commit": "3094b14b01eb41723f90e58f537f80cce847a5ad",
+  "pr": "https://github.com/jmanhype/wangp-dspy/pull/149",
+  "story": "WD-g125"
+ },
+ "known_follow_ups": [
+  "render logs emit \"No module named 'mutagen'\" while saving metadata (media saved; gates passed)",
+  "delivered resolution 704x576 vs planning envelope 480x832; matches the accepted LF003 assembly resolution"
+ ],
+ "plan": {
+  "brief_hash": "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd",
+  "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"
+ },
+ "recorded_by": "orchestrator on explicit operator verdict",
+ "recorded_utc": "<utc>",
+ "schema_version": "wangp-dspy.operator-acceptance/v1",
+ "status": "operator_accepted",
+ "verdict": "keep",
+ "verdict_source": "operator message: \"i approve\""
+}
+```
+
+The two known follow-ups above stay open as recorded findings; they are not silently closed
+by this verdict. The operator-acceptance record is currently on disk and fully embedded in
+this tracker note (which snapshots to `nd/backlog`); landing it in the repository would need
+a small governed commit.
 
 ## nd_contract
 status: accepted
