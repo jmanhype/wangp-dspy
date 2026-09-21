@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T16:34:13Z
-content_hash: "sha256:d025eeb3d4e5bf36a5250a8fdbb10acdcaf9d92e1a6862d73f0e2ece7032f4df"
+content_hash: "sha256:c895540f7a790bac13d382b239d5f751608d683002aa414cbb3e5c83e37aaa56"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -285,3 +285,30 @@ status: in_progress
 
 ### 2026-09-21T13:59:00Z speed
 Self-contained data note: the real read-only queue integration fixture is the Git-tracked database datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db. Tests must copy it to temporary storage before opening if SQLite could create WAL/SHM sidecars; the committed database must remain byte-identical.
+
+### 2026-09-21T16:34:13Z speed
+## PM Decision
+REJECTED [2026-09-21]:
+
+EXPECTED: The story requires delivery notes containing the CLI transcripts, targeted/full test output, an AC-by-AC verification table, and delivery through pvg story deliver. The pm_acceptor contract also requires exact commands/counts/commit SHA/coverage, a LEARNINGS section, zero unowned warnings, and an explanation for exceeding the roughly-under-650-authored-LOC budget.
+
+DELIVERED: The implementation itself independently passed behavioral verification at 0e50b5a592a8e392c1595c5f3de024f2d820589f: 11/11 CLI tests passed; full suite was 1572 passed, 1 skipped, 0 failed; README/doc examples worked; engine paths were unchanged. However, authoritative story evidence is absent: pvg story verify-delivery WD-lhm4 exited 1 with 4 checks passed and 5 failed (missing authoritative delivered contract, Implementation Evidence, Commands run, Summary, and commit SHA). The story comments contain only the queue-fixture note; the PR body is not the authoritative delivery record and lacks the required transcripts, AC table, coverage, and LEARNINGS. The story diff is 1108 insertions across 8 files versus the stated under-650 LOC budget, with no delivered explanation. The full test run also emitted one StarletteDeprecationWarning that is not owned in the story evidence.
+
+GAP: A PM cannot infer authoritative developer proof from an external PR description, and the unexplained diff-budget and warning exceedances violate the delivery contract even though the runtime behavior passed.
+
+FIX: Re-deliver with an authoritative story evidence block containing exact CLI transcripts, every command run and pass/fail count, coverage, commit SHA and branch, an AC-by-AC table, a LEARNINGS section, and either an explanation for the 1108-line diff or a reduced diff. File or explicitly own the pre-existing StarletteDeprecationWarning as required by the zero-warnings rule. Then run pvg story verify-delivery WD-lhm4 successfully before PM review.
+
+## nd_contract
+status: rejected
+
+### evidence
+- pvg story verify-delivery WD-lhm4: exit 1; Passed 4, Failed 5.
+- pvg nd comments list WD-lhm4: only queue-fixture note, no developer evidence.
+- git diff --numstat main...HEAD totals 1108 insertions, 1 deletion across 8 files.
+- Independent full pytest execution: 1572 passed, 1 skipped, 0 failed, plus one StarletteDeprecationWarning.
+
+### proof
+- [ ] Authoritative story implementation evidence, commands, commit SHA, coverage, AC table, and LEARNINGS are present.
+- [ ] pvg story verify-delivery WD-lhm4 passes.
+- [ ] The diff-budget overrun is explained or reduced.
+- [ ] The full-suite warning is owned or eliminated.
