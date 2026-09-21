@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-20T23:42:42Z
-content_hash: "sha256:40216000e35d17bd3c81df5f367d9fb735aebf8560a8b4a3b63d958d7cf2c27a"
+updated_at: 2026-09-21T00:43:07Z
+content_hash: "sha256:e615a340d50dad8171c619341bc545e5d4f32bf10f16d487afbd550b1733c7e1"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt]
 assignee: dev-WD-42no
@@ -93,6 +93,72 @@ status: new
 
 
 ## Notes
+## Recovery Preflight Evidence (dispatcher, 2026-09-21)
+
+### 1. The merged guard rejects the approved LF004 brief
+
+Run against the committed brief through the no-GPU gateway on main `4b99b3a`:
+
+```text
+$ ./.venv/bin/python scripts/run_content_brief.py \
+    --brief datasets/content_briefs/lf004-operator-dogfood/brief.json \
+    --plates datasets/content_briefs/lf004-operator-dogfood/plates \
+    --output <scratch>/plan.json --run-dir <scratch>/run
+predict.content_brief.ContentBriefError: audio duration mismatch for turn 1:
+  guide=.../lf003-vibevoice-audition-20260917/audio/tess.prepared.wav
+  declared_s=4.458333333333333 measured_s=2.333333
+EXIT=1   artifacts_written=0
+```
+
+The approved plan hash `70280fdc...` can no longer be regenerated from its brief; the
+defect is caught in the planning stage before any GPU work.
+
+### 2. Corrected candidate plan (duration-corrected, 56 frames per cut)
+
+Same dialogue, characters, plates, and repository-owned guides; only `durations_s`
+changed to the Content Brief Gateway default `56/24` s per turn, which reproduces the
+accepted LF003 per-cut policy (WD-rij6: 56 frames/cut, 224 frames, 9.333333 s total).
+
+- Candidate brief: `.claude/worktrees/dev-WD-42no/datasets/content_briefs/lf004-operator-dogfood-56f/brief.json` (uncommitted candidate artifact)
+- `candidate_brief_hash`: `sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd`
+- `canonical_plan_sha256`: `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8`
+- Replay: gateway run twice into separate temp dirs, canonical hashes identical (`620f2ba4...`).
+- Clips: 4 x `frames=56`, `audio_length_frames=56`, `guide_duration_s=shot_duration_s=2.333`, `keeper_window_s=[0.0, 2.3333333333333335]`.
+- Summary: `{"clip_count": 4, "planned_duration_s": 9.332, "dry_run": true, "gpu_work": false, "queue_submitted": false}`.
+- Guard outcome: the candidate passes the new preflight (measured guide 2.333333 matches declared 2.333333 within 1e-6).
+
+Reproduce with the same command as above plus `--brief <candidate brief>` and the same
+`--plates` directory; then compute the canonical hash with the `canonical_sha` algorithm
+already defined in `datasets/content_briefs/lf004-operator-dogfood/run/verify.py`.
+
+### 3. Approval required (single explicit decision)
+
+Approve canonical plan hash `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8`
+(candidate brief `sha256:67202d35...`) for exactly one governed recovery execution under
+WD-h73w using the accepted 56-frame-per-cut policy, or direct an alternative
+(regenerate longer guides and keep 4.458 s turns).
+
+### 4. Required deliverables for the recovery execution
+
+- Commit the corrected brief + plan into the repository and record brief/plan/run-ledger hashes.
+- Provide a corrected verification script; the existing `run/verify.py` hard-asserts 107 frames and `planned_duration_s == 17.832`, which is specific to the defective plan.
+- Execute exactly one governed render through the accepted pipeline with the three-attempt policy, all declared gates, and preserved review artifacts.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Guard rejection of the approved brief: exit 1 with the typed mismatch error and zero artifacts on main `4b99b3a`.
+- Corrected candidate plan `620f2ba4...` replay-verified twice; 4 x 56 frames matching the accepted WD-rij6 policy.
+- Root cause and corrective actions recorded at `docs/findings/85-lf004-guide-duration-mismatch.md` (dev-WD-42no worktree) and in WD-ssdt (delivered, accepted, merged).
+
+### proof
+- [x] Fail closed at cut 2 rather than relaxing gates.
+- [x] Root cause identified and the guard that prevents recurrence is merged with green CI.
+- [x] Corrected plan candidate produced, replay-verified, and hash-recorded.
+- [ ] Operator approval of `620f2ba4...` (or an alternative) before any further render.
+- [ ] One governed recovery execution passing every declared gate with a reviewable artifact.
+
 ## Root Cause: Declared Clip Duration vs Guide Audio Length
 
 Cut-2's dead-letter is explained by a plan-input defect, not by seed luck alone.
