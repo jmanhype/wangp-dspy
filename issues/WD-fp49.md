@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T17:45:17Z
-content_hash: "sha256:b1ac887dc2aa32018e10df6f6a7fedfc733a673d2f603cac09cf68acc5894478"
+updated_at: 2026-09-21T17:51:54Z
+content_hash: "sha256:017ffa1bbd1280da28fe7b562a850b85039be0f9108d28fde64c3f390c183f92"
 blocks: [WD-lvix, WD-fq1o]
 was_blocked_by: [WD-lhm4]
 assignee: dev-WD-fp49
@@ -103,7 +103,28 @@ status: new
 
 
 ## Notes
+## Scope Amendment (dispatcher review) — protected-path list corrected
 
+The dispatch for this story protected `scripts/run_jobs.py` and all of `qc/` as byte-identical while
+also requiring the hardcoded `"3090"` and `/home/straughter/Wan2GP` literals to be removed from
+active source. Those two requirements cannot both hold, and the conflict is a dispatch error, not a
+story defect. The developer correctly stopped instead of silently choosing.
+
+Corrected boundary:
+
+- PERMITTED (configuration plumbing only): `scripts/run_jobs.py`, `scripts/run_v3_native_control.py`,
+  `host/`, and replacing the hardcoded interpreter path literal in
+  `qc/audio_critic/av_sync_gate.py` — in each case only so the value comes from configuration or
+  detection. No gate, threshold, retry, ordering, or QC decision logic may change.
+- STILL BYTE-IDENTICAL: `services/director/renderers/policy.py`, `services/director/wiring.py`,
+  `services/jobs/preflight.py`, `scripts/run_film.py`.
+- Verification command for the delivery: `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` must exit 0.
+  A diff in `scripts/run_jobs.py` or `qc/audio_critic/av_sync_gate.py` is expected and must be
+  explained in the delivery notes as configuration plumbing.
+- The literal-count acceptance criterion is unchanged: zero `"3090"` or `/home/straughter/Wan2GP`
+  literals in active source under `host/ services/ scripts/ predict/ qc/` (tests and `datasets/`
+  excluded). Baseline measured at `5dadcda`: 20 occurrences.
+- Any change to gate/retry/QC semantics anywhere remains a rejection.
 
 ## History
 - 2026-09-21T13:56:16Z dep_added: blocked_by WD-lhm4
