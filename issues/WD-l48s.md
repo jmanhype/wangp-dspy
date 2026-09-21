@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:16:33Z
-content_hash: "sha256:0ba4f93006af630308ae007c0dbbccbec28c8847ea4afd044e0a0ca9f483d5bb"
+content_hash: "sha256:b5b250bbf9d1cec6098adf290232a0fed7bdbfb23db8d42d2b79a49d469ec5bb"
 ---
 
 ## Description
@@ -161,6 +161,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-21.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
 
 
 ## nd_contract
