@@ -133,6 +133,21 @@ records the verifying machine's host configuration as non-compared context. It
 deliberately does **not** promise byte-identical pixels: a generative render is
 lossy. See [docs/recipe.md](docs/recipe.md).
 
+## Release readiness
+
+Before requesting release authorization, run the local, read-only preflight:
+
+```bash
+uv run --frozen --extra dev wgp release verify
+uv run --frozen --extra dev wgp release verify --json
+```
+
+It checks version agreement, the changelog, recipe compatibility, and clean-tree
+discipline. A clean result names the tag-ready `v<VERSION>` label and states that
+no tag was created; tagging and publishing remain operator-authorized. See the
+[release checklist](docs/recipe.md#release-checklist) for outputs, exit codes,
+and troubleshooting.
+
 ## Troubleshooting
 
 `wgp doctor`, `wgp status`, and `wgp review` emit typed diagnostics in human and JSON modes: what happened, why, the safe next command, and the evidence path. See the complete [failure catalog](docs/troubleshooting.md) for SSH, model, disk, gate, retry, provenance, and unknown-class codes.

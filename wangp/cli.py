@@ -31,6 +31,7 @@ from wangp.queue_view import (
     render_status,
     review_run,
 )
+from wangp.release import ReleaseError, verify_release
 from wangp.recipe import (
     RecipeError,
     build_recipe,
@@ -319,6 +320,40 @@ def _run_recipe_verify(args: argparse.Namespace) -> int:
     return EXIT_OK if not drift else EXIT_INPUT
 
 
+def _run_release_verify(args: argparse.Namespace) -> int:
+    try:
+        verification = verify_release(_repository_root())
+    except ReleaseError as exc:
+        diagnostic = classify_input_failure(
+            str(exc), source=str(_repository_root()),
+            next_command="wgp release verify --json")
+        if args.json:
+            payload = {"diagnostics": [diagnostic.mapping()]}
+            if exc.verification is not None:
+                payload["release"] = exc.verification.mapping()
+            _emit_json(payload)
+        else:
+            if exc.verification is not None:
+                for check in exc.verification.checks:
+                    print(
+                        f"check={check.name} status={check.status} "
+                        f"expected={check.expected!r} observed={check.observed!r}")
+                print("release=not_ready")
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
+
+    if args.json:
+        _emit_json({"release": verification.mapping()})
+    else:
+        print(f"version={verification.version}")
+        for check in verification.checks:
+            print(f"check={check.name} status={check.status}")
+        print(f"tag-ready={verification.tag}\n"
+              f"tag_created={str(verification.tag_created).lower()}\n"
+              f"{verification.guidance}\nrelease=ready")
+    return EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the stable parser without registering unstable verbs."""
 
@@ -388,6 +423,14 @@ def build_parser() -> argparse.ArgumentParser:
     recipe_verify.add_argument("--run", required=True, help="run review-bundle directory")
     recipe_verify.add_argument("--json", action="store_true")
     recipe_verify.set_defaults(handler=_run_recipe_verify)
+
+    release = commands.add_parser("release",
+                                  help="verify local release readiness without releasing")
+    release_commands = release.add_subparsers(dest="release_verb", required=True)
+    release_verify = release_commands.add_parser(
+        "verify", help="check version, changelog, recipe, and tree readiness")
+    release_verify.add_argument("--json", action="store_true")
+    release_verify.set_defaults(handler=_run_release_verify)
     return parser
 
 

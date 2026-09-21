@@ -84,3 +84,27 @@ run bundle, and never mutate a queue.
   recorded and never compared.
 - **Operator acceptance.** A recipe records `creative_acceptance` state only as
   far as the run's provenance does; it never asserts a creative verdict.
+
+## Release checklist
+
+```bash
+uv run --frozen --extra dev wgp release verify
+uv run --frozen --extra dev wgp release verify --json
+```
+
+The local, read-only command checks:
+
+1. root `VERSION`, `[project] version`, and `wangp.__version__` agree;
+2. `CHANGELOG.md` has an exact `## [VERSION]` entry;
+3. committed LF004 evidence builds with `wangp-dspy.render-recipe/v3`;
+4. repository identity has no changes and fails closed on opaque untracked paths.
+
+A clean result names the tag-ready label (currently `v0.1.0`) and says `tag_created=false`;
+it creates no tag, branch, distribution, host call, SSH call, GPU work, or artifact.
+
+Exit codes follow the CLI contract: `0` clean, `2` typed readiness/input
+failure with the failing check and source, and `4` unexpected internal failure.
+`--json` emits every value, failure, verdict, and tag boundary in stable JSON.
+
+If `tree` fails, preserve evidence outside the repository, then commit changes or remove
+disposable untracked output; never weaken identity.
