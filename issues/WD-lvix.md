@@ -8,8 +8,8 @@ labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T20:44:07Z
-content_hash: "sha256:f3d17034fe338a0bd549e245162ab834ddcc50b0d27e02b0b76317322d6534a2"
+updated_at: 2026-09-21T20:44:13Z
+content_hash: "sha256:bc4fedcbcc9aeac9ac40738e2be85adbcbde4166aed2b41fa3beb7be9309f556"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 follows: [WD-fp49, WD-m1sj, WD-lhm4]
@@ -105,7 +105,14 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Rework claimed by dev-WD-lvix on 2026-09-21 to address the seven reproduced rejection defects.
+
+### proof
+- [ ] Pending reimplementation and verification.
 
 ## nd_contract
 status: rejected
