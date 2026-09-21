@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:28:43Z
-content_hash: "sha256:f4fc3a960deb3da9e07cba19515ffc3b94cc6cf01f2f3366a1c56eb18af7d055"
+updated_at: 2026-09-21T16:28:57Z
+content_hash: "sha256:e4f9d0f2f6214a0e3ff85435ea52472b0de1275dbfb0b7cac3da8eb73b17f3fc"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -115,6 +115,7 @@ Delivery correction: the prior in_progress contract is stale; WD-lhm4 is deliver
   context: A race/ordering in  added the delivered label and appended transition evidence, then returned exit 1 with . The story ends in the correct  +  state, but retrying the documented transition fails.
   affected_files: pvg story-delivery transition implementation
   discovered_during: WD-lhm4
+DISCOVERED_BUG clarification: the failed transition command was pvg story deliver WD-lhm4. Its exact stderr was: labels add WD-lhm4 delivered: Error: label delivered already exists on WD-lhm4. The intended story state is in_progress with delivered label, and that final state is present.
 
 ## nd_contract
 status: delivered
