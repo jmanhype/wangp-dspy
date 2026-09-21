@@ -1,17 +1,17 @@
 ---
 id: WD-ssdt
 title: "Reject content-brief guide duration mismatches before planning"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [bug, rejected]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:33:26Z
-content_hash: "sha256:f68f9ca55e8cef4d570a8e62b0afc579b010eb55c11f678009f156f01512eab1"
+updated_at: 2026-09-21T00:33:31Z
+content_hash: "sha256:187dca715160ed64d46ef5d694d1c91e84051461f55c91def0ab726e5a84231e"
 assignee: dev-WD-ssdt
-follows: [WD-z46c, WD-rj6e]
+follows: [WD-z46c, WD-rj6e, WD-rb1f]
 closed_at: 2026-09-21T00:25:02Z
 close_reason: "Accepted: independently re-ran targeted and full pytest at e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b (19/19 targeted; full exit 0 with one disclosed WANGP_3090 live-hardware skip); diff contains only predict/content_brief.py and tests/test_content_brief.py, with policy/wiring/CLI byte-identical to main; real ffprobe preflight compares every supplied guide to declared/default duration at 1e-6 before any side effect; amendment fallback rejects audio_filler_policy and every mismatch; negative CLI paths and my adversarial probes left no plan, run dir, ledger, or jobs DB; integration fixtures use real ffmpeg/ffprobe with no mocks or skips; no QC/AV/retry/vision/Whisper/mouth-box/SyncNet gate changed."
 ---
@@ -301,10 +301,12 @@ status: new
 - 2026-09-21T00:25:02Z status: in_progress -> closed
 - 2026-09-21T00:25:02Z dep_removed: no_longer_blocks WD-42no
 - 2026-09-21T00:27:17Z status: closed -> open
+- 2026-09-21T00:33:31Z status: open -> in_progress
+- 2026-09-21T00:33:31Z auto-follows: linked to predecessor WD-rb1f
 
 ## Links
 - Parent: [[WD-h73w]]
-- Follows: [[WD-z46c]], [[WD-rj6e]]
+- Follows: [[WD-z46c]], [[WD-rj6e]], [[WD-rb1f]]
 
 ## Comments
 
