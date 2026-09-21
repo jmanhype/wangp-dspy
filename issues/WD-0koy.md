@@ -9,7 +9,8 @@ parent: WD-59qe
 created_at: 2026-09-21T13:51:59Z
 created_by: speed
 updated_at: 2026-09-21T13:51:59Z
-content_hash: "sha256:3f27929142922ff28fb813fff948cc6cff1de11771c61072e880b24159e10d30"
+content_hash: "sha256:e2f0026aeb8ec0b4666bfedf1927470b323cca39947c26b2dbe0e3231a4fe45b"
+blocked_by: [WD-yz42]
 ---
 
 ## Description
@@ -92,9 +93,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:51:59Z dep_added: blocked_by WD-yz42
 
 ## Links
 - Parent: [[WD-59qe]]
+- Blocked by: [[WD-yz42]]
 
 ## Comments
