@@ -9,8 +9,8 @@ parent: WD-8zod
 created_at: 2026-09-21T13:54:12Z
 created_by: speed
 updated_at: 2026-09-21T13:54:12Z
-content_hash: "sha256:dc8224c3fdbdf426e0f943ad64b19969850b69d5a8c888e649399b4335113c61"
-blocks: [WD-k32a]
+content_hash: "sha256:7a75d9309b590ecc77b66c6a1cef1ffb600aa37c045293548f29750804b03f47"
+blocks: [WD-k32a, WD-bc6w]
 ---
 
 ## Description
@@ -100,9 +100,10 @@ status: new
 
 ## History
 - 2026-09-21T13:54:12Z dep_added: blocks WD-k32a
+- 2026-09-21T13:54:13Z dep_added: blocks WD-bc6w
 
 ## Links
 - Parent: [[WD-8zod]]
-- Blocks: [[WD-k32a]]
+- Blocks: [[WD-k32a]], [[WD-bc6w]]
 
 ## Comments
