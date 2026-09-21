@@ -9,7 +9,8 @@ parent: WD-j3wm
 created_at: 2026-09-21T13:55:23Z
 created_by: speed
 updated_at: 2026-09-21T13:55:23Z
-content_hash: "sha256:a7369890624f57ee400888b217f9a323ad4ab757c9423dfc21999a95f66c2aac"
+content_hash: "sha256:98c9795f5515860dc98d866aa2431ac86c55311f85a4ffc493828cf394f12b01"
+blocked_by: [WD-ak43]
 ---
 
 ## Description
@@ -108,9 +109,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:55:23Z dep_added: blocked_by WD-ak43
 
 ## Links
 - Parent: [[WD-j3wm]]
+- Blocked by: [[WD-ak43]]
 
 ## Comments
