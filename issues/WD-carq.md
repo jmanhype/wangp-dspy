@@ -8,8 +8,8 @@ labels: [integration, external-integration, rejected, rejected-x3]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T22:46:46Z
-content_hash: "sha256:a93d0c21676409adf90193ec0d8bd894f31ef33bbe308336f5dcc296a292b457"
+updated_at: 2026-09-21T23:02:37Z
+content_hash: "sha256:fe5a64409fbed2f3f33158b0aa121a52aafbe0c0f65f51cd50a0f9927ed6e7bc"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49]
@@ -114,7 +114,56 @@ status: new
 
 
 ## Notes
+## Rework Evidence (v3 recipe contract)
 
+Summary: after the third rejection, `wangp/recipe.py` was rebuilt on schema
+`wangp-dspy.render-recipe/v3` and `tests/test_recipe.py` rewritten to that
+contract. All three defects in the rejection FIX list are closed by construction:
+referenced-file resolution is confined to the bundle under review plus this
+repository, required artifacts fail closed instead of being omitted, and every
+consumed provenance section (including nested cut mappings) is validated as
+typed input.
+
+Head: `982c047188414d38b690c4992fcb371ccde0495e` on `story/WD-carq`
+(PR #155, http://github.com/jmanhype/wangp-dspy/pull/155)
+- CI check `test` id 106549314311: completed / **success** at 982c047.
+- `uv run --frozen --extra dev pytest tests/test_recipe.py -q` -> **33 passed**
+- `uv run --frozen --extra dev pytest -q` -> **1652 tests, 0 failures, 0 errors, 1 skipped** (junitxml 76.7s)
+- `uv build --out-dir <tmp>` -> `wangp_dspy-0.1.0-py3-none-any.whl`, `wangp_dspy-0.1.0.tar.gz`
+
+Direct CLI probes (workdir `/tmp/wgp-ev.Uil823`, no GPU, no host contact):
+1. write real LF004 run -> exit 0, `pinned_fields=64`, recipe sha256 `6b15569877f1...`; flattened pinned contains **zero** absolute paths.
+2. verify same run -> exit 0, `drift=0 verified=true`.
+3. two independent copies of the run -> one unique recipe sha256 (byte-identical recipes).
+4. one byte appended to a *copied* bundle's `assembled.mp4` -> exit 2,
+   `drift field=pinned.assembled_media.sha256 status=changed expected=2659ded7... observed=dd8e7c4a...`
+5. `assembled.mp4` deleted in a copy -> write exit 2 with typed diagnostic
+   `assembled media: required artifact is missing from this run review bundle: assembled.mp4`
+   and no recipe file created; verify exit 2 with the same field-specific message and no `verified=true`.
+6. pinned shapes are relative only: `assembled_media.path=assembled.mp4`,
+   `cuts[0].path=datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4`,
+   `queue_database.path=datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db`.
+
+New coverage added to `tests/test_recipe.py` (33 cases): delete-before-write and
+delete-before-verify fail-closed, tampered bundle copies, per-cut media re-hashing
+from bytes (`pinned.cuts[1].sha256 status=changed`), two-copy byte stability,
+relative-path-only pinning, and a 14-case nested shape matrix
+(`cuts`, `cuts.0`, `cuts.0.whisper`, `cuts.0.whisper.pre`, `cuts.0.vision`,
+`cuts.0.av_sync`, `cuts.0.av_sync.pass_bar`, `inputs`, `operator_approval`,
+`final_media`, `queue_evidence`, `settings_hashes`, `retry_policy`,
+`reconciliation`) each exiting 2 with a typed diagnostic instead of exit 4.
+
+Read-only / no-GPU evidence:
+- `git status --porcelain datasets` -> 0 lines (committed evidence untouched).
+- Recipe verbs make no SSH call: the fake-`ssh` test asserts the log file is never
+  created, and the run directory listing is identical before/after.
+- `git diff --exit-code main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` -> exit 0.
+- `grep -rn "3090\|/home/straughter/Wan2GP" wangp/recipe.py tests/test_recipe.py docs/recipe.md README.md` -> 0 hits.
+
+### Proof
+- [x] AC #2: same logical run is byte-stable across two copied bundles (identical recipe bytes).
+- [x] AC #3: missing required artifact fails closed at write and verify; no stale-worktree substitution remains.
+- [x] AC #3/#4: every consumed section and nested cut mapping exits 2 as typed input, never AttributeError.
 
 ## nd_contract
 status: rejected
