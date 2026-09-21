@@ -9,9 +9,9 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-21T01:02:47Z
-content_hash: "sha256:9626173ce48963c661d56dea8bf2c559f314c46fb701e03ea0f094738b83573f"
-blocked_by: [WD-rb1f, WD-rj6e, WD-g125]
-was_blocked_by: [WD-z46c, WD-ssdt]
+content_hash: "sha256:0fdc6f31e8898dfe28ef3ed7ed302ca0582ff46e5c995641e2dbc42ff70d920a"
+blocked_by: [WD-rb1f, WD-rj6e]
+was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
 follows: [WD-z46c]
 ---
@@ -339,11 +339,12 @@ Authorization: exactly one governed LF004 production execution through the accep
 - 2026-09-20T23:53:58Z dep_added: blocked_by WD-ssdt
 - 2026-09-21T00:25:02Z dep_removed: was_blocked_by WD-ssdt
 - 2026-09-21T01:07:33Z dep_added: blocked_by WD-g125
+- 2026-09-21T04:28:17Z dep_removed: was_blocked_by WD-g125
 
 ## Links
 - Parent: [[WD-h73w]]
-- Blocked by: [[WD-rb1f]], [[WD-rj6e]], [[WD-g125]]
-- Was blocked by: [[WD-z46c]], [[WD-ssdt]]
+- Blocked by: [[WD-rb1f]], [[WD-rj6e]]
+- Was blocked by: [[WD-z46c]], [[WD-ssdt]], [[WD-g125]]
 - Follows: [[WD-z46c]]
 
 ## Comments
