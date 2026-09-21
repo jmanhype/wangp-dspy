@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T13:56:15Z
-content_hash: "sha256:7ccaf3ec6472f15f050ee539a73e3510dd125acee1035e71222b462d6616aaa6"
+updated_at: 2026-09-21T13:59:00Z
+content_hash: "sha256:010fa4c3638246ef8eaa481751ea77091a8dedb7926885942fcfc257f8f03ecd"
 blocked_by: [WD-3nwm]
 blocks: [WD-fp49, WD-fq1o]
 ---
@@ -120,3 +120,6 @@ status: new
 - Blocked by: [[WD-3nwm]]
 
 ## Comments
+
+### 2026-09-21T13:59:00Z speed
+Self-contained data note: the real read-only queue integration fixture is the Git-tracked database datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db. Tests must copy it to temporary storage before opening if SQLite could create WAL/SHM sidecars; the committed database must remain byte-identical.
