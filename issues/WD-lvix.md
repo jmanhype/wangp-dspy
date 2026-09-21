@@ -1,18 +1,19 @@
 ---
 id: WD-lvix
 title: "Present actionable failure diagnostics"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T20:40:20Z
-content_hash: "sha256:602f63251f978ce886dc534c8a5b674a69c2137c17e5f1f0eceb2175f69c2295"
+updated_at: 2026-09-21T20:44:07Z
+content_hash: "sha256:f3d17034fe338a0bd549e245162ab834ddcc50b0d27e02b0b76317322d6534a2"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
-follows: [WD-fp49, WD-m1sj]
+follows: [WD-fp49, WD-m1sj, WD-lhm4]
+assignee: dev-WD-lvix
 ---
 
 ## Description
@@ -248,12 +249,15 @@ status: in_progress
 - 2026-09-21T20:28:22Z auto-follows: linked to predecessor WD-m1sj
 - 2026-09-21T20:40:19Z status: in_progress -> open
 - 2026-09-21T20:40:19Z released by speed
+- 2026-09-21T20:44:07Z status: open -> in_progress
+- 2026-09-21T20:44:07Z auto-follows: linked to predecessor WD-lhm4
+- 2026-09-21T20:44:07Z claimed by dev-WD-lvix
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-carq]], [[WD-fq1o]]
 - Was blocked by: [[WD-fp49]]
-- Follows: [[WD-fp49]], [[WD-m1sj]]
+- Follows: [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]]
 
 ## Comments
 
