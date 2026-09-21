@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:03:45Z
-content_hash: "sha256:460c9955e051203c2f80a75dfca183e48178b37aad051492c4ed9bb954252bf9"
+updated_at: 2026-09-21T15:08:50Z
+content_hash: "sha256:6a432cbadca74f848602b9e65bcf86408f85959062db6bcf04067290838c48ba"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,6 +98,31 @@ status: new
 
 
 ## Notes
+## Rework (head 58ff84d) — four review findings fixed
+
+The independent acceptor rejected the first delivery on four real findings. All are resolved.
+
+1. **Licence authority + completeness (mine, not the developer's).** I instructed Apache-2.0; the story's own boundary map required a conservative source-available/no-redistribution notice, and licensing is an owner decision, not mine. The delivered Apache text was also non-canonical (missing "For the purposes of this License,"). `LICENSE` is now the conservative notice: "All rights reserved", "NO LICENCE GRANTED", explicit statement that a permissive licence may be adopted only by a recorded owner decision, and a pointer to third-party terms. The hygiene test now asserts the reserved-rights notice is present AND that no Apache/MIT grant appears, so a silent relicensing in either direction fails CI. **Operator decision still open:** naming a legal copyright holder and choosing any OSS licence.
+2. **False third-party claim.** The notices asserted no Maestro source is copied verbatim, while the repository commits a 3-file test-only Maestro excerpt corpus under `tests/fixtures/maestro_reference/`. The notice now discloses that corpus, its upstream Maestro terms, its exclusion from the product surface and package builds, and states the narrower checkable claim the guard actually enforces (no shared non-trivial verbatim run of >=21 significant lines in production code).
+3. **Wrong ffmpeg/ffprobe claim.** Planning needs `ffprobe` only; `ffmpeg` is needed for media preparation and post-processing. The README's requirements, quickstart note and troubleshooting entry now say exactly that.
+4. **Overstated review-artifact wildcard + narrative ordering.** The README now names the four accepted LF004 recovery worker directories explicitly and states that other `acceptance/*` directories are preserved partial or refused attempts (authoritative only when `qc-evidence.json` exists), and "read from the top down" is replaced by "read by section (top-level keys are alphabetical)".
+
+Verification at 58ff84d: doc-test 3 passed; LICENSE/THIRD_PARTY_NOTICES/README contain zero Apache references; required CI SUCCESS (run 35612305086, head 58ff84d36673).
+
+### Acceptance-criteria map
+
+| Criterion | Evidence |
+|---|---|
+| Hygiene files present and non-empty | `LICENSE`, `VERSION`, `CHANGELOG.md`, `CONTRIBUTING.md`, `THIRD_PARTY_NOTICES.md`; asserted by the hygiene test |
+| VERSION agrees with the package | `VERSION` == `0.1.0` == `pyproject.toml`; asserted |
+| Documented quickstart actually runs | Doc-test extracts the fenced bash blocks from `README.md` and runs them in a clean worktree; 3 tests pass |
+| No-GPU only, no side effects | Quickstart writes only under `${TMPDIR}/wangp-quickstart`; summary asserts `dry_run true`, `gpu_work false`, `queue_submitted false` |
+| Troubleshooting is true | ffprobe/ffmpeg split, plate discovery, host configuration, disk headroom, gate rejection, and the `RepositoryIdentityError` fail-closed item each re-verified against code |
+| Architecture list accurate | `predict/`, `services/director/`, `services/chain/`, `services/jobs/`, `host/`, `qc/`, `scripts/`, `datasets/`, `renders/` all exist |
+| Internal links resolve | asserted by the link test |
+| No production code touched | `git diff --exit-code main -- services/ qc/ host/ predict/ scripts/run_film.py scripts/run_jobs.py` exits 0 |
+| Licensing honest | Conservative notice + third-party separation + disclosed Maestro fixture corpus; no OSS grant asserted |
+
 ## Additional PM Rejection Evidence — Maestro notice precision (2026-09-21)
 EXPECTED: THIRD_PARTY_NOTICES.md must conservatively disclose all Maestro material and preserve the no-verbatim/clean-room boundary.
 DELIVERED: THIRD_PARTY_NOTICES.md:7 says no Maestro source is “vendored or copied verbatim,” while the repository already commits 1,823 lines of Maestro reference excerpts under `tests/fixtures/maestro_reference/{maestro_corpus.txt,maestro_plan_orch.txt,maestro_schema_policies.txt}`. `tests/test_no_maestro_verbatim.py:1-15` identifies those files as a checked-in excerpt corpus and only checks production-side runs of at least 21 non-trivial lines (with a stride of five).
