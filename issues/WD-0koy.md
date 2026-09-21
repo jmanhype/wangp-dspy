@@ -9,8 +9,8 @@ parent: WD-59qe
 created_at: 2026-09-21T13:51:59Z
 created_by: speed
 updated_at: 2026-09-21T13:51:59Z
-content_hash: "sha256:d8374ee56824baab0d727e541fe989f6f046a549672474e273835a00a9a34e39"
-blocked_by: [WD-yz42, WD-j8j1, WD-fkrk, WD-5cqh]
+content_hash: "sha256:ee00c336cc027e4061396c063c849f92cf65aa51a81893cdb0a2cb2182ef741a"
+blocked_by: [WD-yz42, WD-j8j1, WD-fkrk, WD-5cqh, WD-0uty]
 ---
 
 ## Description
@@ -97,9 +97,10 @@ status: new
 - 2026-09-21T13:52:00Z dep_added: blocked_by WD-j8j1
 - 2026-09-21T13:52:00Z dep_added: blocked_by WD-fkrk
 - 2026-09-21T13:52:00Z dep_added: blocked_by WD-5cqh
+- 2026-09-21T13:52:00Z dep_added: blocked_by WD-0uty
 
 ## Links
 - Parent: [[WD-59qe]]
-- Blocked by: [[WD-yz42]], [[WD-j8j1]], [[WD-fkrk]], [[WD-5cqh]]
+- Blocked by: [[WD-yz42]], [[WD-j8j1]], [[WD-fkrk]], [[WD-5cqh]], [[WD-0uty]]
 
 ## Comments
