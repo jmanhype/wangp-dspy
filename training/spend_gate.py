@@ -165,6 +165,8 @@ def _row_identity(row: Mapping[str, Any]) -> dict[str, Any]:
 
     identity = without_paths(row)
     identity.pop("source_git_available", None)
+    if isinstance(identity.get("preflight"), dict):
+        identity["preflight"].pop("plate_available", None)
     return identity
 
 
