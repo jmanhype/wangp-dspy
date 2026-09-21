@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T18:24:52Z
-content_hash: "sha256:cc0c7c2b7e7336f6cb8a9608a9c5f61b006e85a6a280b92f674ac4796506857f"
+content_hash: "sha256:bb689f8a669fc9d93f436f8b97d15f76230fc6fbf7bb043f489644eeca6ccc9b"
 blocks: [WD-lvix, WD-fq1o]
 was_blocked_by: [WD-lhm4]
 assignee: dev-WD-fp49
@@ -103,6 +103,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
