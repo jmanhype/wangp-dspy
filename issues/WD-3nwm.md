@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:01:40Z
-content_hash: "sha256:bd45e84ca7fc123c0a032a6bababee52980bd3faba43e5cf30ba925705d403ac"
+updated_at: 2026-09-21T15:03:02Z
+content_hash: "sha256:ebb8878b2f8669c6ccf4ffe523e1356b9d1b9da1cda704f7f025638788b2b87c"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,7 +98,11 @@ status: new
 
 
 ## Notes
-
+## Additional PM Rejection Evidence (2026-09-21)
+EXPECTED: README:90 says planning fails before emitting a plan if either ffmpeg or ffprobe is unavailable.
+DELIVERED: With a PATH containing git and ffprobe but deliberately no ffmpeg, the exact committed-brief quickstart completed successfully and emitted the four-clip summary. The reachable code uses ffprobe in `predict/content_brief.py:239-263`; ffmpeg is only materialized for absent audio guides in `services/director/wiring.py:99-120`, while this committed brief supplies existing guides at `services/director/wiring.py:204-216`.
+GAP: The troubleshooting entry makes a false universal failure claim for ffmpeg on the tested LF004 quickstart.
+FIX: State precisely that ffprobe is required for guide validation and ffmpeg is required only when a guide must be materialized (or for render/assembly paths), and add a negative test for the actually required tool boundary.
 
 ## nd_contract
 status: rejected
