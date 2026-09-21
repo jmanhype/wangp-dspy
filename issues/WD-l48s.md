@@ -1,15 +1,15 @@
 ---
 id: WD-l48s
 title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [walking-skeleton, capstone, e2e, rejected]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T13:14:00Z
-content_hash: "sha256:14eca1c76580d7650735851d8ce1b81e0e4cfc694046b1bb146a22c7eed5152b"
+updated_at: 2026-09-21T13:14:06Z
+content_hash: "sha256:e60b5d39be621b72fd30ae1228a005ce2e2ed9f4e6f81ac5520e07df6b542d14"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 assignee: dev-WD-l48s
@@ -488,6 +488,7 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - 2026-09-21T12:24:08Z status: in_progress -> in_progress
 - 2026-09-21T12:31:05Z status: in_progress -> closed
 - 2026-09-21T12:35:04Z status: closed -> open
+- 2026-09-21T13:14:06Z status: open -> in_progress
 
 ## Links
 - Parent: [[WD-as25]]
