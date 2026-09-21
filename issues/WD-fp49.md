@@ -1,18 +1,17 @@
 ---
 id: WD-fp49
 title: "Resolve render hosts from zero-config configuration"
-status: in_progress
+status: open
 priority: 1
 type: feature
 labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T18:24:52Z
-content_hash: "sha256:bb689f8a669fc9d93f436f8b97d15f76230fc6fbf7bb043f489644eeca6ccc9b"
+updated_at: 2026-09-21T18:39:27Z
+content_hash: "sha256:7d333bc68cdc74885b686ce406b765049bcf61f8462cd8b1757393ee820d99be"
 blocks: [WD-lvix, WD-fq1o]
 was_blocked_by: [WD-lhm4]
-assignee: dev-WD-fp49
 follows: [WD-lhm4, WD-m1sj]
 ---
 
@@ -235,6 +234,8 @@ Corrected boundary:
 - 2026-09-21T17:45:17Z claimed by dev-WD-fp49
 - 2026-09-21T18:24:52Z status: in_progress -> in_progress
 - 2026-09-21T18:24:52Z auto-follows: linked to predecessor WD-m1sj
+- 2026-09-21T18:39:27Z status: in_progress -> open
+- 2026-09-21T18:39:27Z released by speed
 
 ## Links
 - Parent: [[WD-t534]]
