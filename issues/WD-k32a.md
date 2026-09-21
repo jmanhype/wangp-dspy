@@ -9,9 +9,9 @@ parent: WD-8zod
 created_at: 2026-09-21T13:54:12Z
 created_by: speed
 updated_at: 2026-09-21T13:54:12Z
-content_hash: "sha256:510ad35a22705764a6f52fbc684ba788f24f61176a5610749b76cfb48698b32c"
+content_hash: "sha256:d378f68afaff4078bb0bc590288a40c12f94e2e68ac95133df6def0374b56b18"
 blocked_by: [WD-i8w6]
-blocks: [WD-zkcu]
+blocks: [WD-zkcu, WD-bc6w]
 ---
 
 ## Description
@@ -112,10 +112,11 @@ status: new
 ## History
 - 2026-09-21T13:54:12Z dep_added: blocked_by WD-i8w6
 - 2026-09-21T13:54:12Z dep_added: blocks WD-zkcu
+- 2026-09-21T13:54:13Z dep_added: blocks WD-bc6w
 
 ## Links
 - Parent: [[WD-8zod]]
-- Blocks: [[WD-zkcu]]
+- Blocks: [[WD-zkcu]], [[WD-bc6w]]
 - Blocked by: [[WD-i8w6]]
 
 ## Comments
