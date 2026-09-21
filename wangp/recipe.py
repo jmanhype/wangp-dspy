@@ -164,6 +164,43 @@ def _cut_media(bundle: Path, cut: Mapping[str, Any]) -> dict[str, Any]:
     return entry
 
 
+def _split_available(recipe: dict[str, Any]) -> dict[str, Any]:
+    """Compare only artifacts that could actually be hashed when pinning.
+
+    A checkout without the render media (a CI checkout, or a bundle whose
+    artifacts were never committed) cannot hash those files. Rather than pinning
+    a null that would compare equal to another null -- the defect the v1 recipe
+    shipped with -- unavailable artifacts are recorded explicitly and excluded
+    from comparison. An artifact that WAS hashed and has since disappeared or
+    changed is still reported as ``missing``/``changed``.
+    """
+    pinned = recipe.get("pinned") or {}
+    unavailable: list[dict[str, Any]] = []
+    containers = [
+        ("assembled_media", pinned.get("assembled_media")),
+        ("queue_database", pinned.get("queue_database")),
+    ]
+    for label, container in containers:
+        entry = container.get("file") if isinstance(container, dict) else None
+        if isinstance(entry, dict) and entry.get("present") is False:
+            unavailable.append({
+                "label": label, "path": entry.get("path"),
+                "reason": "file not present when the recipe was written",
+            })
+            container.pop("file", None)
+    for index, cut in enumerate(pinned.get("cuts") or []):
+        entry = cut.get("video") if isinstance(cut, dict) else None
+        if isinstance(entry, dict) and entry.get("present") is False:
+            unavailable.append({
+                "label": f"cuts[{index}].video", "path": entry.get("path"),
+                "reason": "file not present when the recipe was written",
+            })
+            cut.pop("video", None)
+    if unavailable:
+        pinned["unavailable_artifacts"] = unavailable
+    return recipe
+
+
 def _plan_hashes(provenance: Mapping[str, Any]) -> dict[str, Any]:
     """Canonical and raw plan identity, including path-keyed older formats."""
     approval = provenance.get("operator_approval") or {}
@@ -244,6 +281,7 @@ def build_recipe(
         },
         "not_promised": list(NOT_PROMISED),
     }
+    _split_available(recipe)
     return redact_sensitive(recipe)
 
 

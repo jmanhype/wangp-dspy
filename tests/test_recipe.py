@@ -74,8 +74,14 @@ def test_recipe_write_pins_real_provenance_values(tmp_path: Path) -> None:
     assert pinned["plan"]["raw_plan_sha256"] == provenance["inputs"]["plan_sha256"]
     assert pinned["brief"]["raw_sha256"] == provenance["inputs"]["brief_sha256"]
     assert pinned["assembled_media"]["recorded_sha256"] == provenance["final_media"]["sha256"]
-    assert pinned["assembled_media"]["file"]["sha256"] == provenance["final_media"]["sha256"]
-    assert pinned["assembled_media"]["file"]["present"] is True
+    if "file" in pinned["assembled_media"]:
+        # Artifact present in this checkout: it is pinned by live hash.
+        assert pinned["assembled_media"]["file"]["sha256"] == provenance["final_media"]["sha256"]
+    else:
+        # Artifact absent (for example a CI checkout without render media): it is
+        # recorded as explicitly unavailable rather than pinned as a null.
+        labels = {entry["label"] for entry in pinned["unavailable_artifacts"]}
+        assert "assembled_media" in labels
     assert pinned["retry_policy"] == provenance["retry_policy"]
     assert pinned["recorded_settings_hashes"] == provenance["settings_hashes"]
     assert pinned["repository_version"] == (ROOT / "VERSION").read_text().strip()
