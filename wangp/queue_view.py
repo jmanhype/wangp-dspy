@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sqlite3
 from dataclasses import asdict, dataclass
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -57,21 +59,57 @@ def _selected_ids(queue: JobQueue, job_id: str | None) -> list[str]:
     return [identifier for state in JOB_STATES for identifier in queue.list_state(state)]
 
 
-def collect_status(
-    db_path: str | Path, *, job_id: str | None = None
-) -> QueueStatus:
-    """Read durable queue state through public JobQueue APIs only."""
+class _ReadOnlyJobQueue(JobQueue):
+    """A genuinely read-only adapter over the public JobQueue read APIs."""
 
+    def __init__(self, db_path: str | Path):
+        self.db_path = str(db_path)
+        path = Path(db_path).expanduser().resolve()
+        self._db = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+        self._db.row_factory = sqlite3.Row
+        self._db.execute("PRAGMA query_only=ON")
+
+    def attempt_history(self, job_id: str) -> list[dict[str, Any]]:
+        tables = {
+            row["name"]
+            for row in self._db.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            )
+        }
+        if not {"job_attempts", "job_attempt_failures"}.issubset(tables):
+            self.get(job_id)
+            history: list[dict[str, Any]] = []
+            return history
+        return super().attempt_history(job_id)
+
+
+@contextmanager
+def _read_only_queue(db_path: str | Path):
     path = Path(db_path).expanduser().resolve()
     if not path.is_file():
         raise FileNotFoundError(f"queue database does not exist: {path}")
-    queue = JobQueue(path)
+    queue = _ReadOnlyJobQueue(path)
     try:
+        yield queue
+    finally:
+        queue.close()
+
+
+def collect_status(
+    db_path: str | Path, *, job_id: str | None = None
+) -> QueueStatus:
+    """Read durable queue state without journal, schema, or row mutations."""
+
+    path = Path(db_path).expanduser().resolve()
+    with _read_only_queue(path) as queue:
         counts = {state: len(queue.list_state(state)) for state in JOB_STATES}
         selected = _selected_ids(queue, job_id)
         records = [queue.get(identifier) for identifier in selected]
         jobs = [_job_mapping(record) for record in records]
-        attempts = {identifier: queue.attempt_history(identifier) for identifier in selected}
+        attempts = {
+            identifier: queue.attempt_history(identifier)
+            for identifier in selected
+        }
         return QueueStatus(
             db_path=str(path),
             state_counts=counts,
@@ -79,8 +117,6 @@ def collect_status(
             jobs=jobs,
             attempts=attempts,
         )
-    finally:
-        queue.close()
 
 
 def queue_evidence_paths(record: Any) -> list[str]:
@@ -96,18 +132,16 @@ def collect_queue_review(
 ) -> tuple[dict[str, Any], list[str]]:
     """Return durable job clips, failures, attempts, and evidence paths."""
 
-    status = collect_status(db_path, job_id=job_id)
-    if job_id is not None and not status.jobs:
-        raise JobNotFoundError(job_id)
     evidence: list[str] = []
-    queue = JobQueue(status.db_path)
-    try:
+    path = Path(db_path).expanduser().resolve()
+    with _read_only_queue(path) as queue:
+        status = collect_status(path, job_id=job_id)
+        if job_id is not None and not status.jobs:
+            raise JobNotFoundError(job_id)
         for identifier in [job_id] if job_id is not None else [
             job["job_id"] for job in status.jobs
         ]:
             evidence.extend(queue_evidence_paths(queue.get(identifier)))
-    finally:
-        queue.close()
     return status.mapping(), evidence
 
 
@@ -183,15 +217,26 @@ def review_run(run: str | Path) -> dict[str, Any]:
     if bundle.is_file() and bundle.name == "final-provenance.json":
         bundle = bundle.parent
     provenance = bundle / "final-provenance.json"
+    if not bundle.is_dir():
+        raise FileNotFoundError(f"run review bundle does not exist: {bundle}")
+    if not provenance.is_file():
+        raise FileNotFoundError(f"final-provenance.json is missing: {provenance}")
     checks: list[dict[str, str]] = []
     if provenance.is_file():
-        payload = json.loads(provenance.read_text(encoding="utf-8"))
+        try:
+            payload = json.loads(provenance.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"cannot read final provenance {provenance}: {exc}") from exc
         for path, expected in _provenance_pairs(payload):
             artifact = _resolve_artifact(path, bundle)
             if not artifact.is_file():
                 status, detail = "failed", "artifact is missing"
             else:
-                matches = hashlib.sha256(artifact.read_bytes()).hexdigest() == expected
+                artifact_digest = hashlib.sha256()
+                with artifact.open("rb") as artifact_file:
+                    for chunk in iter(lambda: artifact_file.read(1024 * 1024), b""):
+                        artifact_digest.update(chunk)
+                matches = artifact_digest.hexdigest() == expected
                 status, detail = ("pass", "sha256 matches") if matches else (
                     "failed", "sha256 mismatch"
                 )
@@ -201,6 +246,10 @@ def review_run(run: str | Path) -> dict[str, Any]:
                 "status": status,
                 "detail": detail,
             })
+    if not checks:
+        raise ValueError(
+            f"final provenance has no recognized path/sha256 pairs: {provenance}"
+        )
     return {
         "run": bundle.as_posix(),
         "film": (bundle / "assembled.mp4").as_posix(),

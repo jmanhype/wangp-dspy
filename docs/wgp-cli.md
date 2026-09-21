@@ -25,13 +25,22 @@ SQLite, the optional supplied model manifest, host configuration, and local disk
 It reports a missing host configuration as **skipped**, not failed: no-GPU planning
 remains ready.
 
-`--models` accepts either a JSON list or `{"models":[...]}`; every entry has `path`
-and `sha256` fields. A failed local manifest check names the exact missing path.
+`--models` accepts either a JSON list or `{"models":[...]}`. Local and remote files are
+declared explicitly: `local_path` is verified in the workstation namespace and
+`remote_path` is verified in the Wan2GP host namespace. Both require a 64-character
+hexadecimal `sha256`. Relative `remote_path` values are resolved beneath the configured
+Wan2GP root; absolute remote paths are passed unchanged. The legacy `path` field is
+accepted as `local_path`. A failed local check names every missing, unreadable, or
+digest-mismatched path.
 `--db` performs a read-only SQLite reachability check.
 
 `doctor --probe-host --models MANIFEST` is the only mode that contacts a configured
-host. It calls the existing preflight seam and reports exactly these check kinds:
+host. The manifest must contain at least one `remote_path`; otherwise doctor fails
+without contacting the host. It calls the existing preflight seam and reports exactly
+these check kinds:
 `ssh_reachable`, `model_files`, `disk_headroom`, `gpu_state`, and `qc_available`.
+Remote model hashes are checked at their Wan2GP-relative or absolute remote paths, and
+the render volume must retain at least **50 GB** free.
 The current host seam is `WANGP_SSH_TARGET`; a first-class configuration file is
 scheduled by WD-fp49. Without `--probe-host`, doctor makes no SSH or hosted-service
 call. Every failed or skipped check has one concrete remediation line.

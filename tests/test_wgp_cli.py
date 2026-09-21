@@ -8,7 +8,14 @@ import os
 import shutil
 import sqlite3
 import subprocess
+import stat
 from pathlib import Path
+
+from wangp.doctor import (
+    REMOTE_MINIMUM_FREE_GB,
+    _preflight_doctor_checks,
+    remote_model_specs,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +48,24 @@ def _wgp(
 
 def _digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+class _LocalCommandHost:
+    """A real subprocess host seam for deterministic local preflight checks."""
+
+    def __init__(self, command_dir: Path) -> None:
+        self.command_dir = command_dir
+
+    def run_probe(self, argv: list[str], timeout: int = 30) -> tuple[int, str, str]:
+        completed = subprocess.run(
+            [str(self.command_dir / argv[0]), *argv[1:]],
+            text=True,
+            capture_output=True,
+            timeout=timeout,
+            check=False,
+            env={"PATH": f"{self.command_dir}:/usr/bin:/bin"},
+        )
+        return completed.returncode, completed.stdout, completed.stderr
 
 
 def test_help_exposes_exactly_stable_verbs() -> None:
@@ -165,6 +190,75 @@ def test_review_verifies_final_provenance_artifact_hashes() -> None:
     assert "sha256 mismatch" not in result.stdout
 
 
+def test_review_rejects_missing_and_empty_provenance(tmp_path: Path) -> None:
+    absent = tmp_path / "incomplete-run"
+    absent.mkdir()
+    absent_result = _wgp("review", str(absent))
+    assert absent_result.returncode == 2
+    assert "final-provenance.json is missing" in absent_result.stderr
+
+    empty_run = tmp_path / "empty-provenance"
+    empty_run.mkdir()
+    (empty_run / "final-provenance.json").write_text("{}", encoding="utf-8")
+    empty_result = _wgp("review", str(empty_run))
+    assert empty_result.returncode == 2
+    assert "no recognized path/sha256 pairs" in empty_result.stderr
+
+
+def _legacy_queue(path: Path, job_id: str = "legacy-job") -> None:
+    connection = sqlite3.connect(path)
+    connection.executescript(
+        """
+        CREATE TABLE jobs (
+          job_id TEXT PRIMARY KEY,
+          state TEXT NOT NULL,
+          plan_ref TEXT NOT NULL,
+          clips TEXT NOT NULL,
+          failure_count INTEGER NOT NULL DEFAULT 0,
+          failure_class TEXT,
+          failure_detail TEXT,
+          created_at REAL NOT NULL
+        );
+        """
+    )
+    connection.execute(
+        "INSERT INTO jobs VALUES (?,?,?,?,?,?,?,?)",
+        (
+            job_id,
+            "done",
+            "legacy",
+            json.dumps([{"kind": "legacy"}]),
+            0,
+            None,
+            None,
+            1.0,
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+
+def test_status_and_review_open_legacy_queues_read_only(tmp_path: Path) -> None:
+    original_mode = stat.S_IMODE(tmp_path.stat().st_mode)
+    for verb in ("status", "review"):
+        database = tmp_path / f"{verb}-jobs.db"
+        _legacy_queue(database)
+        before = _digest(database)
+        database.chmod(0o444)
+        tmp_path.chmod(0o555)
+        try:
+            args = [verb, "--db", str(database)]
+            if verb == "review":
+                args.extend(["--job", "legacy-job"])
+            result = _wgp(*args)
+            assert result.returncode == 0, result.stdout + result.stderr
+            assert _digest(database) == before
+            assert not list(tmp_path.glob(f"{database.name}-*"))
+        finally:
+            tmp_path.chmod(original_mode)
+            database.chmod(0o644)
+
+
 def test_local_doctor_is_ready_without_host_and_reports_missing_manifest(
     tmp_path: Path,
 ) -> None:
@@ -202,6 +296,28 @@ def test_local_doctor_is_ready_without_host_and_reports_missing_manifest(
     assert "Traceback" not in failed.stdout + failed.stderr
 
 
+def test_local_doctor_hashes_manifest_model_contents(tmp_path: Path) -> None:
+    model = tmp_path / "model.safetensors"
+    model.write_bytes(b"corrupt model bytes")
+    expected = hashlib.sha256(b"unrelated bytes").hexdigest()
+    manifest = tmp_path / "models.json"
+    manifest.write_text(
+        json.dumps([{"local_path": str(model), "sha256": expected}]),
+        encoding="utf-8",
+    )
+    result = _wgp(
+        "doctor",
+        "--models",
+        str(manifest),
+        env_updates={"WANGP_SSH_TARGET": None},
+    )
+    assert result.returncode == 3
+    assert f"[FAIL] model_files: sha256 mismatch {model}" in result.stdout
+    assert "expected" in result.stdout
+    assert "remediation:" in result.stdout
+    assert "ssh_reachable" not in result.stdout
+
+
 def test_configured_host_is_reported_without_implicit_probe() -> None:
     result = _wgp(
         "doctor", env_updates={"WANGP_SSH_TARGET": "unreachable.invalid"}
@@ -211,38 +327,88 @@ def test_configured_host_is_reported_without_implicit_probe() -> None:
     assert "ssh_reachable" not in result.stdout
 
 
-def test_explicit_host_probe_reports_five_existing_preflight_kinds(
-    tmp_path: Path,
-) -> None:
-    manifest = tmp_path / "models.json"
-    manifest.write_text(
-        json.dumps(
-            [{"path": "/does/not/exist.bin", "sha256": "0" * 64}]
-        ),
-        encoding="utf-8",
-    )
+def test_explicit_host_probe_requires_a_manifest() -> None:
     result = _wgp(
-        "doctor",
-        "--probe-host",
-        "--models",
-        str(manifest),
-        env_updates={"WANGP_SSH_TARGET": "127.0.0.1"},
+        "doctor", "--probe-host", env_updates={"WANGP_SSH_TARGET": None}
     )
     assert result.returncode == 3
-    kinds = {
-        line.split("] ", 1)[1].split(":", 1)[0]
-        for line in result.stdout.splitlines()
-        if line.startswith(("[FAIL]", "[PASS]"))
-        and not line.startswith("       ")
-    }
-    assert {
-        "ssh_reachable",
-        "model_files",
-        "disk_headroom",
-        "gpu_state",
-        "qc_available",
-    }.issubset(kinds)
+    assert "[FAIL] model_files:" in result.stdout
+    assert "--models with at least one remote_path" in result.stdout
+    assert "ssh_reachable" not in result.stdout
     assert "Traceback" not in result.stdout + result.stderr
+
+
+def _probe_command_dir(path: Path) -> None:
+    path.mkdir()
+    commands = {
+        "true": "#!/bin/sh\nexit 0\n",
+        "sha256sum": '#!/bin/sh\nexec openssl dgst -sha256 -r "$1"\n',
+        "df": "#!/bin/sh\nprintf '49G\\n'\n",
+        "nvidia-smi": "#!/bin/sh\nexit 0\n",
+        "curl": '#!/bin/sh\nprintf \'{"status":"ok"}\\n\'\n',
+    }
+    for name, body in commands.items():
+        command = path / name
+        command.write_text(body, encoding="utf-8")
+        command.chmod(0o755)
+
+
+def test_host_probe_uses_remote_paths_and_nonzero_disk_minimum(
+    tmp_path: Path,
+) -> None:
+    commands = tmp_path / "probe-bin"
+    _probe_command_dir(commands)
+    model = tmp_path / "remote-root" / "ckpts" / "model.bin"
+    model.parent.mkdir(parents=True)
+    model.write_bytes(b"valid remote model bytes")
+    specs = [
+        {
+            "local_path": "/does/not/exist/local.bin",
+            "remote_path": "ckpts/model.bin",
+            "sha256": _digest(model),
+        },
+        {
+            "local_path": "/does/not/exist/local.bin",
+            "remote_path": str(model),
+            "sha256": _digest(model),
+        },
+    ]
+    normalized = remote_model_specs(specs, wgp_root=tmp_path / "remote-root")
+    assert normalized[0]["path"] == str(model)
+    assert normalized[1]["path"] == str(model)
+
+    report = _preflight_doctor_checks(
+        _LocalCommandHost(commands),
+        specs,
+        wgp_root=tmp_path / "remote-root",
+        disk_path=tmp_path / "remote-root",
+    )
+    by_kind = {check.kind: check for check in report}
+    assert by_kind["model_files"].status == "pass"
+    assert by_kind["disk_headroom"].status == "failed"
+    assert "49G free" in by_kind["disk_headroom"].detail
+    assert f"(min {REMOTE_MINIMUM_FREE_GB}G)" in by_kind["disk_headroom"].detail
+    assert by_kind["ssh_reachable"].status == "pass"
+    assert by_kind["gpu_state"].status == "pass"
+    assert by_kind["qc_available"].status == "pass"
+
+
+def test_host_probe_rejects_a_genuinely_missing_remote_model(
+    tmp_path: Path,
+) -> None:
+    commands = tmp_path / "probe-bin"
+    _probe_command_dir(commands)
+    specs = [{"remote_path": "ckpts/missing.bin", "sha256": "0" * 64}]
+    report = _preflight_doctor_checks(
+        _LocalCommandHost(commands),
+        specs,
+        wgp_root=tmp_path / "remote-root",
+        disk_path=tmp_path / "remote-root",
+    )
+    model_check = next(check for check in report if check.kind == "model_files")
+    assert model_check.status == "failed"
+    missing = tmp_path / "remote-root" / "ckpts" / "missing.bin"
+    assert f"missing {missing}" in model_check.detail
 
 
 def test_doctor_json_is_deterministic_and_secret_free() -> None:
@@ -270,3 +436,82 @@ def test_documented_failure_exit_codes_are_stable(tmp_path: Path) -> None:
     assert internal.returncode == 4
     assert "unexpected internal error" in internal.stderr
     assert "Traceback" not in internal.stderr
+
+
+def test_built_wheel_installs_and_doctor_runs_outside_source(
+    tmp_path: Path,
+) -> None:
+    dist = tmp_path / "dist"
+    build = subprocess.run(
+        ["uv", "build", "--out-dir", str(dist)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        timeout=600,
+        check=False,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+    wheels = list(dist.glob("*.whl"))
+    sdists = list(dist.glob("*.tar.gz"))
+    assert len(wheels) == 1
+    assert len(sdists) == 1
+
+    venv = tmp_path / "installed-venv"
+    environment = subprocess.run(
+        ["uv", "venv", str(venv)],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        timeout=120,
+        check=False,
+    )
+    assert environment.returncode == 0, environment.stdout + environment.stderr
+    install = subprocess.run(
+        [
+            "uv",
+            "pip",
+            "install",
+            "--python",
+            str(venv / "bin" / "python"),
+            str(wheels[0]),
+        ],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        timeout=600,
+        check=False,
+    )
+    assert install.returncode == 0, install.stdout + install.stderr
+
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    doctor = subprocess.run(
+        [str(venv / "bin" / "wgp"), "doctor", "--json"],
+        cwd=tmp_path,
+        env=env,
+        text=True,
+        capture_output=True,
+        timeout=180,
+        check=False,
+    )
+    assert doctor.returncode == 0, doctor.stdout + doctor.stderr
+    payload = json.loads(doctor.stdout)
+    assert payload["ready"] is True
+
+    origin = subprocess.run(
+        [
+            str(venv / "bin" / "python"),
+            "-c",
+            "import scripts, wangp; print(scripts.__file__); print(wangp.__file__)",
+        ],
+        cwd=tmp_path,
+        env=env,
+        text=True,
+        capture_output=True,
+        timeout=30,
+        check=False,
+    )
+    assert origin.returncode == 0, origin.stdout + origin.stderr
+    scripts_path, wangp_path = origin.stdout.splitlines()
+    assert str(ROOT) not in scripts_path
+    assert str(ROOT) not in wangp_path

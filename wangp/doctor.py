@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib
+import hashlib
 import os
 import platform
 import shutil
@@ -14,6 +15,8 @@ from typing import Mapping, Sequence
 
 _REQUIRED_IMPORTS = ("dspy", "fastapi", "pydantic", "requests", "soundfile", "librosa", "numpy", "uvicorn")
 _MINIMUM_FREE_GB = 1.0
+REMOTE_MINIMUM_FREE_GB = 50.0
+REMOTE_WGP_ROOT = "/home/straughter/Wan2GP"
 
 
 @dataclass(frozen=True)
@@ -110,6 +113,14 @@ def _queue_check() -> DoctorCheck:
     )
 
 
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as model:
+        for chunk in iter(lambda: model.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _model_check(models: Sequence[Mapping[str, str]] | None) -> DoctorCheck:
     if models is None:
         return _skip(
@@ -117,18 +128,45 @@ def _model_check(models: Sequence[Mapping[str, str]] | None) -> DoctorCheck:
             "No model manifest supplied; not required for no-GPU planning",
             "Supply --models with path and sha256 entries before host work.",
         )
+    if not models:
+        return _fail(
+            "model_files",
+            "model manifest is empty",
+            "Supply at least one local_path or remote_path entry.",
+        )
+    local_specs = [
+        spec for spec in models if isinstance(spec.get("local_path"), str)
+    ]
+    if not local_specs:
+        return _skip(
+            "model_files",
+            f"{len(models)} remote-only manifest entries; local files are not required",
+            "Supply local_path entries when local model verification is needed.",
+        )
     problems: list[str] = []
-    for spec in models:
-        path = Path(str(spec.get("path", ""))).expanduser()
+    for spec in local_specs:
+        path = Path(str(spec["local_path"])).expanduser()
         if not path.is_file():
             problems.append(f"missing {path}")
+            continue
+        try:
+            actual = _sha256_file(path)
+        except OSError as exc:
+            problems.append(f"unreadable {path}: {exc}")
+            continue
+        expected = str(spec["sha256"]).lower()
+        if actual != expected:
+            problems.append(
+                f"sha256 mismatch {path} "
+                f"(expected {expected[:12]}…, got {actual[:12]}…)"
+            )
     if problems:
         return _fail(
             "model_files",
             "; ".join(problems),
             "Place each manifest file at its recorded local path before host work.",
         )
-    return _pass("model_files", f"{len(models)} manifest entries present locally")
+    return _pass("model_files", f"{len(local_specs)} manifest entries hashed locally")
 
 
 def _host_check() -> DoctorCheck:
@@ -159,27 +197,34 @@ def _disk_check() -> DoctorCheck:
     )
 
 
-def _host_probe_checks(
+def remote_model_specs(
+    models: Sequence[Mapping[str, str]], *, wgp_root: str | Path
+) -> list[dict[str, str]]:
+    """Normalize explicit remote paths into the remote Wan2GP namespace."""
+
+    root = Path(wgp_root)
+    specs: list[dict[str, str]] = []
+    for model in models:
+        raw = Path(str(model["remote_path"]))
+        remote_path = raw if raw.is_absolute() else root / raw
+        specs.append({"path": str(remote_path), "sha256": str(model["sha256"])})
+    return specs
+
+
+def _preflight_doctor_checks(
+    host: object,
     models: Sequence[Mapping[str, str]],
+    *,
+    wgp_root: str | Path,
+    disk_path: str | Path,
 ) -> list[DoctorCheck]:
-    from host.render_host import SshHost
     from services.jobs.preflight import run_preflight
 
-    target = os.environ.get("WANGP_SSH_TARGET", "").strip()
-    if not target:
-        return [
-            _fail(
-                "host_configuration",
-                "Host probing was requested but WANGP_SSH_TARGET is empty",
-                "Set WANGP_SSH_TARGET to a reachable SSH alias before probing.",
-            )
-        ]
-    host = SshHost(target=target, wgp_root="/home/straughter/Wan2GP", pull_root="datasets/runs/pull")
     report = run_preflight(
         host,
-        models=[dict(spec) for spec in models],
-        min_free_gb=0.0,
-        disk_path="/home/straughter/Wan2GP",
+        models=remote_model_specs(models, wgp_root=wgp_root),
+        min_free_gb=REMOTE_MINIMUM_FREE_GB,
+        disk_path=str(disk_path),
         qc_url=os.environ.get("WANGP_QC_URL", "http://localhost:8000/health"),
     )
     remediations = {"ssh_reachable": "Verify SSH with 'ssh <target> true'.", "model_files": "Copy each model to the host and verify its manifest sha256.", "disk_headroom": "Free remote disk space or choose sanctioned storage.", "gpu_state": "Stop stale GPU tenants or diagnose nvidia-smi.", "qc_available": "Start QC or set WANGP_QC_URL."}
@@ -192,6 +237,55 @@ def _host_probe_checks(
         )
         for check in report.checks
     ]
+
+
+def _host_manifest_check(
+    models: Sequence[Mapping[str, str]] | None,
+) -> DoctorCheck:
+    if models is None:
+        return _fail(
+            "model_files",
+            "--probe-host requires --models with at least one remote_path entry",
+            "Supply a manifest entry with remote_path and sha256 before probing.",
+        )
+    if not models:
+        return _fail(
+            "model_files",
+            "--probe-host requires a nonempty model manifest",
+            "Add at least one remote_path and sha256 entry before probing.",
+        )
+    if not any(isinstance(spec.get("remote_path"), str) for spec in models):
+        return _fail(
+            "model_files",
+            "no model entry contains remote_path; host probing was not attempted",
+            "Add remote_path and sha256 for each model in the remote Wan2GP namespace.",
+        )
+    return _pass("model_files", "remote manifest entries available for probing")
+
+
+def _host_probe_checks(
+    models: Sequence[Mapping[str, str]],
+) -> list[DoctorCheck]:
+    from host.render_host import SshHost
+
+    target = os.environ.get("WANGP_SSH_TARGET", "").strip()
+    if not target:
+        return [
+            _fail(
+                "host_configuration",
+                "Host probing was requested but WANGP_SSH_TARGET is empty",
+                "Set WANGP_SSH_TARGET to a reachable SSH alias before probing.",
+            )
+        ]
+    host = SshHost(
+        target=target, wgp_root=REMOTE_WGP_ROOT, pull_root="datasets/runs/pull"
+    )
+    return _preflight_doctor_checks(
+        host,
+        models,
+        wgp_root=REMOTE_WGP_ROOT,
+        disk_path=REMOTE_WGP_ROOT,
+    )
 
 
 def collect_doctor_checks(
@@ -215,7 +309,11 @@ def collect_doctor_checks(
         ]
     )
     if probe_host:
-        report.checks.extend(_host_probe_checks(models or []))
+        manifest_check = _host_manifest_check(models)
+        if manifest_check.status == "pass":
+            report.checks.extend(_host_probe_checks(models))
+        else:
+            report.checks.append(manifest_check)
     return report
 
 

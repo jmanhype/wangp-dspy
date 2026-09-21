@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from predict.content_brief import ContentBriefError, load_content_brief
-from scripts.run_content_brief import main as plan_gateway
 from services.jobs.queue import JobNotFoundError
 from wangp import __version__
 from wangp.doctor import DoctorCheck, collect_doctor_checks
@@ -50,14 +49,31 @@ def _load_models(path: str | None) -> list[dict[str, str]] | None:
         raise ValueError(f"cannot read model manifest {source}: {exc}") from exc
     if isinstance(payload, dict) and isinstance(payload.get("models"), list):
         payload = payload["models"]
-    if not isinstance(payload, list) or not all(
-        isinstance(item, dict)
-        and isinstance(item.get("path"), str)
-        and isinstance(item.get("sha256"), str)
-        for item in payload
-    ):
-        raise ValueError("model manifest must be a list of path and sha256 objects")
-    return payload
+    if not isinstance(payload, list):
+        raise ValueError("model manifest must be a list of model objects")
+    models: list[dict[str, str]] = []
+    for item in payload:
+        if not isinstance(item, dict):
+            raise ValueError("model manifest must be a list of model objects")
+        digest = item.get("sha256")
+        if not isinstance(digest, str) or len(digest) != 64 or any(
+            character not in "0123456789abcdef" for character in digest.lower()
+        ):
+            raise ValueError("each model sha256 must be a 64-character hexadecimal digest")
+        local_path = item.get("local_path", item.get("path"))
+        remote_path = item.get("remote_path")
+        if not isinstance(local_path, str) and not isinstance(remote_path, str):
+            raise ValueError(
+                "each model needs local_path or remote_path plus sha256 "
+                "(path is accepted as a legacy local_path alias)"
+            )
+        model = {"sha256": digest.lower()}
+        if isinstance(local_path, str):
+            model["local_path"] = local_path
+        if isinstance(remote_path, str):
+            model["remote_path"] = remote_path
+        models.append(model)
+    return models
 
 
 def _database_reachability(path: str) -> DoctorCheck:
@@ -117,6 +133,8 @@ def _validate_brief(args: argparse.Namespace) -> int:
 
 
 def _run_plan(args: argparse.Namespace) -> int:
+    from scripts.run_content_brief import main as plan_gateway
+
     output = args.out.expanduser().resolve()
     run_dir = (
         args.run_dir.expanduser().resolve()
