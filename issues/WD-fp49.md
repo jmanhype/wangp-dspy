@@ -1,19 +1,19 @@
 ---
 id: WD-fp49
 title: "Resolve render hosts from zero-config configuration"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T19:16:29Z
-content_hash: "sha256:282097337d27f083bb9a91521c198f0f3ac2d519885cfc1b7fe03a31bcaa0976"
+updated_at: 2026-09-21T19:31:26Z
+content_hash: "sha256:3f7cf6ec196c3d81e24cca4d70aa422f38df8945f00b73cedaf2e4c897128042"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj, WD-3nwm]
-closed_at: 2026-09-21T18:46:12Z
-close_reason: "Accepted: Rework at b35bad39836a802bf66c8eddc6cf551c647e0ef9 restores the declared public signature `render_host(config: HostConfig) -> SshHost` via a TYPE_CHECKING-only import while keeping the runtime host.render_host import lazy. Independently verified AST parameters/annotations/return, lazy import False, one-file rework delta, unchanged worktree, targeted 9 tests passed, zero forbidden literals, protected engine paths unchanged, and required CI run 35640030136/test job 106466823007 SUCCESS at the exact head. Prior independent review already passed precedence, no-GPU plan/doctor, no-SSH fail-closed behavior, provenance, pass-through, engine semantics, full suite, build artifacts, and budget explanation."
+closed_at: 2026-09-21T19:31:26Z
+close_reason: "Accepted: Rework 9df6f888b304ff5ccc97981aed3558fadd430266 independently closes all eleven PR review threads. Reproduced run_qc before RC=1 NameError and after RC=2 actionable; verified ~/.config user_config provenance with XDG unset; all four gpu_seq callers pass the resolved environment; remote marathon exits 2 before local use; adapter raises HostConfigError before host execution; detection is atomic; installed pull root uses XDG data; relative paths fail; SyncNet needs only wgp_python; configured arbitrary interpreter replaces root/venv; marathon compound discovery moved to helpers. Also verified zero forbidden literals, no-GPU doctor ready and exact plan summary, render entry exit 2 with empty fake-SSH log, protected-path diff exit 0, targeted 24 passed, full 1602 passed/1 optional skip, wheel+sdist contain behavior and reproducible hashes, and required CI test SUCCESS at the exact head. verify-delivery label-format failures are known WD-7zrq tracker friction, not substance."
 assignee: dev-WD-fp49
 ---
 
@@ -435,6 +435,7 @@ Corrected boundary:
 - 2026-09-21T18:48:28Z auto-follows: linked to predecessor WD-3nwm
 - 2026-09-21T18:48:28Z claimed by dev-WD-fp49
 - 2026-09-21T19:16:28Z status: in_progress -> in_progress
+- 2026-09-21T19:31:26Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-t534]]
