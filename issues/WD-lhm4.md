@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T16:22:48Z
-content_hash: "sha256:825acafd87b0ca28af261277725196d22c78108281ca6ae924e42436c183b458"
+updated_at: 2026-09-21T16:26:09Z
+content_hash: "sha256:905139a55226d908dd9d83220c455f59097c1a944d042b606495a8244c6a9357"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -109,6 +109,120 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### CI/Test Results
+- Commands run:
+  - `uv run --frozen --extra dev pytest tests/test_wgp_cli.py` — **11 passed in 8.78s**.
+  - `uv run --frozen --extra dev pytest -q tests/test_wgp_cli.py` — **11 passed**.
+  - `uv run --frozen --extra dev pytest -q tests/` — **exit 0**. Progress contained **1,572 passing dots and one `s`** (the pre-existing 3090 integration skip); collected total is 1,573.
+  - `uv run --frozen --extra dev pytest -q` — exit 0 with the same suite shape before the final formatting-only compaction.
+  - Subprocess-enabled coverage run for `tests/test_wgp_cli.py`: **TOTAL 86%** (`wangp/cli.py` 85%, `wangp/doctor.py` 87%, `wangp/queue_view.py` 86%, `wangp/__init__.py` 100%).
+  - `git diff --check` — PASS.
+  - `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py qc/ host/ scripts/run_film.py scripts/run_jobs.py` — PASS; no protected engine/runner files changed.
+  - `pvg verify wangp/__init__.py wangp/cli.py wangp/doctor.py wangp/queue_view.py docs/wgp-cli.md README.md pyproject.toml tests/test_wgp_cli.py --include-tests --format=text` — **VERIFY: PASSED (5 files scanned, 0 issues)**.
+- Required CI: `gh run list --branch story/WD-lhm4` read at pushed head:
+  - run id **35624803571**
+  - workflow **CI**
+  - head SHA **0e50b5a592a8e392c1595c5f3de024f2d820589f**
+  - status **completed**, conclusion **success**
+  - URL: https://github.com/jmanhype/wangp-dspy/actions/runs/35624803571
+
+### Commit / PR
+- Branch: `story/WD-lhm4`
+- Commit: `0e50b5a592a8e392c1595c5f3de024f2d820589f` (`0e50b5a`)
+- PR: https://github.com/jmanhype/wangp-dspy/pull/152
+- Worktree is clean at the pushed commit.
+
+### CLI transcripts (exact output tails)
+`env -u WANGP_SSH_TARGET uv run --frozen --extra dev wgp doctor | tail -20`:
+```text
+[PASS] python: Python 3.14.4
+[PASS] uv: uv available at /Users/speed/.local/bin/uv
+[PASS] dependency_imports: 8 imports available
+[PASS] ffprobe: ffprobe available at /opt/homebrew/bin/ffprobe
+[PASS] ffmpeg: ffmpeg available at /opt/homebrew/bin/ffmpeg
+[PASS] queue_database: SQLite 3.50.4 is available for JobQueue databases
+[SKIP] model_files: No model manifest supplied; not required for no-GPU planning
+       remediation: Supply --models with path and sha256 entries before host work.
+[SKIP] host_configuration: No render host configured; the no-GPU lane remains ready
+       remediation: Set WANGP_SSH_TARGET or wait for the WD-fp49 config file for GPU work.
+[PASS] local_disk_headroom: 134G free on the repository volume
+ready=yes
+```
+
+`uv run --frozen --extra dev wgp plan --brief datasets/content_briefs/lf004-operator-dogfood-56f/brief.json --plates datasets/content_briefs/lf004-operator-dogfood/plates --out /tmp/wd-lhm4-cli/plan.json --run-dir /tmp/wd-lhm4-cli/run | tail -10`:
+```text
+brief=sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd clips=4 plan=/private/tmp/wd-lhm4-cli/plan.json
+summary clips=4 duration_s=9.332 gpu_work=false queue_submitted=false
+ledger=/private/tmp/wd-lhm4-cli/run/run_ledger.json
+```
+Canonical plan `summary`: `clip_count=4`, `planned_duration_s=9.332`, `dry_run=true`, `gpu_work=false`, `queue_submitted=false`.
+
+### AC Verification
+| AC # | Requirement | Code Location | Test Location | Status |
+|---|---|---|---|---|
+| 1 | Installed `wgp`; help lists exactly doctor/brief/plan/status/review | `pyproject.toml:19`; `wangp/cli.py:195` | `tests/test_wgp_cli.py:46` | PASS |
+| 2 | Typed brief validation, brief hash, field-specific failure, no plan | `wangp/cli.py:110`; consumes `predict.content_brief.load_content_brief` | `tests/test_wgp_cli.py:54` | PASS |
+| 3 | Plan wraps existing gateway and remains no-GPU/no-submit | `wangp/cli.py:119`; calls `scripts.run_content_brief.main` | `tests/test_wgp_cli.py:72` | PASS |
+| 4 | Read-only real SQLite queue state/counts/failures/attempts with byte identity preserved | `wangp/queue_view.py:60`; uses `JobQueue.list_state/get/attempt_history` and `scripts.run_jobs.dry_run_report` | `tests/test_wgp_cli.py:122` | PASS |
+| 5 | Queue clips/failure/immutable attempts/evidence plus final review artifacts and provenance hashes | `wangp/queue_view.py:94`, `wangp/queue_view.py:181` | `tests/test_wgp_cli.py:144`, `tests/test_wgp_cli.py:158` | PASS |
+| 6 | Local doctor checks Python/uv/imports/ffmpeg/ffprobe/SQLite/host seam/models/disk with remediations | `wangp/doctor.py:197` | `tests/test_wgp_cli.py:168` | PASS |
+| 7 | Explicit host probe reports exactly five existing preflight kinds; default makes no host call | `wangp/doctor.py:154` wraps `services.jobs.preflight.run_preflight`; `wangp/doctor.py:197` | `tests/test_wgp_cli.py:205`, `tests/test_wgp_cli.py:214` | PASS |
+| 8 | Stable 0/2/3/4 codes and deterministic secret-free JSON | `wangp/cli.py:251`; `docs/wgp-cli.md` | `tests/test_wgp_cli.py:122`, `tests/test_wgp_cli.py:248`, `tests/test_wgp_cli.py:258` | PASS |
+| 9 | No gateway/runner/queue-transition/retry/renderer/QC semantic changes; wrapper delegates | Protected-file diff against main is clean; `wangp/cli.py`, `wangp/queue_view.py` call existing seams only | `tests/test_wgp_cli.py:72`, `tests/test_wgp_cli.py:122` | PASS |
+
+Additional operator-facing documentation: `README.md:71` and `docs/wgp-cli.md`.
+
+LEARNINGS:
+- The stable wrapper could preserve all engine semantics with zero edits to the protected runner/QC files; the existing seams were sufficient.
+- `JobQueue` can open the copied committed fixture without changing database bytes, but the test must copy first because SQLite may create WAL/SHM sidecars.
+- Verifying only content-derived path/hash pairs from `final-provenance.json` avoids the known cross-checkout row-identity trap; this run has 21 such checks and all match.
+- `pytest -q` in this repository does not print a final count on success, so the full-run count was derived from the 100% progress report (1,572 dots, one `s`) and the 1,573 collected tests.
+
+### OBSERVATIONS (unrelated)
+- The full suite has one environment-gated skip from the existing 3090 integration test; no new test is skipped.
+- `uv build` was not run because duplicate package declarations are already tracked by WD-m1sj; `uv run wgp` proves the entry point.
+
+### DISCOVERED_BUG
+  title: Full suite emits Starlette/httpx deprecation warning
+  context: `uv run --frozen --extra dev pytest -q tests/` exits 0 but warns at `.venv/lib/python3.14/site-packages/fastapi/testclient.py:1`: StarletteDeprecationWarning about using `httpx` with `starlette.testclient`; it recommends `httpx2`. This is dependency/toolchain maintenance outside WD-lhm4.
+  affected_files: `pyproject.toml` dependency/test extra resolution
+  discovered_during: WD-lhm4
+
+### DISCOVERED_BUG
+  title: Prompt-director test docstring emits Python SyntaxWarning
+  context: An initial full-suite invocation warned at `tests/test_prompt_director.py:195` that `"\w"` is an invalid escape sequence. The final cached run did not repeat it, but the source remains non-raw and Python will eventually reject/alter the escape.
+  affected_files: `tests/test_prompt_director.py:195`
+  discovered_during: WD-lhm4
+
+### DISCOVERED_BUG
+  title: CI workflow emits runner deprecation annotations
+  context: Successful run 35624803571 reported that `actions/setup-python@v5` and `astral-sh/setup-uv@v6` target deprecated Node.js 20 and are forced to Node 24; it also warned that `ubuntu-latest` migrates to Ubuntu 26 on 2026-10-19.
+  affected_files: `.github/workflows/ci.yml:18`, `.github/workflows/ci.yml:22`, `.github/workflows/ci.yml:25`
+  discovered_during: WD-lhm4
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `0e50b5a592a8e392c1595c5f3de024f2d820589f`; PR #152.
+- Targeted CLI tests: 11 passed. Full suite: exit 0, 1,572 passed / 1 pre-existing skip. Coverage: 86%.
+- Required CI run 35624803571 at the exact pushed head: success.
+- `git diff --check`, protected-file diff, and `pvg verify` all passed.
+
+### proof
+- [x] AC #1: `wgp` console entry point and exact stable help verbs are installed/tested.
+- [x] AC #2: typed brief validation, hash success, and field-specific non-writing failure are tested.
+- [x] AC #3: `wgp plan` delegates to the existing no-GPU gateway and preserves summary/output contract.
+- [x] AC #4: real JobQueue status is read-only and byte identity is asserted.
+- [x] AC #5: queue review and final provenance artifact/hash review are tested.
+- [x] AC #6: local doctor readiness/remediation behavior is tested.
+- [x] AC #7: explicit five-kind host preflight and default no-call behavior are tested.
+- [x] AC #8: stable exit codes and deterministic JSON are tested/documented.
+- [x] AC #9: protected engine semantics are unchanged and delegation is demonstrated.
 
 
 ## nd_contract
