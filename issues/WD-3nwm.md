@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:03:02Z
-content_hash: "sha256:ebb8878b2f8669c6ccf4ffe523e1356b9d1b9da1cda704f7f025638788b2b87c"
+updated_at: 2026-09-21T15:03:45Z
+content_hash: "sha256:460c9955e051203c2f80a75dfca183e48178b37aad051492c4ed9bb954252bf9"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,6 +98,12 @@ status: new
 
 
 ## Notes
+## Additional PM Rejection Evidence — Maestro notice precision (2026-09-21)
+EXPECTED: THIRD_PARTY_NOTICES.md must conservatively disclose all Maestro material and preserve the no-verbatim/clean-room boundary.
+DELIVERED: THIRD_PARTY_NOTICES.md:7 says no Maestro source is “vendored or copied verbatim,” while the repository already commits 1,823 lines of Maestro reference excerpts under `tests/fixtures/maestro_reference/{maestro_corpus.txt,maestro_plan_orch.txt,maestro_schema_policies.txt}`. `tests/test_no_maestro_verbatim.py:1-15` identifies those files as a checked-in excerpt corpus and only checks production-side runs of at least 21 non-trivial lines (with a stride of five).
+GAP: The unqualified “not copied verbatim” claim is misleading; at minimum, the notice must disclose the test-only reference corpus, its provenance, licence, and why it is not production source, or the corpus must be removed under separate authorized legal remediation.
+FIX: Make the notice exactly match the committed material and scope of the verbatim test; do not broaden this story into deleting historical fixtures.
+
 ## Additional PM Rejection Evidence (2026-09-21)
 EXPECTED: README:90 says planning fails before emitting a plan if either ffmpeg or ffprobe is unavailable.
 DELIVERED: With a PATH containing git and ffprobe but deliberately no ffmpeg, the exact committed-brief quickstart completed successfully and emitted the four-clip summary. The reachable code uses ffprobe in `predict/content_brief.py:239-263`; ffmpeg is only materialized for absent audio guides in `services/director/wiring.py:99-120`, while this committed brief supplies existing guides at `services/director/wiring.py:204-216`.
