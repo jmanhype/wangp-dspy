@@ -8,8 +8,8 @@ labels: [walking-skeleton, capstone, e2e]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T05:46:58Z
-content_hash: "sha256:f07f73baba09748453ca6b9fa802e234d719b602f3df83bf9d3999b02c354138"
+updated_at: 2026-09-21T07:00:16Z
+content_hash: "sha256:bf719f3b227d517819e6e6f8897196dcd33c92f200607d6120c7608563b7ce42"
 assignee: dev-WD-l48s
 ---
 
@@ -162,7 +162,63 @@ status: new
 
 
 ## Notes
+## Delivery Evidence (head 7a46211, dispatcher-completed after a provider 429)
 
+The developer agent was rate-limited out (429) mid-story. I completed the delivery myself after
+reviewing its commit and finding three measurement defects that made its baseline table
+unusable; the corrections and the resulting finding are below.
+
+### Corrections made in review
+
+1. Wrong tolerance in the deterministic baseline: an ffprobe-rounded guide (2.333333) was
+   compared against the declared shot (56/24) with check_guide_duration's 1e-9 invariant, which
+   only holds between two plan-declared values. The ~3e-7 gap rejected 13/13 known-good renders.
+   Now uses the production AUDIO_DURATION_TOLERANCE_S (1e-6). The transparent heuristic had the
+   same bug and is fixed.
+2. Facing branch returned abstain whenever the plate sidecar was missing, so no row could ever be
+   admitted. Production falls back to the character's declared requirement; replay now mirrors
+   that and treats a missing sidecar as unevaluated.
+3. Raw log loss (15.351) was undisclosed as a clip artifact: probabilities are clipped at 1e-15
+   and 18/18 raw rows hit the clip. Clip epsilon and clipped-row counts are now reported.
+
+Each rejection is now attributed by reason and rendered into the report. A raw CalledProcessError
+was replaced by a typed SpendGateSourceError when tracked mode runs outside a git worktree.
+
+### Result
+
+- Decision: insufficient_data (preregistered rule: complete<50, bad<10, groups<8). Primary
+  result: infeasible_at_budget. No production model is warranted by this run; the report says so.
+- Corpus: 36 rows / 18 complete / 5 bad / 7 run groups / 5 joined queue DBs. The committed corpus
+  is all-local: 15 of 36 rows come from media not tracked by git, so a fresh clone can REPLAY but
+  not REBUILD it (tracked rebuild = 21 rows / 13 complete). Both facts are now in the report limits.
+- Corrected-baseline finding: deterministic_preflight rejects 18/18 complete rows for one reason,
+  delivered_resolution_contradicts_envelope. The envelope resolution field contradicts delivered
+  media for every recorded render (delivered 704x576 vs envelope 480x832 on the accepted LF004
+  recovery film). Recorded as WD-rf1a rather than papered over.
+
+### Verification
+
+- 8 targeted tests pass (tests/test_spend_gate.py), including new tests for the tolerance, the
+  reason attribution, the all-local disclosure, and the non-git tracked rejection.
+- Protected-path parity with main exits 0: services/ qc/ host/ predict/ scripts/run_film.py
+  scripts/run_jobs.py. No gate, retry, or renderer semantics changed. No GPU or host work.
+- Required CI: run 35570749029 at head 7a462111210ca626cd5d3c43be1d4b310dac7cf1 -> success.
+- Artifact regeneration is byte-stable across repeated rebuilds (asserted by the fresh-checkout test).
+
+### AC mapping
+
+| AC | Evidence |
+|---|---|
+| Normalized per-clip rows with explicit nulls and source hashes | corpus.jsonl (36 rows), manifest.json gate_counts + source_hashes/source_git_available |
+| Never impute a missing gate outcome | gate_coverage outcome=None when unusable; 4 null_value + 1 execution_error distinguished; test_committed_counts_null_and_execution_error_semantics |
+| Schema-drift record | schema-drift.json + schema_drift_sha256 in manifest |
+| Four baselines on identical rows and grouped folds | replay-metrics.json baselines + grouped_folds (no train/held-out row overlap) |
+| Leakage-safe fitting and bootstrap CIs | grouped leave-one-run-group-out folds; bootstrap_ci_2_5/97_5 per baseline |
+| Preregistered primary metric stated before results | preregistration.json (primary_metric, budget 0.10, decision_rule) |
+| Honest underpowered / negative reporting | decision=insufficient_data; limits include the negative calibration result |
+| Recording guarantee | write_completed_run_rows reproduces all four LF004 recovery rows (test_post_run_recorder_reproduces_all_lf004_rows), with no production coupling |
+| Committed corpus replayable in a fresh checkout | --verify-artifact replay path asserted by test_fresh_corpus_replay_is_deterministic_group_safe_and_honest |
+| No gate/retry/production change | protected-path parity exits 0 |
 
 ## History
 - 2026-09-21T05:46:58Z status: open -> in_progress
