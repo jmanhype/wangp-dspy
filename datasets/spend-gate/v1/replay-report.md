@@ -10,14 +10,16 @@
 | always_admit | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
 | deterministic_preflight | 0 | 0 | undefined | undefined | undefined |
 | transparent_heuristic | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
-| calibrated_model | 0 | 13 | undefined | undefined | undefined |
+| calibrated_model | 5 | 13 | 0.800 | undefined | undefined |
+
+Unknown historical attempt counts excluded from each avoided-work numerator: always_admit=0, deterministic_preflight=5, transparent_heuristic=0, calibrated_model=0.
 
 ## Raw versus calibrated model
 
 | Policy | Coverage | Correct | Incorrect | Brier | Log loss |
 |---|---:|---:|---:|---:|---:|
-| raw | 18/18 | 8 | 10 | 0.444 | 15.351 |
-| calibrated | 5/18 | 4 | 1 | 0.254 | 0.736 |
+| raw | 18/18 | 10 | 8 | 0.444 | 15.351 |
+| calibrated | 5/18 | 1 | 4 | 0.254 | 0.736 |
 
 Clipped probability rows: raw 18, calibrated 0 (clip epsilon 1e-15).
 
@@ -36,6 +38,7 @@ run contradicts its own plan, not that the render was artistically bad.
 - Calibration produced no feasible policy: this is a negative calibration result.
 - Threshold sweeps are exploratory and did not select the primary result.
 - Queue joins are partial; unmatched attempt counts are explicitly unavailable.
+- Rejected bad rows with unknown historical attempt counts are excluded from the avoided-work numerator; their count is reported per policy as unknown_attempt_rejected_bad_rows_excluded.
 - Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.
 - Probabilities are clipped at 1e-15 for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.
 - The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.

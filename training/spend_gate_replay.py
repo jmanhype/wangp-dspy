@@ -150,29 +150,74 @@ def _heuristic(row: dict[str, Any]) -> str:
                        and chars >= 500) else "reject"
 
 
-def _score(rows: list[dict[str, Any]], decisions: dict[str, str]) -> dict[str, Any]:
+def _raw_probability_decision(probability: float) -> str:
+    """Admit only when the modeled probability of a bad render is low."""
+
+    return "admit" if probability < 0.5 else "reject"
+
+
+def _calibrated_probability_decision(probability: float, confidence_threshold: float = 0.70) -> str:
+    """Apply the frozen confidence and P(bad)-direction policy."""
+
+    confidence = max(probability, 1.0 - probability)
+    if confidence < confidence_threshold:
+        return "abstain"
+    return "admit" if probability < 0.5 else "reject"
+
+
+def _threshold_probability_decision(probability: float | None, threshold: float) -> str:
+    """Treat a sweep threshold as a maximum tolerated P(bad)."""
+
+    if probability is None:
+        return "abstain"
+    return "admit" if probability < threshold else "reject"
+
+
+def _known_attempt_count(row: dict[str, Any]) -> int | None:
+    value = (row.get("queue") or {}).get("attempt_count")
+    return value if type(value) is int and value >= 0 else None
+
+
+def _score(rows: list[dict[str, Any]], decisions: dict[str, str], *,
+           false_admit_budget: float = 0.10, group_draws: int | None = None) -> dict[str, Any]:
     admitted_bad = admitted = rejected_bad = rejected_good = abstain = correct = incorrect = avoided = 0
+    unknown_attempts = known_rejected_bad = unknown_rejected_bad = 0
     for row in rows:
         decision, bad = decisions[row["row_id"]], _bad(row)
-        attempts = int((row.get("queue") or {}).get("attempt_count") or 0) + 1
+        attempts = _known_attempt_count(row)
+        unknown_attempts += attempts is None
         if decision == "abstain": abstain += 1
         elif decision == "admit": admitted, admitted_bad, correct, incorrect = admitted + 1, admitted_bad + bad, correct + (not bad), incorrect + bad
-        else: rejected_bad, rejected_good, correct, incorrect, avoided = rejected_bad + bad, rejected_good + (not bad), correct + bad, incorrect + (not bad), avoided + attempts * bad
+        else:
+            rejected_bad += bad; rejected_good += not bad; correct += bad; incorrect += not bad
+            if bad and attempts is None:
+                unknown_rejected_bad += 1
+            elif bad:
+                known_rejected_bad += 1; avoided += (attempts + 1) * bad
     false_admit = admitted_bad / admitted if admitted else None
-    feasible = false_admit is not None and false_admit <= 0.10
+    feasible = false_admit is not None and false_admit <= false_admit_budget
+    group_count = group_draws if group_draws is not None else len({row["run_group_id"] for row in rows})
+    avoided_metric = avoided / group_count if group_count and feasible and (known_rejected_bad or not unknown_rejected_bad) else None
     return {"rows": len(rows), "admitted": admitted, "abstained": abstain, "rejected_bad": rejected_bad,
             "rejected_good": rejected_good, "correct_decisions": correct, "incorrect_decisions": incorrect,
             "false_admit": false_admit, "budget_met": feasible,
-            "failed_attempts_avoided_per_run": avoided / len({row["run_group_id"] for row in rows}) if feasible else None}
+            "failed_attempts_avoided": avoided,
+            "known_attempt_rejected_bad_rows": known_rejected_bad,
+            "unknown_attempt_rows": unknown_attempts,
+            "unknown_attempt_rejected_bad_rows_excluded": unknown_rejected_bad,
+            "failed_attempts_avoided_per_run": avoided_metric}
 
 
-def _bootstrap(rows: list[dict[str, Any]], decisions: dict[str, str], seed: int, samples: int) -> list[float]:
+def _bootstrap(rows: list[dict[str, Any]], decisions: dict[str, str], seed: int, samples: int,
+               false_admit_budget: float) -> list[float]:
     groups = sorted({row["run_group_id"] for row in rows})
     rng = random.Random(seed)
     values = []
     for _ in range(samples):
-        selected = [row for group in (rng.choice(groups) for _ in groups) for row in rows if row["run_group_id"] == group]
-        value = _score(selected, decisions)["failed_attempts_avoided_per_run"]
+        draws = [rng.choice(groups) for _ in groups]
+        selected = [row for group in draws for row in rows if row["run_group_id"] == group]
+        value = _score(selected, decisions, false_admit_budget=false_admit_budget,
+                       group_draws=len(draws))["failed_attempts_avoided_per_run"]
         if value is not None:
             values.append(value)
     return values
@@ -184,8 +229,9 @@ def _bounds(values: list[float]) -> tuple[float | None, float | None]:
     return (ordered[max(0, math.floor(0.025 * (len(ordered) - 1)))], ordered[min(len(ordered) - 1, math.ceil(0.975 * (len(ordered) - 1)))])
 
 
-def _probability_table(complete: list[dict[str, Any]], decisions: dict[str, str], probabilities: dict[str, float]) -> dict[str, Any]:
-    score = _score(complete, decisions)
+def _probability_table(complete: list[dict[str, Any]], decisions: dict[str, str], probabilities: dict[str, float],
+                       false_admit_budget: float) -> dict[str, Any]:
+    score = _score(complete, decisions, false_admit_budget=false_admit_budget)
     defined = [(float(_bad(row)), probabilities[row["row_id"]]) for row in complete if row["row_id"] in probabilities]
     brier = sum((label - probability) ** 2 for label, probability in defined) / len(defined) if defined else None
     clipped = sum(1 for _, probability in defined
@@ -200,6 +246,39 @@ def _probability_table(complete: list[dict[str, Any]], decisions: dict[str, str]
     score.update(brier_score=brier, log_loss=logloss, log_loss_clip=LOG_LOSS_CLIP,
                  clipped_probability_rows=clipped, confidence_bins=bins)
     return score
+
+
+def _decision_rule(complete_rows: int, bad_rows: int, groups: int,
+                   baselines: dict[str, dict[str, Any]]) -> tuple[str, dict[str, Any]]:
+    """Evaluate the preregistered decision order without loosening step two."""
+
+    comparators = ("deterministic_preflight", "transparent_heuristic")
+    if complete_rows < 50 or bad_rows < 10 or groups < 8:
+        return "insufficient_data", {"stage": "insufficient_data", "comparators": list(comparators)}
+    challengers = []
+    comparisons: dict[str, Any] = {}
+    for name, value in baselines.items():
+        if name in comparators or not value["budget_met"] or value["bootstrap_ci_2_5"] is None:
+            continue
+        policy_lower = float(value["bootstrap_ci_2_5"])
+        policy_result = {}
+        beats_both = True
+        for comparator in comparators:
+            comparator_upper = baselines[comparator].get("bootstrap_ci_97_5")
+            beats = comparator_upper is not None and policy_lower > float(comparator_upper)
+            policy_result[comparator] = {"policy_lower_bound": policy_lower,
+                                          "comparator_upper_bound": comparator_upper,
+                                          "beats": beats}
+            beats_both &= beats
+        comparisons[name] = policy_result
+        if beats_both:
+            challengers.append(name)
+    if not challengers:
+        return "not_warranted", {"stage": "not_warranted", "comparators": list(comparators),
+                                 "comparisons": comparisons}
+    return "warrant_future_training_story", {"stage": "warranted", "comparators": list(comparators),
+                                               "qualified_policies": challengers,
+                                               "comparisons": comparisons}
 
 
 def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: int = 2000, false_admit_budget: float = 0.10) -> ReplayReport:
@@ -227,28 +306,28 @@ def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: in
             if row["run_group_id"] != held: continue
             probability = _probability(weights, row)
             raw_probabilities[row["row_id"]] = probability
-            raw_decisions[row["row_id"]] = "admit" if probability >= 0.5 else "reject"
+            raw_decisions[row["row_id"]] = _raw_probability_decision(probability)
             calibrated = _sigmoid(fit[0] * probability + fit[1]) if fit else 0.5
             calibrated_probabilities[row["row_id"]] = calibrated
-            confidence = max(calibrated, 1.0 - calibrated)
-            policies["calibrated_model"][row["row_id"]] = "abstain" if confidence < 0.70 else "admit" if calibrated >= 0.5 else "reject"
+            policies["calibrated_model"][row["row_id"]] = _calibrated_probability_decision(calibrated)
             probability_rows.append({"row_id": row["row_id"], "raw_probability": probability, "calibrated_probability": calibrated, "decision": policies["calibrated_model"][row["row_id"]]})
     for row in complete:
         policies["calibrated_model"].setdefault(row["row_id"], "abstain"); raw_decisions.setdefault(row["row_id"], "abstain")
     baselines = {}
     for name, decisions in policies.items():
-        value = _score(complete, decisions)
-        lower, upper = _bounds(_bootstrap(complete, decisions, seed, bootstrap_samples))
+        value = _score(complete, decisions, false_admit_budget=false_admit_budget)
+        lower, upper = _bounds(_bootstrap(complete, decisions, seed, bootstrap_samples, false_admit_budget))
         baselines[name] = value | {"bootstrap_ci_2_5": lower, "bootstrap_ci_97_5": upper}
-    raw_table = _probability_table(complete, raw_decisions, raw_probabilities)
-    calibrated_table = _probability_table(complete, policies["calibrated_model"], calibrated_probabilities)
+    raw_table = _probability_table(complete, raw_decisions, raw_probabilities, false_admit_budget)
+    calibrated_table = _probability_table(complete, policies["calibrated_model"], calibrated_probabilities, false_admit_budget)
     feasible = [name for name, value in baselines.items() if value["budget_met"]]
-    insufficient = len(complete) < 50 or sum(_bad(row) for row in complete) < 10 or len(groups) < 8
-    decision = "insufficient_data" if insufficient else "not_warranted" if not feasible else "warrant_future_training_story"
+    decision, decision_evaluation = _decision_rule(
+        len(complete), sum(_bad(row) for row in complete), len(groups), baselines)
     sweep = []
     for threshold in (0.5, 0.6, 0.7, 0.8, 0.9):
-        decisions = {row["row_id"]: "admit" if calibrated_probabilities.get(row["row_id"], 0) >= threshold else "reject" for row in complete}
-        sweep.append({"threshold": threshold} | _score(complete, decisions))
+        decisions = {row["row_id"]: _threshold_probability_decision(
+            calibrated_probabilities.get(row["row_id"]), threshold) for row in complete}
+        sweep.append({"threshold": threshold} | _score(complete, decisions, false_admit_budget=false_admit_budget))
     metrics = {"schema": "wangp-dspy.spend-gate-replay/v1", "seed": seed, "bootstrap_samples": bootstrap_samples,
                "false_admit_budget": false_admit_budget, "row_count": len(rows), "complete_row_count": len(complete),
                "bad_complete_rows": sum(_bad(row) for row in complete), "run_groups": groups,
@@ -257,11 +336,15 @@ def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: in
                "deterministic_preflight_reasons": dict(sorted(deterministic_reasons.items())),
                "preflight_feature_names": ["whisper_pre_passed", "guide_duration_s", "requested_frames", "width", "height", "prompt_chars", "prompt_words", "intercept"],
                "model_probability_rows": probability_rows, "recording_errors": recording_errors,
+               "model_probability_definition": "P(bad)",
+               "decision_polarity": "admit iff P(bad) is below the policy threshold; calibrated rows first require confidence >= 0.70",
+               "decision_rule_evaluation": decision_evaluation,
                "primary_metric": baselines["calibrated_model"]["failed_attempts_avoided_per_run"],
                "primary_result": "feasible" if feasible else "infeasible_at_budget", "decision": decision,
                "exploratory_threshold_sweep": sweep,
                "limits": ["N=36 total rows and 18 complete rows; this replay is underpowered.", "Calibration produced no feasible policy: this is a negative calibration result.", "Threshold sweeps are exploratory and did not select the primary result.",
                           "Queue joins are partial; unmatched attempt counts are explicitly unavailable.",
+                          "Rejected bad rows with unknown historical attempt counts are excluded from the avoided-work numerator; their count is reported per policy as unknown_attempt_rejected_bad_rows_excluded.",
                           "Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.",
                           f"Probabilities are clipped at {LOG_LOSS_CLIP:g} for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.",
                           "The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.",
@@ -282,6 +365,10 @@ def _markdown(metrics: dict[str, Any]) -> str:
         avoided = "undefined" if value["failed_attempts_avoided_per_run"] is None else f"{value['failed_attempts_avoided_per_run']:.3f}"
         ci = "undefined" if value["bootstrap_ci_2_5"] is None else f"[{value['bootstrap_ci_2_5']:.3f}, {value['bootstrap_ci_97_5']:.3f}]"
         lines.append(f"| {name} | {value['admitted']} | {value['abstained']} | {false_admit} | {avoided} | {ci} |")
+    lines.append("")
+    lines.append("Unknown historical attempt counts excluded from each avoided-work numerator: "
+                 + ", ".join(f"{name}={value['unknown_attempt_rejected_bad_rows_excluded']}"
+                             for name, value in metrics["baselines"].items()) + ".")
     lines += ["", "## Raw versus calibrated model", "", "| Policy | Coverage | Correct | Incorrect | Brier | Log loss |", "|---|---:|---:|---:|---:|---:|"]
     for name, value in (("raw", metrics["raw_probability_policy"]), ("calibrated", metrics["calibrated_probability_policy"])):
         brier = "undefined" if value["brier_score"] is None else f"{value['brier_score']:.3f}"

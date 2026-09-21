@@ -1,15 +1,19 @@
 from __future__ import annotations
 
 import io, json, os, shutil, subprocess, sys, tarfile
+import hashlib
+import sqlite3
 from pathlib import Path
 
 import pytest
 
 from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
-from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _gate, build_corpus,
-                                 write_completed_run_rows, write_live_row)
-from training.spend_gate_replay import replay_baselines
-from training.spend_gate_replay import _deterministic_eval
+from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _canonicalize_paths, _gate,
+                                 _load_queue_rows, _queue_match, _queue_record_key, _row_identity,
+                                 build_corpus, canonical_json, verify_artifact, write_completed_run_rows,
+                                 write_live_row)
+from training.spend_gate_replay import (_decision_rule, _deterministic_eval, _raw_probability_decision,
+                                        _bootstrap, _score, _threshold_probability_decision, replay_baselines)
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "datasets/spend-gate/v1"
@@ -48,10 +52,14 @@ def test_lf004_parity_queue_join_and_live_atomic_recorder(tmp_path: Path) -> Non
     corpus = {row["qc_evidence_sha256"]: row for row in rows()}
     for expected in provenance["cuts"]:
         row = corpus[expected["qc_evidence_sha256"]]
-        assert all(row[key] == expected[key] for key in expected) and row["queue_join_status"] == "matched"
+        comparable = _canonicalize_paths(expected, ROOT)
+        assert all(row[key] == value for key, value in comparable.items()) and row["queue_join_status"] == "matched"
+        assert row["qc_evidence_path"] == f"{row['source_path']}/qc-evidence.json"
     assert [row["queue"]["attempt_count"] for row in corpus.values() if row["run_group_id"].startswith("lf004")] == [2, 0, 0, 0]
     qc = Path(corpus[provenance["cuts"][0]["qc_evidence_sha256"]]["source_path"]) / "qc-evidence.json"
-    live = json.loads(write_live_row(qc, repository_root=ROOT).read_text()); assert all(live[key] == value for key, value in provenance["cuts"][0].items()); (qc.parent / "spend-gate-row.json").unlink()
+    live = json.loads(write_live_row(qc, repository_root=ROOT).read_text())
+    live_expected = _canonicalize_paths(provenance["cuts"][0], ROOT)
+    assert all(live[key] == value for key, value in live_expected.items()); (qc.parent / "spend-gate-row.json").unlink()
     missing = tmp_path / "missing" / "qc-evidence.json"
     with pytest.raises(SpendGateRecordingError):
         write_live_row(missing, repository_root=ROOT)
@@ -89,7 +97,133 @@ def test_post_run_recorder_reproduces_all_lf004_rows() -> None:
     outputs = write_completed_run_rows("lf004-operator-dogfood-56f-recovery-20260921", ROOT)
     assert len(outputs) == 4
     for output, cut in zip(outputs, expected, strict=True):
-        recorded = json.loads(output.read_text()); assert all(recorded[key] == value for key, value in cut.items()); output.unlink()
+        recorded = json.loads(output.read_text())
+        comparable = _canonicalize_paths(cut, ROOT)
+        assert all(recorded[key] == value for key, value in comparable.items()); output.unlink()
+
+
+def test_probability_polarity_admits_low_bad_risk_only() -> None:
+    """P(bad) is a failure probability, so only a low value may admit."""
+
+    report = replay_baselines(ARTIFACT / "corpus.jsonl", bootstrap_samples=20)
+    probabilities = sorted(report.metrics["model_probability_rows"], key=lambda row: row["raw_probability"])
+    low, high = probabilities[0], probabilities[-1]
+    assert _raw_probability_decision(low["raw_probability"]) == "admit"
+    assert _raw_probability_decision(high["raw_probability"]) == "reject"
+    assert low["decision"] == "admit"
+    assert high["decision"] != "admit"
+    assert _threshold_probability_decision(0.1, 0.5) == "admit"
+    assert _threshold_probability_decision(0.9, 0.5) == "reject"
+    assert report.metrics["model_probability_definition"] == "P(bad)"
+    assert report.metrics["decision_polarity"].startswith("admit iff P(bad) is below")
+
+
+def test_queue_records_are_keyed_by_job_and_clip(tmp_path: Path) -> None:
+    root = tmp_path / "repository"; datasets = root / "datasets"; datasets.mkdir(parents=True)
+    subprocess.run(["git", "init", "."], cwd=root, check=True, capture_output=True, text=True)
+    db_path = datasets / "two-clip.jobs.db"
+    clips = [
+        {"clip_index": 1, "render_fingerprint": "clip-1",
+         "qc_verdict": {"path": str(root / "datasets/runs/acceptance/worker/render-0000/qc-evidence.json")}},
+        {"clip_index": 2, "render_fingerprint": "clip-2",
+         "qc_verdict": {"path": str(root / "datasets/runs/acceptance/worker/render-0001/qc-evidence.json")}},
+    ]
+    with sqlite3.connect(db_path) as db:
+        db.execute("CREATE TABLE jobs (job_id TEXT PRIMARY KEY, state TEXT NOT NULL, plan_ref TEXT, clips TEXT NOT NULL, failure_count INTEGER NOT NULL, failure_class TEXT, failure_detail TEXT, created_at REAL NOT NULL, owner_pid INTEGER, last_heartbeat REAL, retryable INTEGER NOT NULL)")
+        db.execute("CREATE TABLE job_attempts (attempt_id INTEGER PRIMARY KEY, job_id TEXT NOT NULL, attempt_no INTEGER NOT NULL, parent_attempt_id INTEGER, status TEXT NOT NULL, reopen_reason TEXT, attempt_reason TEXT, created_at REAL NOT NULL)")
+        db.execute("INSERT INTO jobs VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                   ("job-two-clips", "completed", "plan", json.dumps(clips), 0, None, None, 1.0, None, None, 1))
+    subprocess.run(["git", "add", str(db_path.relative_to(root))], cwd=root, check=True, capture_output=True, text=True)
+    records = _load_queue_rows(root)
+    assert set(records) == {_queue_record_key("job-two-clips", 1), _queue_record_key("job-two-clips", 2)}
+    assert [record["render_fingerprint"] for record in records.values()] == ["clip-1", "clip-2"]
+    _, second = _queue_match(records, root / "datasets/runs/acceptance/worker/render-0001", "job-two-clips", 2)
+    assert second is not None and second["render_fingerprint"] == "clip-2"
+
+
+def test_unknown_attempts_and_bootstrap_budget_are_not_fabricated() -> None:
+    def row(identifier: str, group: str, bad: bool, attempts: int | None) -> dict:
+        outcome = "fail" if bad else "pass"
+        return {"row_id": identifier, "run_group_id": group,
+                "gate_coverage": {name: {"outcome": outcome} for name in ("whisper_post", "vision", "av_sync")},
+                "queue": None if attempts is None else {"attempt_count": attempts}}
+
+    good, known_bad, unknown_bad = row("good", "a", False, 0), row("known", "b", True, 2), row("unknown", "c", True, None)
+    decisions = {"good": "admit", "known": "reject", "unknown": "reject"}
+    score = _score([good, known_bad, unknown_bad], decisions)
+    assert score["failed_attempts_avoided"] == 3
+    assert score["known_attempt_rejected_bad_rows"] == 1
+    assert score["unknown_attempt_rejected_bad_rows_excluded"] == 1
+    assert score["failed_attempts_avoided_per_run"] == 1.0
+    duplicated_group = [good, known_bad, unknown_bad, good]
+    assert _score(duplicated_group, {**decisions, "good": "admit"}, group_draws=4)["failed_attempts_avoided_per_run"] == 0.75
+    mixed = [row("bad", "a", True, 0), row("good", "b", False, 0)]
+    strict = _score(mixed, {"bad": "admit", "good": "admit"}, false_admit_budget=0.10)
+    permissive = _score(mixed, {"bad": "admit", "good": "admit"}, false_admit_budget=0.50)
+    assert strict["budget_met"] is False and permissive["budget_met"] is True
+    bootstrap_rows = [row("a-bad", "a", True, 0), row("a-good", "a", False, 0),
+                      row("b-bad", "b", True, 0), row("b-good", "b", False, 0)]
+    admitted = {identifier: "admit" for identifier in ("a-bad", "a-good", "b-bad", "b-good")}
+    assert _bootstrap(bootstrap_rows, admitted, 17, 10, 0.10) == []
+    assert len(_bootstrap(bootstrap_rows, admitted, 17, 10, 0.50)) == 10
+
+
+def test_preregistered_decision_requires_beating_both_baselines() -> None:
+    def policy(lower: float, upper: float, feasible: bool = True) -> dict:
+        return {"budget_met": feasible, "bootstrap_ci_2_5": lower, "bootstrap_ci_97_5": upper}
+
+    baselines = {
+        "always_admit": policy(0, 0, False),
+        "deterministic_preflight": policy(1.0, 2.0),
+        "transparent_heuristic": policy(1.5, 2.5),
+        "calibrated_model": policy(1.2, 3.0),
+    }
+    assert _decision_rule(50, 10, 8, baselines)[0] == "not_warranted"
+    baselines["calibrated_model"] = policy(3.0, 4.0)
+    decision, evaluation = _decision_rule(50, 10, 8, baselines)
+    assert decision == "warrant_future_training_story"
+    assert evaluation["qualified_policies"] == ["calibrated_model"]
+    assert all(value["beats"] for value in evaluation["comparisons"]["calibrated_model"].values())
+
+
+def test_canonical_paths_do_not_participate_in_row_identity() -> None:
+    def absolute_strings(value):
+        if isinstance(value, dict): return [item for child in value.values() for item in absolute_strings(child)]
+        if isinstance(value, list): return [item for child in value for item in absolute_strings(child)]
+        return [value] if isinstance(value, str) and value.startswith("/") else []
+
+    assert absolute_strings(rows()) == []
+    source = rows()[0]
+    variant = json.loads(json.dumps(source))
+    variant["qc_evidence_path"] = "/tmp/another-checkout/qc-evidence.json"
+    variant["source_path"] = "another/checkout"
+    variant["preflight"]["plate_path"] = "/tmp/another-plate.png"
+    variant["source_git_available"] = {key: not value for key, value in source["source_git_available"].items()}
+    assert canonical_json(_row_identity(variant)) == canonical_json(_row_identity(source))
+    variant["qc_evidence_sha256"] = "0" * 64
+    assert canonical_json(_row_identity(variant)) != canonical_json(_row_identity(source))
+    canonical = _canonicalize_paths({
+        "qc_evidence_path": "/tmp/other-root/datasets/runs/a/qc-evidence.json",
+        "media": {"path": "/tmp/other-root/datasets/runs/a/remux.mp4"},
+        "external_path": "/tmp/renderer-host/render/remux.mp4",
+    }, ROOT)
+    assert canonical == {"qc_evidence_path": "datasets/runs/a/qc-evidence.json",
+                         "media": {"path": "datasets/runs/a/remux.mp4"},
+                         "external_path": "external/remux.mp4"}
+
+
+def test_verify_artifact_checks_drift_digest_and_declared_row_count(tmp_path: Path) -> None:
+    artifact = tmp_path / "artifact"; shutil.copytree(ARTIFACT, artifact)
+    (artifact / "schema-drift.json").write_text('{"tampered":true}\n', encoding="utf-8")
+    with pytest.raises(SpendGateSourceError, match="schema-drift SHA-256"):
+        verify_artifact(artifact)
+    shutil.rmtree(artifact); shutil.copytree(ARTIFACT, artifact)
+    manifest_path = artifact / "manifest.json"; manifest = json.loads(manifest_path.read_text())
+    manifest.pop("manifest_sha256"); manifest["row_count"] = 35
+    manifest["manifest_sha256"] = hashlib.sha256(canonical_json(manifest).encode()).hexdigest()
+    manifest_path.write_text(canonical_json(manifest), encoding="utf-8")
+    with pytest.raises(SpendGateSourceError, match="row count"):
+        verify_artifact(artifact)
 
 
 def rows_by_hash() -> dict[str, dict]:
