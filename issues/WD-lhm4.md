@@ -1,19 +1,20 @@
 ---
 id: WD-lhm4
 title: "Deliver stable wgp verbs with doctor preflight"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T17:31:03Z
-content_hash: "sha256:2647667e7931c909abad6f336ee418c588e9cb0ad944c235940becc3ff4a14be"
-blocks: [WD-fp49, WD-fq1o]
+updated_at: 2026-09-21T17:40:49Z
+content_hash: "sha256:0f0db9e3470a3ae0f6c5696b8c041504435f269f2bb39ec68bdafea8226866ff"
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
 assignee: dev-WD-lhm4
+closed_at: 2026-09-21T17:40:49Z
+close_reason: "Accepted at faeac0c9092952f78e5c5944f0dabf4e805b4db2: independently reproduced all seven fixes. uv build emitted exactly one wheel (sha256 ac8dcb9903b824a4be9fcb6850fbb31ee4ba4b81798fb53efc1839f04b91cc0c) and one sdist (sha256 d7ccbe167290ff74f27d261ad1c216ff1396ba3bc7df601d7e13072295d1e497); a foreign-cwd throwaway-venv install ran wgp doctor exit 0 with ready=yes, and wangp/scripts resolved from venv site-packages. status and review preserved queue hash fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4 with no sidecars; a read-only legacy DB also stayed byte-identical. Missing provenance and {} provenance exited 2 explicitly; corrupt local model exited 3 with expected/actual digest prefixes and remediation; omitted/local-only host manifests exited 3 without any ssh invocation; 49G failed disk_headroom against disclosed 50.0G; relative and absolute valid remote paths passed while a missing remote model failed. Targeted CLI suite passed 17/17; full suite collected 1579 with 1578 passed, 1 environment-gated skip, 0 failures. Required CI run 35631378806 and test job succeeded at the exact head. Protected engine/preflight diffs were empty. The measured 1,538-line overrun is adequately explained by runtime=922, tests=521, docs=85, packaging/CI=10 with no out-of-scope engine changes. The disclosed wheel plan Git-checkout defect was reproduced as exit 4; it is outside this wrapper-only story and recorded as DISCOVERED_BUG, so it does not invalidate these ACs, though complete wheel-portable planning remains follow-up work."
 ---
 
 ## Description
@@ -398,10 +399,12 @@ status: in_progress
 - 2026-09-21T16:40:36Z status: open -> in_progress
 - 2026-09-21T16:40:36Z claimed by dev-WD-lhm4
 - 2026-09-21T17:28:56Z status: in_progress -> in_progress
+- 2026-09-21T17:40:49Z status: in_progress -> closed
+- 2026-09-21T17:40:49Z dep_removed: no_longer_blocks WD-fp49
+- 2026-09-21T17:40:49Z dep_removed: no_longer_blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-fp49]], [[WD-fq1o]]
 - Was blocked by: [[WD-3nwm]]
 - Follows: [[WD-3nwm]]
 
