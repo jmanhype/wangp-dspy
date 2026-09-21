@@ -1,16 +1,18 @@
 ---
 id: WD-9rjd
 title: "Verify release readiness from committed repository evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [release, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-21T23:27:20Z
-content_hash: "sha256:4ecdf806cbc3d5508a721793dc183e9586553ed2f044c94f7a3a1d334e163611"
+updated_at: 2026-09-21T23:28:18Z
+content_hash: "sha256:5128201c5943fd0858534e68bdba493e36ba41fd16270c4ad7fcc686ed83fe74"
 blocks: [WD-fq1o]
+assignee: dev-WD-9rjd
+follows: [WD-carq]
 ---
 
 ## Description
@@ -108,9 +110,13 @@ status: new
 
 ## History
 - 2026-09-21T23:25:44Z dep_added: blocks WD-fq1o
+- 2026-09-21T23:28:18Z status: open -> in_progress
+- 2026-09-21T23:28:18Z auto-follows: linked to predecessor WD-carq
+- 2026-09-21T23:28:18Z claimed by dev-WD-9rjd
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-fq1o]]
+- Follows: [[WD-carq]]
 
 ## Comments

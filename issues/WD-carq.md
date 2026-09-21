@@ -9,12 +9,13 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T23:18:59Z
-content_hash: "sha256:150611ae8e852f001340f7e63f152d4f3c8500189bd227c964f10d49084a8b94"
+content_hash: "sha256:7c3f908275d511a87e3f9a92dd216ff511a5857cd1e13356bfda04983c083482"
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
 assignee: dev-WD-carq
 closed_at: 2026-09-21T23:18:59Z
 close_reason: "Accepted at 982c047: independently reproduced clean v3 recipe (64 pinned fields, zero absolute paths), copied-media drift, fail-closed missing artifact, byte stability, typed malformed-provenance probes, local/read-only checks, targeted/full suite pass, and exact-head CI success."
+led_to: [WD-9rjd]
 ---
 
 ## Description
@@ -437,6 +438,7 @@ status: delivered
 - Parent: [[WD-t534]]
 - Was blocked by: [[WD-lvix]]
 - Follows: [[WD-lvix]], [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]], [[WD-3nwm]]
+- Led to: [[WD-9rjd]]
 
 ## Comments
 
