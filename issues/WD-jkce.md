@@ -9,7 +9,8 @@ parent: WD-r0eh
 created_at: 2026-09-21T13:48:42Z
 created_by: speed
 updated_at: 2026-09-21T13:48:42Z
-content_hash: "sha256:4fbb71cf8e81193fa116b5a22f18272cd9f78ce5f2e939b6ee3d443c2e53beb0"
+content_hash: "sha256:03c174400d57c775abd05c5072923f2ba7145a2ac2caca054dcb871acc9cbcca"
+blocked_by: [WD-d788]
 ---
 
 ## Description
@@ -92,9 +93,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:48:42Z dep_added: blocked_by WD-d788
 
 ## Links
 - Parent: [[WD-r0eh]]
+- Blocked by: [[WD-d788]]
 
 ## Comments
