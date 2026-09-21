@@ -8,8 +8,8 @@ labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T17:30:15Z
-content_hash: "sha256:403cfb385cf51f75d285fe40bd23d242e20f52fb453bb74b43fa7c9fcfadba5d"
+updated_at: 2026-09-21T17:31:03Z
+content_hash: "sha256:2647667e7931c909abad6f336ee418c588e9cb0ad944c235940becc3ff4a14be"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
@@ -118,6 +118,7 @@ Delivery correction: the prior in_progress contract is stale; WD-lhm4 is deliver
 DISCOVERED_BUG clarification: the failed transition command was pvg story deliver WD-lhm4. Its exact stderr was: labels add WD-lhm4 delivered: Error: label delivered already exists on WD-lhm4. The intended story state is in_progress with delivered label, and that final state is present.
 Commit: faeac0c9092952f78e5c5944f0dabf4e805b4db2
 SHA: faeac0c9092952f78e5c5944f0dabf4e805b4db2
+Citation correction after the final immutable-queue patch shifted test lines: stable help is tests/test_wgp_cli.py:71; brief validation is :79; plan is :97; missing/empty provenance is :197; local doctor/hash tests are :266 and :303; host-manifest test is :334; remote-path/disk test is :360; missing-remote test is :400; exit-code test is :428; wheel install test is :445. Exit-code dispatch is wangp/cli.py:269-292. Earlier nearby citations remain valid; these are the corrected exact locations.
 
 ## nd_contract
 status: delivered
