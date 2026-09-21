@@ -8,8 +8,8 @@ labels: [walking-skeleton, capstone, e2e, rejected]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T12:16:33Z
-content_hash: "sha256:b5b250bbf9d1cec6098adf290232a0fed7bdbfb23db8d42d2b79a49d469ec5bb"
+updated_at: 2026-09-21T12:19:41Z
+content_hash: "sha256:7217a8219172f93262bbafe2d64e9b7e90c215c2bd971017191cb9624c32e3be"
 ---
 
 ## Description
@@ -161,7 +161,56 @@ status: new
 
 
 ## Notes
+## Scope Amendment (dispatcher review) + Rework (head bdb78e6)
 
+Independent acceptance rejected the first delivery on three grounds. All three are now
+resolved; one of them required an authoritative scope change, recorded here.
+
+### Amendment: Required Outcome 9's production seam is deferred to WD-v6xp
+
+The story demanded both (a) a production QC-completion seam invoking the live recorder and
+(b) protected-path parity that forbids a `services/` change. Those two cannot both hold.
+The dispatcher's ruling: the seam is deferred to **WD-v6xp** ("Emit the spend-gate decision
+row from the production QC seam (fail-open)"), because the naive version reviewed in the
+first draft imported `training/` into `services/jobs/executor.py` inside the QC loop and
+re-raised a recording error, which could fail a render attempt.
+
+For WD-l48s the recording guarantee is satisfied by the standalone post-run recorder plus
+the indexer, with `services/` byte-identical to main. WD-v6xp carries the seam with the
+fail-open and layering constraints made explicit.
+
+Wording correction: "nothing under `scripts/` imports `training`" was imprecise. The rule is
+that production runner scripts must not import `training/`; `scripts/build_spend_gate_corpus.py`
+is the sanctioned analysis entry point and does import it.
+
+### Rework 1: preregistration amendment recorded instead of silent drift
+
+`preregistration.json` now carries an explicit `amendments` entry for the transparent
+heuristic's tolerance correction (frozen 1e-9 -> production 1e-6), with the original value,
+the reason (the frozen value was itself a defect that rejected every recorded row), the
+evidence (guide gap 3.3333333338e-07; 18/18 rejected at 1e-9, 0/18 at 1e-6), and an explicit
+statement that the primary metric, decision rule, budget, seed and folds were NOT changed.
+The replay report limits disclose the amendment and the fact that it was declared after
+first results.
+
+### Rework 2: the three missing tests added
+
+- missing facing sidecar still reaches `admit`, and a `profile` facing still rejects;
+- the clipped-probability disclosure (epsilon 1e-15, raw clipped == complete row count,
+  calibrated clipped == 0, raw log loss > 5, report line present);
+- atomic replacement of an existing `spend-gate-row.json` with no `*.tmp-*` left behind.
+
+### Also disclosed in the report limits
+
+Per-artifact untracked-media counts: delivered `remux.mp4` untracked for 12 rows, 16 rows
+have at least one untracked artifact, 20 rows have all ten artifacts tracked (the earlier
+"15 of 36" figure was true for raw source media/evidence but not for delivered remux).
+
+### Verification at bdb78e6
+
+- 11 targeted tests pass (was 8).
+- Artifacts regenerated; corpus row content unchanged; manifest/preregistration/metrics/report updated.
+- Protected-path parity with main exits 0.
 
 ## nd_contract
 status: rejected
