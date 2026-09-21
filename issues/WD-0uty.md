@@ -9,9 +9,8 @@ parent: WD-59qe
 created_at: 2026-09-21T13:51:59Z
 created_by: speed
 updated_at: 2026-09-21T13:51:59Z
-content_hash: "sha256:3ce0135fa2442ee150e2732b4380ddf2b558030eafe326c4fbe683c25cb1fa84"
+content_hash: "sha256:210b8d922865f78a8bb28d891cd75016c823d1c537407c0640a96a48175b44a8"
 blocked_by: [WD-5cqh]
-blocks: [WD-0koy]
 ---
 
 ## Description
@@ -116,10 +115,10 @@ status: new
 ## History
 - 2026-09-21T13:51:59Z dep_added: blocked_by WD-5cqh
 - 2026-09-21T13:52:00Z dep_added: blocks WD-0koy
+- 2026-09-21T13:52:28Z dep_removed: no_longer_blocks WD-0koy
 
 ## Links
 - Parent: [[WD-59qe]]
-- Blocks: [[WD-0koy]]
 - Blocked by: [[WD-5cqh]]
 
 ## Comments
