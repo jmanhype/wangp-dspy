@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import re
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -13,6 +14,8 @@ from typing import Any, Mapping
 
 CONTENT_BRIEF_SCHEMA = "wangp-dspy.content-brief/v1"
 DEFAULT_DURATION_S = 56.0 / 24.0
+AUDIO_DURATION_TOLERANCE_S = 0.000001
+FFPROBE_TIMEOUT_S = 10.0
 _SN_TAG = re.compile(r"^S\d+$")
 _ALLOWED_KEYS = {
     "schema_version", "title", "premise", "characters", "dialogue",
@@ -200,6 +203,76 @@ def _resolve_input(value: str, base: Path) -> Path:
     return candidate if candidate.is_absolute() else (base / candidate).resolve()
 
 
+def _probe_duration_output(output: str, path: Path) -> float:
+    try:
+        measured = float(output.strip())
+    except ValueError as exc:
+        raise ContentBriefError(
+            f"ffprobe returned a non-numeric duration for {path}"
+        ) from exc
+    if not math.isfinite(measured) or measured <= 0:
+        raise ContentBriefError(
+            f"ffprobe returned a non-positive duration for {path}: {measured}"
+        )
+    return measured
+
+
+def _decode_audio_probe(output: str, path: Path) -> float:
+    try:
+        payload = json.loads(output)
+    except json.JSONDecodeError as exc:
+        raise ContentBriefError(
+            f"ffprobe returned invalid JSON for {path}"
+        ) from exc
+    streams = payload.get("streams") if isinstance(payload, dict) else None
+    if not isinstance(streams, list) or not streams:
+        raise ContentBriefError(f"no audio stream in {path}")
+    stream = streams[0]
+    if not isinstance(stream, dict) or stream.get("codec_type") != "audio":
+        raise ContentBriefError(f"no audio stream in {path}")
+    format_data = payload.get("format")
+    if not isinstance(format_data, dict) or "duration" not in format_data:
+        raise ContentBriefError(f"no audio duration for {path}")
+    return _probe_duration_output(str(format_data["duration"]), path)
+
+
+def _probe_audio_duration(
+    path: Path, timeout_s: float = FFPROBE_TIMEOUT_S
+) -> float:
+    """Measure one guide with the real ffprobe binary, failing closed."""
+
+    command = [
+        "ffprobe", "-v", "error", "-select_streams", "a:0",
+        "-show_entries", "stream=codec_type:format=duration",
+        "-of", "json", str(path),
+    ]
+    try:
+        result = subprocess.run(
+            command, capture_output=True, text=True, check=False,
+            timeout=timeout_s,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise ContentBriefError(
+            f"ffprobe timed out after {timeout_s}s for {path}"
+        ) from exc
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise ContentBriefError(f"cannot probe audio duration for {path}: {exc}") from exc
+    if result.returncode != 0:
+        detail = result.stderr.strip() or f"exit status {result.returncode}"
+        raise ContentBriefError(f"cannot probe audio duration for {path}: {detail}")
+    return _decode_audio_probe(result.stdout, path)
+
+
+def _check_audio_duration(
+    turn: int, path: Path, declared_s: float, measured_s: float
+) -> None:
+    if abs(declared_s - measured_s) > AUDIO_DURATION_TOLERANCE_S:
+        raise ContentBriefError(
+            f"audio duration mismatch for turn {turn}: guide={path} "
+            f"declared_s={declared_s} measured_s={measured_s}"
+        )
+
+
 def _plate_path(plates_dir: Path, name: str) -> Path:
     matches = sorted(path for path in plates_dir.glob(f"{name}.*") if path.is_file())
     if not matches:
@@ -240,6 +313,11 @@ def build_run_film_inputs(
         missing = [str(path) for path in candidates if not path.is_file()]
         if missing:
             raise ContentBriefError(f"missing audio file(s): {missing}")
+        for index, (path, declared_s) in enumerate(
+            zip(candidates, brief.durations_s, strict=True), start=1
+        ):
+            measured_s = _probe_audio_duration(path)
+            _check_audio_duration(index, path, declared_s, measured_s)
         resolved_audio = [str(path) for path in candidates]
 
     # All fail-closed validation happens before the first output side effect.
