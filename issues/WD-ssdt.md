@@ -1,19 +1,19 @@
 ---
 id: WD-ssdt
 title: "Reject content-brief guide duration mismatches before planning"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [bug, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:33:57Z
-content_hash: "sha256:68e2a4acb37f5349dec47dc5ae8e3f61b03660e2b038120a8b4f893e1f14d121"
+updated_at: 2026-09-21T00:38:33Z
+content_hash: "sha256:b1492035f6c9856dd8d9e6c1f6df43d22446103879f59cfc86898f272783f268"
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e, WD-rb1f]
-closed_at: 2026-09-21T00:25:02Z
-close_reason: "Accepted: independently re-ran targeted and full pytest at e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b (19/19 targeted; full exit 0 with one disclosed WANGP_3090 live-hardware skip); diff contains only predict/content_brief.py and tests/test_content_brief.py, with policy/wiring/CLI byte-identical to main; real ffprobe preflight compares every supplied guide to declared/default duration at 1e-6 before any side effect; amendment fallback rejects audio_filler_policy and every mismatch; negative CLI paths and my adversarial probes left no plan, run dir, ledger, or jobs DB; integration fixtures use real ffmpeg/ffprobe with no mocks or skips; no QC/AV/retry/vision/Whisper/mouth-box/SyncNet gate changed."
+closed_at: 2026-09-21T00:38:33Z
+close_reason: "Accepted rework 792cbed4ff17979cec791e045d45698faedb2497: clean branch HEAD verified; independently re-ran targeted and full pytest (20/20 targeted; full exit 0 with the sole disclosed WANGP_3090 live-hardware skip); cumulative diff is 2 files/232 changed LOC only and protected policy, wiring, and CLI files are byte-identical to main; real ffprobe selects a:0 and requires an audio stream plus valid duration, and subprocess.run has a real 10 s production timeout with typed TimeoutExpired handling; my real video-only MP4 CLI probe and blocking-FIFO/short-timeout probes failed closed with no plan, run dir, ledger, or jobs DB; new tests use real ffmpeg/ffprobe with no mocks, skips, or env gating."
 ---
 ## Description
 Reject a supplied content-brief guide whose measured duration contradicts the declared turn before any no-GPU plan or run artifact is emitted.
@@ -313,6 +313,7 @@ status: new
 - 2026-09-21T00:27:17Z status: closed -> open
 - 2026-09-21T00:33:31Z status: open -> in_progress
 - 2026-09-21T00:33:31Z auto-follows: linked to predecessor WD-rb1f
+- 2026-09-21T00:38:33Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-h73w]]
