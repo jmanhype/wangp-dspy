@@ -87,6 +87,7 @@ def probe(path: Path) -> dict[str, Any]:
 def contact_sheet(source: Path, output: Path, tiles: int) -> dict[str, Any]:
     duration = float(probe(source)["ffprobe"]["format"]["duration"])
     interval = max(1.0, duration / tiles)
+    output.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(source), "-vf", f"fps=1/{interval:.6f},scale=240:-1,tile={tiles}x1", "-frames:v", "1", str(output)], check=True)
     return {"path": str(output), "sha256": sha(output)}
 

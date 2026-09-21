@@ -1,0 +1,983 @@
+{
+  "all_declared_gates_passed": true,
+  "assembly": {
+    "command": [
+      "ffmpeg",
+      "-y",
+      "-v",
+      "error",
+      "-i",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+      "-i",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4",
+      "-i",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4",
+      "-i",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4",
+      "-filter_complex",
+      "[0:v][0:a][1:v][1:a][2:v][2:a][3:v][3:a]concat=n=4:v=1:a=1[v][a]",
+      "-map",
+      "[v]",
+      "-map",
+      "[a]",
+      "-c:v",
+      "libx264",
+      "-crf",
+      "18",
+      "-c:a",
+      "aac",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4"
+    ],
+    "ffmpeg_executable": "ffmpeg",
+    "ffmpeg_version": null,
+    "manifest_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/.concat-inputs.txt",
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
+    "output_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+    "video_paths": [
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4"
+    ]
+  },
+  "creative_acceptance": "none",
+  "cuts": [
+    {
+      "av_sync": {
+        "confidence": 4.054347,
+        "crop_factors": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "crop_results": [
+          {
+            "confidence": 4.4656219482421875,
+            "factor": 4.0,
+            "minimum_distance": 12.500921249389648,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 4.054347038269043,
+            "factor": 8.0,
+            "minimum_distance": 12.660748481750488,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 3.61013126373291,
+            "factor": 12.0,
+            "minimum_distance": 12.885842323303223,
+            "offset_frames": -1
+          }
+        ],
+        "method": "syncnet_v2_multicrop/v1",
+        "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+        "offset_frames_25fps": -1,
+        "offset_seconds": -0.04,
+        "pass_bar": {
+          "max_abs_offset_frames_25fps": 10,
+          "min_confidence": 1.0
+        },
+        "passed": true,
+        "phonetic_sync_verified": false,
+        "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+        "speaker_mouth_bbox": [
+          0.33,
+          0.2,
+          0.02,
+          0.01
+        ],
+        "status": "complete",
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+        "video_sha256": "cdfa29998c2d3094178f200c5e39bc5050c4a68f36b452b6d6cc78b6f42e042f"
+      },
+      "clip_index": 1,
+      "dialogue": "Tomorrow's sunrise is only a projection.",
+      "gates": {
+        "mouth_box_three_frame_localization": true,
+        "syncnet_av": true,
+        "vision_identity_composition": true,
+        "whisper_post": true,
+        "whisper_pre": true
+      },
+      "job_id": "job-1789954232380-922bf583",
+      "media": {
+        "ffprobe": {
+          "format": {
+            "duration": "2.333333",
+            "size": "1332407"
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "avg_frame_rate": "24/1",
+              "codec_name": "h264",
+              "codec_type": "video",
+              "height": 576,
+              "index": 0,
+              "nb_frames": "56",
+              "width": 704
+            },
+            {
+              "avg_frame_rate": "0/0",
+              "channels": 2,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "index": 1,
+              "nb_frames": "73",
+              "sample_rate": "32000"
+            }
+          ]
+        },
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+        "sha256": "cdfa29998c2d3094178f200c5e39bc5050c4a68f36b452b6d6cc78b6f42e042f"
+      },
+      "qc_evidence_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json",
+      "qc_evidence_sha256": "54227437e6927613b51a2c01f733fd884b809211358bfd1a601c9fa6769e7607",
+      "render_fingerprint": "1effe80a8d63d7376d8eeae5741e206433439f9944a9687546456eaeae96b46a",
+      "seed": 904,
+      "speaker": "Tess",
+      "vision": {
+        "action_match": 0.9,
+        "av_sync_verified": false,
+        "expected_action": "subtle natural listening and speaking motion",
+        "expected_speaker": "Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT",
+        "mouth_activity": 0.85,
+        "mouth_sync": null,
+        "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains in a neutral, listening state. The spatial composition, wardrobe, and background elements (observatory setting) are preserved consistently across the sequence.",
+        "pass_bar": 0.7,
+        "passed": true,
+        "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains in a neutral, listening state. The spatial composition, wardrobe, and background elements (observatory setting) are preserved consistently across the sequence.\"\n}",
+        "speaker_attribution": 0.95,
+        "speaker_mouth_bbox": [
+          0.33,
+          0.2,
+          0.02,
+          0.01
+        ],
+        "speaker_mouth_bboxes": [
+          [
+            0.33,
+            0.2,
+            0.02,
+            0.01
+          ],
+          [
+            0.33,
+            0.19,
+            0.02,
+            0.02
+          ],
+          [
+            0.34,
+            0.2,
+            0.02,
+            0.01
+          ]
+        ],
+        "speaker_mouth_center_spread": [
+          0.010000000000000009,
+          0.0050000000000000044
+        ],
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4"
+      },
+      "whisper": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/raw.mp4",
+          "intended_text": "Tomorrow's sunrise is only a projection.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "post",
+          "score": 1.0,
+          "transcript": "Tomorrow's sunrise is only a projection."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+          "intended_text": "Tomorrow's sunrise is only a projection.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "Tomorrow's sunrise is only a project."
+        }
+      }
+    },
+    {
+      "av_sync": {
+        "confidence": 2.481187,
+        "crop_factors": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "crop_results": [
+          {
+            "confidence": 1.6693239212036133,
+            "factor": 4.0,
+            "minimum_distance": 9.810792922973633,
+            "offset_frames": 0
+          },
+          {
+            "confidence": 2.481186866760254,
+            "factor": 8.0,
+            "minimum_distance": 9.512701988220215,
+            "offset_frames": 0
+          },
+          {
+            "confidence": 2.5386762619018555,
+            "factor": 12.0,
+            "minimum_distance": 9.842761993408203,
+            "offset_frames": 0
+          }
+        ],
+        "method": "syncnet_v2_multicrop/v1",
+        "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+        "offset_frames_25fps": 0,
+        "offset_seconds": 0.0,
+        "pass_bar": {
+          "max_abs_offset_frames_25fps": 10,
+          "min_confidence": 1.0
+        },
+        "passed": true,
+        "phonetic_sync_verified": false,
+        "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-8c113b8f1396/render-0001/remux.mp4",
+        "speaker_mouth_bbox": [
+          0.59,
+          0.16,
+          0.02,
+          0.01
+        ],
+        "status": "complete",
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4",
+        "video_sha256": "3939aefed21447e0cc318949d14c9a4d54b0802f90bcc0f9ad9623e97ebc7b44"
+      },
+      "clip_index": 2,
+      "dialogue": "Then give me a real horizon.",
+      "gates": {
+        "mouth_box_three_frame_localization": true,
+        "syncnet_av": true,
+        "vision_identity_composition": true,
+        "whisper_post": true,
+        "whisper_pre": true
+      },
+      "job_id": "job-1789954232381-bc7b18bf",
+      "media": {
+        "ffprobe": {
+          "format": {
+            "duration": "2.333333",
+            "size": "1197668"
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "avg_frame_rate": "24/1",
+              "codec_name": "h264",
+              "codec_type": "video",
+              "height": 576,
+              "index": 0,
+              "nb_frames": "56",
+              "width": 704
+            },
+            {
+              "avg_frame_rate": "0/0",
+              "channels": 2,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "index": 1,
+              "nb_frames": "73",
+              "sample_rate": "32000"
+            }
+          ]
+        },
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4",
+        "sha256": "3939aefed21447e0cc318949d14c9a4d54b0802f90bcc0f9ad9623e97ebc7b44"
+      },
+      "qc_evidence_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/qc-evidence.json",
+      "qc_evidence_sha256": "e07edd5735363edb83f59f135ffd0539fd6dd1fbdf5e1ac753a0e9f66043e641",
+      "render_fingerprint": "713509534a62c518cb9b78edbd2f77e35f4101c3ab116be8973fe0800ad2cc5b",
+      "seed": 904,
+      "speaker": "Rho",
+      "vision": {
+        "action_match": 0.9,
+        "av_sync_verified": false,
+        "expected_action": "subtle natural listening and speaking motion",
+        "expected_speaker": "Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT",
+        "mouth_activity": 0.85,
+        "mouth_sync": null,
+        "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The composition is preserved with the man (Rho) on the right and the woman (Tess) on the left. In the second frame, the man's mouth is clearly open in a speaking pose, while the woman's mouth is closed, correctly attributing the speaking action to the expected identity. The scene remains consistent with the reference.",
+        "pass_bar": 0.7,
+        "passed": true,
+        "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The composition is preserved with the man (Rho) on the right and the woman (Tess) on the left. In the second frame, the man's mouth is clearly open in a speaking pose, while the woman's mouth is closed, correctly attributing the speaking action to the expected identity. The scene remains consistent with the reference.\"\n}",
+        "speaker_attribution": 0.95,
+        "speaker_mouth_bbox": [
+          0.59,
+          0.16,
+          0.02,
+          0.01
+        ],
+        "speaker_mouth_bboxes": [
+          [
+            0.59,
+            0.17,
+            0.02,
+            0.01
+          ],
+          [
+            0.61,
+            0.14,
+            0.03,
+            0.03
+          ],
+          [
+            0.59,
+            0.16,
+            0.02,
+            0.01
+          ]
+        ],
+        "speaker_mouth_center_spread": [
+          0.025000000000000022,
+          0.01999999999999999
+        ],
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4"
+      },
+      "whisper": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/raw.mp4",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "post",
+          "score": 1.0,
+          "transcript": "then give me a real horizon."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+          "intended_text": "Then give me a real horizon.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "can give me a real horizon."
+        }
+      }
+    },
+    {
+      "av_sync": {
+        "confidence": 2.808661,
+        "crop_factors": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "crop_results": [
+          {
+            "confidence": 2.808661460876465,
+            "factor": 4.0,
+            "minimum_distance": 12.254593849182129,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 3.0424957275390625,
+            "factor": 8.0,
+            "minimum_distance": 12.067483901977539,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 2.7067270278930664,
+            "factor": 12.0,
+            "minimum_distance": 12.279709815979004,
+            "offset_frames": -1
+          }
+        ],
+        "method": "syncnet_v2_multicrop/v1",
+        "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+        "offset_frames_25fps": -1,
+        "offset_seconds": -0.04,
+        "pass_bar": {
+          "max_abs_offset_frames_25fps": 10,
+          "min_confidence": 1.0
+        },
+        "passed": true,
+        "phonetic_sync_verified": false,
+        "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-99f88572dfb7/render-0002/remux.mp4",
+        "speaker_mouth_bbox": [
+          0.35,
+          0.19,
+          0.02,
+          0.01
+        ],
+        "status": "complete",
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4",
+        "video_sha256": "8563259379702ae9730727999d5af46e9f24b95e38aad01a7447148a43930237"
+      },
+      "clip_index": 3,
+      "dialogue": "The projector died at midnight.",
+      "gates": {
+        "mouth_box_three_frame_localization": true,
+        "syncnet_av": true,
+        "vision_identity_composition": true,
+        "whisper_post": true,
+        "whisper_pre": true
+      },
+      "job_id": "job-1789954232381-2c187f71",
+      "media": {
+        "ffprobe": {
+          "format": {
+            "duration": "2.333333",
+            "size": "1097308"
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "avg_frame_rate": "24/1",
+              "codec_name": "h264",
+              "codec_type": "video",
+              "height": 576,
+              "index": 0,
+              "nb_frames": "56",
+              "width": 704
+            },
+            {
+              "avg_frame_rate": "0/0",
+              "channels": 2,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "index": 1,
+              "nb_frames": "73",
+              "sample_rate": "32000"
+            }
+          ]
+        },
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4",
+        "sha256": "8563259379702ae9730727999d5af46e9f24b95e38aad01a7447148a43930237"
+      },
+      "qc_evidence_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/qc-evidence.json",
+      "qc_evidence_sha256": "792ace5a1a52f1c258083d3588cefb919500b32757b3a6c747b068e1d08bcc8e",
+      "render_fingerprint": "4a91166e09694f5b96c610a3c4c0056e5196c35bedefaca3f7e16d9061ce8ad2",
+      "seed": 904,
+      "speaker": "Tess",
+      "vision": {
+        "action_match": 0.9,
+        "av_sync_verified": false,
+        "expected_action": "subtle natural listening and speaking motion",
+        "expected_speaker": "Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT",
+        "mouth_activity": 0.9,
+        "mouth_sync": null,
+        "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains static with a closed mouth, consistent with a silent counterpart. The spatial composition, wardrobe, and background elements are preserved perfectly across the frames.",
+        "pass_bar": 0.7,
+        "passed": true,
+        "raw_response": "{\n  \"mouth_activity\": 0.9,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 1.0,\n  \"notes\": \"The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains static with a closed mouth, consistent with a silent counterpart. The spatial composition, wardrobe, and background elements are preserved perfectly across the frames.\"\n}",
+        "speaker_attribution": 1.0,
+        "speaker_mouth_bbox": [
+          0.35,
+          0.19,
+          0.02,
+          0.01
+        ],
+        "speaker_mouth_bboxes": [
+          [
+            0.35,
+            0.17,
+            0.02,
+            0.01
+          ],
+          [
+            0.348,
+            0.203,
+            0.02,
+            0.029
+          ],
+          [
+            0.35,
+            0.19,
+            0.02,
+            0.01
+          ]
+        ],
+        "speaker_mouth_center_spread": [
+          0.0020000000000000018,
+          0.04250000000000001
+        ],
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4"
+      },
+      "whisper": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/raw.mp4",
+          "intended_text": "The projector died at midnight.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "post",
+          "score": 1.0,
+          "transcript": "The projector died at midnight."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+          "intended_text": "The projector died at midnight.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 1.0,
+          "transcript": "The projector died at midnight."
+        }
+      }
+    },
+    {
+      "av_sync": {
+        "confidence": 2.24452,
+        "crop_factors": [
+          4.0,
+          8.0,
+          12.0
+        ],
+        "crop_results": [
+          {
+            "confidence": 2.2445201873779297,
+            "factor": 4.0,
+            "minimum_distance": 9.404768943786621,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 2.0818920135498047,
+            "factor": 8.0,
+            "minimum_distance": 10.082319259643555,
+            "offset_frames": -1
+          },
+          {
+            "confidence": 2.867338180541992,
+            "factor": 12.0,
+            "minimum_distance": 9.777678489685059,
+            "offset_frames": -1
+          }
+        ],
+        "method": "syncnet_v2_multicrop/v1",
+        "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+        "offset_frames_25fps": -1,
+        "offset_seconds": -0.04,
+        "pass_bar": {
+          "max_abs_offset_frames_25fps": 10,
+          "min_confidence": 1.0
+        },
+        "passed": true,
+        "phonetic_sync_verified": false,
+        "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-fda9bc258c06/render-0003/remux.mp4",
+        "speaker_mouth_bbox": [
+          0.605,
+          0.155,
+          0.028,
+          0.015
+        ],
+        "status": "complete",
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4",
+        "video_sha256": "90186e1a64d73075392fc82f22dd5dbd6e328e6be3adbde511ae12b41ac20ed1"
+      },
+      "clip_index": 4,
+      "dialogue": "Then we will watch the stars.",
+      "gates": {
+        "mouth_box_three_frame_localization": true,
+        "syncnet_av": true,
+        "vision_identity_composition": true,
+        "whisper_post": true,
+        "whisper_pre": true
+      },
+      "job_id": "job-1789954232382-59119d72",
+      "media": {
+        "ffprobe": {
+          "format": {
+            "duration": "2.333333",
+            "size": "1351285"
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "avg_frame_rate": "24/1",
+              "codec_name": "h264",
+              "codec_type": "video",
+              "height": 576,
+              "index": 0,
+              "nb_frames": "56",
+              "width": 704
+            },
+            {
+              "avg_frame_rate": "0/0",
+              "channels": 2,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "index": 1,
+              "nb_frames": "73",
+              "sample_rate": "32000"
+            }
+          ]
+        },
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4",
+        "sha256": "90186e1a64d73075392fc82f22dd5dbd6e328e6be3adbde511ae12b41ac20ed1"
+      },
+      "qc_evidence_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/qc-evidence.json",
+      "qc_evidence_sha256": "d613533ae826dc36dc81f3239348ae14d5750045501cbb19515b7dd2dfc220c0",
+      "render_fingerprint": "7b2aca2e76721f2b7af79edebcb66cdaa16d9f9124d7f798c4ae65e1771f04d8",
+      "seed": 904,
+      "speaker": "Rho",
+      "vision": {
+        "action_match": 0.95,
+        "av_sync_verified": false,
+        "expected_action": "subtle natural listening and speaking motion",
+        "expected_speaker": "Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT",
+        "mouth_activity": 0.9,
+        "mouth_sync": null,
+        "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames correctly identify the man on the right (Rho) as the active speaker, showing a clear open-mouth pose in the middle frame. The woman on the left (Tess) remains in a neutral, listening state. The spatial composition, character positions, and wardrobe are perfectly preserved from the reference image.",
+        "pass_bar": 0.7,
+        "passed": true,
+        "raw_response": "{\n  \"mouth_activity\": 0.9,\n  \"action_match\": 0.95,\n  \"speaker_attribution\": 1.0,\n  \"notes\": \"The generated frames correctly identify the man on the right (Rho) as the active speaker, showing a clear open-mouth pose in the middle frame. The woman on the left (Tess) remains in a neutral, listening state. The spatial composition, character positions, and wardrobe are perfectly preserved from the reference image.\"\n}",
+        "speaker_attribution": 1.0,
+        "speaker_mouth_bbox": [
+          0.605,
+          0.155,
+          0.028,
+          0.015
+        ],
+        "speaker_mouth_bboxes": [
+          [
+            0.605,
+            0.155,
+            0.028,
+            0.012
+          ],
+          [
+            0.59,
+            0.14,
+            0.03,
+            0.03
+          ],
+          [
+            0.605,
+            0.155,
+            0.028,
+            0.015
+          ]
+        ],
+        "speaker_mouth_center_spread": [
+          0.014000000000000012,
+          0.007499999999999979
+        ],
+        "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4"
+      },
+      "whisper": {
+        "post": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/raw.mp4",
+          "intended_text": "Then we will watch the stars.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "post",
+          "score": 1.0,
+          "transcript": "then we will watch the stars."
+        },
+        "pre": {
+          "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav",
+          "intended_text": "Then we will watch the stars.",
+          "pass_bar": 0.6,
+          "passed": true,
+          "phase": "pre",
+          "score": 0.833,
+          "transcript": "then we will watch the star."
+        }
+      }
+    }
+  ],
+  "final_media": {
+    "ffprobe": {
+      "format": {
+        "duration": "9.333333",
+        "size": "1371560"
+      },
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "avg_frame_rate": "24/1",
+          "codec_name": "h264",
+          "codec_type": "video",
+          "height": 576,
+          "index": 0,
+          "nb_frames": "224",
+          "width": 704
+        },
+        {
+          "avg_frame_rate": "0/0",
+          "channels": 2,
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "index": 1,
+          "nb_frames": "292",
+          "sample_rate": "32000"
+        }
+      ]
+    },
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
+    "sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7"
+  },
+  "inputs": {
+    "brief_sha256": "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767",
+    "completed_run_ledger_sha256": "e475ba81257b915de2d03d87abdb9366a3bc50082d4548aadeac2d8b3e2b8f77",
+    "first_attempt_manifest_sha256": "1b3865666017f3195e36b166a03c5966325e57fc9c1e47d6e322296c6ba73c50",
+    "guides": [
+      "8ed7970078130c8a64036ad7bbd52c10b36cbbe32b6eb678a1b4856cc8501b3f",
+      "d7607d276a371132c148cb39552796db27325e4b2f022d9ee3ba02bb295a5322",
+      "f660d9564d073056110f1bc210c79c6ed83c4773c6e02743e688c11607cecfe7",
+      "c001101d6dfc49cd3b59b358192bcc37ed93c4084ccb89e52306488afb1794c2"
+    ],
+    "launcher_sha256": "c1c0b016081e4502f68afc77bbd5d6dea9e6592b5ea766a6f979a47d2f77c440",
+    "plan_sha256": "d0650b2e6b9d6fdbb1807ef82622c9c9a17888a0d4896e0c245feab146013943",
+    "planning_ledger_sha256": "1ca179cf04fde53ccad4e8b9bf046fc4e121090bd29f7133fa9ad821ba61cbf7",
+    "plates": {
+      "Rho": "87e24404c5fa0359aa3d1fd56147cc7ee0ee99fd5e5a19a6c1926848fa2415a0",
+      "Tess": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+      "anchor": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210"
+    },
+    "recovery_run_ledger_sha256": "65ed2602972b2e86af8867f820db1fe7da942edcfbb1dad6bc154be80cec5321",
+    "verifier_sha256": "9598a7dc94cd3fdac8dbb19bcb29590701e4ae4e963089d25f0a0afe179fd12e"
+  },
+  "jobs": [
+    {
+      "failure_class": "render_error",
+      "failure_count": 1,
+      "job_id": "job-1789954232380-922bf583",
+      "state": "done"
+    },
+    {
+      "failure_class": null,
+      "failure_count": 0,
+      "job_id": "job-1789954232381-bc7b18bf",
+      "state": "done"
+    },
+    {
+      "failure_class": null,
+      "failure_count": 0,
+      "job_id": "job-1789954232381-2c187f71",
+      "state": "done"
+    },
+    {
+      "failure_class": null,
+      "failure_count": 0,
+      "job_id": "job-1789954232382-59119d72",
+      "state": "done"
+    }
+  ],
+  "operator_approval": {
+    "approved_at_utc": "2026-09-21T00:54:03Z",
+    "brief_hash": "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd",
+    "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+    "raw_brief_sha256": "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767"
+  },
+  "post_execution_recovery": {
+    "event": "postprocess-only recovery",
+    "failure": "first finalize could not open film.contact_sheet.jpg because its parent review directory did not exist",
+    "final_media_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+    "final_status": "operator_review_pending",
+    "fix": "create the review parent before ffmpeg in recover_once.contact_sheet; rerun only recover_once.py finalize",
+    "production_run_rerun": false,
+    "queue_terminal_state": "4 done",
+    "render_rerun": false,
+    "schema_version": 1
+  },
+  "queue_evidence": {
+    "attempt_failures": [
+      {
+        "attempt_id": 1,
+        "created_at": 1789954238.811081,
+        "failure_class": "render_error",
+        "failure_detail": "[lane=ref2va] render failed for clip 1: WhisperGateError: pre: transcript score 0.030 below pass bar 0.600",
+        "failure_id": 1,
+        "failure_signature": "3266148cab9b2f3e1420fab1104ac122cde16541f2c07a809d19ac416c87bb12"
+      }
+    ],
+    "attempts": [
+      {
+        "attempt_id": 1,
+        "attempt_no": 1,
+        "attempt_reason": null,
+        "created_at": 1789954238.810984,
+        "job_id": "job-1789954232380-922bf583",
+        "parent_attempt_id": null,
+        "reopen_reason": null,
+        "status": "allocated"
+      },
+      {
+        "attempt_id": 2,
+        "attempt_no": 2,
+        "attempt_reason": null,
+        "created_at": 1789954239.6158872,
+        "job_id": "job-1789954232380-922bf583",
+        "parent_attempt_id": 1,
+        "reopen_reason": "reapply recorded LF004 content-brief queue reconciliation before QC",
+        "status": "reopened"
+      }
+    ],
+    "database_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db",
+    "database_sha256": "4049fa0815deae648dbd07c24cf28d49d027817f45cc9a4c8e3020227b22906c",
+    "jobs_full": [
+      {
+        "clips": "[{\"clip_index\": 1, \"kind\": \"ref2va_render\", \"mode\": \"REF2VA_IDENTITY_AUDIO\", \"speaker\": \"Tess\", \"speaker_sn\": \"S1\", \"prompt\": \"the composition anchor is the two-shot composition anchor: two characters framed left and right.\\n\\n(S1) (from the composition anchor):\\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\\n\\n(S2) (from the composition anchor):\\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\\n\\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S1) speaks with lively animated mouth movement: (S1) says: <d>[English] Tomorrow's sunrise is only a projection.</d> (S2) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\\n\\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.\", \"image_refs\": [\"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png\"], \"seed\": 904, \"frames\": 56, \"shot_duration_s\": 2.333, \"guide_duration_s\": 2.333, \"audio_length_frames\": 56, \"fps\": 24, \"width\": 480, \"height\": 832, \"audio_guide\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"audio_provenance\": {\"source_master\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"vocal_stem\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"whisper_map\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"keeper_window_s\": [0.0, 2.3333333333333335]}, \"chain\": {\"index\": 1, \"re_anchor\": true, \"previous\": null}, \"needs\": null, \"render_fingerprint\": \"1effe80a8d63d7376d8eeae5741e206433439f9944a9687546456eaeae96b46a\", \"render_attempted\": true, \"audio_policy\": {\"discard_rendered_audio\": false, \"remux_source\": \"source_master\", \"remux_window\": [0.0, 2.3333333333333335]}, \"audio_carrier\": \"native_h3\", \"speaker_manifest\": {\"schema\": \"wangp-dspy.speaker-manifest/v1\", \"turns\": [{\"turn_index\": 1, \"speaker_id\": \"S1\", \"picture_n\": 1, \"audio_path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"intended_text\": \"Tomorrow's sunrise is only a projection.\"}]}, \"dialogue_text\": \"Tomorrow's sunrise is only a projection.\", \"profile\": 3, \"recipe_name\": \"production\", \"model_type\": \"minimax_h3_ref2va_pruned\", \"audio_prompt_type\": \"A\", \"video_prompt_type\": \"I\", \"image_prompt_type\": \"S\", \"image_start\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png\", \"action\": \"subtle natural listening and speaking motion\", \"speaker_description\": \"Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT\", \"premise_id\": \"lf004-operator-dogfood\", \"resolution\": [480, 832], \"requested_frames\": 56, \"video_length\": 56, \"force_fps\": 24, \"steps\": 20, \"audio\": {\"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav\", \"apad\": true, \"start_s\": 0.0, \"padded_duration_s\": 2.3333333333333335}, \"status\": \"done\", \"log\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/render.log\", \"mp4\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4\", \"qc_verdict\": {\"verdict\": \"NEEDS REVIEW\", \"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json\"}, \"lane\": \"ref2va\"}]",
+        "created_at": 1789954232.38123,
+        "failure_class": "render_error",
+        "failure_count": 1,
+        "failure_detail": "[lane=ref2va] render failed for clip 1: WhisperGateError: pre: transcript score 0.030 below pass bar 0.600",
+        "job_id": "job-1789954232380-922bf583",
+        "last_heartbeat": null,
+        "owner_pid": null,
+        "plan_ref": "film",
+        "retryable": 1,
+        "state": "done"
+      },
+      {
+        "clips": "[{\"clip_index\": 2, \"kind\": \"ref2va_render\", \"mode\": \"REF2VA_IDENTITY_AUDIO\", \"speaker\": \"Rho\", \"speaker_sn\": \"S2\", \"prompt\": \"the composition anchor is the two-shot composition anchor: two characters framed left and right.\\n\\n(S1) (from the composition anchor):\\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\\n\\n(S2) (from the composition anchor):\\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\\n\\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S2) speaks with lively animated mouth movement: (S2) says: <d>[English] Then give me a real horizon.</d> (S1) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\\n\\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.\", \"image_refs\": [\"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/film/chain/clip0002/chain_last_frame.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png\"], \"seed\": 904, \"frames\": 56, \"shot_duration_s\": 2.333, \"guide_duration_s\": 2.333, \"audio_length_frames\": 56, \"fps\": 24, \"width\": 480, \"height\": 832, \"audio_guide\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"audio_provenance\": {\"source_master\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"vocal_stem\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"whisper_map\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"keeper_window_s\": [0.0, 2.3333333333333335]}, \"chain\": {\"index\": 2, \"re_anchor\": false, \"previous\": 1}, \"needs\": \"job-1789954232380-922bf583\", \"render_fingerprint\": \"713509534a62c518cb9b78edbd2f77e35f4101c3ab116be8973fe0800ad2cc5b\", \"audio_policy\": {\"discard_rendered_audio\": false, \"remux_source\": \"source_master\", \"remux_window\": [0.0, 2.3333333333333335]}, \"audio_carrier\": \"native_h3\", \"speaker_manifest\": {\"schema\": \"wangp-dspy.speaker-manifest/v1\", \"turns\": [{\"turn_index\": 1, \"speaker_id\": \"S2\", \"picture_n\": 1, \"audio_path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"intended_text\": \"Then give me a real horizon.\"}]}, \"dialogue_text\": \"Then give me a real horizon.\", \"profile\": 3, \"recipe_name\": \"production\", \"model_type\": \"minimax_h3_ref2va_pruned\", \"audio_prompt_type\": \"A\", \"video_prompt_type\": \"I\", \"image_prompt_type\": \"I\", \"image_start\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/film/chain/clip0002/chain_last_frame.png\", \"action\": \"subtle natural listening and speaking motion\", \"speaker_description\": \"Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT\", \"premise_id\": \"lf004-operator-dogfood\", \"resolution\": [480, 832], \"requested_frames\": 56, \"video_length\": 56, \"force_fps\": 24, \"steps\": 20, \"audio\": {\"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav\", \"apad\": true, \"start_s\": 0.0, \"padded_duration_s\": 2.3333333333333335}, \"render_attempted\": true, \"status\": \"done\", \"log\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/render.log\", \"mp4\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/remux.mp4\", \"qc_verdict\": {\"verdict\": \"NEEDS REVIEW\", \"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-8c113b8f1396/render-0001/qc-evidence.json\"}, \"lane\": \"ref2va\"}]",
+        "created_at": 1789954232.381676,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1789954232381-bc7b18bf",
+        "last_heartbeat": null,
+        "owner_pid": null,
+        "plan_ref": "film",
+        "retryable": 1,
+        "state": "done"
+      },
+      {
+        "clips": "[{\"clip_index\": 3, \"kind\": \"ref2va_render\", \"mode\": \"REF2VA_IDENTITY_AUDIO\", \"speaker\": \"Tess\", \"speaker_sn\": \"S1\", \"prompt\": \"the composition anchor is the two-shot composition anchor: two characters framed left and right.\\n\\n(S1) (from the composition anchor):\\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\\n\\n(S2) (from the composition anchor):\\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\\n\\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S1) speaks with lively animated mouth movement: (S1) says: <d>[English] The projector died at midnight.</d> (S2) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\\n\\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.\", \"image_refs\": [\"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/film/chain/clip0003/chain_last_frame.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png\"], \"seed\": 904, \"frames\": 56, \"shot_duration_s\": 2.333, \"guide_duration_s\": 2.333, \"audio_length_frames\": 56, \"fps\": 24, \"width\": 480, \"height\": 832, \"audio_guide\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"audio_provenance\": {\"source_master\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"vocal_stem\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"whisper_map\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"keeper_window_s\": [0.0, 2.3333333333333335]}, \"chain\": {\"index\": 3, \"re_anchor\": false, \"previous\": 2}, \"needs\": \"job-1789954232381-bc7b18bf\", \"render_fingerprint\": \"4a91166e09694f5b96c610a3c4c0056e5196c35bedefaca3f7e16d9061ce8ad2\", \"audio_policy\": {\"discard_rendered_audio\": false, \"remux_source\": \"source_master\", \"remux_window\": [0.0, 2.3333333333333335]}, \"audio_carrier\": \"native_h3\", \"speaker_manifest\": {\"schema\": \"wangp-dspy.speaker-manifest/v1\", \"turns\": [{\"turn_index\": 1, \"speaker_id\": \"S1\", \"picture_n\": 1, \"audio_path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"intended_text\": \"The projector died at midnight.\"}]}, \"dialogue_text\": \"The projector died at midnight.\", \"profile\": 3, \"recipe_name\": \"production\", \"model_type\": \"minimax_h3_ref2va_pruned\", \"audio_prompt_type\": \"A\", \"video_prompt_type\": \"I\", \"image_prompt_type\": \"I\", \"image_start\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/film/chain/clip0003/chain_last_frame.png\", \"action\": \"subtle natural listening and speaking motion\", \"speaker_description\": \"Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT\", \"premise_id\": \"lf004-operator-dogfood\", \"resolution\": [480, 832], \"requested_frames\": 56, \"video_length\": 56, \"force_fps\": 24, \"steps\": 20, \"audio\": {\"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav\", \"apad\": true, \"start_s\": 0.0, \"padded_duration_s\": 2.3333333333333335}, \"render_attempted\": true, \"status\": \"done\", \"log\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/render.log\", \"mp4\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/remux.mp4\", \"qc_verdict\": {\"verdict\": \"NEEDS REVIEW\", \"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-99f88572dfb7/render-0002/qc-evidence.json\"}, \"lane\": \"ref2va\"}]",
+        "created_at": 1789954232.382166,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1789954232381-2c187f71",
+        "last_heartbeat": null,
+        "owner_pid": null,
+        "plan_ref": "film",
+        "retryable": 1,
+        "state": "done"
+      },
+      {
+        "clips": "[{\"clip_index\": 4, \"kind\": \"ref2va_render\", \"mode\": \"REF2VA_IDENTITY_AUDIO\", \"speaker\": \"Rho\", \"speaker_sn\": \"S2\", \"prompt\": \"the composition anchor is the two-shot composition anchor: two characters framed left and right.\\n\\n(S1) (from the composition anchor):\\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\\n\\n(S2) (from the composition anchor):\\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\\n\\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S2) speaks with lively animated mouth movement: (S2) says: <d>[English] Then we will watch the stars.</d> (S1) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\\n\\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.\", \"image_refs\": [\"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Tess.png\", \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/Rho.png\"], \"seed\": 904, \"frames\": 56, \"shot_duration_s\": 2.333, \"guide_duration_s\": 2.333, \"audio_length_frames\": 56, \"fps\": 24, \"width\": 480, \"height\": 832, \"audio_guide\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"audio_provenance\": {\"source_master\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"vocal_stem\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"whisper_map\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"keeper_window_s\": [0.0, 2.3333333333333335]}, \"chain\": {\"index\": 4, \"re_anchor\": true, \"previous\": 3}, \"needs\": \"job-1789954232381-2c187f71\", \"render_fingerprint\": \"7b2aca2e76721f2b7af79edebcb66cdaa16d9f9124d7f798c4ae65e1771f04d8\", \"audio_policy\": {\"discard_rendered_audio\": false, \"remux_source\": \"source_master\", \"remux_window\": [0.0, 2.3333333333333335]}, \"audio_carrier\": \"native_h3\", \"speaker_manifest\": {\"schema\": \"wangp-dspy.speaker-manifest/v1\", \"turns\": [{\"turn_index\": 1, \"speaker_id\": \"S2\", \"picture_n\": 1, \"audio_path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"intended_text\": \"Then we will watch the stars.\"}]}, \"dialogue_text\": \"Then we will watch the stars.\", \"profile\": 3, \"recipe_name\": \"production\", \"model_type\": \"minimax_h3_ref2va_pruned\", \"audio_prompt_type\": \"A\", \"video_prompt_type\": \"I\", \"image_prompt_type\": \"S\", \"image_start\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates/anchor.png\", \"action\": \"subtle natural listening and speaking motion\", \"speaker_description\": \"Rho (S2), the man on the RIGHT; not Tess (S1) on the LEFT\", \"premise_id\": \"lf004-operator-dogfood\", \"resolution\": [480, 832], \"requested_frames\": 56, \"video_length\": 56, \"force_fps\": 24, \"steps\": 20, \"audio\": {\"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav\", \"apad\": true, \"start_s\": 0.0, \"padded_duration_s\": 2.3333333333333335}, \"render_attempted\": true, \"status\": \"done\", \"log\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/render.log\", \"mp4\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4\", \"qc_verdict\": {\"verdict\": \"NEEDS REVIEW\", \"path\": \"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/qc-evidence.json\"}, \"lane\": \"ref2va\"}]",
+        "created_at": 1789954232.383198,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1789954232382-59119d72",
+        "last_heartbeat": null,
+        "owner_pid": null,
+        "plan_ref": "film",
+        "retryable": 1,
+        "state": "done"
+      }
+    ]
+  },
+  "reconciliation": {
+    "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+    "discovered_bug": true,
+    "jobs": [
+      {
+        "clip_index": 1,
+        "job_id": "job-1789954232380-922bf583",
+        "missing_before_reconcile": [
+          "audio_policy",
+          "audio_carrier",
+          "speaker_manifest",
+          "dialogue_text"
+        ],
+        "state_before": "failed"
+      },
+      {
+        "clip_index": 2,
+        "job_id": "job-1789954232381-bc7b18bf",
+        "missing_before_reconcile": [
+          "audio_policy",
+          "audio_carrier",
+          "speaker_manifest",
+          "dialogue_text"
+        ],
+        "state_before": "pending"
+      },
+      {
+        "clip_index": 3,
+        "job_id": "job-1789954232381-2c187f71",
+        "missing_before_reconcile": [
+          "audio_policy",
+          "audio_carrier",
+          "speaker_manifest",
+          "dialogue_text"
+        ],
+        "state_before": "pending"
+      },
+      {
+        "clip_index": 4,
+        "job_id": "job-1789954232382-59119d72",
+        "missing_before_reconcile": [
+          "audio_policy",
+          "audio_carrier",
+          "speaker_manifest",
+          "dialogue_text"
+        ],
+        "state_before": "pending"
+      }
+    ],
+    "reason": "content-brief queue envelope omitted accepted Ref2VA audio/QC/runtime fields",
+    "reopened_attempt_id": 2,
+    "schema_version": 1
+  },
+  "repository": {
+    "changed_path_count": 5,
+    "clean_tree": false,
+    "commit_sha": "bd7e09e245e0f37ca6086fa90293e0b4ba5010b8",
+    "dirty_tree": true,
+    "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125",
+    "status_sha256": "fbf4ceb7691e4abe564a2fbb8dce4c8ba571bf8cbb78d137ae9d592ee1c9ac26",
+    "tracked_diff_sha256": "739edd56686c451b497b3594fce5e9600ff4504310031f7930559ddf1ba804e9",
+    "untracked_content_sha256": "b8e636b22c5c34457fe7c641b1b837313e44bb9feee0599eda0a2ef4b5620edd",
+    "untracked_path_count": 4
+  },
+  "retry_policy": {
+    "DEFAULT_MAX_ATTEMPTS": 3,
+    "per_cut_max_attempts": 3
+  },
+  "review_visuals": {
+    "cuts": [
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut1.contact_sheet.jpg",
+        "sha256": "a8b6b85913f51c627dd56cb30ef0d36dfeee75605e6c50c26ec40f75c07ea8a7"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut2.contact_sheet.jpg",
+        "sha256": "4cb5967099e3986e69684fadae0e60177761ecc4102878ec03f6532d0acbb1e0"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut3.contact_sheet.jpg",
+        "sha256": "2c49387a7ad391c42acc8f57e4727f5aad98914ba8f00dcd1e7d802349ccd64c"
+      },
+      {
+        "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/cut4.contact_sheet.jpg",
+        "sha256": "384e734d486a1084429dc6e1861ace94ea4f2646fbf127f7cf8baa119385efb6"
+      }
+    ],
+    "film": {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/review/film.contact_sheet.jpg",
+      "sha256": "ab03e022521c907c7b618254029ef937560fc66a402f3f98ddee693be34c531b"
+    }
+  },
+  "run_id": "lf004-operator-dogfood-56f-recovery-20260921",
+  "schema_version": 1,
+  "settings_hashes": {
+    "execution-command.json": "fec98f20051f96feed9a8bf4c56211bd77171a19ae6566b4e12dee4cb6510f9e",
+    "recovery-reconciliation.json": "e6bf8164c33af924a9894f6e08cc2704fd89b5d0bd4fedbdc953a255436eeb48",
+    "wan2gp-models-settings.before.json": "ab7eef75f8462d29d99ea6b527a232bbd381f49aa10b3dbc857a0def976f9b4f",
+    "wan2gp-models-settings.render.json": "7005b19455783b9876614484a19d51de628121e536675e6e2233db19caf75b58",
+    "wgp-config.before.json": "15fc575e6da675a30c7e6b9b247d0faf78c68d8840c23f6790b7b63c58b1f097",
+    "wgp-config.render.json": "b3d662b99dd6f6a1fe72e4ea9cfe7cb32d8351887e0c8e93ecb34cd2e04ab545"
+  },
+  "settings_restored": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/remote-settings-restored.sha256",
+    "sha256": "d6c01553d00e3034eb7462f5d1946c792f5af440ce38db6c9afe8b57a5baaec7"
+  },
+  "status": "operator_review_pending"
+}

@@ -1,0 +1,42 @@
+{
+  "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
+  "command": [
+    "scripts/run_film.py",
+    "--script",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood-56f/run/script.txt",
+    "--plates",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates",
+    "--characters",
+    "Tess:S1:a sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room",
+    "Rho:S2:a pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room",
+    "--db",
+    "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db",
+    "--duration-s",
+    "2.3333333333333335",
+    "--duration-s",
+    "2.3333333333333335",
+    "--duration-s",
+    "2.3333333333333335",
+    "--duration-s",
+    "2.3333333333333335",
+    "--audio",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+    "--audio",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav",
+    "--audio",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav",
+    "--audio",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav"
+  ],
+  "environment": {
+    "WANGP_ASSET_MAP": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/content_briefs/lf004-operator-dogfood/plates=/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates;/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance=/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance",
+    "WANGP_QC_URL": "http://localhost:8000/health",
+    "WANGP_SYNCNET_MODEL": "/home/straughter/models/syncnet_v2/syncnet_v2.model",
+    "WANGP_SYNCNET_PYTHON": "/home/straughter/Wan2GP/venv/bin/python",
+    "WANGP_SYNCNET_REPO": "/home/straughter/wangp-dspy-vibevoice-20260916",
+    "WANGP_VISION_BACKEND": "local",
+    "WANGP_WHISPER_LOCAL_FIRST": "0"
+  },
+  "execution_count": 1,
+  "schema_version": 1
+}

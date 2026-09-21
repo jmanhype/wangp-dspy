@@ -1,0 +1,23 @@
+{
+  "audio_guide": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+  "audio_guide2": null,
+  "audio_prompt_type": "A",
+  "force_fps": "24",
+  "image_prompt_type": "S",
+  "image_refs": [
+    "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/anchor.png",
+    "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Tess.png",
+    "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/Rho.png"
+  ],
+  "image_start": "/home/straughter/Wan2GP/lf004-operator-dogfood-56f-recovery-20260921/plates/anchor.png",
+  "keep_frames_video_source": "",
+  "model_type": "minimax_h3_ref2va_pruned",
+  "num_inference_steps": 20,
+  "prompt": "the composition anchor is the two-shot composition anchor: two characters framed left and right.\n\n(S1) (from the composition anchor):\na sleepless young observatory astronomer with short dark hair, navy jacket, silver star pin, standing on the LEFT inside a glass-dome control room\n\n(S2) (from the composition anchor):\na pragmatic bearded station caretaker with red knit cap and olive work jacket, standing on the RIGHT inside the same glass-dome observatory control room\n\nSummary: [reference generation] The composition of the composition anchor holds: both characters in their positions. All subjects retain their exact identities from their reference pictures. (S1) speaks with lively animated mouth movement: (S1) says: <d>[English] Tomorrow's sunrise is only a projection.</d> (S2) listens, mouth closed, head tilted, eyes on the speaker. Spatial anchor: preserve each subject's exact left/right position, scale, wardrobe, and framing from the composition anchor; do not swap sides, mirror, or re-stage the composition.\n\nNon-diegetic music: none. Ambient: room tone, faint brazier crackle.",
+  "resolution": "480x832",
+  "seed": 904,
+  "video_guide": null,
+  "video_length": 56,
+  "video_prompt_type": "I",
+  "video_source": null
+}

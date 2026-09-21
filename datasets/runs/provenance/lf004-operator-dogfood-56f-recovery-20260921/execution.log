@@ -1,0 +1,9 @@
+{
+  "clips": 4,
+  "dry_run": false
+}
+clip 0001: speaker=Tess frames=56 re_anchor=True
+clip 0002: speaker=Rho frames=56 re_anchor=False
+clip 0003: speaker=Tess frames=56 re_anchor=False
+clip 0004: speaker=Rho frames=56 re_anchor=True
+handled 4 job(s)

@@ -1,0 +1,114 @@
+{
+  "av_sync_gate": {
+    "confidence": 4.054347,
+    "crop_factors": [
+      4.0,
+      8.0,
+      12.0
+    ],
+    "crop_results": [
+      {
+        "confidence": 4.4656219482421875,
+        "factor": 4.0,
+        "minimum_distance": 12.500921249389648,
+        "offset_frames": -1
+      },
+      {
+        "confidence": 4.054347038269043,
+        "factor": 8.0,
+        "minimum_distance": 12.660748481750488,
+        "offset_frames": -1
+      },
+      {
+        "confidence": 3.61013126373291,
+        "factor": 12.0,
+        "minimum_distance": 12.885842323303223,
+        "offset_frames": -1
+      }
+    ],
+    "method": "syncnet_v2_multicrop/v1",
+    "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+    "offset_frames_25fps": -1,
+    "offset_seconds": -0.04,
+    "pass_bar": {
+      "max_abs_offset_frames_25fps": 10,
+      "min_confidence": 1.0
+    },
+    "passed": true,
+    "phonetic_sync_verified": false,
+    "remote_video_path": "/home/straughter/Wan2GP/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+    "speaker_mouth_bbox": [
+      0.33,
+      0.2,
+      0.02,
+      0.01
+    ],
+    "status": "complete",
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4",
+    "video_sha256": "cdfa29998c2d3094178f200c5e39bc5050c4a68f36b452b6d6cc78b6f42e042f"
+  },
+  "vision_judge": {
+    "action_match": 0.9,
+    "av_sync_verified": false,
+    "expected_action": "subtle natural listening and speaking motion",
+    "expected_speaker": "Tess (S1), the woman on the LEFT; not Rho (S2) on the RIGHT",
+    "mouth_activity": 0.85,
+    "mouth_sync": null,
+    "notes": "Still-image visual QC only; phonetic AV synchrony is unmeasured. The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains in a neutral, listening state. The spatial composition, wardrobe, and background elements (observatory setting) are preserved consistently across the sequence.",
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.9,\n  \"speaker_attribution\": 0.95,\n  \"notes\": \"The generated frames correctly identify the woman on the left (Tess) as the active speaker, showing a clear open-mouth pose in the middle frame. The man on the right (Rho) remains in a neutral, listening state. The spatial composition, wardrobe, and background elements (observatory setting) are preserved consistently across the sequence.\"\n}",
+    "speaker_attribution": 0.95,
+    "speaker_mouth_bbox": [
+      0.33,
+      0.2,
+      0.02,
+      0.01
+    ],
+    "speaker_mouth_bboxes": [
+      [
+        0.33,
+        0.2,
+        0.02,
+        0.01
+      ],
+      [
+        0.33,
+        0.19,
+        0.02,
+        0.02
+      ],
+      [
+        0.34,
+        0.2,
+        0.02,
+        0.01
+      ]
+    ],
+    "speaker_mouth_center_spread": [
+      0.010000000000000009,
+      0.0050000000000000044
+    ],
+    "video_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/remux.mp4"
+  },
+  "whisper_gates": {
+    "post": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/raw.mp4",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "post",
+      "score": 1.0,
+      "transcript": "Tomorrow's sunrise is only a projection."
+    },
+    "pre": {
+      "audio_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav",
+      "intended_text": "Tomorrow's sunrise is only a projection.",
+      "pass_bar": 0.6,
+      "passed": true,
+      "phase": "pre",
+      "score": 0.833,
+      "transcript": "Tomorrow's sunrise is only a project."
+    }
+  }
+}
