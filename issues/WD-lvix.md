@@ -1,19 +1,20 @@
 ---
 id: WD-lvix
 title: "Present actionable failure diagnostics"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T21:08:02Z
-content_hash: "sha256:e0f52eab003885d0fc043157126a944e280c79b7c3fc114a86c5945f44fdb598"
-blocks: [WD-carq, WD-fq1o]
+updated_at: 2026-09-21T21:19:22Z
+content_hash: "sha256:39e6eb73ffdb1a13ba30eaf3c5544d143927f35b6bd1d92b49aff92c9406d899"
 was_blocked_by: [WD-fp49]
 follows: [WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
 assignee: dev-WD-lvix
+closed_at: 2026-09-21T21:19:22Z
+close_reason: "Accepted at 96eed5b1ac9b1a5c03cb6f7de5036f8d736ecf8a: independently retriaged all seven PR threads and reproduced each fix with fresh JobQueue/CLI inputs; production seed-906 vision evidence reports identity/action scores and pass_bar 0.7 without a fabricated mouth-box gate; committed current QC values remain primary with labelled history; redaction, shell quoting, missing-job JSON, prior diagnostics, immutable queue reads, no-default-SSH, protected-file diff, targeted/full pytest, build, and required CI run 35654994623 all pass."
 ---
 
 ## Description
@@ -374,10 +375,12 @@ status: in_progress
 - 2026-09-21T20:44:07Z claimed by dev-WD-lvix
 - 2026-09-21T21:08:02Z status: in_progress -> in_progress
 - 2026-09-21T21:08:02Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-21T21:19:22Z status: in_progress -> closed
+- 2026-09-21T21:19:22Z dep_removed: no_longer_blocks WD-carq
+- 2026-09-21T21:19:23Z dep_removed: no_longer_blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-carq]], [[WD-fq1o]]
 - Was blocked by: [[WD-fp49]]
 - Follows: [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]], [[WD-3nwm]]
 
