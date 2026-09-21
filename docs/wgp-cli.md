@@ -23,7 +23,10 @@ submission, model inference, or GPU work.
 By default, `doctor` checks Python, `uv`, required imports, `ffprobe`, `ffmpeg`,
 SQLite, the optional supplied model manifest, host configuration, and local disk.
 It reports a missing host configuration as **skipped**, not failed: no-GPU planning
-remains ready.
+remains ready. The `host_configuration` detail names each resolved key and its provenance
+(`environment`, `user_config`, `repository_config`, or `detection`); missing values are reported as
+`unconfigured`. See [configuration.md](configuration.md) for precedence, safe local detection, and
+copy-pasteable configuration examples.
 
 `--models` accepts either a JSON list or `{"models":[...]}`. Local and remote files are
 declared explicitly: `local_path` is verified in the workstation namespace and
@@ -41,9 +44,10 @@ these check kinds:
 `ssh_reachable`, `model_files`, `disk_headroom`, `gpu_state`, and `qc_available`.
 Remote model hashes are checked at their Wan2GP-relative or absolute remote paths, and
 the render volume must retain at least **50 GB** free.
-The current host seam is `WANGP_SSH_TARGET`; a first-class configuration file is
-scheduled by WD-fp49. Without `--probe-host`, doctor makes no SSH or hosted-service
-call. Every failed or skipped check has one concrete remediation line.
+The host is complete only when `host.target`, `host.wgp_root`, and `host.pull_root` all resolve;
+`WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, and `WANGP_PULL_ROOT` override their file values. Without
+`--probe-host`, doctor makes no SSH or hosted-service call. Every failed or skipped check has one
+concrete remediation line.
 
 ## Status and review
 

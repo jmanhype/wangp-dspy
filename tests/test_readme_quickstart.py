@@ -134,9 +134,10 @@ def test_repository_hygiene_and_readme_contract() -> None:
         "Whisper",
         "SyncNet",
         "WANGP_SSH_TARGET",
-        "3090",
-        "/home/straughter/Wan2GP",
-        "WD-fp49",
+        "WANGP_WGP_ROOT",
+        "WANGP_PULL_ROOT",
+        "wangp.toml",
+        "docs/configuration.md",
         "final-provenance.json",
         "RepositoryIdentityError",
         "wangp-dspy.content-plan/v1",
@@ -192,7 +193,12 @@ def test_readme_quickstart_runs_in_clean_worktree() -> None:
         env = {**os.environ, "TMPDIR": str(output_root)}
         # Keep the no-GPU guarantee while inheriting everything else: remove only the
         # variables that could point the quickstart at a render host.
-        for host_variable in ("WANGP_SSH_TARGET", "WANGP_3090"):
+        for host_variable in (
+            "WANGP_SSH_TARGET",
+            "WANGP_WGP_ROOT",
+            "WANGP_PULL_ROOT",
+            "WANGP_3090",
+        ):
             env.pop(host_variable, None)
         try:
             assert subprocess.run(

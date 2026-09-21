@@ -46,6 +46,7 @@ def main():
     from predict.pipeline import Pipeline, PipelineStageError
     from host.render_host import SshHost
     from host.wangp_adapter import WanGPAdapter
+    from wangp.config import HostConfigError, load_host_config, render_host
 
     GENRE = "surreal"
     INTENT = os.environ.get(
@@ -60,10 +61,12 @@ def main():
     run_id = time.strftime("%Y%m%d-%H%M%S")
     run_path = RUN_DIR / f"{run_id}.json"
 
-    host = SshHost(target="3090", wgp_root="/home/straughter/Wan2GP",
-                   pull_root=str(RUN_DIR / "pull"))
+    config = load_host_config(environ=os.environ)
+    host = render_host(config)
+    wgp_root = config.wgp_root
+    assert wgp_root is not None
     adapter = WanGPAdapter(host=host,
-                           output_dir="/home/straughter/Wan2GP/outputs")
+                           output_dir=f"{wgp_root.value}/outputs")
     if lane == "ref2va":
         # ref2va lane: route through the adapter's per-job model
         # routing (recipe-configured path). Dry-run safe: adapter=None
@@ -127,4 +130,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except HostConfigError as exc:
+        print(f"configuration error: {exc}", file=sys.stderr)
+        raise SystemExit(2)

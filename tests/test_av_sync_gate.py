@@ -13,6 +13,16 @@ from qc.audio_critic.syncnet_runner import (
 )
 
 
+@pytest.fixture(autouse=True)
+def complete_render_host_config(monkeypatch, tmp_path):
+    """Resolve the SyncNet interpreter from an explicit test host."""
+
+    monkeypatch.setenv("WANGP_CONFIG", str(tmp_path / "absent-config.toml"))
+    monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+    monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
+    monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+
+
 def _evidence(**overrides):
     payload = {
         "method": SYNCNET_METHOD,

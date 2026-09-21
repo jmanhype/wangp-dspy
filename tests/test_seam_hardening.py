@@ -15,6 +15,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+CONFIGURED_WGP_ROOT = "/configured/Wan2GP"
+
 from host.wangp_adapter import (
     DEFAULT_LOAD_STALL_S,
     DEFAULT_SANCTIONED_DIRS,
@@ -50,13 +52,17 @@ class FakeHost:
 
 class TestLockArgv:
     def test_single_element(self):
-        argv = build_wgp_lock_argv("/run/s.json", "/run/render.log")
+        argv = build_wgp_lock_argv(
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+        )
         assert isinstance(argv, list)
         assert len(argv) == 1
         assert isinstance(argv[0], str)
 
     def test_shlex_round_trip(self):
-        argv = build_wgp_lock_argv("/run/s.json", "/run/render.log")
+        argv = build_wgp_lock_argv(
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+        )
         parts = shlex.split(argv[0])
         assert parts[0] == "flock"
         assert parts[1] == WGP_QUEUE_LOCK
@@ -66,20 +72,27 @@ class TestLockArgv:
         assert inner[0] == "cd"
 
     def test_no_flock_dash_c_flag(self):
-        argv = build_wgp_lock_argv("/run/s.json", "/run/render.log")
+        argv = build_wgp_lock_argv(
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+        )
         assert " -c " not in argv[0].replace("bash -c", "BASH_C")
 
     def test_spaces_in_paths_quoted(self):
-        argv = build_wgp_lock_argv("/run/my settings.json",
-                                  "/run/my render.log")
+        argv = build_wgp_lock_argv(
+            "/run/my settings.json",
+            "/run/my render.log",
+            wangp_dir=CONFIGURED_WGP_ROOT,
+        )
         parts = shlex.split(argv[0])
         inner = shlex.split(parts[4])
         assert "/run/my settings.json" in inner
 
     def test_absolute_interpreter_and_script(self):
-        argv = build_wgp_lock_argv("/run/s.json", "/run/render.log")
+        argv = build_wgp_lock_argv(
+            "/run/s.json", "/run/render.log", wangp_dir=CONFIGURED_WGP_ROOT
+        )
         inner = shlex.split(shlex.split(argv[0])[4])
-        assert inner[1] == "/home/straughter/Wan2GP"
+        assert inner[1] == CONFIGURED_WGP_ROOT
         py = [a for a in inner if a.endswith("/venv/bin/python")]
         wgp = [a for a in inner if a.endswith("/wgp.py")]
         assert py and py[0].startswith("/")
@@ -91,7 +104,11 @@ class TestLockArgv:
 
 class TestDetachedLaunch:
     def test_detached_shape(self):
-        argv = build_detached_wgp_argv("/run/s.json", "/run/render.log")
+        argv = build_detached_wgp_argv(
+            "/run/s.json",
+            "/run/render.log",
+            wangp_dir=CONFIGURED_WGP_ROOT,
+        )
         assert len(argv) == 1
         s = argv[0]
         assert s.startswith("setsid nohup flock ")
@@ -100,7 +117,11 @@ class TestDetachedLaunch:
         assert "bash -c " in s
 
     def test_shlex_round_trip(self):
-        argv = build_detached_wgp_argv("/run/s.json", "/run/render.log")
+        argv = build_detached_wgp_argv(
+            "/run/s.json",
+            "/run/render.log",
+            wangp_dir=CONFIGURED_WGP_ROOT,
+        )
         parts = shlex.split(argv[0])
         assert parts[:2] == ["setsid", "nohup"]
 
@@ -245,10 +266,14 @@ class TestLoadStallWatchdog:
 class TestSanctionedDirs:
     def test_defaults_include_asset_roots(self, monkeypatch):
         monkeypatch.delenv("WANGP_SANCTIONED_DIRS", raising=False)
+        monkeypatch.setenv("WANGP_CONFIG", "/nonexistent/wangp-config.toml")
+        monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+        monkeypatch.setenv("WANGP_WGP_ROOT", CONFIGURED_WGP_ROOT)
+        monkeypatch.setenv("WANGP_PULL_ROOT", "/configured/pull-root")
         dirs = default_sanctioned_dirs()
-        assert "/home/straughter/Wan2GP/outputs" in dirs
+        assert f"{CONFIGURED_WGP_ROOT}/outputs" in dirs
         assert any(d.startswith("/mnt/bulk/") for d in dirs)
-        assert set(DEFAULT_SANCTIONED_DIRS) == set(dirs)
+        assert set(DEFAULT_SANCTIONED_DIRS) < set(dirs)
 
     def test_env_overrides(self, monkeypatch):
         monkeypatch.setenv("WANGP_SANCTIONED_DIRS", "/a:/b")
@@ -256,7 +281,14 @@ class TestSanctionedDirs:
 
     def test_env_empty_falls_back_to_defaults(self, monkeypatch):
         monkeypatch.setenv("WANGP_SANCTIONED_DIRS", "  ")
-        assert default_sanctioned_dirs() == list(DEFAULT_SANCTIONED_DIRS)
+        monkeypatch.setenv("WANGP_CONFIG", "/nonexistent/wangp-config.toml")
+        monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+        monkeypatch.setenv("WANGP_WGP_ROOT", CONFIGURED_WGP_ROOT)
+        monkeypatch.setenv("WANGP_PULL_ROOT", "/configured/pull-root")
+        assert default_sanctioned_dirs() == [
+            *DEFAULT_SANCTIONED_DIRS,
+            f"{CONFIGURED_WGP_ROOT}/outputs",
+        ]
 
 
 # ── fix 6: _host_path verifies-or-raises ─────────────────────────────

@@ -1,0 +1,10 @@
+# Wangp render-host template. The repository intentionally ships no host.
+#
+# Copy these keys to ~/.config/wangp/config.toml, or uncomment them here
+# for a repository-local installation. Environment variables always win:
+# WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT.
+
+[host]
+# target = "your-ssh-alias"
+# wgp_root = "/absolute/path/to/Wan2GP"
+# pull_root = "/absolute/local/staging/path"

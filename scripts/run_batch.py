@@ -5,14 +5,21 @@ critic -> QC -> record. Stops at the first hard failure (record
 preserved); progress logged per cycle.
 """
 import json
+import os
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+from wangp.config import load_host_config, require_host_config
+
 REPO = Path(__file__).resolve().parent.parent
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 5
 SKIP_DONE = "--skip-done" in sys.argv
+HOST_CONFIG = load_host_config(environ=os.environ)
+require_host_config(HOST_CONFIG)
+HOST_TARGET = HOST_CONFIG.target
+assert HOST_TARGET is not None
 
 INTENTS = [
     # PACK 07 — NIGHT-SHIFT CCTV UI
@@ -43,7 +50,9 @@ def gpu(seq):
     r = None
     for attempt in (1, 2):
         r = sh(["bash", str(REPO / "scripts" / "gpu_seq.sh"), seq],
-               timeout=tmo)
+               timeout=tmo,
+               env={**os.environ,
+                    "WANGP_SSH_TARGET": HOST_TARGET.value})
         if r.returncode == 0:
             break
         print(f"[gpu:{seq}] attempt {attempt} failed rc={r.returncode}; "
@@ -116,7 +125,8 @@ for intent in INTENTS:
             # process up; verify endpoint actually serves
             ep = subprocess.run(
                 ["ssh", "-o", "ConnectTimeout=15", "-o", "BatchMode=yes",
-                 "3090", "curl -s -m 5 http://127.0.0.1:8000/health"],
+                 HOST_TARGET.value,
+                 "curl -s -m 5 http://127.0.0.1:8000/health"],
                 capture_output=True, text=True, timeout=60)
             if '"ok"' in (ep.stdout or ""):
                 healthy = True

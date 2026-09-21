@@ -12,11 +12,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Mapping, Sequence
 
+from wangp.config import (
+    HostConfig,
+    load_host_config,
+    missing_host_keys,
+    render_host,
+)
+
 
 _REQUIRED_IMPORTS = ("dspy", "fastapi", "pydantic", "requests", "soundfile", "librosa", "numpy", "uvicorn")
 _MINIMUM_FREE_GB = 1.0
 REMOTE_MINIMUM_FREE_GB = 50.0
-REMOTE_WGP_ROOT = "/home/straughter/Wan2GP"
 
 
 @dataclass(frozen=True)
@@ -169,17 +175,34 @@ def _model_check(models: Sequence[Mapping[str, str]] | None) -> DoctorCheck:
     return _pass("model_files", f"{len(local_specs)} manifest entries hashed locally")
 
 
-def _host_check() -> DoctorCheck:
-    target = os.environ.get("WANGP_SSH_TARGET", "").strip()
-    if not target:
+def _host_setting(config: HostConfig, key: str, setting) -> str:
+    if setting is None:
+        return f"{key}=unconfigured [unconfigured]"
+    return f"{key}={setting.value} [{setting.provenance()}]"
+
+
+def _host_detail(config: HostConfig) -> str:
+    return "; ".join(
+        _host_setting(config, key, setting)
+        for key, setting in zip(
+            ("host.target", "host.wgp_root", "host.pull_root"),
+            config.settings(),
+            strict=True,
+        )
+    )
+
+
+def _host_check(config: HostConfig) -> DoctorCheck:
+    if missing_host_keys(config):
         return _skip(
             "host_configuration",
-            "No render host configured; the no-GPU lane remains ready",
-            "Set WANGP_SSH_TARGET or wait for the WD-fp49 config file for GPU work.",
+            _host_detail(config) + "; the no-GPU lane remains ready",
+            "Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT "
+            "(or the corresponding [host] keys) for GPU work.",
         )
     return _pass(
         "host_configuration",
-        "Render host configured; no host call was made",
+        _host_detail(config) + "; no host call was made",
     )
 
 
@@ -265,26 +288,23 @@ def _host_manifest_check(
 
 def _host_probe_checks(
     models: Sequence[Mapping[str, str]],
+    config: HostConfig,
 ) -> list[DoctorCheck]:
-    from host.render_host import SshHost
-
-    target = os.environ.get("WANGP_SSH_TARGET", "").strip()
-    if not target:
+    if missing_host_keys(config):
         return [
             _fail(
                 "host_configuration",
-                "Host probing was requested but WANGP_SSH_TARGET is empty",
-                "Set WANGP_SSH_TARGET to a reachable SSH alias before probing.",
+                "Host probing was requested but the render host is incomplete",
+                "Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT "
+                "(or the corresponding [host] keys), then run 'wgp doctor'.",
             )
         ]
-    host = SshHost(
-        target=target, wgp_root=REMOTE_WGP_ROOT, pull_root="datasets/runs/pull"
-    )
+    host = render_host(config)
     return _preflight_doctor_checks(
         host,
         models,
-        wgp_root=REMOTE_WGP_ROOT,
-        disk_path=REMOTE_WGP_ROOT,
+        wgp_root=config.wgp_root.value,
+        disk_path=config.wgp_root.value,
     )
 
 
@@ -295,6 +315,7 @@ def collect_doctor_checks(
 ) -> DoctorReport:
     """Collect local readiness without implicit SSH or hosted-service calls."""
 
+    config = load_host_config()
     report = DoctorReport(
         [
             _python_check(),
@@ -304,14 +325,14 @@ def collect_doctor_checks(
             _tool_check("ffmpeg"),
             _queue_check(),
             _model_check(models),
-            _host_check(),
+            _host_check(config),
             _disk_check(),
         ]
     )
     if probe_host:
         manifest_check = _host_manifest_check(models)
         if manifest_check.status == "pass":
-            report.checks.extend(_host_probe_checks(models))
+            report.checks.extend(_host_probe_checks(models, config))
         else:
             report.checks.append(manifest_check)
     return report

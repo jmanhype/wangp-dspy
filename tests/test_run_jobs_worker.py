@@ -15,6 +15,16 @@ from scripts import run_jobs  # noqa: E402
 from services.jobs.queue import JobQueue  # noqa: E402
 
 
+@pytest.fixture(autouse=True)
+def complete_render_host_config(monkeypatch, tmp_path):
+    """Keep worker tests on an explicit host without GPU or SSH work."""
+
+    monkeypatch.setenv("WANGP_CONFIG", str(tmp_path / "absent-config.toml"))
+    monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+    monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
+    monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+
+
 def _syncnet_evidence(**overrides):
     payload = {
         "method": "syncnet_v2_multicrop/v1",

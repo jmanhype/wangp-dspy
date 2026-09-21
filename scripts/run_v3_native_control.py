@@ -30,6 +30,7 @@ from services.director.run_records import append_dataset_run
 from predict.v3_recipe import golden_prompt, V3_RECIPE
 from services.jobs.queue import JobQueue
 from scripts import run_jobs
+from wangp.config import load_host_config, require_host_config
 
 
 FPS = 24
@@ -57,10 +58,16 @@ def _host(root: Path) -> SshHost:
     # directory.  The host seam, not scp or a direct shell bridge, owns all
     # transport.
     asset_root = root / "assets" / "acceptance" / "v3-control"
+    config = require_host_config(
+        load_host_config(repository_root=root, environ=os.environ)
+    )
+    assert config.target is not None
+    assert config.wgp_root is not None
+    assert config.pull_root is not None
     return SshHost(
-        target=os.environ.get("WANGP_SSH_TARGET") or "3090",
-        wgp_root="/home/straughter/Wan2GP",
-        pull_root=str(root / "datasets" / "runs" / "pull"),
+        target=config.target.value,
+        wgp_root=config.wgp_root.value,
+        pull_root=config.pull_root.value,
         asset_map={str(asset_root): "/home/straughter/acceptance/v3-native-control-fixtures"},
     )
 

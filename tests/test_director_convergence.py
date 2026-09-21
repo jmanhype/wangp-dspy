@@ -23,6 +23,16 @@ CHARACTERS = [
 WHISPER_MAP = "s4/films/satans-mom/qc/whisper_map.json"
 
 
+@pytest.fixture(autouse=True)
+def complete_render_host_config(monkeypatch, tmp_path):
+    """Keep host-dependent wiring tests explicit and GPU-free."""
+
+    monkeypatch.setenv("WANGP_CONFIG", str(tmp_path / "absent-config.toml"))
+    monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
+    monkeypatch.setenv("WANGP_WGP_ROOT", "/configured/Wan2GP")
+    monkeypatch.setenv("WANGP_PULL_ROOT", str(tmp_path / "pull"))
+
+
 def _script_file(tmp_path, lines):
     f = tmp_path / "script.txt"
     f.write_text("\n".join(f"{s}: {t}" for s, t in lines) + "\n")
@@ -325,9 +335,10 @@ class TestFix7EnvRoutingAndHook:
 
     def test_default_target_unchanged(self, monkeypatch):
         import scripts.run_jobs as rj
+        from wangp.config import HostConfigError
         monkeypatch.delenv("WANGP_SSH_TARGET", raising=False)
-        h = rj._default_host()
-        assert getattr(h, "target", None) == "3090"
+        with pytest.raises(HostConfigError, match="host.target"):
+            rj._default_host()
 
     def test_pre_render_default_on_for_localhost(self, monkeypatch):
         import scripts.run_jobs as rj
@@ -337,7 +348,7 @@ class TestFix7EnvRoutingAndHook:
 
     def test_pre_render_default_off_for_remote(self, monkeypatch):
         import scripts.run_jobs as rj
-        monkeypatch.setenv("WANGP_SSH_TARGET", "3090")
+        monkeypatch.setenv("WANGP_SSH_TARGET", "configured-alias")
         assert rj._pre_render_default(None) is None
         monkeypatch.delenv("WANGP_SSH_TARGET", raising=False)
         assert rj._pre_render_default(None) is None

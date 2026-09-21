@@ -117,8 +117,12 @@ def render_one(brief, variant, label, root):
     from host.render_host import LocalHost
     out_root = root / "render_work" / variant / label
     out_root.mkdir(parents=True, exist_ok=True)
+    from wangp.config import load_host_config, require_host_config
+
+    wgp_root = require_host_config(load_host_config()).wgp_root
+    assert wgp_root is not None
     adapter = WanGPAdapter(host=LocalHost(), output_dir=str(out_root),
-                           wgp_outputs_dir="/home/straughter/Wan2GP/outputs",
+                           wgp_outputs_dir=f"{wgp_root.value}/outputs",
                            timeout=1800)
     import host.wangp_adapter as adapter_mod
     original = adapter_mod.derive_seed

@@ -105,10 +105,18 @@ DEFAULT_NUM_INFERENCE_STEPS = 20
 DEFAULT_GUIDANCE_SCALE = 1.0
 DEFAULT_EMBEDDED_GUIDANCE_SCALE = 6.0
 
-# Wan2GP checkout on the 3090
-DEFAULT_WANGP_DIR = "/home/straughter/Wan2GP"
-DEFAULT_VENV_PYTHON = "/home/straughter/Wan2GP/venv/bin/python"
-DEFAULT_WGP_SCRIPT = "/home/straughter/Wan2GP/wgp.py"
+def _configured_wgp_root(host=None) -> str:
+    """Resolve the Wan2GP root from the host seam or configuration."""
+
+    from wangp.config import load_host_config, require_host_config
+
+    configured = getattr(host, "wgp_root", None)
+    if isinstance(configured, (str, os.PathLike)) and str(configured).strip():
+        return str(configured)
+    config = load_host_config()
+    require_host_config(config)
+    assert config.wgp_root is not None
+    return config.wgp_root.value
 
 # profile "3" is the H3 keep (memory); --profile takes the bare number
 DEFAULT_PROFILE_NUMBER = "3"
@@ -633,16 +641,21 @@ WGP_QUEUE_LOCK = "/tmp/wgp_queue.lock"
 # WANGP_SANCTIONED_DIRS (os.pathsep ':'-separated).
 DEFAULT_SANCTIONED_DIRS = (
     "/mnt/bulk/home/straughter/sgflix_audio_factory/keepers",  # roadmap-run assets
-    "/home/straughter/Wan2GP/outputs",                         # Wan2GP outputs
     "/mnt/bulk/home/straughter/sgflix_audio_factory/qc_media",  # QC media
 )
 
 
 def default_sanctioned_dirs() -> list:
+    from wangp.config import load_host_config
+
     env = os.environ.get("WANGP_SANCTIONED_DIRS", "")
     if env.strip():
         return [d for d in env.split(":") if d.strip()]
-    return list(DEFAULT_SANCTIONED_DIRS)
+    dirs = list(DEFAULT_SANCTIONED_DIRS)
+    configured_root = load_host_config().wgp_root
+    if configured_root is not None:
+        dirs.append(f"{configured_root.value}/outputs")
+    return dirs
 
 
 # load-progress watchdog (live smoke: 55 CPU-minutes wedged at
@@ -662,7 +675,7 @@ def _load_stall_s() -> float:
 
 
 def build_wgp_lock_argv(settings_path: str, log_path: str, *,
-                        wangp_dir: str = DEFAULT_WANGP_DIR,
+                        wangp_dir: Optional[str] = None,
                         venv_python: Optional[str] = None,
                         wgp_script: Optional[str] = None,
                         profile: str | int | None = None) -> list:
@@ -684,12 +697,13 @@ def build_wgp_lock_argv(settings_path: str, log_path: str, *,
            /abs/venv/bin/python /abs/wgp.py --process <settings.json> \
            --profile 3 --attention sdpa > <log> 2>&1'
     """
-    venv_python = venv_python or f"{wangp_dir}/venv/bin/python"
-    wgp_script = wgp_script or f"{wangp_dir}/wgp.py"
+    resolved_root = _configured_wgp_root() if wangp_dir is None else wangp_dir
+    venv_python = venv_python or f"{resolved_root}/venv/bin/python"
+    wgp_script = wgp_script or f"{resolved_root}/wgp.py"
     profile_number = (str(profile) if profile is not None
                       else DEFAULT_PROFILE_NUMBER)
     shell = (
-        f"cd {shlex.quote(wangp_dir)} && "
+        f"cd {shlex.quote(resolved_root)} && "
         "PYTHONUNBUFFERED=1 PYTORCH_ALLOC_CONF=expandable_segments:True "
         f"{shlex.quote(venv_python)} {shlex.quote(wgp_script)} "
         f"--process {shlex.quote(settings_path)} "
@@ -700,7 +714,7 @@ def build_wgp_lock_argv(settings_path: str, log_path: str, *,
 
 
 def build_detached_wgp_argv(settings_path: str, log_path: str, *,
-                            wangp_dir: str = DEFAULT_WANGP_DIR,
+                            wangp_dir: Optional[str] = None,
                             venv_python: Optional[str] = None,
                             wgp_script: Optional[str] = None,
                             profile: str | int | None = None) -> list:
@@ -833,7 +847,7 @@ def verify_denoise_steps(log_text: str, steps: int) -> bool:
     progress line is tqdm-shaped, e.g.
         H3 denoising: 100%|██████████| 20/20 [03:35<00:00, ...]
     (case-varying "denoising:", percent+bar, then N/M). The old
-    anchored `Denoising\s+N/N` never matched — the poller fell to the
+    anchored `Denoising\\s+N/N` never matched — the poller fell to the
     load-stall watchdog on healthy 20/20 renders. The matcher is now
     format-tolerant: any denoise line whose N/M pair shows N==M==steps.
     """
@@ -1419,7 +1433,9 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
 
 def _wangp_dir_for(adapter) -> str:
     """Wan2GP checkout root implied by the adapter's wgp_script."""
-    return os.path.dirname(os.path.abspath(adapter.wgp_script))
+    if adapter.wgp_script:
+        return os.path.dirname(os.path.abspath(adapter.wgp_script))
+    return _configured_wgp_root(adapter.host)
 
 
 def _run_fl2va_job(adapter, job: Mapping) -> object:
@@ -1505,8 +1521,8 @@ class WanGPAdapter:
             raise WanGPError(f"ffprobe returned no frame count: {out!r}")
 
     def __init__(self, *,
-                 venv_python: str = DEFAULT_VENV_PYTHON,
-                 wgp_script: str = DEFAULT_WGP_SCRIPT,
+                 venv_python: Optional[str] = None,
+                 wgp_script: Optional[str] = None,
                  output_dir: str = "output",
                  wgp_outputs_dir: Optional[str] = None,
                  runner: Optional[Callable] = None,
@@ -1516,16 +1532,30 @@ class WanGPAdapter:
                  qc_factory=None,
                  assembler=None,
                  timeout: float = 3600.0):
-        self.venv_python = venv_python
-        self.wgp_script = wgp_script
+        resolved_root = None
+        host_root = getattr(host, "wgp_root", None)
+        if isinstance(host_root, (str, os.PathLike)) and str(host_root).strip():
+            resolved_root = str(host_root)
+        else:
+            from wangp.config import load_host_config
+            configured_root = load_host_config().wgp_root
+            if configured_root is not None:
+                resolved_root = configured_root.value
+        self.venv_python = venv_python or (
+            f"{resolved_root}/venv/bin/python" if resolved_root else None
+        )
+        self.wgp_script = wgp_script or (
+            f"{resolved_root}/wgp.py" if resolved_root else None
+        )
         self.output_dir = output_dir
         self.render_namespace = uuid.uuid4().hex[:12]
         # WD-5zti: wgp IGNORES --output-dir at this pin and always
         # writes to <wgp_root>/outputs/ — the readback must scan there.
         self.wgp_outputs_dir = (
             wgp_outputs_dir
-            or os.path.join(
-                os.path.dirname(os.path.abspath(wgp_script)), "outputs"))
+            or (f"{self.wgp_script.rsplit('/', 1)[0]}/outputs"
+                if self.wgp_script else "outputs")
+        )
         self.runner = runner or _default_runner
         # WD-h0vk: renderer-locality seam. The adapter makes NO direct
         # FS syscalls — every FS/exec operation goes through the host.
