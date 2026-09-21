@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T16:26:40Z
-content_hash: "sha256:da90c553e2a1c961df81d0d33cef40b84d1a5067fc10749339c107cf81da271b"
+content_hash: "sha256:fa368cc3c3021f069b31d5f0b02ed5055614f795a25266e077ebb66328bc02d9"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -109,6 +109,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
+
+### evidence
+- The authoritative delivery evidence above was produced at pushed commit 0e50b5a592a8e392c1595c5f3de024f2d820589f; PR #152 and CI run 35624803571 are green.  was invoked; it completed the transition/evidence append but returned exit 1 because the delivered label had already been added.
+
+### proof
+- [x] All nine WD-lhm4 acceptance criteria verified in the authoritative table above.
+
 ## Implementation Evidence (DELIVERED)
 
 PROOF:
