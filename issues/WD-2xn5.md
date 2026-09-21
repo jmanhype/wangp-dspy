@@ -9,8 +9,7 @@ parent: WD-hc3p
 created_at: 2026-09-21T13:52:45Z
 created_by: speed
 updated_at: 2026-09-21T13:52:45Z
-content_hash: "sha256:7ca617bf0898f6f8e9592289843c0e6e347d1aedd1044edc7862bea69ac2c065"
-blocks: [WD-aq56]
+content_hash: "sha256:94e834e9b00824266ba866dac2703b632841d56bc09b790e060945067c8233c1"
 ---
 
 ## Description
@@ -102,9 +101,9 @@ status: new
 - 2026-09-21T13:52:45Z dep_added: blocks WD-aq56
 - 2026-09-21T13:52:46Z dep_added: blocks WD-zvaf
 - 2026-09-21T13:53:23Z dep_removed: no_longer_blocks WD-zvaf
+- 2026-09-21T13:53:24Z dep_removed: no_longer_blocks WD-aq56
 
 ## Links
 - Parent: [[WD-hc3p]]
-- Blocks: [[WD-aq56]]
 
 ## Comments
