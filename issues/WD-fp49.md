@@ -4,11 +4,11 @@ title: "Resolve render hosts from zero-config configuration"
 status: in_progress
 priority: 1
 type: feature
-labels: [integration, rejected]
+labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T19:16:28Z
+updated_at: 2026-09-21T19:16:29Z
 content_hash: "sha256:139ba5d41265129a34a36bfb5aa08e79250331cf7823f5fcf3aea86f1156fa6e"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj, WD-3nwm]
