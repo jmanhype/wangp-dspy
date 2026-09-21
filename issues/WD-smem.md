@@ -9,8 +9,8 @@ parent: WD-j3wm
 created_at: 2026-09-21T13:55:24Z
 created_by: speed
 updated_at: 2026-09-21T13:55:24Z
-content_hash: "sha256:854ecc5111eae60bad1314844b592ef1eeae1ec0c8c0eba18b2f01a3dbe2536a"
-blocked_by: [WD-ak43, WD-smdo, WD-7e73, WD-8u6y]
+content_hash: "sha256:64932956b5226edcceae62c09b2ebd89ce73a875fc29e7c72822b8981e2d675f"
+blocked_by: [WD-ak43, WD-smdo, WD-7e73, WD-8u6y, WD-s554]
 ---
 
 ## Description
@@ -97,9 +97,10 @@ status: new
 - 2026-09-21T13:55:24Z dep_added: blocked_by WD-smdo
 - 2026-09-21T13:55:25Z dep_added: blocked_by WD-7e73
 - 2026-09-21T13:55:25Z dep_added: blocked_by WD-8u6y
+- 2026-09-21T13:55:25Z dep_added: blocked_by WD-s554
 
 ## Links
 - Parent: [[WD-j3wm]]
-- Blocked by: [[WD-ak43]], [[WD-smdo]], [[WD-7e73]], [[WD-8u6y]]
+- Blocked by: [[WD-ak43]], [[WD-smdo]], [[WD-7e73]], [[WD-8u6y]], [[WD-s554]]
 
 ## Comments
