@@ -74,6 +74,14 @@ def test_fresh_corpus_replay_is_deterministic_group_safe_and_honest(tmp_path: Pa
     for relative in ("training/spend_gate.py", "training/spend_gate_replay.py", "scripts/build_spend_gate_corpus.py", "services/jobs/executor.py"):
         shutil.copyfile(ROOT / relative, checkout / relative)
     shutil.copytree(ARTIFACT, checkout / ARTIFACT.relative_to(ROOT), dirs_exist_ok=True)
+    subprocess.run(["git", "init", "."], cwd=checkout, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "config", "user.name", "WD-l48s fixture"], cwd=checkout, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "config", "user.email", "wd-l48s@example.invalid"], cwd=checkout, check=True, capture_output=True, text=True)
+    tracked_sources = [str(path.relative_to(checkout)) for path in checkout.glob("datasets/*.jobs.db")]
+    tracked_sources += ["datasets/spend-gate", "datasets/runs/provenance/lf002-vibevoice-film-20260917"]
+    tracked_sources += ["training", "scripts", "services", "predict", "qc", "host", "tests", "pyproject.toml", "uv.lock"]
+    subprocess.run(["git", "add", "-f", *tracked_sources], cwd=checkout, check=True, capture_output=True, text=True)
+    subprocess.run(["git", "commit", "-m", "WD-l48s fresh checkout fixture"], cwd=checkout, check=True, capture_output=True, text=True)
     command = [sys.executable, "scripts/build_spend_gate_corpus.py", "--repository-root", ".", "--evidence-mode", "tracked", "--output-dir", "datasets/spend-gate/v1", "--replay", "--verify-artifact"]
     environment = {**os.environ, "PYTHONPATH": str(checkout)}
     first_run = subprocess.run(command, cwd=checkout, env=environment, check=True, capture_output=True, text=True)
@@ -90,6 +98,11 @@ def test_fresh_corpus_replay_is_deterministic_group_safe_and_honest(tmp_path: Pa
     assert len(metrics["model_probability_rows"]) == 18 and set(metrics["baselines"]) == {"always_admit", "deterministic_preflight", "transparent_heuristic", "calibrated_model"}
     assert metrics["raw_probability_policy"]["confidence_bins"] and metrics["calibrated_probability_policy"]["confidence_bins"]
     assert "underpowered" in (checkout / "datasets/spend-gate/v1/replay-report.md").read_text()
+    tracked_rebuild = build_corpus(checkout, evidence_mode="tracked")
+    committed_by_hash = rows_by_hash()
+    assert len(tracked_rebuild.rows) == 5
+    assert all(row.to_dict()["row_id"] == committed_by_hash[row.to_dict()["qc_evidence_sha256"]]["row_id"]
+               for row in tracked_rebuild.rows)
 
 
 def test_post_run_recorder_reproduces_all_lf004_rows() -> None:
@@ -198,6 +211,7 @@ def test_canonical_paths_do_not_participate_in_row_identity() -> None:
     variant["qc_evidence_path"] = "/tmp/another-checkout/qc-evidence.json"
     variant["source_path"] = "another/checkout"
     variant["preflight"]["plate_path"] = "/tmp/another-plate.png"
+    variant["preflight"]["plate_available"] = not source["preflight"]["plate_available"]
     variant["source_git_available"] = {key: not value for key, value in source["source_git_available"].items()}
     assert canonical_json(_row_identity(variant)) == canonical_json(_row_identity(source))
     variant["qc_evidence_sha256"] = "0" * 64
