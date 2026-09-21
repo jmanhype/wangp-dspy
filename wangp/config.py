@@ -6,7 +6,10 @@ import os
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping
+from typing import TYPE_CHECKING, Mapping
+
+if TYPE_CHECKING:  # pragma: no cover - typing only, keeps the runtime import lazy
+    from host.render_host import SshHost
 
 
 HOST_KEYS = ("host.target", "host.wgp_root", "host.pull_root")
@@ -239,7 +242,7 @@ def load_host_config(
     )
 
 
-def render_host(config: HostConfig):
+def render_host(config: HostConfig) -> SshHost:
     """Construct the existing SSH seam only from a complete configuration."""
 
     from host.render_host import SshHost
