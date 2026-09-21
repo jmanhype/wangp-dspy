@@ -1,19 +1,21 @@
 ---
 id: WD-42no
 title: "E2e: execute exactly one approved LF004 governed render"
-status: in_progress
+status: closed
 priority: 0
 type: task
 labels: [e2e, capstone, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T04:32:33Z
-content_hash: "sha256:e692b30d5dfcff1dba6a985ce66783262778d8f00b3a3747b059836568f06c11"
+updated_at: 2026-09-21T04:42:22Z
+content_hash: "sha256:de177544c4377d752b10764e912f57538b7299c0cc9b7b5839d5e5e4066212c9"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
 follows: [WD-z46c, WD-ssdt, WD-g125]
+closed_at: 2026-09-21T04:42:22Z
+close_reason: "Accepted on main 3094b14b01eb41723f90e58f537f80cce847a5ad: operator-approved canonical plan 620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8 recomputed equal; CI 35561263575 success; final film SHA-256 2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7 with 224 frames at 24 fps, 704x576 H.264, AAC stereo 32 kHz, 9.333333 s; all four underlying qc-evidence files pass Whisper pre/post, identity-composition vision, three-frame mouth boxes, and blocking SyncNet with recorded hashes; queue is 4/4 done, max failure count 1, DEFAULT_MAX_ATTEMPTS remains 3, execution_count 1, and no second production run; five review sheets and final provenance 61bfe3b29201da9110b3a1f3a24fc847c50da8c7a2bd9efb8a2de872ba736b69 hash-match, status is exactly operator_review_pending, and the 48-entry first-attempt manifest verifies 48/48; production gate and retry paths are unchanged versus main and the merge parent. The superseded 107-frame plan is explicitly documented and was replaced before execution by the recorded operator approval, so accepted means mechanical capstone closure only, not creative acceptance."
 ---
 
 
@@ -409,6 +411,7 @@ Authorization: exactly one governed LF004 production execution through the accep
 - 2026-09-21T04:32:33Z status: in_progress -> in_progress
 - 2026-09-21T04:32:33Z auto-follows: linked to predecessor WD-ssdt
 - 2026-09-21T04:32:33Z auto-follows: linked to predecessor WD-g125
+- 2026-09-21T04:42:22Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-h73w]]
