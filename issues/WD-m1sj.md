@@ -8,7 +8,7 @@ parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
 updated_at: 2026-09-21T17:45:39Z
-content_hash: "sha256:78c432f890ded2036f9f541fceedd518b33c797a29072562149507fa819f312a"
+content_hash: "sha256:f2560896405eea36646b4143a7cac2ef0af740cb77d685be2bfb5fb994087435"
 follows: [WD-lhm4]
 labels: [delivered]
 ---
@@ -48,6 +48,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Delivery Evidence — satisfied by reference to WD-lhm4 / PR #152
 
 This bug's acceptance criterion is "wheel builds successfully and CI verifies both artifacts". That is now true on `main` and was verified independently by three parties.
