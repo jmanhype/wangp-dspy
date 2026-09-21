@@ -9,7 +9,8 @@ parent: WD-hc3p
 created_at: 2026-09-21T13:52:45Z
 created_by: speed
 updated_at: 2026-09-21T13:52:45Z
-content_hash: "sha256:83282800d38334f66a5aa0d9c2ae4d88459e700347aa1a7725eadd99c61ce749"
+content_hash: "sha256:875b091a4af312852d00a0dc94ed9eb8c4a5c8582aa1444de8f85679ea0648e6"
+blocked_by: [WD-aq56]
 ---
 
 ## Description
@@ -102,9 +103,10 @@ status: new
 
 
 ## History
-
+- 2026-09-21T13:52:45Z dep_added: blocked_by WD-aq56
 
 ## Links
 - Parent: [[WD-hc3p]]
+- Blocked by: [[WD-aq56]]
 
 ## Comments
