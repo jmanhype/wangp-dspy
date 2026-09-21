@@ -4,7 +4,7 @@ title: "Ship repository hygiene with a tested README quickstart"
 status: closed
 priority: 1
 type: feature
-labels: [walking-skeleton, integration, external-integration, rejected-x3, delivered, accepted]
+labels: [walking-skeleton, integration, external-integration, rejected-x3, accepted]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
