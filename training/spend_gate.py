@@ -211,7 +211,16 @@ def build_corpus(repository_root: Path, *, evidence_mode: Literal["tracked", "al
     repository_root = repository_root.resolve()
     paths = sorted((repository_root / "datasets/runs").glob("**/qc-evidence.json"))
     if evidence_mode == "tracked":
-        tracked = {Path(line) for line in subprocess.check_output(["git", "ls-files", "--", "datasets/runs"], cwd=repository_root, text=True).splitlines()}
+        try:
+            listed = subprocess.check_output(
+                ["git", "ls-files", "--", "datasets/runs"],
+                cwd=repository_root, text=True)
+        except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+            raise SpendGateSourceError(
+                "evidence_mode='tracked' requires a git working tree at "
+                f"{repository_root}: 'git ls-files -- datasets/runs' failed. "
+                "Use --evidence-mode all-local for a non-git evidence checkout.") from exc
+        tracked = {Path(line) for line in listed.splitlines()}
         paths = [path for path in paths if path.relative_to(repository_root) in tracked]
     queue_rows = _load_queue_rows(repository_root)
     rows = [normalize_row(path.parent, repository_root=repository_root, queue_rows=queue_rows) for path in paths]

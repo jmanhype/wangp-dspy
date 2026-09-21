@@ -4,13 +4,20 @@ from __future__ import annotations
 import json
 import math
 import random
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from services.director.renderers.policy import (
     RendererPolicyError, check_duration_on_grid, check_facing, check_guide_duration)
+from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
 from training.spend_gate import canonical_json
+
+# Log-loss is undefined at probability 0/1; probabilities are clipped at this
+# epsilon and the number of clipped rows is reported so a large log loss can be
+# attributed to the clip rather than silently presented as model quality.
+LOG_LOSS_CLIP = 1e-15
 
 
 @dataclass(frozen=True)
@@ -83,28 +90,54 @@ def _calibrate(probabilities: list[float], labels: list[float]) -> tuple[float, 
     return a, b
 
 
-def _deterministic(row: dict[str, Any]) -> str:
+def _deterministic_eval(row: dict[str, Any]) -> tuple[str, str | None]:
+    """Replay the production preflight faithfully, with a reason per decision.
+
+    Two production semantics matter here and are easy to get wrong:
+
+    * the production gateway compares a *measured* guide duration against a
+      *declared* shot duration with ``AUDIO_DURATION_TOLERANCE_S`` (1e-6);
+      ``check_guide_duration`` uses 1e-9 only because it compares two
+      plan-declared values. Using the 1e-9 invariant on ffprobe-rounded
+      durations rejects every row for a ~3e-7 rounding gap.
+    * ``check_facing`` falls back to the character's declared requirement when
+      no ``<plate>.plate.json`` sidecar exists, so a missing sidecar does not
+      block a render in production and must not do so in replay.
+    """
     try:
         _features(row)
         value = row["preflight"]
-        guide, declared = float(value["guide_duration_s"]), float(value["declared_shot_duration_s"])
+        guide = float(value["guide_duration_s"])
+        declared = float(value["declared_shot_duration_s"])
+        fps = int(value.get("fps") or 24)
         check_duration_on_grid(guide, int(value.get("fps") or 24))
-        check_guide_duration(guide, declared)
-        if int(value["requested_frames"]) != round(guide * int(value.get("fps") or 24)): raise RendererPolicyError("frame envelope mismatch")
+        if abs(guide - declared) > AUDIO_DURATION_TOLERANCE_S:
+            return "reject", "measured_guide_contradicts_declared_shot"
+        if int(value["requested_frames"]) != round(declared * fps):
+            return "reject", "frame_envelope_mismatch"
         if value["width"] is None or value["height"] is None:
-            raise ValueError("unknown resolution")
+            return "abstain", "unknown_resolution"
         video = next((stream for stream in row["media"].get("ffprobe", {}).get("streams", []) if stream.get("codec_type") == "video"), None)
-        if video is None or "nb_frames" not in video: raise ValueError("unknown delivered media envelope")
-        if (int(video["width"]), int(video["height"])) != (value["width"], value["height"]): raise RendererPolicyError("resolution envelope mismatch")
-        if int(video["nb_frames"]) != int(value["requested_frames"]): raise RendererPolicyError("delivered frame envelope mismatch")
-        if not value.get("plate_available") or value.get("plate_facing") is None:
-            return "abstain"
-        check_facing(str(value["plate_path"]), "camera")
-        return "abstain" if row["preflight"].get("plate_facing") != "camera" else "admit"
-    except RendererPolicyError:
-        return "reject"
+        if video is None or "nb_frames" not in video:
+            return "abstain", "unknown_delivered_media_envelope"
+        if (int(video["width"]), int(video["height"])) != (value["width"], value["height"]):
+            return "reject", "delivered_resolution_contradicts_envelope"
+        if int(video["nb_frames"]) != int(value["requested_frames"]):
+            return "reject", "delivered_frames_contradict_envelope"
+        if not value.get("plate_available"):
+            return "reject", "master_plate_not_readable"
+        facing = value.get("plate_facing")
+        if facing is not None and facing != "camera":
+            return "reject", "plate_not_camera_facing"
+        return "admit", None
+    except RendererPolicyError as exc:
+        return "reject", f"policy_error:{exc}"[:120]
     except ValueError:
-        return "abstain"
+        return "abstain", "unknown_preflight_feature"
+
+
+def _deterministic(row: dict[str, Any]) -> str:
+    return _deterministic_eval(row)[0]
 
 
 def _heuristic(row: dict[str, Any]) -> str:
@@ -112,7 +145,9 @@ def _heuristic(row: dict[str, Any]) -> str:
     guide, chars = value.get("guide_duration_s"), value.get("prompt_chars")
     if guide is None or chars is None:
         return "abstain"
-    return "admit" if value.get("audio_carrier") == "native_h3" and abs(float(guide) - 56.0 / 24.0) <= 1e-9 and chars >= 500 else "reject"
+    return "admit" if (value.get("audio_carrier") == "native_h3"
+                       and abs(float(guide) - 56.0 / 24.0) <= AUDIO_DURATION_TOLERANCE_S
+                       and chars >= 500) else "reject"
 
 
 def _score(rows: list[dict[str, Any]], decisions: dict[str, str]) -> dict[str, Any]:
@@ -153,14 +188,17 @@ def _probability_table(complete: list[dict[str, Any]], decisions: dict[str, str]
     score = _score(complete, decisions)
     defined = [(float(_bad(row)), probabilities[row["row_id"]]) for row in complete if row["row_id"] in probabilities]
     brier = sum((label - probability) ** 2 for label, probability in defined) / len(defined) if defined else None
-    logloss = -sum(label * math.log(max(probability, 1e-15)) + (1-label) * math.log(max(1-probability, 1e-15))
+    clipped = sum(1 for _, probability in defined
+                  if probability <= LOG_LOSS_CLIP or (1.0 - probability) <= LOG_LOSS_CLIP)
+    logloss = -sum(label * math.log(max(probability, LOG_LOSS_CLIP)) + (1-label) * math.log(max(1-probability, LOG_LOSS_CLIP))
                    for label, probability in defined) / len(defined) if defined else None
     bins = []
     for index in range(5):
         bucket = [(label, probability) for label, probability in defined if index / 5 <= probability < (index + 1) / 5]
         bins.append({"bin": f"{index/5:.1f}-{(index+1)/5:.1f}", "rows": len(bucket), "bad_rows": int(sum(label for label, _ in bucket)),
                      "mean_probability": sum(probability for _, probability in bucket) / len(bucket) if bucket else None})
-    score.update(brier_score=brier, log_loss=logloss, confidence_bins=bins)
+    score.update(brier_score=brier, log_loss=logloss, log_loss_clip=LOG_LOSS_CLIP,
+                 clipped_probability_rows=clipped, confidence_bins=bins)
     return score
 
 
@@ -169,8 +207,10 @@ def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: in
     rows = [json.loads(line) for line in corpus_path.read_text(encoding="utf-8").splitlines()]
     complete = _complete(rows)
     groups = sorted({row["run_group_id"] for row in complete})
+    deterministic_eval = {row["row_id"]: _deterministic_eval(row) for row in complete}
+    deterministic_reasons = Counter(reason for _, reason in deterministic_eval.values() if reason)
     policies = {"always_admit": {row["row_id"]: "admit" for row in complete},
-                "deterministic_preflight": {row["row_id"]: _deterministic(row) for row in complete},
+                "deterministic_preflight": {row_id: outcome for row_id, (outcome, _) in deterministic_eval.items()},
                 "transparent_heuristic": {row["row_id"]: _heuristic(row) for row in complete},
                 "calibrated_model": {}}
     raw_decisions, raw_probabilities = {}, {}
@@ -214,13 +254,18 @@ def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: in
                "bad_complete_rows": sum(_bad(row) for row in complete), "run_groups": groups,
                "grouped_folds": folds, "baselines": baselines,
                "raw_probability_policy": raw_table, "calibrated_probability_policy": calibrated_table,
+               "deterministic_preflight_reasons": dict(sorted(deterministic_reasons.items())),
                "preflight_feature_names": ["whisper_pre_passed", "guide_duration_s", "requested_frames", "width", "height", "prompt_chars", "prompt_words", "intercept"],
                "model_probability_rows": probability_rows, "recording_errors": recording_errors,
                "primary_metric": baselines["calibrated_model"]["failed_attempts_avoided_per_run"],
                "primary_result": "feasible" if feasible else "infeasible_at_budget", "decision": decision,
                "exploratory_threshold_sweep": sweep,
                "limits": ["N=36 total rows and 18 complete rows; this replay is underpowered.", "Calibration produced no feasible policy: this is a negative calibration result.", "Threshold sweeps are exploratory and did not select the primary result.",
-                          "Queue joins are partial; unmatched attempt counts are explicitly unavailable."]}
+                          "Queue joins are partial; unmatched attempt counts are explicitly unavailable.",
+                          "Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.",
+                          f"Probabilities are clipped at {LOG_LOSS_CLIP:g} for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.",
+                          "The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.",
+                          "The committed corpus is all-local: 15 of its 36 rows come from source media that are not tracked by git. A fresh clone can REPLAY the committed corpus but cannot REBUILD it; a tracked rebuild yields 21 rows / 13 complete."]}
     return ReplayReport(metrics, _markdown(metrics))
 
 
@@ -240,6 +285,17 @@ def _markdown(metrics: dict[str, Any]) -> str:
         brier = "undefined" if value["brier_score"] is None else f"{value['brier_score']:.3f}"
         loss = "undefined" if value["log_loss"] is None else f"{value['log_loss']:.3f}"
         lines.append(f"| {name} | {value['rows'] - value['abstained']}/{value['rows']} | {value['correct_decisions']} | {value['incorrect_decisions']} | {brier} | {loss} |")
+    lines += ["", f"Clipped probability rows: raw {metrics['raw_probability_policy']['clipped_probability_rows']}, "
+                  f"calibrated {metrics['calibrated_probability_policy']['clipped_probability_rows']} "
+                  f"(clip epsilon {metrics['raw_probability_policy']['log_loss_clip']:g})."]
+    lines += ["", "## Deterministic preflight decisions and reasons", "",
+              "The first baseline replays the production preflight invariants. A rejection means the recorded",
+              "run contradicts its own plan, not that the render was artistically bad.", ""]
+    if metrics["deterministic_preflight_reasons"]:
+        lines += ["| Reason | Rows |", "|---|---:|"]
+        lines += [f"| {reason} | {count} |" for reason, count in metrics["deterministic_preflight_reasons"].items()]
+    else:
+        lines.append("No row was rejected or abstained by the deterministic preflight.")
     lines += ["", "## Explicit limits", "", *[f"- {limit}" for limit in metrics["limits"]],
               "", "## Exploratory sensitivity only", "", "The following sweep did not select or replace the primary metric."]
     return "\n".join(lines) + "\n"

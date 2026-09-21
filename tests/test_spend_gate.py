@@ -5,7 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from training.spend_gate import SpendGateRecordingError, _gate, build_corpus, write_completed_run_rows, write_live_row
+from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
+from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _gate, build_corpus,
+                                 write_completed_run_rows, write_live_row)
 from training.spend_gate_replay import replay_baselines
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,3 +99,27 @@ def test_unknown_preflight_feature_never_becomes_zero(tmp_path: Path) -> None:
     changed, path = [dict(row, preflight=dict(row["preflight"], guide_duration_s=None)) for row in rows()], tmp_path / "corpus.jsonl"
     path.write_text("".join(json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n" for row in changed)); report = replay_baselines(path, bootstrap_samples=20)
     assert report.metrics["baselines"]["deterministic_preflight"]["abstained"] == 18 and report.metrics["recording_errors"]
+
+
+def test_deterministic_preflight_rejection_is_attributed_not_hidden() -> None:
+    """The measured-vs-declared comparison must use the production tolerance.
+
+    A 1e-9 comparison flags every ffprobe-rounded guide against its declared
+    shot duration, which silently turned this baseline into reject-everything.
+    """
+    report = replay_baselines(ARTIFACT / "corpus.jsonl", bootstrap_samples=20)
+    baseline, complete = report.metrics["baselines"]["deterministic_preflight"], report.metrics["complete_row_count"]
+    assert baseline["admitted"] == 0 and baseline["abstained"] == 0
+    assert report.metrics["deterministic_preflight_reasons"] == {"delivered_resolution_contradicts_envelope": complete}
+    rounding_gap = [row for row in rows()
+                    if abs(float(row["preflight"]["guide_duration_s"])
+                           - float(row["preflight"]["declared_shot_duration_s"])) > AUDIO_DURATION_TOLERANCE_S]
+    assert rounding_gap == []
+    assert "delivered resolution contradicts" in report.markdown
+    assert "not tracked by git" in report.markdown
+
+
+def test_tracked_build_requires_a_git_worktree(tmp_path: Path) -> None:
+    with pytest.raises(SpendGateSourceError) as error:
+        build_corpus(tmp_path, evidence_mode="tracked")
+    assert "requires a git working tree" in str(error.value)
