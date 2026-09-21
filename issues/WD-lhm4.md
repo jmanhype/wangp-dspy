@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T17:40:49Z
-content_hash: "sha256:0f0db9e3470a3ae0f6c5696b8c041504435f269f2bb39ec68bdafea8226866ff"
+content_hash: "sha256:2e50760e79deb8b739178a9d0df920204b92506e384957ed797c81228928eb25"
 was_blocked_by: [WD-3nwm]
 follows: [WD-3nwm]
 assignee: dev-WD-lhm4
@@ -120,6 +120,17 @@ DISCOVERED_BUG clarification: the failed transition command was pvg story delive
 Commit: faeac0c9092952f78e5c5944f0dabf4e805b4db2
 SHA: faeac0c9092952f78e5c5944f0dabf4e805b4db2
 Citation correction after the final immutable-queue patch shifted test lines: stable help is tests/test_wgp_cli.py:71; brief validation is :79; plan is :97; missing/empty provenance is :197; local doctor/hash tests are :266 and :303; host-manifest test is :334; remote-path/disk test is :360; missing-remote test is :400; exit-code test is :428; wheel install test is :445. Exit-code dispatch is wangp/cli.py:269-292. Earlier nearby citations remain valid; these are the corrected exact locations.
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
 
 ## nd_contract
 status: delivered
