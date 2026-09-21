@@ -8,8 +8,8 @@ labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T17:51:54Z
-content_hash: "sha256:017ffa1bbd1280da28fe7b562a850b85039be0f9108d28fde64c3f390c183f92"
+updated_at: 2026-09-21T18:24:52Z
+content_hash: "sha256:b23cc17fe79dd0e098a0f3f95e1578ce4efd7f316ad4c158b2e40fba172e4d34"
 blocks: [WD-lvix, WD-fq1o]
 was_blocked_by: [WD-lhm4]
 assignee: dev-WD-fp49
@@ -103,6 +103,93 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_host_config.py tests/test_runtime_host_wiring.py -q` — 9 passed.
+- `uv run --frozen --extra dev pytest -q` — exit 0; progress contained 1,587 dots and one `s`; the pre-existing optional live-host test `tests/test_jobs_integration_3090.py` is skipped unless `WANGP_3090=1`, and no GPU/host work was authorized for this story.
+- `uv build --out-dir /tmp/wd-fp49-dist-4aa2e92` — built one wheel and one sdist; SHA-256 wheel `3018052729fbe5dacbec79b069878eef903427f46114b403d456312584d8a49f`, sdist `986981cc07f3cbc5dcdda615a275f8f25d1aedea0a422697ae658cd092191841`; wheel contains `wangp.toml`.
+- `grep -RInE '"3090"|/home/straughter/Wan2GP' host services scripts predict qc --exclude-dir=datasets --exclude='*test*'` — before: 20 matches at `5dadcda`; after: no output (COUNT=0) at `4aa2e92a7376d49075f3fdc14360f67198d660de`.
+- `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — exit 0; protected engine paths are byte-identical.
+- `pvg verify wangp/config.py wangp.toml docs/configuration.md README.md docs/wgp-cli.md tests/test_host_config.py tests/test_runtime_host_wiring.py --include-tests --format=text` — `VERIFY: PASSED (3 files scanned, 0 issues)`.
+- Full changed-path `pvg verify ... --include-tests` failed with 12 pre-existing bare-pass/empty-return findings in legacy portions of touched files (`host/wangp_adapter.py`, `scripts/run_jobs.py`, and existing tests). Primary authored files pass above; changing those unrelated control-flow stubs would exceed configuration-plumbing scope.
+- `gh pr view 153 --repo jmanhype/wangp-dspy --json ...` and `gh run list ...` — CI run `35637843176`, head `4aa2e92a7376d49075f3fdc14360f67198d660de`, conclusion `success`.
+
+Summary: configuration now resolves a complete render host through environment → user TOML → repository TOML → safe local detection, active source has zero former host/root literals, no-GPU doctor/plan remain ready, and host work fails closed before SSH with actionable missing-key output.
+
+### Commit and PR
+- Branch: `story/WD-fp49`
+- Commit: `4aa2e92a7376d49075f3fdc14360f67198d660de`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/153
+- CI: run `35637843176` (`CI`), completed `success` at the pushed head; `test` job `106459577946` passed in 2m9s.
+
+### Configuration surface and precedence
+- `wangp/config.py:165` resolves each key independently as environment (`WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, `WANGP_PULL_ROOT`), then user config (`WANGP_CONFIG` or `~/.config/wangp/config.toml`), then repository `wangp.toml`, then safe detection.
+- `wangp/config.py:128` detects only a local `Wan2GP/wgp.py` marker; it never probes SSH/network/GPU/model services and does not guess the former remote host.
+- `wangp/config.py:60` exposes all missing keys; `wangp/config.py:156` builds the actionable fail-closed message; `wangp/config.py:242` constructs `SshHost` only after validation and passes values unchanged.
+- `wangp.toml` is the committed commented/no-host template. `pyproject.toml` force-includes it in the wheel.
+
+### Doctor and no-GPU evidence
+Exact no-host `wgp doctor` result (host check only):
+```text
+[SKIP] host_configuration: host.target=unconfigured [unconfigured]; host.wgp_root=unconfigured [unconfigured]; host.pull_root=<repo>/datasets/runs/pull [detection (<repo>)]; the no-GPU lane remains ready
+       remediation: Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT (or the corresponding [host] keys) for GPU work.
+ready=yes
+```
+Exact complete-host `wgp doctor` result (host check only; no probe flag supplied):
+```text
+[PASS] host_configuration: host.target=example-render-host [environment]; host.wgp_root=/absolute/configured/Wan2GP [environment]; host.pull_root=/tmp/wd-fp49-manual-5n0lDEAG/configured-pull [environment]; no host call was made
+ready=yes
+```
+Exact no-host plan result:
+```text
+brief=sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd clips=4 plan=/private/tmp/wd-fp49-manual-5n0lDEAG/plan.json
+summary clips=4 duration_s=9.332 gpu_work=false queue_submitted=false
+ledger=/private/tmp/wd-fp49-manual-5n0lDEAG/run/run_ledger.json
+```
+Exact no-host render entry result:
+```text
+exit=2
+configuration error: render host is not configured: missing host.target, host.wgp_root. Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, or set those keys in <repo>/wangp.toml or <temporary-absent-user-config>; then run 'wgp doctor' to review resolution. The no-GPU planning lane does not require a host.
+```
+There was no traceback or hang. Doctor contacted no host; `--probe-host` remains the only probe mode and passes `config.wgp_root.value` unchanged to `_preflight_doctor_checks`.
+
+### AC Verification
+| AC # | Requirement | Code/artifact evidence | Test/manual evidence | Status |
+| --- | --- | --- | --- | --- |
+| 1 | Precedence and provenance | `wangp/config.py:165`; `wangp/doctor.py:195` | `tests/test_host_config.py:41`; doctor output above | PASS |
+| 2 | Environment overrides and localhost | `wangp/config.py:242`; `scripts/run_jobs.py:533` | `tests/test_host_config.py:151` | PASS |
+| 3 | Safe local detection, no remote guessing/probing | `wangp/config.py:128`; `docs/configuration.md:51` | `tests/test_host_config.py:75` | PASS |
+| 4 | Runtime call sites receive complete config | `scripts/run_jobs.py:533`; `scripts/run_v3_native_control.py:56`; `host/wangp_adapter.py:108`; legacy scripts in diff | `tests/test_runtime_host_wiring.py:38`, `:60`; literal scan COUNT=0 | PASS |
+| 5 | No runtime fallback regression | active-source scan and AST guard | `tests/test_runtime_host_wiring.py:29`, `:38` | PASS |
+| 6 | No-config planning remains no-GPU | configuration is not imported by `wgp plan`; `README.md:82` | `tests/test_host_config.py:174`; manual plan output | PASS |
+| 7 | Host-dependent fail-closed actionable error | `wangp/config.py:156`; `scripts/run_jobs.py` catches `HostConfigError` | `tests/test_host_config.py:174`; manual render output | PASS |
+| 8 | Partial/unknown/invalid config rejected with context | `wangp/config.py` parsing/validation | `tests/test_host_config.py:111`, `:128` | PASS |
+| 9 | Explicit complete host behavior and protected engine semantics unchanged | `wangp/config.py:242`; protected-path diff exit 0 | `tests/test_host_config.py:151`; `tests/test_runtime_host_wiring.py:60`; full suite and CI green | PASS |
+
+### Scope, budget, and protected-path explanation
+- Measured final diff: 27 authored files, 1,040 insertions / 111 deletions (1,151 changed LOC), exceeding the declared rough budget of 15 files / 800 LOC.
+- Breakdown: 440 LOC test updates/new tests, 121 LOC documentation, 320 LOC config/template/packaging, and 270 LOC runtime call-site plumbing across the 20 baseline occurrences.
+- The excess is driven by the required zero-literal sweep across nine script/shell call sites and updating existing suites to supply complete explicit hosts instead of relying on removed defaults.
+- `scripts/run_jobs.py` and `qc/audio_critic/av_sync_gate.py` differ from `main` only to source host/root values from configuration; no QC/gate threshold or decision logic changed. `services/director/renderers/policy.py`, `services/director/wiring.py`, `services/jobs/preflight.py`, and `scripts/run_film.py` remain byte-identical.
+
+### Warnings and observations
+- Local full-suite warning (not introduced by this story, not fixed because it requires a dependency-lock change outside this config story):
+  `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead.` from `.venv/lib/python3.14/site-packages/fastapi/testclient.py:1`.
+- Successful CI emitted runner annotations that Node.js 20 actions are forced to Node 24 and `ubuntu-latest` will migrate to Ubuntu 26 on 2026-10-19. These annotations did not affect the successful conclusion.
+- The optional live-host integration test remains intentionally skipped under the no-GPU dispatch constraint; it still constructs explicit values and was not used to claim remote execution.
+
+LEARNINGS:
+- Resolving each key independently made precedence straightforward, but layer records needed field-normalized keys; a dedicated regression test caught the initial environment/file mismatch.
+- The former defaults were spread beyond the two main constructors; a measured literal scan plus static AST test was necessary to find shell, QC, and legacy adapter seams.
+- Existing render tests frequently supplied only a target; complete-host fixtures keep their behavior explicit without reintroducing hidden defaults.
+
+DISCOVERED_BUG:
+  title: FastAPI/Starlette TestClient emits httpx deprecation warning
+  context: Full local test command exits 0 but warns `Using httpx with starlette.testclient is deprecated; install httpx2 instead` from fastapi/testclient.py. Fixing it likely requires changing the locked test dependency set (httpx2) and is outside WD-fp49 configuration plumbing.
+  affected_files: pyproject.toml, uv.lock
+  discovered_during: WD-fp49
+
 ## Scope Amendment (dispatcher review) — protected-path list corrected
 
 The dispatch for this story protected `scripts/run_jobs.py` and all of `qc/` as byte-identical while
