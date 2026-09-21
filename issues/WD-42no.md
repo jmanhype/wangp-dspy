@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T00:43:43Z
-content_hash: "sha256:11e4276d8f0400e1607f64eeea8409f85c689f4cd8ed486048d5893a568d8881"
+updated_at: 2026-09-21T00:45:14Z
+content_hash: "sha256:2501422ee76342318ce0637a169df8c5cc105debb6003da52cff971161544bc1"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt]
 assignee: dev-WD-42no
@@ -93,6 +93,41 @@ status: new
 
 
 ## Notes
+## Dispatch Hold — Do Not Respawn Or Release (dispatcher, 2026-09-21)
+
+WD-42no is intentionally parked `in_progress` under claim `dev-WD-42no` pending an
+operator decision. The execution loop reports this story as `stalled` and recommends
+`pvg loop recover` followed by respawn or release. **Do not do that for WD-42no.**
+
+- Respawning or releasing would let a developer start a governed render that is not
+  authorized. The operator authorized exactly one LF004 execution, and that execution
+  is complete: it failed closed at cut 2 after the three-attempt policy.
+- The approved plan hash `70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86`
+  can no longer even be regenerated: the merged guard rejects its brief (exit 1, typed
+  mismatch error, zero artifacts). See finding 85 and WD-ssdt.
+- Any further render requires explicit operator approval of a corrected plan hash
+  recorded verbatim in this story. The replay-verified candidate is
+  `620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8`
+  (brief `sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd`),
+  still awaiting approval.
+- `pvg loop recover` may prune the `dev-WD-42no` worktree. The LF004 provenance and its
+  14 reconciliation scripts are preserved with a per-file hash manifest at
+  `/Users/Shared/HermesWorkspace/lf004-provenance-preserved-20260921/MANIFEST.json`
+  (`sha256:1b3865666017f3195e36b166a03c5966325e57fc9c1e47d6e322296c6ba73c50`, 48/48 verified)
+  and must be committed into the repository by the delivery.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Dispatch hold recorded with the reasoning, the blocking approval, and the preservation location.
+- Operator approval for `620f2ba4...` remains outstanding; no approval text exists in this story.
+
+### proof
+- [x] Unauthorized render dispatch is prevented by an explicit recorded hold.
+- [ ] Operator approval of a corrected plan hash recorded in this story.
+- [ ] One governed recovery execution passing every declared gate with a reviewable artifact.
+
 ## Provenance Durability Finding + Preservation (dispatcher, 2026-09-21)
 
 The LF004 execution provenance was **not in git**. Measured in the `dev-WD-42no` worktree:
