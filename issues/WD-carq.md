@@ -1,19 +1,20 @@
 ---
 id: WD-carq
 title: "Reproduce renders from a versioned recipe manifest"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:11:03Z
-content_hash: "sha256:a674d4cd386d79b46c92e69529bdb6fbe2e48ee4bfa0198cef6839e8bfdaba78"
-blocks: [WD-fq1o]
+updated_at: 2026-09-21T23:18:59Z
+content_hash: "sha256:1c5a7c1aef8dc96127650fc2a52664da443830ddca16d7ea9328cf8848bb6325"
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
 assignee: dev-WD-carq
+closed_at: 2026-09-21T23:18:59Z
+close_reason: "Accepted at 982c047: independently reproduced clean v3 recipe (64 pinned fields, zero absolute paths), copied-media drift, fail-closed missing artifact, byte stability, typed malformed-provenance probes, local/read-only checks, targeted/full suite pass, and exact-head CI success."
 ---
 
 ## Description
@@ -417,10 +418,11 @@ status: delivered
 - 2026-09-21T23:02:43Z auto-follows: linked to predecessor WD-lhm4
 - 2026-09-21T23:08:40Z status: in_progress -> in_progress
 - 2026-09-21T23:08:40Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-21T23:18:59Z status: in_progress -> closed
+- 2026-09-21T23:18:59Z dep_removed: no_longer_blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-fq1o]]
 - Was blocked by: [[WD-lvix]]
 - Follows: [[WD-lvix]], [[WD-fp49]], [[WD-m1sj]], [[WD-lhm4]], [[WD-3nwm]]
 
