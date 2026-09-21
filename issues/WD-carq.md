@@ -8,8 +8,8 @@ labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:02:50Z
-content_hash: "sha256:7ea46c0e3a6aeb7801e88ba16e75db5e06d581917bcfeb15c4f47f1f9be892fe"
+updated_at: 2026-09-21T23:03:06Z
+content_hash: "sha256:a0b582827a9ba6269f4071308778e4f910294f641caab7aad771acc68565088f"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4]
@@ -115,7 +115,54 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: `wangp/recipe.py` + `wgp recipe write|verify` deliver a versioned render
+recipe (`wangp-dspy.render-recipe/v3`) that pins a finished run's logical identity
+and re-reads the world on verification. Run-owned artifacts are read only from the
+bundle under review; everything else resolves repository-relative; a required
+artifact that cannot be hashed is a typed failure. All three defects in the third
+rejection's FIX list are closed.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_recipe.py -q` -> 33 passed.
+- `uv run --frozen --extra dev pytest -q` -> 1652 tests, 0 failures, 0 errors, 1 skipped.
+- `uv run --frozen --extra dev wgp recipe write --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921 --out <tmp>/real.json` -> pinned_fields=64.
+- `uv run --frozen --extra dev wgp recipe verify --recipe <tmp>/real.json --run <same run>` -> drift=0 verified=true.
+- `uv build --out-dir <tmp>` -> wheel + sdist.
+
+Commit: 982c047188414d38b690c4992fcb371ccde0495e
+
+## CI/Test Results
+
+- Required CI check `test` at head `982c047188414d38b690c4992fcb371ccde0495e`: status completed, conclusion **success** (check id 106549314311, PR #155).
+- Targeted recipe suite: **33 passed** (`tests/test_recipe.py`, real subprocess invocations of the installed `wgp` entry point).
+- Full suite: **1652 tests, 0 failures, 0 errors, 1 skipped** (junitxml, 76.7s).
+- Build: `wangp_dspy-0.1.0-py3-none-any.whl` and `wangp_dspy-0.1.0.tar.gz`.
+- Direct probes at head 982c047 (workdir `/tmp/wgp-ev.Uil823`, no GPU, no host contact): two bundle copies produce one unique recipe sha256; one byte appended to a copied `assembled.mp4` -> exit 2 `pinned.assembled_media.sha256 status=changed`; deleted `assembled.mp4` -> write exit 2 `required artifact is missing from this run review bundle` with no output file, verify exit 2 with no `verified=true`; flattened pinned contains zero absolute paths.
+- Read-only: `git status --porcelain datasets` -> 0 lines; fake-`ssh` test proves no SSH call; protected-path diff vs main -> exit 0; literal scan for `3090`/`/home/straughter/Wan2GP` -> 0 hits.
+
+### Acceptance criteria
+
+- [x] Versioned recipe manifest pins the run's logical inputs (repository VERSION, brief hashes, canonical + raw plan hashes, recorded settings hashes, retry policy, per-cut gate thresholds, per-cut and assembled media digests, queue database digest).
+- [x] `wgp recipe write` records a recipe from existing evidence; `wgp recipe verify` reports per-field drift as `changed`/`missing`/`added`.
+- [x] Required artifacts fail closed: a bundle missing its media cannot write or verify a clean recipe, and no absolute historical path is substituted.
+- [x] Pinned paths are bundle- or repository-relative only, so two copies of the same run are byte-identical.
+- [x] Every consumed provenance section and nested cut mapping is a typed `RecipeError` (exit 2) rather than an internal failure.
+- [x] No renderer, queue, provenance, gate, retry, or model-selection semantics changed; committed evidence files untouched.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head 982c047188414d38b690c4992fcb371ccde0495e on story/WD-carq; exact-head CI check 106549314311 SUCCESS.
+- tests/test_recipe.py 33 passed; full suite 1652 passed / 0 failed / 1 skipped; uv build wheel+sdist.
+- Delete-before-write and delete-before-verify fail closed; tampered bundle copy detected; two-copy byte stability confirmed; 14-case nested shape matrix exits 2.
+
+### proof
+- [x] AC #2: the same logical run is byte-stable across two copied bundles.
+- [x] AC #3: missing required artifacts fail closed at write and verify; no stale-worktree substitution.
+- [x] AC #3/#4: consumed sections and nested cut mappings fail as typed input, never exit 4.
 
 ## nd_contract
 status: delivered
