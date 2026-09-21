@@ -6,6 +6,7 @@ import argparse
 import contextlib
 import json
 import io
+import shlex
 import sqlite3
 import sys
 from pathlib import Path
@@ -15,6 +16,13 @@ from predict.content_brief import ContentBriefError, load_content_brief
 from services.jobs.queue import JobNotFoundError
 from wangp import __version__
 from wangp.doctor import DoctorCheck, collect_doctor_checks
+from wangp.diagnostics import (
+    classify_input_failure,
+    classify_provenance_failures,
+    redact_sensitive,
+    render_diagnostic,
+    render_diagnostic_mapping,
+)
 from wangp.queue_view import (
     collect_queue_review,
     collect_status,
@@ -32,11 +40,14 @@ EXIT_INTERNAL = 4
 
 
 def _emit_json(payload: Mapping[str, Any]) -> None:
-    print(json.dumps(dict(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=False))
+    print(json.dumps(
+        redact_sensitive(dict(payload)), sort_keys=True,
+        separators=(",", ":"), ensure_ascii=False
+    ))
 
 
 def _error(message: str) -> None:
-    print(f"wgp: error: {message}", file=sys.stderr)
+    print(f"wgp: error: {redact_sensitive(message)}", file=sys.stderr)
 
 
 def _load_models(path: str | None) -> list[dict[str, str]] | None:
@@ -116,9 +127,13 @@ def _run_doctor(args: argparse.Namespace) -> int:
             symbol = {"pass": "PASS", "failed": "FAIL", "skipped": "SKIP"}[
                 check.status
             ]
-            print(f"[{symbol}] {check.kind}: {check.detail}")
+            print(f"[{symbol}] {check.kind}: {redact_sensitive(check.detail)}")
             if check.status != "pass":
-                print(f"       remediation: {check.remediation}")
+                print(
+                    f"       remediation: {redact_sensitive(check.remediation)}"
+                )
+        for diagnostic in report.diagnostics:
+            print(render_diagnostic(diagnostic))
         print(f"ready={'yes' if report.ready else 'no'}")
     return EXIT_OK if report.ready else EXIT_DOCTOR
 
@@ -187,26 +202,55 @@ def _run_review(args: argparse.Namespace) -> int:
     if args.db is None and args.run is None:
         raise ValueError("review requires --db or a RUN directory")
     payload: dict[str, Any] = {}
-    if args.db is not None:
-        queue_payload, evidence = collect_queue_review(
-            args.db, job_id=args.job
+    try:
+        if args.db is not None:
+            queue_payload, evidence = collect_queue_review(
+                args.db, job_id=args.job
+            )
+            payload["queue"] = queue_payload
+            payload["evidence"] = evidence
+        if args.run is not None:
+            payload["run_review"] = review_run(args.run)
+    except (FileNotFoundError, ValueError, JobNotFoundError) as exc:
+        message = str(exc)
+        if isinstance(exc, JobNotFoundError):
+            message = f"queue job not found: {args.job or exc.args[0]}"
+        if args.run is not None:
+            next_command = f"wgp review {shlex.quote(str(args.run))}"
+        elif args.db is not None:
+            next_command = shlex.join([
+                "wgp", "review", "--db", str(args.db)
+            ])
+        else:
+            next_command = None
+        diagnostic = classify_input_failure(
+            message,
+            source=args.run if args.run is not None else args.db,
+            next_command=next_command,
         )
-        payload["queue"] = queue_payload
-        payload["evidence"] = evidence
-    if args.run is not None:
-        payload["run_review"] = review_run(args.run)
+        if args.json:
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
     failed_hashes = [item for item in payload.get("run_review", {}).get("hash_checks", []) if item["status"] != "pass"]
+    diagnostics = [
+        diagnostic.mapping()
+        for diagnostic in classify_provenance_failures(failed_hashes, args.run or "")
+    ]
     if args.json:
+        if diagnostics:
+            payload["diagnostics"] = diagnostics
         _emit_json(payload)
     else:
         if "queue" in payload:
             print(render_queue_review(payload["queue"], payload["evidence"]))
         if "run_review" in payload:
             print(render_run_review(payload["run_review"]))
+        for diagnostic in diagnostics:
+            print(render_diagnostic_mapping(diagnostic))
     if failed_hashes:
-        raise ValueError(
-            f"{len(failed_hashes)} provenance artifact hash check(s) failed"
-        )
+        return EXIT_INPUT
     return EXIT_OK
 
 
@@ -278,8 +322,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     except json.JSONDecodeError as exc:
         _error(f"unexpected internal error: JSONDecodeError: {exc}")
         return EXIT_INTERNAL
+    except ContentBriefError as exc:
+        diagnostic = classify_input_failure(
+            str(exc), source=str(getattr(args, "brief", "") or "")
+        )
+        if getattr(args, "json", False):
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
     except (
-        ContentBriefError,
         FileNotFoundError,
         JobNotFoundError,
         ValueError,

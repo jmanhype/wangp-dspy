@@ -306,6 +306,7 @@ def test_qc_stage_preserves_malformed_locator_evidence_after_whisper(tmp_path):
             "vision result must include three speaker_mouth_bboxes [x,y,w,h]"),
         "scores": {"mouth_activity": 0.9, "action_match": 0.9,
                    "speaker_attribution": 0.9},
+        "pass_bar": 0.7,
         "raw_response": identity_raw,
         "mouth_bbox_raw_response": locator_raw,
     }

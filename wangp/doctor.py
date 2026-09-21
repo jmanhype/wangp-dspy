@@ -21,6 +21,13 @@ from wangp.config import (
     missing_host_keys,
     render_host,
 )
+from wangp.diagnostics import (
+    FailureDiagnostic,
+    classify_host_configuration,
+    classify_preflight,
+    redact_sensitive,
+)
+from services.jobs.preflight import PreflightCheck, PreflightReport
 
 
 _REQUIRED_IMPORTS = ("dspy", "fastapi", "pydantic", "requests", "soundfile", "librosa", "numpy", "uvicorn")
@@ -38,12 +45,12 @@ class DoctorCheck:
     remediation: str = ""
 
     def mapping(self) -> dict[str, str]:
-        return {
+        return redact_sensitive({
             "kind": self.kind,
             "status": self.status,
             "detail": self.detail,
             "remediation": self.remediation,
-        }
+        })
 
 
 @dataclass
@@ -51,6 +58,7 @@ class DoctorReport:
     """Doctor output with no timestamps or environment-variable dumps."""
 
     checks: list[DoctorCheck] = field(default_factory=list)
+    diagnostics: list[FailureDiagnostic] = field(default_factory=list)
 
     @property
     def ready(self) -> bool:
@@ -60,6 +68,7 @@ class DoctorReport:
         return {
             "ready": self.ready,
             "checks": [check.mapping() for check in self.checks],
+            "diagnostics": [diagnostic.mapping() for diagnostic in self.diagnostics],
         }
 
 
@@ -243,13 +252,13 @@ def remote_model_specs(
     return specs
 
 
-def _preflight_doctor_checks(
+def _preflight_doctor_result(
     host: object,
     models: Sequence[Mapping[str, str]],
     *,
     wgp_root: str | Path,
     disk_path: str | Path,
-) -> list[DoctorCheck]:
+) -> tuple[list[DoctorCheck], list[FailureDiagnostic]]:
     from services.jobs.preflight import run_preflight
 
     report = run_preflight(
@@ -260,7 +269,7 @@ def _preflight_doctor_checks(
         qc_url=os.environ.get("WANGP_QC_URL", "http://localhost:8000/health"),
     )
     remediations = {"ssh_reachable": "Verify SSH with 'ssh <target> true'.", "model_files": "Copy each model to the host and verify its manifest sha256.", "disk_headroom": "Free remote disk space or choose sanctioned storage.", "gpu_state": "Stop stale GPU tenants or diagnose nvidia-smi.", "qc_available": "Start QC or set WANGP_QC_URL."}
-    return [
+    checks = [
         DoctorCheck(
             kind=check.kind,
             status="pass" if check.passed else "failed",
@@ -269,6 +278,21 @@ def _preflight_doctor_checks(
         )
         for check in report.checks
     ]
+    return checks, classify_preflight(report, target=getattr(host, "target", None))
+
+
+def _preflight_doctor_checks(
+    host: object,
+    models: Sequence[Mapping[str, str]],
+    *,
+    wgp_root: str | Path,
+    disk_path: str | Path,
+) -> list[DoctorCheck]:
+    """Compatibility helper for callers that need only the five doctor checks."""
+
+    return _preflight_doctor_result(
+        host, models, wgp_root=wgp_root, disk_path=disk_path
+    )[0]
 
 
 def _host_manifest_check(
@@ -298,8 +322,10 @@ def _host_manifest_check(
 def _host_probe_checks(
     models: Sequence[Mapping[str, str]],
     config: HostConfig,
-) -> list[DoctorCheck]:
+) -> tuple[list[DoctorCheck], list[FailureDiagnostic]]:
     if missing_host_keys(config):
+        configuration = classify_host_configuration(config)
+        assert configuration is not None
         return [
             _fail(
                 "host_configuration",
@@ -307,14 +333,27 @@ def _host_probe_checks(
                 "Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, and WANGP_PULL_ROOT "
                 "(or the corresponding [host] keys), then run 'wgp doctor'.",
             )
-        ]
+        ], [configuration]
     host = render_host(config)
-    return _preflight_doctor_checks(
+    checks, diagnostics = _preflight_doctor_result(
         host,
         models,
         wgp_root=config.wgp_root.value,
         disk_path=config.wgp_root.value,
     )
+    return checks, diagnostics
+
+
+def _local_failure_diagnostics(report: DoctorReport) -> list[FailureDiagnostic]:
+    diagnostics: list[FailureDiagnostic] = []
+    for check in report.checks:
+        if check.status != "failed" or check.kind != "model_files":
+            continue
+        diagnostics.extend(classify_preflight(PreflightReport(
+            passed=False,
+            checks=[PreflightCheck(check.kind, False, check.detail)],
+        )))
+    return diagnostics
 
 
 def collect_doctor_checks(
@@ -338,12 +377,18 @@ def collect_doctor_checks(
             _disk_check(),
         ]
     )
+    report.diagnostics.extend(_local_failure_diagnostics(report))
     if probe_host:
         manifest_check = _host_manifest_check(models)
         if manifest_check.status == "pass":
-            report.checks.extend(_host_probe_checks(models, config))
+            checks, diagnostics = _host_probe_checks(models, config)
+            report.checks.extend(checks)
+            report.diagnostics.extend(diagnostics)
         else:
             report.checks.append(manifest_check)
+            configuration = classify_host_configuration(config)
+            if configuration is not None:
+                report.diagnostics.append(configuration)
     return report
 
 
