@@ -8,9 +8,10 @@ labels: [walking-skeleton, integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:08:51Z
+updated_at: 2026-09-21T15:22:12Z
 content_hash: "sha256:1a0077f300beabfb2cdedb5d31b116b22ec6132c06d5735bb8b28d899e0fecdd"
 blocks: [WD-lhm4, WD-fq1o]
+assignee: dev-WD-3nwm
 ---
 
 ## Description
