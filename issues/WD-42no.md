@@ -8,8 +8,8 @@ labels: [e2e, capstone]
 parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
-updated_at: 2026-09-21T00:45:14Z
-content_hash: "sha256:2501422ee76342318ce0637a169df8c5cc105debb6003da52cff971161544bc1"
+updated_at: 2026-09-21T00:54:03Z
+content_hash: "sha256:2929d8c790cc64fb9256c01bb4a9a3268f2bb3be52fbc92904ef4a60e614e4a5"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt]
 assignee: dev-WD-42no
@@ -93,6 +93,28 @@ status: new
 
 
 ## Notes
+## Operator Recovery Approval
+
+Approved UTC: 2026-09-21T00:54:03Z
+Operator response: approve
+Approved canonical plan SHA-256: 620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8
+Approved candidate brief SHA-256: 67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd
+Candidate brief: datasets/content_briefs/lf004-operator-dogfood-56f/brief.json (to be committed into the repository by the recovery delivery)
+Policy: 4 x 56 frames @24fps, guide_duration_s == shot_duration_s == 2.333 s (the accepted WD-rij6 per-cut policy)
+Authorization: exactly one governed LF004 recovery execution through the accepted Wangp pipeline. This approval does not authorize a second independent run, gate or retry-policy changes, live-hook changes, or unrelated work.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Operator approval of canonical plan hash 620f2ba4... recorded from the operator's literal response "approve" at 2026-09-21T00:54:03Z.
+- Guard-rejected approved plan 70280fdc... documented above; corrected candidate replay-verified twice.
+
+### proof
+- [x] Explicit operator approval of the corrected plan hash is recorded.
+- [x] Unauthorized render dispatch prevented before approval.
+- [ ] One governed recovery execution passing every declared gate with a reviewable artifact and committed provenance.
+
 ## Dispatch Hold — Do Not Respawn Or Release (dispatcher, 2026-09-21)
 
 WD-42no is intentionally parked `in_progress` under claim `dev-WD-42no` pending an
