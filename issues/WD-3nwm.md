@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T14:06:37Z
-content_hash: "sha256:369bef923d8cf27f3fdd7d45a5a15dcbac79b482d6ab0f5fc67524d2cdf13099"
+updated_at: 2026-09-21T14:45:53Z
+content_hash: "sha256:0627cfe238986416d270810e12a5696b961cc5ea18112d27b035f276c5f1ae59"
 blocks: [WD-lhm4, WD-fq1o]
 assignee: dev-WD-3nwm
 ---
@@ -99,6 +99,27 @@ status: new
 
 
 ## Notes
+## Delivery Evidence (dispatcher-completed; developer stream disconnected after commit)
+
+The developer agent committed and pushed, then its stream died before delivering. I verified the
+artifact myself and completed the delivery.
+
+- Head: `59dcf65f660c22f0f66f72ee1791fc9a868effc3` · branch `story/WD-3nwm` · PR #151
+- Required CI: `test` COMPLETED **SUCCESS** at that head
+- Doc-test: `tests/test_readme_quickstart.py` — 3 passed (exit 0)
+- Full suite: exit 0 (no failures; the pre-existing optional-host skip)
+- `README.md`: 317 bytes -> 9,558 bytes / 120 lines; `LICENSE` (Apache-2.0), `VERSION` (`0.1.0`),
+  `CHANGELOG.md`, `CONTRIBUTING.md`, `THIRD_PARTY_NOTICES.md` added.
+
+Verified by me, not taken on trust:
+- The doc-test **parses README.md** and extracts the fenced `bash` blocks (`re.findall(r"```bash\n(.*?)```", quickstart)`) instead of duplicating commands, then executes them in a clean temporary worktree.
+- It also asserts the hygiene contract (VERSION == 0.1.0, LICENSE present, THIRD_PARTY_NOTICES present, pyproject agreement) and that every internal README link resolves.
+- The README quickstart is the real no-GPU path against committed LF004 assets and documents the expected `summary` fields (`clip_count` 4, `planned_duration_s` 9.332, `dry_run`, `gpu_work: false`, `queue_submitted: false`).
+- The troubleshooting section documents the real failure classes we hit, including the `RepositoryIdentityError` fail-closed behaviour for opaque untracked worktrees, with the remedy and an explicit "do not disable provenance" instruction.
+- `THIRD_PARTY_NOTICES.md` separates model licences from the repository licence.
+
+Licence decision flagged for the operator: `LICENSE` is Apache-2.0. If a different licence is wanted, that is a one-line replacement plus the THIRD_PARTY_NOTICES cross-reference.
+
 ## nd_contract
 status: in_progress
 
