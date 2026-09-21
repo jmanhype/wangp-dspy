@@ -8,8 +8,8 @@ labels: [integration, rejected]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T20:44:13Z
-content_hash: "sha256:bc4fedcbcc9aeac9ac40738e2be85adbcbde4166aed2b41fa3beb7be9309f556"
+updated_at: 2026-09-21T21:07:55Z
+content_hash: "sha256:de8df5ccdde7a7926ad51f2ac505784e50043816d4950032865d788ad90a322c"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
 follows: [WD-fp49, WD-m1sj, WD-lhm4]
@@ -105,6 +105,107 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (REWORK DELIVERED)
+
+Commands run:
+- RED at rejected head `789acd6`: `uv run --frozen --extra dev pytest tests/test_failure_diagnostics.py -q` → exit 1; 9 passed, 7 newly added real-input tests failed, one for every reviewer defect.
+- GREEN at commit `96eed5b`: `uv run --frozen --extra dev pytest tests/test_failure_diagnostics.py -q` → exit 0; 16 passed.
+- Expanded blast radius: `uv run --frozen --extra dev pytest tests/test_failure_diagnostics.py tests/test_vision_judge.py tests/test_wgp_cli.py -q` → exit 0; 59 passed.
+- Full suite: `uv run --frozen --extra dev pytest -q` → exit 0; collection totals 1,619 tests and progress shows 1,618 passed plus the existing progress skip. Output retains the known FastAPI/Starlette deprecation warning.
+- Build: `uv build --out-dir /tmp/wd-lvix-dist-96eed5b` → exit 0; wheel and sdist built.
+- Static checks: `git diff --check` → clean; `uv run --frozen --extra dev ruff check wangp/diagnostics.py wangp/cli.py wangp/queue_view.py wangp/doctor.py tests/test_failure_diagnostics.py tests/test_vision_judge.py` → all checks passed.
+- Semantic guard: `git diff --exit-code main -- services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` → exit 0.
+- Delivery scan: `pvg verify wangp/diagnostics.py wangp/cli.py wangp/queue_view.py wangp/doctor.py qc/audio_critic/ref2va_stage.py tests/test_failure_diagnostics.py tests/test_vision_judge.py docs/troubleshooting.md --format=text` → `VERIFY: PASSED (7 files scanned, 0 issues)`.
+- Push: `git push origin story/WD-lvix` → `789acd6..96eed5b`.
+- PR update: https://github.com/jmanhype/wangp-dspy/pull/154#issuecomment-5767498310
+- CI read with `gh run view 35654994623 --json databaseId,headSha,status,conclusion,workflowName,url` → run `35654994623`, head `96eed5b1ac9b1a5c03cb6f7de5036f8d736ecf8a`, status `completed`, conclusion `success`.
+
+Summary: generic executor `preflight` rows now use their recorded sub-check evidence; production vision rejections preserve/report an effective pass bar without inventing mouth-box failures; current gate evidence is authoritative with separately labelled history; retryable lane/admission rows retain retry guidance; all diagnostic renderers recursively redact credentials; suggested commands shell-quote unsafe inputs; and missing-job review errors remain structured in JSON mode.
+
+### Commit
+- Branch: `story/WD-lvix`
+- SHA: `96eed5b1ac9b1a5c03cb6f7de5036f8d736ecf8a`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/154
+- Rework shortstat: 8 files, 509 insertions, 106 deletions.
+- Whole-story shortstat: 10 files, 1,791 insertions, 38 deletions. The additional growth over rejected head is 509/106 for seven correctness/security fixes and real production-shape tests; it remains presentation/evidence-only except for one additional persisted `pass_bar` field.
+
+### Build artifacts
+- Wheel: `/tmp/wd-lvix-dist-96eed5b/wangp_dspy-0.1.0-py3-none-any.whl`; SHA-256 `57e85aa7eb55268059d9b3db85120933eb8ee4ef564327834b5da2de1f82b28d`.
+- Sdist: `/tmp/wd-lvix-dist-96eed5b/wangp_dspy-0.1.0.tar.gz`; SHA-256 `b4f5055f3bbc14c3026d494cef4816d355d64df7adaa03814be070cae2e66285`.
+
+### Per-defect verification
+| # | Rejected behavior at `789acd6` | Fixed behavior at `96eed5b` | Code | Real test |
+|---|---|---|---|---|
+| 1 | Queue `preflight` model/disk details became `HOST_UNREACHABLE`. | Missing/hash/disk details map to `MODEL_MISSING`, `MODEL_HASH_MISMATCH`, and `DISK_HEADROOM_BELOW_THRESHOLD`; SSH text still maps to host causes. | `wangp/diagnostics.py:560`, `wangp/diagnostics.py:672` | `tests/test_failure_diagnostics.py:353` |
+| 2 | Production rejection became `mouth_box_localization`, omitted `identity_action_vision`, and had `pass_bar: null`. | Real seed-906 rejection reports identity/action scores, `passed: false`, historical pass bar `0.7`, no boxes, and no mouth-box gate. New rejection evidence records its effective bar. | `wangp/diagnostics.py:406`; `qc/audio_critic/ref2va_stage.py:271` | `tests/test_failure_diagnostics.py:386`; `tests/test_vision_judge.py:304` |
+| 3 | Historical retry evidence overwrote current metrics with `0.11/99/0.11`. | Current evidence remains `0.58634/-1/0.667`; history is a separate labelled attempt/source/metrics list. | `wangp/diagnostics.py:324`, `wangp/diagnostics.py:342`, `wangp/diagnostics.py:482` | `tests/test_failure_diagnostics.py:425` |
+| 4 | Retryable `ref2va_lane_unavailable` and `queue_admission_error` became `UNKNOWN_FAILURE`. | Both real failed/retryable rows return `RETRY_ELIGIBLE` and the exact `--retry-failed` command. | `wangp/diagnostics.py:695` | `tests/test_failure_diagnostics.py:467` |
+| 5 | Credential-shaped DB paths, evidence refs, commands, Basic/Bearer values, URL userinfo, and query secrets leaked. | Human/JSON diagnostic and queue status/evidence output contain redacted placeholders while retaining ordinary paths. | `wangp/diagnostics.py:46`, `wangp/diagnostics.py:79`, `wangp/diagnostics.py:93`; `wangp/queue_view.py:37` | `tests/test_failure_diagnostics.py:497` |
+| 6 | Unsafe review RUN path was interpolated unquoted into `next`. | Both modes show the `shlex.quote`d path and the test round-trips the suggestion through `shlex.split`. | `wangp/cli.py:219` | `tests/test_failure_diagnostics.py:536` |
+| 7 | Missing review job in JSON mode exited 2 with empty stdout/plain stderr. | Exit remains 2, stderr is empty, stdout is one parsable `INPUT_INVALID` diagnostic with DB source metadata. | `wangp/cli.py:214` | `tests/test_failure_diagnostics.py:552` |
+
+### Production-shape evidence
+- Vision rejection comes directly from committed seed 906 under `datasets/runs/provenance/lf004-operator-dogfood-20260920/cut2-deadletter-review/evidence.json`; only the enclosing real `qc_evidence` object is copied to a queue-referenced `qc-evidence.json` path.
+- Current gate evidence is the committed LF004 acceptance file `datasets/runs/pull/acceptance/worker-56d7f6cd7b8a/render-0001/qc-evidence.json` with its real `0.58634/-1/0.667` values.
+- All queue tests create rows through public `JobQueue` APIs and invoke the real CLI; no queue, judge, host, or filesystem interaction is mocked.
+
+### Immutable/read-only proof
+- Real queue DB `/var/folders/7q/tx7m0tg12m5cgq7k8z8q2dzw0000gn/T/wd-lvix-readonly-t3373hop/jobs.db`.
+- SHA-256 before status/review: `54500b355ad07199132c9b6ed17f102ce583153e5e66782fab8e476638166755`.
+- SHA-256 after human status, JSON status, and human review: `54500b355ad07199132c9b6ed17f102ce583153e5e66782fab8e476638166755`.
+- Directory listing before and after: exactly `jobs.db`; no `-wal`, `-shm`, or journal.
+- Default doctor/no-SSH guarantee remains covered by `test_doctor_host_diagnostics_are_explicit_and_default_makes_no_ssh_call`.
+
+### AC verification
+| AC | Requirement | Status | Evidence |
+|---|---|---|---|
+| 1 | Stable diagnostic value/JSON shape | PASS | `FailureDiagnostic.mapping`; JSON-key test and all new CLI JSON tests. |
+| 2 | Host target/config/auth distinction without traceback | PASS | Existing SSH/doctor tests; queue preflight test now protects non-SSH sub-checks. |
+| 3 | Exact model missing/hash evidence and safe manifest remediation | PASS | Existing real filesystem preflight test plus queue `preflight` test. |
+| 4 | Exact disk available/minimum/path and non-destructive remediation | PASS | Existing preflight test plus executor-shaped queue disk row. |
+| 5 | Declared gate, reason, evidence, scores, review command, no bypass | PASS | Production rejection, current-vs-history, and original gate tests. |
+| 6 | Retry/dead-letter/deterministic replay branches | PASS | Existing retry/dead-letter tests plus both omitted lane/admission classes. |
+| 7 | Stable unknown diagnostic | PASS | Existing unknown test; new classes no longer fall into it incorrectly. |
+| 8 | Human/JSON consistency, secret redaction, stable expected exits | PASS | Renderer/redaction tests and missing-job JSON test. |
+| 9 | Queue/gate decisions and bytes unchanged | PASS | Read-only hash/listing proof, protected-file clean diff, and no policy/retry code changes. |
+
+PROOF:
+- Commit `96eed5b1ac9b1a5c03cb6f7de5036f8d736ecf8a` produced all local results above.
+- CI run `35654994623` completed successfully at that exact head.
+- No merge or acceptance was performed.
+
+LEARNINGS:
+- The executor's coarse `preflight` class cannot be ordered before detail inspection; the durable detail is the actionable sub-check identity.
+- Production rejection evidence is intentionally lossy, so diagnostics must accept historical shapes while newly persisted evidence records the effective pass bar.
+- Current and historical evidence need separate names, not merge-overwrite semantics.
+- Redaction must be applied after constructing a safely quoted command so the placeholder cannot introduce shell syntax.
+
+### OBSERVATIONS (unrelated/pre-existing)
+- Full pytest output still contains `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead`.
+- CI success still emits Node 20 action deprecation and future `ubuntu-latest` migration annotations.
+- `pvg notes search "failure diagnostics"` failed because `.paivot/config.yaml` selects notes vault `Claude`, which is absent; available vaults include `.vault`. No vault files were read directly.
+- `ruff format --check` was not used as a gate because these historically formatter-unclean files would require broad unrelated reformatting. Changed diagnostics/CLI/test Python files pass `ruff check`; touched `qc/audio_critic/ref2va_stage.py` inherits two pre-existing unused-import warnings.
+
+### DISCOVERED_BUG
+  title: pvg notes search selects a missing Claude vault
+  context: Running the developer skill's required knowledge search fails with `vlt: vault "Claude" not found`, although `.paivot/config.yaml` names `Claude` as the primary notes vault. This blocked repository knowledge lookup without reading `.vault` directly.
+  affected_files: .paivot/config.yaml
+  discovered_during: WD-lvix
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework commit `96eed5b1ac9b1a5c03cb6f7de5036f8d736ecf8a`; PR #154; CI run `35654994623` success.
+- Targeted diagnostics 16/16 passed; full suite exit 0 with 1,618 passed and one existing skip; build and pvg verify passed; protected semantic diff clean; immutable DB hash/listing unchanged.
+
+### proof
+- [x] All seven reviewer-reproduced defects are fixed with real production-shape regression tests.
+- [x] Existing host/model/disk/gate/retry/provenance/input diagnostics remain covered.
+- [x] Human/JSON redaction and shell-safe commands are tested.
+- [x] Read-only/no-SSH guarantees and protected semantic-file diff are verified.
+- [x] Full suite, build, pvg verify, push, PR update, and required CI are green at the pushed head.
+
 ## nd_contract
 status: in_progress
 
