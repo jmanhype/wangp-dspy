@@ -8,8 +8,8 @@ labels: [walking-skeleton, capstone, e2e, delivered]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T12:19:41Z
-content_hash: "sha256:3449747de13662d3b6e2477fe1ed91c91ff009691c9afcfdcf67362805dc1f54"
+updated_at: 2026-09-21T12:24:08Z
+content_hash: "sha256:5cc99d104bdddf6e4210ec8173f8665e0bc00e1e8274c7a13a00db67a08beee8"
 ---
 
 ## Description
@@ -161,7 +161,23 @@ status: new
 
 
 ## Notes
+## Rework 3: CI caught an environment-dependent assertion in my own test (head 5f0035b)
 
+The first rework pushed a new test that compared a whole corpus row against a freshly
+written live row. `row_id` folds in per-artifact source-git availability, which legitimately
+differs between this all-local evidence checkout and a fresh clone, so required CI failed at
+`bdb78e6` with a row_id mismatch.
+
+Fixed at `5f0035b`: the test now keys off the tracked LF004 provenance hash and asserts
+content-derived fields (`qc_evidence_sha256`, `clip_index`, `source_path`), byte-stability
+across two consecutive writes, and the absence of `*.tmp-*` leftovers. It is now
+environment-independent.
+
+Required CI: run 35598879984 failed at bdb78e6 (this defect); the run at head
+`5f0035b1c911` is SUCCESS.
+
+Lesson recorded for the next story: a test may not compare a whole row across environments;
+only content-derived fields are stable.
 
 ## nd_contract
 status: delivered
