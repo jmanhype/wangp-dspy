@@ -7,8 +7,8 @@ type: task
 parent: WD-t534
 created_at: 2026-09-21T15:24:25Z
 created_by: speed
-updated_at: 2026-09-21T15:24:25Z
-content_hash: "sha256:eff43307dce58356e16256a59934b726df6d5ae2d3980fad891bc0c7b3b7f373"
+updated_at: 2026-09-21T17:45:39Z
+content_hash: "sha256:0dfd3e9a773a1fbfacf57b5077ff588d0454daa8c9f1a3788ecf843835b83818"
 ---
 
 ## Description
@@ -46,7 +46,21 @@ status: new
 
 
 ## Notes
+## Delivery Evidence — satisfied by reference to WD-lhm4 / PR #152
 
+This bug's acceptance criterion is "wheel builds successfully and CI verifies both artifacts". That is now true on `main` and was verified independently by three parties.
+
+Fix location: the duplicate package declaration was removed and the wheel list corrected in PR #152 (`pyproject.toml`, now `packages = ["wangp", "predict", "evaluate", "host", "signatures", "qc", "services", "scripts"]`), which also had to fix the root cause of the installed-`wgp` startup failure (`scripts` was not packaged; the gateway import is now lazy).
+
+Evidence:
+- `uv build` produces BOTH artifacts. At head `faeac0c` (PR #152): wheel `wangp_dspy-0.1.0-py3-none-any.whl` sha256 `ac8dcb9903b824a4be9fcb6850fbb31ee4ba4b81798fb53efc1839f04b91cc0c`; sdist `wangp_dspy-0.1.0.tar.gz` sha256 `d7ccbe167290ff74f27d261ad1c216ff1396ba3bc7df601d7e13072295d1e497`. I reproduced the build myself before merge.
+- The wheel installs into a throwaway virtualenv outside the repository and `wgp doctor` runs from a foreign working directory with `PYTHONPATH` unset, resolving `wangp` and `scripts` from that venv's site-packages. Verified by me and independently by the PM acceptor for WD-lhm4.
+- CI now builds both artifacts and asserts exactly one wheel and one sdist (`.github/workflows/ci.yml`), so the AC "CI verifies both artifacts" is met. Required CI green at `faeac0c` (run 35631378806) and on main after merge `5dadcda` (run 35633778277).
+- Independent verdict: the WD-lhm4 acceptor marked finding 1 (installed `wgp` works from a wheel) FIXED after building and installing the wheel itself, and explicitly noted that the packaging overlap with WD-m1sj was necessary and correctly left open here until now.
+
+Residual, disclosed and NOT part of this bug: a wheel-installed `wgp plan` still requires a git checkout for repository identity (exits 4 from a non-repo cwd). That is a gateway/ledger semantics question recorded in WD-lhm4 as a discovered defect, not a packaging failure.
+
+No tracker state for other stories was changed.
 
 ## History
 
