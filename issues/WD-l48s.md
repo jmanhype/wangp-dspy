@@ -4,11 +4,11 @@ title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
 status: closed
 priority: 1
 type: feature
-labels: [walking-skeleton, capstone, e2e, delivered, accepted]
+labels: [walking-skeleton, capstone, e2e, accepted]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-21T12:31:05Z
+updated_at: 2026-09-21T12:31:06Z
 content_hash: "sha256:53d2cb84947cd3be9adc4fa7da187fa37acf72707798adf60d148a158cc4cbbb"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
