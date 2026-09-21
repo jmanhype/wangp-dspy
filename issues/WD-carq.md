@@ -8,8 +8,8 @@ labels: [integration, external-integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T13:56:16Z
-content_hash: "sha256:a612b1c1cef5834de0ef00de213a2125efc08e31876d82b2b4d37cc6870a95be"
+updated_at: 2026-09-21T13:59:07Z
+content_hash: "sha256:3373711b8c88730d74c0cbda82fb5b3931881e46662b2bc46c9b9366bb4c94d1"
 blocked_by: [WD-lvix]
 blocks: [WD-fq1o]
 ---
@@ -125,3 +125,6 @@ status: new
 - Blocked by: [[WD-lvix]]
 
 ## Comments
+
+### 2026-09-21T13:59:07Z speed
+Self-contained evidence note: the canonical tracked LF004 inputs are datasets/content_briefs/lf004-operator-dogfood-56f/plan.json, datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db, and datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/final-provenance.json. All recipe tests must treat these as read-only and write derived recipes only to temporary storage.
