@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:26:25Z
-content_hash: "sha256:1067af26ce9c85d0acc65b2577a02d4e09226f14c53eef3def9e1052729c3363"
+content_hash: "sha256:2ebb3a99f9fb7e5e12a8e9eb57977b2c625ccb4cdc203aa6c24bed9804a177f4"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -98,6 +98,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework round 2 (head e23b2dc) — four remaining findings fixed
 
 Round-2 review rejected on four points. Three were my errors.
