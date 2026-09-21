@@ -9,11 +9,11 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-20T20:23:10Z
-content_hash: "sha256:cab0ba91bba0241085c40a4a5d6a0f82fd66aa328804fa4a5be3689cf54a21e4"
+content_hash: "sha256:c6f9651ca8365c72617b1db74439232b1066aa2526c378c0910e5324053f6656"
 follows: [WD-rj6e, WD-rb1f]
 closed_at: 2026-09-20T20:23:10Z
 close_reason: "Accepted after rework: portable canonical replay and backend-compatible 107-frame duration contract verified; no render was started."
-led_to: [WD-42no, WD-ssdt]
+led_to: [WD-42no, WD-ssdt, WD-g125]
 ---
 
 ## Description
@@ -256,7 +256,7 @@ status: delivered
 ## Links
 - Parent: [[WD-h73w]]
 - Follows: [[WD-rj6e]], [[WD-rb1f]]
-- Led to: [[WD-42no]], [[WD-ssdt]]
+- Led to: [[WD-42no]], [[WD-ssdt]], [[WD-g125]]
 
 ## Comments
 
