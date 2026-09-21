@@ -8,8 +8,8 @@ labels: [bug, delivered]
 parent: WD-h73w
 created_at: 2026-09-20T23:53:48Z
 created_by: speed
-updated_at: 2026-09-21T00:18:05Z
-content_hash: "sha256:64842f150e44dd905a1ac3c209b81b07ad14cc23c83af33e48cffc3d9684d80a"
+updated_at: 2026-09-21T00:19:14Z
+content_hash: "sha256:5876a787d23a3ae033912143c0ae3c72f34fb5860bd5ded09f0e91556857a175"
 blocks: [WD-42no]
 assignee: dev-WD-ssdt
 follows: [WD-z46c, WD-rj6e]
@@ -312,3 +312,28 @@ status: delivered
 - [x] AC #7: LF004-style mismatch is rejected without artifacts; LF003-equivalent 56-frame guides are accepted.
 - [x] AC #8: CLI rejection leaves no plan/run dir/ledger/jobs DB; successful plans remain dry-run, no-GPU, and queue-free.
 - [x] AC #9: Diff inspection confirms no Whisper/vision/mouth-box/SyncNet/QC/retry/provenance/renderer-policy semantic change.
+
+### 2026-09-21T00:19:14Z speed
+## Implementation Evidence
+Summary: PASS — targeted 19/19; full suite 1,552 passed and 1 pre-existing no-GPU-constrained skip; coverage 91%; git diff --check and pvg verify passed.
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_content_brief.py`
+- `uv run --frozen --extra dev pytest -q`
+- `uv run --frozen --extra dev pytest --collect-only -q`
+- `uv run --frozen --extra dev --with pytest-cov pytest -q --cov=predict.content_brief --cov-report=term tests/test_content_brief.py`
+- `git diff --check`
+- `pvg verify predict/content_brief.py tests/test_content_brief.py --format=text`
+Commit SHA: e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b
+PR: https://github.com/jmanhype/wangp-dspy/pull/148
+
+The detailed output tails, artifact-absence assertions, complete AC verification table, and gate non-regression statement are in the preceding `## Implementation Evidence (DELIVERED)` note.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit e8660db6d7588f147e7a6a6ae2a3ec2bd6480f7b on story/WD-ssdt; PR #148.
+- Targeted 19/19 passed; full suite 1,552 passed, 1 pre-existing no-GPU-constrained skip; coverage 91%; diff check and pvg verify passed.
+
+### proof
+- [x] AC #1 through AC #9 verified in the detailed implementation evidence table, with AC #3/#4 satisfied by the PM Amendment's no-policy mismatch-rejection fallback.
