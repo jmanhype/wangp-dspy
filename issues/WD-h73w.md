@@ -1,14 +1,16 @@
 ---
 id: WD-h73w
 title: "Dogfood one real content brief through governed film"
-status: open
+status: closed
 priority: 0
 type: epic
 labels: [e2e]
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-20T19:46:39Z
-content_hash: "sha256:1c35eba251bdc995776c8c4eed2d146be100c8286862e17755e0f9204439b59f"
+updated_at: 2026-09-21T04:42:48Z
+content_hash: "sha256:08978a292253270c33e7c69cecfc21e8fef95829ca223629dc15f691c5928c2d"
+closed_at: 2026-09-21T04:42:48Z
+close_reason: "All child stories are closed and accepted; mechanical capstone complete, operator creative verdict remains pending."
 ---
 
 ## Description
@@ -46,7 +48,7 @@ status: new
 
 
 ## History
-
+- 2026-09-21T04:42:48Z status: open -> closed
 
 ## Links
 
