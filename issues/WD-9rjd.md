@@ -4,7 +4,7 @@ title: "Verify release readiness from committed repository evidence"
 status: in_progress
 priority: 2
 type: feature
-labels: [release, external-integration]
+labels: [release, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
