@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T18:48:28Z
-content_hash: "sha256:c0d816643d57b445c66357e3028e8af85a29f3275f14cd2fb3c59fc54eb2d91e"
+content_hash: "sha256:5fb0c8af76e490f31a6dfc98a913829cf977690050a465902a01a05e9d31a53e"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj, WD-3nwm]
 closed_at: 2026-09-21T18:46:12Z
@@ -104,6 +104,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- Claimed: 2026-09-21 rework after Rejection 2.
+
+### proof
+- [ ] Pending eleven PR-review fixes
+
 ## Rejection 2 (pre-merge PR review, PR #153): eleven findings, several are hard regressions
 
 The story was accepted by PM review, but the PR carried eleven unresolved review threads that were
