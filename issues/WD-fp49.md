@@ -8,8 +8,8 @@ labels: [integration, accepted]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T18:46:13Z
-content_hash: "sha256:a7647483c2960e95a33f1f1db37add3b78c688017d8b2dafc4fd70b6fb33bed2"
+updated_at: 2026-09-21T18:47:35Z
+content_hash: "sha256:5c4a9db516df13985be7b4a65b8e8e96a2c017758a66c9de9b17a1764f49f986"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj]
 closed_at: 2026-09-21T18:46:12Z
@@ -103,7 +103,64 @@ status: new
 
 
 ## Notes
+## Rejection 2 (pre-merge PR review, PR #153): eleven findings, several are hard regressions
 
+The story was accepted by PM review, but the PR carried eleven unresolved review threads that were
+not triaged in that pass (a dispatcher process gap: earlier acceptor briefs explicitly asked for
+thread triage; this one did not). I verified the two most severe myself and both are real. The
+config work removed working defaults, and the new plumbing is incomplete in several call sites.
+
+Severity grouping:
+
+### Hard functional regressions (P0)
+1. **`scripts/run_qc.py` crashes with `NameError`.** Verified by me on the branch: the file uses
+   `os.environ` at lines 62 and 74 (added by this change) but never imports `os`
+   (AST: `imports_os=false, uses_os=true`). Every QC invocation through that script — including the
+   post-render stage — fails before it resolves a host.
+2. **The documented user config path is ignored.** Verified by me: `_user_config_path` returns
+   `Path.home() / "wangp" / "config.toml"` when `XDG_CONFIG_HOME` is unset, i.e. `~/wangp/config.toml`,
+   while README and `docs/configuration.md` document `~/.config/wangp/config.toml`. Users following
+   the docs stay unconfigured.
+3. **Batch and A/B orchestration lose the target.** `scripts/run_batch.py` and `scripts/ab_render_qc.py`
+   call `gpu_seq.sh` without the `WANGP_SSH_TARGET` override that `gpu()` supplies, but `gpu_seq.sh`
+   requires it; when the target exists only in TOML configuration, status polling and A/B start/stop
+   exit before reaching SSH.
+4. **Marathon driver treats a remote root as a local path.** `scripts/marathon/driver.sh` resolves the
+   configured `wgp_root` but then uses it with local `ls`, `cp`, `cd`, and interpreter execution, so a
+   remote target reads a nonexistent local path instead of using host transport.
+5. **Adapter fails with a raw `TypeError`.** `host/wangp_adapter.py` leaves `venv_python`/`wgp_script`
+   as `None` when no root is resolvable, and a later render passes `None` into
+   `LocalHost.check_executable()` → `os.path.isfile()` raises `TypeError` instead of the actionable
+   incomplete-configuration error.
+
+### Correctness (P1)
+6. **Partial configuration can mix machines.** Detection fills a missing root from a *locally*
+   detected checkout even when the target came from explicit remote configuration (and vice versa),
+   producing a host whose target and remote namespace refer to different machines.
+7. **Installed users get a site-packages pull root.** The wheel-provided template is discovered inside
+   site-packages, so the derived `pull_root` lands under the installation directory; on a read-only
+   install this fails, otherwise it writes into the installed package tree.
+8. **Relative root values are accepted** despite the absolute-path contract, so a relative
+   `host.wgp_root` is interpreted from the SSH login directory and a relative `host.pull_root` from the
+   caller's cwd.
+9. **`qc/audio_critic/av_sync_gate.py` over-requires configuration.** It calls `require_host_config`
+   merely to derive an interpreter path, so local or fake-host callers with an explicit model and
+   repository fail during judge construction for keys the derivation never uses.
+10. **Wan2GP interpreter assumption is too narrow.** `host/wangp_adapter.py` derives the renderer
+    interpreter as `<host.wgp_root>/venv/bin/python`; Wan2GP supports arbitrary venv paths, Conda, and
+    system Python, so those supported installs fail executable validation (the same assumption also
+    reaches the default SyncNet interpreter).
+
+### Rule violation (P2)
+11. **Inline shell chains in the marathon driver.** `scripts/marathon/driver.sh` uses inline command
+    substitutions and `ls | head` pipelines inside assignments, contrary to this repository's shell
+    discipline (script files over inline compound one-liners).
+
+Required: fix each with a test that fails against the current behaviour; keep the zero-hardcoded-literal
+property; no gate/retry/QC-decision semantics changes; `uv run --frozen --extra dev pytest -q` and
+`uv build` must stay green; update the docs if any documented path or precedence changes. If item 9 or
+10 cannot be fixed without touching protected engine semantics, say so explicitly and propose the
+smallest safe change instead of guessing.
 
 ## nd_contract
 status: accepted
