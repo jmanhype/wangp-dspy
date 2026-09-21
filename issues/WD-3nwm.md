@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
 updated_at: 2026-09-21T15:22:13Z
-content_hash: "sha256:e3cb67b0ac8c118505578827b0dfd5721847e1baab86db899ab29eeca8c9ae21"
+content_hash: "sha256:b5c215bc9f8535993f0525c12aa65fc92900327eb757f2c4484bd484d306155b"
 blocks: [WD-lhm4, WD-fq1o]
 ---
 
@@ -250,3 +250,34 @@ status: rejected
 ### proof
 - [ ] AC #4: authorized and legally complete licence notice
 - [ ] AC #8: every factual review/evidence claim and complete delivery evidence must survive independent review
+
+### 2026-09-21T15:22:13Z speed
+## PM Decision
+REJECTED [2026-09-21]:
+
+EXPECTED: The conservative no-grant licence posture must be consistent across the delivered root documents, and the unresolved operator decisions (legal copyright-holder identity and whether to adopt any OSS licence) must remain explicitly open.
+DELIVERED: `LICENSE:1-22` is now the conservative notice and `tests/test_readme_quickstart.py:119-121` failed as intended in an isolated clone under all three licence mutations I ran (Apache replacement, reserved-notice removal, and a contradictory Apache grant). However, `CHANGELOG.md:13` still says the 0.1.0 hygiene contract includes an “Apache-2.0 licence,” and `CONTRIBUTING.md:47` still says repository-owned contributions are offered under Apache-2.0.
+GAP: The licence instrument itself is conservative, but the delivered documentation still makes unauthorized Apache-2.0 grants/claims. The holder/OSS decisions are not actually left open consistently.
+FIX: Remove or correct the stale Apache claims in CHANGELOG.md and CONTRIBUTING.md so every delivered document agrees that no licence is granted pending a recorded owner decision; add checks broad enough to catch contradictory root-document claims.
+
+EXPECTED: THIRD_PARTY_NOTICES.md must disclose the checked-in Maestro corpus and make only claims matching the actual guard and packaging surface.
+DELIVERED: The corpus exists as three files / 1,823 physical lines, the notice discloses it, and `tests/test_no_maestro_verbatim.py:15,39-59` enforces the stated >=21-significant-line production-tree boundary. But `THIRD_PARTY_NOTICES.md:8` also says the corpus is excluded “from any package build.” An sdist built at head 58ff84d (`wangp_dspy-0.1.0.tar.gz`, SHA-256 `b9b388643f75cb734deedbc94ae2fdf8a288e1fe4fcad07b86411d698d13e816`) contains all three `tests/fixtures/maestro_reference/` files.
+GAP: The new package-build exclusion claim is false for the source distribution.
+FIX: Either narrow the claim accurately to the production import/wheel surface while disclosing source-distribution retention, or change package configuration under authorized scope so source distributions exclude the corpus; make the notice and packaging behavior testably identical.
+
+EXPECTED: Delivery/CI evidence must be exact, complete, and own all warnings; no documented claim may be unverifiable.
+DELIVERED: PR #151 at head `58ff84d3667361effcada6395f2f3985956b1e07` reports CI SUCCESS, but its actual check run is `35616727522`; the story note cites run `35612305086`, which GitHub returns as 404. My full suite passed (1,562 collected; 1,561 passed, 1 skipped) but still emits `StarletteDeprecationWarning` from `fastapi/testclient.py:1`, with no DISCOVERED_BUG/ownership or LEARNINGS block in the delivery.
+GAP: CI provenance in the story is unverifiable as written, and the previously rejected incomplete proof/warning-ownership gap remains.
+FIX: Record the actual successful run URL/ID and exact targeted/full counts, own or file the warning, and add the missing LEARNINGS section.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Independently reviewed head `58ff84d3667361effcada6395f2f3985956b1e07`; targeted suite 3 passed; full suite 1,561 passed / 1 skipped / 0 failed with one warning; production-path diff versus main exits 0.
+- Independently reproduced the ffprobe-only quickstart, four-directory LF004 evidence, link resolution, VERSION agreement, changelog commit/PR history, licence mutations, Maestro corpus/ guard, and sdist contents.
+- Blockers: contradictory Apache claims in CHANGELOG/CONTRIBUTING; false Maestro “any package build” exclusion; unverifiable CI run ID and unowned full-suite warning/incomplete proof.
+
+### proof
+- [ ] AC #4/5: licence and third-party claims must be truthful and internally consistent.
+- [ ] AC #8: exact CI/test evidence and warning ownership must survive review.
