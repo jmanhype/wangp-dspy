@@ -8,8 +8,8 @@ labels: [integration, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T23:10:21Z
-content_hash: "sha256:51afbd71b60bf1a683b61c1942f646223b7a9e6f0e10aad8ddf2eb4e4207446c"
+updated_at: 2026-09-21T23:11:03Z
+content_hash: "sha256:a674d4cd386d79b46c92e69529bdb6fbe2e48ee4bfa0198cef6839e8bfdaba78"
 blocks: [WD-fq1o]
 was_blocked_by: [WD-lvix]
 follows: [WD-lvix, WD-fp49, WD-m1sj, WD-lhm4, WD-3nwm]
@@ -124,6 +124,39 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: `wangp/recipe.py` plus `wgp recipe write|verify` deliver a versioned render recipe (`wangp-dspy.render-recipe/v3`) that pins a finished run's logical identity and re-reads the world when verifying. Run-owned artifacts are read only from the bundle under review, everything else resolves repository-relative, and a required artifact that cannot be hashed is a typed failure. All three defects in the third rejection FIX list are closed.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_recipe.py -q` -> 33 passed.
+- `uv run --frozen --extra dev pytest -q` -> 1652 tests, 0 failures, 0 errors, 1 skipped.
+- `uv run --frozen --extra dev wgp recipe write --run datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921 --out <tmp>/real.json` -> pinned_fields=64, zero absolute paths.
+- `uv run --frozen --extra dev wgp recipe verify --recipe <tmp>/real.json --run <same run>` -> drift=0 verified=true.
+- `uv build --out-dir <tmp>` -> wheel plus sdist.
+
+### CI/Test Results
+
+- Required CI check `test` at head `982c047188414d38b690c4992fcb371ccde0495e`: status completed, conclusion success (check id 106549314311, PR #155).
+- Targeted recipe suite 33 passed; full suite 1652 passed / 0 failed / 0 errors / 1 skipped; uv build produced wheel and sdist.
+- Mutation and failure matrix at head 982c047 (workdir /tmp/wgp-ev.Uil823, no GPU, no host contact): one byte appended to a copied `assembled.mp4` -> exit 2 `pinned.assembled_media.sha256 status=changed`; deleted `assembled.mp4` -> write exit 2 `required artifact is missing from this run review bundle` with no output file, verify exit 2 with no `verified=true`.
+- Read-only: `git status --porcelain datasets` -> 0 lines; fake-ssh test asserts no SSH call; protected-path diff vs main -> exit 0; literal scan for `3090` or `/home/straughter/Wan2GP` -> 0 hits.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1. Versioned recipe manifest pins the run's logical identity | PASS | 64 pinned fields: VERSION, brief semantic and raw hashes, canonical and raw plan hashes, recorded settings hashes, retry policy, per-cut gate thresholds, per-cut and assembled media digests, queue database digest. |
+| 2. Byte-stable recipe across independent copies | PASS | Two independent bundle copies produce one unique recipe sha256; every pinned path is bundle- or repository-relative (zero absolute paths). |
+| 3. Required artifacts re-hashed; absence fails closed | PASS | Deleted `assembled.mp4` -> write exit 2 `required artifact is missing from this run review bundle` and no output file; verify exit 2 with no `verified=true`; no historical absolute path substituted. |
+| 4. Consumed sections validated as typed input | PASS | 14-case nested shape matrix (`cuts`, `cuts.0`, whisper, whisper.pre, vision, av_sync, av_sync.pass_bar, inputs, operator_approval, final_media, queue_evidence, settings_hashes, retry_policy, reconciliation) each exits 2, never 4. |
+| 5. Local, read-only, no GPU or host contact | PASS | Fake-ssh test asserts zero SSH calls; run directory listing identical before and after; `git status --porcelain datasets` -> 0 lines. |
+| 6. No protected engine semantics changed | PASS | `git diff --exit-code main` on queue.py, policy.py, wiring.py, preflight.py, scripts/run_film.py -> exit 0; literal scan -> 0 hits. |
+| 7. Drift reported per field class | PASS | Parametrized drift tests over plan hash, repository version, retry policy and run id all exit 2 with `drift field=pinned.<field> status=changed`; per-cut byte re-hash mutation reported at `pinned.cuts[1].sha256`. |
+| 8. Build, suite and exact-head CI green | PASS | Full suite 1652 passed / 0 failed / 1 skipped; `uv build` wheel plus sdist; CI check 106549314311 completed/success at 982c047. |
+
+SHA: 982c047188414d38b690c4992fcb371ccde0495e
+
 ## Implementation Evidence
 
 Summary: `wangp/recipe.py` plus `wgp recipe write|verify` deliver a versioned render recipe (`wangp-dspy.render-recipe/v3`) that pins a finished run's logical identity and re-reads the world when verifying. Run-owned artifacts are read only from the bundle under review, everything else resolves repository-relative, and a required artifact that cannot be hashed is a typed failure. All three defects in the third rejection FIX list are closed.
