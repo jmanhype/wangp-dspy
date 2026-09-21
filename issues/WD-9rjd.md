@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
 updated_at: 2026-09-21T23:54:18Z
-content_hash: "sha256:858244ca0bf76e9c8f6d8dd663f8ba3e3a0c7d557624932af4fe04acd78cca7e"
+content_hash: "sha256:78383e9d724d66e8d5b1c9b8a0d395e02b9e991fa3883c708a3fa4e95128324d"
 blocks: [WD-fq1o]
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
@@ -106,6 +106,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Added a read-only release boundary map: `verify_release(repository_root)` compares root/package/CLI versions, requires the exact changelog entry, builds the committed LF004 recipe in memory against `wangp-dspy.render-recipe/v3`, and reuses fail-closed repository identity. `wgp release verify [--json]` follows the established 0/2/4 CLI contract and reports tag-ready `v0.1.0` without creating a Git object, distribution, tag, or release. README links the appended release checklist.
