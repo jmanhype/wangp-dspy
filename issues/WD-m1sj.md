@@ -10,6 +10,7 @@ created_by: speed
 updated_at: 2026-09-21T17:45:39Z
 content_hash: "sha256:78c432f890ded2036f9f541fceedd518b33c797a29072562149507fa819f312a"
 follows: [WD-lhm4]
+labels: [delivered]
 ---
 
 ## Description
