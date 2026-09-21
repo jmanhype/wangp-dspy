@@ -9,9 +9,9 @@ parent: WD-r0eh
 created_at: 2026-09-21T13:48:41Z
 created_by: speed
 updated_at: 2026-09-21T13:49:28Z
-content_hash: "sha256:1e0b34aacd47215b980b0f55d7b1add2e659085b9a9d68b85666ba2968372398"
+content_hash: "sha256:e8cfd5ef56f0a1b552435076195d689d8770646805d2bcd77397faf0a5752815"
 blocked_by: [WD-j80j]
-blocks: [WD-sgvk, WD-jkce]
+blocks: [WD-sgvk]
 ---
 
 ## Description
@@ -189,10 +189,11 @@ status: new
 - 2026-09-21T13:48:41Z dep_added: blocked_by WD-j80j
 - 2026-09-21T13:48:41Z dep_added: blocks WD-sgvk
 - 2026-09-21T13:48:42Z dep_added: blocks WD-jkce
+- 2026-09-21T13:51:57Z dep_removed: no_longer_blocks WD-jkce
 
 ## Links
 - Parent: [[WD-r0eh]]
-- Blocks: [[WD-sgvk]], [[WD-jkce]]
+- Blocks: [[WD-sgvk]]
 - Blocked by: [[WD-j80j]]
 
 ## Comments
