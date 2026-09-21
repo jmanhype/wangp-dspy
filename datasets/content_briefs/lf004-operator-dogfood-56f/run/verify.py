@@ -45,11 +45,7 @@ def canonical_sha(plan: dict[str, Any]) -> str:
 
     def clean(value: Any) -> Any:
         if isinstance(value, dict):
-            return {
-                key: clean(item)
-                for key, item in value.items()
-                if key not in {"input", "repository"}
-            }
+            return {key: clean(item) for key, item in value.items() if key not in {"input", "repository"}}
         if isinstance(value, list):
             return [clean(item) for item in value]
         if isinstance(value, str):
@@ -59,10 +55,7 @@ def canonical_sha(plan: dict[str, Any]) -> str:
                     return value[len(prefix):]
         return value
 
-    encoded = json.dumps(
-        clean(plan), sort_keys=True, separators=(",", ":"),
-        ensure_ascii=False, allow_nan=False,
-    ).encode("utf-8")
+    encoded = json.dumps(clean(plan), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -79,14 +72,8 @@ def verify_policy(plan: dict[str, Any]) -> None:
     for clip in clips:
         require(clip.get("frames") == 56, "every clip must request 56 frames")
         require(clip.get("audio_length_frames") == 56, "every audio guide must measure 56 frames")
-        require(
-            abs(float(clip.get("guide_duration_s", 0.0)) - DURATION_S) < 0.001,
-            "guide duration must equal 56/24 seconds",
-        )
-        require(
-            abs(float(clip.get("shot_duration_s", 0.0)) - DURATION_S) < 0.001,
-            "shot duration must equal 56/24 seconds",
-        )
+        require(abs(float(clip.get("guide_duration_s", 0.0)) - DURATION_S) < 0.001, "guide duration must equal 56/24 seconds")
+        require(abs(float(clip.get("shot_duration_s", 0.0)) - DURATION_S) < 0.001, "shot duration must equal 56/24 seconds")
 
 
 def replay_and_verify(count: int = 2) -> list[str]:
@@ -95,14 +82,8 @@ def replay_and_verify(count: int = 2) -> list[str]:
         for index in range(count):
             output = Path(temporary) / f"plan-{index}.json"
             run_dir = Path(temporary) / f"run-{index}"
-            subprocess.run([
-                sys.executable,
-                str(ROOT / "scripts/run_content_brief.py"),
-                "--brief", str(BASE / "brief.json"),
-                "--plates", str(SOURCE_BASE / "plates"),
-                "--output", str(output),
-                "--run-dir", str(run_dir),
-            ], check=True, stdout=subprocess.DEVNULL)
+            command = [sys.executable, str(ROOT / "scripts/run_content_brief.py"), "--brief", str(BASE / "brief.json"), "--plates", str(SOURCE_BASE / "plates"), "--output", str(output), "--run-dir", str(run_dir)]
+            subprocess.run(command, check=True, stdout=subprocess.DEVNULL)
             replay = json.loads(output.read_text(encoding="utf-8"))
             outputs.append(canonical_sha(replay))
             verify_policy(replay)
@@ -124,10 +105,7 @@ def main(argv: list[str] | None = None) -> int:
 
     guides = json.loads((SOURCE_BASE / "run/audio-guides.json").read_text(encoding="utf-8"))
     for name, item in guides["plates"].items():
-        require(
-            sha(SOURCE_BASE / "plates" / item["staged"]) == item["sha256"],
-            f"plate hash changed: {name}",
-        )
+        require(sha(SOURCE_BASE / "plates" / item["staged"]) == item["sha256"], f"plate hash changed: {name}")
     for turn, dialogue in zip(guides["turns"], brief.mapping()["dialogue"], strict=True):
         guide = (ROOT / turn["audio"]).resolve()
         require(guide.is_file(), f"guide is absent: {turn['audio']}")
