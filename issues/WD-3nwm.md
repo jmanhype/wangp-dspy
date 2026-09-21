@@ -8,8 +8,8 @@ labels: [walking-skeleton, integration, external-integration, rejected-x3, accep
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T15:36:38Z
-content_hash: "sha256:0a8baac88eb4ad1f917949cb0155ba7f98067c56b543f92ba056f987b1d9dcf3"
+updated_at: 2026-09-21T15:40:49Z
+content_hash: "sha256:5e49778a3697503ebd6fbd1ec4429e5c31ff4bd4fbfc9d160ac8a5cf95ec74e7"
 closed_at: 2026-09-21T15:36:37Z
 close_reason: "Accepted: independently verified head e23b2dc508573f63b887796872c592ef30208daf: PR 151 and CI run 35618725749 both identify that head with SUCCESS; targeted README suite 3 passed; full suite 1561 passed, 1 optional host-gated skip, 0 failures; independent sdist build produced sha256 d3a7d0e3f0a727bc4861221e7b2534b7fae41b64e71f6562f641368aaeb0cac4 with zero maestro_reference entries, and removing the exclusion in an external copy failed the locking test; root documentation consistently preserves the no-grant notice and third-party boundaries; production-path diff versus main is clean and scope is the eight expected files."
 ---
@@ -99,7 +99,24 @@ status: new
 
 
 ## Notes
+## PR-review fix (head d0922b1) — post-acceptance delta, disclosed
 
+Acceptance was recorded at `e23b2dc`. The PR's automated reviewer then raised one legitimate
+reliability finding, and fixing it moved the head, so the accepted head is now
+`d0922b1ef353d14dd0bcc25785e8bbe70b3c325f`.
+
+Finding: the quickstart doc-test replaced the entire environment with only `PATH`, `HOME` and
+`TMPDIR` before running `uv sync`, so it would falsely fail wherever installs require a proxy,
+certificate, credential, or package-index variable.
+
+Fix: the test now inherits the caller's environment (`{**os.environ, "TMPDIR": ...}`) and
+explicitly removes only `WANGP_SSH_TARGET` and `WANGP_3090`, so the no-GPU guarantee still holds
+while the install command behaves as it would for a real user.
+
+Scope of the delta: `tests/test_readme_quickstart.py` only, three lines. No document, licence,
+version, packaging, or production file changed, so the accepted documentary artifact is
+unaffected. Verification at the new head: targeted doc-test 3 passed; required CI SUCCESS; the
+full suite runs the same test in CI.
 
 ## nd_contract
 status: accepted
