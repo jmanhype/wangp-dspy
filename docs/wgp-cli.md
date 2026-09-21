@@ -48,18 +48,27 @@ The host is complete only when `host.target`, `host.wgp_root`, and `host.pull_ro
 `WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, `WANGP_PULL_ROOT`, and `WANGP_WGP_PYTHON` override their
 file values. Without `--probe-host`, doctor makes no SSH or hosted-service call. Every failed or
 skipped check has one concrete remediation line.
+Failed model, SSH, and disk checks also carry a structured diagnostic with a
+stable code, observed measurement, cause, safe command, and evidence reference.
+Human output prints the diagnostic block; JSON places serialized diagnostics in
+the top-level `diagnostics` array.
 
 ## Status and review
 
 `status --db DB` (or `status --run RUN_DIR`) uses the existing `JobQueue` read APIs
 and never advances state or retry eligibility. It reports state counts, selected
 jobs, attempts, failure classes, and details.
+Failed and dead-letter jobs receive a read-only diagnostic that preserves the
+queue/attempt values, distinguishes gate and retry outcomes, and names the exact
+review/reopen or eligible-retry command.
 
 `review --db DB [--job ID]` reports durable clips, failure summaries, immutable
 attempt history, and referenced evidence paths. `review RUN` points at
 `assembled.mp4`, `probe.json`, `review/*.contact_sheet.jpg`, and
 `final-provenance.json`; it verifies every recorded path-plus-SHA-256 pair using
 content-derived fields only. A hash mismatch is an input/integrity failure.
+Gate and provenance failures use this same diagnostic vocabulary and JSON shape;
+review exits `2` after printing or serializing them.
 
 ## JSON and exit codes
 

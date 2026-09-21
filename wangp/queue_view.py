@@ -13,6 +13,11 @@ from typing import Any
 from scripts.run_jobs import dry_run_report
 from services.jobs.queue import JobNotFoundError, JobQueue
 from services.jobs.states import JOB_STATES
+from wangp.diagnostics import (
+    classify_queue_failure,
+    redact_sensitive,
+    render_diagnostic_mapping,
+)
 
 
 _HASH_KEYS = (("path", "sha256"), ("output_path", "output_sha256"), ("video_path", "video_sha256"), ("qc_evidence_path", "qc_evidence_sha256"))
@@ -27,6 +32,7 @@ class QueueStatus:
     dry_run: dict[str, Any]
     jobs: list[dict[str, Any]]
     attempts: dict[str, list[dict[str, Any]]]
+    diagnostics: dict[str, list[dict[str, Any]]]
 
     def mapping(self) -> dict[str, Any]:
         return asdict(self)
@@ -42,7 +48,7 @@ def _failure_summary(record: Any) -> str:
 
 
 def _job_mapping(record: Any) -> dict[str, Any]:
-    return {
+    return redact_sensitive({
         "job_id": record.job_id,
         "state": record.state,
         "plan_ref": record.plan_ref,
@@ -50,7 +56,7 @@ def _job_mapping(record: Any) -> dict[str, Any]:
         "retryable": bool(record.retryable),
         "created_at": record.created_at,
         "clips": record.clips,
-    }
+    })
 
 
 def _selected_ids(queue: JobQueue, job_id: str | None) -> list[str]:
@@ -109,8 +115,18 @@ def collect_status(
         records = [queue.get(identifier) for identifier in selected]
         jobs = [_job_mapping(record) for record in records]
         attempts = {
-            identifier: queue.attempt_history(identifier)
+            identifier: redact_sensitive(queue.attempt_history(identifier))
             for identifier in selected
+        }
+        diagnostics = {
+            record.job_id: [
+                classify_queue_failure(
+                    record, attempts[record.job_id], db_path=path
+                ).mapping()
+            ]
+            for record in records
+            if record.state in {"failed", "dead_letter"}
+            and record.failure_class
         }
         return QueueStatus(
             db_path=str(path),
@@ -118,15 +134,25 @@ def collect_status(
             dry_run=dry_run_report(queue),
             jobs=jobs,
             attempts=attempts,
+            diagnostics=diagnostics,
         )
 
 
 def queue_evidence_paths(record: Any) -> list[str]:
     """Return artifact-bearing paths referenced by one job's clips."""
 
-    direct = [str(clip[key]) for clip in record.clips for key in ("audio_guide", "image_start", "log", "mp4") if isinstance(clip.get(key), str) and clip[key].strip()]
+    direct = [str(clip[key]) for clip in record.clips for key in ("audio_guide", "image_start", "log", "mp4", "qc_evidence_path") if isinstance(clip.get(key), str) and clip[key].strip()]
     verdicts = [clip["qc_verdict"]["path"] for clip in record.clips if isinstance(clip.get("qc_verdict"), dict) and isinstance(clip["qc_verdict"].get("path"), str)]
-    return direct + verdicts
+    preserved = [
+        str(entry[key])
+        for clip in record.clips
+        for history_key in ("whisper_retry_history", "vision_rejections", "av_sync_rejections")
+        for entry in (clip.get(history_key) if isinstance(clip.get(history_key), list) else [])
+        if isinstance(entry, dict)
+        for key in ("qc_evidence_path", "mp4", "log")
+        if isinstance(entry.get(key), str) and entry[key].strip()
+    ]
+    return direct + verdicts + preserved
 
 
 def collect_queue_review(
@@ -162,6 +188,11 @@ def render_status(status: QueueStatus) -> str:
             f"retryable={str(job['retryable']).lower()} "
             f"failure={job['failure_summary']}"
         )
+        for diagnostic in status.diagnostics.get(job["job_id"], []):
+            lines.extend(
+                f"  {line}"
+                for line in render_diagnostic_mapping(diagnostic).splitlines()
+            )
     return "\n".join(lines)
 
 
@@ -183,6 +214,11 @@ def render_queue_review(
                 f"class={attempt['failure_class'] or 'none'} "
                 f"detail={attempt['failure_detail'] or 'none'} "
                 f"reason={reason or 'none'}"
+            )
+        for diagnostic in payload["diagnostics"].get(job["job_id"], []):
+            lines.extend(
+                f"  {line}"
+                for line in render_diagnostic_mapping(diagnostic).splitlines()
             )
         for clip in job["clips"]:
             lines.append(
