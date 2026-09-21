@@ -1,17 +1,19 @@
 ---
 id: WD-lvix
 title: "Present actionable failure diagnostics"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
-updated_at: 2026-09-21T13:56:16Z
-content_hash: "sha256:201d3ad7aa07cb383f3f5e9a3fe11d234ddfb500a5ac4ede5ff92d2fd1c7879a"
+updated_at: 2026-09-21T19:35:34Z
+content_hash: "sha256:865a7580f4e5228543a22af9ab02a4bdb808201b664bd2502614073541a2c765"
 blocks: [WD-carq, WD-fq1o]
 was_blocked_by: [WD-fp49]
+assignee: dev-WD-lvix
+follows: [WD-fp49]
 ---
 
 ## Description
@@ -110,10 +112,14 @@ status: new
 - 2026-09-21T13:56:16Z dep_added: blocks WD-carq
 - 2026-09-21T13:56:17Z dep_added: blocks WD-fq1o
 - 2026-09-21T18:46:12Z dep_removed: was_blocked_by WD-fp49
+- 2026-09-21T19:35:34Z status: open -> in_progress
+- 2026-09-21T19:35:34Z auto-follows: linked to predecessor WD-fp49
+- 2026-09-21T19:35:34Z claimed by dev-WD-lvix
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocks: [[WD-carq]], [[WD-fq1o]]
 - Was blocked by: [[WD-fp49]]
+- Follows: [[WD-fp49]]
 
 ## Comments

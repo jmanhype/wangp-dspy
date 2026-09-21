@@ -9,12 +9,13 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:16Z
 created_by: speed
 updated_at: 2026-09-21T19:31:27Z
-content_hash: "sha256:4572c22ebefd252c7de1373d4cc46897d2528a279f60d0c7acfb9f4177a89492"
+content_hash: "sha256:e989f8a19ce866c6c7cc1bb6548fb491b44bc77cb4235f8a4c201fe219244371"
 was_blocked_by: [WD-lhm4]
 follows: [WD-lhm4, WD-m1sj, WD-3nwm]
 closed_at: 2026-09-21T19:31:26Z
 close_reason: "Accepted: Rework 9df6f888b304ff5ccc97981aed3558fadd430266 independently closes all eleven PR review threads. Reproduced run_qc before RC=1 NameError and after RC=2 actionable; verified ~/.config user_config provenance with XDG unset; all four gpu_seq callers pass the resolved environment; remote marathon exits 2 before local use; adapter raises HostConfigError before host execution; detection is atomic; installed pull root uses XDG data; relative paths fail; SyncNet needs only wgp_python; configured arbitrary interpreter replaces root/venv; marathon compound discovery moved to helpers. Also verified zero forbidden literals, no-GPU doctor ready and exact plan summary, render entry exit 2 with empty fake-SSH log, protected-path diff exit 0, targeted 24 passed, full 1602 passed/1 optional skip, wheel+sdist contain behavior and reproducible hashes, and required CI test SUCCESS at the exact head. verify-delivery label-format failures are known WD-7zrq tracker friction, not substance."
 assignee: dev-WD-fp49
+led_to: [WD-lvix]
 ---
 
 ## Description
@@ -451,6 +452,7 @@ Corrected boundary:
 - Parent: [[WD-t534]]
 - Was blocked by: [[WD-lhm4]]
 - Follows: [[WD-lhm4]], [[WD-m1sj]], [[WD-3nwm]]
+- Led to: [[WD-lvix]]
 
 ## Comments
 
