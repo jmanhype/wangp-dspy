@@ -4,11 +4,11 @@ title: "Deliver stable wgp verbs with doctor preflight"
 status: in_progress
 priority: 1
 type: feature
-labels: [integration, rejected]
+labels: [integration]
 parent: WD-t534
 created_at: 2026-09-21T13:56:15Z
 created_by: speed
-updated_at: 2026-09-21T17:28:56Z
+updated_at: 2026-09-21T17:28:57Z
 content_hash: "sha256:a55d957a46057a3eb1568d8049df55ece8e01bd47463083506d767e357079f28"
 blocks: [WD-fp49, WD-fq1o]
 was_blocked_by: [WD-3nwm]
