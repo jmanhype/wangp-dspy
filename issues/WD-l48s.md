@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-21T12:19:41Z
-content_hash: "sha256:736f5e46e6049c814127f589bda686e6abde3bb192683d0031c71464f3382050"
+content_hash: "sha256:3449747de13662d3b6e2477fe1ed91c91ff009691c9afcfdcf67362805dc1f54"
 ---
 
 ## Description
@@ -161,6 +161,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Scope Amendment (dispatcher review) + Rework (head bdb78e6)
 
 Independent acceptance rejected the first delivery on three grounds. All three are now
