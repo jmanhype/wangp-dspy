@@ -9,8 +9,8 @@ parent: WD-j3wm
 created_at: 2026-09-21T13:55:23Z
 created_by: speed
 updated_at: 2026-09-21T13:55:23Z
-content_hash: "sha256:a0d8391e99ef7cc6e3b35e3cb2af5f73b3aeb299702c1be836c536f98565013a"
-blocks: [WD-smdo, WD-smem]
+content_hash: "sha256:6b33aca3813a41d944ce8a9e007859920c9a0cc00786677f411b3fda11608db6"
+blocks: [WD-smdo]
 ---
 
 ## Description
@@ -101,9 +101,10 @@ status: new
 ## History
 - 2026-09-21T13:55:23Z dep_added: blocks WD-smdo
 - 2026-09-21T13:55:24Z dep_added: blocks WD-smem
+- 2026-09-21T13:56:14Z dep_removed: no_longer_blocks WD-smem
 
 ## Links
 - Parent: [[WD-j3wm]]
-- Blocks: [[WD-smdo]], [[WD-smem]]
+- Blocks: [[WD-smdo]]
 
 ## Comments
