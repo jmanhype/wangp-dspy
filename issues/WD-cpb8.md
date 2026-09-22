@@ -4,7 +4,7 @@ title: "First-class content surface: wgp content and the first-run capability re
 status: closed
 priority: 1
 type: feature
-labels: [product, verification, delivered]
+labels: [product, verification, delivered, accepted]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
 updated_at: 2026-09-22T20:56:09Z
