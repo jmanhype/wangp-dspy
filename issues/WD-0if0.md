@@ -7,8 +7,8 @@ type: bug
 labels: [packaging, diagnostics, accepted]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T22:32:36Z
-content_hash: "sha256:31f6007959ab9531b31fe9b4796f64cc6ba7d60a99168bc52b1feef3737971c5"
+updated_at: 2026-09-22T22:32:37Z
+content_hash: "sha256:3092b918f286ba724b1729d1f897059d9c797e250e152a1e6b8c31d503d453a3"
 assignee: dev-WD-0if0
 closed_at: 2026-09-22T22:32:36Z
 close_reason: "Accepted: real installed-boundary, override, parity, front-door, full-suite, exact-head CI, and tag checks all pass."
@@ -69,6 +69,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
