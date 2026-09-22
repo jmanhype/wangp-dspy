@@ -74,6 +74,24 @@ def _plan_command(
     ]
 
 
+def _install_tool(
+    *, temporary: Path, outside: Path, environment: dict[str, str]
+) -> subprocess.CompletedProcess[str]:
+    distribution = temporary / "dist"
+    build = _run(
+        ["uv", "build", "--out-dir", str(distribution)],
+        cwd=ROOT,
+        env=environment,
+    )
+    assert build.returncode == 0, build.stdout + build.stderr
+    wheel = next(distribution.glob("*.whl"))
+    return _run(
+        ["uv", "tool", "install", "--offline", "--from", str(wheel), "wangp-dspy"],
+        cwd=outside,
+        env=environment,
+    )
+
+
 def test_installed_plan_boundary_override_and_checkout_parity() -> None:
     with TemporaryDirectory(prefix="wangp-repository-root-") as temporary_name:
         temporary = Path(temporary_name)
@@ -85,20 +103,8 @@ def test_installed_plan_boundary_override_and_checkout_parity() -> None:
         (temporary / "empty-config.toml").touch()
         environment = _environment(temporary, outside, tool_dir, tool_bin)
 
-        installed = _run(
-            [
-                "uv",
-                "tool",
-                "install",
-                "--offline",
-                "--refresh-package",
-                "wangp-dspy",
-                "--from",
-                str(ROOT),
-                "wangp-dspy",
-            ],
-            cwd=outside,
-            env=environment,
+        installed = _install_tool(
+            temporary=temporary, outside=outside, environment=environment
         )
         install_output = installed.stdout + installed.stderr
         assert installed.returncode == 0, install_output
@@ -196,20 +202,8 @@ def test_no_checkout_front_doors_remain_available() -> None:
             path.mkdir()
         (temporary / "empty-config.toml").touch()
         environment = _environment(temporary, outside, tool_dir, tool_bin)
-        install = _run(
-            [
-                "uv",
-                "tool",
-                "install",
-                "--offline",
-                "--refresh-package",
-                "wangp-dspy",
-                "--from",
-                str(ROOT),
-                "wangp-dspy",
-            ],
-            cwd=outside,
-            env=environment,
+        install = _install_tool(
+            temporary=temporary, outside=outside, environment=environment
         )
         assert install.returncode == 0, install.stdout + install.stderr
         wgp = tool_bin / "wgp"

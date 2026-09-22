@@ -89,7 +89,9 @@ def _package_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
-def _wangp_git_root(candidate: Path) -> Path | None:
+def _wangp_git_root(
+    candidate: Path, *, candidate_must_be_root: bool = False
+) -> Path | None:
     """Return a canonical Wangp Git root, or ``None`` for any other path."""
 
     try:
@@ -104,6 +106,8 @@ def _wangp_git_root(candidate: Path) -> Path | None:
     if completed.returncode != 0:
         return None
     root = Path(completed.stdout.strip()).resolve()
+    if candidate_must_be_root and candidate.resolve() != root:
+        return None
     if not (root / "pyproject.toml").is_file():
         return None
     if not (root / "wangp" / "cli.py").is_file():
@@ -167,7 +171,7 @@ def _repository_root(
     if explicit is not None:
         return explicit
     package_root = _package_root()
-    if _wangp_git_root(package_root) is not None:
+    if _wangp_git_root(package_root, candidate_must_be_root=True) is not None:
         return package_root
     cwd_root = _wangp_git_root(Path.cwd())
     if cwd_root is not None:
@@ -414,7 +418,12 @@ def _run_content(args: argparse.Namespace) -> int:
         "--plates <plates> --out <plan>",
     )
     try:
-        if repository_root is None and _wangp_git_root(_package_root()) is None:
+        if (
+            repository_root is None
+            and _wangp_git_root(
+                _package_root(), candidate_must_be_root=True
+            ) is None
+        ):
             requirement = _content_host_requirement()
             if args.submit and requirement.missing_keys:
                 raise HostSubmissionError(
