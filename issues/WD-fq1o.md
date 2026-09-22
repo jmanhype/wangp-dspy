@@ -8,11 +8,11 @@ labels: [capstone, e2e]
 parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
-updated_at: 2026-09-22T00:47:00Z
-content_hash: "sha256:57646762ca52eb7f645a7c608594ecaaea18ff5c80f51c93bf3d73e19463824a"
+updated_at: 2026-09-22T00:47:05Z
+content_hash: "sha256:a08a5db60a277030fab039e66c7829b71be1f41934dd509db0132dcab5bdfa11"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
-follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
+follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd, WD-m1sj]
 blocked_by: [WD-m1sj]
 ---
 
@@ -164,11 +164,13 @@ status: delivered
 - 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-9rjd
 - 2026-09-22T00:23:11Z claimed by dev-WD-fq1o
 - 2026-09-22T00:23:29Z dep_added: blocked_by WD-m1sj
+- 2026-09-22T00:47:05Z status: in_progress -> in_progress
+- 2026-09-22T00:47:05Z auto-follows: linked to predecessor WD-m1sj
 
 ## Links
 - Parent: [[WD-t534]]
 - Blocked by: [[WD-m1sj]]
 - Was blocked by: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
-- Follows: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
+- Follows: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]], [[WD-m1sj]]
 
 ## Comments
