@@ -1,14 +1,15 @@
 ---
 id: WD-bosd
 title: "Adopt the MIT licence with the recorded copyright holder"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [licence, hygiene]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
-updated_at: 2026-09-22T18:33:06Z
-content_hash: "sha256:16ffa25de0e95c23886d28941899bb2b8df4bdee70ac04adfd3258e2c1d850c6"
+updated_at: 2026-09-22T18:33:18Z
+content_hash: "sha256:fdd934e7ab0c79310f309b5bbdddd4143ab1adb31c9af34b16966b423413e5a2"
+assignee: dev-WD-bosd
 ---
 
 ## Description
@@ -71,7 +72,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-22T18:33:18Z status: open -> in_progress
+- 2026-09-22T18:33:18Z claimed by dev-WD-bosd
 
 ## Links
 
