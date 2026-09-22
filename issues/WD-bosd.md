@@ -7,8 +7,8 @@ type: task
 labels: [licence, hygiene, accepted]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
-updated_at: 2026-09-22T18:46:17Z
-content_hash: "sha256:a4edd8d3b5d47b6b7bcf5c2b1b41cd6c9657406310648880f51d4981772de287"
+updated_at: 2026-09-22T18:55:31Z
+content_hash: "sha256:ce4a76bcb6c54f4bd4763161086541004cde2488527698f0f5c8c7985c93b241"
 assignee: dev-WD-bosd
 closed_at: 2026-09-22T18:46:17Z
 close_reason: "Accepted: exact-head 4b12f9f has canonical MIT LICENSE with Straughter Guthrie holder, MIT build metadata, passing targeted/full tests and CI, release=ready, no tag."
@@ -71,7 +71,18 @@ CONSUMES:
 
 
 ## Notes
-
+## Rework Verification
+HOLDS: exact-head d433d2b guard now rejects added holders, appended restrictions, and the retired notice; tests/release/CI pass on rerun.
+SHA: d433d2b64689485ab278da15886e0a81cba9e934
+Commands and observed results:
+- git rev-parse HEAD -> d433d2b64689485ab278da15886e0a81cba9e934; main..HEAD changed exactly the seven expected files; HEAD^..HEAD changed only tests/test_readme_quickstart.py.
+- tests/test_readme_quickstart.py:149-155 -> whole-file normalized LICENSE equality plus holder, retired-phrase negatives, and pyproject MIT assertions.
+- Imported guard comparison -> current PASS; added holder FAIL; appended restriction FAIL; retired no-rights notice FAIL.
+- uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q -> exit 0; 3 passed.
+- uv run --frozen --extra dev pytest -q -> first run exit 1: 1660 collected, 1658 passed, 1 failed, 1 skipped; unrelated tests/test_release.py::test_release_failure_matrix_is_typed_and_read_only failed.
+- Isolated rerun of that release test -> exit 0; 1 passed. Full-suite rerun -> exit 0; 1660 collected, 1659 passed, 1 skipped. Both full runs emitted the existing Starlette deprecation warning.
+- uv run --frozen --extra dev wgp release verify -> exit 0; version/changelog/recipe_schema/tree pass; release=ready; tag_created=false; git tag count remained 1.
+- gh exact-head check-runs -> test completed/success; gh pr checks 158 -> test pass.
 
 ## nd_contract
 status: accepted
