@@ -4,7 +4,7 @@ title: "Video breadth: Maestro model families, operations, multi-clip, long form
 status: in_progress
 priority: 2
 type: feature
-labels: [capability, external-integration]
+labels: [capability, external-integration, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
