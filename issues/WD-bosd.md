@@ -7,8 +7,8 @@ type: task
 labels: [licence, hygiene]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
-updated_at: 2026-09-22T18:33:18Z
-content_hash: "sha256:fdd934e7ab0c79310f309b5bbdddd4143ab1adb31c9af34b16966b423413e5a2"
+updated_at: 2026-09-22T18:41:11Z
+content_hash: "sha256:73bbd6bb977920372d2e76291e51e8e82a60974b0e0a1303ad8bbeb6ec7733ca"
 assignee: dev-WD-bosd
 ---
 
@@ -69,7 +69,52 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: LICENSE replaced with the canonical MIT text (`Copyright (c) 2026 Straughter Guthrie`), pyproject now declares `license = "MIT"` with `license-files`, the repository hygiene guard was inverted so it now asserts the MIT grant and holder instead of the retired no-rights notice, and README, CONTRIBUTING, CHANGELOG and the THIRD_PARTY_NOTICES pointer describe the adopted licence. Third-party model terms are untouched.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q` -> 3 passed.
+- `uv run --frozen --extra dev pytest -q` -> 1660 tests, 0 failures, 0 errors, 1 skipped.
+- `uv build --out-dir <tmp>` -> one wheel and one sdist; wheel METADATA reports `License-Expression: MIT` and `License-File: LICENSE`, and the wheel ships `dist-info/licenses/LICENSE`.
+- `uv run --frozen --extra dev wgp release verify` -> version/changelog/recipe_schema/tree all `pass`, `release=ready`, `tag_created=false`.
+- `shasum -a 256 LICENSE` -> `ca04658a538e5347a4f863758ce72f307a49fe103a8f8af3cf7ced5bac76711b`.
+
+SHA: 4b12f9ff26a3e7be7413df02b1374ee62fa0a766
+
+### CI/Test Results
+
+- Exact-head CI check `test` at `4b12f9ff26a3e7be7413df02b1374ee62fa0a766`: completed/success (check id 106883801870, PR #158).
+- Targeted hygiene suite 3 passed; full suite 1660 passed / 0 failed / 0 errors / 1 skipped.
+- Build produced exactly one wheel and one sdist; the wheel metadata carries `License-Expression: MIT`.
+- The first full-suite run failed only `test_clean_checkout_and_real_repository_are_release_ready` because the worktree was still dirty with these edits; the same test passes once the change is committed, which is the repo's own clean-tree guard working as designed.
+- No tag, release, publish, GPU, SSH, or network work was performed; the only push was `story/WD-bosd`.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1. LICENSE carries canonical MIT text with the recorded holder | PASS | `LICENSE` is the standard MIT grant with `Copyright (c) 2026 Straughter Guthrie`; sha256 `ca04658a538e5347a4f863758ce72f307a49fe103a8f8af3cf7ced5bac76711b`; no source-available language remains. |
+| 2. pyproject declares MIT so artifacts report it | PASS | `license = "MIT"` + `license-files = ["LICENSE"]`; built wheel METADATA shows `License-Expression: MIT`, `License-File: LICENSE`. |
+| 3. The hygiene guard fails closed in the new direction | PASS | `tests/test_readme_quickstart.py` asserts the MIT grant, the exact holder line, and the absence of `All rights reserved` / `NO LICENCE GRANTED`; the retired assertions were replaced, not deleted. |
+| 4. Docs describe the licence; CHANGELOG records the change | PASS | README licence bullet, CONTRIBUTING licensing section, THIRD_PARTY_NOTICES pointer, and a new `### Changed` bullet under 0.1.0 naming WD-bosd. |
+| 5. Build and release verification still pass | PASS | `uv build` produced wheel plus sdist; `wgp release verify` reports all four checks `pass`, `release=ready`, `tag_created=false`. |
+| 6. Third-party terms untouched | PASS | Only the repository-licence pointer sentence changed in `THIRD_PARTY_NOTICES.md`; the asserted third-party phrases ("WanGP Non-Commercial Evaluation 1.1", "MiniMax H3", "SyncNet v2", "does not licence, relicence, or waive conditions") are intact and still asserted by the hygiene test. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head 4b12f9ff26a3e7be7413df02b1374ee62fa0a766 on story/WD-bosd; exact-head CI check 106883801870 completed/success (PR #158).
+- Targeted hygiene suite 3 passed; full suite 1660 passed / 0 failed / 1 skipped; build produced wheel plus sdist with `License-Expression: MIT`; `wgp release verify` green.
+
+### proof
+- [x] AC #1: LICENSE is canonical MIT text with `Copyright (c) 2026 Straughter Guthrie` and no source-available language.
+- [x] AC #2: pyproject declares MIT and built artifacts report `License-Expression: MIT`.
+- [x] AC #3: the hygiene guard asserts the MIT grant and holder and rejects the retired no-rights notice.
+- [x] AC #4: README, CONTRIBUTING, THIRD_PARTY_NOTICES pointer and CHANGELOG describe the adopted licence.
+- [x] AC #5: wheel plus sdist build and `wgp release verify` remains `release=ready` with `tag_created=false`.
+- [x] AC #6: third-party model and weight terms are unchanged.
 
 ## History
 - 2026-09-22T18:33:18Z status: open -> in_progress
