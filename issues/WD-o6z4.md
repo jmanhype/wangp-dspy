@@ -7,8 +7,8 @@ type: task
 labels: [release, hygiene, accepted]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
-updated_at: 2026-09-22T21:42:39Z
-content_hash: "sha256:75cb947d8ec532023bfd19d18bfc80522d435b7df94dd2289edf72f9f90cf68e"
+updated_at: 2026-09-22T21:43:49Z
+content_hash: "sha256:dd9e4e69ae2e0a6a29b8d0687a060bf1df5f31180373028cdef7999d723183b5"
 assignee: dev-WD-o6z4
 closed_at: 2026-09-22T21:42:39Z
 close_reason: "Accepted: story SHA 32de795 has the exact two-file scoped diff; .claude/ ignore mechanism and fail-closed opaque-tree regression passed; focused/full suites and CI passed; primary checkout is restored to main 91f4f8e."
@@ -66,7 +66,14 @@ CONSUMES:
 
 
 ## Notes
+## Dispatcher Release Action
 
+Accepted code landed on main as `3916fe4` (PR #161). Dispatcher actions performed after acceptance:
+
+- Primary-checkout `wgp release verify` at `3916fe4`: `version`, `changelog`, `recipe_schema`, `tree` all `pass`, `tag_created=false`, `release=ready`.
+- Annotated tag `v0.1.0` created at `3916fe4` and pushed to origin.
+- GitHub release published from `docs/RELEASE_NOTES_v0.1.0.md`: https://github.com/jmanhype/wangp-dspy/releases/tag/v0.1.0
+- Nothing else changed: no version bump, no registry publication, no credential use.
 
 ## nd_contract
 status: accepted
