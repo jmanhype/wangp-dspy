@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:28Z
-content_hash: "sha256:2976364e32f9a8c2f647d9a8b838ba16cb8d9e0e4640f6b3fcc82cafcdf5fe04"
+updated_at: 2026-09-22T20:28:48Z
+content_hash: "sha256:f4c35486b4d339b94ad982cb388c2be36c3662ee29529c7496671e6f73294e1f"
 blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 blocks: [WD-gc09]
 ---
@@ -44,31 +44,31 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-eq1i/ -> authorized director run bundles
 
 CONSUMES:
-- services/director/orchestrator.py -> purpose
+- services/director/orchestrator.py -> existing director orchestration seam
   spec: existing director orchestration seam
-- services/director/schema.py -> purpose
+- services/director/schema.py -> existing director schema
   spec: existing director schema
-- services/director/run_records.py -> purpose
+- services/director/run_records.py -> existing run-record semantics
   spec: existing run-record semantics
-- services/chain/plan.py -> purpose
+- services/chain/plan.py -> multi-shot planning seam
   spec: multi-shot planning seam
-- services/chain/keyframes.py -> purpose
+- services/chain/keyframes.py -> keyframe/continuity seam
   spec: keyframe/continuity seam
-- predict/video_capabilities.py -> purpose
+- predict/video_capabilities.py -> accepted video request contract
   spec: accepted video request contract
-- predict/music_capabilities.py -> purpose
+- predict/music_capabilities.py -> accepted music request contract
   spec: accepted music request contract
-- predict/character_packages.py -> purpose
+- predict/character_packages.py -> portable character continuity binding
   spec: portable character continuity binding
-- predict/voice_registry.py -> purpose
+- predict/voice_registry.py -> portable saved voice binding
   spec: portable saved voice binding
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed composition/continuity failures
   spec: typed composition/continuity failures
-- predict/assembler.py -> purpose
+- predict/assembler.py -> governed assembly path
   spec: governed assembly path
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
