@@ -4,7 +4,7 @@ title: "One-command install and the v0.1.0 release note"
 status: in_progress
 priority: 1
 type: feature
-labels: [packaging, documentation]
+labels: [packaging, documentation, delivered]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
 updated_at: 2026-09-22T20:32:56Z
