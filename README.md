@@ -25,7 +25,21 @@ The tested path below needs no API key, model download, SSH host, queue, or GPU.
 
 ## Install
 
-From a fresh clone:
+Download the installer:
+
+```bash
+curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh -o install.sh
+```
+
+Then run the saved script:
+
+```bash
+sh install.sh
+```
+
+The installer requires `uv`, installs without root, and ends by running `wgp doctor`. See [docs/install.md](docs/install.md) for prerequisites, checkout help, upgrading, uninstalling, and the boundary between installed commands and repository-scoped evidence workflows.
+
+Contributors should use a fresh clone:
 
 ```bash
 git clone https://github.com/jmanhype/wangp-dspy.git
