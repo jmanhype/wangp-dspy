@@ -7,8 +7,8 @@ type: feature
 labels: [packaging, documentation, accepted]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:52:17Z
-content_hash: "sha256:801fb73418f6c6ad5746dcddbb698817f3dbed85b355eade3d7d47a130132ce3"
+updated_at: 2026-09-22T20:56:58Z
+content_hash: "sha256:3f1cc68159a9d0c505d61191399a37c6234bcc60701eac8e48313b3dcba53446"
 assignee: dev-WD-u8yk
 closed_at: 2026-09-22T20:39:19Z
 close_reason: "Accepted at 60aaab0a: real temp install and external doctor ready=yes, typed missing-uv and checkout-boundary failures, honest docs/notes, tests and exact-head CI green, tag_created=false."
@@ -73,6 +73,19 @@ CONSUMES:
 
 
 ## Notes
+## Rework Verification
+Verdict: HOLDS.
+SHA: f1eeee6bc727ab6d60160b9b3d5a7eecd8952f85
+Commands and observed results:
+- `git rev-parse HEAD`; `git diff --name-only 60aaab0a..HEAD` -> f1eeee6; only README.md, docs/install.md, install.sh, tests/test_install.py; `wangp/` changes=0.
+- `install.sh --dry-run` -> exit 0; source `git+https://github.com/jmanhype/wangp-dspy.git@main`; tests/test_install.py:47-56 catches a plain-URL regression.
+- Real install with explicit `UV_TOOL_BIN_DIR`, then with uv-selected `XDG_BIN_HOME` -> both install/doctor exit 0, `ready=yes`; dry-run path = `uv tool dir --bin` = actual executable path.
+- Installed `wgp plan` from external cwd -> exit 4 `RepositoryIdentityError ... not a git repository`; no plan written. docs/install.md accurately classifies plan as checkout-only and states this v0.1.0 shape; WD-0if0 tracks the non-typed diagnostic.
+- `install.sh --source <worktree> --checkout <tmp>` -> exit 0; real Git checkout at f1eeee6, VERSION=0.1.0, and cd/uv sync/quickstart commands printed.
+- README/install-guide chained-command scan -> no `curl ... | sh`; quickstart pytest -> exit 0, 3 passed.
+- Targeted install pytest -> exit 0, 4 passed; full pytest -> exit 0, 1663 passed, 1 skipped, 0 failed.
+- Exact-head GitHub check -> `test completed/success`; PR #159 checks -> `test pass`; `git tag | wc -l` -> 1.
+
 ## Rework Evidence
 - Finding 1 fixed: default is uv Git requirement git+https://github.com/jmanhype/wangp-dspy.git@main; local --source remains supported and default dry-run coverage avoids a network install.
 - Finding 2 fixed: docs classify doctor/brief validate (and future content) as install-only and plan/recipe/release/datasets workflows as checkout-only; --checkout clones and prints quickstart. External installed plan verbatim: exit 4, unexpected internal error: RepositoryIdentityError ... not a git repository, PLAN_EXISTS=false (reported for dispatcher; wangp/cli.py untouched).
