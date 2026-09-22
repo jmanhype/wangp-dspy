@@ -8,8 +8,8 @@ labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T21:44:01Z
-content_hash: "sha256:4061e84899b07cfdabe69d37551f6fbd72a94b2fcf035a9ba2a49eab2178183e"
+updated_at: 2026-09-22T22:32:48Z
+content_hash: "sha256:bf433531c22cec47a5f2bb77014b78d4d5ad62019a608d5d0bf6b442f9646db8"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
 assignee: dev-WD-6tox
 ---
@@ -111,7 +111,52 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Implemented the no-GPU Maestro video planning slice only: typed family/preset/request normalization, fail-closed planned backend metadata, per-clip governed queue compilation, immutable model/LoRA/reference/window/overlap/recipe fields, typed exit-2 diagnostics, deterministic recipe-seed reconstruction, and planned capability documentation. No GPU, host, SSH, paid provider, model download, or authorized render was used or claimed.
+Commands run:
+- uv run --frozen --extra dev pytest tests/test_video_capabilities.py -q — exit 0; 24 passed.
+- uv run --frozen --extra dev pytest -q at committed rebased head — exit 0; 1,700 passed, 1 skipped (1,701 collected).
+- uv build --out-dir /tmp/wd-6tox-build-ba46601 — exit 0; one wheel and one sdist.
+- Real-process evidence: 11 normal family/preset/operation cases, 11 typed failure classes, one three-clip temporary queue, and reconstruction — all exit as expected; every host-call sentinel file remained empty (/tmp/wd-6tox-evidence-ba46601/index.json, SHA256 4e5ae3bfcc9aad3ba4323408d7b25afade25c69785935138b7ef87a288caff13).
+- Durable queue evidence: three pending jobs, one clip each; queue_submitted=false and host_contact=false in every clip (/tmp/wd-6tox-evidence-ba46601/queue-three-clips/queue-rows.json, SHA256 b67ae449d25bf32dcfebbf7bf286e6fc30f70184c35a2608e924d051810f4d11).
+- Dry-run reconstruction: three recorded/reconstructed settings hash matches, all_match=true, hidden_mutation=false (/tmp/wd-6tox-evidence-ba46601/queue-three-clips/reconstruction.json, SHA256 9c8a0fc3bf88580f8e62740ae835a030f2c5ad1bf3110f14b2263b9d86b8bdc6).
+- git fetch origin main && git rebase origin/main — branch already up to date; pushed ba466011d7a8cf372ee5711a5e07e4ce5a7717ce.
+- gh pr create — https://github.com/jmanhype/wangp-dspy/pull/163.
+SHA: ba466011d7a8cf372ee5711a5e07e4ce5a7717ce
 
+### CI/Test Results
+- Local scoped suite: exit 0; 24 passed.
+- Local full suite: exit 0; 1,700 passed, 1 skipped.
+- Build: exit 0; wangp_dspy-0.1.0-py3-none-any.whl SHA256 d3ca877deabe49e0448b47cb8f90f8f70632e3b248b49448d039efc063431f37; wangp_dspy-0.1.0.tar.gz SHA256 018bcd6cf77f1ec0d70d96aeefea0d5fbb9c1dd9883fe294213187f9c4da4fd0.
+- GitHub check-runs for exact head ba466011d7a8cf372ee5711a5e07e4ce5a7717ce: test completed with success.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| Real wgp tests normalize representative requests for every named family, preset, operation, LoRA arrangement, overlap, and all three long-form controls with deterministic JSON and exit 0 | verified | tests/test_video_capabilities.py: 24 passed; /tmp/wd-6tox-evidence-ba46601/index.json records 11 normal cases and empty host-call sentinels. |
+| A real temporary durable queue records one job per clip with immutable backend, model, LoRA, reference, window, and overlap fields; queue submission remains false and no host is contacted | verified | /tmp/wd-6tox-evidence-ba46601/queue-three-clips/queue-rows.json: 3 pending jobs, one clip each, queue_submitted=false, host_contact=false; sentinel calls empty. |
+| Missing manifest/hash, unsupported operation/backend pair, invalid overlap/timecode/window count, absent reference, or unusable LoRA produces typed exit 2 with remediation/next command and no partial queue | verified | /tmp/wd-6tox-evidence-ba46601/index.json: 11 failure cases, expected diagnostic code and exit 2, partial_queue_exists=false, host calls empty. |
+| Dry-run reconstruction regenerates identical settings from queue record and recipe seed, proving no hidden mutation | verified | /tmp/wd-6tox-evidence-ba46601/queue-three-clips/reconstruction.json: 3/3 hash matches, all_match=true, hidden_mutation=false. |
+| Capability matrix row for every family and operation remains planned until a matching authorized run bundle exists | verified | docs/video-capabilities.md marks every family/operation intersection planned and states required run-bundle evidence. |
+| Recorded evidence covers every backend family and operation family with authorized host render | not verified - requires authorized host run | No run bundle exists; no GPU/host render was attempted. |
+| Manual real-endpoint smoke artifacts include ffprobe metadata, hashes, command, commit, provenance, queue attempt, QC, and assembly/recipe linkage | not verified - requires authorized host run | No run bundle exists; no endpoint or host contact was attempted. |
+| Long-form multi-clip authorized render proves prompts, overlap, duration/window accounting, and deterministic no-rerender replay | not verified - requires authorized host run | No run bundle exists; no GPU/host render was attempted. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head/PR: ba466011d7a8cf372ee5711a5e07e4ce5a7717ce / https://github.com/jmanhype/wangp-dspy/pull/163.
+- Scoped tests: 24 passed; full tests: 1,700 passed, 1 skipped; exact-head GitHub test check succeeded.
+- Build: one wheel and one sdist; hashes recorded above.
+- Real-process normal/failure/queue/reconstruction evidence: /tmp/wd-6tox-evidence-ba46601.
+
+### proof
+- [x] AC #1: Real CLI normalization covers every named family/preset/operation, LoRA, overlap, and all three long-form controls with deterministic JSON and exit 0.
+- [x] AC #2: Real temporary durable queue records one immutable pending job per clip without host submission or host contact.
+- [x] AC #3: Every unsupported or incomplete request class fails typed exit 2 with remediation/next command and no partial queue.
+- [x] AC #4: Recipe-seed reconstruction reproduces all canonical backend-settings hashes with no hidden mutation.
+- [x] AC #5: Every family/operation capability row remains planned and generation claims remain gated on recorded run bundles.
 
 ## History
 - 2026-09-22T20:24:45Z dep_added: blocks WD-fasw
