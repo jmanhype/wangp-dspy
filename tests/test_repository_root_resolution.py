@@ -9,10 +9,13 @@ import subprocess
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BRIEF = ROOT / "datasets/content_briefs/lf004-operator-dogfood-56f/brief.json"
 PLATES = ROOT / "datasets/content_briefs/lf004-operator-dogfood/plates"
+RUN = ROOT / "datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921"
 
 
 def _run(
@@ -90,6 +93,32 @@ def _install_tool(
         cwd=outside,
         env=environment,
     )
+
+
+def _clone(tmp_path: Path) -> Path:
+    selected = tmp_path / "selected-checkout"
+    subprocess.run(
+        ["git", "clone", "--shared", "--quiet", str(ROOT), str(selected)],
+        check=True,
+    )
+    return selected
+
+
+@pytest.fixture(scope="module")
+def rework_tool(tmp_path_factory: pytest.TempPathFactory) -> tuple[Path, Path, dict[str, str]]:
+    temporary = tmp_path_factory.mktemp("wangp-root-rework")
+    outside = temporary / "outside"
+    tool_dir = temporary / "tools"
+    tool_bin = temporary / "bin"
+    for path in (outside, tool_dir, tool_bin):
+        path.mkdir()
+    (temporary / "empty-config.toml").touch()
+    environment = _environment(temporary, outside, tool_dir, tool_bin)
+    installed = _install_tool(
+        temporary=temporary, outside=outside, environment=environment
+    )
+    assert installed.returncode == 0, installed.stdout + installed.stderr
+    return tool_bin, outside, environment
 
 
 def test_installed_plan_boundary_override_and_checkout_parity() -> None:
@@ -241,3 +270,135 @@ def test_no_checkout_front_doors_remain_available() -> None:
         assert payload["what_will_be_generated"]["clip_count"] == 4
         assert "repository" not in payload
         assert not plan_output.exists()
+
+
+def test_repository_root_flag_is_registered_on_every_advertising_verb(
+    rework_tool: tuple[Path, Path, dict[str, str]],
+    tmp_path: Path,
+) -> None:
+    tool_bin, outside, environment = rework_tool
+    selected = _clone(tmp_path)
+    selected_brief = selected / BRIEF.relative_to(ROOT)
+    selected_plates = selected / PLATES.relative_to(ROOT)
+    selected_run = selected / RUN.relative_to(ROOT)
+    commands: dict[str, list[str]] = {
+        "doctor": [
+            str(tool_bin / "wgp"), "doctor", "--capabilities",
+            "--repository-root", str(selected),
+        ],
+        "content": [
+            str(tool_bin / "wgp"), "content", "--brief", str(selected_brief),
+            "--plates", str(selected_plates), "--out",
+            str(tmp_path / "content-plan.json"), "--repository-root",
+            str(selected), "--json",
+        ],
+        "plan": [
+            str(tool_bin / "wgp"), "plan", "--brief", str(selected_brief),
+            "--plates", str(selected_plates), "--out",
+            str(tmp_path / "plan.json"), "--repository-root", str(selected),
+        ],
+        "recipe write": [
+            str(tool_bin / "wgp"), "recipe", "write", "--run",
+            str(selected_run), "--out", str(tmp_path / "recipe.json"),
+            "--repository-root", str(selected),
+        ],
+        "recipe verify": [
+            str(tool_bin / "wgp"), "recipe", "verify", "--recipe",
+            str(tmp_path / "recipe.json"), "--run", str(selected_run),
+            "--repository-root", str(selected),
+        ],
+        "release verify": [
+            str(tool_bin / "wgp"), "release", "verify",
+            "--repository-root", str(selected),
+        ],
+    }
+    results = {
+        name: _run(command, cwd=outside, env=environment)
+        for name, command in commands.items()
+    }
+    for name, result in results.items():
+        output = result.stdout + result.stderr
+        assert result.returncode == 0, f"{name}: {output}"
+        assert "unrecognized arguments" not in output, name
+    assert "release=ready" in results["release verify"].stdout
+    assert "drift=0" in results["recipe verify"].stdout
+
+
+def test_no_checkout_content_rejects_control_characters_before_side_effects(
+    rework_tool: tuple[Path, Path, dict[str, str]],
+    tmp_path: Path,
+) -> None:
+    tool_bin, outside, environment = rework_tool
+    payload = json.loads(BRIEF.read_text(encoding="utf-8"))
+    payload["dialogue"][0]["text"] = "Two\nRho: forged continuation"
+    invalid = tmp_path / "invalid-brief.json"
+    invalid.write_text(json.dumps(payload), encoding="utf-8")
+    output = tmp_path / "plan.json"
+    run_dir = tmp_path / "run"
+    result = _run(
+        [
+            str(tool_bin / "wgp"), "content", "--brief", str(invalid),
+            "--plates", str(PLATES), "--out", str(output),
+            "--run-dir", str(run_dir),
+        ],
+        cwd=outside,
+        env=environment,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 2, combined
+    assert "diagnostic code=INPUT_INVALID" in combined
+    assert "contains a control character" in combined
+    assert not output.exists()
+    assert not run_dir.exists()
+    assert not (run_dir / "script.txt").exists()
+    assert not (run_dir / "run_ledger.json").exists()
+
+
+def test_content_submission_diagnostic_uses_selected_checkout_configuration(
+    rework_tool: tuple[Path, Path, dict[str, str]],
+    tmp_path: Path,
+) -> None:
+    tool_bin, outside, environment = rework_tool
+    selected = _clone(tmp_path)
+    (selected / "wangp.toml").write_text(
+        '[host]\nwgp_root = "/selected/Wan2GP"\n', encoding="utf-8"
+    )
+    output = tmp_path / "plan.json"
+    result = _run(
+        [
+            str(tool_bin / "wgp"), "content", "--brief",
+            str(selected / BRIEF.relative_to(ROOT)), "--plates",
+            str(selected / PLATES.relative_to(ROOT)), "--out", str(output),
+            "--submit", "--repository-root", str(selected),
+        ],
+        cwd=outside,
+        env=environment,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 3, combined
+    assert (
+        "missing host keys: host.target, host.wgp_python"
+        in combined
+    )
+    assert "missing host keys: host.target, host.wgp_root" not in combined
+    assert not output.exists()
+
+
+def test_subdirectory_repository_override_canonicalizes_to_git_root(
+    rework_tool: tuple[Path, Path, dict[str, str]],
+    tmp_path: Path,
+) -> None:
+    tool_bin, outside, environment = rework_tool
+    selected = _clone(tmp_path)
+    result = _run(
+        [
+            str(tool_bin / "wgp"), "release", "verify",
+            "--repository-root", str(selected / "wangp"),
+        ],
+        cwd=outside,
+        env=environment,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined
+    assert "release=ready" in combined
+    assert "cannot read release version sources" not in combined

@@ -31,6 +31,7 @@ from wangp.content import (
     HostRequirement,
     build_content_request,
     submission_diagnostic,
+    _validate_line_safe_dialogue,
 )
 from wangp.doctor import DoctorCheck, collect_doctor_checks
 from wangp.environment import describe_capabilities
@@ -159,7 +160,7 @@ def _explicit_repository_root(
             f"{source} does not name a Wangp Git checkout: <repository-root>",
             command,
         ))
-    return root
+    return checked
 
 
 def _repository_root(
@@ -294,6 +295,7 @@ def _content_request_without_provenance(
     """Build the checkout-free content summary without claiming provenance."""
 
     brief = load_content_brief(brief_path)
+    _validate_line_safe_dialogue(brief)
     build_run_film_inputs(brief, plates, run_dir=run_dir)
     return ContentRequest(
         title=brief.title,
@@ -457,7 +459,9 @@ def _run_content(args: argparse.Namespace) -> int:
                 with _checkout_provenance(repository_root):
                     request = build()
     except HostSubmissionError:
-        diagnostic = submission_diagnostic(_package_root(), os.environ)
+        diagnostic = submission_diagnostic(
+            repository_root or _package_root(), os.environ
+        )
         if args.json:
             _emit_json({"diagnostics": [diagnostic.mapping()]})
         else:
@@ -739,6 +743,10 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--db", help="also check one queue database")
     doctor.add_argument("--models", help="JSON model manifest")
     doctor.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout for repository capability discovery",
+    )
+    doctor.add_argument(
         "--probe-host",
         action="store_true",
         help="run five existing remote checks; never implied",
@@ -754,6 +762,10 @@ def build_parser() -> argparse.ArgumentParser:
     content.add_argument("--run-dir", type=Path)
     content.add_argument("--submit", action="store_true")
     content.add_argument("--json", action="store_true")
+    content.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     content.set_defaults(handler=_run_content)
 
     brief = commands.add_parser("brief", help="typed content-brief operations")
