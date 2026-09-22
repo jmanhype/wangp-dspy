@@ -7,8 +7,8 @@ type: bug
 labels: [packaging, diagnostics, accepted]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T22:50:28Z
-content_hash: "sha256:a666707510ef28b7cd6799a3e898e7a007b344de356a3a79481b91ef74d62958"
+updated_at: 2026-09-22T22:57:50Z
+content_hash: "sha256:25c4507cefb96578dc31e1da32d708be4301a84a0a4bf7e624b3c58d99e02f22"
 assignee: dev-WD-0if0
 closed_at: 2026-09-22T22:32:36Z
 close_reason: "Accepted: real installed-boundary, override, parity, front-door, full-suite, exact-head CI, and tag checks all pass."
@@ -69,6 +69,28 @@ CONSUMES:
 
 
 ## Notes
+## Rework Verification
+Verdict: HOLDS
+SHA: d45ce9306c53476ec0db58095b5a7f54fa442957
+Commands:
+- uv build; uv tool install --offline from the built wheel
+- real-wheel doctor/content/plan/recipe write/recipe verify/release verify flag matrix
+- no-checkout content with embedded-newline dialogue
+- content --submit against separate checkout with partial wangp.toml
+- release verify with subdirectory --repository-root
+- installed boundary, exact-root override, and in-checkout parity
+- uv run --frozen --extra dev pytest tests/test_repository_root_resolution.py tests/test_install.py -q
+- uv run --frozen --extra dev pytest -q
+- gh api commit check-runs; gh pr checks 162; git rev-parse v0.1.0^{commit}
+Observed:
+- wheel install exit 0; all six advertising verbs accepted --repository-root, exit 0, no "unrecognized arguments"; parser inventory is exactly content, doctor, plan, recipe write, recipe verify, release verify.
+- newline dialogue exit 2 INPUT_INVALID; no plan, run directory, script, or ledger.
+- selected-checkout submit exit 3 with missing host.target, host.wgp_python; zero site-packages references.
+- subdirectory release override exit 0 with release=ready.
+- installed boundary exit 2 typed/no internal error; override and checkout both exit 0 with four clips, 9.332s, no GPU/no queue, identical SHA cc645889bd0bfb2cf7c3c71a25a3b85644c230e4f205e80b5f0766c5ab9ea884 (cmp 0).
+- targeted 10 passed; full 1682 passed, 1 skipped; both exit 0.
+- exact-head CI test completed/success; PR test pass; v0.1.0 targets 3916fe4cb1d2272a0602a871b4157394afc5ebfa.
+
 ## Rework Evidence
 - Finding 2 fixed: audited all guidance callers and registered `--repository-root` on `doctor --capabilities` and `content` (plan/recipe/release already had it); a real-wheel test passes the flag to all six advertising surfaces and all exit 0.
 - Finding 3 fixed: the no-provenance content path applies line-safety validation before `build_run_film_inputs`; the control-character regression exits 2 and leaves no plan, script, ledger, or run directory.
