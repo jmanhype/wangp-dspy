@@ -8,7 +8,7 @@ labels: [product, verification, accepted]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
 updated_at: 2026-09-22T20:56:09Z
-content_hash: "sha256:9908923737afd7ea4947b579d5bb5fd628ce0a726fa45de7992ea6cc05acbfdc"
+content_hash: "sha256:731d56f7cfb12cba094d13461a2b6ef2373d04b6b45380890335a6698c48b768"
 assignee: dev-WD-cpb8
 closed_at: 2026-09-22T20:56:09Z
 close_reason: "Accepted: exact-head CLI/read-only/tests/CI checks pass; 970-line overrun is proportionate to the broad capability report and real-process tests"
@@ -73,6 +73,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
