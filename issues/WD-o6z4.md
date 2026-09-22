@@ -7,8 +7,8 @@ type: task
 labels: [release, hygiene]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
-updated_at: 2026-09-22T21:21:39Z
-content_hash: "sha256:f4456061dbe1ab663d9863b849911958fc0aae0f4452f154e39b7da22cf1c14b"
+updated_at: 2026-09-22T21:36:25Z
+content_hash: "sha256:322e8d5405a2c40dc592e124f3b0282c77f3ac82e84995b092a171e8ab9a3ad5"
 assignee: dev-WD-o6z4
 ---
 
@@ -64,7 +64,49 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
+Summary: Ignore only local dispatcher/worktree tooling under `.claude/`, prove primary-checkout release readiness at the story commit, and preserve opaque-tree fail-closed behaviour; PR #161. The annotated tag push and GitHub release remain dispatcher actions after acceptance.
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_release.py -q` -> exit 0; 6 passed.
+- `uv run --frozen --extra dev pytest -q` -> exit 0; 1,676 passed, 0 failed, 1 live-3090 probe skipped because GPU/SSH was out of scope.
+- Primary checkout before change: `uv run --frozen --extra dev wgp release verify` -> exit 2; version/changelog/recipe_schema pass, tree failed on `.claude/worktrees/dev-WD-3nwm`, `release=not_ready`.
+- Primary checkout at story commit: `uv run --frozen --extra dev wgp release verify` -> exit 0; all four checks pass, `tag_created=false`, `release=ready`.
+- `git diff main..HEAD --name-only` -> `.gitignore`, `tests/test_release.py`.
+- `git push origin story/WD-o6z4` -> pushed `32de79578d428f6d014dfc8e518932404d652fbf`.
+- `gh pr create --base main --head story/WD-o6z4 ...` -> https://github.com/jmanhype/wangp-dspy/pull/161.
+- `gh api repos/jmanhype/wangp-dspy/commits/32de79578d428f6d014dfc8e518932404d652fbf/check-runs` -> 1/1 completed; `test=success`.
+- `pvg verify .gitignore tests/test_release.py --format=text` -> PASSED, 0 issues.
+SHA: 32de79578d428f6d014dfc8e518932404d652fbf
 
+### CI/Test Results
+- Focused release suite: 6/6 passed; exit 0.
+- Full suite: 1,677 collected, 1,676 passed, 0 failed, 1 skipped; exit 0. The skip is `tests/test_jobs_integration_3090.py:20`, gated on `WANGP_3090=1`, and was not enabled because this story forbids GPU/SSH.
+- GitHub check-run: `test` completed with `success`.
+- BEFORE in `/Users/Shared/HermesWorkspace/wangp-dspy`: `check=tree status=failed`; opaque `.claude/worktrees/dev-WD-3nwm`; `release=not_ready`; exit 2.
+- AFTER in the same primary path at story SHA `32de79578d428f6d014dfc8e518932404d652fbf`: version/changelog/recipe_schema/tree all `pass`; `tag_created=false`; `release=ready`; exit 0. For this read-only proof, primary was transiently detached at the story commit and restored to `main` at `91f4f8ebb202f1b5f8dab6b6503b8f9d767b8894`; final primary status returned to `?? .claude/`.
+
+### AC Verification
+| AC | Result | Evidence |
+| 1 | PASS | `.gitignore` adds only the commented `.claude/` local agent-tooling rule; `git diff main..HEAD --name-only` shows exactly `.gitignore` and `tests/test_release.py`. |
+| 2 | PASS | Primary verifier before: tree failed/not ready; after at story SHA: all four checks pass, `tag_created=false`, `release=ready`. |
+| 3 | PASS | `tests/test_release.py::test_ignored_agent_tooling_does_not_weaken_opaque_tree_failure` proves ignored `.claude/` remains ready while a non-ignored embedded repository fails closed; focused suite 6/6 passed. |
+| 4 | PASS | No version, dependency, release implementation, tag, or GitHub release change; `tag_created=false`, and tag/release remain dispatcher actions. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR: https://github.com/jmanhype/wangp-dspy/pull/161
+- Commit: 32de79578d428f6d014dfc8e518932404d652fbf
+- Tests: focused 6/6 PASS; full suite exit 0 with 1,676 PASS, 0 FAIL, 1 out-of-scope GPU/SSH-gated skip.
+- CI: `test` check-run completed `success`.
+- Primary release verify before/after recorded above; primary was restored to main after the proof.
+
+### proof
+- [x] AC #1: Only `.claude/` is ignored, with a local-agent-tooling comment and exactly two changed files.
+- [x] AC #2: Primary verification changes from tree-failed/not-ready to all-checks-pass/release-ready with no tag created.
+- [x] AC #3: Regression proves ignored tooling does not block verification while another untracked embedded repository still fails closed.
+- [x] AC #4: Scope remains two files with no version bump, dependency, tag creation, or release publication.
 
 ## History
 - 2026-09-22T21:21:39Z status: open -> in_progress
