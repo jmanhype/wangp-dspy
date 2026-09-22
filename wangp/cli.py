@@ -7,25 +7,35 @@ import contextlib
 import json
 import io
 import os
+import importlib
 import re
 import shlex
 import shutil
 import sqlite3
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from predict.content_brief import ContentBriefError, load_content_brief
+from predict.content_brief import (
+    ContentBriefError,
+    build_run_film_inputs,
+    load_content_brief,
+)
 from services.jobs.queue import JobNotFoundError
 from wangp import __version__
 from wangp.content import (
+    ContentRequest,
     HostSubmissionError,
+    HostRequirement,
     build_content_request,
     submission_diagnostic,
+    _validate_line_safe_dialogue,
 )
 from wangp.doctor import DoctorCheck, collect_doctor_checks
 from wangp.environment import describe_capabilities
+from wangp.config import load_host_config, missing_host_keys
 from wangp.diagnostics import (
     FailureDiagnostic,
     classify_input_failure,
@@ -58,6 +68,8 @@ EXIT_INPUT = 2
 EXIT_DOCTOR = 3
 EXIT_INTERNAL = 4
 
+REPOSITORY_ROOT_ENVIRONMENT = "WANGP_REPOSITORY_ROOT"
+
 
 def _emit_json(payload: Mapping[str, Any]) -> None:
     print(json.dumps(
@@ -66,9 +78,133 @@ def _emit_json(payload: Mapping[str, Any]) -> None:
     ))
 
 
-def _repository_root() -> Path:
-    """Repository root of the checkout running this CLI."""
+class RepositoryRootResolutionError(ValueError):
+    """A repository-scoped verb has no safe Wangp checkout to use."""
+
+    def __init__(self, diagnostic: FailureDiagnostic) -> None:
+        super().__init__(diagnostic.observed)
+        self.diagnostic = diagnostic
+
+
+def _package_root() -> Path:
     return Path(__file__).resolve().parents[1]
+
+
+def _wangp_git_root(
+    candidate: Path, *, candidate_must_be_root: bool = False
+) -> Path | None:
+    """Return a canonical Wangp Git root, or ``None`` for any other path."""
+
+    try:
+        completed = subprocess.run(
+            ["git", "-C", str(candidate), "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if completed.returncode != 0:
+        return None
+    root = Path(completed.stdout.strip()).resolve()
+    if candidate_must_be_root and candidate.resolve() != root:
+        return None
+    if not (root / "pyproject.toml").is_file():
+        return None
+    if not (root / "wangp" / "cli.py").is_file():
+        return None
+    return root
+
+
+def _repository_diagnostic(
+    observed: str, next_command: str
+) -> FailureDiagnostic:
+    return FailureDiagnostic(
+        code="INPUT_INVALID",
+        severity="error",
+        title="A Wangp Git checkout is required",
+        observed=observed,
+        why=(
+            "This repository-scoped verb records checkout provenance and must "
+            "not attribute an installed package to a repository."
+        ),
+        remediation=(
+            "Run inside a Wangp Git checkout, or point at one explicitly with "
+            "--repository-root or WANGP_REPOSITORY_ROOT."
+        ),
+        next_command=next_command,
+        evidence_refs=("<repository-root>",),
+        metadata={"environment_variable": REPOSITORY_ROOT_ENVIRONMENT},
+    )
+
+
+def _explicit_repository_root(
+    args: argparse.Namespace, next_command: str | None = None
+) -> Path | None:
+    selected = getattr(args, "repository_root", None)
+    source = "--repository-root"
+    if selected is None:
+        value = os.environ.get(REPOSITORY_ROOT_ENVIRONMENT, "").strip()
+        if not value:
+            return None
+        selected = Path(value)
+        source = REPOSITORY_ROOT_ENVIRONMENT
+    root = selected.expanduser().resolve()
+    checked = _wangp_git_root(root)
+    if checked is None:
+        command = next_command or (
+            "WANGP_REPOSITORY_ROOT=<repository> wgp plan --brief <brief> "
+            "--plates <plates> --out <plan> --run-dir <run>"
+        )
+        raise RepositoryRootResolutionError(_repository_diagnostic(
+            f"{source} does not name a Wangp Git checkout: <repository-root>",
+            command,
+        ))
+    return checked
+
+
+def _repository_root(
+    args: argparse.Namespace, next_command: str
+) -> Path:
+    """Resolve one explicit or checkout-local Wangp repository root."""
+
+    explicit = _explicit_repository_root(args, next_command)
+    if explicit is not None:
+        return explicit
+    package_root = _package_root()
+    if _wangp_git_root(package_root, candidate_must_be_root=True) is not None:
+        return package_root
+    cwd_root = _wangp_git_root(Path.cwd())
+    if cwd_root is not None:
+        return cwd_root
+    raise RepositoryRootResolutionError(_repository_diagnostic(
+        "wgp is installed outside a Git checkout and no repository root is set",
+        next_command,
+    ))
+
+
+@contextlib.contextmanager
+def _checkout_provenance(repository_root: Path):
+    """Bind installed-package gateway calls to one explicit checkout."""
+
+    from services.director import run_ledger
+
+    original_identity = run_ledger.repository_identity
+    plan_module = importlib.import_module("scripts.run_content_brief")
+    original_root = plan_module.ROOT
+
+    def identity(repo_root=None):
+        return original_identity(
+            repository_root if repo_root is None else repo_root
+        )
+
+    run_ledger.repository_identity = identity
+    plan_module.ROOT = repository_root
+    try:
+        yield
+    finally:
+        run_ledger.repository_identity = original_identity
+        plan_module.ROOT = original_root
 
 
 def _error(message: str) -> None:
@@ -141,6 +277,46 @@ def _database_reachability(path: str) -> DoctorCheck:
     )
 
 
+def _content_host_requirement() -> HostRequirement:
+    config = load_host_config(
+        repository_root=_package_root(), environ=os.environ
+    )
+    missing = missing_host_keys(config)
+    if config.wgp_python is None:
+        missing += ("host.wgp_python",)
+    return HostRequirement(
+        configured=not missing, missing_keys=missing
+    )
+
+
+def _content_request_without_provenance(
+    brief_path: Path, plates: Path, run_dir: Path
+) -> ContentRequest:
+    """Build the checkout-free content summary without claiming provenance."""
+
+    brief = load_content_brief(brief_path)
+    _validate_line_safe_dialogue(brief)
+    build_run_film_inputs(brief, plates, run_dir=run_dir)
+    return ContentRequest(
+        title=brief.title,
+        brief_hash=brief.brief_hash,
+        summary={
+            "clip_count": len(brief.dialogue),
+            "speakers": [line.speaker for line in brief.dialogue],
+            "planned_duration_s": round(sum(brief.durations_s), 6),
+            "dry_run": True,
+            "gpu_work": False,
+            "queue_submitted": False,
+        },
+        host=_content_host_requirement(),
+        queue_command=None,
+        queue_command_template=(
+            "uv run --frozen --extra dev python -m scripts.run_jobs "
+            "--db <run-dir>/jobs.db"
+        ),
+    )
+
+
 def _run_doctor(args: argparse.Namespace) -> int:
     if args.capabilities:
         if args.db is not None or args.probe_host:
@@ -154,8 +330,14 @@ def _run_doctor(args: argparse.Namespace) -> int:
             else:
                 print(render_diagnostic(diagnostic), file=sys.stderr)
             return EXIT_INPUT
+        capabilities_root = _explicit_repository_root(
+            args,
+            "WANGP_REPOSITORY_ROOT=<repository> wgp doctor --capabilities",
+        )
+        if capabilities_root is None:
+            capabilities_root = _package_root()
         report = describe_capabilities(
-            _repository_root(), environ=os.environ, models=args.models
+            capabilities_root, environ=os.environ, models=args.models
         )
         if report.mapping()["model_manifest"]["status"] == "invalid":
             diagnostic = classify_input_failure(
@@ -227,23 +409,68 @@ def _run_content(args: argparse.Namespace) -> int:
         output = temporary_root / "plan.json"
     else:
         output = args.out.expanduser().resolve()
+    run_dir = (
+        args.run_dir.expanduser().resolve()
+        if args.run_dir is not None
+        else output.parent / "run"
+    )
+    repository_root = _explicit_repository_root(
+        args,
+        "WANGP_REPOSITORY_ROOT=<repository> wgp content --brief <brief> "
+        "--plates <plates> --out <plan>",
+    )
     try:
-        request = build_content_request(
-            args.brief,
-            args.plates,
-            output=output,
-            run_dir=args.run_dir,
-            submit=args.submit,
-            repository_root=_repository_root(),
-            environ=os.environ,
-        )
+        if (
+            repository_root is None
+            and _wangp_git_root(
+                _package_root(), candidate_must_be_root=True
+            ) is None
+        ):
+            requirement = _content_host_requirement()
+            if args.submit and requirement.missing_keys:
+                raise HostSubmissionError(
+                    "missing host keys: "
+                    f"{', '.join(requirement.missing_keys)}"
+                )
+            if args.submit:
+                raise RepositoryRootResolutionError(_repository_diagnostic(
+                    "content --submit needs Wangp repository provenance",
+                    "WANGP_REPOSITORY_ROOT=<repository> wgp content "
+                    "--brief <brief> --plates <plates> --out <plan> --submit",
+                ))
+            request = _content_request_without_provenance(
+                args.brief, args.plates, run_dir
+            )
+        else:
+            if repository_root is None:
+                repository_root = _package_root()
+            build = lambda: build_content_request(
+                args.brief,
+                args.plates,
+                output=output,
+                run_dir=run_dir,
+                submit=args.submit,
+                repository_root=repository_root,
+                environ=os.environ,
+            )
+            if repository_root == _package_root():
+                request = build()
+            else:
+                with _checkout_provenance(repository_root):
+                    request = build()
     except HostSubmissionError:
-        diagnostic = submission_diagnostic(_repository_root(), os.environ)
+        diagnostic = submission_diagnostic(
+            repository_root or _package_root(), os.environ
+        )
         if args.json:
             _emit_json({"diagnostics": [diagnostic.mapping()]})
         else:
             print(render_diagnostic(diagnostic), file=sys.stderr)
         return EXIT_DOCTOR
+    except RepositoryRootResolutionError:
+        if temporary_root is not None:
+            shutil.rmtree(temporary_root, ignore_errors=True)
+        raise
     except (ContentBriefError, FileNotFoundError, OSError, ValueError) as exc:
         if temporary_root is not None:
             shutil.rmtree(temporary_root, ignore_errors=True)
@@ -270,8 +497,11 @@ def _validate_brief(args: argparse.Namespace) -> int:
 
 
 def _run_plan(args: argparse.Namespace) -> int:
-    from scripts.run_content_brief import main as plan_gateway
-
+    repository_root = _repository_root(
+        args,
+        "WANGP_REPOSITORY_ROOT=<repository> wgp plan --brief <brief> "
+        "--plates <plates> --out <plan> --run-dir <run>",
+    )
     output = args.out.expanduser().resolve()
     run_dir = (
         args.run_dir.expanduser().resolve()
@@ -279,11 +509,19 @@ def _run_plan(args: argparse.Namespace) -> int:
         else output.parent / "run"
     )
     gateway_argv = ["--brief", str(args.brief.expanduser().resolve()), "--plates", str(args.plates.expanduser().resolve()), "--output", str(output), "--run-dir", str(run_dir)]
-    if args.json:
-        with contextlib.redirect_stdout(io.StringIO()):
+    plan_module = importlib.import_module("scripts.run_content_brief")
+    plan_gateway = plan_module.main
+    provenance = (
+        contextlib.nullcontext()
+        if repository_root == _package_root()
+        else _checkout_provenance(repository_root)
+    )
+    with provenance:
+        if args.json:
+            with contextlib.redirect_stdout(io.StringIO()):
+                plan_gateway(gateway_argv)
+        else:
             plan_gateway(gateway_argv)
-    else:
-        plan_gateway(gateway_argv)
     payload = json.loads(output.read_text(encoding="utf-8"))
     summary = payload["summary"]
     ledger = run_dir / "run_ledger.json"
@@ -378,7 +616,14 @@ def _run_review(args: argparse.Namespace) -> int:
 
 def _run_recipe_write(args: argparse.Namespace) -> int:
     try:
-        recipe = build_recipe(args.run, _repository_root())
+        recipe = build_recipe(
+            args.run,
+            _repository_root(
+                args,
+                "WANGP_REPOSITORY_ROOT=<repository> wgp recipe write "
+                "--run <run> --out <recipe>",
+            ),
+        )
         path, digest = write_recipe(recipe, args.out)
     except RecipeError as exc:
         diagnostic = classify_input_failure(
@@ -404,7 +649,15 @@ def _run_recipe_write(args: argparse.Namespace) -> int:
 def _run_recipe_verify(args: argparse.Namespace) -> int:
     try:
         recipe = load_recipe(args.recipe)
-        drift = verify_recipe(args.recipe, args.run, _repository_root())
+        drift = verify_recipe(
+            args.recipe,
+            args.run,
+            _repository_root(
+                args,
+                "WANGP_REPOSITORY_ROOT=<repository> wgp recipe verify "
+                "--recipe <recipe> --run <run>",
+            ),
+        )
     except RecipeError as exc:
         diagnostic = classify_input_failure(
             str(exc), source=args.recipe,
@@ -430,10 +683,14 @@ def _run_recipe_verify(args: argparse.Namespace) -> int:
 
 def _run_release_verify(args: argparse.Namespace) -> int:
     try:
-        verification = verify_release(_repository_root())
+        repository_root = _repository_root(
+            args,
+            "WANGP_REPOSITORY_ROOT=<repository> wgp release verify",
+        )
+        verification = verify_release(repository_root)
     except ReleaseError as exc:
         diagnostic = classify_input_failure(
-            str(exc), source=str(_repository_root()),
+            str(exc), source=str(repository_root),
             next_command="wgp release verify --json")
         if args.json:
             payload = {"diagnostics": [diagnostic.mapping()]}
@@ -486,6 +743,10 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--db", help="also check one queue database")
     doctor.add_argument("--models", help="JSON model manifest")
     doctor.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout for repository capability discovery",
+    )
+    doctor.add_argument(
         "--probe-host",
         action="store_true",
         help="run five existing remote checks; never implied",
@@ -501,6 +762,10 @@ def build_parser() -> argparse.ArgumentParser:
     content.add_argument("--run-dir", type=Path)
     content.add_argument("--submit", action="store_true")
     content.add_argument("--json", action="store_true")
+    content.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     content.set_defaults(handler=_run_content)
 
     brief = commands.add_parser("brief", help="typed content-brief operations")
@@ -518,6 +783,10 @@ def build_parser() -> argparse.ArgumentParser:
     plan.add_argument("--out", required=True, type=Path)
     plan.add_argument("--run-dir", type=Path)
     plan.add_argument("--json", action="store_true")
+    plan.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     plan.set_defaults(handler=_run_plan)
 
     status = commands.add_parser("status", help="summarize durable queue state")
@@ -543,12 +812,20 @@ def build_parser() -> argparse.ArgumentParser:
     recipe_write.add_argument("--run", required=True, help="run review-bundle directory")
     recipe_write.add_argument("--out", required=True, help="recipe output path")
     recipe_write.add_argument("--json", action="store_true")
+    recipe_write.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     recipe_write.set_defaults(handler=_run_recipe_write)
     recipe_verify = recipe_commands.add_parser(
         "verify", help="verify a run against its recipe and report drift")
     recipe_verify.add_argument("--recipe", required=True, help="recipe file to verify")
     recipe_verify.add_argument("--run", required=True, help="run review-bundle directory")
     recipe_verify.add_argument("--json", action="store_true")
+    recipe_verify.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     recipe_verify.set_defaults(handler=_run_recipe_verify)
 
     release = commands.add_parser("release",
@@ -557,6 +834,10 @@ def build_parser() -> argparse.ArgumentParser:
     release_verify = release_commands.add_parser(
         "verify", help="check version, changelog, recipe, and tree readiness")
     release_verify.add_argument("--json", action="store_true")
+    release_verify.add_argument(
+        "--repository-root", type=Path,
+        help="Wangp Git checkout to use for repository provenance",
+    )
     release_verify.set_defaults(handler=_run_release_verify)
     return parser
 
@@ -586,6 +867,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                     print(render_diagnostic(diagnostic), file=sys.stderr)
                 return EXIT_INPUT
         return int(args.handler(args))
+    except RepositoryRootResolutionError as exc:
+        if getattr(args, "json", False):
+            _emit_json({"diagnostics": [exc.diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(exc.diagnostic), file=sys.stderr)
+        return EXIT_INPUT
     except json.JSONDecodeError as exc:
         _error(f"unexpected internal error: JSONDecodeError: {exc}")
         return EXIT_INTERNAL

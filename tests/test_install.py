@@ -112,7 +112,9 @@ def test_real_install_doctor_and_checkout_boundary() -> None:
         boundary_output = boundary.stdout + boundary.stderr
         print(f"repository-scoped release output: {boundary_output}", flush=True)
         assert boundary.returncode == 2, boundary_output
-        assert "cannot read release version sources" in boundary_output
+        assert "diagnostic code=INPUT_INVALID" in boundary_output
+        assert "Run inside a Wangp Git checkout" in boundary_output
+        assert "unexpected internal error" not in boundary_output
         assert "release=ready" not in boundary_output
 
         plan = run(
@@ -138,9 +140,11 @@ def test_real_install_doctor_and_checkout_boundary() -> None:
         )
         plan_output = plan.stdout + plan.stderr
         print(f"installed plan boundary output: {plan_output}", flush=True)
-        assert plan.returncode == 4, plan_output
-        assert "unexpected internal error: RepositoryIdentityError" in plan_output
-        assert "not a git repository" in plan_output
+        assert plan.returncode == 2, plan_output
+        assert "diagnostic code=INPUT_INVALID" in plan_output
+        assert "Run inside a Wangp Git checkout" in plan_output
+        assert "WANGP_REPOSITORY_ROOT=<repository>" in plan_output
+        assert "unexpected internal error" not in plan_output
         assert not (root / "plan.json").exists()
 
 
