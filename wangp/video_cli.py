@@ -13,11 +13,10 @@ from predict.video_capabilities import (
     attach_manifest_model,
     load_video_model_manifest,
 )
-from services.jobs.queue import JobQueue
 from services.video.operation_compiler import (
     compile_video_request,
     enqueue_plan,
-    reconstruct_queue_records,
+    reconstruct_plan_database,
 )
 from wangp.diagnostics import FailureDiagnostic, render_diagnostic
 
@@ -54,10 +53,10 @@ def _run_video(args: argparse.Namespace) -> int:
     as_json = bool(args.json)
     if args.reconstruct:
         database = Path(args.db).expanduser().resolve()
-        queue = None
         try:
-            queue = JobQueue(database)
-            results = reconstruct_queue_records(queue)
+            results = reconstruct_plan_database(database)
+        except VideoCapabilityError as exc:
+            return _error(exc, as_json=as_json)
         except (OSError, KeyError, TypeError, ValueError, ValidationError) as exc:
             failure = VideoCapabilityError(
                 "VIDEO_RECONSTRUCTION_INVALID",
@@ -66,9 +65,6 @@ def _run_video(args: argparse.Namespace) -> int:
                 next_command="wgp video --db <jobs.db> --reconstruct --json",
             )
             return _error(failure, as_json=as_json)
-        finally:
-            if queue is not None:
-                queue.close()
         payload = {
             "schema_version": "wangp-dspy.video-reconstruction/v1",
             "records": results,
@@ -103,16 +99,35 @@ def _run_video(args: argparse.Namespace) -> int:
         models, _raw = load_video_model_manifest(args.models)
         request = attach_manifest_model(payload, models)
         plan = compile_video_request(request).mapping()
-        job_ids = None
+        record_ids = None
         if not args.dry_run:
-            job_ids = enqueue_plan(plan, args.db)
+            record_ids = enqueue_plan(plan, args.db)
             plan = dict(plan)
             plan["queue"] = {
                 "database": str(Path(args.db).expanduser().resolve()),
-                "job_ids": job_ids,
+                "record_ids": record_ids,
+                "executable_jobs": 0,
             }
     except VideoCapabilityError as exc:
         return _error(exc, as_json=as_json)
+    except ValidationError as exc:
+        return _error(
+            VideoCapabilityError(
+                "VIDEO_REQUEST_INVALID",
+                f"request validation failed: {exc.error_count()} field errors",
+                "Fix the typed request fields, then rerun the deterministic no-GPU plan.",
+            ),
+            as_json=as_json,
+        )
+    except ValueError as exc:
+        return _error(
+            VideoCapabilityError(
+                "VIDEO_REQUEST_INVALID",
+                str(exc),
+                "Fix the typed request fields, then rerun the deterministic no-GPU plan.",
+            ),
+            as_json=as_json,
+        )
     except FileNotFoundError as exc:
         return _error(
             VideoCapabilityError(
@@ -146,8 +161,8 @@ def _run_video(args: argparse.Namespace) -> int:
             f"queue_submitted={str(summary['queue_submitted']).lower()} "
             f"host_contact={str(summary['host_contact']).lower()}"
         )
-        if job_ids is not None:
-            print(f"jobs={','.join(job_ids)}")
+        if record_ids is not None:
+            print(f"records={','.join(record_ids)}")
     return EXIT_OK
 
 

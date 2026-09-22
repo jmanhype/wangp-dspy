@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import os
+import json
+import sqlite3
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -179,7 +182,10 @@ def compile_video_request(request: VideoCapabilityRequest) -> CompiledVideoPlan:
             "recipe_seed": request.recipe_seed,
         }
         reference = None
-        if source.reference is not None:
+        if (
+            source.reference is not None
+            and request.operation is not VideoOperation.create
+        ):
             reference_path = Path(source.reference).expanduser()
             reference = {
                 "path": str(reference_path),
@@ -191,7 +197,7 @@ def compile_video_request(request: VideoCapabilityRequest) -> CompiledVideoPlan:
             "log": None,
             "mp4": None,
             "qc_verdict": None,
-            "kind": "video_capability_plan",
+            "kind": "video_plan_record",
             "operation": request.operation.value,
             "prompt": source.prompt,
             "backend": {
@@ -215,6 +221,8 @@ def compile_video_request(request: VideoCapabilityRequest) -> CompiledVideoPlan:
             "backend_settings_sha256": canonical_sha256(settings),
             "queue_submitted": False,
             "host_contact": False,
+            "plan_only": True,
+            "executable": False,
         })
     digest = request_digest(request)
     return CompiledVideoPlan({
@@ -236,7 +244,11 @@ def compile_video_request(request: VideoCapabilityRequest) -> CompiledVideoPlan:
 
 
 def enqueue_plan(plan: Mapping[str, Any], database: str | Path) -> list[str]:
-    """Atomically create one durable job per clip without draining it."""
+    """Atomically persist one non-executable plan record per clip.
+
+    This is deliberately not the ``jobs`` table drained by the governed
+    worker.  A plan-only artifact cannot become renderer admission work.
+    """
 
     destination = Path(database).expanduser().resolve()
     if destination.exists():
@@ -247,21 +259,44 @@ def enqueue_plan(plan: Mapping[str, Any], database: str | Path) -> list[str]:
         )
     destination.parent.mkdir(parents=True, exist_ok=True)
     staging = destination.parent / f".{destination.name}.{os.urandom(8).hex()}.tmp"
-    queue: JobQueue | None = None
-    job_ids: list[str] = []
+    record_ids: list[str] = []
+    connection: sqlite3.Connection | None = None
     try:
-        queue = JobQueue(staging)
+        connection = sqlite3.connect(staging)
+        connection.execute("PRAGMA journal_mode=WAL")
+        connection.execute(
+            "CREATE TABLE video_plan_records ("
+            " record_id TEXT PRIMARY KEY,"
+            " plan_ref TEXT NOT NULL,"
+            " clip_index INTEGER NOT NULL,"
+            " record TEXT NOT NULL,"
+            " created_at REAL NOT NULL)"
+        )
         for clip in plan["clips"]:
-            job_ids.append(
-                queue.submit(plan_ref=plan["request_sha256"], clips=[clip])
+            record_id = (
+                f"plan-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
             )
-        queue.close()
-        queue = None
+            connection.execute(
+                "INSERT INTO video_plan_records "
+                "(record_id, plan_ref, clip_index, record, created_at) "
+                "VALUES (?,?,?,?,?)",
+                (
+                    record_id,
+                    str(plan["request_sha256"]),
+                    int(clip["clip_index"]),
+                    json.dumps(clip, sort_keys=True),
+                    time.time(),
+                ),
+            )
+            record_ids.append(record_id)
+        connection.commit()
+        connection.close()
+        connection = None
         os.replace(staging, destination)
-        return job_ids
+        return record_ids
     except Exception:
-        if queue is not None:
-            queue.close()
+        if connection is not None:
+            connection.close()
         for suffix in ("", "-wal", "-shm"):
             Path(str(staging) + suffix).unlink(missing_ok=True)
         destination.unlink(missing_ok=True)
@@ -299,14 +334,111 @@ def reconstruct_clip_settings(record: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def reconstruct_queue_records(queue: JobQueue) -> list[dict[str, Any]]:
+    """Fail-closed legacy reconstruction for pending queue records."""
+
+    state_counts = {
+        state: len(queue.list_state(state))
+        for state in (
+            "pending", "preflight", "rendering", "rendered_pending_qc",
+            "qc", "done", "failed", "dead_letter",
+        )
+    }
+    pending = queue.list_state("pending")
+    if not pending:
+        raise VideoCapabilityError(
+            "VIDEO_RECONSTRUCTION_RECORDS_MISSING",
+            "queue contains no reconstructable pending records",
+            "Reconstruct a nonempty wgp video plan; an empty set is not success.",
+            metadata={"state_counts": state_counts},
+        )
     results: list[dict[str, Any]] = []
-    for job_id in queue.list_state("pending"):
+    for job_id in pending:
         record = queue.get(job_id).clips[0]
-        reconstructed = reconstruct_clip_settings(record)
+        try:
+            reconstructed = reconstruct_clip_settings(record)
+        except Exception as exc:
+            raise VideoCapabilityError(
+                "VIDEO_RECONSTRUCTION_RECORD_INVALID",
+                f"queue record {job_id} cannot be reconstructed: {exc}",
+                "Restore the unedited wgp video record or regenerate the no-GPU plan.",
+                metadata={"job_id": job_id},
+            ) from exc
         original_hash = record["backend_settings_sha256"]
         reconstructed_hash = canonical_sha256(reconstructed)
         results.append({
             "job_id": job_id,
+            "clip_index": record["clip_index"],
+            "recipe_seed": record["recipe_seed"],
+            "recorded_settings_sha256": original_hash,
+            "reconstructed_settings_sha256": reconstructed_hash,
+            "match": original_hash == reconstructed_hash,
+            "hidden_mutation": original_hash != reconstructed_hash,
+        })
+    return results
+
+
+def reconstruct_plan_database(database: str | Path) -> list[dict[str, Any]]:
+    """Fail-closed reconstruction over a nonempty plan-only database."""
+
+    path = Path(database).expanduser().resolve()
+    if not path.is_file():
+        raise VideoCapabilityError(
+            "VIDEO_RECONSTRUCTION_DATABASE_MISSING",
+            f"plan database does not exist: {path}",
+            "Pass the SQLite database emitted by wgp video.",
+            next_command="wgp video --db <plan.db> --reconstruct --json",
+        )
+    connection = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+    rows: list[tuple[str, str]] | None = None
+    try:
+        tables = {
+            row[0] for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            )
+        }
+        if "video_plan_records" in tables:
+            rows = connection.execute(
+                "SELECT record_id, record FROM video_plan_records "
+                "ORDER BY clip_index, created_at, record_id"
+            ).fetchall()
+    finally:
+        connection.close()
+    if rows is None:
+        if "jobs" in tables:
+            queue = JobQueue(path)
+            try:
+                return reconstruct_queue_records(queue)
+            finally:
+                queue.close()
+        raise VideoCapabilityError(
+            "VIDEO_RECONSTRUCTION_RECORDS_MISSING",
+            f"database {path} has no video plan records or jobs table",
+            "Use a database emitted by wgp video.",
+        )
+    if not rows:
+        raise VideoCapabilityError(
+            "VIDEO_RECONSTRUCTION_RECORDS_MISSING",
+            f"database {path} contains zero video plan records",
+            "Reconstruct a nonempty wgp video plan; an empty set is not success.",
+        )
+    results: list[dict[str, Any]] = []
+    for record_id, raw in rows:
+        try:
+            record = json.loads(raw)
+            if record.get("kind") != "video_plan_record":
+                raise ValueError(f"unexpected kind {record.get('kind')!r}")
+            reconstructed = reconstruct_clip_settings(record)
+        except Exception as exc:
+            raise VideoCapabilityError(
+                "VIDEO_RECONSTRUCTION_RECORD_INVALID",
+                f"plan record {record_id} cannot be reconstructed: {exc}",
+                "Restore the unedited wgp video record or regenerate the no-GPU plan.",
+                metadata={"record_id": record_id},
+            ) from exc
+        original_hash = record["backend_settings_sha256"]
+        reconstructed_hash = canonical_sha256(reconstructed)
+        results.append({
+            "record_id": record_id,
             "clip_index": record["clip_index"],
             "recipe_seed": record["recipe_seed"],
             "recorded_settings_sha256": original_hash,
@@ -323,5 +455,6 @@ __all__ = [
     "compile_video_request",
     "enqueue_plan",
     "reconstruct_clip_settings",
+    "reconstruct_plan_database",
     "reconstruct_queue_records",
 ]

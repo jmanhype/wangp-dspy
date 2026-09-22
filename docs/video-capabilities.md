@@ -32,7 +32,7 @@ Requests use `wangp-dspy.video-capability-request/v1`:
 }
 ```
 
-The model manifest is supplied separately and must contain the matching family/preset hash, license, explicit license acceptance, and VRAM profile. Wangp never downloads the model. Reference and LoRA files must be locally readable and hash-matched at planning time.
+The model manifest is supplied separately and must contain the matching family/preset hash, license, explicit license acceptance, and VRAM profile. Wangp never downloads the model. References are required and hash-matched for every operation except `create`; a reference supplied with `create` is intentionally ignored and is not admitted as provenance. LoRA files must be locally readable and hash-matched. Timecodes use frames `00..23`, and `force_fps` must be `24`; the current accounting contract does not silently mix another frame rate.
 
 Named family/preset combinations are:
 
@@ -52,7 +52,7 @@ Normalize without durable state:
 wgp video --request request.json --models models.json --dry-run --json
 ```
 
-Create one pending governed job per clip in a new temporary SQLite database, without draining the queue or contacting a host:
+Persist one immutable planning record per clip in a new temporary SQLite database. The records are written to `video_plan_records`, not the executable `jobs` table, so the real governed queue and worker cannot select or render them:
 
 ```text
 wgp video --request request.json --models models.json --db run/jobs.db --json
@@ -64,7 +64,7 @@ Reconstruct settings from recorded recipe inputs:
 wgp video --reconstruct --db run/jobs.db --json
 ```
 
-Every queue record contains immutable model hash, license, VRAM profile, model type, LoRA path/hash/weight, reference path/hash, window accounting, overlap, recipe seed, normalized settings, and a SHA-256 of those settings. `queue_submitted=false` means no authorized render/host submission occurred. Reconstruction regenerates settings independently and compares the canonical SHA-256; a mismatch is `hidden_mutation=true`.
+Every plan record contains immutable model hash, license, VRAM profile, model type, LoRA path/hash/weight, reference path/hash when applicable, operation, window accounting, overlap, recipe seed, normalized settings, and a SHA-256 of those settings. The persisted backend profile tag remains the established `prompt=multishot`, while `profile` is the numeric WanGP argument (`1`, `2`, or `3`). `queue_submitted=false` means no authorized render/host submission occurred. Reconstruction requires an existing, nonempty, reconstructable database; absent, empty, non-pending, or damaged records fail closed. Reconstruction regenerates settings independently and compares the canonical SHA-256; a mismatch is `hidden_mutation=true`.
 
 ## Capability matrix
 

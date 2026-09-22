@@ -10,6 +10,9 @@ from pathlib import Path
 
 import pytest
 
+from services.jobs.executor import JobExecutor
+from services.jobs.queue import JobQueue
+
 
 ROOT = Path(__file__).resolve().parents[1]
 HOST_KEYS = (
@@ -234,7 +237,7 @@ def test_long_form_controls_overlap_lora_and_deterministic_json(
     assert calls.read_text(encoding="utf-8") == ""
 
 
-def test_real_temporary_queue_is_immutable_unsubmitted_and_reconstructable(
+def test_real_temporary_plan_store_is_immutable_unsubmitted_undrainable_and_reconstructable(
     tmp_path: Path,
 ) -> None:
     environment, calls = _environment(tmp_path)
@@ -262,22 +265,27 @@ def test_real_temporary_queue_is_immutable_unsubmitted_and_reconstructable(
     assert "queue_submitted=false" not in result.stdout  # machine payload is JSON
     payload = json.loads(result.stdout)
     assert payload["summary"]["queue_submitted"] is False
-    assert len(payload["queue"]["job_ids"]) == 3
+    assert len(payload["queue"]["record_ids"]) == 3
+    assert payload["queue"]["executable_jobs"] == 0
 
     connection = sqlite3.connect(database)
     rows = connection.execute(
-        "SELECT job_id, state, clips FROM jobs ORDER BY rowid"
+        "SELECT record_id, record FROM video_plan_records "
+        "ORDER BY clip_index, created_at, record_id"
     ).fetchall()
     connection.close()
     assert len(rows) == 3
-    for index, (_job_id, state, raw_clips) in enumerate(rows, start=1):
-        clips = json.loads(raw_clips)
-        assert state == "pending"
-        assert len(clips) == 1
-        clip = clips[0]
+    for index, (_record_id, raw_record) in enumerate(rows, start=1):
+        clip = json.loads(raw_record)
         assert clip["clip_index"] == index
+        assert clip["kind"] == "video_plan_record"
+        assert clip["plan_only"] is True
+        assert clip["executable"] is False
         assert clip["queue_submitted"] is False
         assert clip["host_contact"] is False
+        assert clip["backend_settings"]["prompt"] == "multishot"
+        assert clip["backend_settings"]["profile"] == 3
+        assert clip["operation"] == "create"
         assert clip["backend"]["sha256"] == hashlib.sha256(
             b"minimax_h3/h3_vdn_hybrid_attention"
         ).hexdigest()
@@ -286,8 +294,22 @@ def test_real_temporary_queue_is_immutable_unsubmitted_and_reconstructable(
         ).hexdigest()
         assert clip["window"]["overlap_frames"] == (6 if index < 3 else 0)
         assert clip["overlap"] == {"strategy": "sliding_window", "frames": 6}
-        assert clip["recipe_seed"] == 904
+    assert clip["recipe_seed"] == 904
     assert calls.read_text(encoding="utf-8") == ""
+
+    admission_queue = JobQueue(database)
+    try:
+        assert admission_queue.list_state("pending") == []
+        assert admission_queue.next_admissible() is None
+        executor = JobExecutor(
+            queue=admission_queue,
+            preflight=lambda _job: pytest.fail("plan-only artifact admitted"),
+            render=lambda _clip: pytest.fail("plan-only clip rendered"),
+            qc=lambda _clip: pytest.fail("plan-only clip reached QC"),
+        )
+        assert executor.run_once() is None
+    finally:
+        admission_queue.close()
 
     reconstructed = _wgp(
         "video", "--reconstruct", "--db", str(database), "--json",
@@ -300,6 +322,167 @@ def test_real_temporary_queue_is_immutable_unsubmitted_and_reconstructable(
     assert len(evidence["records"]) == 3
     assert all(item["match"] for item in evidence["records"])
     assert calls.read_text(encoding="utf-8") == ""
+
+
+@pytest.mark.parametrize(("frame", "valid"), [(23, True), (24, False), (99, False)])
+def test_timecode_frame_boundary_is_enforced_at_24fps(
+    frame: int, valid: bool
+) -> None:
+    from predict.video_capabilities import VideoCapabilityError, parse_timecode
+
+    value = f"00:00:00:{frame:02d}"
+    if valid:
+        assert parse_timecode(value) == pytest.approx(frame / 24)
+        return
+    with pytest.raises(VideoCapabilityError) as raised:
+        parse_timecode(value)
+    assert raised.value.code == "VIDEO_TIMECODE_INVALID"
+    assert f"frame field {frame} is outside 0..23" in raised.value.observed
+
+
+def test_non_24fps_request_gets_structured_rejection(tmp_path: Path) -> None:
+    environment, calls = _environment(tmp_path)
+    models = tmp_path / "models.json"
+    request = tmp_path / "request.json"
+    _write_models(models)
+    _write_request(request)
+    document = json.loads(request.read_text())
+    document["render"]["force_fps"] = "30"
+    request.write_text(json.dumps(document), encoding="utf-8")
+    result = _wgp(
+        "video", "--request", str(request), "--models", str(models),
+        "--dry-run", "--json", cwd=ROOT, env=environment,
+    )
+    assert result.returncode == 2
+    diagnostic = json.loads(result.stdout)["diagnostics"][0]
+    assert diagnostic["code"] == "VIDEO_FRAME_RATE_UNSUPPORTED"
+    assert "30" in diagnostic["observed"]
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+@pytest.mark.parametrize(
+    ("mutation_name", "expected_code"),
+    [
+        ("wrong_family_preset", "MODEL_MANIFEST_MISSING"),
+        ("clip_below_job_floor", "VIDEO_FRAME_COUNT_BELOW_FLOOR"),
+    ],
+)
+def test_expected_validation_failures_stay_machine_readable(
+    tmp_path: Path, mutation_name: str, expected_code: str
+) -> None:
+    environment, calls = _environment(tmp_path)
+    models = tmp_path / "models.json"
+    request = tmp_path / "request.json"
+    _write_models(models)
+    _write_request(request)
+    document = json.loads(request.read_text())
+    if mutation_name == "wrong_family_preset":
+        document["model"]["preset"] = "2.5"
+    else:
+        document["clips"][0]["duration_s"] = 1.0
+    request.write_text(json.dumps(document), encoding="utf-8")
+    result = _wgp(
+        "video", "--request", str(request), "--models", str(models),
+        "--dry-run", "--json", cwd=ROOT, env=environment,
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    diagnostic = json.loads(result.stdout)["diagnostics"][0]
+    assert diagnostic["code"] == expected_code
+    assert diagnostic["next_command"]
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_absent_create_reference_is_ignored_consistently(tmp_path: Path) -> None:
+    environment, calls = _environment(tmp_path)
+    models = tmp_path / "models.json"
+    request = tmp_path / "request.json"
+    _write_models(models)
+    _write_request(request, operation="create")
+    document = json.loads(request.read_text())
+    document["clips"][0]["reference"] = str(tmp_path / "not-needed.mp4")
+    request.write_text(json.dumps(document), encoding="utf-8")
+    result = _wgp(
+        "video", "--request", str(request), "--models", str(models),
+        "--dry-run", "--json", cwd=ROOT, env=environment,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["clips"][0]["reference"] is None
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_reconstruction_fails_closed_for_missing_empty_nonpending_or_corrupt_records(
+    tmp_path: Path,
+) -> None:
+    environment, _calls = _environment(tmp_path)
+    missing = tmp_path / "missing.db"
+    missing_result = _wgp(
+        "video", "--reconstruct", "--db", str(missing), "--json",
+        cwd=ROOT, env=environment,
+    )
+    assert missing_result.returncode == 2
+    assert json.loads(missing_result.stdout)["diagnostics"][0]["code"] == (
+        "VIDEO_RECONSTRUCTION_DATABASE_MISSING"
+    )
+
+    empty = tmp_path / "empty.db"
+    JobQueue(empty).close()
+    empty_result = _wgp(
+        "video", "--reconstruct", "--db", str(empty), "--json",
+        cwd=ROOT, env=environment,
+    )
+    assert empty_result.returncode == 2
+    empty_diagnostic = json.loads(empty_result.stdout)["diagnostics"][0]
+    assert empty_diagnostic["code"] == "VIDEO_RECONSTRUCTION_RECORDS_MISSING"
+    assert empty_diagnostic["metadata"]["state_counts"]["pending"] == 0
+
+    nonpending = tmp_path / "nonpending.db"
+    queue = JobQueue(nonpending)
+    job_id = queue.submit(
+        plan_ref="legacy", clips=[{"clip_index": 1, "status": "pending"}]
+    )
+    queue.set_state(job_id, "preflight")
+    queue.set_state(job_id, "rendering")
+    queue.set_state(job_id, "failed")
+    queue.close()
+    nonpending_result = _wgp(
+        "video", "--reconstruct", "--db", str(nonpending), "--json",
+        cwd=ROOT, env=environment,
+    )
+    assert nonpending_result.returncode == 2
+    nonpending_diagnostic = json.loads(nonpending_result.stdout)["diagnostics"][0]
+    assert nonpending_diagnostic["code"] == "VIDEO_RECONSTRUCTION_RECORDS_MISSING"
+    assert nonpending_diagnostic["metadata"]["state_counts"]["failed"] == 1
+
+    models = tmp_path / "models.json"
+    request = tmp_path / "request.json"
+    corrupt = tmp_path / "corrupt.db"
+    _write_models(models)
+    _write_request(request)
+    assert _wgp(
+        "video", "--request", str(request), "--models", str(models),
+        "--db", str(corrupt), "--json", cwd=ROOT, env=environment,
+    ).returncode == 0
+    connection = sqlite3.connect(corrupt)
+    record_id, raw = connection.execute(
+        "SELECT record_id, record FROM video_plan_records"
+    ).fetchone()
+    damaged = json.loads(raw)
+    damaged.pop("recipe")
+    connection.execute(
+        "UPDATE video_plan_records SET record=? WHERE record_id=?",
+        (json.dumps(damaged), record_id),
+    )
+    connection.commit()
+    connection.close()
+    corrupt_result = _wgp(
+        "video", "--reconstruct", "--db", str(corrupt), "--json",
+        cwd=ROOT, env=environment,
+    )
+    assert corrupt_result.returncode == 2
+    corrupt_diagnostic = json.loads(corrupt_result.stdout)["diagnostics"][0]
+    assert corrupt_diagnostic["code"] == "VIDEO_RECONSTRUCTION_RECORD_INVALID"
+    assert corrupt_diagnostic["metadata"]["record_id"] == record_id
 
 
 @pytest.mark.parametrize(

@@ -17,7 +17,7 @@ from typing import Any, Mapping, Sequence
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 
 from host.video_backends import backend_for, model_id
-from predict.job_config import WanGPJobConfig
+from predict.job_config import SHOT_LENGTH_FLOOR_FRAMES, WanGPJobConfig
 from predict.profile_selector import KNOWN_WANGP_PROFILES, ProfileDecision
 from predict.render_profiles import Ref2VAProfile
 
@@ -210,7 +210,7 @@ class RenderControls(BaseModel):
     num_inference_steps: int = Field(default=20, ge=1, le=100)
     guidance_scale: float = Field(default=1.0, ge=0.0, le=20.0)
     embedded_guidance_scale: float = Field(default=6.0, ge=0.0, le=20.0)
-    force_fps: str = Field(default="24", pattern=r"^[1-9][0-9]*$")
+    force_fps: str = Field(default="24")
     profile: str = "profile3"
 
     @field_validator("profile")
@@ -218,6 +218,16 @@ class RenderControls(BaseModel):
     def _known_profile(cls, value: str) -> str:
         if value not in KNOWN_WANGP_PROFILES:
             raise ValueError(f"unknown WangP profile {value!r}; known: {sorted(KNOWN_WANGP_PROFILES)}")
+        return value
+
+    @field_validator("force_fps")
+    @classmethod
+    def _supported_fps(cls, value: str) -> str:
+        if value != "24":
+            raise ValueError(
+                f"unsupported force_fps {value!r}; video planning and "
+                "window accounting require the verified 24fps contract"
+            )
         return value
 
 
@@ -284,6 +294,13 @@ def parse_timecode(value: str) -> float:
             metadata={"fps": FPS, "value": value},
         )
     hours, minutes, seconds, frames = (int(part) for part in match.groups())
+    if frames > 23:
+        raise VideoCapabilityError(
+            "VIDEO_TIMECODE_INVALID",
+            f"invalid HH:MM:SS:FF timecode {value!r}: frame field {frames} is outside 0..23",
+            "Use a 24-fps timecode with frame fields 00 through 23.",
+            metadata={"fps": FPS, "value": value, "frames": frames},
+        )
     return hours * 3600 + minutes * 60 + seconds + frames / FPS
 
 
@@ -424,6 +441,8 @@ def attach_manifest_model(
         lowered = details.lower()
         if "overlap" in lowered:
             code = "VIDEO_OVERLAP_INVALID"
+        elif "force_fps" in lowered:
+            code = "VIDEO_FRAME_RATE_UNSUPPORTED"
         elif "timecode" in lowered or "long_form.exact_timecode" in lowered:
             code = "VIDEO_TIMECODE_INVALID"
         elif "window" in lowered or "one_window" in lowered:
@@ -461,11 +480,21 @@ def backend_settings(
     adapter = backend_for(model.family)
     adapter.validate(model, operation, failure=VideoCapabilityError)
     requested_frames = max(1, int(round(duration_s * int(render.force_fps))))
+    if requested_frames < SHOT_LENGTH_FLOOR_FRAMES:
+        raise VideoCapabilityError(
+            "VIDEO_FRAME_COUNT_BELOW_FLOOR",
+            f"clip duration {duration_s}s resolves to {requested_frames}f, below the {SHOT_LENGTH_FLOOR_FRAMES}f floor",
+            "Increase the clip duration to at least the governed WanGP floor.",
+            metadata={
+                "requested_frames": requested_frames,
+                "floor": SHOT_LENGTH_FLOOR_FRAMES,
+            },
+        )
     decision = _decision(model.family, render, requested_frames)
     config = WanGPJobConfig(
         model_type=adapter.model_type,
         script=prompt,
-        prompt=operation.value,
+        prompt="multishot",
         width=render.width,
         height=render.height,
         frames_per_shot=requested_frames,
@@ -476,7 +505,9 @@ def backend_settings(
         seed=recipe_seed,
     )
     settings = config.to_settings_doc(flat=True)
-    settings["profile"] = decision.wangp_profile
+    settings["profile"] = {"profile1": 1, "profile2": 2, "profile3": 3}[
+        decision.wangp_profile
+    ]
     settings["resolution"] = decision.resolution
     return settings
 
