@@ -9,6 +9,7 @@ import io
 import os
 import re
 import shlex
+import shutil
 import sqlite3
 import sys
 import tempfile
@@ -142,9 +143,30 @@ def _database_reachability(path: str) -> DoctorCheck:
 
 def _run_doctor(args: argparse.Namespace) -> int:
     if args.capabilities:
+        if args.db is not None or args.probe_host:
+            diagnostic = classify_input_failure(
+                "--capabilities is a standalone local report and cannot be "
+                "combined with --db or --probe-host",
+                next_command="wgp doctor --capabilities",
+            )
+            if args.json:
+                _emit_json({"diagnostics": [diagnostic.mapping()]})
+            else:
+                print(render_diagnostic(diagnostic), file=sys.stderr)
+            return EXIT_INPUT
         report = describe_capabilities(
             _repository_root(), environ=os.environ, models=args.models
         )
+        if report.mapping()["model_manifest"]["status"] == "invalid":
+            diagnostic = classify_input_failure(
+                "auto-discovered model manifest is invalid or empty",
+                next_command="wgp doctor --capabilities",
+            )
+            if args.json:
+                _emit_json({"diagnostics": [diagnostic.mapping()]})
+            else:
+                print(render_diagnostic(diagnostic), file=sys.stderr)
+            return EXIT_INPUT
         if args.json:
             _emit_json(report.mapping())
         else:
@@ -199,13 +221,12 @@ def _content_diagnostic(
 
 
 def _run_content(args: argparse.Namespace) -> int:
-    output: Path | None = (
-        args.out.expanduser().resolve() if args.out is not None else None
-    )
-    temporary: tempfile.TemporaryDirectory[str] | None = None
-    if output is None:
-        temporary = tempfile.TemporaryDirectory(prefix="wangp-content-")
-        output = Path(temporary.name) / "plan.json"
+    temporary_root: Path | None = None
+    if args.out is None:
+        temporary_root = Path(tempfile.mkdtemp(prefix="wangp-content-"))
+        output = temporary_root / "plan.json"
+    else:
+        output = args.out.expanduser().resolve()
     try:
         request = build_content_request(
             args.brief,
@@ -224,15 +245,14 @@ def _run_content(args: argparse.Namespace) -> int:
             print(render_diagnostic(diagnostic), file=sys.stderr)
         return EXIT_DOCTOR
     except (ContentBriefError, FileNotFoundError, OSError, ValueError) as exc:
+        if temporary_root is not None:
+            shutil.rmtree(temporary_root, ignore_errors=True)
         diagnostic = _content_diagnostic(str(exc), args)
         if args.json:
             _emit_json({"diagnostics": [diagnostic.mapping()]})
         else:
             print(render_diagnostic(diagnostic), file=sys.stderr)
         return EXIT_INPUT
-    finally:
-        if temporary is not None:
-            temporary.cleanup()
     if args.json:
         _emit_json(request.mapping())
     else:
@@ -548,7 +568,23 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         if args.verb == "doctor":
-            args.models = _load_models(args.models)
+            try:
+                args.models = _load_models(args.models)
+            except ValueError as exc:
+                source = (
+                    str(Path(args.models).expanduser().resolve())
+                    if args.models is not None else None
+                )
+                message = str(exc).replace(source, "<models>") if source else str(exc)
+                diagnostic = classify_input_failure(
+                    message, source="<models>",
+                    next_command="wgp doctor --capabilities --models <models>",
+                )
+                if args.json:
+                    _emit_json({"diagnostics": [diagnostic.mapping()]})
+                else:
+                    print(render_diagnostic(diagnostic), file=sys.stderr)
+                return EXIT_INPUT
         return int(args.handler(args))
     except json.JSONDecodeError as exc:
         _error(f"unexpected internal error: JSONDecodeError: {exc}")

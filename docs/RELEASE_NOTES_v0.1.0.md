@@ -2,6 +2,8 @@
 
 Wangp is a governed short-film generation engine. It validates typed content briefs, cast plates, and turn audio; creates deterministic no-GPU render plans; submits production cuts to a durable queue; renders only through an authorized host; applies transcript, identity-vision, mouth-box, and SyncNet gates; assembles accepted cuts; and preserves hashes and provenance for review.
 
+The complete v0.1.0 surface starts with one-command installation from Git source (`sh install.sh`). `wgp content` turns a brief plus plates into a reviewed no-GPU plan; when an explicitly configured host is available, its truthful submission path queues the planned cuts without executing a render. `wgp doctor --capabilities` reports local tools, resources, model-manifest status, and the generation capabilities that are not implemented yet. Rendering remains host-authorized, and recipes retain their logical—not byte-identical—identity contract.
+
 ## No-GPU guarantee
 
 The local lane supports `wgp doctor`, typed brief validation, and deterministic planning without model inference, SSH, queue submission, GPU work, or an API key. The committed LF004 quickstart plans four cuts in `9.332` seconds with `gpu_work=false` and `queue_submitted=false`.

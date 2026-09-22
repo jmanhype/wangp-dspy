@@ -14,12 +14,18 @@ uv run --frozen --extra dev wgp content \
 
 Add `--json` for the stable `wangp-dspy.content-request/v1` object. The output
 names the clip count, unique speaker roster, planned duration, resolved host
-requirement, and the governed queue-worker command. Both forms explicitly report
-`gpu_work=false` and `queue_submitted=false`.
+requirement, and, only after submission, the governed queue-worker command. A
+plain planning request explicitly reports `gpu_work=false`,
+`queue_submitted=false`, and that no queue command was constructed.
 
 `--out` is optional. When supplied, it is the canonical
 `wangp-dspy.content-plan/v1` path and its sibling `run/` contains the equivalent
 script and ledger. When omitted, planning uses temporary storage only.
+That retained temporary directory (including any queue created by `--submit`)
+remains present for as long as the printed continuation references it.
+
+Dialogue text is line-oriented. The content surface rejects embedded control
+characters, including newlines, before it writes a script or run ledger.
 
 ## Submission boundary
 
@@ -28,11 +34,12 @@ missing, `wgp content` exits `3` with one typed diagnostic naming the exact
 `host.*` keys, their `WANGP_*` variables, and `wgp doctor --capabilities` as
 the next command. It writes no plan and submits nothing.
 
-With a complete configuration, `--submit` prints the exact governed
-queue-worker command for the generated run directory. It deliberately does not
-execute that command or start a render: this product surface has not replaced
-the operator-controlled queue worker. The summary therefore remains
-`queue_submitted=false`.
+With a complete configuration, `--submit` atomically creates `run/jobs.db` and
+submits the planned clips as a governed dependency chain. It then prints the
+exact worker command for that existing database. It deliberately does not
+execute the worker or start a render: this product surface has not replaced the
+operator-controlled queue worker. Its summary is `queue_submitted=true` with
+`gpu_work=false`.
 
 ## First-run capabilities
 
@@ -51,6 +58,10 @@ executes it. A machine without that executable is reported as **no local
 accelerator**, not as GPU-ready. A manifest entry names its local verification
 state and whether operator-supplied bytes are still required. Wangp never
 downloads a model.
+
+`--capabilities` is standalone. It cannot be combined with `--db` or
+`--probe-host`; doing so is a typed exit-2 usage error rather than a successful
+report with requested work silently omitted.
 
 ## Not implemented
 

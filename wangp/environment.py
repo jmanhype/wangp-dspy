@@ -167,6 +167,44 @@ def _hash_file(path: Path) -> str | None:
     return digest.hexdigest()
 
 
+def _normalized_models(
+    payload: object, context: str
+) -> list[dict[str, str]]:
+    if isinstance(payload, dict) and isinstance(payload.get("models"), list):
+        payload = payload["models"]
+    if not isinstance(payload, list) or not payload:
+        raise ValueError(f"{context}: manifest must contain at least one model")
+    models: list[dict[str, str]] = []
+    for item in payload:
+        if not isinstance(item, dict):
+            raise ValueError(f"{context}: each model must be an object")
+        digest = item.get("sha256")
+        if (
+            not isinstance(digest, str)
+            or len(digest) != 64
+            or any(
+                character not in "0123456789abcdef"
+                for character in digest.lower()
+            )
+        ):
+            raise ValueError(
+                f"{context}: each model needs a valid 64-character sha256"
+            )
+        local = item.get("local_path", item.get("path"))
+        remote = item.get("remote_path")
+        if not isinstance(local, str) and not isinstance(remote, str):
+            raise ValueError(
+                f"{context}: each model needs local_path/path or remote_path"
+            )
+        model = {"sha256": digest.lower()}
+        if isinstance(local, str):
+            model["local_path"] = local
+        if isinstance(remote, str):
+            model["remote_path"] = remote
+        models.append(model)
+    return models
+
+
 def _manifest_from_root(
     repository_root: Path,
 ) -> tuple[str, Sequence[Mapping[str, str]] | None, str | None]:
@@ -176,25 +214,14 @@ def _manifest_from_root(
             continue
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
-            if isinstance(payload, dict) and isinstance(payload.get("models"), list):
-                payload = payload["models"]
-            if not isinstance(payload, list):
-                raise ValueError("manifest is not a list")
-            models = []
-            for item in payload:
-                if not isinstance(item, dict):
-                    raise ValueError("entry is not an object")
-                model = {
-                    "sha256": str(item.get("sha256", "")),
-                }
-                if isinstance(item.get("local_path"), str):
-                    model["local_path"] = item["local_path"]
-                if isinstance(item.get("remote_path"), str):
-                    model["remote_path"] = item["remote_path"]
-                models.append(model)
+            models = _normalized_models(payload, "model manifest")
             return "present", models, None
-        except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
-            return "invalid", None, str(exc)
+        except (OSError, UnicodeError, json.JSONDecodeError, ValueError):
+            return "invalid", None, (
+                "fix or remove the discovered manifest: it must be nonempty "
+                "and every entry needs a valid sha256 plus local_path/path "
+                "or remote_path"
+            )
     return "absent", None, None
 
 
@@ -203,7 +230,18 @@ def _models(
     supplied: Sequence[Mapping[str, str]] | None,
 ) -> dict[str, object]:
     if supplied is not None:
-        status, models, problem = "present", supplied, None
+        try:
+            status, models, problem = (
+                "present",
+                _normalized_models(list(supplied), "model manifest"),
+                None,
+            )
+        except ValueError:
+            status, models, problem = (
+                "invalid", None,
+                "manifest must be nonempty and each entry needs a valid "
+                "sha256 plus local_path/path or remote_path",
+            )
     else:
         status, models, problem = _manifest_from_root(repository_root)
     entries: list[dict[str, object]] = []
@@ -224,20 +262,20 @@ def _models(
         }
     for index, model in enumerate(models, start=1):
         local = model.get("local_path")
-        download_required = local is None
         state = "remote_declared"
         if local is not None:
             path = Path(local).expanduser()
             if not path.is_file():
-                state, download_required = "missing", True
+                state = "missing"
             else:
                 actual = _hash_file(path)
                 expected = str(model.get("sha256", "")).lower()
                 state = (
-                    "verified"
-                    if actual is not None and actual == expected
+                    "verified" if actual == expected
+                    else "unreadable" if actual is None
                     else "hash_mismatch"
                 )
+        download_required = state != "verified"
         entries.append({
             "id": f"entry-{index}",
             "status": state,

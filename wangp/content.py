@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
 
-from predict.content_brief import ContentBrief
+from predict.content_brief import ContentBrief, ContentBriefError, load_content_brief
 from wangp.config import (
     ENVIRONMENT_KEYS,
     HostConfig,
@@ -39,7 +39,7 @@ class ContentRequest:
     brief_hash: str
     summary: Mapping[str, Any]
     host: HostRequirement
-    queue_command: str
+    queue_command: str | None
     queue_command_template: str
     submission_requested: bool = False
 
@@ -57,7 +57,9 @@ class ContentRequest:
                 "missing_keys": list(self.host.missing_keys),
                 "contacted": False,
             },
-            "governed_queue_command": self.queue_command_template,
+            "governed_queue_command": (
+                self.queue_command_template if self.queue_command else None
+            ),
             "summary": dict(self.summary),
             "submission_requested": self.submission_requested,
         })
@@ -78,7 +80,11 @@ class ContentRequest:
                 f"planned_duration_s={self.summary['planned_duration_s']}"
             ),
             f"host_requirement={host}",
-            f"governed_queue_command={self.queue_command}",
+            (
+                f"governed_queue_command={self.queue_command}"
+                if self.queue_command is not None
+                else "governed_queue_command=not constructed (nothing was queued)"
+            ),
             (
                 f"gpu_work={str(self.summary['gpu_work']).lower()} "
                 f"queue_submitted={str(self.summary['queue_submitted']).lower()}"
@@ -86,7 +92,7 @@ class ContentRequest:
         ]
         if self.submission_requested:
             lines.append(
-                "submission=preview_only; content did not execute the queue command"
+                "submission=queued; queue worker not executed"
             )
         return str(redact_sensitive("\n".join(lines)))
 
@@ -122,6 +128,39 @@ def _queue_command(run_dir: Path, *, stable: bool = False) -> str:
     ])
 
 
+def _enqueue_plan(payload: Mapping[str, Any], run_dir: Path, plan: Path) -> None:
+    """Atomically persist the planned clips without draining or rendering."""
+
+    from services.jobs.queue import JobQueue
+
+    database = run_dir / "jobs.db"
+    if database.exists():
+        raise ValueError(f"queue database already exists: {database}")
+    clips = payload.get("clips")
+    if not isinstance(clips, list) or not clips:
+        raise ValueError("content plan contains no clips to queue")
+    staging = run_dir / f".jobs.db.{os.urandom(8).hex()}.tmp"
+    queue = None
+    try:
+        queue = JobQueue(staging)
+        previous: str | None = None
+        for clip in clips:
+            queued_clip = dict(clip)
+            queued_clip["needs"] = previous
+            previous = queue.submit(
+                plan_ref=plan.name, clips=[queued_clip]
+            )
+        queue.close()
+        queue = None
+        os.replace(staging, database)
+    except Exception:
+        if queue is not None:
+            queue.close()
+        for suffix in ("", "-wal", "-shm"):
+            Path(str(staging) + suffix).unlink(missing_ok=True)
+        raise
+
+
 def _host_requirement(
     repository_root: Path, environ: Mapping[str, str]
 ) -> HostRequirement:
@@ -135,6 +174,18 @@ def _host_requirement(
 def _load_plan(path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     return payload, payload["summary"]
+
+
+def _validate_line_safe_dialogue(brief: ContentBrief) -> None:
+    """Reject control characters before the line-oriented script is written."""
+
+    for index, line in enumerate(brief.dialogue):
+        text = line.text
+        if any(ord(character) < 32 or ord(character) == 127 for character in text):
+            raise ContentBriefError(
+                f"dialogue[{index}].text contains a control character; use one "
+                "line of text per dialogue turn"
+            )
 
 
 def build_content_request(
@@ -162,7 +213,11 @@ def build_content_request(
     else:
         _host_requirement(root, environment)
 
-    brief_path = brief.source_path if isinstance(brief, ContentBrief) else Path(brief)
+    validated = brief if isinstance(brief, ContentBrief) else load_content_brief(brief)
+    _validate_line_safe_dialogue(validated)
+    brief_path = validated.source_path
+    if brief_path is None:
+        raise ContentBriefError("content brief has no source path")
     plan_output = Path(output).expanduser().resolve()
     destination = (
         Path(run_dir).expanduser().resolve()
@@ -180,12 +235,21 @@ def build_content_request(
     with contextlib.redirect_stdout(io.StringIO()):
         plan_gateway(gateway_argv)
     payload, summary = _load_plan(plan_output)
+    summary = dict(summary)
+    queue_command = None
+    if submit:
+        _enqueue_plan(payload, destination, plan_output)
+        summary["dry_run"] = False
+        summary["queue_submitted"] = True
+        queue_command = _queue_command(destination)
+    else:
+        summary["queue_submitted"] = False
     return ContentRequest(
         title=str(payload.get("title", "")),
         brief_hash=str(payload.get("brief_hash", "")),
         summary=summary,
         host=_host_requirement(root, environment),
-        queue_command=_queue_command(destination),
+        queue_command=queue_command,
         queue_command_template=_queue_command(destination, stable=True),
         submission_requested=submit,
     )
