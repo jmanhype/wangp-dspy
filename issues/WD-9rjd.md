@@ -8,8 +8,8 @@ labels: [release, external-integration, accepted]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-22T00:22:29Z
-content_hash: "sha256:35f0d7dcab6d52e9da56a15d56aa12f3cc94d9bf97d2463b69955489d6770daa"
+updated_at: 2026-09-22T01:06:11Z
+content_hash: "sha256:694dd2d8b29e29de6aed1a3054a22d8f058b01f0fc7f6a9faaffafd5ad0b861d"
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
 closed_at: 2026-09-22T00:01:57Z
@@ -108,6 +108,10 @@ status: new
 
 
 ## Notes
+## Acceptance Extension at Merged Head
+
+The `pvg story accept` transition was recorded at `8863df869ffbfcdf4e1a4e00b27caeac888b8920`. PR #156 review then raised three findings, fixed in `1fd1a99f96baee53cd45833dcd613e4f8b6134b7`; that exact merged head carries an independent verifier verdict (see the `## Rework Verification` block above) and the three new regressions fail against the pre-fix commit. Merged to main as `f17c37f` with the required `test` check green.
+
 ## Rework Verification
 Verdict: HOLDS — all three review findings are fixed at the rework head.
 SHA: 1fd1a99f96baee53cd45833dcd613e4f8b6134b7
