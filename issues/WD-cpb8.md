@@ -7,8 +7,8 @@ type: feature
 labels: [product, verification, accepted]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
-updated_at: 2026-09-22T21:14:45Z
-content_hash: "sha256:823944d93a0df66e1c75a8647ef2f7141ac2fec41c28cc991a3407c72460aa21"
+updated_at: 2026-09-22T21:20:43Z
+content_hash: "sha256:76f29fbf8fa776581391909f23aa5ae8ec5d8d5a56d6ea4920d255cbb20bab04"
 assignee: dev-WD-cpb8
 closed_at: 2026-09-22T20:56:09Z
 close_reason: "Accepted: exact-head CLI/read-only/tests/CI checks pass; 970-line overrun is proportionate to the broad capability report and real-process tests"
@@ -73,6 +73,29 @@ CONSUMES:
 
 
 ## Notes
+## Rework Verification
+Verdict: HOLDS.
+SHA: 3283f30add5093b6223bf619b0c28a84425f70bf
+Commands:
+- git rev-parse HEAD; git diff main...HEAD --name-only; git tag | wc -l
+- wgp content and wgp content --submit without --out under isolated host configuration
+- wgp doctor --capabilities --db <queue-copy> and --capabilities --probe-host
+- wgp doctor --capabilities --models with wrong, unreadable, empty-list, and empty-entry manifests
+- wgp content with embedded dialogue newline
+- direct describe_capabilities legacy `path` alias probe
+- uv run --frozen --extra dev pytest tests/test_content_and_capabilities.py -q
+- uv run --frozen --extra dev pytest -q
+- gh api <exact-head>/check-runs; gh pr checks 160
+Observed:
+- Exact head and six expected three-point files; existing tag count remains 1.
+- No-out planning retains plan/script/ledger; complete submit retains an existing jobs.db path.
+- Capability flag conflicts exit 2 typed; model failures and invalid manifests are truthful.
+- Newline exits 2 before artifacts; unconfigured submit creates no queue.
+- Complete submit creates 4 pending dependency-chain rows, executes no worker/render, and contacts no host; local durable queue is in scope and documented.
+- Legacy path is present/verified/download_required=false.
+- Tests: targeted 12/12 pass; full 1676 tests, 1675 pass, 1 skip, 0 fail.
+- Exact-head CI and PR check pass; warning remains one pre-existing Starlette deprecation.
+
 ## Rework Evidence
 
 - Head: `3283f30add5093b6223bf619b0c28a84425f70bf` (PR #160).
