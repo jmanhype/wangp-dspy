@@ -7,8 +7,8 @@ type: task
 labels: [release, hygiene, delivered]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
-updated_at: 2026-09-22T21:36:30Z
-content_hash: "sha256:224437db3eaf1af469e5883235f09b90bbe1224126272ccf1112f75519d8ca66"
+updated_at: 2026-09-22T21:36:31Z
+content_hash: "sha256:af96bbe212b901d354d9e9c4892c41b19cd5dd2e0a4f1f6df12d114ce4615bf3"
 assignee: dev-WD-o6z4
 ---
 
@@ -64,6 +64,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Ignore only local dispatcher/worktree tooling under `.claude/`, prove primary-checkout release readiness at the story commit, and preserve opaque-tree fail-closed behaviour; PR #161. The annotated tag push and GitHub release remain dispatcher actions after acceptance.
 Commands run:
