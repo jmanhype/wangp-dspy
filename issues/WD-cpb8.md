@@ -8,7 +8,7 @@ labels: [product, verification, delivered]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
 updated_at: 2026-09-22T20:48:56Z
-content_hash: "sha256:a3a704af0e9c2d2ea38a0e31d900215fcb02f7f394fa6f1c46ee61c99b21434d"
+content_hash: "sha256:15ada414d6e352fdda55794fdb4a1e3bbd9eabe5142096a2ffe7914561f62eda"
 assignee: dev-WD-cpb8
 ---
 
@@ -71,6 +71,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Added the content front door and honest local capability report with real-subprocess exit-code, redaction, read-only, forbidden-call, manifest, build, and CI verification.
