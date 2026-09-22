@@ -1,16 +1,17 @@
 ---
 id: WD-6tox
 title: "Video breadth: Maestro model families, operations, multi-clip, long form, and LoRA"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T20:28:47Z
-content_hash: "sha256:6b7c24a8d3d34a275235532385147333f626e7025669d32a5b5218e50ea101f8"
+updated_at: 2026-09-22T21:44:01Z
+content_hash: "sha256:4061e84899b07cfdabe69d37551f6fbd72a94b2fcf035a9ba2a49eab2178183e"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
+assignee: dev-WD-6tox
 ---
 
 ## Description
@@ -118,6 +119,8 @@ status: new
 - 2026-09-22T20:24:46Z dep_added: blocks WD-8ioj
 - 2026-09-22T20:24:46Z dep_added: blocks WD-eq1i
 - 2026-09-22T20:27:36Z dep_added: blocks WD-gc09
+- 2026-09-22T21:44:01Z status: open -> in_progress
+- 2026-09-22T21:44:01Z claimed by dev-WD-6tox
 
 ## Links
 - Parent: [[WD-t741]]
