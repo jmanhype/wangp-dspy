@@ -4,7 +4,7 @@ title: "Cut v0.1.0: verify in the primary checkout and publish the release"
 status: closed
 priority: 1
 type: task
-labels: [release, hygiene, delivered, accepted]
+labels: [release, hygiene, accepted]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
 updated_at: 2026-09-22T21:42:39Z
