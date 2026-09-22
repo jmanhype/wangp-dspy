@@ -8,8 +8,8 @@ labels: [capability, external-integration, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T22:50:11Z
-content_hash: "sha256:aaa979f42823573549b721fbc24b168be237fc077ba53288a20f6fdfe71fbdf4"
+updated_at: 2026-09-22T23:16:06Z
+content_hash: "sha256:d697d7f24ce7a35e36acb3f719320e65a588735c50f77127266c68d4288cb6a4"
 assignee: dev-WD-6tox
 closed_at: 2026-09-22T22:50:10Z
 close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
@@ -112,7 +112,17 @@ status: new
 
 
 ## Notes
-
+## Rework Evidence
+Summary: Fixed all eight PR #163 review findings at exact head 0fa1e7741faa9bde3dd9693460a2364d3c63f4f8; no GPU/host/SSH/model work and no verified-generation claim.
+Finding 1: Reconstruction now requires an existing nonempty database and valid named records; missing, empty, non-pending, and corrupt records each fail typed. Regression captured in /tmp/wd-6tox-rework-evidence-0fa1e77/index.json.
+Finding 2: Plan clips now persist in non-executable video_plan_records rather than the executable jobs table; real JobQueue.next_admissible and JobExecutor.run_once both return none. Evidence /tmp/wd-6tox-rework-evidence-0fa1e77/admission.json.
+Finding 3: 24fps timecodes reject frame fields outside 0..23; boundaries 23/24/99 tested.
+Finding 4: force_fps now rejects non-24 rates with VIDEO_FRAME_RATE_UNSUPPORTED; 30fps tested.
+Finding 5: wrong-family enum and below-floor clip errors both retain structured --json diagnostics.
+Finding 6: persisted backend prompt tag remains multishot while operation remains recorded separately and losslessly.
+Finding 7: persisted profile is numeric 3 as the WanGP host argument expects; selector profile3 remains separate. Evidence /tmp/wd-6tox-rework-evidence-0fa1e77/settings-sample.json.
+Finding 8: create references are consistently ignored, including an absent reference; non-create references remain required and hash-validated.
+Commands: scoped pytest exit 0 with 32 passed; full pytest exit 0 with 1,714 passed and 1 skipped (1,715 collected); uv build produced one wheel/sdist; exact-head GitHub test check succeeded. Evidence index SHA256 b5c11353112e9184e93ef994fdb74d55e2635c40336b51973758ece739959f3e.
 
 ## nd_contract
 status: accepted
