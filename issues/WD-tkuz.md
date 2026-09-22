@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:27Z
-content_hash: "sha256:cf2270a7b2f8580eaaa3518f006bbafd509a1016dbfe58a88760e229e051ac8e"
+updated_at: 2026-09-22T20:28:48Z
+content_hash: "sha256:7e25b70d92d8072dd92df82cd9cf8f3de93d39c7ac95906b51644a8681a3d82a"
 blocked_by: [WD-pcen, WD-6ml6, WD-6tox]
 blocks: [WD-8ioj, WD-eq1i, WD-gc09]
 ---
@@ -43,25 +43,25 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-tkuz/ -> authorized cross-mode character continuity bundles
 
 CONSUMES:
-- predict/content_brief.py -> purpose
+- predict/content_brief.py -> typed character and plate contract
   spec: typed character and plate contract
-- predict/speaker_manifest.py -> purpose
+- predict/speaker_manifest.py -> speaker identity contract
   spec: speaker identity contract
-- predict/voice_registry.py -> purpose
+- predict/voice_registry.py -> saved portable voice package
   spec: saved portable voice package
-- docs/entity-registry.md -> purpose
+- docs/entity-registry.md -> existing deterministic identity-governance rules
   spec: existing deterministic identity-governance rules
-- qc/audio_critic/vision_judge.py -> purpose
+- qc/audio_critic/vision_judge.py -> identity-vision evidence boundary
   spec: identity-vision evidence boundary
-- predict/image_capabilities.py -> purpose
+- predict/image_capabilities.py -> image request compilation and reference binding
   spec: image request compilation and reference binding
-- predict/video_capabilities.py -> purpose
+- predict/video_capabilities.py -> video request compilation and continuity binding
   spec: video request compilation and continuity binding
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing package/reference failures
   spec: typed missing package/reference failures
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
