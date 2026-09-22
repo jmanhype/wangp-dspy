@@ -8,8 +8,8 @@ labels: [capability, capstone]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
-updated_at: 2026-09-22T20:28:28Z
-content_hash: "sha256:3fc753b99b548d9b91751a8dc75c133926774db2f87708ba88aefcbeb006c8d5"
+updated_at: 2026-09-22T20:28:49Z
+content_hash: "sha256:19d083372802dce2b25f29900ce404e35e0f83c870db9e997293a5b8f5183a88"
 blocked_by: [WD-eq1i, WD-fasw, WD-8ioj, WD-4d90, WD-6tox, WD-pcen, WD-soa4, WD-6ml6, WD-tkuz]
 ---
 
@@ -43,19 +43,19 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-gc09/ -> authorized rendered export bundle
 
 CONSUMES:
-- services/director/composition.py -> purpose
+- services/director/composition.py -> accepted director request/review model
   spec: accepted director request/review model
-- predict/assembler.py -> purpose
+- predict/assembler.py -> existing assembly path
   spec: existing assembly path
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing source/project failures
   spec: typed missing source/project failures
-- predict/v3_recipe.py -> purpose
+- predict/v3_recipe.py -> immutable reconstruction/provenance contract
   spec: immutable reconstruction/provenance contract
-- wangp/diagnostics.py -> purpose
+- wangp/diagnostics.py -> actionable headless/UI diagnostics
   spec: actionable headless/UI diagnostics
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
