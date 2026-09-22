@@ -8,7 +8,7 @@ labels: [licence, hygiene, delivered]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
 updated_at: 2026-09-22T18:41:12Z
-content_hash: "sha256:17e6713adf879157a01d037b2a2daa011775f7f4969f986ff38910ffcf3e1433"
+content_hash: "sha256:5f2651601a7a23706ea6a0adf8d5d36ee146129163a431fcf9aaece1b6571ce5"
 assignee: dev-WD-bosd
 ---
 
@@ -69,6 +69,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: LICENSE replaced with the canonical MIT text (`Copyright (c) 2026 Straughter Guthrie`), pyproject now declares `license = "MIT"` with `license-files`, the repository hygiene guard was inverted so it now asserts the MIT grant and holder instead of the retired no-rights notice, and README, CONTRIBUTING, CHANGELOG and the THIRD_PARTY_NOTICES pointer describe the adopted licence. Third-party model terms are untouched.
