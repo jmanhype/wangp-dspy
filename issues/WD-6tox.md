@@ -8,8 +8,8 @@ labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T20:28:23Z
-content_hash: "sha256:32196a72ddf44f48e1baf62164b4b5f0d05adefee72e2e5354ed499db78a00e9"
+updated_at: 2026-09-22T20:28:47Z
+content_hash: "sha256:6b7c24a8d3d34a275235532385147333f626e7025669d32a5b5218e50ea101f8"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
 ---
 
@@ -45,25 +45,25 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-6tox/ -> recorded authorized run bundles; each bundle is generated only after operator approval
 
 CONSUMES:
-- predict/job_config.py -> purpose
+- predict/job_config.py -> existing H3 frame-grid and typed job normalization
   spec: existing H3 frame-grid and typed job normalization
-- predict/render_profiles.py -> purpose
+- predict/render_profiles.py -> existing render-profile definitions
   spec: existing render-profile definitions
-- predict/profile_selector.py -> purpose
+- predict/profile_selector.py -> existing governed profile selection
   spec: existing governed profile selection
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing host/model/asset failures
   spec: typed missing host/model/asset failures
-- host/render_host.py -> purpose
+- host/render_host.py -> explicit remote run/push/pull boundary
   spec: explicit remote run/push/pull boundary
-- host/wangp_adapter.py -> purpose
+- host/wangp_adapter.py -> existing H3/WanGP adapter settings and evidence markers
   spec: existing H3/WanGP adapter settings and evidence markers
-- predict/assembler.py -> purpose
+- predict/assembler.py -> existing assembly contract
   spec: existing assembly contract
-- predict/v3_recipe.py -> purpose
+- predict/v3_recipe.py -> immutable recipe/provenance fields
   spec: immutable recipe/provenance fields
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
