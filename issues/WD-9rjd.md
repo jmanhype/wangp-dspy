@@ -1,18 +1,19 @@
 ---
 id: WD-9rjd
 title: "Verify release readiness from committed repository evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [release, external-integration, delivered]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-21T23:54:18Z
-content_hash: "sha256:78383e9d724d66e8d5b1c9b8a0d395e02b9e991fa3883c708a3fa4e95128324d"
-blocks: [WD-fq1o]
+updated_at: 2026-09-22T00:01:57Z
+content_hash: "sha256:31f8beec3ca5643c2e05ce743f9f5ef7d249136789f40244a7c1a9178ab2a8be"
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
+closed_at: 2026-09-22T00:01:57Z
+close_reason: "HEAD 8863df8; clean recipe diff; release verify and 4 negative probes passed; tests and GitHub check green; tree/tags unchanged"
 ---
 
 ## Description
@@ -191,10 +192,11 @@ status: delivered
 - 2026-09-21T23:28:18Z claimed by dev-WD-9rjd
 - 2026-09-21T23:54:18Z status: in_progress -> in_progress
 - 2026-09-21T23:54:18Z auto-follows: linked to predecessor WD-lvix
+- 2026-09-22T00:01:57Z status: in_progress -> closed
+- 2026-09-22T00:01:57Z dep_removed: no_longer_blocks WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
-- Blocks: [[WD-fq1o]]
 - Follows: [[WD-carq]], [[WD-lvix]]
 
 ## Comments
