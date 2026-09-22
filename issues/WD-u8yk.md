@@ -8,7 +8,7 @@ labels: [packaging, documentation, accepted]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
 updated_at: 2026-09-22T20:39:20Z
-content_hash: "sha256:2c86714bda13ce1ccba80c4d76777dbc83571bd1aaffc17281a31ec6d033805d"
+content_hash: "sha256:47de7d59672dcadc4644be982f79ebf7bdb22c70b7d9cc6379c52177dff824d1"
 assignee: dev-WD-u8yk
 closed_at: 2026-09-22T20:39:19Z
 close_reason: "Accepted at 60aaab0a: real temp install and external doctor ready=yes, typed missing-uv and checkout-boundary failures, honest docs/notes, tests and exact-head CI green, tag_created=false."
@@ -73,6 +73,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
