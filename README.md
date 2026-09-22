@@ -25,13 +25,19 @@ The tested path below needs no API key, model download, SSH host, queue, or GPU.
 
 ## Install
 
-Install the latest `main` source as a uv user tool with one command:
+Download the installer:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh -o install.sh
 ```
 
-The installer requires `uv`, installs without root, and ends by running `wgp doctor`. See [docs/install.md](docs/install.md) for prerequisites, upgrading, uninstalling, and the boundary between installed commands and repository-scoped evidence workflows.
+Then run the saved script:
+
+```bash
+sh install.sh
+```
+
+The installer requires `uv`, installs without root, and ends by running `wgp doctor`. See [docs/install.md](docs/install.md) for prerequisites, checkout help, upgrading, uninstalling, and the boundary between installed commands and repository-scoped evidence workflows.
 
 Contributors should use a fresh clone:
 

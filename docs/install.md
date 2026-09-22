@@ -9,24 +9,44 @@
 If `uv` is missing, install it first:
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+curl -LsSf https://astral.sh/uv/install.sh -o uv-installer.sh
+```
+
+Inspect the downloaded installer, then run it:
+
+```bash
+sh uv-installer.sh
 ```
 
 ## One-command install
 
-Install the latest `main` source into uv's user tool directory, then run the readiness check:
+Download the repository installer:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh | sh
+curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh -o install.sh
 ```
 
-No root or sudo is needed. To preview the commands, save or inspect `install.sh` and run `install.sh --dry-run`; to install from another checkout or Git URL, pass `--source <path-or-url>`. The script fail-closes before installation when `uv` is missing.
+Then invoke the saved script. No root or sudo is needed:
+
+```bash
+sh install.sh
+```
+
+To preview the commands, run `sh install.sh --dry-run`; to install from another checkout or Git URL, pass `--source <path-or-url>`. The script fail-closes before installation when `uv` is missing.
 
 ## Verify
 
 Run `wgp doctor`. A ready local install ends with `ready=yes`; it checks Python, uv, dependencies, media tools, local disk, and the queue runtime, while leaving an unconfigured render host safely skipped. Ensure uv's executable directory (typically `~/.local/bin`) is on `PATH`.
 
-The tool install is the **install-only surface**: `doctor`, `brief validate`, and `plan --brief <path> --plates <dir>` work with explicit input paths and do not need a checkout. It does not carry `VERSION`, `CHANGELOG.md`, Git metadata, or `datasets/` evidence. Repository-scoped operations—`recipe write`, `recipe verify`, `release verify`, and workflows that consume committed LF004 evidence—must be run from a clean checkout containing those files. An installed `release verify` therefore reports a release-version input failure rather than claiming readiness.
+The tool install is the **install-only surface**: `doctor` and `brief validate` work without a checkout, and the parallel `content` verb will join this surface once it reaches `main`. The tool does not carry `VERSION`, `CHANGELOG.md`, Git metadata, or `datasets/` evidence. Provenance-bearing `plan`, `recipe write`, `recipe verify`, `release verify`, and workflows that consume committed LF004 evidence need a clean checkout. In v0.1.0, an installed `plan` exits `4` with `unexpected internal error: RepositoryIdentityError` because its package parent is not a Git repository; use a checkout rather than weakening provenance. An installed `release verify` reports a release-version input failure rather than claiming readiness.
+
+To install and obtain that checkout in one script invocation, pass an absent destination:
+
+```bash
+sh install.sh --checkout "$HOME/src/wangp-dspy"
+```
+
+The installer resolves uv's real executable directory with `uv tool dir --bin` (unless `UV_TOOL_BIN_DIR` overrides it), verifies `wgp` exists there, clones the selected repository, and prints the exact `cd`, `uv sync`, and no-GPU quickstart commands.
 
 ## Upgrade and uninstall
 
