@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:27Z
-content_hash: "sha256:5da6e9103684f22e0286be5055069252ca3c5f0c04e68c685d9b09992cb21288"
+updated_at: 2026-09-22T20:28:47Z
+content_hash: "sha256:2d51cf88ddf32684baa8bb9e1c2fde1cac41572507c3f1864209a37a2a894be6"
 blocks: [WD-fasw, WD-eq1i, WD-gc09]
 ---
 
@@ -42,19 +42,19 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-soa4/ -> authorized audio bundles including before/after style adaptation
 
 CONSUMES:
-- predict/audio_manifest.py -> purpose
+- predict/audio_manifest.py -> typed audio metadata contract
   spec: typed audio metadata contract
-- predict/audio_prep.py -> purpose
+- predict/audio_prep.py -> existing audio preparation behavior
   spec: existing audio preparation behavior
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing model/reference failures
   spec: typed missing model/reference failures
-- host/render_host.py -> purpose
+- host/render_host.py -> authorized host execution and artifact retrieval
   spec: authorized host execution and artifact retrieval
-- qc/audio_critic/profiles.py -> purpose
+- qc/audio_critic/profiles.py -> existing music profile provenance
   spec: existing music profile provenance
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
