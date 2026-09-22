@@ -4,7 +4,7 @@ title: "Adopt the MIT licence with the recorded copyright holder"
 status: closed
 priority: 2
 type: task
-labels: [licence, hygiene, delivered, accepted]
+labels: [licence, hygiene, accepted]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
 updated_at: 2026-09-22T18:46:17Z
