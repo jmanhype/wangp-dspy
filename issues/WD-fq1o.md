@@ -9,10 +9,11 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
 updated_at: 2026-09-22T00:23:10Z
-content_hash: "sha256:fdc2066a527582fbecc75a36a4ec8b4a1aeabb667486a0ccedc8f62e4d986f3a"
+content_hash: "sha256:74e3bc2c8ff427131fe67bcef68440451da2c4d90960f3b58a10e26f9812b029"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
 follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
+blocked_by: [WD-m1sj]
 ---
 
 ## Description
@@ -115,9 +116,11 @@ status: new
 - 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-carq
 - 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-9rjd
 - 2026-09-22T00:23:11Z claimed by dev-WD-fq1o
+- 2026-09-22T00:23:29Z dep_added: blocked_by WD-m1sj
 
 ## Links
 - Parent: [[WD-t534]]
+- Blocked by: [[WD-m1sj]]
 - Was blocked by: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
 - Follows: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
 
