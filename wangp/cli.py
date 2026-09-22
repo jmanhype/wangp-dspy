@@ -6,17 +6,27 @@ import argparse
 import contextlib
 import json
 import io
+import os
+import re
 import shlex
 import sqlite3
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from predict.content_brief import ContentBriefError, load_content_brief
 from services.jobs.queue import JobNotFoundError
 from wangp import __version__
+from wangp.content import (
+    HostSubmissionError,
+    build_content_request,
+    submission_diagnostic,
+)
 from wangp.doctor import DoctorCheck, collect_doctor_checks
+from wangp.environment import describe_capabilities
 from wangp.diagnostics import (
+    FailureDiagnostic,
     classify_input_failure,
     classify_provenance_failures,
     redact_sensitive,
@@ -131,6 +141,15 @@ def _database_reachability(path: str) -> DoctorCheck:
 
 
 def _run_doctor(args: argparse.Namespace) -> int:
+    if args.capabilities:
+        report = describe_capabilities(
+            _repository_root(), environ=os.environ, models=args.models
+        )
+        if args.json:
+            _emit_json(report.mapping())
+        else:
+            print(report.render())
+        return EXIT_OK
     report = collect_doctor_checks(args.models, probe_host=args.probe_host)
     if args.db is not None:
         report.checks.append(_database_reachability(args.db))
@@ -150,6 +169,75 @@ def _run_doctor(args: argparse.Namespace) -> int:
             print(render_diagnostic(diagnostic))
         print(f"ready={'yes' if report.ready else 'no'}")
     return EXIT_OK if report.ready else EXIT_DOCTOR
+
+
+def _content_diagnostic(
+    message: str, args: argparse.Namespace
+) -> FailureDiagnostic:
+    """Redact caller-specific paths while retaining the typed failure."""
+
+    brief = args.brief.expanduser().resolve()
+    plates = args.plates.expanduser().resolve()
+    replacements = {
+        str(brief): "<brief>",
+        str(plates): "<plates>",
+    }
+    if args.out is not None:
+        replacements[str(args.out.expanduser().resolve())] = "<plan>"
+    for source, replacement in replacements.items():
+        message = message.replace(source, replacement)
+    message = re.sub(r"/[^\s',]+", "<path>", message)
+    source = "<plates>" if "plates" in message else "<brief>"
+    return classify_input_failure(
+        message,
+        source=source,
+        next_command=(
+            "wgp content --brief <brief> --plates <plates> "
+            "--out <plan>"
+        ),
+    )
+
+
+def _run_content(args: argparse.Namespace) -> int:
+    output: Path | None = (
+        args.out.expanduser().resolve() if args.out is not None else None
+    )
+    temporary: tempfile.TemporaryDirectory[str] | None = None
+    if output is None:
+        temporary = tempfile.TemporaryDirectory(prefix="wangp-content-")
+        output = Path(temporary.name) / "plan.json"
+    try:
+        request = build_content_request(
+            args.brief,
+            args.plates,
+            output=output,
+            run_dir=args.run_dir,
+            submit=args.submit,
+            repository_root=_repository_root(),
+            environ=os.environ,
+        )
+    except HostSubmissionError:
+        diagnostic = submission_diagnostic(_repository_root(), os.environ)
+        if args.json:
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_DOCTOR
+    except (ContentBriefError, FileNotFoundError, OSError, ValueError) as exc:
+        diagnostic = _content_diagnostic(str(exc), args)
+        if args.json:
+            _emit_json({"diagnostics": [diagnostic.mapping()]})
+        else:
+            print(render_diagnostic(diagnostic), file=sys.stderr)
+        return EXIT_INPUT
+    finally:
+        if temporary is not None:
+            temporary.cleanup()
+    if args.json:
+        _emit_json(request.mapping())
+    else:
+        print(request.render())
+    return EXIT_OK
 
 
 def _validate_brief(args: argparse.Namespace) -> int:
@@ -370,6 +458,11 @@ def build_parser() -> argparse.ArgumentParser:
         "doctor", help="report local readiness and optionally probe a host"
     )
     doctor.add_argument("--json", action="store_true")
+    doctor.add_argument(
+        "--capabilities",
+        action="store_true",
+        help="report honest first-run capabilities without probing anything",
+    )
     doctor.add_argument("--db", help="also check one queue database")
     doctor.add_argument("--models", help="JSON model manifest")
     doctor.add_argument(
@@ -377,7 +470,18 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="run five existing remote checks; never implied",
     )
-    doctor.set_defaults(handler=_run_doctor, models=None)
+    doctor.set_defaults(handler=_run_doctor, models=None, capabilities=False)
+
+    content = commands.add_parser(
+        "content", help="turn a brief and plates into a governed content summary"
+    )
+    content.add_argument("--brief", required=True, type=Path)
+    content.add_argument("--plates", required=True, type=Path)
+    content.add_argument("--out", type=Path)
+    content.add_argument("--run-dir", type=Path)
+    content.add_argument("--submit", action="store_true")
+    content.add_argument("--json", action="store_true")
+    content.set_defaults(handler=_run_content)
 
     brief = commands.add_parser("brief", help="typed content-brief operations")
     brief_commands = brief.add_subparsers(dest="brief_verb", required=True)
