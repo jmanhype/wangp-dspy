@@ -7,8 +7,8 @@ type: feature
 labels: [product, verification, accepted]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
-updated_at: 2026-09-22T20:56:09Z
-content_hash: "sha256:731d56f7cfb12cba094d13461a2b6ef2373d04b6b45380890335a6698c48b768"
+updated_at: 2026-09-22T21:14:45Z
+content_hash: "sha256:823944d93a0df66e1c75a8647ef2f7141ac2fec41c28cc991a3407c72460aa21"
 assignee: dev-WD-cpb8
 closed_at: 2026-09-22T20:56:09Z
 close_reason: "Accepted: exact-head CLI/read-only/tests/CI checks pass; 970-line overrun is proportionate to the broad capability report and real-process tests"
@@ -73,7 +73,20 @@ CONSUMES:
 
 
 ## Notes
+## Rework Evidence
 
+- Head: `3283f30add5093b6223bf619b0c28a84425f70bf` (PR #160).
+- Finding 1 fixed: omitted-output content now retains its temporary plan/run; no printed continuation references a cleaned path.
+- Finding 2 fixed: `doctor --capabilities --db` and `--probe-host` now fail typed exit 2 instead of silently skipping work.
+- Finding 3 fixed: mismatched and unreadable local model files report `hash_mismatch`/`unreadable` with `download_required=true`.
+- Finding 4 fixed: empty and path/digest-invalid manifests report typed invalid configuration, not present/usable.
+- Finding 5 fixed: dialogue control characters/newlines are rejected before script or ledger creation.
+- Finding 6 fixed: complete-host `--submit` atomically queues four chained clips into `run/jobs.db`, prints the worker command for that existing DB, and does not execute the worker/render.
+- Finding 7 fixed: auto-discovery normalizes legacy `path` to local verification.
+- Tests: targeted 12 passed/0 failed; full 1,675 passed, 1 skipped/0 failed; one warning.
+- Build: one wheel `0dd903963acbb556b0ebf03891e3655717847c4394c88f10a2ae96efd851c6db`; one sdist `c80d3c2be740eb46542117d8f518f9037f84128402297ea0a0ea62cd53a12345`.
+- Fresh CLI captures: no-submit says nothing was queued; complete submit shows `queue_submitted=true` plus existing DB `[('pending', 4)]`; unconfigured submit exits 3; capabilities+DB exits 2; zero shadowed SSH/nvidia-smi calls.
+- CI at exact head: `test` completed `success`, run `35785033563`.
 
 ## nd_contract
 status: accepted
