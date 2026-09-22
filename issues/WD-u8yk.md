@@ -7,8 +7,8 @@ type: feature
 labels: [packaging, documentation, accepted]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:39:20Z
-content_hash: "sha256:47de7d59672dcadc4644be982f79ebf7bdb22c70b7d9cc6379c52177dff824d1"
+updated_at: 2026-09-22T20:52:17Z
+content_hash: "sha256:801fb73418f6c6ad5746dcddbb698817f3dbed85b355eade3d7d47a130132ce3"
 assignee: dev-WD-u8yk
 closed_at: 2026-09-22T20:39:19Z
 close_reason: "Accepted at 60aaab0a: real temp install and external doctor ready=yes, typed missing-uv and checkout-boundary failures, honest docs/notes, tests and exact-head CI green, tag_created=false."
@@ -73,7 +73,14 @@ CONSUMES:
 
 
 ## Notes
-
+## Rework Evidence
+- Finding 1 fixed: default is uv Git requirement git+https://github.com/jmanhype/wangp-dspy.git@main; local --source remains supported and default dry-run coverage avoids a network install.
+- Finding 2 fixed: docs classify doctor/brief validate (and future content) as install-only and plan/recipe/release/datasets workflows as checkout-only; --checkout clones and prints quickstart. External installed plan verbatim: exit 4, unexpected internal error: RepositoryIdentityError ... not a git repository, PLAN_EXISTS=false (reported for dispatcher; wangp/cli.py untouched).
+- Finding 3 fixed: UV_TOOL_BIN_DIR overrides, otherwise installer resolves uv tool dir --bin and verifies wgp there; explicit-override and XDG_BIN_HOME/uv-reported real installs covered.
+- Finding 4 fixed: README separates installer download and sh install.sh invocation.
+- Finding 5 fixed: install guide separates uv installer download and sh invocation.
+- Verification: sh -n/help/default dry-run PASS; real install + external doctor ready=yes; checkout local-repo test PASS; targeted pytest 4 passed; full pytest 1663 passed/1 pre-existing skip; uv build wheel=1 sdist=1; PR CI test completed/success.
+New head: f1eeee6bc727ab6d60160b9b3d5a7eecd8952f85
 
 ## nd_contract
 status: accepted
