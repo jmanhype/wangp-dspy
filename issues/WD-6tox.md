@@ -8,12 +8,14 @@ labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T20:27:35Z
-content_hash: "sha256:f6df1116dd57f731dfc94419ff1d5b9d470f6beb961e427fe4ab7bd1fbda6701"
+updated_at: 2026-09-22T20:28:04Z
+content_hash: "sha256:93604355795495e6b47e0138dc1c86910687e518e94cf2758f94d22d0902e67c"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
 ---
 
 ## Description
+
+
 ## USER INTENT
 Observable outcome: a user can request every Maestro video generation family and operation through typed Wangp requests, see an exact governed plan without a GPU, and obtain real generated artifacts only after separate authorization.
 
