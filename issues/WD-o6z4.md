@@ -1,15 +1,17 @@
 ---
 id: WD-o6z4
 title: "Cut v0.1.0: verify in the primary checkout and publish the release"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [release, hygiene, delivered]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
-updated_at: 2026-09-22T21:36:31Z
-content_hash: "sha256:af96bbe212b901d354d9e9c4892c41b19cd5dd2e0a4f1f6df12d114ce4615bf3"
+updated_at: 2026-09-22T21:42:39Z
+content_hash: "sha256:bb94d8f18cce55f14d1e4e450563256bd9b52e947ec6c6a9bd32f94a86475ed4"
 assignee: dev-WD-o6z4
+closed_at: 2026-09-22T21:42:39Z
+close_reason: "Accepted: story SHA 32de795 has the exact two-file scoped diff; .claude/ ignore mechanism and fail-closed opaque-tree regression passed; focused/full suites and CI passed; primary checkout is restored to main 91f4f8e."
 ---
 
 ## Description
@@ -124,6 +126,7 @@ status: delivered
 - 2026-09-22T21:21:39Z status: open -> in_progress
 - 2026-09-22T21:21:39Z claimed by dev-WD-o6z4
 - 2026-09-22T21:36:30Z status: in_progress -> in_progress
+- 2026-09-22T21:42:39Z status: in_progress -> closed
 
 ## Links
 
