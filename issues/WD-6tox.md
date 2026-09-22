@@ -4,11 +4,11 @@ title: "Video breadth: Maestro model families, operations, multi-clip, long form
 status: open
 priority: 2
 type: feature
-labels: [capability]
+labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T20:26:20Z
+updated_at: 2026-09-22T20:26:48Z
 content_hash: "sha256:a6a3f02cec0586e158274964152904bb374ddd1ac8991f1169b82c0d11bad3e2"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 ---
