@@ -102,14 +102,28 @@ def _changelog_check(root: Path, version: str) -> ReleaseCheck:
         f"changelog has no root '## [{version}]' entry for the current version")
 
 
-def _recipe_check(root: Path) -> ReleaseCheck:
+def _recipe_check(root: Path, version: str) -> ReleaseCheck:
     evidence = root / RECIPE_EVIDENCE_RUN
     try:
         recipe = build_recipe(evidence, root, context_configuration={},
                               environ={})
-    except RecipeError as exc:
-        raise ReleaseError(
-            f"recipe_schema: committed recipe evidence failed: {exc}") from exc
+    except (RecipeError, OSError, UnicodeError) as exc:
+        artifact = getattr(exc, "filename", None) or evidence
+        if isinstance(exc, (OSError, UnicodeError)):
+            message = (f"recipe_schema: cannot read committed recipe artifact "
+                       f"{artifact}: {exc}")
+        else:
+            message = f"recipe_schema: committed recipe evidence failed: {exc}"
+        check = ReleaseCheck(
+            "recipe_schema", "failed", ACCEPTED_RECIPE_SCHEMA,
+            {"artifact": str(artifact), "error": str(exc)},
+            "wangp/recipe.py, datasets/runs/pull/"
+            "lf004-operator-dogfood-56f-recovery-20260921", message)
+        verification = ReleaseVerification(
+            version, False, f"v{version}", (check,),
+            guidance=f"resolve failed checks before tagging v{version}; "
+                     "no tag was created")
+        raise ReleaseError(message, verification) from exc
     observed = recipe.get("schema_version")
     passed = observed == ACCEPTED_RECIPE_SCHEMA and observed == RECIPE_SCHEMA
     return ReleaseCheck(
@@ -144,7 +158,8 @@ def verify_release(repository_root: Path) -> ReleaseVerification:
         raise ReleaseError(f"repository root does not exist: {root}")
 
     version_check, version = _version_check(root)
-    checks = [version_check, _changelog_check(root, version), _recipe_check(root)]
+    checks = [version_check, _changelog_check(root, version),
+              _recipe_check(root, version)]
     try:
         checks.append(_tree_check(root))
     except RepositoryIdentityError as exc:

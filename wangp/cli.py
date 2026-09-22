@@ -330,20 +330,23 @@ def _run_release_verify(args: argparse.Namespace) -> int:
         if args.json:
             payload = {"diagnostics": [diagnostic.mapping()]}
             if exc.verification is not None:
-                payload["release"] = exc.verification.mapping()
+                payload["release"] = redact_sensitive(
+                    exc.verification.mapping())
             _emit_json(payload)
         else:
             if exc.verification is not None:
                 for check in exc.verification.checks:
+                    expected = redact_sensitive(check.expected)
+                    observed = redact_sensitive(check.observed)
                     print(
                         f"check={check.name} status={check.status} "
-                        f"expected={check.expected!r} observed={check.observed!r}")
+                        f"expected={expected!r} observed={observed!r}")
                 print("release=not_ready")
             print(render_diagnostic(diagnostic), file=sys.stderr)
         return EXIT_INPUT
 
     if args.json:
-        _emit_json({"release": verification.mapping()})
+        _emit_json({"release": redact_sensitive(verification.mapping())})
     else:
         print(f"version={verification.version}")
         for check in verification.checks:

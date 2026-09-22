@@ -33,6 +33,8 @@ def _network_guard(guard_root: Path) -> tuple[Path, Path]:
     ssh_log = guard_root / "ssh.log"
     (guard_root / "sitecustomize.py").write_text(
         "import sys\n"
+        "sys.meta_path[:] = [finder for finder in sys.meta_path if "
+        "finder.__class__.__module__ != '_virtualenv']\n"
         "def audit(event, args):\n"
         "    if event in {'socket.connect', 'socket.getaddrinfo', 'urllib.Request'}:\n"
         "        raise RuntimeError(f'unexpected network call: {event}')\n"
@@ -156,3 +158,60 @@ def test_release_failure_matrix_is_typed_and_read_only(tmp_path: Path) -> None:
     assert all(phrase in result.stdout for phrase in (
         "check=tree status=failed", "'changed_path_count': 1",
         "'untracked_path_count': 1", "release=not_ready"))
+
+
+def test_unreadable_recipe_artifact_is_typed_input(tmp_path: Path) -> None:
+    clone = _clone(tmp_path)
+    artifact = clone / RUN.relative_to(ROOT) / "assembled.mp4"
+    before = _snapshot(clone)
+    artifact.chmod(0o000)
+    try:
+        result = _run(clone, tmp_path / "unreadable", "release", "verify", "--json")
+    finally:
+        artifact.chmod(0o644)
+    assert result.returncode == 2, result.stdout + result.stderr
+    payload = _release_payload(result)
+    check = payload["checks"][0]
+    assert payload["ready"] is False
+    assert payload["tag_created"] is False
+    assert check["name"] == "recipe_schema"
+    assert check["status"] == "failed"
+    assert "cannot read committed recipe artifact" in check["message"]
+    assert "assembled.mp4" in check["message"]
+    assert _snapshot(clone) == before
+
+
+def test_missing_evidence_keeps_human_and_json_verdicts(tmp_path: Path) -> None:
+    clone = _clone(tmp_path)
+    provenance = clone / RUN.relative_to(ROOT) / "final-provenance.json"
+    provenance.write_text("{not json", encoding="utf-8")
+    human = _run_verified(clone, tmp_path / "malformed-human",
+                          None, "release", "verify")
+    json_run = _run_verified(clone, tmp_path / "malformed-json",
+                             None, "release", "verify", "--json")
+    assert human.returncode == json_run.returncode == 2
+    assert "check=recipe_schema status=failed" in human.stdout
+    assert "release=not_ready" in human.stdout
+    assert "recipe_schema:" in human.stderr
+    payload = _release_payload(json_run)
+    check = payload["checks"][0]
+    assert payload["ready"] is False
+    assert payload["tag_created"] is False
+    assert (check["name"], check["status"]) == ("recipe_schema", "failed")
+
+
+def test_release_check_values_are_redacted_in_both_outputs(tmp_path: Path) -> None:
+    clone = _clone(tmp_path)
+    secret = "sk-release-redaction-123456789"
+    (clone / "VERSION").write_text(secret + "\n", encoding="utf-8")
+    _commit(clone, clone / "VERSION", "release-test: sensitive version value")
+    human = _run_verified(clone, tmp_path / "redact-human",
+                          None, "release", "verify")
+    json_run = _run_verified(clone, tmp_path / "redact-json",
+                             None, "release", "verify", "--json")
+    assert human.returncode == json_run.returncode == 2
+    assert secret not in human.stdout + human.stderr
+    assert secret not in json_run.stdout + json_run.stderr
+    assert "<redacted-key>" in human.stdout
+    observed = _release_payload(json_run)["checks"][0]["observed"]
+    assert observed["VERSION"] == "<redacted-key>"
