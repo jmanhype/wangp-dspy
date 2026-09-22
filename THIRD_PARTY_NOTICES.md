@@ -1,6 +1,6 @@
 # Third-party notices and model constraints
 
-This notice identifies third-party material that Wangp references, adapts, downloads, or invokes. It is factual attribution, not legal advice. **The repository licence in [LICENSE](LICENSE) is a source-available notice that grants no rights, and it covers only repository-owned code and documentation. It does not licence, relicence, or waive conditions for third-party models, weights, datasets, hosted services, or their outputs.**
+This notice identifies third-party material that Wangp references, adapts, downloads, or invokes. It is factual attribution, not legal advice. **The repository licence in [LICENSE](LICENSE) is the MIT licence, Copyright (c) 2026 Straughter Guthrie, and it covers only repository-owned code and documentation. It does not licence, relicence, or waive conditions for third-party models, weights, datasets, hosted services, or their outputs.**
 
 ## Maestro and Wan2GP / H3 stack
 

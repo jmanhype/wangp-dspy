@@ -1,22 +1,21 @@
-Copyright (c) 2026 the Wangp repository owner. All rights reserved.
+MIT License
 
-SOURCE-AVAILABLE NOTICE - NO LICENCE GRANTED
+Copyright (c) 2026 Straughter Guthrie
 
-This repository is made available for viewing, evaluation, and reference only.
-No licence, express or implied, is granted to any person to use, copy, modify,
-merge, publish, distribute, sublicense, or sell this repository or any part of
-it, in source or compiled form, except with the prior written permission of the
-repository owner.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-All rights not expressly granted above are reserved.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-This notice covers repository-owned code and documentation only. It does not
-cover third-party models, weights, datasets, hosted services, or generated
-media, which remain governed by their own upstream terms; see
-THIRD_PARTY_NOTICES.md. Nothing here grants rights to MiniMax H3, Wan2GP /
-Maestro, SyncNet, Whisper, or Qwen-family materials. The repository owner
-makes no warranty of fitness, merchantability, or non-infringement.
-
-A permissive open-source licence may replace this notice at any time, but only
-by an explicit, recorded decision of the repository owner. Until such a
-decision is recorded, assume no redistribution rights.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

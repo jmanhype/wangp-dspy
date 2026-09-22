@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial repository hygiene contract: README with an executed no-GPU quickstart, a machine-readable version, a contribution guide, third-party model notices, and a conservative source-available [LICENSE](LICENSE) that grants no rights. Adopting an open-source licence remains an open owner decision.
+- Initial repository hygiene contract: README with an executed no-GPU quickstart, a machine-readable version, a contribution guide, third-party model notices, and a top-level [LICENSE](LICENSE).
 - Typed Content Brief Gateway and `scripts/run_content_brief.py` for canonical no-GPU planning (`efcba33`, PR #146).
 - Committed LF004 operator dogfood brief, plates, audio-guide map, plan, and review input (`26c7c67`, PR #147).
 - Preserved LF003 four-cut full-gate chain evidence, including per-cut media, QC evidence, assembly, probes, and contact sheets (`5989810`).
@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Content-brief preflight now requires audio streams and rejects a declared turn duration that differs from the measured guide before planning or GPU work (`4b99b3a`, PR #148).
+
+### Changed
+
+- Repository licence adopted as the [MIT licence](LICENSE), Copyright (c) 2026 Straughter Guthrie, by the owner's recorded decision on 2026-09-22; it replaces the source-available notice that granted no rights. The repository hygiene test now asserts the MIT grant, the holder, and the absence of the retired notice (WD-bosd).
 
 ### Security
 

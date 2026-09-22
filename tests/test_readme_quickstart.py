@@ -22,6 +22,36 @@ HYGIENE_FILES = (
     "THIRD_PARTY_NOTICES.md",
 )
 
+# The owner's recorded licence decision (2026-09-22): the canonical MIT grant with this
+# copyright holder. The hygiene test compares the whole file against it, so an appended
+# restriction, an extra holder, or a return to the retired no-rights notice all fail.
+RECORDED_LICENCE = """MIT License
+
+Copyright (c) 2026 Straughter Guthrie
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE."""
+
+
+def _normalised(text: str) -> str:
+    """Licence text with trailing whitespace and edge blank lines removed."""
+    return "\n".join(line.rstrip() for line in text.strip().splitlines())
+
 
 def _section(title: str) -> str:
     lines = README.read_text(encoding="utf-8").splitlines()
@@ -113,12 +143,16 @@ def test_repository_hygiene_and_readme_contract() -> None:
     assert (ROOT / "VERSION").read_text(encoding="utf-8").strip() == "0.1.0"
     assert project["project"]["version"] == "0.1.0"
     assert project["project"]["requires-python"] == ">=3.11"
-    # Licensing is an owner decision. The repository ships a deliberate source-available
-    # notice that grants no rights, so this test fails if the licence is changed silently in
-    # either direction: a missing reserved-rights notice, or an OSS grant nobody authorised.
-    assert "All rights reserved" in license_text
-    assert "NO LICENCE GRANTED" in license_text
-    assert "Apache License" not in license_text and "MIT License" not in license_text
+    # Licensing is an owner decision, recorded 2026-09-22. Whole-file comparison rather than
+    # substring matching, so a materially altered grant (an added holder, an appended
+    # restriction, or the retired no-rights notice) cannot coexist with the expected phrases.
+    assert _normalised(license_text) == RECORDED_LICENCE, (
+        "LICENSE is not the recorded MIT licence")
+    assert _normalised(license_text) == _normalised(RECORDED_LICENCE)
+    assert "Copyright (c) 2026 Straughter Guthrie" in license_text
+    assert "All rights reserved" not in license_text
+    assert "NO LICENCE GRANTED" not in license_text
+    assert project["project"]["license"] == "MIT"
     # The third-party notice must disclose the test-only Maestro excerpt corpus rather than
     # claiming nothing third-party is checked in.
     assert "maestro_reference" in notices
