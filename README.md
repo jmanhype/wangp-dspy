@@ -181,5 +181,5 @@ Wangp development uses the Paivot/pvg workflow and nd stories. Plans and runs re
 - Current version: [VERSION](VERSION).
 - Release history: [CHANGELOG.md](CHANGELOG.md); decision-record history remains in [docs/CHANGELOG.md](docs/CHANGELOG.md).
 - Development and evidence rules: [CONTRIBUTING.md](CONTRIBUTING.md).
-- Repository code licence: [LICENSE](LICENSE).
+- Repository code licence: [MIT](LICENSE), Copyright (c) 2026 Straughter Guthrie.
 - Separate model and third-party constraints: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
