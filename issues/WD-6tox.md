@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
 updated_at: 2026-09-22T22:50:11Z
-content_hash: "sha256:488ef6591c2ded084602da1fab42abe351809cae28fb91fc5b77ffdae0123c2f"
+content_hash: "sha256:aaa979f42823573549b721fbc24b168be237fc077ba53288a20f6fdfe71fbdf4"
 assignee: dev-WD-6tox
 closed_at: 2026-09-22T22:50:10Z
 close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
@@ -112,6 +112,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
