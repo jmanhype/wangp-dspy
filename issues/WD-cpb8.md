@@ -7,8 +7,8 @@ type: feature
 labels: [product, verification]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
-updated_at: 2026-09-22T20:19:18Z
-content_hash: "sha256:953e5c1152c0dc85509020ca2ae241e002876f0cc4559977892409684aa59742"
+updated_at: 2026-09-22T20:48:35Z
+content_hash: "sha256:c9a1fe7886cc230e6d3bc2643522a0302c9a29fbcafe7b29ca802b58f49970c7"
 assignee: dev-WD-cpb8
 ---
 
@@ -71,7 +71,134 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: Added the content front door and honest local capability report with real-subprocess exit-code, redaction, read-only, forbidden-call, manifest, build, and CI verification.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_content_and_capabilities.py -q` → exit 0; output `..... [100%]`; 5 collected/passed, 0 failed.
+- `uv run --frozen --extra dev pytest -q` → exit 0; 1665 collected, 1664 passed, 1 skipped (`s`), 0 failed; one Starlette deprecation warning.
+- `uv build --out-dir /tmp/wd-cpb8-build.MEdacY` → exit 0; one wheel and one sdist.
+- `git push -u origin story/WD-cpb8` → exit 0; pushed only `story/WD-cpb8`.
+- `gh pr create --base main --head story/WD-cpb8 ...` → PR #160.
+- `gh api repos/jmanhype/wangp-dspy/commits/e396542313122bf45fa21791c074a60cb7fa5a28/check-runs` → `test` completed `success`.
+- Read-only baseline/final tracked dataset digest: `7eec7b126f82bf57c08cdc586ea5addb21fc93996f3e78eb84a9d638f8924fc3` both times; final `git status --short` empty.
+- Shadowed `ssh` and `nvidia-smi` transcript: 0 bytes / 0 invocations.
+
+SHA: e396542313122bf45fa21791c074a60cb7fa5a28
+
+### CI/Test Results
+
+Targeted real-process result:
+
+```text
+.....  [100%]
+exit=0
+```
+
+Full-suite real-process result:
+
+```text
+[100%]
+1 warning, 0 failures
+exit=0
+1665 tests collected; observed one `s` and all other dots passing
+```
+
+Captured `wgp content` human output:
+
+```text
+content=LF004 Operator Dogfood: Borrowed Sunrise
+would_generate clip_count=4 speakers=Tess,Rho planned_duration_s=9.332
+host_requirement=unconfigured (missing host.target,host.wgp_root,host.wgp_python); no-GPU planning needs no host
+governed_queue_command=uv run --frozen --extra dev python -m scripts.run_jobs --db <captured-temp-run>/jobs.db
+gpu_work=false queue_submitted=false
+exit=0
+```
+
+Captured `wgp content --json` output:
+
+```json
+{"brief_hash":"sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd","governed_queue_command":"uv run --frozen --extra dev python -m scripts.run_jobs --db '<run-dir>/jobs.db'","host_requirement":{"configured":false,"contacted":false,"missing_keys":["host.target","host.wgp_root","host.wgp_python"]},"schema_version":"wangp-dspy.content-request/v1","submission_requested":false,"summary":{"clip_count":4,"dry_run":true,"gpu_work":false,"planned_duration_s":9.332,"queue_submitted":false,"speakers":["Tess","Rho","Tess","Rho"]},"what_will_be_generated":{"clip_count":4,"planned_duration_s":9.332,"speakers":["Tess","Rho","Tess","Rho"]}}
+```
+
+Captured unconfigured `wgp content --submit` output:
+
+```text
+diagnostic code=HOST_CONFIGURATION_INCOMPLETE severity=error: Content submission requires a complete render host
+  observed: missing host keys: host.target, host.wgp_root, host.wgp_python (environment variables: WANGP_SSH_TARGET, WANGP_WGP_ROOT, WANGP_WGP_PYTHON)
+  why: A partial host configuration cannot identify one safe renderer.
+  remediation: Set the named keys in the environment or wangp.toml, then review the resolved local capability report before submission.
+  next: wgp doctor --capabilities
+  details: {"host_contact": false}
+exit=3; no plan or queue database written
+```
+
+Captured complete-host submit preview:
+
+```text
+host_requirement=configured (not contacted)
+governed_queue_command=uv run --frozen --extra dev python -m scripts.run_jobs --db /private/var/folders/7q/tx7m0tg12m5cgq7k8z8q2dzw0000gn/T/wd-cpb8-evidence/work/run/jobs.db
+gpu_work=false queue_submitted=false
+submission=preview_only; content did not execute the queue command
+exit=0; no render or queue worker executed
+```
+
+Captured `wgp doctor --capabilities` output:
+
+```text
+platform=Darwin arm64
+python=CPython 3.14.4
+ffmpeg=available ffprobe=available
+local_accelerator=no local accelerator (nvidia-smi not found on PATH)
+ram_available_bytes=7377649664
+disk_free_bytes=141490978816
+host_configuration=incomplete (missing host.target, host.wgp_root, host.wgp_python)
+model_manifest=absent entries=none
+implemented=no-GPU content planning; host-backed rendering through the governed queue when explicitly configured
+not_implemented=image generation; music generation; speech/voice cloning; sound effects; upscaling; face refinement; video editing; GUI
+collection=read_only network_access=false host_contact=false
+exit=0
+```
+
+Build artifacts:
+
+```text
+wangp_dspy-0.1.0-py3-none-any.whl sha256=6bb0b08da30d82e2755185c2dd43437c8cc74791bc8779da8dfedfe03692cc12
+wangp_dspy-0.1.0.tar.gz sha256=dbf8e16bccebff7dfa2c2a1933ce5fb043d214ca4527fe2b7e152163082339ae
+```
+
+GitHub check run:
+
+```text
+name=test status=completed conclusion=success
+url=https://github.com/jmanhype/wangp-dspy/actions/runs/35782265446/job/106930400144
+```
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| AC 1: committed brief plans in the no-GPU lane with stable human/JSON facts | PASS | Targeted test; captured human/JSON outputs show 4 clips, Tess/Rho, 9.332s, `gpu_work=false`, `queue_submitted=false`. |
+| AC 2: submit fails closed without host and only prints the governed queue command with complete host | PASS | Real exit 3 diagnostic names exact keys/env vars/next command and writes nothing; complete-host real exit 0 prints queue command without render. |
+| AC 3: capability report is honest about accelerator, manifest, and unsupported generation | PASS | Real output says `no local accelerator`; manifest absent remediation; all eight unimplemented capabilities listed. |
+| AC 4: capability reporting is read-only with no host/network/GPU call or unintended writes | PASS | Tests shadow SSH/nvidia-smi and assert zero calls; tracked repository digest unchanged; captured forbidden-call file is empty. |
+| AC 5: invalid brief/plates produce typed exit 2 with no partial plan | PASS | Real tests assert diagnostic observed/remediation/next and absent plan/run outputs for invalid brief and plates. |
+| AC 6: outputs use existing redaction and JSON leaks no host, credential, or absolute operator path | PASS | Content/environment mappings use `redact_sensitive`; tests reject `/Users/`, temporary paths, and configured host in JSON. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Implementation, tests, documentation, build, CLI transcripts, repository/dataset hashes, and CI are recorded above at SHA `e396542313122bf45fa21791c074a60cb7fa5a28`.
+
+### proof
+- [x] AC #1: no-GPU committed-brief content summary and stable JSON facts are verified.
+- [x] AC #2: host-incomplete submission exit 3 and complete-host command preview are verified.
+- [x] AC #3: truthful accelerator, model-manifest, implemented, and unimplemented capabilities are verified.
+- [x] AC #4: read-only collection with zero SSH/GPU invocations and unchanged tracked bytes is verified.
+- [x] AC #5: invalid brief/plates typed exit 2 with no partial plan is verified.
+- [x] AC #6: redacted JSON without host, credential, or absolute operator path is verified.
 
 ## History
 - 2026-09-22T20:19:18Z status: open -> in_progress
