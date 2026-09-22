@@ -4,7 +4,7 @@ title: "E2e: onboard a stranger to a stable no-GPU Wangp workflow"
 status: in_progress
 priority: 2
 type: feature
-labels: [capstone, e2e]
+labels: [capstone, e2e, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
