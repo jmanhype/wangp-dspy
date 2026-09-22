@@ -8,8 +8,8 @@ labels: [capability, external-integration]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T22:32:48Z
-content_hash: "sha256:bf433531c22cec47a5f2bb77014b78d4d5ad62019a608d5d0bf6b442f9646db8"
+updated_at: 2026-09-22T22:32:52Z
+content_hash: "sha256:6c234b55f3db1606c8a48c16fde696af0049d0b8c34b24a658a6b7fbcd0d3311"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
 assignee: dev-WD-6tox
 ---
@@ -166,6 +166,7 @@ status: delivered
 - 2026-09-22T20:27:36Z dep_added: blocks WD-gc09
 - 2026-09-22T21:44:01Z status: open -> in_progress
 - 2026-09-22T21:44:01Z claimed by dev-WD-6tox
+- 2026-09-22T22:32:52Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-t741]]
