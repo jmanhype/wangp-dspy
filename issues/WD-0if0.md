@@ -7,8 +7,8 @@ type: bug
 labels: [packaging, diagnostics]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T21:44:01Z
-content_hash: "sha256:f09c9aeee16855d75f8de1b79755621ece9e044b8b3762ff3128724f9ad7f0e0"
+updated_at: 2026-09-22T22:24:26Z
+content_hash: "sha256:b0ccf5b3ceb708fd67a3d74c289758242782b15aa72c741ae61f33bb6b58e2ba"
 assignee: dev-WD-0if0
 ---
 
@@ -67,6 +67,65 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
+Summary: Installed repository-scoped verbs now fail closed with typed exit-2 diagnostics, explicit checkout overrides bind provenance to that checkout, and checkout-free front doors remain available without a provenance claim.
+
+Commands run:
+- `pvg nd show WD-0if0`
+- `uv run --frozen --extra dev pytest tests/test_repository_root_resolution.py -q` — 2 passed, exit 0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd0if0-full-final.xml` — 1,679 tests, 0 errors, 0 failures, 1 skipped, exit 0.
+- `uv build --out-dir /tmp/wd0if0-dist-65959fa` — exit 0; exactly one wheel and one sdist.
+- `pvg verify wangp/cli.py docs/install.md tests/test_install.py tests/test_repository_root_resolution.py --include-tests --format=text` — VERIFY: PASSED.
+- `git push origin story/WD-0if0`; `gh pr create` produced PR #162.
+- `gh api repos/jmanhype/wangp-dspy/commits/65959faf64da9a7c59dda0324aaba88d6cc276f5/check-runs` — `test` completed, conclusion `success`.
+
+Before transcripts (base `3916fe4cb1d2272a0602a871b4157394afc5ebfa`, evidence `/tmp/wd0if0-before.kYXvzx/transcript.txt`):
+- Installed outside checkout: `wgp plan ...` exit 4; stderr `wgp: error: unexpected internal error: RepositoryIdentityError: git rev-parse --show-toplevel failed for .../site-packages: fatal: not a git repository`; no plan.
+- Installed with `WANGP_REPOSITORY_ROOT=<checkout>`: previously ignored, same exit 4/internal RepositoryIdentityError; no plan.
+- Normal checkout: exit 0; `brief=sha256:67202d... clips=4`, `summary clips=4 duration_s=9.332 gpu_work=false queue_submitted=false`, ledger written.
+
+After transcripts (head below, evidence `/tmp/wd0if0-after-65959fa/transcript.txt`):
+- Installed wheel outside checkout: exit 2; typed `diagnostic code=INPUT_INVALID ... A Wangp Git checkout is required`; redacted observed state; remediation names running in a checkout or `--repository-root`/`WANGP_REPOSITORY_ROOT`; no traceback, no `unexpected internal error`, no plan.
+- Installed wheel from outside with `WANGP_REPOSITORY_ROOT=<checkout>`: exit 0; `clips=4`, `duration_s=9.332`, `gpu_work=false`, `queue_submitted=false`, ledger written for the named checkout.
+- Normal checkout: exit 0 with the same plan shape and summary. Override copy and checkout plan compared byte-equal (`cmp` exit 0), SHA-256 `6b8eddfa64c3edfba33e8b2ea19cb7d5ae451424823532c1a8d82e7ad93ae0a5`.
+- Front doors outside checkout: `doctor` exit 0 ending `ready=yes`; `brief validate` exit 0; plain `content` exit 0 with no repository claim/plan.
+
+Legacy test contract update:
+- Old exact assertions: `assert plan.returncode == 4, plan_output`; `assert "unexpected internal error: RepositoryIdentityError" in plan_output`; `assert "not a git repository" in plan_output`.
+- New exact assertions: `assert plan.returncode == 2, plan_output`; `assert "diagnostic code=INPUT_INVALID" in plan_output`; `assert "Run inside a Wangp Git checkout" in plan_output`; `assert "WANGP_REPOSITORY_ROOT=<repository>" in plan_output`; `assert "unexpected internal error" not in plan_output`.
+- The adjacent installed `release verify` expectation was also updated from the obsolete missing-version phrase to the same typed checkout requirement, preserving exit-2 and no-ready-claim coverage.
+
+SHA: 65959faf64da9a7c59dda0324aaba88d6cc276f5
+
+### CI/Test Results
+- PR: https://github.com/jmanhype/wangp-dspy/pull/162
+- GitHub check `test`: completed / success at SHA `65959faf64da9a7c59dda0324aaba88d6cc276f5` (https://github.com/jmanhype/wangp-dspy/actions/runs/35791811528/job/106961830469).
+- Targeted: 2 passed, 0 failed, exit 0.
+- Full committed tree: 1,679 tests, 0 errors, 0 failures, 1 skipped, exit 0. One pre-existing Starlette/httpx deprecation warning was unchanged.
+- Build: one `wangp_dspy-0.1.0-py3-none-any.whl` and one `wangp_dspy-0.1.0.tar.gz`, exit 0.
+
+### AC Verification
+| AC | Result | Evidence |
+| 1 | PASS | Installed-wheel plan outside a checkout exits 2 with redacted `INPUT_INVALID`, remediation, and next command; no internal error/traceback (`tests/test_repository_root_resolution.py`, after transcript). |
+| 2 | PASS | `WANGP_REPOSITORY_ROOT` and `--repository-root` target a real checkout; installed override records checkout provenance and is byte-identical to in-checkout plan SHA `6b8eddfa...`; flag/env paths tested. |
+| 3 | PASS | Normal checkout remains exit 0 with same summary/ledger; override and checkout plan bytes compare equal; full suite passes. |
+| 4 | PASS | Outside checkout: doctor exits 0 `ready=yes`, brief validate exits 0, plain content exits 0 with no repository claim. |
+| 5 | PASS | Outside repository plan writes no plan/provenance; plain content emits no repository field; release/plan require a Wangp checkout. No new config default was added. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Final branch `story/WD-0if0`, PR #162, SHA `65959faf64da9a7c59dda0324aaba88d6cc276f5`.
+- Targeted 2/2 passed; full suite 1,679 tests, 0 failures/errors, 1 skipped; build produced one wheel and one sdist; CI `test` success.
+- Before/after transcripts recorded above; plan parity SHA `6b8eddfa64c3edfba33e8b2ea19cb7d5ae451424823532c1a8d82e7ad93ae0a5`.
+
+### proof
+- [x] AC #1: installed repository-scoped failure is typed exit 2 with actionable checkout remediation and no internal-error string.
+- [x] AC #2: explicit environment/flag override targets a real checkout and preserves its provenance.
+- [x] AC #3: in-checkout output, provenance, and exit codes remain unchanged; byte comparison passed.
+- [x] AC #4: doctor, brief validate, and plain content keep working outside a checkout.
+- [x] AC #5: repository identity remains fail closed and no hidden repository/config default was introduced.
 
 
 ## History
