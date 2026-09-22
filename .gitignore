@@ -8,6 +8,8 @@ __pycache__/
 .DS_Store
 .cos-smoke/
 .paivot/
+# Local dispatcher/worktree agent tooling, not harness source.
+.claude/
 
 # Queue state and pulled render outputs are reproducible runtime artifacts;
 # keep them on disk for inspection without making them release inputs.

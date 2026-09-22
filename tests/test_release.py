@@ -160,6 +160,32 @@ def test_release_failure_matrix_is_typed_and_read_only(tmp_path: Path) -> None:
         "'untracked_path_count': 1", "release=not_ready"))
 
 
+def test_ignored_agent_tooling_does_not_weaken_opaque_tree_failure(
+        tmp_path: Path) -> None:
+    clone = _clone(tmp_path)
+    tooling = clone / ".claude/worktrees/dev-WD-o6z4"
+    subprocess.run(["git", "init", "--quiet", str(tooling)], check=True)
+    (tooling / "tool.txt").write_text("local dispatcher tooling\n",
+                                      encoding="utf-8")
+    ignored = _run_verified(clone, tmp_path / "ignored-tooling", None,
+                            "release", "verify", "--json")
+    assert ignored.returncode == 0, ignored.stdout + ignored.stderr
+    assert _release_payload(ignored)["ready"] is True
+
+    opaque = clone / "untracked-embedded"
+    subprocess.run(["git", "init", "--quiet", str(opaque)], check=True)
+    (opaque / "opaque.txt").write_text("not release input\n", encoding="utf-8")
+    failed = _run_verified(clone, tmp_path / "opaque-tooling", None,
+                           "release", "verify", "--json")
+    assert failed.returncode == 2, failed.stdout + failed.stderr
+    payload = _release_payload(failed)
+    check = payload["checks"][-1]
+    assert payload["ready"] is False and payload["tag_created"] is False
+    assert (check["name"], check["status"]) == ("tree", "failed")
+    assert "not safely hashable" in check["observed"]["error"]
+    assert "untracked-embedded" in check["observed"]["error"]
+
+
 def test_unreadable_recipe_artifact_is_typed_input(tmp_path: Path) -> None:
     clone = _clone(tmp_path)
     artifact = clone / RUN.relative_to(ROOT) / "assembled.mp4"
