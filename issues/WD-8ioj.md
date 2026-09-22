@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:28Z
-content_hash: "sha256:3862e7119765e7d3ac53f6a6932f20312ffc976ee1751b040c8aff3e07552915"
+updated_at: 2026-09-22T20:28:48Z
+content_hash: "sha256:9d7551c970dc66e2bc7ef24af3f4b20da855f784aacbecbb99f587269e5e688a"
 blocked_by: [WD-6tox, WD-tkuz]
 blocks: [WD-gc09]
 ---
@@ -43,21 +43,21 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-8ioj/ -> finishing run bundles
 
 CONSUMES:
-- predict/assembler.py -> purpose
+- predict/assembler.py -> existing assembly contract
   spec: existing assembly contract
-- predict/v3_recipe.py -> purpose
+- predict/v3_recipe.py -> immutable recipe/provenance fields
   spec: immutable recipe/provenance fields
-- predict/lf002_canary.py -> purpose
+- predict/lf002_canary.py -> real ffprobe measurement patterns
   spec: real ffprobe measurement patterns
-- predict/video_capabilities.py -> purpose
+- predict/video_capabilities.py -> backend and upscale capability metadata
   spec: backend and upscale capability metadata
-- predict/character_packages.py -> purpose
+- predict/character_packages.py -> character appearance/identity metadata
   spec: character appearance/identity metadata
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed unsupported profile/codec failures
   spec: typed unsupported profile/codec failures
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
