@@ -1,14 +1,15 @@
 ---
 id: WD-u8yk
 title: "One-command install and the v0.1.0 release note"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [packaging, documentation]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:19:06Z
-content_hash: "sha256:d8824db48400dcd4a3dd27c669ec70e2d654854d612ca76625d906c2299bbb29"
+updated_at: 2026-09-22T20:19:17Z
+content_hash: "sha256:6aa53044001a23083a7d8618e17a10423a16d8c95844b41b8cc88ec0a18ee26b"
+assignee: dev-WD-u8yk
 ---
 
 ## Description
@@ -73,7 +74,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-22T20:19:17Z status: open -> in_progress
+- 2026-09-22T20:19:18Z claimed by dev-WD-u8yk
 
 ## Links
 
