@@ -1,15 +1,17 @@
 ---
 id: WD-0if0
 title: "A tool-installed wgp resolves the repository root to site-packages and reports an internal error"
-status: in_progress
+status: closed
 priority: 1
 type: bug
 labels: [packaging, diagnostics, delivered]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T22:24:32Z
-content_hash: "sha256:6dfdc9e7a728b5906fe98f3f6782ddfd7bf0051e5889ddbb962de7127b693708"
+updated_at: 2026-09-22T22:32:36Z
+content_hash: "sha256:31f6007959ab9531b31fe9b4796f64cc6ba7d60a99168bc52b1feef3737971c5"
 assignee: dev-WD-0if0
+closed_at: 2026-09-22T22:32:36Z
+close_reason: "Accepted: real installed-boundary, override, parity, front-door, full-suite, exact-head CI, and tag checks all pass."
 ---
 
 ## Description
@@ -144,6 +146,7 @@ status: delivered
 - 2026-09-22T21:44:01Z status: open -> in_progress
 - 2026-09-22T21:44:01Z claimed by dev-WD-0if0
 - 2026-09-22T22:24:32Z status: in_progress -> in_progress
+- 2026-09-22T22:32:36Z status: in_progress -> closed
 
 ## Links
 
