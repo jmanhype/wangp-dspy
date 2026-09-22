@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
 updated_at: 2026-09-22T00:58:32Z
-content_hash: "sha256:8af45f437b545ab68ea45782827d1ddc916afb72301817d58219573999387d62"
+content_hash: "sha256:8a2752a0f8a0756cdd269fde2ed0c6f29d84c99843419863a101bfb1d8cd24ac"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
 follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd, WD-m1sj]
@@ -95,6 +95,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-21.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
