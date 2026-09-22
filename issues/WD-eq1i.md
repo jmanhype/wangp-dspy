@@ -9,8 +9,9 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-22T20:24:44Z
-content_hash: "sha256:7ac1c8d25c336ae11661b22172f20b6f52d51e184f7d93be50d27386688e07a2"
+content_hash: "sha256:8e8ba68e51de3ae06c1bbf0ab8c5deb7174c5be7b5159ba12a9dc5b6d0d2b362"
 blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
+blocks: [WD-gc09]
 ---
 
 ## Description
@@ -95,9 +96,11 @@ status: new
 - 2026-09-22T20:24:46Z dep_added: blocked_by WD-soa4
 - 2026-09-22T20:24:47Z dep_added: blocked_by WD-6ml6
 - 2026-09-22T20:24:47Z dep_added: blocked_by WD-tkuz
+- 2026-09-22T20:24:47Z dep_added: blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
+- Blocks: [[WD-gc09]]
 - Blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
 
 ## Comments
