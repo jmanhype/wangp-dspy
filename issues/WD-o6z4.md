@@ -4,7 +4,7 @@ title: "Cut v0.1.0: verify in the primary checkout and publish the release"
 status: in_progress
 priority: 1
 type: task
-labels: [release, hygiene]
+labels: [release, hygiene, delivered]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
 updated_at: 2026-09-22T21:36:30Z
