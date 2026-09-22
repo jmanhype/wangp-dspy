@@ -1,14 +1,15 @@
 ---
 id: WD-o6z4
 title: "Cut v0.1.0: verify in the primary checkout and publish the release"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [release, hygiene]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
-updated_at: 2026-09-22T21:16:11Z
-content_hash: "sha256:47db7ba3e33f02fe77c61ab3317396ca595d89adee24fe623039fbfb768b590b"
+updated_at: 2026-09-22T21:21:39Z
+content_hash: "sha256:f4456061dbe1ab663d9863b849911958fc0aae0f4452f154e39b7da22cf1c14b"
+assignee: dev-WD-o6z4
 ---
 
 ## Description
@@ -66,7 +67,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-22T21:21:39Z status: open -> in_progress
+- 2026-09-22T21:21:39Z claimed by dev-WD-o6z4
 
 ## Links
 
