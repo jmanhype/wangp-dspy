@@ -4,10 +4,10 @@ title: "One-command install and the v0.1.0 release note"
 status: closed
 priority: 1
 type: feature
-labels: [packaging, documentation, delivered]
+labels: [packaging, documentation, delivered, accepted]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:39:19Z
+updated_at: 2026-09-22T20:39:20Z
 content_hash: "sha256:2c86714bda13ce1ccba80c4d76777dbc83571bd1aaffc17281a31ec6d033805d"
 assignee: dev-WD-u8yk
 closed_at: 2026-09-22T20:39:19Z
