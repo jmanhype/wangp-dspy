@@ -8,7 +8,7 @@ labels: [release, hygiene, accepted]
 created_at: 2026-09-22T21:16:11Z
 created_by: speed
 updated_at: 2026-09-22T21:42:39Z
-content_hash: "sha256:bb94d8f18cce55f14d1e4e450563256bd9b52e947ec6c6a9bd32f94a86475ed4"
+content_hash: "sha256:75cb947d8ec532023bfd19d18bfc80522d435b7df94dd2289edf72f9f90cf68e"
 assignee: dev-WD-o6z4
 closed_at: 2026-09-22T21:42:39Z
 close_reason: "Accepted: story SHA 32de795 has the exact two-file scoped diff; .claude/ ignore mechanism and fail-closed opaque-tree regression passed; focused/full suites and CI passed; primary checkout is restored to main 91f4f8e."
@@ -66,6 +66,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
