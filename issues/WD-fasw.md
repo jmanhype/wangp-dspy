@@ -9,7 +9,8 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-22T20:24:44Z
-content_hash: "sha256:83022233b892a96c72b3a827b948a0a28f413db7d506f92110f35fa1b70d68e1"
+content_hash: "sha256:38d234e67b31d6a2aaf684c9d9dae1d5d0b9da45bc1624e5380afae55800048f"
+blocked_by: [WD-6ml6]
 ---
 
 ## Description
@@ -86,9 +87,10 @@ status: new
 
 
 ## History
-
+- 2026-09-22T20:24:45Z dep_added: blocked_by WD-6ml6
 
 ## Links
 - Parent: [[WD-t741]]
+- Blocked by: [[WD-6ml6]]
 
 ## Comments
