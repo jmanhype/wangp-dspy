@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:27Z
-content_hash: "sha256:01828e9cf40be4c1488cdbe1d91a0ec36153693940972cfbe02774456d8bd796"
+updated_at: 2026-09-22T20:28:48Z
+content_hash: "sha256:91d8c35b6a378419f6880e03741b79f5f94e17b0f4421908d038a4955ea40744"
 blocked_by: [WD-6ml6, WD-soa4, WD-6tox]
 blocks: [WD-gc09]
 ---
@@ -43,21 +43,21 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-fasw/ -> authorized SFX/revoice/refinement bundles
 
 CONSUMES:
-- predict/audio_dataplane.py -> purpose
+- predict/audio_dataplane.py -> existing audio routing contract
   spec: existing audio routing contract
-- predict/audio_manifest.py -> purpose
+- predict/audio_manifest.py -> existing audio metadata contract
   spec: existing audio metadata contract
-- predict/audio_prep.py -> purpose
+- predict/audio_prep.py -> existing audio preparation behavior
   spec: existing audio preparation behavior
-- predict/speech_capabilities.py -> purpose
+- predict/speech_capabilities.py -> authorized voice/revoice engine selection
   spec: authorized voice/revoice engine selection
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing source/model failures
   spec: typed missing source/model failures
-- qc/audio_critic/profiles.py -> purpose
+- qc/audio_critic/profiles.py -> existing audio evidence profile
   spec: existing audio evidence profile
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
