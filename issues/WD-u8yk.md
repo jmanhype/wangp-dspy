@@ -8,7 +8,7 @@ labels: [packaging, documentation, delivered]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
 updated_at: 2026-09-22T20:32:56Z
-content_hash: "sha256:37378de576832bd2ad1719db9cb1435caebdb6cfa9ea8ce1acd7df6389cf8b34"
+content_hash: "sha256:ed4d22dc3f537479d80d5039a6f8ef1920c14ad12bf3cc4b5e6e0807eb131351"
 assignee: dev-WD-u8yk
 ---
 
@@ -71,6 +71,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Added a POSIX one-command uv tool installer, boundary-honest install/release documentation, README install ordering, and real-process installer tests. Local targeted/full tests, real temporary install, build, release verification, PR #159, and exact-head CI all passed; the full suite retained one pre-existing skip and one pre-existing StarletteDeprecationWarning.
 Commands run:
