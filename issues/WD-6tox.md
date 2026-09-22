@@ -1,17 +1,18 @@
 ---
 id: WD-6tox
 title: "Video breadth: Maestro model families, operations, multi-clip, long form, and LoRA"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, external-integration, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T22:32:53Z
-content_hash: "sha256:b2fe0203d2742e1c3af902db3210441626539a738404c3bb5b5519dcfc1613d7"
-blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
+updated_at: 2026-09-22T22:50:10Z
+content_hash: "sha256:488ef6591c2ded084602da1fab42abe351809cae28fb91fc5b77ffdae0123c2f"
 assignee: dev-WD-6tox
+closed_at: 2026-09-22T22:50:10Z
+close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
 ---
 
 ## Description
@@ -179,9 +180,14 @@ status: delivered
 - 2026-09-22T21:44:01Z status: open -> in_progress
 - 2026-09-22T21:44:01Z claimed by dev-WD-6tox
 - 2026-09-22T22:32:52Z status: in_progress -> in_progress
+- 2026-09-22T22:50:10Z status: in_progress -> closed
+- 2026-09-22T22:50:10Z dep_removed: no_longer_blocks WD-fasw
+- 2026-09-22T22:50:10Z dep_removed: no_longer_blocks WD-tkuz
+- 2026-09-22T22:50:10Z dep_removed: no_longer_blocks WD-8ioj
+- 2026-09-22T22:50:10Z dep_removed: no_longer_blocks WD-eq1i
+- 2026-09-22T22:50:11Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-fasw]], [[WD-tkuz]], [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 
 ## Comments
