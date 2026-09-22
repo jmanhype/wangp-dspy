@@ -4,7 +4,7 @@ title: "A tool-installed wgp resolves the repository root to site-packages and r
 status: in_progress
 priority: 1
 type: bug
-labels: [packaging, diagnostics]
+labels: [packaging, diagnostics, delivered]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
 updated_at: 2026-09-22T22:24:32Z
