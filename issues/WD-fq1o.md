@@ -1,19 +1,21 @@
 ---
 id: WD-fq1o
 title: "E2e: onboard a stranger to a stable no-GPU Wangp workflow"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capstone, e2e, delivered]
 parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
-updated_at: 2026-09-22T00:47:05Z
-content_hash: "sha256:d5c4d4d584927702971b4996760c95b6f7a4feee0f2d949c4ea3191796c94b4a"
+updated_at: 2026-09-22T00:58:31Z
+content_hash: "sha256:8af45f437b545ab68ea45782827d1ddc916afb72301817d58219573999387d62"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
 follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd, WD-m1sj]
 blocked_by: [WD-m1sj]
+closed_at: 2026-09-22T00:58:31Z
+close_reason: "Accepted: exact-head test-only diff, 3/3 capstone tests, full suite 1659 passed/1 skipped, exact-head CI success, unchanged queue/evidence hashes, and clean-worktree no-GPU plan verified."
 ---
 
 ## Description
@@ -178,6 +180,7 @@ status: delivered
 - 2026-09-22T00:23:29Z dep_added: blocked_by WD-m1sj
 - 2026-09-22T00:47:05Z status: in_progress -> in_progress
 - 2026-09-22T00:47:05Z auto-follows: linked to predecessor WD-m1sj
+- 2026-09-22T00:58:31Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-t534]]
