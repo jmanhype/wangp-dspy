@@ -8,8 +8,8 @@ labels: [capability, external-integration, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T23:16:06Z
-content_hash: "sha256:d697d7f24ce7a35e36acb3f719320e65a588735c50f77127266c68d4288cb6a4"
+updated_at: 2026-09-22T23:26:31Z
+content_hash: "sha256:521c27129b1c660e2882cb4f71ff064fc99303664f5e287c7d57cf77d717bc6c"
 assignee: dev-WD-6tox
 closed_at: 2026-09-22T22:50:10Z
 close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
@@ -112,6 +112,28 @@ status: new
 
 
 ## Notes
+## Rework Verification
+Verdict: HOLDS.
+SHA: 0fa1e7741faa9bde3dd9693460a2364d3c63f4f8
+
+Commands:
+- git rev-parse HEAD; git diff main..HEAD --name-only; git diff main..HEAD -- wangp/cli.py
+- wgp video plan/reconstruct + real JobQueue.next_admissible()/JobExecutor selector checks
+- parse_timecode frame 23/24/99; wgp video --json for FPS, family/floor, and reference cases
+- uv run --frozen --extra dev pytest tests/test_video_capabilities.py -q
+- uv run --frozen --extra dev pytest -q
+- gh api .../commits/0fa1e7741faa9bde3dd9693460a2364d3c63f4f8/check-runs; gh pr checks 163
+
+Observed:
+- Exact head and clean tree; CLI delta is import+registration only; all five protected engine files unchanged.
+- Plan-only DB: record_ids=1, executable_jobs=0, pending=[], next_admissible=None, executor.run_once=None; a real pending DB admitted the same job through both selectors.
+- Missing/empty/non-pending reconstruction all exited 2 with typed diagnostics; empty success is unreachable.
+- Frame 23 accepted; 24 and 99 rejected as VIDEO_TIMECODE_INVALID.
+- FPS 30 rejected as VIDEO_FRAME_RATE_UNSUPPORTED; wrong family and below-floor cases emitted structured JSON without traceback.
+- Persisted sample: prompt=multishot, numeric profile=3, operation=create preserved in record/recipe; create ignores absent reference, extend missing reference remains VIDEO_REFERENCE_MISSING.
+- No host/GPU/SSH calls; all 11x9 matrix cells remain planned; datasets unchanged.
+- Scoped tests: 32 passed. Full tests: 1714 passed, 1 skipped. Exact-head CI and PR checks passed.
+
 ## Rework Evidence
 Summary: Fixed all eight PR #163 review findings at exact head 0fa1e7741faa9bde3dd9693460a2364d3c63f4f8; no GPU/host/SSH/model work and no verified-generation claim.
 Finding 1: Reconstruction now requires an existing nonempty database and valid named records; missing, empty, non-pending, and corrupt records each fail typed. Regression captured in /tmp/wd-6tox-rework-evidence-0fa1e77/index.json.
