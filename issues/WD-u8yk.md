@@ -1,15 +1,17 @@
 ---
 id: WD-u8yk
 title: "One-command install and the v0.1.0 release note"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [packaging, documentation, delivered]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:32:56Z
-content_hash: "sha256:ed4d22dc3f537479d80d5039a6f8ef1920c14ad12bf3cc4b5e6e0807eb131351"
+updated_at: 2026-09-22T20:39:19Z
+content_hash: "sha256:2c86714bda13ce1ccba80c4d76777dbc83571bd1aaffc17281a31ec6d033805d"
 assignee: dev-WD-u8yk
+closed_at: 2026-09-22T20:39:19Z
+close_reason: "Accepted at 60aaab0a: real temp install and external doctor ready=yes, typed missing-uv and checkout-boundary failures, honest docs/notes, tests and exact-head CI green, tag_created=false."
 ---
 
 ## Description
@@ -139,6 +141,7 @@ status: delivered
 - 2026-09-22T20:19:17Z status: open -> in_progress
 - 2026-09-22T20:19:18Z claimed by dev-WD-u8yk
 - 2026-09-22T20:32:56Z status: in_progress -> in_progress
+- 2026-09-22T20:39:19Z status: in_progress -> closed
 
 ## Links
 
