@@ -1,16 +1,18 @@
 ---
 id: WD-fq1o
 title: "E2e: onboard a stranger to a stable no-GPU Wangp workflow"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capstone, e2e]
 parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
-updated_at: 2026-09-21T13:56:17Z
-content_hash: "sha256:174acfb1e28f36fe765af6d92d64fd765c8b3622b66419b5860bbc68d9d3ecca"
+updated_at: 2026-09-22T00:23:10Z
+content_hash: "sha256:fdc2066a527582fbecc75a36a4ec8b4a1aeabb667486a0ccedc8f62e4d986f3a"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
+assignee: dev-WD-fq1o
+follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 ---
 
 ## Description
@@ -105,9 +107,18 @@ status: new
 - 2026-09-21T23:18:59Z dep_removed: was_blocked_by WD-carq
 - 2026-09-21T23:25:44Z dep_added: blocked_by WD-9rjd
 - 2026-09-22T00:01:57Z dep_removed: was_blocked_by WD-9rjd
+- 2026-09-22T00:23:10Z status: open -> in_progress
+- 2026-09-22T00:23:10Z auto-follows: linked to predecessor WD-3nwm
+- 2026-09-22T00:23:10Z auto-follows: linked to predecessor WD-lhm4
+- 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-fp49
+- 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-lvix
+- 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-carq
+- 2026-09-22T00:23:11Z auto-follows: linked to predecessor WD-9rjd
+- 2026-09-22T00:23:11Z claimed by dev-WD-fq1o
 
 ## Links
 - Parent: [[WD-t534]]
 - Was blocked by: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
+- Follows: [[WD-3nwm]], [[WD-lhm4]], [[WD-fp49]], [[WD-lvix]], [[WD-carq]], [[WD-9rjd]]
 
 ## Comments

@@ -9,11 +9,12 @@ parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
 updated_at: 2026-09-22T00:22:29Z
-content_hash: "sha256:b26011b69e9c609cf26f5c0352e1d63a6bf1aff6d08c05764c13ab0b8407a131"
+content_hash: "sha256:35f0d7dcab6d52e9da56a15d56aa12f3cc94d9bf97d2463b69955489d6770daa"
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
 closed_at: 2026-09-22T00:01:57Z
 close_reason: "HEAD 8863df8; clean recipe diff; release verify and 4 negative probes passed; tests and GitHub check green; tree/tags unchanged"
+led_to: [WD-fq1o]
 ---
 
 ## Description
@@ -237,5 +238,6 @@ status: delivered
 ## Links
 - Parent: [[WD-t534]]
 - Follows: [[WD-carq]], [[WD-lvix]]
+- Led to: [[WD-fq1o]]
 
 ## Comments
