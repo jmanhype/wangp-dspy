@@ -8,7 +8,7 @@ labels: [packaging, diagnostics, delivered]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
 updated_at: 2026-09-22T22:24:32Z
-content_hash: "sha256:42c7bed8b5f15ba58cdbf18b917025a2a3c95132d9987b104ce8186fcd250613"
+content_hash: "sha256:6dfdc9e7a728b5906fe98f3f6782ddfd7bf0051e5889ddbb962de7127b693708"
 assignee: dev-WD-0if0
 ---
 
@@ -67,6 +67,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Installed repository-scoped verbs now fail closed with typed exit-2 diagnostics, explicit checkout overrides bind provenance to that checkout, and checkout-free front doors remain available without a provenance claim.
 
