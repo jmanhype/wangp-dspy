@@ -7,8 +7,8 @@ type: bug
 labels: [packaging, diagnostics, accepted]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T22:32:37Z
-content_hash: "sha256:3092b918f286ba724b1729d1f897059d9c797e250e152a1e6b8c31d503d453a3"
+updated_at: 2026-09-22T22:50:28Z
+content_hash: "sha256:a666707510ef28b7cd6799a3e898e7a007b344de356a3a79481b91ef74d62958"
 assignee: dev-WD-0if0
 closed_at: 2026-09-22T22:32:36Z
 close_reason: "Accepted: real installed-boundary, override, parity, front-door, full-suite, exact-head CI, and tag checks all pass."
@@ -69,6 +69,12 @@ CONSUMES:
 
 
 ## Notes
+## Rework Evidence
+- Finding 2 fixed: audited all guidance callers and registered `--repository-root` on `doctor --capabilities` and `content` (plan/recipe/release already had it); a real-wheel test passes the flag to all six advertising surfaces and all exit 0.
+- Finding 3 fixed: the no-provenance content path applies line-safety validation before `build_run_film_inputs`; the control-character regression exits 2 and leaves no plan, script, ledger, or run directory.
+- Finding 4 fixed: `content --submit` diagnostics reload host configuration from the validated selected root; the selected checkout with `host.wgp_root` reports only `host.target, host.wgp_python`.
+- Finding 5 fixed: explicit overrides return Git's canonical Wangp top level; a `--repository-root <checkout>/wangp` release verification now succeeds instead of reading release inputs from the subdirectory.
+- Verification at head `d45ce9306c53476ec0db58095b5a7f54fa442957`: targeted repository/install suite 8 passed, exit 0; full suite 1,683 collected, 0 failures/errors, 1 pre-existing skip, exit 0; build produced one wheel and one sdist, exit 0; GitHub `test` completed/success. Fresh transcripts: `/tmp/wd0if0-rework-evidence/transcript.txt`.
 
 
 ## nd_contract
