@@ -9,7 +9,7 @@ parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
 updated_at: 2026-09-22T00:47:05Z
-content_hash: "sha256:a08a5db60a277030fab039e66c7829b71be1f41934dd509db0132dcab5bdfa11"
+content_hash: "sha256:d5c4d4d584927702971b4996760c95b6f7a4feee0f2d949c4ea3191796c94b4a"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
 follows: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd, WD-m1sj]
@@ -93,6 +93,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-21.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Added one 245-line E2E module with exactly the three mapped tests; it drives the installed wgp surface from a real clean temporary Git worktree, real copied SQLite queues, real diagnostics, and committed LF004 recipe/release evidence, with no production-code changes.
 
