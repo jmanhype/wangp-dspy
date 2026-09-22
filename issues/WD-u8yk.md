@@ -7,8 +7,8 @@ type: feature
 labels: [packaging, documentation]
 created_at: 2026-09-22T20:19:06Z
 created_by: speed
-updated_at: 2026-09-22T20:19:17Z
-content_hash: "sha256:6aa53044001a23083a7d8618e17a10423a16d8c95844b41b8cc88ec0a18ee26b"
+updated_at: 2026-09-22T20:32:49Z
+content_hash: "sha256:f829c22d0a4c4d2fe454c94cdfdd2391d6af96adf682690c103c24e6de32679b"
 assignee: dev-WD-u8yk
 ---
 
@@ -71,7 +71,57 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
+Summary: Added a POSIX one-command uv tool installer, boundary-honest install/release documentation, README install ordering, and real-process installer tests. Local targeted/full tests, real temporary install, build, release verification, PR #159, and exact-head CI all passed; the full suite retained one pre-existing skip and one pre-existing StarletteDeprecationWarning.
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_install.py -q` -> exit 0; 3 passed, 0 failed, 0 skipped.
+- `uv run --frozen --extra dev pytest -q` -> exit 0; 1662 passed, 0 failed, 1 pre-existing skipped; one existing StarletteDeprecationWarning.
+- `sh -n install.sh` -> exit 0.
+- `./install.sh --help` -> exit 0; documented `--dry-run`, `--source <path-or-url>`, default source, one-command path, and commands run.
+- `UV_TOOL_DIR=<tmp>/tools UV_TOOL_BIN_DIR=<tmp>/bin ./install.sh --dry-run --source <worktree>` -> exit 0; printed `uv tool install --upgrade --from <worktree> wangp-dspy` and `<tmp>/bin/wgp doctor`; made no changes.
+- Real install from committed working tree with temporary `UV_TOOL_DIR`/`UV_TOOL_BIN_DIR`, from a non-repository cwd: `sh install.sh --source <worktree>` -> exit 0; transcript included `+ wangp-dspy==0.1.0 (from file://<worktree>)`, `Installed 1 executable: wgp`, then all local doctor checks and `ready=yes`.
+- Installed executable from non-repository cwd: `<tmp>/bin/wgp doctor` -> exit 0; `ready=yes`.
+- Installed repository-boundary probe from non-repository cwd: `<tmp>/bin/wgp release verify` -> exit 2 with typed `INPUT_INVALID` diagnostic: `version: cannot read release version sources: [Errno 2] No such file or directory: '<UV_TOOL_DIR>/wangp-dspy/lib/python3.14/site-packages/VERSION'`; no traceback and no `release=ready` claim.
+- `uv build --out-dir <tmp>` -> exit 0; exactly one wheel and one sdist. SHA-256 wheel `674ea666fa01ad8e33d639b071ce59026e83f3749133da8fcdf962f357a9295f`; sdist `f2208fa6321b5289a3a05c561a5ce8c331d63ba5069957e70725e2cd38fbf2ad`.
+- `uv run --frozen --extra dev wgp release verify` -> exit 0; `version=0.1.0`, all four checks pass, `tag-ready=v0.1.0`, `tag_created=false`, `release=ready`.
+- `git push origin story/WD-u8yk`; `gh pr create ...` -> PR #159.
+- `gh api repos/jmanhype/wangp-dspy/commits/60aaab0a9c98704fe972f298b356f9ac44a446e2/check-runs` -> 1/1 completed; `test` conclusion `success`.
+- `pvg verify install.sh docs/install.md docs/RELEASE_NOTES_v0.1.0.md README.md tests/test_install.py --include-tests --format=text` -> `VERIFY: PASSED (1 files scanned, 0 issues)`.
+SHA: 60aaab0a9c98704fe972f298b356f9ac44a446e2
 
+### CI/Test Results
+- PR: https://github.com/jmanhype/wangp-dspy/pull/159
+- Exact-head check run: `test` = completed/success.
+- Targeted: exit 0, 3 passed / 0 failed / 0 skipped.
+- Full suite: exit 0, 1662 passed / 0 failed / 1 pre-existing skipped.
+- Real install and external-cwd doctor: exit 0, ending `ready=yes`.
+- Build: exit 0, exactly 1 wheel and 1 sdist.
+- Release preflight: exit 0, `release=ready`, `tag_created=false`.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | `install.sh --dry-run` exited 0, printed both exact commands, and left temporary tool dirs unchanged; `--help` documented both flags and the default/one-command source. `tests/test_install.py::test_help_and_dry_run_print_commands` passed. |
+| 2 | PASS | A real temporary `uv tool install` produced executable `<tmp>/bin/wgp`; installer and explicit installed `wgp doctor`, both run from a non-repository cwd, exited 0 and ended `ready=yes`. `tests/test_install.py::test_real_install_doctor_and_checkout_boundary` passed. |
+| 3 | PASS | With a restricted PATH containing no `uv`, the installer exited 127 with `MISSING_PREREQUISITE: uv is required`, the exact uv install command, and empty temporary tool dirs. `tests/test_install.py::test_missing_uv_fails_closed` passed. |
+| 4 | PASS | README Install now leads with the raw `install.sh | sh` path and places clone/`uv sync --extra dev` second; `tests/test_readme_quickstart.py` was included in the full-suite pass. |
+| 5 | PASS | `docs/RELEASE_NOTES_v0.1.0.md` describes the governed product, no-GPU lane, authorized render-host limit, checkout evidence limit, logical-recipe (not byte-pixel) guarantee, and exact recipe verification commands. |
+| 6 | PASS | No tag, GitHub release, registry publication, or credential was created. Checkout `wgp release verify` exited 0 with `release=ready` and `tag_created=false`. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-u8yk`; PR #159; SHA 60aaab0a9c98704fe972f298b356f9ac44a446e2.
+- Targeted/full pytest, real install/doctor, shell checks, build, release verify, pvg verify, and exact-head CI outputs recorded above.
+
+### proof
+- [x] AC 1: Dry-run and help expose the exact install behavior without machine changes.
+- [x] AC 2: Real temporary tool install yields an executable wgp whose external-cwd doctor ends ready=yes.
+- [x] AC 3: Missing uv fails closed with the typed prerequisite message and exact install command.
+- [x] AC 4: README installs first and keeps the contributor path second while quickstart tests pass.
+- [x] AC 5: Release notes describe the real product, guarantees, checkout/host limits, and recipe verification honestly.
+- [x] AC 6: Release readiness remains ready with no tag created and no publication occurs.
 
 ## History
 - 2026-09-22T20:19:17Z status: open -> in_progress
