@@ -8,8 +8,8 @@ labels: [release, external-integration, accepted]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-22T00:01:57Z
-content_hash: "sha256:7d5a8812fbcafbad2b51efdea14974c2def8863848fbaddc90d1e8baff1984c5"
+updated_at: 2026-09-22T00:16:36Z
+content_hash: "sha256:22b5d483c49485d346fc82f10fba07827ddf576957c442e7dcb9284c0b60204e"
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
 closed_at: 2026-09-22T00:01:57Z
@@ -107,7 +107,13 @@ status: new
 
 
 ## Notes
+## Rework Evidence
 
+- Finding 1 (unreadable artifact): `_recipe_check` now catches `RecipeError`, `OSError`, and `UnicodeError`, names the unreadable artifact, and raises a field-specific `recipe_schema` `ReleaseError` with exit 2. Real-process coverage chmods a copied required `assembled.mp4` to `000`, asserts the typed artifact diagnostic/no traceback, restores permissions, and proves byte/status identity.
+- Finding 2 (missing/malformed evidence verdict): recipe-evidence failures now carry a `ReleaseVerification` with version, failed `recipe_schema`, `v0.1.0` guidance, `ready=false`, and `tag_created=false`. Real human and JSON subprocess runs on malformed copied provenance both show the failed check and `release=not_ready`/JSON release object while exiting 2.
+- Finding 3 (redaction): CLI human check lines and JSON release payloads explicitly pass expected/observed values through `redact_sensitive`. Real copied-checkout tests inject a credential-shaped version value and require `<redacted-key>` in both output modes with no verbatim secret.
+- Verification at head `1fd1a99f96baee53cd45833dcd613e4f8b6134b7`: targeted release suite 5 passed / 0 failed; full suite 1,656 passed / 1 skipped / 0 failed (known Starlette/httpx warning only); clean human and JSON commands exited 0 with version `0.1.0`, tag-ready `v0.1.0`, `tag_created=false`, and `git status --porcelain` line count 0.
+- PR #156 exact-head check `106567311585` (`test`, run `35671036987`) completed with conclusion **success**. Story status and labels were not changed.
 
 ## nd_contract
 status: accepted
