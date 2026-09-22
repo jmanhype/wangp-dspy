@@ -7,8 +7,8 @@ type: bug
 labels: [packaging, diagnostics]
 created_at: 2026-09-22T20:40:52Z
 created_by: speed
-updated_at: 2026-09-22T22:24:26Z
-content_hash: "sha256:b0ccf5b3ceb708fd67a3d74c289758242782b15aa72c741ae61f33bb6b58e2ba"
+updated_at: 2026-09-22T22:24:32Z
+content_hash: "sha256:42c7bed8b5f15ba58cdbf18b917025a2a3c95132d9987b104ce8186fcd250613"
 assignee: dev-WD-0if0
 ---
 
@@ -131,6 +131,7 @@ status: delivered
 ## History
 - 2026-09-22T21:44:01Z status: open -> in_progress
 - 2026-09-22T21:44:01Z claimed by dev-WD-0if0
+- 2026-09-22T22:24:32Z status: in_progress -> in_progress
 
 ## Links
 
