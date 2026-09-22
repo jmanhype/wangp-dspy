@@ -1,15 +1,17 @@
 ---
 id: WD-bosd
 title: "Adopt the MIT licence with the recorded copyright holder"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [licence, hygiene, delivered]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
-updated_at: 2026-09-22T18:41:12Z
-content_hash: "sha256:5f2651601a7a23706ea6a0adf8d5d36ee146129163a431fcf9aaece1b6571ce5"
+updated_at: 2026-09-22T18:46:17Z
+content_hash: "sha256:d2c529f0c7d69b078fc5047e69947389fabc288522fb37473d72ee21f6bd5c61"
 assignee: dev-WD-bosd
+closed_at: 2026-09-22T18:46:17Z
+close_reason: "Accepted: exact-head 4b12f9f has canonical MIT LICENSE with Straughter Guthrie holder, MIT build metadata, passing targeted/full tests and CI, release=ready, no tag."
 ---
 
 ## Description
@@ -132,6 +134,7 @@ status: delivered
 - 2026-09-22T18:33:18Z status: open -> in_progress
 - 2026-09-22T18:33:18Z claimed by dev-WD-bosd
 - 2026-09-22T18:41:11Z status: in_progress -> in_progress
+- 2026-09-22T18:46:17Z status: in_progress -> closed
 
 ## Links
 
