@@ -8,7 +8,7 @@ labels: [licence, hygiene, accepted]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
 updated_at: 2026-09-22T18:46:17Z
-content_hash: "sha256:d2c529f0c7d69b078fc5047e69947389fabc288522fb37473d72ee21f6bd5c61"
+content_hash: "sha256:a4edd8d3b5d47b6b7bcf5c2b1b41cd6c9657406310648880f51d4981772de287"
 assignee: dev-WD-bosd
 closed_at: 2026-09-22T18:46:17Z
 close_reason: "Accepted: exact-head 4b12f9f has canonical MIT LICENSE with Straughter Guthrie holder, MIT build metadata, passing targeted/full tests and CI, release=ready, no tag."
@@ -71,6 +71,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
