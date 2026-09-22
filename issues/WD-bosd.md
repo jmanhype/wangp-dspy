@@ -4,10 +4,10 @@ title: "Adopt the MIT licence with the recorded copyright holder"
 status: in_progress
 priority: 2
 type: task
-labels: [licence, hygiene]
+labels: [licence, hygiene, delivered]
 created_at: 2026-09-22T18:33:06Z
 created_by: speed
-updated_at: 2026-09-22T18:41:11Z
+updated_at: 2026-09-22T18:41:12Z
 content_hash: "sha256:17e6713adf879157a01d037b2a2daa011775f7f4969f986ff38910ffcf3e1433"
 assignee: dev-WD-bosd
 ---
