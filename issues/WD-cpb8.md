@@ -4,7 +4,7 @@ title: "First-class content surface: wgp content and the first-run capability re
 status: in_progress
 priority: 1
 type: feature
-labels: [product, verification]
+labels: [product, verification, delivered]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
 updated_at: 2026-09-22T20:48:56Z
