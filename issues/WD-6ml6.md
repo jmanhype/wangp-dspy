@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:27Z
-content_hash: "sha256:c3f8f2204bd6151ad94763f0d500623bbadcdab7555ec5b202a99d0b579e65b7"
+updated_at: 2026-09-22T20:28:48Z
+content_hash: "sha256:23d6a256ab64be0e5e687da3df5f89ba3d3fb489263c63368c0fc5853a030064"
 blocks: [WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
 ---
 
@@ -43,23 +43,23 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-6ml6/ -> authorized speech/clone run bundles
 
 CONSUMES:
-- predict/vibevoice.py -> purpose
+- predict/vibevoice.py -> existing primary speech generation seam
   spec: existing primary speech generation seam
-- predict/audio_prep.py -> purpose
+- predict/audio_prep.py -> existing audio preparation behavior
   spec: existing audio preparation behavior
-- predict/speaker_manifest.py -> purpose
+- predict/speaker_manifest.py -> speaker identity contract
   spec: speaker identity contract
-- predict/content_brief.py -> purpose
+- predict/content_brief.py -> typed character/dialogue contract
   spec: typed character/dialogue contract
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing voice/model failures
   spec: typed missing voice/model failures
-- qc/audio_critic/whisper_gate.py -> purpose
+- qc/audio_critic/whisper_gate.py -> real transcript evidence boundary
   spec: real transcript evidence boundary
-- qc/audio_critic/av_sync_gate.py -> purpose
+- qc/audio_critic/av_sync_gate.py -> real AV synchronization evidence boundary
   spec: real AV synchronization evidence boundary
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
