@@ -8,8 +8,8 @@ labels: [capability, external-integration, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
-updated_at: 2026-09-22T22:32:52Z
-content_hash: "sha256:6c234b55f3db1606c8a48c16fde696af0049d0b8c34b24a658a6b7fbcd0d3311"
+updated_at: 2026-09-22T22:32:53Z
+content_hash: "sha256:b2fe0203d2742e1c3af902db3210441626539a738404c3bb5b5519dcfc1613d7"
 blocks: [WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i, WD-gc09]
 assignee: dev-WD-6tox
 ---
@@ -111,6 +111,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Implemented the no-GPU Maestro video planning slice only: typed family/preset/request normalization, fail-closed planned backend metadata, per-clip governed queue compilation, immutable model/LoRA/reference/window/overlap/recipe fields, typed exit-2 diagnostics, deterministic recipe-seed reconstruction, and planned capability documentation. No GPU, host, SSH, paid provider, model download, or authorized render was used or claimed.
 Commands run:
