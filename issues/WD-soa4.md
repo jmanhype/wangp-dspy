@@ -9,7 +9,8 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-22T20:24:44Z
-content_hash: "sha256:346ee8653bcee7f4f7f2ff2c9aa6ff5cba085a01f98aa29977722571b6eed2fc"
+content_hash: "sha256:2b075a429c8950d61792f58181da3ce0a904a762084f18cfb24131c2aab121a1"
+blocks: [WD-fasw]
 ---
 
 ## Description
@@ -86,9 +87,10 @@ status: new
 
 
 ## History
-
+- 2026-09-22T20:24:45Z dep_added: blocks WD-fasw
 
 ## Links
 - Parent: [[WD-t741]]
+- Blocks: [[WD-fasw]]
 
 ## Comments
