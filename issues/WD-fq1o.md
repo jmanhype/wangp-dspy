@@ -4,11 +4,11 @@ title: "E2e: onboard a stranger to a stable no-GPU Wangp workflow"
 status: closed
 priority: 2
 type: feature
-labels: [capstone, e2e, delivered]
+labels: [capstone, e2e, delivered, accepted]
 parent: WD-t534
 created_at: 2026-09-21T13:56:17Z
 created_by: speed
-updated_at: 2026-09-22T00:58:31Z
+updated_at: 2026-09-22T00:58:32Z
 content_hash: "sha256:8af45f437b545ab68ea45782827d1ddc916afb72301817d58219573999387d62"
 was_blocked_by: [WD-3nwm, WD-lhm4, WD-fp49, WD-lvix, WD-carq, WD-9rjd]
 assignee: dev-WD-fq1o
