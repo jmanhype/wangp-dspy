@@ -8,8 +8,8 @@ labels: [release, external-integration, accepted]
 parent: WD-t534
 created_at: 2026-09-21T23:25:38Z
 created_by: speed
-updated_at: 2026-09-22T00:16:36Z
-content_hash: "sha256:22b5d483c49485d346fc82f10fba07827ddf576957c442e7dcb9284c0b60204e"
+updated_at: 2026-09-22T00:22:29Z
+content_hash: "sha256:b26011b69e9c609cf26f5c0352e1d63a6bf1aff6d08c05764c13ab0b8407a131"
 assignee: dev-WD-9rjd
 follows: [WD-carq, WD-lvix]
 closed_at: 2026-09-22T00:01:57Z
@@ -107,6 +107,29 @@ status: new
 
 
 ## Notes
+## Rework Verification
+Verdict: HOLDS — all three review findings are fixed at the rework head.
+SHA: 1fd1a99f96baee53cd45833dcd613e4f8b6134b7
+
+Commands:
+- git rev-parse HEAD; git diff main..HEAD --name-only; git diff main..HEAD -- wangp/recipe.py
+- Temporary-worktree probes: chmod 000 assembled.mp4; corrupt final-provenance.json; sensitive VERSION value; run human and JSON release verification.
+- Code inspection: wangp/release.py, wangp/cli.py, tests/test_release.py.
+- Clean worktree: wgp release verify and wgp release verify --json; git tag.
+- uv run --frozen --extra dev pytest tests/test_release.py -q; uv run --frozen --extra dev pytest -q
+- Temporary pre-fix worktree at 8863df8 with the new tests committed.
+- gh api .../commits/1fd1a99.../check-runs; gh pr checks 156; git status --porcelain | wc -l
+
+Observed:
+- HEAD and changed-file set match exactly; wangp/recipe.py has no main..HEAD diff.
+- Unreadable artifact exits 2, names assembled.mp4, reports recipe_schema failed, release=not_ready, no traceback.
+- Malformed provenance exits 2 in both modes; human retains the failed check and release=not_ready; JSON retains release with ready=false and tag_created=false.
+- Sensitive VERSION appears nowhere in outputs; both modes show <redacted-key>. Basis: release.py catches OSError/UnicodeError; CLI redacts failed and successful mappings/check values.
+- Clean human/JSON exit 0 at 0.1.0 with tag_created=false; tag count/refs unchanged.
+- Targeted: 5 passed. Full: 1657 collected, 1656 passed, 1 skipped. The three new subprocess regressions each fail against 8863df8.
+- Exact-head CI test completed/success (106567311585); gh pr checks 156 passed.
+- Final worktree status count: 0.
+
 ## Rework Evidence
 
 - Finding 1 (unreadable artifact): `_recipe_check` now catches `RecipeError`, `OSError`, and `UnicodeError`, names the unreadable artifact, and raises a field-specific `recipe_schema` `ReleaseError` with exit 2. Real-process coverage chmods a copied required `assembled.mp4` to `000`, asserts the typed artifact diagnostic/no traceback, restores permissions, and proves byte/status identity.
