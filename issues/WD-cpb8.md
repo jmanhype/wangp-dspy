@@ -1,15 +1,17 @@
 ---
 id: WD-cpb8
 title: "First-class content surface: wgp content and the first-run capability report"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [product, verification, delivered]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
-updated_at: 2026-09-22T20:48:56Z
-content_hash: "sha256:15ada414d6e352fdda55794fdb4a1e3bbd9eabe5142096a2ffe7914561f62eda"
+updated_at: 2026-09-22T20:56:09Z
+content_hash: "sha256:9908923737afd7ea4947b579d5bb5fd628ce0a726fa45de7992ea6cc05acbfdc"
 assignee: dev-WD-cpb8
+closed_at: 2026-09-22T20:56:09Z
+close_reason: "Accepted: exact-head CLI/read-only/tests/CI checks pass; 970-line overrun is proportionate to the broad capability report and real-process tests"
 ---
 
 ## Description
@@ -216,6 +218,7 @@ status: delivered
 - 2026-09-22T20:19:18Z status: open -> in_progress
 - 2026-09-22T20:19:18Z claimed by dev-WD-cpb8
 - 2026-09-22T20:48:56Z status: in_progress -> in_progress
+- 2026-09-22T20:56:09Z status: in_progress -> closed
 
 ## Links
 
