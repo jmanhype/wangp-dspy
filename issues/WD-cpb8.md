@@ -1,14 +1,15 @@
 ---
 id: WD-cpb8
 title: "First-class content surface: wgp content and the first-run capability report"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [product, verification]
 created_at: 2026-09-22T20:19:12Z
 created_by: speed
-updated_at: 2026-09-22T20:19:12Z
-content_hash: "sha256:61e14b53842f4f47804097a51efd4677585ef4065dc9e882defea9552b3e137a"
+updated_at: 2026-09-22T20:19:18Z
+content_hash: "sha256:953e5c1152c0dc85509020ca2ae241e002876f0cc4559977892409684aa59742"
+assignee: dev-WD-cpb8
 ---
 
 ## Description
@@ -73,7 +74,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-22T20:19:18Z status: open -> in_progress
+- 2026-09-22T20:19:18Z claimed by dev-WD-cpb8
 
 ## Links
 
