@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:27Z
-content_hash: "sha256:15e4efcd0a8cfb95e9a8605e9f2d6963cce08783305db44ef425b5551a4a6f35"
+updated_at: 2026-09-22T20:28:47Z
+content_hash: "sha256:c5c4a18b50a92210b9c2323ad207c4dd846014507bb493843e532b8af8b7cb4f"
 blocks: [WD-tkuz, WD-gc09]
 ---
 
@@ -42,17 +42,17 @@ PRODUCES:
 - datasets/runs/maestro-parity/WD-pcen/ -> authorized image run bundles
 
 CONSUMES:
-- predict/content_brief.py -> purpose
+- predict/content_brief.py -> typed reference and asset validation patterns
   spec: typed reference and asset validation patterns
-- services/jobs/queue.py -> purpose
+- services/jobs/queue.py -> durable queue record and attempt transitions
   spec: durable queue record and attempt transitions
-- services/jobs/preflight.py -> purpose
+- services/jobs/preflight.py -> typed missing model/reference failures
   spec: typed missing model/reference failures
-- host/render_host.py -> purpose
+- host/render_host.py -> explicit asset push/pull and remote execution boundary
   spec: explicit asset push/pull and remote execution boundary
-- wangp/diagnostics.py -> purpose
+- wangp/diagnostics.py -> typed actionable diagnostics and redaction
   spec: typed actionable diagnostics and redaction
-- wangp/cli.py -> purpose
+- wangp/cli.py -> stable verb registration and exit-code contract
   spec: stable verb registration and exit-code contract
 
 
