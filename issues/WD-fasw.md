@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T08:35:25Z
-content_hash: "sha256:eb44a4f3ebc58e6e40b87068fdc082de62c29b00e0f4ce936f3fec18d5291d3f"
+content_hash: "sha256:ae1334db7eb4db9084d8d3e34f08544de8d39033da0983827ba3f91501d767b9"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen]
@@ -102,6 +102,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-23.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
 
 
 ## nd_contract
