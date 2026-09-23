@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T11:06:51Z
-content_hash: "sha256:b0fa90cd7b97c37b5c23f59e619e5bcf6e061a7f70e2440339940812895476f6"
+content_hash: "sha256:c9cdba7cdab7cd211a23f7a5416873c44fe6f239f4b8c69db2a68ccb0a250df8"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 assignee: dev-WD-eq1i
@@ -115,6 +115,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU director planning slice for prompt, audio, beat-aware music video, screenplay continuity, pacing, auto/manual review, immutable non-executable records, prompt-only enhancement, reconstruction, CLI registration, README integration, and capability documentation. No GPU, host, SSH, download, renderer, queue execution, or generated-media claim is made.
 
