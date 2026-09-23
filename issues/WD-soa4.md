@@ -4,11 +4,11 @@ title: "Music generation, ABC planning, style adaptation, and a second independe
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered]
+labels: [capability, delivered, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:38:43Z
+updated_at: 2026-09-23T01:38:44Z
 content_hash: "sha256:638d158d474fbe27c626fbc816ae0e446ebff9933dd8dc5a01a6b571bb8511e0"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
