@@ -1,14 +1,15 @@
 ---
 id: WD-altn
 title: "Capability report includes the download plan and the current implemented surfaces"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [capability, verification]
 created_at: 2026-09-23T04:24:58Z
 created_by: speed
-updated_at: 2026-09-23T04:24:58Z
-content_hash: "sha256:612eb0097ba5d8bdae7d8fb7ab975fe99e3837b63bbc9cd7ba3f1ef125e6cc78"
+updated_at: 2026-09-23T04:25:06Z
+content_hash: "sha256:b4171b983af2aae9c944368c91bdcced182924dc3d845d8a5873db4e639006ae"
+assignee: dev-WD-altn
 ---
 
 ## Description
@@ -68,7 +69,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-23T04:25:06Z status: open -> in_progress
+- 2026-09-23T04:25:06Z claimed by dev-WD-altn
 
 ## Links
 
