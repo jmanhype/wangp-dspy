@@ -178,18 +178,19 @@ def _canonical_stored_path(value: Any, repository_root: Path) -> Any:
     path = Path(value)
     if not path.is_absolute():
         return path.as_posix()
-    try:
-        resolved = path.resolve()
-        return resolved.relative_to(repository_root).as_posix()
-    except ValueError:
-        resolved = None
-    # Historical evidence can point at another checkout of this same repository
-    # or at a renderer host. Preserve useful in-repository suffixes, but never
-    # persist the machine or checkout that happened to write the evidence.
+    # Historical evidence can point at another checkout of this same repository,
+    # a nested worktree below an ancestor repository root, or a renderer host.
+    # A stable repository anchor identifies the evidence more strongly than any
+    # root-relative prefix, so preserve that suffix first.
     for anchor in ("datasets", "assets"):
         if anchor in path.parts:
             parts = path.parts
             return Path(*parts[parts.index(anchor):]).as_posix()
+    try:
+        resolved = path.resolve()
+        return resolved.relative_to(repository_root).as_posix()
+    except ValueError:
+        pass
     return f"external/{path.name}"
 
 
