@@ -15,8 +15,7 @@ LEGACY_H3_RESOLUTION_TRANSFORMS = {
     # For this recorded WanGP handler, a 480x832 request is reference-conditioned
     # and rendered on its 704x576 output grid. The request remains historical
     # evidence (see predict/v3_recipe.py); it is not a delivered-media contract.
-    ("minimax_h3_ref2va_pruned", "480x832",
-     "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6"): (704, 576),
+    ("480x832", "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6"): (704, 576),
 }
 
 
@@ -271,7 +270,7 @@ def normalize_row(render_dir: Path, *, repository_root: Path,
         value = handler_hashes.get("models/minimax_h3/minimax_h3_handler.py")
         handler_sha256 = value if isinstance(value, str) else None
     expected_dimensions = LEGACY_H3_RESOLUTION_TRANSFORMS.get(
-        (str(wgp.get("model_type")), resolution, handler_sha256))
+        (resolution, handler_sha256))
     resolution_transform = None
     if reference_dimensions is not None and expected_dimensions is not None:
         reference_width, reference_height = reference_dimensions
