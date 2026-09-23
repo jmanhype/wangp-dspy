@@ -21,6 +21,7 @@ The breadth below describes planning and readiness surfaces, not generation read
 | Image | Planning only; no generation evidence | [Image capability planning](docs/image-capabilities.md) |
 | Music | Planning only; no generation evidence | [Music capability planning](docs/music-capabilities.md) |
 | Speech/voice | Planning only; audio output is not verified | [Speech capability planning](docs/voice-capabilities.md) |
+| Sound effects/audio post | Planning only; generated audio and video preservation are not verified | [SFX capability planning](docs/sfx-capabilities.md) |
 | Content | Deterministic brief summary and dependency planning only; no media generation | [Content surface and capability report](docs/content.md) |
 | First-run | Platform, asset, runtime, recovery, and host readiness only; `verified_generation=false` | [First-run platform readiness](docs/first-run.md) |
 
@@ -116,6 +117,7 @@ Every first-class `wgp` verb appears below in CLI order. The contract test deriv
 | `image` | Plan Maestro image breadth without GPU or host work. |
 | `music` | Plan Maestro music without GPU or host work. |
 | `first-run` | Report local platform, asset, runtime, recovery, and host readiness. |
+| `sfx` | Plan sound effects, revoice, and audio refinement without GPU or host work. |
 | `voice` | Plan speech and portable voices without GPU or host work. |
 | `doctor` | Report local readiness and optionally probe a configured host. |
 | `content` | Turn a brief and plates into a governed content summary. |
@@ -198,7 +200,7 @@ and troubleshooting.
 ## Documentation index
 
 - Setup and first use: [install guide](docs/install.md), [first-run guide](docs/first-run.md).
-- Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), and [content](docs/content.md).
+- Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), [sound effects and audio post](docs/sfx-capabilities.md), and [content](docs/content.md).
 - Production governance: [render recipes](docs/recipe.md) and the [release checklist](docs/recipe.md#release-checklist).
 
 ## Troubleshooting
