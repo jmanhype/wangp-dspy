@@ -11,7 +11,7 @@ updated_at: 2026-09-23T17:36:19Z
 content_hash: "sha256:340607dd3b9a9d30f4b605cf159d6386e5ba3ed91c55f52c8ae1f8c272ac2fbc"
 assignee: dev-WD-rf1a
 follows: [WD-l48s]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-23T17:36:19Z
 close_reason: "Accepted: exact-head replay, adverse cases, RED/GREEN, 1990-test suite, build, CI, and delivery proof all verified"
 ---
