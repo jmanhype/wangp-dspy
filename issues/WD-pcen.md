@@ -8,8 +8,8 @@ labels: [capability, rejected, rejected-x2]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:37:36Z
-content_hash: "sha256:1f1ad718f159770a7fc424d0a244f899c3dae8c53896372d2b6e25a486a8a6fd"
+updated_at: 2026-09-23T01:37:37Z
+content_hash: "sha256:ffb5820316dcbb0748dd1d30296feb955dbdde0a6db92e28a64badd8c4d089e1"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox]
 ---
@@ -214,3 +214,6 @@ status: delivered
 
 ### 2026-09-23T01:19:56Z speed
 EXPECTED: Delivery proof must report exact full-suite counts at committed head d13ced731a056ca7d04f7d186c631f7f4186c3b8. DELIVERED: Story claims 1755 passed, 1 skipped; my clean-tree JUnit rerun at that exact head reports tests=1743, failures=0, errors=0, skipped=1 (1742 passed), confirmed by collection count 1743. GAP: The recorded full-suite count overstates 13 passes and is therefore untrustworthy delivery evidence. FIX: Re-deliver with the exact 1742 passed / 1 skipped count (or explain a reproducible committed-tree environment difference), while preserving all no-GPU scope claims.
+
+### 2026-09-23T01:37:37Z speed
+EXPECTED: The fresh delivered contract must not restate a full-suite pass count contradicted by the recorded JUnit command. DELIVERED: The latest nd_contract says Full tests 1755 passed, 1 intentional live-host skip, while the Rework Evidence command reports and my clean-tree rerun confirms tests=1743 failures=0 errors=0 skipped=1 (1742 passed). GAP: The authoritative fresh contract still overstates 13 passes. FIX: Re-deliver with every current contract and evidence field using tests=1743 / 1742 passed / 1 skipped.
