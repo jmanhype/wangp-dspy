@@ -1,15 +1,17 @@
 ---
 id: WD-dt94
 title: "README tour: capability status, verb map, and docs index"
-status: in_progress
+status: closed
 priority: 2
 type: task
 labels: [documentation, delivered]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
-updated_at: 2026-09-23T07:18:35Z
-content_hash: "sha256:862381e50853cd77c02b26c954d42a0ea0b08ae04acf8dfd29288c0c1d932fed"
+updated_at: 2026-09-23T07:31:07Z
+content_hash: "sha256:b222147324dc41f272c9c303edb05c4e2e70f52adb460bc7e5385c9a703e9b28"
 assignee: dev-WD-dt94
+closed_at: 2026-09-23T07:31:07Z
+close_reason: "Accepted: exact-head 580b362d is docs-only, verb map matches the live CLI, links resolve, quickstart stays intact, targeted/full tests pass, release is ready, CI is green, and delivery proof is 9/9."
 ---
 
 ## Description
@@ -133,6 +135,7 @@ status: delivered
 - 2026-09-23T06:52:27Z status: open -> in_progress
 - 2026-09-23T06:52:27Z claimed by dev-WD-dt94
 - 2026-09-23T07:18:34Z status: in_progress -> in_progress
+- 2026-09-23T07:31:07Z status: in_progress -> closed
 
 ## Links
 
