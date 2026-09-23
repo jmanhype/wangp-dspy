@@ -7,8 +7,8 @@ type: task
 parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
-updated_at: 2026-09-23T17:36:19Z
-content_hash: "sha256:0269f2940f873fc8e6a8cc5a1eecc6727cdf5c629617d5b76042ce9246ba9930"
+updated_at: 2026-09-23T18:53:44Z
+content_hash: "sha256:8df0e95de866db5d6cacd45dda9046bec63edf24b6a0825027943d0f003af04f"
 assignee: dev-WD-rf1a
 follows: [WD-l48s]
 labels: [accepted]
@@ -151,3 +151,6 @@ status: delivered
 - Follows: [[WD-l48s]]
 
 ## Comments
+
+### 2026-09-23T18:53:44Z speed
+Merged to main as 24e9d49 (squash of #178). Required check 'test' completed/success at 79d6710b5530c831f7029115400208cce965f826 and at the pre-merge head. Epic gate: full-suite run at this head.
