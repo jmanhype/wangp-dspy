@@ -1,17 +1,18 @@
 ---
 id: WD-pcen
 title: "Image generation and editing with references, transparency, upscaling, and identity preservation"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, rejected-x2, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T04:19:00Z
-content_hash: "sha256:21b49e8f54ed1de023667abd50ca29a525002c617fd7d138f123a302586ab9a7"
-blocks: [WD-tkuz, WD-gc09]
+updated_at: 2026-09-23T04:22:27Z
+content_hash: "sha256:2ec550b20f31ccd30049cb94b84ccc4cc298eab5226017e4076c530e764aa006"
 follows: [WD-6tox, WD-soa4]
+closed_at: 2026-09-23T04:22:27Z
+close_reason: "Accepted at 8eda61f: corrected 1743/0/0/1 evidence, clean four-verb rebase, 28 image tests pass, CI success, zero review threads, and no-GPU planned capability boundaries hold."
 ---
 
 ## Description
@@ -309,10 +310,12 @@ status: delivered
 - 2026-09-23T01:37:36Z released by speed
 - 2026-09-23T03:03:28Z status: open -> in_progress
 - 2026-09-23T03:03:29Z auto-follows: linked to predecessor WD-soa4
+- 2026-09-23T04:22:27Z status: in_progress -> closed
+- 2026-09-23T04:22:27Z dep_removed: no_longer_blocks WD-tkuz
+- 2026-09-23T04:22:27Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-tkuz]], [[WD-gc09]]
 - Follows: [[WD-6tox]], [[WD-soa4]]
 
 ## Comments
