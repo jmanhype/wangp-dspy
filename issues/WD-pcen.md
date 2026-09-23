@@ -4,11 +4,11 @@ title: "Image generation and editing with references, transparency, upscaling, a
 status: in_progress
 priority: 2
 type: feature
-labels: [capability]
+labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T00:50:46Z
+updated_at: 2026-09-23T00:50:47Z
 content_hash: "sha256:5d585bca0e556d9eec8e6b9bf242add8008c084facd91bfab917702636a096b4"
 blocks: [WD-tkuz, WD-gc09]
 assignee: dev-WD-pcen
