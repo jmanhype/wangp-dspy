@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T06:30:48Z
-content_hash: "sha256:43bb183829dec043accc35afae9342877282e1fe25035d38fe7c85586f28add5"
+content_hash: "sha256:55654743a97d6e20b376e4f1aabee539edb3e69bcf08ae21b3314d9da34ba37d"
 blocks: [WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
@@ -106,6 +106,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU speech planning slice only: typed plain-speech, one-reference cloning, two-reference cloning, independent Chatterbox fallback, real engine segment ceilings with ordered assembly accounting, immutable model/reference provenance, per-engine normalization, portable character packages with appearance/voice bindings, immutable non-executable segment records, typed exit-2 failures, and seed-based reconstruction. No render, host access, SSH, GPU work, model download, generated-audio claim, measured output claim, or gate semantic change occurred.
 Commands run:
