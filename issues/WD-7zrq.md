@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T18:06:24Z
-content_hash: "sha256:a88cf419ce70de3accbd8e93fd44b5d3edad8f359ead533c82c5c995c51f1eb4"
+content_hash: "sha256:6252a19b32c83313d0b567cfacdb28d1abfb04f1df2188a8d99a140f11c76247"
 labels: [rejected-x2, accepted]
 closed_at: 2026-09-23T18:06:24Z
 close_reason: "Accepted at 5a815c92252e151b039804bb856b09898fd16f7c: exact matcher contract, three verified caveats, matching story SHA/head, 8 targeted tests, and successful exact-head CI."
@@ -63,6 +63,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
