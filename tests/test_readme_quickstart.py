@@ -87,6 +87,28 @@ def _quickstart_commands() -> list[str]:
     return commands
 
 
+def _markdown_links(text: str) -> set[str]:
+    """Return local Markdown link targets, without their anchors."""
+    targets = re.findall(r"\[[^\]]+\]\(([^)#\s]+)(?:#[^)]*)?\)", text)
+    return {target for target in targets if not re.match(r"^[a-z][a-z0-9+.-]*:", target)}
+
+
+def _wgp_verbs() -> list[str]:
+    """Derive the authoritative first-class verb list from the CLI help."""
+    result = subprocess.run(
+        ["uv", "run", "--frozen", "--extra", "dev", "wgp", "--help"],
+        cwd=ROOT,
+        check=True,
+        text=True,
+        capture_output=True,
+    )
+    match = re.search(r"usage: wgp .*?\{([^}]+)\}", result.stdout, flags=re.DOTALL)
+    assert match is not None, result.stdout
+    verbs = [verb.strip() for verb in match.group(1).split(",")]
+    assert verbs and all(verbs), result.stdout
+    return verbs
+
+
 def _run(command: str, *, cwd: Path, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         command,
@@ -199,11 +221,47 @@ def test_repository_hygiene_and_readme_contract() -> None:
 
 
 def test_readme_internal_links_resolve() -> None:
-    targets = re.findall(r"\[[^\]]+\]\(([^)#\s]+)(?:#[^)]*)?\)", README.read_text(encoding="utf-8"))
-    local = [target for target in targets if not re.match(r"^[a-z][a-z0-9+.-]*:", target)]
+    local = _markdown_links(README.read_text(encoding="utf-8"))
     assert local
     for target in local:
         assert (ROOT / target).exists(), target
+
+
+def test_readme_capability_status_and_documentation_index() -> None:
+    capability = _section("Capability status")
+    assert "Generation is not verified" in capability
+    assert "Planning only; no generation evidence" in capability
+
+    capability_links = _markdown_links(capability)
+    capability_documents = {
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "docs").glob("*-capabilities.md")
+    }
+    assert capability_documents
+    expected_capability_links = capability_documents | {"docs/content.md", "docs/first-run.md"}
+    assert expected_capability_links <= capability_links
+
+    documentation = _section("Documentation index")
+    documentation_links = _markdown_links(documentation)
+    expected_documentation_links = {
+        "docs/install.md",
+        "docs/first-run.md",
+        "docs/content.md",
+        "docs/recipe.md",
+    }
+    assert expected_documentation_links <= documentation_links
+    assert expected_capability_links <= documentation_links
+    assert "docs/recipe.md#release-checklist" in re.findall(
+        r"\[[^\]]+\]\(([^)]+)\)", documentation
+    )
+
+
+def test_readme_verb_map_matches_cli() -> None:
+    section = _section("`wgp` verb map")
+    rows = re.findall(r"^\| `([^`]+)` \| (.+) \|$", section, flags=re.MULTILINE)
+    documented_verbs = [verb for verb, _purpose in rows]
+    assert documented_verbs == _wgp_verbs()
+    assert all(purpose.strip() for _, purpose in rows)
 
 
 def test_readme_quickstart_runs_in_clean_worktree() -> None:
