@@ -64,14 +64,14 @@ def _environment(
     tmp_path: Path,
     *, include_nvidia_shadow: bool = True
 ) -> tuple[dict[str, str], Path, Path]:
-    ssh_bin = tmp_path / "ssh-bin"
+    network_bin = tmp_path / "network-bin"
     nvidia_bin = tmp_path / "nvidia-bin"
     calls = tmp_path / "forbidden-calls"
-    _shadow_commands(ssh_bin, calls, ("ssh",))
+    _shadow_commands(network_bin, calls, ("ssh", "curl", "wget"))
     _shadow_commands(nvidia_bin, calls, ("nvidia-smi",))
     calls.write_text("", encoding="utf-8")
     environment = os.environ.copy()
-    prefixes = [str(ssh_bin)]
+    prefixes = [str(network_bin)]
     if include_nvidia_shadow:
         prefixes.append(str(nvidia_bin))
     environment["PATH"] = ":".join([*prefixes, environment["PATH"]])
@@ -296,7 +296,10 @@ def test_capability_report_is_read_only_and_honest(tmp_path: Path) -> None:
     assert human.returncode == 0, human.stdout + human.stderr
     assert "local_accelerator=no local accelerator" in human.stdout
     assert "model_manifest=absent" in human.stdout
-    assert "not_implemented=image generation; music generation; speech/voice cloning; sound effects; upscaling; face refinement; video editing; GUI" in human.stdout
+    assert "download_plan=absent would_download=0 total_size_bytes=0 wangp_downloads=false" in human.stdout
+    assert "no asset is downloadable until source, hash, size, licence, and destination" in human.stdout
+    assert "implemented=video planning; image planning; music planning; content planning; first-run planning" in human.stdout
+    assert "not_implemented=video generation; image generation; music generation; speech/voice cloning; sound effects; upscaling; face refinement; video editing; GUI" in human.stdout
     assert "host_contact=false" in human.stdout
 
     machine = _wgp(
@@ -309,10 +312,28 @@ def test_capability_report_is_read_only_and_honest(tmp_path: Path) -> None:
         "no local accelerator (nvidia-smi not found on PATH)"
     )
     assert payload["model_manifest"]["status"] == "absent"
+    assert payload["download_plan"] == {
+        "status": "absent",
+        "asset_count": 0,
+        "total_size_bytes": 0,
+        "entries": [],
+        "wangp_downloads": False,
+        "authorization_required": False,
+        "remediation": (
+            "supply a wangp-dspy.model-assets/v1 manifest; no asset is "
+            "downloadable until source, hash, size, licence, and destination "
+            "are recorded"
+        ),
+    }
     assert payload["generation_capabilities"]["not_implemented"] == [
-        "image generation", "music generation", "speech/voice cloning",
+        "video generation", "image generation", "music generation",
+        "speech/voice cloning",
         "sound effects", "upscaling", "face refinement", "video editing",
         "GUI",
+    ]
+    assert payload["generation_capabilities"]["implemented"] == [
+        "video planning", "image planning", "music planning",
+        "content planning", "first-run planning",
     ]
     assert payload["collection"] == {
         "read_only": True,
@@ -320,6 +341,100 @@ def test_capability_report_is_read_only_and_honest(tmp_path: Path) -> None:
         "host_contact": False,
     }
     assert "/Users/" not in machine.stdout
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+def _download_asset(
+    path: Path, payload: bytes | None, *, size: int | None = None,
+    digest: str | None = None,
+) -> dict[str, object]:
+    if payload is not None:
+        path.write_bytes(payload)
+    return {
+        "id": path.name,
+        "source_url": f"https://example.invalid/{path.name}",
+        "sha256": digest or hashlib.sha256(payload or b"").hexdigest(),
+        "size_bytes": size if size is not None else len(payload or b""),
+        "license": "operator-recorded upstream license",
+        "destination": str(path.resolve()),
+    }
+
+
+def test_capability_download_plan_reuses_first_run_asset_state(
+    tmp_path: Path,
+) -> None:
+    environment, calls, _ = _environment(tmp_path)
+    complete = _download_asset(tmp_path / "complete.bin", b"complete")
+    mismatched = _download_asset(
+        tmp_path / "mismatch.bin", b"12345678", digest="a" * 64
+    )
+    partial = _download_asset(
+        tmp_path / "partial.bin", b"part", size=8
+    )
+    absent = _download_asset(tmp_path / "absent.bin", None, size=8)
+    manifest = tmp_path / "assets.json"
+    manifest.write_text(json.dumps({
+        "schema_version": "wangp-dspy.model-assets/v1",
+        "assets": [complete, mismatched, partial, absent],
+    }), encoding="utf-8")
+    state = tmp_path / "download-state.json"
+    capability_args = (
+        "doctor", "--capabilities", "--models", str(manifest),
+        "--download-state", str(state),
+    )
+
+    human = _wgp(*capability_args, cwd=ROOT, env=environment)
+    assert human.returncode == 0, human.stdout + human.stderr
+    assert (
+        "download_plan=present would_download=3 total_size_bytes=24 "
+        "wangp_downloads=false"
+    ) in human.stdout
+    assert [
+        line for line in human.stdout.splitlines()
+        if line.startswith("download_entry=")
+    ] == [
+        "download_entry=complete.bin status=complete required_action=none: local bytes and SHA-256 already match",
+        "download_entry=mismatch.bin status=checksum_mismatch required_action=operator-authorized download required",
+        "download_entry=partial.bin status=partial required_action=operator-authorized download required",
+        "download_entry=absent.bin status=absent required_action=operator-authorized download required",
+    ]
+
+    machine = _wgp(*capability_args, "--json", cwd=ROOT, env=environment)
+    assert machine.returncode == 0, machine.stdout + machine.stderr
+    report = json.loads(machine.stdout)
+    assert report["model_manifest"]["entries"] == [
+        {"id": "complete.bin", "status": "complete", "download_required": False, "wangp_downloads": False},
+        {"id": "mismatch.bin", "status": "checksum_mismatch", "download_required": True, "wangp_downloads": False},
+        {"id": "partial.bin", "status": "partial", "download_required": True, "wangp_downloads": False},
+        {"id": "absent.bin", "status": "absent", "download_required": True, "wangp_downloads": False},
+    ]
+    assert report["download_plan"]["asset_count"] == 3
+    assert report["download_plan"]["total_size_bytes"] == 24
+    assert report["download_plan"]["authorization_required"] is True
+    assert report["download_plan"]["wangp_downloads"] is False
+
+    first_run = _wgp(
+        "first-run", "download", "--manifest", str(manifest),
+        "--state", str(state), "--json", cwd=ROOT, env=environment,
+    )
+    assert first_run.returncode == 0, first_run.stdout + first_run.stderr
+    durable = json.loads(first_run.stdout)
+    assert report["download_plan"]["entries"] == [
+        {
+            "id": item["id"],
+            "status": item["status"],
+            "size_bytes": item["size_bytes"],
+            "bytes_present": item["bytes_present"],
+            "required_action": "none: local bytes and SHA-256 already match"
+            if item["status"] == "complete"
+            else "operator-authorized download required",
+        }
+        for item in durable["assets"]
+    ]
+    assert report["download_plan"]["asset_count"] == durable["download_plan"]["asset_count"]
+    assert report["download_plan"]["total_size_bytes"] == durable["download_plan"]["total_size_bytes"]
+    assert report["download_plan"]["wangp_downloads"] == durable["download_plan"]["wangp_downloads"]
+    assert not state.exists()
     assert calls.read_text(encoding="utf-8") == ""
 
 

@@ -45,6 +45,17 @@ resume request, then exits `2` with `DOWNLOAD_REQUIRES_OPERATOR` and the exact
 command to review. Wangp never executes that command. The operator must verify
 the recorded SHA-256 and licence before the asset can be considered complete.
 
+The same computation is part of the local capability report. Run
+`wgp doctor --capabilities --models <manifest> [--download-state <state>]` for
+a `download_plan` block containing the pending count and byte total, each
+asset's status and required action, and `wangp_downloads=false`. With no
+manifest the block reports zero downloadable assets and the typed-manifest
+remediation. Complete entries require no action; partial, absent,
+checksum-mismatch, unreadable, and paused entries require operator review. A
+legacy model-only manifest reports an unavailable plan rather than inventing
+source, size, licence, or destination facts. No output in this block is a
+download claim.
+
 ## Bundled-local or external LLM runtime
 
 `wgp first-run runtime --config <config>` resolves configuration only. The
