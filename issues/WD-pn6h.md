@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:13:37Z
-content_hash: "sha256:a8567109f603a7c5d82001913da4b28ce9bfcd18420e19bfa56cf272fc59a031"
+updated_at: 2026-09-23T19:15:24Z
+content_hash: "sha256:e363b5c1f739ae4bc44d69d61443f29c27eba350de706be160ae8426344714e4"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
@@ -291,4 +291,25 @@ Commands run:
 - [x] AC 6: original LF004 assertions, including [2, 0, 0, 0], passed unchanged.
 
 Artifacts: corpus sha256 970632d10e8de2dd68ec2b585911400e6522da09676ff322a8378a7c1186f3c1; manifest sha256 07599793152d2e8f1a659f25c2395169a1352f6410dd7f4db0007732913b1468; no committed artifact changed.
+
+
+### 2026-09-23T19:15:24Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- SHA: 5d9380a9da499770bd29794db92c8d2b19407c7a
+- Summary: Nested-worktree paths now preserve the stable datasets/assets anchor and are checkout-independent.
+- Targeted tests: 19 passed, 0 failed, 0 errors, 0 skipped.
+- Full-suite JUnit: tests=1996, errors=0, failures=0, skipped=1.
+- Artifact rebuild: rows=36, verify_artifact passed; no committed artifact changed.
+- Release: tag_created=false, release=ready.
+
+### proof
+- [x] AC 1 full suite and LF004 parity pass.
+- [x] AC 2 exact path is identical for main, nested, and foreign roots.
+- [x] AC 3 canonical LF004 and corpus path fields reject `.claude`.
+- [x] AC 4 deterministic artifact verification passes without artifact drift.
+- [x] AC 5 release is ready and no tag was created.
+- [x] AC 6 original LF004 queue assertions, including [2, 0, 0, 0], pass unchanged.
 
