@@ -1,17 +1,19 @@
 ---
 id: WD-eq1i
 title: "Director and composition: prompt or audio to governed multi-clip film"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:48Z
-content_hash: "sha256:dc2b1d48b75375b62fc4ca427cbcb3607120f06b09e77a6197aceace56e407b4"
+updated_at: 2026-09-23T09:36:23Z
+content_hash: "sha256:eea3ecc364ef0509c59f2cb3af431113c31596a1b1cded298de395ecc5f7da6b"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
+assignee: dev-WD-eq1i
+follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 ---
 
 ## Description
@@ -125,10 +127,17 @@ status: new
 - 2026-09-23T01:38:43Z dep_removed: was_blocked_by WD-soa4
 - 2026-09-23T06:49:08Z dep_removed: was_blocked_by WD-6ml6
 - 2026-09-23T09:16:29Z dep_removed: was_blocked_by WD-tkuz
+- 2026-09-23T09:36:23Z status: open -> in_progress
+- 2026-09-23T09:36:23Z auto-follows: linked to predecessor WD-6tox
+- 2026-09-23T09:36:23Z auto-follows: linked to predecessor WD-soa4
+- 2026-09-23T09:36:23Z auto-follows: linked to predecessor WD-6ml6
+- 2026-09-23T09:36:23Z auto-follows: linked to predecessor WD-tkuz
+- 2026-09-23T09:36:23Z claimed by dev-WD-eq1i
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
+- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
 
 ## Comments
