@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-21T12:19:33Z
 created_by: speed
 updated_at: 2026-09-23T17:23:47Z
-content_hash: "sha256:82bfb2bada5f78e210d66a684a7ed4b5543d8d98555607f10313a220dde4435f"
+content_hash: "sha256:1fd93fe5600458fae6a3c348836263cb5e963ec2359f4f47d3827580d52ad415"
 blocks: [WD-l48s]
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
@@ -67,6 +67,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Moved the canonical spend-gate writer from `training/spend_gate.py` to `services/jobs/spend_gate.py` (Git rename similarity 94%), kept `training/spend_gate_replay.py` as the training-side consumer, and added a default fail-open `SpendGateRecorder` call immediately after QC accepts a clip in `JobExecutor._qc_clips`. This is the preferred layering option: production owns its dependency-free row writer while training consumes that service; there is no `services/` -> `training/` import (asserted by AST test). The canonical normalization/writer code is shared rather than duplicated, so bytes remain identical. No gate, retry, renderer, policy, QC threshold, or protected engine semantics changed.
 
