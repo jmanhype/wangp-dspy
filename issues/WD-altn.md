@@ -4,7 +4,7 @@ title: "Capability report includes the download plan and the current implemented
 status: closed
 priority: 1
 type: feature
-labels: [capability, verification, delivered, accepted]
+labels: [capability, verification, accepted]
 created_at: 2026-09-23T04:24:58Z
 created_by: speed
 updated_at: 2026-09-23T05:16:11Z
