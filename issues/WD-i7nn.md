@@ -8,7 +8,7 @@ labels: [testing, release, accepted]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
 updated_at: 2026-09-23T17:04:02Z
-content_hash: "sha256:b8f28946d4f175bf42636c320835f1f081d2abe2663bb68987d7de86cdd368ed"
+content_hash: "sha256:7b31bddf35aaf511464786871081f5d67b241344e5c0571218e166eb289a45ac"
 assignee: dev-WD-i7nn
 closed_at: 2026-09-23T17:04:01Z
 close_reason: "Accepted: exact-head targeted/full suites, build, CI, wrong-tree RED, clone provenance, and delivery proof all pass."
@@ -67,6 +67,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
