@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:32:16Z
-content_hash: "sha256:f7a9b73b57bb678c610100fbfe492b082cbcc0ab0c83b4f39d6261527f7c672a"
+updated_at: 2026-09-23T19:46:36Z
+content_hash: "sha256:a17903c272be66a7fd2f3756bdfc6cf51d4b8d581751b33ed97f610ecff0e14d"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 labels: [rejected]
@@ -151,6 +151,45 @@ status: new
 ## Design
 
 ## Notes
+## Implementation Evidence
+Summary: Stable `datasets`/`assets` anchors now take precedence over every repository-relative prefix, including ancestor roots, and the regression test no longer derives the main checkout from the launch directory.
+
+SHA: 9cfb29741d0e0164ef939fba9ed9616edc22b432
+
+Five-root raw proof:
+```text
+/Users/Shared/HermesWorkspace/wangp-dspy -> datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json
+/Users -> datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json
+/Users/Shared/HermesWorkspace -> datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json
+/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125 -> datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json
+/tmp/not-this-repository -> datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json
+MAIN_CHECKOUT_SIMULATION ROOT=/Users/Shared/HermesWorkspace/wangp-dspy PASS
+```
+
+Commands run:
+- `uv run --frozen --extra dev python /tmp/wd-pn6h-rework-proof.py` -> all five rows matched and main-checkout simulation passed, exit 0.
+- `uv run --frozen --extra dev pytest -q tests/test_spend_gate.py` -> 19 passed, exit 0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-pn6h-rework-full.xml` -> exit 0.
+- `uv run --frozen --extra dev python scripts/build_spend_gate_corpus.py --repository-root . --evidence-mode all-local --output-dir datasets/spend-gate/v1 --replay --verify-artifact` -> rows=36 mode=all-local, exit 0.
+- `uv run --frozen --extra dev wgp release verify` -> tag_created=false, release=ready, exit 0.
+- Protected-path diff -> exit 0, no diff.
+- `git diff --check` -> exit 0, no output.
+- `git push origin story/WD-pn6h` -> 5d9380a..9cfb297 pushed.
+
+### CI/Test Results
+- Targeted: 19 passed / 0 failed / 0 errors / 0 skipped.
+- Full JUnit: tests=1996, errors=0, failures=0, skipped=1, time=699.514s.
+- Artifact verification: rows=36, verify_artifact passed.
+
+### AC Verification
+| AC | Result |
+|---|---|
+| 1 main-checkout/full-suite behavior | PASS |
+| 2 identical value for every root including ancestors | PASS |
+| 3 no `.claude/worktrees` canonical path | PASS |
+| 4 artifacts deterministic and verified | PASS |
+| 5 release ready without tag | PASS |
+| 6 LF004 assertions unchanged | PASS |
 
 
 ## nd_contract
