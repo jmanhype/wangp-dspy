@@ -1,18 +1,20 @@
 ---
 id: WD-gc09
 title: "Non-destructive multi-track editing surface for governed generation"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, capstone, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
-updated_at: 2026-09-23T13:47:01Z
-content_hash: "sha256:b3cae9d94462f291ff1bdafc6b6c78d8aed9f83b7d83838d186ef03844ce0a43"
+updated_at: 2026-09-23T14:20:59Z
+content_hash: "sha256:fdfea0fc714672754760bfb530fc9a7b9e0e1daff59398c6877b7a44611948e7"
 was_blocked_by: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 assignee: dev-WD-gc09
 follows: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
+closed_at: 2026-09-23T14:20:59Z
+close_reason: "Accepted: exact-head CI, full-suite 1972/0/1, independent lifecycle/non-destruction/determinism/consumption checks, typed failures, build, and clean headless evidence all pass."
 ---
 
 ## Description
@@ -192,6 +194,7 @@ status: delivered
 - 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-eq1i
 - 2026-09-23T12:35:58Z claimed by dev-WD-gc09
 - 2026-09-23T13:47:01Z status: in_progress -> in_progress
+- 2026-09-23T14:20:59Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-t741]]
