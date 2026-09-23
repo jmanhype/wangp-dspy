@@ -7,8 +7,8 @@ type: epic
 labels: [e2e, accepted]
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-23T20:48:29Z
-content_hash: "sha256:9a9fb453453fd6c583110116ca6f691542db522d8c0d22ccd01df558e1f84599"
+updated_at: 2026-09-23T21:36:35Z
+content_hash: "sha256:7ee2b0cb61dee255e983bc8aaed68d5939d4d03307cab16611fdd686395cb63a"
 closed_at: 2026-09-21T04:42:48Z
 close_reason: "All child stories are closed and accepted; mechanical capstone complete, operator creative verdict remains pending."
 ---
@@ -45,7 +45,9 @@ status: new
 
 
 ## Notes
+### Render-count scope disposition (milestone review, 2026-09-23)
 
+WD-h73w's OUT OF SCOPE said, "More than one independent governed render execution," but two real starts occurred with `dry_run: false`: `datasets/runs/provenance/lf004-operator-dogfood-20260920/execution.log` records 4 cuts at 107 frames, and `datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/execution.log` records 4 cuts at 56 frames. WD-42no records both exact operator approvals—the original 107-frame plan (`70280fdcd6fb7f54bc4f7027e03de54e4897178dd41adcf92ef31bd347d7bd86`, approved 2026-09-20T20:47:21Z) and the corrected 56-frame plan (`620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8`, approved 2026-09-21T00:54:03Z)—so the second start was operator-authorized. The literal epic sentence was nevertheless exceeded with operator authorization, and the epic text was not amended. This note records that discrepancy; it does not resolve it. The operator's explicit confirmation is still needed for the scope-history mismatch.
 
 ## History
 - 2026-09-21T04:42:48Z status: open -> closed
