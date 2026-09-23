@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T06:51:50Z
-content_hash: "sha256:f1d7eb0c3134ff6e84e8c5051c3446e79e4b1987b9292b09c138568207a15d37"
+updated_at: 2026-09-23T08:09:53Z
+content_hash: "sha256:7f494e6560cbead1cc2fcde3b5720694bc0eb5717e42f514d49dd35f57330be5"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 assignee: dev-WD-fasw
@@ -103,7 +103,64 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Delivered the no-GPU audio-post planning slice only: retained the prior typed model/backend work, added real source/voice hash validation, three deterministic mode plans (sound effect, revoice, refinement), an explicit immutable held-fixed-video contract, seed-bearing command graphs, immutable non-executable durable records, typed exit-2 failures, reconstruction, `wgp sfx`, planned-only docs, and README verb-map/index updates required by the new drift test. No render, host access, SSH, GPU work, model download, generated-audio claim, measured-output claim, or renderer/queue/QC/gate/retry semantic change occurred.
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_sfx_capabilities.py -q --junitxml=<tmp>/t.xml` -> exit 0; parsed JUnit tests=29 failures=0 errors=0 skipped=0.
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q --junitxml=<tmp>/t.xml` -> exit 0; parsed JUnit tests=5 failures=0 errors=0 skipped=0.
+- `uv run --frozen --extra dev pytest -q --junitxml=<tmp>/f.xml` -> exit 0; parsed JUnit tests=1848 failures=0 errors=0 skipped=1.
+- Real CLI evidence: human plus JSON output for sound effect, revoice, and refinement and all 22 typed failure classes, including `AUDIO_POST_VIDEO_MUTATION_REFUSED`; `/tmp/wd-fasw-cli-evidence.json`, SHA256 `e7255e4176d4272b57fabbd3c8f981389bdf60c72d4fcf8b9080eb9d146d81e1`.
+- Queue/reconstruction evidence: update and delete rejected by immutable triggers; planning `next_admissible=null`; genuine render job admitted afterward; all reconstruction hashes match with `hidden_mutation=false`; `/tmp/wd-fasw-cli-evidence.json`.
+- `git diff --exit-code -- datasets` and `git diff --exit-code origin/main -- datasets` -> both exit 0; datasets tree SHA256 before/after matched and zero shadowed ssh/curl/wget/nvidia-smi calls.
+- Targeted JUnit SHA256 `31407f2d204e4b72f70b969ed0b5cd893462db8e6fc13756671b116e17ed9f8d`; full JUnit SHA256 `c348575c77a6b20b615060d85af15748936d5045ae891f827315ee2bd36ecdda`.
+- `uv build --out-dir /tmp/wd-fasw-dist.sMv57o` -> exit 0; one wheel `d3aaa241d14e104ce5461c8692dbc1568ce4fd923cd449e78e058bf11a047273` and one sdist `1206701cf43a7f9b3ce9fd9319edcf27e44bf7fdfc68930ea87fb7e0aaf96d8c`.
+- `git fetch origin main && git rebase origin/main` -> incorporated main `a9ed130`; all CLI registrations retained; README verb map/index updated for `sfx`.
+- `git push -u origin story/WD-fasw` -> exact head published; `gh pr create` -> https://github.com/jmanhype/wangp-dspy/pull/170.
+- `gh api repos/jmanhype/wangp-dspy/commits/dcb5718b61dad30ccabdf75e7d7f830ab833c134/check-runs` -> check `test` completed/success.
+SHA: dcb5718b61dad30ccabdf75e7d7f830ab833c134
 
+### CI/Test Results
+- Targeted SFX suite: tests=29, passed=29, failures=0, errors=0, skipped=0, command exit=0.
+- README drift suite: tests=5, passed=5, failures=0, errors=0, skipped=0, command exit=0.
+- Full suite: tests=1848, passed=1847, failures=0, errors=0, skipped=1 (pre-existing), command exit=0.
+- Build: command exit=0; exactly one wheel and one sdist with SHA256 values recorded above.
+- GitHub check `test` on exact head `dcb5718`: completed/success.
+
+### AC Verification
+| AC | Result | Evidence |
+|---|---|---|
+| Typed SFX, revoice, and refinement requests compile from committed media hashes and declared ffprobe streams | pass | three real CLI mode cases plus ffprobe/hash test; targeted 29/29 |
+| Absent/ambiguous streams, mismatched duration, missing voice, invalid layout, and all other incomplete/unsupported classes fail with typed exit 2 and remediation/next command | pass | 22 real subprocess failure cases in `/tmp/wd-fasw-cli-evidence.json` |
+| Request that would alter a video declared held-fixed is refused | pass | `AUDIO_POST_VIDEO_MUTATION_REFUSED` case; no crop/scale/retime/reencode plan is emitted |
+| Plan marks source video hash immutable and names intended output while queue record preserves invariant | pass | durable record has `video_fixed.immutable=true`, source hash, no transformations, and explicit output path |
+| Durable records are immutable, non-executable, and un-drainable by real admission while a genuine render remains admitted | pass | update/delete triggers reject mutation; `next_admissible=null`, then genuine job ID after real `JobQueue.submit` |
+| Seed-based dry-run reconstruction reproduces settings/command provenance with hash equality and no hidden mutation | pass | `all_match=true`, `hidden_mutation=false`; recorded/reconstructed settings SHA256 equal |
+| `wgp` registration, README verb map, and planned-only docs stay coherent | pass | minimal two-line `sfx` registration; README drift 5/5; docs matrix all planned |
+| Committed datasets remain read-only and no hidden host/network/GPU command runs | pass | worktree and origin/main dataset diffs exit 0; shadowed call count 0 |
+| Honest no-GPU delivery/build evidence | pass | targeted/full JUnit counters above; one wheel and one sdist; CI success |
+| Authorized SFX generation | not verified - requires authorized host run | no model execution or generated audio exists |
+| Authorized revoice output | not verified - requires authorized host run | no model execution or generated audio exists |
+| Authorized refinement output | not verified - requires authorized host run | no model execution or measured quality improvement exists |
+| Authorized before/after proof that output video bytes remain unchanged | not verified - requires authorized host run | no host bundle/output hashes/ffprobe evidence exists |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-fasw`, commit `dcb5718b61dad30ccabdf75e7d7f830ab833c134`, PR #170.
+- Targeted suite 29/29 passed; README suite 5/5 passed; full suite 1847 passed plus 1 pre-existing skipped; CI `test` success.
+- One wheel and one sdist built with hashes recorded above.
+
+### proof
+-[x] NOGPU-1: typed sound-effect, revoice, and refinement planning with committed-media hash/stream validation
+-[x] NOGPU-2: immutable held-fixed-video refusal contract and planned output naming
+-[x] NOGPU-3: durable immutable non-executable records that real admission cannot drain
+-[x] NOGPU-4: typed exit-2 remediation and next command for every implemented incomplete/unsupported class
+-[x] NOGPU-5: seed-based reconstruction hash equality without hidden mutation
+-[x] NOGPU-6: registered and documented planning-only `wgp sfx` surface including README drift coverage
+-[x] NOGPU-7: committed datasets read-only and zero host/GPU/model-download work
+-[x] NOGPU-8: targeted, drift, full-test, build, and exact-head CI evidence
+-[x] NOGPU-9: no generated-audio, measured-output, quality-improvement, or video-byte-preservation claim
 
 ## History
 - 2026-09-22T20:24:45Z dep_added: blocked_by WD-6ml6
