@@ -44,6 +44,7 @@ from wangp.diagnostics import (
     render_diagnostic,
     render_diagnostic_mapping,
 )
+from wangp.image_cli import register_image_parser
 from wangp.video_cli import register_video_parser
 from wangp.music_cli import register_music_parser
 from wangp.platform_cli import register_platform_parser
@@ -734,6 +735,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--version", action="version", version=__version__)
     commands = parser.add_subparsers(dest="verb", required=True)
     register_video_parser(commands)
+    register_image_parser(commands)
     register_music_parser(commands)
     register_platform_parser(commands)
 
