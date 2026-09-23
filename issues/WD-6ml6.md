@@ -1,18 +1,19 @@
 ---
 id: WD-6ml6
 title: "Speech, reference voice cloning, portable character voices, and a second TTS engine"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T06:30:48Z
-content_hash: "sha256:55654743a97d6e20b376e4f1aabee539edb3e69bcf08ae21b3314d9da34ba37d"
-blocks: [WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
+updated_at: 2026-09-23T06:49:07Z
+content_hash: "sha256:0617f899c6faf5b3b8ad3d887aae1ea6a912dad66b27e3af6489ca047b363603"
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
+closed_at: 2026-09-23T06:49:07Z
+close_reason: "Accepted: exact head b33e8b8; 34/34 targeted and 1817 full tests (1 pre-existing skip), planned-only matrix, immutable non-executable plans, no host calls, clean worktree."
 ---
 
 ## Description
@@ -185,10 +186,14 @@ status: delivered
 - 2026-09-23T05:41:42Z claimed by dev-WD-6ml6
 - 2026-09-23T06:30:48Z status: in_progress -> in_progress
 - 2026-09-23T06:30:48Z auto-follows: linked to predecessor WD-soa4
+- 2026-09-23T06:49:07Z status: in_progress -> closed
+- 2026-09-23T06:49:08Z dep_removed: no_longer_blocks WD-fasw
+- 2026-09-23T06:49:08Z dep_removed: no_longer_blocks WD-tkuz
+- 2026-09-23T06:49:08Z dep_removed: no_longer_blocks WD-eq1i
+- 2026-09-23T06:49:08Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-fasw]], [[WD-tkuz]], [[WD-eq1i]], [[WD-gc09]]
 - Follows: [[WD-pcen]], [[WD-soa4]]
 
 ## Comments
