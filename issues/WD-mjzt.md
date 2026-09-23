@@ -7,8 +7,8 @@ type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-23T23:41:54Z
-content_hash: "sha256:a90fc0a2c838ef71e19b79cb5b32954169f1cca75be59b756d9c78fc4fff704d"
+updated_at: 2026-09-23T23:42:09Z
+content_hash: "sha256:772294f1807d4954eb4dcd31ae22a8ea95d3ee7b19bd96a243f837ed61e8272d"
 blocked_by: [WD-td89]
 assignee: dev-WD-mjzt
 follows: [WD-td89, WD-42no]
@@ -105,7 +105,21 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py` (pre-fix main; post-fix fresh worktree; post-fix main shape)
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-mjzt-full.xml` (fresh worktree)
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-mjzt-main-shape-full.xml` (main shape)
+- `uv run --frozen --extra dev wgp release verify` (fresh worktree and main shape)
+- `uv run --frozen --extra dev python -m py_compile datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py tests/test_lf004_recovery_tooling.py`
+- `pvg verify datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py tests/test_lf004_recovery_tooling.py --format=text`
+- `git diff --exit-code 06a6fd48b0e3433a4076b9e154a2f693f24f71b9 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+- `git push origin story/WD-mjzt`
+
+Summary: PASS. Pre-fix main targeted suite had 1 failure. Post-fix fresh-worktree targeted suite passed 16/16; full suite passed 2010 tests with 0 errors, 0 failures, 1 skipped; release gate passed with `release=ready`, `tag_created=false`. Main shape with ignored acceptance record present repeated targeted 16/16, full 2010/0/0/1, and release ready. Integrity hashes unchanged.
+Commit SHA: 8022994310f11288cfdb99d1a86a02696ccb7d41
 
 ## nd_contract
 status: delivered
