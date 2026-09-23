@@ -10,6 +10,7 @@ updated_at: 2026-09-23T20:14:14Z
 content_hash: "sha256:c45d1ab57155ffcf47c8d2b0ce0edc50570f4dd4a72ba0f3d52f88dc6c0c73ac"
 closed_at: 2026-09-23T20:14:14Z
 close_reason: "All stories accepted"
+labels: [accepted]
 ---
 
 ## Description
