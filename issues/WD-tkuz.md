@@ -8,8 +8,8 @@ labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T09:16:30Z
-content_hash: "sha256:a3a646ba530fc127756f9ec717e7b2a0fe1663c50b294d13f63d348df1c52efd"
+updated_at: 2026-09-23T09:36:04Z
+content_hash: "sha256:de1fc6e4bbce3892df732aedbca853f3a16ea7635963e5a3c3c54c35083a2ffe"
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
 follows: [WD-6tox, WD-pcen, WD-6ml6, WD-soa4]
@@ -109,7 +109,16 @@ status: new
 
 
 ## Notes
+## Post-Acceptance Rebase (integrator)
 
+Accepted at `308b587ce6f4e575e5db21bac337579f7dff98eb`. Merging the fasw lane (#170) first moved `main`, leaving README conflicts (both lanes add a capability row and a docs-index entry).
+
+Resolution by the dispatcher: rebased onto `main` at `9737bce`, kept BOTH rows in the capability table (sound effects/audio post and characters) and both links in the documentation index, kept all seven CLI registrations (`video`, `image`, `music`, `platform`/first-run, `sfx`, `voice`, `character`), and changed nothing else.
+
+Evidence at the rebased head `98fb0861d852496ac6245aea4941e6404bbf3f6c`:
+- targeted `tests/test_character_capabilities.py tests/test_readme_quickstart.py` -> 38 passed, exit 0;
+- exact-head CI `test`: completed/success (the required gate, running the full suite);
+- `wgp --help` exposes every verb including `character`.
 
 ## nd_contract
 status: accepted
