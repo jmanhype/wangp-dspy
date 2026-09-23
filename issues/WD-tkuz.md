@@ -9,12 +9,13 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T09:36:04Z
-content_hash: "sha256:de1fc6e4bbce3892df732aedbca853f3a16ea7635963e5a3c3c54c35083a2ffe"
+content_hash: "sha256:94ea23afb49a2ab8b45bacce35f704d2fdbc3c5f6566ac73d685cbd7fd7fc2a1"
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
 follows: [WD-6tox, WD-pcen, WD-6ml6, WD-soa4]
 closed_at: 2026-09-23T09:16:29Z
 close_reason: "Accepted at 308b587c: independent round-trip/hash/continuity/durable-record checks passed; 33+5+1852 tests green; CI, build, read-only, command-drift, and delivery proof 9/9 passed."
+led_to: [WD-8ioj]
 ---
 
 ## Description
@@ -229,5 +230,6 @@ status: delivered
 - Parent: [[WD-t741]]
 - Was blocked by: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
 - Follows: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]], [[WD-soa4]]
+- Led to: [[WD-8ioj]]
 
 ## Comments

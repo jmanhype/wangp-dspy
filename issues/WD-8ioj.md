@@ -1,17 +1,19 @@
 ---
 id: WD-8ioj
 title: "Finishing: interpolation, spatial upsampling, grain, codecs, tracked-face refinement, and optional neural path"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:48Z
-content_hash: "sha256:048fb65374107aefb155885e19d4697327a17b0daa6069caca5453ffd1bd71bc"
+updated_at: 2026-09-23T09:36:22Z
+content_hash: "sha256:5240bec9b6b63d182cc5575ef4bcb6ad11476484439c1003b9442f2ca827ddf8"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-tkuz]
+assignee: dev-WD-8ioj
+follows: [WD-6tox, WD-tkuz]
 ---
 
 ## Description
@@ -110,10 +112,15 @@ status: new
 - 2026-09-22T20:26:48Z dep_added: blocks WD-gc09
 - 2026-09-22T22:50:10Z dep_removed: was_blocked_by WD-6tox
 - 2026-09-23T09:16:29Z dep_removed: was_blocked_by WD-tkuz
+- 2026-09-23T09:36:22Z status: open -> in_progress
+- 2026-09-23T09:36:22Z auto-follows: linked to predecessor WD-6tox
+- 2026-09-23T09:36:22Z auto-follows: linked to predecessor WD-tkuz
+- 2026-09-23T09:36:22Z claimed by dev-WD-8ioj
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-tkuz]]
+- Follows: [[WD-6tox]], [[WD-tkuz]]
 
 ## Comments
