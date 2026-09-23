@@ -1,14 +1,15 @@
 ---
 id: WD-rf1a
 title: "Delivered media resolution contradicts the plan envelope for every recorded render"
-status: open
+status: in_progress
 priority: 0
 type: task
 parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
-updated_at: 2026-09-21T07:00:04Z
-content_hash: "sha256:801ef41f678c0c1ebc6fe51dca2a1d2cd85ede79345c4829a6aa2fe21db228a6"
+updated_at: 2026-09-23T15:59:30Z
+content_hash: "sha256:8ad0ef5893e5ab7a171597d33e8c897e504c85be351550df539dea75a2c86cb6"
+assignee: dev-WD-rf1a
 ---
 
 ## Description
@@ -54,7 +55,8 @@ status: new
 
 
 ## History
-
+- 2026-09-23T15:59:30Z status: open -> in_progress
+- 2026-09-23T15:59:30Z claimed by dev-WD-rf1a
 
 ## Links
 - Parent: [[WD-as25]]
