@@ -24,6 +24,10 @@ PULL = ROOT / "datasets/runs/pull" / RUN_ID
 PROVENANCE = ROOT / "datasets/runs/provenance" / RUN_ID
 LEDGER = ROOT / f"datasets/{RUN_ID}.run_ledger.json"
 PLAN_SHA = "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"
+FINAL_MEDIA_SHA256 = "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7"
+OPERATOR_ACCEPTANCE_SHA256 = "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d"
+OPERATOR_VERDICT_SOURCE = 'operator message: "i approve"'
+EXECUTED_LAUNCHER_SHA256 = "419ba28c8f9ce5ce5028a66de424d7e67bbdf231724c3f586940f9f1b4720cc7"
 RAW_BRIEF_SHA = "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767"
 SEMANTIC_BRIEF_HASH = "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd"
 RAW_PLAN_SHA = "d0650b2e6b9d6fdbb1807ef82622c9c9a17888a0d4896e0c245feab146013943"
@@ -42,6 +46,12 @@ def sha(path: Path) -> str:
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+
+def _git_blob(path: Path) -> str:
+    relative = path.relative_to(ROOT).as_posix()
+    result = subprocess.run(["git", "-C", str(ROOT), "rev-parse", f"HEAD:{relative}"], check=True, capture_output=True, text=True)
+    return result.stdout.strip()
 
 
 def canonical_sha(plan: dict[str, Any]) -> str:
@@ -243,6 +253,132 @@ def finalize() -> None:
     print(json.dumps({"status": payload["status"], "cuts": [cut["media"]["sha256"] for cut in cuts], "final_sha256": final["sha256"]}, sort_keys=True))
 
 
+def _validate_operator_acceptance(payload: dict[str, Any]) -> None:
+    expected = {
+        "schema_version": "wangp-dspy.operator-acceptance/v1",
+        "status": "operator_accepted",
+        "creative_acceptance": "accepted",
+        "verdict": "keep",
+        "verdict_source": OPERATOR_VERDICT_SOURCE,
+    }
+    actual = {key: payload.get(key) for key in expected}
+    if actual != expected:
+        raise ValueError(f"unsupported LF004 operator acceptance: {actual}")
+    artifact = payload.get("artifact")
+    if not isinstance(artifact, dict) or artifact.get("sha256") != FINAL_MEDIA_SHA256:
+        raise ValueError("LF004 acceptance artifact hash mismatch")
+    if artifact.get("path") != "datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4":
+        raise ValueError("LF004 acceptance artifact path mismatch")
+
+
+def _launcher_identity() -> dict[str, Any]:
+    launcher = BASE / "run/run_recovery_once.sh"
+    run_film = ROOT / "scripts/run_film.py"
+    return {
+        "repository": repository_identity(ROOT),
+        "launcher_path": launcher.relative_to(ROOT).as_posix(),
+        "launcher_sha256": sha(launcher),
+        "scripts_run_film_path": run_film.relative_to(ROOT).as_posix(),
+        "scripts_run_film_sha256": sha(run_film),
+        "scripts_run_film_git_blob": _git_blob(run_film),
+    }
+
+
+def _validate_reconciled(final: dict[str, Any], ledger: dict[str, Any], postprocess: dict[str, Any], sidecar: dict[str, Any], review: str, canonical_sha: str) -> None:
+    verdict = final.get("operator_verdict", {})
+    if not all((final.get("status") == "operator_accepted", final.get("creative_acceptance") == "accepted", verdict.get("verdict") == "keep", verdict.get("verdict_source") == OPERATOR_VERDICT_SOURCE, verdict.get("acceptance_record_sha256") == canonical_sha, ledger.get("status") == "operator_accepted", postprocess.get("final_status") == "operator_accepted", final.get("post_execution_recovery", {}).get("final_status") == "operator_accepted", sidecar.get("status") == "operator_accepted", sidecar.get("record_class") == "historical_pre_verdict_snapshot", "Pre-verdict history" in review)):
+        raise ValueError("LF004 evidence is accepted but incomplete or corrupted")
+
+
+def record_operator_verdict(acceptance_path: Path | None = None, output_root: Path | None = None) -> dict[str, Any]:
+    """Reconcile durable LF004 evidence from the one recorded operator verdict."""
+    pull = PULL if output_root is None else output_root
+    provenance = PROVENANCE if output_root is None else output_root / "provenance"
+    ledger_path = LEDGER if output_root is None else output_root / "run-ledger.json"
+    canonical = provenance / "operator-acceptance.json"
+    canonical_repo_path = (PROVENANCE / "operator-acceptance.json").relative_to(ROOT).as_posix()
+    source = acceptance_path
+    if source is None:
+        candidates = [PULL / "operator-acceptance.json", canonical]
+        source = next((candidate for candidate in candidates if candidate.exists()), None)
+    if source is None:
+        raise FileNotFoundError("LF004 operator acceptance record not found")
+    acceptance_bytes = source.read_bytes()
+    acceptance_sha = sha(source)
+    if acceptance_sha != OPERATOR_ACCEPTANCE_SHA256:
+        raise ValueError(f"LF004 acceptance record hash mismatch: {acceptance_sha}")
+    acceptance = json.loads(acceptance_bytes)
+    _validate_operator_acceptance(acceptance)
+
+    final_path = pull / "final-provenance.json"
+    sidecar_path = pull / "operator_review_pending.json"
+    postprocess_path = pull / "postprocess-recovery.json"
+    review_path = pull / "review.md"
+    required = [final_path, sidecar_path, postprocess_path, review_path, ledger_path]
+    missing = [str(path) for path in required if not path.exists()]
+    if missing:
+        raise FileNotFoundError(f"authoritative LF004 evidence missing: {missing}")
+    final = json.loads(final_path.read_text(encoding="utf-8"))
+    sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+    postprocess = json.loads(postprocess_path.read_text(encoding="utf-8"))
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    review = review_path.read_text(encoding="utf-8")
+    historical_status = "operator_review_pending"
+    recorded_hashes = (acceptance["artifact"]["sha256"], final.get("final_media", {}).get("sha256"), final.get("assembly", {}).get("output_sha256"), sidecar.get("final_sha256"), ledger.get("final_sha256"))
+    if any(value != FINAL_MEDIA_SHA256 for value in recorded_hashes):
+        raise ValueError(f"LF004 final-media identity mismatch: {recorded_hashes}")
+    media = Path(final["final_media"]["path"])
+    if not media.is_absolute():
+        media = ROOT / media
+    if sha(media) != FINAL_MEDIA_SHA256:
+        raise ValueError(f"LF004 final media bytes mismatch: {media}")
+
+    if final.get("status") == "operator_accepted":
+        _validate_reconciled(final, ledger, postprocess, sidecar, review, acceptance_sha)
+        if not canonical.exists() or sha(canonical) != acceptance_sha:
+            raise ValueError("LF004 canonical acceptance record mismatch")
+        return {"action": "no_change", "status": "operator_accepted", "changed_paths": [], "acceptance_record_sha256": acceptance_sha, "final_sha256": FINAL_MEDIA_SHA256}
+    if final.get("status") != "operator_review_pending" or sidecar.get("status") != "operator_review_pending":
+        raise ValueError(f"LF004 cannot reconcile status pair: {final.get('status')}, {sidecar.get('status')}")
+    if final.get("creative_acceptance") != "none" or postprocess.get("final_status") != "operator_review_pending" or ledger.get("status") != "operator_review_pending":
+        raise ValueError("LF004 pre-verdict evidence has unexpected state")
+    if final.get("inputs", {}).get("launcher_sha256") != EXECUTED_LAUNCHER_SHA256:
+        raise ValueError("LF004 executed launcher hash mismatch")
+
+    checkout = _launcher_identity()
+    verdict = {"status": "operator_accepted", "creative_acceptance": "accepted", "verdict": "keep", "verdict_source": OPERATOR_VERDICT_SOURCE, "acceptance_record_path": canonical_repo_path, "acceptance_record_sha256": acceptance_sha, "recorded_utc": acceptance["recorded_utc"]}
+    final["status"] = "operator_accepted"
+    final["creative_acceptance"] = "accepted"
+    final["operator_verdict"] = verdict
+    final["status_history"] = [{"record_class": "historical_pre_verdict", "status": historical_status}]
+    if isinstance(final.get("post_execution_recovery"), dict):
+        final["post_execution_recovery"]["final_status"] = "operator_accepted"
+        final["post_execution_recovery"]["status_history"] = [{"record_class": "historical_pre_verdict", "status": historical_status}]
+        final["post_execution_recovery"]["operator_verdict"] = verdict
+        final["post_execution_recovery"]["reconciliation"] = {"render_rerun": False, "production_run_rerun": False, "acceptance_record_sha256": acceptance_sha}
+    final["launcher_reconciliation"] = {"as_executed": {"launcher_sha256": EXECUTED_LAUNCHER_SHA256, "source": "inputs.launcher_sha256"}, "current_checkout": checkout}
+    postprocess["final_status"] = "operator_accepted"
+    postprocess["status_history"] = [{"record_class": "historical_pre_verdict", "status": historical_status}]
+    postprocess["operator_verdict"] = verdict
+    postprocess["reconciliation"] = {"render_rerun": False, "production_run_rerun": False, "acceptance_record_sha256": acceptance_sha}
+    sidecar["status"] = "operator_accepted"
+    sidecar["record_class"] = "historical_pre_verdict_snapshot"
+    sidecar["historical_status"] = historical_status
+    sidecar["superseded_by"] = verdict
+    ledger_extra = {key: value for key, value in ledger.items() if key not in {"schema_version", "run_id", "status"}}
+    ledger_extra["operator_verdict"] = verdict
+    ledger_extra["operator_reconciliation"] = {"repository": checkout["repository"], "launcher_as_executed_sha256": EXECUTED_LAUNCHER_SHA256, "launcher_current_checkout_sha256": checkout["launcher_sha256"], "scripts_run_film_sha256": checkout["scripts_run_film_sha256"], "scripts_run_film_git_blob": checkout["scripts_run_film_git_blob"], "render_rerun": False}
+
+    canonical.parent.mkdir(parents=True, exist_ok=True)
+    canonical.write_bytes(acceptance_bytes)
+    write_json(final_path, final)
+    write_json(postprocess_path, postprocess)
+    write_json(sidecar_path, sidecar)
+    review_path.write_text("# LF004 56-frame recovery — operator review\n\nStatus: `operator_accepted`; operator verdict: `keep`. Verdict source: `operator message: \"i approve\"`. Acceptance record SHA-256: `" + acceptance_sha + "`. Final film SHA-256: `" + FINAL_MEDIA_SHA256 + "`.\n\n## Pre-verdict history\n\nBefore the operator verdict, this review was `" + historical_status + "`. This reconciliation recorded that verdict without a render, probe, contact-sheet, GPU, host, network, or queue operation.\n\nFilm contact sheet: `review/film.contact_sheet.jpg`; per-cut sheets and full evidence are in this directory.\n", encoding="utf-8")
+    write_run_ledger(ledger_path, run_id=RUN_ID, identity=ledger["repository"], status="operator_accepted", extra=ledger_extra)
+    return {"action": "reconciled", "status": "operator_accepted", "changed_paths": [str(path) for path in (canonical, final_path, postprocess_path, sidecar_path, review_path, ledger_path)], "acceptance_record_sha256": acceptance_sha, "final_sha256": FINAL_MEDIA_SHA256, "repository_head": checkout["repository"]["commit_sha"], "current_launcher_sha256": checkout["launcher_sha256"]}
+
+
 def main(argv: list[str]) -> int:
     if argv == ["reconcile"]:
         reconcile()
@@ -257,8 +393,14 @@ def main(argv: list[str]) -> int:
         stage_assets(Path(argv[2]), dry_run=dry_run, output=Path(values[0]) if values else None)
     elif argv == ["finalize"]:
         finalize()
+    elif argv and argv[0] == "record-operator-verdict":
+        values = argv[1:]
+        if len(values) % 2 or any(flag not in {"--acceptance", "--output-root"} for flag in values[::2]):
+            raise SystemExit("usage: recover_once.py record-operator-verdict [--acceptance PATH] [--output-root PATH]")
+        flags = dict(zip(values[::2], values[1::2], strict=True))
+        print(json.dumps(record_operator_verdict(Path(flags["--acceptance"]) if "--acceptance" in flags else None, Path(flags["--output-root"]) if "--output-root" in flags else None), sort_keys=True))
     else:
-        raise SystemExit("usage: recover_once.py reconcile|finalize")
+        raise SystemExit("usage: recover_once.py reconcile|finalize|record-operator-verdict")
     return 0
 
 

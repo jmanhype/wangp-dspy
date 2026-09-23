@@ -126,3 +126,108 @@ def test_launcher_hash_failure_aborts_before_setup_or_staging(tmp_path: Path) ->
     assert not (provenance / "setup-command.json").exists()
     assert not (provenance / "stage-plan.json").exists()
     assert not (provenance / "preflight.txt").exists()
+
+
+def make_verdict_fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    output = tmp_path / "output"
+    provenance = output / "provenance"
+    provenance.mkdir(parents=True)
+    media = tmp_path / "assembled.mp4"
+    media.write_bytes(b"LF004 deterministic reconciliation fixture")
+    media_sha = recover.sha(media)
+    acceptance_path = provenance / "operator-acceptance.json"
+    acceptance = json.loads((recover.PROVENANCE / "operator-acceptance.json").read_text())
+    assert (acceptance["schema_version"], acceptance["status"], acceptance["creative_acceptance"], acceptance["verdict"], acceptance["verdict_source"]) == ("wangp-dspy.operator-acceptance/v1", "operator_accepted", "accepted", "keep", 'operator message: "i approve"')
+    acceptance["artifact"]["sha256"] = media_sha
+    acceptance_path.write_text(json.dumps(acceptance, indent=1) + "\n")
+    monkeypatch.setattr(recover, "FINAL_MEDIA_SHA256", media_sha)
+    monkeypatch.setattr(recover, "OPERATOR_ACCEPTANCE_SHA256", recover.sha(acceptance_path))
+
+    source = recover.PULL
+    final = json.loads((source / "final-provenance.json").read_text())
+    final["final_media"]["path"] = str(media)
+    final["final_media"]["sha256"] = media_sha
+    final["assembly"]["output_sha256"] = media_sha
+    final["status"] = "operator_review_pending"
+    final["creative_acceptance"] = "none"
+    if isinstance(final.get("post_execution_recovery"), dict):
+        final["post_execution_recovery"]["final_status"] = "operator_review_pending"
+        for field in ("status_history", "operator_verdict", "reconciliation"):
+            final["post_execution_recovery"].pop(field, None)
+    for field in ("operator_verdict", "status_history", "launcher_reconciliation"):
+        final.pop(field, None)
+    recover.write_json(output / "final-provenance.json", final)
+    sidecar = json.loads((source / "operator_review_pending.json").read_text())
+    sidecar["final_sha256"] = media_sha
+    sidecar["status"] = "operator_review_pending"
+    for field in ("record_class", "historical_status", "superseded_by"):
+        sidecar.pop(field, None)
+    recover.write_json(output / "operator_review_pending.json", sidecar)
+    postprocess = json.loads((source / "postprocess-recovery.json").read_text())
+    postprocess["final_status"] = "operator_review_pending"
+    for field in ("status_history", "operator_verdict", "reconciliation"):
+        postprocess.pop(field, None)
+    recover.write_json(output / "postprocess-recovery.json", postprocess)
+    (output / "review.md").write_text((source / "review.md").read_text())
+    ledger = json.loads(recover.LEDGER.read_text())
+    ledger["final_sha256"] = media_sha
+    ledger["status"] = "operator_review_pending"
+    for field in ("operator_verdict", "operator_reconciliation"):
+        ledger.pop(field, None)
+    recover.write_json(output / "run-ledger.json", ledger)
+    return output
+
+
+def snapshot(root: Path) -> dict[str, bytes]:
+    return {str(path.relative_to(root)): path.read_bytes() for path in sorted(root.rglob("*")) if path.is_file()}
+
+
+def test_record_operator_verdict_command_reconciles_and_is_idempotent(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    assert recover.sha(recover.PROVENANCE / "operator-acceptance.json") == "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d"
+    assert recover.main(["record-operator-verdict", "--acceptance", str(output / "provenance/operator-acceptance.json"), "--output-root", str(output)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["action"] == "reconciled"
+    final = json.loads((output / "final-provenance.json").read_text())
+    identity = final["launcher_reconciliation"]
+    assert identity["as_executed"]["launcher_sha256"] == recover.EXECUTED_LAUNCHER_SHA256
+    assert identity["current_checkout"]["launcher_sha256"] != recover.EXECUTED_LAUNCHER_SHA256
+    assert identity["current_checkout"]["scripts_run_film_sha256"] == recover.sha(recover.ROOT / "scripts/run_film.py")
+    assert identity["current_checkout"]["scripts_run_film_git_blob"] == "f8af9b7eaee0da2a3b7af95a6845788f1c6a8aca"
+    assert final["repository"] == json.loads(recover.PULL.joinpath("final-provenance.json").read_text())["repository"]
+    ledger = json.loads((output / "run-ledger.json").read_text())
+    assert ledger["status"] == "operator_accepted"
+    assert ledger["repository"] == json.loads(recover.LEDGER.read_text())["repository"]
+    assert json.loads((output / "postprocess-recovery.json").read_text())["final_status"] == "operator_accepted"
+    sidecar = json.loads((output / "operator_review_pending.json").read_text())
+    assert (sidecar["record_class"], sidecar["historical_status"]) == ("historical_pre_verdict_snapshot", "operator_review_pending")
+    before = snapshot(output)
+    second = recover.record_operator_verdict(output_root=output)
+    assert second["action"] == "no_change"
+    assert snapshot(output) == before
+
+
+@pytest.mark.parametrize("damage", ["media_bytes", "media_record", "acceptance_hash", "verdict_source", "missing_sidecar"])
+def test_record_operator_verdict_fails_closed_without_partial_writes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, damage: str) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    acceptance_path = output / "provenance/operator-acceptance.json"
+    if damage == "media_bytes":
+        (tmp_path / "assembled.mp4").write_bytes(b"changed after acceptance")
+    elif damage == "media_record":
+        final_path = output / "final-provenance.json"
+        final = json.loads(final_path.read_text())
+        final["final_media"]["sha256"] = "0" * 64
+        recover.write_json(final_path, final)
+    elif damage == "acceptance_hash":
+        acceptance_path.write_text("{}\n")
+    elif damage == "verdict_source":
+        acceptance = json.loads(acceptance_path.read_text())
+        acceptance["verdict_source"] = "inferred approval"
+        acceptance_path.write_text(json.dumps(acceptance, indent=1) + "\n")
+        monkeypatch.setattr(recover, "OPERATOR_ACCEPTANCE_SHA256", recover.sha(acceptance_path))
+    else:
+        (output / "operator_review_pending.json").unlink()
+    before = snapshot(output)
+    with pytest.raises((ValueError, FileNotFoundError)):
+        recover.record_operator_verdict(acceptance_path, output)
+    assert snapshot(output) == before

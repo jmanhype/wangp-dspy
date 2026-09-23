@@ -4,6 +4,33 @@
   "final_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921/assembled.mp4",
   "final_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
   "fingerprint_correction": "393182e4459c23bedf17a0f1fb1fb76819d6d9548bc0a0aeedec33fe2963fb56",
+  "operator_reconciliation": {
+    "launcher_as_executed_sha256": "419ba28c8f9ce5ce5028a66de424d7e67bbdf231724c3f586940f9f1b4720cc7",
+    "launcher_current_checkout_sha256": "6176d944e520ca77cf1e50fc3688706de666ea534708bf5b4ea86f8477ea2858",
+    "render_rerun": false,
+    "repository": {
+      "changed_path_count": 2,
+      "clean_tree": false,
+      "commit_sha": "1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e",
+      "dirty_tree": true,
+      "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-td89",
+      "status_sha256": "6789e9965e944a3f901724a85dbbdb89a6f9d52fe4ce2cbb13225154c6436287",
+      "tracked_diff_sha256": "a240b9cc90f574bc0cab0ee10c098416978db0a2c0484ecb2b3ce7fdcee0c591",
+      "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "untracked_path_count": 0
+    },
+    "scripts_run_film_git_blob": "f8af9b7eaee0da2a3b7af95a6845788f1c6a8aca",
+    "scripts_run_film_sha256": "9e8760927c8bd4548a1f315711e86afba42ea98d68a31632e8f257a0305f36a5"
+  },
+  "operator_verdict": {
+    "acceptance_record_path": "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json",
+    "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+    "creative_acceptance": "accepted",
+    "recorded_utc": "2026-09-21T05:02:48Z",
+    "status": "operator_accepted",
+    "verdict": "keep",
+    "verdict_source": "operator message: \"i approve\""
+  },
   "post_correction_db_sha256": "fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4",
   "pre_correction_db_sha256": "4049fa0815deae648dbd07c24cf28d49d027817f45cc9a4c8e3020227b22906c",
   "production_run_rerun": false,
@@ -21,5 +48,5 @@
   },
   "run_id": "lf004-operator-dogfood-56f-recovery-20260921",
   "schema_version": 1,
-  "status": "operator_review_pending"
+  "status": "operator_accepted"
 }

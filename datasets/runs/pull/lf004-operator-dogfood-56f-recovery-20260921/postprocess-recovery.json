@@ -2,10 +2,30 @@
   "event": "postprocess-only recovery",
   "failure": "first finalize could not open film.contact_sheet.jpg because its parent review directory did not exist",
   "final_media_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
-  "final_status": "operator_review_pending",
+  "final_status": "operator_accepted",
   "fix": "create the review parent before ffmpeg in recover_once.contact_sheet; rerun only recover_once.py finalize",
+  "operator_verdict": {
+    "acceptance_record_path": "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json",
+    "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+    "creative_acceptance": "accepted",
+    "recorded_utc": "2026-09-21T05:02:48Z",
+    "status": "operator_accepted",
+    "verdict": "keep",
+    "verdict_source": "operator message: \"i approve\""
+  },
   "production_run_rerun": false,
   "queue_terminal_state": "4 done",
+  "reconciliation": {
+    "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+    "production_run_rerun": false,
+    "render_rerun": false
+  },
   "render_rerun": false,
-  "schema_version": 1
+  "schema_version": 1,
+  "status_history": [
+    {
+      "record_class": "historical_pre_verdict",
+      "status": "operator_review_pending"
+    }
+  ]
 }
