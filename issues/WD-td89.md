@@ -7,8 +7,8 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T21:41:27Z
-content_hash: "sha256:4293ffb96feaf4648c8aeec2aa4aca34f98d8fd5572a514fae4e9adf6fd2b6de"
+updated_at: 2026-09-23T22:14:26Z
+content_hash: "sha256:c4d3fc5b0b294b5d05aa5a84adfc9b356e9efbf6e23563af82324fe97e13c6bf"
 assignee: dev-WD-td89
 follows: [WD-42no]
 ---
@@ -97,6 +97,73 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### Commands and measured results
+- timeout 300 uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py -> EXIT 0; 11 passed.
+- timeout 1800 uv run --frozen --extra dev pytest -q -> EXIT 0; JUnit tests=2005 errors=0 failures=0 skipped=1. The only skip is tests.test_jobs_integration_3090.test_live_preflight_against_3090, gated on WANGP_3090=1 and not enabled because this story forbids host work.
+- timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-td89-full.xml -> EXIT 0; same counters (2005/0/0/1).
+- timeout 600 uv run --frozen --extra dev pytest -q tests/test_spend_gate.py -> EXIT 0; 19 passed.
+- timeout 300 uv run --frozen --extra dev pytest -q tests/test_spend_gate.py::test_lf004_parity_queue_join_and_live_atomic_recorder tests/test_spend_gate.py::test_historical_nested_worktree_paths_are_checkout_independent -> EXIT 0; 2 passed.
+- timeout 600 uv run --frozen --extra dev wgp release verify -> EXIT 0; release=ready, tag_created=false, tag-ready=v0.1.0.
+- git diff --exit-code 1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py -> EXIT 0, no output.
+- git diff --check -> EXIT 0, no output.
+- pvg verify datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py tests/test_lf004_recovery_tooling.py datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json --format=text -> VERIFY: PASSED (2 files scanned, 0 issues).
+
+### Commit and push
+- Branch: story/WD-td89
+- SHA: 533ff7a471f022c28d5967130aad93e640535fa0
+- Push: origin/story/WD-td89 succeeded.
+
+### Reconciliation and integrity
+- First supported command run: action=reconciled; status=operator_accepted; acceptance SHA-256 e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d.
+- Second supported command run: action=no_change; changed_paths=[].
+- Final media pre/post SHA-256: 2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7 both times.
+- Queue DB pre/post SHA-256: fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4 both times.
+- Launcher table: as_executed=419ba28c8f9ce5ce5028a66de424d7e67bbdf231724c3f586940f9f1b4720cc7; current checkout launcher=6176d944e520ca77cf1e50fc3688706de666ea534708bf5b4ea86f8477ea2858; current scripts/run_film.py SHA-256=9e8760927c8bd4548a1f315711e86afba42ea98d68a31632e8f257a0305f36a5; Git blob=f8af9b7eaee0da2a3b7af95a6845788f1c6a8aca; recording HEAD=1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e.
+
+### Status transitions
+- final-provenance.json: operator_review_pending / creative_acceptance none -> operator_accepted / accepted, with durable operator_verdict and launcher_reconciliation.
+- run ledger: operator_review_pending -> operator_accepted, preserving original repository and final hash.
+- review.md: operator_review_pending -> operator_accepted plus explicit Pre-verdict history.
+- operator_review_pending.json: pending sidecar -> status operator_accepted, record_class historical_pre_verdict_snapshot, historical_status operator_review_pending.
+- postprocess-recovery.json and nested final-provenance post_execution_recovery: final_status pending -> accepted plus status_history.
+- tracked canonical acceptance: absent -> datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json with SHA-256 e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d.
+- Retained historical pending mentions are explicitly labeled history at final-provenance status_history and post_execution_recovery.status_history, postprocess-recovery.status_history, operator_review_pending.historical_status, and review.md Pre-verdict history.
+
+### AC Verification
+| AC | Requirement | Evidence | Status |
+| 1 | Durable verbatim verdict and accepted current statuses | Canonical acceptance plus final/ledger/review/sidecar/postprocess status fields | PASS |
+| 2 | Distinguish executed and checkout launcher identities, record run_film SHA/blob/HEAD | final-provenance launcher_reconciliation and ledger operator_reconciliation | PASS |
+| 3 | Supported fail-closed, no-render, idempotent reconciliation command | recover_once.py record_operator_verdict plus 11 focused tests and second-run no_change | PASS |
+| 4 | Full suite, release, spend parity/regression | Commands above | PASS |
+| 5 | No immutable/protected mutation | Protected diff clean; media and DB hashes unchanged | PASS |
+
+LEARNINGS:
+- The ignored operator-acceptance bytes must be preserved verbatim; deterministic re-serialization changes the record hash, so the canonical copy is byte-copied by the supported command.
+- final-provenance embeds a post_execution_recovery snapshot, so both the sidecar file and nested copy needed explicit current-status/history treatment.
+- The pre-existing live-3090 pytest skip cannot be enabled under this story's no-host boundary.
+
+### OBSERVATIONS (unrelated)
+- Pre-existing FastAPI/Starlette deprecation warning in .venv fastapi/testclient.py during the full suite.
+- Pre-existing WANGP_3090-gated live preflight test remains skipped; enabling it would violate this story.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit 533ff7a471f022c28d5967130aad93e640535fa0 pushed to origin/story/WD-td89.
+- Focused/full/spend/release/protected/diff checks recorded above.
+
+### proof
+- [x] AC #1: operator keep verdict, exact source, acceptance hash, and accepted authoritative statuses are durable.
+- [x] AC #2: executed versus checkout launcher identities and current scripts/run_film.py SHA/blob/HEAD are recorded.
+- [x] AC #3: supported reconciliation is fail-closed, no-render, and idempotent.
+- [x] AC #4: required tests and release verification pass.
+- [x] AC #5: protected files, media, queue DB, and accepted QC evidence remain unchanged.
+
 ## nd_contract
 status: in_progress
 
