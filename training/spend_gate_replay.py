@@ -103,6 +103,9 @@ def _deterministic_eval(row: dict[str, Any]) -> tuple[str, str | None]:
     * ``check_facing`` falls back to the character's declared requirement when
       no ``<plate>.plate.json`` sidecar exists, so a missing sidecar does not
       block a render in production and must not do so in replay.
+    * ``resolution`` is the renderer request, not the delivered geometry. A
+      recorded ``resolution_transform`` binds that request, reference geometry,
+      renderer handler, and expected output so it is comparable to ffprobe.
     """
     try:
         _features(row)
@@ -120,8 +123,17 @@ def _deterministic_eval(row: dict[str, Any]) -> tuple[str, str | None]:
         video = next((stream for stream in row["media"].get("ffprobe", {}).get("streams", []) if stream.get("codec_type") == "video"), None)
         if video is None or "nb_frames" not in video:
             return "abstain", "unknown_delivered_media_envelope"
-        if (int(video["width"]), int(video["height"])) != (value["width"], value["height"]):
-            return "reject", "delivered_resolution_contradicts_envelope"
+        transform = value.get("resolution_transform")
+        expected = None
+        if isinstance(transform, dict):
+            raw_expected = (transform.get("expected_delivered_width"),
+                            transform.get("expected_delivered_height"))
+            if all(isinstance(item, int) and item > 0 for item in raw_expected):
+                expected = raw_expected
+        if expected is None:
+            return "abstain", "unknown_resolution_transform"
+        if (int(video["width"]), int(video["height"])) != expected:
+            return "reject", "delivered_resolution_contradicts_typed_envelope"
         if int(video["nb_frames"]) != int(value["requested_frames"]):
             return "reject", "delivered_frames_contradict_envelope"
         if not value.get("plate_available"):
@@ -347,7 +359,7 @@ def replay_baselines(corpus_path: Path, *, seed: int = 17, bootstrap_samples: in
                           "Rejected bad rows with unknown historical attempt counts are excluded from the avoided-work numerator; their count is reported per policy as unknown_attempt_rejected_bad_rows_excluded.",
                           "Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.",
                           f"Probabilities are clipped at {LOG_LOSS_CLIP:g} for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.",
-                          "The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.",
+                          "Every complete row records a typed resolution_transform: this WanGP handler maps the historical 480x832 request and its reference conditioning to a 704x576 output grid. The replay abstains when that transform is absent and rejects when delivered media contradicts it; the request itself is never treated as delivered geometry.",
                           "The committed corpus is all-local: 15 of its 36 rows come from source media that are not tracked by git (delivered remux.mp4 is untracked for 12 rows, 16 rows have at least one untracked artifact, 20 rows have all ten artifacts tracked). A fresh clone can REPLAY the committed corpus but cannot REBUILD it; a tracked rebuild yields 21 rows / 13 complete.",
                           "PREREGISTRATION AMENDMENT: the transparent heuristic's duration tolerance was corrected from the frozen 1e-9 to the production 1e-6 after first results, because 1e-9 was itself a defect that rejected every recorded row. The amendment is recorded in preregistration.json `amendments`; the primary metric, decision rule, budget, seed and folds were not changed.",
                           "The production QC seam that would emit a live row during a run is deliberately NOT implemented here: services/ must not depend on training/, and a recording hook inside the QC loop could fail a render attempt. The recording guarantee is satisfied by the standalone post-run recorder plus the indexer; the in-run seam needs its own story."]}
