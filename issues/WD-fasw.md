@@ -1,19 +1,20 @@
 ---
 id: WD-fasw
 title: "Sound effects, revoice, and audio refinement with video held fixed"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:57:31Z
-content_hash: "sha256:89a154eaf5f4287a685f6a0cf172980482730141f4e0fdae0630b6676fd3b35d"
-blocks: [WD-gc09]
+updated_at: 2026-09-23T09:14:05Z
+content_hash: "sha256:6263ffe0c023a437925cbb184860f77f3086ec85b9bed29496a5bea45f87518c"
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen, WD-4d90]
 assignee: dev-WD-fasw
+closed_at: 2026-09-23T09:14:05Z
+close_reason: "Accepted: bb336d7 fixes every emitted next_command to registered wgp sfx paths; exact-head CLI, 29/29, 5/5, 1847/1848, build, immutability, reconstruction, read-only, and CI evidence all pass."
 ---
 
 ## Description
@@ -226,10 +227,11 @@ status: delivered
 - 2026-09-23T08:36:45Z auto-follows: linked to predecessor WD-4d90
 - 2026-09-23T08:36:45Z claimed by dev-WD-fasw
 - 2026-09-23T08:57:31Z status: in_progress -> in_progress
+- 2026-09-23T09:14:05Z status: in_progress -> closed
+- 2026-09-23T09:14:05Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]]
 - Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]], [[WD-4d90]]
 
