@@ -4,7 +4,7 @@ title: "Finishing: interpolation, spatial upsampling, grain, codecs, tracked-fac
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered]
+labels: [capability, delivered, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
