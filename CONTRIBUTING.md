@@ -41,6 +41,7 @@ Keep generated outputs outside the checkout unless a story explicitly asks you t
 - Maintain public function type annotations and tests for observable behavior.
 - Document a real failure, its evidence path, and the exact remedy rather than inventing a quality claim.
 - Include before/after command output or artifact hashes in story evidence.
+- Shape story notes to the delivery contract before running the preflight: see [docs/delivery-evidence.md](docs/delivery-evidence.md) for the exact nine checks, the required literals (`## Implementation Evidence`, `### CI/Test Results`, `Commands run:`, `Summary:`, `SHA: <hex>`, the `| AC | Result | Evidence |` table, and a final `status: delivered` contract) and the note-ordering caveat that otherwise costs a round trip.
 
 ## Changes and licensing
 

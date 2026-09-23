@@ -209,7 +209,7 @@ and troubleshooting.
 
 - Setup and first use: [install guide](docs/install.md), [first-run guide](docs/first-run.md).
 - Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), [sound effects and audio post](docs/sfx-capabilities.md), [characters](docs/character-capabilities.md), [finishing](docs/finishing-capabilities.md), [director](docs/director-capabilities.md), [non-destructive editing](docs/editor.md), and [content](docs/content.md).
-- Production governance: [render recipes](docs/recipe.md) and the [release checklist](docs/recipe.md#release-checklist).
+- Production governance: [render recipes](docs/recipe.md), the [release checklist](docs/recipe.md#release-checklist), and the [delivery evidence contract](docs/delivery-evidence.md).
 
 ## Troubleshooting
 
