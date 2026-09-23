@@ -8,8 +8,8 @@ labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:36:45Z
-content_hash: "sha256:25311bbdf1ef0c88741071af3d32fb6fb0012f1a9f07242e79b05901fa7b9b35"
+updated_at: 2026-09-23T08:57:31Z
+content_hash: "sha256:1b6cadef93e8c44b96e7b90ece5eef856206454a77531804234d57db05882b9a"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen, WD-4d90]
@@ -103,7 +103,16 @@ status: new
 
 
 ## Notes
-
+## Rework Evidence
+Summary: Fixed the rejected unusable diagnostic continuation command. The retained model default emitted obsolete `wgp audio sfx --request <request> --models <models> --json`; it now emits valid generic `wgp sfx plan --request <request> --models <models> --json`, while request-aware failures emit mode-specific `wgp sfx effect|revoice|refine --request <request> --models <models> --json`. A live-CLI regression guard now derives the top-level verb set and `sfx` subgroup from real `wgp --help` / `wgp sfx --help` output and validates every reachable typed-failure `next_command`; the obsolete `audio` group would fail that guard.
+Commands run:
+- Targeted SFX JUnit -> exit 0; tests=29 failures=0 errors=0 skipped=0.
+- README drift JUnit -> exit 0; tests=5 failures=0 errors=0 skipped=0.
+- Full JUnit -> exit 0; tests=1848 failures=0 errors=0 skipped=1.
+- Typed-failure evidence audit -> 22 classes, five unique next commands, all beginning with `wgp sfx`; no `wgp audio` remains.
+- `uv build --out-dir /tmp/wd-fasw-rework-dist.Ohi5AP` -> exit 0; one wheel and one sdist.
+- Exact-head GitHub check `test` on `bb336d7debbea2b8526cec17d3f2e0b6d8b88303` -> completed/success.
+SHA: bb336d7debbea2b8526cec17d3f2e0b6d8b88303
 
 ## nd_contract
 status: rejected
