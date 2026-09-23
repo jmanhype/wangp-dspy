@@ -1,18 +1,19 @@
 ---
 id: WD-fasw
 title: "Sound effects, revoice, and audio refinement with video held fixed"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:35:25Z
-content_hash: "sha256:ae1334db7eb4db9084d8d3e34f08544de8d39033da0983827ba3f91501d767b9"
+updated_at: 2026-09-23T08:36:45Z
+content_hash: "sha256:25311bbdf1ef0c88741071af3d32fb6fb0012f1a9f07242e79b05901fa7b9b35"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
-follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen]
+follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen, WD-4d90]
+assignee: dev-WD-fasw
 ---
 
 ## Description
@@ -200,12 +201,15 @@ status: delivered
 - 2026-09-23T08:09:53Z auto-follows: linked to predecessor WD-pcen
 - 2026-09-23T08:35:24Z status: in_progress -> open
 - 2026-09-23T08:35:24Z released by speed
+- 2026-09-23T08:36:45Z status: open -> in_progress
+- 2026-09-23T08:36:45Z auto-follows: linked to predecessor WD-4d90
+- 2026-09-23T08:36:45Z claimed by dev-WD-fasw
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]]
-- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]]
+- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]], [[WD-4d90]]
 
 ## Comments
 
