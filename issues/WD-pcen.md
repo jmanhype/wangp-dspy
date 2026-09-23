@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T04:22:27Z
-content_hash: "sha256:2ec550b20f31ccd30049cb94b84ccc4cc298eab5226017e4076c530e764aa006"
+content_hash: "sha256:93f9de34a676597c73a42e098214e5539b5f04ba9b92e04251a8d97babe75932"
 follows: [WD-6tox, WD-soa4]
 closed_at: 2026-09-23T04:22:27Z
 close_reason: "Accepted at 8eda61f: corrected 1743/0/0/1 evidence, clean four-verb rebase, 28 image tests pass, CI success, zero review threads, and no-GPU planned capability boundaries hold."
@@ -99,6 +99,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-22.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## nd_contract
 status: delivered
 
