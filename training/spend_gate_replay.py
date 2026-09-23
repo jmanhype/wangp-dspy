@@ -12,7 +12,7 @@ from typing import Any
 from services.director.renderers.policy import (
     RendererPolicyError, check_duration_on_grid, check_facing, check_guide_duration)
 from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
-from training.spend_gate import canonical_json
+from services.jobs.spend_gate import canonical_json
 
 # Log-loss is undefined at probability 0/1; probabilities are clipped at this
 # epsilon and the number of clipped rows is reported so a large log loss can be
