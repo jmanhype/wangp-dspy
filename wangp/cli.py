@@ -45,6 +45,7 @@ from wangp.diagnostics import (
     render_diagnostic_mapping,
 )
 from wangp.video_cli import register_video_parser
+from wangp.music_cli import register_music_parser
 from wangp.platform_cli import register_platform_parser
 from wangp.queue_view import (
     collect_queue_review,
@@ -733,6 +734,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--version", action="version", version=__version__)
     commands = parser.add_subparsers(dest="verb", required=True)
     register_video_parser(commands)
+    register_music_parser(commands)
     register_platform_parser(commands)
 
     doctor = commands.add_parser(
