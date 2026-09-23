@@ -20,17 +20,42 @@ must be updated with the new observed behaviour — the guard test in
 
 `pvg story verify-delivery` evaluates exactly these items, in this order:
 
-| Check | What it requires | Exact literal in the issue notes |
+| Check | What it requires | Literal the verifier actually matches |
 | --- | --- | --- |
 | `label:delivered` | The story carries the `delivered` label (added by `pvg story deliver`) | n/a — tool-managed |
 | `nd_contract:last_block` | The **last** `## nd_contract` block in the issue file has `status: delivered` | `status: delivered` |
 | `nd_contract:eof` | That authoritative contract block is not followed by stray note content | n/a — layout |
 | `notes:implementation_evidence` | An implementation-evidence section exists | `## Implementation Evidence` |
-| `notes:ci_test_results` | A CI/test-results section exists, as a third-level heading | `### CI/Test Results` |
-| `notes:commands_run` | A commands-run list exists | `Commands run:` |
-| `notes:summary` | A summary line exists | `Summary:` |
-| `notes:commit_sha` | A commit SHA is recorded | `SHA: <7-40 lowercase hex>` |
-| `proof:ac_items` | An acceptance-criteria table exists | header `| AC | Result | Evidence |` |
+| `notes:ci_test_results` | A CI/test-results section exists, as a third-level heading | `### CI/Test Results` — `### Test Results` is also accepted |
+| `notes:commands_run` | A commands-run list exists | `Commands run:` — a lowercase `commands run:` is also accepted |
+| `notes:summary` | A summary line exists | `Summary:` at the start of a line |
+| `notes:commit_sha` | A commit SHA is recorded | `SHA: <7-40 hex>` — case-insensitive (upper or lower) |
+| `proof:ac_items` | Acceptance-criteria verification exists | an exact `### AC Verification` heading **or** a checklist line beginning `[x] AC` |
+
+Two of these are easy to get wrong and cost a round trip:
+
+- `proof:ac_items` does **not** match a table header. Writing
+  `| AC | Result | Evidence |` alone does not satisfy it. The check is satisfied by
+  the exact `### AC Verification` heading (which is why the recommended shape keeps
+  that heading and puts the readable table underneath it) or by proof lines written
+  as `[x] AC #1: ...` at the start of a line.
+- `notes:commit_sha` accepts upper-case hex, and `notes:ci_test_results` /
+  `notes:commands_run` accept their alternate spellings above.
+
+### Patterns observed from the shipped binary
+
+These are the patterns the installed `pvg` matches (extracted from the binary while
+closing out this epic), recorded so the document can be checked against reality
+rather than against memory:
+
+```text
+(?m)^## Implementation Evidence$
+(?m)^### (CI/Test Results|Test Results)$
+(?m)^(Commands run:|commands run:)\b
+(?m)^Summary:
+(?m)SHA: [0-9a-fA-F]{7,40}
+(?m)(^\[x\] AC|^### AC Verification$)
+```
 
 Anything not in this list does not help, and a check whose literal is missing fails
 even when the underlying fact is true.

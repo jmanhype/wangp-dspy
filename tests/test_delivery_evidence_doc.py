@@ -32,11 +32,26 @@ CHECK_NAMES = (
 REQUIRED_LITERALS = (
     "## Implementation Evidence",
     "### CI/Test Results",
+    "### AC Verification",
     "Commands run:",
     "Summary:",
     "SHA: ",
     "| AC | Result | Evidence |",
     "status: delivered",
+)
+
+# Claims the document must make about the verifier's real matching behaviour,
+# verified against the shipped binary. Each is (text, because) so a failure says
+# which fact drifted.
+REQUIRED_FACTS = (
+    ("### Test Results", "the alternate CI heading the verifier also accepts"),
+    ("commands run:", "the lowercase commands-run spelling the verifier accepts"),
+    ("case-insensitive", "the SHA check accepts upper and lower hex"),
+    ("[x] AC", "the checklist form that satisfies proof:ac_items"),
+    ("does **not** match a table header",
+     "the table header alone does not satisfy proof:ac_items"),
+    ("(?m)(^\\[x\\] AC|^### AC Verification$)",
+     "the observed pattern for proof:ac_items"),
 )
 
 
@@ -54,6 +69,10 @@ def test_contract_documents_every_check_and_literal() -> None:
     missing_literals = [item for item in REQUIRED_LITERALS if item not in text]
     assert not missing_literals, (
         f"delivery-evidence.md omits required literals: {missing_literals}")
+    missing_facts = [
+        because for needle, because in REQUIRED_FACTS if needle not in text]
+    assert not missing_facts, (
+        "delivery-evidence.md no longer states: " + "; ".join(missing_facts))
     # The post-acceptance caveat is part of the contract too: acceptance drops the
     # delivered label, so a re-run legitimately reports 8 of 9.
     assert "Passed: 8" in text, "post-acceptance caveat is not documented"
