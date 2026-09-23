@@ -1,13 +1,15 @@
 ---
 id: WD-as25
 title: "Preflight spend intelligence for governed film production"
-status: open
+status: closed
 priority: 1
 type: epic
 created_at: 2026-09-21T05:25:49Z
 created_by: speed
-updated_at: 2026-09-21T05:25:49Z
-content_hash: "sha256:5e404a95e5e46dc95643f15a43c73cdcff427e668bc9adccd1a9ec168dd1173d"
+updated_at: 2026-09-23T17:43:57Z
+content_hash: "sha256:f1fbe7eae728428df613b7a1930745b109981c8b97968683f1d78bef594b1f12"
+closed_at: 2026-09-23T17:43:57Z
+close_reason: "All stories accepted"
 ---
 
 ## Description
@@ -30,7 +32,7 @@ This epic is evidence and evaluation only. It does not authorize GPU work, model
 
 
 ## History
-
+- 2026-09-23T17:43:57Z status: open -> closed
 
 ## Links
 
