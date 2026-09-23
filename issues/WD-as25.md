@@ -1,14 +1,14 @@
 ---
 id: WD-as25
 title: "Preflight spend intelligence for governed film production"
-status: open
+status: closed
 priority: 1
 type: epic
 created_at: 2026-09-21T05:25:49Z
 created_by: speed
-updated_at: 2026-09-23T18:47:34Z
-content_hash: "sha256:c1f37932f14ddac3d951b32fda09a5a13ee8c24e9c950183a81591d1250c850c"
-closed_at: 2026-09-23T17:43:57Z
+updated_at: 2026-09-23T20:14:14Z
+content_hash: "sha256:c45d1ab57155ffcf47c8d2b0ce0edc50570f4dd4a72ba0f3d52f88dc6c0c73ac"
+closed_at: 2026-09-23T20:14:14Z
 close_reason: "All stories accepted"
 ---
 
@@ -34,6 +34,7 @@ Reopened 2026-09-23 to host a P0 spend-gate canonicalization regression discover
 ## History
 - 2026-09-23T17:43:57Z status: open -> closed
 - 2026-09-23T18:47:34Z status: closed -> open
+- 2026-09-23T20:14:14Z status: open -> closed
 
 ## Links
 
