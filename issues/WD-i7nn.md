@@ -7,8 +7,8 @@ type: bug
 labels: [testing, release]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
-updated_at: 2026-09-23T16:05:37Z
-content_hash: "sha256:51c0b290d02978c548bc51562b0049f60de9cf07cbc3dd9380912a10740798b2"
+updated_at: 2026-09-23T16:45:34Z
+content_hash: "sha256:7b6c01e4028fff1498839bebd8f031e203a83e23fd6b83587cc959b6b141ddcd"
 assignee: dev-WD-i7nn
 ---
 
@@ -65,7 +65,54 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: Release probes now run with a startup guard that drops every non-standard `sys.meta_path` finder and removes the venv's path-based editable project root when the expected tree is a clone. Every real-process probe writes `import-provenance.json`; the parent test asserts the imported `wangp` module and its resolved repository root equal the expected tree before accepting any CLI result. This closes both editable-hook and winning-path-injection routes and preserves the existing network/SSH guards.
+
+The repository `.venv` inspection found `_virtualenv._Finder` plus the path-based `_editable_impl_wangp_dspy.pth` entries for the real worktree. The old guard removed only a finder whose class module was `_virtualenv`; it did not address path injection or differently named editable finders. The historical one-shot ordering was not reproducible: the pre-change targeted suite passed 6/6. The committed regression creates a real unshadowed path order (`guard:ROOT:clone`) and mutates only the clone's `VERSION`; the venv `wgp` verifies the clean real checkout and returns 0, but recorded root is ROOT. `_assert_import_provenance` then fails closed with: `release probe verified the wrong source tree: resolved_root=<real-root>; expected_root=<clone-root>; wangp_module=<real-root>/wangp/__init__.py`.
+
+Commands run:
+- Venv inspection -> `_virtualenv.pth` imports `_virtualenv._Finder`; `_editable_impl_wangp_dspy.pth` contains the real worktree path; probe `sys.meta_path` contained `_virtualenv._Finder`, BuiltinImporter, FrozenImporter, PathFinder.
+- Pre-change `uv run --frozen --extra dev pytest tests/test_release.py -q` -> exit 0; 6 passed (historical ordering not reproduced).
+- `uv run --frozen --extra dev pytest tests/test_release.py::test_probe_fails_closed_when_import_shadowing_is_disabled -q` -> exit 0; regression passed after commit because the wrong-tree child result is rejected by provenance assertion.
+- `uv run --frozen --extra dev pytest tests/test_release.py -q --junitxml=/tmp/wd-i7nn-targeted/t.xml` -> exit 0; parsed `tests=7,failures=0,errors=0,skipped=0,time=21.685`.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-i7nn-full/f.xml` -> exit 0; parsed `tests=1973,failures=0,errors=0,skipped=1,time=675.148`.
+- `uv build --out-dir=/tmp/wd-i7nn-build` -> exit 0; one wheel and one sdist.
+- `git push -u origin story/WD-i7nn` -> pushed only `story/WD-i7nn`; `gh pr create` -> PR #175.
+
+SHA: 2346dc4654b79f492acfca0e4a7b16502e06215d
+
+### CI/Test Results
+
+- Exact-head check `test` for SHA `2346dc4654b79f492acfca0e4a7b16502e06215d`: completed / success (check run id `107274610462`, PR #175).
+- Targeted release suite: exit 0; JUnit parsed counters tests=7, failures=0, errors=0, skipped=0.
+- Full suite: exit 0; JUnit parsed counters tests=1973, failures=0, errors=0, skipped=1.
+- Build: `wangp_dspy-0.1.0-py3-none-any.whl` sha256 `79362f88af9e41d119c842e5322aea968f5f837c56f16db5778e36dc31d84418`; `wangp_dspy-0.1.0.tar.gz` sha256 `8bbbedf6b44e9dfa823c83dbad8819155dab234fa7e62d46c287996517748718`; exactly one wheel and one sdist (`uv` also emitted its output-directory `.gitignore`).
+- No `wangp/`, release semantics, GPU, SSH, model inference, tag, release, or publish changes; the only pushed branch was `story/WD-i7nn`.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1. Wrong-tree probes fail with resolved and expected roots | PASS | `_assert_import_provenance` rejects missing provenance or mismatch with `resolved_root`, `expected_root`, and `wangp_module`; `_run` invokes it for every probe. |
+| 2. Shadowing handles the installed editable implementations | PASS | Guard retains only the three standard importers and removes the inspected `_editable_impl_wangp_dspy.pth` project-root path for clones; `_virtualenv._Finder` and any other non-standard finder are dropped. |
+| 3. Clean/mutated matrix passes and proves its tree | PASS | Targeted suite exit 0 with parsed tests=7, failures=0, errors=0, skipped=0; every release subprocess records `wangp.__file__` and derived root. |
+| 4. Disabled-shadowing regression fails closed | PASS | `test_probe_fails_closed_when_import_shadowing_is_disabled` uses a real process, gets pass-shaped exit 0 from the clean real tree, then rejects mismatched provenance. |
+| 5. Existing guards/behavior and protected files remain intact | PASS | Network audit hook and fake SSH guard remain; only `tests/test_release.py` changed; full suite exit 0 with 1973 tests, 0 failures/errors, 1 skipped. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head `2346dc4654b79f492acfca0e4a7b16502e06215d` on `story/WD-i7nn`; PR #175 exact-head CI check `test` completed/success.
+- Targeted JUnit: tests=7, failures=0, errors=0, skipped=0. Full JUnit: tests=1973, failures=0, errors=0, skipped=1. Build produced one wheel and one sdist.
+
+### proof
+- [x] AC #1: every probe fails closed with resolved root, expected root, and imported module diagnostics when provenance does not match.
+- [x] AC #2: both inspected path-based editable injection and non-standard meta-path finders are neutralized for clone probes.
+- [x] AC #3: targeted release suite passes and every probe records the tree it imported; mutated matrix remains typed and read-only.
+- [x] AC #4: `test_probe_fails_closed_when_import_shadowing_is_disabled` proves an unshadowed wrong-tree exit 0 is rejected.
+- [x] AC #5: network/SSH guards and release behavior remain unchanged; no protected `wangp/` or engine file changed.
 
 ## History
 - 2026-09-23T16:05:37Z status: open -> in_progress
