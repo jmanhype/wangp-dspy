@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T17:27:13Z
-content_hash: "sha256:9f3210e36f6d8052feb4284dfe94fd4556011351212fa3671a23b7d17c62bfb6"
+content_hash: "sha256:d866ee534613a22a7c6ec6e7d0dd7e6425b1c80573eb759c4bea858ab7e67a89"
 labels: [delivered]
 ---
 
@@ -61,6 +61,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework Evidence
 
 Rejection (independent acceptor): the first version documented inexact literals. Verified against the shipped binary, the real patterns are:
