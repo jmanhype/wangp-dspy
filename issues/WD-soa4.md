@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T00:09:23Z
-content_hash: "sha256:fe3ee8a49027642226b3e7a47b2ec1544bd9aa8893e293fd12e290583a726d1d"
+updated_at: 2026-09-23T01:18:51Z
+content_hash: "sha256:96605e5229064cf46680f4501d5e1cca7ddee66933d436dd1a40458a7e76557f"
 blocks: [WD-fasw, WD-eq1i, WD-gc09]
 assignee: dev-WD-soa4
 follows: [WD-6tox]
@@ -100,7 +100,65 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Delivered the no-GPU music planning slice only: typed melody/chord/ABC requests, two independent planned model slots, instrumental/song normalization, 48 kHz stereo declarations, structural style-adaptation provenance and audible-A/B contract, deterministic score artifacts, immutable non-executable plan records, typed failures, and reconstruction. No render, host access, GPU work, model download, training, generated-audio claim, or gate semantic change occurred.
 
+Commands run:
+- `git log --oneline -3`; `git status --short --branch`; `pvg nd show WD-soa4`
+- `uv run --frozen --extra dev pytest tests/test_music_capabilities.py -q` -> exit 0, 28/28 passed, 0 failed
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-soa4-full-final-junit.xml` -> exit 0; JUnit: tests=1743, errors=0, failures=0, skipped=1, time=375.461s
+- `uv run --frozen --extra dev pytest tests/test_music_capabilities.py -q --junitxml=/tmp/wd-soa4-scoped-final-junit.xml` -> exit 0; JUnit: tests=28, errors=0, failures=0, skipped=0, time=30.779s
+- Real CLI captures under `/tmp/wd-soa4-cli-evidence`: human+JSON for plan/compile/style/compare; compare=`records=1 all_match=true hidden_mutation=false`; style=`training_executed=false audio_created=false ... after_status=planned aesthetic_verdict=none`
+- Durable queue evidence: `music_plan_records` had one immutable record per requested section/track with backend, full score/hash, arrangement, section, and 48000 Hz/2-channel format; `JobQueue.list_state('pending')==[]` and `next_admissible()==None`; after inserting a genuine render job, `next_admissible()` selected only that job
+- Typed failure evidence: real subprocess tests cover all 23 emitted failure classes with exit 2 and machine-readable diagnostics; scoped JUnit is 28/28 passed
+- Read-only proof: shadowed ssh/nvidia-smi/call log bytes=0, ssh calls=0, nvidia-smi calls=0; `git diff --exit-code -- datasets` and `git diff --exit-code origin/main -- datasets` -> exit 0; worktree clean
+- `uv build --out-dir /tmp/wd-soa4-dist-5089849` -> exit 0; clean artifact set: one wheel and one sdist
+- `git fetch origin main`; `git rebase origin/main` -> no-op/up to date; no `wangp/cli.py` conflict arose
+- `git push -u origin story/WD-soa4`; `gh pr create ...` -> https://github.com/jmanhype/wangp-dspy/pull/166
+- `gh api repos/jmanhype/wangp-dspy/commits/508984904459f806e679dd8b1dbf9197677c7ce8/check-runs` -> `test completed success`
+
+SHA: 508984904459f806e679dd8b1dbf9197677c7ce8
+
+### CI/Test Results
+- Scoped music suite: 28 passed, 0 failed, 0 errors, 0 skipped.
+- Full repository suite: 1743 tests total; 1742 passed, 1 pre-existing skipped, 0 failed, 0 errors.
+- GitHub check `test` for commit `5089849`: completed/success.
+- Build: `wangp_dspy-0.1.0-py3-none-any.whl` sha256 `1caed19b235c255aa7931e5c2598a581ef27a329d9e2bdfaf18403f0a34a5937`; `wangp_dspy-0.1.0.tar.gz` sha256 `26791f0c47ca4f1d572313619b82ac297c7c1a6554f09d1711747e816cc67a23`.
+
+### AC Verification
+| AC | Result | Evidence |
+|---|---|---|
+| Representative ABC melody/chord plans validate syntax and structural invariants and emit deterministic JSON/score artifacts without inference | pass | `tests/test_music_capabilities.py`; scoped 28/28; deterministic repeated CLI JSON and `/tmp/wd-soa4-cli-evidence/*.abc` |
+| Queue records include score hash, arrangement, model, 48000 Hz/2-channel target, reference hashes, and style-adaptation mode | pass | durable queue test asserts every immutable per-track field; typed failure tests reject malformed inputs |
+| Plan records are immutable and cannot be drained as executable work | pass | SQLite update trigger test plus real `JobQueue.list_state`/`next_admissible`; genuine-job admission remains selected |
+| Dry-run reconstruction reproduces score and model settings without hidden mutation or audio creation | pass | `wgp music compare` reconstruction: all_match=true, hidden_mutation=false; tests assert no `.wav` is created |
+| Two independent named model slots and instrumental/song settings normalize fail-closed | pass | `ace_step` and `stable_audio` adapters/manifest provenance tests; both slots remain planned |
+| Style adaptation is structurally validated with reference rights/hashes and audible before/after declaration | pass | style CLI/test records before hash, planned after path, reference source/rights/hash; training=false, audio_claimed=false |
+| Every implemented incomplete/unsupported class exits typed | pass | all 23 diagnostic classes are exercised through real subprocesses with exit 2 |
+| No host/GPU/model-download/dataset mutation | pass | shadow PATH log empty; datasets diffs exit 0; docs/tests contain no render invocation |
+| Documentation keeps capability rows planned and requires ffprobe-measured host evidence | pass | `docs/music-capabilities.md` matrix remains planned and says generated audio/style A/B are unclaimed |
+| Instrumental and non-instrumental songs on each independent model | not verified - requires authorized host run | no authorized render bundle or measured ffprobe evidence exists |
+| Second independent model output | not verified - requires authorized host run | `stable_audio` generation is planned only |
+| Authorized style training/adaptation and audible A/B output | not verified - requires authorized host run | structural plan only; no training, inference, after-audio, playback, or aesthetic verdict claimed |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-soa4`, commit `508984904459f806e679dd8b1dbf9197677c7ce8`, PR #166.
+- Scoped suite 28/28 passed; full suite 1742 passed plus 1 skipped, 0 failures/errors; CI `test` success.
+- One wheel and one sdist built with hashes recorded above.
+
+### proof
+- [x] AC #1: typed requests, ABC structural validation, deterministic normalization and artifacts
+- [x] AC #2: complete immutable per-track plan records
+- [x] AC #3: real admission path cannot drain planning-only records
+- [x] AC #4: reconstruction hash match with no hidden mutation or audio
+- [x] AC #5: two independent model slots normalize fail-closed
+- [x] AC #6: style adaptation validated structurally with provenance and audible-A/B declaration
+- [x] AC #7: every implemented typed failure class is machine-readable and exits 2
+- [x] AC #8: no GPU/host/model-download/dataset mutation
+- [x] AC #9: docs and matrix remain honest and planned
 
 ## History
 - 2026-09-22T20:24:45Z dep_added: blocks WD-fasw
