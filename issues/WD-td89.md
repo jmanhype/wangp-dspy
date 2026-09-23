@@ -11,7 +11,7 @@ updated_at: 2026-09-23T22:32:05Z
 content_hash: "sha256:3430869f5af1cc95e0069bce0c4eedd5abe6b94159192e9aa12c554b2125a523"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-23T22:32:04Z
 close_reason: "Accepted via pvg story accept"
 ---
