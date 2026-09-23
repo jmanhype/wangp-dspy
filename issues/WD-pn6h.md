@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:31:16Z
-content_hash: "sha256:85b6744e1c3322c1946e05b6616aad9d5ed3665e8cb6f2ccde602e1a7a5c0b86"
+updated_at: 2026-09-23T19:31:17Z
+content_hash: "sha256:82349cdfe44a4c4db1c8a68c6f6ddfed5ca60d5fc9b35eb8809ada69355b163e"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 labels: [rejected]
@@ -314,3 +314,9 @@ status: delivered
 - [x] AC 5 release is ready and no tag was created.
 - [x] AC 6 original LF004 queue assertions, including [2, 0, 0, 0], pass unchanged.
 
+
+### 2026-09-23T19:31:17Z speed
+EXPECTED: Required Outcomes 1 and 2: the story-head suite must pass from the main checkout, and canonicalization must return one identical checkout-independent value for ancestor roots.
+DELIVERED: Direct check at 5d9380a9: repository_root=/Users returns Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json. The delivered regression test derives main_root=ROOT.parents[2]=/Users when its file is under /Users/Shared/HermesWorkspace/wangp-dspy and fails its set assertion.
+GAP: An ancestor repository root still leaks .claude/worktrees, so the main-checkout suite cannot pass and Outcome 2 is not robust.
+FIX: Normalize any resolved relative path containing .claude/worktrees to the stable datasets/assets suffix, and derive/test the main root without a worktree-depth-dependent parents index.
