@@ -13,13 +13,11 @@ from typing import Any, Mapping
 from predict.music_capabilities import (
     MusicCapabilityError,
     MusicCapabilityRequest,
-    MusicMode,
     backend_settings,
     canonical_sha256,
     file_sha256,
     request_digest,
 )
-from services.jobs.queue import JobQueue
 
 PLAN_SCHEMA_VERSION = "wangp-dspy.music-capability-plan/v1"
 _CHORD = re.compile(r"^[A-G][b#]?(?:maj|min|m|dim|aug|sus2|sus4|7|maj7|m7|dim7|aug7)?(?:/[A-G][b#]?)?$")
