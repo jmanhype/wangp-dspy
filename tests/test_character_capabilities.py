@@ -427,3 +427,183 @@ def test_plan_store_is_immutable_undrainable_reconstructable_and_read_only(
     assert item["recorded_seed_sha256"] == item["reconstructed_seed_sha256"]
     assert _tree_digest(ROOT / "datasets") == before
     assert calls.read_text(encoding="utf-8") == ""
+
+
+@pytest.mark.parametrize(
+    ("case", "code"),
+    (
+        ("definition-missing", "CHARACTER_DEFINITION_MISSING"),
+        ("definition-invalid", "CHARACTER_DEFINITION_INVALID"),
+        ("output-exists", "CHARACTER_OUTPUT_EXISTS"),
+        ("voice-invalid", "CHARACTER_VOICE_PACKAGE_INVALID"),
+        ("voice-mismatch", "CHARACTER_VOICE_BINDING_MISMATCH"),
+        ("appearance-missing", "CHARACTER_APPEARANCE_UNUSABLE"),
+        ("appearance-hash", "CHARACTER_APPEARANCE_UNUSABLE"),
+        ("export-output", "CHARACTER_PACKAGE_OUTPUT_INVALID"),
+        ("package-invalid", "CHARACTER_PACKAGE_INVALID"),
+        ("import-destination", "CHARACTER_IMPORT_DESTINATION_EXISTS"),
+        ("native-missing", "CHARACTER_NATIVE_SOURCE_MISSING"),
+        ("native-hash", "CHARACTER_APPEARANCE_MISMATCH"),
+        ("registry-missing", "CHARACTER_REGISTRY_MISSING"),
+        ("registry-duplicate", "CHARACTER_IDENTITY_DUPLICATE"),
+        ("registry-ambiguous", "CHARACTER_IDENTITY_AMBIGUOUS"),
+        ("identity-unresolved", "CHARACTER_IDENTITY_UNRESOLVED"),
+        ("request-missing", "CHARACTER_REQUEST_MISSING"),
+        ("request-invalid", "CHARACTER_REQUEST_INVALID"),
+        ("package-hash", "CHARACTER_PACKAGE_MISMATCH"),
+        ("identity-mismatch", "CHARACTER_IDENTITY_MISMATCH"),
+        ("appearance-binding", "CHARACTER_APPEARANCE_MISMATCH"),
+        ("voice-binding", "CHARACTER_VOICE_BINDING_MISMATCH"),
+        ("mode-unsupported", "CHARACTER_MODE_UNSUPPORTED"),
+        ("queue-path", "CHARACTER_QUEUE_PATH_MISSING"),
+        ("queue-exists", "CHARACTER_QUEUE_EXISTS"),
+        ("reconstruct-missing", "CHARACTER_RECONSTRUCTION_DATABASE_MISSING"),
+        ("reconstruct-empty", "CHARACTER_RECONSTRUCTION_RECORDS_MISSING"),
+        ("reconstruct-invalid", "CHARACTER_RECONSTRUCTION_RECORD_INVALID"),
+    ),
+)
+def test_every_typed_failure_class_is_exit_2_without_partial_state(
+    tmp_path: Path, case: str, code: str
+) -> None:
+    environment, calls = _environment(tmp_path)
+    package, _inspected, native, voice = _export_package(tmp_path, environment)
+    request_payload = _request_payload(package, mode="video")
+    request = _write_json(tmp_path / "request.json", request_payload)
+    database = tmp_path / "partial.db"
+    definition = tmp_path / "definition.json"
+    command = ["plan", "--request", str(request), "--db", str(database), "--json"]
+
+    if case == "definition-missing":
+        command = ["create", "--definition", str(tmp_path / "absent.json"), "--out", str(tmp_path / "out.json"), "--json"]
+    elif case == "definition-invalid":
+        definition.write_text("{", encoding="utf-8")
+        command = ["create", "--definition", str(definition), "--out", str(tmp_path / "out.json"), "--json"]
+    elif case == "output-exists":
+        output = tmp_path / "out.json"
+        output.write_text("exists", encoding="utf-8")
+        command = ["create", "--definition", str(definition), "--out", str(output), "--json"]
+    elif case == "voice-invalid":
+        invalid_voice = tmp_path / "invalid.wgpvoice"
+        invalid_voice.write_bytes(b"not a zip")
+        command = ["bind-voice", "--definition", str(definition), "--voice", str(invalid_voice), "--out", str(tmp_path / "bound.json"), "--json"]
+    elif case == "voice-mismatch":
+        other_voice = _voice_package(tmp_path / "other.wgpvoice", character_id="Other Character")
+        command = ["bind-voice", "--definition", str(definition), "--voice", str(other_voice), "--out", str(tmp_path / "bound.json"), "--json"]
+    elif case == "appearance-missing":
+        native.unlink()
+        command = ["export", "--definition", str(definition), "--package", str(tmp_path / "new.wgpcharacter"), "--json"]
+    elif case == "appearance-hash":
+        native.write_bytes(b"changed-native")
+        command = ["export", "--definition", str(definition), "--package", str(tmp_path / "new.wgpcharacter"), "--json"]
+    elif case == "export-output":
+        command = ["export", "--definition", str(definition), "--package", str(package), "--json"]
+    elif case == "package-invalid":
+        package.write_bytes(b"not a zip")
+        command = ["show", "--package", str(package), "--json"]
+    elif case == "import-destination":
+        destination = tmp_path / "existing"
+        destination.mkdir()
+        command = ["import", "--package", str(package), "--destination", str(destination), "--json"]
+    elif case == "native-missing":
+        native.unlink()
+        command = ["recover", "--package", str(package), "--destination", str(tmp_path / "native.png"), "--json"]
+    elif case == "native-hash":
+        native.write_bytes(b"changed-native")
+        command = ["recover", "--package", str(package), "--destination", str(tmp_path / "native.png"), "--json"]
+    elif case == "registry-missing":
+        command = ["resolve", "--registry", str(tmp_path / "absent-registry"), "--identity", "Orin Vale", "--json"]
+    elif case in {"registry-duplicate", "registry-ambiguous"}:
+        registry = tmp_path / "registry"
+        registry.mkdir()
+        shutil.copy2(package, registry / "one.wgpcharacter")
+        other_dir = tmp_path / "other"
+        other_dir.mkdir()
+        if case == "registry-duplicate":
+            other, _payload, _native, _voice = _export_package(other_dir, environment)
+        else:
+            other, _payload, _native, _voice = _export_package(
+                other_dir, environment, character_id="Other Character", speaker_label="Orin"
+            )
+        shutil.copy2(other, registry / "two.wgpcharacter")
+        command = ["resolve", "--registry", str(registry), "--identity", "Orin Vale", "--json"]
+    elif case == "identity-unresolved":
+        registry = tmp_path / "registry"
+        registry.mkdir()
+        shutil.copy2(package, registry / "orin.wgpcharacter")
+        command = ["resolve", "--registry", str(registry), "--identity", "Unknown", "--json"]
+    elif case == "request-missing":
+        command[2] = str(tmp_path / "absent-request.json")
+    elif case == "request-invalid":
+        request.write_text("{", encoding="utf-8")
+    elif case == "package-hash":
+        payload = json.loads(request.read_text())
+        payload["character"]["package_sha256"] = "b" * 64
+        _write_json(request, payload)
+    elif case == "identity-mismatch":
+        payload = json.loads(request.read_text())
+        payload["character"]["character_id"] = "Other Character"
+        _write_json(request, payload)
+    elif case == "appearance-binding":
+        payload = json.loads(request.read_text())
+        payload["character"]["appearance_sha256"] = "b" * 64
+        _write_json(request, payload)
+    elif case == "voice-binding":
+        payload = json.loads(request.read_text())
+        payload["character"]["voice_binding_id"] = "other-binding-v1"
+        _write_json(request, payload)
+    elif case == "mode-unsupported":
+        image_only = dict(_definition_payload(tmp_path / "image-only")[0])
+        image_only["continuity"]["modes"] = ["image"]
+        image_definition = _write_json(tmp_path / "image-only.json", image_only)
+        image_package = tmp_path / "image-only.wgpcharacter"
+        export = _wgp(
+            "export", "--definition", str(image_definition), "--package", str(image_package), "--json", env=environment
+        )
+        assert export.returncode == 0, export.stdout + export.stderr
+        payload = _request_payload(image_package, mode="video")
+        payload["character"]["modes"] = ["image", "video"]
+        _write_json(request, payload)
+    elif case == "queue-path":
+        command = ["plan", "--request", str(request), "--json"]
+    elif case == "queue-exists":
+        database.write_bytes(b"exists")
+    elif case == "reconstruct-missing":
+        command = ["plan", "--reconstruct", "--db", str(tmp_path / "absent.db"), "--json"]
+    elif case == "reconstruct-empty":
+        connection = sqlite3.connect(database)
+        connection.execute(
+            "CREATE TABLE character_plan_records(record_id TEXT PRIMARY KEY, plan_ref TEXT, "
+            "record_index INTEGER, record TEXT, created_at REAL)"
+        )
+        connection.close()
+        command = ["plan", "--reconstruct", "--db", str(database), "--json"]
+    elif case == "reconstruct-invalid":
+        valid = _wgp(
+            "plan", "--request", str(request), "--db", str(tmp_path / "valid.db"), "--json", env=environment
+        )
+        assert valid.returncode == 0, valid.stdout + valid.stderr
+        connection = sqlite3.connect(tmp_path / "valid.db")
+        connection.execute("DROP TRIGGER character_plan_records_immutable_update")
+        record_id, raw = connection.execute(
+            "SELECT record_id, record FROM character_plan_records"
+        ).fetchone()
+        damaged = json.loads(raw)
+        damaged.pop("recipe")
+        connection.execute(
+            "UPDATE character_plan_records SET record=? WHERE record_id=?",
+            (json.dumps(damaged), record_id),
+        )
+        connection.commit()
+        connection.close()
+        command = ["plan", "--reconstruct", "--db", str(tmp_path / "valid.db"), "--json"]
+
+    result = _wgp(*command, env=environment)
+    assert result.returncode == 2, f"{case}: {result.returncode} {result.stdout} {result.stderr}"
+    assert "Traceback" not in result.stdout + result.stderr
+    if command[0] == "plan" and case not in {"queue-exists", "reconstruct-missing", "reconstruct-empty", "reconstruct-invalid"}:
+        assert not database.exists()
+    if case not in {"reconstruct-missing", "reconstruct-empty", "reconstruct-invalid"}:
+        diagnostic = json.loads(result.stdout)["diagnostics"][0]
+        assert diagnostic["code"] == code, f"{case}: {diagnostic}"
+        assert diagnostic["remediation"] and diagnostic["next_command"]
+    assert calls.read_text(encoding="utf-8") == ""
