@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T08:41:35Z
-content_hash: "sha256:01cea27b6685871651cfdac72ffc6ea470c009d566b1ab29a08c88b3c935f728"
+content_hash: "sha256:fb820ea698ae91e398e64a3c9cba067b6b414602f8964ecf89e764406d21a3da"
 blocks: [WD-8ioj, WD-eq1i, WD-gc09]
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
@@ -108,6 +108,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Continued and preserved commit ff4e5d7/b634e25, then added hash-verified portable .wgpcharacter export/import, saved-voice binding, native-source recovery, duplicate-free registry resolution, image/video continuity validation, immutable non-executable character plan records, seed-based reconstruction, the wgp character verb, capability documentation, and the README verb-map entry required by the new drift test. Planning only; no media generation or host work.
