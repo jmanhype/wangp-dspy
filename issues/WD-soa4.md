@@ -9,11 +9,12 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T01:38:44Z
-content_hash: "sha256:038ee6bf858fbb621c232f8cd427562c9b26ac9dea7fc446dd81ab6b5e2db22f"
+content_hash: "sha256:4637501c66908d551c11ab75b1f9ae28bd7bed7e0112e303801dd07723d78284"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
 closed_at: 2026-09-23T01:38:43Z
 close_reason: "Accepted: exact-head probes, immutable non-executable records, real selector admission, typed failures, reconstruction, read-only proof, scoped/full tests, CI, and honest planned-only matrix all passed."
+led_to: [WD-pcen]
 ---
 
 ## Description
@@ -199,5 +200,6 @@ status: delivered
 ## Links
 - Parent: [[WD-t741]]
 - Follows: [[WD-6tox]]
+- Led to: [[WD-pcen]]
 
 ## Comments
