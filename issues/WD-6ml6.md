@@ -8,8 +8,8 @@ labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T06:49:08Z
-content_hash: "sha256:5f4ab89f704aa795f5559e7241fe9f6c0111598770cc646197d914e47e5ffda9"
+updated_at: 2026-09-23T06:51:46Z
+content_hash: "sha256:a315b537a3c7ae2cf57745c393834c9c983508d0d78754d2084f2d432808f353"
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
 closed_at: 2026-09-23T06:49:07Z
@@ -42,7 +42,7 @@ PRODUCES:
 - predict/voice_registry.py -> portable character-voice packages containing manifest, hashes, reference roles, consent/licence constraints, and compatibility profile
 - wangp/voice_cli.py -> `wgp voice plan|generate|clone|export|import` command implementation and submit boundary
 - docs/voice-capabilities.md -> engine matrix, segment limits, cloning consent, portability format, and evidence policy
-- tests/test_voice_capabilities.py -> real-process voice/queue/package coverage; no mocks
+- tests/test_speech_capabilities.py -> real-process voice/queue/package coverage; no mocks (renamed from the planned `test_voice_capabilities.py` at delivery; the delivered file is authoritative)
 - datasets/runs/maestro-parity/WD-6ml6/ -> authorized speech/clone run bundles
 
 CONSUMES:
@@ -78,7 +78,7 @@ CONSUMES:
 - Bundles retain authorization/consent provenance, references, commands, queue attempts, output hashes, ffprobe metadata, transcript evidence, and portable package linkage.
 
 ## Testing Requirements
-- `uv run --frozen --extra dev pytest tests/test_voice_capabilities.py -q` with real files/CLI/queue and no mocks.
+- `uv run --frozen --extra dev pytest tests/test_speech_capabilities.py -q` with real files/CLI/queue and no mocks.
 - Use real reference audio fixtures and deliberately exceed one declared segment limit to test actual typed splitting.
 - Authorized speech bundles are verified by ffprobe, hashes, and existing transcript tooling; no synthetic audio is committed to pass tests.
 
