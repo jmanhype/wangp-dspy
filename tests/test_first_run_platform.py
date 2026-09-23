@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -18,7 +19,7 @@ HOST_KEYS = (
     "WANGP_PULL_ROOT",
     "WANGP_WGP_PYTHON",
 )
-FORBIDDEN_COMMANDS = ("ssh", "curl", "wget", "nvidia-smi")
+NETWORK_COMMANDS = ("ssh", "curl", "wget")
 
 
 def _repository_digest() -> str:
@@ -44,25 +45,61 @@ def repository_remains_byte_identical() -> None:
     assert _repository_digest() == before
 
 
-def _environment(tmp_path: Path) -> tuple[dict[str, str], Path]:
+def _environment(
+    tmp_path: Path,
+    *,
+    accelerator_tool: str = "absent",
+) -> tuple[dict[str, str], Path]:
     forbidden = tmp_path / "forbidden-bin"
     forbidden.mkdir()
     calls = tmp_path / "forbidden-calls"
     calls.write_text("", encoding="utf-8")
-    for name in FORBIDDEN_COMMANDS:
+    for name in NETWORK_COMMANDS:
         command = forbidden / name
         command.write_text(
             f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> {calls}\nexit 99\n',
             encoding="utf-8",
         )
         command.chmod(0o755)
+    nvidia_bin = tmp_path / "nvidia-bin"
+    nvidia_bin.mkdir()
+    if accelerator_tool != "absent":
+        nvidia = nvidia_bin / "nvidia-smi"
+        if accelerator_tool == "valid":
+            nvidia.write_text(
+                "#!/bin/sh\n"
+                f"printf '%s\\n' 'nvidia-smi $*' >> {calls}\n"
+                "printf '0, \"Synthetic CUDA GPU\", 24576 MiB\\n'\n",
+                encoding="utf-8",
+            )
+        else:
+            nvidia.write_text(
+                "#!/bin/sh\n"
+                f"printf '%s\\n' 'nvidia-smi $*' >> {calls}\n"
+                "printf 'synthetic tool made no device claim\\n'\n"
+                "exit 99\n",
+                encoding="utf-8",
+            )
+        nvidia.chmod(0o755)
     environment = os.environ.copy()
-    environment["PATH"] = f"{forbidden}:{environment['PATH']}"
+    prefixes = [str(forbidden)]
+    if accelerator_tool != "absent":
+        prefixes.append(str(nvidia_bin))
+    prefixes.append(str(Path(shutil.which("uv")).parent))
+    environment["PATH"] = ":".join(prefixes)
     environment["WANGP_CONFIG"] = str(tmp_path / "absent-wangp.toml")
     for key in HOST_KEYS:
         environment.pop(key, None)
     environment.pop("WANGP_LLM_API_KEY", None)
     return environment, calls
+
+
+def _assert_no_network_calls(calls: Path) -> None:
+    recorded = calls.read_text(encoding="utf-8").splitlines()
+    assert not [
+        line for line in recorded
+        if line.startswith(("ssh ", "curl ", "wget "))
+    ]
 
 
 def _wgp(
@@ -108,7 +145,9 @@ def _inventory(
 def test_profile_reports_no_accelerator_and_real_local_collection(
     tmp_path: Path,
 ) -> None:
-    environment, calls = _environment(tmp_path)
+    environment, calls = _environment(
+        tmp_path, accelerator_tool="unparseable"
+    )
     inventory = _inventory(tmp_path / "inventory.json", accelerators=[])
 
     human = _wgp(
@@ -155,9 +194,74 @@ def test_profile_reports_no_accelerator_and_real_local_collection(
     assert actual.returncode == 0, actual.stdout + actual.stderr
     local = json.loads(actual.stdout)
     assert local["schema_version"] == "wangp-dspy.platform-profile/v1"
+    assert local["accelerators"] == []
+    assert local["accelerator_absence_reasons"] == [
+        "nvidia-smi probe failed with exit 99; no accelerator inferred"
+    ]
     assert local["disk"]["free_bytes"] > 0
     assert local["collection"]["read_only"] is True
+    _assert_no_network_calls(calls)
+
+
+def test_accelerator_is_absent_when_probe_tool_is_absent(
+    tmp_path: Path,
+) -> None:
+    environment, calls = _environment(tmp_path, accelerator_tool="absent")
+    result = _wgp(
+        "first-run", "profile", "--json", cwd=ROOT, env=environment
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["accelerators"] == []
+    assert payload["accelerator_absence_reasons"] == [
+        "nvidia-smi absent from PATH; no probe attempted"
+    ]
     assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_shadowed_accelerator_tool_without_device_output_is_absent(
+    tmp_path: Path,
+) -> None:
+    environment, calls = _environment(
+        tmp_path, accelerator_tool="unparseable"
+    )
+    result = _wgp(
+        "first-run", "profile", "--json", cwd=ROOT, env=environment
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["accelerators"] == []
+    assert payload["accelerator_absence_reasons"] == [
+        "nvidia-smi probe failed with exit 99; no accelerator inferred"
+    ]
+    recorded = calls.read_text(encoding="utf-8").splitlines()
+    assert len(recorded) == 1
+    assert recorded[0].startswith("nvidia-smi ")
+    assert not [
+        line for line in recorded
+        if line.startswith(("ssh ", "curl ", "wget "))
+    ]
+
+
+def test_parsed_device_output_reports_one_tool_attributed_accelerator(
+    tmp_path: Path,
+) -> None:
+    environment, calls = _environment(tmp_path, accelerator_tool="valid")
+    result = _wgp(
+        "first-run", "profile", "--json", cwd=ROOT, env=environment
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["accelerators"] == [{
+        "kind": "cuda",
+        "name": "Synthetic CUDA GPU",
+        "vram_bytes": 25_769_803_776,
+        "detection": "reported by nvidia-smi",
+    }]
+    assert payload["accelerator_absence_reasons"] == []
+    recorded = calls.read_text(encoding="utf-8").splitlines()
+    assert len(recorded) == 1
+    assert recorded[0].startswith("nvidia-smi ")
 
 
 def test_profile_recommendation_is_advisory_when_vram_is_visible(

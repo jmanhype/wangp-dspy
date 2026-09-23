@@ -21,11 +21,15 @@ The recommendation is advisory and never generation evidence:
   recorded volume has at least 100 GiB free. The status remains
   `advisory-unverified`.
 
-Local collection checks only whether `nvidia-smi` is present on `PATH`; it
-never executes it. The standard library does not expose a portable CPU model,
-live memory availability, or accelerator VRAM, so those fields remain explicit
-unknowns unless supplied in a recorded inventory. Add `--json` for the machine
-shape; every response carries `verified_generation=false`.
+Local collection attempts no accelerator probe when `nvidia-smi` is absent.
+When a tool is visible, an accelerator is reported only after its read-only
+device query succeeds and a row containing an index, device name, and MiB total
+is parsed; the entry is attributed as `reported by nvidia-smi`. A missing,
+broken, or non-parsing tool yields zero accelerators and records the explicit
+absence reason. The standard library does not expose a portable CPU model or
+live memory availability, so those fields remain explicit unknowns unless
+supplied in a recorded inventory. Add `--json` for the machine shape; every
+response carries `verified_generation=false`.
 
 ## Download status and explicit resume
 
