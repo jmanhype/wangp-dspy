@@ -11,7 +11,7 @@ updated_at: 2026-09-23T17:43:31Z
 content_hash: "sha256:5eeeeba4b72ef8a98e0e70724b1b262a4110211c0320fb1991e3d824dee9333a"
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-23T17:43:30Z
 close_reason: "Accepted: exact-head f813fc1 passes CI; 21/21 targeted and 1993/1993 full tests; four LF004 digests match standalone; forced write failure preserves queue outcome and increments spend_gate_recording_write_error."
 ---
