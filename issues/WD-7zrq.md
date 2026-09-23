@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T17:42:40Z
-content_hash: "sha256:572588ef45448dff50e657c99e0e43afa8bce11c72b14a9d91868d6490fb6cc0"
+updated_at: 2026-09-23T18:05:05Z
+content_hash: "sha256:cfdd164e362785e0509c6beec1cda948988a7ba89b9752e65d306e52646a79d1"
 labels: [rejected, rejected-x2]
 ---
 
@@ -61,7 +61,22 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- Final head `5a815c92252e151b039804bb856b09898fd16f7c` on story/WD-7zrq (PR #176). Exact-head CI check `test` id 107305667334: completed/success.
+- SECOND REJECTION (stale head): the previous re-delivery corrected the verifier patterns but left the authoritative contract recording `SHA: e9aba21e…` and `Head e9aba21e…` while the branch head was already `e81745ce…`. The verifier's `(?m)SHA: [0-9a-fA-F]{7,40}` check validates shape only and cannot detect a stale head, so this had to be fixed by hand.
+- Fix: every head reference in this contract now names the delivered head, and the document itself now carries the lesson — `docs/delivery-evidence.md` states that the SHA check proves shape, not identity, and that any rework invalidates the recorded SHA and every head reference. `tests/test_delivery_evidence_doc.py` asserts that caveat so it cannot be dropped.
+- Guard suite and README drift suite: 8 passed locally at this head; full suite green in CI at this head.
+
+### proof
+- [x] The nine checks and their exact literals are documented verbatim, including `(?m)(^\[x\] AC|^### AC Verification$)` for `proof:ac_items` and the alternate CI/commands spellings.
+- [x] The document states that a `| AC | Result | Evidence |` table header alone does NOT satisfy the acceptance check.
+- [x] The document states that the SHA check validates shape, not identity, and that a rework must update the recorded SHA and every head reference.
+- [x] The append-ordering caveat and the post-acceptance 8-of-9 caveat are documented with their causes.
+- [x] The guard test fails if any check name, literal, caveat or worked-example property disappears.
+- [x] CONTRIBUTING.md and the README documentation index link the contract; no product code or protected engine file changed.
 
 ## nd_contract
 status: rejected
@@ -130,11 +145,11 @@ Commands run:
 - `uv run --frozen --extra dev pytest tests/test_delivery_evidence_doc.py tests/test_readme_quickstart.py -q` -> exit 0, 8 passed.
 - `git diff main..HEAD --name-only` -> docs/delivery-evidence.md, CONTRIBUTING.md, README.md, tests/test_delivery_evidence_doc.py.
 
-SHA: e9aba21ebe0028a6906c4b4c0dfea528fee3df7c
+SHA: 5a815c92252e151b039804bb856b09898fd16f7c
 
 ### CI/Test Results
 
-- Exact-head CI check `test` at e9aba21: recorded in the PR (see #176); the guard suite and the README drift suite both pass locally at that head.
+- Exact-head CI check `test` id 107305667334 at 5a815c92252e151b039804bb856b09898fd16f7c: completed/success (PR #176).
 - Targeted: 8 passed / 0 failed / 0 errors; full-suite result recorded with the PR.
 
 ### AC Verification
@@ -151,7 +166,7 @@ SHA: e9aba21ebe0028a6906c4b4c0dfea528fee3df7c
 status: delivered
 
 ### evidence
-- Head e9aba21ebe0028a6906c4b4c0dfea528fee3df7c on story/WD-7zrq; PR #176; guard suite 8 passed locally at that head.
+- Head 5a815c92252e151b039804bb856b09898fd16f7c on story/WD-7zrq; PR #176; guard suite 8 passed locally at that head; exact-head CI `test` completed/success.
 - The document records the tool boundary explicitly: the check vocabulary and note ordering belong to the compiled `pvg` binary, and this document is the verified contract for the shipped version.
 
 ### proof
