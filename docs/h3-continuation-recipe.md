@@ -34,6 +34,12 @@ the generic multishot `WanGPJobConfig` serializer.
 | CLI | `--profile 2 --attention sdpa` |
 | prompt | Recovered S1/S2 prose; Picture 2 binds the silent face |
 
+Spend-gate rows keep both facts separately: `preflight.resolution` is the
+renderer request, while `preflight.resolution_transform` records the handler,
+reference geometry, and expected delivered dimensions. A replay may compare
+delivered media only to that typed transform; it must abstain when the
+transform is unknown and reject a genuine mismatch.
+
 S1 is the current speaking role, not a permanent roster index. S2 is the silent
 character for that cut. The original baseline omitted explicit steps, FPS and
 guidance overrides; key absence matters too. The observed runtime uses 20

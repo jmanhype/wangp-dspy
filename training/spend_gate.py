@@ -1,7 +1,7 @@
 """Offline normalization of recorded render outcomes into spend-gate rows."""
 from __future__ import annotations
 
-import hashlib, json, os, sqlite3, subprocess
+import hashlib, json, os, sqlite3, struct, subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal, Mapping
@@ -11,6 +11,12 @@ from services.director.run_ledger import repository_identity
 
 ROW_SCHEMA = "wangp-dspy.spend-gate-row/v1"
 SIDEARS = ("qc-evidence.json", "settings.json", "wgp-settings.json", "runtime-evidence.json", "speaker_manifest.json", "conditioning-evidence.json", "audio_manifest.json", "render.log", "raw.mp4", "remux.mp4")
+LEGACY_H3_RESOLUTION_TRANSFORMS = {
+    # For this recorded WanGP handler, a 480x832 request is reference-conditioned
+    # and rendered on its 704x576 output grid. The request remains historical
+    # evidence (see predict/v3_recipe.py); it is not a delivered-media contract.
+    ("480x832", "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6"): (704, 576),
+}
 
 
 class SpendGateSourceError(ValueError):
@@ -83,6 +89,41 @@ def _ffprobe(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise SpendGateSourceError(f"ffprobe returned non-object for {path}")
     return value
+
+
+def _png_dimensions(path: Path) -> tuple[int, int] | None:
+    """Read dimensions from a PNG IHDR without decoding or modifying the image."""
+
+    try:
+        with path.open("rb") as source:
+            header = source.read(24)
+    except OSError:
+        return None
+    if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
+        return None
+    width, height = struct.unpack(">II", header[16:24])
+    return (int(width), int(height)) if width > 0 and height > 0 else None
+
+
+def _source_asset_path(value: str, repository_root: Path) -> Path:
+    """Resolve a recorded asset path without persisting checkout-specific prefixes."""
+
+    path = Path(value)
+    if not path.is_absolute():
+        return repository_root / path
+    # Historical settings can retain the absolute path of another checkout or
+    # renderer host. Always remap that suffix into this repository; reading a
+    # same-named file from another checkout would make corpus generation
+    # dependent on unrelated concurrent worktrees.
+    try:
+        return path.relative_to(repository_root)
+    except ValueError:
+        pass
+    for anchor in ("datasets", "assets"):
+        if anchor in path.parts:
+            parts = path.parts
+            return repository_root / Path(*parts[parts.index(anchor):])
+    return path
 
 
 def _gate(qc: Mapping[str, Any], key: str) -> dict[str, Any]:
@@ -216,11 +257,34 @@ def normalize_row(render_dir: Path, *, repository_root: Path,
         brief_hash = None
     prompt = str(wgp.get("prompt") or settings.get("prompt") or "")
     plate_path = str(settings.get("image_start") or wgp.get("image_start") or "")
-    plate_sidecar = Path(str(plate_path).rsplit(".", 1)[0] + ".plate.json") if plate_path else None
+    plate_source = _source_asset_path(plate_path, repository_root) if plate_path else None
+    plate_sidecar = plate_source.with_suffix(".plate.json") if plate_source else None
     plate_json = _json(plate_sidecar, required=False) if plate_sidecar else None
     resolution = str(wgp.get("resolution") or settings.get("resolution") or "")
     dimensions = [int(value) for value in resolution.split("x")] if "x" in resolution else []
     width, height = (dimensions + [None, None])[:2]
+    reference_dimensions = _png_dimensions(plate_source) if plate_source else None
+    handler_sha256 = None
+    handler_hashes = conditioning.get("wgp_code_sha256")
+    if isinstance(handler_hashes, dict):
+        value = handler_hashes.get("models/minimax_h3/minimax_h3_handler.py")
+        handler_sha256 = value if isinstance(value, str) else None
+    expected_dimensions = LEGACY_H3_RESOLUTION_TRANSFORMS.get(
+        (resolution, handler_sha256))
+    resolution_transform = None
+    if reference_dimensions is not None and expected_dimensions is not None:
+        reference_width, reference_height = reference_dimensions
+        expected_width, expected_height = expected_dimensions
+        resolution_transform = {
+            "kind": "wgp_h3_reference_output_resize",
+            "request_width": width,
+            "request_height": height,
+            "reference_width": reference_width,
+            "reference_height": reference_height,
+            "expected_delivered_width": expected_width,
+            "expected_delivered_height": expected_height,
+            "renderer_handler_sha256": handler_sha256,
+        }
     source_hashes = {name: _hash_file(render_dir / name) for name in SIDEARS}
     availability = {name: _tracked(repository_root, relative_dir / name) for name in SIDEARS}
     media = {"path": (relative_dir / "remux.mp4").as_posix(), "sha256": source_hashes["remux.mp4"], "ffprobe": _ffprobe(render_dir / "remux.mp4")}
@@ -234,7 +298,7 @@ def normalize_row(render_dir: Path, *, repository_root: Path,
         "av_sync": qc.get("av_sync_gate"), "media": media,
         "gate_coverage": {"whisper_pre": whisper_pre, "whisper_post": whisper_post, "vision": vision_gate, "av_sync": av_gate},
         "failure_classes": {k: v["failure_class"] for k, v in (("vision", vision_gate), ("av_sync", av_gate))},
-        "preflight": {"audio_carrier": settings.get("audio_carrier"), "model_type": wgp.get("model_type"), "guide_duration_s": settings.get("guide_duration_s"), "declared_shot_duration_s": conditioning.get("cut_duration_s"), "requested_frames": settings.get("requested_frames", settings.get("video_length")), "fps": settings.get("force_fps"), "resolution": resolution, "width": width, "height": height, "prompt_sha256": _hash_bytes(prompt.encode()), "prompt_chars": len(prompt), "prompt_words": len(prompt.split()), "plate_path": plate_path, "plate_available": bool(plate_path and Path(plate_path).is_file()), "plate_facing": plate_json.get("facing") if isinstance(plate_json, dict) else None, "whisper_pre_passed": gates["whisper_pre"]},
+        "preflight": {"audio_carrier": settings.get("audio_carrier"), "model_type": wgp.get("model_type"), "guide_duration_s": settings.get("guide_duration_s"), "declared_shot_duration_s": conditioning.get("cut_duration_s"), "requested_frames": settings.get("requested_frames", settings.get("video_length")), "fps": settings.get("force_fps"), "resolution": resolution, "resolution_semantics": "renderer_request", "width": width, "height": height, "resolution_transform": resolution_transform, "prompt_sha256": _hash_bytes(prompt.encode()), "prompt_chars": len(prompt), "prompt_words": len(prompt.split()), "plate_path": plate_path, "plate_available": bool(plate_source and plate_source.is_file()), "plate_facing": plate_json.get("facing") if isinstance(plate_json, dict) else None, "whisper_pre_passed": gates["whisper_pre"]},
         "plan": {"brief_hash": brief_hash, "wire_settings_sha256": conditioning.get("wire_settings_sha256"), "repo_sha": conditioning.get("repo_sha"), "mode": settings.get("audio_carrier")},
         "queue_join_status": "matched" if queue else "unavailable",
         "queue": None if not queue else {k: queue.get(k) for k in ("job_id", "state", "failure_count", "failure_class", "attempt_count", "last_failure")},
