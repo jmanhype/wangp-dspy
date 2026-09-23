@@ -8,7 +8,7 @@ parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
 updated_at: 2026-09-23T23:59:32Z
-content_hash: "sha256:65ed899a09868f48aec2f1ecec7738644f04a969d8bcf8543f1994c92366a494"
+content_hash: "sha256:042d61ada2b44a32a3d61d80196468eab65ec95f667611c626789ae7b19c7ae7"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no]
 labels: [rejected]
@@ -220,3 +220,26 @@ status: delivered
 - Follows: [[WD-td89]], [[WD-42no]]
 
 ## Comments
+
+### 2026-09-23T23:59:32Z speed
+## PM Decision
+REJECTED [2026-09-23]: Scoped source containment is not physical-path containment.
+
+EXPECTED: AC #2: with `output_root` supplied, acceptance resolution reads only from within that output root; an external machine-local ignored acceptance file can neither supply nor alter the fixture reconciliation.
+
+DELIVERED: In `datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py`, `_resolve_operator_acceptance` scoped automatic mode only checks lexical `canonical.exists()` and returns it; it does not resolve the canonical path or reject a symlink escaping `output_root`. Exact independent probe run in disposable HEAD `8022994310f11288cfdb99d1a86a02696ccb7d41`: create the normal fixture; set `recover.PULL` to an external pull dir; copy the fixture acceptance to `external_pull/operator-acceptance.json`; replace `output/provenance/operator-acceptance.json` with a symlink to that ignored external file; call `recover.record_operator_verdict(output_root=output)`. Exact output:
+`{"action": "reconciled", "source_is_symlink": true, "source_resolved": ".../machine-local-pull/operator-acceptance.json", "external_resolved": ".../machine-local-pull/operator-acceptance.json", "external_supplied": true, "external_read_as_sha256": "471e5b37f07276702426412969f2176f9c454aa49f0d97b6973747e925b3fc6d"}`.
+A differing decoy likewise leaked its SHA into `ValueError: LF004 acceptance record hash mismatch: ba502a57847ba3e957ef7fdf2cf9b1a16026d19e446f604d01bc1c54688b940d`.
+
+GAP: The ignored external file supplied the scoped reconciliation through the canonical symlink, directly contradicting AC #2. Existing regressions cover a regular external `PULL` file but not symlink/physical containment.
+
+FIX: In scoped automatic resolution, resolve both `output_root`/`pull` and the candidate canonical path; require the resolved canonical candidate to remain inside the resolved output root and fail closed before reading/writing otherwise. Add real-file regressions for both an external valid acceptance symlink (must fail/skip external supply) and a differing decoy symlink (must not leak/read its hash).
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM counterexample at exact head `8022994310f11288cfdb99d1a86a02696ccb7d41`; disposable worktree cleaned afterward.
+
+### proof
+- [ ] AC #2: external machine-local ignored acceptance must never supply scoped reconciliation.
