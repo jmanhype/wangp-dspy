@@ -7,10 +7,10 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T22:14:26Z
-content_hash: "sha256:c4d3fc5b0b294b5d05aa5a84adfc9b356e9efbf6e23563af82324fe97e13c6bf"
+updated_at: 2026-09-23T22:14:29Z
+content_hash: "sha256:f6b864a097c7ba39b5476a19f04d34afa6c1a19bcf0408d5518f3f1b19be876a"
 assignee: dev-WD-td89
-follows: [WD-42no]
+follows: [WD-42no, WD-g125]
 ---
 
 ## Description
@@ -178,9 +178,11 @@ status: in_progress
 - 2026-09-23T21:38:23Z status: open -> in_progress
 - 2026-09-23T21:38:23Z auto-follows: linked to predecessor WD-42no
 - 2026-09-23T21:38:23Z claimed by dev-WD-td89
+- 2026-09-23T22:14:29Z status: in_progress -> in_progress
+- 2026-09-23T22:14:30Z auto-follows: linked to predecessor WD-g125
 
 ## Links
 - Parent: [[WD-h73w]]
-- Follows: [[WD-42no]]
+- Follows: [[WD-42no]], [[WD-g125]]
 
 ## Comments
