@@ -763,6 +763,34 @@ def reconstruct_enhancement_database(
     return results
 
 
+def reconstruct_director_records(database: str | Path) -> list[dict[str, Any]]:
+    """Reconstruct either an original or enhanced immutable director database."""
+
+    path = Path(database).expanduser().resolve()
+    connection: sqlite3.Connection | None = None
+    try:
+        connection = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        tables = {
+            row[0]
+            for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            )
+        }
+    except sqlite3.Error as exc:
+        raise _error(
+            "DIRECTOR_RECONSTRUCTION_DATABASE_INVALID",
+            f"cannot inspect database {path}: {exc}",
+            "Use an undamaged database emitted by wgp director.",
+            next_command=RECONSTRUCT_NEXT_COMMAND,
+        ) from exc
+    finally:
+        if connection is not None:
+            connection.close()
+    if "director_enhancement_records" in tables:
+        return reconstruct_enhancement_database(path)
+    return reconstruct_director_database(path)
+
+
 def inspect_queue_database(database: str | Path) -> dict[str, Any]:
     """Use the real admission selector without mutating the plan database."""
 
@@ -804,6 +832,7 @@ __all__ = [
     "inspect_queue_database",
     "load_enhancement_request",
     "load_request",
+    "reconstruct_director_records",
     "reconstruct_director_database",
     "reconstruct_enhancement_database",
     "request_digest",

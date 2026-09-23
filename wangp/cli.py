@@ -53,6 +53,7 @@ from wangp.sfx_cli import register_sfx_parser
 from wangp.voice_cli import register_voice_parser
 from wangp.character_cli import register_character_parser
 from wangp.finish_cli import register_finish_parser
+from wangp.director_cli import register_director_parser
 from wangp.queue_view import (
     collect_queue_review,
     collect_status,
@@ -755,6 +756,7 @@ def build_parser() -> argparse.ArgumentParser:
     register_voice_parser(commands)
     register_character_parser(commands)
     register_finish_parser(commands)
+    register_director_parser(commands)
 
     doctor = commands.add_parser(
         "doctor", help="report local readiness and optionally probe a host"
