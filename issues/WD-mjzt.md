@@ -8,10 +8,10 @@ parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
 updated_at: 2026-09-23T23:41:54Z
-content_hash: "sha256:6ebaf0648798778edb290f38d9e1f26b54b52f9ebeb8a7697b1f29fe2b028c37"
+content_hash: "sha256:5aeab73a93fd03d429506c1e89f16641f218e4a05fe047b22977c218e7f46baa"
 blocked_by: [WD-td89]
 assignee: dev-WD-mjzt
-follows: [WD-td89]
+follows: [WD-td89, WD-42no]
 ---
 
 ## Description
@@ -183,10 +183,12 @@ status: delivered
 - 2026-09-23T23:12:24Z status: open -> in_progress
 - 2026-09-23T23:12:24Z auto-follows: linked to predecessor WD-td89
 - 2026-09-23T23:12:24Z claimed by dev-WD-mjzt
+- 2026-09-23T23:41:54Z status: in_progress -> in_progress
+- 2026-09-23T23:41:54Z auto-follows: linked to predecessor WD-42no
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocked by: [[WD-td89]]
-- Follows: [[WD-td89]]
+- Follows: [[WD-td89]], [[WD-42no]]
 
 ## Comments
