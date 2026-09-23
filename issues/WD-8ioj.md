@@ -8,12 +8,12 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T10:53:38Z
-content_hash: "sha256:ad6ab87b6b8d00a0536e37235455cf003c8821323b69026fd97acd89a9659513"
+updated_at: 2026-09-23T10:53:44Z
+content_hash: "sha256:0f091bd19433c1563dcc61f66cd1b62130ffa0d51624cce297d307a7a2374abb"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-tkuz]
 assignee: dev-WD-8ioj
-follows: [WD-6tox, WD-tkuz]
+follows: [WD-6tox, WD-tkuz, WD-fasw]
 ---
 
 ## Description
@@ -171,11 +171,13 @@ status: delivered
 - 2026-09-23T09:36:22Z auto-follows: linked to predecessor WD-6tox
 - 2026-09-23T09:36:22Z auto-follows: linked to predecessor WD-tkuz
 - 2026-09-23T09:36:22Z claimed by dev-WD-8ioj
+- 2026-09-23T10:53:44Z status: in_progress -> in_progress
+- 2026-09-23T10:53:44Z auto-follows: linked to predecessor WD-fasw
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-tkuz]]
-- Follows: [[WD-6tox]], [[WD-tkuz]]
+- Follows: [[WD-6tox]], [[WD-tkuz]], [[WD-fasw]]
 
 ## Comments
