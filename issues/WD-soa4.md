@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T01:18:56Z
-content_hash: "sha256:048b1e767e736f6e65fdff50a9291599ae888acf6ff5781099f28449d06d7095"
+content_hash: "sha256:c13531e370358e742952943ef567b617e6557df8b35ca63991ba633910785fe8"
 blocks: [WD-fasw, WD-eq1i, WD-gc09]
 assignee: dev-WD-soa4
 follows: [WD-6tox]
@@ -100,6 +100,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU music planning slice only: typed melody/chord/ABC requests, two independent planned model slots, instrumental/song normalization, 48 kHz stereo declarations, structural style-adaptation provenance and audible-A/B contract, deterministic score artifacts, immutable non-executable plan records, typed failures, and reconstruction. No render, host access, GPU work, model download, training, generated-audio claim, or gate semantic change occurred.
 
