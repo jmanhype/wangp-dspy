@@ -61,8 +61,24 @@ def load_request(path: str | Path) -> FinishingRequest:
             "Pass an existing typed finishing request JSON file.",
         ) from exc
     except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        code = "FINISH_REQUEST_INVALID"
+        details = str(exc)
+        if isinstance(exc, ValueError):
+            lowered = details.lower()
+            if "does not plan operations" in lowered:
+                code = "FINISH_OPERATION_UNSUPPORTED"
+            elif "at least one refinement operation" in lowered:
+                code = "FINISH_OPERATION_MISSING"
+            elif "does not support codec" in lowered or "codec" in lowered:
+                code = "FINISH_CODEC_UNSUPPORTED"
+            elif "target_fps" in lowered or "factor" in lowered:
+                code = "FINISH_INTERPOLATION_INVALID"
+            elif "real_esrgan spatial upscale requires" in lowered:
+                code = "FINISH_SPATIAL_UPSCALE_INVALID"
+            elif "face track" in lowered or "face-track" in lowered:
+                code = "FINISH_FACE_TRACK_INVALID"
         raise FinishingCapabilityError(
-            "FINISH_REQUEST_INVALID",
+            code,
             f"cannot validate finishing request {source}: {exc}",
             "Fix the typed request fields, then rerun the deterministic no-GPU plan.",
             metadata={"path": str(source)},

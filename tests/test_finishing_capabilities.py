@@ -19,6 +19,7 @@ from predict.finishing import (
     BACKEND_OPERATIONS,
     SCHEMA_VERSION,
     FinishingBackend,
+    FinishingCapabilityError,
     FinishingRequest,
     backend_settings,
     request_digest,
@@ -192,6 +193,26 @@ def _tree_digest(root: Path) -> str:
         digest.update(str(path.relative_to(root)).encode("utf-8") + b"\0")
         digest.update(path.read_bytes())
     return digest.hexdigest()
+
+
+def _face_refinement(track_ids: tuple[str, ...] = ("face-1",), selected: str | None = "face-1") -> dict[str, Any]:
+    tracks = []
+    for offset, track_id in enumerate(track_ids):
+        tracks.append({
+            "track_id": track_id,
+            "identity_label": "Orin Vale",
+            "confidence": 0.94,
+            "start_s": 0.0,
+            "end_s": 2.0,
+            "x": 0.1 + offset * 0.01,
+            "y": 0.1,
+            "width": 0.3,
+            "height": 0.3,
+            "source": "operator-tracked",
+            "license": "operator-recorded",
+            "consent_ref": "orin-consent",
+        })
+    return {"tracks": tracks, "selected_track": selected, "strength": 0.3}
 
 
 def test_typed_finishing_request_normalizes_all_no_gpu_operations() -> None:
@@ -401,4 +422,284 @@ def test_finish_plan_probe_and_run_cli_modes_are_real_processes(
     assert diagnostic["code"] == "FINISH_EXECUTION_UNAUTHORIZED"
     assert diagnostic["next_command"]
     _assert_next_command_resolves_against_live_cli(diagnostic["next_command"])
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+@pytest.mark.parametrize("factor", ("x2", "x3", "x4"))
+def test_each_interpolation_factor_compiles_to_a_deterministic_graph(
+    tmp_path: Path, factor: str
+) -> None:
+    target_fps = {"x2": 48.0, "x3": 72.0, "x4": 96.0}[factor]
+    payload = _real_request(
+        tmp_path,
+        film_grain=None,
+        interpolation={"factor": factor, "target_fps": target_fps, "scene_detection": True},
+    )
+    record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
+    stage = next(item for item in record["command_graph"] if item["stage_id"] == "interpolation")
+    assert f"fps={target_fps:g}" in stage["command"][6]
+    assert record["backend_settings"]["interpolation"]["factor"] == factor
+
+
+@pytest.mark.parametrize("scale", ("x2", "x3", "x4"))
+def test_each_spatial_upscale_factor_compiles_to_a_deterministic_graph(
+    tmp_path: Path, scale: str
+) -> None:
+    multiplier = {"x2": 2, "x3": 3, "x4": 4}[scale]
+    payload = _real_request(
+        tmp_path,
+        interpolation=None,
+        film_grain=None,
+        spatial_upscale={"scale": scale, "model_sha256": None},
+    )
+    record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
+    stage = next(item for item in record["command_graph"] if item["stage_id"] == "spatial_upscale")
+    assert f"scale=iw*{multiplier}:ih*{multiplier}" in stage["command"][6]
+    assert record["backend_settings"]["spatial_upscale"]["scale"] == scale
+
+
+@pytest.mark.parametrize(
+    "grain",
+    (
+        {"strength": 0.0, "size": 4, "temporal_persistence": 0.0},
+        {"strength": 12.5, "size": 16, "temporal_persistence": 0.5},
+        {"strength": 64.0, "size": 64, "temporal_persistence": 1.0},
+    ),
+)
+def test_each_film_grain_control_setting_compiles_unexecuted(
+    tmp_path: Path, grain: dict[str, float | int]
+) -> None:
+    payload = _real_request(tmp_path, interpolation=None, film_grain=grain)
+    record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
+    stage = next(item for item in record["command_graph"] if item["stage_id"] == "film_grain")
+    assert f"noise=alls={float(grain['strength']):g}" in stage["command"][6]
+    assert stage["executed"] is False
+
+
+@pytest.mark.parametrize(
+    ("container", "codec", "encoder"),
+    (
+        ("mp4", "h264", "libx264"),
+        ("mp4", "hevc", "libx265"),
+        ("mp4", "av1", "libsvtav1"),
+        ("mov", "h264", "libx264"),
+        ("mov", "prores", "prores_ks"),
+        ("mkv", "h264", "libx264"),
+        ("mkv", "hevc", "libx265"),
+        ("mkv", "vp9", "libvpx-vp9"),
+        ("mkv", "av1", "libsvtav1"),
+        ("webm", "vp9", "libvpx-vp9"),
+    ),
+)
+def test_each_supported_codec_target_compiles_unmeasured(
+    tmp_path: Path, container: str, codec: str, encoder: str
+) -> None:
+    payload = _real_request(tmp_path, interpolation=None)
+    payload["output"].update({"container": container, "codec": codec})
+    request = FinishingRequest.model_validate(payload)
+    record = compile_finishing_request(request).mapping()["records"][0]
+    stage = record["command_graph"][-1]
+    assert encoder in stage["command"]
+    assert record["output"]["codec"] == codec
+    assert record["measurement_status"] == "unverified"
+
+
+@pytest.mark.parametrize("tracks", (("face-1",), ("face-1", "face-2")))
+def test_face_refinement_compiles_only_an_explicit_selected_track(
+    tmp_path: Path, tracks: tuple[str, ...]
+) -> None:
+    selected = tracks[0]
+    payload = _real_request(
+        tmp_path,
+        interpolation=None,
+        film_grain=None,
+        face_refinement=_face_refinement(tracks, selected=selected),
+    )
+    record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
+    stage = next(item for item in record["command_graph"] if item["stage_id"] == "face_refinement")
+    assert record["selected_face_track"]["track_id"] == selected
+    assert "crop=" in stage["command"][6]
+    assert "overlay=" in stage["command"][6]
+
+
+@pytest.mark.parametrize("vram", (4, 16, 256))
+def test_each_declared_neural_profile_remains_typed_unavailable(
+    tmp_path: Path, vram: int
+) -> None:
+    payload = _real_request(
+        tmp_path,
+        backend="neural_frame_gen",
+        film_grain=None,
+        neural_path={
+            "model_sha256": "b" * 64,
+            "backend_profile": "authorized-host-only",
+            "minimum_vram_gb": vram,
+            "authorized_host": None,
+            "support_status": "unavailable_without_authorized_host",
+        },
+    )
+    with pytest.raises(FinishingCapabilityError, match="authorized host"):
+        compile_finishing_request(FinishingRequest.model_validate(payload))
+
+
+@pytest.mark.parametrize(
+    ("case", "code"),
+    (
+        ("request-missing", "FINISH_REQUEST_MISSING"),
+        ("request-invalid", "FINISH_REQUEST_INVALID"),
+        ("operation-missing", "FINISH_OPERATION_MISSING"),
+        ("operation-unsupported", "FINISH_OPERATION_UNSUPPORTED"),
+        ("interpolation-invalid", "FINISH_INTERPOLATION_INVALID"),
+        ("spatial-invalid", "FINISH_SPATIAL_UPSCALE_INVALID"),
+        ("codec-unsupported", "FINISH_CODEC_UNSUPPORTED"),
+        ("face-invalid", "FINISH_FACE_TRACK_INVALID"),
+        ("face-ambiguous", "FINISH_FACE_TRACK_AMBIGUOUS"),
+        ("face-mismatch", "FINISH_FACE_TRACK_MISMATCH"),
+        ("face-time", "FINISH_FACE_TRACK_OUT_OF_BOUNDS"),
+        ("source-missing", "FINISH_SOURCE_MISSING"),
+        ("source-hash", "FINISH_SOURCE_HASH_MISMATCH"),
+        ("output-invalid", "FINISH_OUTPUT_INVALID"),
+        ("output-exists", "FINISH_OUTPUT_EXISTS"),
+        ("neural-unavailable", "FINISH_NEURAL_PATH_UNAVAILABLE"),
+        ("queue-path", "FINISH_QUEUE_PATH_MISSING"),
+        ("queue-exists", "FINISH_QUEUE_EXISTS"),
+        ("run-unauthorized", "FINISH_EXECUTION_UNAUTHORIZED"),
+        ("reconstruct-missing", "FINISH_RECONSTRUCTION_DATABASE_MISSING"),
+        ("reconstruct-empty", "FINISH_RECONSTRUCTION_RECORDS_MISSING"),
+        ("reconstruct-record", "FINISH_RECONSTRUCTION_RECORD_INVALID"),
+    ),
+)
+def test_every_typed_failure_class_is_exit_2_and_next_command_resolves_live(
+    tmp_path: Path,
+    case: str,
+    code: str,
+) -> None:
+    environment, calls = _environment(tmp_path)
+    request_path = tmp_path / "request.json"
+    database = tmp_path / "partial.db"
+    payload = _real_request(tmp_path)
+    command = ["finish", "plan", "--request", str(request_path), "--db", str(database), "--json"]
+
+    if case == "request-missing":
+        request_path = tmp_path / "absent.json"
+        command[3] = str(request_path)
+    elif case == "request-invalid":
+        request_path.write_text("{", encoding="utf-8")
+    elif case == "operation-missing":
+        payload["interpolation"] = None
+        payload["film_grain"] = None
+    elif case == "operation-unsupported":
+        payload["backend"] = "rife"
+    elif case == "interpolation-invalid":
+        payload["interpolation"]["target_fps"] = 72.0
+    elif case == "spatial-invalid":
+        payload.update({
+            "backend": "real_esrgan",
+            "interpolation": None,
+            "film_grain": None,
+            "spatial_upscale": {"scale": "x2", "model_sha256": None},
+        })
+    elif case == "codec-unsupported":
+        payload["output"].update({"container": "webm", "codec": "h264"})
+    elif case == "face-invalid":
+        payload["film_grain"] = None
+        face = _face_refinement(("face-1",))
+        face["tracks"][0]["width"] = 0.9
+        face["tracks"][0]["x"] = 0.8
+        payload["face_refinement"] = face
+    elif case == "face-ambiguous":
+        payload["film_grain"] = None
+        payload["face_refinement"] = _face_refinement(("face-1", "face-2"), selected=None)
+    elif case == "face-mismatch":
+        payload["film_grain"] = None
+        payload["face_refinement"] = _face_refinement(("face-1",), selected="face-2")
+    elif case == "face-time":
+        payload["film_grain"] = None
+        face = _face_refinement(("face-1",))
+        face["tracks"][0]["end_s"] = 9.0
+        payload["face_refinement"] = face
+    elif case == "source-missing":
+        payload["source"]["path"] = str(tmp_path / "absent-source.mp4")
+    elif case == "source-hash":
+        payload["source"]["sha256"] = "b" * 64
+    elif case == "output-invalid":
+        payload["output"]["path"] = payload["source"]["path"]
+    elif case == "output-exists":
+        output = tmp_path / "existing.mp4"
+        output.write_bytes(b"exists")
+        payload["output"]["path"] = str(output)
+    elif case == "neural-unavailable":
+        payload.update({
+            "backend": "neural_frame_gen",
+            "film_grain": None,
+            "neural_path": {
+                "model_sha256": "b" * 64,
+                "backend_profile": "authorized-host-only",
+                "minimum_vram_gb": 16,
+                "authorized_host": None,
+                "support_status": "unavailable_without_authorized_host",
+            },
+        })
+    elif case == "queue-path":
+        command = ["finish", "plan", "--request", str(request_path), "--json"]
+    elif case == "queue-exists":
+        database.write_bytes(b"exists")
+    elif case == "run-unauthorized":
+        command = ["finish", "run", "--request", str(request_path), "--json"]
+    elif case == "reconstruct-missing":
+        command = ["finish", "plan", "--db", str(tmp_path / "absent.db"), "--reconstruct", "--json"]
+    elif case == "reconstruct-empty":
+        connection = sqlite3.connect(database)
+        connection.execute(
+            "CREATE TABLE finishing_plan_records("
+            "record_id TEXT PRIMARY KEY, plan_ref TEXT NOT NULL, record_index INTEGER NOT NULL, "
+            "record TEXT NOT NULL, created_at REAL NOT NULL)"
+        )
+        connection.close()
+        command = ["finish", "plan", "--db", str(database), "--reconstruct", "--json"]
+    elif case == "reconstruct-record":
+        request_path.write_text(json.dumps(payload), encoding="utf-8")
+        valid = _wgp(
+            "finish", "plan", "--request", str(request_path),
+            "--db", str(tmp_path / "valid.db"), "--json", env=environment,
+        )
+        assert valid.returncode == 0, valid.stdout + valid.stderr
+        connection = sqlite3.connect(tmp_path / "valid.db")
+        connection.execute("DROP TRIGGER finishing_plan_records_immutable_update")
+        record_id, raw = connection.execute(
+            "SELECT record_id, record FROM finishing_plan_records"
+        ).fetchone()
+        damaged = json.loads(raw)
+        damaged.pop("recipe")
+        connection.execute(
+            "UPDATE finishing_plan_records SET record=? WHERE record_id=?",
+            (json.dumps(damaged), record_id),
+        )
+        connection.commit()
+        connection.close()
+        command = ["finish", "plan", "--db", str(tmp_path / "valid.db"), "--reconstruct", "--json"]
+
+    if not request_path.exists() and case not in {
+        "request-missing", "request-invalid",
+        "queue-path", "run-unauthorized", "reconstruct-missing",
+        "reconstruct-empty", "reconstruct-record",
+    }:
+        request_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    human_command = [item for item in command if item != "--json"]
+    human = _wgp(*human_command, env=environment)
+    machine = _wgp(*command, env=environment)
+    assert human.returncode == machine.returncode == 2, (
+        f"{case}: {human.returncode}/{machine.returncode} "
+        f"{human.stdout}{human.stderr}{machine.stdout}{machine.stderr}"
+    )
+    assert "Traceback" not in human.stdout + human.stderr + machine.stdout + machine.stderr
+    diagnostic = json.loads(machine.stdout)["diagnostics"][0]
+    assert diagnostic["code"] == code, f"{case}: {diagnostic}"
+    assert diagnostic["remediation"]
+    _assert_next_command_resolves_against_live_cli(diagnostic["next_command"])
+    if command[1] == "plan" and case not in {
+        "queue-exists", "reconstruct-missing", "reconstruct-empty", "reconstruct-record"
+    }:
+        assert not database.exists()
     assert calls.read_text(encoding="utf-8") == ""

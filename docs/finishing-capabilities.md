@@ -33,6 +33,8 @@ wgp finish probe --request finishing.json --json
 
 `wgp finish run --request finishing.json --json` always returns typed exit 2 with `FINISH_EXECUTION_UNAUTHORIZED`. This slice performs no render, no GPU work, no host contact, no model download, and no mutation of renderer, queue, QC, AV-gate, or retry semantics.
 
+Typed exit-2 failures cover missing or invalid requests, missing refinement operations, unsupported backend/operation pairs, invalid interpolation or spatial controls, unsupported container/codec pairs, invalid or ambiguous tracked faces, missing or hash-mismatched sources, invalid or existing outputs, unauthorized neural execution, missing or existing plan databases, and missing, empty, or damaged reconstruction records.
+
 Durable plans use only `finishing_plan_records`; the executable `jobs` table is absent. Update and delete triggers reject mutation. Records carry `plan_only=true`, `executable=false`, `queue_submitted=false`, `host_contact=false`, `media_generated=false`, and `measurement_status=unverified`. The governed admission path selects none of these records while a genuine render job remains admissible. Reconstruction reopens the exact source, rebuilds the command graph and per-backend settings from the frozen recipe, and reports all three hash comparisons plus `hidden_mutation`.
 
 ## Capability status
