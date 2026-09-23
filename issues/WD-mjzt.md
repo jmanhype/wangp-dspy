@@ -12,6 +12,7 @@ content_hash: "sha256:5aeab73a93fd03d429506c1e89f16641f218e4a05fe047b22977c218e7
 blocked_by: [WD-td89]
 assignee: dev-WD-mjzt
 follows: [WD-td89, WD-42no]
+labels: [delivered]
 ---
 
 ## Description
