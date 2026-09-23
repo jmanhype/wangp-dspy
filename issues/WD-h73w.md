@@ -7,8 +7,8 @@ type: epic
 labels: [e2e, accepted]
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-21T04:42:49Z
-content_hash: "sha256:08978a292253270c33e7c69cecfc21e8fef95829ca223629dc15f691c5928c2d"
+updated_at: 2026-09-23T20:48:29Z
+content_hash: "sha256:9a9fb453453fd6c583110116ca6f691542db522d8c0d22ccd01df558e1f84599"
 closed_at: 2026-09-21T04:42:48Z
 close_reason: "All child stories are closed and accepted; mechanical capstone complete, operator creative verdict remains pending."
 ---
@@ -54,3 +54,6 @@ status: new
 
 
 ## Comments
+
+### 2026-09-23T20:48:29Z speed
+Completion-gate evidence at merged head 1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e (main checkout): (1) full suite tests=1999 errors=0 failures=0 skipped=1 via parsed JUnit counters; (2) pvg verify --check-e2e PASSED, 1 e2e file (tests/e2e/test_production_stability.py); (3) wgp release verify -> release=ready, tag_created=false; (4) pvg lint --backlog 0 errors / 0 review findings over 112 issues; (5) pvg nd list --status open -> none; (6) protected engine files unchanged vs 1a7f4e5. The gate also caught and closed defect WD-pn6h (canonical path leak) before declaring the epic complete.
