@@ -5,11 +5,14 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import sqlite3
 import subprocess
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+import pytest
 from pydantic import ValidationError
 
 from predict.finishing import (
@@ -20,6 +23,13 @@ from predict.finishing import (
     backend_settings,
     request_digest,
 )
+from services.finishing.pipeline import (
+    compile_finishing_request,
+    enqueue_plan,
+    reconstruct_plan_database,
+)
+from services.jobs.executor import JobExecutor
+from services.jobs.queue import JobQueue
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -84,6 +94,42 @@ def _mutate(payload: dict[str, Any], path: str, value: Any) -> dict[str, Any]:
     else:
         cursor[keys[-1]] = value
     return document
+
+
+def _real_request(tmp_path: Path, **overrides: Any) -> dict[str, Any]:
+    source = ROOT / "datasets/runs/provenance/v3-original/v3_c1.mp4"
+    payload = _request(**overrides)
+    payload["source"] = {
+        "path": str(source),
+        "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        "immutable": True,
+        "measurement": "declared_ffprobe_unverified",
+        "stream": {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 704,
+            "height": 576,
+            "duration_s": 2.333333,
+            "avg_frame_rate": "24/1",
+        },
+    }
+    payload["output"] = {
+        "path": str(tmp_path / "finished.mp4"),
+        "container": "mp4",
+        "codec": "h264",
+        "overwrite": False,
+        "measurement": "planned_ffprobe_unverified",
+    }
+    return payload
+
+
+def _tree_digest(root: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(item for item in root.rglob("*") if item.is_file()):
+        digest.update(str(path.relative_to(root)).encode("utf-8") + b"\0")
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
 
 
 def test_typed_finishing_request_normalizes_all_no_gpu_operations() -> None:
@@ -182,3 +228,72 @@ def test_backend_operation_matrix_and_manifest_hashes_are_explicit() -> None:
     assert "film_grain" not in BACKEND_OPERATIONS[FinishingBackend.neural_frame_gen]
     assert all(re.fullmatch(r"[0-9a-f]{64}", digest) for digest in ("a" * 64, "b" * 64))
     assert hashlib.sha256(b"source").hexdigest() != "a" * 64
+
+
+def test_finishing_plan_is_immutable_undrainable_and_reconstructable(
+    tmp_path: Path,
+) -> None:
+    datasets_before = _tree_digest(ROOT / "datasets")
+    source = ROOT / "datasets/runs/provenance/v3-original/v3_c1.mp4"
+    source_before = source.read_bytes()
+    request = FinishingRequest.model_validate(_real_request(tmp_path))
+    plan = compile_finishing_request(request).mapping()
+    record = plan["records"][0]
+    assert plan["capability_status"] == "planned"
+    assert record["kind"] == "finishing_plan_record"
+    assert record["executable"] is False and record["plan_only"] is True
+    assert record["queue_submitted"] is False and record["host_contact"] is False
+    assert record["measurement_status"] == "unverified"
+    assert [stage["stage_id"] for stage in record["command_graph"]] == [
+        "probe", "interpolation", "film_grain", "codec"
+    ]
+    assert all(stage["executed"] is False for stage in record["command_graph"])
+
+    database = tmp_path / "plans" / "finishing.db"
+    record_ids = enqueue_plan(plan, database)
+    assert len(record_ids) == 1
+    database_before = database.read_bytes()
+    connection = sqlite3.connect(database)
+    tables = {row[0] for row in connection.execute(
+        "SELECT name FROM sqlite_master WHERE type='table'"
+    )}
+    assert "jobs" not in tables
+    with pytest.raises(sqlite3.IntegrityError, match="immutable"):
+        connection.execute("UPDATE finishing_plan_records SET record='changed'")
+    with pytest.raises(sqlite3.IntegrityError, match="immutable"):
+        connection.execute("DELETE FROM finishing_plan_records")
+    connection.close()
+
+    admission_copy = tmp_path / "admission-copy.db"
+    shutil.copy2(database, admission_copy)
+    admission = JobQueue(admission_copy)
+    try:
+        assert admission.list_state("pending") == []
+        assert admission.next_admissible() is None
+        executor = JobExecutor(
+            queue=admission,
+            preflight=lambda _job: pytest.fail("finishing plan admitted"),
+            render=lambda _clip: pytest.fail("finishing plan rendered"),
+            qc=lambda _clip: pytest.fail("finishing plan reached QC"),
+        )
+        assert executor.run_once() is None
+    finally:
+        admission.close()
+    genuine = JobQueue(tmp_path / "genuine.db")
+    try:
+        job_id = genuine.submit(
+            plan_ref="genuine-render",
+            clips=[{"clip_index": 1, "status": "pending", "kind": "ref2va_render"}],
+        )
+        assert genuine.next_admissible() == job_id
+    finally:
+        genuine.close()
+
+    evidence = reconstruct_plan_database(database)
+    assert len(evidence) == 1
+    assert evidence[0]["match"] is True
+    assert evidence[0]["hidden_mutation"] is False
+    assert evidence[0]["recorded_command_graph_sha256"] == evidence[0]["reconstructed_command_graph_sha256"]
+    assert database.read_bytes() == database_before
+    assert source.read_bytes() == source_before
+    assert _tree_digest(ROOT / "datasets") == datasets_before
