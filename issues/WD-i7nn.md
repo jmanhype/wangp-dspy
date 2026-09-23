@@ -8,7 +8,7 @@ labels: [testing, release, delivered]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
 updated_at: 2026-09-23T16:45:40Z
-content_hash: "sha256:5bf3990af9e00c93d58cd5fa1eaa34880ba4059bfc1aae6853c46093c19f99f5"
+content_hash: "sha256:1a11d4cc92c80cf0ae903dbc3af76c57d45ee2644254f76684c9462bcb6e0ed0"
 assignee: dev-WD-i7nn
 ---
 
@@ -65,6 +65,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Release probes now run with a startup guard that drops every non-standard `sys.meta_path` finder and removes the venv's path-based editable project root when the expected tree is a clone. Every real-process probe writes `import-provenance.json`; the parent test asserts the imported `wangp` module and its resolved repository root equal the expected tree before accepting any CLI result. This closes both editable-hook and winning-path-injection routes and preserves the existing network/SSH guards.
