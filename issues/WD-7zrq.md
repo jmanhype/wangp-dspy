@@ -8,7 +8,6 @@ created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T17:27:13Z
 content_hash: "sha256:9f3210e36f6d8052feb4284dfe94fd4556011351212fa3671a23b7d17c62bfb6"
-labels: [rejected]
 ---
 
 ## Description
