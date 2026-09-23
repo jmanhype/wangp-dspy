@@ -42,6 +42,12 @@ MODEL_PRESETS: Mapping[AudioPostFamily, frozenset[AudioPostPreset]] = {
     AudioPostFamily.deepfilternet: frozenset((AudioPostPreset.refinement,)),
 }
 
+FAMILY_OPERATIONS: Mapping[AudioPostFamily, AudioPostOperation] = {
+    AudioPostFamily.stable_audio: AudioPostOperation.sfx,
+    AudioPostFamily.vibevoice: AudioPostOperation.revoice,
+    AudioPostFamily.deepfilternet: AudioPostOperation.refine,
+}
+
 
 class AudioPostCapabilityError(ValueError):
     """A typed, fail-closed audio-post planning rejection."""
@@ -290,7 +296,9 @@ def load_audio_post_model_manifest(path: str | Path) -> dict[str, AudioPostModel
                     metadata={"model": key},
                 )
             model = AudioPostModelRef.model_validate({**item, "sha256": digest})
-            backend_for(family).validate(model, AudioPostOperation.sfx, failure=AudioPostCapabilityError)
+            backend_for(family).validate(
+                model, FAMILY_OPERATIONS[family], failure=AudioPostCapabilityError
+            )
         except AudioPostCapabilityError:
             raise
         except (ValueError, ValidationError) as exc:
