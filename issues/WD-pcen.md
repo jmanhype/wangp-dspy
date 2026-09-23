@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T00:50:42Z
-content_hash: "sha256:0a417c9feb56f2615bdd7f7008a90c5899ec1ce99494bc313c33ce30a292410e"
+updated_at: 2026-09-23T00:50:46Z
+content_hash: "sha256:5d585bca0e556d9eec8e6b9bf242add8008c084facd91bfab917702636a096b4"
 blocks: [WD-tkuz, WD-gc09]
 assignee: dev-WD-pcen
 follows: [WD-6tox]
@@ -160,6 +160,7 @@ status: delivered
 - 2026-09-23T00:09:22Z status: open -> in_progress
 - 2026-09-23T00:09:22Z auto-follows: linked to predecessor WD-6tox
 - 2026-09-23T00:09:22Z claimed by dev-WD-pcen
+- 2026-09-23T00:50:46Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-t741]]
