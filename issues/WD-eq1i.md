@@ -8,8 +8,8 @@ labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T11:29:25Z
-content_hash: "sha256:b928233853f21a660c00b0ec100f6f30d3e287f91fa875f6925b6e0c361264cd"
+updated_at: 2026-09-23T11:29:26Z
+content_hash: "sha256:6822fe971ebd0a293732529dfaea0174333d885e0c0d7f1a28f1d44db68282a3"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw]
@@ -219,3 +219,6 @@ status: delivered
 - Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]]
 
 ## Comments
+
+### 2026-09-23T11:29:25Z speed
+EXPECTED: Composition must genuinely consume/reference existing planning surfaces rather than reimplement planning, and README evidence must reproduce under the requested full-file command. DELIVERED: services/director/plan_compiler.py:15-27 imports only the new director modules; lines 38-43 define PLANNING_SURFACES as string labels; lines 309-360 constructs clips/prompts locally and merely embeds those labels. It neither imports nor calls wangp.content.build_content_request, services.director.orchestrator.DirectorOrchestrator, services.chain.plan.ChainPlan, or services.chain.keyframes.build_fl2va_prompt. The requested README command parsed tests=5 errors=0 failures=0 skipped=0, not the delivered claim of 2. GAP: Metadata naming is not a genuine planning-surface reference, and the unreconciled README count is false delivery evidence. FIX: Implement an actual typed handoff through the existing no-GPU planning surfaces (or otherwise consume their outputs/validators without host work), add real-process assertions, and correct delivery proof to the full-file README result (5/5) or state the exact narrowed test command.
