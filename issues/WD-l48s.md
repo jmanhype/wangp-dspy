@@ -8,8 +8,8 @@ labels: [walking-skeleton, capstone, e2e, accepted]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-23T16:10:56Z
-content_hash: "sha256:938294b4b700b7308646d0eacfc3a4544394d3fcf06c6bcb716fbf72725113f5"
+updated_at: 2026-09-23T16:33:29Z
+content_hash: "sha256:970deb4c8379a861c0db03d8d1bfea6bbebb54c6c7a57bd1f4a48aac9ba81d3f"
 closed_at: 2026-09-23T16:10:56Z
 close_reason: "Accepted: c7963e8 targeted tests 17/17 pass with 0 failures/skips; artifact verifies 36 rows, 18 complete/5 bad, five tracked queue DBs, grouped leakage-safe folds, per-rejection resolution reason, deterministic replay, and insufficient_data/infeasible_at_budget; clean merge-tree against current main."
 assignee: dev-WD-l48s
@@ -165,7 +165,11 @@ status: new
 
 
 ## Notes
+## Post-Acceptance Rebase and Merge (integrator)
 
+Accepted at `c7963e8` (17/17 tests at that head). Because main had advanced 24 commits since the delivery, the branch was rebased by the dispatcher onto main `d02f067`; the rebase was clean (no conflicts), the spend-gate suite still reported 17 tests / 0 failures / 0 errors after the rebase, and the rebased head `704952518c680da05b24ab89029b939e76a5db13` passed the required `test` check in CI before merge.
+
+The delivered corpus and replay tooling (`datasets/spend-gate/v1/`, `training/spend_gate*.py`, `tests/test_spend_gate.py`) therefore land on main unchanged in substance; the acceptance finding that every deterministic rejection attributes to `delivered_resolution_contradicts_envelope` is now tracked as WD-rf1a.
 
 ## nd_contract
 status: accepted
