@@ -24,6 +24,7 @@ The breadth below describes planning and readiness surfaces, not generation read
 | Sound effects/audio post | Planning only; generated audio and video preservation are not verified | [SFX capability planning](docs/sfx-capabilities.md) |
 | Characters | Portable identity/voice planning only; generated continuity is not verified | [Character capability planning](docs/character-capabilities.md) |
 | Finishing | Planning only; finished media and measurements are not verified | [Finishing capability planning](docs/finishing-capabilities.md) |
+| Director | Composition, continuity, pacing, review, and queue-enhancement planning only; no media generation | [Director capability planning](docs/director-capabilities.md) |
 | Content | Deterministic brief summary and dependency planning only; no media generation | [Content surface and capability report](docs/content.md) |
 | First-run | Platform, asset, runtime, recovery, and host readiness only; `verified_generation=false` | [First-run platform readiness](docs/first-run.md) |
 
@@ -123,6 +124,7 @@ Every first-class `wgp` verb appears below in CLI order. The contract test deriv
 | `voice` | Plan speech and portable voices without GPU or host work. |
 | `character` | Plan portable character identity and cross-mode continuity without GPU or host work. |
 | `finish` | Plan interpolation, spatial upsampling, grain, codecs, and tracked-face refinement without GPU or host work. |
+| `director` | Plan governed multi-clip film composition without GPU or host work. |
 | `doctor` | Report local readiness and optionally probe a configured host. |
 | `content` | Turn a brief and plates into a governed content summary. |
 | `brief` | Perform typed content-brief operations. |
@@ -204,7 +206,7 @@ and troubleshooting.
 ## Documentation index
 
 - Setup and first use: [install guide](docs/install.md), [first-run guide](docs/first-run.md).
-- Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), [sound effects and audio post](docs/sfx-capabilities.md), [characters](docs/character-capabilities.md), [finishing](docs/finishing-capabilities.md), and [content](docs/content.md).
+- Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), [sound effects and audio post](docs/sfx-capabilities.md), [characters](docs/character-capabilities.md), [finishing](docs/finishing-capabilities.md), [director](docs/director-capabilities.md), and [content](docs/content.md).
 - Production governance: [render recipes](docs/recipe.md) and the [release checklist](docs/recipe.md#release-checklist).
 
 ## Troubleshooting
