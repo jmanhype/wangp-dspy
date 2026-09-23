@@ -1,14 +1,15 @@
 ---
 id: WD-i7nn
 title: "Release probes can silently verify the real checkout instead of the mutated clone"
-status: open
+status: in_progress
 priority: 2
 type: bug
 labels: [testing, release]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
-updated_at: 2026-09-23T16:04:26Z
-content_hash: "sha256:8d3a3e66c981d3c2c35e7f87fabe563e550d1cab23a39114fcb6dc64e0bf0583"
+updated_at: 2026-09-23T16:05:37Z
+content_hash: "sha256:51c0b290d02978c548bc51562b0049f60de9cf07cbc3dd9380912a10740798b2"
+assignee: dev-WD-i7nn
 ---
 
 ## Description
@@ -67,7 +68,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-23T16:05:37Z status: open -> in_progress
+- 2026-09-23T16:05:37Z claimed by dev-WD-i7nn
 
 ## Links
 ## Comments
