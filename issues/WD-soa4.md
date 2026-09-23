@@ -8,8 +8,8 @@ labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:38:44Z
-content_hash: "sha256:4637501c66908d551c11ab75b1f9ae28bd7bed7e0112e303801dd07723d78284"
+updated_at: 2026-09-23T03:06:39Z
+content_hash: "sha256:6d263d59fc3ccaafb91a93a797d865aed8c3fe71cc54260940cdf826e83cffcd"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
 closed_at: 2026-09-23T01:38:43Z
@@ -102,7 +102,20 @@ status: new
 
 
 ## Notes
+## Post-Acceptance Rebase (integrator)
 
+The story was accepted at `508984904459f806e679dd8b1dbf9197677c7ce8`. Merging WD-4d90 (#164) first moved `main`, leaving PR #166 with a single conflict in `wangp/cli.py` (both lanes add a subparser registration in the same region).
+
+Resolution performed by the dispatcher on `story/WD-soa4`:
+- rebased onto `main` at `5a66007`;
+- kept BOTH registrations: `register_video_parser(commands)`, `register_music_parser(commands)`, `register_platform_parser(commands)`, with the matching three imports;
+- no other file changed by the rebase; the music content is identical to the accepted head.
+
+Evidence at the rebased head `6e84e15279427cdcdcac73565c8323bb5dd0d019`:
+- `wgp --help` lists `video`, `music` and `first-run` together, proving all three registrations are live.
+- Targeted music suite: 28 passed.
+- Exact-head CI check `test` id 107026524414: completed/success (the full suite gate).
+- The merge therefore carries the accepted content plus a mechanical conflict resolution proven by the live CLI surface and the required CI gate.
 
 ## nd_contract
 status: accepted
