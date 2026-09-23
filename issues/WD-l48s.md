@@ -9,11 +9,12 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-23T16:33:29Z
-content_hash: "sha256:970deb4c8379a861c0db03d8d1bfea6bbebb54c6c7a57bd1f4a48aac9ba81d3f"
+content_hash: "sha256:4f6d92873232202953d288eae7430bab6d5f19d9c7ebd5f20e084d4ceeff843b"
 closed_at: 2026-09-23T16:10:56Z
 close_reason: "Accepted: c7963e8 targeted tests 17/17 pass with 0 failures/skips; artifact verifies 36 rows, 18 complete/5 bad, five tracked queue DBs, grouped leakage-safe folds, per-rejection resolution reason, deterministic replay, and insufficient_data/infeasible_at_budget; clean merge-tree against current main."
 assignee: dev-WD-l48s
 blocked_by: [WD-rf1a, WD-v6xp]
+led_to: [WD-v6xp]
 ---
 
 ## Description
@@ -525,6 +526,7 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 ## Links
 - Parent: [[WD-as25]]
 - Blocked by: [[WD-rf1a]], [[WD-v6xp]]
+- Led to: [[WD-v6xp]]
 
 ## Comments
 

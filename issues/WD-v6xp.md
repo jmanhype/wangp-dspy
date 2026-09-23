@@ -1,15 +1,17 @@
 ---
 id: WD-v6xp
 title: "Emit the spend-gate decision row from the production QC seam (fail-open)"
-status: open
+status: in_progress
 priority: 1
 type: task
 parent: WD-as25
 created_at: 2026-09-21T12:19:33Z
 created_by: speed
-updated_at: 2026-09-23T16:04:26Z
-content_hash: "sha256:5651b8cd2da2e1492093273e7fd8389bfb6d9dd70c41ea532ce7cc2418782d5f"
+updated_at: 2026-09-23T16:33:59Z
+content_hash: "sha256:b97023d8d6fe4c89fef3d4937fdd9e34ba9443fe8dcbf88283eb2c4d54be3ab6"
 blocks: [WD-l48s]
+assignee: dev-WD-v6xp
+follows: [WD-l48s]
 ---
 
 ## Description
@@ -70,9 +72,13 @@ status: new
 
 
 - 2026-09-23T16:02:19Z dep_added: blocks WD-l48s
+- 2026-09-23T16:33:59Z status: open -> in_progress
+- 2026-09-23T16:33:59Z auto-follows: linked to predecessor WD-l48s
+- 2026-09-23T16:33:59Z claimed by dev-WD-v6xp
 
 ## Links
 - Parent: [[WD-as25]]
 - Blocks: [[WD-l48s]]
+- Follows: [[WD-l48s]]
 
 ## Comments
