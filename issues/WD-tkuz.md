@@ -1,17 +1,19 @@
 ---
 id: WD-tkuz
 title: "Portable characters and continuity across image and video generation"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:48Z
-content_hash: "sha256:fbfa780c84bf9484e332d93bc17e17c06ceb9e3080d44fc47b714e5b321ae200"
+updated_at: 2026-09-23T06:51:49Z
+content_hash: "sha256:b5b0c014912eb900e37df44bc3fb7fcdefe95886cfd515649670dd7212a11225"
 blocks: [WD-8ioj, WD-eq1i, WD-gc09]
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
+assignee: dev-WD-tkuz
+follows: [WD-6tox, WD-pcen, WD-6ml6]
 ---
 
 ## Description
@@ -118,10 +120,16 @@ status: new
 - 2026-09-22T22:50:10Z dep_removed: was_blocked_by WD-6tox
 - 2026-09-23T04:22:27Z dep_removed: was_blocked_by WD-pcen
 - 2026-09-23T06:49:08Z dep_removed: was_blocked_by WD-6ml6
+- 2026-09-23T06:51:49Z status: open -> in_progress
+- 2026-09-23T06:51:49Z auto-follows: linked to predecessor WD-6tox
+- 2026-09-23T06:51:49Z auto-follows: linked to predecessor WD-pcen
+- 2026-09-23T06:51:49Z auto-follows: linked to predecessor WD-6ml6
+- 2026-09-23T06:51:49Z claimed by dev-WD-tkuz
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
+- Follows: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
 
 ## Comments

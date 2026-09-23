@@ -9,11 +9,12 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T06:51:46Z
-content_hash: "sha256:a315b537a3c7ae2cf57745c393834c9c983508d0d78754d2084f2d432808f353"
+content_hash: "sha256:4b5d69c8da10d9dc026ab004c30220ce95708bf2715cb74753aea140151090f4"
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
 closed_at: 2026-09-23T06:49:07Z
 close_reason: "Accepted: exact head b33e8b8; 34/34 targeted and 1817 full tests (1 pre-existing skip), planned-only matrix, immutable non-executable plans, no host calls, clean worktree."
+led_to: [WD-tkuz]
 ---
 
 ## Description
@@ -205,5 +206,6 @@ status: delivered
 ## Links
 - Parent: [[WD-t741]]
 - Follows: [[WD-pcen]], [[WD-soa4]]
+- Led to: [[WD-tkuz]]
 
 ## Comments
