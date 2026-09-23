@@ -9,11 +9,11 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T08:09:53Z
-content_hash: "sha256:7f494e6560cbead1cc2fcde3b5720694bc0eb5717e42f514d49dd35f57330be5"
+content_hash: "sha256:fa121e7866aea597047e23ab091f128ec445fcf6e1d82e3ddcd89f3441489c55"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 assignee: dev-WD-fasw
-follows: [WD-6tox, WD-soa4, WD-6ml6]
+follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen]
 ---
 
 ## Description
@@ -175,11 +175,13 @@ status: delivered
 - 2026-09-23T06:51:50Z auto-follows: linked to predecessor WD-soa4
 - 2026-09-23T06:51:50Z auto-follows: linked to predecessor WD-6ml6
 - 2026-09-23T06:51:50Z claimed by dev-WD-fasw
+- 2026-09-23T08:09:53Z status: in_progress -> in_progress
+- 2026-09-23T08:09:53Z auto-follows: linked to predecessor WD-pcen
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]]
-- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]]
+- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]]
 
 ## Comments
