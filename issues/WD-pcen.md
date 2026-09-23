@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T00:50:47Z
-content_hash: "sha256:5d585bca0e556d9eec8e6b9bf242add8008c084facd91bfab917702636a096b4"
+content_hash: "sha256:668a16e702a82e95644500025f1aa27247bca93ddf81c417e6275878364fac24"
 blocks: [WD-tkuz, WD-gc09]
 assignee: dev-WD-pcen
 follows: [WD-6tox]
@@ -99,6 +99,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Implemented the no-GPU Maestro image planning slice only: typed requests for generation, edit, upscale, outpaint, and identity-preserving edit; ordered/hash-matched references with a ten-reference cap; immutable masks, output/alpha, prompt-enhancement, identity-gate, model, and backend fields; fail-closed planned adapters; deterministic settings; a separate non-executable durable image plan record; typed exit-2 failures; seed-based reconstruction; and planned capability documentation. No GPU, host, SSH, paid provider, model download, render, or generated-image claim is made.
 Commands run:
