@@ -7,10 +7,11 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T22:14:29Z
+updated_at: 2026-09-23T22:14:30Z
 content_hash: "sha256:f6b864a097c7ba39b5476a19f04d34afa6c1a19bcf0408d5518f3f1b19be876a"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
+labels: [delivered]
 ---
 
 ## Description
