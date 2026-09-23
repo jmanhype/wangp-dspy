@@ -8,8 +8,8 @@ labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:19:56Z
-content_hash: "sha256:33566a3ea6c8976f4759d3298f3d1325daed770782712ff1bccb8f2e008120df"
+updated_at: 2026-09-23T01:27:56Z
+content_hash: "sha256:cd43aa83508211ed324c7bd4a22310aab8ff0f06ddc9493b0c704afe112df4a0"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox]
 ---
@@ -98,7 +98,11 @@ status: new
 
 
 ## Notes
-
+## Rework Evidence
+Summary: The independent acceptor rejected the prior delivery only because its full-suite evidence said 1,755 passed; the authoritative JUnit counters at the unchanged delivery head are tests=1743, failures=0, errors=0, skipped=1 (1,742 passed, 1 skipped).
+Cause: This was a counting-method error, not a cache, checkout, rebase, or tree change. I previously counted every literal period in quiet pytest stdout: 1,742 actual passing-test progress dots plus 13 punctuation periods in warning/file/URL text = 1,755. The progress output also contained one `s` for the known live-3090 skip, which the period counter did not represent.
+Command: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/pcen-junit.xml` — exit 0; parsed JUnit tests=1743 failures=0 errors=0 skipped=1.
+Head: d13ced731a056ca7d04f7d186c631f7f4186c3b8 (unchanged; no repository file changed).
 
 ## nd_contract
 status: rejected
