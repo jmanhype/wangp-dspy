@@ -8,8 +8,9 @@ parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
 updated_at: 2026-09-23T16:02:18Z
-content_hash: "sha256:da67acd204ec92f8e23faacccc6bd6bdde9afc144f17eeba670e142f54b8ee93"
+content_hash: "sha256:b30abb9099bc46fff936f5037a42fd497eb8ab84efe9296f60c5a734c99018d7"
 assignee: dev-WD-rf1a
+blocks: [WD-l48s]
 ---
 
 ## Description
@@ -115,8 +116,10 @@ status: new
 ## History
 - 2026-09-23T15:59:30Z status: open -> in_progress
 - 2026-09-23T15:59:30Z claimed by dev-WD-rf1a
+- 2026-09-23T16:02:18Z dep_added: blocks WD-l48s
 
 ## Links
 - Parent: [[WD-as25]]
+- Blocks: [[WD-l48s]]
 
 ## Comments
