@@ -279,6 +279,22 @@ def _tree_digest(root: Path) -> str:
     return digest.hexdigest()
 
 
+def _tamper_appearance_member(source: Path, destination: Path) -> tuple[str, str]:
+    member = "appearance/native.png"
+    with zipfile.ZipFile(source) as archive:
+        contents = {info.filename: archive.read(info.filename) for info in archive.infolist()}
+    changed = bytearray(contents[member])
+    changed[0] ^= 1
+    contents[member] = bytes(changed)
+    with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for name in sorted(contents):
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o100644 << 16
+            archive.writestr(info, contents[name])
+    return contents[member], hashlib.sha256(contents[member]).hexdigest()
+
+
 def test_real_character_round_trip_registry_and_native_recovery_are_hash_stable(
     tmp_path: Path,
 ) -> None:
@@ -361,6 +377,40 @@ def test_image_and_video_plans_bind_identity_hashes_and_are_deterministic(
         assert record["executable"] is False and record["plan_only"] is True
         outputs.append(first.stdout)
     assert json.loads(outputs[0])["request_sha256"] != json.loads(outputs[1])["request_sha256"]
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_one_changed_real_package_member_byte_fails_import_with_exact_hashes(
+    tmp_path: Path,
+) -> None:
+    environment, calls = _environment(tmp_path)
+    package, inspected, _native, _voice = _export_package(tmp_path, environment)
+    tampered = tmp_path / "tampered.wgpcharacter"
+    _changed, actual = _tamper_appearance_member(package, tampered)
+    assert _digest(tampered) != _digest(package)
+    result = _wgp(
+        "import",
+        "--package",
+        str(tampered),
+        "--destination",
+        str(tmp_path / "import"),
+        "--json",
+        env=environment,
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    diagnostic = json.loads(result.stdout)["diagnostics"][0]
+    expected = inspected["manifest"]["appearance"][0]["sha256"]
+    assert diagnostic["code"] == "CHARACTER_PACKAGE_INVALID"
+    assert (
+        f"package member appearance/native.png hash mismatch: expected {expected}, got {actual}"
+        in diagnostic["observed"]
+    )
+    assert diagnostic["metadata"] == {
+        "member": "appearance/native.png",
+        "expected": expected,
+        "actual": actual,
+    }
+    assert not (tmp_path / "import").exists()
     assert calls.read_text(encoding="utf-8") == ""
 
 

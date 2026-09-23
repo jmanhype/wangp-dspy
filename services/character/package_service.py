@@ -30,6 +30,14 @@ MAX_MEMBER_BYTES = 128 * 1024 * 1024
 _SAFE_MEMBER = re.compile(r"^(appearance/[A-Za-z0-9_.-]+|voice/character\.wgpvoice|character\.json)$")
 
 
+class _PackageHashMismatch(ValueError):
+    def __init__(self, member: str, expected: str, actual: str) -> None:
+        super().__init__(f"hash mismatch for {member}")
+        self.member = member
+        self.expected = expected
+        self.actual = actual
+
+
 def file_sha256(path: str | Path) -> str:
     digest = hashlib.sha256()
     with Path(path).open("rb") as source:
@@ -286,7 +294,7 @@ def inspect_character_package(package: str | Path) -> dict[str, Any]:
         for member, digest in expected.items():
             actual = hashlib.sha256(payload[member]).hexdigest()
             if actual != digest:
-                raise ValueError(f"hash mismatch for {member}")
+                raise _PackageHashMismatch(member, digest, actual)
         identity_json, identity_hash = identity_digest(
             manifest.character_id, manifest.speaker_label, manifest.voice.voice_binding_id
         )
@@ -305,6 +313,17 @@ def inspect_character_package(package: str | Path) -> dict[str, Any]:
             "CHARACTER_PACKAGE_INVALID",
             f"portable character package is missing {MANIFEST_MEMBER}",
             "Use a complete package emitted by wgp character export.",
+        ) from exc
+    except _PackageHashMismatch as exc:
+        raise CharacterPackageError(
+            "CHARACTER_PACKAGE_INVALID",
+            f"package member {exc.member} hash mismatch: expected {exc.expected}, got {exc.actual}",
+            "Restore the exact package bytes; Wangp will not repair a tampered member.",
+            metadata={
+                "member": exc.member,
+                "expected": exc.expected,
+                "actual": exc.actual,
+            },
         ) from exc
     except (TypeError, ValueError, json.JSONDecodeError) as exc:
         raise CharacterPackageError(
