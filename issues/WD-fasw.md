@@ -9,13 +9,13 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T09:14:05Z
-content_hash: "sha256:766353fcb3dd64353c1ca043b4aaba71ee4c6edab763f01014a7c15d46d9b1fe"
+content_hash: "sha256:829464732567b1ca85a481051685cb39a0dc92cbcae79fe6295533936b00d8d2"
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen, WD-4d90]
 assignee: dev-WD-fasw
 closed_at: 2026-09-23T09:14:05Z
 close_reason: "Accepted: bb336d7 fixes every emitted next_command to registered wgp sfx paths; exact-head CLI, 29/29, 5/5, 1847/1848, build, immutability, reconstruction, read-only, and CI evidence all pass."
-led_to: [WD-8ioj, WD-eq1i]
+led_to: [WD-8ioj, WD-eq1i, WD-gc09]
 ---
 
 ## Description
@@ -245,7 +245,7 @@ status: delivered
 - Parent: [[WD-t741]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]]
 - Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]], [[WD-4d90]]
-- Led to: [[WD-8ioj]], [[WD-eq1i]]
+- Led to: [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 
 ## Comments
 

@@ -1,16 +1,18 @@
 ---
 id: WD-gc09
 title: "Non-destructive multi-track editing surface for governed generation"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, capstone]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
-updated_at: 2026-09-22T20:28:49Z
-content_hash: "sha256:1915f4cdd8c7c40e903baa46a1b3e1e1cba28ae56c1b15857d2b3e72e51ed469"
+updated_at: 2026-09-23T12:35:58Z
+content_hash: "sha256:1ffa7aa8e09218e5769e05c864b2f9122e60e12266bdd2fc1d91b993f314cbf9"
 was_blocked_by: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
+assignee: dev-WD-gc09
+follows: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 ---
 
 ## Description
@@ -121,9 +123,21 @@ status: new
 - 2026-09-23T09:16:29Z dep_removed: was_blocked_by WD-tkuz
 - 2026-09-23T11:26:58Z dep_removed: was_blocked_by WD-8ioj
 - 2026-09-23T12:34:15Z dep_removed: was_blocked_by WD-eq1i
+- 2026-09-23T12:35:58Z status: open -> in_progress
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-6tox
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-4d90
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-soa4
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-pcen
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-6ml6
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-fasw
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-tkuz
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-8ioj
+- 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-eq1i
+- 2026-09-23T12:35:58Z claimed by dev-WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
 - Was blocked by: [[WD-6tox]], [[WD-4d90]], [[WD-soa4]], [[WD-pcen]], [[WD-6ml6]], [[WD-fasw]], [[WD-tkuz]], [[WD-8ioj]], [[WD-eq1i]]
+- Follows: [[WD-6tox]], [[WD-4d90]], [[WD-soa4]], [[WD-pcen]], [[WD-6ml6]], [[WD-fasw]], [[WD-tkuz]], [[WD-8ioj]], [[WD-eq1i]]
 
 ## Comments

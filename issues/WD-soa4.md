@@ -9,12 +9,12 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T04:25:23Z
-content_hash: "sha256:64c95d7e24a6a21dc9eeaba90328f0369d526979db849ccbc3e48043fe2030e4"
+content_hash: "sha256:edc4de7e2d5cde77856aa33a22010086258d103547ffefa8c09c3005afe5ff78"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
 closed_at: 2026-09-23T01:38:43Z
 close_reason: "Accepted: exact-head probes, immutable non-executable records, real selector admission, typed failures, reconstruction, read-only proof, scoped/full tests, CI, and honest planned-only matrix all passed."
-led_to: [WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-eq1i]
+led_to: [WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
 ---
 
 ## Description
@@ -217,6 +217,6 @@ status: delivered
 ## Links
 - Parent: [[WD-t741]]
 - Follows: [[WD-6tox]]
-- Led to: [[WD-pcen]], [[WD-6ml6]], [[WD-fasw]], [[WD-tkuz]], [[WD-eq1i]]
+- Led to: [[WD-pcen]], [[WD-6ml6]], [[WD-fasw]], [[WD-tkuz]], [[WD-eq1i]], [[WD-gc09]]
 
 ## Comments

@@ -9,11 +9,11 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T04:25:23Z
-content_hash: "sha256:ac6b1bc67c456ca164159e526dd2032f9bb54db115a1fb8c14871eaa3b32f17d"
+content_hash: "sha256:a2cb1bfcbd76ff9f34042b1985f6046f54604155fbde4160853dd995ff16fccd"
 follows: [WD-6tox, WD-soa4]
 closed_at: 2026-09-23T04:22:27Z
 close_reason: "Accepted at 8eda61f: corrected 1743/0/0/1 evidence, clean four-verb rebase, 28 image tests pass, CI success, zero review threads, and no-GPU planned capability boundaries hold."
-led_to: [WD-6ml6, WD-tkuz, WD-fasw]
+led_to: [WD-6ml6, WD-tkuz, WD-fasw, WD-gc09]
 ---
 
 ## Description
@@ -332,7 +332,7 @@ status: delivered
 ## Links
 - Parent: [[WD-t741]]
 - Follows: [[WD-6tox]], [[WD-soa4]]
-- Led to: [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]]
+- Led to: [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]], [[WD-gc09]]
 
 ## Comments
 

@@ -9,11 +9,11 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
 updated_at: 2026-09-22T23:26:31Z
-content_hash: "sha256:5d0eeccf0c737151dc1d2c9008e6b6d707d94ef3ae9abc2dfa6679a4b798b9ca"
+content_hash: "sha256:63bc4569f6d924b4826afaae50c7cb7049a68dd2bee6eac1f3188e2fd7e9faa7"
 assignee: dev-WD-6tox
 closed_at: 2026-09-22T22:50:10Z
 close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
-led_to: [WD-4d90, WD-pcen, WD-soa4, WD-tkuz, WD-fasw, WD-8ioj, WD-eq1i]
+led_to: [WD-4d90, WD-pcen, WD-soa4, WD-tkuz, WD-fasw, WD-8ioj, WD-eq1i, WD-gc09]
 ---
 
 ## Description
@@ -232,6 +232,6 @@ status: delivered
 
 ## Links
 - Parent: [[WD-t741]]
-- Led to: [[WD-4d90]], [[WD-pcen]], [[WD-soa4]], [[WD-tkuz]], [[WD-fasw]], [[WD-8ioj]], [[WD-eq1i]]
+- Led to: [[WD-4d90]], [[WD-pcen]], [[WD-soa4]], [[WD-tkuz]], [[WD-fasw]], [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 
 ## Comments
