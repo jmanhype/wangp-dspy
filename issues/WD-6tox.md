@@ -9,10 +9,11 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:43Z
 created_by: speed
 updated_at: 2026-09-22T23:26:31Z
-content_hash: "sha256:521c27129b1c660e2882cb4f71ff064fc99303664f5e287c7d57cf77d717bc6c"
+content_hash: "sha256:ee59ec34699ae98a40731c17ea4c80d951841b808c799d92332adc4d35d6faaf"
 assignee: dev-WD-6tox
 closed_at: 2026-09-22T22:50:10Z
 close_reason: "Exact head ba466011: scoped 24 passed, full 1700 passed/1 skipped, CI success, 11 planned cases, immutable 3-job queue/reconstruction, 9 typed failures, zero host calls, no overclaim."
+led_to: [WD-4d90]
 ---
 
 ## Description
@@ -231,5 +232,6 @@ status: delivered
 
 ## Links
 - Parent: [[WD-t741]]
+- Led to: [[WD-4d90]]
 
 ## Comments
