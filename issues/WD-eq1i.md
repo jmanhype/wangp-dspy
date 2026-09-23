@@ -1,18 +1,17 @@
 ---
 id: WD-eq1i
 title: "Director and composition: prompt or audio to governed multi-clip film"
-status: in_progress
+status: open
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T11:06:51Z
-content_hash: "sha256:c9cdba7cdab7cd211a23f7a5416873c44fe6f239f4b8c69db2a68ccb0a250df8"
+updated_at: 2026-09-23T11:29:25Z
+content_hash: "sha256:b928233853f21a660c00b0ec100f6f30d3e287f91fa875f6925b6e0c361264cd"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
-assignee: dev-WD-eq1i
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw]
 ---
 
@@ -210,6 +209,8 @@ status: delivered
 - 2026-09-23T09:36:23Z claimed by dev-WD-eq1i
 - 2026-09-23T11:06:51Z status: in_progress -> in_progress
 - 2026-09-23T11:06:51Z auto-follows: linked to predecessor WD-fasw
+- 2026-09-23T11:29:25Z status: in_progress -> open
+- 2026-09-23T11:29:25Z released by speed
 
 ## Links
 - Parent: [[WD-t741]]
