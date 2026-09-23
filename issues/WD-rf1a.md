@@ -1,18 +1,19 @@
 ---
 id: WD-rf1a
 title: "Delivered media resolution contradicts the plan envelope for every recorded render"
-status: in_progress
+status: closed
 priority: 0
 type: task
 parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
-updated_at: 2026-09-23T17:16:59Z
-content_hash: "sha256:70821c58fa96b22f2d77882690139e6ed25defe71f7e868d7d07a9729595a005"
+updated_at: 2026-09-23T17:36:19Z
+content_hash: "sha256:340607dd3b9a9d30f4b605cf159d6386e5ba3ed91c55f52c8ae1f8c272ac2fbc"
 assignee: dev-WD-rf1a
-blocks: [WD-l48s]
 follows: [WD-l48s]
 labels: [delivered]
+closed_at: 2026-09-23T17:36:19Z
+close_reason: "Accepted: exact-head replay, adverse cases, RED/GREEN, 1990-test suite, build, CI, and delivery proof all verified"
 ---
 
 ## Description
@@ -132,10 +133,11 @@ status: delivered
 - 2026-09-23T16:02:18Z dep_added: blocks WD-l48s
 - 2026-09-23T17:16:58Z status: in_progress -> in_progress
 - 2026-09-23T17:16:59Z auto-follows: linked to predecessor WD-l48s
+- 2026-09-23T17:36:19Z status: in_progress -> closed
+- 2026-09-23T17:36:19Z dep_removed: no_longer_blocks WD-l48s
 
 ## Links
 - Parent: [[WD-as25]]
-- Blocks: [[WD-l48s]]
 - Follows: [[WD-l48s]]
 
 ## Comments
