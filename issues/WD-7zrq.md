@@ -1,13 +1,14 @@
 ---
 id: WD-7zrq
 title: "pvg story verify-delivery is unsatisfiable with the append-notes API"
-status: open
+status: in_progress
 priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T16:04:26Z
-content_hash: "sha256:4a5884a3f9bbc9ffee1b57440be9ef2f90fd0b0020277f0f2f2433809036f916"
+updated_at: 2026-09-23T16:34:00Z
+content_hash: "sha256:f91ed5cef7506ac14e6e7d82c861190d6d4381d526619de655c6ea4e31d416ca"
+assignee: dev-WD-7zrq
 ---
 
 ## Description
@@ -63,7 +64,8 @@ status: new
 
 
 ## History
-
+- 2026-09-23T16:34:00Z status: open -> in_progress
+- 2026-09-23T16:34:00Z claimed by dev-WD-7zrq
 
 ## Links
 ## Comments
