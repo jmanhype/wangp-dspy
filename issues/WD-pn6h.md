@@ -12,6 +12,7 @@ content_hash: "sha256:57598e8101378589c9dcce0921bbba931b99ceca6408b31e1f7329fd8e
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp, WD-rf1a]
+labels: [delivered]
 ---
 ## Description
 ## Context
