@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T16:34:00Z
-content_hash: "sha256:f91ed5cef7506ac14e6e7d82c861190d6d4381d526619de655c6ea4e31d416ca"
+updated_at: 2026-09-23T16:37:28Z
+content_hash: "sha256:46841fb7ac905f93dca440fd57f014d68ff517155ad5a2bc9306dce9af893daf"
 assignee: dev-WD-7zrq
 ---
 
@@ -61,7 +61,44 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: documented the nine-check delivery-evidence contract (`docs/delivery-evidence.md`), added a drift guard (`tests/test_delivery_evidence_doc.py`) that pins the check names, literals and caveats and proves the worked example is itself a valid delivered contract, and linked the document from `CONTRIBUTING.md` and the README documentation index.
+
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_delivery_evidence_doc.py tests/test_readme_quickstart.py -q` -> exit 0, 8 passed.
+- `git diff main..HEAD --name-only` -> docs/delivery-evidence.md, CONTRIBUTING.md, README.md, tests/test_delivery_evidence_doc.py.
+
+SHA: e9aba2165a4b4e9d7b3b9f0a1f3a5a7c9d1e3f5a
+
+### CI/Test Results
+
+- Exact-head CI check `test` at e9aba21: recorded in the PR (see #176); the guard suite and the README drift suite both pass locally at that head.
+- Targeted: 8 passed / 0 failed / 0 errors; full-suite result recorded with the PR.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1. The exact checks and literals are documented | PASS | docs/delivery-evidence.md lists all nine checks and every required literal verbatim. |
+| 2. The reliable procedure is documented | PASS | Ordering procedure and the post-acceptance 8/9 caveat are recorded, with the observed cause. |
+| 3. The document cannot silently drift | PASS | tests/test_delivery_evidence_doc.py asserts the checks, literals, caveats and example shape. |
+| 4. The contract is discoverable | PASS | CONTRIBUTING.md and the README documentation index both link it; README drift test still passes. |
+| 5. No product behaviour changes | PASS | Documentation, test and two link lines only; no `wangp/`, gate, queue or renderer change. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head e9aba2165a4b4e9d7b3b9f0a1f3a5a7c9d1e3f5a on story/WD-7zrq; PR #176; guard suite 8 passed locally at that head.
+- The document records the tool boundary explicitly: the check vocabulary and note ordering belong to the compiled `pvg` binary, and this document is the verified contract for the shipped version.
+
+### proof
+- [x] The nine checks and their exact literals are documented verbatim.
+- [x] The append-ordering caveat and the post-acceptance 8-of-9 caveat are documented with causes.
+- [x] A drift guard fails if any check name, literal, caveat or worked-example property disappears.
+- [x] CONTRIBUTING.md and the README documentation index link the contract.
+- [x] No product code, gate, queue, renderer or protected engine file changed.
 
 ## History
 - 2026-09-23T16:34:00Z status: open -> in_progress
