@@ -1,16 +1,18 @@
 ---
 id: WD-soa4
 title: "Music generation, ABC planning, style adaptation, and a second independent model"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:47Z
-content_hash: "sha256:2d51cf88ddf32684baa8bb9e1c2fde1cac41572507c3f1864209a37a2a894be6"
+updated_at: 2026-09-23T00:09:23Z
+content_hash: "sha256:fe3ee8a49027642226b3e7a47b2ec1544bd9aa8893e293fd12e290583a726d1d"
 blocks: [WD-fasw, WD-eq1i, WD-gc09]
+assignee: dev-WD-soa4
+follows: [WD-6tox]
 ---
 
 ## Description
@@ -104,9 +106,13 @@ status: new
 - 2026-09-22T20:24:45Z dep_added: blocks WD-fasw
 - 2026-09-22T20:24:47Z dep_added: blocks WD-eq1i
 - 2026-09-22T20:27:37Z dep_added: blocks WD-gc09
+- 2026-09-23T00:09:23Z status: open -> in_progress
+- 2026-09-23T00:09:23Z auto-follows: linked to predecessor WD-6tox
+- 2026-09-23T00:09:23Z claimed by dev-WD-soa4
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-fasw]], [[WD-eq1i]], [[WD-gc09]]
+- Follows: [[WD-6tox]]
 
 ## Comments
