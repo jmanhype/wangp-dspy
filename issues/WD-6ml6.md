@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T06:49:08Z
-content_hash: "sha256:0617f899c6faf5b3b8ad3d887aae1ea6a912dad66b27e3af6489ca047b363603"
+content_hash: "sha256:5f4ab89f704aa795f5559e7241fe9f6c0111598770cc646197d914e47e5ffda9"
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
 closed_at: 2026-09-23T06:49:07Z
@@ -107,6 +107,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
