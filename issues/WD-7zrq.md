@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T16:37:29Z
-content_hash: "sha256:75ba3b19cd882b164bd555739456fb2a320b21701c7de1c0b359d1f4c45b0606"
+content_hash: "sha256:fda1ff1f98bc3db92d39cdf923aadbd851c04eff48562deadfbf2b2150945ea9"
 assignee: dev-WD-7zrq
 labels: [delivered]
 ---
@@ -62,6 +62,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: documented the nine-check delivery-evidence contract (`docs/delivery-evidence.md`), added a drift guard (`tests/test_delivery_evidence_doc.py`) that pins the check names, literals and caveats and proves the worked example is itself a valid delivered contract, and linked the document from `CONTRIBUTING.md` and the README documentation index.
