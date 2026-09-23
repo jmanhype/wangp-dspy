@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T00:09:22Z
-content_hash: "sha256:17810d9e1d42ad0676e045a8b6ed5b2b87cfaf8ec24d9754b9037a430a2c9702"
+updated_at: 2026-09-23T00:50:42Z
+content_hash: "sha256:0a417c9feb56f2615bdd7f7008a90c5899ec1ce99494bc313c33ce30a292410e"
 blocks: [WD-tkuz, WD-gc09]
 assignee: dev-WD-pcen
 follows: [WD-6tox]
@@ -99,7 +99,60 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Implemented the no-GPU Maestro image planning slice only: typed requests for generation, edit, upscale, outpaint, and identity-preserving edit; ordered/hash-matched references with a ten-reference cap; immutable masks, output/alpha, prompt-enhancement, identity-gate, model, and backend fields; fail-closed planned adapters; deterministic settings; a separate non-executable durable image plan record; typed exit-2 failures; seed-based reconstruction; and planned capability documentation. No GPU, host, SSH, paid provider, model download, render, or generated-image claim is made.
+Commands run:
+- uv run --frozen --extra dev pytest tests/test_image_capabilities.py -q — exit 0; 28 passed.
+- uv run --frozen --extra dev pytest -q at committed head d13ced731a056ca7d04f7d186c631f7f4186c3b8 — exit 0; 1755 passed, 1 pre-existing intentional live-3090 skip.
+- pvg verify docs/image-capabilities.md host/image_backends.py predict/image_capabilities.py services/image/__init__.py services/image/request_compiler.py tests/test_image_capabilities.py wangp/image_cli.py wangp/cli.py --format=text — VERIFY: PASSED (7 files scanned, 0 issues).
+- Real CLI evidence: five operations in human and JSON modes plus all 20 implemented typed failure classes; /tmp/wd-pcen-cli-evidence.txt, SHA256 9d1a4ea03b3b859bdffe40714b41af02cc49ed41d7ec357e8b32dab92752f8ca.
+- Queue/admission/reconstruction evidence: /tmp/wd-pcen-queue-evidence.json, SHA256 febec93cad92221ab52977580e95a2ce2f188e572ea4045486d15588b2e56ddd.
+- uv build --out-dir /tmp/wd-pcen-build.Bm1fiA — exit 0; one wheel and one sdist.
+- git fetch origin main && git rebase origin/main — origin/main remained 49491d05fcb8fa43c3590f476a8e1a7b8f43d17d, so no rebase or conflict was required; pushed story/WD-pcen.
+- gh pr create — https://github.com/jmanhype/wangp-dspy/pull/165.
+- gh api repos/jmanhype/wangp-dspy/commits/d13ced731a056ca7d04f7d186c631f7f4186c3b8/check-runs — test completed with success.
+- git diff --exit-code origin/main..HEAD -- datasets — exit 0; datasets tree a642ce311543e7993a2a2f2c23a0bad5db425f9d unchanged. Targeted tests shadow ssh/nvidia-smi/curl and assert zero calls.
+SHA: d13ced731a056ca7d04f7d186c631f7f4186c3b8
 
+### CI/Test Results
+- Targeted suite: exit 0; 28 passed; no warnings.
+- Full suite: exit 0; 1755 passed, 1 skipped. The only skip is tests/test_jobs_integration_3090.py:20, which requires WANGP_3090=1 and a live 3090 and therefore must not run in this no-host slice. The suite also emits the pre-existing StarletteDeprecationWarning at fastapi/testclient.py:1.
+- Build: one wheel (wangp_dspy-0.1.0-py3-none-any.whl, SHA256 418732a6a03b0b4ff2d10be25101547384175b3537e361bdad3870581a31ccc9) and one sdist (wangp_dspy-0.1.0.tar.gz, SHA256 4d399d5e10312d19b69893bdb4983d0a2e14309d1566888ecf08944b12b4075a).
+- GitHub check-runs at exact head: test total_count=1, status=completed, conclusion=success.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| NOGPU-1: Typed models and real CLI normalize generation, edit, upscale, outpaint, and identity-preserving edit without GPU/host work | verified | predict/image_capabilities.py:235-338; wangp/image_cli.py:31-155,158-181; tests/test_image_capabilities.py:129-174; /tmp/wd-pcen-cli-evidence.txt. |
+| NOGPU-2: Ordered references accept exactly ten and reject an eleventh before durable state | verified | predict/image_capabilities.py:130-145,243,266-268; tests/test_image_capabilities.py:158-174. |
+| NOGPU-3: PNG transparency, output bounds/alignment, upscale/outpaint shape, and both prompt-enhancement modes are immutable declarations | verified | predict/image_capabilities.py:180-232,252-292; host/image_backends.py:47-54; tests/test_image_capabilities.py:129-189,261-352. |
+| NOGPU-4: Identity edit requires an identity reference and objective gate declaration without claiming identity preservation | verified | predict/image_capabilities.py:225-233,278-285; docs/image-capabilities.md:38; tests/test_image_capabilities.py:129-174. |
+| NOGPU-5: Absent or hash-mismatched references/masks and invalid masks fail typed exit 2 with no partial queue | verified | services/image/request_compiler.py:25-54; tests/test_image_capabilities.py:261-352; /tmp/wd-pcen-cli-evidence.txt. |
+| NOGPU-6: Missing model provenance, incomplete backend metadata, unsupported backend/operation, unsupported size, and every other incomplete request class fails typed exit 2 | verified | predict/image_capabilities.py:318-430; host/image_backends.py:22-54; tests/test_image_capabilities.py:261-352; all 20 codes captured. |
+| NOGPU-7: One durable immutable image plan record per requested image cannot be drained by the real admission path, while a genuine render job remains admissible | verified | services/image/request_compiler.py:57-167; tests/test_image_capabilities.py:191-259; /tmp/wd-pcen-queue-evidence.json. |
+| NOGPU-8: Dry-run reconstruction reproduces exact image settings/enhancement metadata from queue plus recipe and proves no hidden mutation | verified | services/image/request_compiler.py:169-238; tests/test_image_capabilities.py:238-259; settings hashes 64e7552478b288e42803a1cf682dcffc8258187ca824fa876cbff4f0c98a0f6a match; hidden_mutation=false. |
+| NOGPU-9: Documentation and capability rows remain planned with no generation artifact claim and read-only inputs unchanged | verified | docs/image-capabilities.md:52-65; datasets tree a642ce311543e7993a2a2f2c23a0bad5db425f9d unchanged; output_image=null in every plan. |
+| GPU-1: Authorized host runs generate real generation, ten-reference edit, transparent PNG, upscale, outpaint, and identity-preserving artifacts with full run-bundle evidence | not verified - requires authorized host run | No host/GPU run, model download, paid provider call, image artifact, or identity metric evidence was attempted or claimed. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Head/PR: d13ced731a056ca7d04f7d186c631f7f4186c3b8 / https://github.com/jmanhype/wangp-dspy/pull/165.
+- Targeted tests: 28 passed. Full tests: 1755 passed, 1 intentional live-host skip. Exact-head GitHub test check succeeded.
+- Queue evidence: one image_plan_record, no executable jobs selected, genuine job still admitted; reconstruction hidden_mutation=false.
+- Build: one wheel and one sdist with hashes recorded above; pvg verify passed.
+
+### proof
+- [x] NOGPU-1: Typed real-CLI planning covers generation, edit, upscale, outpaint, and identity-preserving edit without GPU/host work.
+- [x] NOGPU-2: Exactly ten ordered references are accepted and an eleventh fails typed before durable state.
+- [x] NOGPU-3: Transparency/PNG, output bounds, upscale/outpaint controls, and prompt-enhancement modes are immutable declarations.
+- [x] NOGPU-4: Identity-preserving edit requires identity references and an objective gate declaration.
+- [x] NOGPU-5: Absent, mismatched, or invalid references/masks fail typed exit 2 with no partial queue.
+- [x] NOGPU-6: Missing model provenance, incomplete backend metadata, unsupported operation/backend, unsupported size, and all other incomplete classes fail typed.
+- [x] NOGPU-7: Durable plan records are immutable and undrainable by the real admission path while genuine render work remains admissible.
+- [x] NOGPU-8: Seed-based reconstruction reproduces exact settings and enhancement metadata with no hidden mutation.
+- [x] NOGPU-9: Documentation/matrix rows remain planned, make no artifact claim, and committed datasets remain unchanged.
 
 ## History
 - 2026-09-22T20:24:45Z dep_added: blocks WD-tkuz
