@@ -10,7 +10,8 @@ import pytest
 from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
 from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _canonicalize_paths, _gate,
                                  _load_queue_rows, _queue_match, _queue_record_key, _row_identity,
-                                 build_corpus, canonical_json, verify_artifact, write_completed_run_rows,
+                                 build_corpus, canonical_json, normalize_row, verify_artifact,
+                                 write_completed_run_rows,
                                  write_live_row)
 from training.spend_gate_replay import (_decision_rule, _deterministic_eval, _raw_probability_decision,
                                         _bootstrap, _score, _threshold_probability_decision, replay_baselines)
@@ -245,14 +246,48 @@ def test_deterministic_preflight_rejection_is_attributed_not_hidden() -> None:
     """
     report = replay_baselines(ARTIFACT / "corpus.jsonl", bootstrap_samples=20)
     baseline, complete = report.metrics["baselines"]["deterministic_preflight"], report.metrics["complete_row_count"]
-    assert baseline["admitted"] == 0 and baseline["abstained"] == 0
-    assert report.metrics["deterministic_preflight_reasons"] == {"delivered_resolution_contradicts_envelope": complete}
+    assert baseline["admitted"] == complete and baseline["abstained"] == 0
+    assert baseline["rejected_bad"] == baseline["rejected_good"] == 0
+    assert report.metrics["deterministic_preflight_reasons"] == {}
     rounding_gap = [row for row in rows()
                     if abs(float(row["preflight"]["guide_duration_s"])
                            - float(row["preflight"]["declared_shot_duration_s"])) > AUDIO_DURATION_TOLERANCE_S]
     assert rounding_gap == []
-    assert "delivered resolution contradicts" in report.markdown
+    assert "typed resolution_transform" in report.markdown
     assert "not tracked by git" in report.markdown
+
+
+def test_resolution_request_is_typed_against_reference_geometry() -> None:
+    """A renderer request is not implicitly a delivered-media contract.
+
+    The H3 request remains 480x832, while the recorded handler maps reference
+    conditioning to a 704x576 output grid. The replay must admit that typed
+    transform, abstain when the transform is unavailable, and still reject a
+    delivered geometry that contradicts the typed contract.
+    """
+    source = next(row for row in rows() if row["source_path"] ==
+                  "datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000")
+    normalized = normalize_row(ROOT / source["source_path"], repository_root=ROOT).to_dict()
+    transform = normalized["preflight"]["resolution_transform"]
+    assert normalized["preflight"]["resolution_semantics"] == "renderer_request"
+    assert transform["kind"] == "wgp_h3_reference_output_resize"
+    assert transform["renderer_handler_sha256"] == (
+        "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6")
+    assert (transform["request_width"], transform["request_height"]) == (480, 832)
+    assert (transform["reference_width"], transform["reference_height"]) == (704, 576)
+    assert (transform["expected_delivered_width"], transform["expected_delivered_height"]) == (704, 576)
+    assert _deterministic_eval(normalized) == ("admit", None)
+
+    contradiction = json.loads(json.dumps(normalized))
+    video = next(stream for stream in contradiction["media"]["ffprobe"]["streams"]
+                 if stream.get("codec_type") == "video")
+    video["width"], video["height"] = 640, 480
+    assert _deterministic_eval(contradiction) == (
+        "reject", "delivered_resolution_contradicts_typed_envelope")
+
+    unknown = json.loads(json.dumps(normalized))
+    unknown["preflight"].pop("resolution_transform")
+    assert _deterministic_eval(unknown) == ("abstain", "unknown_resolution_transform")
 
 
 def test_tracked_build_requires_a_git_worktree(tmp_path: Path) -> None:
@@ -264,15 +299,16 @@ def test_tracked_build_requires_a_git_worktree(tmp_path: Path) -> None:
 def test_missing_facing_sidecar_still_reaches_admit() -> None:
     """Production falls back to the declared facing requirement without a sidecar.
 
-    Before the correction this branch returned abstain for every row, so no row
-    could ever be admitted. The resolution contradiction rejects the real rows
-    earlier, so this test builds an otherwise-consistent row to exercise it.
+    The real corpus rows already carry their typed resolution transform. Keep
+    the delivered geometry consistent with it so this reaches the facing check.
     """
     source = next(row for row in rows()
                   if row["preflight"].get("plate_available") and row["preflight"]["plate_facing"] is None)
     row = json.loads(json.dumps(source))
     video = next(stream for stream in row["media"]["ffprobe"]["streams"] if stream["codec_type"] == "video")
-    video["width"], video["height"] = row["preflight"]["width"], row["preflight"]["height"]
+    transform = row["preflight"]["resolution_transform"]
+    video["width"], video["height"] = (
+        transform["expected_delivered_width"], transform["expected_delivered_height"])
     video["nb_frames"] = row["preflight"]["requested_frames"]
     assert _deterministic_eval(row) == ("admit", None)
     row["preflight"]["plate_facing"] = "profile"

@@ -8,11 +8,11 @@
 | Baseline | Admitted | Abstained | False admit | Avoided/run | Bootstrap 95% CI |
 |---|---:|---:|---:|---:|---:|
 | always_admit | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
-| deterministic_preflight | 0 | 0 | undefined | undefined | undefined |
+| deterministic_preflight | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
 | transparent_heuristic | 18 | 0 | 0.278 | undefined | [0.000, 0.000] |
 | calibrated_model | 5 | 13 | 0.800 | undefined | undefined |
 
-Unknown historical attempt counts excluded from each avoided-work numerator: always_admit=0, deterministic_preflight=5, transparent_heuristic=0, calibrated_model=0.
+Unknown historical attempt counts excluded from each avoided-work numerator: always_admit=0, deterministic_preflight=0, transparent_heuristic=0, calibrated_model=0.
 
 ## Raw versus calibrated model
 
@@ -28,9 +28,7 @@ Clipped probability rows: raw 18, calibrated 0 (clip epsilon 1e-15).
 The first baseline replays the production preflight invariants. A rejection means the recorded
 run contradicts its own plan, not that the render was artistically bad.
 
-| Reason | Rows |
-|---|---:|
-| delivered_resolution_contradicts_envelope | 18 |
+No row was rejected or abstained by the deterministic preflight.
 
 ## Explicit limits
 
@@ -41,7 +39,7 @@ run contradicts its own plan, not that the render was artistically bad.
 - Rejected bad rows with unknown historical attempt counts are excluded from the avoided-work numerator; their count is reported per policy as unknown_attempt_rejected_bad_rows_excluded.
 - Plate-facing sidecars are absent for every recorded row, so the facing sub-check is unevaluated in replay; production falls back to the character's declared requirement.
 - Probabilities are clipped at 1e-15 for log loss; the count of clipped rows is reported per policy so a large log loss is attributable to the clip.
-- The deterministic preflight rejects every complete row, and does so for a single reason: the delivered resolution contradicts the resolution recorded in the run's own plan/envelope. The envelope resolution field is therefore untrustworthy for all recorded runs; the preflight cannot be used as a usable admission baseline until that field is corrected.
+- Every complete row records a typed resolution_transform: this WanGP handler maps the historical 480x832 request and its reference conditioning to a 704x576 output grid. The replay abstains when that transform is absent and rejects when delivered media contradicts it; the request itself is never treated as delivered geometry.
 - The committed corpus is all-local: 15 of its 36 rows come from source media that are not tracked by git (delivered remux.mp4 is untracked for 12 rows, 16 rows have at least one untracked artifact, 20 rows have all ten artifacts tracked). A fresh clone can REPLAY the committed corpus but cannot REBUILD it; a tracked rebuild yields 21 rows / 13 complete.
 - PREREGISTRATION AMENDMENT: the transparent heuristic's duration tolerance was corrected from the frozen 1e-9 to the production 1e-6 after first results, because 1e-9 was itself a defect that rejected every recorded row. The amendment is recorded in preregistration.json `amendments`; the primary metric, decision rule, budget, seed and folds were not changed.
 - The production QC seam that would emit a live row during a run is deliberately NOT implemented here: services/ must not depend on training/, and a recording hook inside the QC loop could fail a render attempt. The recording guarantee is satisfied by the standalone post-run recorder plus the indexer; the in-run seam needs its own story.
