@@ -1,16 +1,15 @@
 ---
 id: WD-as25
 title: "Preflight spend intelligence for governed film production"
-status: closed
+status: open
 priority: 1
 type: epic
 created_at: 2026-09-21T05:25:49Z
 created_by: speed
-updated_at: 2026-09-23T17:43:57Z
-content_hash: "sha256:f1fbe7eae728428df613b7a1930745b109981c8b97968683f1d78bef594b1f12"
+updated_at: 2026-09-23T18:47:34Z
+content_hash: "sha256:c1f37932f14ddac3d951b32fda09a5a13ee8c24e9c950183a81591d1250c850c"
 closed_at: 2026-09-23T17:43:57Z
 close_reason: "All stories accepted"
-labels: [accepted]
 ---
 
 ## Description
@@ -30,10 +29,11 @@ This epic is evidence and evaluation only. It does not authorize GPU work, model
 
 
 ## Notes
-
+Reopened 2026-09-23 to host a P0 spend-gate canonicalization regression discovered on merged main 8c67a01 during the WD-h73w full-suite completion gate. The prior epic acceptance remains historical, but its normalized-evidence outcome is not release-green while the operator main checkout fails the LF004 parity test.
 
 ## History
 - 2026-09-23T17:43:57Z status: open -> closed
+- 2026-09-23T18:47:34Z status: closed -> open
 
 ## Links
 
