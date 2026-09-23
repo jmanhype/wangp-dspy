@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
 updated_at: 2026-09-23T19:10:47Z
-content_hash: "sha256:57598e8101378589c9dcce0921bbba931b99ceca6408b31e1f7329fd8ec3c7c5"
+content_hash: "sha256:35a17472d1727cbc343679c2bdfa486be962e22829f288c4f13ac86e8924c332"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp, WD-rf1a]
@@ -151,6 +151,18 @@ status: new
 ## Design
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## nd_contract
 status: in_progress
 
