@@ -4,7 +4,7 @@ title: "README tour: capability status, verb map, and docs index"
 status: closed
 priority: 2
 type: task
-labels: [documentation, delivered, accepted]
+labels: [documentation, accepted]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
 updated_at: 2026-09-23T07:31:08Z
