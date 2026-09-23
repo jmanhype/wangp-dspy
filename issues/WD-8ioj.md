@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T09:36:22Z
-content_hash: "sha256:5240bec9b6b63d182cc5575ef4bcb6ad11476484439c1003b9442f2ca827ddf8"
+updated_at: 2026-09-23T10:53:38Z
+content_hash: "sha256:ad6ab87b6b8d00a0536e37235455cf003c8821323b69026fd97acd89a9659513"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-tkuz]
 assignee: dev-WD-8ioj
@@ -104,7 +104,62 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Delivered the no-GPU finishing planning slice: typed interpolation/spatial/grain/codec/face/neural declarations, per-backend normalization, deterministic command graphs, immutable non-executable durable records, typed exit-2 failures, reconstruction, and `wgp finish plan|run|probe`. Finished media, neural execution, and before/after measurements remain explicitly unverified.
 
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_finishing_capabilities.py -q --junitxml=/tmp/wd8ioj-evidence/targeting.xml` — exit 0; JUnit parsed: 52 tests, 0 failures, 0 errors, 0 skipped.
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q --junitxml=/tmp/wd8ioj-evidence/readme.xml` — exit 0; JUnit parsed: 5 tests, 0 failures, 0 errors, 0 skipped.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd8ioj-evidence/full.xml` — exit 0; JUnit parsed: 1933 tests, 0 failures, 0 errors, 1 skipped (`tests/test_jobs_integration_3090.py::test_live_preflight_against_3090`, intentionally not run because this story forbids host/GPU work). Full output also carries the repository's existing FastAPI/Starlette deprecation warning.
+- `uv run --frozen --extra dev python /tmp/wd8ioj_capture.py` — captured human and `--json` output for plan/probe/run/reconstruct modes and all 22 typed failure classes; every failure exited 2. Queue evidence: `finishing_plan_records=1`, no `jobs` table, plan `next_admissible=None`, genuine render job still admissible; database/source/datasets byte-unchanged; reconstruction `all_match=true`; shadowed `ssh`/`curl`/`wget`/`nvidia-smi` calls empty.
+- `pvg verify predict/finishing.py services/finishing/__init__.py services/finishing/pipeline.py wangp/finish_cli.py wangp/cli.py docs/finishing-capabilities.md README.md tests/test_finishing_capabilities.py --format=text --include-tests` — `VERIFY: PASSED (6 files scanned, 0 issues)`.
+- `uv build --out-dir /tmp/wd8ioj-evidence/build` — exit 0; exactly one wheel and one sdist. SHA-256 wheel `7741eb27dee452282fff23743ad4c9ef38c65eb2391898b7e236d226e7d6fc7f`; sdist `73ea79f6c23d4e5c94d2ceb513fba8243832f27ac7b53bb885def72f504f8a87`.
+- PR #172 exact head check-run `test` completed `success` for SHA below.
+- Coverage: not measured; the requested frozen JUnit/build/CI gates were run without a coverage configuration or claim.
+
+SHA: 2fbb7d483a929d757264dcdfa7ece55221a8b509
+
+### CI/Test Results
+- Local targeted: PASS — 52/52 executed, 0 failures, 0 errors, 0 skipped, exit 0.
+- Local README drift: PASS — 5/5 executed, 0 failures, 0 errors, 0 skipped, exit 0.
+- Local full suite: PASS with one host-bound skip — 1933 collected, 1932 passed, 1 skipped, 0 failures, 0 errors, exit 0.
+- Build: PASS — one wheel, one sdist, exit 0.
+- GitHub CI PR #172 `test` at exact head `2fbb7d483a929d757264dcdfa7ece55221a8b509`: SUCCESS.
+- Read-only proof: PASS — committed source and full `datasets/` tree hashes unchanged; empty shadowed host-command log.
+- Queue proof: PASS — durable plan records are non-executable and non-admissible while a genuine job remains admissible.
+- Reconstruction proof: PASS — command graph, backend settings, and seed hashes rebuilt exactly with `hidden_mutation=false`.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| Typed CLI planning covers every interpolation factor, spatial factor, grain setting, supported codec pair, explicit face track, and neural declaration | PASS | `tests/test_finishing_capabilities.py`; targeting JUnit 52/52 |
+| Unsupported codecs/profiles and every incomplete input fail typed before durable state/host work | PASS | 22 captured human+JSON failure modes, all exit 2; no partial DB where applicable |
+| Committed media exercises deterministic graph validation and source immutability without GPU claim | PASS | Existing committed `datasets/runs/provenance/v3-original/v3_c1.mp4`; source/dataset hashes unchanged |
+| Durable queue preserves source hash and stream contract and cannot drain into rendering | PASS | `services/finishing/pipeline.py`; separate immutable table, no `jobs` table, genuine job admissible |
+| Dry-run reconstruction reproduces exact command/settings/seed hashes | PASS | reconstruction `all_match=true`, `hidden_mutation=false` |
+| CLI/README/docs verb and capability contracts stay synchronized | PASS | README drift 5/5; live `finish` verb/subverb next-command assertions |
+| Renderer/queue/QC/AV/retry semantics unchanged; no render/download/host contact | PASS | diff touches only planning surface/docs/tests; empty shadowed host-command log |
+| Authorized real finished outputs, before/after ffprobe, and optional neural execution | not verified - requires authorized host run | No host/GPU/render work was performed or claimed |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch: `story/WD-8ioj`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/172
+- SHA: 2fbb7d483a929d757264dcdfa7ece55221a8b509
+- Local JUnit/build outputs and captured mode/failure evidence: `/tmp/wd8ioj-evidence/`
+- GitHub CI exact-head `test` conclusion: success.
+
+### proof
+- [x] Typed finishing request models cover interpolation x2/x3/x4, spatial x2/x3/x4, film grain, codec selection, tracked-face declarations, and a declared-unavailable neural path.
+- [x] Per-backend settings normalization and deterministic command graphs produce non-executable plan records.
+- [x] The real admission path cannot drain finishing records while a genuine render job remains admissible.
+- [x] Every no-GPU incomplete/unsupported class emits typed exit-2 diagnostics with a live `wgp finish` next command.
+- [x] Seed-based reconstruction matches command graph, backend settings, and seed hashes.
+- [x] CLI, README verb map, capability row, documentation index, and finishing docs are synchronized.
+- [x] Local targeted, README, full suite, build, and exact-head CI gates pass under the stated no-host/no-GPU boundary.
+- [x] Read-only proof confirms source/dataset immutability and zero shadowed `ssh`/`curl`/`wget`/`nvidia-smi` calls.
 
 ## History
 - 2026-09-22T20:24:46Z dep_added: blocked_by WD-6tox
