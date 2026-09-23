@@ -52,6 +52,10 @@ REQUIRED_FACTS = (
      "the table header alone does not satisfy proof:ac_items"),
     ("(?m)(^\\[x\\] AC|^### AC Verification$)",
      "the observed pattern for proof:ac_items"),
+    ("validates the **shape** of the SHA, not its identity",
+     "the SHA check cannot prove the recorded head is the delivered head"),
+    ("Every\n  rework therefore invalidates the recorded SHA",
+     "a rework must update the recorded SHA"),
 )
 
 

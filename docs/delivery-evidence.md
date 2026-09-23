@@ -41,6 +41,11 @@ Two of these are easy to get wrong and cost a round trip:
   as `[x] AC #1: ...` at the start of a line.
 - `notes:commit_sha` accepts upper-case hex, and `notes:ci_test_results` /
   `notes:commands_run` accept their alternate spellings above.
+- `notes:commit_sha` validates the **shape** of the SHA, not its identity. The check
+  cannot tell whether the recorded SHA is the head you actually delivered. Every
+  rework therefore invalidates the recorded SHA: after any new commit, update the
+  `SHA:` line **and** any head reference in the evidence block to the new head
+  before re-delivering. (This contract was itself rejected once for a stale head.)
 
 ### Patterns observed from the shipped binary
 
