@@ -11,7 +11,6 @@ updated_at: 2026-09-23T23:59:31Z
 content_hash: "sha256:65ed899a09868f48aec2f1ecec7738644f04a969d8bcf8543f1994c92366a494"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no]
-labels: [delivered]
 ---
 
 ## Description
