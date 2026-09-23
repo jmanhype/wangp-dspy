@@ -9,13 +9,14 @@ parent: WD-h73w
 created_at: 2026-09-20T19:48:19Z
 created_by: speed
 updated_at: 2026-09-21T05:02:57Z
-content_hash: "sha256:66ba46528d8e2e6efb5804abfa7457f91ef2f7b519a29b09e75fe3124256d45f"
+content_hash: "sha256:5c722ebc98da969d1162f77508eca0870f112d42bbf675b8a36274a84e4cf95f"
 blocked_by: [WD-rb1f, WD-rj6e]
 was_blocked_by: [WD-z46c, WD-ssdt, WD-g125]
 assignee: dev-WD-42no
 follows: [WD-z46c, WD-ssdt, WD-g125]
 closed_at: 2026-09-21T04:42:22Z
 close_reason: "Accepted on main 3094b14b01eb41723f90e58f537f80cce847a5ad: operator-approved canonical plan 620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8 recomputed equal; CI 35561263575 success; final film SHA-256 2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7 with 224 frames at 24 fps, 704x576 H.264, AAC stereo 32 kHz, 9.333333 s; all four underlying qc-evidence files pass Whisper pre/post, identity-composition vision, three-frame mouth boxes, and blocking SyncNet with recorded hashes; queue is 4/4 done, max failure count 1, DEFAULT_MAX_ATTEMPTS remains 3, execution_count 1, and no second production run; five review sheets and final provenance 61bfe3b29201da9110b3a1f3a24fc847c50da8c7a2bd9efb8a2de872ba736b69 hash-match, status is exactly operator_review_pending, and the 48-entry first-attempt manifest verifies 48/48; production gate and retry paths are unchanged versus main and the merge parent. The superseded 107-frame plan is explicitly documented and was replaced before execution by the recorded operator approval, so accepted means mechanical capstone closure only, not creative acceptance."
+led_to: [WD-td89]
 ---
 
 
@@ -482,6 +483,7 @@ Authorization: exactly one governed LF004 production execution through the accep
 - Blocked by: [[WD-rb1f]], [[WD-rj6e]]
 - Was blocked by: [[WD-z46c]], [[WD-ssdt]], [[WD-g125]]
 - Follows: [[WD-z46c]], [[WD-ssdt]], [[WD-g125]]
+- Led to: [[WD-td89]]
 
 ## Comments
 

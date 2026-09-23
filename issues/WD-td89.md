@@ -1,14 +1,16 @@
 ---
 id: WD-td89
 title: "Bug: reconcile durable LF004 post-execution provenance"
-status: open
+status: in_progress
 priority: 0
 type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T21:35:44Z
-content_hash: "sha256:e0b245df9e9c8e74d1c0cd8b22f87b6ab99cc2dc7b750092a0983cc15e75d460"
+updated_at: 2026-09-23T21:38:23Z
+content_hash: "sha256:043e21d69c1fae3687308e875a0cc795d6a537d1d1aa05a6c94b036bb9dbb64d"
+assignee: dev-WD-td89
+follows: [WD-42no]
 ---
 
 ## Description
@@ -98,9 +100,12 @@ status: new
 
 
 ## History
-
+- 2026-09-23T21:38:23Z status: open -> in_progress
+- 2026-09-23T21:38:23Z auto-follows: linked to predecessor WD-42no
+- 2026-09-23T21:38:23Z claimed by dev-WD-td89
 
 ## Links
 - Parent: [[WD-h73w]]
+- Follows: [[WD-42no]]
 
 ## Comments
