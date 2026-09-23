@@ -180,9 +180,14 @@ def _canonical_stored_path(value: Any, repository_root: Path) -> Any:
         return path.as_posix()
     try:
         resolved = path.resolve()
-        return resolved.relative_to(repository_root).as_posix()
+        relative = resolved.relative_to(repository_root)
+        # A nested story worktree is physically below the main checkout, but it
+        # is still a distinct checkout. Preserve its stable repository anchor
+        # rather than treating .claude/worktrees as evidence provenance.
+        if relative.parts[:2] != (".claude", "worktrees"):
+            return relative.as_posix()
     except ValueError:
-        resolved = None
+        pass
     # Historical evidence can point at another checkout of this same repository
     # or at a renderer host. Preserve useful in-repository suffixes, but never
     # persist the machine or checkout that happened to write the evidence.

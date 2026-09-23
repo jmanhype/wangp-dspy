@@ -9,7 +9,7 @@ import pytest
 
 from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
 from services.jobs.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _canonicalize_paths, _gate,
-                                 _load_queue_rows, _queue_match, _queue_record_key, _row_identity,
+                                 _canonical_stored_path, _is_path_field, _load_queue_rows, _queue_match, _queue_record_key, _row_identity,
                                  build_corpus, canonical_json, normalize_row, verify_artifact,
                                  write_completed_run_rows,
                                  write_live_row)
@@ -211,7 +211,29 @@ def test_canonical_paths_do_not_participate_in_row_identity() -> None:
     }, ROOT)
     assert canonical == {"qc_evidence_path": "datasets/runs/a/qc-evidence.json",
                          "media": {"path": "datasets/runs/a/remux.mp4"},
-                         "external_path": "external/remux.mp4"}
+                        "external_path": "external/remux.mp4"}
+
+
+def test_historical_nested_worktree_paths_are_checkout_independent() -> None:
+    recorded = Path("/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json")
+    main_root = ROOT.parents[2]
+    roots = (main_root, main_root / ".claude/worktrees/dev-WD-g125", Path("/tmp/not-this-repository"))
+    expected = "datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json"
+    assert {_canonical_stored_path(recorded.as_posix(), root.resolve()) for root in roots} == {expected}
+
+    def path_fields(value):
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if _is_path_field(key) and isinstance(item, str): yield item
+                yield from path_fields(item)
+        elif isinstance(value, list):
+            for item in value: yield from path_fields(item)
+
+    canonical_cuts = _canonicalize_paths(json.loads(LF004.read_text())["cuts"], main_root)
+    cut_paths = list(path_fields(canonical_cuts))
+    corpus_paths = [path for row in rows() for path in path_fields(row)]
+    assert cut_paths and corpus_paths
+    assert all(".claude" not in Path(path).parts for path in [*cut_paths, *corpus_paths])
 
 
 def test_verify_artifact_checks_drift_digest_and_declared_row_count(tmp_path: Path) -> None:
