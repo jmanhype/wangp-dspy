@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T09:36:23Z
-content_hash: "sha256:eea3ecc364ef0509c59f2cb3af431113c31596a1b1cded298de395ecc5f7da6b"
+updated_at: 2026-09-23T11:06:51Z
+content_hash: "sha256:a2699ef5dcee7f2f334d5a109a1e8195f3c0bbbae65f86ac463197fec9360de9"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 assignee: dev-WD-eq1i
@@ -115,7 +115,70 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Delivered the no-GPU director planning slice for prompt, audio, beat-aware music video, screenplay continuity, pacing, auto/manual review, immutable non-executable records, prompt-only enhancement, reconstruction, CLI registration, README integration, and capability documentation. No GPU, host, SSH, download, renderer, queue execution, or generated-media claim is made.
 
+Commands run:
+- `git log --oneline -2`; `git status --porcelain`
+- `uv run --frozen --extra dev pytest tests/test_director_capabilities.py -q --junitxml=/tmp/wd-eq1i-director.xml`
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py::test_readme_capability_status_and_documentation_index tests/test_readme_quickstart.py::test_readme_verb_map_matches_cli -q --junitxml=/tmp/wd-eq1i-readme.xml`
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-eq1i-full.xml`
+- `pvg verify services/director/composition.py services/director/continuity.py services/director/pacing.py services/director/review_policy.py services/director/plan_compiler.py wangp/director_cli.py wangp/cli.py README.md docs/director-capabilities.md --include-tests tests/test_director_capabilities.py --format=text`
+- `uv build --out-dir /tmp/wd-eq1i-build.pfDjn0`
+- `gh pr create --base main --head story/WD-eq1i` -> https://github.com/jmanhype/wangp-dspy/pull/173
+- Exact-head check-run poll for `2ed37d968f0c66f0f9346e87bc58868727df8fe7`: `test` completed `success`.
+
+SHA: 2ed37d968f0c66f0f9346e87bc58868727df8fe7
+
+### CI/Test Results
+- Director targeted JUnit: `tests=33 errors=0 failures=0 skipped=0`, exit 0.
+- README contract JUnit: `tests=2 errors=0 failures=0 skipped=0`, exit 0.
+- Full suite JUnit: `tests=1914 errors=0 failures=0 skipped=1`, exit 0. The sole skip is pre-existing optional `tests/test_jobs_integration_3090.py::test_live_preflight_against_3090`, gated by `WANGP_3090=1`; it was not run because this story forbids host/GPU work.
+- `pvg verify`: `VERIFY: PASSED (8 files scanned, 0 issues)`.
+- Build produced exactly one wheel and one sdist: `wangp_dspy-0.1.0-py3-none-any.whl` SHA-256 `c6b8fc2a4d325cfaa707cd9d6ece87ff8eb4fde2c04b28008c9f2714e0e15766`; `wangp_dspy-0.1.0.tar.gz` SHA-256 `e74c2ab174baeda360d2858e034cf6ec24cba0877bd41e6cfeff54b85171eb17`. Both contain `wangp/director_cli.py` and `services/director/plan_compiler.py`.
+- PR #173 exact-head check run: `test completed success`.
+- Human and JSON outputs were captured under `/tmp/wd-eq1i-evidence/` for all four success modes and all 26 runtime typed failure classes. Every runtime and static emitted `next_command` resolved against live CLI help.
+- Queue proof: SQLite update/delete triggers reject mutation; real `JobQueue.next_admissible()` selects no director record; a genuine render job in a separate database remains admissible; original director database bytes remain unchanged.
+- Reconstruction: original and prompt-enhanced records independently recompile with equal request and clip hashes, `all_match=true`, `hidden_mutation=false`.
+- Read-only proof: committed datasets digest `c367434034e024f038f3da5a24ac0828a012eb6f950ffa5dd8fd49c62906bc6b`; audio digest `f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857`; all shadowed `ssh`/`curl`/`wget`/`nvidia-smi` logs empty.
+- Deviation: branch adds 2,267 lines, above the story's rough 900-line budget, because the existing checkpoint was preserved and exhaustive failure/process coverage was required. No forbidden finishing-lane file was touched; `wangp/cli.py` changes are exactly one import plus one registration call.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| Prompt/audio/music-video/screenplay deterministic ordered multi-clip planning | PASS | `tests/test_director_capabilities.py` real-process mode matrix; targeted JUnit 33/33. |
+| Beat-aware planning uses declared measured beats and rejects absent/unproven evidence | PASS | Music-video mode test plus `DIRECTOR_AUDIO_BEATS_MISSING` and `DIRECTOR_AUDIO_BEATS_INVALID` failure tests. |
+| Explicit screenplay continuity states and changes across clips | PASS | Screenplay test asserts Rho's explicit state transition and Tess carried forward. |
+| Exact/window pacing preserves complete target duration within 60-minute contract | PASS | Exact and window-count tests assert count, ordered starts, and total duration. |
+| Auto/manual review checkpoints are explicit and gates are not bypassed | PASS | Mode tests and `DIRECTOR_REVIEW_MODE_CONFLICT`; policy reports `bypasses_gate=false`. |
+| Prompt-only queue enhancement preserves original hash/provenance and source DB | PASS | Enhancement test compares original/enhanced hashes, changed fields, source bytes, and reconstruction. |
+| Durable immutable non-executable records cannot drain real admission | PASS | Trigger, real-selector, genuine-job, and byte-identity tests all pass. |
+| Seed reconstruction hash equality | PASS | Original and enhanced `review` tests report `all_match=true`, `hidden_mutation=false`. |
+| Typed exit-2 failures, remediation, and resolving next commands | PASS | 26 runtime failure classes tested in human and JSON modes; live CLI resolution guard passes. |
+| CLI/README/docs integration | PASS | README contract JUnit 2/2; `wgp --help` includes `director`; `docs/director-capabilities.md` rows remain planned. |
+| Packaging and CI | PASS | One wheel and one sdist; PR #173 exact-head `test` check completed success. |
+| Host render / generated media / final duration / creative quality | not verified - requires authorized host run | No host, GPU, renderer, model download, or generated artifact was contacted or produced. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch: `story/WD-eq1i`
+- SHA: `2ed37d968f0c66f0f9346e87bc58868727df8fe7`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/173
+- CI: exact-head `test completed success`.
+- Local parsed JUnit and build hashes are recorded above.
+
+### proof
+- [x] Fixed prompt, committed audio metadata, measured music-video beats, and fixed screenplay produce deterministic ordered no-GPU plans.
+- [x] Explicit continuity, pacing, overlaps, auto/manual review checkpoints, and planning-surface references are emitted.
+- [x] Immutable non-executable records reject mutation and cannot drain the real admission path while a genuine job remains admissible.
+- [x] Queue enhancement changes only authorized prompt fields with provenance and preserves the original request hash.
+- [x] Seed reconstruction independently reproduces request and clip hashes.
+- [x] Every tested incomplete/unsupported input exits 2 with remediation and a next command resolving against the live CLI.
+- [x] README verb map, capability table, documentation index, and planned-only capability matrix are integrated.
+- [x] Real-process tests, README drift tests, full suite, pvg verify, and one-wheel/one-sdist build pass as recorded.
+- [x] Read-only no-host proof is recorded; generated media remains unclaimed.
 
 ## History
 - 2026-09-22T20:24:46Z dep_added: blocked_by WD-6tox
