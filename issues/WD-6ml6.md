@@ -4,11 +4,11 @@ title: "Speech, reference voice cloning, portable character voices, and a second
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered]
+labels: [capability, delivered, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T06:49:07Z
+updated_at: 2026-09-23T06:49:08Z
 content_hash: "sha256:0617f899c6faf5b3b8ad3d887aae1ea6a912dad66b27e3af6489ca047b363603"
 assignee: dev-WD-6ml6
 follows: [WD-pcen, WD-soa4]
