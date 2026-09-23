@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T18:06:24Z
-content_hash: "sha256:6252a19b32c83313d0b567cfacdb28d1abfb04f1df2188a8d99a140f11c76247"
+updated_at: 2026-09-23T18:07:23Z
+content_hash: "sha256:8781f8c0afbb2779b8b3ecbf83c2a28e75a597e353ec7f5e2480da59d14d844e"
 labels: [rejected-x2, accepted]
 closed_at: 2026-09-23T18:06:24Z
 close_reason: "Accepted at 5a815c92252e151b039804bb856b09898fd16f7c: exact matcher contract, three verified caveats, matching story SHA/head, 8 targeted tests, and successful exact-head CI."
@@ -63,7 +63,9 @@ status: new
 
 
 ## Notes
+## Post-Acceptance Rebase (integrator)
 
+Accepted at `5a815c92252e151b039804bb856b09898fd16f7c`. Main advanced with the WD-rf1a and WD-i7nn merges, so the branch was rebased by the dispatcher onto main; the rebase was clean, the guard suite plus the README drift suite still reported 8 passed, and the rebased head `502263920a51943a7c666d378633aa5dbc50c300` passed CI before merge. Documentation and test content are unchanged in substance.
 
 ## nd_contract
 status: accepted
