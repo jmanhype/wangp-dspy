@@ -4,10 +4,10 @@ title: "README tour: capability status, verb map, and docs index"
 status: closed
 priority: 2
 type: task
-labels: [documentation, delivered]
+labels: [documentation, delivered, accepted]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
-updated_at: 2026-09-23T07:31:07Z
+updated_at: 2026-09-23T07:31:08Z
 content_hash: "sha256:b222147324dc41f272c9c303edb05c4e2e70f52adb460bc7e5385c9a703e9b28"
 assignee: dev-WD-dt94
 closed_at: 2026-09-23T07:31:07Z
