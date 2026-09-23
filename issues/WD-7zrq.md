@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T17:25:08Z
-content_hash: "sha256:14f71aea67143b999087de34e37604a4d4d323ef2b95c342874f74e3a17c4b64"
+updated_at: 2026-09-23T17:27:13Z
+content_hash: "sha256:b8e9e84483077774c6433cce1a43d27f702dec449d7b8687d574ea89aa56fe48"
 labels: [rejected]
 ---
 
@@ -61,7 +61,24 @@ status: new
 
 
 ## Notes
+## Rework Evidence
 
+Rejection (independent acceptor): the first version documented inexact literals. Verified against the shipped binary, the real patterns are:
+
+```text
+(?m)^## Implementation Evidence$
+(?m)^### (CI/Test Results|Test Results)$
+(?m)^(Commands run:|commands run:)\b
+(?m)^Summary:
+(?m)SHA: [0-9a-fA-F]{7,40}
+(?m)(^\[x\] AC|^### AC Verification$)
+```
+
+The material error was `proof:ac_items`: a `| AC | Result | Evidence |` table header alone does not satisfy it. It is satisfied by the exact `### AC Verification` heading (which every delivery in this repository happened to include) or by checklist lines beginning `[x] AC`. The check also accepts `### Test Results`, a lowercase `commands run:`, and upper- or lower-case hex in the SHA.
+
+Fix at head e81745ceaf312e967d27de0f27cfdec088f187be: the document now records the observed patterns verbatim, states explicitly that the table is presentation underneath the heading rather than the matched literal, and lists the accepted alternates. The guard test now asserts each of those facts (including the `### AC Verification` literal and the `[x] AC` form) so the contract cannot drift back to an inexact statement.
+
+Also corrected in the first version and still true: the recorded `SHA:` is the real head, not a placeholder.
 
 ## nd_contract
 status: rejected
