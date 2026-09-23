@@ -1,15 +1,17 @@
 ---
 id: WD-pn6h
 title: "Spend-gate canonical paths leak nested worktree prefixes"
-status: open
+status: in_progress
 priority: 0
 type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T18:51:40Z
-content_hash: "sha256:3223bfffe326c25df35e315785731e947f969a1ed2f07305bcbe35d10148c705"
+updated_at: 2026-09-23T18:53:01Z
+content_hash: "sha256:1b17db4705404c5791e76685de6ee6a4b9cc23a53790a14741fa1ce7c3b573ab"
 blocks: [WD-l48s]
+assignee: dev-WD-pn6h
+follows: [WD-v6xp]
 ---
 ## Description
 ## Context
@@ -151,9 +153,13 @@ status: new
 
 ## History
 - 2026-09-23T18:47:57Z dep_added: blocks WD-l48s
+- 2026-09-23T18:53:01Z status: open -> in_progress
+- 2026-09-23T18:53:01Z auto-follows: linked to predecessor WD-v6xp
+- 2026-09-23T18:53:01Z claimed by dev-WD-pn6h
 
 ## Links
 - Parent: [[WD-as25]]
 - Blocks: [[WD-l48s]]
+- Follows: [[WD-v6xp]]
 
 ## Comments

@@ -8,12 +8,13 @@ parent: WD-as25
 created_at: 2026-09-21T12:19:33Z
 created_by: speed
 updated_at: 2026-09-23T17:43:31Z
-content_hash: "sha256:38e9319fcbba008ad3a345d72a20f6142cc75a30a024a840aed90aae0c1fc868"
+content_hash: "sha256:4dc446416b016159de31a3051866da6c8263e3f8c4e06b61059fa8e7a9af79e1"
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
 labels: [accepted]
 closed_at: 2026-09-23T17:43:30Z
 close_reason: "Accepted: exact-head f813fc1 passes CI; 21/21 targeted and 1993/1993 full tests; four LF004 digests match standalone; forced write failure preserves queue outcome and increments spend_gate_recording_write_error."
+led_to: [WD-pn6h]
 ---
 
 ## Description
@@ -149,5 +150,6 @@ status: delivered
 ## Links
 - Parent: [[WD-as25]]
 - Follows: [[WD-l48s]]
+- Led to: [[WD-pn6h]]
 
 ## Comments
