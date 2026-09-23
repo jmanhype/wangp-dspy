@@ -22,6 +22,11 @@ from wangp.editor_project import (
 
 DOCUMENT_SCHEMA = "wangp-dspy.editor-document/v1"
 SUPPORTED_PROJECT_SCHEMAS = frozenset({PROJECT_SCHEMA})
+NEXT_COMMAND = "wgp editor validate --project <project> --json"
+
+
+def _reject(code: str, observed: str, remediation: str, **metadata: object) -> EditorProjectError:
+    return EditorProjectError(code, observed, remediation, next_command=NEXT_COMMAND, **metadata)
 
 
 class HistoryEntry(BaseModel):
@@ -54,12 +59,7 @@ class ProjectStore:
     def create(cls, path: str | Path, project: EditorProject) -> "ProjectStore":
         store = cls(path)
         if store.path.exists():
-            raise EditorProjectError(
-                "EDITOR_PROJECT_EXISTS",
-                f"project already exists: {store.path}",
-                "Choose a new project path; the editor never overwrites one.",
-                next_command="wgp editor validate --project <project> --json",
-            )
+            raise _reject("EDITOR_PROJECT_EXISTS", f"project already exists: {store.path}", "Choose a new project path; the editor never overwrites one.")
         document = EditorProjectDocument(
             schema_version=DOCUMENT_SCHEMA,
             history=(HistoryEntry(revision=project.revision, operation="import", project=project),),
@@ -71,24 +71,13 @@ class ProjectStore:
     def import_source(self, source: str | Path, kind: TrackKind, asset_id: str) -> SourceAsset:
         original = Path(source).expanduser().resolve()
         if not original.is_file():
-            raise EditorProjectError(
-                "EDITOR_SOURCE_IMPORT_MISSING",
-                f"source does not exist: {original}",
-                "Pass an existing immutable source; Wangp will not fetch it.",
-                next_command="wgp editor validate --project <project> --json",
-                **{"path": str(original)},
-            )
+            raise _reject("EDITOR_SOURCE_IMPORT_MISSING", f"source does not exist: {original}", "Pass an existing immutable source; Wangp will not fetch it.", path=str(original))
         target = self.path.parent / "sources" / f"{asset_id}{original.suffix.lower()}"
         target.parent.mkdir(parents=True, exist_ok=True)
         digest = self._hash(original)
         if target.exists():
             if self._hash(target) != digest:
-                raise EditorProjectError(
-                    "EDITOR_SOURCE_IMPORT_COLLISION",
-                    f"portable source already exists with different bytes: {target}",
-                    "Use a unique asset_id or remove only a disposable temporary copy.",
-                    **{"path": str(target)},
-                )
+                raise _reject("EDITOR_SOURCE_IMPORT_COLLISION", f"portable source already exists with different bytes: {target}", "Use a unique asset_id or remove only a disposable temporary copy.", path=str(target))
         else:
             shutil.copyfile(original, target)
         return SourceAsset(
@@ -101,13 +90,7 @@ class ProjectStore:
 
     def load(self) -> EditorProjectDocument:
         if not self.path.is_file():
-            raise EditorProjectError(
-                "EDITOR_PROJECT_MISSING",
-                f"project does not exist: {self.path}",
-                "Pass an existing editor project JSON file.",
-                next_command="wgp editor validate --project <project> --json",
-                **{"path": str(self.path)},
-            )
+            raise _reject("EDITOR_PROJECT_MISSING", f"project does not exist: {self.path}", "Pass an existing editor project JSON file.", path=str(self.path))
         try:
             payload = json.loads(self.path.read_text(encoding="utf-8"))
             embedded = payload.get("history", ()) if isinstance(payload, dict) else ()
@@ -117,48 +100,21 @@ class ProjectStore:
                 if isinstance(entry, dict) and isinstance(entry.get("project"), dict)
             }
             if versions and not versions <= SUPPORTED_PROJECT_SCHEMAS:
-                raise EditorProjectError(
-                    "EDITOR_PROJECT_SCHEMA_UNSUPPORTED",
-                    f"unsupported project schema {sorted(versions)!r}",
-                    "Recreate the project with the supported editor schema.",
-                    next_command="wgp editor validate --project <project> --json",
-                    supported=sorted(SUPPORTED_PROJECT_SCHEMAS),
-                )
+                raise _reject("EDITOR_PROJECT_SCHEMA_UNSUPPORTED", f"unsupported project schema {sorted(versions)!r}", "Recreate the project with the supported editor schema.", supported=sorted(SUPPORTED_PROJECT_SCHEMAS))
             document = EditorProjectDocument.model_validate(payload)
         except (OSError, UnicodeError, json.JSONDecodeError, ValidationError) as exc:
-            raise EditorProjectError(
-                "EDITOR_PROJECT_INVALID",
-                f"cannot load project {self.path}: {exc}",
-                "Use a project emitted by the editor store; do not edit it by hand.",
-                next_command="wgp editor validate --project <project> --json",
-            ) from exc
+            raise _reject("EDITOR_PROJECT_INVALID", f"cannot load project {self.path}: {exc}", "Use a project emitted by the editor store; do not edit it by hand.") from exc
         if document.project.schema_version not in SUPPORTED_PROJECT_SCHEMAS:
-            raise EditorProjectError(
-                "EDITOR_PROJECT_SCHEMA_UNSUPPORTED",
-                f"unsupported project schema {document.project.schema_version!r}",
-                "Recreate the project with the supported editor schema.",
-                next_command="wgp editor validate --project <project> --json",
-                supported=sorted(SUPPORTED_PROJECT_SCHEMAS),
-            )
+            raise _reject("EDITOR_PROJECT_SCHEMA_UNSUPPORTED", f"unsupported project schema {document.project.schema_version!r}", "Recreate the project with the supported editor schema.", supported=sorted(SUPPORTED_PROJECT_SCHEMAS))
         if document.history_cursor >= len(document.history):
-            raise EditorProjectError(
-                "EDITOR_PROJECT_INVALID",
-                "history_cursor is outside the decision history",
-                "Use a project emitted by the editor store.",
-                next_command="wgp editor validate --project <project> --json",
-            )
+            raise _reject("EDITOR_PROJECT_INVALID", "history_cursor is outside the decision history", "Use a project emitted by the editor store.")
         return document
 
     def save(self, project: EditorProject, operation: str) -> EditorProjectDocument:
         document = self.load()
         latest = document.history[-1]
         if project.revision != latest.revision + 1:
-            raise EditorProjectError(
-                "EDITOR_PROJECT_REVISION_INVALID",
-                f"new revision {project.revision} must follow {latest.revision}",
-                "Apply one modeled edit to the currently selected project state.",
-                next_command="wgp editor validate --project <project> --json",
-            )
+            raise _reject("EDITOR_PROJECT_REVISION_INVALID", f"new revision {project.revision} must follow {latest.revision}", "Apply one modeled edit to the currently selected project state.")
         if document.history_cursor != len(document.history) - 1:
             history = document.history[:document.history_cursor + 1]
         else:
@@ -179,12 +135,7 @@ class ProjectStore:
     def undo(self) -> EditorProjectDocument:
         document = self.load()
         if document.history_cursor == 0:
-            raise EditorProjectError(
-                "EDITOR_UNDO_UNAVAILABLE",
-                "no prior decision is selected for undo",
-                "Edit the project before undoing; imported sources are never rewritten.",
-                next_command="wgp editor validate --project <project> --json",
-            )
+            raise _reject("EDITOR_UNDO_UNAVAILABLE", "no prior decision is selected for undo", "Edit the project before undoing; imported sources are never rewritten.")
         changed = document.model_copy(update={"history_cursor": document.history_cursor - 1})
         self._write(changed)
         return changed
@@ -192,12 +143,7 @@ class ProjectStore:
     def redo(self) -> EditorProjectDocument:
         document = self.load()
         if document.history_cursor >= len(document.history) - 1:
-            raise EditorProjectError(
-                "EDITOR_REDO_UNAVAILABLE",
-                "no later decision is selected for redo",
-                "Undo an edit before redoing it; imported sources are never rewritten.",
-                next_command="wgp editor validate --project <project> --json",
-            )
+            raise _reject("EDITOR_REDO_UNAVAILABLE", "no later decision is selected for redo", "Undo an edit before redoing it; imported sources are never rewritten.")
         changed = document.model_copy(update={"history_cursor": document.history_cursor + 1})
         self._write(changed)
         return changed
@@ -213,27 +159,10 @@ class ProjectStore:
         for asset in selected.sources:
             path = self.resolve_source(asset)
             if not path.is_file():
-                raise EditorProjectError(
-                    "EDITOR_SOURCE_MISSING",
-                    f"source is not readable: {path}",
-                    "Restore the pinned source bytes; Wangp will not fetch or regenerate them.",
-                    next_command="wgp editor validate --project <project> --json",
-                    asset_id=asset.asset_id,
-                    **{"path": str(path)},
-                    expected_sha256=asset.sha256,
-                )
+                raise _reject("EDITOR_SOURCE_MISSING", f"source is not readable: {path}", "Restore the pinned source bytes; Wangp will not fetch or regenerate them.", asset_id=asset.asset_id, path=str(path), expected_sha256=asset.sha256)
             actual = self._hash(path)
             if actual != asset.sha256 or path.stat().st_size != asset.byte_size:
-                raise EditorProjectError(
-                    "EDITOR_SOURCE_HASH_MISMATCH",
-                    f"source hash mismatch for {asset.asset_id}: expected {asset.sha256}, got {actual}",
-                    "Restore the exact imported bytes or create a new pinned source asset.",
-                    next_command="wgp editor validate --project <project> --json",
-                    asset_id=asset.asset_id,
-                    **{"path": str(path)},
-                    expected_sha256=asset.sha256,
-                    actual_sha256=actual,
-                )
+                raise _reject("EDITOR_SOURCE_HASH_MISMATCH", f"source hash mismatch for {asset.asset_id}: expected {asset.sha256}, got {actual}", "Restore the exact imported bytes or create a new pinned source asset.", asset_id=asset.asset_id, path=str(path), expected_sha256=asset.sha256, actual_sha256=actual)
         return list(selected.sources)
 
     def source_manifest(self, project: EditorProject | None = None) -> dict[str, str]:

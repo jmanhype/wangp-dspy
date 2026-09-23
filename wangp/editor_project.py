@@ -199,21 +199,21 @@ class EditorProject(BaseModel):
         return self
 
     def _with_tracks(self, tracks: tuple[Track, ...]) -> "EditorProject":
-        return _validated_update(self, EditorProject, **{
-            "tracks": [track.model_dump() for track in tracks],
-            "revision": self.revision + 1,
-        })
+        return _validated_update(self, EditorProject, tracks=[track.model_dump() for track in tracks], revision=self.revision + 1)
 
     def _track(self, track_id: str) -> Track:
         return next(track for track in self.tracks if track.track_id == track_id)
 
     def _replace_in_track(self, track_id: str, clips: tuple[Clip, ...]) -> "EditorProject":
-        changed = tuple(
-            _validated_update(track, Track, clips=[clip.model_dump() for clip in clips])
-            if track.track_id == track_id else track
-            for track in self.tracks
-        )
+        changed = tuple(_validated_update(track, Track, clips=[clip.model_dump() for clip in clips]) if track.track_id == track_id else track for track in self.tracks)
         return self._with_tracks(changed)
+
+    def _selected_clip(self, clip_id: str) -> tuple[Track, Clip]:
+        for track in self.tracks:
+            clip = next((item for item in track.clips if item.clip_id == clip_id), None)
+            if clip is not None:
+                return track, clip
+        raise EditorProjectError("EDITOR_CLIP_NOT_FOUND", f"clip does not exist: {clip_id}", "Edit a clip in this project.")
 
     def add_clip(self, track_id: str, clip: Clip) -> "EditorProject":
         track = self._track(track_id)
@@ -227,31 +227,18 @@ class EditorProject(BaseModel):
         raise EditorProjectError("EDITOR_CLIP_NOT_FOUND", f"clip does not exist: {clip.clip_id}", "Edit a clip in this project.")
 
     def move_clip(self, clip_id: str, timeline_start_s: float) -> "EditorProject":
-        for track in self.tracks:
-            clip = next((item for item in track.clips if item.clip_id == clip_id), None)
-            if clip is not None:
-                return self.replace_clip(clip.model_copy(update={"timeline_start_s": timeline_start_s}))
-        raise EditorProjectError("EDITOR_CLIP_NOT_FOUND", f"clip does not exist: {clip_id}", "Edit a clip in this project.")
+        _, clip = self._selected_clip(clip_id)
+        return self.replace_clip(_validated_update(clip, Clip, timeline_start_s=timeline_start_s))
 
     def trim_clip(self, clip_id: str, source_in_s: float, source_out_s: float, timeline_duration_s: float) -> "EditorProject":
-        for track in self.tracks:
-            if any(item.clip_id == clip_id for item in track.clips):
-                selected = next(item for item in track.clips if item.clip_id == clip_id)
-                return self.replace_clip(_validated_update(selected, Clip, **{
-                    "source_in_s": source_in_s,
-                    "source_out_s": source_out_s,
-                    "timeline_duration_s": timeline_duration_s,
-                }))
-        raise EditorProjectError("EDITOR_CLIP_NOT_FOUND", f"clip does not exist: {clip_id}", "Edit a clip in this project.")
+        _, clip = self._selected_clip(clip_id)
+        return self.replace_clip(_validated_update(clip, Clip, source_in_s=source_in_s, source_out_s=source_out_s, timeline_duration_s=timeline_duration_s))
 
     def update_text(self, clip_id: str, text: str) -> "EditorProject":
-        for track in self.tracks:
-            clip = next((item for item in track.clips if item.clip_id == clip_id), None)
-            if clip is not None:
-                if clip.kind is not TrackKind.text:
-                    raise EditorProjectError("EDITOR_CLIP_NOT_TEXT", f"clip is not text: {clip_id}", "Select a text clip.")
-                return self.replace_clip(_validated_update(clip, Clip, text=text))
-        raise EditorProjectError("EDITOR_CLIP_NOT_FOUND", f"clip does not exist: {clip_id}", "Edit a clip in this project.")
+        _, clip = self._selected_clip(clip_id)
+        if clip.kind is not TrackKind.text:
+            raise EditorProjectError("EDITOR_CLIP_NOT_TEXT", f"clip is not text: {clip_id}", "Select a text clip.")
+        return self.replace_clip(_validated_update(clip, Clip, text=text))
 
     def reorder_track(self, track_id: str, ordered_clip_ids: tuple[str, ...]) -> "EditorProject":
         track = self._track(track_id)
@@ -259,23 +246,16 @@ class EditorProject(BaseModel):
         if set(ordered_clip_ids) != set(by_id) or len(ordered_clip_ids) != len(by_id):
             raise EditorProjectError("EDITOR_REORDER_INVALID", f"reorder is not a permutation of {track_id}", "Pass every clip ID exactly once.")
         starts = sorted(clip.timeline_start_s for clip in track.clips)
-        clips = tuple(
-            _validated_update(by_id[clip_id], Clip, timeline_start_s=start)
-            for clip_id, start in zip(ordered_clip_ids, starts, strict=True)
-        )
+        clips = tuple(_validated_update(by_id[clip_id], Clip, timeline_start_s=start) for clip_id, start in zip(ordered_clip_ids, starts, strict=True))
         return self._replace_in_track(track_id, clips)
 
     def add_transition(self, transition: Transition) -> "EditorProject":
-        return _validated_update(self, EditorProject, **{
-            "transitions": [*(item.model_dump() for item in self.transitions), transition.model_dump()],
-            "revision": self.revision + 1,
-        })
+        transitions = [*(item.model_dump() for item in self.transitions), transition.model_dump()]
+        return _validated_update(self, EditorProject, transitions=transitions, revision=self.revision + 1)
 
     def add_review_mark(self, mark: ReviewMark) -> "EditorProject":
-        return _validated_update(self, EditorProject, **{
-            "review_marks": [*(item.model_dump() for item in self.review_marks), mark.model_dump()],
-            "revision": self.revision + 1,
-        })
+        marks = [*(item.model_dump() for item in self.review_marks), mark.model_dump()]
+        return _validated_update(self, EditorProject, review_marks=marks, revision=self.revision + 1)
 
 
 def canonical_project_json(project: EditorProject) -> str:
