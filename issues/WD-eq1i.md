@@ -8,8 +8,8 @@ labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T11:29:26Z
-content_hash: "sha256:9d2c97e0bba9a0c1011c6973bb4979b2afb29030521cb5cc5690948d11db333f"
+updated_at: 2026-09-23T12:17:38Z
+content_hash: "sha256:561072a5aceeb42f0c186d9734923c320aa12af5c4e08be6cdc7c21e85295bfd"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw]
@@ -114,7 +114,38 @@ status: new
 
 
 ## Notes
+## Rework Evidence
+Summary: Fixed both rejection points. The director compiler now genuinely consumes the existing no-GPU content planner rather than labeling or reimplementing it, and all fresh README evidence uses the full-file parsed count of five tests.
 
+Rejection 1 fix:
+- Previous defect: `services/director/plan_compiler.py` only embedded string labels and locally constructed prompts/clips.
+- Exact import: `from wangp.content import build_content_request` (with the existing `predict.content_brief` types).
+- Exact invocation: `build_content_request(brief, plates, output=<temp plan>, run_dir=<temp run>, submit=False, repository_root=<repo>, environ={})`.
+- Consumed path: `wangp.content.build_content_request -> scripts.run_content_brief.main -> scripts.run_film.run_film -> services.director.wiring.plan_to_clips`.
+- The compiler writes a real typed content brief derived from director windows, invokes the planner, validates returned clip count/index/frame accounting, normalizes each returned planner clip, and uses the planner clip's `prompt`, identity, speaker, seed, frames, and duration fields in every director shot. Top-level `base_planner` and per-shot `planner_clip` preserve this provenance. Local construction no longer supplies shot prompts.
+- New regression: `tests/test_director_capabilities.py::test_shot_plan_consumes_content_planner_output_and_changes_with_planner_input`. Without mocks, it compiles two different planner inputs through the real handoff, asserts director prompts and embedded `planner_clip` objects equal the returned normalized planner clips, planner brief/clip identities change when the planner input changes, and planner frame totals equal the consumed per-shot frames.
+
+Rejection 2 correction:
+- The prior `README contract JUnit: tests=2` was produced by and labeled as a narrowed two-test selector command, not the full file. The authoritative full-file command and count are now recorded everywhere in fresh evidence as `tests=5 errors=0 failures=0 skipped=0`. Subsequent evidence must not reuse the old count for the full-file command.
+
+Commands run at final head:
+- `uv run --frozen --extra dev pytest tests/test_director_capabilities.py -q --junitxml=/tmp/wd-eq1i-director.xml`
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q --junitxml=/tmp/wd-eq1i-readme-full.xml`
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-eq1i-full.xml`
+- `uv build --out-dir /tmp/wd-eq1i-rework-build.mu71ml`
+- Exact-head check-run poll for `cea64eba0058b9d27ed6a3d0b677a1c03ba7331e`.
+
+Parsed results:
+- Director: `tests=34 errors=0 failures=0 skipped=0`, exit 0.
+- README full file: `tests=5 errors=0 failures=0 skipped=0`, exit 0.
+- Full suite: `tests=1967 errors=0 failures=0 skipped=1`, exit 0. The sole skip remains the pre-existing optional `WANGP_3090` live host probe, deliberately not run under this no-host task.
+- Build: `WHEEL_COUNT=1`, `SDIST_COUNT=1`; wheel SHA-256 `bc53ff9a924e77b96f28430e88b2a632dbb12bd34619aaddc940a94b38f79733`; sdist SHA-256 `3d184e870fbd755e6254e625c40e2e07c5c4cb3827ffea7c4387b365a668a8f9`.
+- `pvg verify`: `VERIFY: PASSED (8 files scanned, 0 issues)`.
+- Rebased `origin/main` from `d34630e` to `bfd194c`; preserved both sibling `finish` and this lane's `director` registrations and README rows. Live help order includes `finish,director`.
+- PR #173 exact-head CI at `cea64eba0058b9d27ed6a3d0b677a1c03ba7331e`: `test completed success` (https://github.com/jmanhype/wangp-dspy/actions/runs/35857820507/job/107170457741).
+- The first CI attempt at `a3a6db0` hit the prior 20-minute job timeout at 98% and was cancelled. Only the workflow job timeout was raised to 30 minutes; tests, gates, commands, and coverage were not weakened.
+
+SHA: cea64eba0058b9d27ed6a3d0b677a1c03ba7331e
 
 ## nd_contract
 status: rejected
