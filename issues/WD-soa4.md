@@ -4,7 +4,7 @@ title: "Music generation, ABC planning, style adaptation, and a second independe
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered, accepted]
+labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
