@@ -1,16 +1,18 @@
 ---
 id: WD-6ml6
 title: "Speech, reference voice cloning, portable character voices, and a second TTS engine"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-22T20:28:48Z
-content_hash: "sha256:23d6a256ab64be0e5e687da3df5f89ba3d3fb489263c63368c0fc5853a030064"
+updated_at: 2026-09-23T05:41:42Z
+content_hash: "sha256:a6f5fd46cb10cd84e040fa23b8bad60bd4c09e93163665bf680c72c3eefe1aca"
 blocks: [WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
+assignee: dev-WD-6ml6
+follows: [WD-pcen]
 ---
 
 ## Description
@@ -111,9 +113,13 @@ status: new
 - 2026-09-22T20:24:45Z dep_added: blocks WD-tkuz
 - 2026-09-22T20:24:47Z dep_added: blocks WD-eq1i
 - 2026-09-22T20:27:37Z dep_added: blocks WD-gc09
+- 2026-09-23T05:41:42Z status: open -> in_progress
+- 2026-09-23T05:41:42Z auto-follows: linked to predecessor WD-pcen
+- 2026-09-23T05:41:42Z claimed by dev-WD-6ml6
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-fasw]], [[WD-tkuz]], [[WD-eq1i]], [[WD-gc09]]
+- Follows: [[WD-pcen]]
 
 ## Comments
