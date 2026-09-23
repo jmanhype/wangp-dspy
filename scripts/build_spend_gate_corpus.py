@@ -6,7 +6,7 @@ import argparse
 from pathlib import Path
 from typing import Sequence
 
-from training.spend_gate import build_corpus, verify_artifact, write_corpus
+from services.jobs.spend_gate import build_corpus, verify_artifact, write_corpus
 from training.spend_gate_replay import replay_baselines
 
 

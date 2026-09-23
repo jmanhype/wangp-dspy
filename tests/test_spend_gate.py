@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from predict.content_brief import AUDIO_DURATION_TOLERANCE_S
-from training.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _canonicalize_paths, _gate,
+from services.jobs.spend_gate import (SpendGateRecordingError, SpendGateSourceError, _canonicalize_paths, _gate,
                                  _load_queue_rows, _queue_match, _queue_record_key, _row_identity,
                                  build_corpus, canonical_json, normalize_row, verify_artifact,
                                  write_completed_run_rows,
@@ -72,7 +72,7 @@ def test_fresh_corpus_replay_is_deterministic_group_safe_and_honest(tmp_path: Pa
     archive = subprocess.check_output(["git", "archive", "--format=tar", "HEAD"], cwd=ROOT)
     with tarfile.open(fileobj=io.BytesIO(archive), mode="r:*") as bundle:
         bundle.extractall(checkout, filter="data")
-    for relative in ("training/spend_gate.py", "training/spend_gate_replay.py", "scripts/build_spend_gate_corpus.py", "services/jobs/executor.py"):
+    for relative in ("training/spend_gate_replay.py", "scripts/build_spend_gate_corpus.py", "services/jobs/executor.py", "services/jobs/spend_gate.py"):
         shutil.copyfile(ROOT / relative, checkout / relative)
     shutil.copytree(ARTIFACT, checkout / ARTIFACT.relative_to(ROOT), dirs_exist_ok=True)
     command = [sys.executable, "scripts/build_spend_gate_corpus.py", "--repository-root", ".", "--evidence-mode", "tracked", "--output-dir", "datasets/spend-gate/v1", "--replay", "--verify-artifact"]

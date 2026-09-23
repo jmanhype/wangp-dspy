@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import hashlib, json, os, sqlite3, struct, subprocess
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
+from enum import Enum
 from pathlib import Path
-from typing import Any, Literal, Mapping
+from typing import Any, Callable, Literal, Mapping, Optional
 
 from predict.content_brief import load_content_brief
 from services.director.run_ledger import repository_identity
@@ -25,6 +27,15 @@ class SpendGateSourceError(ValueError):
 
 class SpendGateRecordingError(RuntimeError):
     """The post-QC recorder could not persist its row."""
+
+
+class SpendGateRecordingFailure(Enum):
+    """Typed failure category for the production-only recorder."""
+
+    WRITE = "spend_gate_recording_write_error"
+
+
+WriteLiveRow = Callable[..., Path]
 
 
 @dataclass(frozen=True)
@@ -473,6 +484,36 @@ def write_live_row(qc_evidence_path: Path, *, repository_root: Path,
         return _atomic(qc_evidence_path.parent / "spend-gate-row.json", canonical_json(row.to_dict()))
     except Exception as exc:
         raise SpendGateRecordingError(f"cannot record spend-gate row for {qc_evidence_path}: {exc}") from exc
+
+
+@dataclass
+class SpendGateRecorder:
+    """Fail-open adapter around the canonical live-row writer.
+
+    Recording is observability, not a render gate.  The executor calls this
+    after QC has accepted a clip; a persistence failure is retained in a
+    typed counter and never escapes into queue/state transitions.
+    """
+
+    write_row: WriteLiveRow = write_live_row
+    repository_root: Optional[Path] = None
+    failures: Counter[SpendGateRecordingFailure] = field(default_factory=Counter)
+    last_error: Optional[Exception] = None
+
+    def record(self, qc_evidence_path: Path, *, job_id: str | None,
+               clip_index: int | None) -> None:
+        """Record one row or retain a typed failure; never raise."""
+
+        try:
+            self.write_row(
+                qc_evidence_path,
+                repository_root=self.repository_root or qc_evidence_path.anchor,
+                job_id=job_id,
+                clip_index=clip_index,
+            )
+        except Exception as exc:
+            self.last_error = exc
+            self.failures[SpendGateRecordingFailure.WRITE] += 1
 
 
 def write_completed_run_rows(run_id: str, repository_root: Path) -> tuple[Path, ...]:

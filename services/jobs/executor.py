@@ -16,13 +16,16 @@ from __future__ import annotations
 import os
 import re
 import json
+from contextlib import suppress
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable, Dict, Optional
 
 from services.jobs.states import transition
 from services.jobs.modes import (
     ModeError, ProductMode,
 )
+from services.jobs.spend_gate import SpendGateRecorder, write_live_row
 
 # "20/20" / "8/8" Denoising — complete when the two numbers match
 # LIVE FIX (2026-09-03, strict-chain V2): WanGP's H3 progress lines are
@@ -188,7 +191,8 @@ class JobExecutor:
                  pre_render: Optional[Callable[[dict], None]] = None,
                  max_failures: int = 3,
                  staleness_s: float = 600.0,
-                 picker: Optional[Callable[[], Optional[str]]] = None):
+                 picker: Optional[Callable[[], Optional[str]]] = None,
+                 spend_gate_recorder: Optional[SpendGateRecorder] = None):
         self.queue = queue
         self.preflight = preflight
         self.render = render
@@ -229,6 +233,12 @@ class JobExecutor:
         # execution path, not just in the worker entrypoint). An
         # explicit `picker` overrides it (tests, alternate policies).
         self.picker = picker
+        # Observability seam: enabled by default at the production executor
+        # boundary, but strictly fail-open (see SpendGateRecorder.record).
+        self.spend_gate_recorder = spend_gate_recorder or SpendGateRecorder(
+            write_row=write_live_row,
+            repository_root=Path(__file__).resolve().parents[2],
+        )
         # stale-active heartbeat timeout (reviewer B2): an active-state
         # job whose owner is dead AND heartbeat older than this is
         # requeued. Configurable via WANGP_STALENESS_S.
@@ -433,6 +443,9 @@ class JobExecutor:
                            f"QC rejected clip {clip['clip_index']}: "
                            f"verdict={qc_path}")
                 return
+            self.spend_gate_recorder.record(
+                Path(qc_path), job_id=job.job_id,
+                clip_index=clip.get("clip_index"))
             self.queue.update_clip(
                 job.job_id, clip["clip_index"], status="done",
                 log=clip["log"], mp4=clip["mp4"],
@@ -595,12 +608,10 @@ class JobExecutor:
         try:
             return self._drive(job, jid)
         finally:
-            # release ownership (job may have moved to a parked/terminal
-            # state; the WHERE is harmless either way)
-            try:
+            # Release ownership (the job may have moved to a parked/terminal
+            # state). Stale-active recovery remains the durable cleanup path.
+            with suppress(Exception):
                 self._db_clear_ownership(jid)
-            except Exception:
-                pass
 
     def _db_clear_ownership(self, jid: str) -> None:
         clear = getattr(self.queue, "clear_ownership", None)
