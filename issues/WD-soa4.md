@@ -8,8 +8,8 @@ labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T03:06:39Z
-content_hash: "sha256:6d263d59fc3ccaafb91a93a797d865aed8c3fe71cc54260940cdf826e83cffcd"
+updated_at: 2026-09-23T04:25:23Z
+content_hash: "sha256:4b9c31d36e2818728a36e7f8495bc3ff48f1d6ff259c3ef420e80368a07cc3b9"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
 closed_at: 2026-09-23T01:38:43Z
@@ -102,6 +102,10 @@ status: new
 
 
 ## Notes
+## Delivery Preflight Record
+
+Recorded at the story's delivery head: the developer's delivery preflight reported `Passed: 9, Failed: 0`, and the dispatcher independently re-ran it before requesting acceptance. After `pvg story accept`, this repository's own accept transition intentionally drops the `delivered` label (status/label mapping: accepted -> closed + accepted), so a post-acceptance re-run of `pvg story verify-delivery` reports `Passed: 8, Failed: 1` with the single failure being `label:delivered -- missing 'delivered' label`. Every content check (contract block, EOF, implementation evidence, CI results, commands run, summary, commit SHA, AC items) continues to pass. The 9/0 result therefore holds at the delivery head and is not reproducible after acceptance without re-adding a label the state machine deliberately removed.
+
 ## Post-Acceptance Rebase (integrator)
 
 The story was accepted at `508984904459f806e679dd8b1dbf9197677c7ce8`. Merging WD-4d90 (#164) first moved `main`, leaving PR #166 with a single conflict in `wangp/cli.py` (both lanes add a subparser registration in the same region).
