@@ -8,8 +8,8 @@ labels: [capability, rejected-x2, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T04:17:40Z
-content_hash: "sha256:67bd6acef5895df13fcf8b44805c68923f05318c27b6c30ff53b82314b90fd9b"
+updated_at: 2026-09-23T04:19:00Z
+content_hash: "sha256:21b49e8f54ed1de023667abd50ca29a525002c617fd7d138f123a302586ab9a7"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox, WD-soa4]
 ---
@@ -278,8 +278,8 @@ SHA: d13ced731a056ca7d04f7d186c631f7f4186c3b8
 status: delivered
 
 ### evidence
-- Head/PR: d13ced731a056ca7d04f7d186c631f7f4186c3b8 / https://github.com/jmanhype/wangp-dspy/pull/165.
-- Targeted tests: 28 passed. Full tests: 1755 passed, 1 intentional live-host skip. Exact-head GitHub test check succeeded.
+- Head: `8eda61fd363d93aace5c32d99e4bad620bf5b01c` on `story/WD-pcen` / https://github.com/jmanhype/wangp-dspy/pull/165. The branch was rebased onto `main` at `dc77b18` by the dispatcher to clear a `wangp/cli.py` registration conflict; the conflict was resolved by keeping all four registrations (`video`, `image`, `music`, `platform`), and the image content is otherwise identical to the reviewed head `d13ced73`.
+- Targeted tests: 28 passed. Full tests: `uv run --frozen --extra dev pytest -q --junitxml=<tmp>/pcen.xml` -> exit 0, `tests=1743 failures=0 errors=0 skipped=1` (1,742 passed, 1 skipped). RETRACTION: the earlier "1755 passed" figure was a miscount of periods in quiet stdout (1,742 test dots plus 13 punctuation periods) and is wrong. Exact-head GitHub `test` check on `8eda61f`: completed/success.
 - Queue evidence: one image_plan_record, no executable jobs selected, genuine job still admitted; reconstruction hidden_mutation=false.
 - Build: one wheel and one sdist with hashes recorded above; pvg verify passed.
 
