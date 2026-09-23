@@ -4,7 +4,7 @@ title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
 status: closed
 priority: 1
 type: feature
-labels: [walking-skeleton, capstone, e2e, delivered]
+labels: [walking-skeleton, capstone, e2e, delivered, accepted]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
