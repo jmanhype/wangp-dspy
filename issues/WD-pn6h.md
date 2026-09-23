@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:46:36Z
-content_hash: "sha256:606a9c5b8d8c309fb66c2153f5b29b7145a931732399527e7d18c1a48d9cfdde"
+updated_at: 2026-09-23T19:46:45Z
+content_hash: "sha256:0c30c754129583696344b9b520a59680d7d39a45b159268227f8b4c4633bb4db"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 assignee: dev-WD-pn6h
@@ -387,3 +387,26 @@ EXPECTED: Required Outcomes 1 and 2: the story-head suite must pass from the mai
 DELIVERED: Direct check at 5d9380a9: repository_root=/Users returns Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json. The delivered regression test derives main_root=ROOT.parents[2]=/Users when its file is under /Users/Shared/HermesWorkspace/wangp-dspy and fails its set assertion.
 GAP: An ancestor repository root still leaks .claude/worktrees, so the main-checkout suite cannot pass and Outcome 2 is not robust.
 FIX: Normalize any resolved relative path containing .claude/worktrees to the stable datasets/assets suffix, and derive/test the main root without a worktree-depth-dependent parents index.
+
+### 2026-09-23T19:46:45Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- SHA: 9cfb29741d0e0164ef939fba9ed9616edc22b432
+- Summary: Stable datasets/assets anchors now precede root-relative conversion, so ancestor, main, nested, and foreign roots all return identical canonical evidence paths.
+- Five-root proof: every root returned datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json.
+- Main-checkout proof: forced ROOT=/Users/Shared/HermesWorkspace/wangp-dspy; regression assertion passed.
+- Targeted tests: 19 passed, 0 failed, 0 errors, 0 skipped.
+- Full-suite JUnit: tests=1996, errors=0, failures=0, skipped=1.
+- Artifact rebuild: rows=36, verify_artifact passed; no committed artifact changed.
+- Release: tag_created=false, release=ready.
+
+### proof
+- [x] AC 1 main-checkout simulation and full suite pass.
+- [x] AC 2 exact path is identical for main, /Users, /Users/Shared/HermesWorkspace, nested, and foreign roots.
+- [x] AC 3 canonical LF004 and corpus path fields reject `.claude`.
+- [x] AC 4 deterministic artifact verification passes without artifact drift.
+- [x] AC 5 release is ready and no tag was created.
+- [x] AC 6 original LF004 queue assertions, including [2, 0, 0, 0], pass unchanged.
+
