@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T06:51:49Z
-content_hash: "sha256:b5b0c014912eb900e37df44bc3fb7fcdefe95886cfd515649670dd7212a11225"
+updated_at: 2026-09-23T08:41:30Z
+content_hash: "sha256:8e23fa566f616172db8f0b68d899eca827bdf5ad9392d34fa2ad29aeb1e1c14f"
 blocks: [WD-8ioj, WD-eq1i, WD-gc09]
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
@@ -108,6 +108,67 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: Continued and preserved commit ff4e5d7/b634e25, then added hash-verified portable .wgpcharacter export/import, saved-voice binding, native-source recovery, duplicate-free registry resolution, image/video continuity validation, immutable non-executable character plan records, seed-based reconstruction, the wgp character verb, capability documentation, and the README verb-map entry required by the new drift test. Planning only; no media generation or host work.
+
+Commands run:
+- git log --oneline -2
+- uv run --frozen --extra dev pytest tests/test_character_capabilities.py -q
+- git push -u origin story/WD-tkuz
+- git fetch origin main && git rebase origin/main
+- uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q -- exit 0, parsed 5 passed / 0 failed / 0 errors / 0 skipped
+- uv run --frozen --extra dev pytest tests/test_character_capabilities.py -q --junitxml=/tmp/wd-tkuz-evidence/targeted.xml -- exit 0, parsed 33 passed / 0 failed / 0 errors / 0 skipped
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-tkuz-evidence/full-final-308b587.xml -- exit 0, parsed 1852 passed / 1 skipped / 0 failed / 0 errors
+- /tmp/wd_tkuz_generate_evidence.py -- captured human and JSON round-trip plus 29 typed failure scenarios; exact one-byte package-member mismatch metadata; zero shadowed ssh/curl/wget/nvidia-smi calls; datasets digest 7fc0a50d44f61afc9cd4af55efd34864cd370740d4d562a39612a77fe6a33183 unchanged
+- uv build --out-dir /tmp/wd-tkuz-evidence/build-308b587 -- exit 0, exactly one wheel and one sdist
+- gh pr create ... -- https://github.com/jmanhype/wangp-dspy/pull/171
+- gh api repos/jmanhype/wangp-dspy/commits/308b587ce6f4e575e5db21bac337579f7dff98eb/check-runs -- test completed/success
+- git diff --check origin/main...HEAD -- exit 0
+SHA: 308b587ce6f4e575e5db21bac337579f7dff98eb
+
+### CI/Test Results
+
+- Targeted pytest at exact head: exit 0; tests=33, failures=0, errors=0, skipped=0.
+- Full pytest at exact head: exit 0; tests=1852, failures=0, errors=0, skipped=1.
+- README drift test: exit 0; 5 passed.
+- Build: exit 0; wheel=1, sdist=1; wheel SHA-256 ebeeaac00c1172831c34196bac1eb2e105f2381e74daf08cea974a3113b9b5b4; sdist SHA-256 2300244d4446179d71db5880496318e69270c6cf4323c2c1b60b2310de29a95d.
+- GitHub check test at exact head 308b587ce6f4e575e5db21bac337579f7dff98eb: completed, conclusion success.
+- Queue evidence: character_plan_records=1, jobs table absent in plan DB, update/delete rejected, real admission path selected zero plan rows, and a genuine render job remained next-admissible.
+- Reconstruction evidence: recorded and reconstructed binding/seed hashes matched; hidden_mutation=false; package and database bytes unchanged.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| Portable package appearance plus saved voice round-trip with stable hashes and registry identity resolution | Pass | tests/test_character_capabilities.py real CLI export/import/show/resolve; repeated package digest equal; evidence summary |
+| Tampering and missing assets fail typed with exact hashes | Pass | one changed appearance-member byte rejected with expected/actual SHA-256; missing native source typed; 29 failure captures |
+| Native-resolution recovery is exact-byte and fail-closed | Pass | source and recovered hashes equal, transcoded=false/substituted_derivative=false; unavailable source rejected |
+| Image/video requests carry explicit appearance/voice/package hashes and reject identity, mode, duplicate, ambiguous, and binding mismatches | Pass | image and video real CLI dry-runs plus parametrized typed exit-2 diagnostics |
+| Durable plans are immutable, non-executable, non-drainable, and reconstructible | Pass | separate character_plan_records table, update/delete triggers, JobQueue/JobExecutor proof, genuine job admissible, hash match |
+| Seed-based dry-run reconstruction is read-only with no hidden mutation | Pass | binding/seed reconstruction hashes equal; database/package and datasets digests unchanged |
+| CLI registration, README verb map, and planning-only capability docs are complete | Pass | two-line wangp/cli.py registration; README drift suite passed; every docs matrix row planned |
+| No identity-preservation or generated-media capability is claimed | Pass | docs and CLI summary set planned / false; no generation bundle exists |
+| Authorized image and video reuse with generated media and identity gates | not verified - requires authorized host run | No GPU/host render was requested or executed in this lane |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch story/WD-tkuz pushed at 308b587ce6f4e575e5db21bac337579f7dff98eb.
+- PR 171 exact-head GitHub check completed with success.
+- Targeted/full local parsed counters and build artifacts recorded above.
+
+### proof
+- [x] Portable appearance plus saved-voice .wgpcharacter format writes, reads, round-trips, and hashes stably.
+- [x] Registry resolves unique character/speaker identity and rejects duplicate or ambiguous identities.
+- [x] Image/video continuity requests expose package/appearance/voice hashes and fail typed on every mismatch class with remediation and next command.
+- [x] Native-source recovery copies exact bytes only and never substitutes a derivative.
+- [x] One changed real package member byte fails import with exact expected/actual hashes.
+- [x] Planning records are immutable and outside the executable jobs table while genuine render admission remains possible.
+- [x] Seed-based reconstruction matches binding/seed hashes without package, database, datasets, or hidden mutation.
+- [x] wgp character registration, README verb map, and all-planned capability boundary are covered by real-process tests.
+- [x] No GPU, SSH, download, renderer, queue gate change, or generated-media claim was made.
 
 
 ## History
