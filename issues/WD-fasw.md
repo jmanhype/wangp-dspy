@@ -8,8 +8,8 @@ labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:35:24Z
-content_hash: "sha256:72b89c877ae4c61c4426200df4d2b1899447ffaa1eb699d58b0cd8acb9561be5"
+updated_at: 2026-09-23T08:35:25Z
+content_hash: "sha256:eb44a4f3ebc58e6e40b87068fdc082de62c29b00e0f4ce936f3fec18d5291d3f"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen]
@@ -198,3 +198,6 @@ status: delivered
 - Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-pcen]]
 
 ## Comments
+
+### 2026-09-23T08:35:25Z speed
+EXPECTED: typed exit-2 failures must provide a usable next command consistent with the registered wgp CLI. DELIVERED: observed diagnostics return next_command=wgp audio sfx --request <request> --models <models> --json, but exact invocation exits 2: argument verb: invalid choice: 'audio' (choose from video, image, music, first-run, sfx, voice, doctor, content, brief, plan, status, review, recipe, release). GAP: retained typed-model default references the obsolete/nonexistent audio verb and is inconsistent with wangp/sfx_cli.py. FIX: emit mode-specific wgp sfx effect|revoice|refine next commands and lock the exact command validity in tests.
