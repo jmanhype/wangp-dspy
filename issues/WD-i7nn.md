@@ -7,8 +7,8 @@ type: bug
 labels: [testing, release]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
-updated_at: 2026-09-23T16:45:34Z
-content_hash: "sha256:7b6c01e4028fff1498839bebd8f031e203a83e23fd6b83587cc959b6b141ddcd"
+updated_at: 2026-09-23T16:45:40Z
+content_hash: "sha256:5bf3990af9e00c93d58cd5fa1eaa34880ba4059bfc1aae6853c46093c19f99f5"
 assignee: dev-WD-i7nn
 ---
 
@@ -117,6 +117,7 @@ status: delivered
 ## History
 - 2026-09-23T16:05:37Z status: open -> in_progress
 - 2026-09-23T16:05:37Z claimed by dev-WD-i7nn
+- 2026-09-23T16:45:40Z status: in_progress -> in_progress
 
 ## Links
 ## Comments
