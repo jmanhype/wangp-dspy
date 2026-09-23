@@ -8,13 +8,14 @@ parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
 updated_at: 2026-09-23T22:32:05Z
-content_hash: "sha256:0bf696b1810e10a1f1e734d037ef175930c039f35ba95b63552a78679f34d8a9"
+content_hash: "sha256:e487a78d78d362b09b3bce41e264e827b1c5714563b695a267b781e2fe0e9b5f"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
 labels: [accepted]
 closed_at: 2026-09-23T22:32:04Z
 close_reason: "Accepted via pvg story accept"
 blocks: [WD-mjzt]
+led_to: [WD-mjzt]
 ---
 
 ## Description
@@ -245,6 +246,7 @@ status: in_progress
 - Parent: [[WD-h73w]]
 - Blocks: [[WD-mjzt]]
 - Follows: [[WD-42no]], [[WD-g125]]
+- Led to: [[WD-mjzt]]
 
 ## Comments
 
