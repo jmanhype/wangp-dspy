@@ -8,8 +8,8 @@ labels: [capability, rejected-x2, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T04:22:27Z
-content_hash: "sha256:93f9de34a676597c73a42e098214e5539b5f04ba9b92e04251a8d97babe75932"
+updated_at: 2026-09-23T04:25:23Z
+content_hash: "sha256:23523f6ad69cd583cdd41345b6d72be612465c345f72f41d35afb397552bcac6"
 follows: [WD-6tox, WD-soa4]
 closed_at: 2026-09-23T04:22:27Z
 close_reason: "Accepted at 8eda61f: corrected 1743/0/0/1 evidence, clean four-verb rebase, 28 image tests pass, CI success, zero review threads, and no-GPU planned capability boundaries hold."
@@ -99,7 +99,9 @@ status: new
 
 
 ## Notes
+## Delivery Preflight Record
 
+Recorded at the story's delivery head: the developer's delivery preflight reported `Passed: 9, Failed: 0`, and the dispatcher independently re-ran it before requesting acceptance. After `pvg story accept`, this repository's own accept transition intentionally drops the `delivered` label (status/label mapping: accepted -> closed + accepted), so a post-acceptance re-run of `pvg story verify-delivery` reports `Passed: 8, Failed: 1` with the single failure being `label:delivered -- missing 'delivered' label`. Every content check (contract block, EOF, implementation evidence, CI results, commands run, summary, commit SHA, AC items) continues to pass. The 9/0 result therefore holds at the delivery head and is not reproducible after acceptance without re-adding a label the state machine deliberately removed.
 
 ## nd_contract
 status: accepted
