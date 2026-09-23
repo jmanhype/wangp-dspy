@@ -8,8 +8,8 @@ labels: [capability, rejected-x2, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T03:03:29Z
-content_hash: "sha256:25b7367021735c91d798061357cd29395e2c35ab5a1567729e10076b90834982"
+updated_at: 2026-09-23T03:03:30Z
+content_hash: "sha256:5e6c91fed94928bcc9e628e67ca4c72b5d1bb744548e543413ca8ec817c2fa0a"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox, WD-soa4]
 ---
@@ -98,6 +98,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-22.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## nd_contract
 status: delivered
 
