@@ -9,13 +9,12 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-23T16:33:29Z
-content_hash: "sha256:da86c331e78e5a61810ef3e8062aac9ad45ff6adee76750aba26b46096011b01"
+content_hash: "sha256:9ad6e7cebb9907c3119057b1a120ee66e91f9110d3f148ac88ebea4674593fd8"
 closed_at: 2026-09-23T16:10:56Z
 close_reason: "Accepted: c7963e8 targeted tests 17/17 pass with 0 failures/skips; artifact verifies 36 rows, 18 complete/5 bad, five tracked queue DBs, grouped leakage-safe folds, per-rejection resolution reason, deterministic replay, and insufficient_data/infeasible_at_budget; clean merge-tree against current main."
 assignee: dev-WD-l48s
-blocked_by: [WD-v6xp]
 led_to: [WD-v6xp, WD-rf1a]
-was_blocked_by: [WD-rf1a]
+was_blocked_by: [WD-rf1a, WD-v6xp]
 ---
 
 ## Description
@@ -524,11 +523,11 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - 2026-09-23T16:02:19Z dep_added: blocked_by WD-v6xp
 - 2026-09-23T16:10:56Z status: in_progress -> closed
 - 2026-09-23T17:36:19Z dep_removed: was_blocked_by WD-rf1a
+- 2026-09-23T17:43:30Z dep_removed: was_blocked_by WD-v6xp
 
 ## Links
 - Parent: [[WD-as25]]
-- Blocked by: [[WD-v6xp]]
-- Was blocked by: [[WD-rf1a]]
+- Was blocked by: [[WD-rf1a]], [[WD-v6xp]]
 - Led to: [[WD-v6xp]], [[WD-rf1a]]
 
 ## Comments

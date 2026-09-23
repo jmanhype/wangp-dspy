@@ -1,18 +1,19 @@
 ---
 id: WD-v6xp
 title: "Emit the spend-gate decision row from the production QC seam (fail-open)"
-status: in_progress
+status: closed
 priority: 1
 type: task
 parent: WD-as25
 created_at: 2026-09-21T12:19:33Z
 created_by: speed
-updated_at: 2026-09-23T17:23:47Z
-content_hash: "sha256:1fd93fe5600458fae6a3c348836263cb5e963ec2359f4f47d3827580d52ad415"
-blocks: [WD-l48s]
+updated_at: 2026-09-23T17:43:30Z
+content_hash: "sha256:5eeeeba4b72ef8a98e0e70724b1b262a4110211c0320fb1991e3d824dee9333a"
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
 labels: [delivered]
+closed_at: 2026-09-23T17:43:30Z
+close_reason: "Accepted: exact-head f813fc1 passes CI; 21/21 targeted and 1993/1993 full tests; four LF004 digests match standalone; forced write failure preserves queue outcome and increments spend_gate_recording_write_error."
 ---
 
 ## Description
@@ -132,10 +133,11 @@ status: delivered
 - 2026-09-23T16:33:59Z auto-follows: linked to predecessor WD-l48s
 - 2026-09-23T16:33:59Z claimed by dev-WD-v6xp
 - 2026-09-23T17:23:47Z status: in_progress -> in_progress
+- 2026-09-23T17:43:30Z status: in_progress -> closed
+- 2026-09-23T17:43:30Z dep_removed: no_longer_blocks WD-l48s
 
 ## Links
 - Parent: [[WD-as25]]
-- Blocks: [[WD-l48s]]
 - Follows: [[WD-l48s]]
 
 ## Comments
