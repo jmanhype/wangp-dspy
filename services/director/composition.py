@@ -42,13 +42,6 @@ class DirectorMode(str, Enum):
     screenplay = "screenplay"
 
 
-class PacingStrategy(str, Enum):
-    even = "even"
-    beat = "beat"
-    exact_timecode = "exact_timecode"
-    window_count = "window_count"
-
-
 class ReviewMode(str, Enum):
     auto = "auto"
     manual = "manual"
@@ -129,7 +122,7 @@ class Screenplay(BaseModel):
 class PacingControl(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    strategy: PacingStrategy
+    strategy: str = Field(min_length=1)
     target_duration_s: float = Field(gt=0.0, le=MAX_PROGRAMME_S)
     clip_count: int | None = Field(default=None, ge=1, le=240)
     exact_start_s: float | None = Field(default=None, ge=0.0)
@@ -139,18 +132,18 @@ class PacingControl(BaseModel):
     @model_validator(mode="after")
     def _control_shape(self) -> "PacingControl":
         selected = sum(value is not None for value in (self.clip_count, self.exact_start_s, self.exact_end_s))
-        if self.strategy is PacingStrategy.even and selected not in (0, 1):
+        if self.strategy == "even" and selected not in (0, 1):
             raise ValueError("even pacing may set clip_count but not timecode fields")
-        if self.strategy is PacingStrategy.window_count and self.clip_count is None:
+        if self.strategy == "window_count" and self.clip_count is None:
             raise ValueError("window_count pacing requires clip_count")
-        if self.strategy is PacingStrategy.window_count and selected != 1:
+        if self.strategy == "window_count" and selected != 1:
             raise ValueError("window_count pacing accepts clip_count only")
-        if self.strategy is PacingStrategy.exact_timecode:
+        if self.strategy == "exact_timecode":
             if self.exact_start_s is None or self.exact_end_s is None or self.clip_count is not None:
                 raise ValueError("exact_timecode pacing requires exact_start_s and exact_end_s only")
             if self.exact_end_s <= self.exact_start_s:
                 raise ValueError("exact_timecode end must be after start")
-        if self.strategy is PacingStrategy.beat and selected != 0:
+        if self.strategy == "beat" and selected != 0:
             raise ValueError("beat pacing derives windows from measured beats and accepts no manual control")
         return self
 
@@ -256,7 +249,7 @@ def file_sha256(path: str | Path) -> str:
 __all__ = [
     "AudioBeat", "AudioEvidence", "CharacterState", "DirectorEnhancementRequest",
     "DirectorError", "DirectorMode", "DirectorRequest", "EnhancementChanges",
-    "ENHANCEMENT_SCHEMA", "MAX_PROGRAMME_S", "PacingControl", "PacingStrategy",
+    "ENHANCEMENT_SCHEMA", "MAX_PROGRAMME_S", "PacingControl",
     "QueueEnhancementIntent", "REQUEST_SCHEMA", "ReviewControl", "ReviewMode",
     "Screenplay", "ScreenplayScene", "canonical_json", "canonical_sha256",
     "file_sha256",
