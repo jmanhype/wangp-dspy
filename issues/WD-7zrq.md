@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T17:42:40Z
-content_hash: "sha256:1656db3bd63729014fb490b7630f682f756afd4caf7fcdaf7e878d3afe84cf35"
+content_hash: "sha256:cfc89313796b8cd9e267b1051f525fa2cdf97c2b6f8a05ef444f78e8e01b1c7a"
 labels: [rejected, rejected-x2]
 ---
 
@@ -167,3 +167,6 @@ status: delivered
 
 ### 2026-09-23T17:25:08Z speed
 REJECT: the literal contract is inaccurate. Installed pvg 1.64.0 matches notes:ci_test_results with ^### (CI/Test Results|Test Results)$, notes:commands_run with ^(Commands run:|commands run:), notes:commit_sha with SHA: [0-9a-fA-F]{7,40}, and proof:ac_items with ^[x] AC or ^### AC Verification$; the document/guard instead present the table header | AC | Result | Evidence | as the exact matched literal, omit ### AC Verification from REQUIRED_LITERALS, and describe SHA as lowercase-only. Documentation-only resolution is acceptable in principle because pvg is external, but this story requires the documented and guarded contract to match the shipped verifier.
+
+### 2026-09-23T17:42:40Z speed
+REJECT at e81745ceaf312e967d27de0f27cfdec088f187be: the code/document delta corrects the verifier patterns, but the re-delivery notes still record SHA: e9aba21ebe0028a6906c4b4c0dfea528fee3df7c and Head e9aba21e... from the rejected delivery. The actual branch head is e81745ceaf312e967d27de0f27cfdec088f187be. verify-delivery's 9/9 only validates the SHA pattern, not head identity; update the delivery evidence to the new head and re-deliver.
