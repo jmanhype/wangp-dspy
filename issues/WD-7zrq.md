@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T16:37:29Z
-content_hash: "sha256:fda1ff1f98bc3db92d39cdf923aadbd851c04eff48562deadfbf2b2150945ea9"
+updated_at: 2026-09-23T16:37:48Z
+content_hash: "sha256:a18c6659c7606e184e27da5fc1875622494c5fc3a35fec6fa4798132fcd5a98e"
 assignee: dev-WD-7zrq
 labels: [delivered]
 ---
@@ -82,7 +82,7 @@ Commands run:
 - `uv run --frozen --extra dev pytest tests/test_delivery_evidence_doc.py tests/test_readme_quickstart.py -q` -> exit 0, 8 passed.
 - `git diff main..HEAD --name-only` -> docs/delivery-evidence.md, CONTRIBUTING.md, README.md, tests/test_delivery_evidence_doc.py.
 
-SHA: e9aba2165a4b4e9d7b3b9f0a1f3a5a7c9d1e3f5a
+SHA: e9aba21ebe0028a6906c4b4c0dfea528fee3df7c
 
 ### CI/Test Results
 
@@ -103,7 +103,7 @@ SHA: e9aba2165a4b4e9d7b3b9f0a1f3a5a7c9d1e3f5a
 status: delivered
 
 ### evidence
-- Head e9aba2165a4b4e9d7b3b9f0a1f3a5a7c9d1e3f5a on story/WD-7zrq; PR #176; guard suite 8 passed locally at that head.
+- Head e9aba21ebe0028a6906c4b4c0dfea528fee3df7c on story/WD-7zrq; PR #176; guard suite 8 passed locally at that head.
 - The document records the tool boundary explicitly: the check vocabulary and note ordering belong to the compiled `pvg` binary, and this document is the verified contract for the shipped version.
 
 ### proof
