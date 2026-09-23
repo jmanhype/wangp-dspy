@@ -8,12 +8,12 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:41:30Z
-content_hash: "sha256:8e23fa566f616172db8f0b68d899eca827bdf5ad9392d34fa2ad29aeb1e1c14f"
+updated_at: 2026-09-23T08:41:35Z
+content_hash: "sha256:01cea27b6685871651cfdac72ffc6ea470c009d566b1ab29a08c88b3c935f728"
 blocks: [WD-8ioj, WD-eq1i, WD-gc09]
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
-follows: [WD-6tox, WD-pcen, WD-6ml6]
+follows: [WD-6tox, WD-pcen, WD-6ml6, WD-soa4]
 ---
 
 ## Description
@@ -186,11 +186,13 @@ status: delivered
 - 2026-09-23T06:51:49Z auto-follows: linked to predecessor WD-pcen
 - 2026-09-23T06:51:49Z auto-follows: linked to predecessor WD-6ml6
 - 2026-09-23T06:51:49Z claimed by dev-WD-tkuz
+- 2026-09-23T08:41:35Z status: in_progress -> in_progress
+- 2026-09-23T08:41:35Z auto-follows: linked to predecessor WD-soa4
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
-- Follows: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
+- Follows: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]], [[WD-soa4]]
 
 ## Comments
