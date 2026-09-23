@@ -49,6 +49,7 @@ from wangp.image_cli import register_image_parser
 from wangp.video_cli import register_video_parser
 from wangp.music_cli import register_music_parser
 from wangp.platform_cli import register_platform_parser
+from wangp.voice_cli import register_voice_parser
 from wangp.queue_view import (
     collect_queue_review,
     collect_status,
@@ -747,6 +748,7 @@ def build_parser() -> argparse.ArgumentParser:
     register_image_parser(commands)
     register_music_parser(commands)
     register_platform_parser(commands)
+    register_voice_parser(commands)
 
     doctor = commands.add_parser(
         "doctor", help="report local readiness and optionally probe a host"
