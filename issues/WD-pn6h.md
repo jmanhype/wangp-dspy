@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:12:10Z
-content_hash: "sha256:93022ca889d0cc52b80fd0032b3ade49112cb47d33ef91888acf506f31da6aed"
+updated_at: 2026-09-23T19:13:21Z
+content_hash: "sha256:667526fcadf535889dca5e6a630ce845ddb14e2122a12da9e0c8726ffa6d3fa7"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp, WD-rf1a]
@@ -242,3 +242,51 @@ status: in_progress
 - Follows: [[WD-v6xp]], [[WD-rf1a]]
 
 ## Comments
+
+### 2026-09-23T19:13:21Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Commit: 5d9380a9da499770bd29794db92c8d2b19407c7a
+- Push: origin/story/WD-pn6h
+- Summary: Nested-worktree historical paths now fall through to the stable datasets/assets anchor, so main, nested, and foreign roots produce identical canonical paths.
+- Implementation: services/jobs/spend_gate.py:175-198; tests/test_spend_gate.py:217-236.
+
+## Implementation Evidence
+- `_canonical_stored_path` rejects `.claude/worktrees` as repository provenance and preserves the first `datasets` or `assets` suffix.
+- The regression test uses the exact recorded path with main, nested, and foreign roots, then recursively rejects `.claude` in LF004 and corpus path fields.
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_spend_gate.py` -> 19 passed, exit 0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-pn6h-full.xml` -> exit 0.
+- `uv run --frozen --extra dev python scripts/build_spend_gate_corpus.py --repository-root . --evidence-mode all-local --output-dir datasets/spend-gate/v1 --replay --verify-artifact` -> rows=36 mode=all-local, exit 0.
+- `uv run --frozen --extra dev wgp release verify` -> tag_created=false, release=ready, exit 0.
+- Protected-path `git diff --exit-code main -- ...` -> exit 0, no diff.
+- `git diff --check` -> exit 0, no output.
+
+### CI/Test Results
+- Targeted suite: 19 passed, 0 failed, 0 errors, 0 skipped.
+- Full suite JUnit: tests=1996, errors=0, failures=0, skipped=1.
+- Artifact verification: verify_artifact passed, corpus rows=36.
+
+### AC Verification
+| AC | Result |
+|---|---|
+| 1 full suite / LF004 parity | PASS |
+| 2 identical three-root path | PASS |
+| 3 no `.claude/worktrees` paths | PASS |
+| 4 deterministic artifact consistency | PASS |
+| 5 release ready without tag | PASS |
+| 6 unchanged LF004 queue assertions | PASS |
+
+### proof
+- [x] AC 1: full-suite failures=0; LF004 targeted test passed.
+- [x] AC 2: exact three-root test asserts one expected datasets path.
+- [x] AC 3: recursive LF004/corpus path scan fails on `.claude`.
+- [x] AC 4: builder + verify_artifact passed; no committed artifact changed.
+- [x] AC 5: release verifier reported tag_created=false and release=ready.
+- [x] AC 6: original LF004 assertions, including [2, 0, 0, 0], passed unchanged.
+
+Artifacts: corpus sha256 970632d10e8de2dd68ec2b585911400e6522da09676ff322a8378a7c1186f3c1; manifest sha256 07599793152d2e8f1a659f25c2395169a1352f6410dd7f4db0007732913b1468; no committed artifact changed.
+
