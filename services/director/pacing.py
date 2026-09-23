@@ -117,8 +117,16 @@ def plan_windows(request: DirectorRequest) -> list[PacingWindow]:
                 "exact_timecode pacing requires exact_start_s and exact_end_s",
                 "Supply both exact timecodes, or use even pacing.",
             )
+        if end > request.pacing.target_duration_s or abs((end - start) - target_s) > 1e-6:
+            raise _error(
+                "DIRECTOR_PACING_CONFLICT",
+                (
+                    f"exact timecode {start:.9f}s..{end:.9f}s does not preserve "
+                    f"target {target_s:.9f}s within the source duration"
+                ),
+                "Use one complete source interval whose duration equals target_duration_s.",
+            )
         spans = [(start, end, None)]
-        target_s = end - start
     else:
         count = request.pacing.clip_count
         if count is None:

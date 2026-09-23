@@ -46,6 +46,9 @@ def continuity_declarations(
         raise _error("screenplay character roster contains duplicate names")
     by_scene = {scene.scene_index: scene for scene in request.screenplay.scenes}
     declarations = []
+    previous = {
+        character.name: character for character in request.screenplay.characters
+    }
     for window in windows:
         scene = by_scene.get(window.scene_index)
         if scene is None:
@@ -59,22 +62,19 @@ def continuity_declarations(
                 next_command="wgp director plan --request <request> --json",
                 metadata={"scene_index": scene.scene_index, "characters": sorted(unknown)},
             )
-        baseline = {
-            character.name: (character.appearance, character.voice)
-            for character in request.screenplay.characters
-        }
         scene_states = {state.name: state for state in scene.states}
         changed = []
         for name in sorted(scene.characters):
-            appearance, voice = baseline[name]
+            before = previous[name]
             state = scene_states[name]
-            if state.appearance != appearance or state.voice != voice:
+            if state.appearance != before.appearance or state.voice != before.voice:
                 changed.append({
                     "character": name,
                     "appearance": state.appearance,
                     "voice": state.voice,
-                    "from": {"appearance": appearance, "voice": voice},
+                    "from": {"appearance": before.appearance, "voice": before.voice},
                 })
+        previous = scene_states
         declarations.append({
             "clip_index": window.index,
             "scene_index": scene.scene_index,
