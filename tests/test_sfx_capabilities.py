@@ -9,6 +9,7 @@ import sqlite3
 import struct
 import subprocess
 import wave
+from functools import lru_cache
 from pathlib import Path
 
 import pytest
@@ -125,6 +126,39 @@ def _wgp(*args: str, cwd: Path, env: dict[str, str]) -> subprocess.CompletedProc
         ["uv", "run", "--frozen", "--extra", "dev", "wgp", *args],
         cwd=cwd, env=env, text=True, capture_output=True, timeout=120, check=False,
     )
+
+
+@lru_cache(maxsize=1)
+def _live_cli_verbs() -> frozenset[str]:
+    help_text = _wgp("--help", cwd=ROOT, env=os.environ.copy())
+    assert help_text.returncode == 0, help_text.stdout + help_text.stderr
+    choice_line = next(
+        line for line in help_text.stdout.splitlines()
+        if line.strip().startswith("{") and line.strip().endswith("}")
+    )
+    return frozenset(choice_line.strip().strip("{}").split(","))
+
+
+@lru_cache(maxsize=1)
+def _live_sfx_verbs() -> frozenset[str]:
+    help_text = _wgp("sfx", "--help", cwd=ROOT, env=os.environ.copy())
+    assert help_text.returncode == 0, help_text.stdout + help_text.stderr
+    choice_line = next(
+        line for line in help_text.stdout.splitlines()
+        if line.strip().startswith("{") and line.strip().endswith("}")
+    )
+    return frozenset(choice_line.strip().strip("{}").split(","))
+
+
+def _assert_next_command_resolves_against_live_cli(command: str) -> None:
+    tokens = command.split()
+    assert tokens[0] == "wgp"
+    assert len(tokens) >= 2
+    assert tokens[1] in _live_cli_verbs(), command
+    if tokens[1] == "sfx":
+        assert len(tokens) >= 3
+        assert tokens[2] in _live_sfx_verbs(), command
+    assert not command.startswith("wgp audio "), command
 
 
 def _tree_digest(root: Path) -> str:
@@ -272,7 +306,7 @@ def test_repository_datasets_are_read_only_across_real_cli_run(tmp_path: Path) -
         ("reconstruct-database", "AUDIO_POST_RECONSTRUCTION_INVALID"),
     ],
 )
-def test_every_typed_failure_class_is_machine_readable(
+def test_every_typed_failure_class_is_machine_readable_and_next_command_resolves_live(
     tmp_path: Path, case: str, code: str
 ) -> None:
     environment, calls = _environment(tmp_path)
@@ -371,6 +405,7 @@ def test_every_typed_failure_class_is_machine_readable(
     diagnostic = json.loads(result.stdout)["diagnostics"][0]
     assert diagnostic["code"] == code, f"{case}: {diagnostic}"
     assert diagnostic["remediation"] and diagnostic["next_command"]
+    _assert_next_command_resolves_against_live_cli(diagnostic["next_command"])
     assert "Traceback" not in result.stdout + result.stderr
     assert calls.read_text(encoding="utf-8") == ""
 

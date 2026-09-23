@@ -14,6 +14,7 @@ from predict.audio_post import (
     AudioPostCapabilityError,
     AudioPostOperation,
     AudioPostRequest,
+    audio_post_next_command,
     backend_settings,
     canonical_sha256,
     file_sha256,
@@ -31,13 +32,17 @@ class CompiledAudioPostPlan:
         return self.payload
 
 
-def _readable_hash(path: str | Path, expected: str, *, kind: str, code_missing: str, code_mismatch: str) -> tuple[Path, str]:
+def _readable_hash(
+    path: str | Path, expected: str, *, kind: str,
+    code_missing: str, code_mismatch: str, next_command: str,
+) -> tuple[Path, str]:
     source = Path(path).expanduser().resolve()
     if not source.is_file():
         raise AudioPostCapabilityError(
             code_missing,
             f"{kind} is not readable: {source}",
             "Restore the exact authorized bytes; Wangp will not fetch source material.",
+            next_command=next_command,
             metadata={"path": str(source)},
         )
     actual = file_sha256(source)
@@ -46,6 +51,7 @@ def _readable_hash(path: str | Path, expected: str, *, kind: str, code_missing: 
             code_mismatch,
             f"{kind} hash mismatch: expected {expected}, got {actual}",
             "Restore the exact recorded bytes or correct the request provenance.",
+            next_command=next_command,
             metadata={"path": str(source), "expected": expected, "actual": actual},
         )
     return source, actual
@@ -59,6 +65,7 @@ def _validate_duration(request: AudioPostRequest) -> None:
             "AUDIO_POST_DURATION_MISMATCH",
             f"operation duration {target_duration:g}s exceeds {adapter.backend_id} ceiling {adapter.max_duration_s:g}s",
             "Request a duration within the declared backend ceiling.",
+            next_command=audio_post_next_command(request.operation),
             metadata={"operation": request.operation.value, "limit": adapter.max_duration_s},
         )
     if request.operation is AudioPostOperation.sfx and request.duration_s is not None:
@@ -67,6 +74,7 @@ def _validate_duration(request: AudioPostRequest) -> None:
                 "AUDIO_POST_DURATION_MISMATCH",
                 f"sound-effect duration {request.duration_s:g}s exceeds source audio {request.source.audio.duration_s:g}s",
                 "Keep the planned effect no longer than the existing audio stream.",
+                next_command=audio_post_next_command(request.operation),
                 metadata={"source_audio_duration_s": request.source.audio.duration_s},
             )
 
@@ -99,6 +107,7 @@ def compile_audio_post_request(request: AudioPostRequest) -> CompiledAudioPostPl
             "AUDIO_POST_OUTPUT_EXISTS",
             f"planned output already exists: {output}",
             "Choose a new target path; planning must not claim or overwrite media.",
+            next_command=audio_post_next_command(request.operation),
             metadata={"path": str(output)},
         )
     source_path, source_hash = _readable_hash(
@@ -107,6 +116,7 @@ def compile_audio_post_request(request: AudioPostRequest) -> CompiledAudioPostPl
         kind="source media",
         code_missing="AUDIO_POST_SOURCE_MISSING",
         code_mismatch="AUDIO_POST_SOURCE_HASH_MISMATCH",
+        next_command=audio_post_next_command(request.operation),
     )
     voice = None
     if request.voice is not None:
@@ -116,6 +126,7 @@ def compile_audio_post_request(request: AudioPostRequest) -> CompiledAudioPostPl
             kind="target voice reference",
             code_missing="AUDIO_POST_VOICE_MISSING",
             code_mismatch="AUDIO_POST_VOICE_UNUSABLE",
+            next_command=audio_post_next_command(request.operation),
         )
         voice = request.voice.model_dump(mode="json") | {
             "path": str(voice_path), "sha256": voice_hash,
@@ -190,6 +201,7 @@ def enqueue_audio_post_plan(plan: Mapping[str, Any], database: str | Path) -> li
         raise AudioPostCapabilityError(
             "AUDIO_POST_QUEUE_EXISTS", f"queue database already exists: {destination}",
             "Select a new database path for this no-GPU plan.",
+            next_command=audio_post_next_command(plan.get("operation")),
         )
     destination.parent.mkdir(parents=True, exist_ok=True)
     staging = destination.parent / f".{destination.name}.{os.urandom(8).hex()}.tmp"

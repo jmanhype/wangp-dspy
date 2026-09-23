@@ -58,7 +58,7 @@ class AudioPostCapabilityError(ValueError):
         observed: str,
         remediation: str,
         *,
-        next_command: str = "wgp audio sfx --request <request> --models <models> --json",
+        next_command: str = "wgp sfx plan --request <request> --models <models> --json",
         metadata: Mapping[str, Any] | None = None,
     ) -> None:
         super().__init__(observed)
@@ -67,6 +67,18 @@ class AudioPostCapabilityError(ValueError):
         self.remediation = remediation
         self.next_command = next_command
         self.metadata = dict(metadata or {})
+
+
+def audio_post_next_command(operation: AudioPostOperation | str | None) -> str:
+    verbs = {
+        AudioPostOperation.sfx.value: "effect",
+        AudioPostOperation.revoice.value: "revoice",
+        AudioPostOperation.refine.value: "refine",
+    }
+    verb = verbs.get(getattr(operation, "value", operation))
+    if verb is None:
+        return "wgp sfx plan --request <request> --models <models> --json"
+    return f"wgp sfx {verb} --request <request> --models <models> --json"
 
 
 def _lower_hash(value: str) -> str:
@@ -322,6 +334,7 @@ def attach_manifest_model(
     payload: Mapping[str, Any], manifest: Mapping[str, AudioPostModelRef]
 ) -> AudioPostRequest:
     document = dict(payload)
+    next_command = audio_post_next_command(document.get("operation"))
     requested = document.get("model")
     if not isinstance(requested, dict):
         raise AudioPostCapabilityError(
@@ -374,6 +387,7 @@ def attach_manifest_model(
             code,
             details,
             "Fix the typed request fields, then rerun the deterministic no-GPU audio-post plan.",
+            next_command=next_command,
         ) from exc
 
 
@@ -430,6 +444,6 @@ __all__ = [
     "AudioPostCapabilityError", "AudioPostFamily", "AudioPostModelRef", "AudioPostOperation",
     "AudioPostPreset", "AudioPostRequest", "OutputFormat", "RefinementControls",
     "SourceDeclaration", "StreamDeclaration", "VideoFixedContract", "VideoTransform", "VoiceBinding",
-    "attach_manifest_model", "backend_settings", "capability_matrix", "canonical_json",
+    "attach_manifest_model", "audio_post_next_command", "backend_settings", "capability_matrix", "canonical_json",
     "canonical_sha256", "file_sha256", "load_audio_post_model_manifest", "request_digest",
 ]

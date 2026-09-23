@@ -13,6 +13,7 @@ from predict.audio_post import (
     AudioPostCapabilityError,
     AudioPostOperation,
     attach_manifest_model,
+    audio_post_next_command,
     load_audio_post_model_manifest,
 )
 from services.audio_post.plan_compiler import (
@@ -68,6 +69,7 @@ def _plan(args: argparse.Namespace, *, as_json: bool) -> int:
             "AUDIO_POST_MODE_MISMATCH",
             f"wgp sfx {args.sfx_verb} requires operation={expected.value}, got {request.operation.value}",
             "Use effect for sound effects, revoice for an existing clip, or refine for audio refinement.",
+            next_command=audio_post_next_command(expected),
         )
     plan = compile_audio_post_request(request).mapping()
     record_ids = None
