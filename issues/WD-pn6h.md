@@ -11,7 +11,7 @@ updated_at: 2026-09-23T20:14:00Z
 content_hash: "sha256:4d228a85f1172a40e119c3479a40b76ed6d0b134ed57f4131ac4ea53c3bd2d33"
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 assignee: dev-WD-pn6h
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-23T20:13:59Z
 close_reason: "Accepted at 9cfb297: ancestor-root canonicalization and both launch-shape full suites pass; protected files and artifacts remain unchanged."
 ---
