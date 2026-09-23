@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T01:19:56Z
-content_hash: "sha256:537651f569479ea8706f990395def6873c8d82b10ddb35185e461e199cc86152"
+content_hash: "sha256:bf229d9e9fc8c4e13836cc4d82e031f4ac08b69f1b2bdbc8f768e910d23c18bd"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox]
 ---
@@ -181,3 +181,6 @@ status: delivered
 - Follows: [[WD-6tox]]
 
 ## Comments
+
+### 2026-09-23T01:19:56Z speed
+EXPECTED: Delivery proof must report exact full-suite counts at committed head d13ced731a056ca7d04f7d186c631f7f4186c3b8. DELIVERED: Story claims 1755 passed, 1 skipped; my clean-tree JUnit rerun at that exact head reports tests=1743, failures=0, errors=0, skipped=1 (1742 passed), confirmed by collection count 1743. GAP: The recorded full-suite count overstates 13 passes and is therefore untrustworthy delivery evidence. FIX: Re-deliver with the exact 1742 passed / 1 skipped count (or explain a reproducible committed-tree environment difference), while preserving all no-GPU scope claims.
