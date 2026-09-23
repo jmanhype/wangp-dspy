@@ -6,8 +6,8 @@ priority: 2
 type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
-updated_at: 2026-09-23T18:07:23Z
-content_hash: "sha256:8781f8c0afbb2779b8b3ecbf83c2a28e75a597e353ec7f5e2480da59d14d844e"
+updated_at: 2026-09-23T18:53:44Z
+content_hash: "sha256:cb89c8f82cdaa1cda08f47a658d7e78e002062f035f75483ec3080d845771721"
 labels: [rejected-x2, accepted]
 closed_at: 2026-09-23T18:06:24Z
 close_reason: "Accepted at 5a815c92252e151b039804bb856b09898fd16f7c: exact matcher contract, three verified caveats, matching story SHA/head, 8 targeted tests, and successful exact-head CI."
@@ -223,3 +223,6 @@ REJECT: the literal contract is inaccurate. Installed pvg 1.64.0 matches notes:c
 
 ### 2026-09-23T17:42:40Z speed
 REJECT at e81745ceaf312e967d27de0f27cfdec088f187be: the code/document delta corrects the verifier patterns, but the re-delivery notes still record SHA: e9aba21ebe0028a6906c4b4c0dfea528fee3df7c and Head e9aba21e... from the rejected delivery. The actual branch head is e81745ceaf312e967d27de0f27cfdec088f187be. verify-delivery's 9/9 only validates the SHA pattern, not head identity; update the delivery evidence to the new head and re-deliver.
+
+### 2026-09-23T18:53:44Z speed
+Merged to main as 3443508 (squash of #176). Required check 'test' completed/success at 6565f30841873d6dadc564773c1636991084c2d6 (post-rebase onto 8c67a01).
