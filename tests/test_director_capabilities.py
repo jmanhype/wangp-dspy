@@ -265,7 +265,16 @@ def test_every_mode_emits_deterministic_ordered_plans_in_human_and_json_modes(
     assert [clip["clip_index"] for clip in clips] == list(range(1, len(clips) + 1))
     assert [clip["overlap"]["frames"] for clip in clips] == [6] * (len(clips) - 1) + [0]
     assert all(clip["media"] is None for clip in clips)
-    assert first_payload["planning_surfaces"][0]["mode"] == mode
+    assert first_payload["planning_surfaces"][0] == {
+        "import": "wangp.content",
+        "function": "build_content_request",
+        "call_path": (
+            "wangp.content.build_content_request -> scripts.run_content_brief.main "
+            "-> scripts.run_film.run_film -> services.director.wiring.plan_to_clips"
+        ),
+        "invoked": True,
+        "consumed_output": "clips",
+    }
     assert first_payload["source_duration_preserved"] is True
     if mode == "music_video":
         assert [clip["window"]["beat_evidence"] for clip in clips] == [
@@ -321,6 +330,47 @@ def test_exact_and_window_pacing_preserve_the_complete_target(
         if expected_count == 1
         else pytest.approx([0.0, 4 / 3, 8 / 3])
     )
+
+
+def test_shot_plan_consumes_content_planner_output_and_changes_with_planner_input() -> None:
+    from services.director.composition import DirectorRequest
+    from services.director.plan_compiler import compile_director_request
+
+    def compiled(prompt: str):
+        payload = _request_payload("prompt")
+        payload["prompt"] = prompt
+        request = DirectorRequest.model_validate(payload)
+        return compile_director_request(request).mapping()
+
+    first = compiled("A projected sunrise fails over the observatory.")
+    second = compiled("A hard rain closes the observatory.")
+    assert first["base_planner"]["import"] == "wangp.content"
+    assert first["base_planner"]["function"] == "build_content_request"
+    assert first["base_planner"]["invoked"] is True
+    assert first["base_planner"]["brief_hash"] != second["base_planner"]["brief_hash"]
+    assert len(first["base_planner"]["clips"]) == len(first["clips"]) == 2
+    for director_clip, planner_clip in zip(
+        first["clips"], first["base_planner"]["clips"], strict=True
+    ):
+        assert director_clip["prompt"] == planner_clip["prompt"]
+        assert director_clip["planner_clip"] == planner_clip
+        assert "projected sunrise" in planner_clip["prompt"]
+    assert all(
+        left["identity"] != right["identity"]
+        for left, right in zip(
+            first["base_planner"]["clips"],
+            second["base_planner"]["clips"],
+            strict=True,
+        )
+    )
+    assert all(
+        "hard rain" in clip["prompt"]
+        for clip in second["base_planner"]["clips"]
+    )
+    assert first["request_sha256"] != second["request_sha256"]
+    assert first["base_planner"]["duration_accounting"][
+        "planner_total_frames"
+    ] == sum(clip["planner_clip"]["frames"] for clip in first["clips"])
 
 
 def test_plan_records_are_immutable_undrainable_enhanceable_and_reconstructable(

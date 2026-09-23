@@ -6,12 +6,19 @@ import os
 import sqlite3
 import time
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Mapping
 
 from pydantic import ValidationError
 
+from predict.content_brief import (
+    ContentBrief,
+    ContentBriefError,
+    ContentCharacter,
+    DialogueLine,
+)
+from wangp.content import build_content_request
 from services.director.composition import (
     DirectorEnhancementRequest,
     DirectorError,
@@ -35,11 +42,15 @@ ENHANCE_NEXT_COMMAND = (
 )
 SUPPORTED_ENHANCEMENT_INTENTS = frozenset({"replace_prompt"})
 SUPPORTED_ENHANCEMENT_FIELDS = frozenset({"prompt"})
-PLANNING_SURFACES: tuple[dict[str, str], ...] = (
-    {"mode": "prompt", "surface": "wangp.content.build_content_request"},
-    {"mode": "audio", "surface": "services.director.orchestrator.DirectorOrchestrator"},
-    {"mode": "music_video", "surface": "services.chain.plan.ChainPlan"},
-    {"mode": "screenplay", "surface": "services.chain.keyframes.build_fl2va_prompt"},
+PLANNER_IMPORT = "wangp.content"
+PLANNER_FUNCTION = "build_content_request"
+PLANNER_CALL_PATH = (
+    "wangp.content.build_content_request -> scripts.run_content_brief.main "
+    "-> scripts.run_film.run_film -> services.director.wiring.plan_to_clips"
+)
+PLANNER_CLIP_FIELDS = (
+    "clip_index", "kind", "mode", "speaker", "speaker_sn", "prompt", "seed",
+    "frames", "fps", "width", "height", "chain",
 )
 
 
@@ -282,7 +293,7 @@ def _clip_prompt(
     prefix = f"{request.title} -- deterministic clip {clip_index}"
     timing = (
         f"window {window['start_s']:.9f}s to {window['end_s']:.9f}s "
-        f"({window['duration_s']:.9f}s)"
+        f"({window['duration_s']:.9f}s) seed={request.recipe_seed}"
     )
     if request.mode is DirectorMode.prompt:
         assert request.prompt is not None
@@ -306,26 +317,177 @@ def _clip_prompt(
     return f"{prefix}: {scene.slugline} | {scene.action} | {states} | {timing}"
 
 
+def _repository_root() -> Path:
+    return Path(
+        os.environ.get(
+            "WANGP_REPOSITORY_ROOT",
+            str(Path(__file__).resolve().parents[2]),
+        )
+    ).expanduser().resolve()
+
+
+def _normalized_planner_clip(clip: Mapping[str, Any]) -> dict[str, Any]:
+    selected = {field: clip.get(field) for field in PLANNER_CLIP_FIELDS}
+    return {
+        "identity": canonical_sha256(selected),
+        **selected,
+        "planner_shot_duration_s": clip.get("shot_duration_s"),
+        "planner_guide_duration_s": clip.get("guide_duration_s"),
+    }
+
+
+def _content_planner_input(
+    request: DirectorRequest, windows: list[Any]
+) -> ContentBrief:
+    characters = (
+        ContentCharacter(
+            "Tess",
+            "S1",
+            f"composition speaker one for {request.mode.value}: {request.title}",
+        ),
+        ContentCharacter(
+            "Rho",
+            "S2",
+            f"composition speaker two for {request.mode.value}: {request.title}",
+        ),
+    )
+    dialogue = tuple(
+        DialogueLine(
+             speaker="Tess" if window.index % 2 else "Rho",
+             text=_clip_prompt(request, window.index, window.mapping()),
+        )
+        for window in windows
+    )
+    return ContentBrief(
+        title=request.title,
+        premise=(
+            request.prompt
+            if request.prompt is not None
+            else f"{request.mode.value} composition for {request.title}"
+        ),
+        characters=characters,
+        dialogue=dialogue,
+        durations_s=tuple(window.duration_s for window in windows),
+        audio_paths=None,
+    )
+
+
+def _invoke_content_planner(
+    request: DirectorRequest, windows: list[Any]
+) -> dict[str, Any]:
+    """Invoke the existing no-GPU content planner and consume its clips."""
+
+    root = _repository_root()
+    plates = root / "datasets/content_briefs/lf004-operator-dogfood/plates"
+    if not plates.is_dir():
+        raise _error(
+            "DIRECTOR_PLANNER_SURFACE_UNAVAILABLE",
+            f"committed content-planner plates are unavailable: {plates}",
+            "Run inside the Wangp repository or set WANGP_REPOSITORY_ROOT.",
+            **{"plates": str(plates), "import": PLANNER_IMPORT},
+        )
+    brief = _content_planner_input(request, windows)
+    try:
+        with tempfile.TemporaryDirectory(
+            prefix="wangp-director-content-plan-"
+        ) as temporary:
+            workspace = Path(temporary)
+            brief_path = workspace / "brief.json"
+            brief = replace(brief, source_path=brief_path)
+            brief_path.write_text(
+                json.dumps(brief.mapping(), sort_keys=True), encoding="utf-8"
+            )
+            plan_path = workspace / "content-plan.json"
+            build_content_request(
+                brief,
+                plates,
+                output=plan_path,
+                run_dir=workspace / "run",
+                submit=False,
+                repository_root=root,
+                environ={},
+            )
+            payload = json.loads(plan_path.read_text(encoding="utf-8"))
+    except DirectorError:
+        raise
+    except (ContentBriefError, OSError, UnicodeError, ValueError) as exc:
+        raise _error(
+            "DIRECTOR_PLANNER_SURFACE_FAILED",
+            f"existing content planner rejected director handoff: {exc}",
+            "Fix the typed director source so the existing planner accepts it.",
+            **{"import": PLANNER_IMPORT, "function": PLANNER_FUNCTION},
+        ) from exc
+
+    planner_clips = payload.get("clips")
+    summary = payload.get("summary")
+    if not isinstance(planner_clips, list) or len(planner_clips) != len(windows):
+        raise _error(
+            "DIRECTOR_PLANNER_OUTPUT_INVALID",
+            "content planner returned a clip count different from director windows",
+            "Use pacing fields that produce one complete planner shot per window.",
+            **{"planner_clips": len(planner_clips or []), "director_windows": len(windows)},
+        )
+    normalized: list[dict[str, Any]] = []
+    for window, clip in zip(windows, planner_clips, strict=True):
+        if not isinstance(clip, dict) or int(clip.get("clip_index", -1)) != window.index:
+            raise _error(
+                "DIRECTOR_PLANNER_OUTPUT_INVALID",
+                f"content planner clip identity is not ordered for window {window.index}",
+                "Use the unmodified content planner output as the base shot plan.",
+            )
+        if int(clip.get("frames", -1)) != int(round(window.duration_s * 24)):
+            raise _error(
+                "DIRECTOR_PLANNER_OUTPUT_INVALID",
+                f"content planner frame accounting changed for window {window.index}",
+                "Use pacing windows whose duration maps to the planner's 24fps frames.",
+            )
+        normalized.append(_normalized_planner_clip(clip))
+    if not isinstance(summary, dict):
+        raise _error(
+            "DIRECTOR_PLANNER_OUTPUT_INVALID",
+            "content planner output has no summary object",
+            "Use an output emitted by wangp.content.build_content_request.",
+        )
+    total_frames = sum(int(item["frames"]) for item in normalized)
+    return {
+        "import": PLANNER_IMPORT,
+        "function": PLANNER_FUNCTION,
+        "call_path": PLANNER_CALL_PATH,
+        "invoked": True,
+        "brief_hash": payload["brief_hash"],
+        "summary": dict(summary),
+        "duration_accounting": {
+            "planner_summary_s": summary.get("planned_duration_s"),
+            "planner_total_frames": total_frames,
+            "planner_frame_duration_s": round(total_frames / 24, 9),
+            "director_target_s": request.pacing.target_duration_s,
+        },
+        "clips": normalized,
+    }
+
+
 def compile_director_request(request: DirectorRequest) -> CompiledDirectorPlan:
     """Validate all local evidence, then emit one ordered non-executable plan."""
 
     _verify_audio(request)
     windows = plan_windows(request)
+    base_planner = _invoke_content_planner(request, windows)
     continuity = continuity_declarations(request, windows)
     review = review_policy(request)
     request_value = _request_payload(request)
     request_hash = canonical_sha256(request_value)
     clips: list[dict[str, Any]] = []
-    for window in windows:
+    for window, planner_clip in zip(windows, base_planner["clips"], strict=True):
         mapping = window.mapping()
         clip_index = window.index
-        prompt = _clip_prompt(request, clip_index, mapping)
+        prompt = str(planner_clip["prompt"])
         clips.append(
             {
                 "kind": "director_plan_clip",
                 "clip_index": clip_index,
                 "status": "planned",
                 "prompt": prompt,
+                "planner_clip": planner_clip,
                 "recipe_seed": (
                     request.recipe_seed + clip_index * 104_729
                 ) % 2_147_483_647,
@@ -355,9 +517,14 @@ def compile_director_request(request: DirectorRequest) -> CompiledDirectorPlan:
         "capability_status": "planned",
         "mode": request.mode.value,
         "title": request.title,
-        "planning_surfaces": [
-            item for item in PLANNING_SURFACES if item["mode"] == request.mode.value
-        ],
+        "planning_surfaces": [{
+            "import": PLANNER_IMPORT,
+            "function": PLANNER_FUNCTION,
+            "call_path": PLANNER_CALL_PATH,
+            "invoked": True,
+            "consumed_output": "clips",
+        }],
+        "base_planner": base_planner,
         "clip_count": len(clips),
         "duration_s": round(duration_s, 9),
         "source_duration_preserved": (

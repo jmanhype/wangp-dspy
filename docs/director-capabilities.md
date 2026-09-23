@@ -1,6 +1,6 @@
 # Maestro director capability planning
 
-`wgp director` is a deterministic, typed, no-GPU planning surface. It turns one prompt, one declared audio source, one beat-aware music-video declaration, or one screenplay into an ordered multi-clip film plan. A successful plan proves request shape, evidence hashes, continuity declarations, pacing windows, review policy, and durable record shape; it never proves that media was generated.
+`wgp director` is a deterministic, typed, no-GPU planning surface. It turns one prompt, one declared audio source, one beat-aware music-video declaration, or one screenplay into an ordered multi-clip film plan. Every mode first hands its derived turn text, durations, and the committed two-character plates to `wangp.content.build_content_request`; that existing wrapper invokes `scripts.run_content_brief.main`, `scripts.run_film.run_film`, and `services.director.wiring.plan_to_clips`. Director clips consume the planner's returned clip objects, prompts, identities, speakers, seeds, frames, and duration accounting. A successful plan proves request shape, evidence hashes, continuity declarations, pacing windows, review policy, and durable record shape; it never proves that media was generated.
 
 ## Request and evidence contract
 
