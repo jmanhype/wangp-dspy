@@ -1,7 +1,7 @@
 ---
 id: WD-eq1i
 title: "Director and composition: prompt or audio to governed multi-clip film"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, rejected]
@@ -9,10 +9,10 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T12:17:38Z
-content_hash: "sha256:561072a5aceeb42f0c186d9734923c320aa12af5c4e08be6cdc7c21e85295bfd"
+content_hash: "sha256:3756134efdf4f3fb399a486bc34ec78fa25823262f5571ccb338bb56eb175801"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
-follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw]
+follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw, WD-8ioj]
 ---
 
 ## Description
@@ -252,12 +252,14 @@ status: delivered
 - 2026-09-23T11:06:51Z auto-follows: linked to predecessor WD-fasw
 - 2026-09-23T11:29:25Z status: in_progress -> open
 - 2026-09-23T11:29:25Z released by speed
+- 2026-09-23T12:17:38Z status: open -> in_progress
+- 2026-09-23T12:17:38Z auto-follows: linked to predecessor WD-8ioj
 
 ## Links
 - Parent: [[WD-t741]]
 - Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
-- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]]
+- Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]], [[WD-8ioj]]
 
 ## Comments
 

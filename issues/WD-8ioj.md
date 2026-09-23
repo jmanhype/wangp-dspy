@@ -9,12 +9,13 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T11:26:58Z
-content_hash: "sha256:2698e314c79bff65cf67d8e5da72fd21dcc1fb5dafdf94ba08f4efac4a92d605"
+content_hash: "sha256:182edd0b5c14afb213f2d98c54d44ec8489d6c5a1ece25ae8106ed8469969a8e"
 was_blocked_by: [WD-6tox, WD-tkuz]
 assignee: dev-WD-8ioj
 follows: [WD-6tox, WD-tkuz, WD-fasw]
 closed_at: 2026-09-23T11:26:58Z
 close_reason: "Accepted: exact-head static, mode/failure, queue, docs, tests, build, CI, and delivery-proof gates all pass."
+led_to: [WD-eq1i]
 ---
 
 ## Description
@@ -203,5 +204,6 @@ status: delivered
 - Parent: [[WD-t741]]
 - Was blocked by: [[WD-6tox]], [[WD-tkuz]]
 - Follows: [[WD-6tox]], [[WD-tkuz]], [[WD-fasw]]
+- Led to: [[WD-eq1i]]
 
 ## Comments
