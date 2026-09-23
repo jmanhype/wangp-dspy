@@ -1,18 +1,19 @@
 ---
 id: WD-soa4
 title: "Music generation, ABC planning, style adaptation, and a second independent model"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:18:56Z
-content_hash: "sha256:c13531e370358e742952943ef567b617e6557df8b35ca63991ba633910785fe8"
-blocks: [WD-fasw, WD-eq1i, WD-gc09]
+updated_at: 2026-09-23T01:38:43Z
+content_hash: "sha256:638d158d474fbe27c626fbc816ae0e446ebff9933dd8dc5a01a6b571bb8511e0"
 assignee: dev-WD-soa4
 follows: [WD-6tox]
+closed_at: 2026-09-23T01:38:43Z
+close_reason: "Accepted: exact-head probes, immutable non-executable records, real selector admission, typed failures, reconstruction, read-only proof, scoped/full tests, CI, and honest planned-only matrix all passed."
 ---
 
 ## Description
@@ -180,10 +181,13 @@ status: delivered
 - 2026-09-23T00:09:23Z auto-follows: linked to predecessor WD-6tox
 - 2026-09-23T00:09:23Z claimed by dev-WD-soa4
 - 2026-09-23T01:18:56Z status: in_progress -> in_progress
+- 2026-09-23T01:38:43Z status: in_progress -> closed
+- 2026-09-23T01:38:43Z dep_removed: no_longer_blocks WD-fasw
+- 2026-09-23T01:38:43Z dep_removed: no_longer_blocks WD-eq1i
+- 2026-09-23T01:38:43Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-fasw]], [[WD-eq1i]], [[WD-gc09]]
 - Follows: [[WD-6tox]]
 
 ## Comments

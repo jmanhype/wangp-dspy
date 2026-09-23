@@ -9,9 +9,9 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
 updated_at: 2026-09-22T20:28:49Z
-content_hash: "sha256:17714100869ba7732d0b8acc03a960d48edfdd6f93abd6728dbde461ce1144af"
-blocked_by: [WD-eq1i, WD-fasw, WD-8ioj, WD-pcen, WD-soa4, WD-6ml6, WD-tkuz]
-was_blocked_by: [WD-6tox, WD-4d90]
+content_hash: "sha256:c764924e7de13bb2f733327ea110b95c180b9c7efcc6f4d5b872e60a63634af3"
+blocked_by: [WD-eq1i, WD-fasw, WD-8ioj, WD-pcen, WD-6ml6, WD-tkuz]
+was_blocked_by: [WD-6tox, WD-4d90, WD-soa4]
 ---
 
 ## Description
@@ -115,10 +115,11 @@ status: new
 - 2026-09-22T20:27:37Z dep_added: blocked_by WD-tkuz
 - 2026-09-22T22:50:11Z dep_removed: was_blocked_by WD-6tox
 - 2026-09-23T01:35:54Z dep_removed: was_blocked_by WD-4d90
+- 2026-09-23T01:38:43Z dep_removed: was_blocked_by WD-soa4
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocked by: [[WD-eq1i]], [[WD-fasw]], [[WD-8ioj]], [[WD-pcen]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
-- Was blocked by: [[WD-6tox]], [[WD-4d90]]
+- Blocked by: [[WD-eq1i]], [[WD-fasw]], [[WD-8ioj]], [[WD-pcen]], [[WD-6ml6]], [[WD-tkuz]]
+- Was blocked by: [[WD-6tox]], [[WD-4d90]], [[WD-soa4]]
 
 ## Comments
