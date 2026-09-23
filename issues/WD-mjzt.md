@@ -1,17 +1,18 @@
 ---
 id: WD-mjzt
 title: "Bug: isolate LF004 acceptance source resolution"
-status: open
+status: in_progress
 priority: 0
 type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-23T23:59:32Z
-content_hash: "sha256:3dbe57ff4060d99ec8cbe678155432d0272b35be23227cd935c74f8decd4db70"
+updated_at: 2026-09-23T23:59:58Z
+content_hash: "sha256:87cf9dc5ebd15a62517bcc7b8144435892684a9090d7f066c563ba3eee577ef4"
 blocked_by: [WD-td89]
-follows: [WD-td89, WD-42no]
+follows: [WD-td89, WD-42no, WD-g125]
 labels: [rejected]
+assignee: dev-WD-mjzt
 ---
 
 ## Description
@@ -225,11 +226,14 @@ status: delivered
 - 2026-09-23T23:41:54Z auto-follows: linked to predecessor WD-42no
 - 2026-09-23T23:59:31Z status: in_progress -> open
 - 2026-09-23T23:59:31Z released by speed
+- 2026-09-23T23:59:58Z status: open -> in_progress
+- 2026-09-23T23:59:58Z auto-follows: linked to predecessor WD-g125
+- 2026-09-23T23:59:58Z claimed by dev-WD-mjzt
 
 ## Links
 - Parent: [[WD-h73w]]
 - Blocked by: [[WD-td89]]
-- Follows: [[WD-td89]], [[WD-42no]]
+- Follows: [[WD-td89]], [[WD-42no]], [[WD-g125]]
 
 ## Comments
 
