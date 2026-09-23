@@ -9,11 +9,11 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-23T16:02:17Z
-content_hash: "sha256:f9f2d02492400da9cc06ea91ac2dc1ebb8fba34dd0087b11ace409ee7954b9da"
+content_hash: "sha256:403a7bf3f18be8f59a83e35c05aec2aeca97396f1ca60c8d2ce66850c8a51062"
 closed_at: 2026-09-21T12:31:05Z
 close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
 assignee: dev-WD-l48s
-blocked_by: [WD-rf1a]
+blocked_by: [WD-rf1a, WD-v6xp]
 ---
 
 ## Description
@@ -1033,10 +1033,11 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - 2026-09-21T12:35:04Z status: closed -> open
 - 2026-09-21T13:14:06Z status: open -> in_progress
 - 2026-09-23T16:02:18Z dep_added: blocked_by WD-rf1a
+- 2026-09-23T16:02:19Z dep_added: blocked_by WD-v6xp
 
 ## Links
 - Parent: [[WD-as25]]
-- Blocked by: [[WD-rf1a]]
+- Blocked by: [[WD-rf1a]], [[WD-v6xp]]
 
 ## Comments
 
