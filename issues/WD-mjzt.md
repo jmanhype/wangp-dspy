@@ -8,7 +8,7 @@ parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
 updated_at: 2026-09-23T23:59:32Z
-content_hash: "sha256:042d61ada2b44a32a3d61d80196468eab65ec95f667611c626789ae7b19c7ae7"
+content_hash: "sha256:3dbe57ff4060d99ec8cbe678155432d0272b35be23227cd935c74f8decd4db70"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no]
 labels: [rejected]
@@ -104,6 +104,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-23.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence
 
 Commands run:
