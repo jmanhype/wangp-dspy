@@ -216,10 +216,16 @@ def test_canonical_paths_do_not_participate_in_row_identity() -> None:
 
 def test_historical_nested_worktree_paths_are_checkout_independent() -> None:
     recorded = Path("/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json")
-    main_root = ROOT.parents[2]
-    roots = (main_root, main_root / ".claude/worktrees/dev-WD-g125", Path("/tmp/not-this-repository"))
+    main_root = Path("/Users/Shared/HermesWorkspace/wangp-dspy")
+    roots = (
+        main_root,
+        Path("/Users"),
+        Path("/Users/Shared/HermesWorkspace"),
+        main_root / ".claude/worktrees/dev-WD-g125",
+        Path("/tmp/not-this-repository"),
+    )
     expected = "datasets/runs/pull/acceptance/worker-511ee9ee6a8f/render-0000/qc-evidence.json"
-    assert {_canonical_stored_path(recorded.as_posix(), root.resolve()) for root in roots} == {expected}
+    assert all(_canonical_stored_path(recorded.as_posix(), root.resolve()) == expected for root in roots)
 
     def path_fields(value):
         if isinstance(value, dict):
