@@ -4,7 +4,7 @@ title: "Image generation and editing with references, transparency, upscaling, a
 status: open
 priority: 2
 type: feature
-labels: [capability]
+labels: [capability, rejected]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
