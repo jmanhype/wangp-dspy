@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
 updated_at: 2026-09-23T13:47:01Z
-content_hash: "sha256:cc33d878630fb2e25a49016f26d3e389abfe5fd5005ba3a1823d02bf95ad35da"
+content_hash: "sha256:b3cae9d94462f291ff1bdafc6b6c78d8aed9f83b7d83838d186ef03844ce0a43"
 was_blocked_by: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 assignee: dev-WD-gc09
 follows: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
@@ -102,6 +102,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU editor slice: typed video/audio/image/text tracks and clips with in/out points, transitions, review marks, hash-pinned portable sources; atomic save/load, schema checks, typed source verification, and snapshot history with undo/redo; deterministic export through the real director compiler and MultiShotAssembler plus optional real JobQueue submission; `wgp editor validate|export`; README integration; and real-process no-mock tests. A GUI/browser surface is deliberately deferred (no GPU/display in this lane, headless CI, and the CLI exercises the same project service); this is documented in `docs/editor.md` and is not an omission. No render, GPU, SSH, model download, paid provider, or generated/edited-media claim was made. Renderer, queue, QC, AV, gate, and retry semantics were not weakened.
 
