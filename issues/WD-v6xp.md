@@ -7,8 +7,8 @@ type: task
 parent: WD-as25
 created_at: 2026-09-21T12:19:33Z
 created_by: speed
-updated_at: 2026-09-23T17:43:31Z
-content_hash: "sha256:4dc446416b016159de31a3051866da6c8263e3f8c4e06b61059fa8e7a9af79e1"
+updated_at: 2026-09-23T18:53:44Z
+content_hash: "sha256:a324b37670d6bbacc680214bf347de93f0a581b452b17b5939dfdb7f922e2cf3"
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
 labels: [accepted]
@@ -153,3 +153,6 @@ status: delivered
 - Led to: [[WD-pn6h]]
 
 ## Comments
+
+### 2026-09-23T18:53:44Z speed
+Merged to main as 8c67a01 (squash of #179). Required check 'test' completed/success at 3e516fbce247778590f26da537d8720321248195 (post-rebase onto 24e9d49).
