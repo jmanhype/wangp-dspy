@@ -8,7 +8,7 @@ labels: [documentation, accepted]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
 updated_at: 2026-09-23T07:31:08Z
-content_hash: "sha256:b222147324dc41f272c9c303edb05c4e2e70f52adb460bc7e5385c9a703e9b28"
+content_hash: "sha256:558d0977a16613e25dbe81016c825992a13e87ddb7fb0c9dfaa6bbe52528a1f5"
 assignee: dev-WD-dt94
 closed_at: 2026-09-23T07:31:07Z
 close_reason: "Accepted: exact-head 580b362d is docs-only, verb map matches the live CLI, links resolve, quickstart stays intact, targeted/full tests pass, release is ready, CI is green, and delivery proof is 9/9."
@@ -66,6 +66,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
