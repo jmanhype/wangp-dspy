@@ -8,8 +8,8 @@ labels: [capability, capstone, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
-updated_at: 2026-09-23T14:20:59Z
-content_hash: "sha256:fdfea0fc714672754760bfb530fc9a7b9e0e1daff59398c6877b7a44611948e7"
+updated_at: 2026-09-23T14:21:00Z
+content_hash: "sha256:3c68b18fd855bd821148c6da03373cf248c07ee2e2b88047c743dde217cef483"
 was_blocked_by: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 assignee: dev-WD-gc09
 follows: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
@@ -104,6 +104,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
