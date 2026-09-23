@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T18:53:01Z
-content_hash: "sha256:1b17db4705404c5791e76685de6ee6a4b9cc23a53790a14741fa1ce7c3b573ab"
+updated_at: 2026-09-23T19:10:43Z
+content_hash: "sha256:2ec1e37003244dde568872ae7fa3875c4149be263a27654b247a2ea39ab5e8b1"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp]
@@ -150,6 +150,27 @@ status: new
 ## Design
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- Story head: `5d9380a9da499770bd29794db92c8d2b19407c7a` (`fix(WD-pn6h): canonicalize nested worktree evidence paths`), pushed to `origin/story/WD-pn6h`.
+- Diff: `services/jobs/spend_gate.py` 9 insertions / 2 deletions; `tests/test_spend_gate.py` 26 insertions / 2 deletions. Total 31 insertions / 4 deletions across 2 files.
+- `uv run --frozen --extra dev pytest -q tests/test_spend_gate.py` -> 19 passed, exit 0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-pn6h-full.xml` -> exit 0; JUnit `tests=1996 errors=0 failures=0 skipped=1` (707.796s).
+- `uv run --frozen --extra dev python scripts/build_spend_gate_corpus.py --repository-root . --evidence-mode all-local --output-dir datasets/spend-gate/v1 --replay --verify-artifact` -> `rows=36 mode=all-local`, exit 0. Regenerated corpus/replay bytes were identical to HEAD; only builder-owned manifest checkout metadata differed transiently and was not committed.
+- `uv run --frozen --extra dev wgp release verify` -> all checks pass, `tag_created=false`, `release=ready`, exit 0.
+- Protected-path diff -> exit 0, no diff. `git diff --check` -> exit 0, no output.
+- Committed artifact SHA-256 unchanged: corpus `970632d10e8de2dd68ec2b585911400e6522da09676ff322a8378a7c1186f3c1`; manifest `07599793152d2e8f1a659f25c2395169a1352f6410dd7f4db0007732913b1468`; schema drift `538712be86789709c8d296a3cca08c45861ffa1df8fab0a3b452de0f261d0c5f`; replay metrics `86865a99033ebe04c35b8a7a12fa23cf1e0dfff2a489beaf48fda1e4acfe947c`; replay report `452bb6f90005d7535ee7549c95201cab02f04c7d82a5133be416a9bcb09c102d`.
+
+### proof
+- [x] AC #1: Full suite exits 0 with zero failures; LF004 parity test passed in the 19-test targeted suite and full suite (JUnit failures=0).
+- [x] AC #2: `tests/test_spend_gate.py:217-222` canonicalizes the exact recorded path with main, nested, and foreign roots and requires the one expected `datasets/.../qc-evidence.json` value.
+- [x] AC #3: `tests/test_spend_gate.py:224-236` recursively extracts path fields from canonical LF004 cuts and every committed corpus row and rejects any `.claude` path segment.
+- [x] AC #4: No corpus/manifest content change was required. The deterministic builder ran with `--replay --verify-artifact` successfully; corpus/replay hashes remained unchanged.
+- [x] AC #5: `wgp release verify` reported `tag_created=false` and `release=ready`.
+- [x] AC #6: Existing LF004 assertions at `tests/test_spend_gate.py:51-63`, including attempt sequence `[2, 0, 0, 0]`, remain intact and passed.
+
 
 ## History
 - 2026-09-23T18:47:57Z dep_added: blocks WD-l48s
