@@ -8,8 +8,8 @@ labels: [capability, capstone]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
-updated_at: 2026-09-23T13:46:31Z
-content_hash: "sha256:208949a4b78073f5b22071c99adc3bad128fbfbb29d6b936faef7af9b92374ab"
+updated_at: 2026-09-23T13:47:01Z
+content_hash: "sha256:cc33d878630fb2e25a49016f26d3e389abfe5fd5005ba3a1823d02bf95ad35da"
 was_blocked_by: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
 assignee: dev-WD-gc09
 follows: [WD-6tox, WD-4d90, WD-soa4, WD-pcen, WD-6ml6, WD-fasw, WD-tkuz, WD-8ioj, WD-eq1i]
@@ -179,6 +179,7 @@ status: delivered
 - 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-8ioj
 - 2026-09-23T12:35:58Z auto-follows: linked to predecessor WD-eq1i
 - 2026-09-23T12:35:58Z claimed by dev-WD-gc09
+- 2026-09-23T13:47:01Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-t741]]
