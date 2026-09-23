@@ -8,10 +8,11 @@ labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:28:06Z
-content_hash: "sha256:24f97307d9ed781cf0c62a34caca901f648c7fcedb04d84808d9b448f90b5f01"
+updated_at: 2026-09-23T01:37:30Z
+content_hash: "sha256:3e5b5a67abc6f9907711e115a44a3c41d1034900504b69eb60ae5c811e5f16a8"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox]
+assignee: dev-WD-pcen
 ---
 
 ## Description
@@ -201,6 +202,7 @@ status: delivered
 - 2026-09-23T01:19:56Z status: in_progress -> open
 - 2026-09-23T01:19:56Z released by speed
 - 2026-09-23T01:28:06Z status: open -> in_progress
+- 2026-09-23T01:37:30Z claimed by dev-WD-pcen
 
 ## Links
 - Parent: [[WD-t741]]
