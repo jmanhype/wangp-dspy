@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:10:47Z
-content_hash: "sha256:35a17472d1727cbc343679c2bdfa486be962e22829f288c4f13ac86e8924c332"
+updated_at: 2026-09-23T19:12:10Z
+content_hash: "sha256:93022ca889d0cc52b80fd0032b3ade49112cb47d33ef91888acf506f31da6aed"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
 follows: [WD-v6xp, WD-rf1a]
@@ -151,6 +151,49 @@ status: new
 ## Design
 
 ## Notes
+## nd_contract
+status: delivered
+
+## Implementation Evidence
+Summary: Canonical stored-path normalization now treats `.claude/worktrees/` as a distinct checkout and falls through to the stable `datasets`/`assets` anchor, making LF004 paths identical for main, nested, and foreign repository roots.
+
+Commit SHA: `5d9380a9da499770bd29794db92c8d2b19407c7a`
+
+Implementation:
+- `services/jobs/spend_gate.py:175-198` keeps normal repository-relative paths, but does not return a relative path whose first segments are `.claude/worktrees`; it then preserves the suffix from the first stable `datasets` or `assets` anchor.
+- `tests/test_spend_gate.py:217-236` covers the exact recorded path across main, nested, and foreign roots and recursively rejects `.claude` in canonical LF004 and corpus path fields.
+- No protected engine file changed.
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_spend_gate.py` -> 19 passed, exit 0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-pn6h-full.xml` -> exit 0; JUnit tests=1996, errors=0, failures=0, skipped=1.
+- `uv run --frozen --extra dev python scripts/build_spend_gate_corpus.py --repository-root . --evidence-mode all-local --output-dir datasets/spend-gate/v1 --replay --verify-artifact` -> replay written, manifest rows=36 mode=all-local, exit 0.
+- `uv run --frozen --extra dev wgp release verify` -> tag_created=false, release=ready, exit 0.
+- `git diff --exit-code main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` -> exit 0, no output.
+- `git diff --check` -> exit 0, no output.
+- `git push -u origin story/WD-pn6h` -> new branch pushed and tracking configured.
+
+### CI/Test Results
+- Targeted spend-gate suite: `................... [100%]`, exit 0 (19 tests).
+- Full suite JUnit: tests=1996, errors=0, failures=0, skipped=1, exit 0.
+- Deterministic all-local build: verify_artifact passed, rows=36.
+- Release verifier: version/changelog/recipe_schema/tree all pass, tag_created=false, release=ready.
+
+### AC Verification
+| AC | Result | Evidence |
+|---|---|---|
+| 1. Full suite and LF004 parity pass | PASS | Full JUnit failures=0; targeted LF004 test passed. |
+| 2. Exact path is identical for three roots | PASS | `tests/test_spend_gate.py:217-222` asserts one expected `datasets/.../qc-evidence.json` value. |
+| 3. No canonical path contains `.claude/worktrees` | PASS | `tests/test_spend_gate.py:224-236` recursively checks LF004 cuts and all corpus rows. |
+| 4. Deterministic artifacts stay consistent | PASS | Builder + `--verify-artifact` passed; no artifact content change required. |
+| 5. Release verifier is ready without a tag | PASS | `tag_created=false`, `release=ready`. |
+| 6. Existing LF004 queue assertions remain intact | PASS | Original assertions at `tests/test_spend_gate.py:51-63`, including `[2, 0, 0, 0]`, passed unchanged. |
+
+Artifacts:
+- No committed corpus or manifest changed.
+- Corpus SHA-256: `970632d10e8de2dd68ec2b585911400e6522da09676ff322a8378a7c1186f3c1`.
+- Manifest SHA-256: `07599793152d2e8f1a659f25c2395169a1352f6410dd7f4db0007732913b1468`.
+- Builder output and committed corpus/replay were byte-identical after `verify_artifact`; only transient builder-owned checkout metadata differed and was not committed.
 
 
 ## nd_contract
