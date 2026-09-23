@@ -1,15 +1,17 @@
 ---
 id: WD-altn
 title: "Capability report includes the download plan and the current implemented surfaces"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [capability, verification, delivered]
 created_at: 2026-09-23T04:24:58Z
 created_by: speed
-updated_at: 2026-09-23T05:01:45Z
-content_hash: "sha256:685a37198df554a9b806a13abf68a88c137184bea4474e72296c9ad635576eb6"
+updated_at: 2026-09-23T05:16:11Z
+content_hash: "sha256:6c012d2a5ae0b35a985434c306ab8534929947f0675ad3085e0701acce7ba9a4"
 assignee: dev-WD-altn
+closed_at: 2026-09-23T05:16:11Z
+close_reason: "Accepted: exact-head diff is scoped; four manifest states agree read-only with first-run; full suite, build, and CI pass."
 ---
 
 ## Description
@@ -174,6 +176,7 @@ status: delivered
 - 2026-09-23T04:25:06Z status: open -> in_progress
 - 2026-09-23T04:25:06Z claimed by dev-WD-altn
 - 2026-09-23T05:01:44Z status: in_progress -> in_progress
+- 2026-09-23T05:16:11Z status: in_progress -> closed
 
 ## Links
 
