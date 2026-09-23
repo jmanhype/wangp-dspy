@@ -1,18 +1,17 @@
 ---
 id: WD-fasw
 title: "Sound effects, revoice, and audio refinement with video held fixed"
-status: in_progress
+status: open
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:09:54Z
-content_hash: "sha256:a961c4e685a05b47a7f4316f58e794bf363102f2a5efc35358547e56f0b7f2f4"
+updated_at: 2026-09-23T08:35:24Z
+content_hash: "sha256:72b89c877ae4c61c4426200df4d2b1899447ffaa1eb699d58b0cd8acb9561be5"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
-assignee: dev-WD-fasw
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen]
 ---
 
@@ -189,6 +188,8 @@ status: delivered
 - 2026-09-23T06:51:50Z claimed by dev-WD-fasw
 - 2026-09-23T08:09:53Z status: in_progress -> in_progress
 - 2026-09-23T08:09:53Z auto-follows: linked to predecessor WD-pcen
+- 2026-09-23T08:35:24Z status: in_progress -> open
+- 2026-09-23T08:35:24Z released by speed
 
 ## Links
 - Parent: [[WD-t741]]
