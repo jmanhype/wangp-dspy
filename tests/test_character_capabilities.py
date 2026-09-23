@@ -378,6 +378,8 @@ def test_plan_store_is_immutable_undrainable_reconstructable_and_read_only(
     assert result.returncode == 0, result.stdout + result.stderr
     plan = json.loads(result.stdout)
     assert plan["queue"]["executable_jobs"] == 0
+    database_before = database.read_bytes()
+    package_before = package.read_bytes()
     connection = sqlite3.connect(database)
     record_id, raw = connection.execute(
         "SELECT record_id, record FROM character_plan_records"
@@ -425,6 +427,8 @@ def test_plan_store_is_immutable_undrainable_reconstructable_and_read_only(
     item = evidence["records"][0]
     assert item["recorded_binding_sha256"] == item["reconstructed_binding_sha256"]
     assert item["recorded_seed_sha256"] == item["reconstructed_seed_sha256"]
+    assert database.read_bytes() == database_before
+    assert package.read_bytes() == package_before
     assert _tree_digest(ROOT / "datasets") == before
     assert calls.read_text(encoding="utf-8") == ""
 
