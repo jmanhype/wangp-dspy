@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
 updated_at: 2026-09-23T19:46:36Z
-content_hash: "sha256:a17903c272be66a7fd2f3756bdfc6cf51d4b8d581751b33ed97f610ecff0e14d"
+content_hash: "sha256:86077d58d14573d7b154f3a0b4d6ca9d58776a60037e8063bc957bbfe4a6d97f"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 labels: [rejected]
@@ -292,6 +292,7 @@ status: in_progress
 - 2026-09-23T19:31:16Z released by speed
 - 2026-09-23T19:32:16Z status: open -> in_progress
 - 2026-09-23T19:32:16Z claimed by dev-WD-pn6h
+- 2026-09-23T19:46:36Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-as25]]
