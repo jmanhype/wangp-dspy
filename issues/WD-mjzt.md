@@ -7,8 +7,8 @@ type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-23T23:12:24Z
-content_hash: "sha256:148286837202f88c34a2225e90d5250e06bb7b1afe22979028f1f3e5d099bb49"
+updated_at: 2026-09-23T23:41:54Z
+content_hash: "sha256:6ebaf0648798778edb290f38d9e1f26b54b52f9ebeb8a7697b1f29fe2b028c37"
 blocked_by: [WD-td89]
 assignee: dev-WD-mjzt
 follows: [WD-td89]
@@ -104,7 +104,79 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+PROOF:
+
+### Pre-fix reproduction
+- Main checkout `/Users/Shared/HermesWorkspace/wangp-dspy`, HEAD `06a6fd48b0e3433a4076b9e154a2f693f24f71b9`, preserved ignored pull record.
+- Command: `uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py`
+- Result: RC=1, 11 tests collected, 1 failure in `test_record_operator_verdict_command_reconciles_and_is_idempotent`; `ValueError: LF004 acceptance record hash mismatch: e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d` from `recover_once.py:309`.
+
+### Implementation
+- `datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py:294-316` adds explicit-path containment, canonical-only scoped resolution, canonical-required real-path resolution, and SHA/byte disagreement fail-closed behavior.
+- `datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py:319-325` routes automatic resolution through the scoped helper.
+- `tests/test_lf004_recovery_tooling.py:210-276` adds real-file regressions for ignored external pull records, missing scoped source, explicit path outside output root, canonical fallback without local copy, and disagreeing real-path candidates.
+
+### CI/Test Results
+- Worktree HEAD `8022994310f11288cfdb99d1a86a02696ccb7d41` (fresh shape: ignored pull acceptance absent):
+  - `uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py`: RC=0, 16 passed.
+  - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-mjzt-full.xml`: RC=0; JUnit `tests=2010 errors=0 failures=0 skipped=1 time=687.808`.
+  - `uv run --frozen --extra dev wgp release verify`: RC=0; all checks pass, `tag-created=false`, `release=ready`.
+- Main-checkout shape proof at the same pushed story head:
+  - Created disposable checkout `/tmp/wd-mjzt-main-shape` from `origin/story/WD-mjzt`, copied the operator main checkout's ignored acceptance record unchanged, and verified its SHA `e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d`.
+  - Targeted command: RC=0, 16 passed with the ignored record present.
+  - Full command to `/tmp/wd-mjzt-main-shape-full.xml`: RC=0; JUnit `tests=2010 errors=0 failures=0 skipped=1 time=673.321`.
+  - Release verify: RC=0; all checks pass, `tag_created=false`, `release=ready`.
+
+### Static/delivery checks
+- `python -m py_compile datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py tests/test_lf004_recovery_tooling.py`: RC=0.
+- `pvg verify datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py tests/test_lf004_recovery_tooling.py --format=text`: `VERIFY: PASSED (2 files scanned, 0 issues)`.
+- `git diff --check`: RC=0.
+- Protected parity command against `06a6fd48b0e3433a4076b9e154a2f693f24f71b9`: RC=0 for all five protected files.
+- Branch `story/WD-mjzt` pushed to origin; commit `8022994310f11288cfdb99d1a86a02696ccb7d41`.
+
+### Integrity
+- Tracked acceptance SHA-256 before/post: `e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d` (unchanged).
+- Final media SHA-256 before/post: `2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7` (unchanged).
+- Queue DB SHA-256 before/post: `fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4` (unchanged).
+- Tracked statuses remain `operator_accepted` in final, sidecar, postprocess (`final_status`), and run ledger.
+
+### AC Verification
+| AC | Requirement | Result |
+|---|---|---|
+| 1 | Full suite zero failures in main-checkout shape | PASS: 2010/2010 executed outcomes, 0 failures |
+| 2 | `output_root` never reads external acceptance | PASS: scoped canonical-only + external-copy regression |
+| 3 | Disagreeing real candidates fail closed without writes | PASS: real-file disagreement regression |
+| 4 | Existing verdict, idempotence, tamper, media/DB integrity | PASS: original tests plus hashes/status unchanged |
+| 5 | Release gate remains ready, no tag | PASS |
+| 6 | No protected-file or forbidden runtime changes | PASS |
+
+LEARNINGS:
+- First-exists path precedence silently made test semantics depend on ignored machine-local state; scoped fixtures must redirect every source root.
+- Comparing both bytes and SHA-256 makes candidate agreement explicit and catches disagreement before validation or writes.
+- Requiring the tracked canonical record in the real path preserves replay durability even when an ignored pull copy exists.
+
+### OBSERVATIONS (unrelated)
+- Full-suite warning: `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead`, originating from installed `fastapi/testclient.py`; tests still pass.
+- `ruff` is not present in the frozen `--extra dev` environment (`Failed to spawn: ruff`); compile, pvg verify, targeted/full tests, and release gate were run instead.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit: `8022994310f11288cfdb99d1a86a02696ccb7d41` on pushed `story/WD-mjzt`.
+- Fresh-worktree targeted 16 PASS; full JUnit 2010/0/0/1; release ready.
+- Main-shape (ignored record present) targeted 16 PASS; full JUnit 2010/0/0/1; release ready.
+- Acceptance/media/DB hashes unchanged as listed above.
+
+### proof
+- [x] AC #1: Main-shape full suite exits 0 with zero failures.
+- [x] AC #2: Scoped resolution ignores external machine-local acceptance and rejects explicit escape.
+- [x] AC #3: Disagreeing real-path candidates fail before writes.
+- [x] AC #4: Accepted status, idempotence, tamper behavior, and integrity hashes remain intact.
+- [x] AC #5: Release verify reports `release=ready`, `tag_created=false`.
+- [x] AC #6: Protected engine files and forbidden runtime surfaces are unchanged.
 
 ## History
 - 2026-09-23T23:11:39Z dep_added: blocked_by WD-td89
