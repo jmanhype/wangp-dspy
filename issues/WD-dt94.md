@@ -7,8 +7,8 @@ type: task
 labels: [documentation, delivered]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
-updated_at: 2026-09-23T07:18:34Z
-content_hash: "sha256:ee9c14975692483af60f5edfe81e59635458637d06138c4e69dbbb72efc71eb7"
+updated_at: 2026-09-23T07:18:35Z
+content_hash: "sha256:862381e50853cd77c02b26c954d42a0ea0b08ae04acf8dfd29288c0c1d932fed"
 assignee: dev-WD-dt94
 ---
 
@@ -64,6 +64,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Added an honest README capability tour, CLI-derived verb map, documentation index, and drift tests; docs-only scope preserved.
 
