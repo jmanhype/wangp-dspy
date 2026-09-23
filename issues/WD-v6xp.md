@@ -12,6 +12,7 @@ content_hash: "sha256:82bfb2bada5f78e210d66a684a7ed4b5543d8d98555607f10313a220dd
 blocks: [WD-l48s]
 assignee: dev-WD-v6xp
 follows: [WD-l48s]
+labels: [delivered]
 ---
 
 ## Description
