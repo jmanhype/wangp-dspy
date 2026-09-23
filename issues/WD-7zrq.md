@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T17:25:08Z
-content_hash: "sha256:e3ba6ae7709b9c45c6258bc6f3a3238a77dd8845669166a8327d45bb6624a5a7"
+content_hash: "sha256:d660fa58a009fcc627960a7ea64626725a119236499d032ec3e772c8d7983e7c"
 labels: [rejected]
 ---
 
@@ -121,3 +121,6 @@ status: delivered
 
 ## Links
 ## Comments
+
+### 2026-09-23T17:25:08Z speed
+REJECT: the literal contract is inaccurate. Installed pvg 1.64.0 matches notes:ci_test_results with ^### (CI/Test Results|Test Results)$, notes:commands_run with ^(Commands run:|commands run:), notes:commit_sha with SHA: [0-9a-fA-F]{7,40}, and proof:ac_items with ^[x] AC or ^### AC Verification$; the document/guard instead present the table header | AC | Result | Evidence | as the exact matched literal, omit ### AC Verification from REQUIRED_LITERALS, and describe SHA as lowercase-only. Documentation-only resolution is acceptable in principle because pvg is external, but this story requires the documented and guarded contract to match the shipped verifier.
