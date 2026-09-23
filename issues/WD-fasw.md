@@ -4,7 +4,7 @@ title: "Sound effects, revoice, and audio refinement with video held fixed"
 status: open
 priority: 2
 type: feature
-labels: [capability, delivered]
+labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
