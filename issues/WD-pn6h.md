@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
 updated_at: 2026-09-23T19:46:36Z
-content_hash: "sha256:86077d58d14573d7b154f3a0b4d6ca9d58776a60037e8063bc957bbfe4a6d97f"
+content_hash: "sha256:606a9c5b8d8c309fb66c2153f5b29b7145a931732399527e7d18c1a48d9cfdde"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 assignee: dev-WD-pn6h
@@ -151,6 +151,18 @@ status: new
 ## Design
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Stable `datasets`/`assets` anchors now take precedence over every repository-relative prefix, including ancestor roots, and the regression test no longer derives the main checkout from the launch directory.
 
