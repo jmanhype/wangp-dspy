@@ -207,6 +207,75 @@ def test_record_operator_verdict_command_reconciles_and_is_idempotent(tmp_path: 
     assert snapshot(output) == before
 
 
+def test_record_operator_verdict_output_root_ignores_external_acceptance(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    external_pull = tmp_path / "machine-local-pull"
+    external_pull.mkdir()
+    external_acceptance = external_pull / "operator-acceptance.json"
+    external_acceptance.write_bytes(b"ignored machine-local acceptance")
+    monkeypatch.setattr(recover, "PULL", external_pull)
+    before = snapshot(output)
+
+    result = recover.record_operator_verdict(output_root=output)
+
+    assert result["action"] == "reconciled"
+    assert snapshot(output) != before
+    assert external_acceptance.read_bytes() == b"ignored machine-local acceptance"
+
+
+def test_record_operator_verdict_scoped_missing_source_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    before = snapshot(output)
+    before.pop("provenance/operator-acceptance.json")
+    (output / "provenance/operator-acceptance.json").unlink()
+
+    with pytest.raises(FileNotFoundError, match="not found in output root"):
+        recover.record_operator_verdict(output_root=output)
+
+    assert snapshot(output) == before
+
+
+def test_record_operator_verdict_rejects_explicit_acceptance_outside_output_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    outside = tmp_path / "outside-operator-acceptance.json"
+    outside.write_bytes((output / "provenance/operator-acceptance.json").read_bytes())
+    before = snapshot(output)
+
+    with pytest.raises(ValueError, match="escapes output root"):
+        recover.record_operator_verdict(outside, output)
+
+    assert snapshot(output) == before
+
+
+def test_record_operator_verdict_real_path_prefers_canonical_without_local_copy(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    assert recover.record_operator_verdict(output_root=output)["action"] == "reconciled"
+    monkeypatch.setattr(recover, "PULL", output)
+    monkeypatch.setattr(recover, "PROVENANCE", output / "provenance")
+    monkeypatch.setattr(recover, "LEDGER", output / "run-ledger.json")
+    before = snapshot(output)
+
+    result = recover.record_operator_verdict()
+
+    assert result["action"] == "no_change"
+    assert snapshot(output) == before
+
+
+def test_record_operator_verdict_real_path_fails_closed_when_candidates_disagree(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    assert recover.record_operator_verdict(output_root=output)["action"] == "reconciled"
+    (output / "operator-acceptance.json").write_bytes(b"machine-local acceptance")
+    monkeypatch.setattr(recover, "PULL", output)
+    monkeypatch.setattr(recover, "PROVENANCE", output / "provenance")
+    monkeypatch.setattr(recover, "LEDGER", output / "run-ledger.json")
+    before = snapshot(output)
+
+    with pytest.raises(ValueError, match="acceptance candidate records disagree"):
+        recover.record_operator_verdict()
+
+    assert snapshot(output) == before
+
+
 @pytest.mark.parametrize("damage", ["media_bytes", "media_record", "acceptance_hash", "verdict_source", "missing_sidecar"])
 def test_record_operator_verdict_fails_closed_without_partial_writes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, damage: str) -> None:
     output = make_verdict_fixture(tmp_path, monkeypatch)
