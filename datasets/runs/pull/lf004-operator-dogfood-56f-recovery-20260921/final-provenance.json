@@ -40,7 +40,7 @@
       "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/runs/pull/acceptance/worker-fda9bc258c06/render-0003/remux.mp4"
     ]
   },
-  "creative_acceptance": "none",
+  "creative_acceptance": "accepted",
   "cuts": [
     {
       "av_sync": {
@@ -773,22 +773,75 @@
       "state": "done"
     }
   ],
+  "launcher_reconciliation": {
+    "as_executed": {
+      "launcher_sha256": "419ba28c8f9ce5ce5028a66de424d7e67bbdf231724c3f586940f9f1b4720cc7",
+      "source": "inputs.launcher_sha256"
+    },
+    "current_checkout": {
+      "launcher_path": "datasets/content_briefs/lf004-operator-dogfood-56f/run/run_recovery_once.sh",
+      "launcher_sha256": "6176d944e520ca77cf1e50fc3688706de666ea534708bf5b4ea86f8477ea2858",
+      "repository": {
+        "changed_path_count": 2,
+        "clean_tree": false,
+        "commit_sha": "1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e",
+        "dirty_tree": true,
+        "repo_root": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-td89",
+        "status_sha256": "6789e9965e944a3f901724a85dbbdb89a6f9d52fe4ce2cbb13225154c6436287",
+        "tracked_diff_sha256": "a240b9cc90f574bc0cab0ee10c098416978db0a2c0484ecb2b3ce7fdcee0c591",
+        "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "untracked_path_count": 0
+      },
+      "scripts_run_film_git_blob": "f8af9b7eaee0da2a3b7af95a6845788f1c6a8aca",
+      "scripts_run_film_path": "scripts/run_film.py",
+      "scripts_run_film_sha256": "9e8760927c8bd4548a1f315711e86afba42ea98d68a31632e8f257a0305f36a5"
+    }
+  },
   "operator_approval": {
     "approved_at_utc": "2026-09-21T00:54:03Z",
     "brief_hash": "sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd",
     "canonical_plan_sha256": "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8",
     "raw_brief_sha256": "bc213a4a524390f2afcb913e120f8cf87276db1dc04f3f1934b9c69871cec767"
   },
+  "operator_verdict": {
+    "acceptance_record_path": "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json",
+    "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+    "creative_acceptance": "accepted",
+    "recorded_utc": "2026-09-21T05:02:48Z",
+    "status": "operator_accepted",
+    "verdict": "keep",
+    "verdict_source": "operator message: \"i approve\""
+  },
   "post_execution_recovery": {
     "event": "postprocess-only recovery",
     "failure": "first finalize could not open film.contact_sheet.jpg because its parent review directory did not exist",
     "final_media_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
-    "final_status": "operator_review_pending",
+    "final_status": "operator_accepted",
     "fix": "create the review parent before ffmpeg in recover_once.contact_sheet; rerun only recover_once.py finalize",
+    "operator_verdict": {
+      "acceptance_record_path": "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json",
+      "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+      "creative_acceptance": "accepted",
+      "recorded_utc": "2026-09-21T05:02:48Z",
+      "status": "operator_accepted",
+      "verdict": "keep",
+      "verdict_source": "operator message: \"i approve\""
+    },
     "production_run_rerun": false,
     "queue_terminal_state": "4 done",
+    "reconciliation": {
+      "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+      "production_run_rerun": false,
+      "render_rerun": false
+    },
     "render_rerun": false,
-    "schema_version": 1
+    "schema_version": 1,
+    "status_history": [
+      {
+        "record_class": "historical_pre_verdict",
+        "status": "operator_review_pending"
+      }
+    ]
   },
   "queue_evidence": {
     "attempt_failures": [
@@ -1017,5 +1070,11 @@
     "story_ledger_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-g125/datasets/lf004-operator-dogfood-56f-recovery-20260921.run_ledger.json",
     "story_ledger_sha256": "73f2c59feb0536daf270a27c35c6a04fd86d755692d3c7a4863f7eb8ebf95b15"
   },
-  "status": "operator_review_pending"
+  "status": "operator_accepted",
+  "status_history": [
+    {
+      "record_class": "historical_pre_verdict",
+      "status": "operator_review_pending"
+    }
+  ]
 }

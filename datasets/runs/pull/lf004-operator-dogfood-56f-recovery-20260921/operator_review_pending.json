@@ -1,5 +1,7 @@
 {
   "final_sha256": "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7",
+  "historical_status": "operator_review_pending",
+  "record_class": "historical_pre_verdict_snapshot",
   "review_visuals": {
     "cuts": [
       {
@@ -24,5 +26,14 @@
       "sha256": "ab03e022521c907c7b618254029ef937560fc66a402f3f98ddee693be34c531b"
     }
   },
-  "status": "operator_review_pending"
+  "status": "operator_accepted",
+  "superseded_by": {
+    "acceptance_record_path": "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/operator-acceptance.json",
+    "acceptance_record_sha256": "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d",
+    "creative_acceptance": "accepted",
+    "recorded_utc": "2026-09-21T05:02:48Z",
+    "status": "operator_accepted",
+    "verdict": "keep",
+    "verdict_source": "operator message: \"i approve\""
+  }
 }
