@@ -8,7 +8,7 @@ parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
 updated_at: 2026-09-23T23:41:54Z
-content_hash: "sha256:5aeab73a93fd03d429506c1e89f16641f218e4a05fe047b22977c218e7f46baa"
+content_hash: "sha256:a90fc0a2c838ef71e19b79cb5b32954169f1cca75be59b756d9c78fc4fff704d"
 blocked_by: [WD-td89]
 assignee: dev-WD-mjzt
 follows: [WD-td89, WD-42no]
@@ -105,6 +105,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 PROOF:
