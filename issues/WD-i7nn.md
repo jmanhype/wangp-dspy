@@ -4,7 +4,7 @@ title: "Release probes can silently verify the real checkout instead of the muta
 status: closed
 priority: 2
 type: bug
-labels: [testing, release, delivered, accepted]
+labels: [testing, release, accepted]
 created_at: 2026-09-22T18:57:15Z
 created_by: speed
 updated_at: 2026-09-23T17:04:02Z
