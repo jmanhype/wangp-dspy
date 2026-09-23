@@ -11,6 +11,19 @@ Wangp is a governed short-film generation engine for the MiniMax H3 / Wan2GP ren
 - Assembles accepted cuts and writes hash-identified media, probes, contact sheets, and `final-provenance.json`.
 - Preserves rejected attempts and operator decisions as evidence instead of overwriting them.
 
+## Capability status
+
+The breadth below describes planning and readiness surfaces, not generation readiness. **Generation is not verified** for video, image, music, speech/voice, content, or first-run work. A `planned` row never becomes generation evidence without a separately authorized host-run bundle containing command, repository and model provenance, queue/output hashes, objective metadata, QC evidence, and reviewer linkage.
+
+| Surface | Status today | Detailed plan |
+| --- | --- | --- |
+| Video | Planning only; no generation evidence | [Video capability planning](docs/video-capabilities.md) |
+| Image | Planning only; no generation evidence | [Image capability planning](docs/image-capabilities.md) |
+| Music | Planning only; no generation evidence | [Music capability planning](docs/music-capabilities.md) |
+| Speech/voice | Planning only; audio output is not verified | [Speech capability planning](docs/voice-capabilities.md) |
+| Content | Deterministic brief summary and dependency planning only; no media generation | [Content surface and capability report](docs/content.md) |
+| First-run | Platform, asset, runtime, recovery, and host readiness only; `verified_generation=false` | [First-run platform readiness](docs/first-run.md) |
+
 ## Requirements
 
 - Python 3.11 or newer.
@@ -93,6 +106,26 @@ uv run wgp plan --brief datasets/content_briefs/lf004-operator-dogfood-56f/brief
 
 `doctor` is safe in the no-host lane: it checks the local environment and reports the render-host seam as skipped. Planning keeps the same canonical no-GPU summary and prints the plan and ledger paths. See [docs/wgp-cli.md](docs/wgp-cli.md) for `brief validate`, durable `status`, provenance `review`, explicit host preflight, JSON output, and stable exit codes.
 
+## `wgp` verb map
+
+Every first-class `wgp` verb appears below in CLI order. The contract test derives this list from `wgp --help`, so a new or renamed verb cannot ship undocumented.
+
+| Verb | Purpose |
+| --- | --- |
+| `video` | Plan Maestro video breadth without GPU or host work. |
+| `image` | Plan Maestro image breadth without GPU or host work. |
+| `music` | Plan Maestro music without GPU or host work. |
+| `first-run` | Report local platform, asset, runtime, recovery, and host readiness. |
+| `voice` | Plan speech and portable voices without GPU or host work. |
+| `doctor` | Report local readiness and optionally probe a configured host. |
+| `content` | Turn a brief and plates into a governed content summary. |
+| `brief` | Perform typed content-brief operations. |
+| `plan` | Emit the existing no-GPU dry plan. |
+| `status` | Summarize durable queue state. |
+| `review` | Review queue and run evidence. |
+| `recipe` | Write or verify a versioned render recipe. |
+| `release` | Verify local release readiness without releasing. |
+
 ## Render-host configuration
 
 The no-GPU lane requires no host. Rendering requires one complete host configuration with the keys `host.target`, `host.wgp_root`, and `host.pull_root`, plus an explicit absolute `host.wgp_python` for a remote Conda, virtual-environment, or system-Python Wan2GP install. Resolution precedence is environment variable, then `~/.config/wangp/config.toml` (or the file named by `WANGP_CONFIG`), then repository `wangp.toml`, then safe local detection. The variables are `WANGP_SSH_TARGET`, `WANGP_WGP_ROOT`, `WANGP_PULL_ROOT`, and `WANGP_WGP_PYTHON`.
@@ -161,6 +194,12 @@ discipline. A clean result names the tag-ready `v<VERSION>` label and states tha
 no tag was created; tagging and publishing remain operator-authorized. See the
 [release checklist](docs/recipe.md#release-checklist) for outputs, exit codes,
 and troubleshooting.
+
+## Documentation index
+
+- Setup and first use: [install guide](docs/install.md), [first-run guide](docs/first-run.md).
+- Planning surfaces: [video](docs/video-capabilities.md), [image](docs/image-capabilities.md), [music](docs/music-capabilities.md), [speech and voice](docs/voice-capabilities.md), and [content](docs/content.md).
+- Production governance: [render recipes](docs/recipe.md) and the [release checklist](docs/recipe.md#release-checklist).
 
 ## Troubleshooting
 
