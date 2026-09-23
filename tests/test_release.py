@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib, json, os, stat, subprocess, sys
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921"
@@ -27,33 +29,87 @@ def _clone(tmp_path: Path) -> Path:
     assert _git(clone, "status", "--short").stdout == ""
     return clone
 
-def _network_guard(guard_root: Path) -> tuple[Path, Path]:
+def _network_guard(guard_root: Path, *,
+                   neutralise_imports: bool = True) -> tuple[Path, Path]:
     (guard_root / "bin").mkdir(parents=True)
     bin_dir = guard_root / "bin"
     ssh_log = guard_root / "ssh.log"
-    (guard_root / "sitecustomize.py").write_text(
+    provenance_log = guard_root / "import-provenance.json"
+    provenance_log.unlink(missing_ok=True)
+    startup_guard = (
+        "import os\n"
         "import sys\n"
-        "sys.meta_path[:] = [finder for finder in sys.meta_path if "
-        "finder.__class__.__module__ != '_virtualenv']\n"
         "def audit(event, args):\n"
         "    if event in {'socket.connect', 'socket.getaddrinfo', 'urllib.Request'}:\n"
         "        raise RuntimeError(f'unexpected network call: {event}')\n"
-        "sys.addaudithook(audit)\n", encoding="utf-8")
+        "sys.addaudithook(audit)\n"
+        "import json\n"
+        "from importlib.machinery import BuiltinImporter, FrozenImporter, PathFinder\n"
+        "from pathlib import Path\n"
+    )
+    import_guard = (
+        "expected_root = Path(os.environ['WANGP_RELEASE_TEST_EXPECTED_ROOT']).resolve()\n"
+        "editable_root = Path(os.environ['WANGP_RELEASE_TEST_EDITABLE_ROOT']).resolve()\n"
+        "sys.meta_path[:] = [finder for finder in sys.meta_path if\n"
+        "                    finder is BuiltinImporter or finder is FrozenImporter or\n"
+        "                    finder is PathFinder]\n"
+        "if expected_root != editable_root:\n"
+        "    sys.path[:] = [entry for entry in sys.path\n"
+        "                   if Path(entry).resolve() != editable_root]\n"
+    ) if neutralise_imports else ""
+    provenance_guard = (
+        "import wangp\n"
+        "module = Path(wangp.__file__).resolve()\n"
+        "Path(os.environ['WANGP_RELEASE_TEST_PROVENANCE']).write_text(json.dumps({\n"
+        "    'module': str(module), 'root': str(module.parents[1]),\n"
+        "}), encoding='utf-8')\n"
+    )
+    (guard_root / "sitecustomize.py").write_text(
+        startup_guard + import_guard + provenance_guard, encoding="utf-8")
     fake_ssh = bin_dir / "ssh"
     fake_ssh.write_text(f"#!/bin/sh\nprintf '%s\\n' \"$*\" > {ssh_log}\nexit 255\n",
                         encoding="utf-8")
     fake_ssh.chmod(fake_ssh.stat().st_mode | stat.S_IEXEC)
     return guard_root, ssh_log
 
-def _run(root: Path, guard_root: Path, *args: str) -> subprocess.CompletedProcess[str]:
-    guard, ssh_log = _network_guard(guard_root)
-    environment = {**os.environ, "PYTHONPATH": f"{guard}:{root}",
-                   "PATH": f"{guard / 'bin'}:{os.environ['PATH']}"}
+def _execute(root: Path, guard_root: Path, *args: str,
+             neutralise_imports: bool = True,
+             prefix_paths: tuple[Path, ...] = ()) -> tuple[
+                 subprocess.CompletedProcess[str], Path, Path]:
+    guard, ssh_log = _network_guard(guard_root,
+                                    neutralise_imports=neutralise_imports)
+    python_path = os.pathsep.join([str(guard), *(str(path) for path in prefix_paths),
+                                   str(root)])
+    environment = {**os.environ, "PYTHONPATH": python_path,
+                   "PATH": f"{guard / 'bin'}:{os.environ['PATH']}",
+                   "WANGP_RELEASE_TEST_EXPECTED_ROOT": str(root),
+                   "WANGP_RELEASE_TEST_EDITABLE_ROOT": str(ROOT),
+                   "WANGP_RELEASE_TEST_PROVENANCE": str(
+                       guard / "import-provenance.json")}
     for host_variable in ("WANGP_SSH_TARGET", "WANGP_WGP_ROOT",
                           "WANGP_PULL_ROOT", "WANGP_3090"):
         environment.pop(host_variable, None)
     result = subprocess.run([str(WGP), *args], cwd=root, capture_output=True,
                             text=True, env=environment)
+    return result, guard, ssh_log
+
+
+def _assert_import_provenance(root: Path, guard_root: Path) -> None:
+    provenance_path = guard_root / "import-provenance.json"
+    assert provenance_path.is_file(), (
+        "release probe did not record which source tree it imported")
+    provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    resolved_root = Path(provenance["root"]).resolve()
+    expected_root = root.resolve()
+    assert resolved_root == expected_root, (
+        "release probe verified the wrong source tree: "
+        f"resolved_root={resolved_root}; expected_root={expected_root}; "
+        f"wangp_module={provenance['module']}")
+
+
+def _run(root: Path, guard_root: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    result, guard, ssh_log = _execute(root, guard_root, *args)
+    _assert_import_provenance(root, guard)
     assert not ssh_log.exists(), ssh_log.read_text(encoding="utf-8")
     assert "Traceback (most recent call last)" not in result.stdout + result.stderr
     return result
@@ -158,6 +214,28 @@ def test_release_failure_matrix_is_typed_and_read_only(tmp_path: Path) -> None:
     assert all(phrase in result.stdout for phrase in (
         "check=tree status=failed", "'changed_path_count': 1",
         "'untracked_path_count': 1", "release=not_ready"))
+
+
+def test_probe_fails_closed_when_import_shadowing_is_disabled(
+        tmp_path: Path) -> None:
+    clone = _clone(tmp_path)
+    version = clone / "VERSION"
+    version.write_text("0.2.0\n", encoding="utf-8")
+    _commit(clone, version, "release-test: wrong-tree version")
+
+    guard = tmp_path / "unshadowed"
+    result, guard, ssh_log = _execute(
+        clone, guard, "release", "verify", "--json",
+        neutralise_imports=False, prefix_paths=(ROOT,))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not ssh_log.exists(), ssh_log.read_text(encoding="utf-8")
+    assert "Traceback (most recent call last)" not in result.stdout + result.stderr
+    provenance = json.loads(
+        (guard / "import-provenance.json").read_text(encoding="utf-8"))
+    assert Path(provenance["root"]).resolve() == ROOT.resolve()
+    with pytest.raises(AssertionError, match=(
+            "release probe verified the wrong source tree:")):
+        _assert_import_provenance(clone, guard)
 
 
 def test_ignored_agent_tooling_does_not_weaken_opaque_tree_failure(
