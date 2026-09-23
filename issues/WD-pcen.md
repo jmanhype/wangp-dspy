@@ -1,17 +1,16 @@
 ---
 id: WD-pcen
 title: "Image generation and editing with references, transparency, upscaling, and identity preservation"
-status: in_progress
+status: open
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T00:50:47Z
-content_hash: "sha256:668a16e702a82e95644500025f1aa27247bca93ddf81c417e6275878364fac24"
+updated_at: 2026-09-23T01:19:56Z
+content_hash: "sha256:537651f569479ea8706f990395def6873c8d82b10ddb35185e461e199cc86152"
 blocks: [WD-tkuz, WD-gc09]
-assignee: dev-WD-pcen
 follows: [WD-6tox]
 ---
 
@@ -173,6 +172,8 @@ status: delivered
 - 2026-09-23T00:09:22Z auto-follows: linked to predecessor WD-6tox
 - 2026-09-23T00:09:22Z claimed by dev-WD-pcen
 - 2026-09-23T00:50:46Z status: in_progress -> in_progress
+- 2026-09-23T01:19:56Z status: in_progress -> open
+- 2026-09-23T01:19:56Z released by speed
 
 ## Links
 - Parent: [[WD-t741]]
