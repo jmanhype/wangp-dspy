@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
 updated_at: 2026-09-23T17:36:19Z
-content_hash: "sha256:340607dd3b9a9d30f4b605cf159d6386e5ba3ed91c55f52c8ae1f8c272ac2fbc"
+content_hash: "sha256:0269f2940f873fc8e6a8cc5a1eecc6727cdf5c629617d5b76042ce9246ba9930"
 assignee: dev-WD-rf1a
 follows: [WD-l48s]
 labels: [accepted]
@@ -62,6 +62,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
