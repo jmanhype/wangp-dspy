@@ -4,11 +4,11 @@ title: "Director and composition: prompt or audio to governed multi-clip film"
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered, accepted]
+labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T12:34:15Z
+updated_at: 2026-09-23T12:34:16Z
 content_hash: "sha256:4cbabc9cb7253fd41e4dc77002908e29949a61c7e6227f68b4fed2af26800d26"
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw, WD-8ioj]
