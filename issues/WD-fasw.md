@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T08:57:31Z
-content_hash: "sha256:d98c961c06fae49fc2830477b406d68e66e87092135aeab4f334aafe0448fc7a"
+content_hash: "sha256:89a154eaf5f4287a685f6a0cf172980482730141f4e0fdae0630b6676fd3b35d"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-pcen, WD-4d90]
@@ -103,6 +103,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework Evidence
 Summary: Fixed the rejected unusable diagnostic continuation command. The retained model default emitted obsolete `wgp audio sfx --request <request> --models <models> --json`; it now emits valid generic `wgp sfx plan --request <request> --models <models> --json`, while request-aware failures emit mode-specific `wgp sfx effect|revoice|refine --request <request> --models <models> --json`. A live-CLI regression guard now derives the top-level verb set and `sfx` subgroup from real `wgp --help` / `wgp sfx --help` output and validates every reachable typed-failure `next_command`; the obsolete `audio` group would fail that guard.
 Commands run:
