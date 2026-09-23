@@ -7,8 +7,8 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T22:14:30Z
-content_hash: "sha256:2572b0be160049df14e53213c7a67e7da6d361b64fb9d908e74b7edd1bb2f262"
+updated_at: 2026-09-23T22:14:51Z
+content_hash: "sha256:24b1479308314b5aafbb8bebd22a58ca716472bbc6f8a39890301df8a518e51a"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
 labels: [delivered]
@@ -98,7 +98,31 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+### CI/Test Results
+Commands run:
+- timeout 300 uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py -> EXIT 0, 11 passed.
+- timeout 1800 uv run --frozen --extra dev pytest -q -> EXIT 0, JUnit tests=2005 errors=0 failures=0 skipped=1.
+- timeout 600 uv run --frozen --extra dev pytest -q tests/test_spend_gate.py -> EXIT 0, 19 passed.
+- timeout 300 uv run --frozen --extra dev pytest -q tests/test_spend_gate.py::test_lf004_parity_queue_join_and_live_atomic_recorder tests/test_spend_gate.py::test_historical_nested_worktree_paths_are_checkout_independent -> EXIT 0, 2 passed.
+- timeout 600 uv run --frozen --extra dev wgp release verify -> EXIT 0, release=ready tag_created=false.
+- git diff --exit-code 1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py -> EXIT 0.
+- git diff --check -> EXIT 0.
+Summary: PASS; commit 533ff7a471f022c28d5967130aad93e640535fa0; canonical acceptance SHA e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d; final media and queue DB unchanged; second reconciliation no_change.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Detailed evidence, command tails, status transitions, launcher table, and AC table are in the Implementation Evidence blocks above.
+
+### proof
+- [x] AC #1: exact accepted/keep verdict is durable and current statuses are accepted.
+- [x] AC #2: executed and current launcher plus run_film SHA/blob/HEAD identities are recorded.
+- [x] AC #3: supported reconciliation is fail-closed and idempotent with no render work.
+- [x] AC #4: required tests and release verification pass.
+- [x] AC #5: immutable media/DB/QC and protected files remain unchanged.
 
 ## nd_contract
 status: delivered
