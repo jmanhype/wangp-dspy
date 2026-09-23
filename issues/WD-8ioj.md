@@ -9,7 +9,7 @@ parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
 updated_at: 2026-09-23T10:53:44Z
-content_hash: "sha256:0f091bd19433c1563dcc61f66cd1b62130ffa0d51624cce297d307a7a2374abb"
+content_hash: "sha256:ca38fc278cc6581071e652fbafb9365e0dfdcc84911115f53b53aead859344ad"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-tkuz]
 assignee: dev-WD-8ioj
@@ -104,6 +104,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU finishing planning slice: typed interpolation/spatial/grain/codec/face/neural declarations, per-backend normalization, deterministic command graphs, immutable non-executable durable records, typed exit-2 failures, reconstruction, and `wgp finish plan|run|probe`. Finished media, neural execution, and before/after measurements remain explicitly unverified.
 
