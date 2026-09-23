@@ -7,11 +7,11 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T22:32:04Z
+updated_at: 2026-09-23T22:32:05Z
 content_hash: "sha256:3430869f5af1cc95e0069bce0c4eedd5abe6b94159192e9aa12c554b2125a523"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
-labels: [delivered]
+labels: [delivered, accepted]
 closed_at: 2026-09-23T22:32:04Z
 close_reason: "Accepted via pvg story accept"
 ---
