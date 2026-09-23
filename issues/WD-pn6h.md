@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
 updated_at: 2026-09-23T19:31:17Z
-content_hash: "sha256:82349cdfe44a4c4db1c8a68c6f6ddfed5ca60d5fc9b35eb8809ada69355b163e"
+content_hash: "sha256:f813e691346832c124f8a7e104cd819269b84442b256f8d3acbac2c029b23bd4"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 labels: [rejected]
@@ -150,6 +150,18 @@ status: new
 ## Design
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-23.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## nd_contract
 status: delivered
 
