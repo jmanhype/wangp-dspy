@@ -8,7 +8,7 @@ parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
 updated_at: 2026-09-23T22:32:05Z
-content_hash: "sha256:3430869f5af1cc95e0069bce0c4eedd5abe6b94159192e9aa12c554b2125a523"
+content_hash: "sha256:d2d77216278a69f50510a326a90a91bd8bcb78bebf5dd2ea29e2e4299ea6fb0e"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
 labels: [accepted]
@@ -100,6 +100,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 ### CI/Test Results
 Commands run:
