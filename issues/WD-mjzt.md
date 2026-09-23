@@ -8,7 +8,8 @@ parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
 updated_at: 2026-09-23T23:11:38Z
-content_hash: "sha256:3dc12bf724bde1d3163a3a9d5b2a9f8a79196a93a04a72d7b231a3bdda9070d9"
+content_hash: "sha256:63e9f4aef5a4ca47fda9d90fe92eb7573a95db6b4d917545222b82aa5807ebe4"
+blocked_by: [WD-td89]
 ---
 
 ## Description
@@ -104,9 +105,10 @@ status: new
 
 
 ## History
-
+- 2026-09-23T23:11:39Z dep_added: blocked_by WD-td89
 
 ## Links
 - Parent: [[WD-h73w]]
+- Blocked by: [[WD-td89]]
 
 ## Comments
