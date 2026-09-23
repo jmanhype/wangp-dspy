@@ -1,14 +1,15 @@
 ---
 id: WD-dt94
 title: "README tour: capability status, verb map, and docs index"
-status: open
+status: in_progress
 priority: 2
 type: task
 labels: [documentation]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
-updated_at: 2026-09-23T06:52:21Z
-content_hash: "sha256:31247814313367329435a6e2d09bf8377da40677ad21d5bc09fa8f147ebbec2b"
+updated_at: 2026-09-23T06:52:27Z
+content_hash: "sha256:74a108e92870b77d9e56a7f12a7b573d09f9de093b5884fb26d48c709b1dedf6"
+assignee: dev-WD-dt94
 ---
 
 ## Description
@@ -66,7 +67,8 @@ CONSUMES:
 
 
 ## History
-
+- 2026-09-23T06:52:27Z status: open -> in_progress
+- 2026-09-23T06:52:27Z claimed by dev-WD-dt94
 
 ## Links
 
