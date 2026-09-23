@@ -7,7 +7,7 @@ type: task
 created_at: 2026-09-21T18:26:11Z
 created_by: speed
 updated_at: 2026-09-23T17:42:40Z
-content_hash: "sha256:cfc89313796b8cd9e267b1051f525fa2cdf97c2b6f8a05ef444f78e8e01b1c7a"
+content_hash: "sha256:572588ef45448dff50e657c99e0e43afa8bce11c72b14a9d91868d6490fb6cc0"
 labels: [rejected, rejected-x2]
 ---
 
@@ -61,6 +61,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-23.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
 
 
 ## nd_contract
