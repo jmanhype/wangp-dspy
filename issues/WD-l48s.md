@@ -9,7 +9,7 @@ parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
 updated_at: 2026-09-23T16:10:56Z
-content_hash: "sha256:18bf51525c3ecc27b40e6a71bea1c6f89e7b1fd5f83fd95f8e39674ecfbbc0d8"
+content_hash: "sha256:938294b4b700b7308646d0eacfc3a4544394d3fcf06c6bcb716fbf72725113f5"
 closed_at: 2026-09-23T16:10:56Z
 close_reason: "Accepted: c7963e8 targeted tests 17/17 pass with 0 failures/skips; artifact verifies 36 rows, 18 complete/5 bad, five tracked queue DBs, grouped leakage-safe folds, per-rejection resolution reason, deterministic replay, and insufficient_data/infeasible_at_budget; clean merge-tree against current main."
 assignee: dev-WD-l48s
@@ -165,6 +165,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
