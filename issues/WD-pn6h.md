@@ -7,8 +7,8 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T20:14:00Z
-content_hash: "sha256:25bda229afd5f95816f393e60c87a02eed6fad03830cb7b40e10a6f88c2b2385"
+updated_at: 2026-09-23T20:48:29Z
+content_hash: "sha256:32a5165b2602c52822c0361dac2f976146da8cb19123027b93757ad6ad2cc466"
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
 assignee: dev-WD-pn6h
 labels: [accepted]
@@ -422,3 +422,6 @@ status: delivered
 - [x] AC 5 release is ready and no tag was created.
 - [x] AC 6 original LF004 queue assertions, including [2, 0, 0, 0], pass unchanged.
 
+
+### 2026-09-23T20:48:29Z speed
+Merged to main as 1f86aaa (squash of PR #180), rebased head def969f434271e0f8b5f3bbf2ae27e03e81f3291 with story files byte-identical to the accepted head 9cfb29741d0e0164ef939fba9ed9616edc22b432. Required check 'test' completed/success on PR #180. Post-merge full suite from the main checkout at 1f86aaa: tests=1999 errors=0 failures=0 skipped=1.
