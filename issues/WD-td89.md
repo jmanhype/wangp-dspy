@@ -7,8 +7,8 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T22:15:57Z
-content_hash: "sha256:46f5c1b2e341f9aed5ae5bae2dcc9450d6e9c858350b696f44bf0e01e7037272"
+updated_at: 2026-09-23T22:16:16Z
+content_hash: "sha256:b1f95199ccf9a2b62865936e05131a6ce985313fc83500c69df20661e8316a2d"
 assignee: dev-WD-td89
 follows: [WD-42no, WD-g125]
 labels: [delivered]
@@ -98,6 +98,12 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+### CI/Test Results
+Commands run:
+- Required targeted, full, spend-gate, release, protected-diff, and diff-check commands all exited 0 as detailed in the prior Implementation Evidence blocks.
+Summary: PASS at commit 533ff7a471f022c28d5967130aad93e640535fa0; full JUnit tests=2005 errors=0 failures=0 skipped=1; reconciliation second run no_change.
+
 ## Implementation Evidence (DELIVERED)
 
 ### CI/Test Results
