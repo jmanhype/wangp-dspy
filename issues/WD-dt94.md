@@ -4,7 +4,7 @@ title: "README tour: capability status, verb map, and docs index"
 status: in_progress
 priority: 2
 type: task
-labels: [documentation]
+labels: [documentation, delivered]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
 updated_at: 2026-09-23T07:18:34Z
