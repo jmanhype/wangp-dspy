@@ -11,6 +11,7 @@ updated_at: 2026-09-23T19:31:16Z
 content_hash: "sha256:85b6744e1c3322c1946e05b6616aad9d5ed3665e8cb6f2ccde602e1a7a5c0b86"
 blocks: [WD-l48s]
 follows: [WD-v6xp, WD-rf1a, WD-l48s]
+labels: [rejected]
 ---
 ## Description
 ## Context
