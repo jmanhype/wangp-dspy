@@ -8,8 +8,8 @@ labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:09:53Z
-content_hash: "sha256:fa121e7866aea597047e23ab091f128ec445fcf6e1d82e3ddcd89f3441489c55"
+updated_at: 2026-09-23T08:09:54Z
+content_hash: "sha256:a961c4e685a05b47a7f4316f58e794bf363102f2a5efc35358547e56f0b7f2f4"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6]
 assignee: dev-WD-fasw
@@ -103,6 +103,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Delivered the no-GPU audio-post planning slice only: retained the prior typed model/backend work, added real source/voice hash validation, three deterministic mode plans (sound effect, revoice, refinement), an explicit immutable held-fixed-video contract, seed-bearing command graphs, immutable non-executable durable records, typed exit-2 failures, reconstruction, `wgp sfx`, planned-only docs, and README verb-map/index updates required by the new drift test. No render, host access, SSH, GPU work, model download, generated-audio claim, measured-output claim, or renderer/queue/QC/gate/retry semantic change occurred.
 Commands run:
