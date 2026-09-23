@@ -8,8 +8,8 @@ labels: [capability]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T05:41:42Z
-content_hash: "sha256:a6f5fd46cb10cd84e040fa23b8bad60bd4c09e93163665bf680c72c3eefe1aca"
+updated_at: 2026-09-23T06:30:43Z
+content_hash: "sha256:691fb21a9938b61e633bb81058052935d1dba0c4d96f194085b590f2ce2c3d6d"
 blocks: [WD-fasw, WD-tkuz, WD-eq1i, WD-gc09]
 assignee: dev-WD-6ml6
 follows: [WD-pcen]
@@ -106,7 +106,62 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: Delivered the no-GPU speech planning slice only: typed plain-speech, one-reference cloning, two-reference cloning, independent Chatterbox fallback, real engine segment ceilings with ordered assembly accounting, immutable model/reference provenance, per-engine normalization, portable character packages with appearance/voice bindings, immutable non-executable segment records, typed exit-2 failures, and seed-based reconstruction. No render, host access, SSH, GPU work, model download, generated-audio claim, measured output claim, or gate semantic change occurred.
+Commands run:
+- `uv run --frozen --extra dev pytest tests/test_speech_capabilities.py -q --junitxml=/tmp/wd6ml6-targeted-final.xml` -> exit 0; parsed JUnit tests=34 failures=0 errors=0 skipped=0.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd6ml6-full-final.xml` -> exit 0; parsed JUnit tests=1817 failures=0 errors=0 skipped=1.
+- Real CLI evidence: human plus JSON for VibeVoice speech, one-reference clone, two-reference clone, Chatterbox secondary speech, portable export/import, durable planning/reconstruction, and all 27 typed failure classes; `/tmp/wd6ml6-cli-evidence.json`, SHA256 `a08c4b3bfc9f8d12df65ae60d6c1759db9c3ba11cc3a7bcc4a5d3df1de5d9529`.
+- Queue/admission/reconstruction evidence: two immutable records for two requested segments, update/delete rejected, planning `next_admissible=null`, genuine render job admitted, reconstruction `all_match=true` / `hidden_mutation=false`, datasets unchanged, and zero shadowed host invocations; `/tmp/wd6ml6-queue-evidence.json`, SHA256 `3a4ad242376107458a3d23a85408f4eafe1e4305b2decbc4c8b32e9cef96f185`.
+- JUnit SHA256: targeted `847caa37e1d18bbfd218877d362e507c2826048431dc86379fb85c3d17fa5b47`; full `b068fefd8dee257b9ce5c0c7f1f7e8d5caa45decb8aa2a4f06a7d7f2fac6fcad`.
+- `git diff --exit-code -- datasets` and `git diff --exit-code origin/main -- datasets` -> exit 0; zero changed dataset files.
+- `uv build --out-dir /tmp/wd6ml6-dist.k5gHds` -> exit 0; exactly one wheel `590aea555a25901f8be85ed6feba059c9c88a2046c428757f3436be88f4e02f0` and one sdist `5b72828ca38cccf94762c6123672d2b2ab57a9746f8e3287ef7c6823ccf2a44e`.
+- `git fetch origin main && git rebase origin/main` -> branch already up to date; no `wangp/cli.py` conflict.
+- `git push -u origin story/WD-6ml6` -> success; `gh pr create` -> https://github.com/jmanhype/wangp-dspy/pull/168.
+- `gh api repos/jmanhype/wangp-dspy/commits/b33e8b8b04314cb2eee0158fcc6aa48545751010/check-runs` -> check `test` completed/success.
+SHA: b33e8b8b04314cb2eee0158fcc6aa48545751010
 
+### CI/Test Results
+- Targeted speech suite: tests=34, passed=34, failures=0, errors=0, skipped=0, command exit=0.
+- Full suite: tests=1817, passed=1816, failures=0, errors=0, skipped=1 (pre-existing), command exit=0.
+- Build: command exit=0; one wheel and one sdist with SHA256 values recorded above.
+- GitHub check `test` on exact head `b33e8b8`: completed/success.
+
+### AC Verification
+| AC | Result | Evidence |
+|---|---|---|
+| Typed plain speech and one/two-reference cloning normalize through real CLI without synthesis | pass | `tests/test_speech_capabilities.py` representative mode cases; targeted tests=34/34; no assembled audio created |
+| Independent second TTS engine and per-engine settings normalize fail-closed | pass | `chatterbox/chatterbox_multilingual` adapter plus manifest/settings tests; VibeVoice and Chatterbox rows remain planned |
+| Real engine segment limits produce ordered per-segment records and assembled-output accounting | pass | two requested segments with order `[1,2]`, text hashes, source/segment character counts, silence count/duration, and planned output target |
+| Durable records are immutable, non-executable, and un-drainable by real admission while genuine render remains admitted | pass | SQLite update/delete triggers reject mutation; `JobQueue.next_admissible=null` before and genuine job ID after genuine submission |
+| Every implemented incomplete/unsupported class has typed exit 2, remediation, and next command | pass | real subprocess coverage and captured output for all 27 diagnostic classes |
+| Portable saved-character definitions round-trip with appearance/voice binding and namespace-safe import | pass | real `.wgpvoice` ZIP export/import test verifies manifest, package/reference hashes, appearance binding, and canonical destination names |
+| Seed-based dry-run reconstruction has hash equality without hidden mutation | pass | all reconstructed segment settings hashes match; `all_match=true`, `hidden_mutation=false` |
+| Documentation and matrix remain honest planned-only boundaries | pass | `docs/voice-capabilities.md`; all rows planned; no generation evidence claimed |
+| Committed datasets remain byte-identical and no shadowed host command is invoked | pass | dataset diffs exit 0; shadowed ssh/curl/wget/nvidia-smi call log empty |
+| Authorized synthesis on VibeVoice and Chatterbox | not verified - requires authorized host run | no model execution or measured audio exists |
+| Authorized one-reference and two-reference clone output | not verified - requires authorized host run | no model execution or measured audio exists |
+| Authorized over-limit script synthesis and ordered assembly | not verified - requires authorized host run | assembly is planned only; no ffprobe/transcript/AV evidence exists |
+| Portable package linked to an authorized generated voice | not verified - requires authorized host run | package provenance is validated but no generated target audio exists |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-6ml6`, commit `b33e8b8b04314cb2eee0158fcc6aa48545751010`, PR #168.
+- Targeted suite 34/34 passed; full suite 1816 passed plus 1 pre-existing skipped; CI `test` success.
+- One wheel and one sdist built with hashes recorded above.
+
+### proof
+-[x] NOGPU-1: typed speech, one-reference cloning, two-reference cloning, and independent second-engine planning
+-[x] NOGPU-2: real engine segment limits, ordered assembly accounting, and per-segment durable records
+-[x] NOGPU-3: per-backend normalization and fail-closed engine/mode pairing
+-[x] NOGPU-4: immutable non-executable records that the real admission path cannot drain
+-[x] NOGPU-5: typed exit-2 remediation and next command for every implemented failure class
+-[x] NOGPU-6: portable character export/import with appearance/voice binding and hash verification
+-[x] NOGPU-7: seed-based reconstruction hash equality without hidden mutation
+-[x] NOGPU-8: planned-only docs/matrix, unchanged datasets, and no host/GPU/model-download work
+-[x] NOGPU-9: no generated-audio, measured-output, transcript, or AV-sync claim
 
 ## History
 - 2026-09-22T20:24:45Z dep_added: blocks WD-fasw
