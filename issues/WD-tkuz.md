@@ -4,11 +4,11 @@ title: "Portable characters and continuity across image and video generation"
 status: closed
 priority: 2
 type: feature
-labels: [capability, delivered, accepted]
+labels: [capability, accepted]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T09:16:29Z
+updated_at: 2026-09-23T09:16:30Z
 content_hash: "sha256:f579e1267b9cab99a647df2d6ad475bf771c420494a93fa3b4045629a3e9e861"
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
