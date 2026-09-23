@@ -8,8 +8,8 @@ labels: [capability, rejected, rejected-x2]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T01:37:37Z
-content_hash: "sha256:51c2b52dc8eebbc4d697283e93350a0c61cebce83a3caed6310bdaeda5c7c681"
+updated_at: 2026-09-23T03:03:10Z
+content_hash: "sha256:0f742d766fd5290d5bf9901418439cbcd47c09791b3ac6f3e8bad017c37af05f"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox]
 ---
@@ -98,7 +98,26 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- RETRACTION: the earlier authoritative statement `Full tests: 1755 passed, 1 intentional live-host skip` is wrong and is retracted. The 1755 figure came from counting dots in quiet stdout: 1,742 passing-test progress dots plus 13 punctuation periods in warning/file/URL text.
+- Authoritative full-suite result: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/pcen.xml` — exit 0; JUnit `tests=1743 failures=0 errors=0 skipped=1`, i.e. 1,742 passed and 1 skipped.
+- Authoritative targeted result: `uv run --frozen --extra dev pytest tests/test_image_capabilities.py -q --junitxml=/tmp/pcen-targeted.xml` — exit 0; JUnit `tests=28 failures=0 errors=0 skipped=0`.
+- Producing head: d13ced731a056ca7d04f7d186c631f7f4186c3b8; no repository file changed.
+- No GPU, host, SSH, model download, paid provider, render, image artifact, or identity-preservation claim is made.
+
+### proof
+- [x] NOGPU-1: Typed real-CLI planning covers generation, edit, upscale, outpaint, and identity-preserving edit without GPU/host work.
+- [x] NOGPU-2: Exactly ten ordered references are accepted and an eleventh fails typed before durable state.
+- [x] NOGPU-3: Transparency/PNG, output bounds, upscale/outpaint controls, and prompt-enhancement modes are immutable declarations.
+- [x] NOGPU-4: Identity-preserving edit requires identity references and an objective gate declaration.
+- [x] NOGPU-5: Absent, mismatched, or invalid references/masks fail typed exit 2 with no partial queue.
+- [x] NOGPU-6: Missing model provenance, incomplete backend metadata, unsupported operation/backend, unsupported size, and all other incomplete classes fail typed.
+- [x] NOGPU-7: Durable plan records are immutable and undrainable by the real admission path while genuine render work remains admissible.
+- [x] NOGPU-8: Seed-based reconstruction reproduces exact settings and enhancement metadata with no hidden mutation.
+- [x] NOGPU-9: Documentation/matrix rows remain planned, make no artifact claim, and committed datasets remain unchanged.
 
 ## nd_contract
 status: rejected
