@@ -12,7 +12,7 @@ def _error(observed: str, remediation: str, **metadata: Any) -> DirectorError:
         "DIRECTOR_CONTINUITY_INVALID",
         observed,
         remediation,
-        next_command="wgp director plan --request <request> --json",
+        next_command="wgp director plan --request <request> --db <plan.db> --json",
         metadata=metadata,
     )
 
@@ -59,7 +59,7 @@ def continuity_declarations(
                 "DIRECTOR_CHARACTER_REFERENCE_UNKNOWN",
                 f"scene {scene.scene_index} references unknown characters {sorted(unknown)}",
                 "Add an explicit roster entry and appearance/voice state for every scene character.",
-                next_command="wgp director plan --request <request> --json",
+                next_command="wgp director plan --request <request> --db <plan.db> --json",
                 metadata={"scene_index": scene.scene_index, "characters": sorted(unknown)},
             )
         scene_states = {state.name: state for state in scene.states}

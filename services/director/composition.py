@@ -24,7 +24,7 @@ class DirectorError(ValueError):
         observed: str,
         remediation: str,
         *,
-        next_command: str = "wgp director plan --request <request> --json",
+        next_command: str = "wgp director plan --request <request> --db <plan.db> --json",
         metadata: Mapping[str, Any] | None = None,
     ) -> None:
         super().__init__(observed)

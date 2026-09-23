@@ -5,6 +5,7 @@ import json
 import os
 import sqlite3
 import time
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -767,6 +768,13 @@ def reconstruct_director_records(database: str | Path) -> list[dict[str, Any]]:
     """Reconstruct either an original or enhanced immutable director database."""
 
     path = Path(database).expanduser().resolve()
+    if not path.is_file():
+        raise _error(
+            "DIRECTOR_RECONSTRUCTION_DATABASE_MISSING",
+            f"database does not exist: {path}",
+            "Pass a SQLite database emitted by wgp director plan or enhance.",
+            next_command=RECONSTRUCT_NEXT_COMMAND,
+        )
     connection: sqlite3.Connection | None = None
     try:
         connection = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
@@ -795,15 +803,19 @@ def inspect_queue_database(database: str | Path) -> dict[str, Any]:
     """Use the real admission selector without mutating the plan database."""
 
     from services.jobs.queue import JobQueue
+    import shutil
 
     path = Path(database).expanduser().resolve()
     rows = _open_records(path, expected_kind="director_plan_record")
-    queue = JobQueue(path)
-    try:
-        pending = queue.list_state("pending")
-        selected = queue.next_admissible()
-    finally:
-        queue.close()
+    with tempfile.TemporaryDirectory(prefix="wangp-director-admission-") as temporary:
+        admission_copy = Path(temporary) / "admission-copy.db"
+        shutil.copy2(path, admission_copy)
+        queue = JobQueue(admission_copy)
+        try:
+            pending = queue.list_state("pending")
+            selected = queue.next_admissible()
+        finally:
+            queue.close()
     return {
         "schema_version": "wangp-dspy.director-queue-inspection/v1",
         "database": str(path),

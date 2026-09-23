@@ -39,7 +39,7 @@ class PacingWindow:
 def _error(code: str, observed: str, remediation: str, **metadata: Any) -> DirectorError:
     return DirectorError(
         code, observed, remediation,
-        next_command="wgp director plan --request <request> --json",
+        next_command="wgp director plan --request <request> --db <plan.db> --json",
         metadata=metadata,
     )
 

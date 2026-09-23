@@ -20,7 +20,7 @@ def review_policy(request: DirectorRequest) -> dict[str, Any]:
             "DIRECTOR_REVIEW_MODE_CONFLICT",
             "review mode auto cannot require a manual-only checkpoint",
             "Use manual review, or let every mandatory gate decide automatic advancement.",
-            next_command="wgp director plan --request <request> --json",
+            next_command="wgp director plan --request <request> --db <plan.db> --json",
         )
     checkpoints = [
         {"name": "before_queue", "decision": "planning_admission"},
