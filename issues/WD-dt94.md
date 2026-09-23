@@ -7,8 +7,8 @@ type: task
 labels: [documentation]
 created_at: 2026-09-23T06:52:21Z
 created_by: speed
-updated_at: 2026-09-23T06:52:27Z
-content_hash: "sha256:74a108e92870b77d9e56a7f12a7b573d09f9de093b5884fb26d48c709b1dedf6"
+updated_at: 2026-09-23T07:18:30Z
+content_hash: "sha256:511cb3ee91dc2032438c2e00afc026bf9f3ba8d3dc34dfc59612942724764d24"
 assignee: dev-WD-dt94
 ---
 
@@ -64,7 +64,58 @@ CONSUMES:
 
 
 ## Notes
+## Implementation Evidence
+Summary: Added an honest README capability tour, CLI-derived verb map, documentation index, and drift tests; docs-only scope preserved.
 
+Commands run:
+- `uv run --frozen --extra dev wgp --help`
+- `pvg verify README.md tests/test_readme_quickstart.py --format=text`
+- `uv run --frozen --extra dev pytest tests/test_readme_quickstart.py -q --junitxml=<tmp>/t.xml`
+- `uv run --frozen --extra dev pytest -q --junitxml=<tmp>/f.xml`
+- `uv run --frozen --extra dev wgp release verify`
+- `git push origin story/WD-readme-tour`
+- `gh pr create --base main --head story/WD-readme-tour --title "docs(WD-dt94): README capability tour"`
+- `gh api repos/jmanhype/wangp-dspy/commits/580b362d3b31793ba3cf45a89a5b0fe911d99e2d/check-runs`
+
+SHA: 580b362d3b31793ba3cf45a89a5b0fe911d99e2d
+
+### CI/Test Results
+- PR: https://github.com/jmanhype/wangp-dspy/pull/169
+- Files: `README.md` 39 insertions / 0 deletions; `tests/test_readme_quickstart.py` 60 insertions / 2 deletions.
+- README headings added: `Capability status`, `` `wgp` verb map ``, `Documentation index`.
+- Documented verbs in CLI order: `video`, `image`, `music`, `first-run`, `voice`, `doctor`, `content`, `brief`, `plan`, `status`, `review`, `recipe`, `release`.
+- Targeted parsed JUnit: `tests=5 errors=0 failures=0 skipped=0 exit=0`.
+- Full parsed JUnit: `tests=1819 errors=0 failures=0 skipped=1 exit=0`; the single skip is the pre-existing environment-gated live-3090 integration test, correctly not run under this no-host/no-GPU story. Output also carries the pre-existing FastAPI/Starlette deprecation warning.
+- `wgp release verify`: `version=0.1.0`, all checks pass, `tag-ready=v0.1.0`, `tag_created=false`, `release=ready`.
+- `pvg verify README.md tests/test_readme_quickstart.py --format=text`: `VERIFY: PASSED (1 files scanned, 0 issues)`.
+- Exact-head CI check run for SHA `580b362d3b31793ba3cf45a89a5b0fe911d99e2d`: `test`, `completed`, `success`.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | README verb map at `README.md:109`; live CLI set asserted by `tests/test_readme_quickstart.py:259`. |
+| 2 | PASS | Planning-only/no-generation status and existing capability links at `README.md:14`; links checked by `tests/test_readme_quickstart.py:230`. |
+| 3 | PASS | Documentation index links install, content, first-run, capability plans, recipe, and release checklist at `README.md:198`. |
+| 4 | PASS | Quickstart commands remain unchanged; targeted suite executed them with 5/5 passing. |
+| 5 | PASS | Diff contains only `README.md` and `tests/test_readme_quickstart.py`; full suite exit 0 and `release=ready` with `tag_created=false`. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit: `580b362d3b31793ba3cf45a89a5b0fe911d99e2d`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/169
+- Targeted tests: 5 passed, 0 failed, exit 0.
+- Full tests: 1819 passed, 0 failed, 1 no-host-gated 3090 skip, exit 0.
+- Release verify: `release=ready`, `tag_created=false`.
+- CI: exact-head `test` check completed with `success`.
+
+### proof
+- [x] AC #1: README names every current `wgp` verb, and the test derives the exact set from `wgp --help`.
+- [x] AC #2: README marks each existing capability surface planning/readiness-only and states generation is not verified.
+- [x] AC #3: README documentation index links the required guides, recipe/release documents, first-run guide, and capability documents.
+- [x] AC #4: The existing quickstart behavior is unchanged and its targeted test suite passes.
+- [x] AC #5: No code/gate/queue/renderer/recipe/release semantics changed and `wgp release verify` reports ready.
 
 ## History
 - 2026-09-23T06:52:27Z status: open -> in_progress
