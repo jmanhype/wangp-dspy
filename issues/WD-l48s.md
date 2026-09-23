@@ -1,17 +1,17 @@
 ---
 id: WD-l48s
 title: "E2e: build the preflight spend-gate corpus with leakage-safe replay"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [walking-skeleton, capstone, e2e, delivered]
 parent: WD-as25
 created_at: 2026-09-21T05:44:13Z
 created_by: speed
-updated_at: 2026-09-23T16:04:25Z
-content_hash: "sha256:adbedc6f8cfb92b0a2247a9e727b8c74186ce4c5cb108a5ae460a4f42effea76"
-closed_at: 2026-09-21T12:31:05Z
-close_reason: "Accepted at 5f0035b1c911: WD-v6xp carries the deferred production fail-open seam under WD-as25; preregistration amendment preserves all original invariant fields and accurately discloses 1e-9 to 1e-6; all three added regression tests are meaningful; 11/11 targeted tests pass, exact-head CI is green, protected paths match main, corpus remains 36/18/5/7, and fresh-checkout replay returns insufficient_data/infeasible_at_budget."
+updated_at: 2026-09-23T16:10:56Z
+content_hash: "sha256:18bf51525c3ecc27b40e6a71bea1c6f89e7b1fd5f83fd95f8e39674ecfbbc0d8"
+closed_at: 2026-09-23T16:10:56Z
+close_reason: "Accepted: c7963e8 targeted tests 17/17 pass with 0 failures/skips; artifact verifies 36 rows, 18 complete/5 bad, five tracked queue DBs, grouped leakage-safe folds, per-rejection resolution reason, deterministic replay, and insufficient_data/infeasible_at_budget; clean merge-tree against current main."
 assignee: dev-WD-l48s
 blocked_by: [WD-rf1a, WD-v6xp]
 ---
@@ -506,6 +506,7 @@ was replaced by a typed SpendGateSourceError when tracked mode runs outside a gi
 - 2026-09-23T16:02:18Z dep_added: blocked_by WD-rf1a
 
 - 2026-09-23T16:02:19Z dep_added: blocked_by WD-v6xp
+- 2026-09-23T16:10:56Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-as25]]
