@@ -4,7 +4,7 @@ title: "Non-destructive multi-track editing surface for governed generation"
 status: in_progress
 priority: 2
 type: feature
-labels: [capability, capstone]
+labels: [capability, capstone, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:45Z
 created_by: speed
