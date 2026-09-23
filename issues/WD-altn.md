@@ -8,7 +8,7 @@ labels: [capability, verification, delivered]
 created_at: 2026-09-23T04:24:58Z
 created_by: speed
 updated_at: 2026-09-23T05:01:45Z
-content_hash: "sha256:8526125f8d5412b64977451ffeb837b08704c48a9cfaa31f5c898d9b5f55726e"
+content_hash: "sha256:685a37198df554a9b806a13abf68a88c137184bea4474e72296c9ad635576eb6"
 assignee: dev-WD-altn
 ---
 
@@ -66,6 +66,18 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: Added a read-only capability `download_plan` by reusing `predict.model_assets.asset_report`, exposed typed model-assets manifests through `wgp doctor --capabilities`, printed per-asset state/action in human output, corrected implemented/not-implemented capability lists, and documented the block. No download, host contact, GPU work, or model fetch was executed.
 
