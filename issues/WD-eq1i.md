@@ -8,8 +8,8 @@ labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T12:17:38Z
-content_hash: "sha256:3756134efdf4f3fb399a486bc34ec78fa25823262f5571ccb338bb56eb175801"
+updated_at: 2026-09-23T12:17:39Z
+content_hash: "sha256:3185add36787e066db1f79f5dda58ccc4a6c6a176e9ae01ff7fc11dc90ec7572"
 blocks: [WD-gc09]
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw, WD-8ioj]
@@ -114,6 +114,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Rework Evidence
 Summary: Fixed both rejection points. The director compiler now genuinely consumes the existing no-GPU content planner rather than labeling or reimplementing it, and all fresh README evidence uses the full-file parsed count of five tests.
 
