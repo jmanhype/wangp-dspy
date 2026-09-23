@@ -7,11 +7,11 @@ type: bug
 parent: WD-as25
 created_at: 2026-09-23T18:47:35Z
 created_by: speed
-updated_at: 2026-09-23T19:10:43Z
-content_hash: "sha256:2ec1e37003244dde568872ae7fa3875c4149be263a27654b247a2ea39ab5e8b1"
+updated_at: 2026-09-23T19:10:47Z
+content_hash: "sha256:57598e8101378589c9dcce0921bbba931b99ceca6408b31e1f7329fd8ec3c7c5"
 blocks: [WD-l48s]
 assignee: dev-WD-pn6h
-follows: [WD-v6xp]
+follows: [WD-v6xp, WD-rf1a]
 ---
 ## Description
 ## Context
@@ -177,10 +177,12 @@ status: in_progress
 - 2026-09-23T18:53:01Z status: open -> in_progress
 - 2026-09-23T18:53:01Z auto-follows: linked to predecessor WD-v6xp
 - 2026-09-23T18:53:01Z claimed by dev-WD-pn6h
+- 2026-09-23T19:10:47Z status: in_progress -> in_progress
+- 2026-09-23T19:10:47Z auto-follows: linked to predecessor WD-rf1a
 
 ## Links
 - Parent: [[WD-as25]]
 - Blocks: [[WD-l48s]]
-- Follows: [[WD-v6xp]]
+- Follows: [[WD-v6xp]], [[WD-rf1a]]
 
 ## Comments

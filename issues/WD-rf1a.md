@@ -8,12 +8,13 @@ parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
 updated_at: 2026-09-23T18:53:44Z
-content_hash: "sha256:8df0e95de866db5d6cacd45dda9046bec63edf24b6a0825027943d0f003af04f"
+content_hash: "sha256:599b927213bb873a71723a3766404395a138f6acdcb61cbf3c49512f13ecf470"
 assignee: dev-WD-rf1a
 follows: [WD-l48s]
 labels: [accepted]
 closed_at: 2026-09-23T17:36:19Z
 close_reason: "Accepted: exact-head replay, adverse cases, RED/GREEN, 1990-test suite, build, CI, and delivery proof all verified"
+led_to: [WD-pn6h]
 ---
 
 ## Description
@@ -149,6 +150,7 @@ status: delivered
 ## Links
 - Parent: [[WD-as25]]
 - Follows: [[WD-l48s]]
+- Led to: [[WD-pn6h]]
 
 ## Comments
 
