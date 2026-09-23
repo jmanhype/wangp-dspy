@@ -1,19 +1,20 @@
 ---
 id: WD-tkuz
 title: "Portable characters and continuity across image and video generation"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T08:41:35Z
-content_hash: "sha256:fb820ea698ae91e398e64a3c9cba067b6b414602f8964ecf89e764406d21a3da"
-blocks: [WD-8ioj, WD-eq1i, WD-gc09]
+updated_at: 2026-09-23T09:16:29Z
+content_hash: "sha256:f579e1267b9cab99a647df2d6ad475bf771c420494a93fa3b4045629a3e9e861"
 was_blocked_by: [WD-6tox, WD-pcen, WD-6ml6]
 assignee: dev-WD-tkuz
 follows: [WD-6tox, WD-pcen, WD-6ml6, WD-soa4]
+closed_at: 2026-09-23T09:16:29Z
+close_reason: "Accepted at 308b587c: independent round-trip/hash/continuity/durable-record checks passed; 33+5+1852 tests green; CI, build, read-only, command-drift, and delivery proof 9/9 passed."
 ---
 
 ## Description
@@ -200,10 +201,13 @@ status: delivered
 - 2026-09-23T06:51:49Z claimed by dev-WD-tkuz
 - 2026-09-23T08:41:35Z status: in_progress -> in_progress
 - 2026-09-23T08:41:35Z auto-follows: linked to predecessor WD-soa4
+- 2026-09-23T09:16:29Z status: in_progress -> closed
+- 2026-09-23T09:16:29Z dep_removed: no_longer_blocks WD-8ioj
+- 2026-09-23T09:16:29Z dep_removed: no_longer_blocks WD-eq1i
+- 2026-09-23T09:16:29Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-8ioj]], [[WD-eq1i]], [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]]
 - Follows: [[WD-6tox]], [[WD-pcen]], [[WD-6ml6]], [[WD-soa4]]
 
