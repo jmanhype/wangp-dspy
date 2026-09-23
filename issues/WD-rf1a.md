@@ -8,7 +8,7 @@ parent: WD-as25
 created_at: 2026-09-21T07:00:04Z
 created_by: speed
 updated_at: 2026-09-23T17:16:59Z
-content_hash: "sha256:7e255fa5c9235efd7c87c2d298eb0c05a459f1f07d2827707faf5d2f172e47a0"
+content_hash: "sha256:70821c58fa96b22f2d77882690139e6ed25defe71f7e868d7d07a9729595a005"
 assignee: dev-WD-rf1a
 blocks: [WD-l48s]
 follows: [WD-l48s]
@@ -61,6 +61,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-23.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 Summary: The 480x832 value is a renderer request, not delivered geometry. The spend-gate recorder now binds that request, PNG reference geometry, the recorded WanGP handler SHA-256, and expected 704x576 output in a typed resolution_transform; replay admits a matching transform, abstains without one, and rejects a genuine mismatch.
 
