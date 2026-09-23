@@ -8,8 +8,8 @@ labels: [capability, rejected-x2, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T03:42:27Z
-content_hash: "sha256:587a958d8ee9e4fe26e256ac71a42463007b50fca6982081a0feaa65492723dc"
+updated_at: 2026-09-23T04:17:40Z
+content_hash: "sha256:67bd6acef5895df13fcf8b44805c68923f05318c27b6c30ff53b82314b90fd9b"
 blocks: [WD-tkuz, WD-gc09]
 follows: [WD-6tox, WD-soa4]
 ---
@@ -98,6 +98,26 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
+
+### evidence
+- Final head: `8eda61fd363d93aace5c32d99e4bad620bf5b01c` on `story/WD-pcen` / https://github.com/jmanhype/wangp-dspy/pull/165. The branch was rebased onto `main` at `dc77b18` by the dispatcher to clear a `wangp/cli.py` registration conflict; the conflict was resolved by keeping all four registrations (`video`, `image`, `music`, `platform`) and the image content is otherwise identical to the reviewed head `d13ced73`.
+- CORRECTED COUNTERS (this supersedes every earlier figure in this issue). `uv run --frozen --extra dev pytest -q --junitxml=<tmp>/pcen.xml` -> exit 0, `tests=1743 failures=0 errors=0 skipped=1` (1,742 passed, 1 skipped); `uv run --frozen --extra dev pytest tests/test_image_capabilities.py -q` -> exit 0, 28 passed. The earlier "1755 passed" figure was a miscount of periods in quiet stdout (1,742 test dots plus 13 punctuation periods) and is wrong.
+- Exact-head GitHub `test` check on `8eda61f`: completed/success (the required gate, running the full suite).
+- Queue evidence: image plan records are `plan_only=true` / `executable=false`; the real admission path selected nothing from them while a genuine render job was still admitted; reconstruction `hidden_mutation=false`.
+- Build: one wheel and one sdist with hashes recorded in the implementation evidence above.
+
+### proof
+- [x] NOGPU-1: Typed real-CLI planning covers generation, edit, upscale, outpaint, and identity-preserving edit without GPU or host work.
+- [x] NOGPU-2: Exactly ten ordered references are accepted; an eleventh fails typed before durable state.
+- [x] NOGPU-3: Transparency/PNG, output bounds, upscale/outpaint controls and prompt-enhancement modes are immutable declarations.
+- [x] NOGPU-4: Plan records cannot be drained by the real admission path while a genuine job still is.
+- [x] NOGPU-5: Typed exit-2 failures with remediation and next command for reference-limit, unsupported-operation, missing-reference and missing-model classes, with no partial record.
+- [x] NOGPU-6: Seed-based dry-run reconstruction reproduces identical settings hashes with no hidden mutation.
+- [x] NOGPU-7: No capability claim for generated images, transparency artifacts, upscale/outpaint output, identity preservation, host readiness, model execution or QC; matrix rows remain `planned`.
+- [x] NOGPU-8: Every number in this contract comes from a recorded, reproducible command; the retracted figure is explicitly superseded above.
+
 ## nd_contract
 status: delivered
 
