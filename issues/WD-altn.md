@@ -8,7 +8,7 @@ labels: [capability, verification, accepted]
 created_at: 2026-09-23T04:24:58Z
 created_by: speed
 updated_at: 2026-09-23T05:16:11Z
-content_hash: "sha256:6c012d2a5ae0b35a985434c306ab8534929947f0675ad3085e0701acce7ba9a4"
+content_hash: "sha256:c01dc6f9ead7054d4e04c01398002fcabdf2052bf8b3858b8a003a36e710c97e"
 assignee: dev-WD-altn
 closed_at: 2026-09-23T05:16:11Z
 close_reason: "Accepted: exact-head diff is scoped; four manifest states agree read-only with first-run; full suite, build, and CI pass."
@@ -68,6 +68,16 @@ CONSUMES:
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-23.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
