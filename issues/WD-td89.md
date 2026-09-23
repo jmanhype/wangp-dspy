@@ -7,8 +7,8 @@ type: bug
 parent: WD-h73w
 created_at: 2026-09-23T21:35:44Z
 created_by: speed
-updated_at: 2026-09-23T21:38:23Z
-content_hash: "sha256:043e21d69c1fae3687308e875a0cc795d6a537d1d1aa05a6c94b036bb9dbb64d"
+updated_at: 2026-09-23T21:41:27Z
+content_hash: "sha256:4293ffb96feaf4648c8aeec2aa4aca34f98d8fd5572a514fae4e9adf6fd2b6de"
 assignee: dev-WD-td89
 follows: [WD-42no]
 ---
@@ -97,7 +97,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claimed by dispatcher as dev-WD-td89 at 2026-09-23.
+- Base HEAD: 1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e.
+
+### proof
+- [ ] Pending implementation
 
 ## History
 - 2026-09-23T21:38:23Z status: open -> in_progress
