@@ -1,18 +1,19 @@
 ---
 id: WD-eq1i
 title: "Director and composition: prompt or audio to governed multi-clip film"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, delivered]
 parent: WD-t741
 created_at: 2026-09-22T20:24:44Z
 created_by: speed
-updated_at: 2026-09-23T12:17:39Z
-content_hash: "sha256:3185add36787e066db1f79f5dda58ccc4a6c6a176e9ae01ff7fc11dc90ec7572"
-blocks: [WD-gc09]
+updated_at: 2026-09-23T12:34:15Z
+content_hash: "sha256:4cbabc9cb7253fd41e4dc77002908e29949a61c7e6227f68b4fed2af26800d26"
 was_blocked_by: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz]
 follows: [WD-6tox, WD-soa4, WD-6ml6, WD-tkuz, WD-fasw, WD-8ioj]
+closed_at: 2026-09-23T12:34:15Z
+close_reason: "Accepted: real build_content_request handoff and planner-object identity were independently reproduced; 34/5/1967 JUnit counts, exact-head CI, read-only records, packaging, and 30-minute justified CI timeout all passed."
 ---
 
 ## Description
@@ -266,10 +267,11 @@ status: delivered
 - 2026-09-23T11:29:25Z released by speed
 - 2026-09-23T12:17:38Z status: open -> in_progress
 - 2026-09-23T12:17:38Z auto-follows: linked to predecessor WD-8ioj
+- 2026-09-23T12:34:15Z status: in_progress -> closed
+- 2026-09-23T12:34:15Z dep_removed: no_longer_blocks WD-gc09
 
 ## Links
 - Parent: [[WD-t741]]
-- Blocks: [[WD-gc09]]
 - Was blocked by: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]]
 - Follows: [[WD-6tox]], [[WD-soa4]], [[WD-6ml6]], [[WD-tkuz]], [[WD-fasw]], [[WD-8ioj]]
 
