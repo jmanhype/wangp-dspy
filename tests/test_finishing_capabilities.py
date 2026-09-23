@@ -41,6 +41,68 @@ HOST_KEYS = (
 )
 
 
+def _environment(tmp_path: Path) -> tuple[dict[str, str], Path]:
+    forbidden = tmp_path / "forbidden-bin"
+    forbidden.mkdir()
+    calls = tmp_path / "host-calls"
+    calls.write_text("", encoding="utf-8")
+    for name in ("ssh", "curl", "wget", "nvidia-smi"):
+        command = forbidden / name
+        command.write_text(
+            f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> {calls}\nexit 99\n',
+            encoding="utf-8",
+        )
+        command.chmod(0o755)
+    environment = os.environ.copy()
+    environment["PATH"] = f"{forbidden}:{environment['PATH']}"
+    environment["WANGP_CONFIG"] = str(tmp_path / "absent-wangp.toml")
+    for key in HOST_KEYS:
+        environment.pop(key, None)
+    return environment, calls
+
+
+def _wgp(*args: str, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["uv", "run", "--frozen", "--extra", "dev", "wgp", *args],
+        cwd=ROOT,
+        env=env,
+        text=True,
+        capture_output=True,
+        timeout=120,
+        check=False,
+    )
+
+
+@lru_cache(maxsize=1)
+def _live_cli_verbs() -> frozenset[str]:
+    result = _wgp("--help", env=os.environ.copy())
+    assert result.returncode == 0, result.stdout + result.stderr
+    choice_line = next(
+        line for line in result.stdout.splitlines()
+        if line.strip().startswith("{") and line.strip().endswith("}")
+    )
+    return frozenset(choice_line.strip().strip("{}").split(","))
+
+
+@lru_cache(maxsize=1)
+def _live_finish_verbs() -> frozenset[str]:
+    result = _wgp("finish", "--help", env=os.environ.copy())
+    assert result.returncode == 0, result.stdout + result.stderr
+    choice_line = next(
+        line for line in result.stdout.splitlines()
+        if line.strip().startswith("{") and line.strip().endswith("}")
+    )
+    return frozenset(choice_line.strip().strip("{}").split(","))
+
+
+def _assert_next_command_resolves_against_live_cli(command: str) -> None:
+    tokens = command.split()
+    assert tokens[0] == "wgp" and len(tokens) >= 3, command
+    assert tokens[1] in _live_cli_verbs(), command
+    assert tokens[1] == "finish", command
+    assert tokens[2] in _live_finish_verbs(), command
+
+
 def _request(**overrides: Any) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -297,3 +359,46 @@ def test_finishing_plan_is_immutable_undrainable_and_reconstructable(
     assert database.read_bytes() == database_before
     assert source.read_bytes() == source_before
     assert _tree_digest(ROOT / "datasets") == datasets_before
+
+
+def test_finish_plan_probe_and_run_cli_modes_are_real_processes(
+    tmp_path: Path,
+) -> None:
+    environment, calls = _environment(tmp_path)
+    request = tmp_path / "finishing.json"
+    request.write_text(json.dumps(_real_request(tmp_path)), encoding="utf-8")
+    plan_args = ("finish", "plan", "--request", str(request), "--dry-run")
+    human = _wgp(*plan_args, env=environment)
+    first = _wgp(*plan_args, "--json", env=environment)
+    second = _wgp(*plan_args, "--json", env=environment)
+    assert human.returncode == first.returncode == second.returncode == 0, (
+        human.stdout + human.stderr + first.stdout + first.stderr
+    )
+    assert first.stdout == second.stdout
+    assert "measurement_status=unverified" not in human.stdout
+    assert "gpu_work=false media_generated=false" in human.stdout
+    plan = json.loads(first.stdout)
+    assert plan["capability_status"] == "planned"
+    assert "queue" not in plan
+
+    probe_args = ("finish", "probe", "--request", str(request))
+    probe_human = _wgp(*probe_args, env=environment)
+    probe_json = _wgp(*probe_args, "--json", env=environment)
+    assert probe_human.returncode == probe_json.returncode == 0, (
+        probe_human.stdout + probe_human.stderr + probe_json.stdout + probe_json.stderr
+    )
+    assert "measurement_status=unverified executed=false host_contact=false" in probe_human.stdout
+    probe = json.loads(probe_json.stdout)
+    assert probe["command_graph"][0]["stage_id"] == "probe"
+    assert probe["executed"] is False and probe["host_contact"] is False
+
+    run_human = _wgp("finish", "run", "--request", str(request), env=environment)
+    run_json = _wgp("finish", "run", "--request", str(request), "--json", env=environment)
+    assert run_human.returncode == run_json.returncode == 2, (
+        run_human.stdout + run_human.stderr + run_json.stdout + run_json.stderr
+    )
+    diagnostic = json.loads(run_json.stdout)["diagnostics"][0]
+    assert diagnostic["code"] == "FINISH_EXECUTION_UNAUTHORIZED"
+    assert diagnostic["next_command"]
+    _assert_next_command_resolves_against_live_cli(diagnostic["next_command"])
+    assert calls.read_text(encoding="utf-8") == ""
