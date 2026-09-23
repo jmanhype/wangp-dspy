@@ -13,11 +13,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from predict.model_assets import AssetManifest, DownloadState, asset_report
 from wangp.config import ALL_HOST_KEYS, load_host_config, missing_host_keys
 from wangp.diagnostics import redact_sensitive
 
 
 NOT_IMPLEMENTED_CAPABILITIES = (
+    "video generation",
     "image generation",
     "music generation",
     "speech/voice cloning",
@@ -28,10 +30,21 @@ NOT_IMPLEMENTED_CAPABILITIES = (
     "GUI",
 )
 IMPLEMENTED_CAPABILITIES = (
-    "no-GPU content planning",
-    "host-backed rendering through the governed queue when explicitly configured",
+    "video planning",
+    "image planning",
+    "music planning",
+    "content planning",
+    "first-run planning",
 )
 _MODEL_MANIFESTS = ("models.json", "models/manifest.json")
+_PENDING_DOWNLOAD_ACTION = "operator-authorized download required"
+_DOWNLOAD_ACTIONS = {
+    "complete": "none: local bytes and SHA-256 already match",
+    "paused": "operator review and explicit resume required",
+}
+_CapabilityModels = (
+    Sequence[Mapping[str, str]] | Mapping[str, Any] | AssetManifest | None
+)
 
 
 @dataclass(frozen=True)
@@ -60,6 +73,22 @@ class CapabilityReport:
             f"{item['id']}:{item['status']}" for item in models["entries"]
         ) or "none"
         capabilities = value["generation_capabilities"]
+        plan = value["download_plan"]
+        plan_lines = [
+            (
+                f"download_plan={plan['status']} "
+                f"would_download={plan['asset_count']} "
+                f"total_size_bytes={plan['total_size_bytes']} "
+                "wangp_downloads=false"
+            )
+        ]
+        plan_lines.extend(
+            f"download_entry={item['id']} status={item['status']} "
+            f"required_action={item['required_action']}"
+            for item in plan["entries"]
+        )
+        if plan["remediation"]:
+            plan_lines.append(f"download_plan_remediation={plan['remediation']}")
         return "\n".join([
             f"platform={value['platform']['system']} {value['platform']['machine']}",
             f"python={value['python']['implementation']} {value['python']['version']}",
@@ -72,6 +101,7 @@ class CapabilityReport:
                 f"model_manifest={models['status']} "
                 f"entries={model_states}"
             ),
+            *plan_lines,
             "implemented=" + "; ".join(capabilities["implemented"]),
             "not_implemented=" + "; ".join(capabilities["not_implemented"]),
             "collection=read_only network_access=false host_contact=false",
@@ -227,8 +257,30 @@ def _manifest_from_root(
 
 def _models(
     repository_root: Path,
-    supplied: Sequence[Mapping[str, str]] | None,
-) -> dict[str, object]:
+    supplied: _CapabilityModels,
+    download_state: DownloadState,
+) -> tuple[dict[str, object], dict[str, object]]:
+    typed_manifest = supplied if isinstance(supplied, AssetManifest) else None
+    if typed_manifest is None and isinstance(supplied, Mapping):
+        candidate = dict(supplied)
+        if isinstance(candidate.get("assets"), list):
+            typed_manifest = AssetManifest.model_validate(candidate)
+    if typed_manifest is not None:
+        durable = asset_report(typed_manifest, download_state)
+        entries = [
+            {
+                "id": item["id"],
+                "status": item["status"],
+                "download_required": item["status"] != "complete",
+                "wangp_downloads": False,
+            }
+            for item in durable["assets"]
+        ]
+        return (
+            {"status": "present", "entries": entries, "remediation": ""},
+            _download_plan(durable),
+        )
+
     if supplied is not None:
         try:
             status, models, problem = (
@@ -253,13 +305,22 @@ def _models(
                 "supply a manifest with sha256 plus local_path or remote_path "
                 "for every required model; Wangp will not download models"
             ),
-        }
+        }, _empty_download_plan(
+            "absent",
+            "supply a wangp-dspy.model-assets/v1 manifest; no asset is "
+            "downloadable until source, hash, size, licence, and destination "
+            "are recorded",
+        )
     if models is None:
         return {
             "status": status,
             "entries": entries,
             "remediation": problem or "fix the model manifest",
-        }
+        }, _empty_download_plan(
+            "unavailable",
+            "this legacy model manifest has no source URL, size, licence, or "
+            "destination, so no truthful download plan can be derived",
+        )
     for index, model in enumerate(models, start=1):
         local = model.get("local_path")
         state = "remote_declared"
@@ -282,18 +343,71 @@ def _models(
             "download_required": download_required,
             "wangp_downloads": False,
         })
-    return {"status": status, "entries": entries, "remediation": ""}
+    return (
+        {"status": status, "entries": entries, "remediation": ""},
+        _empty_download_plan(
+            "unavailable",
+            "this legacy model manifest has no source URL, size, licence, or "
+            "destination, so no truthful download plan can be derived",
+        ),
+    )
+
+
+def _empty_download_plan(
+    status: str, remediation: str
+) -> dict[str, object]:
+    return {
+        "status": status,
+        "asset_count": 0,
+        "total_size_bytes": 0,
+        "entries": [],
+        "wangp_downloads": False,
+        "authorization_required": False,
+        "remediation": remediation,
+    }
+
+
+def _download_plan(durable: Mapping[str, Any]) -> dict[str, object]:
+    summary = durable["download_plan"]
+    entries = [
+        {
+            "id": item["id"],
+            "status": item["status"],
+            "size_bytes": item["size_bytes"],
+            "bytes_present": item["bytes_present"],
+            "required_action": _DOWNLOAD_ACTIONS.get(
+                str(item["status"]), _PENDING_DOWNLOAD_ACTION
+            ),
+        }
+        for item in durable["assets"]
+    ]
+    return {
+        "status": "present",
+        "asset_count": summary["asset_count"],
+        "total_size_bytes": summary["total_size_bytes"],
+        "entries": entries,
+        "wangp_downloads": summary["wangp_downloads"],
+        "authorization_required": summary["authorization_required"],
+        "remediation": (
+            "run wgp first-run download with this manifest and an explicit "
+            "state path for operator review" if summary["asset_count"] else ""
+        ),
+    }
 
 
 def describe_capabilities(
     repository_root: str | Path,
     *,
     environ: Mapping[str, str],
-    models: Sequence[Mapping[str, str]] | None = None,
+    models: _CapabilityModels = None,
+    download_state: DownloadState | None = None,
 ) -> CapabilityReport:
     """Collect only local facts; never execute SSH, nvidia-smi, or network I/O."""
 
     root = Path(repository_root).expanduser().resolve()
+    model_manifest, download_plan = _models(
+        root, models, download_state or DownloadState()
+    )
     return CapabilityReport({
         "schema_version": "wangp-dspy.capabilities/v1",
         "platform": {"system": platform.system(), "machine": platform.machine()},
@@ -306,7 +420,8 @@ def describe_capabilities(
         "local_accelerator": _accelerator(),
         "resources": _resources(root),
         "host_configuration": _host_state(root, environ),
-        "model_manifest": _models(root, models),
+        "model_manifest": model_manifest,
+        "download_plan": download_plan,
         "generation_capabilities": {
             "implemented": IMPLEMENTED_CAPABILITIES,
             "not_implemented": NOT_IMPLEMENTED_CAPABILITIES,

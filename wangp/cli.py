@@ -23,6 +23,7 @@ from predict.content_brief import (
     build_run_film_inputs,
     load_content_brief,
 )
+from predict.model_assets import AssetManifest, load_download_state
 from services.jobs.queue import JobNotFoundError
 from wangp import __version__
 from wangp.content import (
@@ -215,7 +216,7 @@ def _error(message: str) -> None:
     print(f"wgp: error: {redact_sensitive(message)}", file=sys.stderr)
 
 
-def _load_models(path: str | None) -> list[dict[str, str]] | None:
+def _load_models(path: str | None) -> list[dict[str, str]] | AssetManifest | None:
     if path is None:
         return None
     source = Path(path).expanduser()
@@ -223,6 +224,11 @@ def _load_models(path: str | None) -> list[dict[str, str]] | None:
         payload = json.loads(source.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"cannot read model manifest {source}: {exc}") from exc
+    if isinstance(payload, dict) and isinstance(payload.get("assets"), list):
+        try:
+            return AssetManifest.model_validate(payload)
+        except ValueError as exc:
+            raise ValueError("typed model-assets manifest is invalid") from exc
     if isinstance(payload, dict) and isinstance(payload.get("models"), list):
         payload = payload["models"]
     if not isinstance(payload, list):
@@ -341,7 +347,10 @@ def _run_doctor(args: argparse.Namespace) -> int:
         if capabilities_root is None:
             capabilities_root = _package_root()
         report = describe_capabilities(
-            capabilities_root, environ=os.environ, models=args.models
+            capabilities_root,
+            environ=os.environ,
+            models=args.models,
+            download_state=args.download_state,
         )
         if report.mapping()["model_manifest"]["status"] == "invalid":
             diagnostic = classify_input_failure(
@@ -751,6 +760,10 @@ def build_parser() -> argparse.ArgumentParser:
     doctor.add_argument("--db", help="also check one queue database")
     doctor.add_argument("--models", help="JSON model manifest")
     doctor.add_argument(
+        "--download-state",
+        help="typed durable state for a model-assets/v1 capability manifest",
+    )
+    doctor.add_argument(
         "--repository-root", type=Path,
         help="Wangp Git checkout for repository capability discovery",
     )
@@ -759,7 +772,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="run five existing remote checks; never implied",
     )
-    doctor.set_defaults(handler=_run_doctor, models=None, capabilities=False)
+    doctor.set_defaults(
+        handler=_run_doctor,
+        models=None,
+        download_state=None,
+        capabilities=False,
+    )
 
     content = commands.add_parser(
         "content", help="turn a brief and plates into a governed content summary"
@@ -858,11 +876,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         if args.verb == "doctor":
             try:
-                args.models = _load_models(args.models)
-            except ValueError as exc:
+                models = _load_models(args.models)
+                download_state = (
+                    load_download_state(args.download_state)
+                    if args.download_state is not None else None
+                )
+            except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
                 source = (
                     str(Path(args.models).expanduser().resolve())
-                    if args.models is not None else None
+                    if isinstance(args.models, str) else None
                 )
                 message = str(exc).replace(source, "<models>") if source else str(exc)
                 diagnostic = classify_input_failure(
@@ -874,6 +896,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 else:
                     print(render_diagnostic(diagnostic), file=sys.stderr)
                 return EXIT_INPUT
+            args.models = models
+            args.download_state = download_state
         return int(args.handler(args))
     except RepositoryRootResolutionError as exc:
         if getattr(args, "json", False):
