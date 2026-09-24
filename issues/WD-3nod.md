@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T14:14:05Z
-content_hash: "sha256:a9d119a689d09db389aa3019e0a5668d6a3e854a2633857bc7197d1140e47aa7"
+updated_at: 2026-09-24T16:33:45Z
+content_hash: "sha256:47df1afd91d2a4cbfe9984fa293b62c9c4fb701d0fd33181fca351038313b8a1"
 ---
 
 ## Description
@@ -30,3 +30,6 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Comments
+
+### 2026-09-24T16:33:45Z speed
+Programme status at 8f0b225: WD-651z (fail-closed parity evidence checker + canonical bundle contract) delivered, independently accepted, and merged. All 10 child stories now have authoritative bodies. Remaining scope is entirely host-gated: 45 capability rows still read 'planned' and no bundle exists under datasets/runs/maestro-parity/ because the operator's per-batch GPU-host authorization and model-download approval have not been given. The no-GPU install half of the 'better than Maestro' proof already exists and is tested in a clean worktree (tests/test_readme_quickstart.py).
