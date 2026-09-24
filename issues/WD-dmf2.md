@@ -9,7 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
 updated_at: 2026-09-24T14:14:07Z
-content_hash: "sha256:4ddd66ee589101d8177dfbc12a508b87efbb8468100c9e81a624b66eb9906fbb"
+content_hash: "sha256:a71004adecebffb26acb7874313ff140e251c5b06488087864672781261346b7"
+blocked_by: [WD-2gyw]
 ---
 
 ## Description
@@ -25,9 +26,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## History
-
+- 2026-09-24T14:14:07Z dep_added: blocked_by WD-2gyw
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocked by: [[WD-2gyw]]
 
 ## Comments
