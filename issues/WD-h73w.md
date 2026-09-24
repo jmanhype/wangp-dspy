@@ -7,8 +7,8 @@ type: epic
 labels: [e2e, accepted]
 created_at: 2026-09-20T19:46:39Z
 created_by: speed
-updated_at: 2026-09-23T21:36:35Z
-content_hash: "sha256:7ee2b0cb61dee255e983bc8aaed68d5939d4d03307cab16611fdd686395cb63a"
+updated_at: 2026-09-24T01:03:06Z
+content_hash: "sha256:f33da834efdb9a19a111aa9328fa93d5861fd7c7e359f3ffb8b0a7b33e0d3fb4"
 closed_at: 2026-09-21T04:42:48Z
 close_reason: "All child stories are closed and accepted; mechanical capstone complete, operator creative verdict remains pending."
 ---
@@ -59,3 +59,6 @@ WD-h73w's OUT OF SCOPE said, "More than one independent governed render executio
 
 ### 2026-09-23T20:48:29Z speed
 Completion-gate evidence at merged head 1f86aaa2d799bdf151376fc6e71fcf88fd2fc44e (main checkout): (1) full suite tests=1999 errors=0 failures=0 skipped=1 via parsed JUnit counters; (2) pvg verify --check-e2e PASSED, 1 e2e file (tests/e2e/test_production_stability.py); (3) wgp release verify -> release=ready, tag_created=false; (4) pvg lint --backlog 0 errors / 0 review findings over 112 issues; (5) pvg nd list --status open -> none; (6) protected engine files unchanged vs 1a7f4e5. The gate also caught and closed defect WD-pn6h (canonical path leak) before declaring the epic complete.
+
+### 2026-09-24T01:03:06Z speed
+Completion-gate evidence at merged head 40f8c2b373dec1c84ca5a596c821b740934af6fb (operator main checkout, ignored live acceptance file present): (1) full suite tests=2012 errors=0 failures=0 skipped=1 via parsed JUnit counters; (2) pvg verify --check-e2e PASSED (1 e2e file); (3) wgp release verify -> release=ready, tag_created=false; (4) pvg lint --backlog 0 errors / 0 review findings over 114 issues; (5) pvg nd list --status open -> none (114 issues, 114 closed); (6) protected engine files unchanged vs 1a7f4e5. The gate itself caught and closed three defects before this head: WD-pn6h (canonical path leak), WD-td89 (durable operator verdict + launcher reconciliation), WD-mjzt (acceptance source resolution crossing the output root; rejected once for a symlink escape and reworked). Merged PRs: #178 rf1a, #179 v6xp, #180 pn6h, #176 7zrq, #181 td89, #182 mjzt.
