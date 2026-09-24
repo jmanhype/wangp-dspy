@@ -9,8 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-24T14:14:09Z
-content_hash: "sha256:c787503125e2c486a8a32d3b85b01e70f01409b8c34d6f9d4811b84ff0c28e58"
-blocked_by: [WD-m0r5, WD-rous, WD-2gyw, WD-bxhc]
+content_hash: "sha256:80788c79e154436332dff755f2e72f7e953326afcb19a64fdd748e1e67e88252"
+blocked_by: [WD-m0r5, WD-rous, WD-2gyw, WD-bxhc, WD-cpow]
 ---
 
 ## Description
@@ -30,9 +30,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 - 2026-09-24T14:14:09Z dep_added: blocked_by WD-rous
 - 2026-09-24T14:14:09Z dep_added: blocked_by WD-2gyw
 - 2026-09-24T14:14:10Z dep_added: blocked_by WD-bxhc
+- 2026-09-24T14:14:10Z dep_added: blocked_by WD-cpow
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-m0r5]], [[WD-rous]], [[WD-2gyw]], [[WD-bxhc]]
+- Blocked by: [[WD-m0r5]], [[WD-rous]], [[WD-2gyw]], [[WD-bxhc]], [[WD-cpow]]
 
 ## Comments
