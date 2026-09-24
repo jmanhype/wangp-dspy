@@ -9,7 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-24T14:14:05Z
-content_hash: "sha256:4ddd66ee589101d8177dfbc12a508b87efbb8468100c9e81a624b66eb9906fbb"
+content_hash: "sha256:35c2ac81f56b286e012d1120a2a0469e56d9a9b5f222f1cc080c329188dcdd63"
+blocks: [WD-dmf2]
 ---
 
 ## Description
@@ -25,9 +26,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## History
-
+- 2026-09-24T14:14:07Z dep_added: blocks WD-dmf2
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-dmf2]]
 
 ## Comments
