@@ -7,8 +7,8 @@ type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-24T00:15:10Z
-content_hash: "sha256:642bca3b853cf351ebfe82dad3c90203a2cf0131a8d09a16ea1d7de0b7e9b7bb"
+updated_at: 2026-09-24T00:15:37Z
+content_hash: "sha256:929f268527e5d6cd93245d3a5bfcaff5fffc08b838ba886af3aa80f232747b20"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125, WD-ssdt]
 assignee: dev-WD-mjzt
@@ -340,3 +340,21 @@ status: rejected
 
 ### proof
 - [ ] AC #2: external machine-local ignored acceptance must never supply scoped reconciliation.
+
+### 2026-09-24T00:15:37Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Rework head: `20f3e7e362e3b71cfe4183cdc398073385850c5c`.
+- Fixed symlink probe: fail-closed `ValueError`, byte-identical output, no external hash/path leak.
+- Ignored-record-present named nodes 3 PASS; focused 18 PASS; full JUnit 2012/0/0/1; release ready.
+- Protected parity, diff check, and integrity hashes unchanged.
+
+### proof
+- [x] AC #1: main-shape full suite has zero failures.
+- [x] AC #2: scoped reads are physically contained and symlink escapes fail closed without writes.
+- [x] AC #3: disagreeing real-path candidates fail closed.
+- [x] AC #4: verdict, idempotence, tamper behavior, and integrity remain intact.
+- [x] AC #5: release is ready with no tag.
+- [x] AC #6: protected files and forbidden runtime surfaces are unchanged.
