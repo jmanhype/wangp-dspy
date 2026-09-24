@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed verifier for Maestro-parity evidence bundles."""
 from __future__ import annotations
-import argparse, hashlib, json, sys
+import argparse, hashlib, json, re, sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -11,6 +11,18 @@ SCHEMA = "wangp-dspy.maestro-parity-evidence/v1"
 MANIFEST = "evidence.json"
 CONTRACT_FIELD_IDS = ("operator_authorization", "command", "repository.commit", "model_provenance", "reference_provenance", "queue_attempt", "output.sha256", "media_metadata", "objective_gate_results", "reviewer_verdict")
 ROOT_KEYS = {"operator_authorization": "operator_authorization", "command": "command", "repository.commit": "repository", "model_provenance": "model_provenance", "reference_provenance": "reference_provenance", "queue_attempt": "queue_attempt", "output.sha256": "output", "media_metadata": "media_metadata", "objective_gate_results": "objective_gate_results", "reviewer_verdict": "reviewer_verdict"}
+CONTRACT_ROWS = {
+    "operator_authorization": (("auth-status", "auth-required-text", "auth-timestamp"), "Non-empty object with non-blank `text`, `scope`, RFC 3339 `timestamp`, and `approved_by`; `status` must be `approved`. Anything denied, absent, or blank fails."),
+    "command": (("command-argv",), "Non-empty array containing the exact executable argv in order. Every element must be non-blank text; the checker does not reconstruct or substitute arguments."),
+    "repository.commit": (("repo-commit", "repo-dirty-state"), "Object with non-blank `commit` (40 lowercase/uppercase hexadecimal characters) and `dirty_state`. `dirty_state.dirty` must be boolean and `identity_sha256` must be a 64-character hexadecimal SHA-256 that captures the dirty-state identity."),
+    "model_provenance": (("model-array", "model-required-text", "model-anchor", "model-download"), "Non-empty array. Each item requires non-blank `identity`, `source`, and `license`; either `sha256` (64 hexadecimal characters) or non-blank `immutable_version`; and `download_approved: true`. A model lacking both identity anchors or download approval fails."),
+    "reference_provenance": (("reference-array", "reference-path", "reference-role", "reference-hash-shape", "reference-hash-bytes", "reference-license"), "Non-empty array. Every reference requires a bundle-relative `path`, non-blank `role`, a 64-character `sha256`, and non-blank `license`. The path must identify a regular file in the bundle, and its actual SHA-256 must equal the recorded value."),
+    "queue_attempt": (("queue-ids", "queue-admission", "queue-exit"), "Object with non-blank durable `queue_id`, `job_id`, and `retry_id`; `admission_state` must be `admitted`; `exit_status` must be `succeeded`."),
+    "output.sha256": (("output-array", "output-path", "output-hash-shape", "output-hash-bytes"), "Non-empty array with bundle-relative `path` and 64-character `sha256` for every emitted artifact. Every path must identify a regular file in the bundle, and hashing its exact bytes must reproduce the recorded value. One mismatch fails the entire bundle."),
+    "media_metadata": (("media-exact-coverage", "media-kind", "media-dimensions", "media-alpha", "media-audio-present-boolean", "media-video-duration", "media-video-fps", "media-audio-properties", "media-image-duration-null", "media-image-fps-null", "media-image-audio-false"), "Non-empty array with exactly one entry for every `output.sha256` path and no others. Each entry has `path`, `kind`, positive integer `width` and `height`, non-blank `alpha_mode`, and an `audio` object whose `present` is boolean. For `kind: video`, `duration_s` and `fps` are positive numbers; when audio is present, non-blank `codec`, positive integer `sample_rate_hz`, and positive integer `channels` are required. For `kind: image`, `duration_s` and `fps` are null and `audio.present` is false."),
+    "objective_gate_results": (("gate-array", "gate-name", "gate-inputs", "gate-measurements", "gate-verdict"), "Non-empty array for every declared objective gate. Each item has non-blank `name`, a non-empty `inputs` array of non-blank values, numeric `threshold`, numeric `measured`, and `verdict`. Only `pass` is acceptable for a verified parity row; failing or omitted gates fail."),
+    "reviewer_verdict": (("reviewer-decision", "reviewer-links"), "Object with `decision: approved` and a non-empty `evidence_links` array of non-blank links to the reviewer's evidence."),
+}
 ARRAY, OBJECT, VALUE = "array", "object", "value"
 RULES = {
     "operator_authorization": (OBJECT, {"status": (VALUE, "approved"), "text": "text", "scope": "text", "timestamp": "timestamp", "approved_by": "text"}),
@@ -42,6 +54,16 @@ class VerificationReport:
 def canonical_field_ids() -> tuple[str, ...]:
     """Return the canonical field-group list shared with the contract."""
     return CONTRACT_FIELD_IDS
+
+
+def canonical_constraints() -> tuple[str, ...]:
+    """Return every normative constraint ID shared by code, document, and tests."""
+    return tuple(item for row in CONTRACT_ROWS.values() for item in row[0])
+
+
+def contract_rows() -> dict[str, tuple[tuple[str, ...], str]]:
+    """Return the machine-readable contract rows rendered by the document."""
+    return CONTRACT_ROWS
 
 
 def verify_bundle(bundle: Path) -> VerificationReport:
@@ -95,13 +117,17 @@ def _hash_entries(
         if not isinstance(relative, str) or not relative.strip():
             continue
         paths.append(relative)
-        path = (root / relative).resolve()
+        candidate = root / relative
+        if candidate.is_symlink():
+            diagnostics.append(Diagnostic(field, f"file is not regular: {relative}"))
+            continue
+        path = candidate.resolve()
         try:
             path.relative_to(root)
         except ValueError:
             diagnostics.append(Diagnostic(field, f"path escapes bundle: {relative}"))
             continue
-        if not path.is_file():
+        if path.is_symlink() or not path.is_file():
             diagnostics.append(Diagnostic(field, f"file does not exist: {relative}"))
             continue
         actual = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -116,7 +142,7 @@ def _validate_media(
     entries = value if isinstance(value, list) else []
     paths = [entry.get("path") for entry in entries if isinstance(entry, dict)
              and isinstance(entry.get("path"), str) and entry["path"].strip()]
-    if sorted(paths) != sorted(output_paths):
+    if len(paths) != len(set(paths)) or sorted(paths) != sorted(output_paths):
         diagnostics.append(Diagnostic(
             "media_metadata.path",
             "must describe every output artifact and no other path"))
@@ -125,17 +151,23 @@ def _validate_media(
             continue
         prefix = f"media_metadata[{index}].audio"
         audio = entry["audio"]
+        if entry.get("kind") == "video":
+            for key in ("duration_s", "fps"):
+                if not _valid(entry.get(key), "positive_number"):
+                    diagnostics.append(Diagnostic(
+                        f"media_metadata[{index}].{key}", _message("positive_number")))
+        if entry.get("kind") == "image" and audio.get("present") is not False:
+            diagnostics.append(Diagnostic(
+                f"{prefix}.present", "must be false for an image"))
         if audio.get("present") is not False:
             for key, kind in (("codec", "text"), ("sample_rate_hz", "positive_integer"),
                               ("channels", "positive_integer")):
                 if not _valid(audio.get(key), kind):
                     diagnostics.append(Diagnostic(f"{prefix}.{key}", _message(kind)))
-        if entry.get("kind") == "image" and (
-            entry.get("duration_s") is not None or entry.get("fps") is not None
-        ):
-            diagnostics.append(Diagnostic(
-                f"media_metadata[{index}].duration_s/fps",
-                "must be null for an image"))
+        for key in ("duration_s", "fps"):
+            if entry.get("kind") == "image" and entry.get(key) is not None:
+                diagnostics.append(Diagnostic(
+                    f"media_metadata[{index}].{key}", "must be null for an image"))
 
 
 def _validate(value: Any, rule: Any, field: str, diagnostics: list[Diagnostic]) -> None:
@@ -172,7 +204,9 @@ def _valid(value: Any, kind: str) -> bool:
         return text
     if kind == "timestamp":
         try:
-            return text and datetime.fromisoformat(value.replace("Z", "+00:00")) is not None
+            pattern = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
+            return bool(text and re.match(pattern, value)
+                        and datetime.fromisoformat(value.replace("Z", "+00:00")) is not None)
         except ValueError:
             return False
     if kind in {"commit", "sha256"}:
