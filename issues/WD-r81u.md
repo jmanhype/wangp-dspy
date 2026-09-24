@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T14:14:06Z
-content_hash: "sha256:0c6f9ccee050df2713b8d10b5d7f42a487c07b8869b17b19caac0c2c10d8d69a"
+updated_at: 2026-09-24T14:31:10Z
+content_hash: "sha256:4fe5c75324a694edb65deb43efe776f1967728b927f265a000e92f15b36d7e66"
 blocked_by: [WD-2gyw]
 blocks: [WD-dmf2, WD-651z, WD-fay0]
 ---
@@ -24,7 +24,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+## MANDATORY SKILLS
+- pvg
 
+Observable outcome: an explicitly authorized future run emits hashed finished-media artifacts and metadata under datasets/runs/maestro-parity/WD-r81u/; no GPU batch is authorized by this story and no finishing result is claimed without that bundle.
 
 ## History
 - 2026-09-24T14:14:06Z dep_added: blocked_by WD-2gyw
