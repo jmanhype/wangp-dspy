@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T19:20:47Z
-content_hash: "sha256:4a64522ed028909c611b4ff707d22619af150dafd8ea4e37340c81b6d891f327"
+updated_at: 2026-09-24T19:46:09Z
+content_hash: "sha256:d5337da7f81a9f39a7ddf3640d497ddf4a7d4eb026b23fb1bfb7ae6cbc781945"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -93,6 +93,21 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- Blocked diagnostic committed at e255e70b5050ebcc57b92b98428125e64e8e7d84 under datasets/runs/maestro-parity/WD-m0r5/.
+- Host proven: target 3090, user straughter, wgp_root /home/straughter/Wan2GP, wgp_python /home/straughter/Wan2GP/venv/bin/python; torch 2.10.0+cu130, diffusers 0.36.0, transformers 4.57.6, PIL 12.3.0, CUDA RTX 3090 available.
+- Read-only inventory found no Qwen-Image or FLUX image transformer. wgp doctor --capabilities --models model-assets.json reports 4 absent assets totaling 64,905,757,365 bytes (qwen int8 transformers 20,488,214,767 + 20,488,214,755; flux int8 11,954,433,942 + 11,974,893,901), above the operator 20 GB ceiling. wgp first-run download --resume exited 2 with DOWNLOAD_REQUIRES_OPERATOR and downloaded zero bytes.
+- Sanctioned wgp doctor --probe-host was ready=false: all four model hashes missing and remote disk headroom 37G below 50G. It printed gpu_state=idle, but direct compute-apps evidence shows pid 1007225 using 7808 MiB; no process was disturbed. The preflight regex in services/jobs/preflight.py does not recognize nvidia-smi CSV PID-comma output.
+- Canonical checker intentionally fails on missing evidence.json because no authorized generation occurred. No row flipped; all four rows remain planned except pre-existing flux upscale/outpaint unsupported.
+- Standing gates: full suite tests=2072 errors=0 failures=0 skipped=1; release verify release=ready tag_created=false; protected-file parity vs 8f0b225 exit 0; git diff --check exit 0.
+
+### proof
+- [ ] Pending explicit operator approval for the 64,905,757,365-byte lower-bound download plan and sufficient remote disk; license_acceptance remains false in models-planning-manifest.json.
+- [ ] Pending authorized real renders and checker-valid evidence before any host_run_verified update.
+
 ## MANDATORY SKILLS
 - pvg
 
