@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T14:14:06Z
-content_hash: "sha256:9c3ba6c5ed5d6a0f9574f0250e59b9c55997725940eade39adab4f9697cfe36a"
+updated_at: 2026-09-24T14:31:09Z
+content_hash: "sha256:b37759e3c3deb808a3c8e1d602f0fce495c7a048dea7c795c610cfcba8f2ed32"
 blocks: [WD-651z, WD-fay0]
 ---
 
@@ -23,7 +23,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+## MANDATORY SKILLS
+- pvg
 
+Observable outcome: an explicitly authorized future run emits hashed SFX/audio-post artifacts and measured metadata under datasets/runs/maestro-parity/WD-cpow/; no GPU batch is authorized by this story and no audio result is claimed without that bundle.
 
 ## History
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
