@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T14:14:05Z
-content_hash: "sha256:5704b64e55b16470d2f4e1e41835c662b8269c2d8fd94a50a076f90e8640f39e"
+updated_at: 2026-09-24T14:30:29Z
+content_hash: "sha256:9af297fcd487704df46a5cfe4d02fbcfdf329a867739b5ab43a7c641bcf63da7"
 blocks: [WD-bxhc, WD-651z, WD-0zj8, WD-fay0]
 ---
 
@@ -23,7 +23,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+## MANDATORY SKILLS
+- pvg
 
+Observable outcome: an explicitly authorized run emits hashed image artifacts and metadata under datasets/runs/maestro-parity/WD-m0r5/; without that authorization and bundle, no generation result is claimed.
 
 ## History
 - 2026-09-24T14:14:06Z dep_added: blocks WD-bxhc
