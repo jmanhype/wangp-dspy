@@ -223,6 +223,27 @@ def test_record_operator_verdict_output_root_ignores_external_acceptance(tmp_pat
     assert external_acceptance.read_bytes() == b"ignored machine-local acceptance"
 
 
+@pytest.mark.parametrize("redirected_input", ["acceptance", "run_ledger"])
+def test_record_operator_verdict_scoped_rejects_symlink_escape(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, redirected_input: str) -> None:
+    output = make_verdict_fixture(tmp_path, monkeypatch)
+    scoped_path = output / ("provenance/operator-acceptance.json" if redirected_input == "acceptance" else "run-ledger.json")
+    external = tmp_path / "external-input.json"
+    external.write_bytes(b"external acceptance decoy" if redirected_input == "acceptance" else scoped_path.read_bytes())
+    scoped_path.unlink()
+    scoped_path.symlink_to(external)
+    external_sha = recover.sha(external)
+    before = snapshot(output)
+
+    with pytest.raises(ValueError, match="path escapes output root") as error:
+        recover.record_operator_verdict(output_root=output)
+
+    message = str(error.value)
+    assert str(external.resolve()) not in message
+    assert external_sha not in message
+    assert snapshot(output) == before
+    assert external.read_bytes() == (b"external acceptance decoy" if redirected_input == "acceptance" else before["run-ledger.json"])
+
+
 def test_record_operator_verdict_scoped_missing_source_fails_closed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     output = make_verdict_fixture(tmp_path, monkeypatch)
     before = snapshot(output)

@@ -291,6 +291,17 @@ def _validate_reconciled(final: dict[str, Any], ledger: dict[str, Any], postproc
         raise ValueError("LF004 evidence is accepted but incomplete or corrupted")
 
 
+def _scoped_file(path: Path, root: Path, label: str) -> Path:
+    """Return a readable path without following a link outside the root."""
+    try:
+        resolved = path.resolve(strict=True)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"LF004 scoped {label} not found in output root: {path}") from error
+    if not resolved.is_relative_to(root.resolve()):
+        raise ValueError(f"LF004 scoped {label} path escapes output root: {path}")
+    return path
+
+
 def _resolve_operator_acceptance(acceptance_path: Path | None, pull: Path, provenance: Path, *, scoped: bool) -> Path:
     """Resolve the acceptance record without crossing an explicit output root."""
     if acceptance_path is not None:
@@ -300,9 +311,7 @@ def _resolve_operator_acceptance(acceptance_path: Path | None, pull: Path, prove
 
     canonical = provenance / "operator-acceptance.json"
     if scoped:
-        if not canonical.exists():
-            raise FileNotFoundError(f"LF004 operator acceptance record not found in output root: {canonical}")
-        return canonical
+        return _scoped_file(canonical, pull, "acceptance record")
 
     local = pull / "operator-acceptance.json"
     if not canonical.exists():
@@ -338,6 +347,9 @@ def record_operator_verdict(acceptance_path: Path | None = None, output_root: Pa
     missing = [str(path) for path in required if not path.exists()]
     if missing:
         raise FileNotFoundError(f"authoritative LF004 evidence missing: {missing}")
+    if output_root is not None:
+        for path, label in ((final_path, "final provenance"), (sidecar_path, "operator sidecar"), (postprocess_path, "postprocess recovery"), (review_path, "review"), (ledger_path, "run ledger")):
+            _scoped_file(path, output_root, label)
     final = json.loads(final_path.read_text(encoding="utf-8"))
     sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
     postprocess = json.loads(postprocess_path.read_text(encoding="utf-8"))
