@@ -1,0 +1,96 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-m0r5-qwen-batch.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-m0r5-qwen-batch.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/object-mask.png
+[load_settings] Task 1/9 ready, ID: 1, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Task 2/9 ready, ID: 2, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Task 3/9 ready, ID: 3, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/tess-jacket-mask.png
+[load_settings] Task 4/9 ready, ID: 4, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/anchor.png
+[load_settings] Task 5/9 ready, ID: 5, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/object-mask.png
+[load_settings] Task 6/9 ready, ID: 6, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Task 7/9 ready, ID: 7, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg
+[load_settings] Task 8/9 ready, ID: 8, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/tess-jacket-mask.png
+[load_settings] Task 9/9 ready, ID: 9, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+Loaded 9 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Change the blue ceramic teapot into a copper teapo...
+          [OK]
+  Task 2: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Upscale the provided teapot photograph without cha...
+          [OK]
+  Task 3: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Extend the white studio table and soft background ...
+          [OK]
+  Task 4: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Preserve this exact person and facial identity whi...
+          [OK]
+  Task 5: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Using the reference observatory composition, creat...
+          [OK]
+  Task 6: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Change the blue ceramic teapot into a polished bra...
+          [OK]
+  Task 7: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Upscale the provided teapot photograph with crisp ...
+          [OK]
+  Task 8: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Extend the soft white studio environment with addi...
+          [OK]
+  Task 9: model=qwen_image_edit_plus_20B_nunchaku_r128_int4, steps=4, frames=81
+          prompt: Preserve this exact person and facial identity whi...
+          [OK]
+
+[DRY-RUN] Validation complete. 9/9 task(s) valid.
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-m0r5-flux-batch.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-m0r5-flux-batch.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png
+[load_settings] Task 1/5 ready, ID: 1, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png
+[load_settings] Task 2/5 ready, ID: 2, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/anchor.png
+[load_settings] Task 3/5 ready, ID: 3, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png
+[load_settings] Task 4/5 ready, ID: 4, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png
+[load_settings] Task 5/5 ready, ID: 5, model: flux_dev_kontext
+Loaded 5 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=flux_dev_kontext, steps=12, frames=81
+          prompt: Change the green glass carafe into a copper carafe...
+          [OK]
+  Task 2: model=flux_dev_kontext, steps=12, frames=81
+          prompt: Preserve this exact person and facial identity whi...
+          [OK]
+  Task 3: model=flux_dev_kontext, steps=12, frames=81
+          prompt: Using the reference image, preserve the two people...
+          [OK]
+  Task 4: model=flux_dev_kontext, steps=12, frames=81
+          prompt: Change the green glass carafe into a brushed steel...
+          [OK]
+  Task 5: model=flux_dev_kontext, steps=12, frames=81
+          prompt: Preserve this exact person and facial identity whi...
+          [OK]
+
+[DRY-RUN] Validation complete. 5/5 task(s) valid.

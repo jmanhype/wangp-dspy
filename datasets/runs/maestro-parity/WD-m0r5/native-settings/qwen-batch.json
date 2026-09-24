@@ -1,0 +1,160 @@
+[
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Change the blue ceramic teapot into a copper teapot while preserving the studio composition and lighting",
+    "resolution": "1024x1024",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 914,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/object-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_standard_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Upscale the provided teapot photograph without changing its content",
+    "resolution": "2048x2048",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 924,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "spatial_upsampling": "qwen_vae_pid(1.5)",
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_standard_upscale",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Extend the white studio table and soft background naturally beyond the original photograph",
+    "resolution": "1280x1280",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 934,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "video_guide_outpainting": "20 20 20 20",
+    "output_filename": "wd_m0r5_qwen_standard_outpaint",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+    "resolution": "260x360",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 944,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/tess-jacket-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_standard_identity_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Using the reference observatory composition, create a sharp studio-style portrait of Tess and Rho with their identities and positions preserved",
+    "resolution": "1024x1024",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 954,
+    "batch_size": 1,
+    "settings_version": 99,
+    "remove_background_images_ref": 0,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/anchor.png"
+    ],
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_professional_generate"
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Change the blue ceramic teapot into a polished brass teapot and add a subtle studio reflection",
+    "resolution": "1024x1024",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 964,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/object-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_professional_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Upscale the provided teapot photograph with crisp photographic detail and no content change",
+    "resolution": "2048x2048",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 974,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "spatial_upsampling": "qwen_vae_pid(1.5)",
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_professional_upscale",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Extend the soft white studio environment with additional depth and natural negative space",
+    "resolution": "1280x1280",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 984,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+    ],
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "video_guide_outpainting": "20 20 20 20",
+    "output_filename": "wd_m0r5_qwen_professional_outpaint",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+    "prompt": "Preserve this exact person and facial identity while changing her jacket to a deep teal jacket",
+    "resolution": "260x360",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "seed": 994,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/tess-jacket-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_qwen_professional_identity_edit",
+    "remove_background_images_ref": 0
+  }
+]
