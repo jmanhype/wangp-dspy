@@ -1,0 +1,23 @@
+Quarantine action: mv only; no delete or overwrite.
+$ df before moves
+      Avail
+39187963904
+MOVED source=/home/straughter/.ce/.pixi/envs/geometrypack-main destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-main size_bytes=9135369230
+MOVED source=/home/straughter/.ce/.pixi/envs/depthanythingv3-nodes destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/depthanythingv3-nodes size_bytes=8531280675
+MOVED source=/home/straughter/.ce/.pixi/envs/geometrypack-blender destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-blender size_bytes=7186979568
+MOVED source=/home/straughter/.ce/.pixi/envs/geometrypack-gpu destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-gpu size_bytes=6587283991
+MOVED source=/home/straughter/.ce/.pixi/envs/geometrypack-nodes destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-nodes size_bytes=9957085302
+MOVED source=/home/straughter/.ce/.pixi/envs/sam3dbodyfixed-nodes destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/sam3dbodyfixed-nodes size_bytes=9993636845
+$ unique quarantined bytes (hard links counted once)
+19255262184	/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs
+$ source environment now contains
+$ quarantined roots
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-main
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/depthanythingv3-nodes
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-blender
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-gpu
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/geometrypack-nodes
+/home/straughter/quarantine/WD-m0r5-20260924T211324Z/ce-pixi-envs/sam3dbodyfixed-nodes
+$ df after moves (same-filesystem mv does not free bytes)
+      Avail
+39187816448

@@ -1,0 +1,21 @@
+
+== svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors ==
+
+== flux1_kontext_dev_quanto_bf16_int8.safetensors ==
+
+== qwen_vae.safetensors ==
+
+== Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors ==
+
+== Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors ==
+
+== qwen_image_edit_inpainting.safetensors ==
+
+== T5_xxl_1.1_enc_quanto_bf16_int8.safetensors ==
+
+== model.safetensors ==
+/home/straughter/qwen-voicedesign-trial/model/model.safetensors
+/home/straughter/qwen-voicedesign-trial/model/speech_tokenizer/model.safetensors
+/home/straughter/Wan2GP/ckpts/wav2vec/model.safetensors
+
+== flux_vae.safetensors ==

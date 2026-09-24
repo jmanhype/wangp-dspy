@@ -1,0 +1,17 @@
+Second quarantine tier: stale render/acceptance outputs and regenerable caches; mv only.
+$ df before
+      Avail
+39177240576
+MOVED source=/home/straughter/Wan2GP/outputs destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/wan2gp__outputs size_bytes=1624514426
+MOVED source=/home/straughter/Wan2GP/acceptance destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/wan2gp__acceptance size_bytes=142554009
+MOVED source=/home/straughter/Wan2GP/models/.cache destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/wan2gp__models__.cache size_bytes=126
+MOVED source=/home/straughter/Wan2GP/ckpts/.cache destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/wan2gp__ckpts__.cache size_bytes=3727
+MOVED source=/home/straughter/.cache destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/.cache size_bytes=747026485
+MOVED source=/home/straughter/.local/share/uv destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/.local__share__uv size_bytes=279641913
+MOVED source=/home/straughter/.triton destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/.triton size_bytes=29339782
+MOVED source=/home/straughter/.nv destination=/home/straughter/quarantine/WD-m0r5-20260924T211324Z/.nv size_bytes=266817004
+$ unique bytes now under quarantine
+22345159656	/home/straughter/quarantine/WD-m0r5-20260924T211324Z
+$ df after same-filesystem moves
+      Avail
+39177101312

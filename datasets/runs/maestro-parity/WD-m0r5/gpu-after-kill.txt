@@ -1,0 +1,9 @@
+Authorization supplied by operator: kill the orphaned llama-server holder; it was expected not to respawn.
+$ ssh ... nvidia-smi --query-gpu=name,memory.total,memory.used,memory.free --format=csv,noheader,nounits
+NVIDIA GeForce RTX 3090, 24576, 83, 24034
+$ ssh ... nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader,nounits
+$ ssh ... ps -o pid,ppid,stat,etime,args -p 1007225
+    PID    PPID STAT     ELAPSED COMMAND
+$ ssh ... df -BG --output=avail /home/straughter/Wan2GP
+Avail
+  37G

@@ -1,0 +1,229 @@
+{
+  "assets": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors",
+      "id": "qwen-edit-2509-svdq-int4-shared-both-qwen-rows",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "3b438e3e8b76c79734cc9a84dc5e9b7c7c3cce68448dbb8bd9e756f0135b877d",
+      "size_bytes": 12654443144,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors",
+      "id": "flux-kontext-dev-int8-shared-both-flux-rows",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265",
+      "size_bytes": 11974893901,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Flux/resolve/main/flux1_kontext_dev_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae.safetensors",
+      "id": "qwen-vae",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "0c8bc8b758c649abef9ea407b95408389a3b2f610d0d10fcb054fe171d0a8344",
+      "size_bytes": 253806966,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae_config.json",
+      "id": "qwen-vae-config",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "e4e61b7553f930e9eabf8935f0a77e6d004cc3ee67a601a56ef03cc41ccada68",
+      "size_bytes": 730,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors",
+      "id": "qwen25-text-encoder-int8",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "18966ca6ba18261ec0465442580ad30510a758ecc0314871a0bbd30032716568",
+      "size_bytes": 9432992295,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/merges.txt",
+      "id": "qwen-tokenizer-merges.txt",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "size_bytes": 1671853,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/merges.txt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/tokenizer_config.json",
+      "id": "qwen-tokenizer-tokenizer_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "size_bytes": 4686,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/config.json",
+      "id": "qwen-tokenizer-config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "081d41bae4c75815afde340b5cee39d9c71febe3fc3146e0366a75a45da0c04b",
+      "size_bytes": 3217,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/vocab.json",
+      "id": "qwen-tokenizer-vocab.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "87a257b04b17642a0688c98cd1df89c398bda4fee532d6f88b38a659ecb4ac8d",
+      "size_bytes": 3383407,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/vocab.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json",
+      "id": "qwen-tokenizer-video_preprocessor_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "d4397fb8765d3fb56db022e5a14ce58dbcc144093c49ea1ab96787fb7951facb",
+      "size_bytes": 904,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/preprocessor_config.json",
+      "id": "qwen-tokenizer-preprocessor_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "9ff8a240516e4ef986717597bb2c5fff3e4d4c0951d02b7dee949ceb369b5b03",
+      "size_bytes": 788,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/chat_template.json",
+      "id": "qwen-tokenizer-chat_template.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96",
+      "size_bytes": 1050,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/chat_template.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors",
+      "id": "qwen-image-upscale-vae",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "2413554bbec24215185662d009893cf4666b8e777efece2d895e03e1a6b63e06",
+      "size_bytes": 507684560,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Wan21/resolve/main/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_image_edit_inpainting.safetensors",
+      "id": "qwen-edit-inpainting",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "4928d4d93d5a9fa197121ff04e07529e1b93893ed6014a16f7bdea18af430e08",
+      "size_bytes": 590058840,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_image_edit_inpainting.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors",
+      "id": "flux-t5-encoder-int8",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "03b60a5957624accb83086771af4f7d48665d2d3c076ca0c626f31ec0fc52087",
+      "size_bytes": 4896193821,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/added_tokens.json",
+      "id": "flux-t5-tokenizer-added_tokens.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "4b1c1345a66fdd00264819c5adfc3142debfbd3b03767a04f95a39ac2277ca21",
+      "size_bytes": 2634,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/added_tokens.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/special_tokens_map.json",
+      "id": "flux-t5-tokenizer-special_tokens_map.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "5c87151ef0f72a99d1f766a4c418bd2a1f90aaa30a8e22fe5eca9641daebb64f",
+      "size_bytes": 2201,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/spiece.model",
+      "id": "flux-t5-tokenizer-spiece.model",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86",
+      "size_bytes": 791656,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/spiece.model"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/tokenizer_config.json",
+      "id": "flux-t5-tokenizer-tokenizer_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "71730771351a8f0463bd2e545fbfaadc9dc01a7a222306ff4795cc48dfe168c0",
+      "size_bytes": 20509,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/model.safetensors",
+      "id": "flux-clip-text-encoder",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "size_bytes": 1710540580,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/model.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/text_config.json",
+      "id": "flux-clip-tokenizer-text_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "0e6438a7306ade85a161a0078246bedffc1b787f6a9d86c48bd27556a2734040",
+      "size_bytes": 1865,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/text_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/merges.txt",
+      "id": "flux-clip-tokenizer-merges.txt",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "size_bytes": 524619,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/merges.txt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/preprocessor_config.json",
+      "id": "flux-clip-tokenizer-preprocessor_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd",
+      "size_bytes": 316,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/special_tokens_map.json",
+      "id": "flux-clip-tokenizer-special_tokens_map.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "f8c0d6c39aee3f8431078ef6646567b0aba7f2246e9c54b8b99d55c22b707cbf",
+      "size_bytes": 389,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer.json",
+      "id": "flux-clip-tokenizer-tokenizer.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "a83e0809aa4c3af7208b2df632a7a69668c6d48775b3c3fe4e1b1199d1f8b8f4",
+      "size_bytes": 2224003,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/tokenizer.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer_config.json",
+      "id": "flux-clip-tokenizer-tokenizer_config.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "deef455e52fa5e8151e339add0582e4235f066009601360999d3a9cda83b1129",
+      "size_bytes": 905,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/vocab.json",
+      "id": "flux-clip-tokenizer-vocab.json",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "3f0c4f7d2086b61b38487075278ea9ed04edb53a03cbb045b86c27190fa8fb69",
+      "size_bytes": 961143,
+      "source_url": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/vocab.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/flux_vae.safetensors",
+      "id": "flux-vae",
+      "license": "operator-authorized download; exact terms recorded in minimum-download-set.md",
+      "sha256": "afc8e28272cd15db3919bacdb6918ce9c1ed22e96cb12c4d5ed0fba823529e38",
+      "size_bytes": 335304388,
+      "source_url": "https://huggingface.co/DeepBeepMeep/Flux/resolve/main/flux_vae.safetensors"
+    }
+  ],
+  "schema_version": "wangp-dspy.model-assets/v1"
+}

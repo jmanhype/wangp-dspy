@@ -1,0 +1,50 @@
+$ stat exact image dependency path; sha256 only when stat succeeds
+PATH /home/straughter/Wan2GP/ckpts/qwen_vae.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/qwen_vae.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/flux_vae.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/flux_vae.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/model.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/model.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/qwen_image_20B_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/qwen_image_20B_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/qwen_image_edit_plus2_20B_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/qwen_image_edit_plus2_20B_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/flux1-dev_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/flux1-dev_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors': No such file or directory
+ABSENT
+PATH /home/straughter/Wan2GP/ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors
+stat: cannot statx '/home/straughter/Wan2GP/ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors': No such file or directory
+ABSENT
+$ exact tokenizer/config directories
+/home/straughter/Wan2GP/ckpts
+/home/straughter/Wan2GP/ckpts/pose
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct
+/home/straughter/Wan2GP/ckpts/.cache
+/home/straughter/Wan2GP/ckpts/.cache/huggingface
+/home/straughter/Wan2GP/ckpts/minimax_h3
+/home/straughter/Wan2GP/ckpts/depth
+/home/straughter/Wan2GP/ckpts/mask
+/home/straughter/Wan2GP/ckpts/scribble
+/home/straughter/Wan2GP/ckpts/chinese-wav2vec2-base
+/home/straughter/Wan2GP/ckpts/wav2vec
+/home/straughter/Wan2GP/ckpts/flow
+/home/straughter/Wan2GP/ckpts/roformer
+/home/straughter/Wan2GP/ckpts/det_align
+/home/straughter/Wan2GP/ckpts/pyannote
