@@ -11,7 +11,6 @@ updated_at: 2026-09-24T00:15:09Z
 content_hash: "sha256:a367b1dba31d324ae016567782067f634ea0a89386be311bfce66f9401daed88"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125, WD-ssdt]
-labels: [rejected]
 assignee: dev-WD-mjzt
 ---
 
