@@ -1,0 +1,9 @@
+{
+  "model_type": "flux_dev_kontext",
+  "prompt": "A clear studio product photograph of a green glass carafe on a plain white table, sharp focus, even lighting",
+  "resolution": "1024x1024",
+  "num_inference_steps": 20,
+  "seed": 905,
+  "batch_size": 1,
+  "settings_version": 99
+}

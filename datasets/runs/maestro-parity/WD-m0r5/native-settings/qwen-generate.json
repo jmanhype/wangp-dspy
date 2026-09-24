@@ -1,0 +1,10 @@
+{
+  "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+  "prompt": "A clear studio product photograph of a blue ceramic teapot on a plain white table, sharp focus, even lighting",
+  "resolution": "1024x1024",
+  "num_inference_steps": 4,
+  "guidance_scale": 1,
+  "seed": 904,
+  "batch_size": 1,
+  "settings_version": 99
+}
