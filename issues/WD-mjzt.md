@@ -7,8 +7,8 @@ type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-23T23:59:58Z
-content_hash: "sha256:87cf9dc5ebd15a62517bcc7b8144435892684a9090d7f066c563ba3eee577ef4"
+updated_at: 2026-09-24T00:15:09Z
+content_hash: "sha256:d2f172671d4b382ccea7587b7785d56d69130c43a1e29cc31f9868710304edca"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125]
 labels: [rejected]
@@ -105,7 +105,74 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (REWORK DELIVERED)
 
+PROOF:
+
+### Rejection reproduction
+- At rejected head `8022994310f11288cfdb99d1a86a02696ccb7d41`, the PM symlink probe reproduced: `external_supplied=true`, `source_is_symlink=true`, and external SHA `471e5b37f07276702426412969f2176f9c454aa49f0d97b6973747e925b3fc6d`.
+- At fixed head `20f3e7e362e3b71cfe4183cdc398073385850c5c`, the same real-file setup raised `ValueError: LF004 scoped acceptance record path escapes output root`; output snapshot was byte-identical before/after, external path was absent from the message, and external SHA `64ee8dbddb31cae3d479f96eab902b9239dde0ab50d351159ecefbdf4918564a` was absent.
+
+### Implementation
+- `datasets/content_briefs/lf004-operator-dogfood-56f/run/recover_once.py:294-303` resolves scoped paths strictly and rejects links outside the resolved output root.
+- `recover_once.py:311-313` applies physical containment to scoped automatic acceptance resolution.
+- `recover_once.py:347-351` applies the same check before reading final provenance, sidecar, postprocess, review, and ledger.
+- `tests/test_lf004_recovery_tooling.py:226-246` covers both acceptance and ledger symlink escapes, no writes, and no external path/hash leakage.
+
+### Commands run
+- Fixed symlink probe at committed head: fail-closed `ValueError`, byte-identical output, no leak.
+- Ignored-file-present disposable checkout at `20f3e7e`, ignored acceptance SHA `e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d`:
+  - Named nodes (idempotence + acceptance/run-ledger symlink escapes): RC=0, 3 passed.
+  - `uv run --frozen --extra dev pytest -q tests/test_lf004_recovery_tooling.py`: RC=0, 18 passed.
+  - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-mjzt-rework-full.xml`: RC=0; `tests=2012 errors=0 failures=0 skipped=1 time=676.382`.
+  - `uv run --frozen --extra dev wgp release verify`: RC=0; all checks pass, `tag_created=false`, `release=ready`.
+- `uv run --frozen --extra dev python -m py_compile ...`: RC=0.
+- `pvg verify ... --format=text`: `VERIFY: PASSED (2 files scanned, 0 issues)`.
+- `git diff --exit-code 06a6fd48b0e3433a4076b9e154a2f693f24f71b9 -- <five protected files>`: RC=0.
+- `git diff --check`: RC=0.
+
+Summary: REWORK PASS. Physical scoped containment closes the symlink escape and applies to scoped evidence inputs; ordinary fixture reconciliation, real-path canonical preference, disagreement, tamper behavior, and idempotence remain green.
+Commit SHA: 20f3e7e362e3b71cfe4183cdc398073385850c5c
+
+### Integrity
+- Acceptance before/post: `e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d`.
+- Media before/post: `2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7`.
+- Queue DB before/post: `fcefccf496ab8f1c2275271cb901528bda820708ac5f2ada09c0d349c1349ca4`.
+- Final, sidecar, postprocess, and ledger statuses remain `operator_accepted`.
+
+### AC Verification
+| AC | Result |
+|---|---|
+| 1 main-shape suite | PASS: 2012 tests, 0 failures |
+| 2 physical scoped containment | PASS: acceptance + ledger symlink regressions |
+| 3 real-path disagreement fail-closed | PASS: original regression |
+| 4 verdict/idempotence/tamper/integrity | PASS |
+| 5 release gate | PASS: ready, no tag |
+| 6 protected/runtime boundaries | PASS |
+
+LEARNINGS:
+- Lexical `exists()` does not establish containment; symlink targets must be resolved strictly before reading.
+- Containment belongs before every scoped read, not only acceptance selection.
+- Rejection evidence as a concrete filesystem probe directly translated into a real-file parametrized regression.
+
+### OBSERVATIONS
+- Existing full-suite Starlette deprecation warning remains; tests pass and no runtime work was performed.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Fixed pushed head: `20f3e7e362e3b71cfe4183cdc398073385850c5c`.
+- Ignored-record-present named regressions 3 PASS; focused 18 PASS; full 2012/0/0/1; release ready.
+- Protected parity, diff check, and integrity hashes unchanged.
+
+### proof
+- [x] AC #1: full suite zero failures in main shape.
+- [x] AC #2: scoped reads use physical containment; symlink escape fails closed without writes or hash/path leakage.
+- [x] AC #3: disagreeing real candidates fail closed.
+- [x] AC #4: verdict guarantees and artifact hashes unchanged.
+- [x] AC #5: release ready with no tag.
+- [x] AC #6: protected files and forbidden runtime surfaces unchanged.
 
 ## nd_contract
 status: rejected
