@@ -9,8 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-24T14:14:06Z
-content_hash: "sha256:8e3470c5dbc31bc144287b925e29dbb8812ce1690d2b3d9884ca42c2ac7e2ca7"
-blocks: [WD-bxhc]
+content_hash: "sha256:a5b40a71a7e16d58eccd50fa278ccf81dc83d22cd0ac49551404f440d6bd8837"
+blocks: [WD-bxhc, WD-r81u]
 ---
 
 ## Description
@@ -27,9 +27,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 ## History
 - 2026-09-24T14:14:06Z dep_added: blocks WD-bxhc
+- 2026-09-24T14:14:06Z dep_added: blocks WD-r81u
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bxhc]]
+- Blocks: [[WD-bxhc]], [[WD-r81u]]
 
 ## Comments
