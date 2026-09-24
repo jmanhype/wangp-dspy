@@ -1,18 +1,20 @@
 ---
 id: WD-mjzt
 title: "Bug: isolate LF004 acceptance source resolution"
-status: in_progress
+status: closed
 priority: 0
 type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-24T00:15:37Z
-content_hash: "sha256:929f268527e5d6cd93245d3a5bfcaff5fffc08b838ba886af3aa80f232747b20"
+updated_at: 2026-09-24T00:32:48Z
+content_hash: "sha256:b27d1bd6650463dfadecc462fec794253c0b5d680825aff765f952826612b933"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125, WD-ssdt]
 assignee: dev-WD-mjzt
 labels: [delivered]
+closed_at: 2026-09-24T00:32:48Z
+close_reason: "Accepted at 20f3e7e362e3b71cfe4183cdc398073385850c5c: re-ran original symlink counterexamples; scoped acceptance, ledger, and explicit acceptance escapes all fail closed with byte-identical trees and no external hash/path leakage. Ignored-record-present targeted suite, full JUnit 2012/0/0/1, release gate, integrity, protected parity, and diff checks pass."
 ---
 
 ## Description
@@ -310,6 +312,7 @@ status: delivered
 - 2026-09-23T23:59:58Z claimed by dev-WD-mjzt
 - 2026-09-24T00:15:09Z status: in_progress -> in_progress
 - 2026-09-24T00:15:09Z auto-follows: linked to predecessor WD-ssdt
+- 2026-09-24T00:32:48Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-h73w]]
