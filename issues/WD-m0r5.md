@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T19:20:46Z
-content_hash: "sha256:781a00d6fab407cbabdeaf3c776570e1264d7f636f1456d19ee73df0f124e6fb"
+updated_at: 2026-09-24T19:20:47Z
+content_hash: "sha256:4a64522ed028909c611b4ff707d22619af150dafd8ea4e37340c81b6d891f327"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -114,3 +114,6 @@ Observable outcome: an explicitly authorized run emits hashed image artifacts an
 - Follows: [[WD-651z]]
 
 ## Comments
+
+### 2026-09-24T19:20:47Z speed
+OPERATOR AUTHORIZATION RECORDED 2026-09-24: operator replied 'I agree' to the request 'Authorize host batch 1 = image lane (WD-m0r5)?' with the stated default ceiling: download-plan byte total must be reported; stop for operator approval above 20 GB. Host verified live from this checkout: ssh target 3090 (BatchMode SSH_OK, user straughter), host.wgp_root=/home/straughter/Wan2GP, GPU NVIDIA RTX 3090 24576 MiB total (7896 MiB in use at verification time by an unidentified process — do not disturb). No GPU work or download had been performed at the time of this note.
