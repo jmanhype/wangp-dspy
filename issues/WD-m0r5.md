@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T19:46:09Z
-content_hash: "sha256:d5337da7f81a9f39a7ddf3640d497ddf4a7d4eb026b23fb1bfb7ae6cbc781945"
+updated_at: 2026-09-24T21:06:55Z
+content_hash: "sha256:8f7e02932083614f419da3e45222972f95d68f1d493280f955d7ec13f56e142c"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -132,3 +132,6 @@ Observable outcome: an explicitly authorized run emits hashed image artifacts an
 
 ### 2026-09-24T19:20:47Z speed
 OPERATOR AUTHORIZATION RECORDED 2026-09-24: operator replied 'I agree' to the request 'Authorize host batch 1 = image lane (WD-m0r5)?' with the stated default ceiling: download-plan byte total must be reported; stop for operator approval above 20 GB. Host verified live from this checkout: ssh target 3090 (BatchMode SSH_OK, user straughter), host.wgp_root=/home/straughter/Wan2GP, GPU NVIDIA RTX 3090 24576 MiB total (7896 MiB in use at verification time by an unidentified process — do not disturb). No GPU work or download had been performed at the time of this note.
+
+### 2026-09-24T21:06:55Z speed
+DISCOVERED DEFECT during first host batch (durable record): services/jobs/preflight.py:54 does not parse `nvidia-smi --query-compute-apps=pid` CSV output, so host preflight reported gpu_state=idle while PID 1007225 (llama-server) held 7808 MiB on the RTX 3090. Observed compute-apps CSV shape: '1007225, 7808 MiB, /home/straughter/llama.cpp/build/bin/llama-server'. Consequence: preflight can admit a render onto an occupied GPU. Protected file — needs its own story + independent acceptance. GPU holder was terminated by explicit operator authorization (7896 MiB -> 83 MiB used / 24034 MiB free); the llama-server was up 3d18h, orphaned to PID 1, not systemd-supervised.
