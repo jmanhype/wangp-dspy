@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T14:14:06Z
-content_hash: "sha256:41c3decd7d9f4517fffb469074621d3160c78a94a4ae7240f4ca404d25bd6acf"
+updated_at: 2026-09-24T14:31:09Z
+content_hash: "sha256:1eff2384094165768f6de5cc1e86d76948ec91c190adc6be6e1829bb6038b968"
 blocked_by: [WD-m0r5, WD-2gyw]
 blocks: [WD-dmf2, WD-651z, WD-fay0]
 ---
@@ -24,7 +24,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+## MANDATORY SKILLS
+- pvg
 
+Observable outcome: an explicitly authorized future run emits hashed portable voice-character artifacts and metadata under datasets/runs/maestro-parity/WD-bxhc/; no GPU batch is authorized by this story and no voice result is claimed without that bundle.
 
 ## History
 - 2026-09-24T14:14:06Z dep_added: blocked_by WD-m0r5
