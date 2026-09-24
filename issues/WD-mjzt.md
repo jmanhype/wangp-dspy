@@ -12,7 +12,7 @@ content_hash: "sha256:b27d1bd6650463dfadecc462fec794253c0b5d680825aff765f9528266
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125, WD-ssdt]
 assignee: dev-WD-mjzt
-labels: [delivered, accepted]
+labels: [accepted]
 closed_at: 2026-09-24T00:32:48Z
 close_reason: "Accepted at 20f3e7e362e3b71cfe4183cdc398073385850c5c: re-ran original symlink counterexamples; scoped acceptance, ledger, and explicit acceptance escapes all fail closed with byte-identical trees and no external hash/path leakage. Ignored-record-present targeted suite, full JUnit 2012/0/0/1, release gate, integrity, protected parity, and diff checks pass."
 ---
