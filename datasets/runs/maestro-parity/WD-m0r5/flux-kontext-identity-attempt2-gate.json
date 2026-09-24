@@ -1,0 +1,38 @@
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: /home/straughter/.insightface/models/buffalo_l/1k3d68.onnx landmark_3d_68 ['None', 3, 192, 192] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: /home/straughter/.insightface/models/buffalo_l/2d106det.onnx landmark_2d_106 ['None', 3, 192, 192] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: /home/straughter/.insightface/models/buffalo_l/det_10g.onnx detection [1, 3, '?', '?'] 127.5 128.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: /home/straughter/.insightface/models/buffalo_l/genderage.onnx genderage ['None', 3, 96, 96] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: /home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx recognition ['None', 3, 112, 112] 127.5 127.5
+set det-size: (640, 640)
+{
+  "analyzer": "insightface.FaceAnalysis buffalo_l",
+  "pairs": [
+    {
+      "source": "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png",
+      "output": "/home/straughter/Wan2GP/outputs/wd-m0r5/flux-kontext-identity-attempt2/wd_m0r5_flux_kontext_identity_edit_attempt2.jpg",
+      "source_box": [
+        142.7593994140625,
+        10.546894073486328,
+        187.8448486328125,
+        66.11386108398438
+      ],
+      "source_det_score": 0,
+      "output_box": [
+        167.87033081054688,
+        5.2855224609375,
+        374.423583984375,
+        276.5775451660156
+      ],
+      "output_det_score": 0,
+      "metric": "face_embedding_cosine",
+      "threshold": 0.75,
+      "measured": 0.9505001306533813,
+      "passed": true
+    }
+  ]
+}

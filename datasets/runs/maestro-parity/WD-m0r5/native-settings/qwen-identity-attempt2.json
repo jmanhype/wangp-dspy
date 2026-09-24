@@ -1,0 +1,17 @@
+{
+  "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+  "prompt": "Edit this frontal face portrait: preserve the exact facial identity, eyes, nose, mouth, and hair; change only the jacket color to warm red. Keep the entire face centered and fully visible.",
+  "resolution": "512x512",
+  "num_inference_steps": 4,
+  "guidance_scale": 1,
+  "seed": 1044,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess-face-512.png"
+  ],
+  "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/face-512-jacket-mask.png",
+  "image_mode": 2,
+  "video_prompt_type": "KI",
+  "output_filename": "wd_m0r5_qwen_standard_identity_edit_attempt2"
+}

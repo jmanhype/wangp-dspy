@@ -1,0 +1,12 @@
+1516789399
+c15e8f144ef75ab340534ed924d1c878e7660e9861eb55d62f75cbf7d33dc6e2  /home/straughter/Wan2GP/ckpts/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors
+PATH /home/straughter/Wan2GP/ckpts/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors
+3205937786
+d653b31898f9e2d93d0d8248d7e0eecc57fadc5b71b5ddf9ff3f9a8b6e3231ce  /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/gemma-2-2b-it_quanto_bf16_int8.safetensors
+PATH /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/gemma-2-2b-it_quanto_bf16_int8.safetensors
+1024331469
+5b486f08200f513f460da46dd701db5fbb47d79b4be4b708a19444bcd4e79958  /home/straughter/Wan2GP/ckpts/rembg/models/bria-rmbg/bria-rmbg.onnx
+PATH /home/straughter/Wan2GP/ckpts/rembg/models/bria-rmbg/bria-rmbg.onnx
+174383860
+4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43  /home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx
+PATH /home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx

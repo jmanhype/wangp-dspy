@@ -1,0 +1,1008 @@
+{
+  "command": [
+    "ssh",
+    "-n",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "10900",
+    "/home/straughter/Wan2GP/wd-m0r5-run-qwen-batch.sh"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 1024,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_standard_generate.jpg",
+      "width": 1024
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 1024,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_standard_edit.jpg",
+      "width": 1024
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 8192,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_standard_upscale.jpg",
+      "width": 8192
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 1280,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_standard_outpaint.jpg",
+      "width": 1280
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 512,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_standard_identity_edit.jpg",
+      "width": 512
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 928,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_professional_generate.jpg",
+      "width": 1136
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 1024,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_professional_edit.jpg",
+      "width": 1024
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 8192,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_professional_upscale.jpg",
+      "width": 8192
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 1280,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_professional_outpaint.jpg",
+      "width": 1280
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 352,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_qwen_professional_identity_edit.jpg",
+      "width": 256
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 928,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_standard_generate.jpg",
+      "width": 1136
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 928,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_standard_edit.jpg",
+      "width": 1136
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 512,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_standard_identity_edit.jpg",
+      "width": 512
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 928,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_kontext_generate.jpg",
+      "width": 1136
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 928,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_kontext_edit.jpg",
+      "width": 1136
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 512,
+      "kind": "image",
+      "path": "outputs/wd_m0r5_flux_kontext_identity_edit.jpg",
+      "width": 512
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors",
+      "download_approved": true,
+      "identity": "qwen-edit-2509-svdq-int4-shared-both-qwen-rows",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "3b438e3e8b76c79734cc9a84dc5e9b7c7c3cce68448dbb8bd9e756f0135b877d",
+      "size_bytes": 12654443144,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "flux-kontext-dev-int8-shared-both-flux-rows",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265",
+      "size_bytes": 11974893901,
+      "source": "https://huggingface.co/DeepBeepMeep/Flux/resolve/main/flux1_kontext_dev_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae.safetensors",
+      "download_approved": true,
+      "identity": "qwen-vae",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "0c8bc8b758c649abef9ea407b95408389a3b2f610d0d10fcb054fe171d0a8344",
+      "size_bytes": 253806966,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae_config.json",
+      "download_approved": true,
+      "identity": "qwen-vae-config",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "e4e61b7553f930e9eabf8935f0a77e6d004cc3ee67a601a56ef03cc41ccada68",
+      "size_bytes": 730,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "qwen25-text-encoder-int8",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "18966ca6ba18261ec0465442580ad30510a758ecc0314871a0bbd30032716568",
+      "size_bytes": 9432992295,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/merges.txt",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-merges.txt",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "size_bytes": 1671853,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/merges.txt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-tokenizer_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "size_bytes": 4686,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/config.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "081d41bae4c75815afde340b5cee39d9c71febe3fc3146e0366a75a45da0c04b",
+      "size_bytes": 3217,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/vocab.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-vocab.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "87a257b04b17642a0688c98cd1df89c398bda4fee532d6f88b38a659ecb4ac8d",
+      "size_bytes": 3383407,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/vocab.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-video_preprocessor_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "d4397fb8765d3fb56db022e5a14ce58dbcc144093c49ea1ab96787fb7951facb",
+      "size_bytes": 904,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/preprocessor_config.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-preprocessor_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "9ff8a240516e4ef986717597bb2c5fff3e4d4c0951d02b7dee949ceb369b5b03",
+      "size_bytes": 788,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/chat_template.json",
+      "download_approved": true,
+      "identity": "qwen-tokenizer-chat_template.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96",
+      "size_bytes": 1050,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/chat_template.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors",
+      "download_approved": true,
+      "identity": "qwen-image-upscale-vae",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "2413554bbec24215185662d009893cf4666b8e777efece2d895e03e1a6b63e06",
+      "size_bytes": 507684560,
+      "source": "https://huggingface.co/DeepBeepMeep/Wan21/resolve/main/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_image_edit_inpainting.safetensors",
+      "download_approved": true,
+      "identity": "qwen-edit-inpainting",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "4928d4d93d5a9fa197121ff04e07529e1b93893ed6014a16f7bdea18af430e08",
+      "size_bytes": 590058840,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_image_edit_inpainting.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "flux-t5-encoder-int8",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "03b60a5957624accb83086771af4f7d48665d2d3c076ca0c626f31ec0fc52087",
+      "size_bytes": 4896193821,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/added_tokens.json",
+      "download_approved": true,
+      "identity": "flux-t5-tokenizer-added_tokens.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "4b1c1345a66fdd00264819c5adfc3142debfbd3b03767a04f95a39ac2277ca21",
+      "size_bytes": 2634,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/added_tokens.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/special_tokens_map.json",
+      "download_approved": true,
+      "identity": "flux-t5-tokenizer-special_tokens_map.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "5c87151ef0f72a99d1f766a4c418bd2a1f90aaa30a8e22fe5eca9641daebb64f",
+      "size_bytes": 2201,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/spiece.model",
+      "download_approved": true,
+      "identity": "flux-t5-tokenizer-spiece.model",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86",
+      "size_bytes": 791656,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/spiece.model"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/T5_xxl_1.1/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "flux-t5-tokenizer-tokenizer_config.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "71730771351a8f0463bd2e545fbfaadc9dc01a7a222306ff4795cc48dfe168c0",
+      "size_bytes": 20509,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/T5_xxl_1.1/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/model.safetensors",
+      "download_approved": true,
+      "identity": "flux-clip-text-encoder",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "size_bytes": 1710540580,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/model.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/text_config.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-text_config.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "0e6438a7306ade85a161a0078246bedffc1b787f6a9d86c48bd27556a2734040",
+      "size_bytes": 1865,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/text_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/merges.txt",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-merges.txt",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "size_bytes": 524619,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/merges.txt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/preprocessor_config.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-preprocessor_config.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd",
+      "size_bytes": 316,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/special_tokens_map.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-special_tokens_map.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "f8c0d6c39aee3f8431078ef6646567b0aba7f2246e9c54b8b99d55c22b707cbf",
+      "size_bytes": 389,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-tokenizer.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "a83e0809aa4c3af7208b2df632a7a69668c6d48775b3c3fe4e1b1199d1f8b8f4",
+      "size_bytes": 2224003,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/tokenizer.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-tokenizer_config.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "deef455e52fa5e8151e339add0582e4235f066009601360999d3a9cda83b1129",
+      "size_bytes": 905,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/vocab.json",
+      "download_approved": true,
+      "identity": "flux-clip-tokenizer-vocab.json",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "3f0c4f7d2086b61b38487075278ea9ed04edb53a03cbb045b86c27190fa8fb69",
+      "size_bytes": 961143,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/clip_vit_large_patch14/vocab.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/flux_vae.safetensors",
+      "download_approved": true,
+      "identity": "flux-vae",
+      "license": "FLUX.1-dev Non-Commercial License",
+      "sha256": "afc8e28272cd15db3919bacdb6918ce9c1ed22e96cb12c4d5ed0fba823529e38",
+      "size_bytes": 335304388,
+      "source": "https://huggingface.co/DeepBeepMeep/Flux/resolve/main/flux_vae.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "pid-qwen-image-upsampler",
+      "license": "Apache-2.0 (Qwen-Image PiD upsampler)",
+      "sha256": "c15e8f144ef75ab340534ed924d1c878e7660e9861eb55d62f75cbf7d33dc6e2",
+      "size_bytes": 1516789399,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-2-2b-it/gemma-2-2b-it_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "gemma2-pid-text-encoder",
+      "license": "Gemma Terms of Use",
+      "sha256": "d653b31898f9e2d93d0d8248d7e0eecc57fadc5b71b5ddf9ff3f9a8b6e3231ce",
+      "size_bytes": 3205937786,
+      "source": "https://huggingface.co/DeepBeepMeep/Flux/resolve/main/gemma-2-2b-it/gemma-2-2b-it_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/rembg/models/bria-rmbg/bria-rmbg.onnx",
+      "download_approved": true,
+      "identity": "rembg-bria-rmbg",
+      "license": "MIT (rembg distribution); BRIA upstream terms remain operator responsibility",
+      "sha256": "5b486f08200f513f460da46dd701db5fbb47d79b4be4b708a19444bcd4e79958",
+      "size_bytes": 1024331469,
+      "source": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/bria-rmbg-2.0.onnx"
+    },
+    {
+      "destination": "/home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx",
+      "download_approved": true,
+      "identity": "insightface-buffalo-l-w600k",
+      "license": "InsightFace buffalo_l research/evaluation terms",
+      "sha256": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43",
+      "size_bytes": 174383860,
+      "source": "pre-existing host asset /home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx"
+    }
+  ],
+  "native_commands": [
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd-m0r5-run-qwen-generate.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd-m0r5-run-flux-generate.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "10900",
+      "/home/straughter/Wan2GP/wd-m0r5-run-qwen-batch.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "10900",
+      "/home/straughter/Wan2GP/wd-m0r5-run-flux-batch.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd-m0r5-run-qwen-identity2.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd-m0r5-run-flux-identity3.sh"
+    ],
+    [
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd-m0r5-run-flux-kontext-identity2.sh"
+    ]
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_m0r5_qwen_standard_generate.jpg"
+      ],
+      "measured": 70.045761,
+      "name": "image_nonblank_luma_stddev",
+      "operation": "generate",
+      "row": "qwen-standard",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_standard_edit.jpg"
+      ],
+      "measured": 20.027919,
+      "name": "mean_absolute_edit_delta",
+      "operation": "edit",
+      "row": "qwen-standard",
+      "threshold": 0.5,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_standard_upscale.jpg"
+      ],
+      "measured": 8.0,
+      "name": "dimension_scale_ratio",
+      "operation": "upscale",
+      "row": "qwen-standard",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_standard_outpaint.jpg"
+      ],
+      "measured": 1.25,
+      "name": "minimum_dimension_expansion_ratio",
+      "operation": "outpaint",
+      "row": "qwen-standard",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/Tess.png",
+        "outputs/wd_m0r5_qwen_standard_identity_edit.jpg",
+        "identity-gates-final.json"
+      ],
+      "measured": 0.950228,
+      "name": "face_embedding_cosine",
+      "operation": "identity_edit",
+      "row": "qwen-standard",
+      "threshold": 0.75,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_m0r5_qwen_professional_generate.jpg"
+      ],
+      "measured": 36.624235,
+      "name": "image_nonblank_luma_stddev",
+      "operation": "generate",
+      "row": "qwen-professional",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_professional_edit.jpg"
+      ],
+      "measured": 20.810513,
+      "name": "mean_absolute_edit_delta",
+      "operation": "edit",
+      "row": "qwen-professional",
+      "threshold": 0.5,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_professional_upscale.jpg"
+      ],
+      "measured": 8.0,
+      "name": "dimension_scale_ratio",
+      "operation": "upscale",
+      "row": "qwen-professional",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/qwen-base.jpg",
+        "outputs/wd_m0r5_qwen_professional_outpaint.jpg"
+      ],
+      "measured": 1.25,
+      "name": "minimum_dimension_expansion_ratio",
+      "operation": "outpaint",
+      "row": "qwen-professional",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/Tess.png",
+        "outputs/wd_m0r5_qwen_professional_identity_edit.jpg",
+        "identity-gates-final.json"
+      ],
+      "measured": 0.792692,
+      "name": "face_embedding_cosine",
+      "operation": "identity_edit",
+      "row": "qwen-professional",
+      "threshold": 0.75,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_m0r5_flux_standard_generate.jpg"
+      ],
+      "measured": 40.213057,
+      "name": "image_nonblank_luma_stddev",
+      "operation": "generate",
+      "row": "flux-standard",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/flux-base.jpg",
+        "outputs/wd_m0r5_flux_standard_edit.jpg"
+      ],
+      "measured": 18.931539,
+      "name": "mean_absolute_edit_delta",
+      "operation": "edit",
+      "row": "flux-standard",
+      "threshold": 0.5,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/Tess.png",
+        "outputs/wd_m0r5_flux_standard_identity_edit.jpg",
+        "identity-gates-final.json"
+      ],
+      "measured": 0.942699,
+      "name": "face_embedding_cosine",
+      "operation": "identity_edit",
+      "row": "flux-standard",
+      "threshold": 0.75,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_m0r5_flux_kontext_generate.jpg"
+      ],
+      "measured": 42.571812,
+      "name": "image_nonblank_luma_stddev",
+      "operation": "generate",
+      "row": "flux-kontext",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/flux-base.jpg",
+        "outputs/wd_m0r5_flux_kontext_edit.jpg"
+      ],
+      "measured": 19.253506,
+      "name": "mean_absolute_edit_delta",
+      "operation": "edit",
+      "row": "flux-kontext",
+      "threshold": 0.5,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/Tess.png",
+        "outputs/wd_m0r5_flux_kontext_identity_edit.jpg",
+        "identity-gates-final.json"
+      ],
+      "measured": 0.9505,
+      "name": "face_embedding_cosine",
+      "operation": "identity_edit",
+      "row": "flux-kontext",
+      "threshold": 0.75,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-m0r5 host batch 1: minimum checkpoint download and real Qwen/Flux image operations for research/evaluation only",
+    "status": "approved",
+    "text": "I agree\nyou need to kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this\nUnblock and cont",
+    "timestamp": "2026-09-24T23:57:09.100092Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_m0r5_qwen_standard_generate.jpg",
+      "sha256": "24330c72dd1eadac16a9226cbb85e8a387a9151d1ff103a297dd1035237386df"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_standard_edit.jpg",
+      "sha256": "eca102f167edf50197c268c71feb70d4fe9c765e2d8c56ff09660946754f96d7"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_standard_upscale.jpg",
+      "sha256": "9020dd3da4fe14d9af319724d02b69b5309ebf1337a55db79d3f014fb2c11ecb"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_standard_outpaint.jpg",
+      "sha256": "2c2bdbacf665c9e58959f755af0e0d89373bc1b8f2d31552e5e1f193b248b214"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_standard_identity_edit.jpg",
+      "sha256": "35846f7e6ecc0b15e04421f98e4b9dec34c1488f94768e711bde34b1bdeb0743"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_professional_generate.jpg",
+      "sha256": "ef9947a86a7c135b288b572f68ef24c4bb42357c395832b74cfe795400d59b3a"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_professional_edit.jpg",
+      "sha256": "1a34524b80dfd3a9934cfd60ae6c382552b26153518ed6df904fef3be3dee48b"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_professional_upscale.jpg",
+      "sha256": "c19e111cfbd28289860cbd4bc452afb537e081c5d056d6580882c0f844f4f1d6"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_professional_outpaint.jpg",
+      "sha256": "28169697c1b448f2b4b310cab74388b31bc28a42ee79cc8a8397d152c650bbab"
+    },
+    {
+      "path": "outputs/wd_m0r5_qwen_professional_identity_edit.jpg",
+      "sha256": "453d40f1561213399d1f5f8cc41ea98c437577685c1f12517c10a05d48706285"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_standard_generate.jpg",
+      "sha256": "5f98322b1608a12c41fe2e768bfa1ff23b83de5799aed7b5a7d4f2efceb98560"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_standard_edit.jpg",
+      "sha256": "f8530ab923d5cfe636603f5acf56e6963e4e42c53d6c5e5c0c5308fef5cdd744"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_standard_identity_edit.jpg",
+      "sha256": "c1fdd404c11e3d7786a1c44a484859e695f03e727d46cd22173b9d08e5c1da6a"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_kontext_generate.jpg",
+      "sha256": "e40e0c39da9f6f95131233c29d673e17eec7a2834f560d55e0cc52fb61c34c3b"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_kontext_edit.jpg",
+      "sha256": "b17523a7767d1ac035011543be3b33d9cc13b6c60e9382461e8d21a15203b64d"
+    },
+    {
+      "path": "outputs/wd_m0r5_flux_kontext_identity_edit.jpg",
+      "sha256": "db74d10efb93e1c08e2060d8d691c2697b7349947d90521acf03bc4be2b0d6a0"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "job_id": "qwen-batch-9+flux-batch-5+identity-retries",
+    "native_logs": [
+      "qwen-batch.native.log",
+      "flux-batch.native.log",
+      "qwen-standard-identity-attempt2.native.log",
+      "flux-standard-identity-attempt3.native.log",
+      "flux-kontext-identity-attempt2.native.log"
+    ],
+    "queue_id": "wgp-native-cli-WD-m0r5",
+    "retry_id": "attempt-1-selected"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/qwen-base.jpg",
+      "role": "subject",
+      "sha256": "24330c72dd1eadac16a9226cbb85e8a387a9151d1ff103a297dd1035237386df"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/flux-base.jpg",
+      "role": "subject",
+      "sha256": "5f98322b1608a12c41fe2e768bfa1ff23b83de5799aed7b5a7d4f2efceb98560"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/anchor.png",
+      "role": "composition",
+      "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/Tess.png",
+      "role": "identity",
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/Tess-face-512.png",
+      "role": "identity",
+      "sha256": "74e2b7b9c4a31406f454e0b074e1b3f83341402a28b10e2bc787e4d26827126f"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/object-mask.png",
+      "role": "mask",
+      "sha256": "90de2a825908f22e9570feb564494d70f1f78cdfc9375a9eb218bf984b4c2929"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/tess-jacket-mask.png",
+      "role": "mask",
+      "sha256": "a9d5ed7a6c823eabd73ef099ac98f582392cd4da4ea8683586f8766dc28fe6ec"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/flux-object-mask.png",
+      "role": "mask",
+      "sha256": "b46fc521a22e6081364e4fec4b70ec88929757ad81668c3df83bf4ef8eba59f2"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/flux-identity-mask.png",
+      "role": "mask",
+      "sha256": "9738acd16db3336fc4e8d2c14ac3290c9f0c08e531adada8f5fe930ab31015a8"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; operator-authorized research/evaluation use",
+      "path": "inputs/face-512-jacket-mask.png",
+      "role": "mask",
+      "sha256": "58b9f91b4340b309d7e6df1fd69f16230d0eeff5053a2e86f028bf1c03ad47ce"
+    }
+  ],
+  "repository": {
+    "commit": "6c96ac442165f6ab4bfa56714c18fb969cf82aad",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "d1a594ecdbd41d88d3d52227f184e5f780a3b8491cafb82dd2e1bffd003f270c"
+    },
+    "status_lines": [
+      " M datasets/runs/maestro-parity/WD-m0r5/flux-batch.native.log",
+      " M datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_qwen_standard_identity_edit.jpg",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/databases/flux-kontext-identity_edit.db",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/databases/flux-standard-identity_edit.db",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/databases/qwen-standard-identity_edit.db",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/requests/flux-kontext-identity_edit.json",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/requests/flux-standard-identity_edit.json",
+      " M datasets/runs/maestro-parity/WD-m0r5/planning/requests/qwen-standard-identity_edit.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/checker-result.txt",
+      "?? datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/face-embedding-model-sha256.txt",
+      "?? datasets/runs/maestro-parity/WD-m0r5/final-host-state.txt",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-contact-sheet.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-identity-gate-attempt1.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-kontext-identity-attempt2-gate.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-kontext-identity-attempt2-gate.stderr",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-kontext-identity-attempt2.native.log",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-standard-identity-attempt2.native.log",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-standard-identity-attempt3-gate.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/flux-standard-identity-attempt3.native.log",
+      "?? datasets/runs/maestro-parity/WD-m0r5/identity-gates-attempt3.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/identity-gates-final.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/inputs/Tess-face-512.png",
+      "?? datasets/runs/maestro-parity/WD-m0r5/inputs/face-512-jacket-mask.png",
+      "?? datasets/runs/maestro-parity/WD-m0r5/native-settings/flux-identity-attempt2.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/native-settings/flux-identity-attempt3.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/native-settings/flux-kontext-identity-attempt2.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/native-settings/qwen-identity-attempt2.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_kontext_edit.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_kontext_generate.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_kontext_identity_edit.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_kontext_identity_edit_attempt2.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_standard_edit.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_standard_generate.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_standard_identity_edit.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_standard_identity_edit_attempt2.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_flux_standard_identity_edit_attempt3.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_qwen_standard_generate.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/outputs/wd_m0r5_qwen_standard_identity_edit_attempt2.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/qwen-contact-sheet.jpg",
+      "?? datasets/runs/maestro-parity/WD-m0r5/qwen-identity-gate.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/qwen-standard-identity-attempt2-gate.json",
+      "?? datasets/runs/maestro-parity/WD-m0r5/qwen-standard-identity-attempt2-gate.stderr",
+      "?? datasets/runs/maestro-parity/WD-m0r5/qwen-standard-identity-attempt2.native.log",
+      "?? datasets/runs/maestro-parity/WD-m0r5/runtime-extra-model-hashes.txt",
+      "?? datasets/runs/maestro-parity/WD-m0r5/selected-doctor-preflight-after-download.json"
+    ]
+  },
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [
+      "qwen-contact-sheet.jpg",
+      "flux-contact-sheet.jpg",
+      "identity-gates-final.json",
+      "qwen-batch.native.log",
+      "flux-batch.native.log"
+    ]
+  },
+  "row_dispositions": {
+    "flux_kontext/flux-kontext": "evidence_complete_pending_review",
+    "flux_kontext/flux-standard": "evidence_complete_pending_review",
+    "qwen_image/qwen-professional": "evidence_complete_pending_review",
+    "qwen_image/qwen-standard": "evidence_complete_pending_review"
+  },
+  "runtime_notes": {
+    "accidental_duplicate_download_bytes": 281857,
+    "actual_model_download_bytes": 48112855881,
+    "disk_final": "13G available after selected plus runtime dependencies",
+    "gpu_final": "83 MiB used / 24033 MiB free",
+    "post_download_preflight": "all 28 model hashes passed; 13G disk and QC health failed because the disk-consuming download completed and judge had been stopped",
+    "runtime_extra_model_bytes": 5747058654,
+    "selected_manifest_bytes": 42365515370
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}

@@ -5,12 +5,12 @@
     "preset": "flux-standard"
   },
   "operation": "identity_edit",
-  "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+  "prompt": "Edit this frontal face portrait: keep the exact same facial identity, eyes, nose, mouth, and hair, and change only the jacket color to warm red. Keep the entire face centered and fully visible.",
   "license": "WD-m0r5 operator-authorized research/evaluation output",
   "references": [
     {
-      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/Tess.png",
-      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+      "path": "datasets/runs/maestro-parity/WD-m0r5/inputs/Tess-face-512.png",
+      "sha256": "74e2b7b9c4a31406f454e0b074e1b3f83341402a28b10e2bc787e4d26827126f",
       "role": "identity",
       "license": "Operator-owned LF004 evaluation reference; WD-m0r5 operator authorization"
     }
@@ -21,13 +21,13 @@
   "output": {
     "format": "jpeg",
     "transparency": false,
-    "width": 256,
-    "height": 368
+    "width": 512,
+    "height": 512
   },
-  "recipe_seed": 925,
+  "recipe_seed": 1035,
   "mask": {
-    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/flux-identity-mask.png",
-    "sha256": "9738acd16db3336fc4e8d2c14ac3290c9f0c08e531adada8f5fe930ab31015a8"
+    "path": "datasets/runs/maestro-parity/WD-m0r5/inputs/face-512-jacket-mask.png",
+    "sha256": "58b9f91b4340b309d7e6df1fd69f16230d0eeff5053a2e86f028bf1c03ad47ce"
   },
   "identity_gate": {
     "metric": "face_embedding_cosine",
