@@ -1,0 +1,40 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "flux_kontext",
+    "preset": "flux-standard"
+  },
+  "operation": "edit",
+  "prompt": "Change the green glass carafe into a copper carafe while preserving the reference composition and lighting",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/flux-base.jpg",
+      "sha256": "5f98322b1608a12c41fe2e768bfa1ff23b83de5799aed7b5a7d4f2efceb98560",
+      "role": "subject",
+      "license": "WD-m0r5 generated reference output; operator-authorized research/evaluation"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 1136,
+    "height": 928
+  },
+  "recipe_seed": 915,
+  "mask": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/flux-object-mask.png",
+    "sha256": "b46fc521a22e6081364e4fec4b70ec88929757ad81668c3df83bf4ef8eba59f2"
+  },
+  "edit_region": {
+    "x": 320,
+    "y": 320,
+    "width": 496,
+    "height": 304,
+    "source_width": 1136,
+    "source_height": 928
+  }
+}

@@ -1,0 +1,37 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-m0r5-flux-batch.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-m0r5-flux-batch.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png
+[load_settings] Task 1/5 ready, ID: 1, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png
+[load_settings] Task 2/5 ready, ID: 2, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/anchor.png
+[load_settings] Task 3/5 ready, ID: 3, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png
+[load_settings] Task 4/5 ready, ID: 4, model: flux_dev_kontext
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png
+[load_settings] Task 5/5 ready, ID: 5, model: flux_dev_kontext
+Loaded 5 task(s)
+
+[Task 1/5] Change the green glass carafe into a copper carafe while pre...
+Loading model Flux 1 Dev Kontext 12B...
+Loading Model 'ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 48 large blocks spread across 11419.93 MB
+Hooked to model 'transformer' (Flux)
+Async loading plan for model 'transformer' : base size of 86.30 MB will be preloaded with a 324.35 MB async shuttle
+Hooked to model 'vae' (AutoEncoder)
+Hooked to model 'text_encoder' (CLIPTextModel)
+Async loading plan for model 'text_encoder' : base size of 72.49 MB will be preloaded with a 13.52 MB async circular shuttle
+Hooked to model 'text_encoder_2' (T5EncoderModel)
+Async loading plan for model 'text_encoder_2' : 2460.16 MB will be preloaded (base size of 251.01 MB + 50.0% of recurrent layers data) with a 184.10 MB async circular shuttle
+  Model loaded  [0/1] Prompt 1/5 - Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/12] Prompt 1/5 - Denoising | 12.2s  [0/12] Prompt 1/5 - Denoising | 12.2s  [0/12] Prompt 1/5 - Denoising | 13.4s

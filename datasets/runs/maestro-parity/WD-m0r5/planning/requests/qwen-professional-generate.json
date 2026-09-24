@@ -1,0 +1,28 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "qwen_image",
+    "preset": "qwen-professional"
+  },
+  "operation": "generate",
+  "prompt": "Using the reference observatory composition, create a sharp studio-style portrait of Tess and Rho with their identities and positions preserved",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/anchor.png",
+      "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210",
+      "role": "composition",
+      "license": "Operator-owned LF004 evaluation reference; WD-m0r5 operator authorization"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 1024,
+    "height": 1024
+  },
+  "recipe_seed": 954
+}

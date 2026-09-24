@@ -1,0 +1,36 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "flux_kontext",
+    "preset": "flux-standard"
+  },
+  "operation": "identity_edit",
+  "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/Tess.png",
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+      "role": "identity",
+      "license": "Operator-owned LF004 evaluation reference; WD-m0r5 operator authorization"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 256,
+    "height": 368
+  },
+  "recipe_seed": 925,
+  "mask": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/flux-identity-mask.png",
+    "sha256": "9738acd16db3336fc4e8d2c14ac3290c9f0c08e531adada8f5fe930ab31015a8"
+  },
+  "identity_gate": {
+    "metric": "face_embedding_cosine",
+    "threshold": 0.75
+  }
+}
