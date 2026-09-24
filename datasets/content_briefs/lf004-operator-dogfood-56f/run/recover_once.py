@@ -24,6 +24,7 @@ PULL = ROOT / "datasets/runs/pull" / RUN_ID
 PROVENANCE = ROOT / "datasets/runs/provenance" / RUN_ID
 LEDGER = ROOT / f"datasets/{RUN_ID}.run_ledger.json"
 PLAN_SHA = "620f2ba44beb7d0bc920772c136aa0ce6f76df89acd286647c23e5a7c8015eb8"
+CANONICAL_ACCEPTANCE_REPO_PATH = (PROVENANCE / "operator-acceptance.json").relative_to(ROOT).as_posix()
 FINAL_MEDIA_SHA256 = "2659ded7f48cef046741026cc476e316594689046b4a51ba6e58b7264a96e0d7"
 OPERATOR_ACCEPTANCE_SHA256 = "e10e3e2180c9570a4ed731f428bab6a2e036b94b4988bd092f943c7b2dd1c76d"
 OPERATOR_VERDICT_SOURCE = 'operator message: "i approve"'
@@ -290,19 +291,47 @@ def _validate_reconciled(final: dict[str, Any], ledger: dict[str, Any], postproc
         raise ValueError("LF004 evidence is accepted but incomplete or corrupted")
 
 
+def _scoped_file(path: Path, root: Path, label: str) -> Path:
+    """Return a readable path without following a link outside the root."""
+    try:
+        resolved = path.resolve(strict=True)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"LF004 scoped {label} not found in output root: {path}") from error
+    if not resolved.is_relative_to(root.resolve()):
+        raise ValueError(f"LF004 scoped {label} path escapes output root: {path}")
+    return path
+
+
+def _resolve_operator_acceptance(acceptance_path: Path | None, pull: Path, provenance: Path, *, scoped: bool) -> Path:
+    """Resolve the acceptance record without crossing an explicit output root."""
+    if acceptance_path is not None:
+        if scoped and not acceptance_path.resolve().is_relative_to(pull.resolve()):
+            raise ValueError(f"LF004 acceptance path escapes output root: {acceptance_path}")
+        return acceptance_path
+
+    canonical = provenance / "operator-acceptance.json"
+    if scoped:
+        return _scoped_file(canonical, pull, "acceptance record")
+
+    local = pull / "operator-acceptance.json"
+    if not canonical.exists():
+        raise FileNotFoundError(f"LF004 canonical operator acceptance record not found: {canonical}")
+    candidates = [canonical, local] if local.exists() else [canonical]
+    candidate_bytes = [candidate.read_bytes() for candidate in candidates]
+    candidate_shas = [hashlib.sha256(item).hexdigest() for item in candidate_bytes]
+    if len(set(candidate_shas)) != 1 or len(set(candidate_bytes)) != 1:
+        disagreement = dict(zip((str(path) for path in candidates), candidate_shas, strict=True))
+        raise ValueError(f"LF004 acceptance candidate records disagree: {disagreement}")
+    return canonical
+
+
 def record_operator_verdict(acceptance_path: Path | None = None, output_root: Path | None = None) -> dict[str, Any]:
     """Reconcile durable LF004 evidence from the one recorded operator verdict."""
     pull = PULL if output_root is None else output_root
     provenance = PROVENANCE if output_root is None else output_root / "provenance"
     ledger_path = LEDGER if output_root is None else output_root / "run-ledger.json"
     canonical = provenance / "operator-acceptance.json"
-    canonical_repo_path = (PROVENANCE / "operator-acceptance.json").relative_to(ROOT).as_posix()
-    source = acceptance_path
-    if source is None:
-        candidates = [PULL / "operator-acceptance.json", canonical]
-        source = next((candidate for candidate in candidates if candidate.exists()), None)
-    if source is None:
-        raise FileNotFoundError("LF004 operator acceptance record not found")
+    source = _resolve_operator_acceptance(acceptance_path, pull, provenance, scoped=output_root is not None)
     acceptance_bytes = source.read_bytes()
     acceptance_sha = sha(source)
     if acceptance_sha != OPERATOR_ACCEPTANCE_SHA256:
@@ -318,6 +347,9 @@ def record_operator_verdict(acceptance_path: Path | None = None, output_root: Pa
     missing = [str(path) for path in required if not path.exists()]
     if missing:
         raise FileNotFoundError(f"authoritative LF004 evidence missing: {missing}")
+    if output_root is not None:
+        for path, label in ((final_path, "final provenance"), (sidecar_path, "operator sidecar"), (postprocess_path, "postprocess recovery"), (review_path, "review"), (ledger_path, "run ledger")):
+            _scoped_file(path, output_root, label)
     final = json.loads(final_path.read_text(encoding="utf-8"))
     sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
     postprocess = json.loads(postprocess_path.read_text(encoding="utf-8"))
@@ -346,7 +378,7 @@ def record_operator_verdict(acceptance_path: Path | None = None, output_root: Pa
         raise ValueError("LF004 executed launcher hash mismatch")
 
     checkout = _launcher_identity()
-    verdict = {"status": "operator_accepted", "creative_acceptance": "accepted", "verdict": "keep", "verdict_source": OPERATOR_VERDICT_SOURCE, "acceptance_record_path": canonical_repo_path, "acceptance_record_sha256": acceptance_sha, "recorded_utc": acceptance["recorded_utc"]}
+    verdict = {"status": "operator_accepted", "creative_acceptance": "accepted", "verdict": "keep", "verdict_source": OPERATOR_VERDICT_SOURCE, "acceptance_record_path": CANONICAL_ACCEPTANCE_REPO_PATH, "acceptance_record_sha256": acceptance_sha, "recorded_utc": acceptance["recorded_utc"]}
     final["status"] = "operator_accepted"
     final["creative_acceptance"] = "accepted"
     final["operator_verdict"] = verdict
