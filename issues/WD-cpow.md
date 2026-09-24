@@ -9,8 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-24T14:31:09Z
-content_hash: "sha256:b37759e3c3deb808a3c8e1d602f0fce495c7a048dea7c795c610cfcba8f2ed32"
-blocks: [WD-651z, WD-fay0]
+content_hash: "sha256:cea2ecc66f190517f613593061071f2a99814c9523a97ab439f5808fe15ea549"
+blocks: [WD-fay0]
 ---
 
 ## Description
@@ -31,9 +31,10 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 ## History
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
+- 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-651z]], [[WD-fay0]]
+- Blocks: [[WD-fay0]]
 
 ## Comments
