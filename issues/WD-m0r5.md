@@ -9,8 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-24T14:39:53Z
-content_hash: "sha256:3da86211290d4a52361eb42d53e9458b69a6e63deeceed4060e367fed9ef6a18"
-blocks: [WD-bxhc, WD-651z, WD-0zj8, WD-fay0]
+content_hash: "sha256:4e16df10108e827c3826ed06615f26d3031a17cee854a20ebbfde629dcab31eb"
+blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 ---
 
 ## Description
@@ -101,9 +101,10 @@ Observable outcome: an explicitly authorized run emits hashed image artifacts an
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
 - 2026-09-24T14:14:09Z dep_added: blocks WD-0zj8
 - 2026-09-24T14:14:09Z dep_added: blocks WD-fay0
+- 2026-09-24T14:39:53Z dep_removed: no_longer_blocks WD-651z
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bxhc]], [[WD-651z]], [[WD-0zj8]], [[WD-fay0]]
+- Blocks: [[WD-bxhc]], [[WD-0zj8]], [[WD-fay0]]
 
 ## Comments
