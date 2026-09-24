@@ -7,8 +7,8 @@ type: task
 parent: WD-h73w
 created_at: 2026-09-23T23:11:38Z
 created_by: speed
-updated_at: 2026-09-24T00:32:49Z
-content_hash: "sha256:cad07e65bd1bbd0d3d679f3085875890b0c8c520c59a74e64b23ab2a548c6932"
+updated_at: 2026-09-24T01:03:06Z
+content_hash: "sha256:0291bb79b99be76ec3946fd040d0415c4478a572ac4c54b1890b7fa546315170"
 blocked_by: [WD-td89]
 follows: [WD-td89, WD-42no, WD-g125, WD-ssdt]
 assignee: dev-WD-mjzt
@@ -371,3 +371,6 @@ status: delivered
 - [x] AC #4: verdict, idempotence, tamper behavior, and integrity remain intact.
 - [x] AC #5: release is ready with no tag.
 - [x] AC #6: protected files and forbidden runtime surfaces are unchanged.
+
+### 2026-09-24T01:03:06Z speed
+Merged to main as 40f8c2b (squash of PR #182), based on 06a6fd4 (no rebase). Required check 'test' completed/success. Post-merge full suite from the operator main checkout WITH the ignored live acceptance file present: tests=2012 errors=0 failures=0 skipped=1 (parsed JUnit) — the exact shape that was red before this fix.
