@@ -1,0 +1,63 @@
+{
+  "schema_version": "wangp-dspy.maestro-parity-blocked-diagnostic/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "I agree",
+    "requested_text": "Authorize host batch 1 = image lane (WD-m0r5)?",
+    "ceiling_text": "report the download-plan byte total, and STOP for operator approval above 20 GB",
+    "scope": "Host batch 1 image lane WD-m0r5 only; report download-plan byte total; stop for operator approval above 20 GB.",
+    "timestamp": "2026-09-24T19:20:47Z",
+    "approved_by": "operator (speed)"
+  },
+  "host": {
+    "target": "3090",
+    "wgp_root": "/home/straughter/Wan2GP",
+    "wgp_python": "/home/straughter/Wan2GP/venv/bin/python",
+    "ssh_user": "straughter",
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 3090",
+      "memory_total_mib": 24576,
+      "memory_used_mib": 7896,
+      "memory_free_mib": 16220,
+      "compute_process": {
+        "pid": 1007225,
+        "process_name": "/home/straughter/llama.cpp/build/bin/llama-server",
+        "used_mib": 7808
+      }
+    },
+    "python_imports": {
+      "python": "3.11.14",
+      "torch": "2.10.0+cu130",
+      "diffusers": "0.36.0",
+      "transformers": "4.57.6",
+      "PIL": "12.3.0",
+      "cuda_available": true,
+      "cuda_device": "NVIDIA GeForce RTX 3090"
+    }
+  },
+  "installed_image_model_transformers": [],
+  "missing_image_model_transformers": [
+    "qwen_image_20B_quanto_bf16_int8.safetensors",
+    "qwen_image_edit_plus2_20B_quanto_bf16_int8.safetensors",
+    "flux1-schnell_quanto_bf16_int8.safetensors",
+    "flux1_kontext_dev_quanto_bf16_int8.safetensors"
+  ],
+  "read_only_inventory_evidence": {
+    "family_code_present": [
+      "/home/straughter/Wan2GP/models/qwen/qwen_handler.py",
+      "/home/straughter/Wan2GP/models/flux/flux_handler.py"
+    ],
+    "search_scope": "/home/straughter/Wan2GP excluding venv; files larger than 100 MiB whose names match qwen, flux, or kontext, plus exact ckpts tree",
+    "only_matching_large_weight": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+    "note": "The only large matching file is a Qwen3-VL LLM checkpoint, not a Qwen-Image or FLUX image transformer."
+  },
+  "preflight_observation": {
+    "doctor_ready": false,
+    "failed_checks": [
+      "model_files: all four image transformers are absent",
+      "disk_headroom: 37G free at /home/straughter/Wan2GP, below the 50G minimum"
+    ],
+    "gpu_discrepancy": "doctor-preflight.json reports gpu_state=idle, but the directly observed compute-apps query still reports pid 1007225 using 7808 MiB. The preflight parser expects whitespace after the PID while nvidia-smi CSV emits a comma, so its idle result is not accepted as evidence of a free GPU."
+  },
+  "blocked_reason": "The four missing image transformer assets alone total 64905757365 bytes, which exceeds the operator's 20 GB ceiling. No bytes were downloaded and no GPU/render operation was attempted."
+}

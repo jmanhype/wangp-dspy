@@ -1,0 +1,36 @@
+{
+  "models": [
+    {
+      "family": "qwen_image",
+      "preset": "qwen-standard",
+      "sha256": "10887aba71af59892627f76d07c331b16f501e3815196f6950df50f9748d3381",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream)",
+      "license_accepted": false,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "qwen_image",
+      "preset": "qwen-professional",
+      "sha256": "67c1642db72ac3906a091807712b6a65a8bd461457fd73009400816c9be96c76",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream)",
+      "license_accepted": false,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "flux_kontext",
+      "preset": "flux-standard",
+      "sha256": "df13cc7c6b559ec9a3819331de4b21799336d06711b65350ae8fca8d4b5fff89",
+      "license": "Apache-2.0 (black-forest-labs/FLUX.1-schnell upstream)",
+      "license_accepted": false,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "flux_kontext",
+      "preset": "flux-kontext",
+      "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265",
+      "license": "flux-1-dev-non-commercial-license (black-forest-labs/FLUX.1-dev upstream)",
+      "license_accepted": false,
+      "vram_profile": "24gb"
+    }
+  ]
+}
