@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-24T14:14:09Z
-content_hash: "sha256:30e15bcc88b04a74108fc0a80b55be10750875ff5019241a49bcfe744a83bd43"
+updated_at: 2026-09-24T14:31:10Z
+content_hash: "sha256:e4c0d7631b970a348df8cb32a8cde6dd12b583984a710b18641892134549ee3e"
 blocked_by: [WD-m0r5, WD-rous, WD-2gyw, WD-bxhc, WD-cpow, WD-r81u, WD-dmf2, WD-651z, WD-0zj8]
 ---
 
@@ -23,7 +23,10 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+## MANDATORY SKILLS
+- pvg
 
+Observable outcome: the capstone returns a consolidated parity-evidence index and gate verdicts under datasets/runs/maestro-parity/WD-fay0/ so a reviewer can retrieve every required artifact and failure reason without relabeling missing evidence as success.
 
 ## History
 - 2026-09-24T14:14:09Z dep_added: blocked_by WD-m0r5
