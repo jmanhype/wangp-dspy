@@ -1,18 +1,17 @@
 ---
 id: WD-dmf2
 title: "Director composition evidence"
-status: in_progress
+status: open
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:01:44Z
-content_hash: "sha256:c5048dd29bc7d8c05a37ae2d2d0b95bab49711cf1e1ba182877b297cc0e8caab"
+updated_at: 2026-09-25T23:23:01Z
+content_hash: "sha256:00518a90ecdb2cbcdc7cdc659787935021c03196661aa2a07ae8343c39e9c0f5"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
-assignee: dev-WD-dmf2
 follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8]
 ---
 
@@ -229,3 +228,7 @@ status: delivered
 - [x] AC #6 evaluated: no hardware-infeasibility claim is made.
 - [x] AC #7 evaluated: not met; all nine rows remain planned pending review.
 - [x] AC #8 evaluated: no protected engine or unauthorized scope change.
+
+## History
+- 2026-09-25T23:23:01Z status: in_progress -> open
+- 2026-09-25T23:23:01Z released by speed
