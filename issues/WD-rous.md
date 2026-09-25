@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T04:32:09Z
-content_hash: "sha256:d243deddb336f96837ae72e6f5feef8541e3a89a782b4b93c6364e290d910d57"
+updated_at: 2026-09-25T04:33:18Z
+content_hash: "sha256:6b94dd3737c35e9cc57f57814f562fe6cdc3ea60cca89c77185a0099e267ebf7"
 blocks: [WD-dmf2, WD-fay0]
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
@@ -95,7 +95,21 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- Branch story/WD-rous at SHA 1dcf95f77e9225f5eb8901a4e0df8de81a864f64, pushed.
+- Bundle datasets/runs/maestro-parity/WD-rous/evidence.json; full suite tests=2084 errors=0 failures=0 skipped=1; release ready tag false; checker sole pending-reviewer failure.
+
+### proof
+- [x] AC #1: ACE generate/style evidence is real, hashed, 48 kHz stereo, queued, and gate-checked.
+- [x] AC #2: Stable 44.1 kHz mismatch was not silently verified.
+- [x] AC #3: Matrix transitions and citations parse from bundle contents.
+- [x] AC #4: Required provenance, rights, metadata, hashes, duration, and gates are recorded; reviewer remains pending.
+- [x] AC #5: Stable unsupported verdict is measured, not asserted.
+- [x] AC #6: All formerly planned cells are terminal and stable planning boundary is unchanged.
+- [x] AC #7: No training/GUI/registry/weight commit; protected parity exits zero.
 
 ## nd_contract
 status: delivered
