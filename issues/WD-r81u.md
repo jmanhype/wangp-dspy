@@ -8,12 +8,12 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:25:03Z
-content_hash: "sha256:a95a7426b4445de9213391ad215995ee4eb5c667df57ed51b5e47bf914b7f552"
+updated_at: 2026-09-25T19:25:09Z
+content_hash: "sha256:4963d6c51a798932eae700d1d13e4fcc64fdf193a73100ea134d29656aa07d4c"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
-follows: [WD-2gyw]
+follows: [WD-2gyw, WD-cpow]
 ---
 
 ## Description
@@ -206,11 +206,13 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - 2026-09-25T18:14:32Z status: open -> in_progress
 - 2026-09-25T18:14:32Z auto-follows: linked to predecessor WD-2gyw
 - 2026-09-25T18:14:32Z claimed by dev-WD-r81u
+- 2026-09-25T19:25:09Z status: in_progress -> in_progress
+- 2026-09-25T19:25:09Z auto-follows: linked to predecessor WD-cpow
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-2gyw]]
-- Follows: [[WD-2gyw]]
+- Follows: [[WD-2gyw]], [[WD-cpow]]
 
 ## Comments
