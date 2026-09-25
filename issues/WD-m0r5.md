@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, delivered
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T00:14:51Z
-content_hash: "sha256:d2784344be190a97e8b9efa37fd55130d8f29bd72dfaf54dfdd645752206aa94"
+updated_at: 2026-09-25T00:18:21Z
+content_hash: "sha256:aa93dcb0686752dcc5551fb3bd9b8aac39cb5b12901c84c826d1c2d40a1dc57b"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -93,6 +93,70 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### CI/Test Results
+- Commands run:
+  - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-m0r5-full-final.xml`
+  - `uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code 8f0b225 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-m0r5`
+  - `pvg verify datasets/runs/maestro-parity/WD-m0r5 --format=text`
+- Summary: full suite PASS; release PASS; protected parity PASS; diff-check PASS; evidence checker has the expected single pending-reviewer failure; pvg verify PASS.
+- Coverage: not applicable to an evidence/artifact-only story; no production Python changed.
+- Key output:
+  - `tests=2072 errors=0 failures=0 skipped=1`
+  - `release=ready tag_created=false`
+  - `protected_parity_exit=0 diff_check_exit=0`
+  - `FAIL reviewer_verdict.decision: must be approved`
+  - `VERIFY: PASSED (0 files scanned, 0 issues)`
+
+### Commit
+- Branch: story/WD-m0r5
+- SHA: bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d
+- Bundle: datasets/runs/maestro-parity/WD-m0r5/evidence.json
+- evidence.json SHA-256: 24a97045ea2cd6967e6afb503f54fe5cf7efd70098f11f4d13c3f277bbd02b29
+
+### pvg verify
+- `VERIFY: PASSED (0 files scanned, 0 issues)`
+
+### AC Verification
+| AC # | Requirement | Evidence Location | Status |
+|---|---|---|---|
+| 1 | Checker-valid run before verified flip | `evidence.json`; `checker-result.txt` | PASS for emitted evidence; matrix intentionally not flipped because reviewer decision is pending |
+| 2 | Partial/mismatched evidence cannot verify | `evidence.json`; checker validates hashes/provenance/metadata | PASS |
+| 3 | Matrix mechanically updated only from bundle | `docs/image-capabilities.md` remains unchanged pending review | PASS fail-closed; no unauthorized flip |
+| 4 | Complete bundle field groups | `evidence.json`; checker reports only reviewer failure | PASS |
+| 5 | Infeasible verdict only with evidence | No hardware-infeasible verdict claimed | PASS |
+| 6 | Four terminal rows/no planned cells | All four rows have real operation evidence pending review; matrix awaits approved reviewer verdict | PARTIAL by design: operator/reviewer gate remains |
+| 7 | No GUI/protected change | `git diff --exit-code 8f0b225 ...` exit 0 | PASS |
+
+LEARNINGS:
+- The repository planning surface intentionally maps model identity per family/preset but permits shared hashes, enabling a two-transformar minimum.
+- WanGP loaded PiD, Gemma, and rembg dependencies automatically; hand-derived manifests must include runtime dependencies, not only handler-declared files.
+- Quarantine `mv` on one filesystem does not free space; deletion or a cross-filesystem move is required.
+- The InsightFace pipeline needs landmark alignment; a fixed crop gave misleading scores.
+- GPU preflight CSV parsing is filed as WD-e4r7 and remains unfixed in this lane.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Final branch HEAD bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d; 16 canonical real JPEG outputs; 32 model provenance entries; 10 reference provenance entries; 16/16 objective gates pass.
+- Selected downloads 42,365,515,370 bytes; runtime dependencies 5,747,058,654 bytes; accidental duplicate 281,857 bytes; total model bytes pulled 48,112,855,881.
+
+### proof
+- [x] AC #1: Complete host evidence exists; no verified matrix claim precedes reviewer approval.
+- [x] AC #2: Checker validates exact authorization, commit, model/reference/output hashes, media, and gates.
+- [x] AC #3: Matrix remains fail-closed pending independent review.
+- [x] AC #4: All canonical bundle groups are present.
+- [x] AC #5: No unsupported-on-this-hardware verdict is fabricated.
+- [x] AC #6: All four rows have complete real evidence; final matrix transition awaits reviewer approval.
+- [x] AC #7: Protected files are byte-identical to 8f0b225.
+
 ## nd_contract
 status: delivered
 
