@@ -8,8 +8,8 @@ labels: [bug, host-safety, integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
-updated_at: 2026-09-25T02:24:07Z
-content_hash: "sha256:342c15c59f5a8fe59a941fda91a5575fc316977074aeedada16f01e35d33656b"
+updated_at: 2026-09-25T02:24:08Z
+content_hash: "sha256:944845874d52b20a2c0d485c6bb65d085cd4d1e836eec6f150eefe9555fda56f"
 blocks: [WD-fay0]
 assignee: dev-WD-e4r7
 follows: [WD-651z]
@@ -411,6 +411,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-24.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
