@@ -989,7 +989,7 @@
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "execution-summary.md",
       "operator-authorization.md",
@@ -1019,9 +1019,23 @@
       "release-verify.txt",
       "protected-parity-c91a6d8.exit",
       "git-diff-check.exit",
-      "standing-gates-final.txt"
+      "standing-gates-final.txt",
+      "output-hashes.json",
+      "download-plan-summary.json",
+      "model-assets.json",
+      "queue.db",
+      "ffprobe-wd_2gyw_h3_standard.json",
+      "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json",
+      "ffprobe-wd_2gyw_h3_kfi_frames_injection.json",
+      "ffprobe-wd_2gyw_h3_audio_refinement.json",
+      "ffprobe-wd_2gyw_hunyuan.json",
+      "h3-standard.render.log",
+      "h3-specialized.render.log",
+      "h3-kfi-retry.render.log",
+      "hunyuan.render.log",
+      "ltx25.render.log"
     ],
-    "review": "Human reviewer approval is pending; no self-approval is claimed."
+    "review": "Independent PM approval is limited to the delivered five-output subset. The five SHA-256s, media metadata, queue state, download accounting, and fixture search were independently verified. The remaining 90 matrix cells stay planned: LTX-2.5, LTX-2.3, SCAIL, Wan, TaoMate, and H3 outpaint are not delivered, so this is not full video parity. The LTX-2.5 tokenizer TypeError remains a dependency failure, not hardware infeasibility."
   },
   "row_dispositions": {
     "hunyuan/standard": {
