@@ -4,11 +4,11 @@ title: "Music generation evidence"
 status: closed
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration, delivered, accepted]
+labels: [capability, evidence, external-integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T05:04:03Z
+updated_at: 2026-09-25T05:04:04Z
 content_hash: "sha256:2f20c95d0402b576069936a5ca647981debf13f9b4abbb6a0a7bebd9bf15cfdc"
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
