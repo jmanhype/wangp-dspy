@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
 updated_at: 2026-09-25T02:42:09Z
-content_hash: "sha256:8c54317867bd868dc4a078cc13a8d9d0163115445e1fd749e3cba84b90eac1ab"
+content_hash: "sha256:652cf08d87a6b0314393b1d2e18d1ecc123fbff5115546c083eb2a759fa4da1b"
 assignee: dev-WD-e4r7
 follows: [WD-651z]
 closed_at: 2026-09-25T02:42:09Z
@@ -412,6 +412,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-24.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Summary: Delivered fail-closed GPU occupancy parsing and admission verdicts at exact pushed head below; direct tests use the real captured CSV row and no host/GPU/network.
