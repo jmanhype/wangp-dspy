@@ -8,11 +8,12 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:01:38Z
-content_hash: "sha256:0d5438b997108c575646a431b766996eedd16d787c71531709b1cca9269b82e3"
+updated_at: 2026-09-25T20:23:30Z
+content_hash: "sha256:a0db6fb49c41ee9c4c96c1a60190a6a5879d49a59b0978afb979f5b2ebe39630"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
+assignee: dev-WD-bxhc
 ---
 
 ## Description
@@ -212,6 +213,7 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-25T19:59:45Z released by speed
 - 2026-09-25T19:59:46Z status: open -> in_progress
 - 2026-09-25T19:59:46Z auto-follows: linked to predecessor WD-0zj8
+- 2026-09-25T20:23:30Z claimed by dev-WD-bxhc
 
 ## Links
 - Parent: [[WD-3nod]]
