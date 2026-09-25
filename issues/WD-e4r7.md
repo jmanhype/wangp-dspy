@@ -8,8 +8,8 @@ labels: [bug, host-safety, integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
-updated_at: 2026-09-25T02:24:08Z
-content_hash: "sha256:944845874d52b20a2c0d485c6bb65d085cd4d1e836eec6f150eefe9555fda56f"
+updated_at: 2026-09-25T02:25:02Z
+content_hash: "sha256:78477040fb3ce358360c6b53b6fd55947e821c807bd5bd1549222c89e056ee23"
 blocks: [WD-fay0]
 assignee: dev-WD-e4r7
 follows: [WD-651z]
@@ -411,6 +411,150 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
+
+### evidence
+- Branch/head: `story/WD-e4r7@ada69471cbe7cbb1fe4f765432d0bf2063ae9ee4`; pushed to `origin/story/WD-e4r7` (push exit 0).
+- Files: `services/jobs/preflight.py`, `tests/test_jobs_preflight.py`; diff from base: 162 insertions / 17 deletions across 2 files.
+- Targeted command (timeout 3600s): `uv run --frozen --extra dev pytest -q tests/test_jobs_preflight.py` -> exit 0, tail `.....................  [100%]`.
+- Full command (timeout 3600s): `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-e4r7-full.xml` -> exit 0; parsed JUnit `tests=2084 errors=0 failures=0 skipped=1`.
+- Release: `uv run --frozen --extra dev wgp release verify` -> exit 0, `release=ready`, `tag_created=false`.
+- Protected gates: `git diff --exit-code 8f0b225 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py scripts/run_film.py` -> exit 0/no diff; `git diff --check` -> exit 0/no output.
+- Before/after for exact captured row `1007225, 7808 MiB, /home/straughter/llama.cpp/build/bin/llama-server`: before `PreflightCheck(kind='gpu_state', passed=True, detail='idle')`; after `PreflightCheck(kind='gpu_state', passed=False, detail='GPU occupied: pid=1007225 memory=7808MiB process=/home/straughter/llama.cpp/build/bin/llama-server')`.
+- Malformed alternate-column row `7808 MiB, 1007225, /tmp/renderer`: after state `unknown`, check fails with `GPU state unknown (fail closed): invalid pid '7808 MiB'`. Empty output: state `idle`, check passes `idle`. No host, SSH, GPU, or network probe was used for this story.
+
+### proof
+- [x] AC1: probe now requests `pid,used_memory,process_name`; direct parser test asserts exact captured pid/memory/path.
+- [x] AC2: occupied check fails and names pid, MiB, and process for every parsed process.
+- [x] AC3: malformed/alternate/truncated shapes and nonzero rc fail closed as unknown/error; successful surprises never idle.
+- [x] AC4: empty and `No running processes found` remain passing idle.
+- [x] AC5: direct no-mock parser tests cover real CSV, quoted comma/space path, malformed shapes, idle, and state-to-check mapping.
+- [x] AC6: targeted/full/release/protected-differential/unchanged-protected/whitespace gates passed at `ada69471cbe7cbb1fe4f765432d0bf2063ae9ee4`.
+
+### protected-file-differential
+```diff
+diff --git a/services/jobs/preflight.py b/services/jobs/preflight.py
+index df26c2a..95b894f 100644
+--- a/services/jobs/preflight.py
++++ b/services/jobs/preflight.py
+@@ -13,9 +13,11 @@ duplicate).
+ """
+ from __future__ import annotations
+ 
++import csv
++import io
+ import re
+ from dataclasses import dataclass, field
+-from typing import List, Optional, Sequence
++from typing import List, Literal, Optional, Sequence
+ 
+ PROBE_TIMEOUT_SECS = 30
+ 
+@@ -49,9 +51,67 @@ class PreflightReport:
+         return [c for c in self.checks if not c.passed]
+ 
+ 
+-# nvidia-smi --query-compute-apps output: pid, process name — a row
+-# with a digit-led pid means SOMETHING holds the GPU (stale tenant).
+-_GPU_PROC_RE = re.compile(r"^\s*(\d+)\s+\S+", re.M)
++@dataclass(frozen=True)
++class GpuComputeProcess:
++    pid: int
++    memory_mib: int
++    process_name: str
++
++
++@dataclass(frozen=True)
++class GpuComputeState:
++    verdict: Literal["idle", "occupied", "unknown"]
++    processes: tuple[GpuComputeProcess, ...]
++    reason: str = ""
++
++
++def _parse_gpu_compute_apps(output: str) -> GpuComputeState:
++    """Parse nvidia-smi CSV compute-app rows, failing closed on surprises."""
++    text = (output or "").strip()
++    if text == "" or text == "No running processes found":
++        return GpuComputeState("idle", ())
++
++    processes = []
++    for row in csv.reader(io.StringIO(text), skipinitialspace=True):
++        if len(row) != 3:
++            return GpuComputeState(
++                "unknown", tuple(processes),
++                f"expected 3 CSV fields, got {len(row)}: {row!r}")
++        pid_text, memory_text, process_name = (value.strip() for value in row)
++        try:
++            pid = int(pid_text)
++        except ValueError:
++            return GpuComputeState(
++                "unknown", tuple(processes), f"invalid pid {pid_text!r}")
++        memory_match = re.fullmatch(r"(\d+)\s*(?:MiB)?", memory_text)
++        if memory_match is None or not process_name:
++            return GpuComputeState(
++                "unknown", tuple(processes),
++                f"invalid compute-app row: pid={pid}, "
++                f"used_memory={memory_text!r}, "
++                f"process_name={process_name!r}")
++        processes.append(GpuComputeProcess(
++            pid, int(memory_match.group(1)), process_name))
++    return GpuComputeState("occupied", tuple(processes))
++
++
++def _gpu_check_from_state(state: GpuComputeState) -> PreflightCheck:
++    if state.verdict == "idle":
++        return PreflightCheck("gpu_state", True, "idle")
++    if state.verdict == "occupied":
++        occupants = _gpu_occupant_detail(state.processes)
++        return PreflightCheck("gpu_state", False, f"GPU occupied: {occupants}")
++    detail = f"GPU state unknown (fail closed): {state.reason}"
++    if state.processes:
++        detail += f"; observed {_gpu_occupant_detail(state.processes)}"
++    return PreflightCheck(
++        "gpu_state", False, detail)
++
++
++def _gpu_occupant_detail(processes):
++    return ", ".join(
++        f"pid={proc.pid} memory={proc.memory_mib}MiB "
++        f"process={proc.process_name}" for proc in processes)
+ 
+ 
+ def _safe_probe(host, argv, timeout=PROBE_TIMEOUT_SECS):
+@@ -108,18 +168,15 @@ def _probe_disk(host, disk_path, min_free_gb) -> PreflightCheck:
+ 
+ def _probe_gpu(host) -> PreflightCheck:
+     rc, out, _err = _safe_probe(
+-        host, ["nvidia-smi", "--query-compute-apps=pid,process_name",
+-               "--format=csv,noheader"])
++        host, [
++            "nvidia-smi",
++            "--query-compute-apps=pid,used_memory,process_name",
++            "--format=csv,noheader",
++        ])
+     if rc != 0:
+         return PreflightCheck("gpu_state", False,
+                               f"nvidia-smi rc={rc}")
+-    m = _GPU_PROC_RE.search(out or "")
+-    if m:
+-        return PreflightCheck(
+-            "gpu_state", False,
+-            f"GPU busy: stale tenant pid {m.group(1)} "
+-            f"({out.strip().splitlines()[0]})")
+-    return PreflightCheck("gpu_state", True, "idle")
++    return _gpu_check_from_state(_parse_gpu_compute_apps(out))
+ 
+ 
+ def _probe_qc(host, qc_url) -> PreflightCheck:
+@@ -151,5 +208,6 @@ def run_preflight(host, *, models: Sequence[dict], min_free_gb: float,
+ 
+ __all__ = [
+     "PreflightCheck", "PreflightReport", "PreflightError",
++    "GpuComputeProcess", "GpuComputeState",
+     "run_preflight", "PROBE_TIMEOUT_SECS",
+ ]
+```
 
 
 ## nd_contract
