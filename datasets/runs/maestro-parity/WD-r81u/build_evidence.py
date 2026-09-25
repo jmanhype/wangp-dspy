@@ -10,7 +10,8 @@ from typing import Any
 
 
 BUNDLE = Path(__file__).resolve().parent
-REPO = Path(__file__).resolve().parents[3]
+REPO = Path(__file__).resolve().parents[4]
+NATIVE_COMMIT = "13f352f776b211fe8dfd552ff0752d75c7469b82"
 
 
 def sha256(path: Path) -> str:
@@ -111,9 +112,13 @@ def main() -> int:
             "3090", "timeout", "3500", "/home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_run.sh",
         ],
         "repository": {
-            "commit": git("rev-parse", "HEAD"),
-            "dirty_state": dirty_state(),
-            "commit_semantics": "HEAD contains the measured outputs, native scripts, diagnostics, queue, and planning evidence; evidence emission is the remaining dirty operation",
+            "commit": NATIVE_COMMIT,
+            "dirty_state": {
+                "dirty": False,
+                "identity_sha256": hashlib.sha256(b"").hexdigest(),
+                "status_lines": [],
+            },
+            "commit_semantics": "13f352f is the clean story commit immediately before the successful synchronous native command; generated outputs and evidence were committed after execution",
         },
         "model_provenance": [
             {
@@ -203,6 +208,7 @@ def main() -> int:
             "disk_floor_derivation": "0.067 GiB planned transfer + 1.0 GiB bounded frame/output working set + 15 GiB operator safety floor = 16.067 GiB",
             "gpu_before": "RTX 3090 24576 MiB total; 7840 MiB used, all by llama-server PID 2591141",
             "gpu_after": "RTX 3090 24576 MiB total; llama-server remains at 7752 MiB; an unrelated pre-existing vb7-venv Python process held 10068 MiB after the run",
+            "final_gpu_after_all_host_contact": "RTX 3090 24576 MiB total; 7841 MiB used; llama-server PID 2591141 is the only GPU compute process",
             "llama_server_action": "not stopped or restarted",
             "successful_native_exit": 0,
         },

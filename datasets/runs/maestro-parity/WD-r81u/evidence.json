@@ -490,8 +490,8 @@
     }
   ],
   "repository": {
-    "commit": "572f9298307a1e29af630a886d7c46c450f498d0",
-    "commit_semantics": "HEAD contains the measured outputs, native scripts, diagnostics, queue, and planning evidence; evidence emission is the remaining dirty operation",
+    "commit": "13f352f776b211fe8dfd552ff0752d75c7469b82",
+    "commit_semantics": "13f352f is the clean story commit immediately before the successful synchronous native command; generated outputs and evidence were committed after execution",
     "dirty_state": {
       "dirty": false,
       "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -581,6 +581,7 @@
     "disk_floor_derivation": "0.067 GiB planned transfer + 1.0 GiB bounded frame/output working set + 15 GiB operator safety floor = 16.067 GiB",
     "download_ceiling_bytes": 20000000000,
     "gpu_after": "RTX 3090 24576 MiB total; llama-server remains at 7752 MiB; an unrelated pre-existing vb7-venv Python process held 10068 MiB after the run",
+    "final_gpu_after_all_host_contact": "RTX 3090 24576 MiB total; 7841 MiB used; llama-server PID 2591141 is the only GPU compute process",
     "gpu_before": "RTX 3090 24576 MiB total; 7840 MiB used, all by llama-server PID 2591141",
     "host_free_after_successful_run_bytes": 41042083840,
     "host_free_before_download_bytes": 41534517248,

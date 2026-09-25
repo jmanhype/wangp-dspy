@@ -1,0 +1,71 @@
+{
+  "base": "c91a6d8",
+  "cells_per_row": {
+    "ffmpeg": 4,
+    "film": 4,
+    "neural_frame_gen": 4,
+    "real_esrgan": 4,
+    "rife": 4
+  },
+  "expected_rows": [
+    "ffmpeg",
+    "rife",
+    "real_esrgan",
+    "film",
+    "neural_frame_gen"
+  ],
+  "observed_rows": [
+    "ffmpeg",
+    "rife",
+    "real_esrgan",
+    "film",
+    "neural_frame_gen"
+  ],
+  "off_diagonal_boundaries_unchanged": true,
+  "planned_cells_flipped": 0,
+  "reason": "reviewer_verdict is pending and the canonical checker exits 1; candidate rows cannot be promoted",
+  "row_count": 5,
+  "row_dispositions": {
+    "ffmpeg/face_refinement": {
+      "disposition": "planned_missing_track_consent_and_source_face",
+      "evidence": "missing-required-inputs.md"
+    },
+    "ffmpeg/film_grain": {
+      "disposition": "candidate_host_run_verified_pending_review",
+      "evidence": "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+    },
+    "ffmpeg/interpolation": {
+      "disposition": "candidate_host_run_verified_pending_review",
+      "evidence": "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+    },
+    "ffmpeg/spatial_upscale": {
+      "disposition": "candidate_host_run_verified_pending_review",
+      "evidence": "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+    },
+    "film/film_grain": {
+      "disposition": "candidate_host_run_verified_pending_review_with_control_semantics_gap",
+      "evidence": "outputs/wd_r81u_film_film_grain.mp4"
+    },
+    "neural_frame_gen/face_refinement": {
+      "disposition": "planned_missing_named_host_implementation_track_consent_and_source_face",
+      "evidence": "missing-required-inputs.md"
+    },
+    "neural_frame_gen/interpolation": {
+      "disposition": "planned_missing_named_host_implementation",
+      "evidence": "neural-frame-gen-boundary-probe.txt"
+    },
+    "neural_frame_gen/spatial_upscale": {
+      "disposition": "planned_missing_named_host_implementation",
+      "evidence": "neural-frame-gen-boundary-probe.txt"
+    },
+    "real_esrgan/spatial_upscale": {
+      "disposition": "candidate_host_run_verified_pending_review",
+      "evidence": "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+    },
+    "rife/interpolation": {
+      "disposition": "candidate_host_run_verified_pending_review",
+      "evidence": "outputs/wd_r81u_rife_interpolation_x2.mp4"
+    }
+  },
+  "unchanged_from_base": true
+}
