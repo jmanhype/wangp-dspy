@@ -1,0 +1,21 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "resolution": "480x832",
+  "seed": 2933,
+  "video_length": 56,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "sample_solver": "euler",
+  "audio_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [
+    "/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard_first_frame.png"
+  ],
+  "video_guide": null,
+  "video_prompt_type": "KFI",
+  "prompt": "KFI frame injection test: continue from the supplied compass frame with one gentle rotation and a soft click.",
+  "frames_positions": "1"
+}

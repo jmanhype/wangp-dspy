@@ -1,0 +1,55 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_2gyw_h3_specialized.source.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_2gyw_h3_specialized.source.json
+[load_settings] Task 1/3 ready, ID: 1, model: minimax_h3_fl2va_pruned
+[load_settings] Loaded image: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard_first_frame.png
+[load_settings] Invalid Frame Position Value'0' for task #2. Skipping.
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4
+[load_settings] Task 3/3 ready, ID: 3, model: minimax_h3_fl2va_pruned
+Loaded 2 task(s)
+
+[Task 1/2] VDN hybrid attention test: a blue paper crane turns slowly a...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+Loading model MiniMax H3 FL2VA Pruned 20B...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Prompt 1/2 - Encoding Prompt  [0/1] Prompt 1/2 - Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Prompt 1/2 - Denoising                          [0/8] Prompt 1/2 - Denoising | 1m 28sH3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s][MiniMax H3] Sol-Attn enabled with Triton on SM86 (tau=1, diag)
+H3 denoising:  12%|█▎        | 1/8 [00:05<00:39,  5.60s/steps]  [1/8] Prompt 1/2 - Denoising | 1m 34s / 2m 13sH3 denoising:  25%|██▌       | 2/8 [00:10<00:30,  5.15s/steps]  [2/8] Prompt 1/2 - Denoising | 1m 39s / 2m 10sH3 denoising:  38%|███▊      | 3/8 [00:15<00:25,  5.11s/steps]  [3/8] Prompt 1/2 - Denoising | 1m 44s / 2m 10sH3 denoising:  50%|█████     | 4/8 [00:20<00:20,  5.11s/steps]  [4/8] Prompt 1/2 - Denoising | 1m 49s / 2m 10sH3 denoising:  62%|██████▎   | 5/8 [00:25<00:15,  5.15s/steps]  [5/8] Prompt 1/2 - Denoising | 1m 54s / 2m 10sH3 denoising:  75%|███████▌  | 6/8 [00:31<00:10,  5.16s/steps]  [6/8] Prompt 1/2 - Denoising | 1m 59s / 2m 10sH3 denoising:  88%|████████▊ | 7/8 [00:36<00:05,  5.15s/steps]  [7/8] Prompt 1/2 - Denoising | 2m 05s / 2m 10sH3 denoising: 100%|██████████| 8/8 [00:41<00:00,  5.12s/steps]H3 denoising: 100%|██████████| 8/8 [00:41<00:00,  5.15s/steps]
+  [8/8] Prompt 1/2 - VAE Decoding | 2m 10s / 2m 10s  [0/1] Prompt 1/2 - VAE Decoding of Video and AudioError saving metadata to MP4 /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/2026-09-25-09h33m05s_seed2932_VDN hybrid attention test a blue paper crane turns slowly above a brass compass while soft light ch.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/2026-09-25-09h33m05s_seed2932_VDN hybrid attention test a blue paper crane turns slowly above a brass compass while soft light ch.mp4
+
+
+  Task 1 completed
+
+[Task 2/2] Audio refinement test: keep the compass video unchanged and ...
+  [0/1] Prompt 2/2 - Extracting Raw Format  [0/1] Prompt 2/2 - Encoding Prompt        [0/1] Prompt 2/2 - Encoding H3 prompt and references  [0/1] Prompt 2/2 - Denoising                          [0/8] Prompt 2/2 - Denoising | 1m 32sH3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s]H3 denoising:  12%|█▎        | 1/8 [00:05<00:35,  5.04s/steps]  [1/8] Prompt 2/2 - Denoising | 1m 37s / 2m 12sH3 denoising:  25%|██▌       | 2/8 [00:10<00:30,  5.11s/steps]  [2/8] Prompt 2/2 - Denoising | 1m 42s / 2m 13sH3 denoising:  38%|███▊      | 3/8 [00:15<00:25,  5.12s/steps]  [3/8] Prompt 2/2 - Denoising | 1m 47s / 2m 13sH3 denoising:  50%|█████     | 4/8 [00:20<00:20,  5.18s/steps]  [4/8] Prompt 2/2 - Denoising | 1m 53s / 2m 13sH3 denoising:  62%|██████▎   | 5/8 [00:25<00:15,  5.17s/steps]  [5/8] Prompt 2/2 - Denoising | 1m 58s / 2m 13sH3 denoising:  75%|███████▌  | 6/8 [00:30<00:10,  5.15s/steps]  [6/8] Prompt 2/2 - Denoising | 2m 03s / 2m 13sH3 denoising:  88%|████████▊ | 7/8 [00:36<00:05,  5.17s/steps]  [7/8] Prompt 2/2 - Denoising | 2m 08s / 2m 13sH3 denoising: 100%|██████████| 8/8 [00:41<00:00,  5.16s/steps]H3 denoising: 100%|██████████| 8/8 [00:41<00:00,  5.15s/steps]
+  [8/8] Prompt 2/2 - VAE Decoding | 2m 13s / 2m 13s  [0/1] Prompt 2/2 - Decoding H3 stereo audio      Error saving metadata to MP4 /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/2026-09-25-09h35m27s_seed2934_Audio refinement test keep the compass video unchanged and replace its soundtrack with closer paper.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/2026-09-25-09h35m27s_seed2934_Audio refinement test keep the compass video unchanged and replace its soundtrack with closer paper.mp4
+
+
+  Task 2 completed
+
+==================================================
+Queue completed: 2/2 tasks in 5m 31s

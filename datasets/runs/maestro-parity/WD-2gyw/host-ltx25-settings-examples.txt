@@ -1,0 +1,134 @@
+==== shared/deepy/settings/gen_video_with_speech/LTX-2.5 Distilled With Sound.json
+{
+    "image_mode": 0,
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "sliding_window_size": 481,
+    "resolution": "1280x704",
+    "type": "LTX-2 2.5 Distilled",
+    "audio_prompt_type": "A",
+    "input_video_strength": 1.0,
+    "guidance_phases": 2,
+    "settings_version": 2.73,
+    "model_type": "ltx2_25_22B_distilled"
+}
+==== profiles/ltx2_25_dev_accelerators/Single-Stage Dev DistilledLoRA (8 Steps).json
+{
+    "model_type": "ltx2_25_22B",
+    "sample_solver": "distilled_8_steps_ancestral",
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "guidance_scale": 1.0,
+    "audio_guidance_scale": 1.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "perturbation_switch": 0,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled-lora-450_bf16.safetensors"
+    ],
+    "loras_multipliers": "0.5",
+    "settings_version": 2.56,
+    "help": "Runs LTX 2.5 Dev with its distilled LoRA at 0.5, CFG 1, and the 8-step Euler Ancestral schedule."
+}
+==== profiles/ltx2_25_dev_accelerators/Single-Stage Dev Multimodal Res2S (15 Steps).json
+{
+    "model_type": "ltx2_25_22B",
+    "sample_solver": "res2s",
+    "num_inference_steps": 15,
+    "guidance_phases": 1,
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.9,
+    "perturbation_switch": 2,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled-lora-450_bf16.safetensors"
+    ],
+    "loras_multipliers": "0.2",
+    "settings_version": 2.56,
+    "help": "Runs LTX 2.5 Dev with its distilled LoRA at 0.2, the LTXV scheduler at 15 steps, res2s, video CFG 3, audio CFG 7, modality guidance 3, and STG block 28. WanGP has one guidance rescale slider, so this profile uses the video rescale value 0.9."
+}
+==== profiles/ltx2_25_dev_accelerators/Two-Stage Dev DistilledLoRA (8+3 Steps).json
+{
+    "model_type": "ltx2_25_22B",
+    "sample_solver": "distilled_8_steps_ancestral",
+    "num_inference_steps": 8,
+    "guidance_phases": 2,
+    "guidance_scale": 1.0,
+    "audio_guidance_scale": 1.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "perturbation_switch": 0,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled-lora-450_bf16.safetensors"
+    ],
+    "loras_multipliers": "0.5",
+    "settings_version": 2.56,
+    "help": "Runs LTX 2.5 Dev with its distilled LoRA at 0.5: 8 Euler Ancestral denoise steps, x2 spatial upscale, then 3 deterministic Euler refinement steps. WanGP resolution is the final upscaled size."
+}
+==== profiles/ltx2_25_dev_accelerators/Two-Stage Dev HQ Res2S (15+3 Steps).json
+{
+    "model_type": "ltx2_25_22B",
+    "sample_solver": "res2s",
+    "num_inference_steps": 15,
+    "guidance_phases": 2,
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.45,
+    "perturbation_switch": 0,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled-lora-450_bf16.safetensors"
+    ],
+    "loras_multipliers": "0.5",
+    "settings_version": 2.56,
+    "help": "Runs LTX 2.5 Dev with its distilled LoRA at 0.5: 15-step HQ res2s generation followed by 3 refinement steps."
+}
+==== profiles/ltx2_25_dev_accelerators/Two-Stage Modality Guidance (30+3 Steps).json
+{
+    "model_type": "ltx2_25_22B",
+    "sample_solver": "euler",
+    "num_inference_steps": 30,
+    "guidance_phases": 2,
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.7,
+    "perturbation_switch": 2,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled-lora-450_bf16.safetensors"
+    ],
+    "loras_multipliers": "0;1",
+    "settings_version": 2.56,
+    "help": "Runs LTX 2.5 Dev with modality guidance: 30 Euler steps using CFG and STG at half resolution, followed by x2 spatial upscaling and 3 refinement steps with the distilled LoRA."
+}

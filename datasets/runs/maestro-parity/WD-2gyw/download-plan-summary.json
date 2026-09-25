@@ -1,0 +1,136 @@
+{
+  "asset_count": 26,
+  "total_size_bytes": 57801926853,
+  "assets": [
+    {
+      "id": "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "size_bytes": 19483116168,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_video_vae_bf16.safetensors",
+      "size_bytes": 1452269922,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "size_bytes": 1472223346,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "size_bytes": 106546028,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_vocoder_bf16.safetensors",
+      "size_bytes": 258355696,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "size_bytes": 2312126712,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "size_bytes": 1615737560,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "size_bytes": 405254656,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "size_bytes": 995778752,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "size_bytes": 261944000,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors"
+    },
+    {
+      "id": "ltx25-gemma4-gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "size_bytes": 12923893224,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors"
+    },
+    {
+      "id": "ltx25-gemma4-tokenizer.json",
+      "size_bytes": 32169626,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json"
+    },
+    {
+      "id": "ltx25-gemma4-config.json",
+      "size_bytes": 2498,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json"
+    },
+    {
+      "id": "ltx25-gemma4-chat_template.jinja",
+      "size_bytes": 18683,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja"
+    },
+    {
+      "id": "ltx25-gemma4-tokenizer_config.json",
+      "size_bytes": 3736,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json"
+    },
+    {
+      "id": "hunyuan15-hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+      "size_bytes": 8503018313,
+      "destination": "/home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors"
+    },
+    {
+      "id": "hunyuan15-hunyuan_video_1_5_VAE_fp32.safetensors",
+      "size_bytes": 5042560980,
+      "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors"
+    },
+    {
+      "id": "hunyuan15-hunyuan_video_1_5_VAE.json",
+      "size_bytes": 462,
+      "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE.json"
+    },
+    {
+      "id": "hunyuan15-Glyph-SDXL-v2-color_idx.json",
+      "size_bytes": 2366,
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/color_idx.json"
+    },
+    {
+      "id": "hunyuan15-Glyph-SDXL-v2-multilingual_10-lang_idx.json",
+      "size_bytes": 28098,
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/multilingual_10-lang_idx.json"
+    },
+    {
+      "id": "hunyuan15-Glyph-SDXL-v2-byt5-small-config.json",
+      "size_bytes": 698,
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/config.json"
+    },
+    {
+      "id": "hunyuan15-Glyph-SDXL-v2-byt5-small-model.safetensors",
+      "size_bytes": 1203095198,
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors"
+    },
+    {
+      "id": "hunyuan15-Glyph-SDXL-v2-byt5-small-byt5_model.safetensors",
+      "size_bytes": 877273198,
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors"
+    },
+    {
+      "id": "hunyuan15-siglip_vision_model-config.json",
+      "size_bytes": 419,
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/config.json"
+    },
+    {
+      "id": "hunyuan15-siglip_vision_model-model.safetensors",
+      "size_bytes": 856506120,
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors"
+    },
+    {
+      "id": "hunyuan15-siglip_vision_model-preprocessor_config.json",
+      "size_bytes": 394,
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/preprocessor_config.json"
+    }
+  ]
+}

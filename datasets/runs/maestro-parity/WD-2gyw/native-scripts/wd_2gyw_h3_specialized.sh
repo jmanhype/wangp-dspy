@@ -4,7 +4,7 @@ ROOT=/home/straughter/Wan2GP
 OUT=$ROOT/outputs/wd-2gyw/h3-specialized
 SETTINGS=$ROOT/wd_2gyw_h3_specialized.source.json
 mkdir -p "$OUT"
-cp /home/straughter/Wan2GP/wd_2gyw_h3_specialized.source.json "$SETTINGS"
+test -s "$SETTINGS"
 ffmpeg -y -v error -i "$ROOT/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4" -update 1 -frames:v 1 "$ROOT/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard_first_frame.png"
 cd "$ROOT"
 find "$OUT" -maxdepth 1 -type f -name '*.mp4' -printf '%T@ %p\n' | sort > "$OUT/before.txt"
