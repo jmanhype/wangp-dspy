@@ -1,1 +1,1 @@
-VERIFY: PASSED (13 files scanned, 0 issues)
+VERIFY: PASSED (2 files scanned, 0 issues)

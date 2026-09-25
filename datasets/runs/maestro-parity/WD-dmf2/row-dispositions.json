@@ -2,7 +2,7 @@
   "schema_version": "wangp-dspy.maestro-parity-row-dispositions/v1",
   "story_id": "WD-dmf2",
   "bundle": "datasets/runs/maestro-parity/WD-dmf2/evidence.json",
-  "global_reason": "No cell flips: the operator/dispatcher explicitly requires reviewer_verdict=decision:pending, and the auto-mode mandatory gate set does not pass across Whisper, identity-vision, mouth-box consensus, and SyncNet. Real composed media, immutable plans, queue attempts, reconstruction, and measurements are retained for review.",
+  "global_reason": "No cell flips: the operator/dispatcher explicitly requires reviewer_verdict=decision:pending, and the applicable auto-mode gate set does not pass (instrumental Whisper is explicitly non-applicable). Real composed media, immutable plans, queue attempts, reconstruction, derived gate measurements, and applicability are retained for review.",
   "rows": [
     {
       "capability": "Deterministic ordered multi-clip plan",
@@ -38,7 +38,7 @@
       "capability": "Auto/manual review checkpoints",
       "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
       "disposition": "unchanged",
-      "reason": "Manual checkpoint policies are recorded but pending; auto-mode only two of four mandatory gates pass on the tested clip (identity-vision and mouth-box consensus; Whisper and SyncNet fail)."
+      "reason": "Manual checkpoint policies are recorded but pending. Instrumental Whisper is recorded non-applicable; auto-mode passes identity-vision and mouth-box consensus but SyncNet fails, so only two of three applicable gate categories pass."
     },
     {
       "capability": "Immutable non-executable queue records",

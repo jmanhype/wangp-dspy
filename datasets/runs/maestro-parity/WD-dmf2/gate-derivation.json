@@ -1,0 +1,216 @@
+{
+  "applicability": {
+    "applicable": false,
+    "derived_basis": {
+      "declared_instrumental": true,
+      "empty_transcript": true
+    },
+    "gate": "whisper_transcript",
+    "reason": "The declared text is [Instrumental] and Whisper returned an empty transcript; a word-overlap speech score is undefined rather than 0.0.",
+    "source_fields": [
+      "whisper_gates[0].intended_text",
+      "whisper_gates[0].error"
+    ],
+    "target": "music_video/clip0001.mp4 and instrumental audio-mode targets"
+  },
+  "gates": [
+    {
+      "gate": "output_hash_coverage_count",
+      "measured": 12,
+      "source_field": "media-qc.json; output-hashes.json",
+      "threshold": 12,
+      "verdict": "pass"
+    },
+    {
+      "gate": "queue_admission_success_count",
+      "measured": 1,
+      "source_field": "selected_job == job_id",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "gate": "queue_exit_success_count",
+      "measured": 1,
+      "source_field": "state == done",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "gate": "director_plan_selected_executable_job_count",
+      "measured": 0,
+      "source_field": "sum(selected_job is not null)",
+      "threshold": 0,
+      "verdict": "pass"
+    },
+    {
+      "gate": "seed_reconstruction_match_count",
+      "measured": 10,
+      "source_field": "sum(records[].match)",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "gate": "enhancement_changed_field_count",
+      "measured": 1,
+      "source_field": "changed_fields.length",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "gate": "enhancement_reconstruction_match_count",
+      "measured": 2,
+      "source_field": "sum(records[].match)",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "gate": "six_frame_overlap_declared_count",
+      "measured": 4,
+      "source_field": "sum(planned_clips[].overlap.frames == 6)",
+      "threshold": 4,
+      "verdict": "pass"
+    },
+    {
+      "gate": "continuity_record_count",
+      "measured": 8,
+      "source_field": "sum(planned_clips[].continuity present)",
+      "threshold": 8,
+      "verdict": "pass"
+    },
+    {
+      "gate": "manual_checkpoint_record_count",
+      "measured": 4,
+      "source_field": "sum(planned_clips[].review.mode == manual)",
+      "threshold": 4,
+      "verdict": "pass"
+    },
+    {
+      "gate": "prompt_final_duration_abs_error_s",
+      "measured": 3.340000001017529e-07,
+      "source_field": "outputs/wd_dmf2_prompt_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "gate": "prompt_produced_clip_count",
+      "measured": 2,
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "gate": "audio_final_duration_abs_error_s",
+      "measured": 0.0,
+      "source_field": "outputs/wd_dmf2_audio_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "gate": "audio_produced_clip_count",
+      "measured": 2,
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "gate": "music_video_final_duration_abs_error_s",
+      "measured": 0.0,
+      "source_field": "outputs/wd_dmf2_music_video_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "gate": "music_video_produced_clip_count",
+      "measured": 2,
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "gate": "screenplay_final_duration_abs_error_s",
+      "measured": 0.0,
+      "source_field": "outputs/wd_dmf2_screenplay_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "gate": "screenplay_produced_clip_count",
+      "measured": 2,
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "gate": "beat_boundary_abs_error_s",
+      "measured": 0.011667000000000094,
+      "source_field": "abs(clip1.produced.duration_s - clip2.window.start_s)",
+      "threshold": 0.041666666666666664,
+      "verdict": "pass"
+    },
+    {
+      "gate": "identity_vision_pass_count",
+      "measured": 3,
+      "source_field": "sum(vision_gates[].identity_vision.passed)",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "gate": "mouth_box_consensus_pass_count",
+      "measured": 3,
+      "source_field": "sum(vision_gates[].mouth_box_consensus.passed)",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "gate": "whisper_screenplay_clip0001_score",
+      "measured": 0.556,
+      "source_field": "whisper_gates[1].score/pass_bar/passed",
+      "threshold": 0.6,
+      "verdict": "fail"
+    },
+    {
+      "gate": "whisper_screenplay_clip0002_score",
+      "measured": 1.0,
+      "source_field": "whisper_gates[2].score/pass_bar/passed",
+      "threshold": 0.6,
+      "verdict": "pass"
+    },
+    {
+      "gate": "syncnet_audio_clip0001_confidence",
+      "measured": 0.594741,
+      "source_field": "vision_gates[0].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "fail"
+    },
+    {
+      "gate": "syncnet_screenplay_clip0001_confidence",
+      "measured": 0.468897,
+      "source_field": "vision_gates[1].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "fail"
+    },
+    {
+      "gate": "syncnet_screenplay_clip0002_confidence",
+      "measured": 1.10503,
+      "source_field": "vision_gates[2].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "gate": "auto_review_applicable_mandatory_gate_pass_count",
+      "measured": 2,
+      "source_field": "gate_applicability.applicable plus vision_gates[0].{identity_vision,mouth_box_consensus,syncnet_av}.passed",
+      "threshold": 3,
+      "verdict": "fail"
+    },
+    {
+      "gate": "reviewer_approved_count",
+      "measured": 0,
+      "source_field": "reviewer_verdict.decision == approved",
+      "threshold": 1,
+      "verdict": "fail"
+    }
+  ],
+  "schema_version": "wangp-dspy.director-gate-derivation/v1",
+  "source": "director-qc-evidence.json"
+}

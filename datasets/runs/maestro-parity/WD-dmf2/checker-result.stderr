@@ -1,7 +1,6 @@
 FAIL objective_gate_results[21].verdict: must be pass
-FAIL objective_gate_results[22].verdict: must be pass
+FAIL objective_gate_results[23].verdict: must be pass
 FAIL objective_gate_results[24].verdict: must be pass
-FAIL objective_gate_results[25].verdict: must be pass
+FAIL objective_gate_results[26].verdict: must be pass
 FAIL objective_gate_results[27].verdict: must be pass
-FAIL objective_gate_results[28].verdict: must be pass
 FAIL reviewer_verdict.decision: must be approved

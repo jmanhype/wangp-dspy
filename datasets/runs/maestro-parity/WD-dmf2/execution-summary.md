@@ -43,19 +43,22 @@ llama-server, three-frame mouth localization/consensus, and SyncNet v2:
 
 - identity-vision passed 3/3 tested clips;
 - mouth-box consensus passed 3/3 tested clips;
-- Whisper passed screenplay clip 2 at 1.000, but music clip 1 had no transcript
-  and screenplay clip 1 scored 0.556 below 0.600;
+- Whisper passed screenplay clip 2 at 1.000, but screenplay clip 1 scored
+  0.556 below 0.600. The instrumental music target is explicitly
+  non-applicable: its declared text is `[Instrumental]` and Whisper returned an
+  empty transcript, so word overlap is undefined rather than 0.0;
 - SyncNet passed screenplay clip 2 at confidence 1.10503, but audio clip 1
   (0.594741) and screenplay clip 1 (0.468897) were below 1.0.
 
-Thus auto review passed only two of its four mandatory gate categories on the
-tested auto clip. Manual review remains pending. No operator/PM approval is
+Thus auto review passed only two of the three applicable mandatory gate
+categories on the tested auto clip. Manual review remains pending. No
+operator/PM approval is
 claimed.
 
 ## Checker and disposition
 
-`scripts/verify_maestro_parity.py` intentionally fails closed with six failed
-objective gates plus `reviewer_verdict.decision: must be approved`. The
+`scripts/verify_maestro_parity.py` intentionally fails closed with five derived
+objective-gate failures plus `reviewer_verdict.decision: must be approved`. The
 reviewer decision remains `pending` as instructed. Consequently all nine first
 director capability rows remain `planned`; none are claimed as
 `host_run_verified` or `unsupported_on_this_hardware`. The pre-existing
