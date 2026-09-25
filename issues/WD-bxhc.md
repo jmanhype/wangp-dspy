@@ -8,12 +8,12 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:57:25Z
-content_hash: "sha256:0ab1014462be6e6b0fbc428b1fa01652dca88f2f7c0013ff1b6dbce7b4a41384"
+updated_at: 2026-09-25T19:57:35Z
+content_hash: "sha256:73f81c9306cfb88272f2583f3cd72fbbe2210b778c4185ff2937ca495948a428"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 assignee: dev-WD-bxhc
-follows: [WD-m0r5, WD-2gyw, WD-cpow]
+follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous]
 ---
 
 ## Description
@@ -135,11 +135,13 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-25T18:14:33Z claimed by dev-WD-bxhc
 - 2026-09-25T19:57:25Z status: in_progress -> in_progress
 - 2026-09-25T19:57:25Z auto-follows: linked to predecessor WD-cpow
+- 2026-09-25T19:57:35Z status: in_progress -> in_progress
+- 2026-09-25T19:57:35Z auto-follows: linked to predecessor WD-rous
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
-- Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]]
+- Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]]
 
 ## Comments
