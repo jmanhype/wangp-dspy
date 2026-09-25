@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T21:06:55Z
-content_hash: "sha256:8f7e02932083614f419da3e45222972f95d68f1d493280f955d7ec13f56e142c"
+updated_at: 2026-09-25T00:13:43Z
+content_hash: "sha256:4d0d1691cde67433c106670d6977e885d5044da01dcd5c877efdc47f1cc2259d"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -122,6 +122,7 @@ Observable outcome: an explicitly authorized run emits hashed image artifacts an
 - 2026-09-24T19:20:46Z status: open -> in_progress
 - 2026-09-24T19:20:46Z auto-follows: linked to predecessor WD-651z
 - 2026-09-24T19:20:46Z claimed by dev-WD-m0r5
+- 2026-09-25T00:13:43Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-3nod]]
