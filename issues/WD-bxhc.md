@@ -4,11 +4,11 @@ title: "Voice portable character evidence"
 status: open
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration]
+labels: [capability, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:23:43Z
+updated_at: 2026-09-25T20:23:44Z
 content_hash: "sha256:e965335f12360234875ede4635a7eb066dd03e8b5f2629d2ee1478fa051ed95e"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
