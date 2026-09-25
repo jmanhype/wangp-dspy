@@ -1,0 +1,9 @@
+{
+  "assets": {
+    "rife-v4.26-model": {
+      "paused": false,
+      "resume_requested": true
+    }
+  },
+  "schema_version": "wangp-dspy.download-state/v1"
+}
