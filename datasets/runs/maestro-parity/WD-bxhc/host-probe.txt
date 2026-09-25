@@ -1,0 +1,74 @@
+user=straughter
+host=straughter-Z690-Steel-Legend
+kernel=Linux 6.17.0-35-generic
+disk_root_bytes=      Avail
+44779175936
+disk_wgp_bytes=      Avail
+44779175936
+gpu
+NVIDIA GeForce RTX 3090, 24576, 7840, 16276
+gpu_processes
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752
+vibevoice_7b
+18698450924	/mnt/bulk/straughter/models/VibeVoice-7B-hf
+.gitattributes
+README.md
+chat_template.jinja
+config.json
+generation_config.json
+model-00001-of-00011.safetensors
+model-00002-of-00011.safetensors
+model-00003-of-00011.safetensors
+model-00004-of-00011.safetensors
+model-00005-of-00011.safetensors
+model-00006-of-00011.safetensors
+model-00007-of-00011.safetensors
+model-00008-of-00011.safetensors
+model-00009-of-00011.safetensors
+model-00010-of-00011.safetensors
+model-00011-of-00011.safetensors
+model.safetensors.index.json
+processor_config.json
+tokenizer.json
+tokenizer_config.json
+vibevoice_large
+18687161180	/mnt/bulk/straughter/models/VibeVoice-Large
+.gitattributes
+README.md
+config.json
+configuration.json
+model-00001-of-00010.safetensors
+model-00002-of-00010.safetensors
+model-00003-of-00010.safetensors
+model-00004-of-00010.safetensors
+model-00005-of-00010.safetensors
+model-00006-of-00010.safetensors
+model-00007-of-00010.safetensors
+model-00008-of-00010.safetensors
+model-00009-of-00010.safetensors
+model-00010-of-00010.safetensors
+model.safetensors.index.json
+preprocessor_config.json
+python_environments
+/home/straughter/vb7-venv/bin/python: {"resolved_python": "/home/straughter/vb7-venv/bin/python", "python_implementation": "CPython", "python_version": "3.11.15"}
+/home/straughter/Wan2GP/venv/bin/python: {"resolved_python": "/home/straughter/Wan2GP/venv/bin/python", "python_implementation": "CPython", "python_version": "3.11.15"}
+chatterbox_candidates
+/home/straughter/Wan2GP/ckpts/pyannote/pyannote_model_wespeaker-voxceleb-resnet34-LM.bin
+/home/straughter/Wan2GP/defaults/chatterbox.json
+/home/straughter/Wan2GP/models/TTS/__pycache__/chatterbox_handler.cpython-311.pyc
+/home/straughter/Wan2GP/models/TTS/ace_step15/configs/ace_step_v1_5_transformer_config_turbo_shift3.json
+/home/straughter/Wan2GP/models/TTS/chatterbox
+/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3
+/home/straughter/Wan2GP/models/TTS/chatterbox_handler.py
+/home/straughter/Wan2GP/outputs/wd-cpow/refine/work/revoice-audio_DeepFilterNet3.wav
+/home/straughter/Wan2GP/outputs/wd-m0r5/flux-identity-attempt3
+/home/straughter/Wan2GP/outputs/wd-m0r5/flux-identity-attempt3/wd_m0r5_flux_standard_identity_edit_attempt3.jpg
+/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3
+/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip
+/home/straughter/Wan2GP/wd-m0r5-flux-identity-attempt3.json
+chatterbox_imports
+/home/straughter/vb7-venv/bin/python: None
+/home/straughter/Wan2GP/venv/bin/python: None
+wgp_processes
+2591141 2591139    7881 /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000
+3273034       1       5 /home/straughter/Wan2GP/venv/bin/python /home/straughter/Wan2GP/wgp.py --server-name 0.0.0.0 --server-port 7861 --profile 4 --attention sage --verbose 1

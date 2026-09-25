@@ -1,0 +1,616 @@
+import os
+import torch
+import gradio as gr
+
+from shared.mps import mps_device_or
+from shared.utils import files_locator as fl
+
+from .prompt_enhancers import TTS_MONOLOGUE_PROMPT
+
+
+_FALLBACK_SUPPORTED_LANGUAGES = {
+    "ar": "Arabic",
+    "da": "Danish",
+    "de": "German",
+    "el": "Greek",
+    "en": "English",
+    "es": "Spanish",
+    "fi": "Finnish",
+    "fr": "French",
+    "he": "Hebrew",
+    "hi": "Hindi",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "ms": "Malay",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "pl": "Polish",
+    "pt": "Portuguese",
+    "ru": "Russian",
+    "sv": "Swedish",
+    "sw": "Swahili",
+    "tr": "Turkish",
+    "zh": "Chinese",
+}
+
+def _get_supported_languages() -> dict:
+    return _FALLBACK_SUPPORTED_LANGUAGES
+
+
+def _get_language_choices() -> list[tuple[str, str]]:
+    languages = _get_supported_languages()
+    return [
+        (f"{name} ({code})", code)
+        for code, name in sorted(languages.items(), key=lambda item: item[1])
+    ]
+
+CHATTERBOX_CUSTOM_SETTINGS_MIGRATION_VERSION = 2.50
+CHATTERBOX_DEFAULT_CUSTOM_SETTINGS = {
+    "exaggeration": 0.5,
+    "pace": 0.5,
+}
+CHATTERBOX_CUSTOM_SETTINGS = [
+    {
+        "id": "exaggeration",
+        "label": "Emotion Exaggeration (0.25-2.0, 0.5 = neutral)",
+        "name": "Exaggeration",
+        "type": "float",
+        "default": CHATTERBOX_DEFAULT_CUSTOM_SETTINGS["exaggeration"],
+    },
+    {
+        "id": "pace",
+        "label": "Pace (0.2-1.0)",
+        "name": "Pace",
+        "type": "float",
+        "default": CHATTERBOX_DEFAULT_CUSTOM_SETTINGS["pace"],
+    },
+]
+
+
+def _get_chatterbox_model_def():
+    return {
+        "audio_only": True,
+        "image_outputs": False,
+        "sliding_window": False,
+        "guidance_max_phases": 0,
+        "no_negative_prompt": True,
+        "inference_steps": False,
+        "temperature": True,
+        "image_prompt_types_allowed": "",
+        "profiles_dir": ["chatterbox"],
+        "audio_guide_label": "Voice to Replicate",
+        "model_modes": {
+            "choices": _get_language_choices(),
+            "default": "en",
+            "label": "Language",
+        },
+        "any_audio_prompt": True,
+        "custom_settings": [one.copy() for one in CHATTERBOX_CUSTOM_SETTINGS],
+        "text_prompt_enhancer_instructions": TTS_MONOLOGUE_PROMPT,
+        "prompt_enhancer_button_label": "Write Speech",
+    }
+
+
+def _get_chatterbox_download_def():
+    mandatory_files = [
+        "ve.safetensors",
+        "s3gen.pt",
+        "grapheme_mtl_merged_expanded_v1.json",
+        "conds.pt",
+        "Cangjie5_TC.json",
+    ]
+    return {
+        "repoId": "DeepBeepMeep/TTS",
+        "sourceFolderList": ["chatterbox"],
+        "fileList": [mandatory_files],
+    }
+
+
+class family_handler:
+    @staticmethod
+    def query_supported_types():
+        return ["chatterbox"]
+
+    @staticmethod
+    def query_family_maps():
+        return {}, {}
+
+    @staticmethod
+    def query_model_family():
+        return "tts"
+
+    @staticmethod
+    def query_family_infos():
+        return {"tts": (2200, "TTS")}
+
+    @staticmethod
+    def register_lora_cli_args(parser, lora_root):
+        parser.add_argument(
+            "--lora-dir-chatterbox",
+            type=str,
+            default=None,
+            help=f"Path to a directory that contains chatterbox settings (default: {os.path.join(lora_root, 'chatterbox')})",
+        )
+
+    @staticmethod
+    def get_lora_dir(base_model_type, args, lora_root):
+        return getattr(args, "lora_dir_chatterbox", None) or os.path.join(lora_root, "chatterbox")
+
+    @staticmethod
+    def query_model_def(base_model_type, model_def):
+        return _get_chatterbox_model_def()
+
+    @staticmethod
+    def query_model_files(computeList, base_model_type, model_def=None):
+        return _get_chatterbox_download_def()
+
+    @staticmethod
+    def load_model(
+        model_filename,
+        model_type,
+        base_model_type,
+        model_def,
+        quantizeTransformer=False,
+        text_encoder_quantization=None,
+        dtype=None,
+        VAE_dtype=None,
+        mixed_precision_transformer=False,
+        save_quantized=False,
+        submodel_no_list=None,
+        text_encoder_filename=None,
+        profile=0,
+        **kwargs,
+    ):
+        from .chatterbox.pipeline import ChatterboxPipeline
+
+        ckpt_root = fl.get_download_location()
+        pipeline = ChatterboxPipeline(ckpt_root=ckpt_root, device=mps_device_or(torch.device("cpu")))
+        pipe = {
+            "ve": pipeline.model.ve,
+            "s3gen": pipeline.model.s3gen,
+            "t3": pipeline.model.t3,
+            "conds": pipeline.model.conds,
+        }
+        return pipeline, pipe
+
+    @staticmethod
+    def fix_settings(base_model_type, settings_version, model_def, ui_defaults):
+        if "alt_prompt" not in ui_defaults:
+            ui_defaults["alt_prompt"] = ""
+
+        defaults = {
+            "audio_prompt_type": "A",
+            "model_mode": "en",
+        }
+        for key, value in defaults.items():
+            ui_defaults.setdefault(key, value)
+
+        if settings_version < 2.44:
+            ui_defaults["guidance_scale"] = 1.0
+
+        legacy_exaggeration = ui_defaults.pop("exaggeration", None)
+        legacy_pace = ui_defaults.pop("pace", None)
+        custom_settings = ui_defaults.get("custom_settings", None)
+        if not isinstance(custom_settings, dict):
+            custom_settings = {}
+        else:
+            custom_settings = custom_settings.copy()
+
+        if settings_version < CHATTERBOX_CUSTOM_SETTINGS_MIGRATION_VERSION:
+            if legacy_exaggeration is not None:
+                custom_settings.setdefault("exaggeration", legacy_exaggeration)
+            if legacy_pace is not None:
+                custom_settings.setdefault("pace", legacy_pace)
+
+        if legacy_exaggeration is not None and "exaggeration" not in custom_settings:
+            custom_settings["exaggeration"] = legacy_exaggeration
+        if legacy_pace is not None and "pace" not in custom_settings:
+            custom_settings["pace"] = legacy_pace
+
+        for key, value in CHATTERBOX_DEFAULT_CUSTOM_SETTINGS.items():
+            custom_settings.setdefault(key, value)
+        ui_defaults["custom_settings"] = custom_settings
+
+    @staticmethod
+    def update_default_settings(base_model_type, model_def, ui_defaults):
+        ui_defaults.update(
+            {
+                "audio_prompt_type": "A",
+                "model_mode": "en",
+                "repeat_generation": 1,
+                "video_length": 0,
+                "num_inference_steps": 0,
+                "negative_prompt": "",
+                "custom_settings": dict(CHATTERBOX_DEFAULT_CUSTOM_SETTINGS),
+                "temperature": 0.8,
+                "guidance_scale": 1.0,
+                "multi_prompts_gen_type": "FG",
+            }
+        )
+
+    @staticmethod
+    def validate_generative_prompt(base_model_type, model_def, inputs, one_prompt):
+        if len(one_prompt) > 300:
+            gr.Info(
+                "It is recommended to use a prompt that has less than 300 characters,"
+                " otherwise you may get unexpected results."
+            )
+
+--- pipeline ---
+from __future__ import annotations
+
+import os
+from pathlib import Path
+from typing import Optional
+from shared.utils import files_locator as fl 
+import torch
+
+from .mtl_tts import ChatterboxMultilingualTTS, SUPPORTED_LANGUAGES
+
+
+class ChatterboxPipeline:
+    """
+    Thin wrapper around Chatterbox's multilingual TTS to fit WanGP's model API expectations.
+    """
+
+    def __init__(
+        self,
+        ckpt_root: Optional[Path] = None,
+        device: Optional[torch.device] = None,
+    ) -> None:
+        self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.ckpt_root = Path(ckpt_root) if ckpt_root is not None else None
+        self.model = self._load_model()
+        self.model.ve._model_dtype = torch.float32
+        self.model.s3gen._model_dtype = torch.float32
+        self.model.t3._model_dtype = torch.float32
+        self.model.conds._model_dtype = torch.float32
+
+        self.sr = getattr(self.model, "sr", 44100)
+        self._interrupt = False
+
+    @property
+    def supported_languages(self):
+        return SUPPORTED_LANGUAGES
+
+    def _load_model(self):
+        return ChatterboxMultilingualTTS.from_local(self.ckpt_root, device=self.device)
+        # return ChatterboxMultilingualTTS.from_pretrained(device=self.device)
+
+    def prepare_reference(self, audio_prompt_path: Optional[str], exaggeration: float) -> None:
+        if not audio_prompt_path:
+            return
+        if not os.path.isfile(audio_prompt_path):
+            raise FileNotFoundError(f"Audio prompt file '{audio_prompt_path}' not found.")
+        self.model.prepare_conditionals(audio_prompt_path, exaggeration=exaggeration)
+
+    def generate(
+        self,
+        input_prompt: str,
+        model_mode: Optional[str],
+        audio_guide: Optional[str],
+        *,
+        temperature: float = 0.8,
+        repetition_penalty: float = 2.0,
+        min_p: float = 0.05,
+        top_p: float = 1.0,
+        **bkwargs
+    ) -> torch.Tensor:
+        text = input_prompt
+        if not text or not text.strip():
+            raise ValueError("Prompt text cannot be empty for Chatterbox generation.")
+
+        language_id = model_mode
+        custom_settings = bkwargs.get("custom_settings", None)
+        if not isinstance(custom_settings, dict):
+            custom_settings = {}
+        raw_exaggeration = custom_settings.get("exaggeration", bkwargs.get("exaggeration", 0.5))
+        raw_pace = custom_settings.get("pace", bkwargs.get("pace", 0.5))
+        try:
+            exaggeration = float(raw_exaggeration)
+        except (TypeError, ValueError):
+            exaggeration = 0.5
+        try:
+            cfg_weight = float(raw_pace)
+        except (TypeError, ValueError):
+            cfg_weight = 0.5
+        exaggeration = min(2.0, max(0.25, exaggeration))
+        cfg_weight = min(1.0, max(0.2, cfg_weight))
+
+        cfg_override = bkwargs.get("cfg_scale", None)
+        if cfg_override is not None:
+            try:
+                cfg_weight = float(cfg_override)
+            except (TypeError, ValueError):
+                pass
+        if language_id:
+            language_id = language_id.lower()
+            if language_id not in SUPPORTED_LANGUAGES:
+                raise ValueError(
+                    f"Unsupported language '{language_id}'. "
+                    f"Supported languages: {', '.join(sorted(SUPPORTED_LANGUAGES.keys()))}"
+                )
+
+
+        self.prepare_reference(audio_guide, exaggeration)
+        wav = self.model.generate(
+            text=text,
+            language_id=language_id,
+            audio_prompt_path=audio_guide,
+            exaggeration=exaggeration,
+            cfg_weight=cfg_weight,
+            temperature=temperature,
+            repetition_penalty=repetition_penalty,
+            min_p=min_p,
+            top_p=top_p,
+        )
+        return {"x": wav, "audio_sampling_rate": self.sr } 
+
+    def release(self) -> None:
+        if hasattr(self.model, "to"):
+            self.model.to("cpu")
+        self.model = None
+        torch.cuda.empty_cache()
+
+--- tts ---
+from dataclasses import dataclass
+from pathlib import Path
+
+import librosa
+import torch
+# import perth
+import torch.nn.functional as F
+from huggingface_hub import hf_hub_download
+from safetensors.torch import load_file
+
+from .models.t3 import T3
+from .models.s3tokenizer import S3_SR, drop_invalid_tokens
+from .models.s3gen import S3GEN_SR, S3Gen
+from .models.tokenizers import EnTokenizer
+from .models.voice_encoder import VoiceEncoder
+from .models.t3.modules.cond_enc import T3Cond
+
+
+REPO_ID = "ResembleAI/chatterbox"
+
+
+def punc_norm(text: str) -> str:
+    """
+        Quick cleanup func for punctuation from LLMs or
+        containing chars not seen often in the dataset
+    """
+    if len(text) == 0:
+        return "You need to add some text for me to talk."
+
+    # Capitalise first letter
+    if text[0].islower():
+        text = text[0].upper() + text[1:]
+
+    # Remove multiple space chars
+    text = " ".join(text.split())
+
+    # Replace uncommon/llm punc
+    punc_to_replace = [
+        ("...", ", "),
+        ("…", ", "),
+        (":", ","),
+        (" - ", ", "),
+        (";", ", "),
+        ("—", "-"),
+        ("–", "-"),
+        (" ,", ","),
+        ("“", "\""),
+        ("”", "\""),
+        ("‘", "'"),
+        ("’", "'"),
+    ]
+    for old_char_sequence, new_char in punc_to_replace:
+        text = text.replace(old_char_sequence, new_char)
+
+    # Add full stop if no ending punc
+    text = text.rstrip(" ")
+    sentence_enders = {".", "!", "?", "-", ","}
+    if not any(text.endswith(p) for p in sentence_enders):
+        text += "."
+
+    return text
+
+
+@dataclass
+class Conditionals:
+    """
+    Conditionals for T3 and S3Gen
+    - T3 conditionals:
+        - speaker_emb
+        - clap_emb
+        - cond_prompt_speech_tokens
+        - cond_prompt_speech_emb
+        - emotion_adv
+    - S3Gen conditionals:
+        - prompt_token
+        - prompt_token_len
+        - prompt_feat
+        - prompt_feat_len
+        - embedding
+    """
+    t3: T3Cond
+    gen: dict
+
+    def to(self, device):
+        self.t3 = self.t3.to(device=device)
+        for k, v in self.gen.items():
+            if torch.is_tensor(v):
+                self.gen[k] = v.to(device=device)
+        return self
+
+    def save(self, fpath: Path):
+        arg_dict = dict(
+            t3=self.t3.__dict__,
+            gen=self.gen
+        )
+        torch.save(arg_dict, fpath)
+
+    @classmethod
+    def load(cls, fpath, map_location="cpu"):
+        if isinstance(map_location, str):
+            map_location = torch.device(map_location)
+        kwargs = torch.load(fpath, map_location=map_location, weights_only=True)
+        return cls(T3Cond(**kwargs['t3']), kwargs['gen'])
+
+
+class ChatterboxTTS:
+    ENC_COND_LEN = 6 * S3_SR
+    DEC_COND_LEN = 10 * S3GEN_SR
+
+    def __init__(
+        self,
+        t3: T3,
+        s3gen: S3Gen,
+        ve: VoiceEncoder,
+        tokenizer: EnTokenizer,
+        device: str,
+        conds: Conditionals = None,
+    ):
+        self.sr = S3GEN_SR  # sample rate of synthesized audio
+        self.t3 = t3
+        self.s3gen = s3gen
+        self.ve = ve
+        self.tokenizer = tokenizer
+        self.device = device
+        self.conds = conds
+        self.watermarker = None # perth.PerthImplicitWatermarker()
+
+    @classmethod
+    def from_local(cls, ckpt_dir, device) -> 'ChatterboxTTS':
+        ckpt_dir = Path(ckpt_dir)
+
+        # Always load to CPU first for non-CUDA devices to handle CUDA-saved models
+        if device in ["cpu", "mps"]:
+            map_location = torch.device('cpu')
+        else:
+            map_location = None
+
+        ve = VoiceEncoder()
+        ve.load_state_dict(
+            load_file(ckpt_dir / "ve.safetensors")
+        )
+        ve.to(device).eval()
+
+        t3 = T3()
+        t3_state = load_file(ckpt_dir / "t3_cfg.safetensors")
+        if "model" in t3_state.keys():
+            t3_state = t3_state["model"][0]
+        t3.load_state_dict(t3_state)
+        t3.to(device).eval()
+
+        s3gen = S3Gen()
+        s3gen.load_state_dict(
+            load_file(ckpt_dir / "s3gen.safetensors"), strict=False
+        )
+        s3gen.to(device).eval()
+
+        tokenizer = EnTokenizer(
+            str(ckpt_dir / "tokenizer.json")
+        )
+
+        conds = None
+        if (builtin_voice := ckpt_dir / "conds.pt").exists():
+            conds = Conditionals.load(builtin_voice, map_location=map_location).to(device)
+
+        return cls(t3, s3gen, ve, tokenizer, device, conds=conds)
+
+    @classmethod
+    def from_pretrained(cls, device) -> 'ChatterboxTTS':
+        # Check if MPS is available on macOS
+        if device == "mps" and not torch.backends.mps.is_available():
+            if not torch.backends.mps.is_built():
+                print("MPS not available because the current PyTorch install was not built with MPS enabled.")
+            else:
+                print("MPS not available because the current MacOS version is not 12.3+ and/or you do not have an MPS-enabled device on this machine.")
+            device = "cpu"
+
+        for fpath in ["ve.safetensors", "t3_cfg.safetensors", "s3gen.safetensors", "tokenizer.json", "conds.pt"]:
+            local_path = hf_hub_download(repo_id=REPO_ID, filename=fpath)
+
+        return cls.from_local(Path(local_path).parent, device)
+
+    def prepare_conditionals(self, wav_fpath, exaggeration=0.5):
+        ## Load reference wav
+        s3gen_ref_wav, _sr = librosa.load(wav_fpath, sr=S3GEN_SR)
+
+        ref_16k_wav = librosa.resample(s3gen_ref_wav, orig_sr=S3GEN_SR, target_sr=S3_SR)
+
+        s3gen_ref_wav = s3gen_ref_wav[:self.DEC_COND_LEN]
+        s3gen_ref_dict = self.s3gen.embed_ref(s3gen_ref_wav, S3GEN_SR, device=self.device)
+
+        # Speech cond prompt tokens
+        if plen := self.t3.hp.speech_cond_prompt_len:
+            s3_tokzr = self.s3gen.tokenizer
+            t3_cond_prompt_tokens, _ = s3_tokzr.forward([ref_16k_wav[:self.ENC_COND_LEN]], max_len=plen)
+            t3_cond_prompt_tokens = torch.atleast_2d(t3_cond_prompt_tokens).to(self.device)
+
+        # Voice-encoder speaker embedding
+        ve_embed = torch.from_numpy(self.ve.embeds_from_wavs([ref_16k_wav], sample_rate=S3_SR))
+        ve_embed = ve_embed.mean(axis=0, keepdim=True).to(self.device)
+
+        t3_cond = T3Cond(
+            speaker_emb=ve_embed,
+            cond_prompt_speech_tokens=t3_cond_prompt_tokens,
+            emotion_adv=exaggeration * torch.ones(1, 1, 1),
+        ).to(device=self.device)
+        self.conds = Conditionals(t3_cond, s3gen_ref_dict)
+
+    def generate(
+        self,
+        text,
+        repetition_penalty=1.2,
+        min_p=0.05,
+        top_p=1.0,
+        audio_prompt_path=None,
+        exaggeration=0.5,
+        cfg_weight=0.5,
+        temperature=0.8,
+    ):
+        if audio_prompt_path:
+            self.prepare_conditionals(audio_prompt_path, exaggeration=exaggeration)
+        else:
+            assert self.conds is not None, "Please `prepare_conditionals` first or specify `audio_prompt_path`"
+
+        # Update exaggeration if needed
+        if exaggeration != self.conds.t3.emotion_adv[0, 0, 0]:
+            _cond: T3Cond = self.conds.t3
+            self.conds.t3 = T3Cond(
+                speaker_emb=_cond.speaker_emb,
+                cond_prompt_speech_tokens=_cond.cond_prompt_speech_tokens,
+                emotion_adv=exaggeration * torch.ones(1, 1, 1),
+            ).to(device=self.device)
+
+        # Norm and tokenize text
+        text = punc_norm(text)
+        text_tokens = self.tokenizer.text_to_tokens(text).to(self.device)
+
+        if cfg_weight > 0.0:
+            text_tokens = torch.cat([text_tokens, text_tokens], dim=0)  # Need two seqs for CFG
+
+        sot = self.t3.hp.start_text_token
+        eot = self.t3.hp.stop_text_token
+        text_tokens = F.pad(text_tokens, (1, 0), value=sot)
+        text_tokens = F.pad(text_tokens, (0, 1), value=eot)
+
+        with torch.inference_mode():
+            speech_tokens = self.t3.inference(
+                t3_cond=self.conds.t3,
+                text_tokens=text_tokens,
+                max_new_tokens=1000,  # TODO: use the value in config
+                temperature=temperature,
+                cfg_weight=cfg_weight,
+                repetition_penalty=repetition_penalty,
+                min_p=min_p,
+                top_p=top_p,
+            )
+            # Extract only the conditional batch.
+            speech_tokens = speech_tokens[0]
+
+            # TODO: output becomes 1D
+            speech_tokens = drop_invalid_tokens(speech_tokens)

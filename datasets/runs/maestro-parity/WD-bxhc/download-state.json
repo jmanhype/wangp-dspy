@@ -1,0 +1,9 @@
+{
+  "assets": {
+    "chatterbox-t3-mtl23ls-v2": {
+      "paused": false,
+      "resume_requested": true
+    }
+  },
+  "schema_version": "wangp-dspy.download-state/v1"
+}
