@@ -1,18 +1,17 @@
 ---
 id: WD-bxhc
 title: "Voice portable character evidence"
-status: in_progress
+status: open
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:59:32Z
-content_hash: "sha256:3eb8dd340b2fb83a2f83f0f015d642d9ba0e4c8e85b46a3110eb572ff17a688d"
+updated_at: 2026-09-25T19:59:45Z
+content_hash: "sha256:8b0235ebb6f0b32b4dfadba41a9b4f5b9582d72a2594c6806765183e800a8b8a"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
-assignee: dev-WD-bxhc
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous]
 ---
 
@@ -198,6 +197,8 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-25T19:57:25Z auto-follows: linked to predecessor WD-cpow
 - 2026-09-25T19:57:35Z status: in_progress -> in_progress
 - 2026-09-25T19:57:35Z auto-follows: linked to predecessor WD-rous
+- 2026-09-25T19:59:45Z status: in_progress -> open
+- 2026-09-25T19:59:45Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
