@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:59:46Z
-content_hash: "sha256:2d23f8adb50cff7e13a46365b44479471a5802191249b53e6c2b6cc2359053d9"
+updated_at: 2026-09-25T20:00:58Z
+content_hash: "sha256:e578082ecb5a84eaad60b1aea06905a4d567e1ebfbc4ce806456a7d440b715aa"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
@@ -220,3 +220,50 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]], [[WD-0zj8]]
 
 ## Comments
+
+### 2026-09-25T20:00:58Z speed
+## Implementation Evidence
+
+Summary: WD-bxhc used existing VibeVoice-7B-hf and downloaded the exact 3,208,948,928-byte Chatterbox set plus 277,648 bytes of runtime wheels. It emitted four hashed 24 kHz mono speech WAVs, one character image, and one character video; all 22 targeted cells are evidence-complete pending independent review. Full suite tests=2085 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected parity and diff check pass.
+
+Commands run:
+- timeout 2700 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 2400 bash -s < datasets/runs/maestro-parity/WD-bxhc/native-scripts/download-chatterbox.sh
+- timeout 900 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 840 /home/straughter/Wan2GP/venv/bin/python - < datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_chatterbox.py
+- timeout 3600 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 'cd /home/straughter/wangp-dspy-vibevoice-20260916 && timeout 3300 /home/straughter/vb7-venv/bin/python -' < datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_vibevoice.py
+- python3 datasets/runs/maestro-parity/WD-bxhc/generate-character-media.py
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-bxhc-full.xml
+- uv run --frozen --extra dev wgp release verify
+- uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-bxhc
+
+SHA: 31078a9d0e32690741ff26637440bf85086152a3
+
+### AC Verification
+| AC # | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Real output/provenance/queue/hash/media/gates | evidence.json; output-hashes.txt; objective-gates.json | PASS objective evidence; canonical checker pending reviewer |
+| 2 | Exact clone reference provenance and consent | planning/requests/*.json; reference_provenance | PASS |
+| 3 | Same cross-mode identity anchor | character-media-identity.json; matrix-transition-check.json | PASS |
+| 4 | Invalid/partial input fails closed | planning/boundaries/*.exit | PASS |
+| 5 | Mechanical matrix updates and citations | docs/*-capabilities.md; matrix-transition-check.json | PASS |
+| 6 | No unsupported hardware claim | docs/*-capabilities.md | PASS |
+| 7 | All targeted cells terminal evidence | row-dispositions.json; docs matrices | PASS pending review |
+| 8 | Protected scope unchanged | protected-parity-c91a6d8.diff; standing-gates-final.txt | PASS |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch story/WD-bxhc at SHA 31078a9d0e32690741ff26637440bf85086152a3.
+- Bundle datasets/runs/maestro-parity/WD-bxhc/evidence.json; reviewer verdict intentionally pending.
+- Full suite 2085 tests, 0 errors, 0 failures, 1 skipped; release ready/tag false.
+
+### proof
+- [x] AC #1: Real artifacts and objective evidence are complete; independent approval remains pending.
+- [x] AC #2: Reference hashes, licences, sources, and consent references are exact.
+- [x] AC #3: Image and video share the full identity anchor.
+- [x] AC #4: Invalid requests and registry collisions fail closed.
+- [x] AC #5: Matrix transitions parse and cite WD-bxhc.
+- [x] AC #6: No hardware-infeasibility claim is made.
+- [x] AC #7: Four voice and 18 character cells are evidence-complete.
+- [x] AC #8: Protected files and scope remain unchanged.
+
