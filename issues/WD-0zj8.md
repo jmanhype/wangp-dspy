@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-25T04:11:56Z
-content_hash: "sha256:17f2aa1b40403df2cf1535dcdc19ed543551734438ddbf4701758cfa5863c541"
+content_hash: "sha256:8f670d5ae0cc48a73317f5697d7865414f95bd78f6181fb6fe7a0811107d7222"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
@@ -248,6 +248,7 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-25T03:16:41Z claimed by dev-WD-0zj8
 - 2026-09-25T04:10:45Z status: in_progress -> in_progress
 - 2026-09-25T04:10:45Z auto-follows: linked to predecessor WD-e4r7
+- 2026-09-25T04:11:56Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-3nod]]
