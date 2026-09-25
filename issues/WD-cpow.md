@@ -4,11 +4,11 @@ title: "SFX audio-post evidence"
 status: in_progress
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration]
+labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T05:51:23Z
+updated_at: 2026-09-25T05:51:24Z
 content_hash: "sha256:b23b4930e752e9ddcc6e60b02734a883778b4ed4c6faaeba25cd255a6bf71850"
 blocks: [WD-fay0]
 assignee: dev-WD-cpow
