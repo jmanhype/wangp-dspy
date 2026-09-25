@@ -1,0 +1,21 @@
+{
+  "clip_count": 4,
+  "dry_run": true,
+  "plates_dir": "/private/tmp/wangp-clean-machine/checkout/datasets/content_briefs/lf004-operator-dogfood/plates",
+  "premise_id": "LF004 Operator Dogfood: Borrowed Sunrise",
+  "repository": {
+    "changed_path_count": 0,
+    "clean_tree": true,
+    "commit_sha": "6f8f10f19e502b6938a329311c99dc6b9af95806",
+    "dirty_tree": false,
+    "repo_root": "/private/tmp/wangp-clean-machine/checkout",
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked_path_count": 0
+  },
+  "run_id": "plan-run",
+  "schema_version": 1,
+  "script": "/private/tmp/wangp-clean-machine/proof/plan-run/script.txt",
+  "status": "planned"
+}
