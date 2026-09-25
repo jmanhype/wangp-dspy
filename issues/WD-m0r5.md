@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, delivered
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T00:14:03Z
-content_hash: "sha256:01948d0e403bf5b129c024f3d75de6de99ab2b0a6fbc48d17bacda49d687d8be"
+updated_at: 2026-09-25T00:14:28Z
+content_hash: "sha256:06101df716fdf281b66f01afb803ed58c2386f3ef170b5e032f0243145bae144"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -93,6 +93,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
+
+### evidence
+- Authoritative final delivery is the preceding detailed delivered block plus this terminal marker: HEAD bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d; evidence.json SHA-256 24a97045ea2cd6967e6afb503f54fe5cf7efd70098f11f4d13c3f277bbd02b29; 16 real outputs, 16/16 objective gates pass, checker fails only pending reviewer approval, full suite 2072/0/0/1, release ready, protected parity clean.
+
+### proof
+- [ ] Independent reviewer approval remains the only blocker to host_run_verified matrix transitions.
+
 ## nd_contract
 status: delivered
 
