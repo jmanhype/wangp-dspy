@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, delivered
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T00:18:21Z
-content_hash: "sha256:ef494e47a3b226e3ed20bfea9b63834e278249215fe50e1bbc4b7e7ae45483b7"
+updated_at: 2026-09-25T00:19:06Z
+content_hash: "sha256:e102b50e75c3ee343c240486fd40764e0a37120b8d95235bf0ed4d118ceba715"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -249,3 +249,40 @@ OPERATOR AUTHORIZATION RECORDED 2026-09-24: operator replied 'I agree' to the re
 
 ### 2026-09-24T21:06:55Z speed
 DISCOVERED DEFECT during first host batch (durable record): services/jobs/preflight.py:54 does not parse `nvidia-smi --query-compute-apps=pid` CSV output, so host preflight reported gpu_state=idle while PID 1007225 (llama-server) held 7808 MiB on the RTX 3090. Observed compute-apps CSV shape: '1007225, 7808 MiB, /home/straughter/llama.cpp/build/bin/llama-server'. Consequence: preflight can admit a render onto an occupied GPU. Protected file — needs its own story + independent acceptance. GPU holder was terminated by explicit operator authorization (7896 MiB -> 83 MiB used / 24034 MiB free); the llama-server was up 3d18h, orphaned to PID 1, not systemd-supervised.
+
+## Implementation Evidence
+
+Commands run:
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-m0r5-full-final.xml
+- uv run --frozen --extra dev wgp release verify
+- git diff --exit-code 8f0b225 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+- git diff --check
+- uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-m0r5
+- pvg verify datasets/runs/maestro-parity/WD-m0r5 --format=text
+
+Summary:
+- Full suite: PASS, tests=2072 errors=0 failures=0 skipped=1.
+- Release: PASS, release=ready tag_created=false.
+- Protected parity: PASS, exit=0. Diff check: PASS, exit=0.
+- Evidence checker: expected single pending-reviewer failure (`FAIL reviewer_verdict.decision: must be approved`).
+- pvg verify: PASS.
+- Commit: bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d.
+- Bundle evidence.json SHA-256: 24a97045ea2cd6967e6afb503f54fe5cf7efd70098f11f4d13c3f277bbd02b29.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Real authorized host evidence at HEAD bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d: 16 canonical JPEG outputs, 32 model provenance entries, 10 reference entries, and 16 passing objective gates.
+- selected_manifest_bytes=42365515370; runtime_dependency_bytes=5747058654; accidental_duplicate_bytes=281857; total_model_bytes_pulled=48112855881.
+- checker fails only reviewer_verdict.decision because independent review is pending. No row is claimed host_run_verified yet.
+
+### proof
+- [x] AC #1: real output/provenance/metadata evidence is checker-valid except the operator-owned reviewer field.
+- [x] AC #2: hashes, authorization, provenance, command, media, and gates are fail-closed.
+- [x] AC #3: matrix is unchanged pending approved reviewer evidence.
+- [x] AC #4: all canonical bundle field groups are present.
+- [x] AC #5: no unsupported-on-this-hardware verdict is fabricated.
+- [x] AC #6: all four rows have complete real evidence pending review.
+- [x] AC #7: protected files remain identical to 8f0b225.
+- [ ] Independent reviewer approval is required before any host_run_verified matrix transition.
