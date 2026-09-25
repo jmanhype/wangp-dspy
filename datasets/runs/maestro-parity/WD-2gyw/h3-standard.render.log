@@ -1,0 +1,42 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_2gyw_h3_standard.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_2gyw_h3_standard.json
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test shot: a small brass compass spins s...
+Loading model MiniMax H3 FL2VA Pruned 20B...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Encoding Prompt  [0/1] Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Denoising                          [0/20] Denoising | 1m 26sH3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:06<01:56,  6.11s/steps]  [1/20] Denoising | 1m 32s / 3m 29sH3 denoising:  10%|█         | 2/20 [00:11<01:41,  5.63s/steps]  [2/20] Denoising | 1m 37s / 3m 20sH3 denoising:  15%|█▌        | 3/20 [00:16<01:35,  5.59s/steps]  [3/20] Denoising | 1m 43s / 3m 19sH3 denoising:  20%|██        | 4/20 [00:22<01:30,  5.63s/steps]  [4/20] Denoising | 1m 49s / 3m 19sH3 denoising:  25%|██▌       | 5/20 [00:28<01:23,  5.55s/steps]  [5/20] Denoising | 1m 54s / 3m 18sH3 denoising:  30%|███       | 6/20 [00:33<01:18,  5.58s/steps]  [6/20] Denoising | 2m 00s / 3m 18sH3 denoising:  35%|███▌      | 7/20 [00:39<01:12,  5.61s/steps]  [7/20] Denoising | 2m 05s / 3m 18sH3 denoising:  40%|████      | 8/20 [00:45<01:07,  5.63s/steps]  [8/20] Denoising | 2m 11s / 3m 19sH3 denoising:  45%|████▌     | 9/20 [00:50<01:02,  5.64s/steps]  [9/20] Denoising | 2m 17s / 3m 19sH3 denoising:  50%|█████     | 10/20 [00:56<00:56,  5.65s/steps]  [10/20] Denoising | 2m 22s / 3m 19sH3 denoising:  55%|█████▌    | 11/20 [01:01<00:50,  5.64s/steps]  [11/20] Denoising | 2m 28s / 3m 19sH3 denoising:  60%|██████    | 12/20 [01:07<00:44,  5.59s/steps]  [12/20] Denoising | 2m 33s / 3m 18sH3 denoising:  65%|██████▌   | 13/20 [01:13<00:39,  5.61s/steps]  [13/20] Denoising | 2m 39s / 3m 18sH3 denoising:  70%|███████   | 14/20 [01:18<00:33,  5.63s/steps]  [14/20] Denoising | 2m 45s / 3m 18sH3 denoising:  75%|███████▌  | 15/20 [01:24<00:28,  5.60s/steps]  [15/20] Denoising | 2m 50s / 3m 18sH3 denoising:  80%|████████  | 16/20 [01:29<00:22,  5.58s/steps]  [16/20] Denoising | 2m 56s / 3m 18sH3 denoising:  85%|████████▌ | 17/20 [01:35<00:16,  5.61s/steps]  [17/20] Denoising | 3m 01s / 3m 18sH3 denoising:  90%|█████████ | 18/20 [01:41<00:11,  5.63s/steps]  [18/20] Denoising | 3m 07s / 3m 18sH3 denoising:  95%|█████████▌| 19/20 [01:46<00:05,  5.59s/steps]  [19/20] Denoising | 3m 13s / 3m 18sH3 denoising: 100%|██████████| 20/20 [01:52<00:00,  5.57s/steps]H3 denoising: 100%|██████████| 20/20 [01:52<00:00,  5.61s/steps]
+  [20/20] VAE Decoding | 3m 18s / 3m 18s  [0/1] VAE Decoding of Video and Audio Error saving metadata to MP4 /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/2026-09-25-09h26m37s_seed2931_A concise cinematic test shot a small brass compass spins slowly on a paper map while cool window l.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/2026-09-25-09h26m37s_seed2931_A concise cinematic test shot a small brass compass spins slowly on a paper map while cool window l.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 4m 16s

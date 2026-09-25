@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/2026-09-25-09h26m37s_seed2931_A concise cinematic test shot a small brass compass spins slowly on a paper map while cool window l.mp4
+final=/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4
