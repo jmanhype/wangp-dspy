@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, delivered
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T00:13:43Z
-content_hash: "sha256:4d0d1691cde67433c106670d6977e885d5044da01dcd5c877efdc47f1cc2259d"
+updated_at: 2026-09-25T00:13:44Z
+content_hash: "sha256:f7583869ca2d5e3b4d6395812a84342137794ac39eba73f889d3a2aa19099072"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -93,6 +93,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-24.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## nd_contract
 status: in_progress
 
