@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T03:24:13Z
-content_hash: "sha256:bbb4f55488b4c688e38169c6f13c0ca1878d50e356ea5fb16b451b0d3b472b63"
+updated_at: 2026-09-25T04:10:39Z
+content_hash: "sha256:fa600a594c9bdef6a8d18b859bb73d68103bdf39ff5d28ce21e13c9a3dae385c"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
@@ -100,6 +100,87 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED — NO-GPU HALF ONLY)
+
+PROOF:
+
+### Delivered boundary
+- Delivered the story-declared no-GPU install/plan and typed-refusal lane only.
+- The generated-artifact half remains BLOCKED. Do not claim AC #3. AC #2 is PARTIAL: absent host and absent model manifests are proven; the full incomplete/unauthorized-input matrix and authorized generation path remain undone.
+
+### Clean-machine command
+- `sh install.sh --source "$PWD" --clean-proof "${TMPDIR:-/tmp}/wangp-clean-machine"`
+- Documented at `docs/install.md:51-76`; implementation at `install.sh:114-180,248-303`; recorder at `scripts/record_clean_machine_refusal.py:1-197`; real-process test at `tests/test_readme_quickstart.py:424-578`.
+
+### Demonstrated plan output
+- `brief=sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd clips=4 plan=/private/tmp/wangp-clean-machine/proof/plan.json`
+- `PLAN_ONLY path=/tmp/wangp-clean-machine/proof/plan.json generated_artifact=false`
+- Plan SHA-256: `935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb`.
+
+### Demonstrated typed refusals
+- Exit: `3`.
+- `GENERATION_REFUSED diagnostics=2 exit=3`
+- `diagnostic code=HOST_CONFIGURATION_INCOMPLETE ... observed: missing host.target, host.wgp_root ... remediation: Set every explicit host value, then rerun this preview before authorization.`
+- `diagnostic code=MODEL_MANIFEST_REQUIRED ... observed: model manifest absent; zero authorized model identities are recorded ... Supply a complete wangp-dspy.model-assets/v1 manifest ... then record explicit model-download approval. Wangp does not download models.`
+- No traceback, queue admission, SSH, model download, inference, GPU work, fixture media, or fallback artifact.
+
+### Evidence bundle
+- `datasets/runs/maestro-parity/WD-0zj8/clean-machine/` (72 KiB).
+- `blocked-record.json` records argv, source/resolved commit `212f1204542ca56948137db46593e1c127be4e04`, clean tree, tool versions, plan hash/summary, host/model diagnostics, and `host_run_verified=false`.
+- `BLOCKED.md` records the operator-input block. No model weights or disposable checkout is committed. The WD-651z success checker was not invoked because this is not a generated-artifact bundle.
+
+### CI/Test Results
+- `uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py` — 6 passed.
+- `uv run --frozen --extra dev pytest -q tests/test_install.py::test_missing_uv_fails_closed tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal` — 2 passed.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-0zj8-full.xml` — parsed JUnit `tests=2085 errors=0 failures=0 skipped=1 time=764.897`.
+- One unrelated existing warning appeared: StarletteDeprecationWarning for `fastapi/testclient.py` importing `starlette.testclient`; no test failed.
+- Coverage: not measured; the required behavioral/full-suite commands did not request coverage.
+
+### Release and repository gates
+- `uv run --frozen --extra dev wgp release verify` — `release=ready`, `tag_created=false`.
+- `git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — clean.
+- `git diff --check` — clean.
+- `pvg verify README.md docs/install.md install.sh scripts/record_clean_machine_refusal.py tests/test_readme_quickstart.py datasets/runs/maestro-parity/WD-0zj8/clean-machine --include-tests --format=text` — `VERIFY: PASSED (2 files scanned, 0 issues)`.
+
+### Commit
+- Branch: `story/WD-0zj8`.
+- HEAD/pushed: `2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1` (remote SHA equal).
+- Clean-proof source commit recorded in bundle: `212f1204542ca56948137db46593e1c127be4e04`.
+
+### AC Verification
+| AC | Status | Evidence |
+|---|---|---|
+| 1 | PASS | One command, isolated HOME/cache/tool state, fresh clone, no-GPU LF004 plan; real-process test `tests/test_readme_quickstart.py:424-578`. |
+| 2 | PARTIAL | Missing host and missing model each produce typed actionable nonzero refusal before generation; incomplete/unauthorized matrix remains. |
+| 3 | BLOCKED | Requires per-batch host authorization, model-download approval, and complete authorized manifest; no operator inputs supplied. |
+| 4 | PASS for delivered bundle | No `evidence.json`, no fake media/hash, and `host_run_verified=false`. |
+| 5 | PASS | `blocked-record.json` records command, source, resolved clean commit, dirty state, tools, host/model state, and plan identity/hash. |
+| 6 | PASS | `docs/install.md:51-76` and `README.md:60-63` explicitly distinguish plan/refusal from generation evidence. |
+| 7 | PASS | Protected-file diff against `d8671f3` is clean. |
+
+LEARNINGS:
+- The existing README quickstart worktree mechanism extended cleanly to a disposable source plus second isolated clone.
+- Preserving installer argv required a temp file; creating it before checking `uv` regressed the missing-uv typed path, so creation now follows the `uv` prerequisite check.
+- Isolating HOME/cache/tool paths plus an empty WANGP_CONFIG prevents operator host state from leaking into the supposedly clean proof.
+
+## BLOCKED CONDITION
+The generated-artifact half remains blocked pending per-batch GPU/render-host authorization, model-download approval, and a complete authorized host/model manifest containing every required model identity, source, hash or immutable version, license, and usage constraint. This is missing input, not infeasibility and not permission for a fake fallback verdict.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Clean disposable-checkout command produced LF004 plan SHA-256 `935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb`, then typed host/model refusals with exit 3; full JUnit `tests=2085 errors=0 failures=0 skipped=1`; release ready; branch pushed at `2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1`.
+
+### proof
+- [x] AC #1: clean install+plan works end to end without operator host/model/GPU state.
+- [ ] AC #2: PARTIAL — absent host/model typed refusals proven; remaining incomplete/unauthorized cases not claimed.
+- [ ] AC #3: BLOCKED — operator authorization, download approval, and complete manifest absent.
+- [x] AC #4: no fabricated `host_run_verified` evidence in the blocked bundle.
+- [x] AC #5: disposable-proof provenance and tool/plan identity recorded.
+- [x] AC #6: plan/refusal versus generated-artifact boundary documented.
+- [x] AC #7: protected engine files unchanged from `d8671f3`.
+
 ## nd_contract
 status: in_progress
 
