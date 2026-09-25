@@ -4,11 +4,11 @@ title: "Clean-machine generated install"
 status: closed
 priority: 1
 type: feature
-labels: [install, evidence, external-integration, delivered]
+labels: [install, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:33:19Z
+updated_at: 2026-09-25T04:33:20Z
 content_hash: "sha256:e6e04cf0c2c9acd9fca5eb7669cc0b4e1b566f2e97066a90dead52a13f1e4854"
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
