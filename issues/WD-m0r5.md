@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T02:28:58Z
-content_hash: "sha256:a88dc7aa17b742dd4bb322ae097cc12f915cb20826b00f97ca80ee6ed10e8747"
+updated_at: 2026-09-25T03:15:53Z
+content_hash: "sha256:c4189980a07a86096da7f88b3af9bd4b3eb0e5a9de9ca13bf87fe4b6b5c41669"
 assignee: dev-WD-m0r5
 follows: [WD-651z]
 closed_at: 2026-09-25T02:28:58Z
@@ -300,3 +300,6 @@ status: delivered
 - [x] AC #6: all four rows have complete real evidence pending review.
 - [x] AC #7: protected files remain identical to 8f0b225.
 - [ ] Independent reviewer approval is required before any host_run_verified matrix transition.
+
+### 2026-09-25T03:15:53Z speed
+MERGED to main as c25e5e2 (squash of PR #184). Accepted at 7bfb2e9b11a2535965e7beb8a03318bb5de712c6; approved bundle SHA e6ca75ae. Post-merge on main: docs/image-capabilities.md rows read host_run_verified for 16 cells with evidence links; 4 Flux upscale/outpaint cells remain unsupported. Required check 'test' completed/success. PROCESS GAP FOUND AND FIXED: the branch was never pushed to origin by the developer or the reviewer (both committed locally only), so PR creation initially failed with 'Head ref must be a branch'. The dispatcher pushed it. Any lane story must verify the push, not just the commit.
