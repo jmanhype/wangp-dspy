@@ -1,16 +1,18 @@
 ---
 id: WD-2gyw
 title: "Video breadth generation evidence"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T15:45:54Z
-content_hash: "sha256:02198ab4412e1b0fe9fd4b5ceacb270506b494f7a8b1d65ce1addd8acbf9a156"
+updated_at: 2026-09-25T14:15:04Z
+content_hash: "sha256:079df7f4cc2b926e7f94927cd07f39520e747b278dde1ef66baa239a07a31740"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
+assignee: dev-WD-2gyw
+follows: [WD-cpow]
 ---
 
 ## Description
@@ -114,9 +116,13 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
 - 2026-09-24T14:14:09Z dep_added: blocks WD-fay0
 - 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
+- 2026-09-25T14:15:04Z status: open -> in_progress
+- 2026-09-25T14:15:04Z auto-follows: linked to predecessor WD-cpow
+- 2026-09-25T14:15:04Z claimed by dev-WD-2gyw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bxhc]], [[WD-r81u]], [[WD-dmf2]], [[WD-fay0]]
+- Follows: [[WD-cpow]]
 
 ## Comments
