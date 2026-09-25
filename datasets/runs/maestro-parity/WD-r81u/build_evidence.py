@@ -96,6 +96,15 @@ def main() -> int:
         "neural-frame-gen-boundary-probe.txt",
         "final-host-state.txt",
         "bundle-size.txt",
+        "pvg-lint.txt",
+        "fullsuite.xml",
+        "fullsuite-counters.json",
+        "release-verify.txt",
+        "protected-parity-c91a6d8.txt",
+        "git-diff-check.txt",
+        "matrix-transition-check.json",
+        "standing-gates-final.txt",
+        "pvg-verify-authoring.txt",
     ]
     evidence_links.extend(f"ffprobe-{Path(item['path']).stem}.json" for item in output_entries)
     payload = {
