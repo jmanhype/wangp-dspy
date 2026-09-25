@@ -1,19 +1,20 @@
 ---
 id: WD-bxhc
 title: "Voice portable character evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:51:19Z
-content_hash: "sha256:44228edd239455c5b0404b643ca6c183b5ed446d9e9f57d44b29851812c82871"
-blocks: [WD-dmf2, WD-fay0]
+updated_at: 2026-09-25T21:27:31Z
+content_hash: "sha256:d8511522bcacbaf2f7d1773bde2ac9067227032576bc9883a0e024483ace1856"
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8, WD-r81u, WD-e4r7]
 assignee: dev-WD-bxhc
+closed_at: 2026-09-25T21:27:31Z
+close_reason: "Accepted as partial: independent PM re-review approved VibeVoice plain, Chatterbox plain, and seven deterministic character rows at 9e77bc0. VibeVoice one/two-reference clone, Saved voice binding, and Cross-mode identity preservation are NOT delivered because cross-story cloning-reuse consent is not evidenced; this is not hardware infeasibility."
 ---
 
 ## Description
@@ -241,10 +242,12 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-25T20:24:23Z claimed by dev-WD-bxhc
 - 2026-09-25T20:50:45Z status: in_progress -> in_progress
 - 2026-09-25T20:50:45Z auto-follows: linked to predecessor WD-e4r7
+- 2026-09-25T21:27:31Z status: in_progress -> closed
+- 2026-09-25T21:27:31Z dep_removed: no_longer_blocks WD-dmf2
+- 2026-09-25T21:27:31Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
 - Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]], [[WD-0zj8]], [[WD-r81u]], [[WD-e4r7]]
 

@@ -9,10 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
 updated_at: 2026-09-24T15:48:06Z
-content_hash: "sha256:05077189a714c71dc8108b57707820ea991b5f0ed5976aa031e0ba6c08c6bfcb"
-blocked_by: [WD-bxhc]
+content_hash: "sha256:dd9cbf9bfe1d22d835378dba3d96538fb9b9aeb09d0d90f880edf6f2ff5d756d"
 blocks: [WD-fay0]
-was_blocked_by: [WD-rous, WD-2gyw, WD-r81u]
+was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 ---
 
 ## Description
@@ -128,11 +127,11 @@ Observable outcome: an explicitly authorized future run stores the composed dire
 - 2026-09-25T05:04:03Z dep_removed: was_blocked_by WD-rous
 - 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
 - 2026-09-25T20:13:03Z dep_removed: was_blocked_by WD-r81u
+- 2026-09-25T21:27:31Z dep_removed: was_blocked_by WD-bxhc
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Blocked by: [[WD-bxhc]]
-- Was blocked by: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]]
+- Was blocked by: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]]
 
 ## Comments
