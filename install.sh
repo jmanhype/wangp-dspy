@@ -8,9 +8,7 @@ CLONE_SOURCE=$DEFAULT_REPOSITORY
 CHECKOUT=
 DRY_RUN=false
 CLEAN_PROOF=
-ARGV_FILE=$(mktemp "${TMPDIR:-/tmp}/wangp-install-argv.XXXXXX")
-trap 'rm -f "$ARGV_FILE"' EXIT HUP INT TERM
-printf '%s\0' "$@" > "$ARGV_FILE"
+ARGV_FILE=
 INSTALLER_PATH=$0
 
 usage() {
@@ -182,6 +180,11 @@ run_clean_proof() {
     exit "$refusal_rc"
 }
 
+command -v uv >/dev/null 2>&1 || fail_missing_uv
+ARGV_FILE=$(mktemp "${TMPDIR:-/tmp}/wangp-install-argv.XXXXXX")
+trap 'rm -f "$ARGV_FILE"' EXIT HUP INT TERM
+printf '%s\0' "$@" > "$ARGV_FILE"
+
 while [ "$#" -gt 0 ]; do
     case $1 in
         --help)
@@ -246,7 +249,6 @@ if [ -n "$CLEAN_PROOF" ]; then
     fi
 fi
 
-command -v uv >/dev/null 2>&1 || fail_missing_uv
 if [ -n "$CLEAN_PROOF" ] && [ "$DRY_RUN" = true ]; then
     WGP_BIN=$CLEAN_PROOF/bin
 elif [ "${UV_TOOL_BIN_DIR+set}" = set ]; then
