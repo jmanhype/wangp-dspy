@@ -1,0 +1,92 @@
+{
+  "device": "cuda:0",
+  "gpu_after": {
+    "compute_apps": "2591141, 7752, /home/straughter/llama.cpp/build/bin/llama-server\n3472987, 11342, /home/straughter/vb7-venv/bin/python",
+    "free_mib": 4928,
+    "total_mib": 24576,
+    "used_mib": 19188
+  },
+  "gpu_before": {
+    "compute_apps": "2591141, 7752, /home/straughter/llama.cpp/build/bin/llama-server",
+    "free_mib": 16275,
+    "total_mib": 24576,
+    "used_mib": 7841
+  },
+  "llama_server_untouched": true,
+  "meta_parameters": 0,
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "model_size_bytes": 18698450924,
+  "pass_bar": 0.8,
+  "placement": "CPU load verified without meta tensors; quanto int8 weights frozen on CUDA beside the untouched operator judge",
+  "quantization": "quanto qint8 nn.Linear weights; embeddings and convolutions retained in source dtype",
+  "schema": "wangp-dspy.wd-bxhc.vibevoice-custom-run/v1",
+  "status": "failed",
+  "turns": [
+    {
+      "attempt_index": 3,
+      "mode": "speech",
+      "output": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav",
+      "seed": 9413,
+      "seed_rejections": [
+        {
+          "attempt_index": 1,
+          "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-1.prepared.wav",
+          "prepared_sha256": "7c5dd14838222f0dfb961ebba52b81611054f1973fb5d72fa6cf64c52df88e2c",
+          "provenance_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-1.wav.vibevoice.json",
+          "raw_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-1.wav",
+          "raw_sha256": "7780efa5de3c36faf3c1a84abd698f63ccfe88cb8a6f200e656fe9be54a33687",
+          "seed": 9411,
+          "whisper_gate": {
+            "audio_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
+            "intended_text": "The portable witness speaks plainly without claiming another voice.",
+            "pass_bar": 0.8,
+            "passed": false,
+            "phase": "pre",
+            "score": 0.778,
+            "transcript": "The portable witness speaks plainly, without claiming"
+          }
+        },
+        {
+          "attempt_index": 2,
+          "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-2.prepared.wav",
+          "prepared_sha256": "72c8c68e3d886fe2786184b9b94f9fae58edd69fae6ab7b64b7d21a7a7a67da0",
+          "provenance_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-2.wav.vibevoice.json",
+          "raw_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-2.wav",
+          "raw_sha256": "7d1222cfd2228d2c6d6dae09281734ada1a633dd52871e43ca1970b83867b21a",
+          "seed": 9412,
+          "whisper_gate": {
+            "audio_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
+            "intended_text": "The portable witness speaks plainly without claiming another voice.",
+            "pass_bar": 0.8,
+            "passed": false,
+            "phase": "pre",
+            "score": 0.778,
+            "transcript": "The portable witness speaks plainly, without claiming..."
+          }
+        },
+        {
+          "attempt_index": 3,
+          "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-3.prepared.wav",
+          "prepared_sha256": "7ba00566527d26436d46b674266ea803741b2640eae4b0ae65b7ab36018bc03c",
+          "provenance_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-3.wav.vibevoice.json",
+          "raw_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.attempt-3.wav",
+          "raw_sha256": "8e81e3681fe6af51784a17c1b9ef987c489041910480cb33a23b7081c1a9236d",
+          "seed": 9413,
+          "whisper_gate": {
+            "audio_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
+            "intended_text": "The portable witness speaks plainly without claiming another voice.",
+            "pass_bar": 0.8,
+            "passed": false,
+            "phase": "pre",
+            "score": 0.778,
+            "transcript": "The portable witness speaks plainly without claiming a n-"
+          }
+        }
+      ],
+      "speaker": "Witness",
+      "status": "pre_gate_failed",
+      "text": "The portable witness speaks plainly without claiming another voice."
+    }
+  ]
+}

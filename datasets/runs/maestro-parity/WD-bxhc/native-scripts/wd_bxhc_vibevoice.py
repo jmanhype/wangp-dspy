@@ -28,7 +28,7 @@ OPERATIONS = [
         "references": [PRIMARY],
         "output": BUNDLE / "outputs" / "wd_bxhc_vibevoice_speech.wav",
         "seed": 9411,
-        "target_duration_s": 3.5,
+        "target_duration_s": 5.0,
     },
     {
         "mode": "voice_clone_one_reference",
@@ -36,7 +36,7 @@ OPERATIONS = [
         "references": [PRIMARY],
         "output": BUNDLE / "outputs" / "wd_bxhc_vibevoice_clone_one.wav",
         "seed": 9421,
-        "target_duration_s": 3.5,
+        "target_duration_s": 5.0,
     },
     {
         "mode": "voice_clone_two_references",
@@ -44,7 +44,7 @@ OPERATIONS = [
         "references": [PRIMARY, SECONDARY],
         "output": BUNDLE / "outputs" / "wd_bxhc_vibevoice_clone_two.wav",
         "seed": 9431,
-        "target_duration_s": 3.5,
+        "target_duration_s": 5.0,
     },
 ]
 
