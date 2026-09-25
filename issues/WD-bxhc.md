@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:50:45Z
-content_hash: "sha256:6c79f042c0cc9aa1357b84f75b31bbe64d42a90ce7251fa5349314a468838846"
+updated_at: 2026-09-25T20:51:19Z
+content_hash: "sha256:44228edd239455c5b0404b643ca6c183b5ed446d9e9f57d44b29851812c82871"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8, WD-r81u, WD-e4r7]
@@ -345,3 +345,48 @@ status: rejected
 - [ ] AC #2: exact, resolvable consent/licence provenance for every cloning artifact.
 - [ ] AC #4/AC #5: matrix terminal states must not be host_run_verified before reviewer approval.
 - [ ] AC #7: clone, saved-voice, and cross-mode cells require a reworked evidence chain.
+
+### 2026-09-25T20:51:19Z speed
+## Implementation Evidence
+
+Summary: Corrected all final clone sidecars and rework requests. Primary `b013…bed18` is now truthfully the operator-owned LF002/WD-cpow target voice; secondary `e371…2175` is truthfully the WD-cpow VibeVoice-prepared output. The stale WD-bxhc/Chatterbox licence and unresolved authorization anchors are preserved only in `.pre-rework.json` history. `reference-consent-rework.md` has resolvable hash-specific anchors and explicitly records that WD-bxhc cloning-reuse consent is NOT evidenced. Accordingly both clone rows, Saved voice binding, and Cross-mode identity preservation are not `host_run_verified`; the accepted audio, hashes, and identity anchor are unchanged.
+
+Commands run:
+- uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-bxhc/rework_reference_provenance.py
+- uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-bxhc/verify_reference_consent.py
+- uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-bxhc/build_rework_plans.py
+- uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-bxhc
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-bxhc-rework-fullsuite.xml
+- uv run --frozen --extra dev wgp release verify
+- git diff --exit-code c91a6d8 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+- git diff --check
+
+SHA: aea2edec0df0d99e86f81cd69939d68d8ee3f7be
+
+### CI/Test Results
+- Reference/hash anchor verification: PASS; consent decision `not_evidenced_for_wd_bxhc_cloning_reuse`.
+- Matrix parse: PASS; voice 2 verified + 2 consent-pending; character 14 verified + 4 consent-pending.
+- Checker: exit 1 with sole diagnostic `FAIL reviewer_verdict.decision: must be approved`; approval projection exit 0.
+- Full suite: 2085 tests, 0 errors, 0 failures, 1 skipped.
+- Release: ready=true, tag_created=false.
+- Protected parity versus c91a6d8 and git diff --check: exit 0.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework bundle: datasets/runs/maestro-parity/WD-bxhc/evidence.json.
+- Rights record: datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md.
+- Anchor verification: datasets/runs/maestro-parity/WD-bxhc/reference-consent-verification.json.
+- Branch/story SHA: aea2edec0df0d99e86f81cd69939d68d8ee3f7be.
+
+### proof
+- [x] AC #1: accepted non-clone artifacts and objective gates remain complete; no unapproved row is claimed verified.
+- [x] AC #2: exact reference paths/hashes/sources/licences are recorded; resolvable anchors explicitly say cloning-reuse consent is absent.
+- [x] AC #3: the real image/video identity anchor remains hash-equal but is not promoted while saved-voice consent is absent.
+- [x] AC #4: consent-defective clone, saved-voice, and cross-mode cells remain non-verified.
+- [x] AC #5: docs and row dispositions mechanically match the reworked evidence.
+- [x] AC #6: no unsupported-hardware claim was invented.
+- [x] AC #7: only the reviewer-accepted plain/deterministic rows remain verified; consent-blocked rows are explicit.
+- [x] AC #8: protected files and accepted artifacts are unchanged; no media bytes were rewritten.
+
