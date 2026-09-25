@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:10:46Z
-content_hash: "sha256:3930dd832129562d42631c62e7ecfc7d3649f506beac57719b8ce7e6305b204f"
+updated_at: 2026-09-25T04:11:56Z
+content_hash: "sha256:17f2aa1b40403df2cf1535dcdc19ed543551734438ddbf4701758cfa5863c541"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
@@ -100,7 +100,36 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py` — 6 passed.
+- `uv run --frozen --extra dev pytest -q tests/test_install.py::test_missing_uv_fails_closed tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal` — 2 passed.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-0zj8-full.xml` — JUnit tests=2085 errors=0 failures=0 skipped=1.
+- `uv run --frozen --extra dev wgp release verify` — release=ready tag_created=false.
+- `git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — clean.
+- `git diff --check` — clean.
+
+Summary: clean disposable-checkout install produced the four-clip LF004 no-GPU plan (SHA-256 935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb), then failed closed exit 3 with HOST_CONFIGURATION_INCOMPLETE and MODEL_MANIFEST_REQUIRED. generated_artifact=false and host_run_verified=false. AC #2 is PARTIAL; AC #3 remains BLOCKED.
+
+Commit SHA: 2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1
+Clean-proof source commit correction: 212f12058e1704f9c1657437f7698c4f4e126d21
+Coverage: not measured.
+
+## nd_contract
+status: delivered
+
+### evidence
+- One documented command and real clean-checkout outputs are committed under datasets/runs/maestro-parity/WD-0zj8/clean-machine/; full JUnit has zero errors/failures; release ready; protected files unchanged; branch remote matches HEAD.
+
+### proof
+- [x] AC #1 clean install+plan.
+- [ ] AC #2 PARTIAL missing host/model refusal only.
+- [ ] AC #3 BLOCKED operator inputs absent.
+- [x] AC #4 no fabricated host-run evidence.
+- [x] AC #5 clean-proof provenance recorded.
+- [x] AC #6 documentation boundary clear.
+- [x] AC #7 protected files unchanged.
 
 ## nd_contract
 status: delivered
