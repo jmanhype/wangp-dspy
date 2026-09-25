@@ -8,12 +8,12 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:01:24Z
-content_hash: "sha256:058b8fe562acc24bd2dc1aae1f1b8fd00eabb34477e58f6f98c15c9c9cea137c"
+updated_at: 2026-09-25T23:01:44Z
+content_hash: "sha256:c5048dd29bc7d8c05a37ae2d2d0b95bab49711cf1e1ba182877b297cc0e8caab"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 assignee: dev-WD-dmf2
-follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow]
+follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8]
 ---
 
 ## Description
@@ -255,11 +255,13 @@ Observable outcome: an explicitly authorized future run stores the composed dire
 - 2026-09-25T21:28:59Z claimed by dev-WD-dmf2
 - 2026-09-25T22:59:30Z status: in_progress -> in_progress
 - 2026-09-25T22:59:30Z auto-follows: linked to predecessor WD-cpow
+- 2026-09-25T23:01:44Z status: in_progress -> in_progress
+- 2026-09-25T23:01:44Z auto-follows: linked to predecessor WD-0zj8
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]]
-- Follows: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-cpow]]
+- Follows: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-cpow]], [[WD-0zj8]]
 
 ## Comments
