@@ -1,0 +1,1066 @@
+{
+  "command": [
+    "bash",
+    "-c",
+    "timeout 3600 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 'cd /home/straughter/wangp-dspy-vibevoice-20260916 && timeout 3300 /home/straughter/vb7-venv/bin/python -' < datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_vibevoice.py"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 5.08,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "duration_s": 5.08,
+        "rms": 0.10033478190264242,
+        "sample_rate_hz": 24000,
+        "source": "ffprobe-wd_bxhc_chatterbox_speech.json"
+      },
+      "path": "outputs/wd_bxhc_chatterbox_speech.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 5.2,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "duration_s": 5.2,
+        "rms": 0.04027311619370211,
+        "sample_rate_hz": 24000,
+        "source": "ffprobe-wd_bxhc_vibevoice_speech.json"
+      },
+      "path": "outputs/wd_bxhc_vibevoice_speech.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 3.6,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "duration_s": 3.6,
+        "rms": 0.052941200845794116,
+        "sample_rate_hz": 24000,
+        "source": "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+      },
+      "path": "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 4.133333333333334,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 1,
+        "codec": "pcm_s16le",
+        "duration_s": 4.133333333333334,
+        "rms": 0.04365530113641588,
+        "sample_rate_hz": 24000,
+        "source": "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+      },
+      "path": "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": null,
+      "fps": null,
+      "height": 744,
+      "kind": "image",
+      "measured_format": {
+        "codec": "png",
+        "height": 744,
+        "width": 544
+      },
+      "path": "outputs/wd_bxhc_character_image.png",
+      "width": 544
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 5.0,
+      "fps": 24.0,
+      "height": 744,
+      "kind": "video",
+      "measured_format": {
+        "audio_codec": "aac",
+        "audio_duration_s": 5.0,
+        "channels": 1,
+        "container_duration_s": 5.0,
+        "fps": 24.0,
+        "height": 744,
+        "sample_rate_hz": 24000,
+        "video_codec": "h264",
+        "video_duration_s": 5.0,
+        "width": 544
+      },
+      "path": "outputs/wd_bxhc_character_video.mp4",
+      "width": 544
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/mnt/bulk/straughter/models/VibeVoice-7B-hf/model.safetensors.index.json",
+      "download_approved": true,
+      "execution_variant": "quanto qint8 nn.Linear weights; embeddings/convolutions source dtype",
+      "identity": "VibeVoice-7B-hf model index anchor",
+      "immutable_version": "11-shard 18,698,450,924-byte host install; index anchors this exact model",
+      "license": "Apache-2.0 (VibeVoice upstream); operator research/evaluation limitation",
+      "sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "size_bytes": 124188,
+      "source": "https://huggingface.co/microsoft/VibeVoice-7B (pre-existing host copy /mnt/bulk/straughter/models/VibeVoice-7B-hf)"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/t3_mtl23ls_v2.safetensors",
+      "download_approved": true,
+      "identity": "chatterbox-t3-mtl23ls-v2",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "b1237586127ce98e7800a68e49938eb5092846862aabcb6e17b2fda7889a6c75",
+      "size_bytes": 2143989752,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t3_mtl23ls_v2.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/s3gen.pt",
+      "download_approved": true,
+      "identity": "chatterbox-s3gen",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "9b9ff07e60b20c136e2b1b3d7563a24604e8d2c4c267888d1ee929dd0151d2a3",
+      "size_bytes": 1057165844,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/s3gen.pt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/ve.safetensors",
+      "download_approved": true,
+      "identity": "chatterbox-voice-encoder",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c",
+      "size_bytes": 5695784,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/ve.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/conds.pt",
+      "download_approved": true,
+      "identity": "chatterbox-conditions",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e",
+      "size_bytes": 107374,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/conds.pt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/grapheme_mtl_merged_expanded_v1.json",
+      "download_approved": true,
+      "identity": "chatterbox-grapheme-tokenizer",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "df81a7ca7c31796cbe97f7a7142d5a53b12e88e12417ebe98f66602cafaf0461",
+      "size_bytes": 70011,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/grapheme_mtl_merged_expanded_v1.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/Cangjie5_TC.json",
+      "download_approved": true,
+      "identity": "chatterbox-cangjie-tokenizer",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "sha256": "7073fd9de919443ae88e0bd2449917a65fe54898a4413ed1edcc4b67f28bce8c",
+      "size_bytes": 1920163,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/Cangjie5_TC.json"
+    }
+  ],
+  "native_commands": [
+    [
+      "timeout",
+      "2700",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout 2400 bash -s"
+    ],
+    [
+      "timeout",
+      "900",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout 840 /home/straughter/Wan2GP/venv/bin/python -"
+    ],
+    [
+      "bash",
+      "-c",
+      "timeout 3600 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 'cd /home/straughter/wangp-dspy-vibevoice-20260916 && timeout 3300 /home/straughter/vb7-venv/bin/python -' < datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_vibevoice.py"
+    ],
+    [
+      "python3",
+      "datasets/runs/maestro-parity/WD-bxhc/generate-character-media.py"
+    ]
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_bxhc_chatterbox_speech.wav",
+        "ffprobe-wd_bxhc_chatterbox_speech.json"
+      ],
+      "measured": 24000,
+      "mode": "audio",
+      "name": "wd_bxhc_chatterbox_speech_sample_rate_hz",
+      "row": "chatterbox/chatterbox_multilingual",
+      "threshold": 24000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_chatterbox_speech.wav",
+        "ffprobe-wd_bxhc_chatterbox_speech.json"
+      ],
+      "measured": 1,
+      "mode": "audio",
+      "name": "wd_bxhc_chatterbox_speech_channels",
+      "row": "chatterbox/chatterbox_multilingual",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_chatterbox_speech.wav",
+        "ffprobe-wd_bxhc_chatterbox_speech.json"
+      ],
+      "measured": 5.08,
+      "mode": "audio",
+      "name": "wd_bxhc_chatterbox_speech_duration_s",
+      "row": "chatterbox/chatterbox_multilingual",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_chatterbox_speech.wav"
+      ],
+      "measured": 0.10033478190264242,
+      "mode": "audio",
+      "name": "wd_bxhc_chatterbox_speech_rms",
+      "row": "chatterbox/chatterbox_multilingual",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_chatterbox_speech.wav",
+        "outputs/chatterbox-whisper/wd_bxhc_chatterbox_speech.txt"
+      ],
+      "measured": 1.0,
+      "mode": "audio",
+      "name": "wd_bxhc_chatterbox_speech_whisper_score",
+      "row": "chatterbox/chatterbox_multilingual",
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_speech.wav",
+        "ffprobe-wd_bxhc_vibevoice_speech.json"
+      ],
+      "measured": 24000,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_speech_sample_rate_hz",
+      "row": "vibevoice/vibe_7b:plain_speech",
+      "threshold": 24000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_speech.wav",
+        "ffprobe-wd_bxhc_vibevoice_speech.json"
+      ],
+      "measured": 1,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_speech_channels",
+      "row": "vibevoice/vibe_7b:plain_speech",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_speech.wav",
+        "ffprobe-wd_bxhc_vibevoice_speech.json"
+      ],
+      "measured": 5.2,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_speech_duration_s",
+      "row": "vibevoice/vibe_7b:plain_speech",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_speech.wav"
+      ],
+      "measured": 0.04027311619370211,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_speech_rms",
+      "row": "vibevoice/vibe_7b:plain_speech",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_speech.wav",
+        "vibevoice-custom-report.json"
+      ],
+      "measured": 1.0,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_speech_whisper_score",
+      "row": "vibevoice/vibe_7b:plain_speech",
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+      ],
+      "measured": 24000,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_sample_rate_hz",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 24000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+      ],
+      "measured": 1,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_channels",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+      ],
+      "measured": 3.6,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_duration_s",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_one.wav"
+      ],
+      "measured": 0.052941200845794116,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_rms",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "vibevoice-custom-report.json"
+      ],
+      "measured": 1.0,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_whisper_score",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/voice-primary-vibe.wav",
+        "planning/requests/vibevoice-clone-one.json"
+      ],
+      "measured": 1,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_one_consented_reference_count",
+      "row": "vibevoice/vibe_7b:one_reference_clone",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+      ],
+      "measured": 24000,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_sample_rate_hz",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 24000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+      ],
+      "measured": 1,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_channels",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+      ],
+      "measured": 4.133333333333334,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_duration_s",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_two.wav"
+      ],
+      "measured": 0.04365530113641588,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_rms",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "vibevoice-custom-report.json"
+      ],
+      "measured": 1.0,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_whisper_score",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/voice-primary-vibe.wav",
+        "inputs/voice-secondary.wav",
+        "planning/requests/vibevoice-clone-two.json"
+      ],
+      "measured": 2,
+      "mode": "audio",
+      "name": "wd_bxhc_vibevoice_clone_two_consented_reference_count",
+      "row": "vibevoice/vibe_7b:two_reference_clone",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/portable-witness.wgpcharacter",
+        "packages/portable-witness.repeated.wgpcharacter"
+      ],
+      "measured": 1.0,
+      "mode": "image",
+      "name": "portable_package_round_trip_image",
+      "row": "portable_package_round_trip",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/portable-witness.wgpcharacter",
+        "packages/portable-witness.repeated.wgpcharacter"
+      ],
+      "measured": 1.0,
+      "mode": "video",
+      "name": "portable_package_round_trip_video",
+      "row": "portable_package_round_trip",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/character-show.json",
+        "packages/portable-witness.wgpvoice"
+      ],
+      "measured": 1.0,
+      "mode": "image",
+      "name": "saved_voice_binding_image",
+      "row": "saved_voice_binding",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/character-show.json",
+        "packages/portable-witness.wgpvoice"
+      ],
+      "measured": 1.0,
+      "mode": "video",
+      "name": "saved_voice_binding_video",
+      "row": "saved_voice_binding",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/appearance-native.png",
+        "packages/recovered-native.png",
+        "packages/native-recovery.json"
+      ],
+      "measured": 1.0,
+      "mode": "image",
+      "name": "native_source_recovery_image",
+      "row": "native_source_recovery",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/appearance-native.png",
+        "packages/recovered-native.png",
+        "packages/native-recovery.json"
+      ],
+      "measured": 1.0,
+      "mode": "video",
+      "name": "native_source_recovery_video",
+      "row": "native_source_recovery",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/registry-resolve-id.json",
+        "packages/registry-resolve-alias.json"
+      ],
+      "measured": 1.0,
+      "mode": "image",
+      "name": "registry_identity_resolution_image",
+      "row": "registry_identity_resolution",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "packages/registry-resolve-id.json",
+        "packages/registry-resolve-alias.json"
+      ],
+      "measured": 1.0,
+      "mode": "video",
+      "name": "registry_identity_resolution_video",
+      "row": "registry_identity_resolution",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/boundaries/package-mismatch.exit",
+        "planning/boundaries/appearance-mismatch.exit",
+        "planning/boundaries/voice-mismatch.exit"
+      ],
+      "measured": 3.0,
+      "mode": "image",
+      "name": "appearance_and_voice_mismatch_rejection_image",
+      "row": "appearance_and_voice_mismatch_rejection",
+      "threshold": 3.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/boundaries/package-mismatch.exit",
+        "planning/boundaries/appearance-mismatch.exit",
+        "planning/boundaries/voice-mismatch.exit"
+      ],
+      "measured": 3.0,
+      "mode": "video",
+      "name": "appearance_and_voice_mismatch_rejection_video",
+      "row": "appearance_and_voice_mismatch_rejection",
+      "threshold": 3.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/boundaries/registry-duplicate.exit",
+        "planning/boundaries/registry-ambiguous.exit"
+      ],
+      "measured": 2.0,
+      "mode": "image",
+      "name": "duplicate_and_ambiguous_identity_rejection_image",
+      "row": "duplicate_and_ambiguous_identity_rejection",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/boundaries/registry-duplicate.exit",
+        "planning/boundaries/registry-ambiguous.exit"
+      ],
+      "measured": 2.0,
+      "mode": "video",
+      "name": "duplicate_and_ambiguous_identity_rejection_video",
+      "row": "duplicate_and_ambiguous_identity_rejection",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/cli/chatterbox-speech.reconstruct.json",
+        "planning/cli/vibevoice-speech.reconstruct.json",
+        "planning/cli/vibevoice-clone-one.reconstruct.json",
+        "planning/cli/vibevoice-clone-two.reconstruct.json",
+        "planning/cli/character-image.reconstruct.json",
+        "planning/cli/character-video.reconstruct.json"
+      ],
+      "measured": 6.0,
+      "mode": "image",
+      "name": "immutable_non_executable_planning_image",
+      "row": "immutable_non_executable_planning",
+      "threshold": 6.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/cli/chatterbox-speech.reconstruct.json",
+        "planning/cli/vibevoice-speech.reconstruct.json",
+        "planning/cli/vibevoice-clone-one.reconstruct.json",
+        "planning/cli/vibevoice-clone-two.reconstruct.json",
+        "planning/cli/character-image.reconstruct.json",
+        "planning/cli/character-video.reconstruct.json"
+      ],
+      "measured": 6.0,
+      "mode": "video",
+      "name": "immutable_non_executable_planning_video",
+      "row": "immutable_non_executable_planning",
+      "threshold": 6.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/cli/chatterbox-speech.reconstruct.json",
+        "planning/cli/vibevoice-speech.reconstruct.json",
+        "planning/cli/vibevoice-clone-one.reconstruct.json",
+        "planning/cli/vibevoice-clone-two.reconstruct.json",
+        "planning/cli/character-image.reconstruct.json",
+        "planning/cli/character-video.reconstruct.json"
+      ],
+      "measured": 6.0,
+      "mode": "image",
+      "name": "seed_based_reconstruction_image",
+      "row": "seed_based_reconstruction",
+      "threshold": 6.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/cli/chatterbox-speech.reconstruct.json",
+        "planning/cli/vibevoice-speech.reconstruct.json",
+        "planning/cli/vibevoice-clone-one.reconstruct.json",
+        "planning/cli/vibevoice-clone-two.reconstruct.json",
+        "planning/cli/character-image.reconstruct.json",
+        "planning/cli/character-video.reconstruct.json"
+      ],
+      "measured": 6.0,
+      "mode": "video",
+      "name": "seed_based_reconstruction_video",
+      "row": "seed_based_reconstruction",
+      "threshold": 6.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "character-media-identity.json",
+        "character-media-objective-gates.json",
+        "outputs/wd_bxhc_character_image.png",
+        "packages/character-video-first-frame.png"
+      ],
+      "measured": 0.859375,
+      "mode": "image",
+      "name": "cross_mode_identity_native_to_image_perceptual_hash",
+      "row": "cross_mode_identity_preservation",
+      "threshold": 0.75,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "character-media-identity.json",
+        "packages/character-show.json"
+      ],
+      "measured": 1.0,
+      "mode": "image",
+      "name": "cross_mode_identity_anchor_match_image",
+      "row": "cross_mode_identity_preservation",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "character-media-identity.json",
+        "character-media-objective-gates.json",
+        "outputs/wd_bxhc_character_image.png",
+        "packages/character-video-first-frame.png"
+      ],
+      "measured": 0.984375,
+      "mode": "video",
+      "name": "cross_mode_identity_image_to_video_first_frame_perceptual_hash",
+      "row": "cross_mode_identity_preservation",
+      "threshold": 0.75,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "character-media-identity.json",
+        "packages/character-show.json"
+      ],
+      "measured": 1.0,
+      "mode": "video",
+      "name": "cross_mode_identity_anchor_match_video",
+      "row": "cross_mode_identity_preservation",
+      "threshold": 1.0,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-bxhc host batch 1: 3,208,948,928-byte Chatterbox asset set, existing VibeVoice-7B, real speech operations, and model-free portable-character operations; llama-server remains running",
+    "status": "approved",
+    "text": "I agree\nyou need to kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this\nUnblock and cont\nthe operator approved host batch 1 with a 20 GB download ceiling and has repeatedly instructed to continue/unblock the programme",
+    "timestamp": "2026-09-25T19:05:00Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_bxhc_chatterbox_speech.wav",
+      "sha256": "a62b1ca89b30d5de3ca6969069e8193b80ca0227ebc1edbd131065b265360ed0"
+    },
+    {
+      "path": "outputs/wd_bxhc_vibevoice_speech.wav",
+      "sha256": "7780efa5de3c36faf3c1a84abd698f63ccfe88cb8a6f200e656fe9be54a33687"
+    },
+    {
+      "path": "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "sha256": "23bdc389f731615ad1e5f566320a0b36240d98730d69dc8633069bccc4191d2b"
+    },
+    {
+      "path": "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "sha256": "b9bec33bc91958f1fa39461cdd0f842f683e501cabd0ee87e15dc3a900c45024"
+    },
+    {
+      "path": "outputs/wd_bxhc_character_image.png",
+      "sha256": "da4cbd9752c85a3eb7baaf9feba95533269d5e74d676a59e9d6660f1ba9fcfb6"
+    },
+    {
+      "path": "outputs/wd_bxhc_character_video.mp4",
+      "sha256": "1cba8c8a7e0b2d43142cc053766ca729850ebb5b3beaa0ba02e99df8252eca81"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790363176711-127f786e",
+    "ledger_semantics": "durable evidence ledger admitted after the authorized native operations; it binds completed artifacts and does not overwrite renderer admission semantics",
+    "native_logs": [
+      "chatterbox-speech.attempt-4.native.log",
+      "vibevoice-custom.attempt-11.native.log",
+      "character-operations.attempt-2.log",
+      "character-media-generation.log",
+      "queue-complete.log"
+    ],
+    "preflight": "lane-coexistence-preflight.json",
+    "queue_id": "wangp-JobQueue-WD-bxhc",
+    "retry_id": "attempt-final-after-recorded-debug-attempts",
+    "standard_preflight": "standard-preflight.json"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution",
+      "path": "inputs/voice-primary-vibe.wav",
+      "role": "vibevoice_primary_reference",
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+    },
+    {
+      "license": "Operator-owned synthetic WD-cpow VibeVoice output; authorized reference reuse only; no redistribution",
+      "path": "inputs/voice-secondary.wav",
+      "role": "vibevoice_secondary_reference",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+    },
+    {
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; authorized reference reuse only",
+      "path": "inputs/appearance-native.png",
+      "role": "character_native_appearance",
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6"
+    },
+    {
+      "license": "Operator-owned WD-bxhc synthetic portable voice; no redistribution",
+      "path": "packages/portable-witness.wgpvoice",
+      "role": "saved_voice_package",
+      "sha256": "232866634eee225f4a7bb05216d53861b49feb81697bcbe6e994f4e8435ef3ef"
+    },
+    {
+      "license": "Operator-owned WD-bxhc synthetic portable character; no redistribution",
+      "path": "packages/portable-witness.wgpcharacter",
+      "role": "portable_character_anchor",
+      "sha256": "12ce309570e54b59348d0ecd094077e783c6a77c70ae921533c5d10035c453c9"
+    },
+    {
+      "license": "Operator-owned WD-bxhc generated evaluation frame; no redistribution",
+      "path": "packages/character-video-first-frame.png",
+      "role": "video_identity_gate_frame",
+      "sha256": "529e62252a767f7c92722205f29e1967b4b6c43ce880334e77fc6b5c850a17b0"
+    },
+    {
+      "license": "Operator-owned WD-bxhc generated evaluation audio; no redistribution",
+      "path": "outputs/wd_bxhc_vibevoice_clone_two.prepared.wav",
+      "role": "character_video_bound_audio",
+      "sha256": "8468bd5cd35740eb7db46d564e588631bc0345148bf378910109452e6051ed48"
+    }
+  ],
+  "repository": {
+    "commit": "35270b18ffee75b9e816ed485ae297190eebb2f5",
+    "commit_semantics": "35270b1 is the clean commit immediately before the successful final VibeVoice batch; later character, queue, documentation, and evidence artifacts are intentionally dirty state",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "9a4687a4b71730c38994826caa2c122abb26b379651a2befd86261f2c36a603a",
+      "status_lines": [
+        " M docs/voice-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-bxhc/build-evidence.py",
+        "?? datasets/runs/maestro-parity/WD-bxhc/bundle-size.txt",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-approved-projection.exit",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-approved-projection.stderr",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-approved-projection.txt",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-result.exit",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-result.stderr",
+        "?? datasets/runs/maestro-parity/WD-bxhc/checker-result.txt",
+        "?? datasets/runs/maestro-parity/WD-bxhc/download-report.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/evidence-assembly.log",
+        "?? datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/execution-summary.md",
+        "?? datasets/runs/maestro-parity/WD-bxhc/matrix-parse.txt",
+        "?? datasets/runs/maestro-parity/WD-bxhc/matrix-transition-check.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/output-hashes.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/output-hashes.txt",
+        "?? datasets/runs/maestro-parity/WD-bxhc/row-dispositions.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/verify-matrices.py",
+        " M docs/character-capabilities.md"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [
+      "execution-summary.md",
+      "operator-authorization.md",
+      "download-plan.json",
+      "download-report.json",
+      "doctor-capabilities-download-plan.json",
+      "standard-preflight.json",
+      "lane-coexistence-preflight.json",
+      "chatterbox-report.json",
+      "vibevoice-custom-report.json",
+      "character-media-identity.json",
+      "character-media-objective-gates.json",
+      "packages/character-operation-results.json",
+      "queue-record.json",
+      "queue-complete.log",
+      "output-hashes.txt",
+      "objective-gates.json",
+      "row-dispositions.json",
+      "final-host-state.txt",
+      "bundle-size.txt",
+      "checker-result.txt",
+      "checker-approved-projection.txt",
+      "matrix-transition-check.json"
+    ],
+    "review": "Independent PM review is pending; the developer does not self-approve."
+  },
+  "row_dispositions": [
+    {
+      "cell": "plain_speech",
+      "disposition": "evidence_complete_pending_review",
+      "row": "vibevoice/vibe_7b"
+    },
+    {
+      "cell": "one_reference_clone",
+      "disposition": "evidence_complete_pending_review",
+      "row": "vibevoice/vibe_7b"
+    },
+    {
+      "cell": "two_reference_clone",
+      "disposition": "evidence_complete_pending_review",
+      "row": "vibevoice/vibe_7b"
+    },
+    {
+      "cell": "plain_speech",
+      "disposition": "evidence_complete_pending_review",
+      "row": "chatterbox/chatterbox_multilingual"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Portable package round-trip and hashes"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Portable package round-trip and hashes"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Saved voice binding"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Saved voice binding"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Native-source recovery"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Native-source recovery"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Registry identity resolution"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Registry identity resolution"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Appearance and voice mismatch rejection"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Appearance and voice mismatch rejection"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Duplicate and ambiguous identity rejection"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Duplicate and ambiguous identity rejection"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Immutable non-executable planning"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Immutable non-executable planning"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Seed-based reconstruction"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Seed-based reconstruction"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "image",
+      "row": "Cross-mode identity preservation"
+    },
+    {
+      "disposition": "evidence_complete_pending_review",
+      "mode": "video",
+      "row": "Cross-mode identity preservation"
+    }
+  ],
+  "runtime_notes": {
+    "actual_model_bytes": 3208948928,
+    "actual_total_wheel_payload_bytes": 3209226576,
+    "background_state": "No WD-bxhc SSH/native GPU process remains; pre-existing CPU-only WanGP server and operator llama-server remain",
+    "bundle_size_bytes_at_assembly": 14426897,
+    "character_media_boundary": "Image/video are deterministic model-free derivatives of one package anchor; the explicit semantic generated-continuity row is not claimed.",
+    "derived_preflight_min_free_gb_after_download": 15.0,
+    "derived_preflight_min_free_gb_before_download": 18.91,
+    "disk_floor_derivation": "3,208,948,928 selected bytes + 0.20 GiB working set + 0.50 GiB execution margin + 15 GiB operator floor = 18.91 GiB before download; after download the hard floor remains 15 GiB.",
+    "download_after_free_bytes": 41557614592,
+    "download_before_free_bytes": 44770545664,
+    "download_ceiling_bytes": 20000000000,
+    "final_free_bytes": 41059024896,
+    "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB total",
+    "gpu_after_vibe": "19188-19190 MiB used while qint8 VibeVoice process ran; llama-server remained untouched",
+    "gpu_before": "7840-7841 MiB used / 16275 MiB free; operator llama-server occupied 7752 MiB",
+    "gpu_final": "7841 MiB used / 16275 MiB free; only operator llama-server remains",
+    "lane_coexistence_preflight": "Passed with exact model hashes, >=15 GiB disk, QC health, and the operator-reserved llama-server as the sole occupant with >=4 GiB free.",
+    "planned_model_bytes": 3208948928,
+    "queue_ledger_semantics": "durable evidence ledger admitted after the authorized native operations; it binds completed artifacts and does not overwrite renderer admission semantics",
+    "runtime_dependency_bytes": 277648,
+    "standard_preflight": "Failed as designed: remote default min 50 GiB and any GPU occupant. This lane did not lower that global gate.",
+    "vibevoice_large_inspected_but_not_used": "18,687,161,180-byte weights-only install lacks tokenizer/processor files required by the validated API",
+    "vibevoice_quantization": "CPU load verified zero meta tensors, then quanto qint8 nn.Linear weights were frozen on CUDA; embeddings/convolutions retained source dtype to preserve audio-token expansion.",
+    "vibevoice_rejections_preserved": "Three 0.778 plain-speech transcript rejections and one 0.778 one-reference rejection are retained with hashes and transcripts.",
+    "vibevoice_variant_used": "VibeVoice-7B-hf"
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}

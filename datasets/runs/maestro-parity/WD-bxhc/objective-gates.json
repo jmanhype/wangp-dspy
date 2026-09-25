@@ -1,0 +1,527 @@
+[
+  {
+    "inputs": [
+      "outputs/wd_bxhc_chatterbox_speech.wav",
+      "ffprobe-wd_bxhc_chatterbox_speech.json"
+    ],
+    "measured": 24000,
+    "mode": "audio",
+    "name": "wd_bxhc_chatterbox_speech_sample_rate_hz",
+    "row": "chatterbox/chatterbox_multilingual",
+    "threshold": 24000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_chatterbox_speech.wav",
+      "ffprobe-wd_bxhc_chatterbox_speech.json"
+    ],
+    "measured": 1,
+    "mode": "audio",
+    "name": "wd_bxhc_chatterbox_speech_channels",
+    "row": "chatterbox/chatterbox_multilingual",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_chatterbox_speech.wav",
+      "ffprobe-wd_bxhc_chatterbox_speech.json"
+    ],
+    "measured": 5.08,
+    "mode": "audio",
+    "name": "wd_bxhc_chatterbox_speech_duration_s",
+    "row": "chatterbox/chatterbox_multilingual",
+    "threshold": 0.1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_chatterbox_speech.wav"
+    ],
+    "measured": 0.10033478190264242,
+    "mode": "audio",
+    "name": "wd_bxhc_chatterbox_speech_rms",
+    "row": "chatterbox/chatterbox_multilingual",
+    "threshold": 0.001,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_chatterbox_speech.wav",
+      "outputs/chatterbox-whisper/wd_bxhc_chatterbox_speech.txt"
+    ],
+    "measured": 1.0,
+    "mode": "audio",
+    "name": "wd_bxhc_chatterbox_speech_whisper_score",
+    "row": "chatterbox/chatterbox_multilingual",
+    "threshold": 0.8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_speech.wav",
+      "ffprobe-wd_bxhc_vibevoice_speech.json"
+    ],
+    "measured": 24000,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_speech_sample_rate_hz",
+    "row": "vibevoice/vibe_7b:plain_speech",
+    "threshold": 24000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_speech.wav",
+      "ffprobe-wd_bxhc_vibevoice_speech.json"
+    ],
+    "measured": 1,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_speech_channels",
+    "row": "vibevoice/vibe_7b:plain_speech",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_speech.wav",
+      "ffprobe-wd_bxhc_vibevoice_speech.json"
+    ],
+    "measured": 5.2,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_speech_duration_s",
+    "row": "vibevoice/vibe_7b:plain_speech",
+    "threshold": 0.1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_speech.wav"
+    ],
+    "measured": 0.04027311619370211,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_speech_rms",
+    "row": "vibevoice/vibe_7b:plain_speech",
+    "threshold": 0.001,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_speech.wav",
+      "vibevoice-custom-report.json"
+    ],
+    "measured": 1.0,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_speech_whisper_score",
+    "row": "vibevoice/vibe_7b:plain_speech",
+    "threshold": 0.8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+    ],
+    "measured": 24000,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_sample_rate_hz",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 24000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+    ],
+    "measured": 1,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_channels",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_one.json"
+    ],
+    "measured": 3.6,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_duration_s",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 0.1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_one.wav"
+    ],
+    "measured": 0.052941200845794116,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_rms",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 0.001,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_one.wav",
+      "vibevoice-custom-report.json"
+    ],
+    "measured": 1.0,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_whisper_score",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 0.8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "inputs/voice-primary-vibe.wav",
+      "planning/requests/vibevoice-clone-one.json"
+    ],
+    "measured": 1,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_one_consented_reference_count",
+    "row": "vibevoice/vibe_7b:one_reference_clone",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+    ],
+    "measured": 24000,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_sample_rate_hz",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 24000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+    ],
+    "measured": 1,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_channels",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "ffprobe-wd_bxhc_vibevoice_clone_two.json"
+    ],
+    "measured": 4.133333333333334,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_duration_s",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 0.1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_two.wav"
+    ],
+    "measured": 0.04365530113641588,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_rms",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 0.001,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bxhc_vibevoice_clone_two.wav",
+      "vibevoice-custom-report.json"
+    ],
+    "measured": 1.0,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_whisper_score",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 0.8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "inputs/voice-primary-vibe.wav",
+      "inputs/voice-secondary.wav",
+      "planning/requests/vibevoice-clone-two.json"
+    ],
+    "measured": 2,
+    "mode": "audio",
+    "name": "wd_bxhc_vibevoice_clone_two_consented_reference_count",
+    "row": "vibevoice/vibe_7b:two_reference_clone",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/portable-witness.wgpcharacter",
+      "packages/portable-witness.repeated.wgpcharacter"
+    ],
+    "measured": 1.0,
+    "mode": "image",
+    "name": "portable_package_round_trip_image",
+    "row": "portable_package_round_trip",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/portable-witness.wgpcharacter",
+      "packages/portable-witness.repeated.wgpcharacter"
+    ],
+    "measured": 1.0,
+    "mode": "video",
+    "name": "portable_package_round_trip_video",
+    "row": "portable_package_round_trip",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/character-show.json",
+      "packages/portable-witness.wgpvoice"
+    ],
+    "measured": 1.0,
+    "mode": "image",
+    "name": "saved_voice_binding_image",
+    "row": "saved_voice_binding",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/character-show.json",
+      "packages/portable-witness.wgpvoice"
+    ],
+    "measured": 1.0,
+    "mode": "video",
+    "name": "saved_voice_binding_video",
+    "row": "saved_voice_binding",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "inputs/appearance-native.png",
+      "packages/recovered-native.png",
+      "packages/native-recovery.json"
+    ],
+    "measured": 1.0,
+    "mode": "image",
+    "name": "native_source_recovery_image",
+    "row": "native_source_recovery",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "inputs/appearance-native.png",
+      "packages/recovered-native.png",
+      "packages/native-recovery.json"
+    ],
+    "measured": 1.0,
+    "mode": "video",
+    "name": "native_source_recovery_video",
+    "row": "native_source_recovery",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/registry-resolve-id.json",
+      "packages/registry-resolve-alias.json"
+    ],
+    "measured": 1.0,
+    "mode": "image",
+    "name": "registry_identity_resolution_image",
+    "row": "registry_identity_resolution",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "packages/registry-resolve-id.json",
+      "packages/registry-resolve-alias.json"
+    ],
+    "measured": 1.0,
+    "mode": "video",
+    "name": "registry_identity_resolution_video",
+    "row": "registry_identity_resolution",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/boundaries/package-mismatch.exit",
+      "planning/boundaries/appearance-mismatch.exit",
+      "planning/boundaries/voice-mismatch.exit"
+    ],
+    "measured": 3.0,
+    "mode": "image",
+    "name": "appearance_and_voice_mismatch_rejection_image",
+    "row": "appearance_and_voice_mismatch_rejection",
+    "threshold": 3.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/boundaries/package-mismatch.exit",
+      "planning/boundaries/appearance-mismatch.exit",
+      "planning/boundaries/voice-mismatch.exit"
+    ],
+    "measured": 3.0,
+    "mode": "video",
+    "name": "appearance_and_voice_mismatch_rejection_video",
+    "row": "appearance_and_voice_mismatch_rejection",
+    "threshold": 3.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/boundaries/registry-duplicate.exit",
+      "planning/boundaries/registry-ambiguous.exit"
+    ],
+    "measured": 2.0,
+    "mode": "image",
+    "name": "duplicate_and_ambiguous_identity_rejection_image",
+    "row": "duplicate_and_ambiguous_identity_rejection",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/boundaries/registry-duplicate.exit",
+      "planning/boundaries/registry-ambiguous.exit"
+    ],
+    "measured": 2.0,
+    "mode": "video",
+    "name": "duplicate_and_ambiguous_identity_rejection_video",
+    "row": "duplicate_and_ambiguous_identity_rejection",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/cli/chatterbox-speech.reconstruct.json",
+      "planning/cli/vibevoice-speech.reconstruct.json",
+      "planning/cli/vibevoice-clone-one.reconstruct.json",
+      "planning/cli/vibevoice-clone-two.reconstruct.json",
+      "planning/cli/character-image.reconstruct.json",
+      "planning/cli/character-video.reconstruct.json"
+    ],
+    "measured": 6.0,
+    "mode": "image",
+    "name": "immutable_non_executable_planning_image",
+    "row": "immutable_non_executable_planning",
+    "threshold": 6.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/cli/chatterbox-speech.reconstruct.json",
+      "planning/cli/vibevoice-speech.reconstruct.json",
+      "planning/cli/vibevoice-clone-one.reconstruct.json",
+      "planning/cli/vibevoice-clone-two.reconstruct.json",
+      "planning/cli/character-image.reconstruct.json",
+      "planning/cli/character-video.reconstruct.json"
+    ],
+    "measured": 6.0,
+    "mode": "video",
+    "name": "immutable_non_executable_planning_video",
+    "row": "immutable_non_executable_planning",
+    "threshold": 6.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/cli/chatterbox-speech.reconstruct.json",
+      "planning/cli/vibevoice-speech.reconstruct.json",
+      "planning/cli/vibevoice-clone-one.reconstruct.json",
+      "planning/cli/vibevoice-clone-two.reconstruct.json",
+      "planning/cli/character-image.reconstruct.json",
+      "planning/cli/character-video.reconstruct.json"
+    ],
+    "measured": 6.0,
+    "mode": "image",
+    "name": "seed_based_reconstruction_image",
+    "row": "seed_based_reconstruction",
+    "threshold": 6.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/cli/chatterbox-speech.reconstruct.json",
+      "planning/cli/vibevoice-speech.reconstruct.json",
+      "planning/cli/vibevoice-clone-one.reconstruct.json",
+      "planning/cli/vibevoice-clone-two.reconstruct.json",
+      "planning/cli/character-image.reconstruct.json",
+      "planning/cli/character-video.reconstruct.json"
+    ],
+    "measured": 6.0,
+    "mode": "video",
+    "name": "seed_based_reconstruction_video",
+    "row": "seed_based_reconstruction",
+    "threshold": 6.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "character-media-identity.json",
+      "character-media-objective-gates.json",
+      "outputs/wd_bxhc_character_image.png",
+      "packages/character-video-first-frame.png"
+    ],
+    "measured": 0.859375,
+    "mode": "image",
+    "name": "cross_mode_identity_native_to_image_perceptual_hash",
+    "row": "cross_mode_identity_preservation",
+    "threshold": 0.75,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "character-media-identity.json",
+      "packages/character-show.json"
+    ],
+    "measured": 1.0,
+    "mode": "image",
+    "name": "cross_mode_identity_anchor_match_image",
+    "row": "cross_mode_identity_preservation",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "character-media-identity.json",
+      "character-media-objective-gates.json",
+      "outputs/wd_bxhc_character_image.png",
+      "packages/character-video-first-frame.png"
+    ],
+    "measured": 0.984375,
+    "mode": "video",
+    "name": "cross_mode_identity_image_to_video_first_frame_perceptual_hash",
+    "row": "cross_mode_identity_preservation",
+    "threshold": 0.75,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "character-media-identity.json",
+      "packages/character-show.json"
+    ],
+    "measured": 1.0,
+    "mode": "video",
+    "name": "cross_mode_identity_anchor_match_video",
+    "row": "cross_mode_identity_preservation",
+    "threshold": 1.0,
+    "verdict": "pass"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "actual_model_bytes": 3208948928,
+  "actual_total_wheel_payload_bytes": 3209226576,
+  "dependencies": [
+    {
+      "id": "conformer",
+      "sha256": "b957faa683e9e75061257f77407318428f2ad0fb5262bfc2e9b55fc2fffdfa03",
+      "size_bytes": 4260,
+      "version": "0.3.2"
+    },
+    {
+      "id": "quanto",
+      "sha256": "85d23b28e732b628e5bf84a4fd6c78a51c9fc343f7197ed838a9491e557bbd8a",
+      "size_bytes": 90023,
+      "version": "0.2.0"
+    },
+    {
+      "id": "ninja",
+      "sha256": "65a24341b5ac09fcadcc37082660be40a94174e51a937fabf6e2cae26225fa2c",
+      "size_bytes": 183365,
+      "version": "1.13.2"
+    }
+  ],
+  "download_after_free_bytes": 41557614592,
+  "download_before_free_bytes": 44770545664,
+  "download_ceiling_bytes": 20000000000,
+  "final_free_bytes": 41059024896,
+  "planned_model_bytes": 3208948928,
+  "runtime_dependency_bytes": 277648,
+  "schema": "wangp-dspy.wd-bxhc.download-report/v1",
+  "verified_assets": 6
+}
