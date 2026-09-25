@@ -9,10 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T05:51:23Z
-content_hash: "sha256:8989d41708ec495c6d93bb4eb2301de12dda48506659161db583cd006c798557"
+content_hash: "sha256:b23b4930e752e9ddcc6e60b02734a883778b4ed4c6faaeba25cd255a6bf71850"
 blocks: [WD-fay0]
 assignee: dev-WD-cpow
-follows: [WD-rous]
+follows: [WD-rous, WD-0zj8]
 ---
 
 ## Description
@@ -175,10 +175,12 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 - 2026-09-25T05:12:08Z status: open -> in_progress
 - 2026-09-25T05:12:08Z auto-follows: linked to predecessor WD-rous
 - 2026-09-25T05:12:08Z claimed by dev-WD-cpow
+- 2026-09-25T05:51:23Z status: in_progress -> in_progress
+- 2026-09-25T05:51:23Z auto-follows: linked to predecessor WD-0zj8
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-rous]]
+- Follows: [[WD-rous]], [[WD-0zj8]]
 
 ## Comments
