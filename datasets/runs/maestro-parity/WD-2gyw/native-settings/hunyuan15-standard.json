@@ -1,0 +1,21 @@
+{
+  "model_type": "hunyuan_1_5_480_t2v_lightx2v",
+  "prompt": "A concise cinematic test: a small brass compass spins slowly on a paper map while cool window light shifts across the table.",
+  "negative_prompt": "",
+  "resolution": "832x480",
+  "seed": 2942,
+  "video_length": 61,
+  "num_inference_steps": 4,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "flow_shift": 8.0,
+  "repeat_generation": 1,
+  "loras_multipliers": "",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "",
+  "RIFLEx_setting": 0,
+  "perturbation_start_perc": 10,
+  "perturbation_end_perc": 90,
+  "prompt_enhancer": "",
+  "activated_loras": []
+}

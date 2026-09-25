@@ -1,0 +1,101 @@
+[
+  {
+    "model": "hunyuan",
+    "preset": "standard",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "275c9c973cce3398400e4861d420fb42601ddd94da2b07cd6cff74ded0fea216"
+  },
+  {
+    "model": "ltx",
+    "preset": "2.3",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "f5d0dd373758bd0793313bd89325f5ae884cabd48894dc18793347a388505d28"
+  },
+  {
+    "model": "ltx",
+    "preset": "2.5",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "78b26ff37e3397cb8bf89bbdc5a9a9d4d774e93894041e8fb4f856cc59f0bee9"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "h3_audio_refinement",
+    "operation": "edit",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "82a498acc531284b22552ea6bf32852976dbc5686fb7d1b0e9e4b309ddc2a394"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "h3_outpaint",
+    "operation": "outpaint",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "ac6a7dee7e235d8db34fc15e1bb16cc4e3757a7f79223e7c479b368a95194e25"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "h3_vdn_hybrid_attention",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "6983f8d9a7e4cc89898198e82d17af32997c2f74b1d9bfb738615aa1cff79713"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "kfi_frames_injection",
+    "operation": "retake",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "e64c8cb19f510a0764f84b1ff371ca2a05f3cf6426a5a3f1a62a6b166b4289bc"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "standard",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "5d4123d0a6125b7f63f205acba7050d1865219d334241024953dd95ea282c01b"
+  },
+  {
+    "model": "minimax_h3",
+    "preset": "taomate_three_step",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "76cdad701458a72309dd9e049d9c789c762020d1567274844d191b18eb0ce5da"
+  },
+  {
+    "model": "scail",
+    "preset": "2",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "9f27b9d7ae097a17a3699ea909be33480d7cb56948820fe3838712ed6d3d574d"
+  },
+  {
+    "model": "wan",
+    "preset": "2gp",
+    "operation": "create",
+    "capability_status": "planned",
+    "queue_submitted": false,
+    "gpu_work": false,
+    "settings_sha256": "0b7fb1e8565bd2636f2ae51d2fe65553218a35bf05e7d2c0e7cfc926b0480b46"
+  }
+]
