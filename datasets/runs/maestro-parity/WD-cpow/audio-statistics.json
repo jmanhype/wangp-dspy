@@ -1,0 +1,65 @@
+{
+  "loudness": {
+    "refine": {
+      "integrated_lufs": -18.0,
+      "true_peak_dbfs": -3.5
+    },
+    "revoice": {
+      "integrated_lufs": -17.7,
+      "true_peak_dbfs": -3.3
+    },
+    "stable_sfx": {
+      "integrated_lufs": 3.5,
+      "true_peak_dbfs": 5.9
+    },
+    "vibevoice_prepared": {
+      "integrated_lufs": -17.6,
+      "true_peak_dbfs": -0.2
+    }
+  },
+  "revoice_refine_mean_absolute_delta": 0.0031915837117848897,
+  "statistics": {
+    "refine": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 223232,
+      "peak": 0.6615546345710754,
+      "rms": 0.09511491636520884
+    },
+    "revoice": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 225280,
+      "peak": 0.6820840239524841,
+      "rms": 0.0976567029181898
+    },
+    "stable_sfx": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 216000,
+      "peak": 1.8909467458724976,
+      "rms": 0.789872426854435
+    },
+    "target_voice": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 227036,
+      "peak": 0.7985867261886597,
+      "rms": 0.23301703425148068
+    },
+    "vibevoice_prepared": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 224000,
+      "peak": 0.6844325065612793,
+      "rms": 0.09847194623607654
+    },
+    "vibevoice_raw": {
+      "analysis_channels": 2,
+      "analysis_sample_rate_hz": 48000,
+      "decoded_frames": 243200,
+      "peak": 0.22649513185024261,
+      "rms": 0.03601001346232668
+    }
+  }
+}

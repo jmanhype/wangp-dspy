@@ -1,0 +1,30 @@
+{
+  "attempt_count": 1,
+  "attempt_index": 1,
+  "backend_kind": "transformers.vibevoice-7b",
+  "generation_seed": 9201,
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "output": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_raw.attempt-1.wav",
+  "output_sha256": "4c5fb9eb6ceb99183e4ecf4dabf1fa8ca3ec26900e8c72df67812264fabdffd3",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 2.333333,
+    "output_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_raw.attempt-1.prepared.wav",
+    "rms_db": -18.0,
+    "single_speaker": true,
+    "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_raw.attempt-1.wav",
+    "speaker_id": "Orin",
+    "target_duration_s": 2.333333
+  },
+  "prepared_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_raw.attempt-1.prepared.wav",
+  "prepared_sha256": "0c5f8f0baaf187188de26d2420f83d2304a9c64640e3f3fbe89803d610d72b33",
+  "schema": "wangp-dspy.vibevoice-provenance/v1",
+  "seed": 9201,
+  "seed_rejections": [],
+  "speaker": "Orin",
+  "text": "This is the last rain we have.",
+  "turn_index": 1,
+  "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/inputs/target-voice.wav",
+  "voice_reference_sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+}

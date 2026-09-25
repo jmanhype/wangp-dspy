@@ -1,0 +1,36 @@
+{
+  "schema_version": "wangp-dspy.audio-post-request/v1",
+  "model": {
+    "family": "deepfilternet",
+    "preset": "refinement"
+  },
+  "operation": "refine",
+  "source": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_revoice.mp4",
+    "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3",
+    "immutable": true,
+    "video": {
+      "index": 0,
+      "codec_type": "video",
+      "duration_s": 2.333333
+    },
+    "audio": {
+      "index": 1,
+      "codec_type": "audio",
+      "duration_s": 2.333
+    }
+  },
+  "refinement": {
+    "mode": "denoise_and_loudness",
+    "noise_reduction_db": 6.0,
+    "target_lufs": -18.0
+  },
+  "output": {
+    "container": "mp4",
+    "codec": "aac",
+    "sample_rate_hz": 48000,
+    "channels": 2
+  },
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_deepfilternet_refine.mp4",
+  "recipe_seed": 9301
+}

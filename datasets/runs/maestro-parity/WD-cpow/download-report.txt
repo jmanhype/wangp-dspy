@@ -1,0 +1,8 @@
+DeepFilterNet import ok 0.5.6
+actual_download_bytes=8677764
+after_bytes=10993692672
+2067	/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/config.ini
+8714073	/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/checkpoints/model_120.ckpt.best
+49c52edc8947ae1f9bf50d81530beaf3a2c3245aeaf34b6f31ff535cd22284d2  /home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip
+23b92884f63ccf54bb026014604625ab231657b6480df65db4095c4c171e6003  /home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/checkpoints/model_120.ckpt.best
+415eb925d44990d938fb739f514aa3662c1ec0ea836cff044fa1291b82cb4290  /home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/config.ini

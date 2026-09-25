@@ -1,0 +1,1 @@
+timeout: failed to run command '/home/straughter/Wan2GP/wd_cpow_inventory.sh': Permission denied

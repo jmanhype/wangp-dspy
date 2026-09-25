@@ -1,0 +1,5 @@
+fullsuite: tests=2085 errors=0 failures=0 skipped=1
+release_verify: release=ready tag_created=false
+protected_parity_vs_branch_base_6f708d4=PASS
+git_diff_check=PASS
+note: story text names 40f8c2b, but branch base 6f708d4 already contains accepted WD-e4r7 preflight changes; this lane adds no protected-file diff versus 6f708d4

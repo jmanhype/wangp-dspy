@@ -1,0 +1,8 @@
+{
+  "denoised": "/home/straughter/Wan2GP/outputs/wd-cpow/refine/work/revoice-audio_DeepFilterNet3.wav",
+  "input": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_revoice.mp4",
+  "model": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3",
+  "noise_reduction_db": 6.0,
+  "output": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_deepfilternet_refine.mp4",
+  "target_lufs": -18.0
+}

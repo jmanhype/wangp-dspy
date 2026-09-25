@@ -1,0 +1,14 @@
+{
+  "models": [
+    {
+      "family": "vibevoice",
+      "preset": "revoice",
+      "sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "license": "Apache-2.0 (VibeVoice upstream); operator research/evaluation limitation",
+      "license_accepted": true,
+      "source": "https://huggingface.co/microsoft/VibeVoice-7B (pre-existing host copy under /mnt/bulk/straughter/models/VibeVoice-7B-hf)",
+      "usage_constraint": "one authorized WD-cpow revoice turn; no training or redistribution",
+      "vram_profile": "24gb"
+    }
+  ]
+}

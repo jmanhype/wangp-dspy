@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 1440, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 1401, in main
+    validate_voice_references(manifest, runner=preparation_runner)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 499, in validate_voice_references
+    raise VibeVoiceError(f"voice_reference: not readable: {reference}")
+VibeVoiceError: voice_reference: not readable: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/planning/inputs/target-voice.wav

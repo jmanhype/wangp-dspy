@@ -1,0 +1,4 @@
+torch 2.10.0+cu130
+torchaudio 2.10.0+cu130
+/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torchaudio
+data import failed ModuleNotFoundError("No module named 'torchaudio.data'")

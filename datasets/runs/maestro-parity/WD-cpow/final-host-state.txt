@@ -1,0 +1,12 @@
+down: stopped 3316066
+--- gpu ---
+NVIDIA GeForce RTX 3090, 24576 MiB, 7840 MiB, 0 %
+--- compute apps ---
+3333716, 7752 MiB, /home/straughter/llama.cpp/build/bin/llama-server
+--- disk ---
+      Avail
+10480836608
+--- lane processes ---
+3316066 uvicorn         /usr/bin/python3.12 /home/straughter/.local/bin/uvicorn qc.audio_critic.service:app --host 127.0.0.1 --port 8377 --workers 1
+--- qc ---
+curl: (7) Failed to connect to 127.0.0.1 port 8377 after 0 ms: Couldn't connect to server

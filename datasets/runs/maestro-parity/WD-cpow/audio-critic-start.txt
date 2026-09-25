@@ -1,0 +1,1 @@
+up: pid 3316066 on 127.0.0.1:8377 (log: /tmp/audio_critic_svc_8377.log)
