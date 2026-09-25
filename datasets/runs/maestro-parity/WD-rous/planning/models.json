@@ -1,0 +1,24 @@
+{
+  "models": [
+    {
+      "family": "ace_step",
+      "preset": "instrumental",
+      "sha256": "3f6e0797fad420a39bd33979eb6e840e30989e34a3794e843d23b60ec6e422d7",
+      "license": "MIT (ACE-Step 1.5 upstream); operator research/evaluation limitation",
+      "license_accepted": true,
+      "source": "https://huggingface.co/ACE-Step/Ace-Step1.5 (local /mnt/bulk/straughter/ACE-Step-1.5/checkpoints/acestep-v15-turbo/model.safetensors)",
+      "usage_constraint": "operator research/evaluation only; no training or registry publication",
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "stable_audio",
+      "preset": "instrumental",
+      "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "license_accepted": true,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_small_music_bf16.safetensors",
+      "usage_constraint": "operator research/evaluation only; no training or registry publication",
+      "vram_profile": "16gb"
+    }
+  ]
+}

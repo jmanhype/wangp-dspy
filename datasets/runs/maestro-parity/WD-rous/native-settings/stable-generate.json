@@ -1,0 +1,15 @@
+{
+  "model_type": "stable_audio3_small",
+  "prompt": "Soft neon synth jazz with mellow electric piano, brushed drums, warm bass, and gentle forward motion at 112 BPM",
+  "audio_prompt_type": "",
+  "duration_seconds": 10,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "audio_scale": 0.9,
+  "negative_prompt": "poor quality, distorted, noisy",
+  "sample_solver": "pingpong",
+  "seed": 2901,
+  "batch_size": 1,
+  "output_filename": "wd_rous_stable_generate",
+  "settings_version": 99
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "wangp-dspy.music-capability-request/v1",
+  "model": {
+    "family": "ace_step",
+    "preset": "instrumental"
+  },
+  "mode": "generate",
+  "title": "WD-rous ACE Generate",
+  "style": "bright analog chamber electro swing, crisp hand percussion, warm upright bass",
+  "lyrics": null,
+  "tempo_bpm": 120,
+  "meter": "4/4",
+  "key": "C",
+  "sections": [
+    {
+      "name": "intro",
+      "duration_s": 5.0,
+      "melody_abc": "| C4 E4 G4 E4 | D4 F4 A4 F4 |",
+      "chords": ["C", "Dm"]
+    },
+    {
+      "name": "chorus",
+      "duration_s": 5.0,
+      "melody_abc": "| E4 G4 C5 G4 | F4 A4 C5 A4 |",
+      "chords": ["C", "F"]
+    }
+  ],
+  "duration_s": 10.0,
+  "output_format": {
+    "sample_rate_hz": 48000,
+    "channels": 2
+  },
+  "recipe_seed": 1901
+}
