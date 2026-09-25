@@ -70,6 +70,27 @@ def main() -> int:
 
     fl.set_checkpoints_paths([str(ASSETS), str(WGP / "ckpts")])
     from models.TTS.chatterbox.mtl_tts import ChatterboxMultilingualTTS
+    from models.TTS.chatterbox.models.t3.inference.alignment_stream_analyzer import (
+        AlignmentStreamAnalyzer,
+    )
+
+    original_analyzer_init = AlignmentStreamAnalyzer.__init__
+
+    def diagnostic_analyzer_init(self, *args, **kwargs):
+        original_analyzer_init(self, *args, **kwargs)
+        original_step = self.step
+
+        def diagnostic_step(logits, next_token=None):
+            print(
+                "alignment_attention_shapes="
+                + repr([None if item is None else tuple(item.shape) for item in self.last_aligned_attns]),
+                flush=True,
+            )
+            return original_step(logits, next_token=next_token)
+
+        self.step = diagnostic_step
+
+    AlignmentStreamAnalyzer.__init__ = diagnostic_analyzer_init
 
     before = gpu_state()
     if before["free_mib"] < 4096:
