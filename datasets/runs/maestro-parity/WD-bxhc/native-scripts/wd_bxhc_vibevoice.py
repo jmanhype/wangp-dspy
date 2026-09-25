@@ -165,7 +165,12 @@ def main() -> int:
     )
     from quanto import freeze, qint8, quantize
 
-    quantize(model, weights=qint8)
+    # Preserve native embedding/conv tensor shapes required by VibeVoice's
+    # audio-token expansion; quantize the dominant linear projections only.
+    quantizable_linears = [
+        module for module in model.modules() if isinstance(module, torch.nn.Linear)
+    ]
+    quantize(model, modules=quantizable_linears, weights=qint8)
     freeze(model)
     model.to(torch.device("cuda"))
     device = execution_device(model)
@@ -309,7 +314,7 @@ def main() -> int:
         ),
         "device": device,
         "placement": "CPU load verified without meta tensors; quanto int8 weights frozen on CUDA beside the untouched operator judge",
-        "quantization": "quanto qint8 weights",
+        "quantization": "quanto qint8 nn.Linear weights; embeddings and convolutions retained in source dtype",
         "meta_parameters": meta_parameters,
         "pass_bar": PASS_BAR,
         "turns": records,
