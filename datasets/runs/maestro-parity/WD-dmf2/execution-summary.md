@@ -60,3 +60,14 @@ reviewer decision remains `pending` as instructed. Consequently all nine first
 director capability rows remain `planned`; none are claimed as
 `host_run_verified` or `unsupported_on_this_hardware`. The pre-existing
 generated-media unsupported row is unchanged.
+
+## Standing gates
+
+- `pvg lint --backlog`: PASS, 0 errors and 0 review findings.
+- Full suite: PASS, 2,085 tests, 0 errors, 0 failures, 1 pre-existing skip.
+- `wgp release verify`: PASS, `release=ready` and `tag_created=false`.
+- Protected-file parity against dispatcher base `31e3b7b`: PASS with an empty
+  diff. A diagnostic comparison against older story base `40f8c2b` reports the
+  inherited main change in `services/jobs/preflight.py`; WD-dmf2 adds no
+  protected-file change.
+- `git diff --check`: PASS.

@@ -78,6 +78,7 @@ def references() -> list[dict]:
         BUNDLE / "execution-summary.md",
         BUNDLE / "bundle-size.txt",
         BUNDLE / "download-report.json",
+        BUNDLE / "standing-gates-final.txt",
     ]
     return [
         {
@@ -540,6 +541,7 @@ def main() -> int:
                 "operator-authorization.md", "execution-summary.md",
                 "checker-result.txt", "checker-result.stderr",
                 "bundle-size.txt", "download-report.json",
+                "standing-gates-final.txt",
             ],
             "review": (
                 "No operator/PM approval is claimed. Manual review is pending; "

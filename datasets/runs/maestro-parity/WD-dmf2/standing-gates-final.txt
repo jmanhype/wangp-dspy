@@ -1,0 +1,7 @@
+pvg lint --backlog: PASS — 126 issues scanned, 0 errors, 0 review findings
+full suite: PASS — tests=2085 errors=0 failures=0 skipped=1 exit=0
+wgp release verify: PASS — release=ready tag_created=false
+protected parity vs dispatcher base 31e3b7b: PASS — exit=0, empty diff
+protected parity diagnostic vs older story base 40f8c2b: FAIL — inherited main change in services/jobs/preflight.py; WD-dmf2 adds no protected-file diff
+git diff --check: PASS — exit=0
+parity checker: intentional FAIL — six objective gates fail and reviewer decision is pending

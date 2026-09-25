@@ -947,19 +947,25 @@
       "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
       "path": "execution-summary.md",
       "role": "measured QC/provenance record",
-      "sha256": "59659142f124b5940d06db887a117e11edc3610154a70dbc974315f939c620b0"
+      "sha256": "fdcc91c6c6eb44462c6eca91a17a3d208ce6165abe0f956f9d0d851062dc6a3f"
     },
     {
       "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
       "path": "bundle-size.txt",
       "role": "measured QC/provenance record",
-      "sha256": "197f51c8f0cbad21bf38340586ec0743c6daeb69b29275874725a1433faf4a8e"
+      "sha256": "d35db97b0224dd3ebb5bcc4de6b18712a59f4b73cb751a724988e21830644c46"
     },
     {
       "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
       "path": "download-report.json",
       "role": "measured QC/provenance record",
       "sha256": "4f5bd68fc581b7562de765697575f140e2c23408881cdee7d29e0953935796ea"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "standing-gates-final.txt",
+      "role": "measured QC/provenance record",
+      "sha256": "08112f065ebbf620e0982f5cadb2c382432da00072fe5bb9ba15ec5c2fd03525"
     }
   ],
   "repository": {
@@ -967,21 +973,23 @@
     "commit_semantics": "31ec071 is the clean preparation commit immediately before queue admission and host composition; generated outputs and evidence are intentionally dirty state in this record",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "296011539bbb39daab1691fff6f545ffe9b98bd354d616caa8696630c79bf72d",
+      "identity_sha256": "293e53328c12c0db5ac673fca7e598b0e53d13f1d2424ee7e535486d921639e7",
       "status_lines": [
         " M datasets/runs/maestro-parity/WD-dmf2/build_evidence.py",
+        " M datasets/runs/maestro-parity/WD-dmf2/bundle-file-count.txt",
+        " M datasets/runs/maestro-parity/WD-dmf2/bundle-size.txt",
         " M datasets/runs/maestro-parity/WD-dmf2/evidence-assembly.txt",
-        " M datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_qc.py",
-        " M datasets/runs/maestro-parity/WD-dmf2/objective-gates.json",
-        " D datasets/runs/maestro-parity/WD-dmf2/qc-evidence.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/director-qc-evidence.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.err",
-        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.out",
-        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.xml",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.stderr",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.txt",
+        " M datasets/runs/maestro-parity/WD-dmf2/execution-summary.md",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-31e3b7b.diff",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-31e3b7b.exit",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-31e3b7b.stderr",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-40f8c2b.diff",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-40f8c2b.exit",
+        "?? datasets/runs/maestro-parity/WD-dmf2/protected-parity-40f8c2b.stderr",
+        "?? datasets/runs/maestro-parity/WD-dmf2/release-verify.exit",
+        "?? datasets/runs/maestro-parity/WD-dmf2/release-verify.stderr",
+        "?? datasets/runs/maestro-parity/WD-dmf2/release-verify.txt",
+        "?? datasets/runs/maestro-parity/WD-dmf2/standing-gates-final.txt",
         "?? datasets/runs/maestro-parity/WD-dmf2/download-report.json",
         "?? datasets/runs/maestro-parity/WD-dmf2/evidence.json",
         "?? datasets/runs/maestro-parity/WD-dmf2/objective-gates.json",
@@ -1007,7 +1015,8 @@
       "checker-result.txt",
       "checker-result.stderr",
       "bundle-size.txt",
-      "download-report.json"
+      "download-report.json",
+      "standing-gates-final.txt"
     ],
     "review": "No operator/PM approval is claimed. Manual review is pending; auto review is not eligible because Whisper and SyncNet do not pass every tested clip."
   },
