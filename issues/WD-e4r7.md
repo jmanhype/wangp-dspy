@@ -4,7 +4,7 @@ title: "Bug: make GPU preflight fail closed for occupied compute processes"
 status: in_progress
 priority: 0
 type: bug
-labels: [bug, host-safety, integration]
+labels: [bug, host-safety, integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
