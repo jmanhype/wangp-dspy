@@ -1,0 +1,2320 @@
+host=straughter-Z690-Steel-Legend
+2026-09-25T18:36:20Z
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 807914409984 41337597952  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7840 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 807914409984 41337597952  96% /
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> ffv1 (native))
+Output #0, matroska, to '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-interpolation.mkv':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: ffv1 (FFV1 / 0x31564646), yuv420p(progressive), 480x832, q=2-31, 200 kb/s, 48 fps, 1k tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 ffv1
+frame=    2 fps=0.0 q=-0.0 size=       1kB time=00:00:00.04 bitrate= 142.3kbits/s speed=0.467x    frame=   10 fps=0.0 q=-0.0 size=       1kB time=00:00:00.20 bitrate=  28.5kbits/s speed=0.349x    frame=   20 fps= 17 q=-0.0 size=    1280kB time=00:00:00.41 bitrate=25165.8kbits/s speed=0.345x    frame=   28 fps= 16 q=-0.0 size=    2816kB time=00:00:00.58 bitrate=39546.3kbits/s speed=0.341x    frame=   38 fps= 16 q=-0.0 size=    4352kB time=00:00:00.79 bitrate=45033.6kbits/s speed=0.339x    frame=   46 fps= 16 q=-0.0 size=    4352kB time=00:00:00.95 bitrate=37201.7kbits/s speed=0.337x    frame=   54 fps= 16 q=-0.0 size=    5888kB time=00:00:01.12 bitrate=42875.1kbits/s speed=0.336x    frame=   62 fps= 16 q=-0.0 size=    7424kB time=00:00:01.29 bitrate=47084.4kbits/s speed=0.334x    frame=   70 fps= 16 q=-0.0 size=    7424kB time=00:00:01.45 bitrate=41703.4kbits/s speed=0.334x    frame=  108 fps= 16 q=-0.0 size=   12032kB time=00:00:02.25 bitrate=43807.2kbits/s speed=0.332x    [out#0/matroska @ 0x62b808908980] video:13881kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.013930%
+frame=  109 fps= 16 q=-0.0 Lsize=   13883kB time=00:00:02.25 bitrate=50546.3kbits/s speed=0.323x    
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, matroska,webm, from '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-interpolation.mkv':
+  Metadata:
+    COMPATIBLE_BRANDS: isomiso2avc1mp41
+    MAJOR_BRAND     : isom
+    MINOR_VERSION   : 512
+    ENCODER         : Lavf60.16.100
+  Duration: 00:00:02.27, start: 0.000000, bitrate: 50078 kb/s
+  Stream #1:0: Video: ffv1 (FFV1 / 0x31564646), yuv420p(progressive), 480x832, 48 fps, 48 tbr, 1k tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      ENCODER         : Lavc60.31.102 ffv1
+      DURATION        : 00:00:02.271000000
+Stream mapping:
+  Stream #1:0 -> #0:0 (ffv1 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[libx264 @ 0x6281febca700] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x6281febca700] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0x6281febca700] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=26 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_ffmpeg_interpolation_x2.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 480x832, q=2-31, 48 fps, 12288 tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      DURATION        : 00:00:02.271000000
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [mp4 @ 0x6281fec228c0] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x6281feb81840] video:427kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.925705%
+frame=  109 fps=0.0 q=-1.0 Lsize=     468kB time=00:00:02.27 bitrate=1686.1kbits/s speed=4.82x    
+[libx264 @ 0x6281febca700] frame I:1     Avg QP:17.66  size: 29633
+[libx264 @ 0x6281febca700] frame P:30    Avg QP:19.41  size: 10787
+[libx264 @ 0x6281febca700] frame B:78    Avg QP:22.17  size:  1073
+[libx264 @ 0x6281febca700] consecutive B-frames:  2.8%  5.5%  0.0% 91.7%
+[libx264 @ 0x6281febca700] mb I  I16..4:  6.5% 74.6% 18.9%
+[libx264 @ 0x6281febca700] mb P  I16..4:  1.6% 13.9%  2.1%  P16..4: 36.4% 16.3%  6.8%  0.0%  0.0%    skip:22.9%
+[libx264 @ 0x6281febca700] mb B  I16..4:  0.0%  0.2%  0.0%  B16..8: 14.7%  1.2%  0.2%  direct: 2.9%  skip:80.7%  L0:44.2% L1:37.0% BI:18.8%
+[libx264 @ 0x6281febca700] 8x8 transform intra:78.3% inter:77.2%
+[libx264 @ 0x6281febca700] coded y,uvDC,uvAC intra: 73.2% 80.2% 19.8% inter: 12.0% 11.8% 0.2%
+[libx264 @ 0x6281febca700] i16 v,h,dc,p: 16% 18% 15% 52%
+[libx264 @ 0x6281febca700] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  9% 15% 13%  3% 22% 11% 11%  4% 11%
+[libx264 @ 0x6281febca700] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 11% 14% 14%  4% 24% 10% 12%  4%  8%
+[libx264 @ 0x6281febca700] i8c dc,h,v,p: 51% 24% 17%  8%
+[libx264 @ 0x6281febca700] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x6281febca700] ref P L0: 69.1% 11.4% 15.0%  4.5%
+[libx264 @ 0x6281febca700] ref B L0: 90.7%  7.0%  2.3%
+[libx264 @ 0x6281febca700] ref B L1: 98.2%  1.8%
+[libx264 @ 0x6281febca700] kb/s:1539.38
+[aac @ 0x6281feedd240] Qavg: 217.514
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> ffv1 (native))
+Output #0, matroska, to '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-spatial-x2.mkv':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: ffv1 (FFV1 / 0x31564646), yuv420p(tv, progressive), 960x1664, q=2-31, 200 kb/s, 24 fps, 1k tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 ffv1
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [out#0/matroska @ 0x577e842b1980] video:18736kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.007443%
+frame=   56 fps=0.0 q=-0.0 Lsize=   18738kB time=00:00:02.29 bitrate=66981.6kbits/s speed=5.27x    
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, matroska,webm, from '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-spatial-x2.mkv':
+  Metadata:
+    COMPATIBLE_BRANDS: isomiso2avc1mp41
+    MAJOR_BRAND     : isom
+    MINOR_VERSION   : 512
+    ENCODER         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 65766 kb/s
+  Stream #1:0: Video: ffv1 (FFV1 / 0x31564646), yuv420p(tv, progressive), 960x1664, 24 fps, 24 tbr, 1k tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      ENCODER         : Lavc60.31.102 ffv1
+      DURATION        : 00:00:02.334000000
+Stream mapping:
+  Stream #1:0 -> #0:0 (ffv1 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[libx264 @ 0x5a75fcc7bd00] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x5a75fcc7bd00] profile High, level 4.0, 4:2:0, 8-bit
+[libx264 @ 0x5a75fcc7bd00] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=36 lookahead_threads=6 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=24 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_ffmpeg_spatial_x2.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 960x1664, q=2-31, 24 fps, 12288 tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      DURATION        : 00:00:02.334000000
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [mp4 @ 0x5a75fccdcb80] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x5a75fcc28840] video:1191kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.256155%
+frame=   56 fps=0.0 q=-1.0 Lsize=    1230kB time=00:00:02.27 bitrate=4433.4kbits/s speed=3.77x    
+[libx264 @ 0x5a75fcc7bd00] frame I:1     Avg QP:15.80  size: 75101
+[libx264 @ 0x5a75fcc7bd00] frame P:14    Avg QP:17.34  size: 46849
+[libx264 @ 0x5a75fcc7bd00] frame B:41    Avg QP:19.03  size: 11888
+[libx264 @ 0x5a75fcc7bd00] consecutive B-frames:  1.8%  0.0%  5.4% 92.9%
+[libx264 @ 0x5a75fcc7bd00] mb I  I16..4: 14.4% 77.8%  7.8%
+[libx264 @ 0x5a75fcc7bd00] mb P  I16..4:  7.3% 34.8%  2.6%  P16..4: 29.0% 11.9%  4.6%  0.0%  0.0%    skip: 9.7%
+[libx264 @ 0x5a75fcc7bd00] mb B  I16..4:  0.8%  2.0%  0.1%  B16..8: 23.5%  3.3%  0.5%  direct:15.5%  skip:54.5%  L0:45.4% L1:42.5% BI:12.1%
+[libx264 @ 0x5a75fcc7bd00] 8x8 transform intra:76.9% inter:77.7%
+[libx264 @ 0x5a75fcc7bd00] coded y,uvDC,uvAC intra: 63.9% 76.5% 19.1% inter: 22.6% 24.4% 0.4%
+[libx264 @ 0x5a75fcc7bd00] i16 v,h,dc,p: 14% 14% 10% 62%
+[libx264 @ 0x5a75fcc7bd00] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 13% 19% 17%  4% 16%  9%  9%  4%  8%
+[libx264 @ 0x5a75fcc7bd00] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 22% 20% 15%  3% 18%  7%  8%  2%  3%
+[libx264 @ 0x5a75fcc7bd00] i8c dc,h,v,p: 45% 28% 21%  6%
+[libx264 @ 0x5a75fcc7bd00] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x5a75fcc7bd00] ref P L0: 65.0%  5.3% 22.0%  7.7%
+[libx264 @ 0x5a75fcc7bd00] ref B L0: 87.3% 10.2%  2.5%
+[libx264 @ 0x5a75fcc7bd00] ref B L1: 93.5%  6.5%
+[libx264 @ 0x5a75fcc7bd00] kb/s:4177.33
+[aac @ 0x5a75fcc77dc0] Qavg: 217.514
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> ffv1 (native))
+Output #0, matroska, to '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-grain.mkv':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: ffv1 (FFV1 / 0x31564646), yuv420p(progressive), 480x832, q=2-31, 200 kb/s, 24 fps, 1k tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 ffv1
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [out#0/matroska @ 0x5d07e3c7f980] video:17657kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.007643%
+frame=   56 fps=0.0 q=-0.0 Lsize=   17658kB time=00:00:02.29 bitrate=63123.4kbits/s speed=5.46x    
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, matroska,webm, from '/home/straughter/Wan2GP/wd-r81u/intermediates/ffmpeg-grain.mkv':
+  Metadata:
+    COMPATIBLE_BRANDS: isomiso2avc1mp41
+    MAJOR_BRAND     : isom
+    MINOR_VERSION   : 512
+    ENCODER         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 61978 kb/s
+  Stream #1:0: Video: ffv1 (FFV1 / 0x31564646), yuv420p(progressive), 480x832, 24 fps, 24 tbr, 1k tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      ENCODER         : Lavc60.31.102 ffv1
+      DURATION        : 00:00:02.334000000
+Stream mapping:
+  Stream #1:0 -> #0:0 (ffv1 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[libx264 @ 0x653ca790ca40] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x653ca790ca40] profile High, level 3.0, 4:2:0, 8-bit
+[libx264 @ 0x653ca790ca40] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=26 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=24 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_ffmpeg_film_grain.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 480x832, q=2-31, 24 fps, 12288 tbn (default)
+    Metadata:
+      HANDLER_NAME    : VideoHandler
+      VENDOR_ID       : [0][0][0][0]
+      DURATION        : 00:00:02.334000000
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [mp4 @ 0x653ca795a8c0] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x653ca78b9840] video:3945kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.078894%
+frame=   56 fps=0.0 q=-1.0 Lsize=    3984kB time=00:00:02.27 bitrate=14364.7kbits/s speed=4.87x    
+[libx264 @ 0x653ca790ca40] frame I:1     Avg QP:20.76  size:106155
+[libx264 @ 0x653ca790ca40] frame P:14    Avg QP:21.45  size: 94750
+[libx264 @ 0x653ca790ca40] frame B:41    Avg QP:22.49  size: 63566
+[libx264 @ 0x653ca790ca40] consecutive B-frames:  1.8%  0.0%  5.4% 92.9%
+[libx264 @ 0x653ca790ca40] mb I  I16..4:  3.7% 75.8% 20.6%
+[libx264 @ 0x653ca790ca40] mb P  I16..4:  1.5% 64.5% 14.5%  P16..4:  5.4%  8.6%  5.5%  0.0%  0.0%    skip: 0.0%
+[libx264 @ 0x653ca790ca40] mb B  I16..4:  0.7% 39.6%  2.6%  B16..8: 19.9%  7.9%  4.2%  direct:17.7%  skip: 7.4%  L0:36.5% L1:29.5% BI:34.1%
+[libx264 @ 0x653ca790ca40] 8x8 transform intra:87.1% inter:49.8%
+[libx264 @ 0x653ca790ca40] coded y,uvDC,uvAC intra: 99.9% 100.0% 100.0% inter: 76.0% 84.8% 78.4%
+[libx264 @ 0x653ca790ca40] i16 v,h,dc,p:  0%  1% 30% 69%
+[libx264 @ 0x653ca790ca40] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  5% 10% 36%  5% 12%  8%  8%  4% 11%
+[libx264 @ 0x653ca790ca40] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu:  5%  9% 24%  9% 13%  9% 11%  7% 12%
+[libx264 @ 0x653ca790ca40] i8c dc,h,v,p: 89%  1%  1%  9%
+[libx264 @ 0x653ca790ca40] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x653ca790ca40] ref P L0: 41.7% 12.0% 35.3% 11.0%
+[libx264 @ 0x653ca790ca40] ref B L0: 78.8% 17.7%  3.6%
+[libx264 @ 0x653ca790ca40] ref B L1: 92.5%  7.5%
+[libx264 @ 0x653ca790ca40] kb/s:13847.52
+[aac @ 0x653ca7c459c0] Qavg: 217.514
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[libx264 @ 0x5cf1dd27d480] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x5cf1dd27d480] profile High, level 3.0, 4:2:0, 8-bit
+[libx264 @ 0x5cf1dd27d480] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=26 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=24 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_ffmpeg_codec_h264.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 480x832, q=2-31, 24 fps, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.54 bitrate=   0.7kbits/s speed=32.1x    [mp4 @ 0x5cf1dd1c95c0] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x5cf1dd1c9980] video:381kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.753555%
+frame=   56 fps=0.0 q=-1.0 Lsize=     420kB time=00:00:02.27 bitrate=1514.1kbits/s speed=7.85x    
+[libx264 @ 0x5cf1dd27d480] frame I:1     Avg QP:16.14  size: 33778
+[libx264 @ 0x5cf1dd27d480] frame P:14    Avg QP:18.08  size: 16950
+[libx264 @ 0x5cf1dd27d480] frame B:41    Avg QP:20.57  size:  2883
+[libx264 @ 0x5cf1dd27d480] consecutive B-frames:  1.8%  0.0%  5.4% 92.9%
+[libx264 @ 0x5cf1dd27d480] mb I  I16..4:  6.7% 71.4% 21.9%
+[libx264 @ 0x5cf1dd27d480] mb P  I16..4:  2.6% 25.9%  6.2%  P16..4: 31.4% 16.2%  7.9%  0.0%  0.0%    skip: 9.8%
+[libx264 @ 0x5cf1dd27d480] mb B  I16..4:  0.1%  0.6%  0.1%  B16..8: 23.1%  3.8%  0.8%  direct:11.8%  skip:59.9%  L0:41.8% L1:43.1% BI:15.2%
+[libx264 @ 0x5cf1dd27d480] 8x8 transform intra:74.4% inter:77.1%
+[libx264 @ 0x5cf1dd27d480] coded y,uvDC,uvAC intra: 79.1% 88.5% 33.9% inter: 22.2% 21.6% 0.5%
+[libx264 @ 0x5cf1dd27d480] i16 v,h,dc,p: 18% 16% 15% 52%
+[libx264 @ 0x5cf1dd27d480] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  9% 17% 12%  4% 20% 11%  9%  4% 13%
+[libx264 @ 0x5cf1dd27d480] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 12% 15% 12%  5% 22% 10% 12%  4%  8%
+[libx264 @ 0x5cf1dd27d480] i8c dc,h,v,p: 47% 27% 18%  8%
+[libx264 @ 0x5cf1dd27d480] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x5cf1dd27d480] ref P L0: 69.4%  7.4% 17.6%  5.6%
+[libx264 @ 0x5cf1dd27d480] ref B L0: 90.3%  8.2%  1.5%
+[libx264 @ 0x5cf1dd27d480] ref B L1: 94.3%  5.7%
+[libx264 @ 0x5cf1dd27d480] kb/s:1334.70
+[aac @ 0x5cf1de003180] Qavg: 217.514
+source_frames=56 output_frames=111
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, image2, from '/home/straughter/Wan2GP/wd-r81u/intermediates/rife/%08d.png':
+  Duration: 00:00:04.44, start: 0.000000, bitrate: N/A
+  Stream #1:0: Video: png, rgb24(pc, gbr/unknown/unknown), 480x832, 25 fps, 25 tbr, 25 tbn
+Stream mapping:
+  Stream #1:0 -> #0:0 (png (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[in#1/image2 @ 0x5d867283fa00] Thread message queue blocking; consider raising the thread_queue_size option (current value: 8)
+[libx264 @ 0x5d8672846a80] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x5d8672846a80] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0x5d8672846a80] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=26 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_rife_interpolation_x2.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 480x832, q=2-31, 48 fps, 12288 tbn
+    Metadata:
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A dup=1 drop=0 speed=N/A    [mp4 @ 0x5d86729531c0] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x5d86727f3880] video:635kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.817102%
+frame=  213 fps=0.0 q=-1.0 Lsize=     677kB time=00:00:04.37 bitrate=1267.1kbits/s dup=102 drop=0 speed=11.9x    
+[libx264 @ 0x5d8672846a80] frame I:1     Avg QP:17.07  size: 31972
+[libx264 @ 0x5d8672846a80] frame P:58    Avg QP:18.79  size:  8943
+[libx264 @ 0x5d8672846a80] frame B:154   Avg QP:21.10  size:   644
+[libx264 @ 0x5d8672846a80] consecutive B-frames:  0.5%  6.6%  8.5% 84.5%
+[libx264 @ 0x5d8672846a80] mb I  I16..4:  6.2% 73.3% 20.6%
+[libx264 @ 0x5d8672846a80] mb P  I16..4:  0.5%  6.5%  1.1%  P16..4: 39.6% 17.1%  7.9%  0.0%  0.0%    skip:27.4%
+[libx264 @ 0x5d8672846a80] mb B  I16..4:  0.1%  0.1%  0.0%  B16..8: 21.5%  0.6%  0.1%  direct: 1.1%  skip:76.6%  L0:57.4% L1:39.2% BI: 3.4%
+[libx264 @ 0x5d8672846a80] 8x8 transform intra:78.7% inter:78.2%
+[libx264 @ 0x5d8672846a80] coded y,uvDC,uvAC intra: 74.5% 80.9% 20.2% inter: 10.8% 10.2% 0.2%
+[libx264 @ 0x5d8672846a80] i16 v,h,dc,p: 14% 24% 23% 39%
+[libx264 @ 0x5d8672846a80] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  8% 12% 13%  3% 27% 13% 11%  4%  9%
+[libx264 @ 0x5d8672846a80] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 10% 12% 12%  4% 28% 11% 11%  4%  8%
+[libx264 @ 0x5d8672846a80] i8c dc,h,v,p: 55% 21% 16%  8%
+[libx264 @ 0x5d8672846a80] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x5d8672846a80] ref P L0: 67.3% 13.8% 15.3%  3.6%
+[libx264 @ 0x5d8672846a80] ref B L0: 81.3% 16.9%  1.8%
+[libx264 @ 0x5d8672846a80] ref B L1: 97.0%  3.0%
+[libx264 @ 0x5d8672846a80] kb/s:1171.50
+[aac @ 0x5d867280c740] Qavg: 217.514
+source_frames=56 output_frames=56 seed=2936 intensity=0.05
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, image2, from '/home/straughter/Wan2GP/wd-r81u/intermediates/film/%08d.png':
+  Duration: 00:00:02.24, start: 0.000000, bitrate: N/A
+  Stream #1:0: Video: png, rgb24(pc, gbr/unknown/unknown), 480x832, 25 fps, 25 tbr, 25 tbn
+Stream mapping:
+  Stream #1:0 -> #0:0 (png (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[in#1/image2 @ 0x5a1e57b889c0] Thread message queue blocking; consider raising the thread_queue_size option (current value: 8)
+[libx264 @ 0x5a1e57b8f980] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x5a1e57b8f980] profile High, level 3.0, 4:2:0, 8-bit
+[libx264 @ 0x5a1e57b8f980] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=26 lookahead_threads=4 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_film_film_grain.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 480x832, q=2-31, 25 fps, 12800 tbn
+    Metadata:
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [mp4 @ 0x5a1e57bdd840] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x5a1e57b3c840] video:6725kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.045583%
+frame=   56 fps=0.0 q=-1.0 Lsize=    6764kB time=00:00:02.27 bitrate=24389.9kbits/s speed=5.11x    
+[libx264 @ 0x5a1e57b8f980] frame I:1     Avg QP:23.54  size:130487
+[libx264 @ 0x5a1e57b8f980] frame P:14    Avg QP:23.63  size:131171
+[libx264 @ 0x5a1e57b8f980] frame B:41    Avg QP:24.30  size:119981
+[libx264 @ 0x5a1e57b8f980] consecutive B-frames:  1.8%  0.0%  5.4% 92.9%
+[libx264 @ 0x5a1e57b8f980] mb I  I16..4: 12.0% 69.2% 18.8%
+[libx264 @ 0x5a1e57b8f980] mb P  I16..4:  0.0% 70.7% 26.1%  P16..4:  0.8%  1.4%  1.0%  0.0%  0.0%    skip: 0.0%
+[libx264 @ 0x5a1e57b8f980] mb B  I16..4:  2.3% 62.1% 20.1%  B16..8:  4.6%  4.5%  1.9%  direct: 4.5%  skip: 0.0%  L0:16.6% L1:12.4% BI:71.0%
+[libx264 @ 0x5a1e57b8f980] 8x8 transform intra:73.2% inter:33.9%
+[libx264 @ 0x5a1e57b8f980] coded y,uvDC,uvAC intra: 100.0% 99.9% 99.5% inter: 99.8% 75.6% 48.0%
+[libx264 @ 0x5a1e57b8f980] i16 v,h,dc,p:  0%  0% 67% 33%
+[libx264 @ 0x5a1e57b8f980] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu:  5%  8% 42%  6%  8%  7%  8%  5% 11%
+[libx264 @ 0x5a1e57b8f980] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu:  5%  6% 29% 11% 10%  9% 11%  8% 11%
+[libx264 @ 0x5a1e57b8f980] i8c dc,h,v,p: 78%  6%  5% 11%
+[libx264 @ 0x5a1e57b8f980] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x5a1e57b8f980] ref P L0: 39.9% 16.4% 31.4% 12.3%
+[libx264 @ 0x5a1e57b8f980] ref B L0: 81.6% 14.7%  3.6%
+[libx264 @ 0x5a1e57b8f980] ref B L1: 92.7%  7.3%
+[libx264 @ 0x5a1e57b8f980] kb/s:24593.20
+[aac @ 0x5a1e57b55240] Qavg: 217.514
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+-vsync is deprecated. Use -fps_mode
+Passing a number to -vsync is deprecated, use a string argument as described in the manual.
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> png (native))
+Output #0, image2, to '/home/straughter/Wan2GP/wd-r81u/intermediates/esrgan-input/%08d.png':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: png, rgb24(pc, gbr/unknown/unknown, progressive), 480x832, q=2-31, 200 kb/s, 24 fps, 24 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 png
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [out#0/image2 @ 0x5926482ce980] video:29035kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame=   56 fps=0.0 q=-0.0 Lsize=N/A time=00:00:02.29 bitrate=N/A speed= 8.8x    
+[0 NVIDIA GeForce RTX 3090]  queueC=2[8]  queueG=0[16]  queueT=1[2]
+[0 NVIDIA GeForce RTX 3090]  bugsbn1=0  bugbilz=34  bugcopc=0  bugihfa=0
+[0 NVIDIA GeForce RTX 3090]  fp16-p/s/a=1/1/1  int8-p/s/a=1/1/1
+[0 NVIDIA GeForce RTX 3090]  subgroup=32  basic=1  vote=1  ballot=1  shuffle=1
+[1 llvmpipe (LLVM 20.1.2, 256 bits)]  queueC=0[1]  queueG=0[1]  queueT=0[1]
+[1 llvmpipe (LLVM 20.1.2, 256 bits)]  bugsbn1=0  bugbilz=0  bugcopc=0  bugihfa=0
+[1 llvmpipe (LLVM 20.1.2, 256 bits)]  fp16-p/s/a=1/1/1  int8-p/s/a=1/1/1
+[1 llvmpipe (LLVM 20.1.2, 256 bits)]  subgroup=8  basic=1  vote=1  ballot=1  shuffle=1
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+0.00%
+3.57%
+7.14%
+10.71%
+14.29%
+17.86%
+21.43%
+25.00%
+28.57%
+32.14%
+35.71%
+39.29%
+42.86%
+46.43%
+50.00%
+53.57%
+57.14%
+60.71%
+64.29%
+67.86%
+71.43%
+75.00%
+78.57%
+82.14%
+85.71%
+89.29%
+92.86%
+96.43%
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+  configuration: --prefix=/usr --extra-version=3ubuntu5 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --disable-omx --enable-gnutls --enable-libaom --enable-libass --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libgme --enable-libgsm --enable-libharfbuzz --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-openal --enable-opencl --enable-opengl --disable-sndio --enable-libvpl --disable-libmfx --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-ladspa --enable-libbluray --enable-libjack --enable-libpulse --enable-librabbitmq --enable-librist --enable-libsrt --enable-libssh --enable-libsvtav1 --enable-libx264 --enable-libzmq --enable-libzvbi --enable-lv2 --enable-sdl2 --enable-libplacebo --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/home/straughter/Wan2GP/wd-r81u/source.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4273 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 480x832, 4136 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 126 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, image2, from '/home/straughter/Wan2GP/wd-r81u/intermediates/esrgan-output/%08d.png':
+  Duration: 00:00:02.24, start: 0.000000, bitrate: N/A
+  Stream #1:0: Video: png, rgb24(pc, gbr/unknown/unknown), 960x1664, 25 fps, 25 tbr, 25 tbn
+Stream mapping:
+  Stream #1:0 -> #0:0 (png (native) -> h264 (libx264))
+  Stream #0:1 -> #0:1 (aac (native) -> aac (native))
+[in#1/image2 @ 0x641c6d8429c0] Thread message queue blocking; consider raising the thread_queue_size option (current value: 8)
+[libx264 @ 0x641c6d8496c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 0x641c6d8496c0] profile High, level 4.0, 4:2:0, 8-bit
+[libx264 @ 0x641c6d8496c0] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=36 lookahead_threads=6 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_real_esrgan_spatial_x2.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 960x1664, q=2-31, 25 fps, 12800 tbn
+    Metadata:
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    [mp4 @ 0x641c6d89a180] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 0x641c6d7f6840] video:1600kB audio:36kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.188404%
+frame=   56 fps=0.0 q=-1.0 Lsize=    1639kB time=00:00:02.27 bitrate=5911.3kbits/s speed=2.94x    
+[libx264 @ 0x641c6d8496c0] frame I:1     Avg QP:17.00  size: 49343
+[libx264 @ 0x641c6d8496c0] frame P:14    Avg QP:17.73  size: 47900
+[libx264 @ 0x641c6d8496c0] frame B:41    Avg QP:18.49  size: 22396
+[libx264 @ 0x641c6d8496c0] consecutive B-frames:  1.8%  0.0%  5.4% 92.9%
+[libx264 @ 0x641c6d8496c0] mb I  I16..4: 20.9% 61.8% 17.3%
+[libx264 @ 0x641c6d8496c0] mb P  I16..4: 10.7% 22.3%  4.4%  P16..4: 30.5% 11.7%  5.9%  0.0%  0.0%    skip:14.5%
+[libx264 @ 0x641c6d8496c0] mb B  I16..4:  1.7%  3.3%  0.8%  B16..8: 33.1%  4.7%  1.0%  direct: 8.4%  skip:46.9%  L0:45.1% L1:47.4% BI: 7.5%
+[libx264 @ 0x641c6d8496c0] 8x8 transform intra:59.2% inter:80.8%
+[libx264 @ 0x641c6d8496c0] coded y,uvDC,uvAC intra: 54.1% 51.5% 10.6% inter: 22.5% 20.9% 0.1%
+[libx264 @ 0x641c6d8496c0] i16 v,h,dc,p:  9% 10%  4% 76%
+[libx264 @ 0x641c6d8496c0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 10% 17% 18%  6% 14%  8% 10%  4% 12%
+[libx264 @ 0x641c6d8496c0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 17% 19% 18%  7% 11%  6%  9%  4%  8%
+[libx264 @ 0x641c6d8496c0] i8c dc,h,v,p: 52% 26% 17%  5%
+[libx264 @ 0x641c6d8496c0] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x641c6d8496c0] ref P L0: 61.0%  5.0% 22.7% 11.3%
+[libx264 @ 0x641c6d8496c0] ref B L0: 87.1% 10.3%  2.6%
+[libx264 @ 0x641c6d8496c0] ref B L1: 94.4%  5.6%
+[libx264 @ 0x641c6d8496c0] kb/s:5850.58
+[aac @ 0x641c6d80ec40] Qavg: 217.514
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 808195948544 41056059392  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7841 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+2026-09-25T18:38:18Z

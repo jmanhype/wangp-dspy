@@ -15,3 +15,5 @@ Attempt 5 completed the four real FFmpeg outputs, then stopped before neural exe
 Attempt 6 reached the helper and exposed a frame-container conversion bug: OpenCV frames were still a Python list at `torch.from_numpy`. Both helpers now stack decoded frames into one contiguous NumPy array before the backend call.
 
 Attempt 7 loaded and ran RIFE on CUDA, then failed while serializing its emitted frames because `Path` does not implement `%` formatting. The output template is now converted to text exactly as OpenCV requires.
+
+Attempt 8 completed all seven operations and exited zero. Its image-sequence remuxes, however, inherited FFmpeg's default 25 fps for the `film` and Real-ESRGAN outputs. The final correction explicitly sets those two outputs back to the measured source rate of 24 fps; RIFE already explicitly set 48 fps.
