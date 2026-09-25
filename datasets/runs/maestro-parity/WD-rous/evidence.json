@@ -475,7 +475,7 @@
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "execution-summary.md",
       "objective-gates.json",
@@ -483,7 +483,18 @@
       "stable-audio-infeasibility.md",
       "ace-generate.native.log",
       "stable-generate.native.log",
-      "ace-style-adapt.native.log"
+      "ace-style-adapt.native.log",
+      "output-hashes.txt",
+      "ffprobe-wd_rous_ace_generate.json",
+      "ffprobe-wd_rous_ace_style_adapt.json",
+      "ffprobe-wd_rous_stable_generate.json",
+      "queue-record.json",
+      "final-host-state.txt",
+      "selected-download.log",
+      "selected-doctor-preflight-after-download.json",
+      "selected-doctor-preflight-pre-download-floor-11.5-failed.json",
+      "operator-authorization.md",
+      "matrix-transition-check.json"
     ],
     "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
   },
