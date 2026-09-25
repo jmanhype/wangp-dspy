@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T16:33:45Z
-content_hash: "sha256:47df1afd91d2a4cbfe9984fa293b62c9c4fb701d0fd33181fca351038313b8a1"
+updated_at: 2026-09-25T03:15:53Z
+content_hash: "sha256:9f103b26c598dec4718bd09c01d60fe1ddc45ec55ff4a760277bb620e9f0263e"
 ---
 
 ## Description
@@ -33,3 +33,6 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 ### 2026-09-24T16:33:45Z speed
 Programme status at 8f0b225: WD-651z (fail-closed parity evidence checker + canonical bundle contract) delivered, independently accepted, and merged. All 10 child stories now have authoritative bodies. Remaining scope is entirely host-gated: 45 capability rows still read 'planned' and no bundle exists under datasets/runs/maestro-parity/ because the operator's per-batch GPU-host authorization and model-download approval have not been given. The no-GPU install half of the 'better than Maestro' proof already exists and is tested in a clean worktree (tests/test_readme_quickstart.py).
+
+### 2026-09-25T03:15:53Z speed
+PROGRAMME MILESTONE at merged main d8671f3: image lane (WD-m0r5) is COMPLETE and on main - 16 image cells host_run_verified from a real authorized host bundle, 4 Flux upscale/outpaint cells unsupported with reasons; docs/image-capabilities.md reflects it. Independent review recomputed 16/16 artifact hashes, reproduced every objective gate and the identity cosines, and visually confirmed real distinct non-blank images per row. WD-e4r7 (fail-closed GPU preflight) also merged. Remaining lanes still need host authorization per batch, and the render host is at 13G free (below the 50G preflight floor), which must be resolved before the next download.
