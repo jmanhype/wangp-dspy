@@ -1,18 +1,19 @@
 ---
 id: WD-dmf2
 title: "Director composition evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:23:02Z
-content_hash: "sha256:92bd72d3c019116e681eff94a80f3a0f37215359355d6099dc691ea314dc2c65"
+updated_at: 2026-09-25T23:24:07Z
+content_hash: "sha256:7bc3d77c2b2d64123a9b27e1dcea39bebd3d36c8f8f00737d50046e9899d1198"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
-follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8]
+follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7]
+assignee: dev-WD-dmf2
 ---
 
 ## Description
@@ -250,3 +251,6 @@ EXPECTED: checker exit 0 with every objective_gate_results verdict pass and revi
 DELIVERED: checker exit 1. Real composed media exists, but objective gates fail: whisper_music_video_instrumental_score=0.0<0.6; whisper_screenplay_clip1_score=0.556<0.6; syncnet_audio_clip1_confidence=0.594741<1.0; syncnet_screenplay_clip1_confidence=0.468897<1.0; auto_review_mandatory_gate_pass_count=2/4; reviewer_approved_count=0/1. Reviewer decision is pending, row 6 remains gate-failed, and row 8 has no produced enhanced-prompt media.
 GAP: the screenplay transcript and two SyncNet measurements are reproducible properties of the selected composed outputs; the instrumental Whisper failure is a mode/gate-applicability mismatch. None can support host_run_verified under the current contract. Also, objective-gates.json values are hardcoded by build_evidence.py rather than mechanically derived from director-qc-evidence.json.
 FIX: rework source selection/assembly so applicable Whisper and SyncNet gates genuinely pass without weakening thresholds; resolve the instrumental mode either with speech-bearing evidence or an explicitly contract-sanctioned non-applicable disposition; derive every objective gate from raw QC evidence; produce enhanced-prompt media or leave that row unresolved; only then submit checker exit 0 and reviewer approval.
+- 2026-09-25T23:24:07Z status: open -> in_progress
+- 2026-09-25T23:24:07Z auto-follows: linked to predecessor WD-e4r7
+- 2026-09-25T23:24:07Z claimed by dev-WD-dmf2
