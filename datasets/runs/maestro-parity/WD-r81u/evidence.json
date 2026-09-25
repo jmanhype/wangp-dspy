@@ -538,7 +538,19 @@
       "ffprobe-wd_r81u_ffmpeg_spatial_x2.json",
       "ffprobe-wd_r81u_film_film_grain.json",
       "ffprobe-wd_r81u_real_esrgan_spatial_x2.json",
-      "ffprobe-wd_r81u_rife_interpolation_x2.json"
+      "ffprobe-wd_r81u_rife_interpolation_x2.json",
+      "host-scripts/wd_r81u_run.sh",
+      "host-scripts/wd_r81u_rife.py",
+      "host-scripts/wd_r81u_film.py",
+      "inputs/source.mp4",
+      "review/source-mid.png",
+      "outputs/wd_r81u_ffmpeg_codec_h264.mp4",
+      "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+      "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+      "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+      "outputs/wd_r81u_film_film_grain.mp4",
+      "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+      "outputs/wd_r81u_rife_interpolation_x2.mp4"
     ],
     "review": "Independent PM approval is limited to five verified cells: FFmpeg interpolation/spatial/grain, RIFE interpolation, and Real-ESRGAN spatial upscale. Their SHA-256s, decodability, measurements, visual comparisons, and source lineage were independently verified. Film grain stays planned because measured controls size=1 and persistence=0 contradict planned 16 and 0.5. Face cells stay planned for absent source-face/track consent, and neural_frame_gen stays planned because no named implementation exists."
   },

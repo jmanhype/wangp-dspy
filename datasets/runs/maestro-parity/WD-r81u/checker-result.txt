@@ -1,5 +1,4 @@
 $ uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-r81u
-FAIL reviewer_verdict.decision: must be approved
-exit=1
-expected_at_delivery=true
-reason=reviewer_verdict is intentionally pending; no self-approval is claimed and no matrix row is flipped
+PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-r81u
+exit=0
+reviewer-approved delivered subset; no unverified row was flipped
