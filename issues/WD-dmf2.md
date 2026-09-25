@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T21:28:59Z
-content_hash: "sha256:cc643107fb0dc9c527f729956f575c3d9162cc2c9d87d9a7c69028a7c00f340d"
+updated_at: 2026-09-25T22:59:19Z
+content_hash: "sha256:8decb3b47f9d850d60a260b941b56516ff5a5439908111584bc72769099dc03e"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 assignee: dev-WD-dmf2
@@ -113,6 +113,83 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED FOR REVIEW)
+
+PROOF:
+
+### Authorization, download, and host boundary
+- Operator authorization is recorded verbatim in `datasets/runs/maestro-parity/WD-dmf2/operator-authorization.md` and `evidence.json`.
+- Typed plan: 483,617,219 bytes for Whisper small under the 20,000,000,000-byte ceiling.
+- Bytes pulled: 0. `/home/straughter/.cache/whisper/small.pt` preexisted and measured SHA-256 `9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794`.
+- Derived floor: 15.0 decimal GB. Preflight free: 40,969,826,304 bytes; final free: 40,993,148,928 bytes.
+- The operator's llama-server remained running; final health was `{"status":"ok"}`, GPU 7,893 MiB / 0%, and `operator_service_mutation=false`.
+
+### Real operations and artifacts
+- Commands are recorded in `evidence.json.command`, `secondary_commands`, and native logs.
+- Four `wgp director plan` modes, four `queue` inspections, four `review` reconstructions, and one prompt-only `enhance` completed successfully.
+- Durable composition queue: `wangp-JobQueue-WD-dmf2`, job `job-1790373082258-e4889656`, retry `attempt-1`, admitted through `JobQueue.next_admissible`, public state sequence ending `done`.
+- Final output SHA-256:
+  - prompt `6cf83d5e6a572be2da154cba0a74878dd5c39bb64c64ac87709326b51c799c19`
+  - audio `c4078d72f7cdffa0d55fd03edcf0da2bc8f3d166697f3b92ce944e0637530c4e`
+  - music video `5e951f39ece9e7f63e5c5002500b4cd40f87b36b7f6e3b3bd167c3a3be44e4b8`
+  - screenplay `98129a5e11f26dd7823a83c1cb50acdc1713d4fa331b3507d8ed43c71bc2f25c`
+- `planned-produced-map.json` binds all 8 plan records, request/plan hashes, prompts, seeds, windows, overlap, continuity, upstream hashes, segment/final hashes, durations, and boundary-frame hashes.
+- Bundle: 27 MiB, 285 files, 12 hashed video outputs, 52 hashed references.
+
+### Honest QC/checker state
+- Whisper: screenplay clip 2 passed 1.000; screenplay clip 1 failed 0.556; music clip 1 produced no transcript.
+- Identity vision: 3/3 pass. Mouth-box consensus: 3/3 pass.
+- SyncNet: screenplay clip 2 passed 1.10503; audio clip 1 failed 0.594741; screenplay clip 1 failed 0.468897.
+- Auto review therefore passed only 2/4 mandatory gate categories on the tested clip. Manual reviewer decision is pending.
+- Checker result (exit 1): six `objective_gate_results[*].verdict: must be pass` failures plus `reviewer_verdict.decision: must be approved`. No approval is fabricated.
+
+### Standing gates
+- `pvg lint --backlog`: PASS, 126 scanned, 0 errors, 0 review findings.
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-dmf2-full.xml`: PASS; parsed JUnit tests=2085 errors=0 failures=0 skipped=1.
+- `uv run --frozen --extra dev wgp release verify`: PASS; release=ready, tag_created=false.
+- Protected parity vs dispatcher base `31e3b7b`: PASS exit 0/empty diff. Older `40f8c2b` diagnostic fails only on the inherited main change to `services/jobs/preflight.py`.
+- `git diff --check`: PASS.
+- `pvg verify` authoring subset: PASS, 13 files, 0 issues.
+
+### Commit
+- Branch: `story/WD-dmf2`
+- Pushed HEAD: `b654d5e02c9c35df95d43302851874357129c611`
+- Generation base recorded in evidence: `31ec071abec9b80e922166c6683703b0a27ab893`
+
+### AC Verification
+| AC | Result | Evidence |
+|---|---|---|
+| 1 | NOT FULLY MET: real outputs/map/queue exist, but checker fails and reviewer is pending; no cell flipped | evidence.json; checker-result.stderr; row-dispositions.json |
+| 2 | MET: incomplete/failing evidence left rows unchanged | row-dispositions.json; docs/director-capabilities.md |
+| 3 | MET for recorded lineage: machine-checkable request-to-assembly map exists | planned-produced-map.json |
+| 4 | PARTIAL: ordered/overlap/continuity/beat/pacing measurements pass; enhanced prompt has no produced media | objective-gates.json; planned-produced-map.json |
+| 5 | MET: no planning artifact represented as host_run_verified | row-dispositions.json; checker-result.stderr |
+| 6 | MET: no unsupported_on_this_hardware claim | row-dispositions.json |
+| 7 | NOT MET: all nine rows remain planned rather than terminal verified states | matrix-transition-check.json |
+| 8 | MET: no protected/scope violation; dispatcher-base parity passes | protected-parity-31e3b7b.exit; git diff |
+
+LEARNINGS:
+- The accepted evidence contract and an explicitly pending reviewer are mathematically incompatible; preserving pending causes the checker to fail closed, which is the correct honest outcome.
+- Naming a lane-level QC record `qc-evidence.json` collides with the repository spend-gate corpus fixture count; `director-qc-evidence.json` avoids changing that contract.
+- Full-suite release checks observe output redirection files in-repo. Run long suites with outputs in `/tmp`, then copy receipts after success.
+- WD-bxhc exists on pushed story branch `origin/story/WD-bxhc`, not current `origin/main`; its accepted artifacts were hash-bound without merging that branch.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Real host composition/QC artifacts, hashes, queue state, plans, checker failure, tests, release, protected parity, and pushed HEAD are recorded above and under `datasets/runs/maestro-parity/WD-dmf2/`.
+
+### proof
+- [x] AC #1 evaluated: not fully met; pending reviewer plus six failed objective gates prevent verified flips.
+- [x] AC #2 evaluated: incomplete evidence left affected cells unchanged.
+- [x] AC #3 evaluated: full planned-to-produced lineage is machine-checkable.
+- [x] AC #4 evaluated: pacing/continuity measurements recorded; enhancement lacks corresponding produced media.
+- [x] AC #5 evaluated: no plan-only artifact is claimed verified.
+- [x] AC #6 evaluated: no hardware-infeasibility claim is made.
+- [x] AC #7 evaluated: not met; all nine rows remain planned pending review.
+- [x] AC #8 evaluated: no protected engine or unauthorized scope change.
+
 ## MANDATORY SKILLS
 - pvg
 
