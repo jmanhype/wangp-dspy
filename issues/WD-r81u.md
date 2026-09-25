@@ -1,17 +1,19 @@
 ---
 id: WD-r81u
 title: "Finishing generation evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T15:46:31Z
-content_hash: "sha256:08136b1780acfe762973ebb1de61a42de9abe1c8bb05492103d034451e968d50"
+updated_at: 2026-09-25T18:14:32Z
+content_hash: "sha256:b777d5d96227e0ce32fc53a7710921ddd317f0a4520f623d5bcc0c73e2ad5b83"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-2gyw]
+assignee: dev-WD-r81u
+follows: [WD-2gyw]
 ---
 
 ## Description
@@ -112,10 +114,14 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
 - 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
 - 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
+- 2026-09-25T18:14:32Z status: open -> in_progress
+- 2026-09-25T18:14:32Z auto-follows: linked to predecessor WD-2gyw
+- 2026-09-25T18:14:32Z claimed by dev-WD-r81u
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-2gyw]]
+- Follows: [[WD-2gyw]]
 
 ## Comments

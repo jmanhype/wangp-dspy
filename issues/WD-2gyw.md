@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T18:11:22Z
-content_hash: "sha256:93d55a1d6cf3fdd5c96a7f918ed23710befbf44632cc28a6cb3363fe8c42b89d"
+content_hash: "sha256:b8ab5efb06195dc2f3dd7e253531ceff7b59519783755f2cd7eacc3edf463bdd"
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
 closed_at: 2026-09-25T18:11:21Z
 close_reason: "PARTIAL ACCEPTANCE: H3 family and Hunyuan subset delivered; LTX-2.3, LTX-2.5, SCAIL, Wan, TaoMate and H3 outpaint NOT delivered; video lane incomplete, not full video parity."
+led_to: [WD-r81u]
 ---
 
 ## Description
@@ -265,6 +266,7 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-cpow]], [[WD-rous]]
+- Led to: [[WD-r81u]]
 
 ## Comments
 
