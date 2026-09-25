@@ -1012,7 +1012,14 @@
       "ltx25.failure.log",
       "taomate-search-evidence.md",
       "h3-outpaint-boundary.md",
-      "planning/cli-summary.json"
+      "planning/cli-summary.json",
+      "fullsuite.xml",
+      "fullsuite-counters.json",
+      "pvg-lint.txt",
+      "release-verify.txt",
+      "protected-parity-c91a6d8.exit",
+      "git-diff-check.exit",
+      "standing-gates-final.txt"
     ],
     "review": "Human reviewer approval is pending; no self-approval is claimed."
   },
