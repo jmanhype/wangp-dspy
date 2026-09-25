@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T22:59:30Z
-content_hash: "sha256:6a5f1311ff260b6f6d659e9d29bd1cf8ecd1f505480949f2fa747da50d014667"
+updated_at: 2026-09-25T23:01:24Z
+content_hash: "sha256:058b8fe562acc24bd2dc1aae1f1b8fd00eabb34477e58f6f98c15c9c9cea137c"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 assignee: dev-WD-dmf2
@@ -113,7 +113,35 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### CI/Test Results
+Commands run:
+  - `pvg lint --backlog`
+  - `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-dmf2-full.xml`
+  - `timeout 600 uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code 31e3b7b -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-dmf2`
+  - `pvg verify <authoring subset>`
+Summary: lint PASS 0 errors/0 review findings; full suite PASS tests=2085 errors=0 failures=0 skipped=1; release=ready/tag_created=false; dispatcher-base protected parity and diff-check PASS; checker intentionally FAIL exit=1 with six gate failures plus pending reviewer; pvg verify PASS 13 files/0 issues.
+Commit SHA: b654d5e02c9c35df95d43302851874357129c611
+
+## nd_contract
+status: delivered
+
+### evidence
+- Real composition artifacts, planned-produced map, queue, authorization, hashes, measurements, pending review, checker diagnostics, standing gates, and pushed branch are recorded in `datasets/runs/maestro-parity/WD-dmf2/`.
+
+### proof
+- [x] AC #1 evaluated: not fully met; checker and reviewer remain fail-closed.
+- [x] AC #2 evaluated: incomplete/failing evidence leaves cells unchanged.
+- [x] AC #3 evaluated: request-to-output lineage is machine-checkable.
+- [x] AC #4 evaluated: pacing/continuity measured; enhanced prompt lacks produced media.
+- [x] AC #5 evaluated: no plan-only artifact is claimed verified.
+- [x] AC #6 evaluated: no unsupported-hardware claim is made.
+- [x] AC #7 evaluated: not met; all nine rows remain planned.
+- [x] AC #8 evaluated: protected/scope gates pass.
 
 ## nd_contract
 status: delivered
