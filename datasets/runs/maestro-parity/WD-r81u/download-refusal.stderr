@@ -1,0 +1,6 @@
+diagnostic code=DOWNLOAD_REQUIRES_OPERATOR severity=error: First-run preflight stopped before action
+  observed: asset rife-v4.26-model is not complete; Wangp did not fetch it
+  why: The no-GPU surface reports typed state instead of inferring an unsafe action.
+  remediation: Run the exact operator-reviewed command, verify the hash, then rerun status.
+  next: curl --fail --location --continue-at - --output /home/straughter/Wan2GP/wd-r81u/assets/rife4.26.pkl https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/rife4.26.pkl
+  evidence: datasets/runs/maestro-parity/WD-r81u/model-download-manifest.json

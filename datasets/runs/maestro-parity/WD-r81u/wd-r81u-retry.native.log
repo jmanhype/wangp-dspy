@@ -1,0 +1,8 @@
+host=straughter-Z690-Steel-Legend
+2026-09-25T18:32:40Z
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 807790784512 41461223424  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7840 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+sha256sum: /home/straughter/Wan2GP/wd-r81u/assets/realesrgan-ncnn-vulkan-20220424-ubuntu/models/realesrgan-x4plus.bin: No such file or directory
+sha256sum: /home/straughter/Wan2GP/wd-r81u/assets/realesrgan-ncnn-vulkan-20220424-ubuntu/models/realesrgan-x4plus.param: No such file or directory

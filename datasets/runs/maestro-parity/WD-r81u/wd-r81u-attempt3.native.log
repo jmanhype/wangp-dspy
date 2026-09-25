@@ -1,0 +1,8 @@
+host=straughter-Z690-Steel-Legend
+2026-09-25T18:33:16Z
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 807850266624 41401741312  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7840 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+replace /home/straughter/Wan2GP/wd-r81u/assets/input.jpg? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL
+(EOF or read error, treating as "[N]one" ...)

@@ -14,9 +14,9 @@ The optional neural path may be declared only with `authorized_host=null` and `s
 
 | Backend | Interpolation | Spatial upscale | Film grain | Face refinement |
 | --- | --- | --- | --- | --- |
-| ffmpeg | planned | planned | planned | planned |
-| rife | planned | unsupported | unsupported | unsupported |
-| real_esrgan | unsupported | planned | unsupported | unsupported |
+| ffmpeg | host_run_verified ([WD-r81u evidence](../datasets/runs/maestro-parity/WD-r81u/evidence.json)) | host_run_verified ([WD-r81u evidence](../datasets/runs/maestro-parity/WD-r81u/evidence.json)) | host_run_verified ([WD-r81u evidence](../datasets/runs/maestro-parity/WD-r81u/evidence.json)) | planned |
+| rife | host_run_verified ([WD-r81u evidence](../datasets/runs/maestro-parity/WD-r81u/evidence.json)) | unsupported | unsupported | unsupported |
+| real_esrgan | unsupported | host_run_verified ([WD-r81u evidence](../datasets/runs/maestro-parity/WD-r81u/evidence.json)) | unsupported | unsupported |
 | film | unsupported | unsupported | planned | unsupported |
 | neural_frame_gen | planned | planned | unsupported | planned |
 
@@ -39,4 +39,4 @@ Durable plans use only `finishing_plan_records`; the executable `jobs` table is 
 
 ## Capability status
 
-All rows above remain `planned`. Finished outputs, before/after ffprobe measurements, neural execution, identity-preserving face refinement, and visual quality are **not verified - requires authorized host run**. A future generation claim requires a separately authorized bundle recording operator authorization, command, repository commit, model/asset provenance, queue attempt, output hashes, objective ffprobe/QC evidence, and reviewer decision.
+The five `host_run_verified` cells above are bound to real hashed outputs in the independently approved [WD-r81u bundle](../datasets/runs/maestro-parity/WD-r81u/evidence.json): FFmpeg x2 interpolation, FFmpeg x2 spatial upscale, FFmpeg grain, RIFE x2 interpolation, and Real-ESRGAN x2 spatial upscale. Other cells in those rows do not inherit that evidence. The real film-grain output remains `planned` because its measured pixel-grain size 1 and temporal persistence 0 contradict the planned controls 16 and 0.5. Face refinement remains `planned` because the compass source has no human face and no track identity, bounds, rights, or consent was supplied. `neural_frame_gen` remains `planned` because no named host implementation exists; that absence is not hardware infeasibility. Finished neural execution, identity-preserving face refinement, and unresolved visual-quality claims therefore remain **not verified - requires authorized host run or required input**.

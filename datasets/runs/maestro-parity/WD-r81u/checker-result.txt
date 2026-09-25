@@ -1,0 +1,4 @@
+$ uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-r81u
+PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-r81u
+exit=0
+reviewer-approved delivered subset; no unverified row was flipped

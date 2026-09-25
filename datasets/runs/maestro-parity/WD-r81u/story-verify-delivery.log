@@ -1,0 +1,14 @@
+Verifying delivery proof for WD-r81u
+---
+[OK]   label:delivered
+[OK]   nd_contract:last_block
+[FAIL] nd_contract:eof -- authoritative contract is not at EOF
+[FAIL] notes:implementation_evidence -- missing '## Implementation Evidence' heading
+[FAIL] notes:ci_test_results -- missing CI/Test Results section
+[FAIL] notes:commands_run -- missing 'Commands run:' list
+[FAIL] notes:summary -- missing 'Summary:' line
+[FAIL] notes:commit_sha -- missing commit SHA
+[OK]   proof:ac_items
+---
+Passed: 3, Failed: 6
+[FAIL] Delivery proof is incomplete; expect PM rejection until fixed.

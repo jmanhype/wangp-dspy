@@ -1,0 +1,614 @@
+{
+  "command": [
+    "timeout",
+    "3600",
+    "ssh",
+    "-n",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "3500",
+    "/home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_run.sh"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_r81u_ffmpeg_codec_h264.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.304,
+      "fps": 48.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 1664,
+      "kind": "video",
+      "path": "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+      "width": 960
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_r81u_film_film_grain.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 1664,
+      "kind": "video",
+      "path": "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+      "width": 960
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.3125,
+      "fps": 48.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_r81u_rife_interpolation_x2.mp4",
+      "width": 480
+    }
+  ],
+  "model_provenance": [
+    {
+      "download_approved": true,
+      "identity": "rife4.26.pkl",
+      "license": "WanGP/DeepBeepMeep distribution for upstream RIFE; operator research/evaluation only",
+      "sha256": "45c7f74156704769dc9f85cfcaf8552e1e926f9399dcfa3a553dee88fac6f53f",
+      "size_bytes": 24636301,
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/rife4.26.pkl"
+    },
+    {
+      "download_approved": true,
+      "identity": "realesrgan-ncnn-vulkan-20220424-ubuntu.zip",
+      "license": "MIT runtime package with BSD-3-Clause Real-ESRGAN model provenance; operator research/evaluation only",
+      "sha256": "e5aa6eb131234b87c0c51f82b89390f5e3e642b7b70f2b9bbe95b6a285a40c96",
+      "size_bytes": 46931474,
+      "source": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip"
+    },
+    {
+      "download_approved": true,
+      "identity": "realesrgan-x4plus.bin",
+      "license": "BSD-3-Clause Real-ESRGAN model provenance; operator research/evaluation only",
+      "sha256": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+      "size_bytes": 33424520,
+      "source": "realesrgan-ncnn-vulkan-20220424-ubuntu.zip:/models/realesrgan-x4plus.bin"
+    },
+    {
+      "download_approved": true,
+      "identity": "realesrgan-x4plus.param",
+      "license": "BSD-3-Clause Real-ESRGAN model provenance; operator research/evaluation only",
+      "sha256": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86",
+      "size_bytes": 14080,
+      "source": "realesrgan-ncnn-vulkan-20220424-ubuntu.zip:/models/realesrgan-x4plus.param"
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_codec_h264.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_ffmpeg_codec_h264.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_codec_h264.mp4"
+      ],
+      "measured": 2.333333,
+      "name": "wd_r81u_ffmpeg_codec_h264.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+      ],
+      "measured": 38.105053,
+      "name": "wd_r81u_ffmpeg_film_grain.source_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_ffmpeg_film_grain.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+      ],
+      "measured": 2.333333,
+      "name": "wd_r81u_ffmpeg_film_grain.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_ffmpeg_interpolation_x2.fps_factor",
+      "threshold": 1.99,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+      ],
+      "measured": 1.946429,
+      "name": "wd_r81u_ffmpeg_interpolation_x2.frame_factor",
+      "threshold": 1.9,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+      ],
+      "measured": 0.100667,
+      "name": "wd_r81u_ffmpeg_interpolation_x2.duration_abs_error_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_ffmpeg_interpolation_x2.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+      ],
+      "measured": 2.304,
+      "name": "wd_r81u_ffmpeg_interpolation_x2.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_ffmpeg_spatial_x2.width_factor",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_ffmpeg_spatial_x2.height_factor",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_ffmpeg_spatial_x2.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+      ],
+      "measured": 2.333333,
+      "name": "wd_r81u_ffmpeg_spatial_x2.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_film_film_grain.mp4"
+      ],
+      "measured": 30.014524,
+      "name": "wd_r81u_film_film_grain.source_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_film_film_grain.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_film_film_grain.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_film_film_grain.mp4"
+      ],
+      "measured": 2.333333,
+      "name": "wd_r81u_film_film_grain.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_real_esrgan_spatial_x2.width_factor",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_real_esrgan_spatial_x2.height_factor",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+      ],
+      "measured": 0.70308,
+      "name": "wd_r81u_real_esrgan_spatial_x2.downscaled_ssim",
+      "threshold": 0.6,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_real_esrgan_spatial_x2.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+      ],
+      "measured": 2.333333,
+      "name": "wd_r81u_real_esrgan_spatial_x2.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_rife_interpolation_x2.mp4"
+      ],
+      "measured": 2.0,
+      "name": "wd_r81u_rife_interpolation_x2.fps_factor",
+      "threshold": 1.99,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_rife_interpolation_x2.mp4"
+      ],
+      "measured": 1.982143,
+      "name": "wd_r81u_rife_interpolation_x2.frame_factor",
+      "threshold": 1.9,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_rife_interpolation_x2.mp4"
+      ],
+      "measured": 0.109167,
+      "name": "wd_r81u_rife_interpolation_x2.duration_abs_error_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_rife_interpolation_x2.mp4"
+      ],
+      "measured": 1.0,
+      "name": "wd_r81u_rife_interpolation_x2.audio_layout_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_rife_interpolation_x2.mp4"
+      ],
+      "measured": 2.3125,
+      "name": "wd_r81u_rife_interpolation_x2.duration_positive",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+      ],
+      "measured": 8.899874,
+      "name": "wd_r81u_ffmpeg_film_grain.visual_delta_below_codec_control_db",
+      "threshold": 3.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_r81u_film_film_grain.mp4"
+      ],
+      "measured": 16.990403,
+      "name": "wd_r81u_film_film_grain.visual_delta_below_codec_control_db",
+      "threshold": 3.0,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-r81u host batch 1 on 3090: 71,567,775-byte planned RIFE/Real-ESRGAN transfer under the dispatcher-approved 20,000,000,000-byte ceiling; synchronous finishing only; leave llama-server running",
+    "status": "approved",
+    "text": "the operator approved host batch 1 with a 20 GB download ceiling and has repeatedly instructed to continue/unblock the programme; GPU is an RTX 3090 (24 GB) and the operator's llama-server is RUNNING again holding ~7.7 GB \u2014 leave it alone, do not stop it, and size your work to the remaining ~16 GB",
+    "timestamp": "2026-09-25T18:14:32Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_r81u_ffmpeg_codec_h264.mp4",
+      "sha256": "4cb64e2e32e9930b7affcb66dbcd79ca4a2c5e3c86cc895a71ee2ed87c27f149"
+    },
+    {
+      "path": "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+      "sha256": "492627f2ce092bb3109f92b95eacf2524d0ca4e491680cbc56c9c11ef4af6133"
+    },
+    {
+      "path": "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+      "sha256": "8dc392945922e2b96f6e6b9baf6fc5d1d430b41872a1ba31b70bc43c44444b1f"
+    },
+    {
+      "path": "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+      "sha256": "73a448d5613782415bf132377daa8ddb5761ae3d320969014f95bbbce5d4d354"
+    },
+    {
+      "path": "outputs/wd_r81u_film_film_grain.mp4",
+      "sha256": "f8bb239e4b173fa72654e44e96e18ba70e7bbc836721a5368ed12480a9bce90e"
+    },
+    {
+      "path": "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+      "sha256": "f43610d6378f6a00045ea5bf27b5c2d935c3d1a59168b6bc400d2f3c4b2d9230"
+    },
+    {
+      "path": "outputs/wd_r81u_rife_interpolation_x2.mp4",
+      "sha256": "158c6b4cfa6cdaeaffcc40ec2fac7cbb0b08cc326eee28ddf1f912efb9fb0973"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790361058753-0d9a6130",
+    "native_logs": [
+      "wd-r81u.native.log",
+      "wd-r81u-retry.native.log",
+      "wd-r81u-attempt3.native.log",
+      "wd-r81u-attempt4.native.log",
+      "wd-r81u-attempt5.native.log",
+      "wd-r81u-attempt6.native.log",
+      "wd-r81u-attempt7.native.log",
+      "wd-r81u-attempt8.native.log",
+      "wd-r81u-final.native.log",
+      "wd-r81u-final2.native.log"
+    ],
+    "preflight": "doctor-preflight-after-download.json",
+    "queue_id": "wangp-JobQueue-WD-r81u",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms and operator research/evaluation authorization",
+      "path": "inputs/source.mp4",
+      "role": "immutable WD-2gyw MiniMax-H3 standard source bytes consumed by every finishing operation",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    },
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms and operator research/evaluation authorization",
+      "path": "review/source-mid.png",
+      "role": "derived review frame showing that the consumed compass source contains no human face",
+      "sha256": "bf7a21e4b7251085f151a1d64b2d2e885cc7e18dc6da3d25a318038e4b5c2876"
+    }
+  ],
+  "repository": {
+    "commit": "13f352f776b211fe8dfd552ff0752d75c7469b82",
+    "commit_semantics": "13f352f is the clean story commit immediately before the successful synchronous native command; generated outputs and evidence were committed after execution",
+    "dirty_state": {
+      "dirty": false,
+      "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status_lines": []
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "execution-summary.md",
+      "operator-authorization.md",
+      "model-download-manifest.json",
+      "doctor-capabilities-download-plan.json",
+      "doctor-capabilities-corrected-plan.json",
+      "download-hash-correction.md",
+      "download-report-before.json",
+      "download-refusal.json",
+      "wd-r81u-final2.native.log",
+      "ffprobe-source.json",
+      "output-hashes.txt",
+      "output-hashes-local.txt",
+      "realesrgan-model-hashes.txt",
+      "media-qc.json",
+      "objective-gates.json",
+      "objective-gate-derivation.md",
+      "queue-record.json",
+      "queue-complete.log",
+      "missing-required-inputs.md",
+      "neural-frame-gen-boundary-probe.txt",
+      "final-host-state.txt",
+      "bundle-size.txt",
+      "pvg-lint.txt",
+      "fullsuite.xml",
+      "fullsuite-counters.json",
+      "release-verify.txt",
+      "protected-parity-c91a6d8.txt",
+      "git-diff-check.txt",
+      "matrix-transition-check.json",
+      "standing-gates-final.txt",
+      "pvg-verify-authoring.txt",
+      "ffprobe-wd_r81u_ffmpeg_codec_h264.json",
+      "ffprobe-wd_r81u_ffmpeg_film_grain.json",
+      "ffprobe-wd_r81u_ffmpeg_interpolation_x2.json",
+      "ffprobe-wd_r81u_ffmpeg_spatial_x2.json",
+      "ffprobe-wd_r81u_film_film_grain.json",
+      "ffprobe-wd_r81u_real_esrgan_spatial_x2.json",
+      "ffprobe-wd_r81u_rife_interpolation_x2.json",
+      "host-scripts/wd_r81u_run.sh",
+      "host-scripts/wd_r81u_rife.py",
+      "host-scripts/wd_r81u_film.py",
+      "inputs/source.mp4",
+      "review/source-mid.png",
+      "outputs/wd_r81u_ffmpeg_codec_h264.mp4",
+      "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+      "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+      "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+      "outputs/wd_r81u_film_film_grain.mp4",
+      "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+      "outputs/wd_r81u_rife_interpolation_x2.mp4"
+    ],
+    "review": "Independent PM approval is limited to five verified cells: FFmpeg interpolation/spatial/grain, RIFE interpolation, and Real-ESRGAN spatial upscale. Their SHA-256s, decodability, measurements, visual comparisons, and source lineage were independently verified. Film grain stays planned because measured controls size=1 and persistence=0 contradict planned 16 and 0.5. Face cells stay planned for absent source-face/track consent, and neural_frame_gen stays planned because no named implementation exists."
+  },
+  "row_dispositions": {
+    "ffmpeg/face_refinement": {
+      "disposition": "planned_missing_track_consent_and_source_face",
+      "evidence": "missing-required-inputs.md"
+    },
+    "ffmpeg/film_grain": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_r81u_ffmpeg_film_grain.mp4"
+    },
+    "ffmpeg/interpolation": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
+    },
+    "ffmpeg/spatial_upscale": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
+    },
+    "film/film_grain": {
+      "disposition": "candidate_host_run_verified_pending_review_with_control_semantics_gap",
+      "evidence": "outputs/wd_r81u_film_film_grain.mp4"
+    },
+    "neural_frame_gen/face_refinement": {
+      "disposition": "planned_missing_named_host_implementation_track_consent_and_source_face",
+      "evidence": "missing-required-inputs.md"
+    },
+    "neural_frame_gen/interpolation": {
+      "disposition": "planned_missing_named_host_implementation",
+      "evidence": "neural-frame-gen-boundary-probe.txt"
+    },
+    "neural_frame_gen/spatial_upscale": {
+      "disposition": "planned_missing_named_host_implementation",
+      "evidence": "neural-frame-gen-boundary-probe.txt"
+    },
+    "real_esrgan/spatial_upscale": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
+    },
+    "rife/interpolation": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_r81u_rife_interpolation_x2.mp4"
+    }
+  },
+  "runtime_notes": {
+    "actual_network_download_bytes": 71567775,
+    "derived_preflight_min_free_gb": 16.067,
+    "disk_floor_derivation": "0.067 GiB planned transfer + 1.0 GiB bounded frame/output working set + 15 GiB operator safety floor = 16.067 GiB",
+    "download_ceiling_bytes": 20000000000,
+    "final_gpu_after_all_host_contact": "RTX 3090 24576 MiB total; 7841 MiB used; llama-server PID 2591141 is the only GPU compute process",
+    "gpu_after": "RTX 3090 24576 MiB total; llama-server remains at 7752 MiB; an unrelated pre-existing vb7-venv Python process held 10068 MiB after the run",
+    "gpu_before": "RTX 3090 24576 MiB total; 7840 MiB used, all by llama-server PID 2591141",
+    "host_free_after_successful_run_bytes": 41042083840,
+    "host_free_before_download_bytes": 41534517248,
+    "llama_server_action": "not stopped or restarted",
+    "planned_download_bytes": 71567775,
+    "successful_native_exit": 0
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}
