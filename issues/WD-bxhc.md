@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:58:31Z
-content_hash: "sha256:b7f315302e496d8b9b6f56721e9d59ca521914ad6eca31f9a86b010f49858f07"
+updated_at: 2026-09-25T19:59:32Z
+content_hash: "sha256:3eb8dd340b2fb83a2f83f0f015d642d9ba0e4c8e85b46a3110eb572ff17a688d"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 assignee: dev-WD-bxhc
@@ -103,6 +103,23 @@ status: new
 
 
 ## Notes
+SHA: 31078a9d0e32690741ff26637440bf85086152a3
+
+### AC Verification
+- [x] AC #1: ... 
+- [x] AC #2: ...
+
+## nd_contract
+status: delivered
+
+### evidence
+- SHA: 31078a9d0e32690741ff26637440bf85086152a3
+
+### proof
+- [x] AC #1: complete evidence recorded.
+- [x] AC #2: provenance complete.
+
+
 ## Implementation Evidence
 
 ### CI/Test Results
