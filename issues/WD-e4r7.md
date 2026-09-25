@@ -8,8 +8,8 @@ labels: [bug, host-safety, integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
-updated_at: 2026-09-25T02:42:09Z
-content_hash: "sha256:652cf08d87a6b0314393b1d2e18d1ecc123fbff5115546c083eb2a759fa4da1b"
+updated_at: 2026-09-25T03:15:53Z
+content_hash: "sha256:9cfdc97bbe8827be42bdb0936571cbd997a8f581b9c4bdc6b34a95cdf68d7119"
 assignee: dev-WD-e4r7
 follows: [WD-651z]
 closed_at: 2026-09-25T02:42:09Z
@@ -626,3 +626,6 @@ status: delivered
 - Follows: [[WD-651z]]
 
 ## Comments
+
+### 2026-09-25T03:15:53Z speed
+MERGED to main as d8671f3 (squash of PR #185). Accepted at ada69471cbe7cbb1fe4f765432d0bf2063ae9ee4, rebased to 72170ba0021e2656d925921bf0e95646f632ed52 with the story files byte-identical to the accepted head. Required check 'test' completed/success. Protected-file change independently accepted: narrow parsing/verdict plumbing only.
