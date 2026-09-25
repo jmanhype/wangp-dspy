@@ -207,13 +207,33 @@ def main() -> int:
         }
         for attempt_index in range(1, SEED_RETRIES + 2):
             seed = operation["seed"] + attempt_index - 1
-            conversation = [{
-                "role": "0",
-                "content": [
-                    *({"type": "audio", "url": str(reference)} for reference in operation["references"]),
-                    {"type": "text", "text": operation["text"]},
-                ],
-            }]
+            if len(operation["references"]) == 2:
+                # VibeVoice's template emits one expanded prompt per distinct
+                # speaker role. Keep the requested text on speaker 0 and bind
+                # the secondary reference to a distinct prompt-only role.
+                conversation = [
+                    {
+                        "role": "0",
+                        "content": [
+                            {"type": "audio", "url": str(operation["references"][0])},
+                            {"type": "text", "text": operation["text"]},
+                        ],
+                    },
+                    {
+                        "role": "1",
+                        "content": [
+                            {"type": "audio", "url": str(operation["references"][1])},
+                        ],
+                    },
+                ]
+            else:
+                conversation = [{
+                    "role": "0",
+                    "content": [
+                        *({"type": "audio", "url": str(reference)} for reference in operation["references"]),
+                        {"type": "text", "text": operation["text"]},
+                    ],
+                }]
             set_seed(seed)
             inputs = processor.apply_chat_template(
                 conversation,
