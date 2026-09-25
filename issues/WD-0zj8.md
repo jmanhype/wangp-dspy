@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-25T04:33:20Z
-content_hash: "sha256:e6e04cf0c2c9acd9fca5eb7669cc0b4e1b566f2e97066a90dead52a13f1e4854"
+content_hash: "sha256:941da22caed44bec4685e11b0e981585b396d9b51a8d218d82b4822a38806651"
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
 closed_at: 2026-09-25T04:33:19Z
@@ -100,6 +100,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-24.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-24]: Accepted for the delivered NO-GPU scope ONLY: clean disposable install/plan plus the absent-host/absent-model typed refusal. The generated-artifact half remains BLOCKED pending per-batch GPU/render-host authorization, model-download approval, and a complete authorized host/model manifest; the incomplete/unauthorized-input matrix and authorized generation path are also not accepted as complete.
 
