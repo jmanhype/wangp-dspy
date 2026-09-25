@@ -43,14 +43,14 @@ df -B1 /
 
 timeout 120 ffprobe -v error -print_format json -show_format -show_streams "$SRC" > "$WORK/ffprobe-source.json"
 
-timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'minterpolate=fps=48:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1' -c:v ffv1 "$TMP/ffmpeg-interpolation.mp4"
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-interpolation.mp4" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_interpolation_x2.mp4"
+timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'minterpolate=fps=48:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1' -c:v ffv1 "$TMP/ffmpeg-interpolation.mkv"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-interpolation.mkv" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_interpolation_x2.mp4"
 
-timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'scale=iw*2:ih*2:flags=lanczos' -c:v ffv1 "$TMP/ffmpeg-spatial-x2.mp4"
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-spatial-x2.mp4" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_spatial_x2.mp4"
+timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'scale=iw*2:ih*2:flags=lanczos' -c:v ffv1 "$TMP/ffmpeg-spatial-x2.mkv"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-spatial-x2.mkv" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_spatial_x2.mp4"
 
-timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'noise=alls=12:allf=t+u:all_seed=2935' -c:v ffv1 "$TMP/ffmpeg-grain.mp4"
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-grain.mp4" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_film_grain.mp4"
+timeout 1200 ffmpeg -nostdin -y -i "$SRC" -an -vf 'noise=alls=12:allf=t+u:all_seed=2935' -c:v ffv1 "$TMP/ffmpeg-grain.mkv"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-grain.mkv" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_film_grain.mp4"
 
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -map 0:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_codec_h264.mp4"
 
