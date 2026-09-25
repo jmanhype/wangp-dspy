@@ -8,12 +8,12 @@ labels: [install, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:10:39Z
-content_hash: "sha256:fa600a594c9bdef6a8d18b859bb73d68103bdf39ff5d28ce21e13c9a3dae385c"
+updated_at: 2026-09-25T04:10:45Z
+content_hash: "sha256:34865d8c6e31f854799a4046290d13cdbfcddfe895efa42bd49e08921d7d41c5"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
-follows: [WD-651z, WD-m0r5]
+follows: [WD-651z, WD-m0r5, WD-e4r7]
 ---
 
 ## Description
@@ -205,11 +205,13 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-25T03:16:41Z auto-follows: linked to predecessor WD-651z
 - 2026-09-25T03:16:41Z auto-follows: linked to predecessor WD-m0r5
 - 2026-09-25T03:16:41Z claimed by dev-WD-0zj8
+- 2026-09-25T04:10:45Z status: in_progress -> in_progress
+- 2026-09-25T04:10:45Z auto-follows: linked to predecessor WD-e4r7
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]]
-- Follows: [[WD-651z]], [[WD-m0r5]]
+- Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]]
 
 ## Comments
