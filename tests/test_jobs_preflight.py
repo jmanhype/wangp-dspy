@@ -2,10 +2,19 @@
 import pytest
 
 from services.jobs.preflight import (
+    GpuComputeProcess,
+    GpuComputeState,
     PreflightCheck,
     PreflightReport,
     PreflightError,
     run_preflight,
+    _gpu_check_from_state,
+    _parse_gpu_compute_apps,
+)
+
+CAPTURED_RT3090_OUTPUT = (
+    "1007225, 7808 MiB, "
+    "/home/straughter/llama.cpp/build/bin/llama-server"
 )
 
 MODEL_SPECS = [
@@ -22,12 +31,14 @@ class StubHost:
     def __init__(self, *, reachable=True, files=None, disk_free_gb=200.0,
                  gpu_procs="nvidia-smi --query-compute-apps --format=csv,noheader",
                  nvidia_out="No running processes found",
+                 nvidia_rc=0,
                  qc_ok=True):
         self.files = dict(files or
                           {m["path"]: m["sha256"] for m in MODEL_SPECS})
         self.reachable = reachable
         self.disk_free_gb = disk_free_gb
         self.nvidia_out = nvidia_out
+        self.nvidia_rc = nvidia_rc
         self.qc_ok = qc_ok
         self.probes = []
 
@@ -45,7 +56,7 @@ class StubHost:
         if joined.startswith("df"):
             return 0, f"  {self.disk_free_gb:.0f}G", ""
         if joined.startswith("nvidia-smi"):
-            return 0, self.nvidia_out, ""
+            return self.nvidia_rc, self.nvidia_out, ""
         if joined.startswith("curl"):
             return (0, "ok", "") if self.qc_ok else (7, "", "refused")
         return 0, "", ""
@@ -97,13 +108,25 @@ def test_disk_headroom_below_min_fails():
     assert not report.check("disk_headroom").passed
 
 
-def test_gpu_busy_with_render_proc_fails_stale_tenant_detection():
-    host = StubHost(nvidia_out="12345  C  python  wgp.py")
+def test_gpu_busy_with_real_captured_compute_process_fails():
+    host = StubHost(nvidia_out=CAPTURED_RT3090_OUTPUT)
     report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,
                            disk_path="/mnt/bulk", qc_url="http://x/h")
     check = report.check("gpu_state")
     assert not check.passed
-    assert "12345" in check.detail  # names the stale tenant pid
+    nvidia_probe = next(p for p in host.probes if p[0] == "nvidia-smi")
+    assert nvidia_probe == [
+        "nvidia-smi",
+        "--query-compute-apps=pid,used_memory,process_name",
+        "--format=csv,noheader",
+    ]
+
+
+def test_gpu_probe_nonzero_return_code_fails():
+    host = StubHost(nvidia_rc=9, nvidia_out="")
+    report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,
+                           disk_path="/mnt/bulk", qc_url="http://x/h")
+    assert not report.check("gpu_state").passed
 
 
 def test_gpu_idle_passes():
@@ -111,6 +134,70 @@ def test_gpu_idle_passes():
     report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,
                            disk_path="/mnt/bulk", qc_url="http://x/h")
     assert report.check("gpu_state").passed
+
+
+def test_gpu_parser_accepts_byte_for_byte_real_captured_output():
+    state = _parse_gpu_compute_apps(CAPTURED_RT3090_OUTPUT + "\n")
+    assert state == GpuComputeState(
+        "occupied",
+        (GpuComputeProcess(
+            pid=1007225,
+            memory_mib=7808,
+            process_name="/home/straughter/llama.cpp/build/bin/llama-server",
+        ),),
+    )
+
+
+def test_gpu_parser_accepts_quoted_process_path_with_commas_and_spaces():
+    state = _parse_gpu_compute_apps(
+        '1007225, 7808 MiB, "/opt/renderer/one, two, three"\n')
+    assert state.processes == (
+        GpuComputeProcess(1007225, 7808,
+                          "/opt/renderer/one, two, three"),
+    )
+
+
+@pytest.mark.parametrize("output", [
+    "7808 MiB, 1007225, /tmp/renderer",
+    "1007225, /tmp/renderer",
+    "1007225, 7808 MiB",
+    "1007225, 7808 MiB, /tmp/renderer, extra",
+    "not-a-pid, 7808 MiB, /tmp/renderer",
+    "1007225, 7808 GiB, /tmp/renderer",
+])
+def test_gpu_parser_fails_closed_on_malformed_or_alternate_columns(output):
+    state = _parse_gpu_compute_apps(output)
+    assert state.verdict == "unknown"
+    assert state.processes == ()
+    assert state.reason
+
+
+@pytest.mark.parametrize("output", ["", "No running processes found"])
+def test_gpu_parser_accepts_genuine_no_compute_processes(output):
+    assert _parse_gpu_compute_apps(output) == GpuComputeState("idle", ())
+
+
+def test_gpu_check_mapping_occupied_unknown_and_idle():
+    occupied = GpuComputeState(
+        "occupied",
+        (GpuComputeProcess(1007225, 7808,
+                           "/home/straughter/llama.cpp/build/bin/llama-server"),),
+    )
+    unknown = GpuComputeState("unknown", (), "invalid pid 'not-a-pid'")
+    idle = GpuComputeState("idle", ())
+
+    occupied_check = _gpu_check_from_state(occupied)
+    unknown_check = _gpu_check_from_state(unknown)
+    idle_check = _gpu_check_from_state(idle)
+
+    assert not occupied_check.passed
+    assert all(value in occupied_check.detail for value in (
+        "pid=1007225", "memory=7808MiB",
+        "process=/home/straughter/llama.cpp/build/bin/llama-server"))
+    assert not unknown_check.passed
+    assert "invalid pid 'not-a-pid'" in unknown_check.detail
+    assert idle_check.passed
+    assert idle_check.detail == "idle"
 
 
 def test_qc_unavailable_fails_check():
