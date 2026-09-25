@@ -1,0 +1,33 @@
+{
+  "schema_version": "wangp-dspy.video-capability-request/v1",
+  "model": {
+    "family": "minimax_h3",
+    "preset": "standard"
+  },
+  "operation": "create",
+  "clips": [
+    {
+      "prompt": "A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light shifts across the table.",
+      "duration_s": 2.333333
+    }
+  ],
+  "overlap": {
+    "strategy": "none",
+    "frames": 0
+  },
+  "long_form": {
+    "mode": "one_window",
+    "one_window": true
+  },
+  "loras": [],
+  "render": {
+    "width": 480,
+    "height": 832,
+    "num_inference_steps": 8,
+    "guidance_scale": 1.0,
+    "embedded_guidance_scale": 6.0,
+    "force_fps": "24",
+    "profile": "profile3"
+  },
+  "recipe_seed": 2931
+}

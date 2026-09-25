@@ -1,0 +1,66 @@
+{
+  "schema_version": "wangp-dspy.maestro-parity-row-dispositions/v1",
+  "planned_download_ceiling_bytes": 60000000000,
+  "selected_download_plan_bytes": 57801926853,
+  "remaining_download_ceiling_bytes": 2198073147,
+  "rows": {
+    "minimax_h3/standard": {
+      "disposition": "host_run_verified",
+      "operation": "create",
+      "evidence": "outputs/wd_2gyw_h3_standard.mp4"
+    },
+    "minimax_h3/h3_vdn_hybrid_attention": {
+      "disposition": "host_run_verified",
+      "operation": "create",
+      "evidence": "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "runtime_proof": "render log records Sol-Attn enabled with Triton on SM86"
+    },
+    "minimax_h3/taomate_three_step": {
+      "disposition": "planned",
+      "reason": "No TaoMate implementation or preset was found in the Wan2GP or Maestro host code search; a generic three-step render would fabricate the named preset."
+    },
+    "minimax_h3/kfi_frames_injection": {
+      "disposition": "host_run_verified",
+      "operation": "retake",
+      "evidence": "outputs/wd_2gyw_h3_kfi_frames_injection.mp4"
+    },
+    "minimax_h3/h3_outpaint": {
+      "disposition": "planned",
+      "reason": "Wan2GP FL2VA model definition comments out video_guide_outpainting; this is a typed host implementation boundary, not 24-GiB hardware infeasibility."
+    },
+    "minimax_h3/h3_audio_refinement": {
+      "disposition": "host_run_verified",
+      "operation": "edit",
+      "evidence": "outputs/wd_2gyw_h3_audio_refinement.mp4"
+    },
+    "ltx/2.5": {
+      "disposition": "planned",
+      "operation": "create",
+      "reason": "Authorized int8 ConvRot attempt loaded the selected 22B transformer and Gemma4 text encoder, then failed before generation in transformers tokenization with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; exact tail is in ltx25.failure.log. This is a host dependency failure, not hardware infeasibility."
+    },
+    "ltx/2.3": {
+      "disposition": "planned",
+      "reason": "A pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present, but its hash and packaging do not match the WanGP LTX-2.3 manifest assets; relabelling it would not be host-run evidence."
+    },
+    "scail/2": {
+      "disposition": "planned",
+      "reason": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling; this is an authorization/disk boundary, not proven hardware infeasibility."
+    },
+    "wan/2gp": {
+      "disposition": "planned",
+      "reason": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling; this is an authorization/disk boundary, not proven hardware infeasibility."
+    },
+    "hunyuan/standard": {
+      "disposition": "host_run_verified",
+      "operation": "create",
+      "evidence": "outputs/wd_2gyw_hunyuan.mp4"
+    }
+  },
+  "backend_boundaries_preserved": [
+    "LTX blend",
+    "SCAIL outpaint",
+    "SCAIL upscale",
+    "Hunyuan outpaint"
+  ],
+  "hardware_unsupported_rows": []
+}

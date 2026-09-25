@@ -1,0 +1,34 @@
+{
+  "schema_version": "wangp-dspy.video-capability-request/v1",
+  "model": {
+    "family": "ltx",
+    "preset": "2.5"
+  },
+  "operation": "blend",
+  "clips": [
+    {
+      "prompt": "A blue paper crane glides once around a brass compass while soft window light shifts.",
+      "duration_s": 2.333333,
+      "reference": "datasets/runs/maestro-parity/WD-2gyw/outputs/wd_2gyw_h3_standard.mp4"
+    }
+  ],
+  "overlap": {
+    "strategy": "none",
+    "frames": 0
+  },
+  "long_form": {
+    "mode": "one_window",
+    "one_window": true
+  },
+  "loras": [],
+  "render": {
+    "width": 480,
+    "height": 832,
+    "num_inference_steps": 8,
+    "guidance_scale": 1.0,
+    "embedded_guidance_scale": 6.0,
+    "force_fps": "24",
+    "profile": "profile3"
+  },
+  "recipe_seed": 2931
+}

@@ -1,0 +1,2 @@
+6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb  /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/wd_2gyw_h3_vdn_hybrid_attention.mp4
+9fd0ab632a7b66d9be911cb86a20b746a15bb6557e2300e47a80993524d2f0d0  /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/wd_2gyw_h3_audio_refinement.mp4

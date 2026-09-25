@@ -1,0 +1,11 @@
+ M datasets/runs/maestro-parity/WD-2gyw/download.native.log
+?? datasets/runs/maestro-parity/WD-2gyw/disk-during-download.txt
+?? datasets/runs/maestro-parity/WD-2gyw/doctor-preflight-after-download.exit
+?? datasets/runs/maestro-parity/WD-2gyw/doctor-preflight-after-download.json
+?? datasets/runs/maestro-parity/WD-2gyw/download-report.json
+?? datasets/runs/maestro-parity/WD-2gyw/host-after-download.txt
+?? datasets/runs/maestro-parity/WD-2gyw/preflight-models-selected.json
+?? datasets/runs/maestro-parity/WD-2gyw/queue-bootstrap.log
+?? datasets/runs/maestro-parity/WD-2gyw/queue-record.json
+?? datasets/runs/maestro-parity/WD-2gyw/queue.db
+?? datasets/runs/maestro-parity/WD-2gyw/repository-status-before-generation.txt

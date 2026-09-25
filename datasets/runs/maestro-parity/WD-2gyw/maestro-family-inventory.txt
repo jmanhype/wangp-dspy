@@ -1,0 +1,926 @@
+--- matching defaults ---
+==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Text2video 720p 13B",
+		"architecture" : "hunyuan",
+		"description": "Probably the best text 2 video model available.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_720_quanto_int8.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_480_i2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Image2video 480p 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Image2video 480p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_quanto_bf16_int8.safetensors"
+        ]
+    },
+	"prompt" : "",	
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 5.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_480_i2v_step_distilled.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Image2video 480p Step Distilled 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the official Step Distilled 480p versionby the Hunyuan Team.",
+		"profiles_dir": [""],
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_step_distilled_quanto_bf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_step_distilled_bf16.safetensors"
+        ]
+    },
+    "prompt": "",
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 8,
+    "guidance_scale": 1.0,
+    "flow_shift": 5.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_480_t2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Text2video 480p 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 480p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_480_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_480_quanto_bf16_int8.safetensors"
+        ]
+    },
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 5.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_480_t2v_lightx2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5 Text2video 480p Lightx2v 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 480p version accelerated by lightx2v.",
+		"profiles_dir": [""],
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors"
+        ]
+    },
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 4,
+    "guidance_scale": 1.0,
+    "flow_shift": 8.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_i2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5 Image2video 720p 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Image2video 720p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_720_quanto_bf16_int8.safetensors"
+        ]
+    },
+	"prompt" : "",
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 7.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_t2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Text2video 720p 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 720p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_720_quanto_bf16_int8.safetensors"
+        ]
+    },
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 9.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_upsampler.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Upsampler 720p 8B",
+        "architecture": "hunyuan_1_5_upsampler",
+		"description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This version is a specialized 720p upsampler.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720_quanto_bf16_int8.safetensors"
+        ],
+		"upsampler": "720",
+		"preload_URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720p_sr_distilled.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720p_sr_distilled_config.json"
+			]
+						
+    },
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 6,
+    "guidance_scale": 1,
+    "flow_shift": 2.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_1_5_upsampler_1080.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Upsampler 1080p 8B",
+        "architecture": "hunyuan_1_5_upsampler",
+		"description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This version is a specialized 1080p upsampler.",
+		"upsampler": "1080",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080_quanto_bf16_int8.safetensors"
+        ],
+		"preload_URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080p_sr_distilled.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080p_sr_distilled_config.json"
+			]
+						
+    },
+    "resolution": "1920x1088",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 8,
+    "guidance_scale": 1,
+    "flow_shift": 2.0
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_avatar.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Avatar 720p 13B",
+		"architecture" : "hunyuan_avatar",
+		"description": "With the Hunyuan Video Avatar model you can animate a person based on the content of an audio input. Please note that the video generator works by processing 128 frames segment at a time (even if you ask less). The good news is that it will concatenate multiple segments for long video generation (max 3 segments recommended as the quality will get worse).",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_avatar_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_avatar_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_custom.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom 720p 13B",
+		"architecture" : "hunyuan_custom",
+		"description": "The Hunyuan Video Custom model is probably the best model to transfer people (only people for the moment) as it is quite good to keep their identity. However it is slow as to get good results, you need to generate 720p videos with 30 steps.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_custom_audio.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom Audio 720p 13B",
+		"architecture" : "hunyuan_custom_audio",
+		"description": "The Hunyuan Video Custom Audio model can be used to generate scenes of a person speaking given a Reference Image and a Recorded Voice or Song. The reference image is not a start image and therefore one can represent the person in a different context.The video length can be anything up to 10s. It is also quite good to generate no sound Video based on a person.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_audio_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_audio_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_custom_edit.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom Edit 720p 13B",
+		"architecture" : "hunyuan_custom_edit",
+		"description": "The Hunyuan Video Custom Edit model can be used to do Video inpainting on a person (add accessories or completely replace the person). You will need in any case to define a Video Mask which will indicate which area of the Video should be edited.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_edit_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_edit_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_i2v.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Image2video 720p 13B",
+		"architecture" : "hunyuan_i2v",
+		"description": "A good looking image 2 video model, but not so good in prompt adherence.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_i2v_720_bf16v2.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_i2v_720_quanto_int8v2.safetensors"
+		]
+	}
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_t2v_accvideo.json
+{
+  "model": {
+    "name": "Hunyuan Video Text2video 720p AccVideo 13B",
+    "architecture": "hunyuan",
+    "description": " AccVideo is a novel efficient distillation method to accelerate video diffusion models with synthetic datset. Our method is 8.5x faster than HunyuanVideo.",
+    "URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/accvideo_hunyuan_video_720_quanto_int8.safetensors"
+    ],
+    "preload_URLs": [
+    ],
+    "auto_quantize": true
+  },
+  "negative_prompt": "",
+  "resolution": "832x480",
+  "video_length": 81,
+  "seed": 42,
+  "num_inference_steps": 5,
+  "flow_shift": 7,
+  "embedded_guidance_scale": 6,
+  "repeat_generation": 1,
+  "loras_multipliers": "",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "",
+  "RIFLEx_setting": 0,
+  "perturbation_start_perc": 10,
+  "perturbation_end_perc": 90,
+  "prompt_enhancer": "",
+  "activated_loras": [
+  ]
+}==== /mnt/bulk/straughter/Maestro/app/defaults/hunyuan_t2v_fast.json
+{
+  "model": {
+    "name": "Hunyuan Video Text2video 720p FastHunyuan 13B",
+    "architecture": "hunyuan",
+    "description": "Fast Hunyuan is an accelerated HunyuanVideo model. It can sample high quality videos with 6 diffusion steps.",
+	"settings_dir": [ "" ],
+    "URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/fast_hunyuan_video_720_quanto_int8.safetensors"
+    ],
+    "preload_URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/fast_hunyuan_video_720_quanto_int8_map.json"
+    ],
+    "auto_quantize": true
+  },
+  "negative_prompt": "",
+  "resolution": "832x480",
+  "video_length": 81,
+  "seed": 42,
+  "num_inference_steps": 6,
+  "flow_shift": 17,
+  "embedded_guidance_scale": 6,
+  "repeat_generation": 1,
+  "loras_multipliers": "",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "",
+  "RIFLEx_setting": 0,
+  "perturbation_start_perc": 10,
+  "perturbation_end_perc": 90,
+  "prompt_enhancer": "",
+  "activated_loras": [
+  ]
+}==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_19B.json
+{
+    "model": {
+        "name": "LTX-2.0 Dev 19B",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 generates video up to 20s with an audio soundtrack. Supports start/end keyframes and sliding-window continuation. You can force the audio soundtrack by providing an Audio Prompt.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev-fp8_diffusion_model.safetensors"
+        ],
+        "preload_URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-ic-lora-pose-control.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-ic-lora-depth-control.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-ic-lora-canny-control.safetensors"
+        ],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled-lora-384.safetensors"
+        ],
+        "loras_multipliers": ["0;1"]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 40,
+	"video_length": 241,
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.7,
+    "perturbation_switch": 2,
+    "perturbation_layers": [29],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_19B_nvfp4.json
+{
+    "model": {
+        "name": "LTX-2.0 Dev NVFP4 19B",
+        "architecture": "ltx2_19B",
+        "description": "NVFP4-quantized LTX-2 Dev 19B weights. For full speed, a sm120+ GPU is needed (RTX 50xx) and the lightx2v or comfy-kitchen NVFP4 kernels must be installed.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev-nvfp4_diffusion_model.safetensors"
+        ],
+        "preload_URLs": "ltx2_19B",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled-lora-384.safetensors"
+        ],
+        "loras_multipliers": ["0;1"]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 40,
+    "video_length": 241,
+    "guidance_scale": 4.0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B.json
+{
+    "model": {
+        "name": "LTX-2.3 Dev 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 generates video up to 20s with an audio soundtrack. Supports start/end keyframes and sliding-window continuation. You can force the audio soundtrack by providing an Audio Prompt..",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+        ],
+        "preload_URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors"
+        ],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384.safetensors"
+        ],
+        "loras_multipliers": [
+            "0;1"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 30,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "perturbation_switch": 0,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_10eros.json
+{
+    "model": {
+        "name": "LTX-2.3 22B 10Eros (Mature)",
+        "architecture": "ltx2_22B",
+        "description": "Community fine-tune of LTX-2.3 22B (TenStrip/LTX2.3-10Eros) tuned for explicit content. Based on SulphurAI/Sulphur-2-base. Full BF16 checkpoint with FP8 mixed-precision fallback for lower-VRAM systems. Auto-bundles the cond_safe distilled LoRA the author's reference workflow depends on (without it the model produces noisy motion on movement). Available only when Mature Mode is enabled.",
+        "URLs": [
+            "https://huggingface.co/TenStrip/LTX2.3-10Eros/resolve/main/10Eros_v1_bf16.safetensors",
+            "https://huggingface.co/TenStrip/LTX2.3-10Eros/resolve/main/10Eros_v1-fp8mixed_learned.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "loras": [
+            "https://huggingface.co/TenStrip/LTX2.3_Distilled_Lora_1.1_Experiments/resolve/main/ltx-2.3-22b-distilled-lora-1.1_fro90_ceil72_condsafe.safetensors"
+        ],
+        "loras_multipliers": [
+            1
+        ],
+        "nsfw_only": true,
+        "reference_pipeline": true,
+        "enhance_guide": "10eros_video_rules"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 30,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "perturbation_switch": 0,
+    "perturbation_layers": [
+        14,
+        19
+    ],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "reference_pipeline": true
+}==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_10eros_v14.json
+{
+    "model": {
+        "name": "LTX-2.3 22B 10Eros v1.4 (Mature)",
+        "architecture": "ltx2_22B",
+        "description": "10Eros v1.4 \u2014 the current line of TenStrip/LTX2.3-10Eros (v1.3 'full remix' plus restored explicit prompting and motion control; prioritizes avoiding anatomy confusion). Bundles the rank72_energy distilled LoRA at the reference workflow's per-stage strengths (0.68 stage 1 / 0.38 stage 2) instead of v1's condsafe-at-1.0 pairing, and uses the author's abliterated Gemma-3 12B text encoder (~12.8 GB one-time download) as the reference workflows do \u2014 better prompt fidelity for explicit content than the standard QAT encoder. Pairs with the 'Reference pipeline' toggle in Advanced Settings for the closest match to the author's published ComfyUI workflow. Available only when Mature Mode is enabled.",
+        "URLs": [
+            "https://huggingface.co/TenStrip/LTX2.3-10Eros/resolve/main/10Eros_v1.4_bf16.safetensors",
+            "https://huggingface.co/TenStrip/LTX2.3-10Eros/resolve/main/10Eros_v1.4_fp8mixed_learned.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "loras": [
+            "https://huggingface.co/TenStrip/LTX2.3_Distilled_Lora_1.1_Experiments/resolve/main/ltx-2.3-22b-distilled-lora-1.1_rank72_energy.safetensors"
+        ],
+        "loras_multipliers": [
+            "0.68;0.38"
+        ],
+        "text_encoder_URLs": [
+            "https://huggingface.co/TenStrip/LTX2.3-10Eros/resolve/main/text_encoders/gemma-3-12b-it-ablit-norms-biproj-fp8mixed.safetensors"
+        ],
+        "nsfw_only": true,
+        "reference_pipeline": true,
+        "enhance_guide": "10eros_video_rules"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 9,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "perturbation_switch": 0,
+    "perturbation_layers": [
+        14,
+        19
+    ],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "reference_pipeline": true
+}==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_1_1.json
+{
+    "model": {
+        "name": "LTX-2.3 Dev 1.1 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 Dev checkpoint (22B) using the Distilled 1.1 stage-2 LoRA. Generates video up to 20s with an audio soundtrack, supports start/end keyframes and sliding-window continuation.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+        ],
+        "preload_URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors"
+        ],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384-1.1.safetensors"
+        ],
+        "loras_multipliers": [
+            "0;1"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 30,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.7,
+    "perturbation_switch": 2,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled checkpoint (22B) with faster generation.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled_diffusion_model_quanto_int8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_1_1.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled 1.1 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled v1.1 checkpoint (22B) with the updated 1.1 transformer. Better audio and visuals. Reuses the existing 2.3 VAE, audio VAE, vocoder, text projection, embeddings connector, and upscalers.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_quanto_bf16_int8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\" The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\" A beat. He glances aside, then mutters defensively, \"He's just having fun.\" The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off. He shouts, \"Wheeeew!\" as he flaps his wings with full commitment. The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_1_1_omninft.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled 1.1 22B + OmniNFT Sync",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled v1.1 22B with the OmniNFT RL LoRA pre-applied at weight 1.0 for improved audio/video sync. Same checkpoint as the base distilled 1.1 entry — picks up the LoRA automatically on first use. Per the LoRA authors, audio/video temporal alignment should be noticeably tighter than the base distilled output. Use this when generating videos where dialogue lip-sync and motion-to-sound synchronization matter (Director Mode Music Video / Short Film, Scenema dialogues, etc.).",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_quanto_bf16_int8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/loras/omninft-ltx2.3-22b-rl-lora-r32.safetensors"
+        ],
+        "loras_multipliers": [1]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\" The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\" A beat. He glances aside, then mutters defensively, \"He's just having fun.\" The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off. He shouts, \"Wheeeew!\" as he flaps his wings with full commitment. The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_fp8.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled FP8 22B",
+        "architecture": "ltx2_22B",
+        "description": "FP8 mixed-precision quantized LTX-2.3 distilled checkpoint (22B). Faster generation with ~50% memory reduction.",
+        "URLs": [
+            "https://huggingface.co/drbaph/LTX-2.3-FP8/resolve/main/ltx-2.3-22b-distilled-fp8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_gguf_q4_k_m.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled GGUF Q4_K_M Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled GGUF Q4_K_M light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q4_K_M_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_gguf_q6_k.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled GGUF Q6_K Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled GGUF Q6_K light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q6_K_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_distilled_gguf_q8_0.json
+{
+    "model": {
+        "name": "LTX-2.3 Distilled GGUF Q8_0 Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled GGUF Q8_0 light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q8_0_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_fp8.json
+{
+    "model": {
+        "name": "LTX-2.3 Dev FP8 22B",
+        "architecture": "ltx2_22B",
+        "description": "FP8 mixed-precision quantized LTX-2.3 dev checkpoint (22B). ~50% memory reduction vs full precision.",
+        "URLs": [
+            "https://huggingface.co/drbaph/LTX-2.3-FP8/resolve/main/ltx-2.3-22b-dev-fp8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384.safetensors"
+        ],
+        "loras_multipliers": [
+            "0;1"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 30,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_nvfp4.json
+{
+    "model": {
+        "name": "LTX-2.3 Dev NVFP4 22B",
+        "architecture": "ltx2_22B",
+        "description": "NVFP4-quantized LTX-2.3 Dev 22B weights. For full speed, a sm120+ GPU is needed (RTX 50xx) and the lightx2v or comfy-kitchen NVFP4 kernels must be installed.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev-nvfp4_diffusion_model.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384.safetensors"
+        ],
+        "loras_multipliers": [
+            "0;1"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 30,
+    "video_length": 241,
+    "resolution": "1280x720",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.7,
+    "perturbation_switch": 2,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_22B_sulphur2_distilled.json
+{
+    "model": {
+        "name": "LTX-2.3 22B Sulphur 2 Distilled FP8 (Mature)",
+        "architecture": "ltx2_22B",
+        "description": "Community fine-tune of LTX-2.3 22B distilled (Winnougan/Sulphur-2-LTX-2.3) tuned for explicit content. FP8 quantized for faster generation with ~50% memory reduction. Available only when Mature Mode is enabled.",
+        "URLs": [
+            "https://huggingface.co/Winnougan/Sulphur-2-LTX-2.3/resolve/main/sulphur_distill_fp8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled",
+        "nsfw_only": true,
+        "enhance_guide": "sulphur_video_rules"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_distilled.json
+{
+    "model": {
+        "name": "LTX-2.0 Distilled 19B",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled checkpoint with faster generation.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled-fp8_diffusion_model.safetensors"
+        ],
+        "preload_URLs": "ltx2_19B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_distilled_gguf_q4_k_m.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q4_K_M 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q4_K_M checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q4_K_M.gguf"
+        ],
+        "preload_URLs": "ltx2_19B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_distilled_gguf_q6_k.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q6_K 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q6_K checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q6_K.gguf"
+        ],
+        "preload_URLs": "ltx2_19B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltx2_distilled_gguf_q8_0.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q8_0 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q8_0 checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q8_0.gguf"
+        ],
+        "preload_URLs": "ltx2_19B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltxv_13B.json
+{	
+	"model":
+	{
+		"name": "LTX Video 0.9.8 13B",
+		"architecture" : "ltxv_13B",
+		"description": "LTX Video is a fast model that can be used to generate very very long videos (up to 1800 frames !).It is recommended to keep the number of steps to 30 or you will need to update the file 'ltxv_video/configs/ltxv-13b-0.9.8-dev.yaml'.The LTX Video model expects very long prompts, so don't hesitate to use the Prompt Enhancer.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv_0.9.8_13B_dev_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv_0.9.8_13B_dev_quanto_bf16_int8.safetensors"
+		],
+		"preload_URLs" : [ 
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv-097-ic-lora-pose-control-diffusers.safetensors",
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv-097-ic-lora-depth-control-diffusers.safetensors",
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv-097-ic-lora-canny-control-diffusers.safetensors"
+		],			
+		"LTXV_config": "models/ltx_video/configs/ltxv-13b-0.9.8-dev.yaml"
+	},
+	"num_inference_steps": 30	
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/ltxv_distilled.json
+{
+	"model":
+	{
+		"name": "LTX Video 0.9.8 Distilled 13B",
+		"architecture" : "ltxv_13B",
+		"description": "LTX Video is a fast model that can be used to generate very long videos (up to 1800 frames !).This distilled version is a very fast version and retains a high level of quality. The LTX Video model expects very long prompts, so don't hesitate to use the Prompt Enhancer.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv_0.9.8_13B_distilled_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/LTX_Video/resolve/main/ltxv_0.9.8_13B_distilled_quanto_bf16_int8.safetensors"
+			],
+		"preload_URLs" : "ltxv_13B",		
+		"LTXV_config": "models/ltx_video/configs/ltxv-13b-0.9.8-distilled.yaml"
+	},
+	"num_inference_steps": 6
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/minimax_h3.json
+{
+    "model": {
+        "name": "MiniMax H3 Base (FL2VA)",
+        "architecture": "minimax_h3",
+        "description": "MiniMax H3 Base for text-to-video, image-to-video, and first/last-frame video generation with native synchronized stereo audio. Uses the consumer-friendly scaled-FP8 FL2VA transformer and NVFP4 Qwen3-VL conditioner.",
+        "URLs": [
+            "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/0543966fbdce5ba05709a8f2031c94bdba629b4a/diffusion_models/minimax_h3_fl2va_pruned_fp8_scaled.safetensors"
+        ]
+    },
+    "prompt": "A cinematic medium shot of a traveler standing on a windswept overlook at sunrise. The camera slowly arcs around them as their coat moves naturally in the breeze. Distant birds and soft wind are audible, and the traveler says, \"We made it.\"",
+    "num_inference_steps": 20,
+    "video_length": 124,
+    "resolution": "864x480",
+    "guidance_scale": 1.0,
+    "image_prompt_type": ""
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/scail.json
+{
+    "model": {
+        "name": "SCAIL Preview 14B",
+        "architecture": "scail",
+        "description": "SCAIL: Studio-Grade Character Animation. Animates reference image using driving video motion with 3D-consistent pose transfer. Uses NLFPose for accurate 3D skeleton extraction.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_quanto_bf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_quanto_fp16_int8.safetensors"
+        ]
+    },
+	"sliding_window_color_correction_strength": 1
+}==== /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B.json
+{
+    "model": {
+        "name": "SCAIL-2 14B",
+        "architecture": "scail2_14B",
+        "description": "SCAIL-2: Wan 2.1 character animation with end-to-end reference, pose, and mask conditioning.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_mbf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_quanto_mbf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_quanto_mfp16_int8.safetensors"
+        ]
+    },
+    "prompt": "The character is dancing naturally with expressive body movement.",
+    "negative_prompt": "",
+    "video_length": 81,
+    "resolution": "832x480",
+    "num_inference_steps": 40,
+    "flow_shift": 3,
+    "guidance_scale": 5.0,
+    "custom_settings": {
+        "scail2_animate_preprocessing": "raw",
+        "image_ref_keyword_content": "human character"
+    },
+    "sliding_window_size": 81,
+    "sliding_window_overlap": 5,
+    "sliding_window_color_correction_strength": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B_fast.json
+{
+    "model": {
+        "name": "SCAIL-2 14B Fast",
+        "architecture": "scail2_14B",
+        "description": "SCAIL-2 character animation accelerated with the I2V lightx2v CFG-step-distill LoRA: 6 steps and no CFG instead of 40 steps with CFG. Intended for fast Studio/Video animation; Recast uses its dedicated T2V-accelerated model.",
+        "URLs": "scail2_14B",
+        "loras": ["https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Lightx2v/lightx2v_I2V_14B_480p_cfg_step_distill_rank256_bf16.safetensors"],
+        "loras_multipliers": [0.8]
+    },
+    "prompt": "The character is dancing naturally with expressive body movement.",
+    "negative_prompt": "",
+    "video_length": 81,
+    "resolution": "832x480",
+    "num_inference_steps": 6,
+    "flow_shift": 5,
+    "guidance_scale": 1,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "custom_settings": {
+        "scail2_animate_preprocessing": "raw",
+        "image_ref_keyword_content": "human character"
+    },
+    "sliding_window_size": 81,
+    "sliding_window_overlap": 5,
+    "sliding_window_color_correction_strength": 0
+}
+==== /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B_recast_fast.json
+{
+    "model": {
+        "name": "SCAIL-2 Recast Fast",
+        "architecture": "scail2_14B",
+        "description": "Recommended SCAIL-2 Recast model. Uses native replacement and multi-reference conditioning with the official I2V LightX fast operating point: 8 steps, shift 1, CFG 1, and UniPC. Recast can also apply Z.ai's official replacement Relighting LoRA.",
+        "URLs": "scail2_14B",
+        "loras": ["https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Lightx2v/lightx2v_I2V_14B_480p_cfg_step_distill_rank128_bf16.safetensors"],
+        "loras_multipliers": [1.0]
+    },
+    "prompt": "A clearly defined character performs naturally within the scene. The character's appearance, outfit, motion, and interactions remain visually coherent throughout the video.",
+    "negative_prompt": "",
+    "video_length": 81,
+    "resolution": "832x480",
+    "num_inference_steps": 8,
+    "flow_shift": 1,
+    "guidance_scale": 1,
+    "guidance_phases": 1,
+    "sample_solver": "unipc",
+    "custom_settings": {
+        "scail2_animate_preprocessing": "raw",
+        "image_ref_keyword_content": "human character",
+        "scail2_recast_conditioning": "native_replace"
+    },
+    "sliding_window_size": 81,
+    "sliding_window_overlap": 5,
+    "sliding_window_color_correction_strength": 0
+}
+--- exact model references ---
+/mnt/bulk/straughter/Maestro/app/models/ltx2/ltx2_handler.py:267:        extra_model_def["custom_frames_injection"] = True
+/mnt/bulk/straughter/Maestro/app/wgp.py:3114:        # choice every generation. setdefault only backfills a missing value.
+/mnt/bulk/straughter/Maestro/app/wgp.py:7604:    custom_frames_injection = model_def.get("custom_frames_injection", False) and image_refs is not None and len(image_refs)
+/mnt/bulk/straughter/Maestro/app/wgp.py:7606:        any_background_ref = 2 if model_def.get("all_image_refs_are_background_ref", False) or custom_frames_injection else 1
+/mnt/bulk/straughter/Maestro/app/wgp.py:8115:                nb_frames_positions = len(frames_positions_list) if not custom_frames_injection else 0
+/mnt/bulk/straughter/Maestro/app/wgp.py:8120:            if custom_frames_injection:
+/mnt/bulk/straughter/Maestro/app/preprocessing/sam3/model/sam3_multiplex_base.py:1799:            # Currently this only happens in the dynamic multiplex setting (since we backfill states)
+/mnt/bulk/straughter/Maestro/app/preprocessing/sam3/model/sam3_multiplex_base.py:1816:            # Currently this only happens in the dynamic multiplex setting (since we backfill states)
+/mnt/bulk/straughter/Maestro/app/preprocessing/sam3/model/sam3_multiplex_base.py:2471:            # which might not be true in the dynamic multiplex case with backfilling
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:475:def _backfill_clip_video_filenames(state: dict, state_dir: str) -> dict:
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:581:            return _backfill_clip_video_filenames(state, out_dir)
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:592:                    return _backfill_clip_video_filenames(
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:653:        state = _backfill_clip_video_filenames(
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:730:            state = _backfill_clip_video_filenames(json.load(f), pipeline_dir)
+/mnt/bulk/straughter/Maestro/app/services/director_pipeline.py:1399:        # was unreachable until the video_filename backfill fix, so the
+/mnt/bulk/straughter/Maestro/app/launch.py:1315:                    # backfilled for existing files by check-updates.
+/mnt/bulk/straughter/Maestro/app/launch.py:1605:                # date) is captured at download and backfilled by check-updates.
+/mnt/bulk/straughter/Maestro/app/launch.py:1791:    # targets list dedupes away — used to backfill publishedAt below.
+/mnt/bulk/straughter/Maestro/app/launch.py:1838:    def _backfill_published_at(sidecar_paths: list[str], model_data: dict):
+/mnt/bulk/straughter/Maestro/app/launch.py:1914:                # Backfill release dates into sidecars that predate
+/mnt/bulk/straughter/Maestro/app/launch.py:1918:                    _backfill_published_at(sidecars_by_model.get(model_id, []), data)
+/mnt/bulk/straughter/Maestro/app/launch.py:3858:            if "ltx-2.3" in _identity_blob or "ltx2.3" in _identity_blob or "ltx_2_3" in _identity_blob:
+/mnt/bulk/straughter/Maestro/app/launch.py:6342:    """Usage analytics backfilled from generation sidecars: every job ever

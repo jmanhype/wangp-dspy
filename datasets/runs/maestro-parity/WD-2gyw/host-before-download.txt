@@ -1,0 +1,9 @@
+2026-09-25T14:46:45Z
+NVIDIA GeForce RTX 3090, 24576, 83, 24034
+Filesystem        1B-blocks         Used    Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 742506299392 106745708544  88% /
+/dev/nvme0n1p4 857997254656 742506299392 106745708544  88% /
+21057674787 /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+26723791903 /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+5207806512 /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+605429308 /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors

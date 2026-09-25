@@ -1,0 +1,8 @@
+29531884062 /mnt/bulk/straughter/ComfyUI/models/checkpoints/ltx-2.3-22b-distilled-fp8.safetensors
+d9646b6f2d5c42d337b23671634c43bfeece6989644f51b4a3aa088465ccd3b2  /mnt/bulk/straughter/ComfyUI/models/checkpoints/ltx-2.3-22b-distilled-fp8.safetensors
+1452258578 /mnt/bulk/straughter/ComfyUI/models/vae/LTX23_video_vae_bf16.safetensors
+01ea62d09bc139f95c5dee7b5c062ad6a3e6cd8be910a1983ac02e7eb5b8ee3b  /mnt/bulk/straughter/ComfyUI/models/vae/LTX23_video_vae_bf16.safetensors
+364855188 /mnt/bulk/straughter/ComfyUI/models/vae/LTX23_audio_vae_bf16.safetensors
+5bc10fa4adecf99dda132d916e23048cbd56797702c5fa50eb5d2079048a38c3  /mnt/bulk/straughter/ComfyUI/models/vae/LTX23_audio_vae_bf16.safetensors
+2312149072 /mnt/bulk/straughter/ComfyUI/models/text_encoders/ltx-2.3_text_projection_bf16.safetensors
+911d59bb4cb7708179c9a0045ea0fe41212ecfb77aed3a02702b7c0a8274911f  /mnt/bulk/straughter/ComfyUI/models/text_encoders/ltx-2.3_text_projection_bf16.safetensors

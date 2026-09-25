@@ -1,0 +1,162 @@
+[
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+    "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
+    "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
+    "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+    "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+    "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors",
+    "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+    "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors",
+    "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors",
+    "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+    "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+    "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+    "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+    "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+    "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors",
+    "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json",
+    "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json",
+    "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja",
+    "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json",
+    "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+    "sha256": "b045f314ae1ef2fb50de8efd7aa3fbf67526ec12ce59537ec9827bd417b09b77"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors",
+    "sha256": "2609ed7033c052fdf164afcac71e8a7c82afccdbb001d673444a72f194fbb918"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE.json",
+    "sha256": "899e63dae033b2fa14291cefbe6e1736741d816991456e96d4d497918dacf8af"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/color_idx.json",
+    "sha256": "d52364d14204f0fb658575ac92f094210b485aeb6579ac9814097a0e8c4eb513"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/multilingual_10-lang_idx.json",
+    "sha256": "3753b9e132a4b4dac714e55ac90bd6f791874a83fa0f716b1f6f457a9c5a33a1"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/config.json",
+    "sha256": "7845fb21b320f3fa05392ce151143502cf08729c8c89732da3293615885d3e83"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors",
+    "sha256": "effd42c558a0558b62c326e7f58b22f3b1499ca465246e45eb0f8e844f1f313e"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors",
+    "sha256": "7fb208af0f1497111418b4f254230639e49829a82413f3fc8fda2d24fa005273"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/config.json",
+    "sha256": "b626aa9623e88440ce20623debc3f0d85e4ee61f38846deca16738784b8ac4e2"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors",
+    "sha256": "d769e3a32a6a9bac72d4d93b989e44491f71b50f02bfa14cd9187758d4a68ff1"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/preprocessor_config.json",
+    "sha256": "ec1f371074fb4867ea1c654e00bc5ea99d706f409aaebf8dc614d67c0735aff8"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/qwen_vae.safetensors",
+    "sha256": "0c8bc8b758c649abef9ea407b95408389a3b2f610d0d10fcb054fe171d0a8344"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/qwen_vae_config.json",
+    "sha256": "e4e61b7553f930e9eabf8935f0a77e6d004cc3ee67a601a56ef03cc41ccada68"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors",
+    "sha256": "18966ca6ba18261ec0465442580ad30510a758ecc0314871a0bbd30032716568"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/merges.txt",
+    "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/tokenizer_config.json",
+    "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/config.json",
+    "sha256": "081d41bae4c75815afde340b5cee39d9c71febe3fc3146e0366a75a45da0c04b"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/vocab.json",
+    "sha256": "87a257b04b17642a0688c98cd1df89c398bda4fee532d6f88b38a659ecb4ac8d"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json",
+    "sha256": "d4397fb8765d3fb56db022e5a14ce58dbcc144093c49ea1ab96787fb7951facb"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/preprocessor_config.json",
+    "sha256": "9ff8a240516e4ef986717597bb2c5fff3e4d4c0951d02b7dee949ceb369b5b03"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/chat_template.json",
+    "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"
+  }
+]

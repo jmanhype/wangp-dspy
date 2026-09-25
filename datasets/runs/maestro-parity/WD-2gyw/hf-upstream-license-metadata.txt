@@ -1,0 +1,4 @@
+MiniMaxAI/MiniMax-H3		other
+Lightricks/LTX-Video		other
+Wan-AI/Wan2.1-T2V-14B-Diffusers		apache-2.0
+tencent/HunyuanVideo1.5 unavailable

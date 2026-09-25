@@ -1,0 +1,100 @@
+........................................................................ [  3%]
+........................................................................ [  6%]
+........................................................................ [ 10%]
+........................................................................ [ 13%]
+........................................................................ [ 17%]
+........................................................................ [ 20%]
+........................................................................ [ 24%]
+........................................................................ [ 27%]
+........................................................................ [ 31%]
+........................................................................ [ 34%]
+........................................................................ [ 37%]
+........................................................................ [ 41%]
+.................................................s...................... [ 44%]
+........................................................................ [ 48%]
+........................................................................ [ 51%]
+........................................................................ [ 55%]
+........................................................................ [ 58%]
+........................................................................ [ 62%]
+........................................................................ [ 65%]
+........................................................................ [ 69%]
+..................................................F.F................... [ 72%]
+........................................................................ [ 75%]
+........................................................................ [ 79%]
+........................................................................ [ 82%]
+........................................................................ [ 86%]
+........................................................................ [ 89%]
+........................................................................ [ 93%]
+........................................................................ [ 96%]
+.....................................................................    [100%]
+=================================== FAILURES ===================================
+__________ test_clean_checkout_and_real_repository_are_release_ready ___________
+
+tmp_path = PosixPath('/private/var/folders/7q/tx7m0tg12m5cgq7k8z8q2dzw0000gn/T/pytest-of-speed/pytest-233/test_clean_checkout_and_real_r0')
+
+    def test_clean_checkout_and_real_repository_are_release_ready(tmp_path: Path) -> None:
+        clone = _clone(tmp_path)
+        guard = tmp_path / "success-human"
+        human = _run_verified(clone, guard, None, "release", "verify")
+        assert human.returncode == 0, human.stdout + human.stderr
+        assert all(phrase in human.stdout for phrase in (
+            "version=0.1.0", "check=version status=pass",
+            "check=changelog status=pass", "check=recipe_schema status=pass",
+            "check=tree status=pass", "tag-ready=v0.1.0", "tag_created=false",
+            "no tag was created", "release=ready"))
+    
+        guard = tmp_path / "success-json"
+        json_run = _run_verified(clone, guard, None, "release", "verify", "--json")
+        assert json_run.returncode == 0, json_run.stdout + json_run.stderr
+        payload = _release_payload(json_run)
+        assert (payload["version"], payload["ready"], payload["tag"],
+                payload["tag_created"]) == ("0.1.0", True, "v0.1.0", False)
+        names = " ".join(check["name"] for check in payload["checks"])
+        assert names == "version changelog recipe_schema tree"
+        assert all(check["status"] == "pass" for check in payload["checks"])
+        assert payload["checks"][2]["observed"] == SCHEMA
+    
+>       assert _git(ROOT, "status", "--short").stdout == ""
+E       AssertionError: assert ' M datasets/...enance.json\n' == ''
+E         
+E         +  M datasets/runs/maestro-parity/WD-2gyw/queue-bootstrap.log
+E         +  M datasets/runs/maestro-parity/WD-2gyw/queue-bootstrap.py
+E         +  M datasets/runs/maestro-parity/WD-2gyw/queue-complete.py
+E         +  M datasets/runs/maestro-parity/WD-2gyw/queue-record.json
+E         +  M datasets/runs/maestro-parity/WD-2gyw/queue.db
+E         +  M datasets/runs/maestro-parity/WD-2gyw/row-dispositions.json...
+E         
+E         ...Full output truncated (32 lines hidden), use '-vv' to show
+
+tests/test_release.py:170: AssertionError
+__________ test_probe_fails_closed_when_import_shadowing_is_disabled ___________
+
+tmp_path = PosixPath('/private/var/folders/7q/tx7m0tg12m5cgq7k8z8q2dzw0000gn/T/pytest-of-speed/pytest-233/test_probe_fails_closed_when_i0')
+
+    def test_probe_fails_closed_when_import_shadowing_is_disabled(
+            tmp_path: Path) -> None:
+        clone = _clone(tmp_path)
+        version = clone / "VERSION"
+        version.write_text("0.2.0\n", encoding="utf-8")
+        _commit(clone, version, "release-test: wrong-tree version")
+    
+        guard = tmp_path / "unshadowed"
+        result, guard, ssh_log = _execute(
+            clone, guard, "release", "verify", "--json",
+            neutralise_imports=False, prefix_paths=(ROOT,))
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: {"diagnostics":[{"code":"INPUT_INVALID","evidence_refs":["/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-2gyw"],"metadata":{"source":"/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-2gyw"},"next_command":"wgp release verify --json","observed":"tree is dirty: changed_path_count=38, untracked_path_count=31","remediation":"Fix the named field/path/configuration value, then rerun the same command.","severity":"error","title":"Typed input or configuration check failed","why":"The CLI rejected the request before an engine side effect."}],"release":{"checks":[{"expected":"0.1.0","message":null,"name":"version","observed":{"VERSION":"0.1.0","pyproject.toml":"0.1.0","wangp.__version__":"0.1.0"},"source":"VERSION, pyproject.toml, wangp/__init__.py","status":"pass"},{"expected":"0.1.0","message":null,"name":"changelog","observed":"0.1.0","source":"CHANGELOG.md","status":"pass"},{"expected":"wangp-dspy.render-recipe/v3","message":null,"name":"recipe_schema","observed":"wangp-dspy.render-recipe/v3","source":"wangp/recipe.py, datasets/runs/pull/lf004-operator-dogfood-56f-recovery-20260921","status":"pass"},{"expected":"clean_tree=true changed_path_count=0 untracked_path_count=0","message":"tree is dirty: changed_path_count=38, untracked_path_count=31","name":"tree","observed":{"changed_path_count":38,"clean_tree":false,"commit_sha":"efaafa7f9689ce1b4b78e416845a416fe381cd83","dirty_tree":true,"status_sha256":"8c455dfa35e40020a16f9b603f3e017b981e7628628ad2fe7e1a201f812a4f76","tracked_diff_sha256":"1f5c3f63d86c8f72a1e0df1b07a8078c810bad407dc16a49556e7da926de4b59","untracked_content_sha256":"a52a88ddc5bd1a0d8ace58427b4eaddc53cd49e705a1864ea83e9e3797c1a507","untracked_path_count":31},"source":"services.director.run_ledger.repository_identity","status":"failed"}],"guidance":"resolve failed checks before tagging v0.1.0; no tag was created","ready":false,"tag":"v0.1.0","tag_created":false,"version":"0.1.0"}}
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-2gyw/.venv/bin/wgp', 'releas...tagging v0.1.0; no tag was created","ready":false,"tag":"v0.1.0","tag_created":false,"version":"0.1.0"}}\n', stderr='').returncode
+
+tests/test_release.py:230: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-2gyw/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_release.py::test_clean_checkout_and_real_repository_are_release_ready
+FAILED tests/test_release.py::test_probe_fails_closed_when_import_shadowing_is_disabled

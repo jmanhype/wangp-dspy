@@ -1,0 +1,10 @@
+captured_utc=2026-09-25T15:29:57Z
+gpu=NVIDIA GeForce RTX 3090, 24576, 83, 24034
+compute_apps=
+disk=/dev/nvme0n1p4 857997254656 804409696256 44842311680  95% /
+llama_server_processes=none
+wd2gyw_processes=2389954 /home/straughter/Wan2GP/venv/bin/python /home/straughter/Wan2GP/wgp.py --server-name 0.0.0.0 --server-port 7861 --profile 4 --attention sage --verbose 1
+audio_critic=stopped
+qc_health=stopped
+llama_restart_performed=no
+process_note=The displayed server command belongs to Maestro's CPU-only respawn loop (new PID every few seconds); nvidia-smi reports no GPU compute app, and no WD-2gyw render/SSH process remains.

@@ -1,0 +1,9 @@
+{
+  "assets": {
+    "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors": {
+      "paused": false,
+      "resume_requested": true
+    }
+  },
+  "schema_version": "wangp-dspy.download-state/v1"
+}

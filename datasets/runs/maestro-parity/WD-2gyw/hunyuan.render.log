@@ -1,0 +1,29 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_2gyw_hunyuan.source.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_2gyw_hunyuan.source.json
+[load_settings] Task 1/1 ready, ID: 1, model: hunyuan_1_5_480_t2v_lightx2v
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test: a small brass compass spins slowly...
+Loading Model 'ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+Loading model Hunyuan Video 1.5 Text2video 480p Lightx2v 8B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 33 large blocks spread across 8120.37 MB
+Hooked to model 'transformer' (HYVideoDiffusionTransformer)
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Hooked to model 'vae' (AutoencoderKLConv3D)
+Hooked to model 'byt5_model' (T5Stack)
+  Model loaded  [0/1] Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/4] Denoising | 19.8s  0%|          | 0/4 [00:00<?, ?steps/s]  [0/4] Denoising | 32.2s  [0/4] Denoising | 33.2s  [0/4] Denoising | 34.3s  [0/4] Denoising | 35.3s  [0/4] Denoising | 36.4s  [0/4] Denoising | 37.5s  [0/4] Denoising | 38.6s  [1/4] Denoising | 39.1s / 1m 37s  [1/4] Denoising | 40.2s / 1m 37s  [1/4] Denoising | 41.2s / 1m 37s  [1/4] Denoising | 42.3s / 1m 37s  [1/4] Denoising | 43.4s / 1m 37s  [1/4] Denoising | 44.5s / 1m 37s  [2/4] Denoising | 45.6s / 1m 11s  [2/4] Denoising | 46.7s / 1m 11s  [2/4] Denoising | 47.8s / 1m 11s  [2/4] Denoising | 48.9s / 1m 11s  [2/4] Denoising | 49.9s / 1m 11s  [2/4] Denoising | 51.0s / 1m 11s  [3/4] Denoising | 52.0s / 1m 02s  [3/4] Denoising | 53.1s / 1m 02s  [3/4] Denoising | 54.1s / 1m 02s  [3/4] Denoising | 55.2s / 1m 02s  [3/4] Denoising | 56.2s / 1m 02s  [3/4] Denoising | 57.3s / 1m 02s  0%|          | 0/4 [00:38<?, ?steps/s]
+  [4/4] VAE Decoding | 58.3s / 58.3sError saving metadata to MP4 /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/2026-09-25-10h23m06s_seed2942_A concise cinematic test a small brass compass spins slowly on a paper map while cool window light.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/2026-09-25-10h23m06s_seed2942_A concise cinematic test a small brass compass spins slowly on a paper map while cool window light.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 43s

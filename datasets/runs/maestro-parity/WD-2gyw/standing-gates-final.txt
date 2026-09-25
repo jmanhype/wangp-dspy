@@ -1,0 +1,21 @@
+fullsuite=datasets/runs/maestro-parity/WD-2gyw/fullsuite.xml
+tests=2085 errors=0 failures=0 skipped=1
+
+pvg lint --backlog
+errors=0 review_findings=0 exit=0
+
+wgp release verify
+release=ready tag_created=false exit=0
+
+git diff --exit-code c91a6d8 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+protected_parity_c91a6d8_exit=0
+
+git diff --check
+diff_check_exit=0
+
+checker
+FAIL reviewer_verdict.decision: must be approved
+checker_exit=1
+reviewer_pending_expected=true
+
+bundle_size_bytes=9154560

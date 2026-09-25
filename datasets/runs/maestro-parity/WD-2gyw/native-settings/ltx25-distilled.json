@@ -1,0 +1,25 @@
+{
+  "model_type": "ltx2_25_22B_distilled",
+  "prompt": "A concise cinematic test: a blue paper crane glides once around a brass compass while soft window light shifts. Gentle paper motion and one quiet click.",
+  "resolution": "480x832",
+  "seed": 2941,
+  "video_length": 33,
+  "num_inference_steps": 8,
+  "guidance_phases": 1,
+  "guidance_scale": 1.0,
+  "audio_guidance_scale": 1.0,
+  "alt_guidance_scale": 1.0,
+  "alt_scale": 0.0,
+  "sample_solver": "distilled_8_steps_ancestral",
+  "perturbation_switch": 0,
+  "perturbation_layers": [
+    28
+  ],
+  "perturbation_start_perc": 0,
+  "perturbation_end_perc": 100,
+  "apg_switch": 0,
+  "cfg_star_switch": 0,
+  "self_refiner_setting": 0,
+  "audio_prompt_type": "",
+  "video_prompt_type": ""
+}

@@ -1,0 +1,38 @@
+==== frames_positions
+models/minimax_h3/minimax_h3_handler.py:472:                position_count = len((inputs["frames_positions"] or "").replace(",", " ").split())
+shared/settings_metadata.py:16:    "mask_expand", "frames_positions", "image_refs_relative_size", "remove_background_images_ref", "input_video_strength",
+shared/settings_metadata.py:115:        settings.pop("frames_positions", None)
+==== custom_frames_injection
+models/minimax_h3/minimax_h3_handler.py:419:                "custom_frames_injection": True,
+==== video_guide_outpainting
+models/minimax_h3/minimax_h3_handler.py:416:                # "video_guide_outpainting": [0],
+models/minimax_h3/minimax_h3_handler.py:417:                # "video_guide_outpainting_label": "Enable Spatial Outpainting on the H3 Control Video",
+models/minimax_h3/minimax_h3_handler.py:457:            outpainting = get_outpainting_dims(inputs.get("video_guide_outpainting"), inputs.get("video_guide_outpainting_ratio", "")) is not None
+shared/utils/utils.py:420:def get_outpainting_dims(video_guide_outpainting, video_guide_outpainting_ratio = ""):
+shared/utils/utils.py:421:    if video_guide_outpainting is None:
+shared/utils/utils.py:423:    video_guide_outpainting = str(video_guide_outpainting).strip()
+shared/utils/utils.py:424:    if video_guide_outpainting.startswith("#") :
+shared/utils/utils.py:426:    if video_guide_outpainting == "0 0 0 0" or len(video_guide_outpainting) == 0:
+shared/utils/utils.py:427:        return [0, 0, 0, 0] if len(video_guide_outpainting_ratio) else None
+shared/utils/utils.py:428:    outpainting_dims = video_guide_outpainting.split(" ")
+shared/settings_metadata.py:15:    "force_fps", "keep_frames_video_source", "keep_frames_video_guide", "video_guide_outpainting", "video_guide_outpainting_ratio",
+shared/settings_metadata.py:86:        (model_def.get("video_guide_outpainting") is not None, {"video_guide_outpainting", "video_guide_outpainting_ratio"}),
+shared/deepy/settings/edit_image/Flux Klein 9B.json:18:    "video_guide_outpainting": "#",
+==== refinement_strength
+models/minimax_h3/pipeline.py:856:            refinement_strength = latent_strengths[0]
+models/minimax_h3/pipeline.py:857:            if not bool((latent_strengths == refinement_strength).all()):
+models/minimax_h3/pipeline.py:859:            refinement_sigmas_video = _uniform_latent_frame_sigma_schedule(sigmas_video, refinement_strength, source_latents.shape[2])
+models/minimax_h3/pipeline.py:860:            print(f"MiniMax H3 refinement: uniform strength {float(refinement_strength):.2f}, initial sigma {float(refinement_sigmas_video[0, 0, 0, 0, 0, 0]):.3f}")
+==== override_attention
+models/minimax_h3/minimax_h3_handler.py:454:        if h3_grouped_masking_enabled(inputs.get("custom_settings")) and inputs.get("override_attention") == "sol":
+shared/attention.py:281:def get_override_attention_modes():
+shared/attention.py:285:def get_supported_override_attention_modes():
+shared/attention.py:350:    'get_override_attention_modes',
+shared/attention.py:351:    'get_supported_override_attention_modes',
+shared/deepy/settings/gen_speech_from_description/Qwen3 1.7B.json:25:    "override_attention": "",
+shared/deepy/settings/edit_image/Flux Klein 9B.json:35:    "override_attention": "",
+shared/deepy/settings/gen_video_with_speech/Infinitalk.json:56:    "override_attention": "",
+shared/deepy/settings/gen_video/Enhanced Lightning v2.json:54:    "override_attention": "",
+shared/deepy/settings/gen_speech_from_sample/Index TTS 2.json:25:    "override_attention": "",
+==== sol_attention_start_tau
+==== audio_refinement

@@ -1,0 +1,116 @@
+HOST
+straughter-Z690-Steel-Legend
+2026-09-25T14:17:21Z
+
+GPU
+NVIDIA GeForce RTX 3090, 24576, 83, 24034
+
+PROCESSES
+   1871 python          /home/straughter/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway run --replace
+   2954 python          /home/straughter/Maestro/env/bin/python /home/straughter/Maestro/app/launch.py
+   5358 python3         /usr/local/searxng/.venv/bin/python3 -c from multiprocessing.resource_tracker import main;main(7)
+
+DISK
+Filesystem         1B-blocks          Used    Available Use% Mounted on
+/dev/nvme0n1p4  857997254656  742545510400 106706497536  88% /
+/dev/nvme0n1p4  857997254656  742545604608 106706403328  88% /
+/dev/sda4      1756157775872 1329794850816 337079513088  80% /mnt/bulk-hdd
+
+WGP ROOT
+present
+
+WGP PYTHON
+Python 3.11.15
+
+WGP VERSION
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+
+MODELS
+34038903007 /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA_int8_convrot.safetensors
+26723791903 /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+22144108397 /home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors
+22144108396 /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors
+21057674788 /home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors
+21057674787 /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+12654443144 /home/straughter/Wan2GP/ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors
+11974893901 /home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors
+9432992295 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors
+5207806512 /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+4896193821 /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/T5_xxl_1.1_enc_quanto_bf16_int8.safetensors
+3205937786 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/gemma-2-2b-it_quanto_bf16_int8.safetensors
+1710540580 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/model.safetensors
+1516789399 /home/straughter/Wan2GP/ckpts/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors
+1341395338 /home/straughter/Wan2GP/ckpts/depth/depth_anything_v2_vitl.pth
+1282254462 /home/straughter/Wan2GP/ckpts/mask/sam_vit_h_4b8939_fp16.safetensors
+1183023032 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors
+1024331469 /home/straughter/Wan2GP/ckpts/rembg/models/bria-rmbg/bria-rmbg.onnx
+918714064 /home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors
+690592992 /home/straughter/Wan2GP/ckpts/minimax_h3/minimax_h3_latent_upscaler_3d_bf16.safetensors
+639331213 /home/straughter/Wan2GP/ckpts/roformer/model_bs_roformer_ep_317_sdr_12.9755.ckpt
+605429308 /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors
+590058840 /home/straughter/Wan2GP/ckpts/qwen_image_edit_inpainting.safetensors
+507684560 /home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors
+380261837 /home/straughter/Wan2GP/ckpts/chinese-wav2vec2-base/pytorch_model.bin
+377607901 /home/straughter/Wan2GP/ckpts/wav2vec/model.safetensors
+335304388 /home/straughter/Wan2GP/ckpts/flux_vae.safetensors
+253806966 /home/straughter/Wan2GP/ckpts/qwen_vae.safetensors
+216746733 /home/straughter/Wan2GP/ckpts/pose/yolox_l.onnx
+216518418 /home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors
+186889103 /home/straughter/Wan2GP/ckpts/det_align/detface.pt
+141199924 /home/straughter/Wan2GP/ckpts/mask/matanyone.safetensors
+134399116 /home/straughter/Wan2GP/ckpts/pose/dw-ll_ucoco_384.onnx
+34362429 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json
+26645418 /home/straughter/Wan2GP/ckpts/pyannote/pyannote_model_wespeaker-voxceleb-resnet34-LM.bin
+21108000 /home/straughter/Wan2GP/ckpts/flow/raft-things.pth
+17525357 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/tokenizer.json
+17173511 /home/straughter/Wan2GP/ckpts/scribble/netG_A_latest.pth
+5905440 /home/straughter/Wan2GP/ckpts/pyannote/pytorch_model_segmentation-3.0.bin
+4241003 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model
+4241003 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/tokenizer.model
+3383407 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/vocab.json
+2224003 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer.json
+1671853 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/merges.txt
+961143 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/vocab.json
+791656 /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/spiece.model
+524619 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/merges.txt
+46996 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/tokenizer_config.json
+46437 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json
+28267 /home/straughter/Wan2GP/ckpts/roformer/download_checks.json
+20509 /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/tokenizer_config.json
+4686 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/tokenizer_config.json
+3217 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/config.json
+2898 /home/straughter/Wan2GP/ckpts/mask/config.json
+2634 /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/added_tokens.json
+2540 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json
+2273 /home/straughter/Wan2GP/ckpts/roformer/model_bs_roformer_ep_317_sdr_12.9755.yaml
+2201 /home/straughter/Wan2GP/ckpts/T5_xxl_1.1/special_tokens_map.json
+1951 /home/straughter/Wan2GP/ckpts/chinese-wav2vec2-base/config.json
+1865 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/text_config.json
+1596 /home/straughter/Wan2GP/ckpts/wav2vec/feature_extractor_config.json
+1596 /home/straughter/Wan2GP/ckpts/wav2vec/config.json
+1050 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/chat_template.json
+905 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/tokenizer_config.json
+904 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json
+881 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/config.json
+788 /home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/preprocessor_config.json
+730 /home/straughter/Wan2GP/ckpts/qwen_vae_config.json
+636 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json
+636 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/special_tokens_map.json
+389 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/special_tokens_map.json
+316 /home/straughter/Wan2GP/ckpts/clip_vit_large_patch14/preprocessor_config.json
+291 /home/straughter/Wan2GP/ckpts/wav2vec/vocab.json
+187 /home/straughter/Wan2GP/ckpts/gemma-2-2b-it/generation_config.json
+163 /home/straughter/Wan2GP/ckpts/wav2vec/tokenizer_config.json
+160 /home/straughter/Wan2GP/ckpts/chinese-wav2vec2-base/preprocessor_config.json
+159 /home/straughter/Wan2GP/ckpts/wav2vec/preprocessor_config.json
+124 /home/straughter/Wan2GP/ckpts/.cache/huggingface/download/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors.metadata
+85 /home/straughter/Wan2GP/ckpts/wav2vec/special_tokens_map.json
+1 /home/straughter/Wan2GP/ckpts/.cache/huggingface/.gitignore
+0 /home/straughter/Wan2GP/ckpts/.cache/huggingface/download/PiD_v1pt5_res2kto4k_sr4x_official_qwenimage_distill_4step_quanto_bf16_int8.safetensors.lock
+
+OUTPUT ROOTS
+/home/straughter/Wan2GP/wd-cpow-assets
+/home/straughter/Wan2GP/outputs/wd-rous
+/home/straughter/Wan2GP/outputs/wd-cpow
+/home/straughter/Wan2GP/outputs/wd-m0r5
+/home/straughter/Wan2GP/wd-m0r5-inputs

@@ -1,0 +1,4 @@
+DeepBeepMeep/MiniMax-H3		
+DeepBeepMeep/LTX-2		
+DeepBeepMeep/Wan2.1		
+DeepBeepMeep/HunyuanVideo1.5		

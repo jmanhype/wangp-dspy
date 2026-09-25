@@ -1,0 +1,43 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_2gyw_h3_kfi_retry.source.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_2gyw_h3_kfi_retry.source.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard_first_frame.png
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] KFI frame injection test: continue from the supplied compass...
+Loading model MiniMax H3 FL2VA Pruned 20B...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Encoding Prompt  [0/1] Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Denoising                          [0/8] Denoising | 1m 45sH3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s]H3 denoising:  12%|█▎        | 1/8 [00:06<00:48,  6.96s/steps]  [1/8] Denoising | 1m 52s / 2m 41sH3 denoising:  25%|██▌       | 2/8 [00:12<00:38,  6.36s/steps]  [2/8] Denoising | 1m 58s / 2m 37sH3 denoising:  38%|███▊      | 3/8 [00:19<00:31,  6.30s/steps]  [3/8] Denoising | 2m 04s / 2m 36sH3 denoising:  50%|█████     | 4/8 [00:25<00:24,  6.17s/steps]  [4/8] Denoising | 2m 10s / 2m 35sH3 denoising:  62%|██████▎   | 5/8 [00:31<00:18,  6.15s/steps]  [5/8] Denoising | 2m 16s / 2m 35sH3 denoising:  75%|███████▌  | 6/8 [00:37<00:12,  6.18s/steps]  [6/8] Denoising | 2m 22s / 2m 35sH3 denoising:  88%|████████▊ | 7/8 [00:43<00:06,  6.17s/steps]  [7/8] Denoising | 2m 28s / 2m 35sH3 denoising: 100%|██████████| 8/8 [00:49<00:00,  6.14s/steps]H3 denoising: 100%|██████████| 8/8 [00:49<00:00,  6.21s/steps]
+  [8/8] VAE Decoding | 2m 35s / 2m 35s  [0/1] VAE Decoding of Video and AudioError saving metadata to MP4 /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/2026-09-25-09h45m46s_seed2933_KFI frame injection test continue from the supplied compass frame with one gentle rotation and a so.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/2026-09-25-09h45m46s_seed2933_KFI frame injection test continue from the supplied compass frame with one gentle rotation and a so.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 3m 35s
