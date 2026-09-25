@@ -1,17 +1,19 @@
 ---
 id: WD-bxhc
 title: "Voice portable character evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-24T15:36:50Z
-content_hash: "sha256:d2687d62607dfea721b6e44cb9a331ef0093a3e9769adb5efee1c9086353d2ab"
+updated_at: 2026-09-25T18:14:33Z
+content_hash: "sha256:2e1114b22083cdd31d59b39c80105f5bef45731a058b289a7d05c0f864f6045a"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
+assignee: dev-WD-bxhc
+follows: [WD-m0r5, WD-2gyw]
 ---
 
 ## Description
@@ -115,10 +117,15 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
 - 2026-09-25T02:28:58Z dep_removed: was_blocked_by WD-m0r5
 - 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
+- 2026-09-25T18:14:33Z status: open -> in_progress
+- 2026-09-25T18:14:33Z auto-follows: linked to predecessor WD-m0r5
+- 2026-09-25T18:14:33Z auto-follows: linked to predecessor WD-2gyw
+- 2026-09-25T18:14:33Z claimed by dev-WD-bxhc
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
+- Follows: [[WD-m0r5]], [[WD-2gyw]]
 
 ## Comments
