@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T16:03:51Z
-content_hash: "sha256:308078dcf95955c21cbe55153431e4935943e0a3768304036132fc743dee6086"
+updated_at: 2026-09-25T16:05:04Z
+content_hash: "sha256:34f1388c349f6828042febafbf986f2f9df583570dbf03ea71a2b2db04d4ab33"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
@@ -104,7 +104,71 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### Authorization and artifacts
+- Operator authorization is recorded verbatim in `datasets/runs/maestro-parity/WD-2gyw/operator-authorization.md` and `evidence.json`.
+- Bundle: `datasets/runs/maestro-parity/WD-2gyw/evidence.json`; 181 files, 9,154,560 bytes.
+- Real hashed outputs (all 24 fps): H3 standard 2.333333 s 480x832 AAC 32 kHz stereo; H3 VDN hybrid attention 2.333333 s 480x832 AAC 32 kHz stereo; H3 KFI frame injection 2.333333 s 480x832 AAC 32 kHz stereo; H3 audio refinement 2.333333 s 480x832 AAC 32 kHz stereo; Hunyuan standard 2.541667 s 832x480 no audio.
+- Queue `job-1790349852841-73e09158` reached `done` for those five clips. The earlier queue snapshot containing failed LTX is preserved as `queue-including-ltx-attempt.db`.
+- Download plan and actual network bytes: 57,801,926,853 for 26 assets; all sizes and SHA-256 values verified. This is below the 60,000,000,000-byte feasible-subset ceiling.
+- Derived pre-download floor: 77.832239334 GiB = 53.832239334 GiB downloads + 4 GiB working set + 20 GiB margin. Post-download floor: 24 GiB = 4 GiB working set + 20 GiB margin. Both existing prefights passed.
+- LTX-2.5 authorized attempt failed before generation: `TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment` (`ltx25.failure.log`). This is a dependency failure, not hardware infeasibility.
+- No OOM occurred. TaoMate has no host implementation; H3 outpaint is disabled by host model definition; LTX-2.3 local checkpoint is hash/package incompatible; SCAIL and Wan exceed remaining download ceiling. These remain planned and are documented in `row-dispositions.json`.
+
+### CI/Test Results
+- Full pytest JUnit: `tests=2085 errors=0 failures=0 skipped=1` (`fullsuite-counters.json`).
+- `pvg lint --backlog`: 0 errors, 0 review findings.
+- `wgp release verify`: `release=ready`, `tag_created=false`.
+- Protected parity versus `c91a6d8`: exit 0.
+- `git diff --check`: exit 0.
+- Checker: `FAIL reviewer_verdict.decision: must be approved`, exit 1, expected because reviewer decision is intentionally `pending`.
+
+### Commands run:
+- `timeout 3900 ssh ... /home/straughter/Wan2GP/wd_2gyw_h3_standard.sh`
+- `timeout 4200 ssh ... /home/straughter/Wan2GP/wd_2gyw_h3_specialized.sh`
+- `timeout 2400 ssh ... /home/straughter/Wan2GP/wd_2gyw_h3_kfi_retry.sh`
+- `timeout 4200 ssh ... /home/straughter/Wan2GP/wd_2gyw_ltx25.sh`
+- `timeout 4200 ssh ... /home/straughter/Wan2GP/wd_2gyw_hunyuan.sh`
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-2gyw-full-final2.xml`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-2gyw`
+- `git push -u origin story/WD-2gyw`
+
+### Summary:
+Delivered the operator-authorized feasible subset with five real video outputs, complete provenance, queue/objective evidence, and standing gates. The full story is not fully satisfied: 90 matrix cells remain planned and reviewer approval is pending; no unsupported-on-this-hardware verdict is claimed without evidence.
+
+Commit SHA: `90069c5fbd77481042e541994e90ec61148d6066`
+
+### AC verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PARTIAL | Five real outputs have provenance, queue, hashes, metadata, and gates; canonical checker fails only pending reviewer approval. |
+| 2 | PASS | Unexecuted or failed cells remain planned rather than being silently verified. |
+| 3 | PASS | No row was mislabeled unsupported; no hardware-infeasibility claim was fabricated. |
+| 4 | PASS | Four typed backend rejections captured with exit 2 diagnostics. |
+| 5 | FAIL | 90 of 99 cells remain planned (`matrix-transition-check.json`). |
+| 6 | PASS | No unsupported multi-clip continuity claim is made; KFI/audio reference hashes are recorded. |
+| 7 | PASS | H3 and Hunyuan artifacts are independently bound and retain valid evidence despite LTX failure. |
+| 8 | PASS | Protected files unchanged from `c91a6d8`; no GUI, training, publication, weights commit, or gate bypass. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- HEAD `90069c5fbd77481042e541994e90ec61148d6066`; branch `story/WD-2gyw` pushed to `origin/story/WD-2gyw`.
+- Bundle `datasets/runs/maestro-parity/WD-2gyw/evidence.json`; full suite 2085/0/0/1; lint 0/0; release ready; checker pending reviewer as required.
+
+### proof
+- [x] AC #1: Partial—five real outputs complete, reviewer pending.
+- [x] AC #2: Non-verified cells remain planned.
+- [x] AC #3: No fabricated hardware verdict.
+- [x] AC #4: Four typed boundaries preserved.
+- [x] AC #5: Fail—90 planned cells remain.
+- [x] AC #6: No unanchored continuity claim.
+- [x] AC #7: Completed family evidence remains independently valid.
+- [x] AC #8: Protected engine files and scope unchanged.
 
 ## nd_contract
 status: delivered
