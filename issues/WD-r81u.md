@@ -4,11 +4,11 @@ title: "Finishing generation evidence"
 status: closed
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration, delivered, accepted]
+labels: [capability, evidence, external-integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:13:03Z
+updated_at: 2026-09-25T20:13:04Z
 content_hash: "sha256:dca5966b8d47a4a1ea561e36ac32898acbed6f27bcc329527c789fe738b0f824"
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
