@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:27:37Z
-content_hash: "sha256:ea2a09ebfc4706b9afc620a93be9cb08a59067277eaf85356e6663123bc9ac86"
+updated_at: 2026-09-25T19:27:51Z
+content_hash: "sha256:d84e9a024ae868dbbf1c7ee56c986a14e4d1c3c583e59da6673d5a652412a12a"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
@@ -102,6 +102,96 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+PROOF:
+
+### Authorization and host batch
+- Commands: `pvg nd show WD-r81u`; SSH host inventory; `wgp doctor --capabilities --models datasets/runs/maestro-parity/WD-r81u/model-download-manifest.json --json`; `wgp first-run download ... --resume rife-v4.26-model`; final synchronous `timeout 3600 ssh ... timeout 3500 /home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_run.sh`.
+- Authorization is verbatim in `operator-authorization.md`. Planned and actual network transfer: 71,567,775 bytes (RIFE 24,636,301 + Real-ESRGAN portable archive 46,931,474) under the 20,000,000,000-byte ceiling.
+- Derived disk floor: 16.067 GiB = 0.067 GiB transfer + 1.0 GiB bounded working set + 15 GiB safety floor. Measured host free bytes: 41,534,517,248 before download and 41,012,895,744 after final host contact.
+- GPU discipline: llama-server PID 2591141 remained running; final host state records it as the only GPU process. An unrelated vb7-venv process briefly visible after one run was not started or stopped by this lane.
+
+### Artifacts and measurements
+- Native exit: 0. Seven hashed MP4 outputs and immutable source SHA-256 `e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859` are recorded in `output-hashes.txt`, `media-qc.json`, and `evidence.json`.
+- Executed: FFmpeg interpolation/spatial/grain/codec, WanGP RIFE v4.26 CUDA x2, WanGP film grain, and Real-ESRGAN NCNN x4plus x2. All 29 objective gates pass in `objective-gates.json`.
+- Queue: `job-1790361058753-0d9a6130`, attempt-1, admitted through done.
+- Bundle: 135 files, 18,242,490 bytes at final analysis.
+
+### CI/Test Results
+### Commands run:
+  - `pvg lint --backlog`
+  - `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-r81u-full.xml`
+  - `timeout 300 uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code c91a6d8 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-r81u`
+  - `pvg verify <all story-changed files> --format=text`
+Summary: lint PASS (126 scanned, 0 errors, 0 review findings); full suite PASS (2085 tests, 0 failures, 0 errors, 1 pre-existing skip, 832.196 s); release ready/tag_created=false; protected parity PASS; diff-check PASS; pvg verify PASS (8 files, 0 issues).
+- Canonical checker: expected delivery-time FAIL, exit 1, only `reviewer_verdict.decision: must be approved`. Reviewer remains pending and no row is flipped, as instructed.
+
+### Commit
+- Commit SHA: `c1a7efd7a512652f9f414743a47081f6bb9ee72e`
+- Native-producing clean commit: `13f352f776b211fe8dfd552ff0752d75c7469b82`
+- Delivered branch HEAD: `c1a7efd7a512652f9f414743a47081f6bb9ee72e`
+- Branch: `story/WD-r81u`, pushed to origin.
+
+### AC Verification
+| AC | Requirement | Evidence Location | Status |
+|---|---|---|---|
+| 1 | Checker-valid flip | `evidence.json`, `checker-result.txt`, `matrix-transition-check.json` | PARTIAL: seven real candidate outputs; no flip while reviewer/checker is pending |
+| 2 | Invalid evidence stays non-verified | `missing-required-inputs.md`, unchanged matrix | PASS |
+| 3 | Exact operation parameters/metadata | `execution-summary.md`, `media-qc.json`, ffprobe files | PASS for executed cells; face cells unresolved |
+| 4 | Plans are not finishing evidence | `output-hashes.txt`, `media-qc.json` | PASS |
+| 5 | No unsupported-without-proof | unchanged matrix, boundary probe | PASS |
+| 6 | All planned cells terminal | `matrix-transition-check.json` | BLOCKED: face consent/source and named neural implementation remain absent |
+| 7 | Prohibited changes absent | `protected-parity-c91a6d8.txt`, `git-diff-check.txt` | PASS |
+
+LEARNINGS:
+- Ubuntu FFmpeg 6.1.1 rejects FFV1 in MP4; Matroska staging is required while preserving the final MP4 graph.
+- Image-sequence remuxes need explicit input `-framerate`; output-only `-r` stretches or drops frames.
+- The Nix fetchzip SRI hash describes extracted output, not the portable ZIP bytes; exact archive bytes must be hashed directly.
+- A reviewer-pending bundle intentionally fails the canonical checker; capability rows must remain unchanged until independent review.
+
+### OBSERVATIONS (unrelated)
+- [ISSUE] `.venv/lib/python3.14/site-packages/fastapi/testclient.py:1`: StarletteDeprecationWarning (`httpx` with `starlette.testclient` deprecated) appears in the full suite.
+- [CONCERN] full suite contains one pre-existing skipped test despite 2085 executed/passing tests.
+
+### DISCOVERED_BUG
+  title: Finishing command graph emits FFV1 into an MP4 staging path
+  context: On host FFmpeg 6.1.1, the planned FFV1 intermediate command fails with `Could not find tag for codec ffv1` when its destination ends in `.mp4`. The deterministic tests do not execute the graph, so this host incompatibility was not caught.
+  affected_files: services/finishing/pipeline.py
+  discovered_during: WD-r81u
+
+### DISCOVERED_BUG
+  title: Planned film-grain size and temporal persistence are not execution controls
+  context: The typed request records bounded size/persistence values, but the command graph emits only `noise=alls=...:allf=t+u` and WanGP's `add_film_grain` emits per-pixel independent noise. Measured actual controls are size 1 and temporal persistence 0, so the planned 16/0.5 values are not implemented.
+  affected_files: services/finishing/pipeline.py; postprocessing/film_grain.py
+  discovered_during: WD-r81u
+
+### DISCOVERED_BUG
+  title: neural_frame_gen has no native executable backend
+  context: The no-GPU graph labels FFmpeg/RIFE/Real-ESRGAN-shaped commands with backend `neural_frame_gen`, while a host search finds no named implementation. Reusing another backend would fabricate the row identity.
+  affected_files: services/finishing/pipeline.py; docs/finishing-capabilities.md
+  discovered_during: WD-r81u
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-r81u` pushed at `c1a7efd7a512652f9f414743a47081f6bb9ee72e`.
+- Real outputs, hashes, measurements, queue, authorization, diagnostics, and gates are under `datasets/runs/maestro-parity/WD-r81u/`.
+- Native-producing commit: `13f352f776b211fe8dfd552ff0752d75c7469b82`; final native exit 0.
+
+### proof
+- [x] Seven real finishing artifacts are hash-bound with measured before/after metadata and 29 passing objective gates.
+- [x] Authorization/download ceiling, 71,567,775 bytes pulled, disk floor, and final host state are recorded.
+- [x] Lint 0/0; JUnit 2085/0 failures/0 errors; release ready/tag false; protected parity and diff-check pass.
+- [x] Reviewer remains pending; canonical checker fails only that required approval; matrix flips are zero.
+- [ ] Face-track consent/rights and a source face are absent, so face-refinement cells remain unresolved.
+- [ ] No named `neural_frame_gen` host implementation exists, so its interpolation/spatial/face cells remain unresolved.
+
+
 ## Implementation Evidence
 
 PROOF:
