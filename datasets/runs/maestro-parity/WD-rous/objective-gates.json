@@ -1,0 +1,85 @@
+{
+  "gates": [
+    {
+      "name": "ace_generate_sample_rate_hz",
+      "row": "ace_step",
+      "operation": "generate",
+      "inputs": ["outputs/wd_rous_ace_generate.wav", "ffprobe-wd_rous_ace_generate.json"],
+      "threshold": 48000,
+      "measured": 48000,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_generate_channels",
+      "row": "ace_step",
+      "operation": "generate",
+      "inputs": ["outputs/wd_rous_ace_generate.wav", "ffprobe-wd_rous_ace_generate.json"],
+      "threshold": 2,
+      "measured": 2,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_generate_duration_s",
+      "row": "ace_step",
+      "operation": "generate",
+      "inputs": ["outputs/wd_rous_ace_generate.wav", "ffprobe-wd_rous_ace_generate.json"],
+      "threshold": 10,
+      "measured": 10,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_generate_audio_rms",
+      "row": "ace_step",
+      "operation": "generate",
+      "inputs": ["outputs/wd_rous_ace_generate.wav", "audio-statistics.json"],
+      "threshold": 0.001,
+      "measured": 0.09747790263431817,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_style_sample_rate_hz",
+      "row": "ace_step",
+      "operation": "style_adaptation",
+      "inputs": ["outputs/wd_rous_ace_style_adapt.wav", "ffprobe-wd_rous_ace_style_adapt.json"],
+      "threshold": 48000,
+      "measured": 48000,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_style_channels",
+      "row": "ace_step",
+      "operation": "style_adaptation",
+      "inputs": ["outputs/wd_rous_ace_style_adapt.wav", "ffprobe-wd_rous_ace_style_adapt.json"],
+      "threshold": 2,
+      "measured": 2,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_style_duration_s",
+      "row": "ace_step",
+      "operation": "style_adaptation",
+      "inputs": ["outputs/wd_rous_ace_style_adapt.wav", "ffprobe-wd_rous_ace_style_adapt.json"],
+      "threshold": 10,
+      "measured": 10,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_style_audio_rms",
+      "row": "ace_step",
+      "operation": "style_adaptation",
+      "inputs": ["outputs/wd_rous_ace_style_adapt.wav", "audio-statistics.json"],
+      "threshold": 0.001,
+      "measured": 0.09000152538588495,
+      "verdict": "pass"
+    },
+    {
+      "name": "ace_style_audible_ab_mean_absolute_delta",
+      "row": "ace_step",
+      "operation": "style_adaptation",
+      "inputs": ["outputs/wd_rous_ace_generate.wav", "outputs/wd_rous_ace_style_adapt.wav", "audio-statistics.json"],
+      "threshold": 0.001,
+      "measured": 0.07698007055918375,
+      "verdict": "pass"
+    }
+  ]
+}

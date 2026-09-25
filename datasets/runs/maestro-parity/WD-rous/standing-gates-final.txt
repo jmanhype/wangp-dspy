@@ -1,0 +1,31 @@
+fullsuite=datasets/runs/maestro-parity/WD-rous/fullsuite.xml
+tests=2084 errors=0 failures=0 skipped=1
+
+$ uv run --frozen --extra dev wgp release verify
+version=0.1.0
+check=version status=pass
+check=changelog status=pass
+check=recipe_schema status=pass
+check=tree status=pass
+tag-ready=v0.1.0
+tag_created=false
+v0.1.0 is tag-ready; no tag was created
+release=ready
+release_exit=0
+
+$ git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+protected_parity_d8671f3_exit=0
+
+$ git diff --exit-code 3fd053f23d4bbd2dbcdecd4330ee4ce771961803 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+protected_parity_lane_base_3fd053f_exit=0
+story_base_note=40f8c2b is stale relative to supplied d8671f3 branch base; this lane did not revert predecessor preflight work
+
+$ git diff --check
+diff_check_exit=0
+
+$ uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-rous
+FAIL reviewer_verdict.decision: must be approved
+checker_exit=1
+reviewer_pending_expected=true
+
+bundle_size_bytes=6040771

@@ -1,0 +1,14 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/stable-generate.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-rous/dry-run
+[load_settings] Loading settings from: /home/straughter/Wan2GP/stable-generate.json
+[load_settings] Task 1/1 ready, ID: 1, model: stable_audio3_small
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=stable_audio3_small, steps=8, frames=0
+          prompt: Soft neon synth jazz with mellow electric piano, b...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.

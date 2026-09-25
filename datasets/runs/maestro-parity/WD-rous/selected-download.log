@@ -1,0 +1,39 @@
+$ df before authorized download
+      Avail
+13486784512
+DOWNLOAD stable_audio3_small_music_bf16.safetensors bytes=918714064
+VERIFY stable_audio3_small_music_bf16.safetensors expected_size=918714064 actual_size=918714064 expected_sha=8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158 actual_sha=8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158
+      Avail
+12565958656
+DOWNLOAD stable_audio3_same_s_bf16.safetensors bytes=216518418
+VERIFY stable_audio3_same_s_bf16.safetensors expected_size=216518418 actual_size=216518418 expected_sha=01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30 actual_sha=01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30
+      Avail
+12348862464
+DOWNLOAD t5gemma-b-b-ul2_bf16.safetensors bytes=1183023032
+VERIFY t5gemma-b-b-ul2_bf16.safetensors expected_size=1183023032 actual_size=1183023032 expected_sha=ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876 actual_sha=ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876
+      Avail
+11162120192
+DOWNLOAD config.json bytes=2540
+VERIFY config.json expected_size=2540 actual_size=2540 expected_sha=na actual_sha=575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a
+      Avail
+11162099712
+DOWNLOAD special_tokens_map.json bytes=636
+VERIFY special_tokens_map.json expected_size=636 actual_size=636 expected_sha=na actual_sha=baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351
+      Avail
+11162095616
+DOWNLOAD tokenizer.json bytes=34362429
+VERIFY tokenizer.json expected_size=34362429 actual_size=34362429 expected_sha=7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd actual_sha=7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd
+      Avail
+11127668736
+DOWNLOAD tokenizer.model bytes=4241003
+VERIFY tokenizer.model expected_size=4241003 actual_size=4241003 expected_sha=61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2 actual_sha=61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2
+      Avail
+11123355648
+DOWNLOAD tokenizer_config.json bytes=46437
+VERIFY tokenizer_config.json expected_size=46437 actual_size=46437 expected_sha=na actual_sha=9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f
+      Avail
+11123302400
+$ df after authorized download
+      Avail
+11123302400
+DOWNLOAD_SET_COMPLETE

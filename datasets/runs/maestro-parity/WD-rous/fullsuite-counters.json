@@ -1,0 +1,17 @@
+{
+  "attributes": {
+    "errors": "0",
+    "failures": "0",
+    "skipped": "1",
+    "tests": "2084",
+    "time": "740.733"
+  },
+  "non_pass_cases": [
+    {
+      "class": "tests.test_jobs_integration_3090",
+      "kind": "skipped",
+      "message": "set WANGP_3090=1 to run the live 3090 preflight probe",
+      "name": "test_live_preflight_against_3090"
+    }
+  ]
+}

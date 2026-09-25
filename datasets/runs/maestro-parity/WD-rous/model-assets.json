@@ -1,0 +1,69 @@
+{
+  "schema_version": "wangp-dspy.model-assets/v1",
+  "assets": [
+    {
+      "id": "stable-audio-small-music",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_small_music_bf16.safetensors",
+      "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158",
+      "size_bytes": 918714064,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors"
+    },
+    {
+      "id": "stable-audio-same-s",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_same_s_bf16.safetensors",
+      "sha256": "01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30",
+      "size_bytes": 216518418,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors"
+    },
+    {
+      "id": "stable-audio-t5gemma",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors",
+      "sha256": "ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876",
+      "size_bytes": 1183023032,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors"
+    },
+    {
+      "id": "stable-audio-t5gemma-config",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/config.json",
+      "sha256": "575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a",
+      "size_bytes": 2540,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json"
+    },
+    {
+      "id": "stable-audio-t5gemma-special-tokens",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/special_tokens_map.json",
+      "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351",
+      "size_bytes": 636,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json"
+    },
+    {
+      "id": "stable-audio-tokenizer-json",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.json",
+      "sha256": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd",
+      "size_bytes": 34362429,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json"
+    },
+    {
+      "id": "stable-audio-tokenizer-model",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.model",
+      "sha256": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2",
+      "size_bytes": 4241003,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model"
+    },
+    {
+      "id": "stable-audio-tokenizer-config",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer_config.json",
+      "sha256": "9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f",
+      "size_bytes": 46437,
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "remote_path": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/acestep-v15-turbo/model.safetensors",
+    "sha256": "3f6e0797fad420a39bd33979eb6e840e30989e34a3794e843d23b60ec6e422d7"
+  },
+  {
+    "remote_path": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/vae/diffusion_pytorch_model.safetensors",
+    "sha256": "da17edb604c40deaf09e9b24974e590d1ca83a374070e5d0884cfa4bed9a99b0"
+  },
+  {
+    "remote_path": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/Qwen3-Embedding-0.6B/model.safetensors",
+    "sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd"
+  },
+  {
+    "remote_path": "ckpts/stable_audio3_small_music_bf16.safetensors",
+    "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158"
+  },
+  {
+    "remote_path": "ckpts/stable_audio3_same_s_bf16.safetensors",
+    "sha256": "01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors",
+    "sha256": "ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/config.json",
+    "sha256": "575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/special_tokens_map.json",
+    "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/tokenizer.json",
+    "sha256": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/tokenizer.model",
+    "sha256": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2"
+  },
+  {
+    "remote_path": "ckpts/t5gemma-b-b-ul2/tokenizer_config.json",
+    "sha256": "9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f"
+  }
+]
