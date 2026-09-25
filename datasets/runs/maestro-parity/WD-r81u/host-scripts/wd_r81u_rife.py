@@ -7,6 +7,7 @@ from pathlib import Path
 
 import cv2
 import torch
+import numpy as np
 
 from postprocessing.rife.inference import temporal_interpolation
 
@@ -32,7 +33,7 @@ def main() -> int:
         raise RuntimeError("source contains no decodable frames")
 
     # WanGP expects uint8 C,T,H,W. RIFE emits 2N-1 frames for x2.
-    sample = torch.from_numpy(frames).permute(3, 0, 1, 2).contiguous()
+    sample = torch.from_numpy(np.stack(frames)).permute(3, 0, 1, 2).contiguous()
     output = temporal_interpolation(
         str(args.model),
         sample,

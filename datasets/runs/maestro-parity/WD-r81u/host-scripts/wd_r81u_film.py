@@ -7,6 +7,7 @@ from pathlib import Path
 
 import cv2
 import torch
+import numpy as np
 
 from postprocessing.film_grain import add_film_grain
 
@@ -34,7 +35,7 @@ def main() -> int:
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
-    sample = torch.from_numpy(frames).permute(3, 0, 1, 2).contiguous()
+    sample = torch.from_numpy(np.stack(frames)).permute(3, 0, 1, 2).contiguous()
     output = add_film_grain(sample, grain_intensity=args.intensity, saturation=0.5)
     args.frame_template.parent.mkdir(parents=True, exist_ok=True)
     for index in range(output.shape[1]):
