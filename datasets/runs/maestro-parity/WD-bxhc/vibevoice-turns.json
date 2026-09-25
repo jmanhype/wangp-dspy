@@ -9,14 +9,14 @@
       "speaker": "Witness",
       "target_duration_s": 3.5,
       "text": "The portable witness speaks plainly without claiming another voice.",
-      "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary.wav"
+      "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav"
     },
     {
       "output": "outputs/wd_bxhc_vibevoice_clone_one.wav",
       "speaker": "Witness",
       "target_duration_s": 3.5,
       "text": "One reference keeps this speaker on the portable anchor.",
-      "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary.wav"
+      "voice_reference": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav"
     }
   ]
 }

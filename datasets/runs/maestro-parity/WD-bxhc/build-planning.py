@@ -37,7 +37,7 @@ def reference(name: str, role: str, duration_s: float) -> dict[str, object]:
         "role": role,
         "duration_s": duration_s,
         "source": (
-            "WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+            "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
             if primary else
             "WD-cpow operator-owned synthetic target voice, reused only as a reference"
         ),
@@ -127,14 +127,14 @@ def main() -> int:
             "vibevoice", "vibe_7b", "voice_clone",
             "One reference keeps this speaker on the portable anchor.",
             "outputs/wd_bxhc_vibevoice_clone_one.wav", 9421,
-            [reference("voice-primary.wav", "primary", 5.08)],
+            [reference("voice-primary-vibe.wav", "primary", 2.5)],
         ),
         "vibevoice-clone-two.json": request(
             "vibevoice", "vibe_7b", "voice_clone",
             "Two references keep this speaker on the portable anchor.",
             "outputs/wd_bxhc_vibevoice_clone_two.wav", 9431,
             [
-                reference("voice-primary.wav", "primary", 5.08),
+                reference("voice-primary-vibe.wav", "primary", 2.5),
                 reference("voice-secondary.wav", "secondary", 2.364958),
             ],
         ),
@@ -164,14 +164,14 @@ def main() -> int:
             {
                 "speaker": "Witness",
                 "text": "The portable witness speaks plainly without claiming another voice.",
-                "voice_reference": str(BUNDLE / "inputs" / "voice-primary.wav"),
+                "voice_reference": str(BUNDLE / "inputs" / "voice-primary-vibe.wav"),
                 "output": "outputs/wd_bxhc_vibevoice_speech.wav",
                 "target_duration_s": 3.5,
             },
             {
                 "speaker": "Witness",
                 "text": "One reference keeps this speaker on the portable anchor.",
-                "voice_reference": str(BUNDLE / "inputs" / "voice-primary.wav"),
+                "voice_reference": str(BUNDLE / "inputs" / "voice-primary-vibe.wav"),
                 "output": "outputs/wd_bxhc_vibevoice_clone_one.wav",
                 "target_duration_s": 3.5,
             },

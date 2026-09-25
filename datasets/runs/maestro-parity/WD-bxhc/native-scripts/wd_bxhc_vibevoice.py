@@ -15,7 +15,7 @@ import torch
 HOST_REPO = Path("/home/straughter/wangp-dspy-vibevoice-20260916")
 BUNDLE = HOST_REPO / "datasets" / "runs" / "maestro-parity" / "WD-bxhc"
 MODEL = Path("/mnt/bulk/straughter/models/VibeVoice-7B-hf")
-PRIMARY = BUNDLE / "inputs" / "voice-primary.wav"
+PRIMARY = BUNDLE / "inputs" / "voice-primary-vibe.wav"
 SECONDARY = BUNDLE / "inputs" / "voice-secondary.wav"
 REPORT = BUNDLE / "vibevoice-custom-report.json"
 PASS_BAR = 0.8
@@ -114,7 +114,7 @@ def reference_record(path: Path) -> dict[str, str]:
         "sha256": sha256(path),
         "role": "primary" if primary else "secondary",
         "source": (
-            "WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+            "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
             if primary else
             "WD-cpow operator-owned synthetic target voice, reused only as a reference"
         ),
