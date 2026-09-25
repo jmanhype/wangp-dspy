@@ -17,16 +17,14 @@
   },
   "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
   "prepared_sha256": "fffbb238afee50665fc38fae1b201404cc8c68c3776a5a731f0bb3ebbfa6e535",
-  "provenance_rework": "reference-consent-rework.md",
   "references": [
     {
-      "consent_ref": "reference-consent-rework.md#primary-reference-b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
-      "consent_status": "rights_evidence_present; wd_bxhc_cloning_reuse_consent_not_evidenced",
-      "license": "Operator-owned evaluation asset; no redistribution",
+      "consent_ref": "operator-authorization.md#wd-cpow-synthetic-primary",
+      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
       "path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
       "role": "primary",
       "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
-      "source": "Operator-owned LF002 Orin voice guide; byte-for-byte WD-cpow inputs/target-voice.wav"
+      "source": "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
     }
   ],
   "schema": "wangp-dspy.wd-bxhc.vibevoice-provenance/v1",

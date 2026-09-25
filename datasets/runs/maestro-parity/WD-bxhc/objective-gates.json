@@ -178,18 +178,6 @@
   },
   {
     "inputs": [
-      "inputs/voice-primary-vibe.wav",
-      "planning/requests/vibevoice-clone-one.json"
-    ],
-    "measured": 1,
-    "mode": "audio",
-    "name": "wd_bxhc_vibevoice_clone_one_consented_reference_count",
-    "row": "vibevoice/vibe_7b:one_reference_clone",
-    "threshold": 1,
-    "verdict": "pass"
-  },
-  {
-    "inputs": [
       "outputs/wd_bxhc_vibevoice_clone_two.wav",
       "ffprobe-wd_bxhc_vibevoice_clone_two.json"
     ],
@@ -249,15 +237,28 @@
   },
   {
     "inputs": [
-      "inputs/voice-primary-vibe.wav",
-      "inputs/voice-secondary.wav",
-      "planning/requests/vibevoice-clone-two.json"
+      "reference-consent-rework.md",
+      "reference-consent-verification.json",
+      "outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json",
+      "outputs/wd_bxhc_vibevoice_clone_two.wav.vibevoice.json"
     ],
-    "measured": 2,
+    "measured": 1.0,
     "mode": "audio",
-    "name": "wd_bxhc_vibevoice_clone_two_consented_reference_count",
-    "row": "vibevoice/vibe_7b:two_reference_clone",
-    "threshold": 2,
+    "name": "clone_reference_misattribution_corrected",
+    "row": "reference_provenance_rework",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "reference-consent-rework.md",
+      "reference-consent-verification.json"
+    ],
+    "measured": 1.0,
+    "mode": "audio",
+    "name": "clone_reference_unresolved_consent_recorded",
+    "row": "reference_provenance_rework",
+    "threshold": 1,
     "verdict": "pass"
   },
   {

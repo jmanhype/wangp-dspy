@@ -4,9 +4,9 @@
       "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/appearance-native.png",
       "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6"
     },
-    "character_id": "Ambiguous Witness",
+    "character_id": "Portable Witness",
     "speaker_label": "Witness",
-    "voice_binding_id": "ambiguous-witness-v1"
+    "voice_binding_id": "portable-witness-v1"
   },
   "language": "en-US",
   "mode": "voice_clone",
@@ -14,7 +14,7 @@
     "family": "vibevoice",
     "preset": "vibe_7b"
   },
-  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/unused-ambiguous-witness.wav",
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/rework-targets/vibevoice-clone-two.wav",
   "recipe_seed": 9431,
   "references": [
     {

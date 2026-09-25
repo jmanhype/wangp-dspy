@@ -422,18 +422,6 @@
     },
     {
       "inputs": [
-        "inputs/voice-primary-vibe.wav",
-        "planning/requests/vibevoice-clone-one.json"
-      ],
-      "measured": 1,
-      "mode": "audio",
-      "name": "wd_bxhc_vibevoice_clone_one_consented_reference_count",
-      "row": "vibevoice/vibe_7b:one_reference_clone",
-      "threshold": 1,
-      "verdict": "pass"
-    },
-    {
-      "inputs": [
         "outputs/wd_bxhc_vibevoice_clone_two.wav",
         "ffprobe-wd_bxhc_vibevoice_clone_two.json"
       ],
@@ -493,15 +481,28 @@
     },
     {
       "inputs": [
-        "inputs/voice-primary-vibe.wav",
-        "inputs/voice-secondary.wav",
-        "planning/requests/vibevoice-clone-two.json"
+        "reference-consent-rework.md",
+        "reference-consent-verification.json",
+        "outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json",
+        "outputs/wd_bxhc_vibevoice_clone_two.wav.vibevoice.json"
       ],
-      "measured": 2,
+      "measured": 1.0,
       "mode": "audio",
-      "name": "wd_bxhc_vibevoice_clone_two_consented_reference_count",
-      "row": "vibevoice/vibe_7b:two_reference_clone",
-      "threshold": 2,
+      "name": "clone_reference_misattribution_corrected",
+      "row": "reference_provenance_rework",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "reference-consent-rework.md",
+        "reference-consent-verification.json"
+      ],
+      "measured": 1.0,
+      "mode": "audio",
+      "name": "clone_reference_unresolved_consent_recorded",
+      "row": "reference_provenance_rework",
+      "threshold": 1,
       "verdict": "pass"
     },
     {
@@ -822,16 +823,28 @@
   },
   "reference_provenance": [
     {
-      "license": "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution",
+      "consent_ref": "reference-consent-rework.md#primary-reference-b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "consent_status": "rights_evidence_present; wd_bxhc_cloning_reuse_consent_not_evidenced",
+      "license": "Operator-owned evaluation asset; no redistribution",
       "path": "inputs/voice-primary-vibe.wav",
       "role": "vibevoice_primary_reference",
-      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "source": "Operator-owned LF002 Orin voice guide; byte-for-byte WD-cpow inputs/target-voice.wav"
     },
     {
-      "license": "Operator-owned synthetic WD-cpow VibeVoice output; authorized reference reuse only; no redistribution",
+      "consent_ref": "reference-consent-rework.md#secondary-reference-e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "consent_status": "rights_evidence_present; wd_bxhc_cloning_reuse_consent_not_evidenced",
+      "license": "Operator-owned WD-cpow evaluation output; no redistribution",
       "path": "inputs/voice-secondary.wav",
       "role": "vibevoice_secondary_reference",
-      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "source": "WD-cpow VibeVoice-7B-prepared output; byte-for-byte outputs/wd_cpow_vibevoice_raw.prepared.wav"
+    },
+    {
+      "license": "Operator-owned evaluation provenance record; no redistribution",
+      "path": "reference-consent-rework.md",
+      "role": "clone_reference_rights_and_consent_record",
+      "sha256": "a031b6b6b332721b10bd66f660d775655a7b4718ba2e42fa7d81f77d6b443e16"
     },
     {
       "license": "Operator-owned WD-m0r5/LF004 evaluation asset; authorized reference reuse only",
@@ -869,17 +882,51 @@
     "commit_semantics": "35270b1 is the clean commit immediately before the successful final VibeVoice batch; later character, queue, documentation, and evidence artifacts are intentionally dirty state",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "5f2d0bb1974e9d740839b25b243849112289c654b791bcd33a0f8d2f35adf1be",
+      "identity_sha256": "9198756f5536a2143fc4150f8cf2bf886a11fd8821afa42c9d7d77bfe88ea6d4",
       "status_lines": [
-        "?? datasets/runs/maestro-parity/WD-bxhc/fullsuite-counters.json",
-        "?? datasets/runs/maestro-parity/WD-bxhc/fullsuite.log",
-        "?? datasets/runs/maestro-parity/WD-bxhc/fullsuite.xml",
-        "?? datasets/runs/maestro-parity/WD-bxhc/git-diff-check.txt",
-        "?? datasets/runs/maestro-parity/WD-bxhc/protected-parity-c91a6d8.diff",
-        "?? datasets/runs/maestro-parity/WD-bxhc/release-verify.txt",
-        "?? datasets/runs/maestro-parity/WD-bxhc/standing-diff-exits.txt",
-        "?? datasets/runs/maestro-parity/WD-bxhc/standing-gates-final.txt",
-        " M datasets/runs/maestro-parity/WD-bxhc/evidence-assembly.log"
+        " M datasets/runs/maestro-parity/WD-bxhc/build-planning.py",
+        " M datasets/runs/maestro-parity/WD-bxhc/evidence-assembly.log",
+        " M datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_vibevoice.py",
+        " M datasets/runs/maestro-parity/WD-bxhc/objective-gates.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/operator-authorization.md",
+        " M datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.wav.vibevoice.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav.vibevoice.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-one.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-two-alias.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-two.json",
+        " M datasets/runs/maestro-parity/WD-bxhc/verify-matrices.py",
+        " M docs/character-capabilities.md",
+        " M docs/voice-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-bxhc/build_rework_plans.py",
+        "?? datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.wav.vibevoice.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav.vibevoice.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/packages/portable-witness.wgpvoice.rework-manifest.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-one.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-two-alias.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/requests/vibevoice-clone-two.json.pre-rework.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-cli/vibevoice-clone-one.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-cli/vibevoice-clone-one.reconstruct.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-cli/vibevoice-clone-two.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-cli/vibevoice-clone-two.reconstruct.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-one.db",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-one.db-shm",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-one.db-wal",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-two.db",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-two.db-shm",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-databases/vibevoice-clone-two.db-wal",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-requests/.attempt-1/vibevoice-clone-one.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-requests/vibevoice-clone-one.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/planning/rework-requests/vibevoice-clone-two.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "?? datasets/runs/maestro-parity/WD-bxhc/reference-consent-verification.json",
+        "?? datasets/runs/maestro-parity/WD-bxhc/reference-consent-verification.log",
+        "?? datasets/runs/maestro-parity/WD-bxhc/reference-provenance-rework.log",
+        "?? datasets/runs/maestro-parity/WD-bxhc/rework-plans.log",
+        "?? datasets/runs/maestro-parity/WD-bxhc/rework_reference_provenance.py",
+        "?? datasets/runs/maestro-parity/WD-bxhc/verify_reference_consent.py",
+        " M datasets/runs/maestro-parity/WD-bxhc/build-evidence.py"
       ]
     }
   },
@@ -895,6 +942,10 @@
       "lane-coexistence-preflight.json",
       "chatterbox-report.json",
       "vibevoice-custom-report.json",
+      "reference-consent-rework.md",
+      "reference-consent-verification.json",
+      "reference-provenance-rework.log",
+      "rework-plans.log",
       "character-media-identity.json",
       "character-media-objective-gates.json",
       "packages/character-operation-results.json",
@@ -914,111 +965,111 @@
   "row_dispositions": [
     {
       "cell": "plain_speech",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "one_reference_clone",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "two_reference_clone",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "plain_speech",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "row": "chatterbox/chatterbox_multilingual"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Portable package round-trip and hashes"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Portable package round-trip and hashes"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "image",
       "row": "Saved voice binding"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "video",
       "row": "Saved voice binding"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Native-source recovery"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Native-source recovery"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Registry identity resolution"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Registry identity resolution"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Appearance and voice mismatch rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Appearance and voice mismatch rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Duplicate and ambiguous identity rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Duplicate and ambiguous identity rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Immutable non-executable planning"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Immutable non-executable planning"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Seed-based reconstruction"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Seed-based reconstruction"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "image",
       "row": "Cross-mode identity preservation"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "video",
       "row": "Cross-mode identity preservation"
     }
@@ -1027,8 +1078,9 @@
     "actual_model_bytes": 3208948928,
     "actual_total_wheel_payload_bytes": 3209226576,
     "background_state": "No WD-bxhc SSH/native GPU process remains; pre-existing CPU-only WanGP server and operator llama-server remain",
-    "bundle_size_bytes_at_assembly": 14695592,
+    "bundle_size_bytes_at_assembly": 14855235,
     "character_media_boundary": "Image/video are deterministic model-free derivatives of one package anchor; the explicit semantic generated-continuity row is not claimed.",
+    "cloning_consent_decision": "not_evidenced_for_wd_bxhc_cloning_reuse; ownership/output rights are recorded, but no operator statement consents to cross-story cloning reuse",
     "derived_preflight_min_free_gb_after_download": 15.0,
     "derived_preflight_min_free_gb_before_download": 18.91,
     "disk_floor_derivation": "3,208,948,928 selected bytes + 0.20 GiB working set + 0.50 GiB execution margin + 15 GiB operator floor = 18.91 GiB before download; after download the hard floor remains 15 GiB.",
@@ -1043,8 +1095,10 @@
     "lane_coexistence_preflight": "Passed with exact model hashes, >=15 GiB disk, QC health, and the operator-reserved llama-server as the sole occupant with >=4 GiB free.",
     "planned_model_bytes": 3208948928,
     "queue_ledger_semantics": "durable evidence ledger admitted after the authorized native operations; it binds completed artifacts and does not overwrite renderer admission semantics",
+    "reference_provenance_rework": "Primary b013\u2026 is the operator-owned LF002/WD-cpow target voice; secondary e371\u2026 is the WD-cpow VibeVoice-prepared output. The earlier WD-bxhc/Chatterbox attribution and unresolved consent anchors were defective and are preserved in .pre-rework sidecars only.",
     "runtime_dependency_bytes": 277648,
     "standard_preflight": "Failed as designed: remote default min 50 GiB and any GPU occupant. This lane did not lower that global gate.",
+    "unapproved_rows": "VibeVoice one-reference clone, VibeVoice two-reference clone, Saved voice binding, and Cross-mode identity preservation remain non-host_run_verified",
     "vibevoice_large_inspected_but_not_used": "18,687,161,180-byte weights-only install lacks tokenizer/processor files required by the validated API",
     "vibevoice_quantization": "CPU load verified zero meta tensors, then quanto qint8 nn.Linear weights were frozen on CUDA; embeddings/convolutions retained source dtype to preserve audio-token expansion.",
     "vibevoice_rejections_preserved": "Three 0.778 plain-speech transcript rejections and one 0.778 one-reference rejection are retained with hashes and transcripts.",

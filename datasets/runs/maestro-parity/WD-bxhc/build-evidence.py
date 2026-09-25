@@ -143,6 +143,7 @@ def objective_gates(audio_stats: dict[str, tuple[int, int, float, float]]) -> li
     vibe_report = json.loads((BUNDLE / "vibevoice-custom-report.json").read_text())
     character_results = json.loads((BUNDLE / "packages" / "character-operation-results.json").read_text())
     character_gates = json.loads((BUNDLE / "character-media-objective-gates.json").read_text())
+    reference_verification = json.loads((BUNDLE / "reference-consent-verification.json").read_text())
     gates: list[dict[str, object]] = []
 
     voice_rows = {
@@ -178,17 +179,20 @@ def objective_gates(audio_stats: dict[str, tuple[int, int, float, float]]) -> li
             f"{stem}_whisper_score", row, "audio", [relative, transcript_path],
             0.8, float(whisper.get("score", 0)),
         ))
-        if "clone_one" in stem:
-            gates.append(gate(
-                f"{stem}_consented_reference_count", row, "audio",
-                ["inputs/voice-primary-vibe.wav", "planning/requests/vibevoice-clone-one.json"], 1, 1,
-            ))
-        if "clone_two" in stem:
-            gates.append(gate(
-                f"{stem}_consented_reference_count", row, "audio",
-                ["inputs/voice-primary-vibe.wav", "inputs/voice-secondary.wav",
-                 "planning/requests/vibevoice-clone-two.json"], 2, 2,
-            ))
+    gates.extend([
+        gate(
+            "clone_reference_misattribution_corrected", "reference_provenance_rework", "audio",
+            ["reference-consent-rework.md", "reference-consent-verification.json",
+             "outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json",
+             "outputs/wd_bxhc_vibevoice_clone_two.wav.vibevoice.json"], 1,
+            1.0 if reference_verification["passed"] else 0.0,
+        ),
+        gate(
+            "clone_reference_unresolved_consent_recorded", "reference_provenance_rework", "audio",
+            ["reference-consent-rework.md", "reference-consent-verification.json"], 1,
+            1.0 if reference_verification["consent_decision"] == "not_evidenced_for_wd_bxhc_cloning_reuse" else 0.0,
+        ),
+    ])
 
     character_rows = {
         "portable_package_round_trip": (
@@ -301,9 +305,11 @@ def main() -> int:
     references = []
     for relative, role, license in (
         ("inputs/voice-primary-vibe.wav", "vibevoice_primary_reference",
-         "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"),
+         "Operator-owned evaluation asset; no redistribution"),
         ("inputs/voice-secondary.wav", "vibevoice_secondary_reference",
-         "Operator-owned synthetic WD-cpow VibeVoice output; authorized reference reuse only; no redistribution"),
+         "Operator-owned WD-cpow evaluation output; no redistribution"),
+        ("reference-consent-rework.md", "clone_reference_rights_and_consent_record",
+         "Operator-owned evaluation provenance record; no redistribution"),
         ("inputs/appearance-native.png", "character_native_appearance",
          "Operator-owned WD-m0r5/LF004 evaluation asset; authorized reference reuse only"),
         ("packages/portable-witness.wgpvoice", "saved_voice_package",
@@ -315,7 +321,20 @@ def main() -> int:
         ("outputs/wd_bxhc_vibevoice_clone_two.prepared.wav", "character_video_bound_audio",
          "Operator-owned WD-bxhc generated evaluation audio; no redistribution"),
     ):
-        references.append({"path": relative, "role": role, "sha256": sha256(BUNDLE / relative), "license": license})
+        entry = {"path": relative, "role": role, "sha256": sha256(BUNDLE / relative), "license": license}
+        if relative == "inputs/voice-primary-vibe.wav":
+            entry.update({
+                "source": "Operator-owned LF002 Orin voice guide; byte-for-byte WD-cpow inputs/target-voice.wav",
+                "consent_ref": "reference-consent-rework.md#primary-reference-b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+                "consent_status": "rights_evidence_present; wd_bxhc_cloning_reuse_consent_not_evidenced",
+            })
+        elif relative == "inputs/voice-secondary.wav":
+            entry.update({
+                "source": "WD-cpow VibeVoice-7B-prepared output; byte-for-byte outputs/wd_cpow_vibevoice_raw.prepared.wav",
+                "consent_ref": "reference-consent-rework.md#secondary-reference-e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+                "consent_status": "rights_evidence_present; wd_bxhc_cloning_reuse_consent_not_evidenced",
+            })
+        references.append(entry)
 
     download_report = {
         "schema": "wangp-dspy.wd-bxhc.download-report/v1",
@@ -345,7 +364,11 @@ def main() -> int:
         "chatterbox/chatterbox_multilingual": ("plain_speech",),
     }.items():
         for cell in cells:
-            rows.append({"row": row, "cell": cell, "disposition": "evidence_complete_pending_review"})
+            if row == "vibevoice/vibe_7b" and cell != "plain_speech":
+                disposition = "evidence_complete_pending_review_consent_not_evidenced"
+            else:
+                disposition = "host_run_verified_pending_review"
+            rows.append({"row": row, "cell": cell, "disposition": disposition})
     for row in (
         "Portable package round-trip and hashes", "Saved voice binding",
         "Native-source recovery", "Registry identity resolution",
@@ -354,7 +377,12 @@ def main() -> int:
         "Cross-mode identity preservation",
     ):
         for mode in ("image", "video"):
-            rows.append({"row": row, "mode": mode, "disposition": "evidence_complete_pending_review"})
+            disposition = (
+                "evidence_complete_pending_review_consent_not_evidenced"
+                if row in {"Saved voice binding", "Cross-mode identity preservation"}
+                else "host_run_verified_pending_review"
+            )
+            rows.append({"row": row, "mode": mode, "disposition": disposition})
     write_json(BUNDLE / "row-dispositions.json", {"rows": rows})
 
     queue = json.loads((BUNDLE / "queue-record.json").read_text())
@@ -407,6 +435,8 @@ def main() -> int:
                 "download-report.json", "doctor-capabilities-download-plan.json",
                 "standard-preflight.json", "lane-coexistence-preflight.json",
                 "chatterbox-report.json", "vibevoice-custom-report.json",
+                "reference-consent-rework.md", "reference-consent-verification.json",
+                "reference-provenance-rework.log", "rework-plans.log",
                 "character-media-identity.json", "character-media-objective-gates.json",
                 "packages/character-operation-results.json", "queue-record.json",
                 "queue-complete.log", "output-hashes.txt", "objective-gates.json",
@@ -438,6 +468,9 @@ def main() -> int:
             "lane_coexistence_preflight": "Passed with exact model hashes, >=15 GiB disk, QC health, and the operator-reserved llama-server as the sole occupant with >=4 GiB free.",
             "vibevoice_quantization": "CPU load verified zero meta tensors, then quanto qint8 nn.Linear weights were frozen on CUDA; embeddings/convolutions retained source dtype to preserve audio-token expansion.",
             "vibevoice_rejections_preserved": "Three 0.778 plain-speech transcript rejections and one 0.778 one-reference rejection are retained with hashes and transcripts.",
+            "reference_provenance_rework": "Primary b013… is the operator-owned LF002/WD-cpow target voice; secondary e371… is the WD-cpow VibeVoice-prepared output. The earlier WD-bxhc/Chatterbox attribution and unresolved consent anchors were defective and are preserved in .pre-rework sidecars only.",
+            "cloning_consent_decision": "not_evidenced_for_wd_bxhc_cloning_reuse; ownership/output rights are recorded, but no operator statement consents to cross-story cloning reuse",
+            "unapproved_rows": "VibeVoice one-reference clone, VibeVoice two-reference clone, Saved voice binding, and Cross-mode identity preservation remain non-host_run_verified",
             "character_media_boundary": "Image/video are deterministic model-free derivatives of one package anchor; the explicit semantic generated-continuity row is not claimed.",
             "queue_ledger_semantics": queue["ledger_semantics"],
             "bundle_size_bytes_at_assembly": bundle_bytes,
@@ -446,7 +479,7 @@ def main() -> int:
     }
     write_json(BUNDLE / "evidence.json", record)
     (BUNDLE / "bundle-size.txt").write_text(f"{bundle_bytes} bytes\n", encoding="utf-8")
-    summary = """# WD-bxhc execution summary\n\n- Used existing HF-native **VibeVoice-7B-hf**; inspected but did not use weights-only VibeVoice-Large.\n- Planned/verified Chatterbox downloads: **3,208,948,928 bytes**. Runtime wheels added **277,648 bytes**, total wheel payload **3,209,226,576 bytes** under the 20 GB ceiling.\n- Derived disk floor: **18.91 GiB before download** (selected bytes + 0.20 GiB work + 0.50 GiB execution margin + 15 GiB safety); **15 GiB after download**.\n- Real outputs: Chatterbox plain speech; VibeVoice plain/one-reference/two-reference speech; deterministic model-free character image and video from one `.wgpcharacter` anchor.\n- All speech is 24 kHz mono and passes Whisper 0.8. Clone references carry exact hashes, source, licence, and consent references.\n- Standard renderer preflight failed closed on its global 50 GiB/idle-GPU policy. The recorded lane coexistence preflight passed for the operator-reserved llama-server; no global gate was changed.\n- Reviewer verdict remains **pending**; the canonical checker is therefore expected to fail only reviewer approval until PM review.\n"""
+    summary = """# WD-bxhc execution summary\n\n- Used existing HF-native **VibeVoice-7B-hf**; inspected but did not use weights-only VibeVoice-Large.\n- Planned/verified Chatterbox downloads: **3,208,948,928 bytes**. Runtime wheels added **277,648 bytes**, total wheel payload **3,209,226,576 bytes** under the 20 GB ceiling.\n- Derived disk floor: **18.91 GiB before download** (selected bytes + 0.20 GiB work + 0.50 GiB execution margin + 15 GiB safety); **15 GiB after download**.\n- Real outputs: Chatterbox plain speech; VibeVoice plain/one-reference/two-reference speech; deterministic model-free character image and video from one `.wgpcharacter` anchor.\n- All speech is 24 kHz mono and passes Whisper 0.8.\n- Reworked provenance identifies primary `b013…` as the operator-owned LF002/WD-cpow target voice and secondary `e371…` as the WD-cpow VibeVoice-prepared output. Cross-story cloning-reuse consent is **not evidenced**, so both clone rows, Saved voice binding, and Cross-mode identity preservation are not `host_run_verified`.\n- Standard renderer preflight failed closed on its global 50 GiB/idle-GPU policy. The recorded lane coexistence preflight passed for the operator-reserved llama-server; no global gate was changed.\n- Reviewer verdict remains **pending**; the canonical checker is therefore expected to fail only reviewer approval until PM review.\n"""
     (BUNDLE / "execution-summary.md").write_text(summary, encoding="utf-8")
     print(json.dumps({
         "root": str(ROOT),

@@ -2,111 +2,111 @@
   "rows": [
     {
       "cell": "plain_speech",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "one_reference_clone",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "two_reference_clone",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "row": "vibevoice/vibe_7b"
     },
     {
       "cell": "plain_speech",
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "row": "chatterbox/chatterbox_multilingual"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Portable package round-trip and hashes"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Portable package round-trip and hashes"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "image",
       "row": "Saved voice binding"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "video",
       "row": "Saved voice binding"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Native-source recovery"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Native-source recovery"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Registry identity resolution"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Registry identity resolution"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Appearance and voice mismatch rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Appearance and voice mismatch rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Duplicate and ambiguous identity rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Duplicate and ambiguous identity rejection"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Immutable non-executable planning"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Immutable non-executable planning"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "image",
       "row": "Seed-based reconstruction"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "host_run_verified_pending_review",
       "mode": "video",
       "row": "Seed-based reconstruction"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "image",
       "row": "Cross-mode identity preservation"
     },
     {
-      "disposition": "evidence_complete_pending_review",
+      "disposition": "evidence_complete_pending_review_consent_not_evidenced",
       "mode": "video",
       "row": "Cross-mode identity preservation"
     }

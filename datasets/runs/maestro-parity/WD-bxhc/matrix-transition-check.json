@@ -19,8 +19,12 @@
   "cross_mode_anchor_equal": true,
   "explicit_generated_continuity_unchanged": true,
   "passed": true,
+  "pending_consent_character_cells": 4,
+  "pending_consent_voice_cells": 2,
   "problems": [],
   "targeted_character_cells": 18,
   "targeted_voice_cells": 4,
+  "verified_character_cells": 14,
+  "verified_voice_cells": 2,
   "voice_row_count": 2
 }

@@ -37,19 +37,19 @@ def reference(name: str, role: str, duration_s: float) -> dict[str, object]:
         "role": role,
         "duration_s": duration_s,
         "source": (
-            "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
+            "Operator-owned LF002 Orin voice guide; byte-for-byte WD-cpow inputs/target-voice.wav"
             if primary else
-            "WD-cpow VibeVoice-prepared synthetic output, reused only as the secondary reference"
+            "WD-cpow VibeVoice-7B-prepared output; byte-for-byte outputs/wd_cpow_vibevoice_raw.prepared.wav"
         ),
         "license": (
-            "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"
+            "Operator-owned evaluation asset; no redistribution"
             if primary else
-            "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"
+            "Operator-owned WD-cpow evaluation output; no redistribution"
         ),
         "consent_ref": (
-            "operator-authorization.md#wd-cpow-synthetic-primary"
+            "reference-consent-rework.md#primary-reference-b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
             if primary else
-            "operator-authorization.md#wd-cpow-synthetic-secondary"
+            "reference-consent-rework.md#secondary-reference-e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
         ),
     }
 

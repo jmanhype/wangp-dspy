@@ -29,7 +29,10 @@ def main() -> int:
     identity = json.loads((BUNDLE / "character-media-identity.json").read_text())
     anchor = identity["anchor"]
     expected_voice = {
-        "`vibevoice/vibe_7b`": ["host_run_verified", "host_run_verified", "host_run_verified"],
+        "`vibevoice/vibe_7b`": [
+            "host_run_verified", "evidence_complete_pending_review",
+            "evidence_complete_pending_review",
+        ],
         "`chatterbox/chatterbox_multilingual`": ["host_run_verified", "unsupported", "unsupported"],
     }
     expected_character_names = (
@@ -50,7 +53,12 @@ def main() -> int:
         problems.append(f"character row order/identity changed: {list(character)}")
     for name in expected_character_names:
         actual = [cell.split()[0] for cell in character.get(name, [])[:2]]
-        if actual != ["host_run_verified", "host_run_verified"]:
+        expected = (
+            ["evidence_complete_pending_review", "evidence_complete_pending_review"]
+            if name in {"Saved voice binding", "Cross-mode identity preservation"}
+            else ["host_run_verified", "host_run_verified"]
+        )
+        if actual != expected:
             problems.append(f"character {name}: {actual}")
     explicit = character.get("Generated speech, image, or video continuity", [])
     if [cell.split()[0] for cell in explicit[:2]] != ["unsupported", "unsupported"]:
@@ -73,7 +81,11 @@ def main() -> int:
         "voice_row_count": len(voice),
         "character_row_count": len(character),
         "targeted_voice_cells": 4,
+        "verified_voice_cells": 2,
+        "pending_consent_voice_cells": 2,
         "targeted_character_cells": 18,
+        "verified_character_cells": 14,
+        "pending_consent_character_cells": 4,
         "explicit_generated_continuity_unchanged": True,
         "cross_mode_anchor_equal": cross_mode,
         "anchor": anchor,

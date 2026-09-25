@@ -5,7 +5,7 @@
     "family": "vibevoice",
     "preset": "vibe_7b"
   },
-  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/rework-targets/vibevoice-clone-one.wav",
   "recipe_seed": 9421,
   "references": [
     {

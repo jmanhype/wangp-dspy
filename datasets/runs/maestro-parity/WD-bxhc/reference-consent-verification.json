@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "inputs/voice-primary-vibe.wav_anchor_exists": true,
+    "inputs/voice-primary-vibe.wav_anchor_slug": true,
+    "inputs/voice-primary-vibe.wav_hash": true,
+    "inputs/voice-secondary.wav_anchor_exists": true,
+    "inputs/voice-secondary.wav_anchor_slug": true,
+    "inputs/voice-secondary.wav_hash": true,
+    "wd_bxhc_vibevoice_clone_one.wav.vibevoice.json_b013bad8_anchor": true,
+    "wd_bxhc_vibevoice_clone_two.wav.vibevoice.json_b013bad8_anchor": true,
+    "wd_bxhc_vibevoice_clone_two.wav.vibevoice.json_e371ebe7_anchor": true,
+    "wd_bxhc_vibevoice_speech.wav.vibevoice.json_b013bad8_anchor": true
+  },
+  "consent_decision": "not_evidenced_for_wd_bxhc_cloning_reuse",
+  "passed": true,
+  "problems": [],
+  "schema": "wangp-dspy.wd-bxhc.reference-consent-rework/v1"
+}
