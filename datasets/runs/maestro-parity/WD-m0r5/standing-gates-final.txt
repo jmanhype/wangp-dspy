@@ -23,4 +23,4 @@ FAIL reviewer_verdict.decision: must be approved
 checker_exit=1
 reviewer_pending_expected=true
 
-bundle_size_kib=35772
+bundle_size_kib=34384
