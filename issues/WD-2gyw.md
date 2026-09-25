@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T14:15:04Z
-content_hash: "sha256:079df7f4cc2b926e7f94927cd07f39520e747b278dde1ef66baa239a07a31740"
+updated_at: 2026-09-25T14:15:32Z
+content_hash: "sha256:5989e4b6e8c69c883de2383cafc6ec9a5db60473714e38af3e9cbd29b217d1c8"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
 assignee: dev-WD-2gyw
 follows: [WD-cpow]
@@ -126,3 +126,6 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 - Follows: [[WD-cpow]]
 
 ## Comments
+
+### 2026-09-25T14:15:32Z speed
+OPERATOR AUTHORIZATION RECORDED 2026-09-25: the operator approved host batch 1 (20 GB ceiling) and then, in sequence: 'kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this'; 'Unblock and cont'; and 'Yes' to the dispatcher's explicit pair - (a) stop llama-server (leaving the operator's web-intel stack degraded) while video renders run, (b) run the feasible video subset rather than relocating further data for the full 119 GB. Dispatcher host prep before this dispatch: llama-server (PID 3333716, 7752 MiB) stopped cleanly with that authorization, GPU now 83 MiB used / 24034 MiB free; ~93 GB of unrelated operator data offloaded from the root SSD to /mnt/bulk-hdd/ssd-offload via symlink-preserving moves (qwen-voicedesign-trial, hf_home, woosh, ai-toolkit, fish-speech, acestep-datasets, mne_data, blackice, twenty-crm, wangp-dspy-fresh, video-to-json-i2v, elder_man_dataset), taking the SSD from 9.5 GB to 100 GB free. Maestro was NOT moved (it is a live running process whose path is a symlink into /mnt/bulk/straughter/Maestro). /mnt/bulk-hdd is configured ro,noload in fstab and was remounted rw for this session only; fstab was left untouched. The dispatcher will restore llama-server after the lane completes.
