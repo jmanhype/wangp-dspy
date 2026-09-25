@@ -1,0 +1,14 @@
+host=straughter-Z690-Steel-Legend
+2026-09-25T18:31:48Z
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 807717490688 41534517248  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7840 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   982  100   982    0     0   6084      0 --:--:-- --:--:-- --:--:--  6099
+  0 23.4M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 37 23.4M   37 8939k    0     0  5386k      0  0:00:04  0:00:01  0:00:03 9632k100 23.4M  100 23.4M    0     0  10.4M      0  0:00:02  0:00:02 --:--:-- 15.4M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0 44.7M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 62 44.7M   62 27.9M    0     0  20.2M      0  0:00:02  0:00:01  0:00:01 28.0M100 44.7M  100 44.7M    0     0  23.2M      0  0:00:01  0:00:01 --:--:-- 29.0M

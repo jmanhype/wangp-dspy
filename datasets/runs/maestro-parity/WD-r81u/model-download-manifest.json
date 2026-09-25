@@ -12,7 +12,7 @@
     {
       "id": "realesrgan-ncnn-vulkan-20220424-ubuntu-portable",
       "source_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip",
-      "sha256": "d5888fcefd5e1a71eb6b324546f977efe0b5176c67a046cdd144189312d3f894",
+      "sha256": "e5aa6eb131234b87c0c51f82b89390f5e3e642b7b70f2b9bbe95b6a285a40c96",
       "size_bytes": 46931474,
       "license": "MIT (Real-ESRGAN-ncnn-vulkan) and BSD-3-Clause model provenance; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/wd-r81u/assets/realesrgan-ncnn-vulkan-20220424-ubuntu.zip"
