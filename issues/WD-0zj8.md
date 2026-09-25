@@ -9,10 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-24T15:34:39Z
-content_hash: "sha256:69260c5c7058782ea3d43c84e43518c05a03b1837fb0a9d916fd310ba17d2ce0"
-blocked_by: [WD-m0r5]
+content_hash: "sha256:347e2770303bc7fce95e330a6571b806a280565b8c49abbad0c7a27ec2be2eda"
 blocks: [WD-fay0]
-was_blocked_by: [WD-651z]
+was_blocked_by: [WD-651z, WD-m0r5]
 ---
 
 ## Description
@@ -109,11 +108,11 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-24T14:14:09Z dep_added: blocked_by WD-m0r5
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
 - 2026-09-24T16:02:51Z dep_removed: was_blocked_by WD-651z
+- 2026-09-25T02:28:58Z dep_removed: was_blocked_by WD-m0r5
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Blocked by: [[WD-m0r5]]
-- Was blocked by: [[WD-651z]]
+- Was blocked by: [[WD-651z]], [[WD-m0r5]]
 
 ## Comments
