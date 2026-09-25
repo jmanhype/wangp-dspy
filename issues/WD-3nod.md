@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T03:34:28Z
-content_hash: "sha256:cb86db3af4757729a429a0d2e04ac88c51123bb90cdafcdec34116133957131d"
+updated_at: 2026-09-25T03:35:50Z
+content_hash: "sha256:faf4bd3efa84be9b34110279afcb4359abf42c53f74ea3a0032c5bb33d774d2f"
 ---
 
 ## Description
@@ -39,3 +39,6 @@ PROGRAMME MILESTONE at merged main d8671f3: image lane (WD-m0r5) is COMPLETE and
 
 ### 2026-09-25T03:34:28Z speed
 HOST REPAIR (dispatcher): the uv-managed CPython 3.11.14 interpreter previously removed by the quarantine deletion was restored with 'uv python install 3.11.14' (~100 MB). This recovered TWO environments that had been left with no working interpreter rather than deleting them: /mnt/bulk/straughter/ACE-Step-1.5/.venv (the MUSIC lane's environment) and /home/straughter/qwen-voicedesign-trial/venv — about 16.3 GB of installed packages that would otherwise have needed re-downloading. Verified: all three venvs (ACE-Step, qwen-voicedesign, Wan2GP) now report a working Python (3.11.14, 3.11.14, 3.11.15). Prior collateral damage is now fully repaired.
+
+### 2026-09-25T03:35:50Z speed
+DISPATCH PROCESS GAP (dispatcher, corrected): the music lane (WD-rous) was first dispatched to a worktree that had never been created — the branch, worktree and claim were skipped. The agent ran for a while producing nothing and was interrupted; the main checkout remained CLEAN and untouched (verified: no stray files, main still at d8671f3, only WD-m0r5 under datasets/runs/maestro-parity/), so there was no collateral damage. Corrected by creating story/WD-rous from main, adding .claude/worktrees/dev-WD-rous, claiming the story, and re-dispatching. RULE for every lane dispatch: create the branch, add the worktree, and atomically claim the story BEFORE spawning the developer; then verify the worktree exists and is clean. Combined with the earlier push rule (verify the branch is PUSHED, not merely committed), these are the two integration steps the dispatcher must perform rather than assume.
