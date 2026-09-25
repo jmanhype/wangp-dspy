@@ -4,11 +4,11 @@ title: "Video breadth generation evidence"
 status: in_progress
 priority: 1
 type: feature
-labels: [capability, evidence, external-integration]
+labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T16:03:50Z
+updated_at: 2026-09-25T16:03:51Z
 content_hash: "sha256:e4beb8c391ff393648714332b78c817fbef95c45ca9a9e33cab23e3f134cc325"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
 assignee: dev-WD-2gyw
