@@ -1,0 +1,14 @@
+{
+  "models": [
+    {
+      "family": "stable_audio",
+      "preset": "sound_effect",
+      "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "license_accepted": true,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_small_music_bf16.safetensors",
+      "usage_constraint": "one authorized WD-cpow sound-effect attempt; no training or redistribution",
+      "vram_profile": "16gb"
+    }
+  ]
+}

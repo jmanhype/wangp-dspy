@@ -1,0 +1,15 @@
+{
+  "model_type": "stable_audio3_small",
+  "prompt": "dry metal gate latch clack followed by a small chain sway in a close room",
+  "audio_prompt_type": "",
+  "duration_seconds": 2.25,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "audio_scale": 0.9,
+  "negative_prompt": "poor quality, distorted, noisy",
+  "sample_solver": "pingpong",
+  "seed": 9101,
+  "batch_size": 1,
+  "output_filename": "wd_cpow_stable_sfx",
+  "settings_version": 99
+}

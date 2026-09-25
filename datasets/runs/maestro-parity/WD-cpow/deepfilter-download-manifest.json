@@ -1,0 +1,37 @@
+{
+  "schema_version": "wangp-dspy.model-assets/v1",
+  "assets": [
+    {
+      "id": "deepfilternet-wheel",
+      "source_url": "https://files.pythonhosted.org/packages/70/71/2edcc970c4dc689c301ea83e89a169fde08d6af0dfb26b14009ab27ee105/deepfilternet-0.5.6-py3-none-any.whl",
+      "sha256": "99f5688d954fcfa8f853bf8bb8c3b2a59e4f9dc5d95643c9e6a32053234ba7c6",
+      "size_bytes": 113208,
+      "license": "MIT (DeepFilterNet)",
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/deepfilternet-0.5.6-py3-none-any.whl"
+    },
+    {
+      "id": "deepfilterlib-cp311-wheel",
+      "source_url": "https://files.pythonhosted.org/packages/f8/58/c6394b50de3e217ee472a768fee3d964042e70fb39cc02f377baf5dc03bb/DeepFilterLib-0.5.6-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "sha256": "3ea0dffa9b0f0fae4aaebac4a3d13f9b2ba5becd805db1b14d2252163f07e787",
+      "size_bytes": 568783,
+      "license": "MIT (DeepFilterNet)",
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterLib-0.5.6-cp311-cp311-manylinux_2_28_x86_64.whl"
+    },
+    {
+      "id": "appdirs-wheel",
+      "source_url": "https://files.pythonhosted.org/packages/3b/00/2344469e2084fb287c2e0b57b72910309874c3245463acd6cf5e3db69324/appdirs-1.4.4-py2.py3-none-any.whl",
+      "sha256": "a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128",
+      "size_bytes": 9566,
+      "license": "MIT (appdirs)",
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/appdirs-1.4.4-py2.py3-none-any.whl"
+    },
+    {
+      "id": "deepfilternet3-model-zip",
+      "source_url": "https://github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "size_bytes": 7986207,
+      "license": "MIT (DeepFilterNet upstream pretrained model)",
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip"
+    }
+  ]
+}

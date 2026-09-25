@@ -1,0 +1,12 @@
+torch True
+numpy True
+scipy True
+sympy True
+soundfile True
+appdirs False
+loguru True
+requests True
+packaging True
+pip 24.0 from /home/straughter/Wan2GP/venv/lib/python3.11/site-packages/pip (python 3.11)
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 838225747968 11026259968  99% /

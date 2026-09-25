@@ -1,0 +1,15 @@
+{
+  "schema": "wangp-dspy.vibevoice-turns/v1",
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "seed": 9201,
+  "turns": [
+    {
+      "speaker": "Orin",
+      "text": "This is the last rain we have.",
+      "voice_reference": "inputs/target-voice.wav",
+      "output": "outputs/wd_cpow_vibevoice_raw.wav",
+      "target_duration_s": 2.333333
+    }
+  ]
+}

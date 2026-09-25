@@ -1,0 +1,48 @@
+--- stable audio exact assets ---
+8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158  /home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors
+918714064 /home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors
+01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30  /home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors
+216518418 /home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors
+ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors
+1183023032 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors
+575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json
+2540 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json
+baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json
+636 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json
+7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json
+34362429 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json
+61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model
+4241003 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model
+9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f  /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json
+46437 /home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json
+--- VibeVoice files ---
+1940858872	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00009-of-00011.safetensors
+1886423856	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00002-of-00011.safetensors
+1864468568	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00008-of-00011.safetensors
+1864468568	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00007-of-00011.safetensors
+1864468568	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00006-of-00011.safetensors
+1864468544	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00005-of-00011.safetensors
+1864468520	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00004-of-00011.safetensors
+1864468520	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00003-of-00011.safetensors
+1374857446	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00001-of-00011.safetensors
+1207925312	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00010-of-00011.safetensors
+1089994880	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model-00011-of-00011.safetensors
+11421892	/mnt/bulk/straughter/models/VibeVoice-7B-hf/tokenizer.json
+124188	/mnt/bulk/straughter/models/VibeVoice-7B-hf/model.safetensors.index.json
+21796	/mnt/bulk/straughter/models/VibeVoice-7B-hf/README.md
+3296	/mnt/bulk/straughter/models/VibeVoice-7B-hf/config.json
+2420	/mnt/bulk/straughter/models/VibeVoice-7B-hf/chat_template.jinja
+1570	/mnt/bulk/straughter/models/VibeVoice-7B-hf/.gitattributes
+811	/mnt/bulk/straughter/models/VibeVoice-7B-hf/tokenizer_config.json
+511	/mnt/bulk/straughter/models/VibeVoice-7B-hf/processor_config.json
+487	/mnt/bulk/straughter/models/VibeVoice-7B-hf/generation_config.json
+--- VibeVoice config hashes ---
+ed6677f214ed0f4d05f1e78adf55d915d8c658553165244f297f1f1337d3a3ea  /mnt/bulk/straughter/models/VibeVoice-7B-hf/config.json
+MISSING /mnt/bulk/straughter/models/VibeVoice-7B-hf/preprocessor_config.json
+9e8563ac7bcb305cdf5cc8c2a055acbb09dfae525990907d5ab86ea16413966d  /mnt/bulk/straughter/models/VibeVoice-7B-hf/generation_config.json
+--- host repo VibeVoice checkout ---
+8d865dc5aafce70c7162dda6e47d9f2686e2e09f
+--- ffmpeg tools ---
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+built with gcc 13 (Ubuntu 13.2.0-23ubuntu3)
+ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers

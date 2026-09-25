@@ -1,0 +1,8 @@
+{
+  "admission_state": "admitted",
+  "database": "queue.db",
+  "job_id": "job-1790313681168-5680787d",
+  "preflight": "selected-doctor-preflight-after-download.json",
+  "queue_id": "wangp-JobQueue-WD-cpow",
+  "retry_id": "attempt-1"
+}

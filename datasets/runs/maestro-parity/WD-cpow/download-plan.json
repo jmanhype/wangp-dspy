@@ -1,0 +1,31 @@
+{
+  "authorization": "operator-authorization.md",
+  "ceiling_bytes": 20000000000,
+  "planned_assets": [
+    {
+      "id": "deepfilternet-wheel",
+      "size_bytes": 113208,
+      "source_url": "https://files.pythonhosted.org/packages/70/71/2edcc970c4dc689c301ea83e89a169fde08d6af0dfb26b14009ab27ee105/deepfilternet-0.5.6-py3-none-any.whl"
+    },
+    {
+      "id": "deepfilterlib-cp311-wheel",
+      "size_bytes": 568783,
+      "source_url": "https://files.pythonhosted.org/packages/f8/58/c6394b50de3e217ee472a768fee3d964042e70fb39cc02f377baf5dc03bb/DeepFilterLib-0.5.6-cp311-cp311-manylinux_2_28_x86_64.whl"
+    },
+    {
+      "id": "appdirs-wheel",
+      "size_bytes": 9566,
+      "source_url": "https://files.pythonhosted.org/packages/3b/00/2344469e2084fb287c2e0b57b72910309874c3245463acd6cf5e3db69324/appdirs-1.4.4-py2.py3-none-any.whl"
+    },
+    {
+      "id": "deepfilternet3-model-zip",
+      "size_bytes": 7986207,
+      "source_url": "https://github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip"
+    }
+  ],
+  "planned_total_bytes": 8677764,
+  "already_present_stable_audio_assets_bytes": 2356908559,
+  "already_present_vibevoice_model_bytes": 18698450924,
+  "derivation": "All 2,356,908,559 bytes of the previously measured Stable Audio set are already present from WD-rous, so its incremental requirement is now zero. The only planned network pull is the absent DeepFilterNet runtime/model set. The render working set is bounded at 0.05 GiB for short WAV/MP4 intermediates. A 0.10 GiB execution margin and the operator's approximately 8 GiB post-download safety floor give preflight min_free_gb=8.16.",
+  "min_free_gb": 8.16
+}

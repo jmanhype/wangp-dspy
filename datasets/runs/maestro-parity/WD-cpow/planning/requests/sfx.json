@@ -1,0 +1,33 @@
+{
+  "schema_version": "wangp-dspy.audio-post-request/v1",
+  "model": {
+    "family": "stable_audio",
+    "preset": "sound_effect"
+  },
+  "operation": "sfx",
+  "prompt": "dry metal gate latch clack followed by a small chain sway in a close room",
+  "duration_s": 2.25,
+  "source": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/inputs/source.mp4",
+    "sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6",
+    "immutable": true,
+    "video": {
+      "index": 0,
+      "codec_type": "video",
+      "duration_s": 2.333333
+    },
+    "audio": {
+      "index": 1,
+      "codec_type": "audio",
+      "duration_s": 2.304
+    }
+  },
+  "output": {
+    "container": "wav",
+    "codec": "pcm_s16le",
+    "sample_rate_hz": 48000,
+    "channels": 2
+  },
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_stable_sfx.wav",
+  "recipe_seed": 9101
+}
