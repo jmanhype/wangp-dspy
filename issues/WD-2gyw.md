@@ -4,7 +4,7 @@ title: "Video breadth generation evidence"
 status: closed
 priority: 1
 type: feature
-labels: [capability, evidence, external-integration, delivered, accepted]
+labels: [capability, evidence, external-integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
