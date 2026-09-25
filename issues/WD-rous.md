@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T05:04:04Z
-content_hash: "sha256:78fe7daaea258d1feb61f0d4fdf55162639769b8a55270a546f6dfeec2115465"
+updated_at: 2026-09-25T05:04:48Z
+content_hash: "sha256:cc47ec9bc77dcb847592502279eee4588fb2d52293f06c909bcc9973da571bca"
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
 closed_at: 2026-09-25T05:04:03Z
@@ -96,7 +96,29 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-25]: Independent evidence review passed; story closed and accepted.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed delivered head 1dcf95fb0fc2097613e6ee1a94fb9ef52ca3c57f, then recorded reviewer approval and pushed review head 14b49def010a752269fa3824374f750b6d2cdc2c.
+- Recomputed SHA-256 exactly for ACE generate 6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9, Stable generate 40c0e22367561a6b9a0cd6869f2c5b9b61b803b9fcf660e4f7d2ea9bb0c6c6eb, and ACE style adapt a062dbd91d61820c6e2267a387afbe7611721ef3b27ad4fa31b4ed86a2b45a99.
+- Independently probed real PCM audio: ACE generate 10 s / 48000 Hz / stereo / RMS 0.0974779 / peak 0.8912659; ACE style 10 s / 48000 Hz / stereo / RMS 0.0900015 / peak 0.8912659; Stable 10 s / 44100 Hz / stereo / RMS 0.9564379 / peak 1.0. Generate and style are distinct (mean sample delta 0.0769801; 956714/960000 samples differ).
+- The Stable verdict is honest for this governed lane: 48000 Hz is the pre-existing fixed row requirement, while the native Stable Audio Small output/config and measured WAV are 44100 Hz; no resample was relabelled native. The distinction is runtime/model output capability, not a claim that the host universally cannot emit 48 kHz.
+- Derived disk floors are recorded as 11.50 GB pre-download admission, 9.14 GB post-download render, and 8 GB safety; the retained post-download 11.5 GB attempt failed while 9.14 GB passed, evidencing explicit staged gates rather than silent drift.
+- Recorded final host state confirms ACE flash_attn=present and WanGP flash_attn=absent.
+- At 14b49de: checker PASS; JUnit tests=2084 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected parity and git diff --check clean.
+
+### proof
+- [x] AC #1: ACE generate/style evidence independently verified as real, distinct, hashed, target-format audio.
+- [x] AC #2: Stable target mismatch was not silently promoted.
+- [x] AC #3: Matrix transitions and citations verified from bundle-backed rows.
+- [x] AC #4: Required provenance, rights, hashes, metadata, gates, and reviewer approval are present.
+- [x] AC #5: Stable unsupported verdict is measured and explicitly scoped.
+- [x] AC #6: Both ACE planned cells are terminal verified; Stable generate is terminal unsupported; Stable style planning boundary is unchanged.
+- [x] AC #7: No training/GUI/registry/weights/protected-engine changes; protected-file parity passes.
 
 ## nd_contract
 status: accepted
