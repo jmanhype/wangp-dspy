@@ -4,11 +4,11 @@ title: "Clean-machine generated install"
 status: open
 priority: 1
 type: feature
-labels: [install, evidence, external-integration, delivered]
+labels: [install, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:12:33Z
+updated_at: 2026-09-25T04:12:34Z
 content_hash: "sha256:9b5ddb7bb13c87164db38144610fa48ab5cfee6dc682c7462dff7b9aa571a58e"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
