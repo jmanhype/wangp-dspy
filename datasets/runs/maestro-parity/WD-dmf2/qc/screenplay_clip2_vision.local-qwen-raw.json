@@ -1,0 +1,29 @@
+{
+  "action_match": 0.7,
+  "critic": "local:q",
+  "mouth_activity": 0.85,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.61,0.35,0.06,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.61, 0.35, 0.06, 0.02]}\\n```\",\"raw_response_sha256\":\"77e8b9b71706d45e1c1b1921e481f061510d8ff0920c1321f15548ba41da9f8c\",\"status\":\"success\"}],\"bbox\":[0.61,0.35,0.06,0.02],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.62,0.35,0.06,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.62, 0.35, 0.06, 0.02]}\\n```\",\"raw_response_sha256\":\"3ce78d76d6f85792a114ef00eefc6941698a03d9b0780b4021c20b249e68204a\",\"status\":\"success\"}],\"bbox\":[0.62,0.35,0.06,0.02],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.67,0.38,0.05,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.67, 0.38, 0.05, 0.02]}\\n```\",\"raw_response_sha256\":\"09b2d47ea01aa8ce15bfc767523f37c86ce3846b74aa15ec5eba405d95f4dd87\",\"status\":\"success\"}],\"bbox\":[0.67,0.38,0.05,0.02],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The identity of the elder woman with white hair and glasses is preserved. The composition matches the reference, with the woman centered and the other characters in their expected positions. The mouth is open in a speaking pose, consistent with the expected action. The action of holding the bowl is visible. The scene appears to be a still from an animated film.",
+  "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.7,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The identity of the elder woman with white hair and glasses is preserved. The composition matches the reference, with the woman centered and the other characters in their expected positions. The mouth is open in a speaking pose, consistent with the expected action. The action of holding the bowl is visible. The scene appears to be a still from an animated film.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.61,
+      0.35,
+      0.06,
+      0.02
+    ],
+    [
+      0.62,
+      0.35,
+      0.06,
+      0.02
+    ],
+    [
+      0.67,
+      0.38,
+      0.05,
+      0.02
+    ]
+  ]
+}

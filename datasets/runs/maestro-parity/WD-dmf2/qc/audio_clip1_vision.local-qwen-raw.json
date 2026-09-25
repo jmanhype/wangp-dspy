@@ -1,0 +1,29 @@
+{
+  "action_match": 0.95,
+  "critic": "local:q",
+  "mouth_activity": 0.85,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.61,0.35,0.06,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.61, 0.35, 0.06, 0.02]}\\n```\",\"raw_response_sha256\":\"77e8b9b71706d45e1c1b1921e481f061510d8ff0920c1321f15548ba41da9f8c\",\"status\":\"success\"}],\"bbox\":[0.61,0.35,0.06,0.02],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.64,0.36,0.05,0.03],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.64, 0.36, 0.05, 0.03]}\\n```\",\"raw_response_sha256\":\"06949d40ec628190e2cd5a52bb0eb7ed2c8001c6f8fc1c955396e1983dd7ecdf\",\"status\":\"success\"}],\"bbox\":[0.64,0.36,0.05,0.03],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.67,0.37,0.06,0.03],\"raw_response\":\"```json\\n{\\n  \\\"speaker_mouth_bbox\\\": [\\n    0.67,\\n    0.37,\\n    0.06,\\n    0.03\\n  ]\\n}\\n```\",\"raw_response_sha256\":\"92ab35750585b46e25488bc0655f89257352bb8ab9e326101ab1774ccb64c360\",\"status\":\"success\"}],\"bbox\":[0.67,0.37,0.06,0.03],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The generated frames show an elderly woman with white hair and glasses holding a plate of cookies and a glass of milk, standing next to a restrained man in a firelit cave. The composition matches the expected scene: the woman is central, the man is on the right, and a devil-like figure is on the left. The woman's mouth is open in a speaking or smiling pose in both frames, indicating visible mouth activity. The action of offering food is clearly depicted. The identity and spatial arrangement are consistent with the expected description.",
+  "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.95,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The generated frames show an elderly woman with white hair and glasses holding a plate of cookies and a glass of milk, standing next to a restrained man in a firelit cave. The composition matches the expected scene: the woman is central, the man is on the right, and a devil-like figure is on the left. The woman's mouth is open in a speaking or smiling pose in both frames, indicating visible mouth activity. The action of offering food is clearly depicted. The identity and spatial arrangement are consistent with the expected description.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.61,
+      0.35,
+      0.06,
+      0.02
+    ],
+    [
+      0.64,
+      0.36,
+      0.05,
+      0.03
+    ],
+    [
+      0.67,
+      0.37,
+      0.06,
+      0.03
+    ]
+  ]
+}

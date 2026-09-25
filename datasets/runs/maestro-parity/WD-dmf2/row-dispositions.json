@@ -1,0 +1,67 @@
+{
+  "schema_version": "wangp-dspy.maestro-parity-row-dispositions/v1",
+  "story_id": "WD-dmf2",
+  "bundle": "datasets/runs/maestro-parity/WD-dmf2/evidence.json",
+  "global_reason": "No cell flips: the operator/dispatcher explicitly requires reviewer_verdict=decision:pending, and the auto-mode mandatory gate set does not pass across Whisper, identity-vision, mouth-box consensus, and SyncNet. Real composed media, immutable plans, queue attempts, reconstruction, and measurements are retained for review.",
+  "rows": [
+    {
+      "capability": "Deterministic ordered multi-clip plan",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "Four real two-clip assemblies and segment hashes exist, but reviewer decision is pending and the accepted checker cannot pass."
+    },
+    {
+      "capability": "Per-clip prompt and six-frame overlap",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "Each non-final immutable plan clip declares six-frame overlap and boundary frame hashes are retained, but no independent reviewer approved the completed pieces."
+    },
+    {
+      "capability": "Explicit continuity state and transitions",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "Continuity declarations and real boundary-frame hashes exist, but generated-media continuity is not reviewer-approved."
+    },
+    {
+      "capability": "Beat-aware measured window mapping",
+      "cells": {"Prompt": "not applicable", "Audio/music video": "planned", "Screenplay": "not applicable"},
+      "disposition": "unchanged",
+      "reason": "The measured 5.28 s beat maps to a 5.291667 s produced boundary within one 24 fps frame, but reviewer decision remains pending."
+    },
+    {
+      "capability": "Exact/window pacing preservation",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "All four final assemblies measure their exact target durations, but the bundle is not reviewer-approved."
+    },
+    {
+      "capability": "Auto/manual review checkpoints",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "Manual checkpoint policies are recorded but pending; auto-mode only two of four mandatory gates pass on the tested clip (identity-vision and mouth-box consensus; Whisper and SyncNet fail)."
+    },
+    {
+      "capability": "Immutable non-executable queue records",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "All eight plan records reconstruct identically and the director queue selector selects no executable job, but the separate completed composition batch still has pending review."
+    },
+    {
+      "capability": "Authorized prompt-only enhancement",
+      "cells": {"Prompt": "planned", "Audio/music video": "not applicable", "Screenplay": "not applicable"},
+      "disposition": "unchanged",
+      "reason": "The enhanced database changes only prompt and reconstructs both records, but no produced media corresponds to the enhanced prompt."
+    },
+    {
+      "capability": "Seed-based hash reconstruction",
+      "cells": {"Prompt": "planned", "Audio/music video": "planned", "Screenplay": "planned"},
+      "disposition": "unchanged",
+      "reason": "All ten original and enhanced record hashes reconstruct exactly, but the completed composition batch is not independently reviewed."
+    }
+  ],
+  "generated_media_row": {
+    "capability": "Generated clip, audio, or finished film",
+    "disposition": "unchanged_unsupported_in_this_lane",
+    "reason": "The pre-existing planning-unsupported row is out of WD-dmf2 scope and remains unchanged."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "action_match": 0.85,
+  "critic": "local:q",
+  "mouth_activity": 0.1,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.61,0.16,0.08,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.61, 0.16, 0.08, 0.02]}\\n```\",\"raw_response_sha256\":\"731e9bc4f106f735fc39a076077000593abfb085950fdd859a90b4227d3dc041\",\"status\":\"success\"}],\"bbox\":[0.61,0.16,0.08,0.02],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.62,0.14,0.08,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.62, 0.14, 0.08, 0.02]}\\n```\",\"raw_response_sha256\":\"9c21d6f836fddfc1560d4ef810904b639fa008b3d8d69a209ae460da0747f9ca\",\"status\":\"success\"}],\"bbox\":[0.62,0.14,0.08,0.02],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.62,0.14,0.08,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.62, 0.14, 0.08, 0.02]}\\n```\",\"raw_response_sha256\":\"9c21d6f836fddfc1560d4ef810904b639fa008b3d8d69a209ae460da0747f9ca\",\"status\":\"success\"}],\"bbox\":[0.62,0.14,0.08,0.02],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The identity is consistent across all frames, showing a young character in a dark jacket with a star emblem in an observatory setting. The composition is stable with the character centered. The mouth is closed in all visible frames, indicating no visible speaking activity, but the scene and character match the expected context.",
+  "raw_response": "{\n  \"mouth_activity\": 0.1,\n  \"action_match\": 0.85,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The identity is consistent across all frames, showing a young character in a dark jacket with a star emblem in an observatory setting. The composition is stable with the character centered. The mouth is closed in all visible frames, indicating no visible speaking activity, but the scene and character match the expected context.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.61,
+      0.16,
+      0.08,
+      0.02
+    ],
+    [
+      0.62,
+      0.14,
+      0.08,
+      0.02
+    ],
+    [
+      0.62,
+      0.14,
+      0.08,
+      0.02
+    ]
+  ]
+}

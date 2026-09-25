@@ -20,10 +20,11 @@ from qc.audio_critic.whisper_cli import whisper_transcriber
 
 class LocalHost:
     def run_probe(self, argv: Sequence[str], timeout: float):
-        return subprocess.run(
+        result = subprocess.run(
             list(argv), text=True, capture_output=True, check=False,
             timeout=timeout,
         )
+        return result.returncode, result.stdout, result.stderr
 
     def write_text(self, path: str, content: str) -> str:
         destination = Path(path)

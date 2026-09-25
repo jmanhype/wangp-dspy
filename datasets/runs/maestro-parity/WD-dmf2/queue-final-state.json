@@ -1,0 +1,30 @@
+{
+  "clips": [
+    {
+      "clip_index": 1,
+      "mp4": "outputs/wd_dmf2_prompt_composition.mp4",
+      "reviewer_decision": "pending",
+      "status": "done"
+    },
+    {
+      "clip_index": 2,
+      "mp4": "outputs/wd_dmf2_audio_composition.mp4",
+      "reviewer_decision": "pending",
+      "status": "done"
+    },
+    {
+      "clip_index": 3,
+      "mp4": "outputs/wd_dmf2_music_video_composition.mp4",
+      "reviewer_decision": "pending",
+      "status": "done"
+    },
+    {
+      "clip_index": 4,
+      "mp4": "outputs/wd_dmf2_screenplay_composition.mp4",
+      "reviewer_decision": "pending",
+      "status": "done"
+    }
+  ],
+  "job_id": "job-1790373082258-e4889656",
+  "state": "done"
+}

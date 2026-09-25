@@ -48,8 +48,8 @@ def main() -> int:
             "stdout": health.stdout.strip(),
         },
         "gpu": output([
-            "nvidia-smi", "--query-gpu=",
-            "name,memory.total,memory.used,utilization.gpu",
+            "nvidia-smi",
+            "--query-gpu=name,memory.total,memory.used,utilization.gpu",
             "--format=csv,noheader",
         ]),
         "whisper_small": {

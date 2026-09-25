@@ -24,7 +24,7 @@ def _clip(index: int, mode: str, request_hash: str, seed: int) -> dict:
         "request_sha256": request_hash,
         "recipe_seed": seed,
         "segment_outputs": [
-            f"outputs/clips/{mode}/clip{position:02d}.mp4"
+            f"outputs/clips/{mode}/clip{position:04d}.mp4"
             for position in (1, 2)
         ],
         "render_native": True,
