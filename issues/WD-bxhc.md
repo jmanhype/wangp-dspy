@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:57:35Z
-content_hash: "sha256:73f81c9306cfb88272f2583f3cd72fbbe2210b778c4185ff2937ca495948a428"
+updated_at: 2026-09-25T19:58:31Z
+content_hash: "sha256:b7f315302e496d8b9b6f56721e9d59ca521914ad6eca31f9a86b010f49858f07"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 assignee: dev-WD-bxhc
@@ -103,6 +103,50 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+### CI/Test Results
+- Full suite: `tests=2085 errors=0 failures=0 skipped=1` (`fullsuite-counters.json`).
+- Release: `release=ready`, `tag_created=false` (`release-verify.txt`).
+- Protected parity versus `c91a6d8`: exit 0 (`protected-parity-c91a6d8.diff`, `standing-diff-exits.txt`).
+- `git diff --check`: exit 0 (`git-diff-check.txt`).
+- Matrix parser: passed with 2 voice rows, 10 character rows, 4 targeted voice cells, 18 targeted character cells, unchanged explicit generated-continuity boundary, and equal cross-mode anchor (`matrix-transition-check.json`).
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-bxhc-full.xml`
+- `uv run --frozen --extra dev wgp release verify`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-bxhc`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-bxhc/verify-matrices.py`
+- `git diff --exit-code c91a6d8 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+
+Summary:
+- Used existing HF-native VibeVoice-7B-hf with quanto int8 linear weights beside the untouched operator llama-server; inspected but did not use weights-only VibeVoice-Large.
+- Planned/verified Chatterbox model bytes: 3,208,948,928. Runtime wheel payload: 277,648. Total pulled wheel payload: 3,209,226,576 under the 20,000,000,000-byte ceiling.
+- Emitted and hashed four 24 kHz mono speech WAVs, one character image, and one character video. Bundle size at assembly: 14,695,592 bytes.
+- Voice clone references and the portable appearance carry exact SHA-256, source, licence, and consent references. Cross-mode image/video claims use the same package, identity, appearance, voice, binding, and declared modes.
+- Canonical checker result is intentionally `FAIL reviewer_verdict.decision: must be approved` because developer reviewer status is pending. A clearly labeled approval projection passes all other contract checks (`checker-approved-projection.txt`).
+- Commit SHA: `31078a9d0e32690741ff26637440bf85086152a3`.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Bundle: `datasets/runs/maestro-parity/WD-bxhc/evidence.json`.
+- Authorizer: operator via `/root`; 20 GB download ceiling; exact model/wheel bytes in `download-report.json`.
+- Generation commit: `35270b18ffee75b9e816ed485ae297190eebb2f5`; delivery HEAD: `31078a9d0e32690741ff26637440bf85086152a3`.
+- Queue: `wangp-JobQueue-WD-bxhc`, job `job-1790363176711-127f786e`, admitted/succeeded ledger semantics recorded.
+- Reviewer: pending; independent PM approval still required.
+
+### proof
+- [x] AC1: six real output artifacts, provenance, queue, hashes, measured metadata, and 42 passing objective gates are present; canonical checker fails only pending reviewer approval, while the labeled approval projection passes.
+- [x] AC2: both clone references and the package carry exact path, SHA-256, role/source, licence, and consent references.
+- [x] AC3: image and video share the complete identity anchor and pass mode-specific perceptual/hash gates.
+- [x] AC4: absent/partial/mismatch probes fail closed; Chatterbox cloning and semantic generated-continuity boundaries remain unchanged.
+- [x] AC5: both matrices were parsed mechanically; all flipped cells cite WD-bxhc and negative probes are recorded in the successful lane bundle.
+- [x] AC6: no unsupported-on-this-hardware claim was made.
+- [x] AC7: all four targeted voice cells and all 18 targeted character cells are evidence-complete `host_run_verified` pending independent review.
+- [x] AC8: protected files are byte-identical to `c91a6d8`; no GUI, publication, training, extra row/cell, model-weight commit, or unlicensed reference use.
 
 
 ## nd_contract
