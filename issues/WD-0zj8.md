@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:15:59Z
-content_hash: "sha256:16d3c6ff9d4ad3b110a604cf69ea27b3a0709c07a5979807156f554775109c09"
+updated_at: 2026-09-25T04:33:19Z
+content_hash: "sha256:9f49f4e0cf82f2d365ca9b92fc907fcf0c7e5c54f34f700d5337b340e5700006"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
@@ -99,7 +99,24 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-24]: Accepted for the delivered NO-GPU scope ONLY: clean disposable install/plan plus the absent-host/absent-model typed refusal. The generated-artifact half remains BLOCKED pending per-batch GPU/render-host authorization, model-download approval, and a complete authorized host/model manifest; the incomplete/unauthorized-input matrix and authorized generation path are also not accepted as complete.
 
+### evidence
+- Reviewed exact pushed head 2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1; `git ls-remote origin story/WD-0zj8` matched.
+- Independently ran the documented command from a fresh detached checkout under an isolated environment: `clips=4`, `PLAN_ONLY ... generated_artifact=false`, `GENERATION_REFUSED diagnostics=2 exit=3`, `HOST_CONFIGURATION_INCOMPLETE` (`missing host.target, host.wgp_root`), and `MODEL_MANIFEST_REQUIRED`; no traceback.
+- Independently reran the bundle's clean-proof source commit 212f12058e1704f9c1657437f7698c4f4e126d21 and reproduced exit 3 plus plan SHA-256 91b391a80268eee68701b32a8f95bfc59d9bdf720ed68425436651295d7d82be, matching `blocked-record.json`. The earlier narrative hash 935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb is stale; the committed bundle and rerun are authoritative.
+- Recorded generation state is false for attempted/artifact/host-run/model-download/queue/SSH; bundle contains no media artifact and honestly records the block.
+- PM gates at head: JUnit tests=2085 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected-file diff and `git diff --check` clean.
+
+### proof
+- [x] AC #1: clean install and no-GPU plan independently reproduced.
+- [x] AC #2 (accepted absent-host/absent-model subset only): typed, actionable exit-3 refusal reproduced; broader incomplete/unauthorized matrix remains unclaimed.
+- [ ] AC #3: BLOCKED on required operator inputs; no generated artifact accepted.
+- [x] AC #4: no fabricated host-run evidence found.
+- [x] AC #5: clean-proof provenance and plan identity independently reproduced.
+- [x] AC #6: documentation matches the observed command and refusal boundary.
+- [x] AC #7: protected files unchanged from d8671f3.
 
 ## nd_contract
 status: delivered
