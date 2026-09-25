@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T19:59:46Z
-content_hash: "sha256:9a895dc42365b58bf3cd6476d35ce7fdaaa7dbd3b80f7447c4fa22beb3425b31"
+content_hash: "sha256:2d23f8adb50cff7e13a46365b44479471a5802191249b53e6c2b6cc2359053d9"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
@@ -107,6 +107,17 @@ SHA: 31078a9d0e32690741ff26637440bf85086152a3
 ### AC Verification
 - [x] AC #1: ... 
 - [x] AC #2: ...
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-25.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
 
 ## nd_contract
 status: delivered
