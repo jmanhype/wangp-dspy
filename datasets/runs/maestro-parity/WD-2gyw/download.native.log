@@ -415,3 +415,1571 @@ FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.s
 FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors
 -------------------------------------------------------------------------------
 
+[DL:37MiB][#e2bf9d 5.0GiB/18GiB(27%)][#a9c1bb 1.4GiB/2.1GiB(69%)][#f06cb3 1.4GiB/1.5GiB(94%)]
+[DL:37MiB][#e2bf9d 5.0GiB/18GiB(27%)][#a9c1bb 1.5GiB/2.1GiB(70%)][#f06cb3 1.4GiB/1.5GiB(95%)]
+[DL:52MiB][#e2bf9d 5.0GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(70%)][#f06cb3 1.4GiB/1.5GiB(95%)]
+[DL:50MiB][#e2bf9d 5.1GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(71%)][#f06cb3 1.4GiB/1.5GiB(96%)]
+[DL:49MiB][#e2bf9d 5.1GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(71%)][#f06cb3 1.4GiB/1.5GiB(96%)]
+[DL:47MiB][#e2bf9d 5.1GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(72%)][#f06cb3 1.4GiB/1.5GiB(96%)]
+[DL:38MiB][#e2bf9d 5.1GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(72%)][#f06cb3 1.4GiB/1.5GiB(97%)]
+[DL:38MiB][#e2bf9d 5.1GiB/18GiB(28%)][#a9c1bb 1.5GiB/2.1GiB(73%)][#f06cb3 1.4GiB/1.5GiB(97%)]
+[DL:38MiB][#e2bf9d 5.2GiB/18GiB(28%)][#a9c1bb 1.6GiB/2.1GiB(74%)][#f06cb3 1.4GiB/1.5GiB(97%)]
+[DL:39MiB][#e2bf9d 5.2GiB/18GiB(28%)][#a9c1bb 1.6GiB/2.1GiB(74%)][#f06cb3 1.4GiB/1.5GiB(98%)]
+[DL:39MiB][#e2bf9d 5.2GiB/18GiB(28%)][#a9c1bb 1.6GiB/2.1GiB(75%)][#f06cb3 1.4GiB/1.5GiB(98%)]
+[DL:39MiB][#e2bf9d 5.2GiB/18GiB(29%)][#a9c1bb 1.6GiB/2.1GiB(76%)][#f06cb3 1.4GiB/1.5GiB(98%)]
+[DL:39MiB][#e2bf9d 5.2GiB/18GiB(29%)][#a9c1bb 1.6GiB/2.1GiB(76%)][#f06cb3 1.4GiB/1.5GiB(99%)]
+[DL:39MiB][#e2bf9d 5.3GiB/18GiB(29%)][#a9c1bb 1.6GiB/2.1GiB(77%)][#f06cb3 1.4GiB/1.5GiB(99%)]
+[DL:39MiB][#e2bf9d 5.3GiB/18GiB(29%)][#a9c1bb 1.6GiB/2.1GiB(78%)][#f06cb3 1.4GiB/1.5GiB(99%)]
+[DL:39MiB][#e2bf9d 5.3GiB/18GiB(29%)][#a9c1bb 1.6GiB/2.1GiB(78%)][#f06cb3 1.5GiB/1.5GiB(99%)]
+[DL:39MiB][#e2bf9d 5.3GiB/18GiB(29%)][#a9c1bb 1.7GiB/2.1GiB(79%)][#f06cb3 1.5GiB/1.5GiB(100%)] [Checksum:#f06cb3 145MiB/1.5GiB(9%)]
+[DL:39MiB][#e2bf9d 5.3GiB/18GiB(29%)][#a9c1bb 1.7GiB/2.1GiB(80%)][#f06cb3 1.5GiB/1.5GiB(100%)] [Checksum:#f06cb3 1.2GiB/1.5GiB(80%)]
+[DL:39MiB][#e2bf9d 5.4GiB/18GiB(29%)][#a9c1bb 1.7GiB/2.1GiB(80%)][#a5ca5d 0B/0B]
+[DL:38MiB][#e2bf9d 5.4GiB/18GiB(29%)][#a9c1bb 1.7GiB/2.1GiB(81%)][#a5ca5d 1.5MiB/386MiB(0%)]
+[DL:38MiB][#e2bf9d 5.4GiB/18GiB(30%)][#a9c1bb 1.7GiB/2.1GiB(82%)][#a5ca5d 8.1MiB/386MiB(2%)]
+[DL:39MiB][#e2bf9d 5.4GiB/18GiB(30%)][#a9c1bb 1.7GiB/2.1GiB(82%)][#a5ca5d 15MiB/386MiB(3%)]
+[DL:39MiB][#e2bf9d 5.4GiB/18GiB(30%)][#a9c1bb 1.7GiB/2.1GiB(83%)][#a5ca5d 21MiB/386MiB(5%)]
+[DL:38MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(83%)][#a5ca5d 26MiB/386MiB(6%)]
+[DL:37MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(84%)][#a5ca5d 33MiB/386MiB(8%)]
+[DL:36MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(84%)][#a5ca5d 38MiB/386MiB(10%)]
+[DL:35MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(85%)][#a5ca5d 43MiB/386MiB(11%)]
+[DL:35MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(85%)][#a5ca5d 52MiB/386MiB(13%)]
+[DL:35MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(86%)][#a5ca5d 60MiB/386MiB(15%)]
+[DL:36MiB][#e2bf9d 5.5GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(87%)][#a5ca5d 67MiB/386MiB(17%)]
+[DL:35MiB][#e2bf9d 5.6GiB/18GiB(30%)][#a9c1bb 1.8GiB/2.1GiB(87%)][#a5ca5d 75MiB/386MiB(19%)]
+ *** Download Progress Summary as of Fri Sep 25 09:57:25 2026 *** 
+===============================================================================
+[#e2bf9d 5.6GiB/18GiB(31%) CN:8 DL:16MiB ETA:13m14s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#a9c1bb 1.9GiB/2.1GiB(88%) CN:6 DL:12MiB ETA:21s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors
+-------------------------------------------------------------------------------
+[#a5ca5d 84MiB/386MiB(21%) CN:4 DL:6.9MiB ETA:43s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+
+[DL:35MiB][#e2bf9d 5.6GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(88%)][#a5ca5d 84MiB/386MiB(21%)]
+[DL:36MiB][#e2bf9d 5.6GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(88%)][#a5ca5d 93MiB/386MiB(24%)]
+[DL:36MiB][#e2bf9d 5.6GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(89%)][#a5ca5d 101MiB/386MiB(26%)]
+[DL:37MiB][#e2bf9d 5.6GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(90%)][#a5ca5d 108MiB/386MiB(28%)]
+[DL:39MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(90%)][#a5ca5d 115MiB/386MiB(29%)]
+[DL:39MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(91%)][#a5ca5d 124MiB/386MiB(32%)]
+[DL:39MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(91%)][#a5ca5d 134MiB/386MiB(34%)]
+[DL:40MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(92%)][#a5ca5d 143MiB/386MiB(37%)]
+[DL:39MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 1.9GiB/2.1GiB(92%)][#a5ca5d 152MiB/386MiB(39%)]
+[DL:40MiB][#e2bf9d 5.7GiB/18GiB(31%)][#a9c1bb 2.0GiB/2.1GiB(93%)][#a5ca5d 162MiB/386MiB(42%)]
+[DL:40MiB][#e2bf9d 5.8GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(93%)][#a5ca5d 173MiB/386MiB(44%)]
+[DL:40MiB][#e2bf9d 5.8GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(94%)][#a5ca5d 183MiB/386MiB(47%)]
+[DL:40MiB][#e2bf9d 5.8GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(94%)][#a5ca5d 193MiB/386MiB(50%)]
+[DL:40MiB][#e2bf9d 5.8GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(95%)][#a5ca5d 203MiB/386MiB(52%)]
+[DL:41MiB][#e2bf9d 5.8GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(95%)][#a5ca5d 213MiB/386MiB(55%)]
+[DL:41MiB][#e2bf9d 5.9GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(96%)][#a5ca5d 224MiB/386MiB(58%)]
+[DL:41MiB][#e2bf9d 5.9GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(96%)][#a5ca5d 233MiB/386MiB(60%)]
+[DL:41MiB][#e2bf9d 5.9GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(96%)][#a5ca5d 244MiB/386MiB(63%)]
+[DL:41MiB][#e2bf9d 5.9GiB/18GiB(32%)][#a9c1bb 2.0GiB/2.1GiB(97%)][#a5ca5d 255MiB/386MiB(66%)]
+[DL:42MiB][#e2bf9d 6.0GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(97%)][#a5ca5d 266MiB/386MiB(68%)]
+[DL:41MiB][#e2bf9d 6.0GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(98%)][#a5ca5d 278MiB/386MiB(72%)]
+[DL:41MiB][#e2bf9d 6.0GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(98%)][#a5ca5d 289MiB/386MiB(75%)]
+[DL:34MiB][#e2bf9d 6.0GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(98%)][#a5ca5d 297MiB/386MiB(77%)]
+[DL:41MiB][#e2bf9d 6.1GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(99%)][#a5ca5d 323MiB/386MiB(83%)]
+[DL:41MiB][#e2bf9d 6.1GiB/18GiB(33%)][#a9c1bb 2.1GiB/2.1GiB(99%)][#a5ca5d 332MiB/386MiB(85%)]
+[DL:41MiB][#e2bf9d 6.1GiB/18GiB(34%)][#a9c1bb 2.1GiB/2.1GiB(99%)][#a5ca5d 340MiB/386MiB(88%)]
+[DL:40MiB][#e2bf9d 6.1GiB/18GiB(34%)][#a9c1bb 2.1GiB/2.1GiB(99%)][#a5ca5d 348MiB/386MiB(90%)]
+[DL:38MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a9c1bb 2.1GiB/2.1GiB(100%)][#a5ca5d 354MiB/386MiB(91%)] [Checksum:#a9c1bb 814MiB/2.1GiB(36%)]
+[DL:36MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a9c1bb 2.1GiB/2.1GiB(100%)][#a5ca5d 359MiB/386MiB(93%)] [Checksum:#a9c1bb 1.9GiB/2.1GiB(89%)]
+[DL:34MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a5ca5d 364MiB/386MiB(94%)][#194477 0B/0B]
+ *** Download Progress Summary as of Fri Sep 25 09:57:56 2026 *** 
+===============================================================================
+[#e2bf9d 6.2GiB/18GiB(34%) CN:8 DL:22MiB ETA:8m51s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#a5ca5d 370MiB/386MiB(95%) CN:2 DL:9.1MiB ETA:1s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#194477 720KiB/0.9GiB(0%) CN:8 DL:2.0MiB ETA:7m48s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:33MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a5ca5d 370MiB/386MiB(95%)][#194477 720KiB/0.9GiB(0%)]
+[DL:37MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 3.9MiB/0.9GiB(0%)]
+[DL:25MiB][#e2bf9d 6.2GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 5.1MiB/0.9GiB(0%)]
+[DL:26MiB][#e2bf9d 6.3GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 28MiB/0.9GiB(3%)]
+[DL:25MiB][#e2bf9d 6.3GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 38MiB/0.9GiB(4%)]
+[DL:23MiB][#e2bf9d 6.3GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 51MiB/0.9GiB(5%)]
+[DL:24MiB][#e2bf9d 6.3GiB/18GiB(34%)][#a5ca5d 372MiB/386MiB(96%)][#194477 64MiB/0.9GiB(6%)]
+[DL:23MiB][#e2bf9d 6.3GiB/18GiB(35%)][#a5ca5d 372MiB/386MiB(96%)][#194477 76MiB/0.9GiB(8%)]
+[DL:24MiB][#e2bf9d 6.3GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 91MiB/0.9GiB(9%)]
+[DL:24MiB][#e2bf9d 6.3GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 103MiB/0.9GiB(10%)]
+[DL:24MiB][#e2bf9d 6.3GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 116MiB/0.9GiB(12%)]
+[DL:25MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 133MiB/0.9GiB(14%)]
+[DL:29MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 154MiB/0.9GiB(16%)]
+[DL:28MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 175MiB/0.9GiB(18%)]
+[DL:30MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 373MiB/386MiB(96%)][#194477 197MiB/0.9GiB(20%)]
+[DL:31MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 374MiB/386MiB(96%)][#194477 217MiB/0.9GiB(22%)]
+[DL:34MiB][#e2bf9d 6.4GiB/18GiB(35%)][#a5ca5d 377MiB/386MiB(97%)][#194477 238MiB/0.9GiB(25%)]
+[DL:36MiB][#e2bf9d 6.5GiB/18GiB(35%)][#a5ca5d 380MiB/386MiB(98%)][#194477 259MiB/0.9GiB(27%)]
+[DL:37MiB][#e2bf9d 6.5GiB/18GiB(36%)][#a5ca5d 383MiB/386MiB(99%)][#194477 281MiB/0.9GiB(29%)]
+[DL:39MiB][#e2bf9d 6.5GiB/18GiB(36%)][#a5ca5d 386MiB/386MiB(100%)][#194477 301MiB/0.9GiB(31%)] [Checksum:#a5ca5d 195MiB/386MiB(50%)]
+[DL:41MiB][#e2bf9d 6.5GiB/18GiB(36%)][#194477 323MiB/0.9GiB(34%)][#9fdd19 416KiB/249MiB(0%)]
+[DL:41MiB][#e2bf9d 6.5GiB/18GiB(36%)][#194477 345MiB/0.9GiB(36%)][#9fdd19 3.3MiB/249MiB(1%)]
+[DL:41MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 364MiB/0.9GiB(38%)][#9fdd19 6.5MiB/249MiB(2%)]
+[DL:41MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 384MiB/0.9GiB(40%)][#9fdd19 10MiB/249MiB(4%)]
+[DL:41MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 403MiB/0.9GiB(42%)][#9fdd19 13MiB/249MiB(5%)]
+[DL:42MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 425MiB/0.9GiB(44%)][#9fdd19 17MiB/249MiB(7%)]
+[DL:42MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 444MiB/0.9GiB(46%)][#9fdd19 21MiB/249MiB(8%)]
+[DL:41MiB][#e2bf9d 6.6GiB/18GiB(36%)][#194477 463MiB/0.9GiB(48%)][#9fdd19 24MiB/249MiB(9%)]
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(36%)][#194477 483MiB/0.9GiB(50%)][#9fdd19 28MiB/249MiB(11%)]
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(37%)][#194477 503MiB/0.9GiB(53%)][#9fdd19 32MiB/249MiB(12%)]
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(37%)][#194477 524MiB/0.9GiB(55%)][#9fdd19 36MiB/249MiB(14%)]
+ *** Download Progress Summary as of Fri Sep 25 09:58:26 2026 *** 
+===============================================================================
+[#e2bf9d 6.7GiB/18GiB(37%) CN:8 DL:17MiB ETA:10m57s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#194477 543MiB/0.9GiB(57%) CN:8 DL:19MiB ETA:20s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+[#9fdd19 40MiB/249MiB(16%) CN:2 DL:3.7MiB ETA:56s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(37%)][#194477 543MiB/0.9GiB(57%)][#9fdd19 40MiB/249MiB(16%)]
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(37%)][#194477 562MiB/0.9GiB(59%)][#9fdd19 43MiB/249MiB(17%)]
+[DL:41MiB][#e2bf9d 6.7GiB/18GiB(37%)][#194477 582MiB/0.9GiB(61%)][#9fdd19 47MiB/249MiB(19%)]
+[DL:41MiB][#e2bf9d 6.8GiB/18GiB(37%)][#194477 602MiB/0.9GiB(63%)][#9fdd19 51MiB/249MiB(20%)]
+[DL:40MiB][#e2bf9d 6.8GiB/18GiB(37%)][#194477 618MiB/0.9GiB(65%)][#9fdd19 55MiB/249MiB(22%)]
+[DL:41MiB][#e2bf9d 6.8GiB/18GiB(37%)][#194477 642MiB/0.9GiB(67%)][#9fdd19 60MiB/249MiB(24%)]
+[DL:41MiB][#e2bf9d 6.8GiB/18GiB(37%)][#194477 661MiB/0.9GiB(69%)][#9fdd19 64MiB/249MiB(25%)]
+[DL:41MiB][#e2bf9d 6.8GiB/18GiB(37%)][#194477 679MiB/0.9GiB(71%)][#9fdd19 68MiB/249MiB(27%)]
+[DL:41MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 696MiB/0.9GiB(73%)][#9fdd19 72MiB/249MiB(29%)]
+[DL:41MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 714MiB/0.9GiB(75%)][#9fdd19 76MiB/249MiB(30%)]
+[DL:40MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 727MiB/0.9GiB(76%)][#9fdd19 79MiB/249MiB(31%)]
+[DL:37MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 734MiB/0.9GiB(77%)][#9fdd19 81MiB/249MiB(32%)]
+[DL:36MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 745MiB/0.9GiB(78%)][#9fdd19 86MiB/249MiB(34%)]
+[DL:34MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 752MiB/0.9GiB(79%)][#9fdd19 87MiB/249MiB(35%)]
+[DL:33MiB][#e2bf9d 6.9GiB/18GiB(38%)][#194477 762MiB/0.9GiB(80%)][#9fdd19 91MiB/249MiB(36%)]
+[DL:32MiB][#e2bf9d 7.0GiB/18GiB(38%)][#194477 772MiB/0.9GiB(81%)][#9fdd19 94MiB/249MiB(37%)]
+[DL:31MiB][#e2bf9d 7.0GiB/18GiB(38%)][#194477 783MiB/0.9GiB(82%)][#9fdd19 98MiB/249MiB(39%)]
+[DL:31MiB][#e2bf9d 7.0GiB/18GiB(38%)][#194477 797MiB/0.9GiB(83%)][#9fdd19 103MiB/249MiB(41%)]
+[DL:31MiB][#e2bf9d 7.0GiB/18GiB(38%)][#194477 811MiB/0.9GiB(85%)][#9fdd19 109MiB/249MiB(43%)]
+[DL:31MiB][#e2bf9d 7.0GiB/18GiB(39%)][#194477 824MiB/0.9GiB(86%)][#9fdd19 114MiB/249MiB(45%)]
+[DL:24MiB][#e2bf9d 7.0GiB/18GiB(39%)][#194477 831MiB/0.9GiB(87%)][#9fdd19 118MiB/249MiB(47%)]
+[DL:39MiB][#e2bf9d 7.2GiB/18GiB(39%)][#194477 858MiB/0.9GiB(90%)][#9fdd19 127MiB/249MiB(51%)]
+[DL:40MiB][#e2bf9d 7.2GiB/18GiB(40%)][#194477 866MiB/0.9GiB(91%)][#9fdd19 132MiB/249MiB(53%)]
+[DL:41MiB][#e2bf9d 7.2GiB/18GiB(40%)][#194477 872MiB/0.9GiB(91%)][#9fdd19 137MiB/249MiB(55%)]
+[DL:41MiB][#e2bf9d 7.3GiB/18GiB(40%)][#194477 877MiB/0.9GiB(92%)][#9fdd19 143MiB/249MiB(57%)]
+[DL:41MiB][#e2bf9d 7.3GiB/18GiB(40%)][#194477 881MiB/0.9GiB(92%)][#9fdd19 148MiB/249MiB(59%)]
+[DL:41MiB][#e2bf9d 7.3GiB/18GiB(40%)][#194477 886MiB/0.9GiB(93%)][#9fdd19 154MiB/249MiB(61%)]
+[DL:60MiB][#e2bf9d 7.4GiB/18GiB(40%)][#194477 889MiB/0.9GiB(93%)][#9fdd19 159MiB/249MiB(63%)]
+ *** Download Progress Summary as of Fri Sep 25 09:58:57 2026 *** 
+===============================================================================
+[#e2bf9d 7.4GiB/18GiB(41%) CN:8 DL:44MiB ETA:4m3s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#194477 893MiB/0.9GiB(94%) CN:1 DL:7.8MiB ETA:7s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+[#9fdd19 165MiB/249MiB(66%) CN:2 DL:5.8MiB ETA:14s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:58MiB][#e2bf9d 7.4GiB/18GiB(41%)][#194477 893MiB/0.9GiB(94%)][#9fdd19 165MiB/249MiB(66%)]
+[DL:57MiB][#e2bf9d 7.4GiB/18GiB(41%)][#194477 898MiB/0.9GiB(94%)][#9fdd19 170MiB/249MiB(68%)]
+[DL:55MiB][#e2bf9d 7.5GiB/18GiB(41%)][#194477 902MiB/0.9GiB(95%)][#9fdd19 176MiB/249MiB(70%)]
+[DL:43MiB][#e2bf9d 7.5GiB/18GiB(41%)][#194477 906MiB/0.9GiB(95%)][#9fdd19 181MiB/249MiB(72%)]
+[DL:42MiB][#e2bf9d 7.5GiB/18GiB(41%)][#194477 910MiB/0.9GiB(95%)][#9fdd19 186MiB/249MiB(74%)]
+[DL:43MiB][#e2bf9d 7.6GiB/18GiB(41%)][#194477 914MiB/0.9GiB(96%)][#9fdd19 191MiB/249MiB(76%)]
+[DL:43MiB][#e2bf9d 7.6GiB/18GiB(42%)][#194477 918MiB/0.9GiB(96%)][#9fdd19 195MiB/249MiB(78%)]
+[DL:43MiB][#e2bf9d 7.6GiB/18GiB(42%)][#194477 0.9GiB/0.9GiB(97%)][#9fdd19 199MiB/249MiB(79%)]
+[DL:42MiB][#e2bf9d 7.7GiB/18GiB(42%)][#194477 0.9GiB/0.9GiB(97%)][#9fdd19 202MiB/249MiB(81%)]
+[DL:43MiB][#e2bf9d 7.7GiB/18GiB(42%)][#194477 0.9GiB/0.9GiB(97%)][#9fdd19 207MiB/249MiB(82%)]
+[DL:43MiB][#e2bf9d 7.7GiB/18GiB(42%)][#194477 0.9GiB/0.9GiB(98%)][#9fdd19 210MiB/249MiB(84%)]
+[DL:43MiB][#e2bf9d 7.8GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(98%)][#9fdd19 213MiB/249MiB(85%)]
+[DL:43MiB][#e2bf9d 7.8GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(98%)][#9fdd19 216MiB/249MiB(86%)]
+[DL:43MiB][#e2bf9d 7.8GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(99%)][#9fdd19 220MiB/249MiB(88%)]
+[DL:43MiB][#e2bf9d 7.9GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(99%)][#9fdd19 222MiB/249MiB(89%)]
+[DL:40MiB][#e2bf9d 7.9GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(99%)][#9fdd19 224MiB/249MiB(89%)]
+[DL:39MiB][#e2bf9d 7.9GiB/18GiB(43%)][#194477 0.9GiB/0.9GiB(99%)][#9fdd19 227MiB/249MiB(91%)]
+[DL:39MiB][#e2bf9d 7.9GiB/18GiB(44%)][#194477 0.9GiB/0.9GiB(100%)][#9fdd19 229MiB/249MiB(91%)] [Checksum:#194477 446MiB/0.9GiB(47%)]
+[DL:38MiB][#e2bf9d 8.0GiB/18GiB(44%)][#9fdd19 232MiB/249MiB(93%)][#c9e816 0B/0B]
+[DL:38MiB][#e2bf9d 8.0GiB/18GiB(44%)][#9fdd19 235MiB/249MiB(94%)][#c9e816 1.3MiB/12GiB(0%)]
+[DL:37MiB][#e2bf9d 8.0GiB/18GiB(44%)][#9fdd19 237MiB/249MiB(95%)][#c9e816 11MiB/12GiB(0%)]
+[DL:35MiB][#e2bf9d 8.1GiB/18GiB(44%)][#9fdd19 239MiB/249MiB(95%)][#c9e816 20MiB/12GiB(0%)]
+[DL:39MiB][#e2bf9d 8.1GiB/18GiB(45%)][#9fdd19 241MiB/249MiB(96%)][#c9e816 40MiB/12GiB(0%)]
+[DL:38MiB][#e2bf9d 8.1GiB/18GiB(45%)][#9fdd19 242MiB/249MiB(97%)][#c9e816 52MiB/12GiB(0%)]
+[DL:41MiB][#e2bf9d 8.2GiB/18GiB(45%)][#9fdd19 243MiB/249MiB(97%)][#c9e816 65MiB/12GiB(0%)]
+[DL:42MiB][#e2bf9d 8.2GiB/18GiB(45%)][#9fdd19 245MiB/249MiB(98%)][#c9e816 78MiB/12GiB(0%)]
+[DL:43MiB][#e2bf9d 8.2GiB/18GiB(45%)][#9fdd19 246MiB/249MiB(98%)][#c9e816 90MiB/12GiB(0%)]
+[DL:43MiB][#e2bf9d 8.3GiB/18GiB(45%)][#9fdd19 247MiB/249MiB(99%)][#c9e816 99MiB/12GiB(0%)]
+[DL:42MiB][#e2bf9d 8.3GiB/18GiB(45%)][#9fdd19 249MiB/249MiB(99%)][#c9e816 113MiB/12GiB(0%)]
+[DL:42MiB][#e2bf9d 8.3GiB/18GiB(46%)][#9fdd19 249MiB/249MiB(100%)][#c9e816 127MiB/12GiB(1%)] [Checksum:#9fdd19 247MiB/249MiB(98%)]
+ *** Download Progress Summary as of Fri Sep 25 09:59:27 2026 *** 
+===============================================================================
+[#e2bf9d 8.3GiB/18GiB(46%) CN:8 DL:28MiB ETA:5m55s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9fdd19 249MiB/249MiB(100%) CN:0]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 133MiB/12GiB(1%) CN:8 DL:11MiB ETA:17m3s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 8.3GiB/18GiB(46%)][#9fdd19 249MiB/249MiB(100%)][#c9e816 133MiB/12GiB(1%)] [Checksum:#9fdd19 247MiB/249MiB(99%)]
+[DL:39MiB][#e2bf9d 8.3GiB/18GiB(46%)][#9fdd19 249MiB/249MiB(100%)][#c9e816 138MiB/12GiB(1%)] [Checksum:#9fdd19 247MiB/249MiB(99%)]
+[DL:44MiB][#e2bf9d 8.4GiB/18GiB(46%)][#c9e816 165MiB/12GiB(1%)][#c42a78 0B/0B]
+[DL:45MiB][#e2bf9d 8.5GiB/18GiB(46%)][#c9e816 175MiB/12GiB(1%)][#c42a78 0.9MiB/30MiB(2%)]
+[DL:44MiB][#e2bf9d 8.5GiB/18GiB(47%)][#c9e816 185MiB/12GiB(1%)][#c42a78 1.8MiB/30MiB(5%)]
+[DL:44MiB][#e2bf9d 8.5GiB/18GiB(47%)][#c9e816 198MiB/12GiB(1%)][#c42a78 3.2MiB/30MiB(10%)]
+[DL:44MiB][#e2bf9d 8.6GiB/18GiB(47%)][#c9e816 211MiB/12GiB(1%)][#c42a78 4.6MiB/30MiB(15%)]
+[DL:44MiB][#e2bf9d 8.6GiB/18GiB(47%)][#c9e816 224MiB/12GiB(1%)][#c42a78 6.0MiB/30MiB(19%)]
+[DL:44MiB][#e2bf9d 8.6GiB/18GiB(47%)][#c9e816 237MiB/12GiB(1%)][#c42a78 7.3MiB/30MiB(23%)]
+[DL:46MiB][#e2bf9d 8.6GiB/18GiB(47%)][#c9e816 250MiB/12GiB(2%)][#c42a78 8.6MiB/30MiB(28%)]
+[DL:49MiB][#e2bf9d 8.7GiB/18GiB(48%)][#c9e816 263MiB/12GiB(2%)][#c42a78 9.9MiB/30MiB(32%)]
+[DL:53MiB][#e2bf9d 8.7GiB/18GiB(48%)][#c9e816 276MiB/12GiB(2%)][#c42a78 11MiB/30MiB(36%)]
+[DL:41MiB][#e2bf9d 8.7GiB/18GiB(48%)][#c9e816 287MiB/12GiB(2%)][#c42a78 12MiB/30MiB(39%)]
+[DL:42MiB][#e2bf9d 8.7GiB/18GiB(48%)][#c9e816 303MiB/12GiB(2%)][#c42a78 13MiB/30MiB(43%)]
+[DL:42MiB][#e2bf9d 8.8GiB/18GiB(48%)][#c9e816 316MiB/12GiB(2%)][#c42a78 14MiB/30MiB(46%)]
+[DL:42MiB][#e2bf9d 8.8GiB/18GiB(48%)][#c9e816 330MiB/12GiB(2%)][#c42a78 15MiB/30MiB(51%)]
+[DL:42MiB][#e2bf9d 8.8GiB/18GiB(48%)][#c9e816 344MiB/12GiB(2%)][#c42a78 17MiB/30MiB(56%)]
+[DL:40MiB][#e2bf9d 8.8GiB/18GiB(48%)][#c9e816 351MiB/12GiB(2%)][#c42a78 18MiB/30MiB(59%)]
+[DL:37MiB][#e2bf9d 8.8GiB/18GiB(49%)][#c9e816 357MiB/12GiB(2%)][#c42a78 18MiB/30MiB(61%)]
+[DL:12MiB][#e2bf9d 8.9GiB/18GiB(49%)][#c9e816 364MiB/12GiB(2%)][#c42a78 20MiB/30MiB(65%)]
+[DL:31MiB][#e2bf9d 9.0GiB/18GiB(50%)][#c9e816 411MiB/12GiB(3%)][#c42a78 27MiB/30MiB(89%)]
+[DL:33MiB][#e2bf9d 9.1GiB/18GiB(50%)][#c9e816 421MiB/12GiB(3%)][#c42a78 29MiB/30MiB(95%)]
+[DL:35MiB][#e2bf9d 9.1GiB/18GiB(50%)][#c9e816 432MiB/12GiB(3%)][#7c5a45 0B/0B]
+[DL:89MiB][#e2bf9d 9.1GiB/18GiB(50%)][#c9e816 444MiB/12GiB(3%)][#e514fa 0B/0B]
+[DL:80MiB][#e2bf9d 9.2GiB/18GiB(50%)][#c9e816 455MiB/12GiB(3%)][#9167d9 0B/7.9GiB(0%)]
+ *** Download Progress Summary as of Fri Sep 25 09:59:58 2026 *** 
+===============================================================================
+[#e2bf9d 9.2GiB/18GiB(50%) CN:8 DL:55MiB ETA:2m45s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 467MiB/12GiB(3%) CN:8 DL:17MiB ETA:11m23s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 624KiB/7.9GiB(0%) CN:8 DL:711KiB ETA:3h14m27s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:74MiB][#e2bf9d 9.2GiB/18GiB(50%)][#c9e816 467MiB/12GiB(3%)][#9167d9 624KiB/7.9GiB(0%)]
+[DL:69MiB][#e2bf9d 9.2GiB/18GiB(51%)][#c9e816 478MiB/12GiB(3%)][#9167d9 4.0MiB/7.9GiB(0%)]
+[DL:66MiB][#e2bf9d 9.2GiB/18GiB(51%)][#c9e816 489MiB/12GiB(3%)][#9167d9 9.4MiB/7.9GiB(0%)]
+[DL:63MiB][#e2bf9d 9.3GiB/18GiB(51%)][#c9e816 499MiB/12GiB(4%)][#9167d9 15MiB/7.9GiB(0%)]
+[DL:61MiB][#e2bf9d 9.3GiB/18GiB(51%)][#c9e816 509MiB/12GiB(4%)][#9167d9 21MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.3GiB/18GiB(51%)][#c9e816 519MiB/12GiB(4%)][#9167d9 28MiB/7.9GiB(0%)]
+[DL:43MiB][#e2bf9d 9.3GiB/18GiB(51%)][#c9e816 530MiB/12GiB(4%)][#9167d9 34MiB/7.9GiB(0%)]
+[DL:43MiB][#e2bf9d 9.4GiB/18GiB(51%)][#c9e816 541MiB/12GiB(4%)][#9167d9 41MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.4GiB/18GiB(51%)][#c9e816 551MiB/12GiB(4%)][#9167d9 48MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.4GiB/18GiB(52%)][#c9e816 563MiB/12GiB(4%)][#9167d9 55MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.4GiB/18GiB(52%)][#c9e816 574MiB/12GiB(4%)][#9167d9 62MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.5GiB/18GiB(52%)][#c9e816 585MiB/12GiB(4%)][#9167d9 69MiB/7.9GiB(0%)]
+[DL:42MiB][#e2bf9d 9.5GiB/18GiB(52%)][#c9e816 597MiB/12GiB(4%)][#9167d9 78MiB/7.9GiB(0%)]
+[DL:41MiB][#e2bf9d 9.5GiB/18GiB(52%)][#c9e816 607MiB/12GiB(4%)][#9167d9 84MiB/7.9GiB(1%)]
+[DL:42MiB][#e2bf9d 9.5GiB/18GiB(52%)][#c9e816 620MiB/12GiB(5%)][#9167d9 93MiB/7.9GiB(1%)]
+[DL:42MiB][#e2bf9d 9.5GiB/18GiB(52%)][#c9e816 633MiB/12GiB(5%)][#9167d9 101MiB/7.9GiB(1%)]
+[DL:42MiB][#e2bf9d 9.6GiB/18GiB(52%)][#c9e816 647MiB/12GiB(5%)][#9167d9 109MiB/7.9GiB(1%)]
+[DL:42MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 660MiB/12GiB(5%)][#9167d9 117MiB/7.9GiB(1%)]
+[DL:42MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 674MiB/12GiB(5%)][#9167d9 128MiB/7.9GiB(1%)]
+[DL:40MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 682MiB/12GiB(5%)][#9167d9 133MiB/7.9GiB(1%)]
+[DL:40MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 694MiB/12GiB(5%)][#9167d9 142MiB/7.9GiB(1%)]
+[DL:39MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 703MiB/12GiB(5%)][#9167d9 149MiB/7.9GiB(1%)]
+[DL:37MiB][#e2bf9d 9.6GiB/18GiB(53%)][#c9e816 710MiB/12GiB(5%)][#9167d9 154MiB/7.9GiB(1%)]
+[DL:36MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 722MiB/12GiB(5%)][#9167d9 164MiB/7.9GiB(2%)]
+[DL:35MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 735MiB/12GiB(5%)][#9167d9 175MiB/7.9GiB(2%)]
+[DL:35MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 748MiB/12GiB(6%)][#9167d9 186MiB/7.9GiB(2%)]
+[DL:35MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 761MiB/12GiB(6%)][#9167d9 197MiB/7.9GiB(2%)]
+[DL:35MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 775MiB/12GiB(6%)][#9167d9 209MiB/7.9GiB(2%)]
+[DL:35MiB][#e2bf9d 9.7GiB/18GiB(53%)][#c9e816 788MiB/12GiB(6%)][#9167d9 222MiB/7.9GiB(2%)]
+[DL:36MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 801MiB/12GiB(6%)][#9167d9 234MiB/7.9GiB(2%)]
+[DL:38MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 815MiB/12GiB(6%)][#9167d9 248MiB/7.9GiB(3%)]
+ *** Download Progress Summary as of Fri Sep 25 10:00:29 2026 *** 
+===============================================================================
+[#e2bf9d 9.8GiB/18GiB(54%) CN:8 DL:15MiB ETA:9m18s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 829MiB/12GiB(6%) CN:8 DL:12MiB ETA:14m54s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 262MiB/7.9GiB(3%) CN:8 DL:11MiB ETA:11m22s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:39MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 829MiB/12GiB(6%)][#9167d9 262MiB/7.9GiB(3%)]
+[DL:41MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 842MiB/12GiB(6%)][#9167d9 274MiB/7.9GiB(3%)]
+[DL:41MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 856MiB/12GiB(6%)][#9167d9 288MiB/7.9GiB(3%)]
+[DL:41MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 868MiB/12GiB(7%)][#9167d9 301MiB/7.9GiB(3%)]
+[DL:41MiB][#e2bf9d 9.8GiB/18GiB(54%)][#c9e816 881MiB/12GiB(7%)][#9167d9 315MiB/7.9GiB(3%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 894MiB/12GiB(7%)][#9167d9 329MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 908MiB/12GiB(7%)][#9167d9 343MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 921MiB/12GiB(7%)][#9167d9 356MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 0.9GiB/12GiB(7%)][#9167d9 371MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 0.9GiB/12GiB(7%)][#9167d9 385MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(54%)][#c9e816 0.9GiB/12GiB(7%)][#9167d9 400MiB/7.9GiB(4%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(55%)][#c9e816 0.9GiB/12GiB(7%)][#9167d9 415MiB/7.9GiB(5%)]
+[DL:41MiB][#e2bf9d 9.9GiB/18GiB(55%)][#c9e816 0.9GiB/12GiB(7%)][#9167d9 428MiB/7.9GiB(5%)]
+[DL:41MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 0.9GiB/12GiB(8%)][#9167d9 443MiB/7.9GiB(5%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 0.9GiB/12GiB(8%)][#9167d9 457MiB/7.9GiB(5%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 1.0GiB/12GiB(8%)][#9167d9 471MiB/7.9GiB(5%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 1.0GiB/12GiB(8%)][#9167d9 485MiB/7.9GiB(5%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 1.0GiB/12GiB(8%)][#9167d9 499MiB/7.9GiB(6%)]
+[DL:21MiB][#e2bf9d 10GiB/18GiB(55%)][#c9e816 1.0GiB/12GiB(8%)][#9167d9 511MiB/7.9GiB(6%)]
+[DL:37MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.0GiB/12GiB(9%)][#9167d9 531MiB/7.9GiB(6%)]
+[DL:36MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.0GiB/12GiB(9%)][#9167d9 538MiB/7.9GiB(6%)]
+[DL:34MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.0GiB/12GiB(9%)][#9167d9 547MiB/7.9GiB(6%)]
+[DL:32MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 553MiB/7.9GiB(6%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 563MiB/7.9GiB(6%)]
+[DL:51MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 567MiB/7.9GiB(6%)]
+[DL:48MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 575MiB/7.9GiB(7%)]
+ *** Download Progress Summary as of Fri Sep 25 10:00:59 2026 *** 
+===============================================================================
+[#e2bf9d 10GiB/18GiB(56%) CN:8 DL:25MiB ETA:5m17s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 1.1GiB/12GiB(9%) CN:8 DL:10MiB ETA:17m23s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 580MiB/7.9GiB(7%) CN:8 DL:8.4MiB ETA:14m49s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:44MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 580MiB/7.9GiB(7%)]
+[DL:42MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 590MiB/7.9GiB(7%)]
+[DL:23MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 596MiB/7.9GiB(7%)]
+[DL:22MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 604MiB/7.9GiB(7%)]
+[DL:21MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 611MiB/7.9GiB(7%)]
+[DL:22MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 620MiB/7.9GiB(7%)]
+[DL:22MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 628MiB/7.9GiB(7%)]
+[DL:22MiB][#e2bf9d 10GiB/18GiB(56%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 635MiB/7.9GiB(7%)]
+[DL:24MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 643MiB/7.9GiB(7%)]
+[DL:24MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.1GiB/12GiB(9%)][#9167d9 655MiB/7.9GiB(8%)]
+[DL:27MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(9%)][#9167d9 668MiB/7.9GiB(8%)]
+[DL:28MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 681MiB/7.9GiB(8%)]
+[DL:30MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 694MiB/7.9GiB(8%)]
+[DL:32MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 707MiB/7.9GiB(8%)]
+[DL:34MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 718MiB/7.9GiB(8%)]
+[DL:35MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 731MiB/7.9GiB(9%)]
+[DL:36MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 743MiB/7.9GiB(9%)]
+[DL:38MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 756MiB/7.9GiB(9%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.2GiB/12GiB(10%)][#9167d9 769MiB/7.9GiB(9%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.3GiB/12GiB(10%)][#9167d9 781MiB/7.9GiB(9%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(57%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 793MiB/7.9GiB(9%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 808MiB/7.9GiB(9%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 821MiB/7.9GiB(10%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 834MiB/7.9GiB(10%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 848MiB/7.9GiB(10%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 862MiB/7.9GiB(10%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.3GiB/12GiB(11%)][#9167d9 874MiB/7.9GiB(10%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(11%)][#9167d9 888MiB/7.9GiB(10%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(11%)][#9167d9 903MiB/7.9GiB(11%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(11%)][#9167d9 919MiB/7.9GiB(11%)]
+ *** Download Progress Summary as of Fri Sep 25 10:01:29 2026 *** 
+===============================================================================
+[#e2bf9d 10GiB/18GiB(58%) CN:8 DL:14MiB ETA:8m46s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 1.4GiB/12GiB(12%) CN:8 DL:12MiB ETA:14m22s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 0.9GiB/7.9GiB(11%) CN:8 DL:13MiB ETA:8m47s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(11%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(11%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(11%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(58%)][#c9e816 1.4GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(12%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.4GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(12%)]
+[DL:42MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(12%)]
+[DL:42MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 0.9GiB/7.9GiB(12%)]
+[DL:40MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 1.0GiB/7.9GiB(12%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 1.0GiB/7.9GiB(12%)]
+[DL:36MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 1.0GiB/7.9GiB(12%)]
+[DL:36MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(12%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:34MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(13%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:32MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(13%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.5GiB/12GiB(13%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.6GiB/12GiB(13%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.6GiB/12GiB(13%)][#9167d9 1.0GiB/7.9GiB(13%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.6GiB/12GiB(13%)][#9167d9 1.1GiB/7.9GiB(13%)]
+[DL:31MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.6GiB/12GiB(13%)][#9167d9 1.1GiB/7.9GiB(14%)]
+[DL:21MiB][#e2bf9d 10GiB/18GiB(59%)][#c9e816 1.6GiB/12GiB(13%)][#9167d9 1.1GiB/7.9GiB(14%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.1GiB/7.9GiB(14%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.1GiB/7.9GiB(14%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.1GiB/7.9GiB(14%)]
+[DL:39MiB][#e2bf9d 10GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.1GiB/7.9GiB(15%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.1GiB/7.9GiB(15%)]
+[DL:66MiB][#e2bf9d 11GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.2GiB/7.9GiB(15%)]
+[DL:62MiB][#e2bf9d 11GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.2GiB/7.9GiB(15%)]
+[DL:59MiB][#e2bf9d 11GiB/18GiB(60%)][#c9e816 1.7GiB/12GiB(14%)][#9167d9 1.2GiB/7.9GiB(15%)]
+ *** Download Progress Summary as of Fri Sep 25 10:01:59 2026 *** 
+===============================================================================
+[#e2bf9d 11GiB/18GiB(60%) CN:8 DL:23MiB ETA:5m7s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 1.8GiB/12GiB(15%) CN:8 DL:19MiB ETA:8m46s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 1.2GiB/7.9GiB(15%) CN:8 DL:14MiB ETA:8m]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:57MiB][#e2bf9d 11GiB/18GiB(60%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.2GiB/7.9GiB(15%)]
+[DL:55MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.2GiB/7.9GiB(15%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.2GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.2GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.2GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.3GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.8GiB/12GiB(15%)][#9167d9 1.3GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(15%)][#9167d9 1.3GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(15%)][#9167d9 1.3GiB/7.9GiB(16%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.3GiB/7.9GiB(17%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.3GiB/7.9GiB(17%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.3GiB/7.9GiB(17%)]
+[DL:38MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.3GiB/7.9GiB(17%)]
+[DL:36MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.3GiB/7.9GiB(17%)]
+[DL:35MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.4GiB/7.9GiB(17%)]
+[DL:34MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 1.9GiB/12GiB(16%)][#9167d9 1.4GiB/7.9GiB(17%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(61%)][#c9e816 2.0GiB/12GiB(16%)][#9167d9 1.4GiB/7.9GiB(17%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(16%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(16%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(17%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(17%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:33MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(17%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:35MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(17%)][#9167d9 1.4GiB/7.9GiB(18%)]
+[DL:36MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.0GiB/12GiB(17%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:38MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(17%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(17%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(17%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(17%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(18%)][#9167d9 1.5GiB/7.9GiB(19%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.1GiB/12GiB(18%)][#9167d9 1.5GiB/7.9GiB(20%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(20%)]
+ *** Download Progress Summary as of Fri Sep 25 10:02:30 2026 *** 
+===============================================================================
+[#e2bf9d 11GiB/18GiB(62%) CN:8 DL:13MiB ETA:8m47s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 2.2GiB/12GiB(18%) CN:8 DL:15MiB ETA:11m2s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 1.6GiB/7.9GiB(20%) CN:8 DL:13MiB ETA:7m43s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:42MiB][#e2bf9d 11GiB/18GiB(62%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(20%)]
+[DL:42MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(20%)]
+[DL:42MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(20%)]
+[DL:42MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(20%)]
+[DL:42MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.2GiB/12GiB(18%)][#9167d9 1.6GiB/7.9GiB(21%)]
+[DL:42MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.2GiB/12GiB(19%)][#9167d9 1.6GiB/7.9GiB(21%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.6GiB/7.9GiB(21%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(21%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(21%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(21%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(22%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(22%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.3GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(22%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.4GiB/12GiB(19%)][#9167d9 1.7GiB/7.9GiB(22%)]
+[DL:39MiB][#e2bf9d 11GiB/18GiB(63%)][#c9e816 2.4GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(22%)]
+[DL:37MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.4GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(22%)]
+[DL:37MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.4GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(23%)]
+[DL:20MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.4GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(23%)]
+[DL:37MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.4GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(23%)]
+[DL:37MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(20%)][#9167d9 1.8GiB/7.9GiB(23%)]
+[DL:38MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(20%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:67MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:63MiB][#e2bf9d 11GiB/18GiB(64%)][#c9e816 2.5GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:61MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.5GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(24%)]
+[DL:59MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(25%)]
+[DL:57MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(21%)][#9167d9 1.9GiB/7.9GiB(25%)]
+ *** Download Progress Summary as of Fri Sep 25 10:03:01 2026 *** 
+===============================================================================
+[#e2bf9d 11GiB/18GiB(65%) CN:8 DL:13MiB ETA:8m]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 2.6GiB/12GiB(21%) CN:8 DL:14MiB ETA:11m23s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 2.0GiB/7.9GiB(25%) CN:8 DL:13MiB ETA:7m25s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:41MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(21%)][#9167d9 2.0GiB/7.9GiB(25%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(21%)][#9167d9 2.0GiB/7.9GiB(25%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(22%)][#9167d9 2.0GiB/7.9GiB(25%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(22%)][#9167d9 2.0GiB/7.9GiB(25%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(22%)][#9167d9 2.0GiB/7.9GiB(26%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.6GiB/12GiB(22%)][#9167d9 2.0GiB/7.9GiB(26%)]
+[DL:41MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.7GiB/12GiB(22%)][#9167d9 2.0GiB/7.9GiB(26%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.7GiB/12GiB(22%)][#9167d9 2.1GiB/7.9GiB(26%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.7GiB/12GiB(22%)][#9167d9 2.1GiB/7.9GiB(26%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.7GiB/12GiB(22%)][#9167d9 2.1GiB/7.9GiB(26%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(65%)][#c9e816 2.7GiB/12GiB(22%)][#9167d9 2.1GiB/7.9GiB(27%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(66%)][#c9e816 2.7GiB/12GiB(23%)][#9167d9 2.1GiB/7.9GiB(27%)]
+[DL:40MiB][#e2bf9d 11GiB/18GiB(66%)][#c9e816 2.7GiB/12GiB(23%)][#9167d9 2.1GiB/7.9GiB(27%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.1GiB/7.9GiB(27%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.1GiB/7.9GiB(27%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(27%)]
+[DL:38MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:38MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(23%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.8GiB/12GiB(24%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.2GiB/7.9GiB(28%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:37MiB][#e2bf9d 12GiB/18GiB(66%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:38MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(29%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 2.9GiB/12GiB(24%)][#9167d9 2.3GiB/7.9GiB(30%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(24%)][#9167d9 2.4GiB/7.9GiB(30%)]
+ *** Download Progress Summary as of Fri Sep 25 10:03:32 2026 *** 
+===============================================================================
+[#e2bf9d 12GiB/18GiB(67%) CN:8 DL:14MiB ETA:6m57s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 3.0GiB/12GiB(25%) CN:8 DL:12MiB ETA:12m17s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 2.4GiB/7.9GiB(30%) CN:8 DL:13MiB ETA:6m48s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(30%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(30%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(30%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(31%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(31%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(31%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.0GiB/12GiB(25%)][#9167d9 2.4GiB/7.9GiB(31%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(67%)][#c9e816 3.1GiB/12GiB(25%)][#9167d9 2.5GiB/7.9GiB(31%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(25%)][#9167d9 2.5GiB/7.9GiB(31%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.5GiB/7.9GiB(32%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.5GiB/7.9GiB(32%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.5GiB/7.9GiB(32%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.5GiB/7.9GiB(32%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.5GiB/7.9GiB(32%)]
+[DL:41MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.1GiB/12GiB(26%)][#9167d9 2.6GiB/7.9GiB(32%)]
+[DL:28MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.2GiB/12GiB(26%)][#9167d9 2.6GiB/7.9GiB(33%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.2GiB/12GiB(27%)][#9167d9 2.6GiB/7.9GiB(33%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(68%)][#c9e816 3.2GiB/12GiB(27%)][#9167d9 2.6GiB/7.9GiB(33%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.2GiB/12GiB(27%)][#9167d9 2.6GiB/7.9GiB(34%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(27%)][#9167d9 2.7GiB/7.9GiB(34%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(27%)][#9167d9 2.7GiB/7.9GiB(34%)]
+[DL:42MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(27%)][#9167d9 2.7GiB/7.9GiB(34%)]
+[DL:60MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(27%)][#9167d9 2.7GiB/7.9GiB(34%)]
+[DL:58MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(27%)][#9167d9 2.7GiB/7.9GiB(34%)]
+[DL:56MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(28%)][#9167d9 2.7GiB/7.9GiB(35%)]
+[DL:54MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(28%)][#9167d9 2.7GiB/7.9GiB(35%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.3GiB/12GiB(28%)][#9167d9 2.7GiB/7.9GiB(35%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(35%)]
+ *** Download Progress Summary as of Fri Sep 25 10:04:02 2026 *** 
+===============================================================================
+[#e2bf9d 12GiB/18GiB(69%) CN:8 DL:13MiB ETA:7m2s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 3.4GiB/12GiB(28%) CN:8 DL:13MiB ETA:10m42s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 2.8GiB/7.9GiB(35%) CN:8 DL:13MiB ETA:6m23s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(35%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(35%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(36%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(69%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.4GiB/12GiB(28%)][#9167d9 2.8GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.4GiB/12GiB(29%)][#9167d9 2.8GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(36%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(37%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(37%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(37%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(37%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.5GiB/12GiB(29%)][#9167d9 2.9GiB/7.9GiB(37%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.6GiB/12GiB(29%)][#9167d9 3.0GiB/7.9GiB(37%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(70%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.6GiB/12GiB(30%)][#9167d9 3.0GiB/7.9GiB(38%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(30%)][#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(30%)][#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(30%)][#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(31%)][#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(31%)][#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(31%)][#9167d9 3.1GiB/7.9GiB(40%)]
+[DL:39MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(31%)][#9167d9 3.1GiB/7.9GiB(40%)]
+[DL:40MiB][#e2bf9d 12GiB/18GiB(71%)][#c9e816 3.7GiB/12GiB(31%)][#9167d9 3.1GiB/7.9GiB(40%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(71%)][#c9e816 3.8GiB/12GiB(31%)][#9167d9 3.2GiB/7.9GiB(40%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(71%)][#c9e816 3.8GiB/12GiB(31%)][#9167d9 3.2GiB/7.9GiB(40%)]
+ *** Download Progress Summary as of Fri Sep 25 10:04:33 2026 *** 
+===============================================================================
+[#e2bf9d 13GiB/18GiB(71%) CN:8 DL:12MiB ETA:7m14s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 3.8GiB/12GiB(31%) CN:8 DL:13MiB ETA:10m16s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 3.2GiB/7.9GiB(40%) CN:8 DL:13MiB ETA:5m46s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:39MiB][#e2bf9d 13GiB/18GiB(71%)][#c9e816 3.8GiB/12GiB(31%)][#9167d9 3.2GiB/7.9GiB(40%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(71%)][#c9e816 3.8GiB/12GiB(32%)][#9167d9 3.2GiB/7.9GiB(41%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(71%)][#c9e816 3.8GiB/12GiB(32%)][#9167d9 3.2GiB/7.9GiB(41%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.8GiB/12GiB(32%)][#9167d9 3.2GiB/7.9GiB(41%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.8GiB/12GiB(32%)][#9167d9 3.2GiB/7.9GiB(41%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(41%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(41%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(42%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(42%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(42%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(32%)][#9167d9 3.3GiB/7.9GiB(42%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(33%)][#9167d9 3.3GiB/7.9GiB(42%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 3.9GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(42%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(43%)]
+[DL:31MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(43%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(72%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(43%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(43%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.4GiB/7.9GiB(44%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.0GiB/12GiB(33%)][#9167d9 3.5GiB/7.9GiB(44%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(44%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(44%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(44%)]
+[DL:51MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(44%)]
+[DL:49MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(45%)]
+[DL:48MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(45%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(45%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.1GiB/12GiB(34%)][#9167d9 3.5GiB/7.9GiB(45%)]
+[DL:38MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.2GiB/12GiB(34%)][#9167d9 3.6GiB/7.9GiB(45%)]
+[DL:38MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(45%)]
+ *** Download Progress Summary as of Fri Sep 25 10:05:03 2026 *** 
+===============================================================================
+[#e2bf9d 13GiB/18GiB(73%) CN:8 DL:13MiB ETA:6m4s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 4.2GiB/12GiB(35%) CN:8 DL:13MiB ETA:9m40s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 3.6GiB/7.9GiB(45%) CN:8 DL:12MiB ETA:5m57s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:39MiB][#e2bf9d 13GiB/18GiB(73%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(45%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(46%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.2GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(35%)][#9167d9 3.6GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(35%)][#9167d9 3.7GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(35%)][#9167d9 3.7GiB/7.9GiB(46%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.3GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(74%)][#c9e816 4.4GiB/12GiB(36%)][#9167d9 3.7GiB/7.9GiB(47%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(36%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(36%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(36%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(36%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(37%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(37%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.4GiB/12GiB(37%)][#9167d9 3.8GiB/7.9GiB(48%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(37%)][#9167d9 3.8GiB/7.9GiB(49%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(37%)][#9167d9 3.9GiB/7.9GiB(49%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(37%)][#9167d9 3.9GiB/7.9GiB(49%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(37%)][#9167d9 3.9GiB/7.9GiB(49%)]
+[DL:38MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(37%)][#9167d9 3.9GiB/7.9GiB(49%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(75%)][#c9e816 4.5GiB/12GiB(38%)][#9167d9 3.9GiB/7.9GiB(49%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.5GiB/12GiB(38%)][#9167d9 3.9GiB/7.9GiB(50%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 3.9GiB/7.9GiB(50%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 3.9GiB/7.9GiB(50%)]
+ *** Download Progress Summary as of Fri Sep 25 10:05:33 2026 *** 
+===============================================================================
+[#e2bf9d 13GiB/18GiB(76%) CN:8 DL:13MiB ETA:5m30s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 4.6GiB/12GiB(38%) CN:8 DL:15MiB ETA:8m18s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 3.9GiB/7.9GiB(50%) CN:8 DL:11MiB ETA:5m35s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 3.9GiB/7.9GiB(50%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 4.0GiB/7.9GiB(50%)]
+[DL:41MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 4.0GiB/7.9GiB(50%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(38%)][#9167d9 4.0GiB/7.9GiB(50%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.6GiB/12GiB(39%)][#9167d9 4.0GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.0GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.0GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.0GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.0GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.1GiB/7.9GiB(51%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(76%)][#c9e816 4.7GiB/12GiB(39%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:40MiB][#e2bf9d 13GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(39%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:39MiB][#e2bf9d 13GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.1GiB/7.9GiB(52%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.8GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(40%)][#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(41%)][#9167d9 4.2GiB/7.9GiB(54%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(41%)][#9167d9 4.2GiB/7.9GiB(54%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(54%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(54%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(77%)][#c9e816 4.9GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(54%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(55%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(55%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(55%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(41%)][#9167d9 4.3GiB/7.9GiB(55%)]
+ *** Download Progress Summary as of Fri Sep 25 10:06:04 2026 *** 
+===============================================================================
+[#e2bf9d 14GiB/18GiB(78%) CN:8 DL:12MiB ETA:5m24s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 5.0GiB/12GiB(42%) CN:8 DL:13MiB ETA:8m54s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 4.4GiB/7.9GiB(55%) CN:8 DL:14MiB ETA:4m10s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(55%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(55%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(56%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.0GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(56%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(56%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(56%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.4GiB/7.9GiB(56%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.5GiB/7.9GiB(56%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.5GiB/7.9GiB(57%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(42%)][#9167d9 4.5GiB/7.9GiB(57%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(78%)][#c9e816 5.1GiB/12GiB(43%)][#9167d9 4.5GiB/7.9GiB(57%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.1GiB/12GiB(43%)][#9167d9 4.5GiB/7.9GiB(57%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.5GiB/7.9GiB(57%)]
+[DL:42MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.5GiB/7.9GiB(58%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.6GiB/7.9GiB(58%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.6GiB/7.9GiB(58%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.6GiB/7.9GiB(58%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.6GiB/7.9GiB(58%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(43%)][#9167d9 4.6GiB/7.9GiB(58%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.2GiB/12GiB(44%)][#9167d9 4.6GiB/7.9GiB(59%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.6GiB/7.9GiB(59%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(59%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(59%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(59%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(79%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(59%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(60%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.3GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(60%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(44%)][#9167d9 4.7GiB/7.9GiB(60%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(44%)][#9167d9 4.8GiB/7.9GiB(60%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(60%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(60%)]
+ *** Download Progress Summary as of Fri Sep 25 10:06:35 2026 *** 
+===============================================================================
+[#e2bf9d 14GiB/18GiB(80%) CN:8 DL:13MiB ETA:4m32s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 5.4GiB/12GiB(45%) CN:8 DL:13MiB ETA:8m17s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 4.8GiB/7.9GiB(61%) CN:8 DL:13MiB ETA:3m47s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(61%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(61%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(61%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.4GiB/12GiB(45%)][#9167d9 4.8GiB/7.9GiB(61%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.5GiB/12GiB(45%)][#9167d9 4.9GiB/7.9GiB(61%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.5GiB/12GiB(45%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.5GiB/12GiB(45%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.5GiB/12GiB(46%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(80%)][#c9e816 5.5GiB/12GiB(46%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.5GiB/12GiB(46%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.5GiB/12GiB(46%)][#9167d9 4.9GiB/7.9GiB(62%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.5GiB/12GiB(46%)][#9167d9 5.0GiB/7.9GiB(63%)]
+[DL:23MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.6GiB/12GiB(46%)][#9167d9 5.0GiB/7.9GiB(63%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.6GiB/12GiB(47%)][#9167d9 5.0GiB/7.9GiB(64%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.6GiB/12GiB(47%)][#9167d9 5.0GiB/7.9GiB(64%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(64%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(64%)]
+[DL:41MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(64%)]
+[DL:68MiB][#e2bf9d 14GiB/18GiB(81%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(64%)]
+[DL:64MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(65%)]
+[DL:61MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.7GiB/12GiB(47%)][#9167d9 5.1GiB/7.9GiB(65%)]
+[DL:59MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.7GiB/12GiB(48%)][#9167d9 5.1GiB/7.9GiB(65%)]
+[DL:57MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.7GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(65%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(65%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(65%)]
+[DL:39MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(66%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(66%)]
+ *** Download Progress Summary as of Fri Sep 25 10:07:05 2026 *** 
+===============================================================================
+[#e2bf9d 14GiB/18GiB(82%) CN:8 DL:12MiB ETA:4m10s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 5.8GiB/12GiB(48%) CN:8 DL:13MiB ETA:7m35s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 5.2GiB/7.9GiB(66%) CN:8 DL:13MiB ETA:3m18s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(66%)]
+[DL:40MiB][#e2bf9d 14GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(66%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(48%)][#9167d9 5.2GiB/7.9GiB(66%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(82%)][#c9e816 5.8GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(82%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(82%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(67%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 5.9GiB/12GiB(49%)][#9167d9 5.3GiB/7.9GiB(68%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(49%)][#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(69%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.0GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(69%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.1GiB/12GiB(50%)][#9167d9 5.4GiB/7.9GiB(69%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(83%)][#c9e816 6.1GiB/12GiB(50%)][#9167d9 5.5GiB/7.9GiB(69%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(69%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(69%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(70%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(70%)]
+[DL:39MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(70%)]
+[DL:38MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.1GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(70%)]
+[DL:38MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(51%)][#9167d9 5.5GiB/7.9GiB(70%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(51%)][#9167d9 5.6GiB/7.9GiB(70%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(51%)][#9167d9 5.6GiB/7.9GiB(70%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(51%)][#9167d9 5.6GiB/7.9GiB(70%)]
+[DL:35MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(51%)][#9167d9 5.6GiB/7.9GiB(71%)]
+ *** Download Progress Summary as of Fri Sep 25 10:07:36 2026 *** 
+===============================================================================
+[#e2bf9d 15GiB/18GiB(84%) CN:8 DL:12MiB ETA:3m40s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 6.2GiB/12GiB(52%) CN:8 DL:11MiB ETA:8m25s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 5.6GiB/7.9GiB(71%) CN:8 DL:11MiB ETA:3m22s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:35MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(52%)][#9167d9 5.6GiB/7.9GiB(71%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(52%)][#9167d9 5.6GiB/7.9GiB(71%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(84%)][#c9e816 6.2GiB/12GiB(52%)][#9167d9 5.6GiB/7.9GiB(71%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.6GiB/7.9GiB(71%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.6GiB/7.9GiB(71%)]
+[DL:39MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(52%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(53%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(53%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:28MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.3GiB/12GiB(53%)][#9167d9 5.7GiB/7.9GiB(72%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.4GiB/12GiB(53%)][#9167d9 5.8GiB/7.9GiB(73%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(85%)][#c9e816 6.4GiB/12GiB(53%)][#9167d9 5.8GiB/7.9GiB(73%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.4GiB/12GiB(53%)][#9167d9 5.8GiB/7.9GiB(73%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.4GiB/12GiB(53%)][#9167d9 5.8GiB/7.9GiB(74%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.8GiB/7.9GiB(74%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.8GiB/7.9GiB(74%)]
+[DL:60MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(74%)]
+[DL:57MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(74%)]
+[DL:55MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(74%)]
+[DL:54MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(75%)]
+[DL:41MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(75%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.5GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(75%)]
+[DL:39MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.6GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(75%)]
+[DL:38MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.6GiB/12GiB(54%)][#9167d9 5.9GiB/7.9GiB(75%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(75%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(86%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(75%)]
+ *** Download Progress Summary as of Fri Sep 25 10:08:06 2026 *** 
+===============================================================================
+[#e2bf9d 15GiB/18GiB(87%) CN:8 DL:11MiB ETA:3m21s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 6.6GiB/12GiB(55%) CN:8 DL:12MiB ETA:7m34s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 6.0GiB/7.9GiB(76%) CN:8 DL:12MiB ETA:2m37s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:36MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(76%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(76%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(76%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.6GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(76%)]
+[DL:36MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(76%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(55%)][#9167d9 6.0GiB/7.9GiB(77%)]
+[DL:38MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(55%)][#9167d9 6.1GiB/7.9GiB(77%)]
+[DL:39MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(77%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(77%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(77%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(77%)]
+[DL:40MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.7GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(78%)]
+[DL:39MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.1GiB/7.9GiB(78%)]
+[DL:38MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:37MiB][#e2bf9d 15GiB/18GiB(87%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:35MiB][#e2bf9d 15GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:33MiB][#e2bf9d 15GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:31MiB][#e2bf9d 15GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:28MiB][#e2bf9d 15GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:27MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:24MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:23MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(56%)][#9167d9 6.2GiB/7.9GiB(78%)]
+[DL:21MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:21MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.8GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:20MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.2GiB/7.9GiB(79%)]
+[DL:22MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(79%)]
+ *** Download Progress Summary as of Fri Sep 25 10:08:37 2026 *** 
+===============================================================================
+[#e2bf9d 16GiB/18GiB(88%) CN:8 DL:10MiB ETA:3m14s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 6.9GiB/12GiB(57%) CN:8 DL:6.7MiB ETA:12m58s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 6.3GiB/7.9GiB(79%) CN:8 DL:7.3MiB ETA:3m41s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:24MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(79%)]
+[DL:26MiB][#e2bf9d 16GiB/18GiB(88%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(79%)]
+[DL:28MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(80%)]
+[DL:31MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(80%)]
+[DL:33MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 6.9GiB/12GiB(57%)][#9167d9 6.3GiB/7.9GiB(80%)]
+[DL:35MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 6.9GiB/12GiB(58%)][#9167d9 6.3GiB/7.9GiB(80%)]
+[DL:36MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 6.9GiB/12GiB(58%)][#9167d9 6.3GiB/7.9GiB(80%)]
+[DL:37MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(80%)]
+[DL:38MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(80%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:34MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:38MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:37MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:38MiB][#e2bf9d 16GiB/18GiB(89%)][#c9e816 7.0GiB/12GiB(58%)][#9167d9 6.4GiB/7.9GiB(81%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:43MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:43MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(82%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.1GiB/12GiB(59%)][#9167d9 6.5GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(59%)][#9167d9 6.6GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(83%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(84%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(90%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(84%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.2GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(84%)]
+ *** Download Progress Summary as of Fri Sep 25 10:09:07 2026 *** 
+===============================================================================
+[#e2bf9d 16GiB/18GiB(91%) CN:8 DL:13MiB ETA:2m3s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 7.3GiB/12GiB(60%) CN:8 DL:13MiB ETA:6m7s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 6.6GiB/7.9GiB(84%) CN:8 DL:13MiB ETA:1m31s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(60%)][#9167d9 6.6GiB/7.9GiB(84%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(60%)][#9167d9 6.7GiB/7.9GiB(84%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(60%)][#9167d9 6.7GiB/7.9GiB(84%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(61%)][#9167d9 6.7GiB/7.9GiB(85%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(61%)][#9167d9 6.7GiB/7.9GiB(85%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(61%)][#9167d9 6.7GiB/7.9GiB(85%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(61%)][#9167d9 6.7GiB/7.9GiB(85%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.3GiB/12GiB(61%)][#9167d9 6.7GiB/7.9GiB(85%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.4GiB/12GiB(61%)][#9167d9 6.8GiB/7.9GiB(85%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.4GiB/12GiB(61%)][#9167d9 6.8GiB/7.9GiB(86%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.4GiB/12GiB(61%)][#9167d9 6.8GiB/7.9GiB(86%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(91%)][#c9e816 7.4GiB/12GiB(61%)][#9167d9 6.8GiB/7.9GiB(86%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.4GiB/12GiB(61%)][#9167d9 6.8GiB/7.9GiB(86%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.4GiB/12GiB(62%)][#9167d9 6.8GiB/7.9GiB(86%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.4GiB/12GiB(62%)][#9167d9 6.8GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(87%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(62%)][#9167d9 6.9GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.5GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(88%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(92%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(89%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(89%)]
+[DL:41MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(89%)]
+[DL:40MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.0GiB/7.9GiB(89%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.6GiB/12GiB(63%)][#9167d9 7.1GiB/7.9GiB(89%)]
+ *** Download Progress Summary as of Fri Sep 25 10:09:38 2026 *** 
+===============================================================================
+[#e2bf9d 16GiB/18GiB(93%) CN:8 DL:12MiB ETA:1m38s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 7.7GiB/12GiB(64%) CN:8 DL:13MiB ETA:5m32s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 7.1GiB/7.9GiB(89%) CN:8 DL:13MiB ETA:59s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:39MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(89%)]
+[DL:39MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:38MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:37MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:37MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:37MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:35MiB][#e2bf9d 16GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.1GiB/7.9GiB(90%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(93%)][#c9e816 7.7GiB/12GiB(64%)][#9167d9 7.2GiB/7.9GiB(90%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(93%)][#c9e816 7.8GiB/12GiB(64%)][#9167d9 7.2GiB/7.9GiB(91%)]
+[DL:22MiB][#e2bf9d 17GiB/18GiB(93%)][#c9e816 7.8GiB/12GiB(64%)][#9167d9 7.2GiB/7.9GiB(91%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.8GiB/12GiB(65%)][#9167d9 7.2GiB/7.9GiB(91%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.8GiB/12GiB(65%)][#9167d9 7.2GiB/7.9GiB(92%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.8GiB/12GiB(65%)][#9167d9 7.3GiB/7.9GiB(92%)]
+[DL:40MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(65%)][#9167d9 7.3GiB/7.9GiB(92%)]
+[DL:41MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(65%)][#9167d9 7.3GiB/7.9GiB(92%)]
+[DL:63MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(65%)][#9167d9 7.3GiB/7.9GiB(92%)]
+[DL:60MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.3GiB/7.9GiB(92%)]
+[DL:57MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.3GiB/7.9GiB(93%)]
+[DL:54MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.3GiB/7.9GiB(93%)]
+[DL:52MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.3GiB/7.9GiB(93%)]
+[DL:37MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(93%)]
+[DL:36MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 7.9GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(93%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(93%)]
+[DL:34MiB][#e2bf9d 17GiB/18GiB(94%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(93%)]
+[DL:34MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(93%)]
+[DL:33MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(94%)]
+[DL:32MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(94%)]
+[DL:32MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(66%)][#9167d9 7.4GiB/7.9GiB(94%)]
+ *** Download Progress Summary as of Fri Sep 25 10:10:08 2026 *** 
+===============================================================================
+[#e2bf9d 17GiB/18GiB(95%) CN:8 DL:10MiB ETA:1m22s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 8.0GiB/12GiB(67%) CN:8 DL:11MiB ETA:6m3s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 7.4GiB/7.9GiB(94%) CN:8 DL:10MiB ETA:40s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:32MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(67%)][#9167d9 7.4GiB/7.9GiB(94%)]
+[DL:33MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.0GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(94%)]
+[DL:34MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(94%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:36MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:36MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:37MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:38MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:38MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(67%)][#9167d9 7.5GiB/7.9GiB(95%)]
+[DL:38MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.1GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(95%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(95%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:38MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:36MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.2GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(96%)]
+[DL:37MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(68%)][#9167d9 7.6GiB/7.9GiB(97%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.6GiB/7.9GiB(97%)]
+[DL:35MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.6GiB/7.9GiB(97%)]
+[DL:32MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:31MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:30MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:28MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.3GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(97%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(96%)][#c9e816 8.4GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(98%)]
+[DL:26MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(69%)][#9167d9 7.7GiB/7.9GiB(98%)]
+ *** Download Progress Summary as of Fri Sep 25 10:10:38 2026 *** 
+===============================================================================
+[#e2bf9d 17GiB/18GiB(97%) CN:8 DL:9.6MiB ETA:55s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 8.4GiB/12GiB(70%) CN:8 DL:9.7MiB ETA:6m20s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 7.7GiB/7.9GiB(98%) CN:6 DL:7.5MiB ETA:19s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:26MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.7GiB/7.9GiB(98%)]
+[DL:26MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.7GiB/7.9GiB(98%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.7GiB/7.9GiB(98%)]
+[DL:27MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.7GiB/7.9GiB(98%)]
+[DL:28MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.8GiB/7.9GiB(98%)]
+[DL:29MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.8GiB/7.9GiB(98%)]
+[DL:29MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.4GiB/12GiB(70%)][#9167d9 7.8GiB/7.9GiB(98%)]
+[DL:29MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.5GiB/12GiB(70%)][#9167d9 7.8GiB/7.9GiB(98%)]
+[DL:14MiB][#e2bf9d 17GiB/18GiB(97%)][#c9e816 8.5GiB/12GiB(70%)][#9167d9 7.8GiB/7.9GiB(98%)]
+[DL:36MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(71%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:38MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(71%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:39MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(71%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:41MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:76MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:68MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.6GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:62MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.7GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:59MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.7GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:56MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.7GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:33MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.7GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 17GiB/18GiB(98%)][#c9e816 8.7GiB/12GiB(72%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 17GiB/18GiB(99%)][#c9e816 8.7GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 17GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:30MiB][#e2bf9d 17GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:30MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:30MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+ *** Download Progress Summary as of Fri Sep 25 10:11:09 2026 *** 
+===============================================================================
+[#e2bf9d 18GiB/18GiB(99%) CN:5 DL:11MiB ETA:10s]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 8.8GiB/12GiB(73%) CN:8 DL:17MiB ETA:3m4s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#9167d9 7.8GiB/7.9GiB(99%) CN:1 DL:1.9MiB ETA:18s]
+FILE: /home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+-------------------------------------------------------------------------------
+
+[DL:30MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.8GiB/12GiB(73%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:30MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.9GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.9GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.9GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.9GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 8.9GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.0GiB/12GiB(74%)][#9167d9 7.8GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.0GiB/12GiB(75%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.0GiB/12GiB(75%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.0GiB/12GiB(75%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.1GiB/12GiB(75%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.1GiB/12GiB(75%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.1GiB/12GiB(76%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.1GiB/12GiB(76%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.2GiB/12GiB(76%)][#9167d9 7.9GiB/7.9GiB(99%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.2GiB/12GiB(76%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 101MiB/7.9GiB(1%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.2GiB/12GiB(77%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 870MiB/7.9GiB(10%)]
+[DL:30MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.2GiB/12GiB(77%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 0.9GiB/7.9GiB(12%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.3GiB/12GiB(77%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 1.1GiB/7.9GiB(13%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.3GiB/12GiB(77%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 2.0GiB/7.9GiB(25%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.3GiB/12GiB(78%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 3.1GiB/7.9GiB(39%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.4GiB/12GiB(78%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 4.2GiB/7.9GiB(53%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(99%)][#c9e816 9.4GiB/12GiB(78%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 5.4GiB/7.9GiB(68%)]
+[DL:33MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.4GiB/12GiB(78%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 6.5GiB/7.9GiB(83%)](+1)
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.5GiB/12GiB(78%)][#9167d9 7.9GiB/7.9GiB(100%)] [Checksum:#9167d9 7.8GiB/7.9GiB(98%)](+1)
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.5GiB/12GiB(79%)][#932b02 0B/0B] [Checksum:#e2bf9d 906MiB/18GiB(4%)]
+[DL:33MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.5GiB/12GiB(79%)][#932b02 2.1MiB/4.6GiB(0%)] [Checksum:#e2bf9d 1.7GiB/18GiB(9%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.5GiB/12GiB(79%)][#932b02 8.2MiB/4.6GiB(0%)] [Checksum:#e2bf9d 2.7GiB/18GiB(15%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.6GiB/12GiB(79%)][#932b02 14MiB/4.6GiB(0%)] [Checksum:#e2bf9d 3.6GiB/18GiB(20%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.6GiB/12GiB(80%)][#932b02 21MiB/4.6GiB(0%)] [Checksum:#e2bf9d 4.5GiB/18GiB(25%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.6GiB/12GiB(80%)][#932b02 26MiB/4.6GiB(0%)] [Checksum:#e2bf9d 5.6GiB/18GiB(31%)]
+ *** Download Progress Summary as of Fri Sep 25 10:11:40 2026 *** 
+===============================================================================
+[#e2bf9d 18GiB/18GiB(100%) CN:0]
+FILE: /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#c9e816 9.6GiB/12GiB(80%) CN:8 DL:27MiB ETA:1m27s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 34MiB/4.6GiB(0%) CN:8 DL:6.3MiB ETA:12m27s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+
+[DL:31MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.6GiB/12GiB(80%)][#932b02 34MiB/4.6GiB(0%)] [Checksum:#e2bf9d 6.5GiB/18GiB(36%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.7GiB/12GiB(80%)][#932b02 42MiB/4.6GiB(0%)] [Checksum:#e2bf9d 7.5GiB/18GiB(41%)]
+[DL:31MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.7GiB/12GiB(80%)][#932b02 50MiB/4.6GiB(1%)] [Checksum:#e2bf9d 8.5GiB/18GiB(47%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.7GiB/12GiB(81%)][#932b02 59MiB/4.6GiB(1%)] [Checksum:#e2bf9d 9.4GiB/18GiB(52%)]
+[DL:33MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.7GiB/12GiB(81%)][#932b02 66MiB/4.6GiB(1%)] [Checksum:#e2bf9d 10GiB/18GiB(57%)]
+[DL:33MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.8GiB/12GiB(81%)][#932b02 74MiB/4.6GiB(1%)] [Checksum:#e2bf9d 11GiB/18GiB(63%)]
+[DL:32MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.8GiB/12GiB(81%)][#932b02 81MiB/4.6GiB(1%)] [Checksum:#e2bf9d 12GiB/18GiB(69%)]
+[DL:26MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.8GiB/12GiB(81%)][#932b02 88MiB/4.6GiB(1%)] [Checksum:#e2bf9d 13GiB/18GiB(72%)]
+[DL:34MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.9GiB/12GiB(82%)][#932b02 110MiB/4.6GiB(2%)] [Checksum:#e2bf9d 14GiB/18GiB(78%)]
+[DL:35MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.9GiB/12GiB(82%)][#932b02 117MiB/4.6GiB(2%)] [Checksum:#e2bf9d 15GiB/18GiB(83%)]
+[DL:35MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 9.9GiB/12GiB(83%)][#932b02 125MiB/4.6GiB(2%)] [Checksum:#e2bf9d 16GiB/18GiB(89%)]
+[DL:34MiB][#e2bf9d 18GiB/18GiB(100%)][#c9e816 10GiB/12GiB(83%)][#932b02 133MiB/4.6GiB(2%)] [Checksum:#e2bf9d 17GiB/18GiB(95%)]
+[DL:35MiB][#c9e816 10GiB/12GiB(83%)][#932b02 141MiB/4.6GiB(2%)][#801f10 0B/0B]
+[DL:34MiB][#c9e816 10GiB/12GiB(83%)][#932b02 149MiB/4.6GiB(3%)][#814472 0B/0B]
+[DL:35MiB][#c9e816 10GiB/12GiB(83%)][#932b02 158MiB/4.6GiB(3%)][#853cc8 0B/0B]
+[DL:43MiB][#c9e816 10GiB/12GiB(84%)][#932b02 166MiB/4.6GiB(3%)][#853cc8 224KiB/1.1GiB(0%)]
+[DL:42MiB][#c9e816 10GiB/12GiB(84%)][#932b02 174MiB/4.6GiB(3%)][#853cc8 1.7MiB/1.1GiB(0%)]
+[DL:41MiB][#c9e816 10GiB/12GiB(84%)][#932b02 182MiB/4.6GiB(3%)][#853cc8 8.3MiB/1.1GiB(0%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(84%)][#932b02 190MiB/4.6GiB(3%)][#853cc8 15MiB/1.1GiB(1%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(84%)][#932b02 196MiB/4.6GiB(4%)][#853cc8 25MiB/1.1GiB(2%)]
+[DL:34MiB][#c9e816 10GiB/12GiB(84%)][#932b02 204MiB/4.6GiB(4%)][#853cc8 33MiB/1.1GiB(2%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 211MiB/4.6GiB(4%)][#853cc8 41MiB/1.1GiB(3%)]
+[DL:34MiB][#c9e816 10GiB/12GiB(85%)][#932b02 217MiB/4.6GiB(4%)][#853cc8 49MiB/1.1GiB(4%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 224MiB/4.6GiB(4%)][#853cc8 58MiB/1.1GiB(5%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 230MiB/4.6GiB(4%)][#853cc8 66MiB/1.1GiB(5%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 236MiB/4.6GiB(4%)][#853cc8 74MiB/1.1GiB(6%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 242MiB/4.6GiB(5%)][#853cc8 82MiB/1.1GiB(7%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(85%)][#932b02 249MiB/4.6GiB(5%)][#853cc8 89MiB/1.1GiB(7%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(86%)][#932b02 255MiB/4.6GiB(5%)][#853cc8 98MiB/1.1GiB(8%)]
+ *** Download Progress Summary as of Fri Sep 25 10:12:10 2026 *** 
+===============================================================================
+[#c9e816 10GiB/12GiB(86%) CN:8 DL:18MiB ETA:1m31s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 262MiB/4.6GiB(5%) CN:8 DL:6.5MiB ETA:11m32s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#853cc8 106MiB/1.1GiB(9%) CN:8 DL:8.1MiB ETA:2m7s]
+FILE: /home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:33MiB][#c9e816 10GiB/12GiB(86%)][#932b02 262MiB/4.6GiB(5%)][#853cc8 106MiB/1.1GiB(9%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(86%)][#932b02 268MiB/4.6GiB(5%)][#853cc8 114MiB/1.1GiB(10%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(86%)][#932b02 275MiB/4.6GiB(5%)][#853cc8 123MiB/1.1GiB(10%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(86%)][#932b02 282MiB/4.6GiB(5%)][#853cc8 131MiB/1.1GiB(11%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(86%)][#932b02 289MiB/4.6GiB(6%)][#853cc8 140MiB/1.1GiB(12%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(86%)][#932b02 296MiB/4.6GiB(6%)][#853cc8 149MiB/1.1GiB(13%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 303MiB/4.6GiB(6%)][#853cc8 158MiB/1.1GiB(13%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 310MiB/4.6GiB(6%)][#853cc8 166MiB/1.1GiB(14%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 317MiB/4.6GiB(6%)][#853cc8 175MiB/1.1GiB(15%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 324MiB/4.6GiB(6%)][#853cc8 184MiB/1.1GiB(16%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 331MiB/4.6GiB(6%)][#853cc8 194MiB/1.1GiB(16%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 338MiB/4.6GiB(7%)][#853cc8 203MiB/1.1GiB(17%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 344MiB/4.6GiB(7%)][#853cc8 211MiB/1.1GiB(18%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(87%)][#932b02 352MiB/4.6GiB(7%)][#853cc8 222MiB/1.1GiB(19%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 359MiB/4.6GiB(7%)][#853cc8 232MiB/1.1GiB(20%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 366MiB/4.6GiB(7%)][#853cc8 242MiB/1.1GiB(21%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 371MiB/4.6GiB(7%)][#853cc8 250MiB/1.1GiB(21%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 377MiB/4.6GiB(7%)][#853cc8 259MiB/1.1GiB(22%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 384MiB/4.6GiB(7%)][#853cc8 269MiB/1.1GiB(23%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 390MiB/4.6GiB(8%)][#853cc8 278MiB/1.1GiB(24%)]
+[DL:31MiB][#c9e816 10GiB/12GiB(88%)][#932b02 397MiB/4.6GiB(8%)][#853cc8 288MiB/1.1GiB(25%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(88%)][#932b02 406MiB/4.6GiB(8%)][#853cc8 301MiB/1.1GiB(26%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(89%)][#932b02 413MiB/4.6GiB(8%)][#853cc8 312MiB/1.1GiB(27%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(89%)][#932b02 420MiB/4.6GiB(8%)][#853cc8 325MiB/1.1GiB(28%)]
+[DL:32MiB][#c9e816 10GiB/12GiB(89%)][#932b02 426MiB/4.6GiB(8%)][#853cc8 334MiB/1.1GiB(29%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(89%)][#932b02 435MiB/4.6GiB(9%)][#853cc8 347MiB/1.1GiB(30%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(89%)][#932b02 444MiB/4.6GiB(9%)][#853cc8 359MiB/1.1GiB(31%)]
+[DL:33MiB][#c9e816 10GiB/12GiB(89%)][#932b02 453MiB/4.6GiB(9%)][#853cc8 369MiB/1.1GiB(32%)]
+[DL:34MiB][#c9e816 10GiB/12GiB(89%)][#932b02 461MiB/4.6GiB(9%)][#853cc8 380MiB/1.1GiB(33%)]
+[DL:35MiB][#c9e816 10GiB/12GiB(90%)][#932b02 471MiB/4.6GiB(9%)][#853cc8 389MiB/1.1GiB(33%)]
+ *** Download Progress Summary as of Fri Sep 25 10:12:40 2026 *** 
+===============================================================================
+[#c9e816 10GiB/12GiB(90%) CN:8 DL:16MiB ETA:1m14s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 480MiB/4.6GiB(9%) CN:8 DL:8.0MiB ETA:8m55s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#853cc8 400MiB/1.1GiB(34%) CN:8 DL:10MiB ETA:1m8s]
+FILE: /home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:35MiB][#c9e816 10GiB/12GiB(90%)][#932b02 480MiB/4.6GiB(9%)][#853cc8 400MiB/1.1GiB(34%)]
+[DL:35MiB][#c9e816 10GiB/12GiB(90%)][#932b02 490MiB/4.6GiB(10%)][#853cc8 412MiB/1.1GiB(35%)]
+[DL:36MiB][#c9e816 10GiB/12GiB(90%)][#932b02 501MiB/4.6GiB(10%)][#853cc8 425MiB/1.1GiB(37%)]
+[DL:36MiB][#c9e816 10GiB/12GiB(90%)][#932b02 512MiB/4.6GiB(10%)][#853cc8 437MiB/1.1GiB(38%)]
+[DL:37MiB][#c9e816 10GiB/12GiB(90%)][#932b02 524MiB/4.6GiB(10%)][#853cc8 450MiB/1.1GiB(39%)]
+[DL:39MiB][#c9e816 10GiB/12GiB(90%)][#932b02 536MiB/4.6GiB(11%)][#853cc8 462MiB/1.1GiB(40%)]
+[DL:36MiB][#c9e816 10GiB/12GiB(91%)][#932b02 546MiB/4.6GiB(11%)][#853cc8 474MiB/1.1GiB(41%)]
+[DL:41MiB][#c9e816 10GiB/12GiB(91%)][#932b02 567MiB/4.6GiB(11%)][#853cc8 498MiB/1.1GiB(43%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(91%)][#932b02 579MiB/4.6GiB(12%)][#853cc8 511MiB/1.1GiB(44%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(91%)][#932b02 591MiB/4.6GiB(12%)][#853cc8 526MiB/1.1GiB(45%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(91%)][#932b02 603MiB/4.6GiB(12%)][#853cc8 542MiB/1.1GiB(47%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(91%)][#932b02 619MiB/4.6GiB(12%)][#853cc8 557MiB/1.1GiB(48%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(91%)][#932b02 631MiB/4.6GiB(13%)][#853cc8 573MiB/1.1GiB(49%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(92%)][#932b02 646MiB/4.6GiB(13%)][#853cc8 590MiB/1.1GiB(51%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(92%)][#932b02 658MiB/4.6GiB(13%)][#853cc8 606MiB/1.1GiB(52%)]
+[DL:46MiB][#c9e816 11GiB/12GiB(92%)][#932b02 671MiB/4.6GiB(13%)][#853cc8 620MiB/1.1GiB(54%)]
+[DL:46MiB][#c9e816 11GiB/12GiB(92%)][#932b02 684MiB/4.6GiB(14%)][#853cc8 636MiB/1.1GiB(55%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(92%)][#932b02 697MiB/4.6GiB(14%)][#853cc8 652MiB/1.1GiB(56%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(92%)][#932b02 711MiB/4.6GiB(14%)][#853cc8 667MiB/1.1GiB(58%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(92%)][#932b02 724MiB/4.6GiB(15%)][#853cc8 681MiB/1.1GiB(59%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(92%)][#932b02 738MiB/4.6GiB(15%)][#853cc8 696MiB/1.1GiB(60%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(92%)][#932b02 752MiB/4.6GiB(15%)][#853cc8 711MiB/1.1GiB(61%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(92%)][#932b02 766MiB/4.6GiB(15%)][#853cc8 725MiB/1.1GiB(63%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 780MiB/4.6GiB(16%)][#853cc8 739MiB/1.1GiB(64%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 794MiB/4.6GiB(16%)][#853cc8 753MiB/1.1GiB(65%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(93%)][#932b02 808MiB/4.6GiB(16%)][#853cc8 768MiB/1.1GiB(66%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 820MiB/4.6GiB(17%)][#853cc8 780MiB/1.1GiB(68%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 833MiB/4.6GiB(17%)][#853cc8 795MiB/1.1GiB(69%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 847MiB/4.6GiB(17%)][#853cc8 809MiB/1.1GiB(70%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 860MiB/4.6GiB(17%)][#853cc8 823MiB/1.1GiB(71%)]
+ *** Download Progress Summary as of Fri Sep 25 10:13:11 2026 *** 
+===============================================================================
+[#c9e816 11GiB/12GiB(93%) CN:8 DL:13MiB ETA:57s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 874MiB/4.6GiB(18%) CN:8 DL:13MiB ETA:4m47s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#853cc8 838MiB/1.1GiB(73%) CN:8 DL:14MiB ETA:21s]
+FILE: /home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 874MiB/4.6GiB(18%)][#853cc8 838MiB/1.1GiB(73%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(93%)][#932b02 887MiB/4.6GiB(18%)][#853cc8 852MiB/1.1GiB(74%)]
+[DL:40MiB][#c9e816 11GiB/12GiB(94%)][#932b02 900MiB/4.6GiB(18%)][#853cc8 867MiB/1.1GiB(75%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 913MiB/4.6GiB(19%)][#853cc8 881MiB/1.1GiB(76%)]
+[DL:40MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(19%)][#853cc8 896MiB/1.1GiB(78%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(19%)][#853cc8 910MiB/1.1GiB(79%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(19%)][#853cc8 0.9GiB/1.1GiB(80%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(20%)][#853cc8 0.9GiB/1.1GiB(81%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(20%)][#853cc8 0.9GiB/1.1GiB(83%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(20%)][#853cc8 0.9GiB/1.1GiB(84%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(94%)][#932b02 0.9GiB/4.6GiB(20%)][#853cc8 0.9GiB/1.1GiB(85%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 0.9GiB/4.6GiB(21%)][#853cc8 0.9GiB/1.1GiB(86%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(21%)][#853cc8 0.9GiB/1.1GiB(88%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(21%)][#853cc8 1.0GiB/1.1GiB(89%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(22%)][#853cc8 1.0GiB/1.1GiB(90%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(22%)][#853cc8 1.0GiB/1.1GiB(91%)]
+[DL:40MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(22%)][#853cc8 1.0GiB/1.1GiB(92%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(22%)][#853cc8 1.0GiB/1.1GiB(93%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.0GiB/4.6GiB(23%)][#853cc8 1.0GiB/1.1GiB(95%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.1GiB/4.6GiB(23%)][#853cc8 1.0GiB/1.1GiB(96%)]
+[DL:39MiB][#c9e816 11GiB/12GiB(95%)][#932b02 1.1GiB/4.6GiB(23%)][#853cc8 1.0GiB/1.1GiB(96%)]
+[DL:39MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.1GiB/4.6GiB(24%)][#853cc8 1.0GiB/1.1GiB(97%)]
+[DL:38MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.1GiB/4.6GiB(24%)][#853cc8 1.0GiB/1.1GiB(97%)]
+[DL:38MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.1GiB/4.6GiB(24%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:37MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.1GiB/4.6GiB(25%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:36MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.1GiB/4.6GiB(25%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:35MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.2GiB/4.6GiB(25%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:34MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.2GiB/4.6GiB(26%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:34MiB][#c9e816 11GiB/12GiB(96%)][#932b02 1.2GiB/4.6GiB(26%)][#853cc8 1.1GiB/1.1GiB(98%)]
+[DL:34MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.2GiB/4.6GiB(26%)][#853cc8 1.1GiB/1.1GiB(99%)]
+[DL:36MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.2GiB/4.6GiB(27%)][#853cc8 1.1GiB/1.1GiB(99%)]
+ *** Download Progress Summary as of Fri Sep 25 10:13:42 2026 *** 
+===============================================================================
+[#c9e816 11GiB/12GiB(97%) CN:7 DL:15MiB ETA:20s]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 1.3GiB/4.6GiB(27%) CN:8 DL:18MiB ETA:3m8s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#853cc8 1.1GiB/1.1GiB(99%) CN:1 DL:2.2MiB ETA:2s]
+FILE: /home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:36MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.3GiB/4.6GiB(27%)][#853cc8 1.1GiB/1.1GiB(99%)]
+[DL:36MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.3GiB/4.6GiB(28%)][#853cc8 1.1GiB/1.1GiB(99%)]
+[DL:37MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.3GiB/4.6GiB(28%)][#853cc8 1.1GiB/1.1GiB(99%)]
+[DL:38MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.3GiB/4.6GiB(29%)][#853cc8 1.1GiB/1.1GiB(100%)] [Checksum:#853cc8 863MiB/1.1GiB(75%)]
+[DL:39MiB][#c9e816 11GiB/12GiB(97%)][#932b02 1.3GiB/4.6GiB(29%)][#c1c9c7 0B/0B]
+[DL:35MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.4GiB/4.6GiB(30%)][#c1c9c7 368KiB/836MiB(0%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.4GiB/4.6GiB(30%)][#c1c9c7 28MiB/836MiB(3%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.4GiB/4.6GiB(31%)][#c1c9c7 40MiB/836MiB(4%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.4GiB/4.6GiB(31%)][#c1c9c7 53MiB/836MiB(6%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.5GiB/4.6GiB(31%)][#c1c9c7 66MiB/836MiB(7%)]
+[DL:44MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.5GiB/4.6GiB(32%)][#c1c9c7 81MiB/836MiB(9%)]
+[DL:44MiB][#c9e816 11GiB/12GiB(98%)][#932b02 1.5GiB/4.6GiB(32%)][#c1c9c7 96MiB/836MiB(11%)]
+[DL:43MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.5GiB/4.6GiB(32%)][#c1c9c7 110MiB/836MiB(13%)]
+[DL:52MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.5GiB/4.6GiB(33%)][#c1c9c7 124MiB/836MiB(14%)]
+[DL:50MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.5GiB/4.6GiB(33%)][#c1c9c7 139MiB/836MiB(16%)]
+[DL:50MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.5GiB/4.6GiB(33%)][#c1c9c7 154MiB/836MiB(18%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(34%)][#c1c9c7 169MiB/836MiB(20%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(34%)][#c1c9c7 184MiB/836MiB(22%)]
+[DL:42MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(34%)][#c1c9c7 197MiB/836MiB(23%)]
+[DL:41MiB][#c9e816 11GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(35%)][#c1c9c7 210MiB/836MiB(25%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(35%)][#c1c9c7 225MiB/836MiB(26%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.6GiB/4.6GiB(35%)][#c1c9c7 242MiB/836MiB(28%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.7GiB/4.6GiB(36%)][#c1c9c7 260MiB/836MiB(31%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.7GiB/4.6GiB(36%)][#c1c9c7 278MiB/836MiB(33%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.7GiB/4.6GiB(37%)][#c1c9c7 296MiB/836MiB(35%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.7GiB/4.6GiB(37%)][#c1c9c7 314MiB/836MiB(37%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.7GiB/4.6GiB(37%)][#c1c9c7 333MiB/836MiB(39%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.8GiB/4.6GiB(38%)][#c1c9c7 352MiB/836MiB(42%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(99%)][#932b02 1.8GiB/4.6GiB(38%)][#c1c9c7 372MiB/836MiB(44%)]
+[DL:41MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.8GiB/4.6GiB(39%)][#c1c9c7 391MiB/836MiB(46%)] [Checksum:#c9e816 0.9GiB/12GiB(8%)]
+ *** Download Progress Summary as of Fri Sep 25 10:14:12 2026 *** 
+===============================================================================
+[#c9e816 12GiB/12GiB(100%) CN:0]
+FILE: /home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+-------------------------------------------------------------------------------
+[#932b02 1.8GiB/4.6GiB(39%) CN:8 DL:20MiB ETA:2m21s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#c1c9c7 411MiB/836MiB(49%) CN:8 DL:18MiB ETA:22s]
+FILE: /home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.8GiB/4.6GiB(39%)][#c1c9c7 411MiB/836MiB(49%)] [Checksum:#c9e816 1.9GiB/12GiB(16%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.8GiB/4.6GiB(40%)][#c1c9c7 432MiB/836MiB(51%)] [Checksum:#c9e816 2.9GiB/12GiB(24%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.9GiB/4.6GiB(40%)][#c1c9c7 452MiB/836MiB(54%)] [Checksum:#c9e816 3.5GiB/12GiB(29%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.9GiB/4.6GiB(41%)][#c1c9c7 471MiB/836MiB(56%)] [Checksum:#c9e816 4.5GiB/12GiB(38%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.9GiB/4.6GiB(41%)][#c1c9c7 491MiB/836MiB(58%)] [Checksum:#c9e816 5.5GiB/12GiB(45%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.9GiB/4.6GiB(42%)][#c1c9c7 510MiB/836MiB(61%)] [Checksum:#c9e816 6.6GiB/12GiB(54%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 1.9GiB/4.6GiB(42%)][#c1c9c7 531MiB/836MiB(63%)] [Checksum:#c9e816 7.6GiB/12GiB(63%)]
+[DL:43MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.0GiB/4.6GiB(43%)][#c1c9c7 551MiB/836MiB(65%)] [Checksum:#c9e816 8.2GiB/12GiB(68%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.0GiB/4.6GiB(43%)][#c1c9c7 571MiB/836MiB(68%)] [Checksum:#c9e816 8.3GiB/12GiB(69%)]
+[DL:42MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.0GiB/4.6GiB(43%)][#c1c9c7 592MiB/836MiB(70%)] [Checksum:#c9e816 8.5GiB/12GiB(70%)]
+[DL:43MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.0GiB/4.6GiB(44%)][#c1c9c7 618MiB/836MiB(73%)] [Checksum:#c9e816 8.6GiB/12GiB(71%)]
+[DL:44MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.1GiB/4.6GiB(44%)][#c1c9c7 641MiB/836MiB(76%)] [Checksum:#c9e816 9.0GiB/12GiB(75%)]
+[DL:44MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.1GiB/4.6GiB(45%)][#c1c9c7 661MiB/836MiB(79%)] [Checksum:#c9e816 9.2GiB/12GiB(76%)]
+[DL:44MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.1GiB/4.6GiB(45%)][#c1c9c7 681MiB/836MiB(81%)] [Checksum:#c9e816 9.4GiB/12GiB(78%)]
+[DL:44MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.1GiB/4.6GiB(46%)][#c1c9c7 702MiB/836MiB(83%)] [Checksum:#c9e816 10GiB/12GiB(84%)]
+[DL:44MiB][#c9e816 12GiB/12GiB(100%)][#932b02 2.2GiB/4.6GiB(46%)][#c1c9c7 720MiB/836MiB(86%)] [Checksum:#c9e816 11GiB/12GiB(93%)]
+[DL:44MiB][#932b02 2.2GiB/4.6GiB(47%)][#c1c9c7 740MiB/836MiB(88%)][#6f1aa5 0B/0B]
+[DL:45MiB][#932b02 2.2GiB/4.6GiB(47%)][#c1c9c7 756MiB/836MiB(90%)][#23a3dc 704KiB/816MiB(0%)]
+[DL:44MiB][#932b02 2.2GiB/4.6GiB(48%)][#c1c9c7 771MiB/836MiB(92%)][#23a3dc 3.7MiB/816MiB(0%)]
+[DL:45MiB][#932b02 2.3GiB/4.6GiB(48%)][#c1c9c7 783MiB/836MiB(93%)][#23a3dc 12MiB/816MiB(1%)]
+[DL:43MiB][#932b02 2.3GiB/4.6GiB(49%)][#c1c9c7 790MiB/836MiB(94%)][#23a3dc 25MiB/816MiB(3%)]
+[DL:43MiB][#932b02 2.3GiB/4.6GiB(49%)][#c1c9c7 798MiB/836MiB(95%)][#23a3dc 40MiB/816MiB(4%)]
+[DL:43MiB][#932b02 2.3GiB/4.6GiB(50%)][#c1c9c7 804MiB/836MiB(96%)][#23a3dc 56MiB/816MiB(6%)]
+[DL:43MiB][#932b02 2.3GiB/4.6GiB(50%)][#c1c9c7 810MiB/836MiB(96%)][#23a3dc 72MiB/816MiB(8%)]
+[DL:42MiB][#932b02 2.3GiB/4.6GiB(51%)][#c1c9c7 816MiB/836MiB(97%)][#23a3dc 89MiB/816MiB(10%)]
+[DL:42MiB][#932b02 2.4GiB/4.6GiB(51%)][#c1c9c7 820MiB/836MiB(98%)][#23a3dc 105MiB/816MiB(12%)]
+[DL:42MiB][#932b02 2.4GiB/4.6GiB(51%)][#c1c9c7 826MiB/836MiB(98%)][#23a3dc 122MiB/816MiB(15%)]
+[DL:42MiB][#932b02 2.4GiB/4.6GiB(52%)][#c1c9c7 830MiB/836MiB(99%)][#23a3dc 141MiB/816MiB(17%)]
+[DL:42MiB][#932b02 2.4GiB/4.6GiB(52%)][#c1c9c7 832MiB/836MiB(99%)][#23a3dc 159MiB/816MiB(19%)]
+[DL:42MiB][#932b02 2.4GiB/4.6GiB(53%)][#c1c9c7 834MiB/836MiB(99%)][#23a3dc 176MiB/816MiB(21%)]
+[DL:42MiB][#932b02 2.5GiB/4.6GiB(53%)][#c1c9c7 836MiB/836MiB(100%)][#23a3dc 196MiB/816MiB(24%)] [Checksum:#c1c9c7 461MiB/836MiB(55%)]
+ *** Download Progress Summary as of Fri Sep 25 10:14:43 2026 *** 
+===============================================================================
+[#932b02 2.5GiB/4.6GiB(54%) CN:8 DL:21MiB ETA:1m43s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#23a3dc 217MiB/816MiB(26%) CN:8 DL:17MiB ETA:33s]
+FILE: /home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:42MiB][#932b02 2.5GiB/4.6GiB(54%)][#23a3dc 217MiB/816MiB(26%)]
+[DL:42MiB][#932b02 2.5GiB/4.6GiB(54%)][#23a3dc 236MiB/816MiB(28%)]
+[DL:42MiB][#932b02 2.5GiB/4.6GiB(55%)][#23a3dc 255MiB/816MiB(31%)]
+[DL:28MiB][#932b02 2.6GiB/4.6GiB(55%)][#23a3dc 274MiB/816MiB(33%)]
+[DL:36MiB][#932b02 2.6GiB/4.6GiB(57%)][#23a3dc 309MiB/816MiB(37%)]
+[DL:36MiB][#932b02 2.7GiB/4.6GiB(57%)][#23a3dc 328MiB/816MiB(40%)]
+[DL:37MiB][#932b02 2.7GiB/4.6GiB(58%)][#23a3dc 347MiB/816MiB(42%)]
+[DL:37MiB][#932b02 2.7GiB/4.6GiB(59%)][#23a3dc 362MiB/816MiB(44%)]
+[DL:37MiB][#932b02 2.7GiB/4.6GiB(59%)][#23a3dc 379MiB/816MiB(46%)]
+[DL:37MiB][#932b02 2.8GiB/4.6GiB(60%)][#23a3dc 392MiB/816MiB(48%)]
+[DL:54MiB][#932b02 2.8GiB/4.6GiB(60%)][#23a3dc 405MiB/816MiB(49%)]
+[DL:52MiB][#932b02 2.8GiB/4.6GiB(61%)][#23a3dc 418MiB/816MiB(51%)]
+[DL:51MiB][#932b02 2.9GiB/4.6GiB(61%)][#23a3dc 432MiB/816MiB(52%)]
+[DL:50MiB][#932b02 2.9GiB/4.6GiB(62%)][#23a3dc 446MiB/816MiB(54%)]
+[DL:43MiB][#932b02 2.9GiB/4.6GiB(63%)][#23a3dc 461MiB/816MiB(56%)]
+[DL:43MiB][#932b02 2.9GiB/4.6GiB(63%)][#23a3dc 475MiB/816MiB(58%)]
+[DL:42MiB][#932b02 3.0GiB/4.6GiB(64%)][#23a3dc 489MiB/816MiB(59%)]
+[DL:42MiB][#932b02 3.0GiB/4.6GiB(64%)][#23a3dc 504MiB/816MiB(61%)]
+[DL:42MiB][#932b02 3.0GiB/4.6GiB(65%)][#23a3dc 519MiB/816MiB(63%)]
+[DL:42MiB][#932b02 3.0GiB/4.6GiB(65%)][#23a3dc 531MiB/816MiB(65%)]
+[DL:42MiB][#932b02 3.1GiB/4.6GiB(66%)][#23a3dc 545MiB/816MiB(66%)]
+[DL:42MiB][#932b02 3.1GiB/4.6GiB(67%)][#23a3dc 559MiB/816MiB(68%)]
+[DL:42MiB][#932b02 3.1GiB/4.6GiB(67%)][#23a3dc 572MiB/816MiB(70%)]
+[DL:42MiB][#932b02 3.2GiB/4.6GiB(68%)][#23a3dc 587MiB/816MiB(71%)]
+[DL:42MiB][#932b02 3.2GiB/4.6GiB(68%)][#23a3dc 602MiB/816MiB(73%)]
+[DL:42MiB][#932b02 3.2GiB/4.6GiB(69%)][#23a3dc 616MiB/816MiB(75%)]
+[DL:42MiB][#932b02 3.2GiB/4.6GiB(70%)][#23a3dc 631MiB/816MiB(77%)]
+[DL:42MiB][#932b02 3.3GiB/4.6GiB(70%)][#23a3dc 646MiB/816MiB(79%)]
+ *** Download Progress Summary as of Fri Sep 25 10:15:14 2026 *** 
+===============================================================================
+[#932b02 3.3GiB/4.6GiB(71%) CN:8 DL:28MiB ETA:49s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+[#23a3dc 662MiB/816MiB(81%) CN:6 DL:14MiB ETA:10s]
+FILE: /home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors
+-------------------------------------------------------------------------------
+
+[DL:42MiB][#932b02 3.3GiB/4.6GiB(71%)][#23a3dc 662MiB/816MiB(81%)]
+[DL:42MiB][#932b02 3.3GiB/4.6GiB(71%)][#23a3dc 677MiB/816MiB(82%)]
+[DL:42MiB][#932b02 3.3GiB/4.6GiB(72%)][#23a3dc 691MiB/816MiB(84%)]
+[DL:42MiB][#932b02 3.4GiB/4.6GiB(72%)][#23a3dc 707MiB/816MiB(86%)]
+[DL:42MiB][#932b02 3.4GiB/4.6GiB(73%)][#23a3dc 724MiB/816MiB(88%)]
+[DL:42MiB][#932b02 3.4GiB/4.6GiB(73%)][#23a3dc 744MiB/816MiB(91%)]
+[DL:42MiB][#932b02 3.5GiB/4.6GiB(74%)][#23a3dc 753MiB/816MiB(92%)]
+[DL:42MiB][#932b02 3.5GiB/4.6GiB(75%)][#23a3dc 763MiB/816MiB(93%)]
+[DL:43MiB][#932b02 3.5GiB/4.6GiB(75%)][#23a3dc 773MiB/816MiB(94%)]
+[DL:43MiB][#932b02 3.5GiB/4.6GiB(76%)][#23a3dc 782MiB/816MiB(95%)]
+[DL:43MiB][#932b02 3.6GiB/4.6GiB(77%)][#23a3dc 789MiB/816MiB(96%)]
+[DL:43MiB][#932b02 3.6GiB/4.6GiB(78%)][#23a3dc 795MiB/816MiB(97%)]
+[DL:43MiB][#932b02 3.7GiB/4.6GiB(79%)][#23a3dc 798MiB/816MiB(97%)]
+[DL:43MiB][#932b02 3.7GiB/4.6GiB(79%)][#23a3dc 799MiB/816MiB(97%)]
+[DL:43MiB][#932b02 3.7GiB/4.6GiB(80%)][#23a3dc 801MiB/816MiB(98%)]
+[DL:42MiB][#932b02 3.8GiB/4.6GiB(81%)][#23a3dc 803MiB/816MiB(98%)]
+[DL:43MiB][#932b02 3.8GiB/4.6GiB(82%)][#23a3dc 805MiB/816MiB(98%)]
+[DL:43MiB][#932b02 3.9GiB/4.6GiB(83%)][#23a3dc 807MiB/816MiB(98%)]
+[DL:43MiB][#932b02 3.9GiB/4.6GiB(84%)][#23a3dc 809MiB/816MiB(99%)]
+[DL:44MiB][#932b02 4.0GiB/4.6GiB(85%)][#23a3dc 812MiB/816MiB(99%)]
+[DL:44MiB][#932b02 4.0GiB/4.6GiB(86%)][#23a3dc 814MiB/816MiB(99%)]
+[DL:44MiB][#932b02 4.0GiB/4.6GiB(87%)][#23a3dc 816MiB/816MiB(99%)]
+[DL:45MiB][#932b02 4.1GiB/4.6GiB(88%)][#23a3dc 816MiB/816MiB(100%)] [Checksum:#23a3dc 762MiB/816MiB(93%)]
+[#932b02 4.1GiB/4.6GiB(88%) CN:8 DL:43MiB ETA:12s]
+[#932b02 4.2GiB/4.6GiB(89%) CN:8 DL:44MiB ETA:10s]
+[#932b02 4.2GiB/4.6GiB(90%) CN:8 DL:44MiB ETA:9s]
+[#932b02 4.3GiB/4.6GiB(91%) CN:8 DL:44MiB ETA:8s]
+[#932b02 4.3GiB/4.6GiB(92%) CN:7 DL:45MiB ETA:7s]
+[#932b02 4.3GiB/4.6GiB(93%) CN:7 DL:46MiB ETA:6s]
+[#932b02 4.4GiB/4.6GiB(94%) CN:7 DL:45MiB ETA:5s]
+[#932b02 4.4GiB/4.6GiB(95%) CN:7 DL:45MiB ETA:4s]
+ *** Download Progress Summary as of Fri Sep 25 10:15:45 2026 *** 
+===============================================================================
+[#932b02 4.5GiB/4.6GiB(96%) CN:6 DL:45MiB ETA:3s]
+FILE: /home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+-------------------------------------------------------------------------------
+
+[#932b02 4.5GiB/4.6GiB(96%) CN:6 DL:45MiB ETA:3s]
+[#932b02 4.5GiB/4.6GiB(97%) CN:4 DL:44MiB ETA:2s]
+[#932b02 4.5GiB/4.6GiB(97%) CN:4 DL:35MiB ETA:3s]
+[#932b02 4.6GiB/4.6GiB(98%) CN:3 DL:39MiB ETA:1s]
+[#932b02 4.6GiB/4.6GiB(99%) CN:2 DL:36MiB]
+[#932b02 4.6GiB/4.6GiB(100%) CN:0] [Checksum:#932b02 4.0KiB/4.6GiB(0%)]
+[#932b02 4.6GiB/4.6GiB(100%) CN:0] [Checksum:#932b02 1.1GiB/4.6GiB(25%)]
+[#932b02 4.6GiB/4.6GiB(100%) CN:0] [Checksum:#932b02 2.4GiB/4.6GiB(51%)]
+[#932b02 4.6GiB/4.6GiB(100%) CN:0] [Checksum:#932b02 3.5GiB/4.6GiB(75%)]
+[#932b02 4.6GiB/4.6GiB(100%) CN:0] [Checksum:#932b02 4.6GiB/4.6GiB(99%)]
+
+Download Results:
+gid   |stat|avg speed  |path/URI
+======+====+===========+=======================================================
+8c17ab|OK  |    12MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors
+ebf3c9|OK  |    11MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors
+c1536c|OK  |   2.9MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors
+893525|OK  |   4.3MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors
+f06cb3|OK  |    10MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors
+a9c1bb|OK  |    10MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors
+a5ca5d|OK  |   6.1MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors
+194477|OK  |    12MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors
+9fdd19|OK  |   3.5MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+c42a78|OK  |   1.2MiB/s|/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json
+7c5a45|OK  |    64KiB/s|/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json
+f19b18|OK  |   1.6MiB/s|/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja
+e514fa|OK  |   3.5MiB/s|/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json
+9167d9|OK  |    11MiB/s|/home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors
+e2bf9d|OK  |    15MiB/s|/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors
+801f10|OK  |   451KiB/s|/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE.json
+e1275c|OK  |   2.2MiB/s|/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/color_idx.json
+48feda|OK  |   489KiB/s|/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/multilingual_10-lang_idx.json
+814472|OK  |   681KiB/s|/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/config.json
+853cc8|OK  |    10MiB/s|/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors
+c9e816|OK  |    13MiB/s|/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors
+6f1aa5|OK  |    20KiB/s|/home/straughter/Wan2GP/ckpts/siglip_vision_model/config.json
+c1c9c7|OK  |    14MiB/s|/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors
+fc5c1c|OK  |   384KiB/s|/home/straughter/Wan2GP/ckpts/siglip_vision_model/preprocessor_config.json
+23a3dc|OK  |    12MiB/s|/home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors
+932b02|OK  |    18MiB/s|/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors
+
+Status Legend:
+(OK):download completed.
+{"aria2_exit_code": 0, "asset_count": 26, "report": "/home/straughter/Wan2GP/outputs/wd-2gyw/download-report.json", "verified": 26}
