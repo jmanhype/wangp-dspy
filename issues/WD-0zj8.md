@@ -4,7 +4,7 @@ title: "Clean-machine generated install"
 status: in_progress
 priority: 1
 type: feature
-labels: [install, evidence, external-integration]
+labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
