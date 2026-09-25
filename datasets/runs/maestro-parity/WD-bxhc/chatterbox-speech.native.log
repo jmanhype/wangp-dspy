@@ -1,0 +1,32 @@
+WARNING:models.TTS.chatterbox.models.tokenizers.tokenizer:pkuseg not available - Chinese segmentation will be skipped
+Traceback (most recent call last):
+  File "<stdin>", line 151, in <module>
+  File "<stdin>", line 85, in main
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/mtl_tts.py", line 272, in generate
+    speech_tokens = self.t3.inference(
+                    ^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py", line 245, in inference
+    embeds, len_cond = self.prepare_input_embeds(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py", line 94, in prepare_input_embeds
+    cond_emb = self.prepare_conditioning(t3_cond)  # (B, len_cond, dim)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py", line 81, in prepare_conditioning
+    t3_cond.cond_prompt_speech_emb = self.speech_emb(t3_cond.cond_prompt_speech_tokens) + \
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/nn/modules/sparse.py", line 191, in forward
+    return F.embedding(
+           ^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/nn/functional.py", line 2567, in embedding
+    return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected all tensors to be on the same device, but got index is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA__index_select)

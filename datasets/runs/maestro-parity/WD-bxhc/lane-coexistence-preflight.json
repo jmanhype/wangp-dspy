@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "disk_headroom": true,
+    "models": true,
+    "operator_judge_only_and_enough_free_vram": true,
+    "qc_available": true
+  },
+  "compute_apps": [
+    "2591141, 7752, /home/straughter/llama.cpp/build/bin/llama-server"
+  ],
+  "disk_free_bytes": 41047674880,
+  "gpu": {
+    "free_mib": 16275,
+    "total_mib": 24576,
+    "used_mib": 7841
+  },
+  "min_free_bytes": 16106127360,
+  "models": [
+    {
+      "actual": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "expected": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "passed": true,
+      "path": "/mnt/bulk/straughter/models/VibeVoice-7B-hf/model.safetensors.index.json"
+    },
+    {
+      "actual": "b1237586127ce98e7800a68e49938eb5092846862aabcb6e17b2fda7889a6c75",
+      "expected": "b1237586127ce98e7800a68e49938eb5092846862aabcb6e17b2fda7889a6c75",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/t3_mtl23ls_v2.safetensors"
+    },
+    {
+      "actual": "9b9ff07e60b20c136e2b1b3d7563a24604e8d2c4c267888d1ee929dd0151d2a3",
+      "expected": "9b9ff07e60b20c136e2b1b3d7563a24604e8d2c4c267888d1ee929dd0151d2a3",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/s3gen.pt"
+    },
+    {
+      "actual": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c",
+      "expected": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/ve.safetensors"
+    },
+    {
+      "actual": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e",
+      "expected": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/conds.pt"
+    },
+    {
+      "actual": "df81a7ca7c31796cbe97f7a7142d5a53b12e88e12417ebe98f66602cafaf0461",
+      "expected": "df81a7ca7c31796cbe97f7a7142d5a53b12e88e12417ebe98f66602cafaf0461",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/grapheme_mtl_merged_expanded_v1.json"
+    },
+    {
+      "actual": "7073fd9de919443ae88e0bd2449917a65fe54898a4413ed1edcc4b67f28bce8c",
+      "expected": "7073fd9de919443ae88e0bd2449917a65fe54898a4413ed1edcc4b67f28bce8c",
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/models/TTS/chatterbox/Cangjie5_TC.json"
+    }
+  ],
+  "passed": true,
+  "qc_http_status_body": "{\"status\":\"ok\"}",
+  "schema": "wangp-dspy.wd-bxhc.coexistence-preflight/v1"
+}

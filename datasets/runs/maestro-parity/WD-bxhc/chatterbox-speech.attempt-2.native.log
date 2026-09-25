@@ -1,0 +1,18 @@
+WARNING:models.TTS.chatterbox.models.tokenizers.tokenizer:pkuseg not available - Chinese segmentation will be skipped
+Sampling:   0%|          | 0/1000 [00:00<?, ?it/s]Sampling:   0%|          | 1/1000 [00:00<01:12, 13.71it/s]
+Traceback (most recent call last):
+  File "<stdin>", line 157, in <module>
+  File "<stdin>", line 91, in main
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/mtl_tts.py", line 272, in generate
+    speech_tokens = self.t3.inference(
+                    ^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py", line 348, in inference
+    logits = self.patched_model.alignment_stream_analyzer.step(logits, next_token=last_token)  # (1, V)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/alignment_stream_analyzer.py", line 191, in step
+    self.alignment = torch.cat((self.alignment, A_chunk), dim=0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 49 but got size 0 for tensor number 1 in the list.

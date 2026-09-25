@@ -1,0 +1,2 @@
+doctor_exit=0
+refusal_exit=2

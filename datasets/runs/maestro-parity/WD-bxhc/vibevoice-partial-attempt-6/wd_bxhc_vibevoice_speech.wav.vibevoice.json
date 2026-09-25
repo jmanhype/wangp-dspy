@@ -1,0 +1,33 @@
+{
+  "attempt_index": 1,
+  "mode": "speech",
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "output": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav",
+  "output_sha256": "bc75965bcb2f32cccccece3311934383d16b59e67ed4dfc946954167ca16c1b8",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 3.5,
+    "output_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
+    "rms_db": -16.9,
+    "single_speaker": true,
+    "source_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav",
+    "speaker_id": "Witness",
+    "target_duration_s": 3.5
+  },
+  "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.prepared.wav",
+  "prepared_sha256": "6ae57b0627a7869e2a92e6fe727d5f83a68fb018293fe19a44d6c208e5c4cb12",
+  "references": [
+    {
+      "consent_ref": "operator-authorization.md#wd-bxhc-synthetic-primary",
+      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
+      "path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
+      "role": "primary",
+      "sha256": "52897ab293fb92564a7b220caf14ac9c39fcf101b55204f0eb1784aa61a2fab5",
+      "source": "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+    }
+  ],
+  "schema": "wangp-dspy.wd-bxhc.vibevoice-provenance/v1",
+  "seed": 9411,
+  "text": "The portable witness speaks plainly without claiming another voice."
+}

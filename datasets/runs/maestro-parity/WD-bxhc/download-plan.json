@@ -1,0 +1,16 @@
+{
+  "schema_version": "wangp-dspy.download-plan/v1",
+  "manifest": "chatterbox-download-manifest.json",
+  "authorization": "operator-authorization.md",
+  "download_ceiling_bytes": 20000000000,
+  "planned_total_bytes": 3208948928,
+  "already_present_vibevoice_7b_bytes": 18698450924,
+  "already_present_vibevoice_large_bytes": 18687161180,
+  "selected_vibevoice_variant": "VibeVoice-7B-hf",
+  "vibevoice_variant_reason": "The HF-native 7B install contains tokenizer and processor configuration required by the validated AutoProcessor/AutoModelForTextToWaveform path; VibeVoice-Large is weights-only in this host install.",
+  "disk_free_before_bytes": 44779175936,
+  "pre_download_min_free_gb": 18.91,
+  "post_download_min_free_gb": 15.0,
+  "derivation": "Selected network assets are 3,208,948,928 bytes. Add a 0.20 GiB short-audio/package/image working set and 0.50 GiB execution margin to the operator's 15 GiB post-download floor: 3,208,948,928 bytes + 214,748,365 bytes + 536,870,912 bytes + 15 GiB = 18.91 GiB required before download. The measured 44,779,175,936 available bytes passes. After download, stop rather than silently lowering a 15 GiB floor.",
+  "native_model_policy": "VibeVoice-7B-hf and model-free portable-character evidence use existing bytes; no image or video model download is authorized or required."
+}

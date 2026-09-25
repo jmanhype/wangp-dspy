@@ -1,0 +1,202 @@
+)
+class VibeVoiceModel(VibeVoicePreTrainedModel):
+    def __init__(self, config):
+        super().__init__(config)
+        self.audio_tower = AutoModel.from_config(config.audio_config)
+        self.language_model = AutoModel.from_config(config.text_config)
+        self.multi_modal_projector = VibeVoiceMultiModalProjector(
+            config.audio_config.hidden_size, config.text_config.hidden_size
+        )
+        self.semantic_tokenizer_encoder = AutoModel.from_config(config.semantic_model_config)
+        self.semantic_connector = VibeVoiceMultiModalProjector(
+            config.semantic_model_config.hidden_size, config.text_config.hidden_size
+        )
+        self.diffusion_head = VibeVoiceDiffusionHead(config.diffusion_head_config)
+        self.latent_scaling_factor = nn.Parameter(torch.tensor(1.0))
+        self.latent_bias_factor = nn.Parameter(torch.tensor(0.0))
+        self.post_init()
+
+    @can_return_tuple
+    @auto_docstring(
+        custom_intro="This method is used to get the audio embeddings (that replace placeholder audio tokens in the "
+        "input sequence) and the acoustic features (used as diffusion target) from the input audio waveform."
+    )
+    def get_audio_features(
+        self,
+        input_values: torch.FloatTensor,
+        padding_mask: torch.Tensor,
+        **kwargs: Unpack[TransformersKwargs],
+    ) -> tuple | BaseModelOutputWithPooling:
+        r"""
+        input_values (`torch.FloatTensor`):
+            Float values of (normalized) audio waveform.
+        padding_mask (`torch.Tensor` of shape `(batch_size, padded_audio_length)`):
+            Padding mask to remove padded parts of audio.
+        """
+
+        # Acoustic tokenizer is not meant to be trainable (see p. 3 of https://huggingface.co/papers/2508.19205)
+        with torch.no_grad():
+            acoustic_features = self.audio_tower.encode(input_values, sample=True).latents
+        acoustic_features += self.latent_bias_factor.to(acoustic_features.device)
+        acoustic_features *= self.latent_scaling_factor.to(acoustic_features.device)
+
+        # adjust padding mask according to tokenizer compression
+        num_audio_tokens = torch.ceil(padding_mask.sum(dim=-1) / self.config.audio_config.hop_length).to(torch.int64)
+        padding_mask = torch.arange(num_audio_tokens.max(), device=num_audio_tokens.device) < num_audio_tokens[:, None]
+
+        pooler_output = self.multi_modal_projector(acoustic_features)
+        return BaseModelOutputWithPooling(
+            last_hidden_state=acoustic_features[padding_mask.to(acoustic_features.device)],
+            pooler_output=pooler_output[padding_mask.to(pooler_output.device)],
+        )
+
+    def get_placeholder_mask(
+        self, input_ids: torch.LongTensor, inputs_embeds: torch.FloatTensor, audio_features: torch.FloatTensor
+    ):
+        """
+        Obtains multimodal placeholder mask from `input_ids` or `inputs_embeds`, and checks that the placeholder token count is
+        equal to the length of multimodal features. If the lengths are different, an error is raised.
+        """
+        if input_ids is None:
+            special_audio_mask = inputs_embeds == self.get_input_embeddings()(
+                torch.full((), self.config.audio_token_id, dtype=torch.long, device=inputs_embeds.device)
+            )
+            special_audio_mask = special_audio_mask.all(-1)
+        else:
+            special_audio_mask = input_ids == self.config.audio_token_id
+
+        n_audio_tokens = special_audio_mask.sum()
+        n_audio_features = audio_features.shape[0]
+        special_audio_mask = special_audio_mask.unsqueeze(-1).expand_as(inputs_embeds).to(inputs_embeds.device)
+        torch_compilable_check(
+            inputs_embeds[special_audio_mask].numel() == audio_features.numel(),
+            f"Audio features and audio tokens do not match, tokens: {n_audio_tokens}, features: {n_audio_features}",
+        )
+        return special_audio_mask
+
+    @can_return_tuple
+    @auto_docstring
+    def forward(
+        self,
+        input_ids: torch.LongTensor = None,
+        inputs_embeds: torch.FloatTensor | None = None,
+        input_values: torch.FloatTensor | None = None,
+        padding_mask: torch.BoolTensor | None = None,
+        **kwargs: Unpack[TransformersKwargs],
+    ) -> tuple | BaseModelOutputWithPast:
+        r"""
+        padding_mask (`torch.Tensor` of shape `(batch_size, padded_audio_length)`):
+            Padding mask to remove padded parts of audio.
+        """
+        if inputs_embeds is None:
+            inputs_embeds = self.get_input_embeddings()(input_ids)
+
+        audio_features = None
+        if input_values is not None:
+            audio_outputs = self.get_audio_features(input_values, padding_mask)
+            audio_embeds = audio_outputs.pooler_output
+            audio_features = audio_outputs.last_hidden_state
+
+            # Replace text-audio token placeholders with audio embeddings
+            special_audio_mask = self.get_placeholder_mask(
+                input_ids, inputs_embeds=inputs_embeds, audio_features=audio_embeds
+            )
+            inputs_embeds = inputs_embeds.masked_scatter(special_audio_mask, audio_embeds.to(inputs_embeds.device))
+
+        outputs = self.language_model(inputs_embeds=inputs_embeds, **kwargs)
+        return VibeVoiceBaseModelOutputWithPast(audio_features=audio_features, **outputs)
+
+
+@auto_docstring(
+    custom_intro="""
+    The VibeVoice model, which consists of a language model, audio tokenizers, connectors, and a diffusion head.
+    """
+)
+class VibeVoiceForConditionalGeneration(VibeVoicePreTrainedModel, VibeVoiceGenerationMixin):
+    _tied_weights_keys = {"lm_head.weight": "model.language_model.embed_tokens.weight"}
+    _tp_plan = {"lm_head": "colwise_gather_output"}
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.model = VibeVoiceModel(config)
+        self.lm_head = nn.Linear(config.text_config.hidden_size, config.text_config.vocab_size, bias=False)
+        self.post_init()
+
+    @staticmethod
+    def compute_diffusion_loss(
+        diffusion_head: nn.Module,
+        audio_features: torch.FloatTensor,
+        condition_features: torch.FloatTensor,
+        noise_scheduler: object,
+        ddpm_batch_multiplier: int,
+        target = (alpha_t * noise - sigma_t * audio_features_repeated).to(model_output.device)
+
+        diffusion_loss = torch.nn.functional.mse_loss(model_output.float(), target.float(), reduction="sum")
+        if latent_size > 0 and ddpm_batch_multiplier > 0 and audio_len > 0:
+            diffusion_loss = diffusion_loss / (latent_size * ddpm_batch_multiplier * audio_len)
+        else:
+            diffusion_loss = torch.full((), 0.0, dtype=diffusion_loss.dtype, device=diffusion_loss.device)
+        return diffusion_loss
+
+    @can_return_tuple
+    @auto_docstring
+    def forward(
+        self,
+        input_ids: torch.LongTensor = None,
+        inputs_embeds: torch.FloatTensor | None = None,
+        labels: torch.LongTensor | None = None,
+        logits_to_keep: int | slice = 0,
+        input_values: torch.FloatTensor | None = None,
+        padding_mask: torch.BoolTensor | None = None,
+        acoustic_loss_mask: torch.BoolTensor | None = None,
+        noise_scheduler: object | None = None,
+        ddpm_batch_multiplier: int = 4,
+        num_diffusion_steps: int = 10,
+        **kwargs,
+    ) -> tuple | VibeVoiceCausalLMOutputWithPast:
+        r"""
+        input_values (`torch.FloatTensor`, *optional*):
+            Preprocessed audio waveform for voice cloning.
+        padding_mask (`torch.BoolTensor`, *optional*):
+            Masks indicating valid input frames.
+        acoustic_loss_mask (`torch.BoolTensor`, *optional*):
+            Mask to compute diffusion loss only on specific acoustic tokens.
+        noise_scheduler (*optional*):
+            Needed for training to compute noise targets for the diffusion loss. By default, uses the noise scheduler
+            configuration specified in the model's `generation_config`.
+        ddpm_batch_multiplier (`int`, *optional*, defaults to 4):
+            For training, number of noise samples to generate per audio token for diffusion loss computation, which can
+            help stabilize training.
+        num_diffusion_steps (`int`, *optional*, defaults to 10):
+            For training, the number of diffusion steps to use. Defaults to 10 if not provided.
+        """
+
+        outputs = self.model(
+            input_ids=input_ids,
+            inputs_embeds=inputs_embeds,
+            input_values=input_values,
+            padding_mask=padding_mask,
+            **kwargs,
+        )
+
+        hidden_states = outputs.last_hidden_state
+        slice_indices = slice(-logits_to_keep, None) if isinstance(logits_to_keep, int) else logits_to_keep
+        logits = self.lm_head(hidden_states[:, slice_indices, :])
+
+        loss = None
+        if labels is not None:
+            loss = self.loss_function(logits=logits, labels=labels, vocab_size=self.config.vocab_size, **kwargs)
+
+        # `diffusion_loss_weight` weights the two training losses against each other, and does not affect the architecture
+        # trf-ignore: TRF041 config.diffusion_loss_weight
+        if (
+            acoustic_loss_mask is not None
+            and outputs.audio_features is not None
+            and self.config.diffusion_loss_weight > 0.0
+        ):
+            if noise_scheduler is None:
+                # use helper from VibeVoiceGenerationMixin
+                noise_scheduler = self._build_default_noise_scheduler(self.generation_config)
+
+            audio_features = outputs.audio_features
+            condition_features = hidden_states[acoustic_loss_mask.to(hidden_states.device)].to(audio_features.device)

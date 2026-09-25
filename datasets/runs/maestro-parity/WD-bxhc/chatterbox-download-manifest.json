@@ -1,0 +1,53 @@
+{
+  "schema_version": "wangp-dspy.model-assets/v1",
+  "assets": [
+    {
+      "id": "chatterbox-t3-mtl23ls-v2",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t3_mtl23ls_v2.safetensors",
+      "sha256": "b1237586127ce98e7800a68e49938eb5092846862aabcb6e17b2fda7889a6c75",
+      "size_bytes": 2143989752,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/t3_mtl23ls_v2.safetensors"
+    },
+    {
+      "id": "chatterbox-s3gen",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/s3gen.pt",
+      "sha256": "9b9ff07e60b20c136e2b1b3d7563a24604e8d2c4c267888d1ee929dd0151d2a3",
+      "size_bytes": 1057165844,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/s3gen.pt"
+    },
+    {
+      "id": "chatterbox-voice-encoder",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/ve.safetensors",
+      "sha256": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c",
+      "size_bytes": 5695784,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/ve.safetensors"
+    },
+    {
+      "id": "chatterbox-conditions",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/conds.pt",
+      "sha256": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e",
+      "size_bytes": 107374,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/conds.pt"
+    },
+    {
+      "id": "chatterbox-grapheme-tokenizer",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/grapheme_mtl_merged_expanded_v1.json",
+      "sha256": "df81a7ca7c31796cbe97f7a7142d5a53b12e88e12417ebe98f66602cafaf0461",
+      "size_bytes": 70011,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/grapheme_mtl_merged_expanded_v1.json"
+    },
+    {
+      "id": "chatterbox-cangjie-tokenizer",
+      "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/chatterbox/Cangjie5_TC.json",
+      "sha256": "7073fd9de919443ae88e0bd2449917a65fe54898a4413ed1edcc4b67f28bce8c",
+      "size_bytes": 1920163,
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "destination": "/home/straughter/Wan2GP/models/TTS/chatterbox/Cangjie5_TC.json"
+    }
+  ]
+}

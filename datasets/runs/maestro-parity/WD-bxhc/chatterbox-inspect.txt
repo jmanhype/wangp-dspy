@@ -1,0 +1,103 @@
+chatterbox_tree
+129	/home/straughter/Wan2GP/models/TTS/chatterbox/__init__.py
+0	/home/straughter/Wan2GP/models/TTS/chatterbox/models/__init__.py
+68	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/__init__.py
+220	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/configs.py
+17	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/const.py
+12709	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/decoder.py
+1993	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/f0_predictor.py
+10755	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/flow.py
+9874	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/flow_matching.py
+17652	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/hifigan.py
+14435	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/matcha/decoder.py
+4556	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/matcha/flow_matching.py
+14965	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/matcha/text_encoder.py
+13294	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/matcha/transformer.py
+10823	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/s3gen.py
+0	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/__init__.py
+3089	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/activation.py
+14415	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/attention.py
+5230	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/convolution.py
+11399	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/embedding.py
+9602	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/encoder_layer.py
+4219	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/positionwise_feed_forward.py
+12666	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/subsampling.py
+13694	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/transformer/upsample_encoder.py
+2334	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/utils/class_utils.py
+7637	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/utils/mask.py
+2556	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/utils/mel.py
+14141	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3gen/xvector.py
+595	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3tokenizer/__init__.py
+5155	/home/straughter/Wan2GP/models/TTS/chatterbox/models/s3tokenizer/s3tokenizer.py
+19	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/__init__.py
+11141	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/alignment_stream_analyzer.py
+4244	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/t3_hf_backend.py
+1007	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/llama_configs.py
+3293	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/cond_enc.py
+1099	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/learned_pos_emb.py
+7704	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/perceiver.py
+1244	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/t3_config.py
+16035	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py
+48	/home/straughter/Wan2GP/models/TTS/chatterbox/models/tokenizers/__init__.py
+10338	/home/straughter/Wan2GP/models/TTS/chatterbox/models/tokenizers/tokenizer.py
+148	/home/straughter/Wan2GP/models/TTS/chatterbox/models/utils.py
+56	/home/straughter/Wan2GP/models/TTS/chatterbox/models/voice_encoder/__init__.py
+406	/home/straughter/Wan2GP/models/TTS/chatterbox/models/voice_encoder/config.py
+1940	/home/straughter/Wan2GP/models/TTS/chatterbox/models/voice_encoder/melspec.py
+10555	/home/straughter/Wan2GP/models/TTS/chatterbox/models/voice_encoder/voice_encoder.py
+10007	/home/straughter/Wan2GP/models/TTS/chatterbox/mtl_tts.py
+4045	/home/straughter/Wan2GP/models/TTS/chatterbox/pipeline.py
+8932	/home/straughter/Wan2GP/models/TTS/chatterbox/tts.py
+3529	/home/straughter/Wan2GP/models/TTS/chatterbox/vc.py
+t3_tree
+d	4096	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3
+f	19	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/__init__.py
+d	4096	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference
+f	11141	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/alignment_stream_analyzer.py
+f	4244	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/t3_hf_backend.py
+f	1007	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/llama_configs.py
+d	4096	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules
+f	3293	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/cond_enc.py
+f	1099	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/learned_pos_emb.py
+f	7704	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/perceiver.py
+f	1244	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/modules/t3_config.py
+f	16035	/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py
+defaults
+{
+    "model": {
+        "name": "TTS Chatterbox Multilingual",
+        "architecture": "chatterbox",
+        "description": "Resemble AI's open multilingual TTS with language selection via model mode.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t3_mtl23ls_v2.safetensors|chatterbox"
+        ]
+    },
+	"prompt": "Welcome to Chatterbox !",
+	"negative_prompt": "",
+	"audio_prompt_type": "A",
+	"model_mode": "en",
+	"repeat_generation": 1,
+	"video_length": 0,
+	"num_inference_steps": 0,
+	"custom_settings": {
+		"exaggeration": 0.5,
+		"pace": 0.5
+	},
+	"temperature": 0.8
+}
+handler_symbols
+71:def _get_chatterbox_model_def():
+81:        "profiles_dir": ["chatterbox"],
+95:def _get_chatterbox_download_def():
+105:        "sourceFolderList": ["chatterbox"],
+113:        return ["chatterbox"]
+130:            "--lora-dir-chatterbox",
+133:            help=f"Path to a directory that contains chatterbox settings (default: {os.path.join(lora_root, 'chatterbox')})",
+138:        return getattr(args, "lora_dir_chatterbox", None) or os.path.join(lora_root, "chatterbox")
+142:        return _get_chatterbox_model_def()
+146:        return _get_chatterbox_download_def()
+149:    def load_model(
+165:        from .chatterbox.pipeline import ChatterboxPipeline
+168:        pipeline = ChatterboxPipeline(ckpt_root=ckpt_root, device=mps_device_or(torch.device("cpu")))
+172:            "t3": pipeline.model.t3,
+wgp_tts_help

@@ -1,0 +1,47 @@
+Loading weights:   0%|          | 0/1205 [00:00<?, ?it/s]Loading weights:  65%|██████▌   | 787/1205 [00:00<00:00, 7866.78it/s]Loading weights: 100%|██████████| 1205/1205 [00:00<00:00, 8577.59it/s]
+Traceback (most recent call last):
+  File "<stdin>", line 331, in <module>
+  File "<stdin>", line 224, in main
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 2671, in generate
+    result = decoding_method(
+             ^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/models/vibevoice/generation_vibevoice.py", line 548, in _sample
+    outputs = self._prefill(
+              ^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 3951, in _prefill
+    return self(**model_inputs, return_dict=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/utils/generic.py", line 939, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/models/vibevoice/modeling_vibevoice.py", line 442, in forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/utils/generic.py", line 939, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/models/vibevoice/modeling_vibevoice.py", line 340, in forward
+    special_audio_mask = self.get_placeholder_mask(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/models/vibevoice/modeling_vibevoice.py", line 310, in get_placeholder_mask
+    torch_compilable_check(
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/transformers/utils/import_utils.py", line 1858, in torch_compilable_check
+    torch._check_with(error_type, cond, msg_callable)
+  File "/home/straughter/vb7-venv/lib/python3.11/site-packages/torch/__init__.py", line 2118, in _check_with
+    raise error_type(message_evaluated)
+ValueError: Audio features and audio tokens do not match, tokens: 19, features: 37

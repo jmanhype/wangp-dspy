@@ -1,0 +1,29 @@
+{
+  "completed_turn_count": 0,
+  "error": "generation failed for /home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/.vibevoice-ef18048e249747b5b21ab1df53ba3f95/turn-1.wav: VibeVoice generation failed for /home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/.vibevoice-ef18048e249747b5b21ab1df53ba3f95/turn-1.wav: Cannot copy out of meta tensor; no data!",
+  "manifest": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/.vibevoice-ef18048e249747b5b21ab1df53ba3f95/manifest.json",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "resumed_turn_count": 0,
+  "schema": "wangp-dspy.vibevoice-report/v1",
+  "seed": 9411,
+  "status": "failed",
+  "turns": [
+    {
+      "attempt_index": 1,
+      "generation_seed": 9411,
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/.vibevoice-ef18048e249747b5b21ab1df53ba3f95/turn-1.wav",
+      "seed_rejections": [],
+      "speaker": "Witness",
+      "status": "generation_failed",
+      "text": "The portable witness speaks plainly without claiming another voice.",
+      "turn_index": 1
+    },
+    {
+      "output_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/.vibevoice-ef18048e249747b5b21ab1df53ba3f95/turn-2.wav",
+      "speaker": "Witness",
+      "status": "pending",
+      "text": "One reference keeps this speaker on the portable anchor.",
+      "turn_index": 2
+    }
+  ]
+}
