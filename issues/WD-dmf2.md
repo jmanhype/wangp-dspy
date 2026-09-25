@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
 updated_at: 2026-09-25T23:23:02Z
-content_hash: "sha256:d347d689d36663c4b0e65883dbb4b26ff02b12aafcfdbeb2b3bbb9aa00d4990c"
+content_hash: "sha256:92bd72d3c019116e681eff94a80f3a0f37215359355d6099dc691ea314dc2c65"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8]
@@ -112,6 +112,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-25.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence
 
 ### CI/Test Results
