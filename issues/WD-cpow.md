@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T05:12:08Z
-content_hash: "sha256:a50df373e6ccb8e180ac7acac68c191631827c50cfac829214e533af755b3a04"
+updated_at: 2026-09-25T05:51:23Z
+content_hash: "sha256:8989d41708ec495c6d93bb4eb2301de12dda48506659161db583cd006c798557"
 blocks: [WD-fay0]
 assignee: dev-WD-cpow
 follows: [WD-rous]
@@ -96,6 +96,73 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### Host operation
+- Authorized batch: `operator-authorization.md`; planned/actual network pull 8,677,764 bytes under the 20,000,000,000-byte ceiling.
+- All 2,356,908,559 Stable Audio bytes were already present from WD-rous; incremental Stable Audio bytes were zero.
+- Derived preflight floor: 8.16 GB = approximately 8 GB post-download floor + 0.009 GB download + 0.05 GB render working set + 0.10 GB margin. Host had 11,026,259,968 bytes before and 10,993,692,672 bytes after the pull.
+- Outputs/hash evidence: `output-hashes.txt`, `audio-statistics.json`, `ffprobe-*.json`, and `video-stream-hash.*.txt`.
+- Queue: `queue-record.json` plus `queue-complete.log`; state `done`, all three clips bound to artifacts.
+
+### CI/Test Results
+- Commands run:
+  - `uv run --frozen --extra dev pytest -q tests/test_sfx_capabilities.py tests/test_maestro_parity_evidence.py --junitxml=/tmp/WD-cpow-targeted.xml`
+  - `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=datasets/runs/maestro-parity/WD-cpow/fullsuite.xml`
+  - `timeout 300 uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code 6f708d4 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+- Targeted: 89 tests, 0 errors, 0 failures, 0 skipped.
+- Full suite: 2,085 tests, 0 errors, 0 failures, 1 skipped; one pre-existing FastAPI/Starlette deprecation warning.
+- Release: `release=ready`, `tag_created=false`.
+- Protected-file parity versus branch base `6f708d4`: PASS.
+- The story text also names `40f8c2b`; that older base predates accepted WD-e4r7 preflight changes already contained in `6f708d4`. This lane introduces no protected-file diff versus its actual branch base. Recorded in `standing-gates-final.txt`.
+
+### Checker and matrix
+- Checker: `FAIL reviewer_verdict.decision: must be approved`, exit 1. Every other canonical field group validates; reviewer verdict intentionally remains pending.
+- Matrix: Stable Audio diagonal -> `unsupported_on_this_hardware` from measured 44.1 kHz output. VibeVoice revoice and DeepFilterNet refinement diagonals remain `planned` with complete hash-bound evidence pending human review. All six off-diagonal planning-unsupported boundaries remain unchanged.
+- `matrix-parse.txt` passes 3 identities, 6 unchanged off-diagonal boundaries, one hardware-unsupported diagonal, and two pending diagonals.
+
+### Commit
+- Branch: `story/WD-cpow`
+- SHA at delivery: `14dcf59` (full SHA recorded below after delivery command)
+
+### pvg verify
+- `VERIFY: PASSED (5 files scanned, 0 issues)`
+
+### AC Verification
+| AC # | Requirement | Evidence Location | Status |
+|---|---|---|---|
+| 1 | checker-pass before host_run_verified | checker-result.txt; docs/sfx-capabilities.md | BLOCKED ON REVIEW for VibeVoice/DeepFilterNet; no premature promotion |
+| 2 | absent/partial evidence stays non-verified | matrix-transition-check.json; docs/sfx-capabilities.md | PASS |
+| 3 | mechanical row updates/citations | docs/sfx-capabilities.md; matrix-parse.txt | PASS |
+| 4 | full provenance/hashes/metadata/reviewer approval | evidence.json; output-hashes.txt | PARTIAL: all objective evidence present; reviewer approval pending |
+| 5 | hash-backed audio/video preservation | video-stream-hash.*.txt; objective-gates.json | PASS |
+| 6 | all three diagonals terminal | docs/sfx-capabilities.md | PARTIAL: Stable terminal unsupported; two pending review |
+| 7 | protected scope/files unchanged | standing-gates-final.txt; protected-parity-6f.txt | PASS versus 6f708d4; inherited 40f mismatch documented |
+
+LEARNINGS:
+- WD-rous made the entire Stable Audio set reusable, so this lane's actual pull was only the absent 8.68 MB DeepFilterNet runtime/model set.
+- DeepFilterNet 0.5.6 needs a small torchaudio compatibility shim on the host's torchaudio 2.10 stack; the native script records this without downgrading shared ML packages.
+- VibeVoice remote supplier deliberately writes into a unique hidden run namespace; post-generation mux must resolve that namespace rather than assume manifest-relative output paths.
+- Holding video fixed is objectively provable with ffmpeg streamhash equality even when container bytes must change for replacement audio.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Host artifacts, queue, hashes, metadata, authorization, download report, checker, tests, release gate, matrix evidence, and commits under `datasets/runs/maestro-parity/WD-cpow/`.
+- Final worktree commit before delivery note: 14dcf59.
+
+### proof
+- [x] Real authorized Stable Audio attempt recorded and measured unsupported at 44.1 kHz.
+- [x] Real VibeVoice revoice and DeepFilterNet refinement artifacts, hashes, metadata, queue state, and preservation gates recorded.
+- [x] Targeted and full test counters recorded; release and branch-base protected-file gates pass.
+- [ ] Human reviewer approval and canonical checker PASS remain pending by design.
+
+
 ## MANDATORY SKILLS
 - pvg
 
