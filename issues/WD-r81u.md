@@ -9,13 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T20:13:04Z
-content_hash: "sha256:d9b113946fc8a0f4618b5a9feba5d9008b85fd75245073851f748ad0bac3eddd"
+content_hash: "sha256:bcacabaf03b8e657d1b8d917fe432121d4c36b76607cfdd8dd7ff8b10f3bf514"
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
 follows: [WD-2gyw, WD-cpow]
 closed_at: 2026-09-25T20:13:03Z
 close_reason: "Accepted for delivered scope: five independently verified cells (FFmpeg interpolation/spatial/grain, RIFE x2, RealESRGAN x2). Film stays planned for control mismatch; face cells stay planned for missing source face/track consent; neural_frame_gen stays planned with no named implementation."
-led_to: [WD-bxhc]
+led_to: [WD-bxhc, WD-dmf2]
 ---
 
 ## Description
@@ -778,7 +778,7 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - Parent: [[WD-3nod]]
 - Was blocked by: [[WD-2gyw]]
 - Follows: [[WD-2gyw]], [[WD-cpow]]
-- Led to: [[WD-bxhc]]
+- Led to: [[WD-bxhc]], [[WD-dmf2]]
 
 ## Comments
 

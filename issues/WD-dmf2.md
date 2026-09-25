@@ -1,17 +1,19 @@
 ---
 id: WD-dmf2
 title: "Director composition evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-24T15:48:06Z
-content_hash: "sha256:dd9cbf9bfe1d22d835378dba3d96538fb9b9aeb09d0d90f880edf6f2ff5d756d"
+updated_at: 2026-09-25T21:28:59Z
+content_hash: "sha256:cc643107fb0dc9c527f729956f575c3d9162cc2c9d87d9a7c69028a7c00f340d"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
+assignee: dev-WD-dmf2
+follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 ---
 
 ## Description
@@ -128,10 +130,17 @@ Observable outcome: an explicitly authorized future run stores the composed dire
 - 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
 - 2026-09-25T20:13:03Z dep_removed: was_blocked_by WD-r81u
 - 2026-09-25T21:27:31Z dep_removed: was_blocked_by WD-bxhc
+- 2026-09-25T21:28:59Z status: open -> in_progress
+- 2026-09-25T21:28:59Z auto-follows: linked to predecessor WD-rous
+- 2026-09-25T21:28:59Z auto-follows: linked to predecessor WD-2gyw
+- 2026-09-25T21:28:59Z auto-follows: linked to predecessor WD-r81u
+- 2026-09-25T21:28:59Z auto-follows: linked to predecessor WD-bxhc
+- 2026-09-25T21:28:59Z claimed by dev-WD-dmf2
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]]
+- Follows: [[WD-rous]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]]
 
 ## Comments

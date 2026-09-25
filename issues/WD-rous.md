@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-25T05:04:48Z
-content_hash: "sha256:4f033c71e9a06bcf842f57b007b8b2d99868c2092b0590882a9c8919aa7bf6d7"
+content_hash: "sha256:e9637f4ce45ccfd84bd91979311f59d596eb3468d9ff312cdd0957b9ea79e75d"
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
 closed_at: 2026-09-25T05:04:03Z
 close_reason: "Accepted: independently recomputed all three SHA-256 hashes; measured real non-silent 10 s PCM audio; ACE outputs are distinct; Stable 44.1 kHz mismatch is measured against the pre-existing fixed 48 kHz target; disk-floor derivation, flash_attn boundary, checker, and standing gates pass at 14b49def010a752269fa3824374f750b6d2cdc2c."
-led_to: [WD-cpow, WD-2gyw, WD-bxhc]
+led_to: [WD-cpow, WD-2gyw, WD-bxhc, WD-dmf2]
 ---
 
 ## Description
@@ -310,7 +310,7 @@ Observable outcome: an explicitly authorized future run emits hashed music artif
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-e4r7]], [[WD-m0r5]], [[WD-651z]]
-- Led to: [[WD-cpow]], [[WD-2gyw]], [[WD-bxhc]]
+- Led to: [[WD-cpow]], [[WD-2gyw]], [[WD-bxhc]], [[WD-dmf2]]
 
 ## Comments
 
