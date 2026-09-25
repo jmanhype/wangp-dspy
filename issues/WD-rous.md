@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-25T04:32:09Z
-content_hash: "sha256:e68d65dae873a477547363db6a036e15e561cdd38dac49a1c46b6bad1f5f36cf"
+content_hash: "sha256:d243deddb336f96837ae72e6f5feef8541e3a89a782b4b93c6364e290d910d57"
 blocks: [WD-dmf2, WD-fay0]
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
@@ -95,6 +95,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-24.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: WD-rous produced one pushed evidence bundle with real ACE-Step generate and style-adaptation outputs, a real Stable Audio attempt measured incompatible with the 48 kHz target, complete provenance/queue/hash/metadata/gates, and pending reviewer verdict.
