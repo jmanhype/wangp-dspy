@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T20:23:44Z
-content_hash: "sha256:e965335f12360234875ede4635a7eb066dd03e8b5f2629d2ee1478fa051ed95e"
+content_hash: "sha256:43a6b867fe5c99471f854935f4249fac7582620587d047ad63684e971dc65ab0"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
@@ -295,3 +295,27 @@ status: delivered
 ### proof
 - [x] AC #1 through AC #8 remain as evidenced in WD-bxhc; only the SHA typo is corrected.
 
+
+### 2026-09-25T20:23:44Z speed
+## PM Decision
+REJECTED [2026-09-25]
+
+EXPECTED: Reviewer approval must remain pending until independent review, and every cloning artifact must carry exact reference provenance plus the verbatim consent/licence field required by AC #2.
+DELIVERED: evidence.json reviewer_verdict.decision is pending, but the developer already promoted all four voice cells in docs/voice-capabilities.md:43-44 and all 18 character cells in docs/character-capabilities.md:48-56 to host_run_verified before review. The one-reference clone sidecar at datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav.vibevoice.json:22-27 uses consent_ref operator-authorization.md#wd-cpow-synthetic-primary, although operator-authorization.md:1-25 contains neither that anchor nor reference-specific consent text; the same sidecar mislabels the WD-cpow VibeVoice reference as a WD-bxhc output under MIT Chatterbox upstream. Independent hash/media checks passed, but these consent/provenance and premature matrix-state defects fail the hard lane gate.
+GAP: The one/two-reference clone cells cannot be reviewer-verified while their cloning provenance is internally inconsistent and the cited consent reference is unresolved. Because the saved .wgpvoice and character video reuse those references, Saved voice binding and Cross-mode identity preservation are also not approved. All already-promoted rows remain an overclaim while reviewer_verdict is pending.
+FIX: Rebuild the provenance/sidecars and consent record so each cloning reference cites an actually resolvable verbatim operator consent statement with the correct WD-cpow/VibeVoice source and licence; restore every targeted matrix cell to its pre-review pending/planned state (or otherwise express evidence_complete_pending_review without host_run_verified), then redeliver for independent review. Genuine plain-speech audio does not cure clone consent defects.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Independent output and reference SHA-256 recomputation: all 6 outputs and 7 reference paths matched.
+- Independent ffprobe/ffmpeg measurements found four real, non-silent, pairwise-distinct 24 kHz mono WAVs.
+- Canonical checker failed only reviewer_verdict.decision as expected before approval.
+- Full suite JUnit tests=2085 errors=0 failures=0 skipped=1; wgp release verify release=ready tag_created=false; git diff --check passed; protected-file parity versus c91a6d8 passed.
+- No reviewer rows were flipped and reviewer_verdict was not changed.
+
+### proof
+- [ ] AC #2: exact, resolvable consent/licence provenance for every cloning artifact.
+- [ ] AC #4/AC #5: matrix terminal states must not be host_run_verified before reviewer approval.
+- [ ] AC #7: clone, saved-voice, and cross-mode cells require a reworked evidence chain.
