@@ -4,7 +4,7 @@ title: "Finishing generation evidence"
 status: in_progress
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration]
+labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
