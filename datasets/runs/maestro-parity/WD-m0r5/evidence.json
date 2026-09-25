@@ -934,13 +934,16 @@
     "commit_semantics": "b7d2748 is the clean commit staged immediately before the primary qwen-batch native command; the primary command did not run at the later evidence-emission commit."
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "qwen-contact-sheet.jpg",
       "flux-contact-sheet.jpg",
       "identity-gates-final.json",
       "qwen-batch.native.log",
-      "flux-batch.native.log"
+      "flux-batch.native.log",
+      "operator-authorization.md",
+      "selected-download.log",
+      "selected-doctor-preflight-after-download.json"
     ]
   },
   "row_dispositions": {
