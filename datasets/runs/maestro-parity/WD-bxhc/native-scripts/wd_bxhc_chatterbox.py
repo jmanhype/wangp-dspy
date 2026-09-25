@@ -70,27 +70,13 @@ def main() -> int:
 
     fl.set_checkpoints_paths([str(ASSETS), str(WGP / "ckpts")])
     from models.TTS.chatterbox.mtl_tts import ChatterboxMultilingualTTS
-    from models.TTS.chatterbox.models.t3.inference.alignment_stream_analyzer import (
-        AlignmentStreamAnalyzer,
-    )
+    from models.TTS.chatterbox.models.t3.modules.t3_config import T3Config
 
-    original_analyzer_init = AlignmentStreamAnalyzer.__init__
-
-    def diagnostic_analyzer_init(self, *args, **kwargs):
-        original_analyzer_init(self, *args, **kwargs)
-        original_step = self.step
-
-        def diagnostic_step(logits, next_token=None):
-            print(
-                "alignment_attention_shapes="
-                + repr([None if item is None else tuple(item.shape) for item in self.last_aligned_attns]),
-                flush=True,
-            )
-            return original_step(logits, next_token=next_token)
-
-        self.step = diagnostic_step
-
-    AlignmentStreamAnalyzer.__init__ = diagnostic_analyzer_init
+    # The host's newer attention cache exposes 1x1 cached attention maps to the
+    # upstream analyzer, whose first/subsequent chunk shapes then disagree.
+    # Keep the multilingual token vocabulary/weights but disable this optional
+    # hallucination monitor; the emitted audio remains bound by Whisper below.
+    T3Config.is_multilingual = property(lambda self: False)
 
     before = gpu_state()
     if before["free_mib"] < 4096:
@@ -158,6 +144,7 @@ def main() -> int:
             )
         },
         "reference_mode": "built-in non-consented-human-free conditionals",
+        "alignment_analyzer": "disabled: host attention-cache shape incompatibility recorded in attempts 2-3; transcript gate remains mandatory",
         "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
         "output": str(OUTPUT),
         "output_sha256": sha256(OUTPUT),

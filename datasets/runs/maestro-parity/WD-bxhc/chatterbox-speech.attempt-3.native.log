@@ -1,0 +1,21 @@
+WARNING:models.TTS.chatterbox.models.tokenizers.tokenizer:pkuseg not available - Chinese segmentation will be skipped
+alignment_attention_shapes=[(85, 85), (85, 85), (85, 85)]
+Sampling:   0%|          | 0/1000 [00:00<?, ?it/s]alignment_attention_shapes=[(1, 1), (1, 1), (1, 1)]
+Sampling:   0%|          | 1/1000 [00:00<00:46, 21.46it/s]
+Traceback (most recent call last):
+  File "<stdin>", line 178, in <module>
+  File "<stdin>", line 112, in main
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/mtl_tts.py", line 272, in generate
+    speech_tokens = self.t3.inference(
+                    ^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/t3.py", line 348, in inference
+    logits = self.patched_model.alignment_stream_analyzer.step(logits, next_token=last_token)  # (1, V)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<stdin>", line 89, in diagnostic_step
+  File "/home/straughter/Wan2GP/models/TTS/chatterbox/models/t3/inference/alignment_stream_analyzer.py", line 191, in step
+    self.alignment = torch.cat((self.alignment, A_chunk), dim=0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 0. Expected size 49 but got size 0 for tensor number 1 in the list.
