@@ -1,0 +1,7 @@
+diagnostic code=INPUT_INVALID severity=error: Typed input or configuration check failed
+  observed: tree is dirty: changed_path_count=2, untracked_path_count=2
+  why: The CLI rejected the request before an engine side effect.
+  remediation: Fix the named field/path/configuration value, then rerun the same command.
+  next: wgp release verify --json
+  evidence: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dmf2
+  details: {"source": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dmf2"}
