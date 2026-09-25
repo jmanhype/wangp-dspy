@@ -1,3 +1,5 @@
+reference_consent_verification: passed; cloning reuse consent not evidenced
+matrix_parse: passed; 2 verified voice cells, 2 pending voice cells, 14 verified character cells, 4 pending character cells
 fullsuite: tests=2085 errors=0 failures=0 skipped=1
 release_verify: release=ready tag_created=false
 protected_diff_c91a6d8: exit=0
