@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:12:34Z
-content_hash: "sha256:1e161dcb937f2b96f71865dd0532721da7163bfe67f26816a01bd0d5d1c4bdbc"
+updated_at: 2026-09-25T04:13:44Z
+content_hash: "sha256:44143f4e8d0e47e1f8a1c4468532aeebe4b2d7c561673f2d796bf301aa51bd98"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
@@ -271,3 +271,32 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]]
 
 ## Comments
+
+### 2026-09-25T04:13:43Z speed
+## Implementation Evidence (DELIVERED)
+
+Commands run:
+- uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py — 6 passed.
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-0zj8-full.xml — JUnit tests=2085 errors=0 failures=0 skipped=1.
+- uv run --frozen --extra dev wgp release verify — release=ready tag_created=false.
+- git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py — clean.
+- git diff --check — clean.
+
+Summary: PARTIAL no-GPU delivery. Clean disposable checkout installed, planned clips=4, then failed closed exit 3 with HOST_CONFIGURATION_INCOMPLETE and MODEL_MANIFEST_REQUIRED; generated_artifact=false host_run_verified=false. AC2 partial; AC3 blocked.
+
+Commit SHA: 2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1
+
+## nd_contract
+status: delivered
+
+### evidence
+- Clean command: sh install.sh --source "$PWD" --clean-proof "${TMPDIR:-/tmp}/wangp-clean-machine". Plan SHA-256 935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb; full suite zero errors/failures; release ready; protected files clean; branch pushed.
+
+### proof
+- [x] AC #1 clean install+plan.
+- [ ] AC #2 PARTIAL absent host/model only.
+- [ ] AC #3 BLOCKED operator inputs absent.
+- [x] AC #4 no fabricated host-run evidence.
+- [x] AC #5 provenance recorded.
+- [x] AC #6 boundary documented.
+- [x] AC #7 protected files unchanged.
