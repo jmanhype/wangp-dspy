@@ -1,0 +1,2 @@
+713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf  /home/straughter/Wan2GP/wd-r81u/assets/models/realesrgan-x4plus.bin
+35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86  /home/straughter/Wan2GP/wd-r81u/assets/models/realesrgan-x4plus.param

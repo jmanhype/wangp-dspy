@@ -1,0 +1,8 @@
+2026-09-25T18:41:00Z
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 808203386880 41048621056  96% /
+NVIDIA GeForce RTX 3090, 24576 MiB, 7841 MiB
+2591141, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB
+3398525 Sl   /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=timeout 50 /home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_final_state.sh
+3398558 S    timeout 50 /home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_final_state.sh
+3398561 S    bash /home/straughter/Wan2GP/wd-r81u/host-scripts/wd_r81u_final_state.sh

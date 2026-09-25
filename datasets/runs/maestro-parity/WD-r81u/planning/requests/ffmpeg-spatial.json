@@ -1,0 +1,31 @@
+{
+  "backend": "ffmpeg",
+  "output": {
+    "codec": "h264",
+    "container": "mp4",
+    "measurement": "planned_ffprobe_unverified",
+    "overwrite": false,
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-r81u/datasets/runs/maestro-parity/WD-r81u/planning/planned-ffmpeg-spatial.mp4"
+  },
+  "recipe_seed": 8107,
+  "schema_version": "wangp-dspy.finishing-request/v1",
+  "source": {
+    "immutable": true,
+    "measurement": "declared_ffprobe_unverified",
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-r81u/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+    "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+    "stream": {
+      "avg_frame_rate": "24/1",
+      "codec_name": "h264",
+      "codec_type": "video",
+      "duration_s": 2.333333,
+      "height": 832,
+      "index": 0,
+      "width": 480
+    }
+  },
+  "spatial_upscale": {
+    "model_sha256": null,
+    "scale": "x2"
+  }
+}
