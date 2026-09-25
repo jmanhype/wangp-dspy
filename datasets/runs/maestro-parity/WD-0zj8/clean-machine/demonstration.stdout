@@ -8,7 +8,7 @@
        remediation: Supply --models with path and sha256 entries before host work.
 [SKIP] host_configuration: host.target=unconfigured [unconfigured]; host.wgp_root=unconfigured [unconfigured]; host.pull_root=/private/tmp/wd-0zj-clean-source/datasets/runs/pull [detection (/private/tmp/wd-0zj-clean-source)]; host.wgp_python=unconfigured [unconfigured]; the no-GPU lane remains ready
        remediation: Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, WANGP_WGP_PYTHON (or the corresponding [host] keys) for GPU work.
-[PASS] local_disk_headroom: 83G free on the repository volume
+[PASS] local_disk_headroom: 81G free on the repository volume
 ready=yes
 Clean-machine no-GPU lane: syncing the disposable checkout.
 Clean-machine no-GPU lane: emitting the deterministic plan.

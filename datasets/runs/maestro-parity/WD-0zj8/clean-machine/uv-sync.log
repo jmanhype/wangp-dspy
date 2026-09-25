@@ -1,19 +1,19 @@
 Using CPython 3.12.13 interpreter at: /Users/speed/.local/bin/python3.12
 Creating virtual environment at: .venv
-Resolved 122 packages in 1ms
+Resolved 122 packages in 0.37ms
    Building wangp-dspy @ file:///private/tmp/wangp-clean-machine/checkout
-Downloading scikit-learn (7.9MiB)
-Downloading soundfile (1.1MiB)
 Downloading hf-xet (3.7MiB)
-Downloading tokenizers (2.8MiB)
-Downloading pygments (1.2MiB)
+Downloading scipy (19.5MiB)
 Downloading llvmlite (38.6MiB)
 Downloading pydantic-core (1.9MiB)
-Downloading numpy (5.1MiB)
+Downloading pygments (1.2MiB)
 Downloading openai (1.6MiB)
-Downloading numba (2.6MiB)
-Downloading scipy (19.5MiB)
+Downloading numpy (5.1MiB)
 Downloading litellm (22.8MiB)
+Downloading soundfile (1.1MiB)
+Downloading numba (2.6MiB)
+Downloading scikit-learn (7.9MiB)
+Downloading tokenizers (2.8MiB)
       Built wangp-dspy @ file:///private/tmp/wangp-clean-machine/checkout
  Downloaded soundfile
  Downloaded pydantic-core
@@ -27,8 +27,8 @@ Downloading litellm (22.8MiB)
  Downloaded scipy
  Downloaded llvmlite
  Downloaded litellm
-Prepared 84 packages in 3.57s
-Installed 84 packages in 300ms
+Prepared 84 packages in 2.66s
+Installed 84 packages in 269ms
  + aiohappyeyeballs==2.7.1
  + aiohttp==3.14.3
  + aiosignal==1.4.0

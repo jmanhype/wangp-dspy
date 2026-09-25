@@ -61,12 +61,12 @@
     "queue_admitted": false,
     "ssh_contacted": false
   },
-  "installer_sha256": "e28bbfc39496764d3c57c7d0a3030731a6783485d36e359d3bccf518042965c1",
+  "installer_sha256": "37b1a1477a3fe9dad988ce989b50aab919d8aa505ec9172452cb9ff7c36c86d6",
   "outcome": "plan_emitted_generation_refused",
   "plan": {
     "path": "/tmp/wangp-clean-machine/proof/plan.json",
     "schema_version": "wangp-dspy.content-plan/v1",
-    "sha256": "935f3ed64ba19d16aba7059d075fcfd8e99df66cca899357a10a7fca6c2fd0bb",
+    "sha256": "91b391a80268eee68701b32a8f95bfc59d9bdf720ed68425436651295d7d82be",
     "summary": {
       "clip_count": 4,
       "dry_run": true,
@@ -87,7 +87,7 @@
     "checkout": "/tmp/wangp-clean-machine/checkout",
     "clone_source": "/tmp/wd-0zj-clean-source",
     "dirty_tree": false,
-    "resolved_commit": "6f8f10f19e502b6938a329311c99dc6b9af95806",
+    "resolved_commit": "212f12058e1704f9c1657437f7698c4f4e126d21",
     "selected": "/tmp/wd-0zj-clean-source"
   },
   "tools": {
