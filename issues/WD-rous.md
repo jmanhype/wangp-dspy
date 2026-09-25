@@ -9,10 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-25T04:31:02Z
-content_hash: "sha256:c6cadec7db18aa5f91feada0f7d65e9da333c341c23fd882dba706400bece954"
+content_hash: "sha256:8e7b5ce339800ea965ef76042714907a065a2d1ea5b520d2746026c0153c4f33"
 blocks: [WD-dmf2, WD-fay0]
 assignee: dev-WD-rous
-follows: [WD-e4r7]
+follows: [WD-e4r7, WD-m0r5]
 ---
 
 ## Description
@@ -201,10 +201,12 @@ Observable outcome: an explicitly authorized future run emits hashed music artif
 - 2026-09-25T03:35:35Z status: open -> in_progress
 - 2026-09-25T03:35:35Z auto-follows: linked to predecessor WD-e4r7
 - 2026-09-25T03:35:35Z claimed by dev-WD-rous
+- 2026-09-25T04:31:02Z status: in_progress -> in_progress
+- 2026-09-25T04:31:02Z auto-follows: linked to predecessor WD-m0r5
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
-- Follows: [[WD-e4r7]]
+- Follows: [[WD-e4r7]], [[WD-m0r5]]
 
 ## Comments
