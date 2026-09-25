@@ -161,7 +161,7 @@ def main() -> int:
     model = AutoModelForTextToWaveform.from_pretrained(
         MODEL,
         device_map="auto",
-        max_memory={0: "14GiB", "cpu": "20GiB"},
+        max_memory={0: "14GiB", "cpu": "26GiB"},
     )
     device = execution_device(model)
     meta_parameters = sum(
@@ -290,7 +290,7 @@ def main() -> int:
             path.stat().st_size for path in MODEL.rglob("*") if path.is_file()
         ),
         "device": device,
-        "max_memory": {"0": "14GiB", "cpu": "20GiB"},
+        "max_memory": {"0": "14GiB", "cpu": "26GiB"},
         "meta_parameters": meta_parameters,
         "pass_bar": PASS_BAR,
         "turns": records,
