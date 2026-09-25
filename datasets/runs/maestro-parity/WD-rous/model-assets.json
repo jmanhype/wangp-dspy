@@ -28,7 +28,7 @@
     {
       "id": "stable-audio-t5gemma-config",
       "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/config.json",
-      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a",
       "size_bytes": 2540,
       "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json"
@@ -36,7 +36,7 @@
     {
       "id": "stable-audio-t5gemma-special-tokens",
       "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/special_tokens_map.json",
-      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351",
       "size_bytes": 636,
       "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json"
@@ -60,7 +60,7 @@
     {
       "id": "stable-audio-tokenizer-config",
       "source_url": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer_config.json",
-      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f",
       "size_bytes": 46437,
       "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json"
