@@ -4,7 +4,7 @@ title: "Image generation evidence"
 status: closed
 priority: 1
 type: feature
-labels: [capability, evidence, external-integration, walking-skeleton, delivered, accepted]
+labels: [capability, evidence, external-integration, walking-skeleton, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
