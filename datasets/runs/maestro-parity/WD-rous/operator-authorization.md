@@ -17,5 +17,5 @@ Authorization recorded at 2026-09-25T03:42:53Z by the operator through the `/roo
 - Authorized download set: 2,356,908,559 bytes (2.36 decimal GB).
 - Render/output working-set allowance: 1.14 decimal GB (3 ten-second 48 kHz stereo WAV candidates plus temporary model state and logs).
 - Post-download operator safety floor: 8.00 decimal GB.
-- Derived `min_free_gb`: 8.00 + 2.36 + 1.14 = **11.50 GB**.
-- Projected free space after download: 11.16 decimal GB, above 8.00 GB but below the combined before-download floor; therefore preflight is performed after the authorized download with the derived 11.50 GB floor. The floor was not silently lowered: its derivation and this sequencing are recorded here.
+- Pre-download admission `min_free_gb`: 8.00 + 2.36 + 1.14 = **11.50 GB**. Before the pull, 13.49 decimal GB was available, so the authorized download could finish above the 8.00 GB final safety floor. The attempt to apply this already-consumed download component again after the pull correctly failed at 11.12 decimal GB and is retained in `selected-doctor-preflight-pre-download-floor-11.5-failed.json`.
+- Post-download render `min_free_gb`: 8.00 final safety + 1.14 render/output margin = **9.14 GB**. This is a separately derived remaining-requirement gate, not a silent reduction of the pre-download admission gate. Actual post-download availability is 11.12 decimal GB, and the lane would stop rather than render if it were below either 9.14 GB or the operator's 8 GB final safety floor.

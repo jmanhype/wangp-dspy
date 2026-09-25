@@ -21,9 +21,9 @@ def main() -> int:
     host = render_host(config)
     report = run_preflight(
         host,
-        models=remote_model_specs(models, wgp_root=config.wgp_root),
+        models=remote_model_specs(models, wgp_root=config.wgp_root.value),
         min_free_gb=min_free_gb,
-        disk_path=str(config.wgp_root),
+        disk_path=config.wgp_root.value,
         qc_url=environment.get("WANGP_QC_URL", "http://localhost:8000/health"),
     )
     payload = {
