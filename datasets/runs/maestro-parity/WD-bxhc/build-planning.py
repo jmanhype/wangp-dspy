@@ -37,17 +37,17 @@ def reference(name: str, role: str, duration_s: float) -> dict[str, object]:
         "role": role,
         "duration_s": duration_s,
         "source": (
-            "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+            "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
             if primary else
-            "WD-cpow operator-owned synthetic target voice, reused only as a reference"
+            "WD-cpow VibeVoice-prepared synthetic output, reused only as the secondary reference"
         ),
         "license": (
-            "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution"
+            "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"
             if primary else
             "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"
         ),
         "consent_ref": (
-            "operator-authorization.md#wd-bxhc-synthetic-primary"
+            "operator-authorization.md#wd-cpow-synthetic-primary"
             if primary else
             "operator-authorization.md#wd-cpow-synthetic-secondary"
         ),
@@ -127,15 +127,15 @@ def main() -> int:
             "vibevoice", "vibe_7b", "voice_clone",
             "One reference keeps this speaker on the portable anchor.",
             "outputs/wd_bxhc_vibevoice_clone_one.wav", 9421,
-            [reference("voice-primary-vibe.wav", "primary", 2.5)],
+            [reference("voice-primary-vibe.wav", "primary", 2.364958)],
         ),
         "vibevoice-clone-two.json": request(
             "vibevoice", "vibe_7b", "voice_clone",
             "Two references keep this speaker on the portable anchor.",
             "outputs/wd_bxhc_vibevoice_clone_two.wav", 9431,
             [
-                reference("voice-primary-vibe.wav", "primary", 2.5),
-                reference("voice-secondary.wav", "secondary", 2.364958),
+                reference("voice-primary-vibe.wav", "primary", 2.364958),
+                reference("voice-secondary.wav", "secondary", 2.333333),
             ],
         ),
     }

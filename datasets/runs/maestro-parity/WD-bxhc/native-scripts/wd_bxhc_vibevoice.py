@@ -114,9 +114,9 @@ def reference_record(path: Path) -> dict[str, str]:
         "sha256": sha256(path),
         "role": "primary" if primary else "secondary",
         "source": (
-            "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+            "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
             if primary else
-            "WD-cpow operator-owned synthetic target voice, reused only as a reference"
+            "WD-cpow VibeVoice-prepared synthetic output, reused only as the secondary reference"
         ),
         "license": (
             "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution"
@@ -124,7 +124,7 @@ def reference_record(path: Path) -> dict[str, str]:
             "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution"
         ),
         "consent_ref": (
-            "operator-authorization.md#wd-bxhc-synthetic-primary"
+            "operator-authorization.md#wd-cpow-synthetic-primary"
             if primary else
             "operator-authorization.md#wd-cpow-synthetic-secondary"
         ),

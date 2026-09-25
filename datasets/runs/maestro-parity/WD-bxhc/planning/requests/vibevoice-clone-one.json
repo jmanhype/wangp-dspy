@@ -9,13 +9,13 @@
   "recipe_seed": 9421,
   "references": [
     {
-      "consent_ref": "operator-authorization.md#wd-bxhc-synthetic-primary",
-      "duration_s": 2.5,
-      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
+      "consent_ref": "operator-authorization.md#wd-cpow-synthetic-primary",
+      "duration_s": 2.364958,
+      "license": "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution",
       "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
       "role": "primary",
-      "sha256": "52897ab293fb92564a7b220caf14ac9c39fcf101b55204f0eb1784aa61a2fab5",
-      "source": "First 2.5 s of the WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "source": "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
     }
   ],
   "schema_version": "wangp-dspy.speech-capability-request/v1",
