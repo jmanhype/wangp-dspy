@@ -9,6 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import torch
+
 
 HOST_REPO = Path("/home/straughter/wangp-dspy-vibevoice-20260916")
 BUNDLE = HOST_REPO / "datasets" / "runs" / "maestro-parity" / "WD-bxhc"
@@ -159,10 +161,13 @@ def main() -> int:
 
     processor = AutoProcessor.from_pretrained(MODEL)
     model = AutoModelForTextToWaveform.from_pretrained(
-        MODEL,
-        device_map="auto",
-        max_memory={0: "14GiB", "cpu": "26GiB"},
+        MODEL, device_map={"": "cpu"}, max_memory={"cpu": "26GiB"},
     )
+    from quanto import freeze, qint8, quantize
+
+    quantize(model, weights=qint8)
+    freeze(model)
+    model.to(torch.device("cuda"))
     device = execution_device(model)
     meta_parameters = sum(
         parameter.device.type == "meta" for parameter in model.parameters()
@@ -303,7 +308,8 @@ def main() -> int:
             path.stat().st_size for path in MODEL.rglob("*") if path.is_file()
         ),
         "device": device,
-        "max_memory": {"0": "14GiB", "cpu": "26GiB"},
+        "placement": "CPU load verified without meta tensors; quanto int8 weights frozen on CUDA beside the untouched operator judge",
+        "quantization": "quanto qint8 weights",
         "meta_parameters": meta_parameters,
         "pass_bar": PASS_BAR,
         "turns": records,

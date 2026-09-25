@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/1205 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1205/1205 [00:00<00:00, 12067.97it/s]
+{"device_counts": {"cuda:0": 1205}, "first_meta_parameters": [], "meta_parameter_count": 0, "mode": "cpu-load-quanto-int8-cuda"}
