@@ -4,11 +4,11 @@ title: "Video breadth generation evidence"
 status: closed
 priority: 1
 type: feature
-labels: [capability, evidence, external-integration, delivered]
+labels: [capability, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T18:11:21Z
+updated_at: 2026-09-25T18:11:22Z
 content_hash: "sha256:bcc70996f3a643e26749a182db4c9f494e14761f4e6d6da6e57393d428c5eae3"
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
