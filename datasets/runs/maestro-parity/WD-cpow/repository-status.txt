@@ -1,0 +1,6 @@
+?? datasets/runs/maestro-parity/WD-cpow/deepfilternet-refine-report.json
+?? datasets/runs/maestro-parity/WD-cpow/deepfilternet-refine.native.log
+?? datasets/runs/maestro-parity/WD-cpow/ffprobe-wd_cpow_deepfilternet_refine.json
+?? datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_deepfilternet_refine.mp4
+?? datasets/runs/maestro-parity/WD-cpow/repository-status.txt
+?? datasets/runs/maestro-parity/WD-cpow/video-stream-hash.refine.txt

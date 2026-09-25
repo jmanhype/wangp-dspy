@@ -1,0 +1,5 @@
+down: not running
+down
+--- process check ---
+--- gpu ---
+3333716, 7752 MiB, /home/straughter/llama.cpp/build/bin/llama-server

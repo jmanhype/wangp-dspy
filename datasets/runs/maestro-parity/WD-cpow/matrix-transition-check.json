@@ -1,0 +1,27 @@
+{
+  "rows": [
+    {
+      "engine_mode": "stable_audio/sound_effect",
+      "before": "planned",
+      "after": "unsupported_on_this_hardware",
+      "citation": "stable-audio-infeasibility.md",
+      "reason": "authorized real attempt emitted 44.1 kHz stereo rather than the fixed 48 kHz target"
+    },
+    {
+      "engine_mode": "vibevoice/revoice",
+      "before": "planned",
+      "after": "planned_pending_reviewer",
+      "citation": "evidence.json",
+      "reason": "real hashed output and passing objective gates exist, but reviewer_verdict is pending and the canonical checker therefore fails"
+    },
+    {
+      "engine_mode": "deepfilternet/refinement",
+      "before": "planned",
+      "after": "planned_pending_reviewer",
+      "citation": "evidence.json",
+      "reason": "real hashed output and passing objective gates exist, but reviewer_verdict is pending and the canonical checker therefore fails"
+    }
+  ],
+  "off_diagonal_boundaries": "unchanged as planning-unsupported; no evidence or hardware verdict was inferred",
+  "checker": "checker-result.txt"
+}

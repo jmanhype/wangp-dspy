@@ -1,0 +1,136 @@
+[
+  {
+    "inputs": [
+      "outputs/wd_cpow_stable_sfx.wav",
+      "audio-statistics.json"
+    ],
+    "measured": 0.789872426854435,
+    "name": "stable_sfx_attempt_nonblank_rms",
+    "operation": "sfx",
+    "row": "stable_audio/sound_effect",
+    "threshold": 0.001,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_stable_sfx.wav",
+      "ffprobe-wd_cpow_stable_sfx.json"
+    ],
+    "measured": 2.25,
+    "name": "stable_sfx_attempt_duration_s",
+    "operation": "sfx",
+    "row": "stable_audio/sound_effect",
+    "threshold": 2.25,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "vibevoice-report.json",
+      "outputs/wd_cpow_vibevoice_raw.prepared.wav"
+    ],
+    "measured": 1.0,
+    "name": "revoice_whisper_score",
+    "operation": "revoice",
+    "row": "vibevoice/revoice",
+    "threshold": 0.8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "video-stream-hash.source.txt",
+      "video-stream-hash.revoice.txt"
+    ],
+    "measured": 1,
+    "name": "revoice_video_stream_hash_match",
+    "operation": "revoice",
+    "row": "vibevoice/revoice",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "ffprobe-wd_cpow_vibevoice_revoice.json"
+    ],
+    "measured": 48000,
+    "name": "revoice_sample_rate_hz",
+    "operation": "revoice",
+    "row": "vibevoice/revoice",
+    "threshold": 48000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "ffprobe-wd_cpow_vibevoice_revoice.json"
+    ],
+    "measured": 2,
+    "name": "revoice_channels",
+    "operation": "revoice",
+    "row": "vibevoice/revoice",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "video-stream-hash.source.txt",
+      "video-stream-hash.refine.txt"
+    ],
+    "measured": 1,
+    "name": "refine_video_stream_hash_match",
+    "operation": "refine",
+    "row": "deepfilternet/refinement",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "ffprobe-wd_cpow_deepfilternet_refine.json"
+    ],
+    "measured": 48000,
+    "name": "refine_sample_rate_hz",
+    "operation": "refine",
+    "row": "deepfilternet/refinement",
+    "threshold": 48000,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "ffprobe-wd_cpow_deepfilternet_refine.json"
+    ],
+    "measured": 2,
+    "name": "refine_channels",
+    "operation": "refine",
+    "row": "deepfilternet/refinement",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "loudness-refine.txt",
+      "audio-statistics.json"
+    ],
+    "measured": 0.0,
+    "name": "refine_target_lufs_error",
+    "operation": "refine",
+    "row": "deepfilternet/refinement",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "audio-statistics.json"
+    ],
+    "measured": 0.0031915837117848897,
+    "name": "refine_audible_ab_mean_absolute_delta",
+    "operation": "refine",
+    "row": "deepfilternet/refinement",
+    "threshold": 0.001,
+    "verdict": "pass"
+  }
+]
