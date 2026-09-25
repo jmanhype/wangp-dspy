@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T03:35:35Z
-content_hash: "sha256:0fc02b6b424d15408b44b7b30176f351ebf926f8b28f2515fb9c2c8576604041"
+updated_at: 2026-09-25T04:31:02Z
+content_hash: "sha256:c6cadec7db18aa5f91feada0f7d65e9da333c341c23fd882dba706400bece954"
 blocks: [WD-dmf2, WD-fay0]
 assignee: dev-WD-rous
 follows: [WD-e4r7]
@@ -95,6 +95,99 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### Authorization, host, download, and disk
+- Verbatim operator chain, 20 GB ceiling, scope, and timestamp: `datasets/runs/maestro-parity/WD-rous/operator-authorization.md`.
+- Host verification: SSH user `straughter` on `straughter-Z690-Steel-Legend`; RTX 3090 24576 MiB; before generation 83 MiB used / 0%; final host state 83 MiB / 0%; no active lane process.
+- ACE-Step 1.5 root measured at 38G. Its venv reports Python 3.11.14, Torch 2.10.0+cu128, CUDA available. ACE venv `flash_attn=present`.
+- WanGP venv reports Python 3.11.15 and `flash_attn=absent`; Stable Audio Medium is blocked there, while Small explicitly continued without Flash Attention.
+- No-pull plan: 8 assets, 2,356,908,559 bytes; `DOWNLOAD_REQUIRES_OPERATOR` refusal recorded in `download-refusal.json`.
+- Actual bytes pulled: 2,356,908,559, every size/hash verified; before 13,486,784,512 bytes free, after 11,123,302,400. Disk floors recorded: pre-download 11.50 GB (failed reapplication retained), post-download render floor 9.14 GB, final safety 8 GB. Final free space 11,151,310,848 bytes.
+
+### Commands and artifacts
+- Exact command tails for ACE generate, Stable generate, and ACE style adapt: `execution-summary.md` and `additional_commands` in `evidence.json`.
+- Real JobQueue: `job-1790308519687-2e4298d1`, admitted/preflight/rendering, final `done`; all three clip logs/artifacts bound in `queue.db`.
+- Output SHA-256:
+  - ACE generate: `6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9`
+  - Stable generate: `40c0e22367561a6b9a0cd6869f2c5b9b61b803b9fcf660e4f7d2ea9bb0c6c6eb`
+  - ACE style adapt: `a062dbd91d61820c6e2267a387afbe7611721ef3b27ad4fa31b4ed86a2b45a99`
+- Measured ffprobe: both ACE outputs 10.000000 s / 48000 Hz / 2 channels / `pcm_s16le`; Stable 10.000000 s / 44100 Hz / 2 channels / `pcm_s16le`.
+- Objective gates pass for ACE generate and style A/B (`objective-gates.json`): nonblank RMS 0.0974779 and 0.0900015; style mean absolute A/B delta 0.0769801.
+- Stable infeasibility is measured in `stable-audio-infeasibility.md`: native model/config/output are 44100 Hz versus required 48000 Hz; no resample was relabeled as native generation.
+
+### Matrix transitions
+- `ace_step` Generate: planned -> `host_run_verified`; cited to WD-rous evidence generate record.
+- `ace_step` Style adapt: planned -> `host_run_verified`; cited to before/reference/output hashes and A/B gate.
+- `stable_audio` Generate: planned -> `unsupported_on_this_hardware`; cited to measured 44.1 kHz output/model requirement mismatch.
+- `stable_audio` Style adapt: `unsupported for planning` unchanged and not relabelled as a hardware verdict.
+- Parser proof: `matrix-transition-check.json` reports two named rows, all expected transitions/citations present, and PASS.
+
+### CI/Test Results
+- Commands:
+  - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-rous-full.xml`
+  - `uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-rous`
+- Full suite parsed counters: tests=2084, errors=0, failures=0, skipped=1. The sole skip is the pre-existing `WANGP_3090=1` live preflight gate; the actual lane preflight ran and passed all five checks at 9.14 GB.
+- Release: version/changelog/recipe_schema/tree all pass; `release=ready`, tag-ready `v0.1.0`, `tag_created=false`.
+- Protected-file parity versus dispatcher base `d8671f3`: exit 0. Also exit 0 versus this lane's primary base `3fd053f23d4bbd2dbcdecd4330ee4ce771961803`.
+- Story text's older `40f8c2b` base is stale relative to supplied `d8671f3`; predecessor preflight work was not reverted.
+- Checker result: `FAIL reviewer_verdict.decision: must be approved`, exit 1. This is the expected sole diagnostic; reviewer remains pending and no self-approval is claimed.
+- `git diff --check`: exit 0. Aggregate bundle size: 6,040,771 bytes.
+- Coverage percentage: not collected (the required JUnit full-suite gate was run without a coverage reporter).
+- Warning observed: pre-existing FastAPI Starlette deprecation warning from `fastapi/testclient.py` (httpx deprecation); no test failure.
+
+### Commit
+- Primary clean generation commit: `3fd053f23d4bbd2dbcdecd4330ee4ce771961803`.
+- Final branch/SHA: `story/WD-rous` / `1dcf95f` (full SHA recorded below after final commit).
+- Push: `git push origin story/WD-rous` succeeded; remote branch created.
+
+### pvg verify
+- Authoring: `VERIFY: PASSED (1 files scanned, 0 issues)` and subsequent lane script scans passed.
+- Evidence scan: `VERIFY: PASSED (0 files scanned, 0 issues)`.
+
+### AC Verification
+| AC # | Requirement | Evidence Location | Status |
+|---|---|---|---|
+| 1 | Verified only from complete real bundle | `evidence.json`, hashes, ffprobe, queue, gates | PASS for ACE cells; reviewer pending by explicit instruction |
+| 2 | Bad/partial evidence never flips | Stable 44.1 kHz output retained and marked incompatible | PASS |
+| 3 | Mechanical row update/citations | `docs/music-capabilities.md`, `matrix-transition-check.json` | PASS |
+| 4 | 48 kHz stereo metadata/provenance/rights/gates | `evidence.json`, ffprobe files, style reference provenance | PASS for submission; reviewer approval intentionally pending |
+| 5 | Unsupported requires measured cause | `stable-audio-infeasibility.md`, native 44.1 config/output | PASS |
+| 6 | No planned cell remains | `matrix-transition-check.json` | PASS |
+| 7 | No training/protected changes | queue/native logs, protected parity exits 0 | PASS versus supplied and lane bases; story base mismatch recorded |
+
+LEARNINGS:
+- Stable Audio 3 Small is structurally 44.1 kHz; real 48 kHz parity cannot be claimed without disclosing a resample.
+- ACE cover accepts a 44.1 kHz reference and emits 48 kHz, making it useful for cross-backend style A/B evidence.
+- Disk floors must distinguish pre-download admission from post-download render requirements; retaining the failed 11.5 GB post-download attempt prevents silent gate drift.
+- Runtime-specific Python environments matter: ACE venv has flash_attn while WanGP venv does not.
+
+### OBSERVATIONS (unrelated)
+- [CONCERN] Story AC 7 names base `40f8c2b`, but supplied branch base `d8671f3` already contains an accepted preflight change; dispatcher-required parity is against `d8671f3`.
+- [ISSUE] Full suite emits a pre-existing FastAPI/Starlette deprecation warning.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch `story/WD-rous`, final SHA `1dcf95f`, pushed.
+- Bundle `datasets/runs/maestro-parity/WD-rous/evidence.json`; outputs hashed; queue succeeded.
+- Full suite 2084/0 failures/0 errors; release ready/tag false; checker sole pending-reviewer failure.
+
+### proof
+- [x] AC #1: ACE generate/style cells have real 48 kHz stereo hashes, metadata, provenance, queue, and passing gates.
+- [x] AC #2: Stable target mismatch remains unverified/infeasible rather than fabricated.
+- [x] AC #3: Matrix rows mechanically cite bundle records.
+- [x] AC #4: Required submission fields and measured metadata present; reviewer pending as instructed.
+- [x] AC #5: Stable unsupported verdict uses measured 44.1 kHz native output/config.
+- [x] AC #6: All formerly planned cells terminal; stable planning boundary unchanged.
+- [x] AC #7: No training/GUI/registry/weight commit; protected parity passes versus supplied and lane bases.
+
 ## MANDATORY SKILLS
 - pvg
 
