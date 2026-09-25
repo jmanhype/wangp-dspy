@@ -893,7 +893,7 @@
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "execution-summary.md",
       "operator-authorization.md",
@@ -925,9 +925,18 @@
       "release-verify.txt",
       "standing-gates-final.txt",
       "protected-parity-c91a6d8.diff",
-      "git-diff-check.txt"
+      "git-diff-check.txt",
+      "inputs/voice-primary-vibe.wav",
+      "inputs/voice-secondary.wav",
+      "outputs/wd_bxhc_chatterbox_speech.wav",
+      "outputs/wd_bxhc_vibevoice_speech.wav",
+      "packages/portable-witness.wgpcharacter",
+      "packages/portable-witness.repeated.wgpcharacter",
+      "../WD-cpow/operator-authorization.md",
+      "../WD-cpow/inputs/target-voice.wav",
+      "../WD-cpow/outputs/wd_cpow_vibevoice_raw.prepared.wav"
     ],
-    "review": "Independent PM review is pending; the developer does not self-approve."
+    "review": "Independent PM re-review at aea2edec0df0d99e86f81cd69939d68d8ee3f7be approved the two plain-speech rows and seven deterministic character rows only. Both clone rows, Saved voice binding, and Cross-mode identity preservation are not delivered because WD-bxhc cloning-reuse consent is not evidenced; this is a partial acceptance, not a hardware-infeasibility verdict."
   },
   "row_dispositions": [
     {
