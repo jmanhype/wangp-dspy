@@ -1,18 +1,19 @@
 ---
 id: WD-cpow
 title: "SFX audio-post evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T05:52:57Z
-content_hash: "sha256:2a521cfdc2e86346464509fb4fc906b98c04ac48d89d60d2bea69174818fb8f8"
-blocks: [WD-fay0]
+updated_at: 2026-09-25T06:24:28Z
+content_hash: "sha256:9e0927ae1ad2705989c51bd9cd7a2a3354f03b6af0f7f89473e91e8140f85b74"
 assignee: dev-WD-cpow
 follows: [WD-rous, WD-0zj8]
+closed_at: 2026-09-25T06:24:28Z
+close_reason: "Approved after independent artifact hash, media packet-stream, gate, download-reuse, checker, and standing-gate verification at 10a5e92060041a0d7542ae46299730d6c639325f."
 ---
 
 ## Description
@@ -189,10 +190,11 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 - 2026-09-25T05:12:08Z claimed by dev-WD-cpow
 - 2026-09-25T05:51:23Z status: in_progress -> in_progress
 - 2026-09-25T05:51:23Z auto-follows: linked to predecessor WD-0zj8
+- 2026-09-25T06:24:28Z status: in_progress -> closed
+- 2026-09-25T06:24:28Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-rous]], [[WD-0zj8]]
 
 ## Comments
