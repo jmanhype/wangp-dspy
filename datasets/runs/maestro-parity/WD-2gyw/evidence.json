@@ -147,7 +147,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
       "download_approved": true,
       "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
       "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
       "size_bytes": 21057674787,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
@@ -156,7 +156,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
       "download_approved": true,
       "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
       "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
       "size_bytes": 5207806512,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors"
@@ -165,7 +165,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
       "download_approved": true,
       "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
       "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
       "size_bytes": 605429308,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors"
@@ -174,7 +174,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
       "download_approved": true,
       "identity": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
       "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
       "size_bytes": 26723791903,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors"
@@ -183,7 +183,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f",
       "size_bytes": 19483116168,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors"
@@ -192,7 +192,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_video_vae_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d",
       "size_bytes": 1452269922,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_vae_bf16.safetensors"
@@ -201,7 +201,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3",
       "size_bytes": 1472223346,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors"
@@ -210,7 +210,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_audio_vae_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028",
       "size_bytes": 106546028,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_vae_bf16.safetensors"
@@ -219,7 +219,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_vocoder_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435",
       "size_bytes": 258355696,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_vocoder_bf16.safetensors"
@@ -228,7 +228,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494",
       "size_bytes": 2312126712,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_text_embedding_projection_bf16.safetensors"
@@ -237,7 +237,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765",
       "size_bytes": 1615737560,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors"
@@ -246,7 +246,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362",
       "size_bytes": 405254656,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors"
@@ -255,7 +255,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8",
       "size_bytes": 995778752,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors"
@@ -264,7 +264,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
       "download_approved": true,
       "identity": "ltx25-ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
       "size_bytes": 261944000,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors"
@@ -273,7 +273,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors",
       "download_approved": true,
       "identity": "ltx25-gemma4-gemma4-12b-ltx-v1_int8_convrot.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903",
       "size_bytes": 12923893224,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors"
@@ -282,7 +282,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json",
       "download_approved": true,
       "identity": "ltx25-gemma4-tokenizer.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
       "size_bytes": 32169626,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/tokenizer.json"
@@ -291,7 +291,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json",
       "download_approved": true,
       "identity": "ltx25-gemma4-config.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0",
       "size_bytes": 2498,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/config.json"
@@ -300,7 +300,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja",
       "download_approved": true,
       "identity": "ltx25-gemma4-chat_template.jinja",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
       "size_bytes": 18683,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/chat_template.jinja"
@@ -309,7 +309,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json",
       "download_approved": true,
       "identity": "ltx25-gemma4-tokenizer_config.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "LTX-2.x Community License Agreement (license date August 11, 2026); operator research/evaluation only",
       "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8",
       "size_bytes": 3736,
       "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/tokenizer_config.json"
@@ -318,7 +318,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
       "download_approved": true,
       "identity": "hunyuan15-hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "b045f314ae1ef2fb50de8efd7aa3fbf67526ec12ce59537ec9827bd417b09b77",
       "size_bytes": 8503018313,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors"
@@ -327,7 +327,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors",
       "download_approved": true,
       "identity": "hunyuan15-hunyuan_video_1_5_VAE_fp32.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "2609ed7033c052fdf164afcac71e8a7c82afccdbb001d673444a72f194fbb918",
       "size_bytes": 5042560980,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE_fp32.safetensors"
@@ -336,7 +336,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE.json",
       "download_approved": true,
       "identity": "hunyuan15-hunyuan_video_1_5_VAE.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "899e63dae033b2fa14291cefbe6e1736741d816991456e96d4d497918dacf8af",
       "size_bytes": 462,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE.json"
@@ -345,7 +345,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/color_idx.json",
       "download_approved": true,
       "identity": "hunyuan15-Glyph-SDXL-v2-color_idx.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "d52364d14204f0fb658575ac92f094210b485aeb6579ac9814097a0e8c4eb513",
       "size_bytes": 2366,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/color_idx.json"
@@ -354,7 +354,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/multilingual_10-lang_idx.json",
       "download_approved": true,
       "identity": "hunyuan15-Glyph-SDXL-v2-multilingual_10-lang_idx.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "3753b9e132a4b4dac714e55ac90bd6f791874a83fa0f716b1f6f457a9c5a33a1",
       "size_bytes": 28098,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/multilingual_10-lang_idx.json"
@@ -363,7 +363,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/config.json",
       "download_approved": true,
       "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-config.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "7845fb21b320f3fa05392ce151143502cf08729c8c89732da3293615885d3e83",
       "size_bytes": 698,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/config.json"
@@ -372,7 +372,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors",
       "download_approved": true,
       "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-model.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "effd42c558a0558b62c326e7f58b22f3b1499ca465246e45eb0f8e844f1f313e",
       "size_bytes": 1203095198,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/model.safetensors"
@@ -381,7 +381,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors",
       "download_approved": true,
       "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-byt5_model.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "7fb208af0f1497111418b4f254230639e49829a82413f3fc8fda2d24fa005273",
       "size_bytes": 877273198,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors"
@@ -390,7 +390,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/config.json",
       "download_approved": true,
       "identity": "hunyuan15-siglip_vision_model-config.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "b626aa9623e88440ce20623debc3f0d85e4ee61f38846deca16738784b8ac4e2",
       "size_bytes": 419,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/config.json"
@@ -399,7 +399,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors",
       "download_approved": true,
       "identity": "hunyuan15-siglip_vision_model-model.safetensors",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "d769e3a32a6a9bac72d4d93b989e44491f71b50f02bfa14cd9187758d4a68ff1",
       "size_bytes": 856506120,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/model.safetensors"
@@ -408,7 +408,7 @@
       "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/preprocessor_config.json",
       "download_approved": true,
       "identity": "hunyuan15-siglip_vision_model-preprocessor_config.json",
-      "license": "Upstream distribution license; operator research/evaluation only",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
       "sha256": "ec1f371074fb4867ea1c654e00bc5ea99d706f409aaebf8dc614d67c0735aff8",
       "size_bytes": 394,
       "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/preprocessor_config.json"
