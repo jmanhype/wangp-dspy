@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T18:11:22Z
-content_hash: "sha256:bcc70996f3a643e26749a182db4c9f494e14761f4e6d6da6e57393d428c5eae3"
+content_hash: "sha256:93d55a1d6cf3fdd5c96a7f918ed23710befbf44632cc28a6cb3363fe8c42b89d"
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
 closed_at: 2026-09-25T18:11:21Z
@@ -105,6 +105,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-25.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 PARTIAL ACCEPTANCE [2026-09-25]: Existing reviewer approval independently revalidated. H3 standard, H3 VDN hybrid attention, H3 KFI frame injection, H3 audio refinement, and Hunyuan standard are delivered from distinct hashed MP4s. LTX-2.3, LTX-2.5, SCAIL, Wan, TaoMate, and H3 outpaint are NOT delivered; 90 of 99 cells remain planned. The video lane is incomplete and this is not full video parity.
 
