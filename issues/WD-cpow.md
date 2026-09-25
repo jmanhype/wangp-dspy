@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T05:51:24Z
-content_hash: "sha256:f56d3c233b5c1b57c8ec3501c91dd5b22085cccb807e0b9e5486ab623c485dd1"
+updated_at: 2026-09-25T05:52:40Z
+content_hash: "sha256:41b8dabfb909059117eb6b75de65f223c3096053cdb75a03006ce16762fd20a9"
 blocks: [WD-fay0]
 assignee: dev-WD-cpow
 follows: [WD-rous, WD-0zj8]
@@ -196,3 +196,37 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 - Follows: [[WD-rous]], [[WD-0zj8]]
 
 ## Comments
+
+### 2026-09-25T05:52:40Z speed
+## Implementation Evidence (DELIVERED)
+
+Summary: Real authorized host batch emitted one Stable Audio SFX attempt, one VibeVoice revoice MP4, and one DeepFilterNet refinement MP4 with hashes and measured metadata. Stable Audio is unsupported at 44.1 kHz; the other two diagonals remain pending human review. Full suite 2085/0 failures/0 errors; release ready/tag false.
+
+Commands run:
+- timeout 700 ssh -n -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 620 bash /home/straughter/Wan2GP/wd_c_pow_stable_sfx.sh
+- timeout 2400 datasets/runs/maestro-parity/WD-cpow/run-vibevoice-remote.sh
+- timeout 360 ssh -n -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 300 bash /home/straughter/Wan2GP/wd_c_pow_revoice_mux.sh
+- timeout 900 ssh -n -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 840 /home/straughter/Wan2GP/venv/bin/python /home/straughter/Wan2GP/wd_c_pow_refine.py
+- uv run --frozen --extra dev pytest -q tests/test_sfx_capabilities.py tests/test_maestro_parity_evidence.py --junitxml=/tmp/WD-cpow-targeted.xml
+- timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=datasets/runs/maestro-parity/WD-cpow/fullsuite.xml
+- timeout 300 uv run --frozen --extra dev wgp release verify
+
+Branch story/WD-cpow at SHA 14dcf59d7fd7a95aee6a093500eee1e160840326.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Branch story/WD-cpow at SHA 14dcf59d7fd7a95aee6a093500eee1e160840326.
+- Bundle datasets/runs/maestro-parity/WD-cpow/evidence.json; full suite tests=2085 errors=0 failures=0 skipped=1; release ready/tag false; checker sole pending-reviewer failure.
+- Stable 44.1 kHz attempt measured unsupported; VibeVoice and DeepFilterNet outputs complete but pending review.
+
+### proof
+- [x] AC #1: No successful row is promoted without checker PASS and reviewer approval.
+- [x] AC #2: Partial/pending evidence remains non-verified.
+- [x] AC #3: Matrix transitions and citations parse from bundle contents.
+- [x] AC #4: Required provenance, rights, metadata, hashes, duration, and gates are recorded; reviewer remains pending.
+- [x] AC #5: Video preservation uses matching recorded packet-stream hashes.
+- [x] AC #6: Stable diagonal is terminal unsupported; two diagonals correctly remain pending review.
+- [x] AC #7: No training/GUI/registry/weight commit; protected parity exits zero versus supplied branch base 6f708d4; inherited 40f mismatch documented.
+
