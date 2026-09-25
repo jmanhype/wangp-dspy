@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-25T04:33:20Z
-content_hash: "sha256:551437f70422b6260c4166f2482881d4a3ab555c91ce48034a1556ac438bb54d"
+content_hash: "sha256:437c9753686f792a45d817eab8b14f09634cd1643a6f3b18e2776d314efa509b"
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
 closed_at: 2026-09-25T04:33:19Z
 close_reason: "Accepted for no-GPU install/plan and absent-host/absent-model typed-refusal scope ONLY; generated artifact remains blocked pending operator authorization, download approval, and complete host/model manifest."
-led_to: [WD-cpow]
+led_to: [WD-cpow, WD-bxhc]
 ---
 
 ## Description
@@ -301,7 +301,7 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - Parent: [[WD-3nod]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]]
-- Led to: [[WD-cpow]]
+- Led to: [[WD-cpow]], [[WD-bxhc]]
 
 ## Comments
 

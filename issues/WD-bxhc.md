@@ -1,18 +1,18 @@
 ---
 id: WD-bxhc
 title: "Voice portable character evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:59:45Z
-content_hash: "sha256:8b0235ebb6f0b32b4dfadba41a9b4f5b9582d72a2594c6806765183e800a8b8a"
+updated_at: 2026-09-25T19:59:46Z
+content_hash: "sha256:9a895dc42365b58bf3cd6476d35ce7fdaaa7dbd3b80f7447c4fa22beb3425b31"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
-follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous]
+follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
 ---
 
 ## Description
@@ -199,11 +199,13 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-25T19:57:35Z auto-follows: linked to predecessor WD-rous
 - 2026-09-25T19:59:45Z status: in_progress -> open
 - 2026-09-25T19:59:45Z released by speed
+- 2026-09-25T19:59:46Z status: open -> in_progress
+- 2026-09-25T19:59:46Z auto-follows: linked to predecessor WD-0zj8
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
-- Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]]
+- Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]], [[WD-0zj8]]
 
 ## Comments
