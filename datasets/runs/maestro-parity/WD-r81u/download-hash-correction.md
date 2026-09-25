@@ -13,3 +13,5 @@ The first media attempt captured a real host incompatibility in the planned comm
 Attempt 5 completed the four real FFmpeg outputs, then stopped before neural execution because the native helper launched from `$WORK` did not include WanGP's `$ROOT` on `PYTHONPATH`. The retry sets that path explicitly and performs no additional download.
 
 Attempt 6 reached the helper and exposed a frame-container conversion bug: OpenCV frames were still a Python list at `torch.from_numpy`. Both helpers now stack decoded frames into one contiguous NumPy array before the backend call.
+
+Attempt 7 loaded and ran RIFE on CUDA, then failed while serializing its emitted frames because `Path` does not implement `%` formatting. The output template is now converted to text exactly as OpenCV requires.

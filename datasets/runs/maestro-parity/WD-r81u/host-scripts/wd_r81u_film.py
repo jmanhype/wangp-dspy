@@ -37,10 +37,11 @@ def main() -> int:
     torch.cuda.manual_seed_all(args.seed)
     sample = torch.from_numpy(np.stack(frames)).permute(3, 0, 1, 2).contiguous()
     output = add_film_grain(sample, grain_intensity=args.intensity, saturation=0.5)
+    frame_template = str(args.frame_template)
     args.frame_template.parent.mkdir(parents=True, exist_ok=True)
     for index in range(output.shape[1]):
         rgb = output[:, index].permute(1, 2, 0).numpy()
-        cv2.imwrite(str(args.frame_template % (index + 1)), rgb)
+        cv2.imwrite(frame_template % (index + 1), rgb)
     print(f"source_frames={len(frames)} output_frames={output.shape[1]} seed={args.seed} intensity={args.intensity}")
     return 0
 

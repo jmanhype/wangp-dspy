@@ -41,10 +41,11 @@ def main() -> int:
         device="cuda",
         rife_version="v4",
     )
+    frame_template = str(args.frame_template)
     args.frame_template.parent.mkdir(parents=True, exist_ok=True)
     for index in range(output.shape[1]):
         rgb = output[:, index].permute(1, 2, 0).numpy()
-        cv2.imwrite(str(args.frame_template % (index + 1)), rgb)
+        cv2.imwrite(frame_template % (index + 1), rgb)
     print(f"source_frames={len(frames)} output_frames={output.shape[1]}")
     return 0
 
