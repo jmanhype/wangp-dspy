@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/predict/vibevoice.py", line 1440, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/predict/vibevoice.py", line 1411, in main
+    report = supply_vibevoice_turns_remote(
+        manifest, host=host, host_python=args.host_python,
+    ...<4 lines>...
+        seed_retries=args.seed_retries,
+        manage_gpu=args.remote_gpu_lease == "judge")
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/predict/vibevoice.py", line 991, in supply_vibevoice_turns_remote
+    raise VibeVoiceError(
+        "host failed run must end with scored gate or retry evidence")
+VibeVoiceError: host failed run must end with scored gate or retry evidence
