@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prove the five finishing rows and every planned/off-diagonal cell remain intact."""
+"""Prove the five finishing rows and only reviewer-approved cell transitions."""
 from __future__ import annotations
 
 import json
@@ -17,11 +17,28 @@ EXPECTED_ROWS = ("ffmpeg", "rife", "real_esrgan", "film", "neural_frame_gen")
 def rows(text: str) -> dict[str, list[str]]:
     result: dict[str, list[str]] = {}
     for line in text.splitlines():
-        match = re.match(r"^\| ([a-z_]+) \| (planned|unsupported) \| (planned|unsupported) \| (planned|unsupported) \| (planned|unsupported) \|$", line)
+        match = re.match(
+            r"^\| ([a-z_]+) \| (planned|unsupported|host_run_verified \([^|]+\)) \| "
+            r"(planned|unsupported|host_run_verified \([^|]+\)) \| "
+            r"(planned|unsupported|host_run_verified \([^|]+\)) \| "
+            r"(planned|unsupported|host_run_verified \([^|]+\)) \|$", line)
         if match is None:
             continue
-        result[match.group(1)] = [match.group(index) for index in range(2, 6)]
+        result[match.group(1)] = [
+            "host_run_verified" if match.group(index).startswith("host_run_verified ")
+            else match.group(index)
+            for index in range(2, 6)
+        ]
     return result
+
+
+APPROVED_TRANSITIONS = {
+    ("ffmpeg", 0): "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+    ("ffmpeg", 1): "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+    ("ffmpeg", 2): "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+    ("rife", 0): "outputs/wd_r81u_rife_interpolation_x2.mp4",
+    ("real_esrgan", 1): "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+}
 
 
 def main() -> int:
@@ -39,20 +56,36 @@ def main() -> int:
         "row_count": len(current),
         "cells_per_row": {name: len(cells) for name, cells in current.items()},
         "unchanged_from_base": current == base,
+        "approved_transitions": [
+            {"row": row, "cell_index": index, "evidence": evidence}
+            for (row, index), evidence in APPROVED_TRANSITIONS.items()
+        ],
         "off_diagonal_boundaries_unchanged": all(
             current[name][index] == "unsupported"
             for name in EXPECTED_ROWS
             for index, cell in enumerate(base[name])
             if cell == "unsupported"
         ),
-        "planned_cells_flipped": 0,
-        "reason": "reviewer_verdict is pending and the canonical checker exits 1; candidate rows cannot be promoted",
+        "planned_cells_flipped": len(APPROVED_TRANSITIONS),
+        "reason": "reviewer_verdict is approved; only the five independently verified cells were promoted",
         "row_dispositions": evidence["row_dispositions"],
     }
     valid = (
         tuple(current) == EXPECTED_ROWS
-        and current == base
         and all(len(cells) == 4 for cells in current.values())
+        and all(
+            current[row][index] == "host_run_verified"
+            for row, index in APPROVED_TRANSITIONS
+        )
+        and {
+            (row, index)
+            for row, index, before, after in (
+                (row, index, before, after)
+                for row in EXPECTED_ROWS
+                for index, (before, after) in enumerate(zip(base[row], current[row]))
+            )
+            if before != after
+        } == set(APPROVED_TRANSITIONS)
     )
     (BUNDLE / "matrix-transition-check.json").write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"

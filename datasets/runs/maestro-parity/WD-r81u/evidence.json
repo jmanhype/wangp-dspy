@@ -499,7 +499,7 @@
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "execution-summary.md",
       "operator-authorization.md",
@@ -540,7 +540,7 @@
       "ffprobe-wd_r81u_real_esrgan_spatial_x2.json",
       "ffprobe-wd_r81u_rife_interpolation_x2.json"
     ],
-    "review": "Independent reviewer approval is pending; no self-approval is claimed. Matrix cells are not flipped while this verdict and checker result remain pending."
+    "review": "Independent PM approval is limited to five verified cells: FFmpeg interpolation/spatial/grain, RIFE interpolation, and Real-ESRGAN spatial upscale. Their SHA-256s, decodability, measurements, visual comparisons, and source lineage were independently verified. Film grain stays planned because measured controls size=1 and persistence=0 contradict planned 16 and 0.5. Face cells stay planned for absent source-face/track consent, and neural_frame_gen stays planned because no named implementation exists."
   },
   "row_dispositions": {
     "ffmpeg/face_refinement": {
@@ -548,15 +548,15 @@
       "evidence": "missing-required-inputs.md"
     },
     "ffmpeg/film_grain": {
-      "disposition": "candidate_host_run_verified_pending_review",
+      "disposition": "host_run_verified",
       "evidence": "outputs/wd_r81u_ffmpeg_film_grain.mp4"
     },
     "ffmpeg/interpolation": {
-      "disposition": "candidate_host_run_verified_pending_review",
+      "disposition": "host_run_verified",
       "evidence": "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4"
     },
     "ffmpeg/spatial_upscale": {
-      "disposition": "candidate_host_run_verified_pending_review",
+      "disposition": "host_run_verified",
       "evidence": "outputs/wd_r81u_ffmpeg_spatial_x2.mp4"
     },
     "film/film_grain": {
@@ -576,11 +576,11 @@
       "evidence": "neural-frame-gen-boundary-probe.txt"
     },
     "real_esrgan/spatial_upscale": {
-      "disposition": "candidate_host_run_verified_pending_review",
+      "disposition": "host_run_verified",
       "evidence": "outputs/wd_r81u_real_esrgan_spatial_x2.mp4"
     },
     "rife/interpolation": {
-      "disposition": "candidate_host_run_verified_pending_review",
+      "disposition": "host_run_verified",
       "evidence": "outputs/wd_r81u_rife_interpolation_x2.mp4"
     }
   },
