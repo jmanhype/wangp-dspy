@@ -1,0 +1,53 @@
+{
+  "schema_version": "wangp-dspy.music-capability-request/v1",
+  "model": {
+    "family": "ace_step",
+    "preset": "instrumental"
+  },
+  "mode": "style_adaptation",
+  "title": "WD-rous ACE Style Adaptation",
+  "style": "soft neon synth jazz adapted from the Stable Audio reference while preserving the ACE source structure",
+  "lyrics": null,
+  "tempo_bpm": 112,
+  "meter": "4/4",
+  "key": "C",
+  "sections": [
+    {
+      "name": "source",
+      "duration_s": 5.0,
+      "melody_abc": "| C4 E4 G4 E4 | D4 F4 A4 F4 |",
+      "chords": ["C", "Dm"]
+    },
+    {
+      "name": "adapted",
+      "duration_s": 5.0,
+      "melody_abc": "| E4 G4 B4 G4 | F4 A4 C5 A4 |",
+      "chords": ["C", "F"]
+    }
+  ],
+  "duration_s": 10.0,
+  "output_format": {
+    "sample_rate_hz": 48000,
+    "channels": 2
+  },
+  "style_adaptation": {
+    "references": [
+      {
+        "path": "datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_stable_generate.wav",
+        "sha256": "40c0e22367561a6b9a0cd6869f2c5b9b61b803b9fcf660e4f7d2ea9bb0c6c6eb",
+        "source": "WD-rous authorized Stable Audio Small generation on host 3090",
+        "rights": "operator-owned generated evaluation audio; no redistribution"
+      }
+    ],
+    "comparison": {
+      "mode": "audible_ab",
+      "before": {
+        "path": "datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_ace_generate.wav",
+        "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+      },
+      "after_path_planned": "datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_ace_style_adapt.wav"
+    },
+    "command_planned": "ssh 3090 timeout 1740 /mnt/bulk/straughter/ACE-Step-1.5/.venv/bin/python /home/straughter/Wan2GP/wd_rous_ace.py adapt /home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_style_adapt.wav /home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_generate.wav /home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav"
+  },
+  "recipe_seed": 3901
+}

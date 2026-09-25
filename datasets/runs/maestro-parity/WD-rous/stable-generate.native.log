@@ -1,0 +1,27 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/stable-generate.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-rous/stable
+[load_settings] Loading settings from: /home/straughter/Wan2GP/stable-generate.json
+[load_settings] Task 1/1 ready, ID: 1, model: stable_audio3_small
+Loaded 1 task(s)
+
+[Task 1/1] Soft neon synth jazz with mellow electric piano, brushed dru...
+Loading model Music Stable Audio 3 Small Music...
+Loading Model 'ckpts/stable_audio3_small_music_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors' ...
+No module named 'flash_attn'
+flash_attn not installed, disabling Flash Attention
+No module named 'flash_attn'
+flash_attn varlen/bert_padding not available, disabling varlen attention
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Hooked to model 'transformer' (StableAudio3MainModule)
+Hooked to model 'codec' (AutoencoderPretransform)
+Hooked to model 'text_encoder' (T5GemmaEncoder)
+  Model loaded  [0/1] Generating Audio  [0/8] Denoising | 0/8 steps | 0.0s  [2/8] Denoising | 1/8 steps | 5.3s / 21.2s  [3/8] Denoising | 2/8 steps | 5.3s / 14.2s  [4/8] Denoising | 3/8 steps | 5.4s / 10.8s  [5/8] Denoising | 4/8 steps | 5.4s / 8.7s   [6/8] Denoising | 5/8 steps | 5.5s / 7.3s  [7/8] Denoising | 6/8 steps | 5.5s / 6.3s  [8/8] VAE Decoding | 5.6s / 5.6s           [9/8] Denoising | 8/8 steps | 5.6s / 5.6sAudio file saved to Path: /home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 11.1s

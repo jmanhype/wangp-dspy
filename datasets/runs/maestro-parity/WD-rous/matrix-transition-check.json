@@ -1,0 +1,47 @@
+{
+  "identity_order": [
+    "ace_step",
+    "stable_audio"
+  ],
+  "old_rows": [
+    "| `ace_step` | planned | planned | none |",
+    "| `stable_audio` | planned | unsupported for planning | none |"
+  ],
+  "pass": true,
+  "row_count_pass": true,
+  "rows": [
+    "| `ace_step` | host_run_verified ([WD-rous generate record](../datasets/runs/maestro-parity/WD-rous/evidence.json)) | host_run_verified ([WD-rous style-adapt record](../datasets/runs/maestro-parity/WD-rous/evidence.json)) | 48 kHz stereo generate and audible style A/B output hash-bound in [WD-rous evidence](../datasets/runs/maestro-parity/WD-rous/evidence.json) |",
+    "| `stable_audio` | unsupported_on_this_hardware ([WD-rous measured 44.1 kHz record](../datasets/runs/maestro-parity/WD-rous/evidence.json)) | unsupported for planning | Real native attempt emitted 10 s stereo at 44.1 kHz; the fixed 48 kHz target is incompatible without an undisclosed resample ([WD-rous evidence](../datasets/runs/maestro-parity/WD-rous/evidence.json)) |"
+  ],
+  "stable_style_boundary_unchanged": true,
+  "stable_style_no_hardware_verdict": true,
+  "transition_checks": [
+    {
+      "citation_present": true,
+      "evidence_status": "host_run_verified",
+      "expected": "host_run_verified",
+      "matrix_contains": true,
+      "operation": "generate",
+      "pass": true,
+      "row": "ace_step"
+    },
+    {
+      "citation_present": true,
+      "evidence_status": "host_run_verified",
+      "expected": "host_run_verified",
+      "matrix_contains": true,
+      "operation": "style_adaptation",
+      "pass": true,
+      "row": "ace_step"
+    },
+    {
+      "citation_present": true,
+      "evidence_status": "unsupported_on_this_hardware",
+      "expected": "unsupported_on_this_hardware",
+      "matrix_contains": true,
+      "operation": "generate",
+      "pass": true,
+      "row": "stable_audio"
+    }
+  ]
+}
