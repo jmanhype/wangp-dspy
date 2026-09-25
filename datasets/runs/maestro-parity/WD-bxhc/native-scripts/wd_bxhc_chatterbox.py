@@ -82,6 +82,12 @@ def main() -> int:
         raise RuntimeError("Chatterbox output namespace is not fresh")
     torch.manual_seed(SEED)
     model = ChatterboxMultilingualTTS.from_local(ASSETS, torch.device("cuda"))
+    device = torch.device("cuda")
+    model.ve.to(device)
+    model.t3.to(device)
+    model.s3gen.to(device)
+    if model.conds is not None:
+        model.conds.to(device)
     waveform = model.generate(
         text=TEXT,
         language_id="en",
