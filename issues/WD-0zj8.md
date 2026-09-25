@@ -1,7 +1,7 @@
 ---
 id: WD-0zj8
 title: "Clean-machine generated install"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, delivered]
@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-25T04:33:19Z
-content_hash: "sha256:9f49f4e0cf82f2d365ca9b92fc907fcf0c7e5c54f34f700d5337b340e5700006"
-blocks: [WD-fay0]
+content_hash: "sha256:e6e04cf0c2c9acd9fca5eb7669cc0b4e1b566f2e97066a90dead52a13f1e4854"
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
+closed_at: 2026-09-25T04:33:19Z
+close_reason: "Accepted for no-GPU install/plan and absent-host/absent-model typed-refusal scope ONLY; generated artifact remains blocked pending operator authorization, download approval, and complete host/model manifest."
 ---
 
 ## Description
@@ -280,10 +281,11 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-25T04:12:33Z status: in_progress -> open
 - 2026-09-25T04:12:33Z released by speed
 - 2026-09-25T04:12:34Z status: open -> in_progress
+- 2026-09-25T04:33:19Z status: in_progress -> closed
+- 2026-09-25T04:33:19Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]]
 
