@@ -1,0 +1,1 @@
+sh install.sh --source "$PWD" --clean-proof "${TMPDIR:-/tmp}/wangp-clean-machine"

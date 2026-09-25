@@ -1,0 +1,17 @@
+[PASS] python: Python 3.12.13
+[PASS] uv: uv available at /Users/speed/.local/bin/uv
+[PASS] dependency_imports: 8 imports available
+[PASS] ffprobe: ffprobe available at /opt/homebrew/bin/ffprobe
+[PASS] ffmpeg: ffmpeg available at /opt/homebrew/bin/ffmpeg
+[PASS] queue_database: SQLite 3.53.1 is available for JobQueue databases
+[SKIP] model_files: No model manifest supplied; not required for no-GPU planning
+       remediation: Supply --models with path and sha256 entries before host work.
+[SKIP] host_configuration: host.target=unconfigured [unconfigured]; host.wgp_root=unconfigured [unconfigured]; host.pull_root=/private/tmp/wd-0zj-clean-source/datasets/runs/pull [detection (/private/tmp/wd-0zj-clean-source)]; host.wgp_python=unconfigured [unconfigured]; the no-GPU lane remains ready
+       remediation: Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, WANGP_WGP_PYTHON (or the corresponding [host] keys) for GPU work.
+[PASS] local_disk_headroom: 81G free on the repository volume
+ready=yes
+Clean-machine no-GPU lane: syncing the disposable checkout.
+Clean-machine no-GPU lane: emitting the deterministic plan.
+brief=sha256:67202d3597affeab4e5edcf15a1acef2f5e88ed00950ce17ff3012f5bb0472cd clips=4 plan=/private/tmp/wangp-clean-machine/proof/plan.json
+PLAN_ONLY path=/tmp/wangp-clean-machine/proof/plan.json generated_artifact=false
+GENERATION_REFUSED diagnostics=2 exit=3

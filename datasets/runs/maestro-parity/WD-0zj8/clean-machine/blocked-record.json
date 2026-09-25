@@ -1,0 +1,97 @@
+{
+  "blocked_operator_inputs": [
+    "per-batch GPU/render-host authorization",
+    "model-download approval",
+    "complete authorized host/model manifest with identity, source, hash or immutable version, license, and usage constraint"
+  ],
+  "command": [
+    "sh",
+    "/tmp/wd-0zj-clean-source/install.sh",
+    "--source",
+    "/tmp/wd-0zj-clean-source",
+    "--clean-proof",
+    "/tmp/wangp-clean-machine"
+  ],
+  "diagnostics": [
+    {
+      "code": "HOST_CONFIGURATION_INCOMPLETE",
+      "evidence_refs": [
+        "/private/tmp/wangp-clean-machine/checkout/wangp.toml",
+        "/tmp/wangp-clean-machine/proof/empty-config.toml"
+      ],
+      "metadata": {
+        "environment_keys": [
+          "WANGP_SSH_TARGET",
+          "WANGP_WGP_ROOT"
+        ],
+        "missing_keys": [
+          "host.target",
+          "host.wgp_root"
+        ]
+      },
+      "next_command": "wgp first-run remote --json",
+      "observed": "missing host.target, host.wgp_root",
+      "remediation": "Set every explicit host value, then rerun this preview before authorization.",
+      "severity": "error",
+      "title": "Explicit render host is incomplete",
+      "why": "Wangp will not infer or contact a renderer host."
+    },
+    {
+      "code": "MODEL_MANIFEST_REQUIRED",
+      "evidence_refs": [
+        "capabilities.json"
+      ],
+      "metadata": {
+        "model_count": 0
+      },
+      "next_command": "wgp doctor --capabilities --models <manifest> --json",
+      "observed": "model manifest absent; zero authorized model identities are recorded",
+      "remediation": "Supply a complete wangp-dspy.model-assets/v1 manifest for every required model with id, source URL, SHA-256, exact size, license, and absolute destination; then record explicit model-download approval. Wangp does not download models.",
+      "severity": "error",
+      "title": "Generation model manifest is absent",
+      "why": "Wangp cannot infer which model bytes, licences, or destinations a render may use."
+    }
+  ],
+  "generation": {
+    "attempted": false,
+    "generated_artifact": false,
+    "generated_media_bytes": 0,
+    "host_run_verified": false,
+    "model_downloaded": false,
+    "queue_admitted": false,
+    "ssh_contacted": false
+  },
+  "installer_sha256": "37b1a1477a3fe9dad988ce989b50aab919d8aa505ec9172452cb9ff7c36c86d6",
+  "outcome": "plan_emitted_generation_refused",
+  "plan": {
+    "path": "/tmp/wangp-clean-machine/proof/plan.json",
+    "schema_version": "wangp-dspy.content-plan/v1",
+    "sha256": "91b391a80268eee68701b32a8f95bfc59d9bdf720ed68425436651295d7d82be",
+    "summary": {
+      "clip_count": 4,
+      "dry_run": true,
+      "gpu_work": false,
+      "planned_duration_s": 9.332,
+      "queue_submitted": false,
+      "speakers": [
+        "Tess",
+        "Rho",
+        "Tess",
+        "Rho"
+      ]
+    }
+  },
+  "schema_version": "wangp-dspy.clean-machine-proof/v1",
+  "source": {
+    "changed_paths": [],
+    "checkout": "/tmp/wangp-clean-machine/checkout",
+    "clone_source": "/tmp/wd-0zj-clean-source",
+    "dirty_tree": false,
+    "resolved_commit": "212f12058e1704f9c1657437f7698c4f4e126d21",
+    "selected": "/tmp/wd-0zj-clean-source"
+  },
+  "tools": {
+    "git": "git version 2.49.0",
+    "uv": "uv 0.6.9 (3d9460278 2025-03-20)"
+  }
+}
