@@ -234,7 +234,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 3,
     "name": "identity_vision_pass_count",
@@ -245,7 +245,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 3,
     "name": "mouth_box_consensus_pass_count",
@@ -256,7 +256,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 0.0,
     "name": "whisper_music_video_instrumental_score",
@@ -267,7 +267,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 0.556,
     "name": "whisper_screenplay_clip1_score",
@@ -278,7 +278,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 1.0,
     "name": "whisper_screenplay_clip2_score",
@@ -289,7 +289,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 0.594741,
     "name": "syncnet_audio_clip1_confidence",
@@ -300,7 +300,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 0.468897,
     "name": "syncnet_screenplay_clip1_confidence",
@@ -311,7 +311,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 1.10503,
     "name": "syncnet_screenplay_clip2_confidence",
@@ -322,7 +322,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json"
+      "director-qc-evidence.json"
     ],
     "measured": 2,
     "name": "auto_review_mandatory_gate_pass_count",
@@ -333,7 +333,7 @@
   },
   {
     "inputs": [
-      "qc-evidence.json",
+      "director-qc-evidence.json",
       "row-dispositions.json"
     ],
     "measured": 0,

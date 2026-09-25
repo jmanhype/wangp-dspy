@@ -263,7 +263,7 @@ def main() -> int:
             "reason": "operator/PM review has not been granted",
         },
     }
-    destination = root / "qc-evidence.json"
+    destination = root / "director-qc-evidence.json"
     destination.write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )

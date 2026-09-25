@@ -71,7 +71,7 @@ def references() -> list[dict]:
         *sorted((BUNDLE / "review/frames").glob("*.png")),
         BUNDLE / "operator-authorization.md",
         BUNDLE / "queue.db",
-        BUNDLE / "qc-evidence.json",
+        BUNDLE / "director-qc-evidence.json",
         BUNDLE / "media-qc.json",
         BUNDLE / "host-preflight.json",
         BUNDLE / "host-final-state.json",
@@ -297,45 +297,45 @@ def objective_gates(media: dict, mapping: dict, qc: dict) -> list[dict]:
     vision = qc["vision_gates"]
     whisper = qc["whisper_gates"]
     add(
-        "identity_vision_pass_count", ["qc-evidence.json"],
+        "identity_vision_pass_count", ["director-qc-evidence.json"],
         3, sum(item["identity_vision"]["passed"] for item in vision), True,
         "auto/manual review checkpoints", "qc",
     )
     add(
-        "mouth_box_consensus_pass_count", ["qc-evidence.json"],
+        "mouth_box_consensus_pass_count", ["director-qc-evidence.json"],
         3, sum(item["mouth_box_consensus"]["passed"] for item in vision), True,
         "auto/manual review checkpoints", "qc",
     )
     add(
-        "whisper_music_video_instrumental_score", ["qc-evidence.json"],
+        "whisper_music_video_instrumental_score", ["director-qc-evidence.json"],
         0.6, 0.0, False, "auto/manual review checkpoints", "qc",
     )
     add(
-        "whisper_screenplay_clip1_score", ["qc-evidence.json"],
+        "whisper_screenplay_clip1_score", ["director-qc-evidence.json"],
         0.6, 0.556, False, "auto/manual review checkpoints", "qc",
     )
     add(
-        "whisper_screenplay_clip2_score", ["qc-evidence.json"],
+        "whisper_screenplay_clip2_score", ["director-qc-evidence.json"],
         0.6, 1.0, True, "auto/manual review checkpoints", "qc",
     )
     add(
-        "syncnet_audio_clip1_confidence", ["qc-evidence.json"],
+        "syncnet_audio_clip1_confidence", ["director-qc-evidence.json"],
         1.0, 0.594741, False, "auto/manual review checkpoints", "qc",
     )
     add(
-        "syncnet_screenplay_clip1_confidence", ["qc-evidence.json"],
+        "syncnet_screenplay_clip1_confidence", ["director-qc-evidence.json"],
         1.0, 0.468897, False, "auto/manual review checkpoints", "qc",
     )
     add(
-        "syncnet_screenplay_clip2_confidence", ["qc-evidence.json"],
+        "syncnet_screenplay_clip2_confidence", ["director-qc-evidence.json"],
         1.0, 1.10503, True, "auto/manual review checkpoints", "qc",
     )
     add(
-        "auto_review_mandatory_gate_pass_count", ["qc-evidence.json"],
+        "auto_review_mandatory_gate_pass_count", ["director-qc-evidence.json"],
         4, 2, False, "auto/manual review checkpoints", "auto-review",
     )
     add(
-        "reviewer_approved_count", ["qc-evidence.json", "row-dispositions.json"],
+        "reviewer_approved_count", ["director-qc-evidence.json", "row-dispositions.json"],
         1, 0, False, "auto/manual review checkpoints", "review",
     )
     return gates
@@ -365,7 +365,7 @@ def dirty_state() -> dict:
 
 def main() -> int:
     media = load_json(BUNDLE / "media-qc.json")
-    qc = load_json(BUNDLE / "qc-evidence.json")
+    qc = load_json(BUNDLE / "director-qc-evidence.json")
     mapping = planned_produced_map(media)
     gates = objective_gates(media, mapping, qc)
 
@@ -534,7 +534,7 @@ def main() -> int:
             "decision": "pending",
             "evidence_links": [
                 "planned-produced-map.json", "objective-gates.json",
-                "qc-evidence.json", "media-qc.json", "queue-final-state.json",
+                "director-qc-evidence.json", "media-qc.json", "queue-final-state.json",
                 "matrix-transition-check.json", "row-dispositions.json",
                 "host-final-state.json", "review/frame-hashes.txt",
                 "operator-authorization.md", "execution-summary.md",

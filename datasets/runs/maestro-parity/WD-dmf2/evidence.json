@@ -466,7 +466,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 3,
       "name": "identity_vision_pass_count",
@@ -477,7 +477,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 3,
       "name": "mouth_box_consensus_pass_count",
@@ -488,7 +488,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 0.0,
       "name": "whisper_music_video_instrumental_score",
@@ -499,7 +499,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 0.556,
       "name": "whisper_screenplay_clip1_score",
@@ -510,7 +510,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 1.0,
       "name": "whisper_screenplay_clip2_score",
@@ -521,7 +521,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 0.594741,
       "name": "syncnet_audio_clip1_confidence",
@@ -532,7 +532,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 0.468897,
       "name": "syncnet_screenplay_clip1_confidence",
@@ -543,7 +543,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 1.10503,
       "name": "syncnet_screenplay_clip2_confidence",
@@ -554,7 +554,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json"
+        "director-qc-evidence.json"
       ],
       "measured": 2,
       "name": "auto_review_mandatory_gate_pass_count",
@@ -565,7 +565,7 @@
     },
     {
       "inputs": [
-        "qc-evidence.json",
+        "director-qc-evidence.json",
         "row-dispositions.json"
       ],
       "measured": 0,
@@ -921,7 +921,7 @@
     },
     {
       "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
-      "path": "qc-evidence.json",
+      "path": "director-qc-evidence.json",
       "role": "measured QC/provenance record",
       "sha256": "8bdbb657890802d0ec156848558ded5d14cf87175374adf68ea9156c944cd171"
     },
@@ -967,87 +967,26 @@
     "commit_semantics": "31ec071 is the clean preparation commit immediately before queue admission and host composition; generated outputs and evidence are intentionally dirty state in this record",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "bde34c9166e91fe95f8651f53e791200f1ab3fdf6c0ec719f1d3c63cc9fb6ba3",
+      "identity_sha256": "296011539bbb39daab1691fff6f545ffe9b98bd354d616caa8696630c79bf72d",
       "status_lines": [
-        " M datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_preflight.py",
+        " M datasets/runs/maestro-parity/WD-dmf2/build_evidence.py",
+        " M datasets/runs/maestro-parity/WD-dmf2/evidence-assembly.txt",
         " M datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_qc.py",
-        " M datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_run.sh",
-        " M datasets/runs/maestro-parity/WD-dmf2/queue_bootstrap.py",
-        " M datasets/runs/maestro-parity/WD-dmf2/queue_complete.py",
-        " M datasets/runs/maestro-parity/WD-dmf2/queue_transition.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/build_evidence.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/bundle-file-count.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/bundle-size.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/checker-result.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/checker-result.stderr",
-        "?? datasets/runs/maestro-parity/WD-dmf2/checker-result.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/composition.stderr",
-        "?? datasets/runs/maestro-parity/WD-dmf2/composition.stdout",
+        " M datasets/runs/maestro-parity/WD-dmf2/objective-gates.json",
+        " D datasets/runs/maestro-parity/WD-dmf2/qc-evidence.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/director-qc-evidence.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.err",
+        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.exit",
+        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.out",
+        "?? datasets/runs/maestro-parity/WD-dmf2/fullsuite.xml",
+        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.exit",
+        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.stderr",
+        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-lint.txt",
         "?? datasets/runs/maestro-parity/WD-dmf2/download-report.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/evidence-assembly.failed.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/evidence-assembly.txt",
         "?? datasets/runs/maestro-parity/WD-dmf2/evidence.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/execution-summary.md",
-        "?? datasets/runs/maestro-parity/WD-dmf2/extract_review_frames.sh",
-        "?? datasets/runs/maestro-parity/WD-dmf2/ffprobe/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/finalize-analysis.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/git-diff-check.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/git-diff-check.stderr",
-        "?? datasets/runs/maestro-parity/WD-dmf2/git-diff-check.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-final-state.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-output-hashes.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-preflight.failed.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-preflight.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_analyze.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/host-scripts/wd_dmf2_finalize.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/matrix-parse.failed.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/matrix-parse.invalid-disposition-check.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/matrix-parse.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/matrix-transition-check.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/media-analysis.stdout",
-        "?? datasets/runs/maestro-parity/WD-dmf2/media-qc.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/model-hashes.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/music_video_clip1_whisper/",
         "?? datasets/runs/maestro-parity/WD-dmf2/objective-gates.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/output-hash-local-check.txt",
         "?? datasets/runs/maestro-parity/WD-dmf2/output-hashes.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/output-hashes.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/outputs/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/parse_matrix.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/planned-produced-map.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-verify-authoring.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-verify-authoring.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-verify-evidence.exit",
-        "?? datasets/runs/maestro-parity/WD-dmf2/pvg-verify-evidence.txt",
-        "?? datasets/runs/maestro-parity/WD-dmf2/qc-evidence.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/qc-rerun.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/qc.stderr",
-        "?? datasets/runs/maestro-parity/WD-dmf2/qc.stdout",
-        "?? datasets/runs/maestro-parity/WD-dmf2/qc/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-admission.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-admission.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-bootstrap.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-complete.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-final-state.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-preflight.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-qc.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-record.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-rendered-pending-qc.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-rendering.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue-repair-segments.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue.db",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue_admission.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/queue_repair_segments.py",
-        "?? datasets/runs/maestro-parity/WD-dmf2/review/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/row-dispositions.json",
-        "?? datasets/runs/maestro-parity/WD-dmf2/screenplay_clip1_whisper/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/screenplay_clip2_whisper/",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2-audio.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2-finalize.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2-music_video.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2-prompt.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2-screenplay.native.log",
-        "?? datasets/runs/maestro-parity/WD-dmf2/wd-dmf2.native.log"
+        "?? datasets/runs/maestro-parity/WD-dmf2/planned-produced-map.json"
       ]
     }
   },
@@ -1056,7 +995,7 @@
     "evidence_links": [
       "planned-produced-map.json",
       "objective-gates.json",
-      "qc-evidence.json",
+      "director-qc-evidence.json",
       "media-qc.json",
       "queue-final-state.json",
       "matrix-transition-check.json",
