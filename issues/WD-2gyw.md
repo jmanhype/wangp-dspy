@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T16:03:51Z
-content_hash: "sha256:e4beb8c391ff393648714332b78c817fbef95c45ca9a9e33cab23e3f134cc325"
+content_hash: "sha256:308078dcf95955c21cbe55153431e4935943e0a3768304036132fc743dee6086"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
@@ -104,6 +104,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-25.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## MANDATORY SKILLS
 - pvg
 
