@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
 updated_at: 2026-09-25T23:49:14Z
-content_hash: "sha256:d270d1cadb470530dded55f94674cceb2894703ea05580173478ad64e73d7e72"
+content_hash: "sha256:2249289beadaa61b165559adc5c861acf0aa4fd349fca7e9a7eb9b16f994b509"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7, WD-m0r5]
@@ -115,6 +115,16 @@ status: new
 Observable outcome: the WD-dmf2 bundle stores composed director outputs, inputs, commands, commit, provenance, derived gate measurements, applicability, and queue evidence for independent review.
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-25.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## nd_contract
