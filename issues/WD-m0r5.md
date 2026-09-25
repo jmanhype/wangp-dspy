@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, walking-skeleton, delivered
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T00:13:44Z
-content_hash: "sha256:f7583869ca2d5e3b4d6395812a84342137794ac39eba73f889d3a2aa19099072"
+updated_at: 2026-09-25T00:14:03Z
+content_hash: "sha256:01948d0e403bf5b129c024f3d75de6de99ab2b0a6fbc48d17bacda49d687d8be"
 blocks: [WD-bxhc, WD-0zj8, WD-fay0]
 assignee: dev-WD-m0r5
 follows: [WD-651z]
@@ -93,7 +93,21 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- Final HEAD bc27a0e2de309f56a36e84ea1c5a3cb3efb7335d; clean branch story/WD-m0r5.
+- Bundle datasets/runs/maestro-parity/WD-m0r5/evidence.json SHA-256 24a97045ea2cd6967e6afb503f54fe5cf7efd70098f11f4d13c3f277bbd02b29; bundle size 34,384 KiB.
+- Operator authorization chain recorded verbatim; selected manifest 42,365,515,370 bytes; runtime dependencies 5,747,058,654 bytes; accidental duplicate 281,857 bytes; total model bytes pulled 48,112,855,881.
+- Host produced 16 canonical JPEG outputs covering every planned Qwen cell and every planned Flux cell while preserving the four pre-existing unsupported Flux upscale/outpaint boundaries. All output hashes/metadata/model/reference provenance and 16 objective gates are in evidence.json; all gates pass. Identity cosines: Qwen standard 0.950228, Qwen professional 0.792692, Flux standard 0.942699, Flux Kontext 0.950500.
+- Checker fails only reviewer_verdict.decision because independent review is pending. No row was flipped to host_run_verified; all four rows remain evidence_complete_pending_review.
+- Standing gates: tests=2072 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected parity and diff-check exit 0.
+
+### proof
+- [x] Real authorized host runs, hashed outputs, provenance, metadata, and objective gates are recorded.
+- [x] No protected engine file changed.
+- [ ] Independent reviewer/operator approval remains required before matrix rows flip to host_run_verified.
 
 ## nd_contract
 status: delivered
