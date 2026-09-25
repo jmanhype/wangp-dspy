@@ -1,18 +1,19 @@
 ---
 id: WD-e4r7
 title: "Bug: make GPU preflight fail closed for occupied compute processes"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [bug, host-safety, integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
-updated_at: 2026-09-25T02:26:07Z
-content_hash: "sha256:d78d85f49d782691f3618ae3b3dab60b2f7295a4498ea17ac6d85c32ba459ddc"
-blocks: [WD-fay0]
+updated_at: 2026-09-25T02:42:09Z
+content_hash: "sha256:8c54317867bd868dc4a078cc13a8d9d0163115445e1fd749e3cba84b90eac1ab"
 assignee: dev-WD-e4r7
 follows: [WD-651z]
+closed_at: 2026-09-25T02:42:09Z
+close_reason: "Accepted via pvg story accept"
 ---
 
 ## Description
@@ -605,10 +606,11 @@ status: delivered
 - 2026-09-25T01:36:22Z auto-follows: linked to predecessor WD-651z
 - 2026-09-25T01:36:22Z claimed by dev-WD-e4r7
 - 2026-09-25T02:24:07Z status: in_progress -> in_progress
+- 2026-09-25T02:42:09Z status: in_progress -> closed
+- 2026-09-25T02:42:09Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-651z]]
 
 ## Comments
