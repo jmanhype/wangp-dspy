@@ -16,8 +16,7 @@ def main() -> int:
         2: ("h3-specialized.render.log", "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4"),
         3: ("h3-kfi-retry.render.log", "outputs/wd_2gyw_h3_kfi_frames_injection.mp4"),
         4: ("h3-specialized.render.log", "outputs/wd_2gyw_h3_audio_refinement.mp4"),
-        5: ("ltx25.render.log", "outputs/wd_2gyw_ltx25.mp4"),
-        6: ("hunyuan.render.log", "outputs/wd_2gyw_hunyuan.mp4"),
+        5: ("hunyuan.render.log", "outputs/wd_2gyw_hunyuan.mp4"),
     }
     queue = JobQueue(bundle / "queue.db")
     try:
@@ -29,7 +28,7 @@ def main() -> int:
                 mp4=output,
                 qc_verdict={"verdict": "NEEDS REVIEW", "path": "objective-gates.json"},
             )
-        for state in ("rendered_pending_qc", "qc", "done"):
+        for state in ("preflight", "rendering", "rendered_pending_qc", "qc", "done"):
             queue.set_state(record["job_id"], state)
         final = queue.get(record["job_id"])
     finally:

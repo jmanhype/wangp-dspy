@@ -1,0 +1,56 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_2gyw_ltx25.source.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-2gyw/ltx25
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_2gyw_ltx25.source.json
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test: a blue paper crane glides once aro...
+Loading model LTX-2 2.5 Distilled 22B...
+Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+
+  [ERROR] 'tokenizers.pre_tokenizers.Split' object does not support item assignment
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wgp.py", line 8923, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP/wgp.py", line 6886, in generate_media
+    wan_model, offloadobj = load_models(
+                            ^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/wgp.py", line 4100, in load_models
+    wan_model, pipe = model_type_handler.load_model(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/ltx2/ltx2_handler.py", line 1004, in load_model
+    ltx2_model = LTX2(
+                 ^^^^^
+  File "/home/straughter/Wan2GP/models/ltx2/ltx2.py", line 916, in __init__
+    pipeline_models = self._init_models(
+                      ^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/ltx2/ltx2.py", line 1060, in _init_models
+    text_encoder = build_gemma_text_encoder(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py", line 472, in build_gemma_text_encoder
+    text_encoder.tokenizer = LTXVGemmaTokenizer(tokenizer_path, 1024, fix_mistral_regex=gemma4)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py", line 19, in __init__
+    self.tokenizer = AutoTokenizer.from_pretrained(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 1156, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 2113, in from_pretrained
+    return cls._from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 2395, in _from_pretrained
+    tokenizer = cls._patch_mistral_regex(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 2502, in _patch_mistral_regex
+    tokenizer.backend_tokenizer.pre_tokenizer[0] = tokenizers.pre_tokenizers.Split(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment
+
+  [ERROR] 'tokenizers.pre_tokenizers.Split' object does not support item assignment
+
+==================================================
+Queue completed: 0/1 tasks in 1m 40s

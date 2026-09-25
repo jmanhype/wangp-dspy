@@ -31,8 +31,7 @@ CLIPS = [
     clip(2, "minimax_h3", "h3_vdn_hybrid_attention", "create", 2932),
     clip(3, "minimax_h3", "kfi_frames_injection", "retake", 2933),
     clip(4, "minimax_h3", "h3_audio_refinement", "edit", 2934),
-    clip(5, "ltx", "2.5", "create", 2941),
-    clip(6, "hunyuan", "standard", "create", 2942),
+    clip(5, "hunyuan", "standard", "create", 2942),
 ]
 
 

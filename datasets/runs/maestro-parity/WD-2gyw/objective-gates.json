@@ -1,0 +1,305 @@
+[
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4",
+      "ffprobe-wd_2gyw_h3_standard.json"
+    ],
+    "measured": 2.333333,
+    "name": "wd_2gyw_h3_standard_duration_s",
+    "row": "minimax_h3/standard",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4",
+      "ffprobe-wd_2gyw_h3_standard.json"
+    ],
+    "measured": 24.0,
+    "name": "wd_2gyw_h3_standard_fps",
+    "row": "minimax_h3/standard",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4"
+    ],
+    "measured": 1246401.0,
+    "name": "wd_2gyw_h3_standard_nonempty_bytes",
+    "row": "minimax_h3/standard",
+    "threshold": 500000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4",
+      "ffmpeg blackdetect"
+    ],
+    "measured": 0.0,
+    "name": "wd_2gyw_h3_standard_black_intervals_max",
+    "row": "minimax_h3/standard",
+    "threshold": 0.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4",
+      "ffprobe-wd_2gyw_h3_standard.json"
+    ],
+    "measured": 32000.0,
+    "name": "wd_2gyw_h3_standard_audio_sample_rate_hz",
+    "row": "minimax_h3/standard",
+    "threshold": 32000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_standard.mp4",
+      "ffprobe-wd_2gyw_h3_standard.json"
+    ],
+    "measured": 2.0,
+    "name": "wd_2gyw_h3_standard_audio_channels",
+    "row": "minimax_h3/standard",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+    ],
+    "measured": 2.333333,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_duration_s",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+    ],
+    "measured": 24.0,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_fps",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4"
+    ],
+    "measured": 1509343.0,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_nonempty_bytes",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 500000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "ffmpeg blackdetect"
+    ],
+    "measured": 0.0,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_black_intervals_max",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 0.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+    ],
+    "measured": 32000.0,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_audio_sample_rate_hz",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 32000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+    ],
+    "measured": 2.0,
+    "name": "wd_2gyw_h3_vdn_hybrid_attention_audio_channels",
+    "row": "minimax_h3/h3_vdn_hybrid_attention",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+    ],
+    "measured": 2.333333,
+    "name": "wd_2gyw_h3_kfi_frames_injection_duration_s",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+    ],
+    "measured": 24.0,
+    "name": "wd_2gyw_h3_kfi_frames_injection_fps",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4"
+    ],
+    "measured": 1306560.0,
+    "name": "wd_2gyw_h3_kfi_frames_injection_nonempty_bytes",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 500000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "ffmpeg blackdetect"
+    ],
+    "measured": 0.0,
+    "name": "wd_2gyw_h3_kfi_frames_injection_black_intervals_max",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 0.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+    ],
+    "measured": 32000.0,
+    "name": "wd_2gyw_h3_kfi_frames_injection_audio_sample_rate_hz",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 32000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+    ],
+    "measured": 2.0,
+    "name": "wd_2gyw_h3_kfi_frames_injection_audio_channels",
+    "row": "minimax_h3/kfi_frames_injection",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "ffprobe-wd_2gyw_h3_audio_refinement.json"
+    ],
+    "measured": 2.333333,
+    "name": "wd_2gyw_h3_audio_refinement_duration_s",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "ffprobe-wd_2gyw_h3_audio_refinement.json"
+    ],
+    "measured": 24.0,
+    "name": "wd_2gyw_h3_audio_refinement_fps",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4"
+    ],
+    "measured": 1281960.0,
+    "name": "wd_2gyw_h3_audio_refinement_nonempty_bytes",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 500000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "ffmpeg blackdetect"
+    ],
+    "measured": 0.0,
+    "name": "wd_2gyw_h3_audio_refinement_black_intervals_max",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 0.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "ffprobe-wd_2gyw_h3_audio_refinement.json"
+    ],
+    "measured": 32000.0,
+    "name": "wd_2gyw_h3_audio_refinement_audio_sample_rate_hz",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 32000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "ffprobe-wd_2gyw_h3_audio_refinement.json"
+    ],
+    "measured": 2.0,
+    "name": "wd_2gyw_h3_audio_refinement_audio_channels",
+    "row": "minimax_h3/h3_audio_refinement",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_hunyuan.mp4",
+      "ffprobe-wd_2gyw_hunyuan.json"
+    ],
+    "measured": 2.541667,
+    "name": "wd_2gyw_hunyuan_duration_s",
+    "row": "hunyuan/standard",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_hunyuan.mp4",
+      "ffprobe-wd_2gyw_hunyuan.json"
+    ],
+    "measured": 24.0,
+    "name": "wd_2gyw_hunyuan_fps",
+    "row": "hunyuan/standard",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_hunyuan.mp4"
+    ],
+    "measured": 1442664.0,
+    "name": "wd_2gyw_hunyuan_nonempty_bytes",
+    "row": "hunyuan/standard",
+    "threshold": 500000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_2gyw_hunyuan.mp4",
+      "ffmpeg blackdetect"
+    ],
+    "measured": 0.0,
+    "name": "wd_2gyw_hunyuan_black_intervals_max",
+    "row": "hunyuan/standard",
+    "threshold": 0.0,
+    "verdict": "pass"
+  }
+]

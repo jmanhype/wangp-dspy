@@ -72,19 +72,21 @@ Every family/operation row is `planned`. A row can become `host_run_verified` on
 
 | Family/preset | Create | Extend | Blend | Retake | Edit | Outpaint | Repaint | Recast | Upscale |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| minimax_h3/standard | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| minimax_h3/h3_vdn_hybrid_attention | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| minimax_h3/standard | host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json)) | planned | planned | planned | planned | planned | planned | planned | planned |
+| minimax_h3/h3_vdn_hybrid_attention | host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json)) | planned | planned | planned | planned | planned | planned | planned | planned |
 | minimax_h3/taomate_three_step | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| minimax_h3/kfi_frames_injection | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| minimax_h3/kfi_frames_injection | planned | planned | planned | host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json)) | planned | planned | planned | planned | planned |
 | minimax_h3/h3_outpaint | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| minimax_h3/h3_audio_refinement | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| ltx/2.5 | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| minimax_h3/h3_audio_refinement | planned | planned | planned | planned | host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json)) | planned | planned | planned | planned |
+| ltx/2.5 | planned | planned | unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/ltx-2.5-blend.result.json)) | planned | planned | planned | planned | planned | planned |
 | ltx/2.3 | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| scail/2 | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| scail/2 | planned | planned | planned | planned | planned | unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-outpaint.result.json)) | planned | planned | unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-upscale.result.json)) |
 | wan/2gp | planned | planned | planned | planned | planned | planned | planned | planned | planned |
-| hunyuan/standard | planned | planned | planned | planned | planned | planned | planned | planned | planned |
+| hunyuan/standard | host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json)) | planned | planned | planned | planned | unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/hunyuan-standard-outpaint.result.json)) | planned | planned | planned |
 
-Current typed planning rejects these otherwise planned family/operation pairs: LTX blend; SCAIL outpaint and upscale; Hunyuan outpaint. Those are fail-closed backend/operation boundaries, not claims that Maestro lacks the vendor feature. Likewise, `planned` does not claim Wangp has rendered the pair.
+Current typed planning rejects these family/operation pairs exactly as recorded above: LTX blend; SCAIL outpaint and upscale; Hunyuan outpaint. Those are fail-closed backend/operation boundaries, not claims that Maestro lacks the vendor feature and not hardware verdicts. Likewise, `planned` does not claim Wangp has rendered the pair.
+
+The five `host_run_verified` cells above are bound to real hashed MP4s in the authorized [WD-2gyw bundle](../datasets/runs/maestro-parity/WD-2gyw/evidence.json): H3 standard create, H3 VDN hybrid-attention create with Sol-Attn enabled on SM86, H3 KFI frame-injection retake, H3 audio-refinement edit, and Hunyuan 1.5 standard create. Other cells in those rows remain planned and must not inherit the representative operation's evidence. The authorized LTX-2.5 int8 attempt is recorded in [`ltx25.failure.log`](../datasets/runs/maestro-parity/WD-2gyw/ltx25.failure.log): model loading reached the Gemma4 tokenizer, then failed with `TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment`; that dependency failure is not hardware infeasibility. TaoMate has no implementation in either host tree, H3 outpaint is disabled by the host model definition, and LTX-2.3/SCAIL/Wan remain planned for the reasons recorded in [`row-dispositions.json`](../datasets/runs/maestro-parity/WD-2gyw/row-dispositions.json).
 
 ## Authorized-render boundary
 

@@ -1,0 +1,4 @@
+2 hunyuan-standard-outpaint
+2 ltx-2.5-blend
+2 scail-2-outpaint
+2 scail-2-upscale

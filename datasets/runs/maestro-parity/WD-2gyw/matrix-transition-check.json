@@ -1,0 +1,71 @@
+{
+  "schema_version": "wangp-dspy.maestro-parity-matrix-transition-check/v1",
+  "row_count": 11,
+  "operation_count": 9,
+  "cell_count": 99,
+  "verified_cell_count": 5,
+  "planned_cell_count": 90,
+  "typed_unsupported_cell_count": 4,
+  "dropped_row_count": 0,
+  "all_rows_terminal": false,
+  "all_cells_terminal": false,
+  "verified_cells": [
+    {
+      "row": "minimax_h3/standard",
+      "operation": "create",
+      "status": "host_run_verified",
+      "cell": "host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json))"
+    },
+    {
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "operation": "create",
+      "status": "host_run_verified",
+      "cell": "host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json))"
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "retake",
+      "status": "host_run_verified",
+      "cell": "host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json))"
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "edit",
+      "status": "host_run_verified",
+      "cell": "host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json))"
+    },
+    {
+      "row": "hunyuan/standard",
+      "operation": "create",
+      "status": "host_run_verified",
+      "cell": "host_run_verified ([WD-2gyw evidence](../datasets/runs/maestro-parity/WD-2gyw/evidence.json))"
+    }
+  ],
+  "boundaries": [
+    {
+      "row": "ltx/2.5",
+      "operation": "blend",
+      "status": "unsupported",
+      "cell": "unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/ltx-2.5-blend.result.json))"
+    },
+    {
+      "row": "scail/2",
+      "operation": "outpaint",
+      "status": "unsupported",
+      "cell": "unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-outpaint.result.json))"
+    },
+    {
+      "row": "scail/2",
+      "operation": "upscale",
+      "status": "unsupported",
+      "cell": "unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-upscale.result.json))"
+    },
+    {
+      "row": "hunyuan/standard",
+      "operation": "outpaint",
+      "status": "unsupported",
+      "cell": "unsupported ([typed backend](../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/hunyuan-standard-outpaint.result.json))"
+    }
+  ],
+  "story_gap": "90 planned cells remain because the authorized feasible-subset lane did not (and could not honestly) execute every family/operation; see row-dispositions.json and ltx25.failure.log"
+}

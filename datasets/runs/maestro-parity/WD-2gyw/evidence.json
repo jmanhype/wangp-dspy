@@ -1,0 +1,1090 @@
+{
+  "command": [
+    "timeout",
+    "4200",
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "4000",
+    "/home/straughter/Wan2GP/wd_2gyw_hunyuan.sh"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "measured_format": {
+        "audio_codec": "aac",
+        "audio_duration_s": 2.304,
+        "channels": 2,
+        "container_duration_s": 2.333333,
+        "fps": 24.0,
+        "height": 832,
+        "sample_rate_hz": 32000,
+        "video_codec": "h264",
+        "video_duration_s": 2.333333,
+        "width": 480
+      },
+      "path": "outputs/wd_2gyw_h3_standard.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "measured_format": {
+        "audio_codec": "aac",
+        "audio_duration_s": 2.304,
+        "channels": 2,
+        "container_duration_s": 2.333333,
+        "fps": 24.0,
+        "height": 832,
+        "sample_rate_hz": 32000,
+        "video_codec": "h264",
+        "video_duration_s": 2.333333,
+        "width": 480
+      },
+      "path": "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "measured_format": {
+        "audio_codec": "aac",
+        "audio_duration_s": 2.304,
+        "channels": 2,
+        "container_duration_s": 2.333333,
+        "fps": 24.0,
+        "height": 832,
+        "sample_rate_hz": 32000,
+        "video_codec": "h264",
+        "video_duration_s": 2.333333,
+        "width": 480
+      },
+      "path": "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "measured_format": {
+        "audio_codec": "aac",
+        "audio_duration_s": 2.304,
+        "channels": 2,
+        "container_duration_s": 2.333333,
+        "fps": 24.0,
+        "height": 832,
+        "sample_rate_hz": 32000,
+        "video_codec": "h264",
+        "video_duration_s": 2.333333,
+        "width": 480
+      },
+      "path": "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "height": 480,
+      "kind": "video",
+      "measured_format": {
+        "container_duration_s": 2.541667,
+        "fps": 24.0,
+        "height": 480,
+        "video_codec": "h264",
+        "video_duration_s": 2.541667,
+        "width": 832
+      },
+      "path": "outputs/wd_2gyw_hunyuan.mp4",
+      "width": 832
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "download_approved": true,
+      "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "size_bytes": 21057674787,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
+      "download_approved": true,
+      "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "size_bytes": 5207806512,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
+      "download_approved": true,
+      "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "size_bytes": 605429308,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "size_bytes": 26723791903,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f",
+      "size_bytes": 19483116168,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_video_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d",
+      "size_bytes": 1452269922,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_vae_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3",
+      "size_bytes": 1472223346,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028",
+      "size_bytes": 106546028,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_vae_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_vocoder_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435",
+      "size_bytes": 258355696,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_vocoder_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494",
+      "size_bytes": 2312126712,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_text_embedding_projection_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765",
+      "size_bytes": 1615737560,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362",
+      "size_bytes": 405254656,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8",
+      "size_bytes": 995778752,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+      "size_bytes": 261944000,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "download_approved": true,
+      "identity": "ltx25-gemma4-gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903",
+      "size_bytes": 12923893224,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json",
+      "download_approved": true,
+      "identity": "ltx25-gemma4-tokenizer.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+      "size_bytes": 32169626,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/tokenizer.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json",
+      "download_approved": true,
+      "identity": "ltx25-gemma4-config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0",
+      "size_bytes": 2498,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja",
+      "download_approved": true,
+      "identity": "ltx25-gemma4-chat_template.jinja",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
+      "size_bytes": 18683,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/chat_template.jinja"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "ltx25-gemma4-tokenizer_config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8",
+      "size_bytes": 3736,
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "b045f314ae1ef2fb50de8efd7aa3fbf67526ec12ce59537ec9827bd417b09b77",
+      "size_bytes": 8503018313,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE_fp32.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-hunyuan_video_1_5_VAE_fp32.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "2609ed7033c052fdf164afcac71e8a7c82afccdbb001d673444a72f194fbb918",
+      "size_bytes": 5042560980,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE_fp32.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/hunyuan_video_1_5_VAE.json",
+      "download_approved": true,
+      "identity": "hunyuan15-hunyuan_video_1_5_VAE.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "899e63dae033b2fa14291cefbe6e1736741d816991456e96d4d497918dacf8af",
+      "size_bytes": 462,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/color_idx.json",
+      "download_approved": true,
+      "identity": "hunyuan15-Glyph-SDXL-v2-color_idx.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "d52364d14204f0fb658575ac92f094210b485aeb6579ac9814097a0e8c4eb513",
+      "size_bytes": 2366,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/color_idx.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/multilingual_10-lang_idx.json",
+      "download_approved": true,
+      "identity": "hunyuan15-Glyph-SDXL-v2-multilingual_10-lang_idx.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "3753b9e132a4b4dac714e55ac90bd6f791874a83fa0f716b1f6f457a9c5a33a1",
+      "size_bytes": 28098,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/multilingual_10-lang_idx.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "7845fb21b320f3fa05392ce151143502cf08729c8c89732da3293615885d3e83",
+      "size_bytes": 698,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/model.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-model.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "effd42c558a0558b62c326e7f58b22f3b1499ca465246e45eb0f8e844f1f313e",
+      "size_bytes": 1203095198,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/model.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-Glyph-SDXL-v2-byt5-small-byt5_model.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "7fb208af0f1497111418b4f254230639e49829a82413f3fc8fda2d24fa005273",
+      "size_bytes": 877273198,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/Glyph-SDXL-v2/byt5-small/byt5_model.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-siglip_vision_model-config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "b626aa9623e88440ce20623debc3f0d85e4ee61f38846deca16738784b8ac4e2",
+      "size_bytes": 419,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/model.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-siglip_vision_model-model.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "d769e3a32a6a9bac72d4d93b989e44491f71b50f02bfa14cd9187758d4a68ff1",
+      "size_bytes": 856506120,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/model.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/siglip_vision_model/preprocessor_config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-siglip_vision_model-preprocessor_config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "ec1f371074fb4867ea1c654e00bc5ea99d706f409aaebf8dc614d67c0735aff8",
+      "size_bytes": 394,
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/siglip_vision_model/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-vae",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "0c8bc8b758c649abef9ea407b95408389a3b2f610d0d10fcb054fe171d0a8344",
+      "size_bytes": 253806966,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/qwen_vae_config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-vae-config",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "e4e61b7553f930e9eabf8935f0a77e6d004cc3ee67a601a56ef03cc41ccada68",
+      "size_bytes": 730,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/qwen_vae_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen25-text-encoder-int8",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "18966ca6ba18261ec0465442580ad30510a758ecc0314871a0bbd30032716568",
+      "size_bytes": 9432992295,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/merges.txt",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-merges.txt",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "size_bytes": 1671853,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/merges.txt"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-tokenizer_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "size_bytes": 4686,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/tokenizer_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "081d41bae4c75815afde340b5cee39d9c71febe3fc3146e0366a75a45da0c04b",
+      "size_bytes": 3217,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/vocab.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-vocab.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "87a257b04b17642a0688c98cd1df89c398bda4fee532d6f88b38a659ecb4ac8d",
+      "size_bytes": 3383407,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/vocab.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-video_preprocessor_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "d4397fb8765d3fb56db022e5a14ce58dbcc144093c49ea1ab96787fb7951facb",
+      "size_bytes": 904,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/video_preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/preprocessor_config.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-preprocessor_config.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "9ff8a240516e4ef986717597bb2c5fff3e4d4c0951d02b7dee949ceb369b5b03",
+      "size_bytes": 788,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/preprocessor_config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen2.5-VL-7B-Instruct/chat_template.json",
+      "download_approved": true,
+      "identity": "hunyuan15-existing-qwen-tokenizer-chat_template.json",
+      "license": "Apache-2.0 (Qwen/Qwen-Image upstream); operator research/evaluation limitation",
+      "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96",
+      "size_bytes": 1050,
+      "source": "https://huggingface.co/DeepBeepMeep/Qwen_image/resolve/main/Qwen2.5-VL-7B-Instruct/chat_template.json"
+    }
+  ],
+  "native_commands": [
+    [
+      "timeout",
+      "3900",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "3700",
+      "/home/straughter/Wan2GP/wd_2gyw_h3_standard.sh"
+    ],
+    [
+      "timeout",
+      "4200",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "4000",
+      "/home/straughter/Wan2GP/wd_2gyw_h3_specialized.sh"
+    ],
+    [
+      "timeout",
+      "2400",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "2200",
+      "/home/straughter/Wan2GP/wd_2gyw_h3_kfi_retry.sh"
+    ],
+    [
+      "timeout",
+      "4200",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "4000",
+      "/home/straughter/Wan2GP/wd_2gyw_ltx25.sh"
+    ],
+    [
+      "timeout",
+      "4200",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "4000",
+      "/home/straughter/Wan2GP/wd_2gyw_hunyuan.sh"
+    ]
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4",
+        "ffprobe-wd_2gyw_h3_standard.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_2gyw_h3_standard_duration_s",
+      "row": "minimax_h3/standard",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4",
+        "ffprobe-wd_2gyw_h3_standard.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_2gyw_h3_standard_fps",
+      "row": "minimax_h3/standard",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4"
+      ],
+      "measured": 1246401.0,
+      "name": "wd_2gyw_h3_standard_nonempty_bytes",
+      "row": "minimax_h3/standard",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_2gyw_h3_standard_black_intervals_max",
+      "row": "minimax_h3/standard",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4",
+        "ffprobe-wd_2gyw_h3_standard.json"
+      ],
+      "measured": 32000.0,
+      "name": "wd_2gyw_h3_standard_audio_sample_rate_hz",
+      "row": "minimax_h3/standard",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_standard.mp4",
+        "ffprobe-wd_2gyw_h3_standard.json"
+      ],
+      "measured": 2.0,
+      "name": "wd_2gyw_h3_standard_audio_channels",
+      "row": "minimax_h3/standard",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+        "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_duration_s",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+        "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_fps",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4"
+      ],
+      "measured": 1509343.0,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_nonempty_bytes",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_black_intervals_max",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+        "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+      ],
+      "measured": 32000.0,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_audio_sample_rate_hz",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+        "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json"
+      ],
+      "measured": 2.0,
+      "name": "wd_2gyw_h3_vdn_hybrid_attention_audio_channels",
+      "row": "minimax_h3/h3_vdn_hybrid_attention",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_2gyw_h3_kfi_frames_injection_duration_s",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_2gyw_h3_kfi_frames_injection_fps",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4"
+      ],
+      "measured": 1306560.0,
+      "name": "wd_2gyw_h3_kfi_frames_injection_nonempty_bytes",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_2gyw_h3_kfi_frames_injection_black_intervals_max",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+      ],
+      "measured": 32000.0,
+      "name": "wd_2gyw_h3_kfi_frames_injection_audio_sample_rate_hz",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "ffprobe-wd_2gyw_h3_kfi_frames_injection.json"
+      ],
+      "measured": 2.0,
+      "name": "wd_2gyw_h3_kfi_frames_injection_audio_channels",
+      "row": "minimax_h3/kfi_frames_injection",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4",
+        "ffprobe-wd_2gyw_h3_audio_refinement.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_2gyw_h3_audio_refinement_duration_s",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4",
+        "ffprobe-wd_2gyw_h3_audio_refinement.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_2gyw_h3_audio_refinement_fps",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4"
+      ],
+      "measured": 1281960.0,
+      "name": "wd_2gyw_h3_audio_refinement_nonempty_bytes",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_2gyw_h3_audio_refinement_black_intervals_max",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4",
+        "ffprobe-wd_2gyw_h3_audio_refinement.json"
+      ],
+      "measured": 32000.0,
+      "name": "wd_2gyw_h3_audio_refinement_audio_sample_rate_hz",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_h3_audio_refinement.mp4",
+        "ffprobe-wd_2gyw_h3_audio_refinement.json"
+      ],
+      "measured": 2.0,
+      "name": "wd_2gyw_h3_audio_refinement_audio_channels",
+      "row": "minimax_h3/h3_audio_refinement",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_hunyuan.mp4",
+        "ffprobe-wd_2gyw_hunyuan.json"
+      ],
+      "measured": 2.541667,
+      "name": "wd_2gyw_hunyuan_duration_s",
+      "row": "hunyuan/standard",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_hunyuan.mp4",
+        "ffprobe-wd_2gyw_hunyuan.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_2gyw_hunyuan_fps",
+      "row": "hunyuan/standard",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_hunyuan.mp4"
+      ],
+      "measured": 1442664.0,
+      "name": "wd_2gyw_hunyuan_nonempty_bytes",
+      "row": "hunyuan/standard",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_2gyw_hunyuan.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_2gyw_hunyuan_black_intervals_max",
+      "row": "hunyuan/standard",
+      "threshold": 0.0,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-2gyw feasible video subset on host 3090: H3 assets already present, LTX-2.5 int8 and Hunyuan-1.5 int8 downloads bounded to 57,801,926,853 bytes under the dispatcher-approved 60,000,000,000-byte lane ceiling; synchronous renders; no llama-server restart or unrelated GPU work",
+    "status": "approved",
+    "text": "I agree\nyou need to kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this\nUnblock and cont\nYes",
+    "timestamp": "2026-09-25T14:15:32Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "sha256": "9fd0ab632a7b66d9be911cb86a20b746a15bb6557e2300e47a80993524d2f0d0"
+    },
+    {
+      "path": "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "sha256": "b75cca624728675d5de5851098de0b0227f86384f29785348262dcb4bc4efb86"
+    },
+    {
+      "path": "outputs/wd_2gyw_h3_standard.mp4",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    },
+    {
+      "path": "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "sha256": "6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb"
+    },
+    {
+      "path": "outputs/wd_2gyw_hunyuan.mp4",
+      "sha256": "8c36757e077cb1f080ed3596691ec3186a2c2307297ccb76bedee26507608fa0"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790349852841-73e09158",
+    "native_logs": [
+      "h3-standard.render.log",
+      "h3-specialized.render.log",
+      "h3-kfi-retry.render.log",
+      "hunyuan.render.log",
+      "ltx25.failure.log"
+    ],
+    "preflight": "doctor-preflight-after-download.json",
+    "queue_id": "wangp-JobQueue-WD-2gyw",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned WD-2gyw generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/wd_2gyw_h3_standard_first_frame.png",
+      "role": "kfi_injected_source_frame",
+      "sha256": "888e32c332c922616d39f802383d66a3de8733d7bb54d5aacdb6a03560bd638b"
+    },
+    {
+      "license": "Operator-owned WD-2gyw generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_2gyw_h3_standard.mp4",
+      "role": "kfi_and_audio_refinement_source_video",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    }
+  ],
+  "repository": {
+    "commit": "efaafa7f9689ce1b4b78e416845a416fe381cd83",
+    "commit_semantics": "efaafa7 is the clean generation base after bounded download, post-download preflight, and queue admission; generated outputs and evidence are intentionally dirty state in this record",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "e25cf3f2c5b1d189297ab94bc82b05ca22482d4f7b25c82557ae7c1b9f994b4a",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-2gyw/queue-bootstrap.py",
+        " M datasets/runs/maestro-parity/WD-2gyw/queue-complete.py",
+        " M datasets/runs/maestro-parity/WD-2gyw/queue-record.json",
+        " M datasets/runs/maestro-parity/WD-2gyw/queue.db",
+        " M datasets/runs/maestro-parity/WD-2gyw/row-dispositions.json",
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-2gyw/build-evidence.py",
+        "?? datasets/runs/maestro-parity/WD-2gyw/build-objective-gates.py",
+        "?? datasets/runs/maestro-parity/WD-2gyw/bundle-file-count.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/bundle-size.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/checker-result.exit",
+        "?? datasets/runs/maestro-parity/WD-2gyw/checker-result.stderr",
+        "?? datasets/runs/maestro-parity/WD-2gyw/checker-result.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/evidence-assembly.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/execution-summary.md",
+        "?? datasets/runs/maestro-parity/WD-2gyw/ffprobe-wd_2gyw_hunyuan.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/final-host-state.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/fullsuite-dirty-tree.err",
+        "?? datasets/runs/maestro-parity/WD-2gyw/fullsuite-dirty-tree.exit",
+        "?? datasets/runs/maestro-parity/WD-2gyw/fullsuite-dirty-tree.out",
+        "?? datasets/runs/maestro-parity/WD-2gyw/fullsuite-dirty-tree.xml",
+        "?? datasets/runs/maestro-parity/WD-2gyw/hunyuan.native.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/hunyuan.render.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/hunyuan.sha256.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/ltx25.failure.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/ltx25.native.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/ltx25.render.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/matrix-transition-check.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/media-and-objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/media-qc.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/objective-gates-summary.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/output-hashes.json",
+        "?? datasets/runs/maestro-parity/WD-2gyw/output-hashes.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/outputs/wd_2gyw_hunyuan.mp4",
+        "?? datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/",
+        "?? datasets/runs/maestro-parity/WD-2gyw/qc-stop.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/queue-complete.log",
+        "?? datasets/runs/maestro-parity/WD-2gyw/queue-including-ltx-attempt.db",
+        "?? datasets/runs/maestro-parity/WD-2gyw/release-verify-dirty-tree.exit",
+        "?? datasets/runs/maestro-parity/WD-2gyw/release-verify-dirty-tree.txt",
+        "?? datasets/runs/maestro-parity/WD-2gyw/selected-model-provenance.json"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [
+      "execution-summary.md",
+      "operator-authorization.md",
+      "download-plan.json",
+      "download-report.json",
+      "host-before-download.txt",
+      "host-after-download.txt",
+      "doctor-preflight-before-download.json",
+      "doctor-preflight-after-download.json",
+      "queue-record.json",
+      "queue-complete.log",
+      "output-hashes.txt",
+      "media-qc.json",
+      "objective-gates.json",
+      "row-dispositions.json",
+      "matrix-transition-check.json",
+      "checker-result.txt",
+      "final-host-state.txt",
+      "bundle-size.txt",
+      "ltx25.failure.log",
+      "taomate-search-evidence.md",
+      "h3-outpaint-boundary.md",
+      "planning/cli-summary.json"
+    ],
+    "review": "Human reviewer approval is pending; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "hunyuan/standard": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_2gyw_hunyuan.mp4",
+      "operation": "create"
+    },
+    "ltx/2.3": {
+      "disposition": "planned",
+      "reason": "A pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present, but its hash and packaging do not match the WanGP LTX-2.3 manifest assets; relabelling it would not be host-run evidence."
+    },
+    "ltx/2.5": {
+      "disposition": "planned",
+      "operation": "create",
+      "reason": "Authorized int8 ConvRot attempt loaded the selected 22B transformer and Gemma4 text encoder, then failed before generation in transformers tokenization with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; exact tail is in ltx25.failure.log. This is a host dependency failure, not hardware infeasibility."
+    },
+    "minimax_h3/h3_audio_refinement": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_2gyw_h3_audio_refinement.mp4",
+      "operation": "edit"
+    },
+    "minimax_h3/h3_outpaint": {
+      "disposition": "planned",
+      "reason": "Wan2GP FL2VA model definition comments out video_guide_outpainting; this is a typed host implementation boundary, not 24-GiB hardware infeasibility."
+    },
+    "minimax_h3/h3_vdn_hybrid_attention": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "operation": "create",
+      "runtime_proof": "render log records Sol-Attn enabled with Triton on SM86"
+    },
+    "minimax_h3/kfi_frames_injection": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "operation": "retake"
+    },
+    "minimax_h3/standard": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/wd_2gyw_h3_standard.mp4",
+      "operation": "create"
+    },
+    "minimax_h3/taomate_three_step": {
+      "disposition": "planned",
+      "reason": "No TaoMate implementation or preset was found in the Wan2GP or Maestro host code search; a generic three-step render would fabricate the named preset."
+    },
+    "scail/2": {
+      "disposition": "planned",
+      "reason": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling; this is an authorization/disk boundary, not proven hardware infeasibility."
+    },
+    "wan/2gp": {
+      "disposition": "planned",
+      "reason": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling; this is an authorization/disk boundary, not proven hardware infeasibility."
+    }
+  },
+  "runtime_notes": {
+    "actual_network_download_bytes": 57801926853,
+    "background_state": "No WD-2gyw SSH/render process or GPU compute app remains; CPU-only audio critic stopped; llama-server was not restarted; Maestro continues its pre-existing CPU-only WanGP server respawn loop",
+    "derived_preflight_min_free_gb_after_download": 24.0,
+    "derived_preflight_min_free_gb_before_download": 77.832239334,
+    "disk_floor_derivation": "Before download: 53.832239334 GiB selected downloads + 4 GiB render/output working set + 20 GiB safety margin = 77.832239334 GiB. After download: 4 GiB render/output working set + 20 GiB safety margin = 24 GiB.",
+    "download_after_free_bytes": 48921567232,
+    "download_before_free_bytes": 106745708544,
+    "download_ceiling_bytes": 60000000000,
+    "download_verified_assets": 26,
+    "final_free_bytes": 44842311680,
+    "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB total",
+    "gpu_after_each_completed_render": "83 MiB used / 24034 MiB free",
+    "gpu_before_h3_standard": "83 MiB used / 24034 MiB free",
+    "ltx25_failure": "Authorized synchronous attempt exited before generation with TypeError: tokenizers.pre_tokenizers.Split object does not support item assignment",
+    "planned_download_bytes": 57801926853
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}
