@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T21:27:32Z
-content_hash: "sha256:d8511522bcacbaf2f7d1773bde2ac9067227032576bc9883a0e024483ace1856"
+content_hash: "sha256:ac7348eaa2a7c5feab941cec5b3503b3a28a43d9ce4e3424ce144c27a6c13072"
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8, WD-r81u, WD-e4r7]
 assignee: dev-WD-bxhc
@@ -109,6 +109,16 @@ SHA: 31078a9d0e32690741ff26637440bf85086152a3
 ### AC Verification
 - [x] AC #1: ... 
 - [x] AC #2: ...
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-25.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
