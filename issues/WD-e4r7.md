@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
 updated_at: 2026-09-25T03:15:53Z
-content_hash: "sha256:9cfdc97bbe8827be42bdb0936571cbd997a8f581b9c4bdc6b34a95cdf68d7119"
+content_hash: "sha256:15da6838fda3e23658bc1fe67b69494675e258295c48dcab7b6bf50843bd72c7"
 assignee: dev-WD-e4r7
 follows: [WD-651z]
 closed_at: 2026-09-25T02:42:09Z
 close_reason: "Accepted via pvg story accept"
+led_to: [WD-rous]
 ---
 
 ## Description
@@ -624,6 +625,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-651z]]
+- Led to: [[WD-rous]]
 
 ## Comments
 

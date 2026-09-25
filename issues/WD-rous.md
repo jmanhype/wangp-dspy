@@ -1,16 +1,18 @@
 ---
 id: WD-rous
 title: "Music generation evidence"
-status: open
+status: in_progress
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-24T15:35:17Z
-content_hash: "sha256:266c68dd825658f1e9c00b6e24b902d93755d3a9043ba338b64b839a5fdff8a2"
+updated_at: 2026-09-25T03:35:35Z
+content_hash: "sha256:0fc02b6b424d15408b44b7b30176f351ebf926f8b28f2515fb9c2c8576604041"
 blocks: [WD-dmf2, WD-fay0]
+assignee: dev-WD-rous
+follows: [WD-e4r7]
 ---
 
 ## Description
@@ -103,9 +105,13 @@ Observable outcome: an explicitly authorized future run emits hashed music artif
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
 - 2026-09-24T14:14:09Z dep_added: blocks WD-fay0
 - 2026-09-24T14:39:53Z dep_removed: no_longer_blocks WD-651z
+- 2026-09-25T03:35:35Z status: open -> in_progress
+- 2026-09-25T03:35:35Z auto-follows: linked to predecessor WD-e4r7
+- 2026-09-25T03:35:35Z claimed by dev-WD-rous
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
+- Follows: [[WD-e4r7]]
 
 ## Comments
