@@ -9,3 +9,5 @@ The corrected second attempt extracted the v0.2.5.0 portable archive and stopped
 The extracted Ubuntu executable arrived without its executable bit on this host. A third pre-render attempt stopped at unzip's interactive overwrite prompt. The final gate checks for the extracted regular file and applies `chmod +x` explicitly; it performs no additional network transfer and does not overwrite any already-extracted file.
 
 The first media attempt captured a real host incompatibility in the planned command graph: Ubuntu FFmpeg 6.1.1 refuses FFV1 in an MP4 container (`Could not find tag for codec ffv1`). The lossless intermediate container was changed to Matroska while preserving the exact FFV1 transformation and final H.264/MP4 graph; this changes staging only, not source bytes or declared output semantics.
+
+Attempt 5 completed the four real FFmpeg outputs, then stopped before neural execution because the native helper launched from `$WORK` did not include WanGP's `$ROOT` on `PYTHONPATH`. The retry sets that path explicitly and performs no additional download.

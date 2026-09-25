@@ -55,10 +55,10 @@ timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/ffmpeg-grain.mkv" -map 1:v:0 -
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -map 0:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_ffmpeg_codec_h264.mp4"
 
 cd "$ROOT"
-timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_rife.py" "$SRC" "$TMP/rife/%08d.png" "$ASSETS/rife4.26.pkl"
+PYTHONPATH="$ROOT" timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_rife.py" "$SRC" "$TMP/rife/%08d.png" "$ASSETS/rife4.26.pkl"
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/rife/%08d.png" -map 1:v:0 -map 0:a:0 -r 48 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_rife_interpolation_x2.mp4"
 
-timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_film.py" "$SRC" "$TMP/film/%08d.png" --seed 2936 --intensity 0.05
+PYTHONPATH="$ROOT" timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_film.py" "$SRC" "$TMP/film/%08d.png" --seed 2936 --intensity 0.05
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/film/%08d.png" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_film_film_grain.mp4"
 
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -an -vsync 0 "$TMP/esrgan-input/%08d.png"
