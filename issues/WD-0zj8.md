@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:10:45Z
-content_hash: "sha256:34865d8c6e31f854799a4046290d13cdbfcddfe895efa42bd49e08921d7d41c5"
+updated_at: 2026-09-25T04:10:46Z
+content_hash: "sha256:3930dd832129562d42631c62e7ecfc7d3649f506beac57719b8ce7e6305b204f"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
@@ -100,6 +100,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-24.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED — NO-GPU HALF ONLY)
 
 PROOF:
