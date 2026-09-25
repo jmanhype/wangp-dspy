@@ -1,0 +1,7 @@
+diagnostic code=PLATFORM_INPUT_INVALID severity=error: Typed first-run input is invalid
+  observed: validation failed with 2 error(s): assets.0.sha256, assets
+  why: First-run preflight refuses incomplete hardware, asset, runtime, or recovery evidence.
+  remediation: Fix the recorded typed fields; no substitute value is inferred.
+  next: wgp first-run --help
+  evidence: datasets/runs/maestro-parity/WD-dmf2/model-download-manifest.json
+  details: {"field_count": 2}

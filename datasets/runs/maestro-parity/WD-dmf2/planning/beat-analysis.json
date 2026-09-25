@@ -1,0 +1,31 @@
+{
+  "all_beat_times_s": [
+    0.053333,
+    0.8,
+    1.514667,
+    2.325333,
+    3.018667,
+    3.765333,
+    4.501333,
+    5.28,
+    6.005333,
+    6.752,
+    7.445333
+  ],
+  "channels": 1,
+  "duration_s": 10.0,
+  "librosa_version": "1.0.0",
+  "method": "librosa.beat.beat_track(y=mono, sr=native, trim=False, units=frames, tightness=100)",
+  "onset_peak_strength": 22.910472869873047,
+  "sample_rate_hz": 48000,
+  "schema_version": "wangp-dspy.director-beat-measurement/v1",
+  "selected_beat_confidences": [
+    0.234944
+  ],
+  "selected_beat_times_s": [
+    5.28
+  ],
+  "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dmf2/datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_ace_generate.wav",
+  "source_sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9",
+  "tempo_bpm": 80.35714285714286
+}

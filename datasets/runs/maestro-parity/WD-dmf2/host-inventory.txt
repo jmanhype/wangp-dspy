@@ -1,0 +1,16 @@
+user=straughter host=straughter-Z690-Steel-Legend
+wgp_root=/home/straughter/Wan2GP
+/dev/nvme0n1p4 857997254656 808231116800 41020891136  96% /
+llama_server_processes:
+2591139 /bin/bash -c cd /home/straughter/qwen3vl-video && nohup /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000 > /home/straughter/qwen3vl-video/llama-server.restart.log 2>&1 & sleep 25; echo "=== health ==="; curl -s -m 5 http://127.0.0.1:8000/health || echo "(health endpoint not ready yet)"; echo; echo "=== process ==="; pgrep -af "llama-server" | grep -v pgrep | cut -c1-100 | head -2; echo "=== GPU after ==="; nvidia-smi --query-gpu=memory.used,memory.free --format=csv,noheader
+2591141 /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000
+gpu:
+NVIDIA GeForce RTX 3090, 24576 MiB, 7841 MiB, 0 %
+whisper=/home/straughter/.local/bin/whisper
+ffmpeg=/usr/bin/ffmpeg
+python_candidates:
+/usr/bin/python3 3.12.3
+required_assets:
+/home/straughter/.cache/whisper/small.pt 483617219
+/home/straughter/models/syncnet_v2/syncnet_v2.model 54573114
+/home/straughter/syncnet_probe/data/syncnet_v2.model 54573114

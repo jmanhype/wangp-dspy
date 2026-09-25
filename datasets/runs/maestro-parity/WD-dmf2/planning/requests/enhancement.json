@@ -1,0 +1,8 @@
+{
+  "schema_version": "wangp-dspy.director-enhancement-request/v1",
+  "source_db": "datasets/runs/maestro-parity/WD-dmf2/planning/plans/prompt.db",
+  "changes": {
+    "prompt": "A concise cinematic close-up: the brass compass needle settles as cool window light crosses the paper map."
+  },
+  "provenance_reason": "operator requested a narrower compass close-up for the enhanced plan"
+}

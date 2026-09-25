@@ -1,0 +1,502 @@
+{
+  "additional_commands": {
+    "ace_generate": [
+      "timeout",
+      "1800",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "1740",
+      "/mnt/bulk/straughter/ACE-Step-1.5/.venv/bin/python",
+      "/home/straughter/Wan2GP/wd_rous_ace.py",
+      "generate",
+      "/home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_generate.wav"
+    ],
+    "ace_style_adapt": [
+      "timeout",
+      "1800",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "1740",
+      "/mnt/bulk/straughter/ACE-Step-1.5/.venv/bin/python",
+      "/home/straughter/Wan2GP/wd_rous_ace.py",
+      "adapt",
+      "/home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_style_adapt.wav",
+      "/home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_generate.wav",
+      "/home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav"
+    ],
+    "stable_generate": [
+      "timeout",
+      "1800",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "cd",
+      "/home/straughter/Wan2GP",
+      "&&",
+      "timeout",
+      "1740",
+      "./venv/bin/python",
+      "wgp.py",
+      "--process",
+      "/home/straughter/Wan2GP/stable-generate.json",
+      "--output-dir",
+      "/home/straughter/Wan2GP/outputs/wd-rous/stable"
+    ]
+  },
+  "capability_transitions": [
+    {
+      "evidence_ref": "outputs/wd_rous_ace_generate.wav + objective_gate_results[ace_generate_*]",
+      "operation": "generate",
+      "row": "ace_step",
+      "status": "host_run_verified"
+    },
+    {
+      "evidence_ref": "reference_provenance + outputs/wd_rous_ace_style_adapt.wav + objective_gate_results[ace_style_*]",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "status": "host_run_verified"
+    },
+    {
+      "evidence_ref": "outputs/wd_rous_stable_generate.wav + stable-audio-infeasibility.md",
+      "operation": "generate",
+      "reason": "native model output is fixed at 44100 Hz; governed target requires 48000 Hz",
+      "row": "stable_audio",
+      "status": "unsupported_on_this_hardware"
+    },
+    {
+      "evidence_ref": "docs/music-capabilities.md pre-existing boundary",
+      "operation": "style_adaptation",
+      "reason": "unchanged; no separate authorization or bundle changed this planning boundary",
+      "row": "stable_audio",
+      "status": "unsupported for planning"
+    }
+  ],
+  "command": [
+    "timeout",
+    "1800",
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "1740",
+    "/mnt/bulk/straughter/ACE-Step-1.5/.venv/bin/python",
+    "/home/straughter/Wan2GP/wd_rous_ace.py",
+    "adapt",
+    "/home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_style_adapt.wav",
+    "/home/straughter/Wan2GP/outputs/wd-rous/ace/wd_rous_ace_generate.wav",
+    "/home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav"
+  ],
+  "disk_derivation": {
+    "failed_pre_download_floor_attempt": "selected-doctor-preflight-pre-download-floor-11.5-failed.json",
+    "post_download_render_min_free_gb": 9.14,
+    "post_download_safety_floor_gb": 8.0,
+    "pre_download_admission_min_free_gb": 11.5,
+    "render_working_set_margin_gb": 1.14
+  },
+  "download_accounting": {
+    "approved_ceiling_bytes": 20000000000,
+    "available_after_bytes": 11123302400,
+    "available_before_bytes": 13486784512,
+    "bytes_actually_pulled": 2356908559,
+    "plan_asset_count": 8,
+    "plan_total_size_bytes": 2356908559,
+    "selected_download_log": "selected-download.log"
+  },
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 10.0,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 2,
+        "duration_s": 10.0,
+        "sample_rate_hz": 48000
+      },
+      "path": "outputs/wd_rous_ace_generate.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 44100
+      },
+      "duration_s": 10.0,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 2,
+        "duration_s": 10.0,
+        "sample_rate_hz": 44100
+      },
+      "path": "outputs/wd_rous_stable_generate.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 10.0,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 2,
+        "duration_s": 10.0,
+        "sample_rate_hz": 48000
+      },
+      "path": "outputs/wd_rous_ace_style_adapt.wav",
+      "width": 2
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/acestep-v15-turbo/model.safetensors",
+      "download_approved": true,
+      "identity": "ace_step_v15_turbo_dit",
+      "license": "MIT (ACE-Step 1.5 upstream); operator research/evaluation limitation",
+      "sha256": "3f6e0797fad420a39bd33979eb6e840e30989e34a3794e843d23b60ec6e422d7",
+      "size_bytes": 4787825604,
+      "source": "https://huggingface.co/ACE-Step/Ace-Step1.5 (local file under /mnt/bulk/straughter/ACE-Step-1.5)"
+    },
+    {
+      "destination": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/vae/diffusion_pytorch_model.safetensors",
+      "download_approved": true,
+      "identity": "ace_step_v15_vae",
+      "license": "MIT (ACE-Step 1.5 upstream); operator research/evaluation limitation",
+      "sha256": "da17edb604c40deaf09e9b24974e590d1ca83a374070e5d0884cfa4bed9a99b0",
+      "size_bytes": 337431388,
+      "source": "https://huggingface.co/ACE-Step/Ace-Step1.5 (local file under /mnt/bulk/straughter/ACE-Step-1.5)"
+    },
+    {
+      "destination": "/mnt/bulk/straughter/ACE-Step-1.5/checkpoints/Qwen3-Embedding-0.6B/model.safetensors",
+      "download_approved": true,
+      "identity": "ace_step_qwen3_embedding",
+      "license": "MIT (ACE-Step 1.5 upstream); operator research/evaluation limitation",
+      "sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+      "size_bytes": 1191586416,
+      "source": "https://huggingface.co/ACE-Step/Ace-Step1.5 (local file under /mnt/bulk/straughter/ACE-Step-1.5)"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio3_small_music",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158",
+      "size_bytes": 918714064,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_small_music_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio3_same_s",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30",
+      "size_bytes": 216518418,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_same_s_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876",
+      "size_bytes": 1183023032,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma_config",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a",
+      "size_bytes": 2540,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma_special_tokens",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351",
+      "size_bytes": 636,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_json",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd",
+      "size_bytes": 34362429,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_model",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2",
+      "size_bytes": 4241003,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.model"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_config",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f",
+      "size_bytes": 46437,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer_config.json"
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_generate.wav",
+        "ffprobe-wd_rous_ace_generate.json"
+      ],
+      "measured": 48000,
+      "name": "ace_generate_sample_rate_hz",
+      "operation": "generate",
+      "row": "ace_step",
+      "threshold": 48000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_generate.wav",
+        "ffprobe-wd_rous_ace_generate.json"
+      ],
+      "measured": 2,
+      "name": "ace_generate_channels",
+      "operation": "generate",
+      "row": "ace_step",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_generate.wav",
+        "ffprobe-wd_rous_ace_generate.json"
+      ],
+      "measured": 10,
+      "name": "ace_generate_duration_s",
+      "operation": "generate",
+      "row": "ace_step",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_generate.wav",
+        "audio-statistics.json"
+      ],
+      "measured": 0.09747790263431817,
+      "name": "ace_generate_audio_rms",
+      "operation": "generate",
+      "row": "ace_step",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_style_adapt.wav",
+        "ffprobe-wd_rous_ace_style_adapt.json"
+      ],
+      "measured": 48000,
+      "name": "ace_style_sample_rate_hz",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "threshold": 48000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_style_adapt.wav",
+        "ffprobe-wd_rous_ace_style_adapt.json"
+      ],
+      "measured": 2,
+      "name": "ace_style_channels",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_style_adapt.wav",
+        "ffprobe-wd_rous_ace_style_adapt.json"
+      ],
+      "measured": 10,
+      "name": "ace_style_duration_s",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_style_adapt.wav",
+        "audio-statistics.json"
+      ],
+      "measured": 0.09000152538588495,
+      "name": "ace_style_audio_rms",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_rous_ace_generate.wav",
+        "outputs/wd_rous_ace_style_adapt.wav",
+        "audio-statistics.json"
+      ],
+      "measured": 0.07698007055918375,
+      "name": "ace_style_audible_ab_mean_absolute_delta",
+      "operation": "style_adaptation",
+      "row": "ace_step",
+      "threshold": 0.001,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-rous host batch 1: minimum 2,356,908,559-byte Stable Audio model download and real ACE-Step generate/style-adapt plus Stable Audio generate operations; research/evaluation only; no training",
+    "status": "approved",
+    "text": "I agree\nyou need to kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this\nUnblock and cont",
+    "timestamp": "2026-09-25T03:42:53Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_rous_ace_generate.wav",
+      "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+    },
+    {
+      "path": "outputs/wd_rous_stable_generate.wav",
+      "sha256": "40c0e22367561a6b9a0cd6869f2c5b9b61b803b9fcf660e4f7d2ea9bb0c6c6eb"
+    },
+    {
+      "path": "outputs/wd_rous_ace_style_adapt.wav",
+      "sha256": "a062dbd91d61820c6e2267a387afbe7611721ef3b27ad4fa31b4ed86a2b45a99"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790308519687-2e4298d1",
+    "native_logs": [
+      "ace-generate.native.log",
+      "stable-generate.native.log",
+      "ace-style-adapt.native.log"
+    ],
+    "preflight": "selected-doctor-preflight-after-download.json",
+    "queue_id": "wangp-JobQueue-WD-rous",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned generated evaluation audio; no redistribution",
+      "path": "outputs/wd_rous_stable_generate.wav",
+      "role": "stable_generate_attempt_and_ace_style_reference",
+      "sha256": "40c0e22367561a6b9a0cd6869f2c5b9b61b803b9fcf660e4f7d2ea9bb0c6c6eb"
+    },
+    {
+      "license": "Operator-owned generated evaluation audio; no redistribution",
+      "path": "outputs/wd_rous_ace_generate.wav",
+      "role": "ace_style_before",
+      "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+    }
+  ],
+  "repository": {
+    "commit": "3fd053f23d4bbd2dbcdecd4330ee4ce771961803",
+    "commit_semantics": "3fd053f is the clean commit immediately before native generation; the identity captures generated outputs and queue state present when evidence was assembled",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "861182bc6dcc7c05316ec1454b20f59d6c0d48a2322b5ffed22a6ab0e79c642a",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-rous/queue.db",
+        "?? datasets/runs/maestro-parity/WD-rous/ace-generate.native.log",
+        "?? datasets/runs/maestro-parity/WD-rous/ace-style-adapt.native.log",
+        "?? datasets/runs/maestro-parity/WD-rous/audio-statistics.json",
+        "?? datasets/runs/maestro-parity/WD-rous/execution-summary.md",
+        "?? datasets/runs/maestro-parity/WD-rous/ffprobe-wd_rous_ace_generate.json",
+        "?? datasets/runs/maestro-parity/WD-rous/ffprobe-wd_rous_ace_style_adapt.json",
+        "?? datasets/runs/maestro-parity/WD-rous/ffprobe-wd_rous_stable_generate.json",
+        "?? datasets/runs/maestro-parity/WD-rous/final-host-state.txt",
+        "?? datasets/runs/maestro-parity/WD-rous/gpu-before-generation.txt",
+        "?? datasets/runs/maestro-parity/WD-rous/objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-rous/output-hashes.txt",
+        "?? datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_ace_generate.wav",
+        "?? datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_ace_style_adapt.wav",
+        "?? datasets/runs/maestro-parity/WD-rous/outputs/wd_rous_stable_generate.wav",
+        "?? datasets/runs/maestro-parity/WD-rous/planning/cli/ace-style-adapt.json",
+        "?? datasets/runs/maestro-parity/WD-rous/planning/requests/ace-style-adapt.json",
+        "?? datasets/runs/maestro-parity/WD-rous/queue-complete.log",
+        "?? datasets/runs/maestro-parity/WD-rous/queue-final-state.txt",
+        "?? datasets/runs/maestro-parity/WD-rous/queue.db-shm",
+        "?? datasets/runs/maestro-parity/WD-rous/queue.db-wal",
+        "?? datasets/runs/maestro-parity/WD-rous/stable-audio-infeasibility.md",
+        "?? datasets/runs/maestro-parity/WD-rous/stable-generate.native.log"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "execution-summary.md",
+      "objective-gates.json",
+      "audio-statistics.json",
+      "stable-audio-infeasibility.md",
+      "ace-generate.native.log",
+      "stable-generate.native.log",
+      "ace-style-adapt.native.log",
+      "output-hashes.txt",
+      "ffprobe-wd_rous_ace_generate.json",
+      "ffprobe-wd_rous_ace_style_adapt.json",
+      "ffprobe-wd_rous_stable_generate.json",
+      "queue-record.json",
+      "final-host-state.txt",
+      "selected-download.log",
+      "selected-doctor-preflight-after-download.json",
+      "selected-doctor-preflight-pre-download-floor-11.5-failed.json",
+      "operator-authorization.md",
+      "matrix-transition-check.json"
+    ],
+    "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}

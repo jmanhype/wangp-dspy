@@ -1,0 +1,539 @@
+{
+  "command": [
+    "timeout",
+    "900",
+    "ssh",
+    "-n",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "840",
+    "/home/straughter/Wan2GP/venv/bin/python",
+    "/home/straughter/Wan2GP/wd_c_pow_refine.py"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "present": true,
+        "sample_rate_hz": 44100
+      },
+      "duration_s": 2.25,
+      "fps": 1,
+      "height": 1,
+      "kind": "video",
+      "measured_format": {
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "duration_s": 2.25,
+        "sample_rate_hz": 44100
+      },
+      "path": "outputs/wd_cpow_stable_sfx.wav",
+      "width": 2
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 576,
+      "kind": "video",
+      "measured_format": {
+        "audio_duration_s": 2.333,
+        "channels": 2,
+        "codec": "aac",
+        "fps": 24.0,
+        "height": 576,
+        "sample_rate_hz": 48000,
+        "video_duration_s": 2.333333,
+        "width": 704
+      },
+      "path": "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "width": 704
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 576,
+      "kind": "video",
+      "measured_format": {
+        "audio_duration_s": 2.325,
+        "channels": 2,
+        "codec": "aac",
+        "fps": 24.0,
+        "height": 576,
+        "sample_rate_hz": 48000,
+        "video_duration_s": 2.333333,
+        "width": 704
+      },
+      "path": "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "width": 704
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_small_music_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio3_small_music",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "8a5bb1b5c6f9e54aff7f96d42df18852e7bf5d1da9b2262fd0bed7d2e080b158",
+      "size_bytes": 918714064,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_small_music_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/stable_audio3_same_s_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio3_same_s",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "01d5b73153f2255b3f13d4ee9679aa3e4506370862f39a1de2d783da01081f30",
+      "size_bytes": 216518418,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/stable_audio3_same_s_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "ef8e92b4b5664c113cbd883f7d9397ecf2b2441f1a1a97454f51bd6ff0fd9876",
+      "size_bytes": 1183023032,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/config.json",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma_config",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "575334409716886ac2952f5a275ed92868deef8a0ea560258d9970a431c6fb3a",
+      "size_bytes": 2540,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/config.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/special_tokens_map.json",
+      "download_approved": true,
+      "identity": "stable_audio_t5gemma_special_tokens",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "baec30ea10906f16adb8c18af7a34023002c1746542612b8b41c9f09e1351351",
+      "size_bytes": 636,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/special_tokens_map.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.json",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_json",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "7794135caa3ea73918949c902a781cc61dab674a4b59c17d85931c77c1114cbd",
+      "size_bytes": 34362429,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.json"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer.model",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_model",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "61a7b147390c64585d6c3543dd6fc636906c9af3865a5548f27f31aee1d4c8e2",
+      "size_bytes": 4241003,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer.model"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/t5gemma-b-b-ul2/tokenizer_config.json",
+      "download_approved": true,
+      "identity": "stable_audio_tokenizer_config",
+      "license": "No license declared by DeepBeepMeep/TTS distribution; operator research/evaluation only",
+      "sha256": "9546baec0dfefec0e29873edea9488ecde153f846e18c06ea48cb44587bf408f",
+      "size_bytes": 46437,
+      "source": "https://huggingface.co/DeepBeepMeep/TTS/resolve/main/t5gemma-b-b-ul2/tokenizer_config.json"
+    },
+    {
+      "destination": "/mnt/bulk/straughter/models/VibeVoice-7B-hf/model.safetensors.index.json",
+      "download_approved": true,
+      "identity": "VibeVoice-7B-hf model index anchor",
+      "immutable_version": "11-shard 18,698,450,924-byte host install; index SHA-256 anchors this exact manifest",
+      "license": "Apache-2.0 (VibeVoice upstream); operator research/evaluation limitation",
+      "sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "size_bytes": 124188,
+      "source": "https://huggingface.co/microsoft/VibeVoice-7B (pre-existing host copy /mnt/bulk/straughter/models/VibeVoice-7B-hf)"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip",
+      "download_approved": true,
+      "identity": "DeepFilterNet3 model archive",
+      "license": "MIT (DeepFilterNet upstream pretrained model); operator research/evaluation only",
+      "sha256": "49c52edc8947ae1f9bf50d81530beaf3a2c3245aeaf34b6f31ff535cd22284d2",
+      "size_bytes": 7986207,
+      "source": "https://github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/checkpoints/model_120.ckpt.best",
+      "download_approved": true,
+      "identity": "DeepFilterNet3 best checkpoint",
+      "license": "MIT (DeepFilterNet upstream pretrained model); operator research/evaluation only",
+      "sha256": "23b92884f63ccf54bb026014604625ab231657b6480df65db4095c4c171e6003",
+      "size_bytes": 8714073,
+      "source": "https://github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip"
+    }
+  ],
+  "native_commands": [
+    [
+      "timeout",
+      "700",
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "620",
+      "bash",
+      "/home/straughter/Wan2GP/wd_c_pow_stable_sfx.sh"
+    ],
+    [
+      "timeout",
+      "2400",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/datasets/runs/maestro-parity/WD-cpow/run-vibevoice-remote.sh"
+    ],
+    [
+      "timeout",
+      "360",
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "300",
+      "bash",
+      "/home/straughter/Wan2GP/wd_c_pow_revoice_mux.sh"
+    ],
+    [
+      "timeout",
+      "900",
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "840",
+      "/home/straughter/Wan2GP/venv/bin/python",
+      "/home/straughter/Wan2GP/wd_c_pow_refine.py"
+    ]
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/wd_cpow_stable_sfx.wav",
+        "audio-statistics.json"
+      ],
+      "measured": 0.789872426854435,
+      "name": "stable_sfx_attempt_nonblank_rms",
+      "operation": "sfx",
+      "row": "stable_audio/sound_effect",
+      "threshold": 0.001,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_stable_sfx.wav",
+        "ffprobe-wd_cpow_stable_sfx.json"
+      ],
+      "measured": 2.25,
+      "name": "stable_sfx_attempt_duration_s",
+      "operation": "sfx",
+      "row": "stable_audio/sound_effect",
+      "threshold": 2.25,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "vibevoice-report.json",
+        "outputs/wd_cpow_vibevoice_raw.prepared.wav"
+      ],
+      "measured": 1.0,
+      "name": "revoice_whisper_score",
+      "operation": "revoice",
+      "row": "vibevoice/revoice",
+      "threshold": 0.8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "video-stream-hash.source.txt",
+        "video-stream-hash.revoice.txt"
+      ],
+      "measured": 1,
+      "name": "revoice_video_stream_hash_match",
+      "operation": "revoice",
+      "row": "vibevoice/revoice",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_vibevoice_revoice.mp4",
+        "ffprobe-wd_cpow_vibevoice_revoice.json"
+      ],
+      "measured": 48000,
+      "name": "revoice_sample_rate_hz",
+      "operation": "revoice",
+      "row": "vibevoice/revoice",
+      "threshold": 48000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_vibevoice_revoice.mp4",
+        "ffprobe-wd_cpow_vibevoice_revoice.json"
+      ],
+      "measured": 2,
+      "name": "revoice_channels",
+      "operation": "revoice",
+      "row": "vibevoice/revoice",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "video-stream-hash.source.txt",
+        "video-stream-hash.refine.txt"
+      ],
+      "measured": 1,
+      "name": "refine_video_stream_hash_match",
+      "operation": "refine",
+      "row": "deepfilternet/refinement",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_deepfilternet_refine.mp4",
+        "ffprobe-wd_cpow_deepfilternet_refine.json"
+      ],
+      "measured": 48000,
+      "name": "refine_sample_rate_hz",
+      "operation": "refine",
+      "row": "deepfilternet/refinement",
+      "threshold": 48000,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_deepfilternet_refine.mp4",
+        "ffprobe-wd_cpow_deepfilternet_refine.json"
+      ],
+      "measured": 2,
+      "name": "refine_channels",
+      "operation": "refine",
+      "row": "deepfilternet/refinement",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_deepfilternet_refine.mp4",
+        "loudness-refine.txt",
+        "audio-statistics.json"
+      ],
+      "measured": 0.0,
+      "name": "refine_target_lufs_error",
+      "operation": "refine",
+      "row": "deepfilternet/refinement",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_cpow_vibevoice_revoice.mp4",
+        "outputs/wd_cpow_deepfilternet_refine.mp4",
+        "audio-statistics.json"
+      ],
+      "measured": 0.0031915837117848897,
+      "name": "refine_audible_ab_mean_absolute_delta",
+      "operation": "refine",
+      "row": "deepfilternet/refinement",
+      "threshold": 0.001,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-cpow host batch 1: minimum SFX/audio-post assets and one Stable Audio sound-effect attempt, one VibeVoice revoice, and one DeepFilterNet refinement; 20,000,000,000-byte download ceiling; research/evaluation only",
+    "status": "approved",
+    "text": "I agree\nyou need to kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this\nUnblock and cont",
+    "timestamp": "2026-09-25T05:12:08Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_cpow_stable_sfx.wav",
+      "sha256": "f0897dfc2c00eb3239ac244e7cf668d3949fce97a2a2bc9253f06ff45830ef7b"
+    },
+    {
+      "path": "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+    },
+    {
+      "path": "outputs/wd_cpow_deepfilternet_refine.mp4",
+      "sha256": "716c6c25d549fce2fbaa4509dba12e97fe98838c2943925f4cb0858cd154bc91"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790313681168-5680787d",
+    "native_logs": [
+      "stable-sfx.native.log",
+      "vibevoice-remote.native.log",
+      "vibevoice-revoice.native.log",
+      "deepfilternet-refine.native.log"
+    ],
+    "preflight": "selected-doctor-preflight-after-download.json",
+    "queue_id": "wangp-JobQueue-WD-cpow",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/source.mp4",
+      "role": "revoice_source_video_audio_container",
+      "sha256": "c790452320e6893227caa0827c941a3e610403e776d7b833ae94d5ef135439a6"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/target-voice.wav",
+      "role": "revoice_target_voice",
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_cpow_vibevoice_raw.attempt-1.wav",
+      "role": "vibevoice_scored_seed_rejection_raw",
+      "sha256": "4c5fb9eb6ceb99183e4ecf4dabf1fa8ca3ec26900e8c72df67812264fabdffd3"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_cpow_vibevoice_raw.attempt-1.prepared.wav",
+      "role": "vibevoice_scored_seed_rejection_prepared",
+      "sha256": "0c5f8f0baaf187188de26d2420f83d2304a9c64640e3f3fbe89803d610d72b33"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_cpow_vibevoice_raw.wav",
+      "role": "vibevoice_successful_raw",
+      "sha256": "7c59439eb20fec605e0ff485acd7747de9e82be1039c95afcab55888e3a546ca"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_cpow_vibevoice_raw.prepared.wav",
+      "role": "vibevoice_successful_prepared",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "outputs/wd_cpow_vibevoice_revoice.mp4",
+      "role": "revoice_output_and_refinement_source",
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "video-stream-hash.source.txt",
+      "role": "source_video_packet_hash",
+      "sha256": "a761e84f47fec0b1078f51670ab08e27903efefa6d41c5e0265dc437dc92e21d"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "video-stream-hash.revoice.txt",
+      "role": "revoice_video_packet_hash",
+      "sha256": "a761e84f47fec0b1078f51670ab08e27903efefa6d41c5e0265dc437dc92e21d"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "video-stream-hash.refine.txt",
+      "role": "refine_video_packet_hash",
+      "sha256": "a761e84f47fec0b1078f51670ab08e27903efefa6d41c5e0265dc437dc92e21d"
+    }
+  ],
+  "repository": {
+    "commit": "463a9b4cd8b500b16aa5533e446f50f473ec9f30",
+    "commit_semantics": "463a9b4 is the clean commit immediately before the DeepFilterNet refinement; it already contains the completed Stable Audio and VibeVoice artifacts. The first two operations began from clean fab413d with generated outputs accumulating as untracked evidence.",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "94dc4757b8098ef9a97f9d7b0af5e2f687c6252262dce5cac8d5b8378beb04e9",
+      "status_lines": [
+        "?? datasets/runs/maestro-parity/WD-cpow/deepfilternet-refine-report.json",
+        "?? datasets/runs/maestro-parity/WD-cpow/deepfilternet-refine.native.log",
+        "?? datasets/runs/maestro-parity/WD-cpow/ffprobe-wd_cpow_deepfilternet_refine.json",
+        "?? datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_deepfilternet_refine.mp4",
+        "?? datasets/runs/maestro-parity/WD-cpow/repository-status.txt",
+        "?? datasets/runs/maestro-parity/WD-cpow/video-stream-hash.refine.txt"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "execution-summary.md",
+      "objective-gates.json",
+      "audio-statistics.json",
+      "stable-audio-infeasibility.md",
+      "vibevoice-report.json",
+      "output-hashes.txt",
+      "ffprobe-wd_cpow_vibevoice_revoice.json",
+      "ffprobe-wd_cpow_deepfilternet_refine.json",
+      "queue-record.json",
+      "final-host-state.txt",
+      "selected-download.log",
+      "selected-doctor-preflight-after-download.json",
+      "operator-authorization.md",
+      "matrix-transition-check.json",
+      "download-plan.json",
+      "download-report.json",
+      "asset-inventory.txt",
+      "fullsuite-counters.json",
+      "release-verify.txt",
+      "standing-gates-final.txt"
+    ],
+    "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "deepfilternet/refinement": "evidence_complete_pending_review",
+    "stable_audio/sound_effect": "unsupported_on_this_hardware",
+    "vibevoice/revoice": "evidence_complete_pending_review"
+  },
+  "runtime_notes": {
+    "actual_network_download_bytes": 8677764,
+    "already_present_stable_audio_bytes": 2356908559,
+    "derived_min_free_gb": 8.16,
+    "disk_free_after_download_bytes": 10993692672,
+    "disk_free_before_download_bytes": 11026259968,
+    "disk_free_final_bytes": 10480836608,
+    "download_ceiling_bytes": 20000000000,
+    "final_background_state": "audio critic stopped; restored llama-server judge occupies 7752 MiB; no WD-cpow SSH/process remains",
+    "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB total",
+    "planned_download_bytes": 8677764,
+    "stable_audio_incremental_bytes_now": 0
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}
