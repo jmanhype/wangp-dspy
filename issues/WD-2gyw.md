@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T16:06:12Z
-content_hash: "sha256:ef0fd7016ff28d1807059a3da209c796287324b0da8f624748f5b9ecc6443a02"
+updated_at: 2026-09-25T18:11:21Z
+content_hash: "sha256:f1ef34063109d6378d00a7180a11f3aa27d1de3a3a2b3c9e6f93b5996065be05"
 blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
@@ -104,6 +104,23 @@ status: new
 
 
 ## Notes
+## PM Decision
+PARTIAL ACCEPTANCE [2026-09-25]: Existing reviewer approval independently revalidated. H3 standard, H3 VDN hybrid attention, H3 KFI frame injection, H3 audio refinement, and Hunyuan standard are delivered from distinct hashed MP4s. LTX-2.3, LTX-2.5, SCAIL, Wan, TaoMate, and H3 outpaint are NOT delivered; 90 of 99 cells remain planned. The video lane is incomplete and this is not full video parity.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Recomputed all five output SHA-256 values and ffprobe metadata; sampled-frame digests were distinct and blackdetect found no black clips.
+- Refreshed checker PASS at HEAD aedd36bd43c4a1e92fca3ca1666d067b63bf8006.
+- Clean-tree gates: JUnit tests=2085 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected parity c91a6d8 exit=0; git diff --check exit=0; pvg lint 0 errors/0 findings.
+- Branch aedd36bd43c4a1e92fca3ca1666d067b63bf8006 pushed to origin/story/WD-2gyw.
+
+### proof
+- [x] PARTIAL: only the five evidenced cells are host_run_verified.
+- [x] Remaining families are planned without fabricated hardware infeasibility.
+- [x] The full video lane remains incomplete.
+
 ## Implementation Evidence
 
 Summary: Delivered the authorized feasible subset with five real hashed videos and all standing gates; 90 cells remain planned and review is pending.
@@ -236,6 +253,23 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 
 ### 2026-09-25T14:15:32Z speed
 OPERATOR AUTHORIZATION RECORDED 2026-09-25: the operator approved host batch 1 (20 GB ceiling) and then, in sequence: 'kill whatever that is that was holding up the GPU and get back to work so that we can finish and complete this'; 'Unblock and cont'; and 'Yes' to the dispatcher's explicit pair - (a) stop llama-server (leaving the operator's web-intel stack degraded) while video renders run, (b) run the feasible video subset rather than relocating further data for the full 119 GB. Dispatcher host prep before this dispatch: llama-server (PID 3333716, 7752 MiB) stopped cleanly with that authorization, GPU now 83 MiB used / 24034 MiB free; ~93 GB of unrelated operator data offloaded from the root SSD to /mnt/bulk-hdd/ssd-offload via symlink-preserving moves (qwen-voicedesign-trial, hf_home, woosh, ai-toolkit, fish-speech, acestep-datasets, mne_data, blackice, twenty-crm, wangp-dspy-fresh, video-to-json-i2v, elder_man_dataset), taking the SSD from 9.5 GB to 100 GB free. Maestro was NOT moved (it is a live running process whose path is a symlink into /mnt/bulk/straughter/Maestro). /mnt/bulk-hdd is configured ro,noload in fstab and was remounted rw for this session only; fstab was left untouched. The dispatcher will restore llama-server after the lane completes.
+
+## nd_contract
+status: delivered
+
+### evidence
+- HEAD `90069c5fbd77481042e541994e90ec61148d6066`; branch `story/WD-2gyw` pushed to `origin/story/WD-2gyw`.
+- Bundle `datasets/runs/maestro-parity/WD-2gyw/evidence.json`; full suite 2085/0/0/1; lint 0/0; release ready; checker pending reviewer as required.
+
+### proof
+- [x] AC #1: Partial—five real outputs complete, reviewer pending.
+- [x] AC #2: Non-verified cells remain planned.
+- [x] AC #3: No fabricated hardware verdict.
+- [x] AC #4: Four typed boundaries preserved.
+- [x] AC #5: Fail—90 planned cells remain.
+- [x] AC #6: No unanchored continuity claim.
+- [x] AC #7: Completed family evidence remains independently valid.
+- [x] AC #8: Protected engine files and scope unchanged.
 
 ## nd_contract
 status: delivered
