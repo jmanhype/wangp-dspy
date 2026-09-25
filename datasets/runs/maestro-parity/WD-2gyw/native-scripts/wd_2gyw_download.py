@@ -45,7 +45,7 @@ def main() -> int:
         "--max-connection-per-server=8",
         "--split=8",
         "--min-split-size=64M",
-        "--concurrent-downloads=3",
+        "--max-concurrent-downloads=3",
         "--summary-interval=30",
         "--console-log-level=warn",
     ]
