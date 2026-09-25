@@ -1,5 +1,5 @@
 pvg lint --backlog after acceptance: exit=0; scanned 126 issues; 0 errors; 0 review findings
-full suite on clean review commit: exit=0; tests=2085; failures=0; errors=0; skipped=1; time_s=956.714
+full suite on clean final review commit: exit=0; tests=2085; failures=0; errors=0; skipped=1; time_s=943.658
 release verify: exit=0; release=ready; tag=v0.1.0; tag_created=false
 protected parity vs c91a6d8: exit=0; no diff in the five protected engine/runner files
 git diff --check: exit=0
