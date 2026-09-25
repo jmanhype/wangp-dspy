@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T20:00:58Z
-content_hash: "sha256:e578082ecb5a84eaad60b1aea06905a4d567e1ebfbc4ce806456a7d440b715aa"
+updated_at: 2026-09-25T20:01:38Z
+content_hash: "sha256:0d5438b997108c575646a431b766996eedd16d787c71531709b1cca9269b82e3"
 blocks: [WD-dmf2, WD-fay0]
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8]
@@ -266,4 +266,29 @@ status: delivered
 - [x] AC #6: No hardware-infeasibility claim is made.
 - [x] AC #7: Four voice and 18 character cells are evidence-complete.
 - [x] AC #8: Protected files and scope remain unchanged.
+
+
+### 2026-09-25T20:01:38Z speed
+## Implementation Evidence
+
+Summary: SHA correction. The delivery branch is unchanged and clean; the earlier note miscopied one hexadecimal character. Correct full SHA is below.
+
+Commands run:
+- git rev-parse HEAD
+- git rev-parse origin/story/WD-bxhc
+
+SHA: 31078a9e76a8fc4e27f1afa1fe54b8a0211551d4
+
+### AC Verification
+- [x] AC #8: HEAD and origin/story/WD-bxhc both equal 31078a9e76a8fc4e27f1afa1fe54b8a0211551d4.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Correct delivery SHA: 31078a9e76a8fc4e27f1afa1fe54b8a0211551d4.
+- The earlier 31078a9d0e... string is a typo, not a commit claim.
+
+### proof
+- [x] AC #1 through AC #8 remain as evidenced in WD-bxhc; only the SHA typo is corrected.
 
