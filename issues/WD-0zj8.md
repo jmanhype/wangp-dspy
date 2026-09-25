@@ -1,17 +1,19 @@
 ---
 id: WD-0zj8
 title: "Clean-machine generated install"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [install, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-24T15:34:39Z
-content_hash: "sha256:347e2770303bc7fce95e330a6571b806a280565b8c49abbad0c7a27ec2be2eda"
+updated_at: 2026-09-25T03:16:41Z
+content_hash: "sha256:3968bea75b4e102a143264d3433f3bbc9336b09118fed16646b671dee5e6b2fb"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
+assignee: dev-WD-0zj8
+follows: [WD-651z, WD-m0r5]
 ---
 
 ## Description
@@ -109,10 +111,15 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
 - 2026-09-24T16:02:51Z dep_removed: was_blocked_by WD-651z
 - 2026-09-25T02:28:58Z dep_removed: was_blocked_by WD-m0r5
+- 2026-09-25T03:16:41Z status: open -> in_progress
+- 2026-09-25T03:16:41Z auto-follows: linked to predecessor WD-651z
+- 2026-09-25T03:16:41Z auto-follows: linked to predecessor WD-m0r5
+- 2026-09-25T03:16:41Z claimed by dev-WD-0zj8
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]]
+- Follows: [[WD-651z]], [[WD-m0r5]]
 
 ## Comments

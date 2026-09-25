@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-25T03:15:53Z
-content_hash: "sha256:c4189980a07a86096da7f88b3af9bd4b3eb0e5a9de9ca13bf87fe4b6b5c41669"
+content_hash: "sha256:d066b71fad1fab4f92f22163682f727f957d9412ab21747503b73609979ab59e"
 assignee: dev-WD-m0r5
 follows: [WD-651z]
 closed_at: 2026-09-25T02:28:58Z
 close_reason: "Accepted: independent hash, metadata, provenance, objective-gate, visual, checker, matrix, and standing-gate review passed at 7bfb2e9b11a2535965e7beb8a03318bb5de712c6"
+led_to: [WD-0zj8]
 ---
 
 ## Description
@@ -255,6 +256,7 @@ Observable outcome: an explicitly authorized run emits hashed image artifacts an
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-651z]]
+- Led to: [[WD-0zj8]]
 
 ## Comments
 
