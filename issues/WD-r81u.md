@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-24T15:46:31Z
-content_hash: "sha256:cc3d6cbacc453eee1f7739e7c01d92e80a30784c80cf85df0d561656c4dba526"
-blocked_by: [WD-2gyw]
+content_hash: "sha256:08136b1780acfe762973ebb1de61a42de9abe1c8bb05492103d034451e968d50"
 blocks: [WD-dmf2, WD-fay0]
+was_blocked_by: [WD-2gyw]
 ---
 
 ## Description
@@ -111,10 +111,11 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - 2026-09-24T14:14:08Z dep_added: blocks WD-651z
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
 - 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
+- 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
-- Blocked by: [[WD-2gyw]]
+- Was blocked by: [[WD-2gyw]]
 
 ## Comments

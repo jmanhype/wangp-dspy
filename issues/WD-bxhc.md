@@ -9,10 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-24T15:36:50Z
-content_hash: "sha256:4cff230081a0c5b6126462796be29505dccbec15a2c5968a6a12ab613a003684"
-blocked_by: [WD-2gyw]
+content_hash: "sha256:d2687d62607dfea721b6e44cb9a331ef0093a3e9769adb5efee1c9086353d2ab"
 blocks: [WD-dmf2, WD-fay0]
-was_blocked_by: [WD-m0r5]
+was_blocked_by: [WD-m0r5, WD-2gyw]
 ---
 
 ## Description
@@ -115,11 +114,11 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - 2026-09-24T14:14:10Z dep_added: blocks WD-fay0
 - 2026-09-24T14:39:54Z dep_removed: no_longer_blocks WD-651z
 - 2026-09-25T02:28:58Z dep_removed: was_blocked_by WD-m0r5
+- 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-dmf2]], [[WD-fay0]]
-- Blocked by: [[WD-2gyw]]
-- Was blocked by: [[WD-m0r5]]
+- Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
 
 ## Comments

@@ -1,7 +1,7 @@
 ---
 id: WD-2gyw
 title: "Video breadth generation evidence"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [capability, evidence, external-integration, delivered]
@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T18:11:21Z
-content_hash: "sha256:f1ef34063109d6378d00a7180a11f3aa27d1de3a3a2b3c9e6f93b5996065be05"
-blocks: [WD-bxhc, WD-r81u, WD-dmf2, WD-fay0]
+content_hash: "sha256:bcc70996f3a643e26749a182db4c9f494e14761f4e6d6da6e57393d428c5eae3"
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
+closed_at: 2026-09-25T18:11:21Z
+close_reason: "PARTIAL ACCEPTANCE: H3 family and Hunyuan subset delivered; LTX-2.3, LTX-2.5, SCAIL, Wan, TaoMate and H3 outpaint NOT delivered; video lane incomplete, not full video parity."
 ---
 
 ## Description
@@ -243,10 +244,14 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 - 2026-09-25T14:15:04Z claimed by dev-WD-2gyw
 - 2026-09-25T16:03:50Z status: in_progress -> in_progress
 - 2026-09-25T16:03:51Z auto-follows: linked to predecessor WD-rous
+- 2026-09-25T18:11:21Z status: in_progress -> closed
+- 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-bxhc
+- 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-r81u
+- 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-dmf2
+- 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bxhc]], [[WD-r81u]], [[WD-dmf2]], [[WD-fay0]]
 - Follows: [[WD-cpow]], [[WD-rous]]
 
 ## Comments
