@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-24T16:17:34Z
-content_hash: "sha256:a4c4f3d5d5ea78ef837f9029393878750d0a1598013a5d949aa68be69faf1ad2"
-blocked_by: [WD-bxhc, WD-r81u, WD-dmf2]
-was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw]
+content_hash: "sha256:59967e747d4e133bb78035abdb9f8530b0d5e9f61a936183fb5d40b46c52fb3b"
+blocked_by: [WD-bxhc, WD-dmf2]
+was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u]
 ---
 
 ## Description
@@ -136,10 +136,11 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-25T05:04:03Z dep_removed: was_blocked_by WD-rous
 - 2026-09-25T06:24:28Z dep_removed: was_blocked_by WD-cpow
 - 2026-09-25T18:11:21Z dep_removed: was_blocked_by WD-2gyw
+- 2026-09-25T20:13:03Z dep_removed: was_blocked_by WD-r81u
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-bxhc]], [[WD-r81u]], [[WD-dmf2]]
-- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]]
+- Blocked by: [[WD-bxhc]], [[WD-dmf2]]
+- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]]
 
 ## Comments

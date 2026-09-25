@@ -1,19 +1,20 @@
 ---
 id: WD-r81u
 title: "Finishing generation evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
-updated_at: 2026-09-25T19:29:32Z
-content_hash: "sha256:2cfe1bb70382618bb457cf312548d5df6a3bded7430422136ceed1186e9fe618"
-blocks: [WD-dmf2, WD-fay0]
+updated_at: 2026-09-25T20:13:03Z
+content_hash: "sha256:dca5966b8d47a4a1ea561e36ac32898acbed6f27bcc329527c789fe738b0f824"
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
 follows: [WD-2gyw, WD-cpow]
+closed_at: 2026-09-25T20:13:03Z
+close_reason: "Accepted for delivered scope: five independently verified cells (FFmpeg interpolation/spatial/grain, RIFE x2, RealESRGAN x2). Film stays planned for control mismatch; face cells stay planned for missing source face/track consent; neural_frame_gen stays planned with no named implementation."
 ---
 
 ## Description
@@ -756,10 +757,12 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - 2026-09-25T18:14:32Z claimed by dev-WD-r81u
 - 2026-09-25T19:25:09Z status: in_progress -> in_progress
 - 2026-09-25T19:25:09Z auto-follows: linked to predecessor WD-cpow
+- 2026-09-25T20:13:03Z status: in_progress -> closed
+- 2026-09-25T20:13:03Z dep_removed: no_longer_blocks WD-dmf2
+- 2026-09-25T20:13:03Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Was blocked by: [[WD-2gyw]]
 - Follows: [[WD-2gyw]], [[WD-cpow]]
 
