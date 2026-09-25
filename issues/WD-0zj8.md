@@ -1,18 +1,17 @@
 ---
 id: WD-0zj8
 title: "Clean-machine generated install"
-status: in_progress
+status: open
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:11:56Z
-content_hash: "sha256:8f670d5ae0cc48a73317f5697d7865414f95bd78f6181fb6fe7a0811107d7222"
+updated_at: 2026-09-25T04:12:33Z
+content_hash: "sha256:9b5ddb7bb13c87164db38144610fa48ab5cfee6dc682c7462dff7b9aa571a58e"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
-assignee: dev-WD-0zj8
 follows: [WD-651z, WD-m0r5, WD-e4r7]
 ---
 
@@ -249,6 +248,8 @@ Observable outcome: the clean-machine check returns an install evidence bundle u
 - 2026-09-25T04:10:45Z status: in_progress -> in_progress
 - 2026-09-25T04:10:45Z auto-follows: linked to predecessor WD-e4r7
 - 2026-09-25T04:11:56Z status: in_progress -> in_progress
+- 2026-09-25T04:12:33Z status: in_progress -> open
+- 2026-09-25T04:12:33Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
