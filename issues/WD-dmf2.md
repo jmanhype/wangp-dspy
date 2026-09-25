@@ -8,11 +8,11 @@ labels: [capability, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:24:07Z
-content_hash: "sha256:7bc3d77c2b2d64123a9b27e1dcea39bebd3d36c8f8f00737d50046e9899d1198"
+updated_at: 2026-09-25T23:49:13Z
+content_hash: "sha256:d270d1cadb470530dded55f94674cceb2894703ea05580173478ad64e73d7e72"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
-follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7]
+follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7, WD-m0r5]
 assignee: dev-WD-dmf2
 ---
 
@@ -111,6 +111,8 @@ status: new
 
 ## Design
 
+
+Observable outcome: the WD-dmf2 bundle stores composed director outputs, inputs, commands, commit, provenance, derived gate measurements, applicability, and queue evidence for independent review.
 
 ## Notes
 
@@ -254,3 +256,61 @@ FIX: rework source selection/assembly so applicable Whisper and SyncNet gates ge
 - 2026-09-25T23:24:07Z status: open -> in_progress
 - 2026-09-25T23:24:07Z auto-follows: linked to predecessor WD-e4r7
 - 2026-09-25T23:24:07Z claimed by dev-WD-dmf2
+- 2026-09-25T23:49:13Z status: in_progress -> in_progress
+- 2026-09-25T23:49:14Z auto-follows: linked to predecessor WD-m0r5
+
+## Implementation Evidence
+
+### Rework Proof
+- Rejection defect fixed in commit `25ef5db21f129210d512e3628545bc0df217066a`: `build_evidence.py` now loads Whisper scores/pass bars and SyncNet confidences/pass bars from `director-qc-evidence.json`, computes verdicts, and records JSON-pointer source fields.
+- Full hardcoded-literal removal diff: `datasets/runs/maestro-parity/WD-dmf2/rework-hardcoded-gates.diff`.
+- Reviewer-sampled gate table: `datasets/runs/maestro-parity/WD-dmf2/gate-derivation.tsv` and machine-readable `gate-derivation.json`.
+- Instrumental Whisper is explicitly non-applicable, derived from `[Instrumental]` plus the empty-transcript error; it is no longer reported as a misleading 0.0 score.
+
+### Derived Gate Table
+- `whisper_screenplay_clip0001_score` <- `whisper_gates[1].score/pass_bar/passed`: 0.556 < 0.600, FAIL.
+- `whisper_screenplay_clip0002_score` <- `whisper_gates[2].score/pass_bar/passed`: 1.000 >= 0.600, PASS.
+- `syncnet_audio_clip0001_confidence` <- `vision_gates[0].syncnet_av.confidence/pass_bar/passed`: 0.594741 < 1.0, FAIL.
+- `syncnet_screenplay_clip0001_confidence` <- `vision_gates[1].syncnet_av.confidence/pass_bar/passed`: 0.468897 < 1.0, FAIL.
+- `syncnet_screenplay_clip0002_confidence` <- `vision_gates[2].syncnet_av.confidence/pass_bar/passed`: 1.10503 >= 1.0, PASS.
+- `auto_review_applicable_mandatory_gate_pass_count`: 2/3, FAIL.
+- `reviewer_approved_count`: 0/1, FAIL.
+- Identity-vision and mouth-box consensus both derive 3/3, PASS.
+
+### Failure Judgement
+- The three screenplay/audio measurement failures are structural properties of the selected composed outputs, not harness failures: the same harness derives adjacent passing speech/SyncNet values and returns complete numeric evidence.
+- The aggregate 2/3 auto-gate result is structural because it is the direct sum of the passing identity/mouth booleans and failing SyncNet boolean.
+- Reviewer approval is a process blocker, not a hardware or measurement failure.
+
+### Row Dispositions
+- Rows 1, 2, 3, 4, 5, 7, and 9 are not `host_run_verified`; their real measurements pass, but checker approval and independent reviewer decision are absent.
+- Row 6 is not delivered/verified because applicable auto gates fail (2/3) and review is pending.
+- Row 8 is not delivered/verified because no produced media corresponds to the enhanced prompt.
+- No row is converted to `unsupported_on_this_hardware`.
+
+### CI/Test Results
+Commands run:
+  - `pvg lint --backlog`
+  - `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-dmf2-rework-full.xml`
+  - `timeout 600 uv run --frozen --extra dev wgp release verify`
+  - `git diff --exit-code 31e3b7b -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-dmf2`
+Summary: lint PASS (0 errors, 0 review findings); full suite PASS (2085 tests, 0 errors, 0 failures, 1 pre-existing skip); release ready/tag_created=false; protected parity vs 31e3b7b PASS; diff-check PASS. Checker intentionally FAIL exit 1 with objective gates 21, 23, 24, 26, 27 plus pending reviewer.
+Commit SHA: 741a8bb27c4bec3be38667b090a03bedb00e3010
+
+## nd_contract
+status: delivered
+
+### evidence
+- Real outputs remain unchanged; all 12 output hashes, 12 boundary PNGs, planned-produced bindings, and queue identity remain bound. Gate values are now derived and auditable in `gate-derivation.json`.
+
+### proof
+- [x] AC #1 evaluated: not met for flips; checker and reviewer remain fail-closed.
+- [x] AC #2 evaluated: failing/incomplete evidence leaves cells unchanged.
+- [x] AC #3 evaluated: planned-to-produced lineage remains machine-checkable.
+- [x] AC #4 evaluated: applicable pacing/continuity values pass; row 8 lacks enhanced media.
+- [x] AC #5 evaluated: no plan-only artifact is claimed verified.
+- [x] AC #6 evaluated: no unsupported-hardware claim is made.
+- [x] AC #7 evaluated: not met; all nine rows remain planned.
+- [x] AC #8 evaluated: protected/scope gates pass.
