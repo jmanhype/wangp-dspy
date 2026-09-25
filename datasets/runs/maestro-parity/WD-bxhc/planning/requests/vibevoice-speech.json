@@ -1,0 +1,20 @@
+{
+  "language": "en-US",
+  "mode": "speech",
+  "model": {
+    "family": "vibevoice",
+    "preset": "vibe_7b"
+  },
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_speech.wav",
+  "recipe_seed": 9411,
+  "references": [],
+  "schema_version": "wangp-dspy.speech-capability-request/v1",
+  "segment_policy": {
+    "max_segment_chars": 600,
+    "max_segment_duration_s": 20.0,
+    "silence_s": 0.2,
+    "split_on_sentence": true
+  },
+  "style": "clear neutral narrator",
+  "text": "The portable witness speaks plainly without claiming another voice."
+}

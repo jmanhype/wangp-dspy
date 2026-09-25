@@ -1,0 +1,24 @@
+{
+  "models": [
+    {
+      "family": "vibevoice",
+      "license": "Apache-2.0 (VibeVoice upstream); operator research/evaluation limitation",
+      "license_accepted": true,
+      "preset": "vibe_7b",
+      "sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "source": "https://huggingface.co/microsoft/VibeVoice-7B (pre-existing /mnt/bulk/straughter/models/VibeVoice-7B-hf)",
+      "usage_constraint": "WD-bxhc plain speech and one/two-reference synthetic-voice cloning; no training or redistribution",
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "chatterbox",
+      "license": "MIT (ResembleAI Chatterbox upstream); operator research/evaluation only",
+      "license_accepted": true,
+      "preset": "chatterbox_multilingual",
+      "sha256": "fd4c30421a2a3b8e397223b6fe858208b52be4552fc6e88de3ea5a457662c71e",
+      "source": "https://huggingface.co/DeepBeepMeep/TTS (six-file set under models/TTS/chatterbox)",
+      "usage_constraint": "WD-bxhc plain speech only; no training or redistribution",
+      "vram_profile": "16gb"
+    }
+  ]
+}

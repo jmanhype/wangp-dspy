@@ -1,0 +1,13 @@
+{
+  "algorithm": "sha256(canonical-json(sorted filename -> file sha256))",
+  "combined_sha256": "fd4c30421a2a3b8e397223b6fe858208b52be4552fc6e88de3ea5a457662c71e",
+  "files": {
+    "Cangjie5_TC.json": "7073fd9de919443ae88e0bd2449917a65fe54898a4413ed1edcc4b67f28bce8c",
+    "conds.pt": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e",
+    "grapheme_mtl_merged_expanded_v1.json": "df81a7ca7c31796cbe97f7a7142d5a53b12e88e12417ebe98f66602cafaf0461",
+    "s3gen.pt": "9b9ff07e60b20c136e2b1b3d7563a24604e8d2c4c267888d1ee929dd0151d2a3",
+    "t3_mtl23ls_v2.safetensors": "b1237586127ce98e7800a68e49938eb5092846862aabcb6e17b2fda7889a6c75",
+    "ve.safetensors": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c"
+  },
+  "schema": "wangp-dspy.wd-bxhc.chatterbox-anchor/v1"
+}

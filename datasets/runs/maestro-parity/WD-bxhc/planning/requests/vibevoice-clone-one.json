@@ -1,0 +1,30 @@
+{
+  "language": "en-US",
+  "mode": "voice_clone",
+  "model": {
+    "family": "vibevoice",
+    "preset": "vibe_7b"
+  },
+  "output_path_planned": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
+  "recipe_seed": 9421,
+  "references": [
+    {
+      "consent_ref": "operator-authorization.md#wd-bxhc-synthetic-primary",
+      "duration_s": 5.08,
+      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary.wav",
+      "role": "primary",
+      "sha256": "a62b1ca89b30d5de3ca6969069e8193b80ca0227ebc1edbd131065b265360ed0",
+      "source": "WD-bxhc Chatterbox output generated from built-in non-human conditionals"
+    }
+  ],
+  "schema_version": "wangp-dspy.speech-capability-request/v1",
+  "segment_policy": {
+    "max_segment_chars": 600,
+    "max_segment_duration_s": 20.0,
+    "silence_s": 0.2,
+    "split_on_sentence": true
+  },
+  "style": "clear neutral narrator",
+  "text": "One reference keeps this speaker on the portable anchor."
+}
