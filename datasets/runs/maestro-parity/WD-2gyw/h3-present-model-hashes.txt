@@ -1,0 +1,10 @@
+21057674787 /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0  /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+21057674788 /home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors
+e09db861c48d13560222948b4e38082bc21b1b7d4ddcaed9c865bf9c3233898c  /home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors
+5207806512 /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b  /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+605429308 /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors
+37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2  /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors
+26723791903 /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301  /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors

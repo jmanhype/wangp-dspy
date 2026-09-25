@@ -1,0 +1,54 @@
+--- candidate model assets ---
+29531884062 /mnt/bulk/straughter/ComfyUI/models/checkpoints/ltx-2.3-22b-distilled-fp8.safetensors
+2312149072 /mnt/bulk/straughter/ComfyUI/models/text_encoders/ltx-2.3_text_projection_bf16.safetensors
+995743560 /mnt/bulk/straughter/ComfyUI/models/latent_upscale_models/ltx-2.3-spatial-upscaler-x2-1.1.safetensors
+654465352 /mnt/bulk/straughter/ComfyUI/models/loras/ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors
+450787 /mnt/bulk/straughter/ComfyUI/custom_nodes/comfyui-vrgamedevgirl/Workflows/LTX-2_Workflows/old/NanoBananaPro_LTX-2/Nano_Banana_LTX-2.3_MVC_V3.json
+413316 /mnt/bulk/straughter/ComfyUI/custom_nodes/comfyui-vrgamedevgirl/Workflows/LTX-2_Workflows/old/Z-image_LTX-2/Z-image_LTX-2.3_MVC_V4.json
+321757 /mnt/bulk/straughter/ComfyUI/custom_nodes/comfyui-vrgamedevgirl/Workflows/LTX-2_Workflows/old/NanoBananaPro_LTX-2/PromptCreator_Nano_Banana_LTX-2.3_V3.json
+264359 /mnt/bulk/straughter/ComfyUI/custom_nodes/comfyui-vrgamedevgirl/Workflows/LTX-2_Workflows/old/Z-image_LTX-2/PromptCreator_Z-image_LTX-2.3_V4.json
+189302 /mnt/bulk/straughter/ComfyUI/user/default/workflows/camera-lab/app/LTX-2.3_FML2V_RuneXX_guider.local.json
+189302 /home/straughter/Camera-lab/workflows/app/LTX-2.3_FML2V_RuneXX_guider.local.json
+165793 /mnt/bulk/straughter/Maestro/tests/test_scail2_workflows.py
+114448 /mnt/bulk/straughter/ComfyUI/blueprints/Text to Video (LTX-2.3).json
+112711 /mnt/bulk/straughter/ComfyUI/blueprints/Image to Video (LTX-2.3).json
+90337 /mnt/bulk/straughter/ComfyUI/blueprints/First-Last-Frame to Video (LTX-2.3).json
+64314 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_Lipdub_Two_Stage_Distilled.json
+61541 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_HDR_Distilled.json
+57664 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_Motion_Track_Distilled.json
+56763 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_ICLoRA_Union_Control_Distilled.json
+55709 /home/straughter/Camera-lab/workflows/experimental/Yedp_LTX-2.3_ICLoRA_Union_Control_Canny.local.json
+54378 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_T2V_I2V_Single_Stage_Distilled_Full.json
+54218 /mnt/bulk/straughter/ComfyUI/user/default/workflows/toolbox/official_ltx23/LTX-2.3_Image-to-Video_Official.json
+54208 /mnt/bulk/straughter/ComfyUI/user/default/workflows/toolbox/official_ltx23/LTX-2.3_Text-to-Video_Official.json
+52276 /mnt/bulk/straughter/ComfyUI/custom_nodes/ComfyUI-LTXVideo/example_workflows/2.3/LTX-2.3_T2V_I2V_Two_Stage_Distilled.json
+43215 /mnt/bulk/straughter/Maestro/app/models/wan/modules/model_scail2.py
+8701 /mnt/bulk/straughter/Maestro/app/models/wan/scail2/convert_scail2.py
+8701 /home/straughter/Wan2GP/models/wan/scail2/convert_scail2.py
+7460 /home/straughter/Wan2GP/models/ltx2/ltx-2.3-22b_PrunaAI_vae.json
+7064 /mnt/bulk/straughter/Maestro/tests/test_scail2_dedicated_model.py
+6361 /mnt/bulk/straughter/Maestro/app/services/scail2_lora.py
+5681 /mnt/bulk/straughter/Maestro/app/models/wan/modules/scail2_attention.py
+1297 /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B_recast_fast.json
+1111 /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B_fast.json
+1106 /home/straughter/Wan2GP/defaults/scail2_14B.json
+1055 /mnt/bulk/straughter/Maestro/app/defaults/scail2_14B.json
+343 /home/straughter/Wan2GP/shared/deepy/settings/gen_video_with_speech/LTX-2.3 Distilled 1.1 With Sound.json
+338 /home/straughter/Wan2GP/shared/deepy/settings/gen_video_with_speech/LTX-2.5 Distilled With Sound.json
+314 /home/straughter/Wan2GP/shared/deepy/settings/gen_video_with_speech/LTX-2.3 Distilled 1.0 With Sound.json
+311 /home/straughter/Wan2GP/profiles/ltx2_presets/OmniNFT RL-LoRA (LTX-2.3 22B) - Better Audio Video Sync.json
+311 /home/straughter/Wan2GP/profiles/ltx2_distilled_presets/OmniNFT RL-LoRA (LTX-2.3 22B) Better Audio Video Sync.json
+286 /mnt/bulk/straughter/Maestro/app/models/wan/configs/scail2_14B.json
+286 /home/straughter/Wan2GP/models/wan/configs/scail2_14B.json
+285 /mnt/bulk/straughter/Maestro/app/models/wan/configs/scail2_1.3B.json
+285 /home/straughter/Wan2GP/models/wan/configs/scail2_1.3B.json
+--- symlinks under ckpts ---
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/chat_template.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/chat_template.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/tokenizer.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/tokenizer.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/merges.txt -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/merges.txt
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/preprocessor_config.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/preprocessor_config.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/vocab.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/vocab.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors -> /home/straughter/ComfyUI-H3/models/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/video_preprocessor_config.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/video_preprocessor_config.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/tokenizer_config.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/processor/tokenizer_config.json
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/config.json -> /home/straughter/Maestro/app/ckpts/minimax_h3/text_encoder/config.json

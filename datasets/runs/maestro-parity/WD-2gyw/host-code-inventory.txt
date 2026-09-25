@@ -1,0 +1,688 @@
+GIT
+4c93b64a47b5b0a915f2abec2ce754be98227150
+ M models/minimax_h3/minimax_h3_handler.py
+ M models/minimax_h3/multishot.py
+ M models/minimax_h3/transformer.py
+ M shared/gradio/hierarchy_selector/hierarchy_selector.pyi
+ M wgp.py
+?? acceptance-grid56-20260907/
+?? acceptance-grid56-r2/
+?? film/
+?? lf002-cut2-retry-after-finding60-20260916/
+?? lf002-two-cut-seed905-fresh-20260916/
+?? lf002-two-cut-seed905-prefix-20260916/
+?? lf002-two-cut-vibevoice-20260917/
+?? lf003-four-cut-fullgate-20260919/
+?? lf003-four-cut-fullgate-retry-20260919/
+?? lf003-two-cut-vibevoice-20260917/
+?? lf003-two-cut-vibevoice-fullgate-20260918/
+?? lf003-two-cut-vibevoice-rhostrong-20260918/
+?? lf003-two-cut-vibevoice-strict-20260917/
+?? lf003-v2-control-20260911/
+?? lf003-v3-exact-20260911/
+?? lf003-v3-golden-20260909/
+?? lf003-v3-golden-20260911/
+?? lf003-v3-newaudio-20260909/
+?? lf003-v3-repro-20260909/
+?? lf004-operator-dogfood-20260920/
+?? lf004-operator-dogfood-56f-recovery-20260921/
+?? run-chained-test.sh
+?? shot-config.json
+?? stable-generate.json
+?? startup.lock
+?? v3-native-control-20260912b/
+?? v3-native-fixed-20260912/
+?? v3-native-replay-20260915b/
+?? verify_chained.py
+?? wd-cpow-assets/
+?? wd-m0r5-batch-dry.sh
+?? wd-m0r5-face-gate.py
+?? wd-m0r5-face-pair-gate.py
+?? wd-m0r5-flux-batch.json
+?? wd-m0r5-flux-dry.sh
+?? wd-m0r5-flux-edit-dry.sh
+?? wd-m0r5-flux-edit.json
+?? wd-m0r5-flux-generate.json
+?? wd-m0r5-flux-identity-attempt2.json
+?? wd-m0r5-flux-identity-attempt3.json
+?? wd-m0r5-flux-identity-dry.sh
+?? wd-m0r5-flux-identity.json
+?? wd-m0r5-flux-identity2-dry.sh
+?? wd-m0r5-flux-kontext-identity-attempt2.json
+?? wd-m0r5-inputs/
+?? wd-m0r5-insightface-gate.py
+?? wd-m0r5-qwen-batch.json
+?? wd-m0r5-qwen-edit-dry.sh
+?? wd-m0r5-qwen-edit.json
+?? wd-m0r5-qwen-generate.json
+?? wd-m0r5-qwen-identity-attempt2.json
+?? wd-m0r5-qwen-identity-dry.sh
+?? wd-m0r5-qwen-identity.json
+?? wd-m0r5-qwen-outpaint-dry.sh
+?? wd-m0r5-qwen-outpaint.json
+?? wd-m0r5-qwen-upscale-dry.sh
+?? wd-m0r5-qwen-upscale.json
+?? wd-m0r5-run-flux-batch.sh
+?? wd-m0r5-run-flux-generate.sh
+?? wd-m0r5-run-flux-identity2.sh
+?? wd-m0r5-run-flux-identity3.sh
+?? wd-m0r5-run-flux-kontext-identity2.sh
+?? wd-m0r5-run-qwen-batch.sh
+?? wd-m0r5-run-qwen-generate.sh
+?? wd-m0r5-run-qwen-identity2.sh
+?? wd-m0r5-stabilize-outputs.sh
+?? wd-m0r5-wgp-dry.sh
+?? wd_c_pow_refine.py
+?? wd_c_pow_revoice_mux.sh
+?? wd_c_pow_stable_sfx.sh
+?? wd_cpow_asset_inventory.sh
+?? wd_cpow_audio_metadata_probe.sh
+?? wd_cpow_dependency_probe.sh
+?? wd_cpow_download.sh
+?? wd_cpow_download_report.sh
+
+MODEL FILES
+models/TTS/minimax_music3/README.md
+models/TTS/minimax_music3/__init__.py
+models/TTS/minimax_music3/condition_embedder_minimax_music3.py
+models/TTS/minimax_music3/minimax_music3_handler.py
+models/TTS/minimax_music3/minimax_music3_rvq_depth_decoder.py
+models/TTS/minimax_music3/minimax_music3_vocoder.py
+models/TTS/minimax_music3/pipeline.py
+models/TTS/minimax_music3/qwen3_accelerated.py
+models/TTS/minimax_music3/semantic_acceleration.py
+models/TTS/minimax_music3/text_encoder_config.json
+models/TTS/minimax_music3/transformer_config.json
+models/TTS/minimax_music3/transformer_minimax_music3.py
+models/hyvideo/__pycache__/hunyuan.cpython-311.pyc
+models/hyvideo/__pycache__/hunyuan_handler.cpython-311.pyc
+models/hyvideo/hunyuan.py
+models/hyvideo/hunyuan_handler.py
+models/hyvideo/vae/hunyuanvideo_15_vae.py
+models/longcat/modules/autoencoder_kl_wan.py
+models/ltx2/__init__.py
+models/ltx2/__pycache__/__init__.cpython-311.pyc
+models/ltx2/__pycache__/infos.cpython-311.pyc
+models/ltx2/__pycache__/joyai_echo.cpython-311.pyc
+models/ltx2/__pycache__/lora_utils.cpython-311.pyc
+models/ltx2/__pycache__/ltx2_handler.cpython-311.pyc
+models/ltx2/__pycache__/ltx2_runtime.cpython-311.pyc
+models/ltx2/__pycache__/ltx_audio_tts_handler.cpython-311.pyc
+models/ltx2/__pycache__/prompt_enhancer.cpython-311.pyc
+models/ltx2/configs/ltx2_19b_config.json
+models/ltx2/configs/ltx2_22b_config.json
+models/ltx2/configs/ltx2_25_22b_config.json
+models/ltx2/configs/ltx2_rgb_factors.json
+models/ltx2/dramabox_audio.py
+models/ltx2/editanything.py
+models/ltx2/infos.py
+models/ltx2/inpainting.py
+models/ltx2/joyai_echo.py
+models/ltx2/lora_utils.py
+models/ltx2/ltx-2.3-22b_PrunaAI_vae.json
+models/ltx2/ltx2.py
+models/ltx2/ltx2_handler.py
+models/ltx2/ltx2_runtime.py
+models/ltx2/ltx_audio_tts.py
+models/ltx2/ltx_audio_tts_handler.py
+models/ltx2/ltx_core/__init__.py
+models/ltx2/ltx_core/tools.py
+models/ltx2/ltx_core/types.py
+models/ltx2/ltx_core/utils.py
+models/ltx2/ltx_pipelines/__init__.py
+models/ltx2/ltx_pipelines/distilled.py
+models/ltx2/ltx_pipelines/ic_lora.py
+models/ltx2/ltx_pipelines/keyframe_interpolation.py
+models/ltx2/ltx_pipelines/ti2vid_one_stage.py
+models/ltx2/ltx_pipelines/ti2vid_two_stages.py
+models/ltx2/prompt_enhancer.py
+models/ltx2/scenema_audio.py
+models/ltx2/scenema_seedvc.py
+models/ltx_video/__init__.py
+models/ltx_video/__pycache__/__init__.cpython-311.pyc
+models/ltx_video/__pycache__/ltxv.cpython-311.pyc
+models/ltx_video/__pycache__/ltxv_handler.cpython-311.pyc
+models/ltx_video/configs/ltxv-13b-0.9.7-dev.original.yaml
+models/ltx_video/configs/ltxv-13b-0.9.7-dev.yaml
+models/ltx_video/configs/ltxv-13b-0.9.7-distilled.yaml
+models/ltx_video/configs/ltxv-13b-0.9.8-dev.yaml
+models/ltx_video/configs/ltxv-13b-0.9.8-distilled.yaml
+models/ltx_video/configs/ltxv-2b-0.9.6-dev.yaml
+models/ltx_video/configs/ltxv-2b-0.9.6-distilled.yaml
+models/ltx_video/ltxv.py
+models/ltx_video/ltxv_handler.py
+models/ltx_video/models/__init__.py
+models/ltx_video/pipelines/__init__.py
+models/ltx_video/pipelines/crf_compressor.py
+models/ltx_video/pipelines/pipeline_ltx_video.py
+models/ltx_video/schedulers/__init__.py
+models/ltx_video/schedulers/rf.py
+models/ltx_video/utils/__init__.py
+models/ltx_video/utils/diffusers_config_mapping.py
+models/ltx_video/utils/skip_layer_strategy.py
+models/ltx_video/utils/torch_utils.py
+models/minimax_h3/__init__.py
+models/minimax_h3/__pycache__/__init__.cpython-311.pyc
+models/minimax_h3/__pycache__/__init__.cpython-312.pyc
+models/minimax_h3/__pycache__/audio_vae.cpython-311.pyc
+models/minimax_h3/__pycache__/constants.cpython-311.pyc
+models/minimax_h3/__pycache__/constants.cpython-312.pyc
+models/minimax_h3/__pycache__/convrot_layout.cpython-311.pyc
+models/minimax_h3/__pycache__/first_block_cache.cpython-311.pyc
+models/minimax_h3/__pycache__/interrupt.cpython-311.pyc
+models/minimax_h3/__pycache__/latent_upscaler.cpython-311.pyc
+models/minimax_h3/__pycache__/minimax_h3_handler.cpython-311.pyc
+models/minimax_h3/__pycache__/minimax_h3_handler.cpython-312.pyc
+models/minimax_h3/__pycache__/minimax_h3_main.cpython-311.pyc
+models/minimax_h3/__pycache__/minimax_h3_main.cpython-312.pyc
+models/minimax_h3/__pycache__/multishot.cpython-311.pyc
+models/minimax_h3/__pycache__/multishot.cpython-312.pyc
+models/minimax_h3/__pycache__/pdd.cpython-311.pyc
+models/minimax_h3/__pycache__/pipeline.cpython-311.pyc
+models/minimax_h3/__pycache__/pipeline.cpython-312.pyc
+models/minimax_h3/__pycache__/prompt_enhancer.cpython-311.pyc
+models/minimax_h3/__pycache__/sol_attention.cpython-311.pyc
+models/minimax_h3/__pycache__/spectrum.cpython-311.pyc
+models/minimax_h3/__pycache__/text_encoder.cpython-311.pyc
+models/minimax_h3/__pycache__/transformer.cpython-311.pyc
+models/minimax_h3/__pycache__/transformer.cpython-312.pyc
+models/minimax_h3/__pycache__/video_vae.cpython-311.pyc
+models/minimax_h3/audio_vae.py
+models/minimax_h3/components/__init__.py
+models/minimax_h3/components/audio_autoencoder.py
+models/minimax_h3/components/packing.py
+models/minimax_h3/components/video_autoencoder.py
+models/minimax_h3/constants.py
+models/minimax_h3/convrot_layout.py
+models/minimax_h3/first_block_cache.py
+models/minimax_h3/interrupt.py
+models/minimax_h3/latent_upscaler.py
+models/minimax_h3/lora_affine.py
+models/minimax_h3/lora_affine_maps/fl2va_rank64.sft
+models/minimax_h3/lora_affine_maps/fl2va_rank8.sft
+models/minimax_h3/lora_affine_maps/ref2va_rank64.sft
+models/minimax_h3/lora_affine_maps/ref2va_rank8.sft
+models/minimax_h3/minimax_h3_handler.py
+models/minimax_h3/minimax_h3_main.py
+models/minimax_h3/multishot.py
+models/minimax_h3/pdd.py
+models/minimax_h3/pipeline.py
+models/minimax_h3/prompt_enhancer.py
+models/minimax_h3/prune_checkpoint.py
+models/minimax_h3/sol_attention.py
+models/minimax_h3/spectrum.py
+models/minimax_h3/text_encoder.py
+models/minimax_h3/transformer.py
+models/minimax_h3/video_vae.py
+models/pinkcherry/alpha-0.1-testing/PinkCherry_h3_fl2va_int8_convrot_v0.1-alpha.safetensors
+models/wan/__init__.py
+models/wan/__pycache__/__init__.cpython-311.pyc
+models/wan/__pycache__/animate2.cpython-311.pyc
+models/wan/__pycache__/any2video.cpython-311.pyc
+models/wan/__pycache__/bernini_prompt_infos.cpython-311.pyc
+models/wan/__pycache__/chono_edit_prompt.cpython-311.pyc
+models/wan/__pycache__/df_handler.cpython-311.pyc
+models/wan/__pycache__/diffusion_forcing.cpython-311.pyc
+models/wan/__pycache__/ovi_handler.cpython-311.pyc
+models/wan/__pycache__/shotplan.cpython-311.pyc
+models/wan/__pycache__/shotplan_prompt_infos.cpython-311.pyc
+models/wan/__pycache__/vace_infos.cpython-311.pyc
+models/wan/__pycache__/wan_handler.cpython-311.pyc
+models/wan/alpha/utils.py
+models/wan/animate/animate_utils.py
+models/wan/animate/face_blocks.py
+models/wan/animate/model_animate.py
+models/wan/animate/motion_encoder.py
+models/wan/animate2.py
+models/wan/any2video.py
+models/wan/bernini_prompt_infos.py
+models/wan/camera_extrinsics.json
+models/wan/chono_edit_prompt.py
+models/wan/configs/__init__.py
+models/wan/configs/alpha.json
+models/wan/configs/animate.json
+models/wan/configs/animate2.json
+models/wan/configs/bernini.json
+models/wan/configs/bernini_1.3B.json
+models/wan/configs/chrono_edit.json
+models/wan/configs/fantasy.json
+models/wan/configs/flf2v_720p.json
+models/wan/configs/fun_inp.json
+models/wan/configs/fun_inp_1.3B.json
+models/wan/configs/i2v.json
+models/wan/configs/i2v_2_2.json
+models/wan/configs/i2v_2_2_multitalk.json
+models/wan/configs/i2v_2_2_svi2pro.json
+models/wan/configs/infinitetalk.json
+models/wan/configs/kiwi_edit.json
+models/wan/configs/kiwi_edit_instruct_only.json
+models/wan/configs/kiwi_edit_reference_only.json
+models/wan/configs/lucy_edit.json
+models/wan/configs/lynx.json
+models/wan/configs/lynx_lite.json
+models/wan/configs/mocha.json
+models/wan/configs/multitalk.json
+models/wan/configs/phantom_1.3B.json
+models/wan/configs/phantom_14B.json
+models/wan/configs/scail.json
+models/wan/configs/scail2_1.3B.json
+models/wan/configs/scail2_14B.json
+models/wan/configs/shared_config.py
+models/wan/configs/shotplan_t2v.json
+models/wan/configs/shotplan_t2v_2_2.json
+models/wan/configs/sky_df_1.3.json
+models/wan/configs/sky_df_14B.json
+models/wan/configs/standin.json
+models/wan/configs/steadydancer.json
+models/wan/configs/t2v.json
+models/wan/configs/t2v_1.3B.json
+models/wan/configs/t2v_2_2.json
+models/wan/configs/ti2v_2_2.json
+models/wan/configs/vace_1.3B.json
+models/wan/configs/vace_14B.json
+models/wan/configs/vace_14B_2_2.json
+models/wan/configs/vace_ditto_14B.json
+
+H3 CATALOG MATCHES
+./models/flux/flux_handler.py:150:                build_hf_url("DeepBeepMeep/LTX_Video", text_encoder_folder, "T5_xxl_1.1_enc_bf16.safetensors"),
+./models/flux/flux_handler.py:151:                build_hf_url("DeepBeepMeep/LTX_Video", text_encoder_folder, "T5_xxl_1.1_enc_quanto_bf16_int8.safetensors"),
+./models/flux/flux_handler.py:345:                "repoId" : "DeepBeepMeep/LTX_Video", 
+./models/flux/flux_handler.py:350:                "repoId" : "DeepBeepMeep/HunyuanVideo", 
+./models/wan/scail/scail_pose_multi.py:27:    """Trim DWpose outputs to the top-N bboxes per frame (SCAIL-Pose multi-human helper)."""
+./models/wan/scail/pose_aligner.py:2:SCAIL Pose Aligner - Align 3D pose to reference image proportions.
+./models/wan/scail/nlf/__init__.py:1:"""NLF (Neural Localizer Fields) - local copy for SCAIL pose processing."""
+./models/wan/scail/__init__.py:87:    WanGP wrapper around the official SCAIL-Pose preprocessing pipeline:
+./models/wan/scail/__init__.py:95:            raise RuntimeError("SCAIL pose preprocessing requires CUDA (GPU-only).")
+./models/wan/scail/model_scail.py:2:# SCAIL model integration for WanGP
+./models/wan/scail/model_scail.py:10:    Build SCAIL pose tokens to be concatenated after image tokens.
+./models/wan/scail/model_scail.py:12:    Upstream SCAIL treats pose as an additional token sequence (typically at half spatial resolution),
+./models/wan/scail/model_scail.py:46:    SCAIL-specific pose embedding injection.
+./models/wan/scail/model_scail.py:48:    Unlike Animate, SCAIL doesn't need motion_encoder or face_encoder.
+./models/wan/scail/model_scail.py:78:    # SCAIL doesn't have a reference frame in the latent input, so add to all positions
+./models/wan/scail/scail_pose_align3d.py:2:Official SCAIL-Pose 3D retarget camera intrinsics solver.
+./models/wan/scail/scail_pose_align3d.py:4:Upstream: https://github.com/zai-org/SCAIL-Pose (NLFPoseExtract/align3d.py)
+./models/wan/scail/scail_pose_taichi_cylinder.py:2:Taichi cylinder renderer (GPU) from the official SCAIL-Pose implementation.
+./models/wan/scail/scail_pose_taichi_cylinder.py:4:Upstream: https://github.com/zai-org/SCAIL-Pose (render_3d/taichi_cylinder.py)
+./models/wan/scail/nlfpose_extractor.py:2:SCAIL NLFPose Extractor - 3D pose extraction using NLFPose.
+./models/wan/scail/nlfpose_extractor.py:87:                f"[SCAIL] Warning: NLFPose model '{self.NLFPOSE_MODEL}' not found; using 2D pose + heuristic depth. "
+./models/wan/scail/nlfpose_extractor.py:142:                print(f"[SCAIL] Warning: Could not load NLFPose model: {e}")
+./models/wan/scail/nlfpose_extractor.py:143:                print("[SCAIL] Falling back to 2D pose with estimated depth")
+./models/wan/scail/nlfpose_extractor.py:361:            # SCAIL-Pose uses `detect_smpl_batched` on this weight. Keep fallback for other wrappers.
+./models/wan/scail/nlfpose_extractor.py:419:                    # Expand bbox (matches SCAIL-Pose defaults).
+./models/wan/scail/nlfpose_extractor.py:446:        Map NLFPose SMPL-24 joints to OpenPose/COCO 18-joint order used by SCAIL-Pose rendering.
+./models/wan/scail/nlfpose_extractor.py:448:        Note: this mapping mirrors the one from zai-org/SCAIL-Pose (NLFPoseExtract/nlf_draw.py).
+./models/wan/scail/scail_pose_nlf.py:2:NLFPose extraction + rendering helpers from the official SCAIL-Pose implementation.
+./models/wan/scail/scail_pose_nlf.py:4:Upstream: https://github.com/zai-org/SCAIL-Pose
+./models/wan/scail/scail_pose_nlf.py:27:    """Map 24-joint NLF pose to (18, dim) COCO-like format used by SCAIL-Pose."""
+./models/wan/scail/scail_pose_nlf.py:131:    This mirrors the official SCAIL-Pose multi-human pipeline: segment each character,
+./models/wan/scail/scail_pose_nlf.py:533:    """Render multi-person NLF results with per-person color palettes (SCAIL-Pose multi-human)."""
+./models/wan/scail/cylinder_renderer.py:2:SCAIL Cylinder Renderer - Render 3D skeleton as cylindrical bones.
+./models/wan/scail/cylinder_renderer.py:25:        print("[SCAIL] Taichi not available, using CPU rendering (slower)")
+./models/wan/scail/cylinder_renderer.py:336:                print(f"[SCAIL] Failed to initialize Taichi renderer: {e}")
+./models/wan/scail/convert_scail.py:2:SCAIL checkpoint converter: SAT/DeepSpeed format → WanGP diffusers format.
+./models/wan/scail/convert_scail.py:4:SCAIL checkpoints use:
+./models/wan/scail/convert_scail.py:301:    Convert SCAIL checkpoint to WanGP format.
+./models/wan/scail/convert_scail.py:304:        input_path: Path to SCAIL .pt checkpoint
+./models/wan/scail/scail_pose_dwpose.py:2:DWpose (YOLOX + RTMPose ONNX) wrapper from the official SCAIL-Pose repo.
+./models/wan/scail/scail_pose_dwpose.py:4:Upstream: https://github.com/zai-org/SCAIL-Pose (DWPoseProcess/dwpose/__init__.py)
+./models/wan/scail/scail_pose_draw.py:2:2D pose overlay drawing utilities from the official SCAIL-Pose repo.
+./models/wan/scail/scail_pose_draw.py:5:- https://github.com/zai-org/SCAIL-Pose (pose_draw/draw_utils.py)
+./models/wan/scail/scail_pose_draw.py:6:- https://github.com/zai-org/SCAIL-Pose (pose_draw/draw_pose_utils.py)
+./models/wan/scail2/__init__.py:2:# SCAIL-2 helpers for WanGP.
+./models/wan/scail2/__init__.py:19:SCAIL2_TYPES = {"scail2_14B", "scail2_1.3B"}
+./models/wan/scail2/__init__.py:20:SCAIL2_ANIMATE_PREPROCESSING_RAW = "raw"
+./models/wan/scail2/__init__.py:21:SCAIL2_ANIMATE_PREPROCESSING_POSE = "pose"
+./models/wan/scail2/__init__.py:22:SCAIL2_INJECT_REF_FRAMES_SETTING = "scail2_inject_ref_frames_in_video"
+./models/wan/scail2/__init__.py:23:SCAIL2_INJECT_REF_FRAMES_NO = "No"
+./models/wan/scail2/__init__.py:24:SCAIL2_INJECT_REF_FRAMES_YES = "Yes"
+./models/wan/scail2/__init__.py:25:SCAIL2_DEBUG_REF_MASK_PATH = "scail2_image_ref_mask_debug.png"
+./models/wan/scail2/__init__.py:26:SCAIL2_DEBUG_MATTED_REF_PATH = "scail2_image_ref_condition_debug.png"
+./models/wan/scail2/__init__.py:27:SCAIL2_INFOS = """
+./models/wan/scail2/__init__.py:28:# SCAIL-2 Workflows
+./models/wan/scail2/__init__.py:30:SCAIL-2 replaces or animates people from a reference image while following a control video and a colored person mask.
+./models/wan/scail2/__init__.py:64:SCAIL-2 can use experimental subwindow sampling inside each sliding-window generation. When `Sub Parallel Window Size` is nonzero, WanGP denoises several overlapping temporal subwindows sequentially at every denoising step, blends their noise predictions over `Sub Parallel Window Overlap`, then applies one scheduler step to the full latent window. This can reduce peak VRAM for long SCAIL-2 windows, but it may introduce motion or identity discontinuities at subwindow boundaries. Keep it disabled unless you are testing longer windows or need the VRAM reduction.
+./models/wan/scail2/__init__.py:68:When using several Reference Images, setting this to `Yes` packs them into a short still-image video before generation. This may help SCAIL-2 hold onto the references more consistently and reduce the quality loss or artifacts that extra references can sometimes cause. The first image remains the primary reference. Leave it at `No` for the normal reference workflow or when using a single reference.
+./models/wan/scail2/__init__.py:72:SCAIL-2 relies on mask colors. Each person should keep one stable color for the whole video. For multiple people, use one color per person. Do not use a single gray/white mask when you need to distinguish several characters.
+./models/wan/scail2/__init__.py:89:If WanGP shows `SCAIL-2 could not extract the image reference mask. Check Image Ref Keyword content.`, fill `Image Ref Keyword content` with a keyword that describes what is visible in the reference frame, usually `person`, `woman`, or `man`. SCAIL-2 uses this keyword to guide SAM 3 reference mask extraction.
+./models/wan/scail2/__init__.py:93:- Review the Image References preview before generation. SCAIL-2 shows the prepared reference image and the reference mask there.
+./models/wan/scail2/__init__.py:104:    return base_model_type in SCAIL2_TYPES
+./models/wan/scail2/__init__.py:152:    """Convert a SCAIL-2 RGB mask video in [-1, 1] to 28 binary latent mask channels."""
+./models/wan/scail2/__init__.py:175:            logging.info(f"  [SCAIL-2 {label}] ch{idx} {name}: {ratio:.4f} ({ratio * 100:.2f}%)")
+./models/wan/scail2/__init__.py:196:SCAIL2_COLOR_BITS = ((True, True, True), (True, False, False), (False, True, False), (False, False, True), (True, True, False), (True, False, True), (False, True, True))
+./models/wan/scail2/__init__.py:310:    return np.asarray([_color_selector(arr, idx).any() for idx in range(len(SCAIL2_COLOR_BITS))], dtype=bool)
+./models/wan/scail2/__init__.py:316:    present = np.zeros(len(SCAIL2_COLOR_BITS), dtype=bool)
+./models/wan/scail2/__init__.py:322:    target_idx = SCAIL2_COLOR_BITS.index(target_bits) if target_bits in SCAIL2_COLOR_BITS else -1
+./models/wan/scail2/__init__.py:465:    return not test_scail2_replace(video_prompt_type) and _extract_max_people(video_prompt_type) == 1 and custom_settings.get("scail2_animate_preprocessing", SCAIL2_ANIMATE_PREPROCESSING_RAW) == SCAIL2_ANIMATE_PREPROCESSING_POSE
+./models/wan/scail2/__init__.py:491:    animate_preprocessing = custom_settings.get("scail2_animate_preprocessing", SCAIL2_ANIMATE_PREPROCESSING_RAW)
+./models/wan/scail2/__init__.py:492:    if animate_preprocessing != SCAIL2_ANIMATE_PREPROCESSING_POSE:
+./models/wan/scail2/__init__.py:595:        image.save(Path.cwd() / SCAIL2_DEBUG_REF_MASK_PATH)
+./models/wan/scail2/__init__.py:597:        logging.warning(f"Could not save SCAIL-2 debug ref mask: {exc}")
+./models/wan/scail2/__init__.py:616:        logging.warning(f"Could not save SCAIL-2 debug ref image: {exc}")
+./models/wan/scail2/__init__.py:674:        raise ValueError("SCAIL-2 needs a Reference Image, Start Image, or Continue Video frame to build the image reference mask.")
+./models/wan/scail2/__init__.py:677:        send_cmd("progress", [0, "Building SCAIL-2 Image Reference Masks" if additional_ref_sources else "Building SCAIL-2 Image Reference Mask"])
+./models/wan/scail2/__init__.py:687:        raise ValueError("SCAIL-2 could not extract the image reference mask. Check Image Ref Keyword content.")
+./models/wan/scail2/__init__.py:704:            raise ValueError(f"SCAIL-2 could not extract additional image reference mask #{idx + 1}. Check Image Ref Keyword content.")
+./models/wan/scail2/__init__.py:738:        raise ValueError("SCAIL-2 expected the prepared image reference and its colored mask as the first two image references.")
+./models/wan/scail2/__init__.py:743:        raise ValueError("SCAIL-2 expected additional image references to be prepared as image/mask pairs.")
+./models/wan/scail2/__init__.py:753:    _save_debug_ref_image(image_ref, SCAIL2_DEBUG_MATTED_REF_PATH, save_masks=save_masks)
+./models/wan/scail2/__init__.py:766:    inject_ref_frames = additional_ref_count > 0 and custom_settings.get(SCAIL2_INJECT_REF_FRAMES_SETTING, SCAIL2_INJECT_REF_FRAMES_NO) == SCAIL2_INJECT_REF_FRAMES_YES
+./models/wan/scail2/convert_scail2.py:1:"""Convert SCAIL-2 SAT checkpoints to WanGP safetensors.
+./models/wan/scail2/convert_scail2.py:199:    parser.add_argument("--scail-dir", default="SCAIL-2")
+./models/wan/wan_handler.py:16:    SCAIL2_ANIMATE_PREPROCESSING_POSE,
+./models/wan/wan_handler.py:17:    SCAIL2_ANIMATE_PREPROCESSING_RAW,
+./models/wan/wan_handler.py:18:    SCAIL2_INJECT_REF_FRAMES_NO,
+./models/wan/wan_handler.py:19:    SCAIL2_INJECT_REF_FRAMES_SETTING,
+./models/wan/wan_handler.py:20:    SCAIL2_INJECT_REF_FRAMES_YES,
+./models/wan/wan_handler.py:21:    SCAIL2_INFOS,
+./models/wan/wan_handler.py:603:                extra_model_def["infos"] = model_def.get("infos", SCAIL2_INFOS)
+./models/wan/wan_handler.py:611:                    "default": SCAIL2_ANIMATE_PREPROCESSING_RAW,
+./models/wan/wan_handler.py:613:                        ("Use Raw Control Video Content", SCAIL2_ANIMATE_PREPROCESSING_RAW),
+./models/wan/wan_handler.py:614:                        ("Extract 3D Pose information", SCAIL2_ANIMATE_PREPROCESSING_POSE),
+./models/wan/wan_handler.py:628:                    "id": SCAIL2_INJECT_REF_FRAMES_SETTING,
+./models/wan/wan_handler.py:632:                    "default": SCAIL2_INJECT_REF_FRAMES_NO,
+./models/wan/wan_handler.py:634:                        (SCAIL2_INJECT_REF_FRAMES_NO, SCAIL2_INJECT_REF_FRAMES_NO),
+./models/wan/wan_handler.py:635:                        (SCAIL2_INJECT_REF_FRAMES_YES, SCAIL2_INJECT_REF_FRAMES_YES),
+./models/wan/wan_handler.py:1464:                    return "SCAIL-2 Replace mode uses the Control Video as the source; set Location to Text Prompt."
+./models/wan/wan_handler.py:1466:                    return "SCAIL-2 Replace mode requires a Reference Image."
+./models/wan/wan_handler.py:1468:                    return "SCAIL-2 Replace mode requires Persons Locations set to Masked Area."
+./models/wan/wan_handler.py:1470:                    return "SCAIL-2 Replace mode requires a Video Mask."
+./models/wan/wan_handler.py:1472:                return "SCAIL-2 Animate mode requires Location set to Start Image or Continue Video."
+./models/wan/modules/posemb_layers.py:100:        In HunyuanVideo, b=256 and d=16, the repetition occurs approximately 8s (N=48 in latent space).
+./models/wan/modules/model.py:64:        In HunyuanVideo, b=256 and d=16, the repetition occurs approximately 8s (N=48 in latent space).
+./models/wan/any2video.py:534:            # LCM + LTX scheduler: Latent Consistency Model with RectifiedFlow
+./models/wan/any2video.py:642:        # SCAIL uses a fixed ref latent frame that should not be noised.
+./models/wan/any2video.py:880:        # SCAIL - 3D pose-guided character animation
+./models/wan/any2video.py:931:        # SCAIL-2 - reference-driven character animation with mask-token conditioning
+./models/ltx_video/models/autoencoders/causal_video_autoencoder.py:81:                "We only support diffusers configs found in Lightricks/LTX-Video."
+./models/ltx_video/models/transformers/transformer3d.py:286:                "We only support diffusers configs found in Lightricks/LTX-Video."
+./models/ltx_video/__init__.py:1:from .ltxv import LTXV
+./models/ltx_video/utils/diffusers_config_mapping.py:30:    "_class_name": "LTXVideoTransformer3DModel",
+./models/ltx_video/utils/diffusers_config_mapping.py:49:    "_class_name": "AutoencoderKLLTXVideo",
+./models/ltx_video/pipelines/pipeline_ltx_video.py:266:class LTXVideoPipeline(DiffusionPipeline):
+./models/ltx_video/pipelines/pipeline_ltx_video.py:268:    Pipeline for text-to-image generation using LTX-Video.
+./models/ltx_video/pipelines/pipeline_ltx_video.py:772:            samples = LTXVideoPipeline.resize_tensor(
+./models/ltx_video/pipelines/pipeline_ltx_video.py:1697:        new_conditioning_item.media_item = LTXVideoPipeline.resize_tensor(
+./models/ltx_video/pipelines/pipeline_ltx_video.py:1877:class LTXMultiScalePipeline:
+./models/ltx_video/pipelines/pipeline_ltx_video.py:1912:        self, video_pipeline: LTXVideoPipeline, latent_upsampler: LatentUpsampler
+./models/ltx_video/ltxv.py:33:    LTXVideoPipeline,
+./models/ltx_video/ltxv.py:34:    LTXMultiScalePipeline,
+./models/ltx_video/ltxv.py:47:logger = logging.get_logger("LTX-Video")
+./models/ltx_video/ltxv.py:147:class LTXV:
+./models/ltx_video/ltxv.py:165:        self.pipeline_config = model_def["LTXV_config"]
+./models/ltx_video/ltxv.py:256:        pipeline = LTXVideoPipeline(**submodel_dict)
+./models/ltx_video/ltxv.py:257:        pipeline = LTXMultiScalePipeline(pipeline, latent_upsampler=latent_upsampler)
+./models/ltx_video/ltxv.py:506:    pipeline: LTXVideoPipeline,
+./models/ltx_video/ltxv.py:518:        pipeline: LTXVideoPipeline object used for condition video trimming
+./models/ltx_video/ltxv_handler.py:8:        LTXV_config = model_def.get("LTXV_config", "")
+./models/ltx_video/ltxv_handler.py:9:        distilled= "distilled" in LTXV_config 
+./models/ltx_video/ltxv_handler.py:19:            build_hf_url("DeepBeepMeep/LTX_Video", text_encoder_folder, "T5_xxl_1.1_enc_bf16.safetensors"),
+./models/ltx_video/ltxv_handler.py:20:            build_hf_url("DeepBeepMeep/LTX_Video", text_encoder_folder, "T5_xxl_1.1_enc_quanto_bf16_int8.safetensors"),
+./models/ltx_video/ltxv_handler.py:32:            "labels" : { "V": "Use LTXV raw format"}
+./models/ltx_video/ltxv_handler.py:65:        return {"ltxv":(30, "LTX Video")}
+./models/ltx_video/ltxv_handler.py:73:            help=f"Path to a directory that contains LTX Videos Loras (default: {os.path.join(lora_root, 'ltxv')})"
+./models/ltx_video/ltxv_handler.py:83:            "repoId" : "DeepBeepMeep/LTX_Video", 
+./models/ltx_video/ltxv_handler.py:91:        from .ltxv import LTXV
+./models/ltx_video/ltxv_handler.py:93:        ltxv_model = LTXV(
+./models/minimax_h3/latent_upscaler.py:1:"""MiniMax H3 learned 3D latent upscaler.
+./models/minimax_h3/latent_upscaler.py:58:class MiniMaxH3LatentUpscaler(nn.Module):
+./models/minimax_h3/latent_upscaler.py:104:            raise ValueError("MiniMax H3 latent upscaling must preserve the latent frame count")
+./models/minimax_h3/latent_upscaler.py:110:        with tqdm(total=total_steps, desc="H3 latent upscaling", unit="layer") as progress:
+./models/minimax_h3/latent_upscaler.py:135:__all__ = ["MiniMaxH3LatentUpscaler", "ResidualBlock3D", "TemporalConv3D"]
+./models/minimax_h3/sol_attention.py:2:"""MiniMax H3 policy for the bundled Sol-Attn kernels."""
+./models/minimax_h3/sol_attention.py:15:class MiniMaxH3SolAttention:
+./models/minimax_h3/sol_attention.py:28:            raise ValueError("MiniMax H3 grouped masked denoising is not compatible with Sol Attention")
+./models/minimax_h3/sol_attention.py:34:                print(f"[MiniMax H3] Sol-Attn enabled with Triton on SM{capability[0]}{capability[1]} (tau={self.tau:g}, {SOL_ATTN_THRESH_TYPE})")
+./models/minimax_h3/sol_attention.py:52:__all__ = ["MiniMaxH3SolAttention"]
+./models/minimax_h3/constants.py:1:H3_PHASE_2_NOISE_LEVEL_START_DEFAULT = 0.9035
+./models/minimax_h3/constants.py:3:H3_MASK_MODE_SETTING = "h3_mask_mode"
+./models/minimax_h3/constants.py:4:H3_MASK_MODE_SHARED_TIMESTEP = "shared_timestep"
+./models/minimax_h3/constants.py:5:H3_MASK_MODE_GROUPED_ROWS = "grouped_rows"
+./models/minimax_h3/constants.py:6:H3_MASK_MODE_DEFAULT = H3_MASK_MODE_GROUPED_ROWS
+./models/minimax_h3/constants.py:7:H3_MASK_MODES = (H3_MASK_MODE_SHARED_TIMESTEP, H3_MASK_MODE_GROUPED_ROWS)
+./models/minimax_h3/constants.py:11:    mode = H3_MASK_MODE_DEFAULT if custom_settings is None else custom_settings.get(H3_MASK_MODE_SETTING, H3_MASK_MODE_DEFAULT)
+./models/minimax_h3/constants.py:12:    if mode not in H3_MASK_MODES:
+./models/minimax_h3/constants.py:13:        raise ValueError(f"Unsupported MiniMax H3 mask denoising mode {mode!r}")
+./models/minimax_h3/constants.py:14:    return mode == H3_MASK_MODE_GROUPED_ROWS
+./models/minimax_h3/pipeline.py:1:"""WanGP inference pipeline for MiniMax H3."""
+./models/minimax_h3/pipeline.py:19:from .constants import H3_PHASE_2_NOISE_LEVEL_START_DEFAULT, h3_grouped_masking_enabled
+./models/minimax_h3/pipeline.py:20:from .first_block_cache import MiniMaxH3FirstBlockCache
+./models/minimax_h3/pipeline.py:23:from .spectrum import MiniMaxH3Spectrum
+./models/minimax_h3/pipeline.py:31:H3_TWO_PHASE_SCALE = 2.0
+./models/minimax_h3/pipeline.py:32:H3_PHASE_2_SIGMAS = (H3_PHASE_2_NOISE_LEVEL_START_DEFAULT, 0.6316, 0.3158, 0.0)
+./models/minimax_h3/pipeline.py:33:H3_PHASE_2_SAMPLE_SOLVER = "euler"
+./models/minimax_h3/pipeline.py:34:H3_PHASE_2_TILE_COUNT = 4
+./models/minimax_h3/pipeline.py:35:H3_PHASE_2_TILE_OVERLAP_RATIO = 0.25
+./models/minimax_h3/pipeline.py:36:H3_PHASE_2_TILE_ALIGNMENT = 32
+./models/minimax_h3/pipeline.py:37:H3_PHASE_2_TILING_FLAG = "~"
+./models/minimax_h3/pipeline.py:38:H3_TURBO_LORA_KEY = "minimax_h3_lora_turbo"
+./models/minimax_h3/pipeline.py:39:H3_REQUIRED_TURBO_TOKENS = ("minimax_h3", "fl2v", "turbo", "4step", "v0.1")
+./models/minimax_h3/pipeline.py:40:H3_ALLOW_PHASE_2_TURBO_OVERRIDE = False
+./models/minimax_h3/pipeline.py:41:# Official MiniMax-H3 Ref2VA reference-image resolution (SGLang minimax_h3_resolve_reference_image_shape):
+./models/minimax_h3/pipeline.py:44:MINIMAX_H3_REFERENCE_IMAGE_SHORT_EDGE = 2048
+./models/minimax_h3/pipeline.py:45:MINIMAX_H3_REFERENCE_IMAGE_MULTIPLE = 32
+./models/minimax_h3/pipeline.py:50:    return "comfy" not in name and all(token in name for token in H3_REQUIRED_TURBO_TOKENS)
+./models/minimax_h3/pipeline.py:86:def _spatial_tiles(length, alignment=H3_PHASE_2_TILE_ALIGNMENT):
+./models/minimax_h3/pipeline.py:87:    tile_length = min(length, math.ceil(length / (2.0 - H3_PHASE_2_TILE_OVERLAP_RATIO) / alignment) * alignment)
+./models/minimax_h3/pipeline.py:126:        raise ValueError("MiniMax H3 audio-from-control-video mode requires a Control Video")
+./models/minimax_h3/pipeline.py:130:        raise ValueError("MiniMax H3 audio-from-control-video mode requires at least 5 Control Video frames")
+./models/minimax_h3/pipeline.py:203:        raise ValueError("MiniMax H3 outpainting_dims must contain top, bottom, left, and right margins")
+./models/minimax_h3/pipeline.py:334:class MiniMaxH3Pipeline:
+./models/minimax_h3/pipeline.py:395:        if selected_lora is not None and H3_ALLOW_PHASE_2_TURBO_OVERRIDE:
+./models/minimax_h3/pipeline.py:396:            print(f"Automatic H3 Turbo LoRA copy is unnecessary because the user selected {os.path.basename(selected_lora)!r}; its phase-one multiplier is preserved and phase two is forced to 1.0")
+./models/minimax_h3/pipeline.py:398:        return [model_def[H3_TURBO_LORA_KEY]], ["0;1"]
+./models/minimax_h3/pipeline.py:504:        # Official MiniMax-H3 Ref2VA resolves each reference image INDEPENDENTLY of the
+./models/minimax_h3/pipeline.py:512:            raise ValueError("MiniMax H3 reference image must have positive dimensions")
+./models/minimax_h3/pipeline.py:514:            raise ValueError(f"MiniMax H3 reference image ratio must be within 1:4 to 4:1, got {image.width}x{image.height}")
+./models/minimax_h3/pipeline.py:515:        scale = MINIMAX_H3_REFERENCE_IMAGE_SHORT_EDGE / min(source_w, source_h)
+./models/minimax_h3/pipeline.py:516:        target_w = max(32, int(round(source_w * scale / MINIMAX_H3_REFERENCE_IMAGE_MULTIPLE)) * MINIMAX_H3_REFERENCE_IMAGE_MULTIPLE)
+./models/minimax_h3/pipeline.py:517:        target_h = max(32, int(round(source_h * scale / MINIMAX_H3_REFERENCE_IMAGE_MULTIPLE)) * MINIMAX_H3_REFERENCE_IMAGE_MULTIPLE)
+./models/minimax_h3/pipeline.py:550:            raise ValueError(f"MiniMax H3 reference videos must contain 17n+5 preprocessed frames, got {video.shape[1]}")
+./models/minimax_h3/pipeline.py:595:                 guide_phases=1, switch_threshold=H3_PHASE_2_NOISE_LEVEL_START_DEFAULT, loras_slists=None, loras_selected=None, set_progress_status=None,
+./models/minimax_h3/pipeline.py:601:            raise ValueError("MiniMax H3 requires a positive output frame rate")
+./models/minimax_h3/pipeline.py:606:            raise ValueError(f"Unsupported MiniMax H3 sampler {sample_solver!r}")
+./models/minimax_h3/pipeline.py:611:                raise ValueError("MiniMax H3 PDD requires the Euler sampler")
+./models/minimax_h3/pipeline.py:613:                raise ValueError(f"MiniMax H3 PDD requires exactly {pdd_steps} inference steps")
+./models/minimax_h3/pipeline.py:615:                raise ValueError("MiniMax H3 PDD does not support partial-schedule refinement")
+./models/minimax_h3/pipeline.py:617:            raise ValueError("MiniMax H3 Ralston 2S does not support Spectrum Feature Forecasting; use No Skipping or First Block Cache")
+./models/minimax_h3/pipeline.py:619:            raise ValueError("MiniMax H3 requires at least one inference step")
+./models/minimax_h3/pipeline.py:638:            raise ValueError("Sliding-window overlap leaves no frames for H3 to generate")
+./models/minimax_h3/pipeline.py:647:            raise ValueError("MiniMax H3 Grouped Rows mask denoising is not compatible with Sol Attention; select Shared Timestep or another attention mode")
+./models/minimax_h3/pipeline.py:656:        tiled_phase_2 = two_phase and H3_PHASE_2_TILING_FLAG in (video_prompt_type or "")
+./models/minimax_h3/pipeline.py:659:                raise RuntimeError("MiniMax H3 two-phase generation requires the latent upscaler")
+./models/minimax_h3/pipeline.py:660:            height = max(32, round(target_height / H3_TWO_PHASE_SCALE / 32) * 32)
+./models/minimax_h3/pipeline.py:661:            width = max(32, round(target_width / H3_TWO_PHASE_SCALE / 32) * 32)
+./models/minimax_h3/pipeline.py:678:                    print(f"MiniMax H3 PDD phase 2: disabled Turbo LoRA '{name}' so it does not stack with the PDD accelerator")
+./models/minimax_h3/pipeline.py:689:                if required_turbo and (H3_ALLOW_PHASE_2_TURBO_OVERRIDE or not required_turbo_found):
+./models/minimax_h3/pipeline.py:691:                        print(f"MiniMax H3 phase 2: forcing required Turbo LoRA '{name}' to multiplier 1.0")
+./models/minimax_h3/pipeline.py:697:                        print(f"MiniMax H3 phase 2: disabled Turbo LoRA '{name}' to avoid stacking it with the required LightX2V v0.1 Turbo LoRA")
+./models/minimax_h3/pipeline.py:765:            raise ValueError(f"MiniMax H3 reference videos must total at most 15 seconds (found {total_reference_duration:.2f}s)")
+./models/minimax_h3/pipeline.py:784:                raise ValueError(f"MiniMax H3 requires at least as many image and video references as audio references (found {visual_ref_count} visual and {audio_ref_count} audio)")
+./models/minimax_h3/pipeline.py:786:                raise ValueError("WanGP supports at most 12 MiniMax H3 references: 9 images, 2 videos, and 2 audio clips")
+./models/minimax_h3/pipeline.py:791:                set_progress_status("Encoding H3 control video")
+./models/minimax_h3/pipeline.py:804:            set_progress_status("Encoding H3 prompt and references")
+./models/minimax_h3/pipeline.py:843:                raise ValueError("MiniMax H3 starting_sigma must be in (0, 1]")
+./models/minimax_h3/pipeline.py:849:            raise ValueError("The selected H3 flow shift collapses a different number of video and audio schedule points")
+./models/minimax_h3/pipeline.py:854:                raise ValueError("MiniMax H3 refinement requires a spatially uniform strength mask")
+./models/minimax_h3/pipeline.py:858:                raise ValueError("MiniMax H3 refinement requires one uniform strength for the whole video")
+./models/minimax_h3/pipeline.py:860:            print(f"MiniMax H3 refinement: uniform strength {float(refinement_strength):.2f}, initial sigma {float(refinement_sigmas_video[0, 0, 0, 0, 0, 0]):.3f}")
+./models/minimax_h3/pipeline.py:900:            spectrum = MiniMaxH3Spectrum(active_cache, stage_sigmas_video[:-1], stage_solver) if active_cache is not None and active_cache.cache_type == "spectrum" else None
+./models/minimax_h3/pipeline.py:901:            first_block_cache = MiniMaxH3FirstBlockCache(active_cache) if active_cache is not None and active_cache.cache_type == "first_block" else None
+./models/minimax_h3/pipeline.py:1085:        run_denoising(sigmas_video, sigmas_audio, "H3 phase 1 denoising" if two_phase else "H3 denoising", phase_1_extra, 1 if two_phase else -1,
+./models/minimax_h3/pipeline.py:1092:                set_progress_status("Upscaling H3 latent between phases")
+./models/minimax_h3/pipeline.py:1096:                    set_progress_status(f"Upscaling H3 latent between phases ({int(current_step) + 1}/{int(total_steps)})")
+./models/minimax_h3/pipeline.py:1109:            activate_lora_phase(2, len(H3_PHASE_2_SIGMAS) - 1)
+./models/minimax_h3/pipeline.py:1132:                set_progress_status("Encoding H3 phase 2 prompt and references")
+./models/minimax_h3/pipeline.py:1136:            phase_2_sigmas_video = torch.tensor((float(switch_threshold), *H3_PHASE_2_SIGMAS[1:]), dtype=torch.float32, device=self.device)
+./models/minimax_h3/pipeline.py:1154:                tile_count = H3_PHASE_2_TILE_COUNT
+./models/minimax_h3/pipeline.py:1220:                for step in tqdm(range(model_steps), desc="H3 phase 2 tiled denoising"):
+./models/minimax_h3/pipeline.py:1311:                run_denoising(phase_2_sigmas_video, torch.zeros_like(phase_2_sigmas_video), "H3 phase 2 denoising", "Phase 2/2 High Resolution", 2,
+./models/minimax_h3/pipeline.py:1312:                              freeze_audio=True, stage_solver=H3_PHASE_2_SAMPLE_SOLVER, use_cache=False)
+./models/minimax_h3/pipeline.py:1316:            set_progress_status("Decoding H3 stereo audio" if decoded_video is not None or frozen_target_video is not None else "VAE Decoding of Video and Audio")
+./models/minimax_h3/pipeline.py:1359:            raise ValueError("MiniMax H3 refinement requires a source video")
+./models/minimax_h3/pipeline.py:1362:            raise ValueError(f"MiniMax H3 refinement received {strengths.numel()} strengths for {video.shape[1]} frames")
+./models/minimax_h3/pipeline.py:1364:            raise ValueError("MiniMax H3 refinement requires one uniform strength for the whole video")
+./models/minimax_h3/pipeline.py:1366:            raise ValueError("MiniMax H3 refinement denoising strength must be between 0 and 1")
+./models/minimax_h3/pipeline.py:1403:__all__ = ["MiniMaxH3Pipeline", "video_latent_frames"]
+./models/minimax_h3/minimax_h3_handler.py:1:"""WanGP family handler for MiniMax H3."""
+./models/minimax_h3/minimax_h3_handler.py:11:from .constants import (H3_MASK_MODE_DEFAULT, H3_MASK_MODE_GROUPED_ROWS, H3_MASK_MODE_SHARED_TIMESTEP,
+./models/minimax_h3/minimax_h3_handler.py:12:                        H3_MASK_MODE_SETTING, H3_PHASE_2_NOISE_LEVEL_START_DEFAULT, h3_grouped_masking_enabled)
+./models/minimax_h3/minimax_h3_handler.py:20:REPO_ID = "DeepBeepMeep/MiniMax-H3"
+./models/minimax_h3/minimax_h3_handler.py:23:TEXT_ENCODER_GGUF_Q2 = "qwen3vl-32B-MiniMax-H3-Q2_K.gguf"
+./models/minimax_h3/minimax_h3_handler.py:24:TEXT_ENCODER_GGUF_Q4 = "qwen3vl-32B-MiniMax-H3-Q4_K_M.gguf"
+./models/minimax_h3/minimax_h3_handler.py:70:- **Generate Video and Audio from Text Prompt:** let H3 create both.
+./models/minimax_h3/minimax_h3_handler.py:71:- **Generate Video based on Soundtrack and Text Prompt:** upload a soundtrack and H3 will create the video around it. If the soundtrack covers the whole video, WanGP uses the original audio in the final file. If it ends early, H3 generates the remaining sound.
+./models/minimax_h3/minimax_h3_handler.py:72:- **Generate Video based on Control Video + its Audio Track and Text Prompt:** select **Use Control Video**. H3 uses both its frames and its existing audio track; the visual changes follow the denoising and mask settings.
+./models/minimax_h3/minimax_h3_handler.py:73:- **Generate Audio based on Control Video and Text Prompt:** select **Use Control Video**. WanGP keeps the control video's frames unchanged and asks H3 to create a new soundtrack.
+./models/minimax_h3/minimax_h3_handler.py:77:Sliding windows can continue a video beyond one generation. Choose any overlap amount and WanGP will round it to the nearest H3-compatible value (1, 18, 35, 52...). It automatically reuses the overlapping video and audio to make the join smoother.
+./models/minimax_h3/minimax_h3_handler.py:79:H3 is designed for 24 FPS, although WanGP can generate at another frame rate. MiniMax documents an official duration of 4–15 seconds per generation window; longer videos are possible through sliding windows.
+./models/minimax_h3/minimax_h3_handler.py:89:- **Videos in WanGP:** up to 2 clips; each source must be at least 2 seconds, inputs longer than 15 seconds are truncated, and the prepared clips may total at most 15 seconds. The H3 model itself documents support for 3 video clips.
+./models/minimax_h3/minimax_h3_handler.py:90:- **Audio in WanGP:** up to 2 inputs; each clip must be 2–15 seconds, with at most 15 seconds of reference audio in total. The H3 model itself documents support for 3 audio clips.
+./models/minimax_h3/minimax_h3_handler.py:109:Background removal is disabled by default. After selecting reference images, use **Automatic Removal of Background behind People or Objects in Reference Images** when you want WanGP to isolate people or objects before sending the images to H3. Keep backgrounds when the surrounding scene is part of the reference you want H3 to follow.
+./models/minimax_h3/minimax_h3_handler.py:115:For longer videos, choose any sliding-window overlap amount and WanGP will round it to the nearest H3-compatible value (1, 18, 35, 52...). It automatically carries the overlapping video and audio into the next window while keeping the selected references available.
+./models/minimax_h3/minimax_h3_handler.py:117:H3 is designed for 24 FPS, although WanGP can generate at another frame rate. MiniMax documents an official duration of 4–15 seconds per generation window; longer videos are possible through sliding windows.
+./models/minimax_h3/minimax_h3_handler.py:119:See the [MiniMax H3 model card](https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/README.md) for the upstream specifications and prompting guidance.
+./models/minimax_h3/minimax_h3_handler.py:122:H3_PHASE_INFOS = """
+./models/minimax_h3/minimax_h3_handler.py:128:- **Two Phases:** use it for faster high-resolution generation and improved fine detail. Most of the work is performed at a lower resolution before H3 enhances the result at the selected output resolution. This mode does not reduce the peak VRAM required by the final enhancement.
+./models/minimax_h3/minimax_h3_handler.py:134:H3_PHASE_TURBO_INFOS = """
+./models/minimax_h3/minimax_h3_handler.py:138:H3_SPEED_INFOS = """
+./models/minimax_h3/minimax_h3_handler.py:147:H3_STANDARD_SAMPLER_INFOS = """
+./models/minimax_h3/minimax_h3_handler.py:148:- **Ralston 2S:** in **Sampler Solver / Scheduler**, select **Ralston 2S** to use the anchored deterministic second-order Runge-Kutta sampler. It evaluates H3 at the start and two-thirds point of every interval, anchors the second prediction to the interval start, then combines both predictions with Ralston's `1/4, 3/4` weights. This can reduce numerical integration error and may improve fine-detail retention, motion stability, and audio/video coherence. Perceptual improvements are prompt-dependent and are not guaranteed. Its second prediction depends on the first, so they cannot run in parallel: Ralston performs two full transformer predictions per step and sampling is approximately **2x slower** than Euler or RES Multistep at the same step count. Spectrum Feature Forecasting is unsupported with Ralston 2S.
+./models/minimax_h3/minimax_h3_handler.py:151:H3_COMMON_RUNTIME_INFOS = """
+./models/minimax_h3/minimax_h3_handler.py:152:- **Sol-Attn:** in **Advanced Mode > Misc. > Override Attention Mode**, select **sol**. The **Start Tau** slider then appears below the attention selector and shows that End Tau is fixed at `0.8`. H3 defaults to `1.3`; this value is used on the first denoising step and decreases linearly to `0.8` on the final step. Use `1.0` for the Sol-Attn paper starting value, increase it to route more attention blocks through the approximate path for greater speed, or lower it for denser attention and higher fidelity. It uses sparse attention only on large visual sequences and requires BF16, Triton 3.6 or newer, and a CUDA NVIDIA GPU using SM86, SM89, SM90, SM100, SM120, or SM121 (such as RTX 30/40/50-series, H100/H200, B100/B200, or DGX Spark); the dropdown reports whether it is available on the current system.
+./models/minimax_h3/minimax_h3_handler.py:165:H3_RUNTIME_INFOS = H3_PHASE_INFOS + H3_PHASE_TURBO_INFOS + H3_SPEED_INFOS + H3_STANDARD_SAMPLER_INFOS + H3_COMMON_RUNTIME_INFOS
+./models/minimax_h3/minimax_h3_handler.py:166:H3_PDD_RUNTIME_INFOS = PDD_INFOS + H3_SPEED_INFOS + H3_COMMON_RUNTIME_INFOS
+./models/minimax_h3/minimax_h3_handler.py:174:H3_FINETUNES_INFOS = """### H3 finetune QKV layout
+./models/minimax_h3/minimax_h3_handler.py:176:Most H3 checkpoints use the official **Interleaved** QKV layout. Select **Grouped** only when the checkpoint stores all Q rows, then K rows, then V rows. INT8 ConvRot uses its own layout metadata.
+./models/minimax_h3/minimax_h3_handler.py:179:H3_FINETUNES_PARAMS = {
+./models/minimax_h3/minimax_h3_handler.py:182:        "choices": [("Interleaved (official H3)", "interleaved"), ("Grouped Q / K / V", "grouped")],
+./models/minimax_h3/minimax_h3_handler.py:209:        return {"minimax_h3": (70, "MiniMax H3")}
+./models/minimax_h3/minimax_h3_handler.py:220:                            help=f"Path to MiniMax H3 LoRAs (default: {os.path.join(lora_root, 'minimax_h3')})")
+./models/minimax_h3/minimax_h3_handler.py:231:            raise ValueError(f"MiniMax H3 does not support step-skipping type {cache_type!r}")
+./models/minimax_h3/minimax_h3_handler.py:254:                "id": H3_MASK_MODE_SETTING,
+./models/minimax_h3/minimax_h3_handler.py:258:                "default": H3_MASK_MODE_DEFAULT,
+./models/minimax_h3/minimax_h3_handler.py:260:                    ("Grouped Rows [conditioning timestep for fixed rows; denoising timestep for editable rows]", H3_MASK_MODE_GROUPED_ROWS),
+./models/minimax_h3/minimax_h3_handler.py:261:                    ("Shared Timestep [same denoising timestep for fixed and editable latent rows]", H3_MASK_MODE_SHARED_TIMESTEP),
+./models/minimax_h3/minimax_h3_handler.py:293:            "infos": (REF2VA_INFOS if reference_mode else FL2VA_INFOS) + (H3_PDD_RUNTIME_INFOS if pdd else H3_RUNTIME_INFOS) + (PRUNED_INFOS if pruned else ""),
+./models/minimax_h3/minimax_h3_handler.py:295:            "prompt_enhancer_button_label": "Write H3 Prompt",
+./models/minimax_h3/minimax_h3_handler.py:299:                    "TV": "Write an H3 Reference Prompt from Text" if reference_mode else "Write an H3 Prompt from Text",
+./models/minimax_h3/minimax_h3_handler.py:300:                    "TIV": "Write an H3 Reference Prompt from Text + First Reference Image" if reference_mode else "Write an H3 Prompt from Text + Start Image",
+./models/minimax_h3/minimax_h3_handler.py:310:            "finetunes_infos": H3_FINETUNES_INFOS,
+./models/minimax_h3/minimax_h3_handler.py:311:            "finetunes_params": H3_FINETUNES_PARAMS,
+./models/minimax_h3/minimax_h3_handler.py:417:                # "video_guide_outpainting_label": "Enable Spatial Outpainting on the H3 Control Video",
+./models/minimax_h3/minimax_h3_handler.py:448:                return "MiniMax H3 PDD requires the Euler sampler"
+./models/minimax_h3/minimax_h3_handler.py:460:                return "MiniMax H3 Grouped Rows mask denoising is not compatible with Sol Attention; select Shared Timestep or another attention mode"
+./models/minimax_h3/minimax_h3_handler.py:462:            from .pipeline import H3_PHASE_2_TILE_COUNT, _spatial_tiles
+./models/minimax_h3/minimax_h3_handler.py:466:            gr.Info(f"MiniMax H3 phase 2 tiling: {H3_PHASE_2_TILE_COUNT} tiles of {columns[0][1]}x{rows[0][1]} pixels (2x2 grid) for a {width}x{height} output.")
+./models/minimax_h3/minimax_h3_handler.py:475:                    return f"MiniMax H3 frame injection requires one position per Reference Image (found {position_count} positions and {image_count} images)"
+./models/minimax_h3/minimax_h3_handler.py:478:                    return "MiniMax H3 audio generation from Control Video cannot also use a source soundtrack"
+./models/minimax_h3/minimax_h3_handler.py:480:                    return "MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file"
+./models/minimax_h3/minimax_h3_handler.py:483:                    return "MiniMax H3 Control Video soundtrack mode requires Use Control Video and a Control Video file"
+./models/minimax_h3/minimax_h3_handler.py:488:                        return "MiniMax H3 Control Video has no audio track"
+./models/minimax_h3/minimax_h3_handler.py:490:                    return f"Unable to inspect the MiniMax H3 Control Video soundtrack: {error}"
+./models/minimax_h3/minimax_h3_handler.py:506:            return "MiniMax H3 Ref2VA accepts at most 9 reference images"
+./models/minimax_h3/minimax_h3_handler.py:508:            return "WanGP accepts at most 2 MiniMax H3 reference videos"
+./models/minimax_h3/minimax_h3_handler.py:554:            return "WanGP accepts at most 2 MiniMax H3 audio references"
+./models/minimax_h3/minimax_h3_handler.py:559:            return f"MiniMax H3 requires at least as many reference images and videos as audio references (found {visual_count} visual and {audio_count} audio)"
+./models/minimax_h3/minimax_h3_handler.py:562:            return f"MiniMax H3 accepts at most 12 reference files (found {file_count})"
+
+SETTINGS EXAMPLES
+./test_h3_int8_config/wgp_config.json
+./models/wan/camera_extrinsics.json
+./models/ltx2/ltx-2.3-22b_PrunaAI_vae.json
+./defaults/ltx2_22B_distilled_gguf_q8_0.json
+./defaults/ltx2_22B.json
+./defaults/minimax_h3_fl2va_pdd.json
+./defaults/ltx2_25_22B.json
+./defaults/ltx2_22B_1_1_edit_anything.json
+./defaults/minimax_h3_fl2va_pruned.json
+./defaults/ltx2_22B_msr.json
+./defaults/hunyuan_1_5_480_t2v_lightx2v.json
+./defaults/minimax_h3_ref2va.json
+./defaults/ltx2_22B_distilled_1_1.json
+./defaults/ltx2_25_22B_distilled.json
+./defaults/ltx2_25_22B_distilled_nvfp4.json
+./defaults/scail.json
+./defaults/hunyuan.json
+./defaults/hunyuan_1_5_480_i2v_step_distilled.json
+./defaults/ltx2_22B_nvfp4.json
+./defaults/minimax_h3_fl2va_pruned_pdd.json
+./defaults/hunyuan_custom.json
+./defaults/hunyuan_custom_edit.json
+./defaults/hunyuan_t2v_accvideo.json
+./defaults/ltx2_19B.json
+./defaults/ovi_1_1_fastwan.json
+./defaults/ltx2_distilled.json
+./defaults/lucy_edit_fastwan_1_1.json
+./defaults/ltx2_19B_nvfp4.json
+./defaults/minimax_h3_ref2va_pdd.json
+./defaults/ltxv_13B.json
+./defaults/ovi_1_1_10s_fastwan.json
+./defaults/minimax_h3_fl2va.json
+./defaults/hunyuan_1_5_480_i2v.json
+./defaults/wanmove.json
+./defaults/ltx2_22B_distilled_gguf_q4_k_m.json
+./defaults/ti2v_2_2_fastwan.json
+./defaults/ltx2_22B_distilled.json
+./defaults/minimax_music3.json
+./defaults/ltx2_distilled_gguf_q8_0.json
+./defaults/scail2_14B.json
+./defaults/ltx2_distilled_gguf_q6_k.json
+./defaults/hunyuan_t2v_fast.json
+./defaults/hunyuan_custom_audio.json
+./defaults/ovi_fastwan.json
+./defaults/hunyuan_1_5_i2v.json
+./defaults/ltx2_22B_1_1.json
+./defaults/minimax_h3_ref2va_pruned_pdd.json
+./defaults/ltx2_22B_distilled_gguf_q6_k.json
+./defaults/hunyuan_avatar.json
+./defaults/minimax_h3_ref2va_pruned.json
+./defaults/hunyuan_1_5_upsampler_1080.json
+./defaults/ltx2_distilled_gguf_q4_k_m.json
+./defaults/ltxv_distilled.json
+./defaults/hunyuan_1_5_t2v.json
+./defaults/ltx2_22B_edit_anything.json
+./defaults/ltx2_22B_distilled_edit_anything.json
+./defaults/hunyuan_1_5_480_t2v.json
+./defaults/ltx2_22B_distilled_1_1_edit_anything.json
+./defaults/ltx2_22B_msr_v2.json
+./defaults/hunyuan_1_5_upsampler.json
+./defaults/lucy_edit_fastwan.json
+./defaults/hunyuan_i2v.json
+./profiles/wan_2_2/Lightning i2v v1.0 3 Phases - 8 Steps.json
+./profiles/wan_2_2/Lightning i2v v1.0 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning t2v v2025-12-17 3 Phases - 8 Steps.json
+./profiles/wan_2_2/FusioniX  t2v - 10 Steps.json
+./profiles/wan_2_2/Fun Inp HPS2 Reward 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning i2v v2025-10-14 3 Phases - 8 Steps.json
+./profiles/wan_2_2/Lightning t2v v2025-09-28 3 Phases - 8 Steps.json
+./profiles/wan_2_2/Lightning t2v v1.0 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning i2v v2025-10-14 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning t2v v2025-12-17 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning t2v v2025-09-28 2 Phases - 4 Steps.json
+./profiles/wan_2_2/Lightning t2v v1.0 3 Phases - 8 Steps.json
+./profiles/wan_2_2/Fun Inp MPS Reward 2 Phases - 4 Steps.json
+./profiles/wan/Cocktail t2v - 10 Steps.json
+./profiles/wan/FusioniX t2v - 10 Steps.json
+./profiles/wan/Lightx2v t2v Cfg Step Distill Rank32 - 4 Steps.json
+./profiles/ltx2_25_dev_accelerators/Two-Stage Dev HQ Res2S (15+3 Steps).json
+./profiles/ltx2_25_dev_accelerators/Single-Stage Dev Multimodal Res2S (15 Steps).json
+./profiles/ltx2_25_dev_accelerators/Single-Stage Dev DistilledLoRA (8 Steps).json
+./profiles/ltx2_25_dev_accelerators/Two-Stage Modality Guidance (30+3 Steps).json
+./profiles/ltx2_25_dev_accelerators/Two-Stage Dev DistilledLoRA (8+3 Steps).json
+./profiles/hunyuan_1_5/Step Distilled i2v dpm - 8 steps.json
+./profiles/hunyuan_1_5/LightX2V t2v dpm - 8 steps.json
+./profiles/minimax_h3/Turbo Larry v4 ema ckpt600 4 steps.json
+./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v1.1 768p.json
+./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v1.0 768p.json
+./profiles/minimax_h3/Turbo Lightx2v FL2V 8 Steps v1.0.json
+./profiles/minimax_h3/Turbo Larry v1 ema ckpt850 4 steps (fast movement).json
+./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v0.1.json
+./profiles/minimax_h3/Turbo Joyfox FL2VA (crappy sound).json
+./profiles/minimax_h3/Turbo Lightx2v Ref2V 4 Steps v0.1.json
+./profiles/ltx2_presets/VBVR LoRA - Video Reasoning.json
+./profiles/ltx2_presets/OmniNFT RL-LoRA (LTX-2 19B) - Better Audio Video Sync .json
+./profiles/ltx2_presets/OmniNFT RL-LoRA (LTX-2.3 22B) - Better Audio Video Sync.json
+./profiles/wan_2_2_ovi/FastWan 6 Steps.json
+./profiles/wan_2_2_5B/FastWan 3 Steps.json
+./profiles/wan_i2v/Image2Video FusioniX - 10 Steps.json
+./profiles/wan_i2v/Image2Video lightx2v - 4 Steps.json

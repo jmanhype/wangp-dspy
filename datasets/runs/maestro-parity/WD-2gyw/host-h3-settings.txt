@@ -1,0 +1,492 @@
+--- handler settings names ---
+12:                        H3_MASK_MODE_SETTING, H3_PHASE_2_NOISE_LEVEL_START_DEFAULT, h3_grouped_masking_enabled)
+15:from .pdd import PDD_BLOCK_SIZE, PDD_NUM_STEPS
+26:TURBO_LORA_FILE = "minimax_h3_lightx2v_fl2v_turbo_4step_alpha16_v0.1.safetensors"
+28:REF_TURBO_LORA_FILE = "minimax_h3_lightx2v_ref2v_turbo_4step_alpha8_v0.1_bf16.safetensors"
+51:FL2VA creates a video with stereo sound from your text prompt. You can optionally provide a start image, an end image, a control video, injected frames, or a soundtrack.
+55:- **No image:** generate the video and audio from the text prompt.
+71:- **Generate Video based on Soundtrack and Text Prompt:** upload a soundtrack and H3 will create the video around it. If the soundtrack covers the whole video, WanGP uses the original audio in the final file. If it ends early, H3 generates the remaining sound.
+72:- **Generate Video based on Control Video + its Audio Track and Text Prompt:** select **Use Control Video**. H3 uses both its frames and its existing audio track; the visual changes follow the denoising and mask settings.
+77:Sliding windows can continue a video beyond one generation. Choose any overlap amount and WanGP will round it to the nearest H3-compatible value (1, 18, 35, 52...). It automatically reuses the overlapping video and audio to make the join smoother.
+84:Ref2VA generates a new video with native 32 kHz stereo audio from text plus multimodal references. Images can guide identity, appearance, or scene content; video can guide content, appearance, and motion; audio can guide or reuse sound and voice. A reference video is contextual material, not a guaranteed frame-exact continuation constraint.
+90:- **Audio in WanGP:** up to 2 inputs; each clip must be 2–15 seconds, with at most 15 seconds of reference audio in total. The H3 model itself documents support for 3 audio clips.
+91:- **Audio requires matching visual references:** the combined number of reference images and videos must be at least the number of reference audio clips.
+92:- **Video soundtracks:** selecting reference-video soundtracks uses one audio-reference slot per selected video. A soundtrack shares its video's uploaded file, so it does not add another file to the mixed-input count.
+93:- **Mixed references:** at most 12 files across images, videos, and audio.
+97:- **Reference Video:** reuse subjects, appearance, or motion without changing the selected output resolution.
+105:The reference-image selector can preserve the selected output dimensions or use the first reference image to define them. In **Advanced Mode**, **Rescale Internaly Image Ref (% in relation to Output Video) to change Output Composition** controls each reference image's internal pixel budget while preserving its aspect ratio. **100%** matches the output video's pixel budget. Higher values can preserve more reference detail and improve fidelity, but generation is slower; lower values are faster but can lose fine details. This setting does not change the output resolution after it has been selected or derived.
+109:Background removal is disabled by default. After selecting reference images, use **Automatic Removal of Background behind People or Objects in Reference Images** when you want WanGP to isolate people or objects before sending the images to H3. Keep backgrounds when the surrounding scene is part of the reference you want H3 to follow.
+115:For longer videos, choose any sliding-window overlap amount and WanGP will round it to the nearest H3-compatible value (1, 18, 35, 52...). It automatically carries the overlapping video and audio into the next window while keeping the selected references available.
+127:- **One Phase (default):** generates directly at the selected resolution. Use it for standard resolutions or when whole-frame consistency matters more than high-resolution speed.
+128:- **Two Phases:** use it for faster high-resolution generation and improved fine detail. Most of the work is performed at a lower resolution before H3 enhances the result at the selected output resolution. This mode does not reduce the peak VRAM required by the final enhancement.
+143:- **Spectrum:** in **Steps Skipping**, select **Spectrum Feature Forecasting**. Spectrum captures an accelerated local-only trajectory, retains its actual-step anchors in system RAM, then performs a transformer-free smoothing replay with independent video and audio prediction. Keep the default 25% start for five full warmup steps in a 20-step generation; increasing it starts later and skips fewer steps. Short Euler schedules can bootstrap after their first actual step, while RES Multistep preserves a three-step actual tail.
+148:- **Ralston 2S:** in **Sampler Solver / Scheduler**, select **Ralston 2S** to use the anchored deterministic second-order Runge-Kutta sampler. It evaluates H3 at the start and two-thirds point of every interval, anchors the second prediction to the interval start, then combines both predictions with Ralston's `1/4, 3/4` weights. This can reduce numerical integration error and may improve fine-detail retention, motion stability, and audio/video coherence. Perceptual improvements are prompt-dependent and are not guaranteed. Its second prediction depends on the first, so they cannot run in parallel: Ralston performs two full transformer predictions per step and sampling is approximately **2x slower** than Euler or RES Multistep at the same step count. Spectrum Feature Forecasting is unsupported with Ralston 2S.
+152:- **Sol-Attn:** in **Advanced Mode > Misc. > Override Attention Mode**, select **sol**. The **Start Tau** slider then appears below the attention selector and shows that End Tau is fixed at `0.8`. H3 defaults to `1.3`; this value is used on the first denoising step and decreases linearly to `0.8` on the final step. Use `1.0` for the Sol-Attn paper starting value, increase it to route more attention blocks through the approximate path for greater speed, or lower it for denser attention and higher fidelity. It uses sparse attention only on large visual sequences and requires BF16, Triton 3.6 or newer, and a CUDA NVIDIA GPU using SM86, SM89, SM90, SM100, SM120, or SM121 (such as RTX 30/40/50-series, H100/H200, B100/B200, or DGX Spark); the dropdown reports whether it is available on the current system.
+157:PDD_INFOS = """
+158:### PDD 8-step acceleration
+160:At each step, PDD merges four learned denoising-interval outputs into one prediction, covering 32 intervals in only 8 model evaluations.
+162:This model requires exactly **8 inference steps** and the **Euler** sampler. Two-phase generation is disabled. Use the FL2VA PDD weights only with FL2VA and the Ref2VA PDD weights only with Ref2VA.
+166:H3_PDD_RUNTIME_INFOS = PDD_INFOS + H3_SPEED_INFOS + H3_COMMON_RUNTIME_INFOS
+171:The Pruned checkpoint replaces the full AdaLN timestep projection matrices with precomputed low-rank modulation curves. It accepts the same inputs and settings as its 33B counterpart while reducing checkpoint size and weight-transfer cost.
+227:    def set_cache_parameters(cache_type, base_model_type, model_def, inputs, skip_steps_cache):
+229:            skip_steps_cache.threshold = float(skip_steps_cache.multiplier)
+231:            raise ValueError(f"MiniMax H3 does not support step-skipping type {cache_type!r}")
+244:            "frames_steps": 17,
+254:                "id": H3_MASK_MODE_SETTING,
+260:                    ("Grouped Rows [conditioning timestep for fixed rows; denoising timestep for editable rows]", H3_MASK_MODE_GROUPED_ROWS),
+261:                    ("Shared Timestep [same denoising timestep for fixed and editable latent rows]", H3_MASK_MODE_SHARED_TIMESTEP),
+270:                "step": 0.0001,
+272:            "inference_steps": True,
+273:            "lock_inference_steps": pdd,
+277:            "skip_steps_multiplier_choices": FIRST_BLOCK_CACHE_STRENGTHS,
+278:            "skip_steps_multiplier_label": "First Block Cache Threshold",
+280:            "sol_attention": True,
+287:            "sample_solvers": [("Euler", "euler")] if pdd else [("Euler", "euler"), ("RES Multistep", "res_multistep"), ("Ralston 2S (~2x slower)", "ralston_2s")],
+289:            "returns_audio": True,
+293:            "infos": (REF2VA_INFOS if reference_mode else FL2VA_INFOS) + (H3_PDD_RUNTIME_INFOS if pdd else H3_RUNTIME_INFOS) + (PRUNED_INFOS if pruned else ""),
+309:            "finetune_custom_urls": ["video_vae_file", "audio_vae_file"],
+316:            "keep_frames_video_guide_not_supported": True,
+342:                "sliding_window_defaults": {"window_min": 124, "window_max": 481, "window_step": 17, "window_default": 362,
+343:                                            "overlap_min": 1, "overlap_max": 120, "overlap_step": 17, "overlap_offset": 1, "overlap_default": 18},
+359:                "image_refs_relative_size": {"min": 50, "max": 400, "step": 1},
+371:                "preprocess_video_guide2": True,
+375:                "any_audio_prompt": True,
+376:                "audio_prompt_choices": True,
+377:                "video_guide_label": "Reference / Control Video 1",
+378:                "video_guide2_label": "Reference Video 2",
+379:                "audio_guide_label": "Audio Reference 1",
+380:                "audio_guide2_label": "Audio Reference 2",
+381:                "audio_prompt_type_sources": {
+394:                "audio_guide_window_slicing": True,
+395:                "video_length_not_limited_by_audio": True,
+401:                "sliding_window_defaults": {"window_min": 124, "window_max": 481, "window_step": 17, "window_default": 362,
+402:                                            "overlap_min": 1, "overlap_max": 120, "overlap_step": 17, "overlap_offset": 1, "overlap_default": 18},
+405:                "audio_guide_window_slicing": True,
+414:                "video_guide_label": "Control Video",
+416:                # "video_guide_outpainting": [0],
+417:                # "video_guide_outpainting_label": "Enable Spatial Outpainting on the H3 Control Video",
+418:                "outpainting_quantize_margins": 32,
+419:                "custom_frames_injection": True,
+422:                "any_audio_prompt": True,
+423:                "audio_prompt_choices": True,
+424:                "audio_guide_label": "Source Audio / Soundtrack",
+425:                "audio_prompt_type_sources": {
+438:                "video_length_not_limited_by_audio": True,
+439:                "output_audio_is_input_audio": True,
+446:            required_steps = PDD_NUM_STEPS // PDD_BLOCK_SIZE
+447:            if inputs["sample_solver"] != "euler":
+448:                return "MiniMax H3 PDD requires the Euler sampler"
+449:            inputs["num_inference_steps"] = required_steps
+454:        if h3_grouped_masking_enabled(inputs.get("custom_settings")) and inputs.get("override_attention") == "sol":
+455:            from shared.utils.utils import get_outpainting_dims
+457:            outpainting = get_outpainting_dims(inputs.get("video_guide_outpainting"), inputs.get("video_guide_outpainting_ratio", "")) is not None
+458:            masked_control = inputs.get("video_mask") is not None or outpainting or "A" in (inputs.get("video_prompt_type") or "")
+460:                return "MiniMax H3 Grouped Rows mask denoising is not compatible with Sol Attention; select Shared Timestep or another attention mode"
+464:            width, height = map(int, inputs["resolution"].split("x"))
+470:            audio_prompt_type = inputs["audio_prompt_type"]
+475:                    return f"MiniMax H3 frame injection requires one position per Reference Image (found {position_count} positions and {image_count} images)"
+476:            if "2" in audio_prompt_type:
+477:                if "A" in audio_prompt_type or "K" in audio_prompt_type:
+478:                    return "MiniMax H3 audio generation from Control Video cannot also use a source soundtrack"
+479:                if "G" not in video_prompt_type or "V" not in video_prompt_type or inputs["video_guide"] is None:
+480:                    return "MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file"
+481:            if "K" in audio_prompt_type:
+482:                if "G" not in video_prompt_type or "V" not in video_prompt_type or inputs["video_guide"] is None:
+484:                from shared.utils.audio_video import extract_audio_tracks
+487:                    if extract_audio_tracks(inputs["video_guide"], query_only=True) == 0:
+488:                        return "MiniMax H3 Control Video has no audio track"
+494:        audio_prompt_type = inputs["audio_prompt_type"]
+498:            videos.append(inputs["video_guide"])
+500:                videos.append(inputs["video_guide2"])
+501:        audios = [inputs["audio_guide"]] if "A" in audio_prompt_type else []
+502:        if "B" in audio_prompt_type:
+503:            audios.append(inputs["audio_guide2"])
+525:        soundtrack_mode = "K" in audio_prompt_type
+529:            from shared.utils.audio_video import extract_audio_tracks
+533:                    if extract_audio_tracks(video, query_only=True) == 0:
+534:                        return f"Reference Video {index} has no audio track"
+537:            audio_durations = video_durations
+538:            audio_count = len(videos)
+542:            audio_durations = []
+543:            for index, audio in enumerate(audios, 1):
+545:                    duration = float(librosa.get_duration(path=os.fspath(audio)))
+550:                audio_durations.append(duration)
+551:            audio_count = len(audios)
+553:        if audio_count > 2:
+554:            return "WanGP accepts at most 2 MiniMax H3 audio references"
+555:        if sum(audio_durations) > 15:
+556:            return f"Audio references must total at most 15 seconds (found {sum(audio_durations):.2f}s)"
+558:        if audio_count > visual_count:
+559:            return f"MiniMax H3 requires at least as many reference images and videos as audio references (found {visual_count} visual and {audio_count} audio)"
+560:        file_count = image_count + len(videos) + (0 if soundtrack_mode else audio_count)
+573:        if "audio_vae_file" not in model_def:
+603:                                 audio_vae_filename=model_def.get("audio_vae_file", AUDIO_VAE_FILE), shared_h3_pipeline=shared_h3_pipeline,
+604:                                 pdd=pdd, pdd_num_steps=PDD_NUM_STEPS if pdd else None, pdd_block_size=PDD_BLOCK_SIZE if pdd else None)
+612:                "audio_vae": pipeline.audio_vae,
+619:            borrowed_names = ("text_encoder", "vision_encoder", "vae", "video_encoder", "audio_vae", "latent_upscaler")
+639:            cache_value = float(ui_defaults.get("skip_steps_multiplier", 0.08))
+640:            ui_defaults["skip_steps_multiplier"] = LEGACY_FIRST_BLOCK_CACHE_THRESHOLDS.get(cache_value, cache_value)
+666:            "num_inference_steps": 20,
+671:            "sample_solver": "euler",
+673:            "skip_steps_start_step_perc": 25,
+674:            "skip_steps_multiplier": 0.08,
+676:            "audio_prompt_type": "",
+--- defaults ---
+==== defaults/minimax_h3_fl2va.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA 33B",
+        "architecture": "minimax_h3_fl2va",
+        "description": "First/Last-Frame-to-Video-and-Audio: generate synchronized video and stereo audio from text alone, a first frame, a last frame, or both.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer sits before an antique brass receiver while electric-blue constellations drift across a translucent star map behind her. The camera makes a slow push from medium shot to close-up as the receiver emits three precise tones. She leans toward its microphone, looks up with sudden hope, and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> While finishing the line, she presses the transmit key; one brilliant blue pulse races across the star map and lights her restrained smile. Her speech completes naturally within the shot with precise lip synchronization.\noverall_soundscape: Rain rattling across the observatory dome, a low electrical hum, three clean receiver tones, a brass switch clicking, the astronomer's synchronized voice, and a short stereo transmission pulse.\nnon_diegetic_music: One quiet bowed-glass chord rising beneath the transmission and fading at the end."
+}
+==== defaults/minimax_h3_fl2va_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA PDD 8-Step 33B",
+        "architecture": "minimax_h3_fl2va",
+        "description": "Generates synchronized video and audio from text and optional first/last frames. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_fl2va",
+        "modules": [[
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/minimax_h3_fl2va_pdd_8step_heads_bf16.safetensors"
+        ]],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_fl2va_pdd_8step_lora_bf16.safetensors"
+        ],
+        "loras_multipliers": ["1"],
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer presses an antique transmitter and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> One brilliant blue pulse races across a translucent star map as the camera slowly pushes closer.\noverall_soundscape: Rain on glass, a low electrical hum, three receiver tones, the synchronized voice, and a short stereo transmission pulse."
+}
+==== defaults/minimax_h3_fl2va_pruned.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA Pruned 20B",
+        "architecture": "minimax_h3_fl2va_pruned",
+        "description": "Pruned First/Last-Frame-to-Video-and-Audio: generate synchronized video and stereo audio from text alone, a first frame, a last frame, or both.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer sits before an antique brass receiver while electric-blue constellations drift across a translucent star map behind her. The camera makes a slow push from medium shot to close-up as the receiver emits three precise tones. She leans toward its microphone, looks up with sudden hope, and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> While finishing the line, she presses the transmit key; one brilliant blue pulse races across the star map and lights her restrained smile. Her speech completes naturally within the shot with precise lip synchronization.\noverall_soundscape: Rain rattling across the observatory dome, a low electrical hum, three clean receiver tones, a brass switch clicking, the astronomer's synchronized voice, and a short stereo transmission pulse.\nnon_diegetic_music: One quiet bowed-glass chord rising beneath the transmission and fading at the end."
+}
+==== defaults/minimax_h3_fl2va_pruned_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA Pruned PDD 8-Step 20B",
+        "architecture": "minimax_h3_fl2va_pruned",
+        "description": "Uses the smaller pruned model to generate synchronized video and audio from text and optional first/last frames. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_fl2va_pruned",
+        "modules": ["minimax_h3_fl2va_pdd"],
+        "loras": "minimax_h3_fl2va_pdd",
+        "loras_multipliers": "minimax_h3_fl2va_pdd",
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer presses an antique transmitter and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> One brilliant blue pulse races across a translucent star map as the camera slowly pushes closer.\noverall_soundscape: Rain on glass, a low electrical hum, three receiver tones, the synchronized voice, and a short stereo transmission pulse."
+}
+==== defaults/minimax_h3_ref2va.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA 33B",
+        "architecture": "minimax_h3_ref2va",
+        "description": "Reference-to-Video-and-Audio: generate synchronized video and stereo audio from text plus reference images, video, and/or audio.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "subject_definitions:\n<Subject 1> is the person in <Picture 1>, preserving their exact identity, facial features, skin tone, hairstyle, body proportions, clothing, footwear, and distinctive accessories.\nsummary:\n[reference generation] Place <Subject 1> on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - their identity, face, hair, proportions, clothing, footwear, and visible accessories remain recognizable and unchanged; only the location, lighting, action, and paper-bird prop are new.\ndetailed_description:\nThe target video is a five-second cinematic magical-realist single take on an abandoned railway platform before dawn. [Shot 1] <Subject 1> stands beneath a monumental stopped clock, framed in a steady medium close-up that keeps their recognizable face and exact appearance from <Picture 1> clearly visible. Cold blue light outlines the iron platform while a warm lamp illuminates their natural skin texture, hair, clothing, and accessories without changing them. A tiny folded paper bird rests on their raised palm. As its paper wings open, the camera gently pushes closer and <Subject 1> watches it with quiet resolve, saying clearly (S1) <d>[English] Some journeys begin when the map runs out.</d> During the final words, the bird lifts a few inches, lands on the clock's minute hand, and the mechanism advances with one solid click. <Subject 1> follows it with their eyes and gives a small hopeful smile. The spoken line and simple transformation complete naturally within the five-second shot; identity, lip motion, gaze, hand position, posture, and paper movement remain stable and physically coherent.\noverall_soundscape: Spacious nighttime station ambience, faint wind through ironwork, a soft paper-wing flutter crossing the stereo field, the synchronized spoken line, one heavy clockwork click, and a distant rail hum.\nnon_diegetic_music: A minimal celesta phrase of three notes, resolving softly as the clock moves."
+}
+==== defaults/minimax_h3_ref2va_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA PDD 8-Step 33B",
+        "architecture": "minimax_h3_ref2va",
+        "description": "Generates synchronized video and audio from text and reference media. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_ref2va",
+        "modules": [[
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/minimax_h3_ref2va_pdd_8step_heads_bf16.safetensors"
+        ]],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_ref2va_pdd_8step_lora_bf16.safetensors"
+        ],
+        "loras_multipliers": ["1"],
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "summary: [reference generation] Place the subject on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\ndetailed_description: A steady medium close-up preserves the subject's identity and appearance while a tiny folded paper bird opens its wings, lands on the stopped clock's minute hand, and makes the mechanism advance with one solid click.\noverall_soundscape: Night wind, a soft paper-wing flutter, one heavy clockwork click, and a distant rail hum."
+}
+==== defaults/minimax_h3_ref2va_pruned.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA Pruned 20B",
+        "architecture": "minimax_h3_ref2va_pruned",
+        "description": "Pruned Reference-to-Video-and-Audio: generate synchronized video and stereo audio from text plus reference images, video, and/or audio.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA-pruned_rank8_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "subject_definitions:\n<Subject 1> is the person in <Picture 1>, preserving their exact identity, facial features, skin tone, hairstyle, body proportions, clothing, footwear, and distinctive accessories.\nsummary:\n[reference generation] Place <Subject 1> on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - their identity, face, hair, proportions, clothing, footwear, and visible accessories remain recognizable and unchanged; only the location, lighting, action, and paper-bird prop are new.\ndetailed_description:\nThe target video is a five-second cinematic magical-realist single take on an abandoned railway platform before dawn. [Shot 1] <Subject 1> stands beneath a monumental stopped clock, framed in a steady medium close-up that keeps their recognizable face and exact appearance from <Picture 1> clearly visible. Cold blue light outlines the iron platform while a warm lamp illuminates their natural skin texture, hair, clothing, and accessories without changing them. A tiny folded paper bird rests on their raised palm. As its paper wings open, the camera gently pushes closer and <Subject 1> watches it with quiet resolve, saying clearly (S1) <d>[English] Some journeys begin when the map runs out.</d> During the final words, the bird lifts a few inches, lands on the clock's minute hand, and the mechanism advances with one solid click. <Subject 1> follows it with their eyes and gives a small hopeful smile. The spoken line and simple transformation complete naturally within the five-second shot; identity, lip motion, gaze, hand position, posture, and paper movement remain stable and physically coherent.\noverall_soundscape: Spacious nighttime station ambience, faint wind through ironwork, a soft paper-wing flutter crossing the stereo field, the synchronized spoken line, one heavy clockwork click, and a distant rail hum.\nnon_diegetic_music: A minimal celesta phrase of three notes, resolving softly as the clock moves."
+}
+==== defaults/minimax_h3_ref2va_pruned_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA Pruned PDD 8-Step 20B",
+        "architecture": "minimax_h3_ref2va_pruned",
+        "description": "Uses the smaller pruned model to generate synchronized video and audio from text and reference media. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_ref2va_pruned",
+        "modules": ["minimax_h3_ref2va_pdd"],
+        "loras": "minimax_h3_ref2va_pdd",
+        "loras_multipliers": "minimax_h3_ref2va_pdd",
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "summary: [reference generation] Place the subject on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\ndetailed_description: A steady medium close-up preserves the subject's identity and appearance while a tiny folded paper bird opens its wings, lands on the stopped clock's minute hand, and makes the mechanism advance with one solid click.\noverall_soundscape: Night wind, a soft paper-wing flutter, one heavy clockwork click, and a distant rail hum."
+}
+--- H3 recent configs ---
+==== ./shot-config.json
+{
+  "model_type": "minimax_h3_fl2va",
+  "script": "<Subject 1> = male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, candle-lit stone chamber, seated behind a cluttered oak table with leather-bound books and a brass candelabra. <Picture 1> retention: dungeon master face, robe, candle flames, stone wall behind. retention_analysis: keep identical face, beard, robe, table clutter and candle positions across the shot. ambient: dungeon master rolls a brass d20 between his fingers, candle flames flicker. (S1) dungeon master says <d>[en] \"The door seals behind you. Roll for initiative.\", lips moving; no other subjects. overall_soundscape: fire crackle, distant dripping water, dice on wood. non_diegetic_music: N/A.\n---\n<Subject 1> = same male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, same candle-lit stone chamber, seated behind the same cluttered oak table, holding the brass d20 aloft. retention_analysis: identical face, beard, robe, candle positions and table layout as the previous shot. ambient: dungeon master leans forward over the table, candle flames flicker, smoke curls from the nearest candle. (S1) dungeon master continues <d>[en] \"A dwarf cleric enters the corridor of traps.\", lips moving. overall_soundscape: fire crackle, dice clatter, low stone-room rumble. non_diegetic_music: N/A.",
+  "shot_count": 2,
+  "width": 832,
+  "height": 480,
+  "frames_per_shot": 56,
+  "num_inference_steps": 20,
+  "seed": 7,
+  "fps": 24,
+  "output": "outputs/chained_2shot_A/chained_2shot.mp4",
+  "prompt": "<Subject 1> = male dungeon master, 40s, gray-streaked beard, crimson velvet robe with brass clasps, candle-lit stone chamber, seated behind a cluttered oak table with leather-bound books and a brass c"
+}==== ./defaults/minimax_h3_fl2va_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA PDD 8-Step 33B",
+        "architecture": "minimax_h3_fl2va",
+        "description": "Generates synchronized video and audio from text and optional first/last frames. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_fl2va",
+        "modules": [[
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/minimax_h3_fl2va_pdd_8step_heads_bf16.safetensors"
+        ]],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_fl2va_pdd_8step_lora_bf16.safetensors"
+        ],
+        "loras_multipliers": ["1"],
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer presses an antique transmitter and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> One brilliant blue pulse races across a translucent star map as the camera slowly pushes closer.\noverall_soundscape: Rain on glass, a low electrical hum, three receiver tones, the synchronized voice, and a short stereo transmission pulse."
+}
+==== ./defaults/minimax_h3_fl2va_pruned.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA Pruned 20B",
+        "architecture": "minimax_h3_fl2va_pruned",
+        "description": "Pruned First/Last-Frame-to-Video-and-Audio: generate synchronized video and stereo audio from text alone, a first frame, a last frame, or both.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer sits before an antique brass receiver while electric-blue constellations drift across a translucent star map behind her. The camera makes a slow push from medium shot to close-up as the receiver emits three precise tones. She leans toward its microphone, looks up with sudden hope, and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> While finishing the line, she presses the transmit key; one brilliant blue pulse races across the star map and lights her restrained smile. Her speech completes naturally within the shot with precise lip synchronization.\noverall_soundscape: Rain rattling across the observatory dome, a low electrical hum, three clean receiver tones, a brass switch clicking, the astronomer's synchronized voice, and a short stereo transmission pulse.\nnon_diegetic_music: One quiet bowed-glass chord rising beneath the transmission and fading at the end."
+}
+==== ./defaults/minimax_h3_ref2va.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA 33B",
+        "architecture": "minimax_h3_ref2va",
+        "description": "Reference-to-Video-and-Audio: generate synchronized video and stereo audio from text plus reference images, video, and/or audio.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "subject_definitions:\n<Subject 1> is the person in <Picture 1>, preserving their exact identity, facial features, skin tone, hairstyle, body proportions, clothing, footwear, and distinctive accessories.\nsummary:\n[reference generation] Place <Subject 1> on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - their identity, face, hair, proportions, clothing, footwear, and visible accessories remain recognizable and unchanged; only the location, lighting, action, and paper-bird prop are new.\ndetailed_description:\nThe target video is a five-second cinematic magical-realist single take on an abandoned railway platform before dawn. [Shot 1] <Subject 1> stands beneath a monumental stopped clock, framed in a steady medium close-up that keeps their recognizable face and exact appearance from <Picture 1> clearly visible. Cold blue light outlines the iron platform while a warm lamp illuminates their natural skin texture, hair, clothing, and accessories without changing them. A tiny folded paper bird rests on their raised palm. As its paper wings open, the camera gently pushes closer and <Subject 1> watches it with quiet resolve, saying clearly (S1) <d>[English] Some journeys begin when the map runs out.</d> During the final words, the bird lifts a few inches, lands on the clock's minute hand, and the mechanism advances with one solid click. <Subject 1> follows it with their eyes and gives a small hopeful smile. The spoken line and simple transformation complete naturally within the five-second shot; identity, lip motion, gaze, hand position, posture, and paper movement remain stable and physically coherent.\noverall_soundscape: Spacious nighttime station ambience, faint wind through ironwork, a soft paper-wing flutter crossing the stereo field, the synchronized spoken line, one heavy clockwork click, and a distant rail hum.\nnon_diegetic_music: A minimal celesta phrase of three notes, resolving softly as the clock moves."
+}
+==== ./defaults/minimax_h3_fl2va_pruned_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA Pruned PDD 8-Step 20B",
+        "architecture": "minimax_h3_fl2va_pruned",
+        "description": "Uses the smaller pruned model to generate synchronized video and audio from text and optional first/last frames. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_fl2va_pruned",
+        "modules": ["minimax_h3_fl2va_pdd"],
+        "loras": "minimax_h3_fl2va_pdd",
+        "loras_multipliers": "minimax_h3_fl2va_pdd",
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer presses an antique transmitter and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> One brilliant blue pulse races across a translucent star map as the camera slowly pushes closer.\noverall_soundscape: Rain on glass, a low electrical hum, three receiver tones, the synchronized voice, and a short stereo transmission pulse."
+}
+==== ./defaults/minimax_h3_ref2va_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA PDD 8-Step 33B",
+        "architecture": "minimax_h3_ref2va",
+        "description": "Generates synchronized video and audio from text and reference media. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_ref2va",
+        "modules": [[
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/minimax_h3_ref2va_pdd_8step_heads_bf16.safetensors"
+        ]],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_ref2va_pdd_8step_lora_bf16.safetensors"
+        ],
+        "loras_multipliers": ["1"],
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "summary: [reference generation] Place the subject on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\ndetailed_description: A steady medium close-up preserves the subject's identity and appearance while a tiny folded paper bird opens its wings, lands on the stopped clock's minute hand, and makes the mechanism advance with one solid click.\noverall_soundscape: Night wind, a soft paper-wing flutter, one heavy clockwork click, and a distant rail hum."
+}
+==== ./defaults/minimax_h3_fl2va.json
+{
+    "model": {
+        "name": "MiniMax H3 FL2VA 33B",
+        "architecture": "minimax_h3_fl2va",
+        "description": "First/Last-Frame-to-Video-and-Audio: generate synchronized video and stereo audio from text alone, a first frame, a last frame, or both.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "integrated_multimodal_description: [Shot 1] A five-second cinematic single take inside a rain-lashed glass observatory at midnight. A radio astronomer sits before an antique brass receiver while electric-blue constellations drift across a translucent star map behind her. The camera makes a slow push from medium shot to close-up as the receiver emits three precise tones. She leans toward its microphone, looks up with sudden hope, and says clearly (S1) <d>[English] If you can hear me, follow this signal.</d> While finishing the line, she presses the transmit key; one brilliant blue pulse races across the star map and lights her restrained smile. Her speech completes naturally within the shot with precise lip synchronization.\noverall_soundscape: Rain rattling across the observatory dome, a low electrical hum, three clean receiver tones, a brass switch clicking, the astronomer's synchronized voice, and a short stereo transmission pulse.\nnon_diegetic_music: One quiet bowed-glass chord rising beneath the transmission and fading at the end."
+}
+==== ./defaults/minimax_h3_ref2va_pruned_pdd.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA Pruned PDD 8-Step 20B",
+        "architecture": "minimax_h3_ref2va_pruned",
+        "description": "Uses the smaller pruned model to generate synchronized video and audio from text and reference media. Each PDD step merges four learned denoising-interval outputs, covering 32 intervals in only 8 model evaluations.",
+        "URLs": "minimax_h3_ref2va_pruned",
+        "modules": ["minimax_h3_ref2va_pdd"],
+        "loras": "minimax_h3_ref2va_pdd",
+        "loras_multipliers": "minimax_h3_ref2va_pdd",
+        "pdd": true
+    },
+    "num_inference_steps": 8,
+    "guidance_phases": 1,
+    "sample_solver": "euler",
+    "prompt": "summary: [reference generation] Place the subject on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\ndetailed_description: A steady medium close-up preserves the subject's identity and appearance while a tiny folded paper bird opens its wings, lands on the stopped clock's minute hand, and makes the mechanism advance with one solid click.\noverall_soundscape: Night wind, a soft paper-wing flutter, one heavy clockwork click, and a distant rail hum."
+}
+==== ./defaults/minimax_h3_ref2va_pruned.json
+{
+    "model": {
+        "name": "MiniMax H3 Ref2VA Pruned 20B",
+        "architecture": "minimax_h3_ref2va_pruned",
+        "description": "Pruned Reference-to-Video-and-Audio: generate synchronized video and stereo audio from text plus reference images, video, and/or audio.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA-pruned_rank8_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-Ref2VA-pruned_rank8_int8_convrot.safetensors"
+        ]
+    },
+    "prompt": "subject_definitions:\n<Subject 1> is the person in <Picture 1>, preserving their exact identity, facial features, skin tone, hairstyle, body proportions, clothing, footwear, and distinctive accessories.\nsummary:\n[reference generation] Place <Subject 1> on a deserted midnight railway platform where a paper bird awakens the station clock during one five-second shot.\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - their identity, face, hair, proportions, clothing, footwear, and visible accessories remain recognizable and unchanged; only the location, lighting, action, and paper-bird prop are new.\ndetailed_description:\nThe target video is a five-second cinematic magical-realist single take on an abandoned railway platform before dawn. [Shot 1] <Subject 1> stands beneath a monumental stopped clock, framed in a steady medium close-up that keeps their recognizable face and exact appearance from <Picture 1> clearly visible. Cold blue light outlines the iron platform while a warm lamp illuminates their natural skin texture, hair, clothing, and accessories without changing them. A tiny folded paper bird rests on their raised palm. As its paper wings open, the camera gently pushes closer and <Subject 1> watches it with quiet resolve, saying clearly (S1) <d>[English] Some journeys begin when the map runs out.</d> During the final words, the bird lifts a few inches, lands on the clock's minute hand, and the mechanism advances with one solid click. <Subject 1> follows it with their eyes and gives a small hopeful smile. The spoken line and simple transformation complete naturally within the five-second shot; identity, lip motion, gaze, hand position, posture, and paper movement remain stable and physically coherent.\noverall_soundscape: Spacious nighttime station ambience, faint wind through ironwork, a soft paper-wing flutter crossing the stereo field, the synchronized spoken line, one heavy clockwork click, and a distant rail hum.\nnon_diegetic_music: A minimal celesta phrase of three notes, resolving softly as the clock moves."
+}
+==== ./profiles/minimax_h3/Turbo Larry v4 ema ckpt600 4 steps.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_larryvrh_v4_step600_ema.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 4,
+    "guidance_scale": 1
+}
+==== ./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v1.1 768p.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_lightx2v_fl2v_turbo_4step_alpha128_v1.1_768p_bf16.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "flow_shift": 6
+}
+==== ./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v1.0 768p.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_lightx2v_fl2v_turbo_4step_alpha128_v1.0_768p_bf16.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "flow_shift": 6
+}
+==== ./profiles/minimax_h3/Turbo Lightx2v FL2V 8 Steps v1.0.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_lightx2v_fl2v_turbo_8step_alpha8_v1.0_bf16.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 8,
+    "guidance_scale": 1,
+    "flow_shift": 12
+}
+==== ./profiles/minimax_h3/Turbo Larry v1 ema ckpt850 4 steps (fast movement).json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_turbo_4step_ema_ckpt850.safetensors"
+    ],
+    "loras_multipliers": "0.5",
+    "num_inference_steps": 4,
+    "guidance_scale": 1
+}
+==== ./profiles/minimax_h3/Turbo Lightx2v FL2V 4 Steps v0.1.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_lightx2v_fl2v_turbo_4step_alpha16_v0.1.safetensors"
+    ],
+    "loras_multipliers": "0.5",
+    "num_inference_steps": 4,
+    "guidance_scale": 1
+}
+==== ./profiles/minimax_h3/Turbo Joyfox FL2VA (crappy sound).json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_joyfox_fl2va_4step_lora.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 4,
+    "guidance_scale": 1
+}
+==== ./profiles/minimax_h3/Turbo Lightx2v Ref2V 4 Steps v0.1.json
+{
+    "activated_loras": [
+        "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/loras/minimax_h3_lightx2v_ref2v_turbo_4step_alpha8_v0.1_bf16.safetensors"
+    ],
+    "loras_multipliers": "1.0",
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "flow_shift": 12
+}
+==== ./finetunes/pinkcherry_fl2va.json
+{
+    "model": {
+        "name": "PinkCherry MiniMax H3 FL2VA INT8",
+        "architecture": "minimax_h3_fl2va_pruned",
+        "description": "PinkCherry uncensored FL2VA finetune - 34GB INT8 merged checkpoint",
+        "URLs": [
+            "/home/straughter/Wan2GP/models/pinkcherry/alpha-0.1-testing/PinkCherry_h3_fl2va_int8_convrot_v0.1-alpha.safetensors"
+        ]
+    },
+    "prompt": "A cinematic close-up of a jazz duo performing in a softly lit club."
+}

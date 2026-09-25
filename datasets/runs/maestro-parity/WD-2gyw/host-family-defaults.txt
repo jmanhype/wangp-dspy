@@ -1,0 +1,1177 @@
+--- wgp process logic ---
+66:from shared.utils.settings_bundle import is_wangp_settings_filename
+72:from shared.utils.utils import truncate_for_filesystem, sanitize_file_name, process_images_multithread, get_default_workers, resize_lanczos_frames, expand_or_shrink_mask, prepare_binary_mask_frame
+73:from shared.utils.process_locks import (
+76:    any_GPU_process_running,
+95:from shared import extra_settings
+135:from shared import settings_metadata
+136:from postprocessing import audio_processors as audio_processor_api
+137:from postprocessing import temporal_upsamplers as temporal_upsampler_api
+138:from postprocessing import spatial_upsamplers as upsampler_api
+158:settings_version = 2.77
+160:prompt_enhancer_image_caption_model, prompt_enhancer_image_caption_processor, prompt_enhancer_llm_model, prompt_enhancer_llm_tokenizer = None, None, None, None
+391:        gr.Info("Edit cancelled. Resuming queue processing.")
+403:    override_inputs, prompts, image_start, image_end, _validation_error = validate_settings(state, model_type, True, inputs)
+431:        gr.Warning("Task not found in queue. It might have been processed or deleted.")
+452:        gr.Info("Resuming queue processing.")
+457:def process_prompt_and_add_tasks(state, current_gallery_tab, model_choice):
+471:    inputs = get_model_settings(state, model_type)
+499:        postprocess_audio = inputs.get("postprocess_audio", "") or ""
+500:        postprocess_audio_meta = audio_processor_api.method_metadata(postprocess_audio)
+505:            validation_error = "Post processing is only available with Audio files"
+506:        elif postprocess_audio:
+507:            validation_error = audio_processor_api.validate_method(
+508:                postprocess_audio,
+509:                audio_processor_api.AUDIO_PROCESSOR_TYPE_AUDIO_EDIT,
+518:        prompt = [audio_processor_api.format_method_label(postprocess_audio, audio_processor_api.AUDIO_PROCESSOR_LABEL_CONTEXT_LATE_POSTPROCESSING)]
+535:            gr.Info(f"Post processing is not supported on videos longer than {max_source_video_frames} frames. Output Video will be truncated")
+547:        if mode == "edit_postprocessing":
+557:                validation_error = "Post processing is only available with Videos or Images"
+561:                validation_error = upsampler_api.validate_postprocessing_spatial_upsampling(spatial_upsampling, 1 if source_is_image else 0)
+563:                from postprocessing.film_grain import is_film_grain_enabled
+576:            postprocess_audio = inputs.get("postprocess_audio", "") or ""
+577:            postprocess_audio_meta = audio_processor_api.method_metadata(postprocess_audio)
+584:            elif postprocess_audio and audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK in postprocess_audio_meta["types"]:
+585:                validation_error = audio_processor_api.validate_method(
+586:                    postprocess_audio,
+587:                    audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK,
+593:            elif postprocess_audio and audio_processor_api.AUDIO_PROCESSOR_TYPE_VOICE_REPLACEMENT in postprocess_audio_meta["types"]:
+594:                validation_error = audio_processor_api.validate_method(
+595:                    postprocess_audio,
+596:                    audio_processor_api.AUDIO_PROCESSOR_TYPE_VOICE_REPLACEMENT,
+607:            if audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK in postprocess_audio_meta["types"]:
+608:                prompt += [audio_processor_api.format_method_label(postprocess_audio, audio_processor_api.AUDIO_PROCESSOR_LABEL_CONTEXT_LATE_POSTPROCESSING)]
+609:                if not postprocess_audio_meta["needs_audio_source"]:
+612:                if not postprocess_audio_meta["supports_repeat"]:
+614:            elif audio_processor_api.AUDIO_PROCESSOR_TYPE_VOICE_REPLACEMENT in postprocess_audio_meta["types"]:
+615:                prompt += [audio_processor_api.format_method_label(postprocess_audio, audio_processor_api.AUDIO_PROCESSOR_LABEL_CONTEXT_LATE_POSTPROCESSING)]
+620:                gr.Info(f"Unsupported remux method: {postprocess_audio}")
+634:    inputs, prompts, image_start, image_end, _validation_error = validate_settings(state, model_type, False, inputs)
+800:def get_model_custom_settings(model_def):
+803:    custom_settings = model_def.get("custom_settings", [])
+804:    if not isinstance(custom_settings, list):
+809:    for idx, setting in enumerate(custom_settings[:CUSTOM_SETTINGS_MAX]):
+828:def apply_custom_settings_defaults(model_def, ui_defaults):
+829:    custom_settings = ui_defaults.get("custom_settings")
+830:    for setting_def in get_model_custom_settings(model_def):
+833:        if not isinstance(custom_settings, dict):
+834:            custom_settings = {}
+835:            ui_defaults["custom_settings"] = custom_settings
+836:        custom_settings.setdefault(setting_def["id"], copy.deepcopy(setting_def["default"]))
+894:def custom_settings_visibility_trigger_update(state, old_video=None, new_video=None, old_audio=None, new_audio=None):
+895:    settings = [s for s in get_model_custom_settings(get_model_def(get_state_model_type(state))) if isinstance(s, dict) and ("video_prompt_type" in s or "audio_prompt_type" in s or "video_prompt_type_not" in s or "audio_prompt_type_not" in s)]
+896:    if not settings: return gr.update()
+899:    ids = [s["id"] for s in settings if custom_setting_visible(s, old_video, old_audio) != custom_setting_visible(s, new_video, new_audio)]
+903:def refresh_custom_settings_visibility(state, video_prompt_type, audio_prompt_type):
+904:    custom_settings = get_model_custom_settings(get_model_def(get_state_model_type(state)))
+905:    defs = [custom_settings[i] if i < len(custom_settings) else None for i in range(CUSTOM_SETTINGS_MAX)]
+907:    slider_settings = [get_custom_setting_slider_bounds(setting) is not None for setting in defs]
+908:    dropdown_settings = [get_custom_setting_dropdown_choices(setting) is not None for setting in defs]
+909:    text_settings = [setting is not None and not slider_settings[idx] and not dropdown_settings[idx] for idx, setting in enumerate(defs)]
+911:    return row_updates + [gr.update(visible=visible[idx] and text_settings[idx]) for idx in range(CUSTOM_SETTINGS_MAX)] + [gr.update(visible=visible[idx] and slider_settings[idx]) for idx in range(CUSTOM_SETTINGS_MAX)] + [gr.update(visible=visible[idx] and dropdown_settings[idx]) for idx in range(CUSTOM_SETTINGS_MAX)]
+958:def get_custom_setting_value_from_dict(custom_settings_values, setting_def, setting_index):
+960:    if isinstance(custom_settings_values, dict) and setting_id in custom_settings_values:
+961:        return custom_settings_values.get(setting_id, None)
+964:def collect_custom_settings_from_inputs(model_def, inputs, strict=False):
+965:    custom_settings_dict = {}
+966:    existing_custom_settings = inputs.get("custom_settings", None)
+967:    if not isinstance(existing_custom_settings, dict):
+968:        existing_custom_settings = {}
+969:    custom_settings = get_model_custom_settings(model_def)
+970:    for idx, setting_def in enumerate(custom_settings):
+981:        if raw_value is None and setting_id in existing_custom_settings:
+982:            raw_value = existing_custom_settings.get(setting_id, None)
+990:                    custom_settings_dict[setting_id] = raw_text
+993:            custom_settings_dict[setting_id] = parsed_value
+994:    return custom_settings_dict if len(custom_settings_dict) > 0 else None, None
+1002:def validate_settings(state, model_type, single_prompt, inputs, silent=False):
+1029:        prompt, errors = prompt_parser.process_template(prompt, keep_comments=prompt_parser.PROMPT_UNIT_PREFIX in prompt, keep_empty_lines=keep_empty_lines)
+1031:            return err("Error processing prompt template: " + errors)
+1074:    parsed_custom_settings, custom_settings_error = collect_custom_settings_from_inputs(model_def, inputs, strict=True)
+1075:    if custom_settings_error is not None:
+1076:        return err(custom_settings_error)
+1077:    inputs["custom_settings"] = parsed_custom_settings
+1080:    extra_settings_error = extra_settings.validate_inputs(inputs, model_def, get_max_frames=get_max_frames)
+1081:    if len(extra_settings_error) > 0:
+1082:        return err(extra_settings_error)
+1105:    replace_voice_method = audio_processor_api.normalize_method(inputs.get("replace_voice_method", "") or "")
+1129:    postprocess_audio = inputs.get("postprocess_audio", "") or ""
+1202:    edit_upsampler = upsampler_api.find_postprocessing_upsampler(spatial_upsampling)
+1252:        postprocess_audio = ""
+1256:    postprocess_audio_meta = audio_processor_api.method_metadata(postprocess_audio)
+1257:    replace_voice_meta = audio_processor_api.method_metadata(replace_voice_method)
+1259:    if postprocess_audio and postprocess_audio != "control" and audio_processor_api.find_processor(postprocess_audio) is None:
+1260:        return err(f"Audio processing method '{postprocess_audio}' is not supported by the current WanGP install")
+1261:    if replace_voice_method and audio_processor_api.find_processor(replace_voice_method) is None:
+1262:        return err(f"Audio processing method '{replace_voice_method}' is not supported by the current WanGP install")
+1273:    if postprocess_audio and postprocess_audio != "control" and audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK not in postprocess_audio_meta["types"]:
+1274:        return err(f"{postprocess_audio_meta['label']} is not available as a soundtrack processor")
+1288:    if postprocess_audio and audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK in postprocess_audio_meta["types"]:
+1289:        soundtrack_error = audio_processor_api.validate_method(postprocess_audio, audio_processor_api.AUDIO_PROCESSOR_TYPE_SOUNDTRACK, audio_source=audio_source, media_source_exists=media_source_exists, has_audio_file_extension=has_audio_file_extension)
+1292:        if not postprocess_audio_meta["needs_audio_source"]:
+1297:        replace_voice_error = audio_processor_api.validate_method(replace_voice_method, audio_processor_api.AUDIO_PROCESSOR_TYPE_VOICE_REPLACEMENT, voice_sample=replace_voice_sample, voice_sample2=replace_voice_sample2)
+1469:            return err("Aligned Pose transfer supports only Inpainting process outside the masked area")    
+1512:        "postprocess_audio": postprocess_audio,
+1536:        "custom_settings": inputs.get("custom_settings", None),
+1541:    if hasattr(model_handler, "validate_generative_settings"):
+1542:        error = model_handler.validate_generative_settings(model_type, model_def, inputs)
+1691:                processed_filenames = []
+1697:                            processed_filenames.append(file_paths_in_zip[item_id])
+1703:                            processed_filenames.append(filename_in_zip)
+1709:                            processed_filenames.append(file_paths_in_zip[item])
+1718:                            processed_filenames.append(filename_in_zip)
+1723:                if processed_filenames:
+1724:                    params_copy[key] = processed_filenames if is_originally_list else processed_filenames[0]
+1732:            params_copy['settings_version'] = settings_version
+1774:def clean_settings(model_type, params):
+1775:    saved_settings_version = params.get('settings_version', 0)
+1776:    merged = get_factory_settings(model_type)
+1780:    fix_settings(model_type, params, saved_settings_version)
+1781:    for k, v in primary_settings.items():
+1897:EDIT_TASK_STATUS = {"edit_audio": ("Applying Audio Post Processing", True), "edit_remux": ("Applying Audio Remuxing", True), "edit_postprocessing": ("Applying Media Post Processing", False)}
+1903:    method = audio_processor_api.normalize_method(params.get("postprocess_audio") or "")
+1904:    status = STATIC_AUDIO_POSTPROCESS_STATUS.get(method) or audio_processor_api.method_metadata(method)["status"] or "Audio Post Processing"
+1928:def _parse_task_manifest(manifest, state, media_base_path, cache_dir=None, log_prefix="[load]", verbose_output = True, skip_validate_settings=False):
+1955:        params, error = validate_task(task_data, state, skip_validate_settings=skip_validate_settings)
+1978:def _parse_queue_zip_tasks(filename, state, task_limit=None, log_prefix="[load_queue]", skip_validate_settings=False):
+2002:            queue, error = _parse_task_manifest(manifest, state, tmpdir, cache_dir, log_prefix, skip_validate_settings=skip_validate_settings)
+2016:def _parse_settings_zip(filename, state, skip_validate_settings=False):
+2017:    """Parse a settings ZIP file and extract only the first task."""
+2018:    return _parse_queue_zip_tasks(filename, state, task_limit=1, log_prefix="[load_settings]", skip_validate_settings=skip_validate_settings)
+2021:def _parse_settings_json(filename, state):
+2022:    """Parse a single settings JSON file. Returns (queue_list, error_msg or None).
+2029:        print(f"[load_settings] Loading settings from: {filename}")
+2035:            # Accept full queue manifests or a list of settings dicts
+2055:        return _parse_task_manifest(manifest, state, wgp_folder, None, "[load_settings]")
+2151:                newly_loaded_queue, error = _parse_settings_json(filename, state)
+2167:        # IMPORTANT: Modify list in-place to preserve references held by process_tasks
+2295:def start_quit_process():
+2298:def cancel_quit_process():
+2541:processing_device = args.gpu
+2542:if len(processing_device) == 0:
+2543:    processing_device = "mps" if is_mps else "cuda"
+2555:with open("models/_settings.json", "r", encoding="utf-8") as f:
+2556:    primary_settings = json.load(f)
+2573:if not os.path.isdir("settings"):
+2574:    os.mkdir("settings")
+2575:if os.path.isfile("t2v_settings.json"):
+2576:    for f in glob.glob(os.path.join(".", "*_settings.json*")):
+2577:        target_file = os.path.join("settings",  Path(f).parts[-1])
+2629:        "process_queues_when_browser_unfocused": 1,
+2633:        audio_processor_api.AUDIO_PROCESSOR_CONFIG_KEY: audio_processor_api.default_config_sections(),
+2661:primary_settings["multi_prompts_gen_type"] = server_config["multi_prompts_gen_type"]
+2689:audio_processor_api.register_audio_processors(server_config, fl)
+2714:from preprocessing.matanyone.utils.model_assets import migrate_matanyone_install, query_matanyone_download_def
+2734:# only needed for imported old settings files
+2835:extra_settings.configure(get_model_def=get_model_def)
+3041:def get_settings_file_name(model_type):
+3042:    return  os.path.join(args.settings, model_type + "_settings.json")
+3044:def fix_postprocess_audio_settings(ui_defaults, settings_version):
+3045:    return audio_processor_api.fix_settings(ui_defaults, settings_version, attachment_has_path_values=_attachment_has_path_values)
+3047:def fix_settings(model_type, ui_defaults, min_settings_version = 0):
+3050:    settings_version =  max(min_settings_version, ui_defaults.get("settings_version", 0))
+3055:        print(f"WanGP settings converted video_length={duration_conversion['input']!r} to {duration_conversion['frames']} frames at {duration_conversion['fps']:g} fps for {model_type}")
+3064:        if settings_version <= 2:
+3073:    if settings_version < 2.54:
+3074:        renamed_settings = {
+3080:        for old_name, new_name in renamed_settings.items():
+3085:    if settings_version < 2.55:
+3088:    if settings_version < 2.56:
+3099:    if settings_version < 2.60:
+3102:    if settings_version < 2.61:
+3109:    audio_prompt_type = fix_postprocess_audio_settings(ui_defaults, settings_version)
+3110:    if settings_version < 2.2: 
+3116:    if settings_version < 2.35 and any_audio_track(base_model_type): 
+3126:    if base_model_type in ["flux"] and settings_version < 2.23:
+3130:    if settings_version < 2.22:
+3138:        if settings_version < 2.26:
+3179:    if hasattr(model_handler, "fix_settings"):
+3180:        model_handler.fix_settings(base_model_type, settings_version, model_def, ui_defaults)
+3182:    ui_defaults["settings_version"] = settings_version
+3190:def get_factory_settings(model_type):
+3194:    ui_defaults = copy.deepcopy(primary_settings)
+3195:    apply_custom_settings_defaults(model_def, ui_defaults)
+3197:        "settings_version": settings_version,
+3202:    get_model_handler(model_type).update_default_settings(base_model_type, model_def, ui_defaults)
+3203:    model_settings = model_def.get("settings")
+3204:    if model_settings is not None:
+3205:        ui_defaults.update(copy.deepcopy(model_settings))
+3208:    # needs to implement settings md version for defaults/finetunes
+3209:    # fix_settings(model_type, ui_defaults, settings_version)
+3213:def get_default_settings(model_type):
+3214:    defaults_filename = get_settings_file_name(model_type)
+3216:        ui_defaults = get_factory_settings(model_type)
+3222:        fix_settings(model_type, ui_defaults)            
+3294:                existing_model_def.setdefault("settings", {}).update(json_def)
+3301:                model_def["settings"] = json_def
+3544:def get_loras_preprocessor(transformer, model_type):
+3545:    preprocessor =  getattr(transformer, "preprocess_loras", None)
+3546:    if preprocessor == None:
+3549:    def preprocessor_wrapper(sd):
+3550:        return preprocessor(model_type, sd)
+3552:    return preprocessor_wrapper    
+3555:def process_files_def(repoId = None, sourceFolderList = None, fileList = None, targetFolderList = None):
+3556:    from shared.utils.download import process_files_def as shared_process_files_def
+3558:    return shared_process_files_def(repoId=repoId, sourceFolderList=sourceFolderList, fileList=fileList, targetFolderList=targetFolderList)
+3574:def download_requested_postprocessing_assets(send_cmd, *, postprocess_audio="", temporal_upsampling="", spatial_upsampling="", replace_voice_method=""):
+3575:    for method in dict.fromkeys([audio_processor_api.normalize_method(postprocess_audio), audio_processor_api.normalize_method(replace_voice_method)]):
+3577:            audio_processor_api.download_for_method(method, process_files_def, send_cmd=send_cmd)
+3578:    temporal_upsampler_api.download_for_value(temporal_upsampling, process_files_def, send_cmd=send_cmd)
+3579:    edit_upsampler = upsampler_api.find_postprocessing_upsampler(spatial_upsampling)
+3581:        edit_upsampler.download(process_files_def, send_cmd=send_cmd, status_text=f"Downloading {edit_upsampler.query_upsampler_def().get('name', 'postprocessing')} model files...", spatial_upsampling=spatial_upsampling)
+3597:                    ["config.json", "feature_extractor_config.json", "model.safetensors", "preprocessor_config.json", "special_tokens_map.json", "tokenizer_config.json", "vocab.json"],
+3598:                    ["config.json", "pytorch_model.bin", "preprocessor_config.json"],
+3612:    shared_defs.extend(audio_processor_api.query_download_defs(enabled_only=False))
+3628:        process_files_def(**query_core_shared_model_files())
+3629:        process_files_def(**query_matanyone_download_def(server_config))
+3693:        process_files_def(**one_repo)
+3811:        dir_presets_settings = glob.glob( os.path.join(lora_dir , "*.json") ) + glob.glob( os.path.join(lora_dir , "*.zip") )
+3812:        dir_presets_settings.sort()
+3815:        # loras_presets = [ Path(Path(file_path).parts[-1]).stem for file_path in dir_presets_settings + dir_presets]
+3816:        loras_presets = [ Path(file_path).parts[-1] for file_path in dir_presets_settings + dir_presets]
+3819:        loras = offload.load_loras_into_model(transformer, loras,  activate_all_loras=False, check_only= True, preprocess_sd=get_loras_preprocessor(transformer, base_model_type), split_linear_modules_map = split_linear_modules_map) #lora_multiplier,
+3926:    global reset_prompt_enhancer_requested, prompt_enhancer_image_caption_model, prompt_enhancer_image_caption_processor, prompt_enhancer_llm_model, prompt_enhancer_llm_tokenizer, enhancer_offloadobj
+3932:    prompt_enhancer_image_caption_processor = None
+3940:    global prompt_enhancer_image_caption_model, prompt_enhancer_image_caption_processor, prompt_enhancer_llm_model, prompt_enhancer_llm_tokenizer
+3946:            process_files_def,
+3954:        prompt_enhancer_image_caption_processor = runtime.image_caption_processor
+4214:            process_status = gen.get("process_status", None)
+4216:            if isinstance(process_status, str) and process_status.startswith("request:"):
+4217:                gen["process_status"] = "process:" + process_status[len("request:"):]
+4227:                    process_status = gen.get("process_status", None)
+--- LTX2 defaults and URLs ---
+==== defaults/ltx2_19B.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Dev 19B",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 generates video up to 20s with an audio soundtrack. Supports start/end keyframes and sliding-window continuation. You can force the audio soundtrack by providing an Audio Prompt.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev-fp8_diffusion_model.safetensors"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 40,
+	"video_length": 241,
+    "sample_solver": "euler",
+    "guidance_scale": 3.0,
+    "audio_guidance_scale": 7.0,
+    "alt_guidance_scale": 3.0,
+    "alt_scale": 0.7,
+    "perturbation_switch": 2,
+    "perturbation_layers": [29],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0
+}
+==== defaults/ltx2_19B_nvfp4.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Dev NVFP4 19B",
+        "architecture": "ltx2_19B",
+        "description": "NVFP4-quantized LTX-2 Dev 19B weights. For full speed, a sm120+ GPU is needed (RTX 50xx) and the lightx2v or comfy-kitchen NVFP4 kernels must be installed.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-dev-nvfp4_diffusion_model.safetensors"
+        ],
+        "preload_URLs": "ltx2_19B"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 40,
+    "video_length": 241,
+    "sample_solver": "euler",
+    "guidance_scale": 4.0
+}
+==== defaults/ltx2_22B.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Dev 1.0 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 generates video up to 20s with an audio soundtrack. Supports start/end keyframes and sliding-window continuation. You can force the audio soundtrack by providing an Audio Prompt. Alternatively you can provide a Voice Audio Sample to use Id Lora Voice Cloning (lora automatically loaded)",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+        ],
+        "preload_URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-hdr-scene-emb.safetensors"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic."
+}
+==== defaults/ltx2_22B_1_1.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Dev 1.1 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 dev checkpoint (22B) using the distilled 1.1 stage-2 LoRA. Generates video up to 20s with an audio soundtrack, supports start/end keyframes and sliding-window continuation, and can use an Audio Prompt or a Voice Audio Sample for Id LoRA voice cloning (lora automatically loaded).",
+        "URLs": "ltx2_22B",
+        "ltx2_lora_distilled": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+        "preload_URLs": "ltx2_22B"       
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic."
+}
+==== defaults/ltx2_22B_1_1_edit_anything.json
+{
+    "model": {
+        "name": "LTX-2 2.3 EditAnything Ref V2V Dev 1.1 22B",
+        "architecture": "ltx2_22B_edit_anything",
+        "description": "Experimental EditAnything reference video-to-video workflow for LTX-2.3 Dev 22B. Uses a source/control video plus one reference image, with the standard EditAnything LoRA and its sidecar reference module loaded together. This version uses Distilled v1.1.",
+        "URLs": "ltx2_22B",
+        "modules": "ltx2_22B_edit_anything",
+        "loras": "ltx2_22B_edit_anything",
+        "loras_multipliers": "ltx2_22B_edit_anything",
+        "ltx2_lora_distilled": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384-1.1.safetensors"
+    },
+    "prompt": "Add a middle-aged man with curly grey hair, a beard and glasses, wearing a blue quarter-zip sweater, on the right side of the frame, standing in front of a raw cut of meat on a tray.",
+    "num_inference_steps": 30,
+    "video_length": 81,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Distilled 1.0 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled 1.0 checkpoint (22B) with faster generation. Please note Ic Loras Union (for Pose/Depth/Edges) and Outpainting are automatically added when needed. You can override their lora multipliers per phase by adding manually the corresponding lora.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled_diffusion_model_quanto_int8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_1_1.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Distilled 1.1 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled 1.1 checkpoint (22B) with faster generation. Please note Ic Loras Union (for Pose/Depth/Edges), HDR and Outpainting are automatically added when needed. You can override their lora multipliers per phase by adding manually the corresponding lora.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-1.1_diffusion_model_quanto_bf16_int8.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\" The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\" A beat. He glances aside, then mutters defensively, \"He's just having fun.\" The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off. He shouts, \"Wheeeew!\" as he flaps his wings with full commitment. The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_1_1_edit_anything.json
+{
+    "model": {
+        "name": "LTX-2 2.3 EditAnything Ref V2V Distilled 1.1 22B",
+        "architecture": "ltx2_22B_edit_anything",
+        "description": "Experimental EditAnything reference video-to-video workflow for LTX-2.3 Distilled 1.1 22B. Faster 8-step preset using a source/control video plus one reference image, with the standard EditAnything LoRA and its sidecar reference module loaded together.This version uses Distilled v1.1.",
+        "URLs": "ltx2_22B_distilled_1_1",
+        "modules": "ltx2_22B_edit_anything",
+        "loras": "ltx2_22B_edit_anything",
+        "loras_multipliers": "ltx2_22B_edit_anything",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "Add a middle-aged man with curly grey hair, a beard and glasses, wearing a blue quarter-zip sweater, on the right side of the frame, standing in front of a raw cut of meat on a tray.",
+    "num_inference_steps": 8,
+    "video_length": 81,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_edit_anything.json
+{
+    "model": {
+        "name": "LTX-2 2.3 EditAnything Ref V2V Distilled 1.0 22B",
+        "architecture": "ltx2_22B_edit_anything",
+        "description": "Experimental EditAnything reference video-to-video workflow for LTX-2.3 Distilled 1.0 22B. Faster 8-step preset using a source/control video plus one reference image, with the standard EditAnything LoRA and its sidecar reference module loaded together.",
+        "URLs": "ltx2_22B_distilled",
+        "modules": "ltx2_22B_edit_anything",
+        "loras": "ltx2_22B_edit_anything",
+        "loras_multipliers": "ltx2_22B_edit_anything",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "Add a middle-aged man with curly grey hair, a beard and glasses, wearing a blue quarter-zip sweater, on the right side of the frame, standing in front of a raw cut of meat on a tray.",
+    "num_inference_steps": 8,
+    "video_length": 81,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_gguf_q4_k_m.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Distilled 1.0 GGUF Q4_K_M Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled 1.0 GGUF Q4_K_M light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q4_K_M_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_gguf_q6_k.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Distilled 1.0 GGUF Q6_K Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled 1.0 GGUF Q6_K light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q6_K_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_distilled_gguf_q8_0.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Distilled 1.0 GGUF Q8_0 Light 22B",
+        "architecture": "ltx2_22B",
+        "description": "LTX-2.3 distilled 1.0 GGUF Q8_0 light checkpoint (22B) without bundled AV connector weights.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q8_0_light.gguf"
+        ],
+        "preload_URLs": "ltx2_22B_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_edit_anything.json
+{
+    "model": {
+        "name": "LTX-2 2.3 EditAnything Ref V2V Dev 1.0 22B",
+        "architecture": "ltx2_22B_edit_anything",
+        "description": "Experimental EditAnything reference video-to-video workflow for LTX-2.3 Dev 22B. Uses a source/control video plus one reference image, with the standard EditAnything LoRA and its sidecar reference module loaded together.",
+        "URLs": "ltx2_22B",
+        "modules": [
+            [
+                "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/edit_anything_reference_v0.1_r128_ref_adaln_proj-role_embedding-ref_attn-ref_visual_proj.module.safetensors"
+            ]
+        ],
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/edit_anything_reference_v0.1_r128_ref_adaln_proj-role_embedding-ref_attn-ref_visual_proj.standard.safetensors"
+        ],
+        "loras_multipliers": [1]
+    },
+    "prompt": "Add a middle-aged man with curly grey hair, a beard and glasses, wearing a blue quarter-zip sweater, on the right side of the frame, standing in front of a raw cut of meat on a tray.",
+    "num_inference_steps": 30,
+    "video_length": 81,
+    "resolution": "1280x720"
+}
+==== defaults/ltx2_22B_msr.json
+{
+    "model": {
+        "name": "LTX-2 2.3 MSR Ref V1 Distilled 1.1 22B",
+        "architecture": "ltx2_22B_msr",
+        "description": "LTX-2.3 distilled 1.1 checkpoint (22B) configured for the LiconStudio Multiple Subject Reference LoRA. Provide 2 to 5 reference images; background first, then subjects and objects.",
+        "URLs": "ltx2_22B_distilled_1_1",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/loras/LTX-2.3-Licon-MSR-V1.safetensors"
+        ],
+        "loras_multipliers": [1],
+        "ltx2_pipeline": "distilled",
+        "ltx2_msr": true,
+        "ltx2_msr_frame_count": 41
+    },
+    "prompt": "A cinematic tracking shot of the referenced subjects standing together in the referenced environment, natural motion, detailed clothing, consistent identities, realistic lighting.",
+    "video_prompt_type": "KI",
+    "num_inference_steps": 8,
+    "video_length": 145,
+    "resolution": "1280x720",
+    "remove_background_images_ref": 1
+}
+==== defaults/ltx2_22B_msr_v2.json
+{
+    "model": {
+        "name": "LTX-2 2.3 MSR Ref V2 Distilled 1.1 22B",
+        "architecture": "ltx2_22B_msr",
+        "description": "LTX-2.3 distilled 1.1 checkpoint (22B) configured for the LiconStudio Multiple Subject Reference V2 LoRA, with improved identity consistency, stability, and scene logic. Provide 2 to 5 reference images; background first, then subjects and objects.",
+        "URLs": "ltx2_22B_distilled_1_1",
+        "loras": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/loras/LTX-2.3-Licon-MSR-V2.safetensors"
+        ],
+        "loras_multipliers": [1],
+        "ltx2_pipeline": "distilled",
+        "ltx2_msr": true,
+        "ltx2_msr_frame_count": 41
+    },
+    "prompt": "A cinematic tracking shot of the referenced subjects standing together in the referenced environment, natural motion, detailed clothing, consistent identities, realistic lighting.",
+    "video_prompt_type": "KI",
+    "num_inference_steps": 8,
+    "video_length": 145,
+    "resolution": "1280x720",
+    "remove_background_images_ref": 1
+}
+==== defaults/ltx2_22B_nvfp4.json
+{
+    "model": {
+        "name": "LTX-2 2.3 Dev NVFP4 1.0 22B",
+        "architecture": "ltx2_22B",
+        "description": "NVFP4-quantized LTX-2.3 Dev 22B weights. For full speed, a sm120+ GPU is needed (RTX 50xx) and the lightx2v or comfy-kitchen NVFP4 kernels must be installed.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev-nvfp4_diffusion_model.safetensors"
+        ],
+        "preload_URLs": "ltx2_22B"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic."
+}
+==== defaults/ltx2_25_22B.json
+{
+    "model": {
+        "name": "LTX-2 2.5 Dev 22B",
+        "architecture": "ltx2_25_22B",
+        "description": "LTX-2.5 creates synchronized video and sound from a text prompt, with optional start and end images, soundtrack guidance, raw control video, injected reference frames, and continuation for longer clips. The Dev checkpoint prioritizes quality and prompt adherence.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-dev_diffusion_model_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-dev_diffusion_model_int8_convrot.safetensors"
+        ],
+        "preload_URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-hdr-scene-emb.safetensors"
+        ]
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "guidance_phases": 2,
+    "guidance_scale": 1.0,
+    "audio_guidance_scale": 1.0,
+    "alt_guidance_scale": 1.0,
+    "alt_scale": 0.0,
+    "sample_solver": "distilled_8_steps_ancestral",
+    "perturbation_switch": 0,
+    "perturbation_layers": [28],
+    "perturbation_start_perc": 0,
+    "perturbation_end_perc": 100,
+    "apg_switch": 0,
+    "cfg_star_switch": 0,
+    "self_refiner_setting": 0,
+    "video_length": 241,
+    "resolution": "1280x704"
+}
+==== defaults/ltx2_25_22B_distilled.json
+{
+    "model": {
+        "name": "LTX-2 2.5 Distilled 22B",
+        "architecture": "ltx2_25_22B",
+        "description": "LTX-2.5 creates synchronized video and sound from a text prompt, with optional start and end images, soundtrack guidance, raw control video, injected reference frames, and continuation for longer clips. The Distilled checkpoint is optimized for fast 8-step generation.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors"
+        ],
+        "preload_URLs": "ltx2_25_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x704"
+}
+==== defaults/ltx2_25_22B_distilled_nvfp4.json
+{
+    "model": {
+        "name": "LTX-2 2.5 Distilled NVFP4 22B",
+        "architecture": "ltx2_25_22B",
+        "description": "LTX-2.5 creates synchronized video and sound from a text prompt, with optional start and end images, soundtrack guidance, raw control video, injected reference frames, and continuation for longer clips. This NVFP4 Distilled checkpoint keeps the fast 8-step workflow while reducing memory use further on compatible hardware.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_nvfp4.safetensors"
+        ],
+        "preload_URLs": "ltx2_25_22B",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+    "video_length": 241,
+    "resolution": "1280x704"
+}
+==== defaults/ltx2_distilled.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled 19B",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled checkpoint with faster generation.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled_diffusion_model.safetensors",
+            "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2-19b-distilled-fp8_diffusion_model.safetensors"
+        ],
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== defaults/ltx2_distilled_gguf_q4_k_m.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q4_K_M 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q4_K_M checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q4_K_M.gguf"
+        ],
+        "preload_URLs": "ltx2_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== defaults/ltx2_distilled_gguf_q6_k.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q6_K 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q6_K checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q6_K.gguf"
+        ],
+        "preload_URLs": "ltx2_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+==== defaults/ltx2_distilled_gguf_q8_0.json
+{
+    "model": {
+        "name": "LTX-2 2.0 Distilled GGUF Q8_0 19B ",
+        "architecture": "ltx2_19B",
+        "description": "LTX-2 distilled GGUF Q8_0 checkpoint made by Kijai.",
+        "URLs": [
+            "https://huggingface.co/Kijai/LTXV2_comfy/resolve/main/diffusion_models/ltx-2-19b-distilled_Q8_0.gguf"
+        ],
+        "preload_URLs": "ltx2_distilled",
+        "ltx2_pipeline": "distilled"
+    },
+    "prompt": "A warm sunny backyard. The camera starts in a tight cinematic close-up of a woman and a man in their 30s, facing each other with serious expressions. The woman, emotional and dramatic, says softly, \"That's it... Dad's lost it. And we've lost Dad.\"The man exhales, slightly annoyed: \"Stop being so dramatic, Jess.\"A beat. He glances aside, then mutters defensively, \"He's just having fun.\"The camera slowly pans right, revealing the grandfather in the garden wearing enormous butterfly wings, waving his arms in the air like he's trying to take off.He shouts, \"Wheeeew!\" as he flaps his wings with full commitment.The woman covers her face, on the verge of tears. The tone is deadpan, absurd, and quietly tragic.",
+    "num_inference_steps": 8,
+	"video_length": 241
+}
+--- SCAIL defaults ---
+==== defaults/scail.json
+{
+    "model": {
+        "name": "SCAIL Preview 14B",
+        "architecture": "scail",
+        "description": "SCAIL: Studio-Grade Character Animation. Animates reference image using driving video motion with 3D-consistent pose transfer. Uses NLFPose for accurate 3D skeleton extraction.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_quanto_bf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_scail_preview_14B_quanto_fp16_int8.safetensors"
+        ]
+    },
+	"sliding_window_color_correction_strength": 1
+}==== defaults/scail2_14B.json
+{
+    "model": {
+        "name": "SCAIL-2 14B",
+        "architecture": "scail2_14B",
+        "description": "SCAIL-2: Wan 2.1 character animation with end-to-end reference, pose, and mask conditioning.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_mbf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_quanto_mbf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_quanto_mfp16_int8.safetensors"
+        ]
+    },
+    "prompt": "The character is dancing naturally with expressive body movement.",
+    "negative_prompt": "",
+    "video_length": 81,
+    "resolution": "832x480",
+    "num_inference_steps": 40,
+    "flow_shift": 3,
+    "guidance_scale": 5.0,
+    "custom_settings": {
+        "scail2_animate_preprocessing": "raw",
+        "image_ref_keyword_content": "human character",
+        "scail2_inject_ref_frames_in_video": "No"
+    },
+    "sliding_window_size": 81,
+    "sliding_window_overlap": 5,
+    "sliding_window_color_correction_strength": 0
+}
+--- Hunyuan defaults ---
+==== defaults/hunyuan.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Text2video 720p 13B",
+		"architecture" : "hunyuan",
+		"description": "Probably the best text 2 video model available.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_720_quanto_int8.safetensors"
+		]
+	}
+}==== defaults/hunyuan_1_5_480_i2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Image2video 480p 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Image2video 480p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_quanto_bf16_int8.safetensors"
+        ]
+    },
+	"prompt" : "",	
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 5.0
+}==== defaults/hunyuan_1_5_480_i2v_step_distilled.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Image2video 480p Step Distilled 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the official Step Distilled 480p versionby the Hunyuan Team.",
+		"profiles_dir": [""],
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_step_distilled_quanto_bf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_480_step_distilled_bf16.safetensors"
+        ]
+    },
+    "prompt": "",
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 8,
+    "guidance_scale": 1.0,
+    "flow_shift": 5.0
+}==== defaults/hunyuan_1_5_480_t2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Text2video 480p 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 480p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_480_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_480_quanto_bf16_int8.safetensors"
+        ]
+    },
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 5.0
+}==== defaults/hunyuan_1_5_480_t2v_lightx2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5 Text2video 480p Lightx2v 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 480p version accelerated by lightx2v.",
+		"profiles_dir": [""],
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors"
+        ]
+    },
+    "resolution": "832x480",
+    "video_length": 97,
+    "num_inference_steps": 4,
+    "guidance_scale": 1.0,
+    "flow_shift": 8.0
+}==== defaults/hunyuan_1_5_i2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5 Image2video 720p 8B",
+        "architecture": "hunyuan_1_5_i2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Image2video 720p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_i2v_720_quanto_bf16_int8.safetensors"
+        ]
+    },
+	"prompt" : "",
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 7.0
+}==== defaults/hunyuan_1_5_t2v.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Text2video 720p 8B",
+        "architecture": "hunyuan_1_5_t2v",
+        "description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This is the Text2video 720p version.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_720_quanto_bf16_int8.safetensors"
+        ]
+    },
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 30,
+    "guidance_scale": 6.0,
+    "flow_shift": 9.0
+}==== defaults/hunyuan_1_5_upsampler.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Upsampler 720p 8B",
+        "architecture": "hunyuan_1_5_upsampler",
+		"description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This version is a specialized 720p upsampler.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720_quanto_bf16_int8.safetensors"
+        ],
+		"upsampler": "720",
+		"preload_URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720p_sr_distilled.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_720p_sr_distilled_config.json"
+			]
+						
+    },
+    "resolution": "1280x720",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 6,
+    "guidance_scale": 1,
+    "flow_shift": 2.0
+}==== defaults/hunyuan_1_5_upsampler_1080.json
+{
+    "model": {
+        "name": "Hunyuan Video 1.5  Upsampler 1080p 8B",
+        "architecture": "hunyuan_1_5_upsampler",
+		"description": "HunyuanVideo-1.5 is a video generation model that delivers top-tier quality with only 8.3B parameters, significantly lowering the barrier to usage. This version is a specialized 1080p upsampler.",
+		"upsampler": "1080",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080_quanto_bf16_int8.safetensors"
+        ],
+		"preload_URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080p_sr_distilled.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1.5_upsampler_1080p_sr_distilled_config.json"
+			]
+						
+    },
+    "resolution": "1920x1088",
+    "video_length": 97,
+    "sliding_window_size": 97,
+    "num_inference_steps": 8,
+    "guidance_scale": 1,
+    "flow_shift": 2.0
+}==== defaults/hunyuan_avatar.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Avatar 720p 13B",
+		"architecture" : "hunyuan_avatar",
+		"description": "With the Hunyuan Video Avatar model you can animate a person based on the content of an audio input. Please note that the video generator works by processing 128 frames segment at a time (even if you ask less). The good news is that it will concatenate multiple segments for long video generation (max 3 segments recommended as the quality will get worse).",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_avatar_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_avatar_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== defaults/hunyuan_custom.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom 720p 13B",
+		"architecture" : "hunyuan_custom",
+		"description": "The Hunyuan Video Custom model is probably the best model to transfer people (only people for the moment) as it is quite good to keep their identity. However it is slow as to get good results, you need to generate 720p videos with 30 steps.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== defaults/hunyuan_custom_audio.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom Audio 720p 13B",
+		"architecture" : "hunyuan_custom_audio",
+		"description": "The Hunyuan Video Custom Audio model can be used to generate scenes of a person speaking given a Reference Image and a Recorded Voice or Song. The reference image is not a start image and therefore one can represent the person in a different context.The video length can be anything up to 10s. It is also quite good to generate no sound Video based on a person.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_audio_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_audio_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== defaults/hunyuan_custom_edit.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Custom Edit 720p 13B",
+		"architecture" : "hunyuan_custom_edit",
+		"description": "The Hunyuan Video Custom Edit model can be used to do Video inpainting on a person (add accessories or completely replace the person). You will need in any case to define a Video Mask which will indicate which area of the Video should be edited.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_edit_720_bf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_custom_edit_720_quanto_bf16_int8.safetensors"
+		]
+	}
+}==== defaults/hunyuan_i2v.json
+{
+	"model":
+	{
+		"name": "Hunyuan Video Image2video 720p 13B",
+		"architecture" : "hunyuan_i2v",
+		"description": "A good looking image 2 video model, but not so good in prompt adherence.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_i2v_720_bf16v2.safetensors",
+			"https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/hunyuan_video_i2v_720_quanto_int8v2.safetensors"
+		]
+	}
+}==== defaults/hunyuan_t2v_accvideo.json
+{
+  "model": {
+    "name": "Hunyuan Video Text2video 720p AccVideo 13B",
+    "architecture": "hunyuan",
+    "description": " AccVideo is a novel efficient distillation method to accelerate video diffusion models with synthetic datset. Our method is 8.5x faster than HunyuanVideo.",
+    "URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/accvideo_hunyuan_video_720_quanto_int8.safetensors"
+    ],
+    "preload_URLs": [
+    ],
+    "auto_quantize": true
+  },
+  "negative_prompt": "",
+  "resolution": "832x480",
+  "video_length": 81,
+  "seed": 42,
+  "num_inference_steps": 5,
+  "flow_shift": 7,
+  "embedded_guidance_scale": 6,
+  "repeat_generation": 1,
+  "loras_multipliers": "",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "",
+  "RIFLEx_setting": 0,
+  "perturbation_start_perc": 10,
+  "perturbation_end_perc": 90,
+  "prompt_enhancer": "",
+  "activated_loras": [
+  ]
+}==== defaults/hunyuan_t2v_fast.json
+{
+  "model": {
+    "name": "Hunyuan Video Text2video 720p FastHunyuan 13B",
+    "architecture": "hunyuan",
+    "description": "Fast Hunyuan is an accelerated HunyuanVideo model. It can sample high quality videos with 6 diffusion steps.",
+	"settings_dir": [ "" ],
+    "URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/fast_hunyuan_video_720_quanto_int8.safetensors"
+    ],
+    "preload_URLs": [
+      "https://huggingface.co/DeepBeepMeep/HunyuanVideo/resolve/main/fast_hunyuan_video_720_quanto_int8_map.json"
+    ],
+    "auto_quantize": true
+  },
+  "negative_prompt": "",
+  "resolution": "832x480",
+  "video_length": 81,
+  "seed": 42,
+  "num_inference_steps": 6,
+  "flow_shift": 17,
+  "embedded_guidance_scale": 6,
+  "repeat_generation": 1,
+  "loras_multipliers": "",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "",
+  "RIFLEx_setting": 0,
+  "perturbation_start_perc": 10,
+  "perturbation_end_perc": 90,
+  "prompt_enhancer": "",
+  "activated_loras": [
+  ]
+}--- Wan defaults ---
+==== defaults/t2v.json
+{
+	"model":
+	{
+		"name": "Wan2.1 Text2video 14B",
+		"architecture" : "t2v",
+		"description": "The original Wan Text 2 Video model. Most other models have been built on top of it",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_text2video_14B_mbf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_text2video_14B_quanto_mbf16_int8.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_text2video_14B_quanto_mfp16_int8.safetensors"
+		]
+	}
+}==== defaults/t2v_1.3B.json
+{
+    "model": {
+        "name": "Wan2.1 Text2video 1.3B",
+        "architecture": "t2v_1.3B",
+        "description": "The light version of the original Wan Text 2 Video model. Most other models have been built on top of it",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_text2video_1.3B_mbf16.safetensors"
+        ]
+    }
+}
+==== defaults/t2v_1.3B_nvfp4.json
+{
+	"model":
+	{
+		"name": "Wan2.1 Text2video NVFP4 Lightx2v 4-step 1.3B",
+		"architecture": "t2v_1.3B",
+		"description": "NVFP4-quantized Lightx2v 4-step finetune for Wan2.1 T2V 1.3B.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_t2v_1_3b_nvfp4_lightx2v_4step.safetensors"
+		]
+	},
+	"guidance_scale" : 1,
+	"sampler_solver": "euler",
+	"num_inference_steps": 4,
+	"flow_shift": 1
+}
+==== defaults/t2v_2_2.json
+{
+	"model":
+	{
+		"name": "Wan2.2 Text2video 14B",
+		"architecture" : "t2v_2_2",
+		"description": "Wan 2.2 Text 2 Video model",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_high_mbf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_high_quanto_mbf16_int8.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_high_quanto_mfp16_int8.safetensors"
+		],
+		"URLs2": [
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_low_mbf16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_low_quanto_mbf16_int8.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_14B_low_quanto_mfp16_int8.safetensors"
+		],
+		"group": "wan2_2"		
+	},
+	"guidance_phases": 2,
+	"switch_threshold" : 875,
+	"guidance_scale" : 4,
+	"guidance2_scale" : 3,
+	"flow_shift" : 12
+	
+}==== defaults/t2v_fusionix.json
+{
+	"model":
+	{
+		"name": "Wan2.1 Text2video FusioniX 14B",
+		"architecture" : "t2v",
+		"description": "A powerful merged text-to-video model based on the original WAN 2.1 T2V model, enhanced using multiple open-source components and LoRAs to boost motion realism, temporal consistency, and expressive detail.",
+		"URLs": [
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan14BT2VFusioniX_fp16.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan14BT2VFusioniX_quanto_fp16_int8.safetensors",
+			"https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan14BT2VFusioniX_quanto_bf16_int8.safetensors"
+		],
+		"auto_quantize": true
+	},
+    "negative_prompt": "",
+    "prompt": "",
+    "resolution": "832x480",
+    "video_length": 81,
+    "seed": -1,
+    "num_inference_steps": 8,
+    "guidance_scale": 1,
+    "flow_shift": 5,
+    "embedded_guidance_scale": 6,
+    "repeat_generation": 1,
+    "multi_images_gen_type": 0,
+    "tea_cache_setting": 0,
+    "tea_cache_start_step_perc": 0,
+    "loras_multipliers": "",
+    "temporal_upsampling": "",
+    "spatial_upsampling": "",
+    "RIFLEx_setting": 0,
+    "perturbation_switch": 0,
+    "perturbation_start_perc": 10,
+    "perturbation_end_perc": 90,
+    "cfg_star_switch": 0,
+    "cfg_zero_step": -1,
+    "prompt_enhancer": "",
+    "activated_loras": []
+}==== defaults/t2v_nexus_1.3B.json
+{
+  "model": {
+    "name": "Wan2.1 Text2video Nexus 1.3B",
+    "architecture": "t2v_1.3B",
+    "description": "The Nexus text2video finetune model is an enhanced small model. The 1.3B Nexus finetune adds a major enhancement to the wan2.1 - 1.3b text2video model. Built on CausVid 1.3b",
+    "URLs": [
+      "https://huggingface.co/MDMNexus/Nexus.v1/resolve/main/wan2.1_t2v_1.3b.nexus.B-SMOOTHED.build.1.safetensors"
+    ],
+    "auto_quantize": false,
+	"profile_dirs": [""]
+  },
+  "prompt": "scene: \"traditional Japanese dojo, wooden floor, shoji screens, serene yet intense atmosphere\", subjects: \"samurai on left and medieval knight on right engaged in fierce duel, medium close-up, slightly low angle\", samurai: \"traditional black kimono, white sash, raised katana held with perfect hands, poised to strike, swift precise movement\", knight: \"medieval armour, silver helmet with red plume, holding broadsword in defensive stance, perfect hands gripping hilt\", combat: \"dynamic clash of blades, swift controlled movements, clear separation of weapons, realistic metallic sheen, intense duel energy\", camera: \"medium close-up, slightly low angle, cinematic framing\", lighting: \"natural light highlighting katana blade and knight armour reflections\", style: \"photorealistic, traditional, cinematic, nothing modern\", environment: \"polished wooden dojo floor, shoji screens diffusing soft light\", quality: \"high detail, crisp edges on weapons, clean silhouettes\", neg: \"blurry weapons, fused blades, melted shapes, extra limbs, modern items, text, watermark\".",
+  "resolution": "832x480",
+  "video_length": 81,
+  "seed": -1,  
+  "num_inference_steps": 6,
+  "guidance_scale": 1,
+  "flow_shift": 5,
+  "repeat_generation": 1
+}
+==== defaults/t2v_sf.json
+{
+    "model": {
+        "name": "Wan2.1 Text2video Lightning 14B",
+        "architecture": "t2v",
+        "description": "This model is an advanced text-to-video generation model. The Lightning / SelfForcing process allows the model to generate videos with significantly fewer inference steps (4 or 8 steps) and without classifier-free guidance, substantially reducing video generation time while maintaining high quality outputs.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_StepDistill-CfgDistill_14B_bf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_StepDistill-CfgDistill_14B_quanto_bf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_StepDistill-CfgDistill_14B_quanto_fp16_int8.safetensors"
+        ],
+		"author": "https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill",
+        "auto_quantize": true
+    },
+    "num_inference_steps": 4,
+    "guidance_scale": 1,
+    "flow_shift": 3
+}==== defaults/ti2v_2_2.json
+{
+    "model": {
+        "name": "Wan2.2 TextImage2video 5B",
+        "architecture": "ti2v_2_2",
+        "description": "Wan 2.2 Text 2 Video model 5B",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_5B_mbf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/wan2.2_text2video_5B_quanto_mbf16_int8.safetensors"
+        ],
+		"settings_dir": [ "wan2_2_5B" ],		
+        "group": "wan2_2"
+    },
+    "video_length": 121,
+    "guidance_scale": 5,
+    "flow_shift": 5,
+    "num_inference_steps": 50,
+    "resolution": "1280x720"
+}==== defaults/ti2v_2_2_fastwan.json
+{
+    "model": {
+        "name": "Wan2.2 TextImage2video FastWan 5B",
+        "architecture": "ti2v_2_2",
+        "description": "FastWan2.2-TI2V-5B-Full-Diffusers is built upon Wan-AI/Wan2.2-TI2V-5B-Diffusers. It supports efficient 3-step inference and produces high-quality videos at 121×704×1280 resolution",
+        "URLs": "ti2v_2_2",
+		"settings_dir": [ "" ],		
+		"loras": ["https://huggingface.co/DeepBeepMeep/Wan2.2/resolve/main/loras_accelerators/Wan2_2_5B_FastWanFullAttn_lora_rank_128_bf16.safetensors"],
+        "group": "wan2_2"
+    },
+	"prompt" : "Put the person into a clown outfit.", 
+    "video_length": 121,
+    "guidance_scale": 1,
+    "flow_shift": 3,
+    "num_inference_steps": 3,
+    "resolution": "1280x720"
+}==== defaults/wanmove.json
+{
+    "model": {
+        "name": "Wan2.1 Wan-Move 480p 14B",
+        "architecture": "wanmove",
+        "description": "High-Quality 5s 480p Motion Control: Through scaled training, Wan-Move can generate 5-second, 480p videos with SOTA motion controllability on par with commercial systems such as Kling 1.5 Pro\u2019s Motion Brush, as verified via user studies.",
+        "URLs": [
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_wanmove_14B_mbf16.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_wanmove_14B_quanto_mbf16_int8.safetensors",
+            "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_wanmove_14B_quanto_mfp16_int8.safetensors"
+        ]
+    }
+}
