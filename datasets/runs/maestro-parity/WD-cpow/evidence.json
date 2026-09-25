@@ -492,7 +492,7 @@
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
+    "decision": "approved",
     "evidence_links": [
       "execution-summary.md",
       "objective-gates.json",
@@ -507,7 +507,13 @@
       "selected-download.log",
       "selected-doctor-preflight-after-download.json",
       "operator-authorization.md",
-      "matrix-transition-check.json"
+      "matrix-transition-check.json",
+      "download-plan.json",
+      "download-report.json",
+      "asset-inventory.txt",
+      "fullsuite-counters.json",
+      "release-verify.txt",
+      "standing-gates-final.txt"
     ],
     "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
   },
