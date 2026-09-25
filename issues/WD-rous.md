@@ -8,8 +8,8 @@ labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T04:31:03Z
-content_hash: "sha256:6391fa222d852cbaf2e808c5b9de019edcc4288bf949f9667a055789716d3792"
+updated_at: 2026-09-25T04:31:55Z
+content_hash: "sha256:f23f75432e00f0c7c71db80acc190ec1f4aef4ec5886f5e935e07e5f87276250"
 blocks: [WD-dmf2, WD-fay0]
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5]
@@ -95,7 +95,30 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: WD-rous produced one pushed evidence bundle with real ACE-Step generate and style-adaptation outputs, a real Stable Audio attempt measured incompatible with the 48 kHz target, complete provenance/queue/hash/metadata/gates, and pending reviewer verdict.
+
+### CI/Test Results
+Commands run:
+- `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-rous-full.xml`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --exit-code d8671f3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+- `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-rous`
+
+Summary: full suite tests=2084 errors=0 failures=0 skipped=1; release=ready tag_created=false; protected parity exit=0; diff check exit=0; evidence checker exit=1 solely because reviewer_verdict is pending as required.
+
+SHA: 1dcf95f77e9225f5eb8901a4e0df8de81a864f64
+
+### AC Verification
+- [x] AC 1: real ACE generation/style evidence and checker-valid except pending reviewer.
+- [x] AC 2: Stable mismatch did not silently flip to verified.
+- [x] AC 3: matrix mechanically cites exact WD-rous records.
+- [x] AC 4: 48 kHz stereo metadata, provenance, hashes, rights, and gates recorded.
+- [x] AC 5: Stable unsupported verdict uses measured 44.1 kHz output/config.
+- [x] AC 6: all formerly planned cells terminal; planning boundary unchanged.
+- [x] AC 7: no training/GUI/registry/weight commit; protected parity passes versus supplied base.
 
 ## nd_contract
 status: delivered
