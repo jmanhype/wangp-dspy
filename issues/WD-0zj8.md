@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T04:15:48Z
-content_hash: "sha256:3a702e869aea64878129e3a2d41d82fa7c63d8dd6128fef111184a15e9903dc5"
+updated_at: 2026-09-25T04:15:59Z
+content_hash: "sha256:16d3c6ff9d4ad3b110a604cf69ea27b3a0709c07a5979807156f554775109c09"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 follows: [WD-651z, WD-m0r5, WD-e4r7]
@@ -309,3 +309,19 @@ Commands run: targeted quickstart suite (6 passed), full JUnit command (tests=20
 Summary: exact no-GPU plan plus typed host/model refusal; generated_artifact=false.
 
 Commit SHA: 2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1
+
+### 2026-09-25T04:15:59Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Final authoritative no-GPU delivery: exact implementation evidence above; branch 2d4d1f39c56bb208eaf16fb2e0ab7d09f80e14a1 pushed.
+
+### proof
+- [x] AC1 clean install+plan.
+- [ ] AC2 partial absent host/model only.
+- [ ] AC3 blocked operator inputs absent.
+- [x] AC4 no fabricated host-run evidence.
+- [x] AC5 provenance recorded.
+- [x] AC6 boundary documented.
+- [x] AC7 protected files unchanged.
