@@ -15,8 +15,8 @@
             "r_frame_rate": "0/0",
             "avg_frame_rate": "0/0",
             "time_base": "1/24000",
-            "duration_ts": 121920,
-            "duration": "5.080000",
+            "duration_ts": 86400,
+            "duration": "3.600000",
             "bit_rate": "384000",
             "disposition": {
                 "default": 0,
@@ -42,15 +42,15 @@
         }
     ],
     "format": {
-        "filename": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_chatterbox_speech.wav",
+        "filename": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
         "nb_streams": 1,
         "nb_programs": 0,
         "nb_stream_groups": 0,
         "format_name": "wav",
         "format_long_name": "WAV / WAVE (Waveform Audio)",
-        "duration": "5.080000",
-        "size": "243884",
-        "bit_rate": "384069",
+        "duration": "3.600000",
+        "size": "172844",
+        "bit_rate": "384097",
         "probe_score": 99
     }
 }

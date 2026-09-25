@@ -1,0 +1,33 @@
+{
+  "attempt_index": 1,
+  "mode": "voice_clone_one_reference",
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "output": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
+  "output_sha256": "8e0fc28691675697760a427e2cecc05ab2b0e385a32698b7b5611ebf5b51dd2e",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 5.0,
+    "output_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.prepared.wav",
+    "rms_db": -21.6,
+    "single_speaker": true,
+    "source_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
+    "speaker_id": "Witness",
+    "target_duration_s": 5.0
+  },
+  "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.prepared.wav",
+  "prepared_sha256": "b034e3648571ff91199a32c690e0f800f561f74edf954cd99242e85755190b27",
+  "references": [
+    {
+      "consent_ref": "operator-authorization.md#wd-cpow-synthetic-primary",
+      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
+      "path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
+      "role": "primary",
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "source": "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
+    }
+  ],
+  "schema": "wangp-dspy.wd-bxhc.vibevoice-provenance/v1",
+  "seed": 9421,
+  "text": "One reference keeps this speaker on the portable anchor."
+}

@@ -1,0 +1,41 @@
+{
+  "attempt_index": 1,
+  "mode": "voice_clone_two_references",
+  "model": "/mnt/bulk/straughter/models/VibeVoice-7B-hf",
+  "model_sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+  "output": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.wav",
+  "output_sha256": "b9bec33bc91958f1fa39461cdd0f842f683e501cabd0ee87e15dc3a900c45024",
+  "preparation": {
+    "boost_db": 9.0,
+    "measured_duration_s": 5.0,
+    "output_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.prepared.wav",
+    "rms_db": -19.3,
+    "single_speaker": true,
+    "source_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.wav",
+    "speaker_id": "Witness",
+    "target_duration_s": 5.0
+  },
+  "prepared_path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.prepared.wav",
+  "prepared_sha256": "8468bd5cd35740eb7db46d564e588631bc0345148bf378910109452e6051ed48",
+  "references": [
+    {
+      "consent_ref": "operator-authorization.md#wd-cpow-synthetic-primary",
+      "license": "Operator-owned synthetic WD-bxhc output; MIT Chatterbox upstream; no redistribution",
+      "path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
+      "role": "primary",
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "source": "WD-cpow operator-owned synthetic target voice, reused only as the primary reference"
+    },
+    {
+      "consent_ref": "operator-authorization.md#wd-cpow-synthetic-secondary",
+      "license": "Operator-owned synthetic WD-cpow evaluation asset; authorized reference reuse only; no redistribution",
+      "path": "/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-bxhc/inputs/voice-secondary.wav",
+      "role": "secondary",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "source": "WD-cpow VibeVoice-prepared synthetic output, reused only as the secondary reference"
+    }
+  ],
+  "schema": "wangp-dspy.wd-bxhc.vibevoice-provenance/v1",
+  "seed": 9431,
+  "text": "Two references keep this speaker on the portable anchor."
+}
