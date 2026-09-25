@@ -1,0 +1,14 @@
+{
+  "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+  "probe": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"resolved_python\": \"/home/straughter/vb7-venv/bin/python\", \"python_implementation\": \"CPython\", \"python_version\": \"3.11.15\", \"platform\": \"Linux-6.17.0-35-generic-x86_64-with-glibc2.39\"}\n"
+  },
+  "python_implementation": "CPython",
+  "python_version": "3.11.15",
+  "repo": "/home/straughter/wangp-dspy-vibevoice-20260916",
+  "requested_python": "/home/straughter/vb7-venv/bin/python",
+  "resolved_python": "/home/straughter/vb7-venv/bin/python",
+  "schema": "wangp-dspy.vibevoice-host-environment/v1"
+}

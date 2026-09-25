@@ -1,0 +1,36 @@
+{
+  "authorization": "operator-authorization.md",
+  "planned_bytes": 8677764,
+  "actual_network_bytes": 8677764,
+  "ceiling_bytes": 20000000000,
+  "remaining_ceiling_bytes": 19991322236,
+  "assets": [
+    {
+      "id": "deepfilternet-wheel",
+      "sha256": "99f5688d954fcfa8f853bf8bb8c3b2a59e4f9dc5d95643c9e6a32053234ba7c6"
+    },
+    {
+      "id": "deepfilterlib-cp311-wheel",
+      "sha256": "3ea0dffa9b0f0fae4aaebac4a3d13f9b2ba5becd805db1b14d2252163f07e787"
+    },
+    {
+      "id": "appdirs-wheel",
+      "sha256": "a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"
+    },
+    {
+      "id": "deepfilternet3-model-zip",
+      "sha256": "49c52edc8947ae1f9bf50d81530beaf3a2c3245aeaf34b6f31ff535cd22284d2"
+    }
+  ],
+  "deepfilternet_checkpoint": {
+    "path": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3/checkpoints/model_120.ckpt.best",
+    "sha256": "23b92884f63ccf54bb026014604625ab231657b6480df65db4095c4c171e6003"
+  },
+  "installed_python_packages": [
+    "deepfilternet==0.5.6",
+    "DeepFilterLib==0.5.6",
+    "appdirs==1.4.4"
+  ],
+  "compatibility_note": "The host torchaudio 2.10.0+cu130 no longer exports torchaudio.backend.common or load/save/info. The WD-cpow native refine script injects a read-only import shim for AudioMetaData and uses soundfile for exact PCM I/O; torchaudio is not downgraded.",
+  "disk_free_after_bytes": 10993692672
+}

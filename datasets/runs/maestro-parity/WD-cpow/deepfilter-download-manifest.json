@@ -28,7 +28,7 @@
     {
       "id": "deepfilternet3-model-zip",
       "source_url": "https://github.com/Rikorose/DeepFilterNet/raw/main/models/DeepFilterNet3.zip",
-      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "sha256": "49c52edc8947ae1f9bf50d81530beaf3a2c3245aeaf34b6f31ff535cd22284d2",
       "size_bytes": 7986207,
       "license": "MIT (DeepFilterNet upstream pretrained model)",
       "destination": "/home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip"

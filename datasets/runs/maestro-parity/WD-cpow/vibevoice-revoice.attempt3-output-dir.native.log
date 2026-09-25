@@ -1,0 +1,3 @@
+[out#0/mp4 @ 0x56673785bfc0] Error opening output /home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_revoice.mp4: No such file or directory
+Error opening output file /home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_revoice.mp4.
+Error opening output files: No such file or directory

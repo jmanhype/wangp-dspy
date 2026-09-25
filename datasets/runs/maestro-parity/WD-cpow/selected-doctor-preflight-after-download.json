@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "detail": "",
+      "kind": "ssh_reachable",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "kind": "model_files",
+      "passed": true
+    },
+    {
+      "detail": "11G free on /home/straughter/Wan2GP (min 8.16G)",
+      "kind": "disk_headroom",
+      "passed": true
+    },
+    {
+      "detail": "idle",
+      "kind": "gpu_state",
+      "passed": true
+    },
+    {
+      "detail": "qc healthz ok (http://127.0.0.1:8377/health)",
+      "kind": "qc_available",
+      "passed": true
+    }
+  ],
+  "detail": "",
+  "min_free_gb": 8.16,
+  "passed": true
+}

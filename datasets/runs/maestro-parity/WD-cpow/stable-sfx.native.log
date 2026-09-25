@@ -1,0 +1,30 @@
+/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd_cpow_stable_sfx.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-cpow/stable
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd_cpow_stable_sfx.json
+[load_settings] Task 1/1 ready, ID: 1, model: stable_audio3_small
+Loaded 1 task(s)
+
+[Task 1/1] dry metal gate latch clack followed by a small chain sway in...
+Loading Model 'ckpts/stable_audio3_small_music_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/t5gemma-b-b-ul2/t5gemma-b-b-ul2_bf16.safetensors' ...
+Loading model Music Stable Audio 3 Small Music...
+No module named 'flash_attn'
+flash_attn not installed, disabling Flash Attention
+No module named 'flash_attn'
+flash_attn varlen/bert_padding not available, disabling varlen attention
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Hooked to model 'transformer' (StableAudio3MainModule)
+Hooked to model 'codec' (AutoencoderPretransform)
+Hooked to model 'text_encoder' (T5GemmaEncoder)
+  Model loaded  [0/1] Generating Audio  [0/8] Denoising | 0/8 steps | 0.0s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:00<00:00,  7.28steps/s]  [2/8] Denoising | 1/8 steps | 5.4s / 21.4s  [3/8] Denoising | 2/8 steps | 5.4s / 14.4s  [4/8] Denoising | 3/8 steps | 5.5s / 10.9s  [5/8] Denoising | 4/8 steps | 5.5s / 8.8s  50%|█████     | 4/8 [00:00<00:00, 15.37steps/s]  [6/8] Denoising | 5/8 steps | 5.6s / 7.4s  [7/8] Denoising | 6/8 steps | 5.6s / 6.4s  [8/8] VAE Decoding | 5.7s / 5.7s          88%|████████▊ | 7/8 [00:00<00:00, 17.07steps/s]100%|██████████| 8/8 [00:00<00:00, 16.31steps/s]
+  [9/8] Denoising | 8/8 steps | 5.7s / 5.7sAudio file saved to Path: /home/straughter/Wan2GP/outputs/wd-cpow/stable/wd_cpow_stable_sfx.wav
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 10.8s

@@ -4,7 +4,7 @@ ROOT=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow
 BUNDLE=$ROOT/datasets/runs/maestro-parity/WD-cpow
 export WANGP_ASSET_MAP="$BUNDLE=/home/straughter/wangp-dspy-vibevoice-20260916/datasets/runs/maestro-parity/WD-cpow"
 cd "$ROOT"
-exec "$ROOT/.venv/bin/python" -m predict.vibevoice "$BUNDLE/planning/vibevoice-turns.json" \
+exec "$ROOT/.venv/bin/python" -m predict.vibevoice "$BUNDLE/vibevoice-turns.json" \
   --remote-target 3090 \
   --host-python /home/straughter/vb7-venv/bin/python \
   --host-repo /home/straughter/wangp-dspy-vibevoice-20260916 \

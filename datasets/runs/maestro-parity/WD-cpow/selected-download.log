@@ -1,0 +1,18 @@
+3ea0dffa9b0f0fae4aaebac4a3d13f9b2ba5becd805db1b14d2252163f07e787  /home/straughter/Wan2GP/wd-cpow-assets/DeepFilterLib-0.5.6-cp311-cp311-manylinux_2_28_x86_64.whl
+a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128  /home/straughter/Wan2GP/wd-cpow-assets/appdirs-1.4.4-py2.py3-none-any.whl
+99f5688d954fcfa8f853bf8bb8c3b2a59e4f9dc5d95643c9e6a32053234ba7c6  /home/straughter/Wan2GP/wd-cpow-assets/deepfilternet-0.5.6-py3-none-any.whl
+49c52edc8947ae1f9bf50d81530beaf3a2c3245aeaf34b6f31ff535cd22284d2  /home/straughter/Wan2GP/wd-cpow-assets/DeepFilterNet3.zip
+Processing ./Wan2GP/wd-cpow-assets/deepfilternet-0.5.6-py3-none-any.whl
+Processing ./Wan2GP/wd-cpow-assets/DeepFilterLib-0.5.6-cp311-cp311-manylinux_2_28_x86_64.whl
+Processing ./Wan2GP/wd-cpow-assets/appdirs-1.4.4-py2.py3-none-any.whl
+Installing collected packages: appdirs, deepfilternet, DeepFilterLib
+Successfully installed DeepFilterLib-0.5.6 appdirs-1.4.4 deepfilternet-0.5.6
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/df/__init__.py", line 2, in <module>
+    from .enhance import enhance, init_df
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/df/enhance.py", line 16, in <module>
+    from df.io import load_audio, resample, save_audio
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/df/io.py", line 9, in <module>
+    from torchaudio.backend.common import AudioMetaData
+ModuleNotFoundError: No module named 'torchaudio.backend'

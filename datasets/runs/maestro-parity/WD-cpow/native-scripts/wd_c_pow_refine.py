@@ -3,6 +3,28 @@
 from __future__ import annotations
 
 import json
+import sys
+import types
+
+import numpy as np
+import soundfile as sf
+import torch
+
+
+metadata_module = types.ModuleType("torchaudio.backend.common")
+
+
+class AudioMetaData:
+    """Compatibility anchor for DeepFilterNet's torchaudio type import."""
+
+    __slots__ = ()
+
+
+metadata_module.AudioMetaData = AudioMetaData
+sys.modules.setdefault("torchaudio.backend.common", metadata_module)
+
+from df.enhance import enhance, init_df
+
 import shutil
 import subprocess
 from pathlib import Path
@@ -28,14 +50,19 @@ def main() -> int:
         "ffmpeg", "-y", "-v", "error", "-i", str(INPUT), "-map", "0:a:0",
         "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2", str(noisy),
     ])
-    run([
-        "/home/straughter/Wan2GP/venv/bin/deepFilter",
-        "--model-base-dir", str(MODEL),
-        "--atten-lim", "6",
-        "--output-dir", str(WORK),
-        "--no-suffix",
-        str(noisy),
-    ])
+    audio, sample_rate = sf.read(noisy, dtype="float32", always_2d=True)
+    tensor = torch.from_numpy(audio.T)
+    model, deep_filter_state, _ = init_df(
+        str(MODEL), post_filter=False, log_level="ERROR", log_file=None,
+        config_allow_defaults=True, epoch="best", mask_only=False,
+    )
+    refined = enhance(
+        model, deep_filter_state, tensor, pad=True, atten_lim_db=6.0
+    )
+    denoised = WORK / "revoice-audio_DeepFilterNet3.wav"
+    sf.write(
+        denoised, refined.numpy().T, sample_rate, subtype="PCM_16",
+    )
     denoised = WORK / "revoice-audio_DeepFilterNet3.wav"
     if not denoised.exists():
         candidates = sorted(WORK.glob("*DeepFilterNet3*.wav"))

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 1440, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 1378, in main
+    manifest = load_vibevoice_manifest(args.manifest)
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 304, in load_vibevoice_manifest
+    output=_manifest_output_path(manifest_dir, raw_turn["output"]),
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-cpow/predict/vibevoice.py", line 254, in _manifest_output_path
+    raise VibeVoiceError(f"output: must remain under manifest root: {raw!r}")
+VibeVoiceError: output: must remain under manifest root: '../outputs/wd_cpow_vibevoice_raw.wav'
