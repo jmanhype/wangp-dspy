@@ -8,8 +8,8 @@ labels: [bug, host-safety, integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T21:11:25Z
 created_by: speed
-updated_at: 2026-09-25T02:25:02Z
-content_hash: "sha256:78477040fb3ce358360c6b53b6fd55947e821c807bd5bd1549222c89e056ee23"
+updated_at: 2026-09-25T02:26:07Z
+content_hash: "sha256:d78d85f49d782691f3618ae3b3dab60b2f7295a4498ea17ac6d85c32ba459ddc"
 blocks: [WD-fay0]
 assignee: dev-WD-e4r7
 follows: [WD-651z]
@@ -411,6 +411,38 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: Delivered fail-closed GPU occupancy parsing and admission verdicts at exact pushed head below; direct tests use the real captured CSV row and no host/GPU/network.
+
+Commands run:
+- `timeout 3600 uv run --frozen --extra dev pytest -q tests/test_jobs_preflight.py` -> exit 0; 21 passed.
+- `timeout 3600 uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-e4r7-full.xml` -> exit 0.
+- `timeout 3600 uv run --frozen --extra dev wgp release verify` -> exit 0; `release=ready`, `tag_created=false`.
+- `git diff 8f0b225 -- services/jobs/preflight.py` -> full protected differential recorded above.
+- `git diff --exit-code 8f0b225 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py scripts/run_film.py` -> exit 0; no diff.
+- `git diff --check` -> exit 0; no output.
+- `git push -u origin story/WD-e4r7` -> exit 0.
+
+### CI/Test Results
+- Targeted: 21/21 passed, 0 failed.
+- Full JUnit: tests=2084, errors=0, failures=0, skipped=1.
+- Before/after real row: idle/pass -> occupied/fail with pid 1007225, 7808 MiB, and exact llama-server path.
+- Malformed alternate columns -> unknown/fail; empty -> idle/pass.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Exact captured row parses to pid=1007225, memory_mib=7808, exact path; query includes all 3 fields. |
+| 2 | PASS | Any occupied state fails and detail names every pid, MiB, process. |
+| 3 | PASS | Malformed/alternate/truncated output -> unknown/fail; nonzero rc remains fail. |
+| 4 | PASS | Empty and `No running processes found` remain idle/pass. |
+| 5 | PASS | Direct no-mock parser tests cover real row, comma/space path, malformed, idle, and check mapping. |
+| 6 | PASS | Target, full JUnit, release, differential, protected-no-change, and whitespace gates pass at SHA below. |
+
+SHA: ada69471cbe7cbb1fe4f765432d0bf2063ae9ee4
+
+
 ## nd_contract
 status: delivered
 
