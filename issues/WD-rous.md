@@ -1,18 +1,19 @@
 ---
 id: WD-rous
 title: "Music generation evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T04:34:30Z
-content_hash: "sha256:18652ee59684354a896056404c2393b3e549065eb2a765c2a44e6e3c9e3dc2c8"
-blocks: [WD-dmf2, WD-fay0]
+updated_at: 2026-09-25T05:04:03Z
+content_hash: "sha256:2f20c95d0402b576069936a5ca647981debf13f9b4abbb6a0a7bebd9bf15cfdc"
 assignee: dev-WD-rous
 follows: [WD-e4r7, WD-m0r5, WD-651z]
+closed_at: 2026-09-25T05:04:03Z
+close_reason: "Accepted: independently recomputed all three SHA-256 hashes; measured real non-silent 10 s PCM audio; ACE outputs are distinct; Stable 44.1 kHz mismatch is measured against the pre-existing fixed 48 kHz target; disk-floor derivation, flash_attn boundary, checker, and standing gates pass at 14b49def010a752269fa3824374f750b6d2cdc2c."
 ---
 
 ## Description
@@ -267,10 +268,12 @@ Observable outcome: an explicitly authorized future run emits hashed music artif
 - 2026-09-25T04:31:55Z status: in_progress -> in_progress
 - 2026-09-25T04:31:55Z auto-follows: linked to predecessor WD-651z
 - 2026-09-25T04:32:09Z status: in_progress -> in_progress
+- 2026-09-25T05:04:03Z status: in_progress -> closed
+- 2026-09-25T05:04:03Z dep_removed: no_longer_blocks WD-dmf2
+- 2026-09-25T05:04:03Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-dmf2]], [[WD-fay0]]
 - Follows: [[WD-e4r7]], [[WD-m0r5]], [[WD-651z]]
 
 ## Comments
