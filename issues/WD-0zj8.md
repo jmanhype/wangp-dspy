@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-25T03:16:41Z
-content_hash: "sha256:3968bea75b4e102a143264d3433f3bbc9336b09118fed16646b671dee5e6b2fb"
+updated_at: 2026-09-25T03:24:13Z
+content_hash: "sha256:bbb4f55488b4c688e38169c6f13c0ca1878d50e356ea5fb16b451b0d3b472b63"
 blocks: [WD-fay0]
 was_blocked_by: [WD-651z, WD-m0r5]
 assignee: dev-WD-0zj8
@@ -100,6 +100,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- Claimed by dispatcher as dev-WD-0zj8 on 2026-09-25; implementing only the story-declared no-GPU install/plan and typed-refusal half.
+
+### proof
+- [ ] Pending clean-checkout install+plan and separate typed host/model refusal evidence.
+
 ## MANDATORY SKILLS
 - pvg
 
