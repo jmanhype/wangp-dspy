@@ -4,7 +4,7 @@ title: "Director composition evidence"
 status: open
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration]
+labels: [capability, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
