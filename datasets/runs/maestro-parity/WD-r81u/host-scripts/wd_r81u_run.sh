@@ -34,10 +34,10 @@ if [ ! -f "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu.zip" ]; then
 fi
 actual_esrgan=$(timeout 120 sha256sum "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu.zip" | awk '{print $1}')
 test "$actual_esrgan" = "$EXPECTED_ESRGAN"
-if [ ! -x "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu/realesrgan-ncnn-vulkan" ]; then
+if [ ! -x "$ASSETS/realesrgan-ncnn-vulkan" ]; then
   timeout 180 unzip -q "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu.zip" -d "$ASSETS"
 fi
-timeout 120 sha256sum "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu/models/realesrgan-x4plus.bin" "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu/models/realesrgan-x4plus.param" > "$WORK/realesrgan-model-hashes.txt"
+timeout 120 sha256sum "$ASSETS/models/realesrgan-x4plus.bin" "$ASSETS/models/realesrgan-x4plus.param" > "$WORK/realesrgan-model-hashes.txt"
 df -B1 /
 
 timeout 120 ffprobe -v error -print_format json -show_format -show_streams "$SRC" > "$WORK/ffprobe-source.json"
@@ -61,7 +61,7 @@ timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_film.py" "$SRC" "$TMP/film/%
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/film/%08d.png" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_film_film_grain.mp4"
 
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -an -vsync 0 "$TMP/esrgan-input/%08d.png"
-cd "$ASSETS/realesrgan-ncnn-vulkan-20220424-ubuntu"
+cd "$ASSETS"
 timeout 1800 ./realesrgan-ncnn-vulkan -i "$TMP/esrgan-input" -o "$TMP/esrgan-output" -n realesrgan-x4plus -s 2 -t 128 -m models -g 0 -j 1:1:1
 cd "$WORK"
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/esrgan-output/%08d.png" -map 1:v:0 -map 0:a:0 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_real_esrgan_spatial_x2.mp4"
