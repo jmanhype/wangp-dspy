@@ -56,16 +56,16 @@ timeout 600 ffmpeg -nostdin -y -i "$SRC" -map 0:v:0 -map 0:a:0 -c:v libx264 -crf
 
 cd "$ROOT"
 PYTHONPATH="$ROOT" timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_rife.py" "$SRC" "$TMP/rife/%08d.png" "$ASSETS/rife4.26.pkl"
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/rife/%08d.png" -map 1:v:0 -map 0:a:0 -r 48 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_rife_interpolation_x2.mp4"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -framerate 48 -i "$TMP/rife/%08d.png" -map 1:v:0 -map 0:a:0 -r 48 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_rife_interpolation_x2.mp4"
 
 PYTHONPATH="$ROOT" timeout 1200 "$ROOT/venv/bin/python" "$WORK/wd_r81u_film.py" "$SRC" "$TMP/film/%08d.png" --seed 2936 --intensity 0.05
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/film/%08d.png" -map 1:v:0 -map 0:a:0 -r 24 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_film_film_grain.mp4"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -framerate 24 -i "$TMP/film/%08d.png" -map 1:v:0 -map 0:a:0 -r 24 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_film_film_grain.mp4"
 
 timeout 600 ffmpeg -nostdin -y -i "$SRC" -an -vsync 0 "$TMP/esrgan-input/%08d.png"
 cd "$ASSETS"
 timeout 1800 ./realesrgan-ncnn-vulkan -i "$TMP/esrgan-input" -o "$TMP/esrgan-output" -n realesrgan-x4plus -s 2 -t 128 -m models -g 0 -j 1:1:1
 cd "$WORK"
-timeout 600 ffmpeg -nostdin -y -i "$SRC" -i "$TMP/esrgan-output/%08d.png" -map 1:v:0 -map 0:a:0 -r 24 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_real_esrgan_spatial_x2.mp4"
+timeout 600 ffmpeg -nostdin -y -i "$SRC" -framerate 24 -i "$TMP/esrgan-output/%08d.png" -map 1:v:0 -map 0:a:0 -r 24 -c:v libx264 -crf 18 -pix_fmt yuv420p -movflags +faststart "$OUT/wd_r81u_real_esrgan_spatial_x2.mp4"
 
 for media in "$OUT"/*.mp4; do
   timeout 120 ffprobe -v error -print_format json -show_format -show_streams "$media" > "$WORK/ffprobe-$(basename "$media" .mp4).json"

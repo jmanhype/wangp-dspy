@@ -17,3 +17,5 @@ Attempt 6 reached the helper and exposed a frame-container conversion bug: OpenC
 Attempt 7 loaded and ran RIFE on CUDA, then failed while serializing its emitted frames because `Path` does not implement `%` formatting. The output template is now converted to text exactly as OpenCV requires.
 
 Attempt 8 completed all seven operations and exited zero. Its image-sequence remuxes, however, inherited FFmpeg's default 25 fps for the `film` and Real-ESRGAN outputs. The final correction explicitly sets those two outputs back to the measured source rate of 24 fps; RIFE already explicitly set 48 fps.
+
+Post-run measurement showed that an output-only `-r` did not set image-sequence input timestamps: RIFE's 111 emitted frames were stretched to 213 output frames and 4.4375 seconds. The final remuxes now set image-sequence `-framerate` on the matching input before enforcing the output frame rate.
