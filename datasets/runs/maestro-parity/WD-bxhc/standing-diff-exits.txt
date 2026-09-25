@@ -1,0 +1,2 @@
+protected_diff_exit=0
+git_diff_check_exit=0
