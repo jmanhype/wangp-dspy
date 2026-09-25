@@ -48,6 +48,30 @@ sh install.sh --checkout "$HOME/src/wangp-dspy"
 
 The installer resolves uv's real executable directory with `uv tool dir --bin` (unless `UV_TOOL_BIN_DIR` overrides it), verifies `wgp` exists there, clones the selected repository, and prints the exact `cd`, `uv sync`, and no-GPU quickstart commands.
 
+## Clean-machine install, plan, and honest refusal
+
+From a disposable Git checkout (not an operator checkout), this one command installs
+the locked tool into an isolated workspace, clones another disposable checkout, emits
+the tested LF004 no-GPU plan, and then refuses generation before SSH, model download,
+queue admission, inference, or GPU work:
+
+```bash
+sh install.sh --source "$PWD" --clean-proof "${TMPDIR:-/tmp}/wangp-clean-machine"
+```
+
+The workspace must not already exist. The command deliberately exits `3` when host
+and model authorization are absent. Its output must contain both state markers:
+`PLAN_ONLY ... generated_artifact=false` and `GENERATION_REFUSED ... exit=3`.
+It also emits the established typed diagnostics (`HOST_CONFIGURATION_INCOMPLETE`
+for a missing host and `MODEL_MANIFEST_REQUIRED` for absent model provenance) with
+safe next actions. The generated `proof/blocked-record.json` records command argv,
+source and resolved commit, dirty state, tool identities, plan hash and summary, and
+`host_run_verified=false`.
+
+This is install-and-plan evidence only. It is never generated-artifact evidence.
+The generated-artifact half remains blocked pending per-batch render-host authorization,
+model-download approval, and a complete authorized host/model manifest.
+
 ## Upgrade and uninstall
 
 Repeat the one-command install; it requests `uv tool install --upgrade`. Remove the user tool with:

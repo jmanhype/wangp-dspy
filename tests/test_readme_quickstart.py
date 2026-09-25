@@ -87,6 +87,26 @@ def _quickstart_commands() -> list[str]:
     return commands
 
 
+def _documented_clean_proof_command() -> str:
+    document = (ROOT / "docs/install.md").read_text(encoding="utf-8")
+    match = re.search(
+        r"^## Clean-machine install, plan, and honest refusal\n"
+        r"(.*?)(?=^## )",
+        document,
+        flags=re.DOTALL | re.MULTILINE,
+    )
+    assert match is not None
+    commands = [
+        line.strip()
+        for block in re.findall(r"```bash\n(.*?)```", match.group(1), flags=re.DOTALL)
+        for line in block.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    assert len(commands) == 1, commands
+    assert commands[0].startswith('sh install.sh --source "$PWD" --clean-proof ')
+    return commands[0]
+
+
 def _markdown_links(text: str) -> set[str]:
     """Return local Markdown link targets, without their anchors."""
     targets = re.findall(r"\[[^\]]+\]\(([^)#\s]+)(?:#[^)]*)?\)", text)
@@ -389,6 +409,159 @@ def test_readme_quickstart_runs_in_clean_worktree() -> None:
         finally:
             subprocess.run(
                 ["git", "worktree", "remove", "--force", str(worktree)],
+                cwd=ROOT,
+                check=False,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "worktree", "prune"],
+                cwd=ROOT,
+                check=False,
+                capture_output=True,
+            )
+
+
+def test_clean_checkout_install_plan_then_typed_generation_refusal() -> None:
+    """Run the stranger-facing command from a fresh disposable checkout."""
+
+    command = _documented_clean_proof_command()
+    with TemporaryDirectory(prefix="wangp-clean-proof-") as temporary:
+        temporary_path = Path(temporary)
+        source = temporary_path / "source"
+        output_root = temporary_path / "outputs"
+        output_root.mkdir()
+        subprocess.run(
+            ["git", "worktree", "add", "--detach", str(source), "HEAD"],
+            cwd=ROOT,
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+        environment = {**os.environ, "TMPDIR": str(output_root)}
+        for variable in (
+            "WANGP_REPOSITORY_ROOT",
+            "WANGP_SSH_TARGET",
+            "WANGP_WGP_ROOT",
+            "WANGP_PULL_ROOT",
+            "WANGP_WGP_PYTHON",
+            "WANGP_3090",
+        ):
+            environment.pop(variable, None)
+        try:
+            result = subprocess.run(
+                command,
+                cwd=source,
+                env=environment,
+                shell=True,
+                executable="/bin/bash",
+                check=False,
+                text=True,
+                capture_output=True,
+                timeout=600,
+            )
+            combined = result.stdout + result.stderr
+            assert result.returncode == 3, combined
+            assert "Installed 1 executable: wgp" in combined
+            assert "ready=yes" in combined
+            assert "clips=4" in combined
+            assert "PLAN_ONLY path=" in result.stdout
+            assert "generated_artifact=false" in result.stdout
+            assert "GENERATION_REFUSED diagnostics=2 exit=3" in result.stdout
+            assert "diagnostic code=HOST_CONFIGURATION_INCOMPLETE" in result.stderr
+            assert "missing host.target, host.wgp_root" in result.stderr
+            assert "Set every explicit host value" in result.stderr
+            assert "diagnostic code=MODEL_MANIFEST_REQUIRED" in result.stderr
+            assert "zero authorized model identities" in result.stderr
+            assert "source URL, SHA-256, exact size, license" in result.stderr
+            assert "Traceback" not in combined
+
+            workspace = output_root / "wangp-clean-machine"
+            proof = workspace / "proof"
+            checkout = workspace / "checkout"
+            source_commit = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=source,
+                check=True,
+                text=True,
+                capture_output=True,
+            ).stdout.strip()
+            checkout_status = subprocess.run(
+                ["git", "status", "--short"],
+                cwd=checkout,
+                check=True,
+                text=True,
+                capture_output=True,
+            ).stdout
+            assert checkout_status == ""
+
+            plan = json.loads((proof / "plan.json").read_text(encoding="utf-8"))
+            ledger = json.loads(
+                (proof / "plan-run/run_ledger.json").read_text(encoding="utf-8")
+            )
+            assert plan["summary"] == {
+                "clip_count": 4,
+                "speakers": ["Tess", "Rho", "Tess", "Rho"],
+                "planned_duration_s": 9.332,
+                "dry_run": True,
+                "gpu_work": False,
+                "queue_submitted": False,
+            }
+            assert plan["repository"]["commit_sha"] == source_commit
+            assert plan["repository"]["clean_tree"] is True
+            assert ledger["status"] == "planned"
+
+            host = json.loads(
+                (proof / "host-refusal.json").read_text(encoding="utf-8")
+            )
+            capabilities = json.loads(
+                (proof / "capabilities.json").read_text(encoding="utf-8")
+            )
+            assert host["diagnostics"][0]["code"] == "HOST_CONFIGURATION_INCOMPLETE"
+            assert capabilities["model_manifest"]["status"] == "absent"
+            assert capabilities["collection"] == {
+                "read_only": True,
+                "network_access": False,
+                "host_contact": False,
+            }
+
+            blocked = json.loads(
+                (proof / "blocked-record.json").read_text(encoding="utf-8")
+            )
+            assert blocked["schema_version"] == "wangp-dspy.clean-machine-proof/v1"
+            assert blocked["outcome"] == "plan_emitted_generation_refused"
+            assert blocked["command"] == [
+                "sh",
+                str((source / "install.sh").resolve()),
+                "--source",
+                str(source.resolve()),
+                "--clean-proof",
+                str(workspace),
+            ]
+            assert blocked["source"]["resolved_commit"] == source_commit
+            assert blocked["source"]["dirty_tree"] is False
+            assert blocked["generation"] == {
+                "attempted": False,
+                "queue_admitted": False,
+                "ssh_contacted": False,
+                "model_downloaded": False,
+                "generated_media_bytes": 0,
+                "generated_artifact": False,
+                "host_run_verified": False,
+            }
+            assert blocked["blocked_operator_inputs"] == [
+                "per-batch GPU/render-host authorization",
+                "model-download approval",
+                "complete authorized host/model manifest with identity, source, hash or immutable version, license, and usage constraint",
+            ]
+            assert not [
+                path
+                for path in proof.rglob("*")
+                if path.is_file()
+                and path.suffix.lower() in {".mp4", ".mov", ".wav", ".jpg", ".jpeg", ".png"}
+            ]
+        finally:
+            subprocess.run(
+                ["git", "worktree", "remove", "--force", str(source)],
                 cwd=ROOT,
                 check=False,
                 capture_output=True,

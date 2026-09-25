@@ -57,6 +57,11 @@ sh install.sh
 
 The installer requires `uv`, installs without root, and ends by running `wgp doctor`. See [docs/install.md](docs/install.md) for prerequisites, checkout help, upgrading, uninstalling, and the boundary between installed commands and repository-scoped evidence workflows.
 
+For a stranger-facing disposable-checkout proof, use the [one clean-machine command](docs/install.md#clean-machine-install-plan-and-honest-refusal).
+It installs and emits the no-GPU plan, then intentionally exits `3` with typed host/model
+refusals. Its `PLAN_ONLY` marker and blocked record are not generation evidence; the
+generated-artifact half requires separate per-batch authorization.
+
 Contributors should use a fresh clone:
 
 ```bash
