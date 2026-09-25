@@ -1,0 +1,19 @@
+$ ssh -o BatchMode=yes -o ConnectTimeout=15 3090 timeout 15 whoami
+straughter
+$ ssh ... nvidia-smi --query-gpu=name,memory.total,memory.used,memory.free --format=csv,noheader,nounits
+NVIDIA GeForce RTX 3090, 24576, 7896, 16220
+$ ssh ... nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader,nounits
+1007225, /home/straughter/llama.cpp/build/bin/llama-server, 7808
+$ test -x /home/straughter/Wan2GP/venv/bin/python && /home/straughter/Wan2GP/venv/bin/python --version
+Python 3.11.14
+$ render import probe via stdin to /home/straughter/Wan2GP/venv/bin/python
+torch 2.10.0+cu130
+diffusers 0.36.0
+transformers 4.57.6
+PIL 12.3.0
+cuda_available True
+cuda_device NVIDIA GeForce RTX 3090
+$ find /home/straughter/Wan2GP -path /home/straughter/Wan2GP/venv -prune -o -type f -size +100M -iname *qwen* -print
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+$ find /home/straughter/Wan2GP -path /home/straughter/Wan2GP/venv -prune -o -type f -size +100M -iname *flux* -print
+$ find /home/straughter/Wan2GP -path /home/straughter/Wan2GP/venv -prune -o -type f -size +100M -iname *kontext* -print

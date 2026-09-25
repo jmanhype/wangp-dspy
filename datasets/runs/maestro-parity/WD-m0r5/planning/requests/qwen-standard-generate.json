@@ -1,0 +1,21 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "qwen_image",
+    "preset": "qwen-standard"
+  },
+  "operation": "generate",
+  "prompt": "A clear studio product photograph of a blue ceramic teapot on a plain white table, sharp focus, even lighting",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 1024,
+    "height": 1024
+  },
+  "recipe_seed": 904
+}

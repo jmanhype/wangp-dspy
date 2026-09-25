@@ -1,0 +1,20 @@
+$ lock identity proving pixi environments are generated inputs remain in place
+1db02ab027752890c96b31a4be24704cc0013dd358fbb50ba4c0c4f72d867fb4  /home/straughter/.ce/pixi.toml
+534350ab300466f2fedcab0cb533f68e09b25094a8c0a30ebb390541295b1412  /home/straughter/.ce/pixi.lock
+$ exact generated environment sizes
+PATH /home/straughter/.ce/.pixi/envs/geometrypack-main
+9135369230	/home/straughter/.ce/.pixi/envs/geometrypack-main
+PATH /home/straughter/.ce/.pixi/envs/depthanythingv3-nodes
+8531280675	/home/straughter/.ce/.pixi/envs/depthanythingv3-nodes
+PATH /home/straughter/.ce/.pixi/envs/geometrypack-blender
+7186979568	/home/straughter/.ce/.pixi/envs/geometrypack-blender
+PATH /home/straughter/.ce/.pixi/envs/geometrypack-gpu
+6587283991	/home/straughter/.ce/.pixi/envs/geometrypack-gpu
+PATH /home/straughter/.ce/.pixi/envs/geometrypack-nodes
+9957085302	/home/straughter/.ce/.pixi/envs/geometrypack-nodes
+PATH /home/straughter/.ce/.pixi/envs/sam3dbodyfixed-nodes
+9993636845	/home/straughter/.ce/.pixi/envs/sam3dbodyfixed-nodes
+$ no active process references (expected no output)
+$ df before quarantine
+      Avail
+39166992384

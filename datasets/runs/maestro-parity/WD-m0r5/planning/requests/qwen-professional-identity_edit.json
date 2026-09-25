@@ -1,0 +1,36 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "qwen_image",
+    "preset": "qwen-professional"
+  },
+  "operation": "identity_edit",
+  "prompt": "Preserve this exact person and facial identity while changing her jacket to a deep teal jacket",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/Tess.png",
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+      "role": "identity",
+      "license": "Operator-owned LF004 evaluation reference; WD-m0r5 operator authorization"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 256,
+    "height": 360
+  },
+  "recipe_seed": 994,
+  "mask": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/tess-jacket-mask.png",
+    "sha256": "a9d5ed7a6c823eabd73ef099ac98f582392cd4da4ea8683586f8766dc28fe6ec"
+  },
+  "identity_gate": {
+    "metric": "face_embedding_cosine",
+    "threshold": 0.75
+  }
+}

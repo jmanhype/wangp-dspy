@@ -1,0 +1,16 @@
+{
+  "model_type": "flux_dev_kontext",
+  "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+  "resolution": "256x368",
+  "num_inference_steps": 12,
+  "seed": 925,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+  ],
+  "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png",
+  "image_mode": 2,
+  "video_prompt_type": "KI",
+  "output_filename": "wd_m0r5_flux_standard_identity_edit"
+}

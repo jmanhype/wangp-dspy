@@ -1,0 +1,36 @@
+{
+  "models": [
+    {
+      "family": "qwen_image",
+      "preset": "qwen-standard",
+      "sha256": "3b438e3e8b76c79734cc9a84dc5e9b7c7c3cce68448dbb8bd9e756f0135b877d",
+      "license": "Qwen Image upstream metadata Apache-2.0; operator limits this authorization to research/evaluation",
+      "license_accepted": true,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "qwen_image",
+      "preset": "qwen-professional",
+      "sha256": "3b438e3e8b76c79734cc9a84dc5e9b7c7c3cce68448dbb8bd9e756f0135b877d",
+      "license": "Qwen Image upstream metadata Apache-2.0; operator limits this authorization to research/evaluation",
+      "license_accepted": true,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "flux_kontext",
+      "preset": "flux-standard",
+      "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265",
+      "license": "flux-1-dev-non-commercial-license",
+      "license_accepted": true,
+      "vram_profile": "24gb"
+    },
+    {
+      "family": "flux_kontext",
+      "preset": "flux-kontext",
+      "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265",
+      "license": "flux-1-dev-non-commercial-license",
+      "license_accepted": true,
+      "vram_profile": "24gb"
+    }
+  ]
+}

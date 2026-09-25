@@ -1,0 +1,17 @@
+{
+  "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+  "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+  "resolution": "260x360",
+  "num_inference_steps": 4,
+  "guidance_scale": 1,
+  "seed": 944,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+  ],
+  "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/tess-jacket-mask.png",
+  "image_mode": 2,
+  "video_prompt_type": "KI",
+  "output_filename": "wd_m0r5_qwen_standard_identity_edit"
+}

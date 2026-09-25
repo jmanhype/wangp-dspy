@@ -1,0 +1,8 @@
+{
+  "source": "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess-face-512.png",
+  "output": "/home/straughter/Wan2GP/outputs/wd-m0r5/flux-identity-attempt3/wd_m0r5_flux_standard_identity_edit_attempt3.jpg",
+  "metric": "face_embedding_cosine",
+  "threshold": 0.75,
+  "measured": 0.0718451738357544,
+  "passed": false
+}

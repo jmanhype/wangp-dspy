@@ -1,0 +1,1 @@
+2413554bbec24215185662d009893cf4666b8e777efece2d895e03e1a6b63e06  /home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors

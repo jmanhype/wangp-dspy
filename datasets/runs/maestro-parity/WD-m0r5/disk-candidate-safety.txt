@@ -1,0 +1,747 @@
+$ all processes (read-only)
+    PID    PPID STAT     ELAPSED COMMAND
+      1       0 Ss   15-18:33:23 /sbin/init splash
+      2       0 S    15-18:33:23 [kthreadd]
+      3       2 S    15-18:33:23 [pool_workqueue_release]
+      4       2 I<   15-18:33:23 [kworker/R-rcu_gp]
+      5       2 I<   15-18:33:23 [kworker/R-sync_wq]
+      6       2 I<   15-18:33:23 [kworker/R-kvfree_rcu_reclaim]
+      7       2 I<   15-18:33:23 [kworker/R-slub_flushwq]
+      8       2 I<   15-18:33:23 [kworker/R-netns]
+     11       2 I<   15-18:33:23 [kworker/0:0H-events_highpri]
+     13       2 I<   15-18:33:23 [kworker/R-mm_percpu_wq]
+     14       2 S    15-18:33:23 [ksoftirqd/0]
+     15       2 I    15-18:33:23 [rcu_preempt]
+     16       2 S    15-18:33:23 [rcu_exp_par_gp_kthread_worker/1]
+     17       2 S    15-18:33:23 [rcu_exp_gp_kthread_worker]
+     18       2 S    15-18:33:23 [migration/0]
+     19       2 S    15-18:33:23 [idle_inject/0]
+     20       2 S    15-18:33:23 [cpuhp/0]
+     21       2 S    15-18:33:23 [cpuhp/2]
+     22       2 S    15-18:33:23 [idle_inject/2]
+     23       2 S    15-18:33:23 [migration/2]
+     24       2 S    15-18:33:23 [ksoftirqd/2]
+     26       2 I<   15-18:33:23 [kworker/2:0H-events_highpri]
+     27       2 S    15-18:33:23 [cpuhp/4]
+     28       2 S    15-18:33:23 [idle_inject/4]
+     29       2 S    15-18:33:23 [migration/4]
+     30       2 S    15-18:33:23 [ksoftirqd/4]
+     32       2 I<   15-18:33:23 [kworker/4:0H-events_highpri]
+     33       2 S    15-18:33:23 [cpuhp/6]
+     34       2 S    15-18:33:23 [idle_inject/6]
+     35       2 S    15-18:33:23 [migration/6]
+     36       2 S    15-18:33:23 [ksoftirqd/6]
+     38       2 I<   15-18:33:23 [kworker/6:0H-events_highpri]
+     39       2 S    15-18:33:23 [cpuhp/8]
+     40       2 S    15-18:33:23 [idle_inject/8]
+     41       2 S    15-18:33:23 [migration/8]
+     42       2 S    15-18:33:23 [ksoftirqd/8]
+     44       2 I<   15-18:33:23 [kworker/8:0H-events_highpri]
+     45       2 S    15-18:33:23 [cpuhp/10]
+     46       2 S    15-18:33:23 [idle_inject/10]
+     47       2 S    15-18:33:23 [migration/10]
+     48       2 S    15-18:33:23 [ksoftirqd/10]
+     50       2 I<   15-18:33:23 [kworker/10:0H-events_highpri]
+     51       2 S    15-18:33:23 [cpuhp/12]
+     52       2 S    15-18:33:23 [idle_inject/12]
+     53       2 S    15-18:33:23 [migration/12]
+     54       2 S    15-18:33:23 [ksoftirqd/12]
+     56       2 I<   15-18:33:23 [kworker/12:0H-events_highpri]
+     57       2 S    15-18:33:23 [rcu_exp_par_gp_kthread_worker/2]
+     58       2 S    15-18:33:23 [cpuhp/14]
+     59       2 S    15-18:33:23 [idle_inject/14]
+     60       2 S    15-18:33:23 [migration/14]
+     61       2 S    15-18:33:23 [ksoftirqd/14]
+     63       2 I<   15-18:33:23 [kworker/14:0H-events_highpri]
+     64       2 S    15-18:33:23 [cpuhp/16]
+     65       2 S    15-18:33:23 [idle_inject/16]
+     66       2 S    15-18:33:23 [migration/16]
+     67       2 S    15-18:33:23 [ksoftirqd/16]
+     69       2 I<   15-18:33:23 [kworker/16:0H-events_highpri]
+     70       2 S    15-18:33:23 [cpuhp/17]
+     71       2 S    15-18:33:23 [idle_inject/17]
+     72       2 S    15-18:33:23 [migration/17]
+     73       2 S    15-18:33:23 [ksoftirqd/17]
+     75       2 I<   15-18:33:23 [kworker/17:0H-events_highpri]
+     76       2 S    15-18:33:23 [cpuhp/18]
+     77       2 S    15-18:33:23 [idle_inject/18]
+     78       2 S    15-18:33:23 [migration/18]
+     79       2 S    15-18:33:23 [ksoftirqd/18]
+     81       2 I<   15-18:33:23 [kworker/18:0H-events_highpri]
+     82       2 S    15-18:33:23 [cpuhp/19]
+     83       2 S    15-18:33:23 [idle_inject/19]
+     84       2 S    15-18:33:23 [migration/19]
+     85       2 S    15-18:33:23 [ksoftirqd/19]
+     87       2 I<   15-18:33:23 [kworker/19:0H-events_highpri]
+     88       2 S    15-18:33:23 [cpuhp/20]
+     89       2 S    15-18:33:23 [idle_inject/20]
+     90       2 S    15-18:33:23 [migration/20]
+     91       2 S    15-18:33:23 [ksoftirqd/20]
+     93       2 I<   15-18:33:23 [kworker/20:0H-events_highpri]
+     94       2 S    15-18:33:23 [cpuhp/21]
+     95       2 S    15-18:33:23 [idle_inject/21]
+     96       2 S    15-18:33:23 [migration/21]
+     97       2 S    15-18:33:23 [ksoftirqd/21]
+     99       2 I<   15-18:33:23 [kworker/21:0H-events_highpri]
+    100       2 S    15-18:33:23 [cpuhp/22]
+    101       2 S    15-18:33:23 [idle_inject/22]
+    102       2 S    15-18:33:23 [migration/22]
+    103       2 S    15-18:33:23 [ksoftirqd/22]
+    105       2 I<   15-18:33:23 [kworker/22:0H-events_highpri]
+    106       2 S    15-18:33:23 [cpuhp/23]
+    107       2 S    15-18:33:23 [idle_inject/23]
+    108       2 S    15-18:33:23 [migration/23]
+    109       2 S    15-18:33:23 [ksoftirqd/23]
+    111       2 I<   15-18:33:23 [kworker/23:0H-events_highpri]
+    112       2 S    15-18:33:23 [cpuhp/1]
+    113       2 S    15-18:33:23 [idle_inject/1]
+    114       2 S    15-18:33:23 [migration/1]
+    115       2 S    15-18:33:23 [ksoftirqd/1]
+    117       2 I<   15-18:33:23 [kworker/1:0H-events_highpri]
+    118       2 S    15-18:33:23 [cpuhp/3]
+    119       2 S    15-18:33:23 [idle_inject/3]
+    120       2 S    15-18:33:23 [migration/3]
+    121       2 S    15-18:33:23 [ksoftirqd/3]
+    123       2 I<   15-18:33:23 [kworker/3:0H-events_highpri]
+    124       2 S    15-18:33:23 [cpuhp/5]
+    125       2 S    15-18:33:23 [idle_inject/5]
+    126       2 S    15-18:33:23 [migration/5]
+    127       2 S    15-18:33:23 [ksoftirqd/5]
+    129       2 I<   15-18:33:23 [kworker/5:0H-events_highpri]
+    130       2 S    15-18:33:23 [cpuhp/7]
+    131       2 S    15-18:33:23 [idle_inject/7]
+    132       2 S    15-18:33:23 [migration/7]
+    133       2 S    15-18:33:23 [ksoftirqd/7]
+    135       2 I<   15-18:33:23 [kworker/7:0H-events_highpri]
+    136       2 S    15-18:33:23 [cpuhp/9]
+    137       2 S    15-18:33:23 [idle_inject/9]
+    138       2 S    15-18:33:23 [migration/9]
+    139       2 S    15-18:33:23 [ksoftirqd/9]
+    141       2 I<   15-18:33:23 [kworker/9:0H-events_highpri]
+    142       2 S    15-18:33:23 [cpuhp/11]
+    143       2 S    15-18:33:23 [idle_inject/11]
+    144       2 S    15-18:33:23 [migration/11]
+    145       2 S    15-18:33:23 [ksoftirqd/11]
+    147       2 I<   15-18:33:23 [kworker/11:0H-events_highpri]
+    148       2 S    15-18:33:23 [cpuhp/13]
+    149       2 S    15-18:33:23 [idle_inject/13]
+    150       2 S    15-18:33:23 [migration/13]
+    151       2 S    15-18:33:23 [ksoftirqd/13]
+    153       2 I<   15-18:33:23 [kworker/13:0H-events_highpri]
+    154       2 S    15-18:33:23 [cpuhp/15]
+    155       2 S    15-18:33:23 [idle_inject/15]
+    156       2 S    15-18:33:23 [migration/15]
+    157       2 S    15-18:33:23 [ksoftirqd/15]
+    159       2 I<   15-18:33:23 [kworker/15:0H-events_highpri]
+    160       2 S    15-18:33:23 [kdevtmpfs]
+    161       2 I<   15-18:33:23 [kworker/R-inet_frag_wq]
+    162       2 I    15-18:33:23 [rcu_tasks_kthread]
+    163       2 I    15-18:33:23 [rcu_tasks_rude_kthread]
+    164       2 I    15-18:33:23 [rcu_tasks_trace_kthread]
+    165       2 S    15-18:33:23 [kauditd]
+    166       2 S    15-18:33:23 [khungtaskd]
+    168       2 S    15-18:33:23 [oom_reaper]
+    169       2 I<   15-18:33:23 [kworker/R-writeback]
+    170       2 S    15-18:33:23 [kcompactd0]
+    172       2 SN   15-18:33:23 [ksmd]
+    173       2 SN   15-18:33:23 [khugepaged]
+    174       2 I<   15-18:33:23 [kworker/R-kblockd]
+    175       2 I<   15-18:33:23 [kworker/R-blkcg_punt_bio]
+    176       2 I<   15-18:33:23 [kworker/R-kintegrityd]
+    177       2 S    15-18:33:23 [irq/9-acpi]
+    181       2 I<   15-18:33:23 [kworker/R-tpm_dev_wq]
+    182       2 I<   15-18:33:23 [kworker/R-ata_sff]
+    183       2 I<   15-18:33:23 [kworker/R-md]
+    184       2 I<   15-18:33:23 [kworker/R-md_bitmap]
+    185       2 I<   15-18:33:23 [kworker/R-edac-poller]
+    186       2 I<   15-18:33:23 [kworker/R-devfreq_wq]
+    187       2 S    15-18:33:23 [watchdogd]
+    188       2 I<   15-18:33:23 [kworker/R-quota_events_unbound]
+    189       2 I<   15-18:33:23 [kworker/16:1H-kblockd]
+    191       2 S    15-18:33:23 [kswapd0]
+    192       2 S    15-18:33:23 [ecryptfs-kthread]
+    193       2 I<   15-18:33:23 [kworker/R-kthrotld]
+    194       2 I<   15-18:33:23 [kworker/R-acpi_thermal_pm]
+    195       2 S    15-18:33:23 [hwrng]
+    196       2 I<   15-18:33:23 [kworker/R-hfi-updates]
+    197       2 I<   15-18:33:23 [kworker/R-mld]
+    198       2 I<   15-18:33:23 [kworker/R-ipv6_addrconf]
+    199       2 I<   15-18:33:23 [kworker/R-kstrp]
+    220       2 I<   15-18:33:23 [kworker/R-charger_manager]
+    221       2 I<   15-18:33:23 [kworker/0:1H-kblockd]
+    244       2 I<   15-18:33:23 [kworker/17:1H-kblockd]
+    249       2 I<   15-18:33:23 [kworker/21:1H-kblockd]
+    252       2 I<   15-18:33:23 [kworker/12:1H-kblockd]
+    263       2 I<   15-18:33:23 [kworker/2:1H-kblockd]
+    265       2 I<   15-18:33:23 [kworker/14:1H-kblockd]
+    269       2 I<   15-18:33:23 [kworker/20:1H-kblockd]
+    270       2 I<   15-18:33:23 [kworker/19:1H-kblockd]
+    272       2 I<   15-18:33:23 [kworker/6:1H-kblockd]
+    275       2 I<   15-18:33:23 [kworker/4:1H-kblockd]
+    282       2 I<   15-18:33:23 [kworker/18:1H-kblockd]
+    283       2 I<   15-18:33:23 [kworker/10:1H-kblockd]
+    285       2 I<   15-18:33:23 [kworker/22:1H-kblockd]
+    289       2 I<   15-18:33:23 [kworker/8:1H-kblockd]
+    317       2 I<   15-18:33:23 [kworker/13:1H-kblockd]
+    318       2 I<   15-18:33:23 [kworker/15:1H-kblockd]
+    319       2 I<   15-18:33:23 [kworker/23:1H-kblockd]
+    320       2 I<   15-18:33:23 [kworker/3:1H-kblockd]
+    322       2 I<   15-18:33:23 [kworker/1:1H-kblockd]
+    324       2 I<   15-18:33:23 [kworker/5:1H-kblockd]
+    325       2 I<   15-18:33:23 [kworker/9:1H-kblockd]
+    326       2 I<   15-18:33:23 [kworker/7:1H-kblockd]
+    341       2 I<   15-18:33:23 [kworker/R-nvme-wq]
+    343       2 I<   15-18:33:23 [kworker/R-nvme-reset-wq]
+    344       2 I<   15-18:33:23 [kworker/R-nvme-delete-wq]
+    345       2 I<   15-18:33:23 [kworker/R-nvme-auth-wq]
+    366       2 S    15-18:33:23 [scsi_eh_0]
+    367       2 I<   15-18:33:23 [kworker/R-scsi_tmf_0]
+    368       2 S    15-18:33:23 [scsi_eh_1]
+    369       2 I<   15-18:33:23 [kworker/R-scsi_tmf_1]
+    370       2 S    15-18:33:23 [scsi_eh_2]
+    371       2 I<   15-18:33:23 [kworker/R-scsi_tmf_2]
+    372       2 S    15-18:33:23 [scsi_eh_3]
+    373       2 I<   15-18:33:23 [kworker/R-scsi_tmf_3]
+    374       2 S    15-18:33:23 [scsi_eh_4]
+    375       2 I<   15-18:33:23 [kworker/R-scsi_tmf_4]
+    376       2 S    15-18:33:23 [scsi_eh_5]
+    377       2 I<   15-18:33:23 [kworker/R-scsi_tmf_5]
+    378       2 S    15-18:33:23 [scsi_eh_6]
+    379       2 I<   15-18:33:23 [kworker/R-scsi_tmf_6]
+    380       2 S    15-18:33:23 [scsi_eh_7]
+    381       2 I<   15-18:33:23 [kworker/R-scsi_tmf_7]
+    403       2 I<   15-18:33:21 [kworker/11:1H-kblockd]
+    464       2 S    15-18:33:20 [jbd2/nvme0n1p4-8]
+    465       2 I<   15-18:33:20 [kworker/R-ext4-rsv-conversion]
+    516       1 S<s  15-18:33:19 /usr/lib/systemd/systemd-journald
+    603       1 Ss   15-18:33:19 /usr/lib/systemd/systemd-udevd
+    630       2 S    15-18:33:19 [psimon]
+    750       2 S    15-18:33:19 [irq/160-mei_me]
+    800       2 I<   15-18:33:19 [kworker/R-cfg80211]
+    804       2 S    15-18:33:19 [irq/161-iwlwifi]
+    820       2 S    15-18:33:19 [nv_queue]
+    821       2 S    15-18:33:19 [nv_queue]
+    824       2 S    15-18:33:19 [nv_open_q]
+    854       2 S    15-18:33:19 [nvidia-modeset/kthread_q]
+    855       2 S    15-18:33:19 [nvidia-modeset/deferred_close_kthread_q]
+    857       2 S    15-18:33:19 [irq/162-nvidia]
+    858       2 S    15-18:33:19 [nvidia]
+    859       2 S    15-18:33:19 [nv_queue]
+   1207       2 S    15-18:33:17 [UVM global queue]
+   1208       2 S    15-18:33:17 [UVM deferred release queue]
+   1209       2 S    15-18:33:17 [UVM Tools Event Queue]
+   1334       1 Ss   15-18:33:17 /usr/lib/systemd/systemd-oomd
+   1335       1 Ss   15-18:33:17 /usr/lib/systemd/systemd-resolved
+   1336       1 Ssl  15-18:33:17 /usr/lib/systemd/systemd-timesyncd
+   1348       1 Ss   15-18:33:17 avahi-daemon: running [straughter-Z690-Steel-Legend.local]
+   1349       1 Ss   15-18:33:17 /usr/libexec/bluetooth/bluetoothd
+   1350       1 Ss   15-18:33:17 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   1353       1 Ssl  15-18:33:17 /usr/libexec/gnome-remote-desktop-daemon --system
+   1361       1 Ssl  15-18:33:17 /usr/lib/polkit-1/polkitd --no-debug
+   1363       1 Ssl  15-18:33:17 /usr/libexec/power-profiles-daemon
+   1367       1 Ss   15-18:33:17 /usr/sbin/smartd -n
+   1368       1 Ss   15-18:33:17 /usr/bin/nvidia-persistenced --user nvidia-persistenced --no-persistence-mode --verbose
+   1372       1 Ssl  15-18:33:17 /snap/snapd/current/usr/lib/snapd/snapd
+   1374       1 Ssl  15-18:33:17 /usr/libexec/accounts-daemon
+   1376       1 Ss   15-18:33:17 /usr/sbin/cron -f -P
+   1378       1 Ssl  15-18:33:17 /usr/libexec/switcheroo-control
+   1384       1 Ss   15-18:33:17 /usr/lib/systemd/systemd-logind
+   1385       1 Ssl  15-18:33:17 /usr/sbin/thermald --systemd --dbus-enable --adaptive
+   1386       1 Ssl  15-18:33:17 /usr/libexec/udisks2/udisksd
+   1419    1348 S    15-18:33:17 avahi-daemon: chroot helper
+   1422       1 Ssl  15-18:33:17 /usr/sbin/NetworkManager --no-daemon
+   1424       1 Ss   15-18:33:17 /usr/sbin/wpa_supplicant -u -s -O DIR=/run/wpa_supplicant GROUP=netdev
+   1482       1 Ssl  15-18:33:17 /usr/sbin/rsyslogd -n -iNONE
+   1528       1 Ssl  15-18:33:17 /usr/sbin/ModemManager
+   1694       1 Ssl  15-18:33:16 /usr/bin/node dist/src/server.js
+   1695       1 Ssl  15-18:33:16 node /home/straughter/.npm-global/bin/codex app-server --listen unix:///home/straughter/.codex/app-server.sock
+   1704       1 Ss   15-18:33:16 /usr/bin/epmd -systemd
+   1708       1 Ssl  15-18:33:16 /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641
+   1710       1 Ssl  15-18:33:16 /usr/bin/containerd
+   1718       1 Ss   15-18:33:16 /usr/lib/systemd/systemd --user
+   1724       1 Ss   15-18:33:16 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+   1731    1718 S    15-18:33:16 (sd-pam)
+   1737       1 Ssl  15-18:33:16 /usr/sbin/gdm3
+   1758    1737 Sl   15-18:33:16 gdm-session-worker [pam/gdm-launch-environment]
+   1777       1 Ss   15-18:33:16 /usr/lib/systemd/systemd --user
+   1778    1777 S    15-18:33:16 (sd-pam)
+   1783    1695 Sl   15-18:33:16 /home/straughter/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex app-server --listen unix:///home/straughter/.codex/app-server.sock
+   1871    1718 Ssl  15-18:33:16 /home/straughter/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway run --replace
+   1872    1718 Ssl  15-18:33:16 /home/straughter/.npm/_npx/75a33253e6ddbadb/node_modules/kittylitter/node_modules/.bin_real/kittylitter serve
+   1875    1718 Ssl  15-18:33:16 node /home/straughter/.npm-global/bin/paperclipai run
+   1876    1718 Ssl  15-18:33:16 /usr/bin/pipewire
+   1878    1718 Ssl  15-18:33:16 /usr/bin/pipewire -c filter-chain.conf
+   1883    1718 Ssl  15-18:33:16 /usr/bin/wireplumber
+   1884    1718 Ssl  15-18:33:16 /usr/bin/pipewire-pulse
+   1915    1718 Ss   15-18:33:16 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   1981       1 SNsl 15-18:33:16 /usr/libexec/rtkit-daemon
+   1989    1777 S<sl 15-18:33:16 /usr/bin/pipewire
+   1990    1777 Ssl  15-18:33:16 /usr/bin/pipewire -c filter-chain.conf
+   1991    1777 SLsl 15-18:33:16 /usr/bin/fluidsynth -is /usr/share/sounds/sf3/default-GM.sf3
+   1995    1758 Ssl+ 15-18:33:16 /usr/libexec/gdm-x-session dbus-run-session -- gnome-session --autostart /usr/share/gdm/greeter/autostart
+   1996    1777 S<sl 15-18:33:16 /usr/bin/wireplumber
+   1998    1777 S<sl 15-18:33:16 /usr/bin/pipewire-pulse
+   2001    1995 Sl+  15-18:33:16 /usr/lib/xorg/Xorg vt1 -displayfd 3 -auth /run/user/120/gdm/Xauthority -nolisten tcp -background none -noreset -keeptty -novtswitch -verbose 3
+   2012    1777 Ss   15-18:33:16 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   2186    1777 Ssl  15-18:33:16 /usr/libexec/xdg-document-portal
+   2187    1718 Ssl  15-18:33:16 /usr/libexec/xdg-document-portal
+   2237    1777 Ssl  15-18:33:16 /usr/libexec/xdg-permission-store
+   2238    1718 Ssl  15-18:33:16 /usr/libexec/xdg-permission-store
+   2250    2187 Ss   15-18:33:16 fusermount3 -o rw,nosuid,nodev,fsname=portal,auto_unmount,subtype=portal -- /run/user/1000/doc
+   2252    2186 Ss   15-18:33:16 fusermount3 -o rw,nosuid,nodev,fsname=portal,auto_unmount,subtype=portal -- /run/user/120/doc
+   2351       2 S<   15-18:33:16 [krfcommd]
+   2458    1875 S    15-18:33:15 /home/straughter/.npm-global/lib/node_modules/paperclipai/node_modules/@embedded-postgres/linux-x64/native/bin/postgres -D /home/straughter/.paperclip/instances/default/db -p 54329
+   2459    2458 Ss   15-18:33:15 postgres: io worker 2
+   2460    2458 Ss   15-18:33:15 postgres: io worker 0
+   2461    2458 Ss   15-18:33:15 postgres: io worker 1
+   2462    2458 Ss   15-18:33:15 postgres: checkpointer 
+   2463    2458 Ss   15-18:33:15 postgres: background writer 
+   2467       2 S    15-18:33:15 [nvidia-drm/timeline-6]
+   2469    2458 Ss   15-18:33:15 postgres: walwriter 
+   2470    2458 Ss   15-18:33:15 postgres: autovacuum launcher 
+   2471    2458 Ss   15-18:33:15 postgres: logical replication launcher 
+   2484    1995 S+   15-18:33:15 dbus-run-session -- gnome-session --autostart /usr/share/gdm/greeter/autostart
+   2485    2484 S+   15-18:33:15 dbus-daemon --nofork --print-address 4 --session
+   2486    2484 Sl+  15-18:33:15 /usr/libexec/gnome-session-binary --autostart /usr/share/gdm/greeter/autostart
+   2493       1 Sl+  15-18:33:15 /usr/libexec/at-spi-bus-launcher
+   2499    2493 S+   15-18:33:15 /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 11 --address=unix:path=/run/user/120/at-spi/bus_0
+   2510    2486 Sl+  15-18:33:14 /usr/bin/gnome-shell
+   2529       2 S    15-18:33:14 [nvidia-drm/timeline-8]
+   2531    2510 Sl+  15-18:33:14 /usr/libexec/mutter-x11-frames
+   2534       1 Sl+  15-18:33:14 /usr/libexec/at-spi2-registryd --use-gnome-session
+   2535       1 Ssl  15-18:33:14 /usr/libexec/colord
+   2573       1 Sl+  15-18:33:14 /usr/libexec/xdg-permission-store
+   2581       1 Sl+  15-18:33:14 /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.Shell.Notifications
+   2595    2486 Sl+  15-18:33:14 /usr/libexec/gsd-sharing
+   2596    2486 Sl+  15-18:33:14 /usr/libexec/gsd-wacom
+   2598    2486 Sl+  15-18:33:14 /usr/libexec/gsd-color
+   2603    2486 Sl+  15-18:33:14 /usr/libexec/gsd-keyboard
+   2605    2486 Sl+  15-18:33:14 /usr/libexec/gsd-print-notifications
+   2606    2486 Sl+  15-18:33:14 /usr/libexec/gsd-rfkill
+   2608    2486 Sl+  15-18:33:14 /usr/libexec/gsd-smartcard
+   2611    2486 Sl+  15-18:33:14 /usr/libexec/gsd-datetime
+   2617    2486 Sl+  15-18:33:14 /usr/libexec/gsd-media-keys
+   2620    2486 Sl+  15-18:33:14 /usr/libexec/gsd-screensaver-proxy
+   2625    2486 Sl+  15-18:33:14 /usr/libexec/gsd-sound
+   2626       1 Ssl  15-18:33:14 /usr/libexec/upowerd
+   2627    2486 Sl+  15-18:33:14 /usr/libexec/gsd-a11y-settings
+   2635    2486 Sl+  15-18:33:14 /usr/libexec/gsd-housekeeping
+   2637    2486 Sl+  15-18:33:14 /usr/libexec/gsd-power
+   2640    2510 Sl   15-18:33:14 ibus-daemon --panel disable --xim
+   2746    2640 Sl   15-18:33:14 /usr/libexec/ibus-dconf
+   2749       1 Sl   15-18:33:14 /usr/libexec/ibus-x11 --kill-daemon
+   2753       1 Sl+  15-18:33:14 /usr/libexec/ibus-portal
+   2788    2640 Sl   15-18:33:14 /usr/libexec/ibus-engine-simple
+   2811       1 Sl+  15-18:33:14 /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.ScreenSaver
+   2862       1 Sl+  15-18:33:13 /usr/libexec/gsd-printer
+   2952       1 Ssl  15-18:33:10 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+   2954       1 SLsl 15-18:33:10 /home/straughter/Maestro/env/bin/python /home/straughter/Maestro/app/launch.py
+   2955       1 Ssl  15-18:33:10 /usr/local/bin/ollama serve
+   2964       1 Ss   15-18:33:10 /usr/sbin/kerneloops --test
+   2981       1 Ss   15-18:33:10 /usr/sbin/kerneloops
+   3011       2 I<   15-18:33:10 [kworker/R-wg-crypt-wg0]
+   3023       2 S    15-18:33:10 [napi/wg0-0]
+   3570       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 25019280ad45733f8caeb6f5ee3650b1b1244d50f8cbf1f9de186de5872c3b7a -address /run/containerd/containerd.sock
+   3572       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 1e25a69a7a93e7e39cc37f03a5a4fcbf7ed2c48365757a1ac55f9987f81a15c6 -address /run/containerd/containerd.sock
+   3627       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id ada1a64b74db3f7a2c9e8b8e71b5c2987138fd7c78e62811d04269436068b79d -address /run/containerd/containerd.sock
+   3636       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 694ffe32fc48de9487a6c97150e54278aebfde16997caa28434ab9ecc1b80afd -address /run/containerd/containerd.sock
+   3678       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 5f041ea0dabf40ac8e50521a05c514c845ad20882ec009d40f7d844cb03c25b1 -address /run/containerd/containerd.sock
+   3703       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 6acd9a3fb446d44008650acc0e3e2376716b976cf37aba1649d450e64eaea4f1 -address /run/containerd/containerd.sock
+   3714       1 Sl   15-18:33:09 /usr/bin/containerd-shim-runc-v2 -namespace moby -id 6587046c6d37a1941d1328124cb5bb4ef25d3c1fe00e312d09f9692e6fbcdffa -address /run/containerd/containerd.sock
+   3797    3572 Ssl  15-18:33:09 searxng
+   3798    3570 Ssl  15-18:33:09 redis-server 0.0.0.0:6379
+   3813    3678 Ss   15-18:33:09 postgres
+   3814    3636 Ss   15-18:33:09 /bin/bash /assets/init-container
+   3815    3714 Ss   15-18:33:09 postgres
+   3832    3703 Ssl  15-18:33:09 npm start
+   3841    3627 Ssl  15-18:33:09 /opt/erlang/lib/erlang/erts-14.2.5.12/bin/beam.smp -W w -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -pc unicode -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -sbwt none -sbwtdcpu none -sbwtdio none -- -root /opt/erlang/lib/erlang -bindir /opt/erlang/lib/erlang/erts-14.2.5.12/bin -progname erl -- -home /var/lib/rabbitmq -- -pa  -noshell -noinput -s rabbit boot -boot start_sasl -syslog logger [] -syslog syslog_error_logger false -kernel prevent_overlapping_partitions false
+   3965    2952 Sl   15-18:33:09 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 18080 -container-ip 172.18.0.2 -container-port 8080 -use-listen-fd
+   4018    2952 Sl   15-18:33:09 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 5432 -container-ip 172.17.0.2 -container-port 5432 -use-listen-fd
+   4025    2952 Sl   15-18:33:09 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 5432 -container-ip 172.17.0.2 -container-port 5432 -use-listen-fd
+   4463    3841 Ss   15-18:33:09 erl_child_setup 1024
+   4620    3813 Ss   15-18:33:09 postgres: checkpointer 
+   4621    3813 Ss   15-18:33:09 postgres: background writer 
+   4681    3815 Ss   15-18:33:09 postgres: checkpointer 
+   4683    3815 Ss   15-18:33:09 postgres: background writer 
+   5039    3832 S    15-18:33:09 sh -c node dist/api.js
+   5045    5039 Sl   15-18:33:09 node dist/api.js
+   5287    4463 Ss   15-18:33:09 sh -s disksup
+   5302    4463 Ss   15-18:33:09 /opt/erlang/lib/erlang/lib/os_mon-2.9.1/priv/bin/memsup
+   5305    4463 Ss   15-18:33:09 /opt/erlang/lib/erlang/lib/os_mon-2.9.1/priv/bin/cpu_sup
+   5320    3815 Ss   15-18:33:09 postgres: walwriter 
+   5321    3815 Ss   15-18:33:09 postgres: autovacuum launcher 
+   5323    3815 Ss   15-18:33:09 postgres: pg_cron launcher 
+   5324    3815 Ss   15-18:33:09 postgres: logical replication launcher 
+   5355    3813 Ss   15-18:33:08 postgres: walwriter 
+   5356    3813 Ss   15-18:33:08 postgres: autovacuum launcher 
+   5357    3813 Ss   15-18:33:08 postgres: logical replication launcher 
+   5358    3797 S    15-18:33:08 /usr/local/searxng/.venv/bin/python3 -c from multiprocessing.resource_tracker import main;main(7)
+   5359    3797 Sl   15-18:33:08 searxng worker-1
+   5365    5045 Ssl  15-18:33:08 /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --disable-accelerated-2d-canvas --no-first-run --no-zygote --disable-gpu --user-data-dir=/tmp/playwright_chromiumdev_profile-jqhxK6 --remote-debugging-pipe --no-startup-window
+   5400    4463 Ss   15-18:33:08 /opt/erlang/lib/erlang/erts-14.2.5.12/bin/inet_gethost 4
+   5401    5400 S    15-18:33:08 /opt/erlang/lib/erlang/erts-14.2.5.12/bin/inet_gethost 4
+   5415    3841 S    15-18:33:08 /opt/erlang/lib/erlang/erts-14.2.5.12/bin/epmd -daemon
+   5503    5365 Sl   15-18:33:08 /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --type=gpu-process --no-sandbox --disable-dev-shm-usage --disable-breakpad --headless --ozone-platform=headless --use-angle=swiftshader-webgl --enable-unsafe-swiftshader --gpu-preferences=UAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --shared-files --field-trial-handle=3,i,17475783245407008056,8526231099375805647,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate --variations-seed-version --pseudonymization-salt-handle=7,i,9139454356812651832,8931748718142919618,4 --trace-process-track-uuid=3190708988185955192
+   5510    5365 Sl   15-18:33:08 /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --no-sandbox --disable-dev-shm-usage --use-angle=swiftshader-webgl --use-gl=angle --mute-audio --headless=old --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17475783245407008056,8526231099375805647,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate --variations-seed-version --pseudonymization-salt-handle=7,i,9139454356812651832,8931748718142919618,4 --trace-process-track-uuid=3190708989122997041
+   6727    3814 S    15-18:33:05 runsvdir -P /opt/gitlab/service log: ...........................................................................................................................................................................................................................................................................................................................................................................................................
+   6738       2 S    15-18:33:05 [vidmem lazy free]
+   6739       2 S    15-18:33:05 [UVM GPU1 BH]
+   6740       2 S    15-18:33:05 [UVM GPU1 KC]
+   7064    6727 Ss   15-18:33:04 runsv sshd
+   7065    7064 S    15-18:33:04 svlogd -tt /var/log/gitlab/sshd
+   7104    4463 Ss   15-18:33:04 /bin/sh -s rabbit_disk_monitor
+   7980       1 Sl   15-18:33:01 /usr/bin/containerd-shim-runc-v2 -namespace moby -id fbfca5eb918133860ba79827e5628c2be2607748024be1623843087f4311fffd -address /run/containerd/containerd.sock
+   8017    7980 Ssl  15-18:33:00 node dist/src/harness.js --start-docker
+   8098    2952 Sl   15-18:33:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 3002 -container-ip 172.19.0.5 -container-port 3002 -use-listen-fd
+   8195    8017 Ss   15-18:33:00 sh -c node dist/src/index.js
+   8198    8195 Sl   15-18:33:00 node dist/src/index.js
+   8199    8017 Ss   15-18:33:00 sh -c node dist/src/services/queue-worker.js
+   8200    8199 Sl   15-18:33:00 node dist/src/services/queue-worker.js
+   8201    8017 Ss   15-18:33:00 sh -c node dist/src/services/extract-worker.js
+   8202    8201 Sl   15-18:33:00 node dist/src/services/extract-worker.js
+   8204    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-worker.js
+   8207    8204 Sl   15-18:33:00 node dist/src/services/worker/nuq-worker.js
+   8208    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-worker.js
+   8209    8208 Sl   15-18:33:00 node dist/src/services/worker/nuq-worker.js
+   8210    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-worker.js
+   8216    8210 Sl   15-18:33:00 node dist/src/services/worker/nuq-worker.js
+   8217    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-worker.js
+   8218    8217 Sl   15-18:33:00 node dist/src/services/worker/nuq-worker.js
+   8220    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-worker.js
+   8230    8220 Sl   15-18:33:00 node dist/src/services/worker/nuq-worker.js
+   8231    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-prefetch-worker.js
+   8237    8231 Sl   15-18:33:00 node dist/src/services/worker/nuq-prefetch-worker.js
+   8247    8017 Ss   15-18:33:00 sh -c node dist/src/services/worker/nuq-reconciler-worker.js
+   8249    8247 Sl   15-18:33:00 node dist/src/services/worker/nuq-reconciler-worker.js
+   8646    6727 Ss   15-18:32:59 runsv redis
+   8647    6727 Ss   15-18:32:59 runsv gitaly
+   8648    6727 Ss   15-18:32:59 runsv logrotate
+   8649    8647 Ss   15-18:32:59 svlogd /var/log/gitlab/gitaly
+   8650    8646 Ss   15-18:32:59 svlogd -tt /var/log/gitlab/redis
+   8652    8648 Ss   15-18:32:59 svlogd -tt /var/log/gitlab/logrotate
+   8794    3814 S    15-18:32:58 /bin/bash /opt/gitlab/bin/gitlab-ctl tail
+   8795    8794 Sl   15-18:32:58 /opt/gitlab/embedded/bin/ruby /opt/gitlab/embedded/bin/omnibus-ctl gitlab /opt/gitlab/embedded/service/omnibus-ctl* tail
+   8844    8795 S    15-18:32:58 sh -c find -L /var/log/gitlab -type f -not -path '*/sasl/*' | grep -E -v '(config|lock|@|bz2|gz|gzip|tbz2|tgz|txz|xz|zip)' | xargs tail --follow=name --retry
+   8847    8844 S    15-18:32:58 xargs tail --follow=name --retry
+   8848    8847 S    15-18:32:58 tail --follow=name --retry /var/log/gitlab/redis/current /var/log/gitlab/redis/state /var/log/gitlab/postgresql/current /var/log/gitlab/postgresql/state /var/log/gitlab/gitlab-rails/auth.log /var/log/gitlab/gitlab-rails/production_json.log /var/log/gitlab/gitlab-rails/grpc.log /var/log/gitlab/gitlab-rails/api_json.log /var/log/gitlab/gitlab-rails/active_context.log /var/log/gitlab/gitlab-rails/service_measurement.log /var/log/gitlab/gitlab-rails/database_load_balancing.log /var/log/gitlab/gitlab-rails/user_experience_slis.log /var/log/gitlab/gitlab-rails/production.log /var/log/gitlab/gitlab-rails/application_json.log /var/log/gitlab/gitlab-rails/sidekiq_client.log /var/log/gitlab/gitlab-rails/gitlab-rails-db-migrate-2026-05-29-05-44-33.log /var/log/gitlab/gitlab-workhorse/current /var/log/gitlab/gitlab-workhorse/state /var/log/gitlab/sidekiq/current /var/log/gitlab/sidekiq/state /var/log/gitlab/gitlab-kas/current /var/log/gitlab/gitlab-kas/state /var/log/gitlab/sshd/current /var/log/gitlab/gitaly/current /var/log/gitlab/gitaly/state /var/log/gitlab/logrotate/current /var/log/gitlab/logrotate/state /var/log/gitlab/nginx/error.log /var/log/gitlab/nginx/gitlab_access.log /var/log/gitlab/nginx/access.log /var/log/gitlab/nginx/gitlab_error.log /var/log/gitlab/nginx/current /var/log/gitlab/nginx/state /var/log/gitlab/puma/puma_stderr.log /var/log/gitlab/puma/puma_stdout.log /var/log/gitlab/puma/current /var/log/gitlab/puma/state
+   8922    6727 Ss   15-18:32:57 runsv postgresql
+   8923    6727 Ss   15-18:32:57 runsv gitlab-workhorse
+   8924    6727 Ss   15-18:32:57 runsv sidekiq
+   8925    6727 Ss   15-18:32:57 runsv gitlab-kas
+   8926    6727 Ss   15-18:32:57 runsv nginx
+   8927    6727 Ss   15-18:32:57 runsv puma
+   8930    8925 Ss   15-18:32:57 svlogd -tt /var/log/gitlab/gitlab-kas
+   8931    8926 Ss   15-18:32:57 svlogd -tt /var/log/gitlab/nginx
+   8932    8927 Ss   15-18:32:57 svlogd -tt /var/log/gitlab/puma
+   8933    8922 Ss   15-18:32:57 svlogd -tt /var/log/gitlab/postgresql
+   8934    8923 Ss   15-18:32:57 svlogd /var/log/gitlab/gitlab-workhorse
+   8935    8924 Ss   15-18:32:57 svlogd /var/log/gitlab/sidekiq
+   8957    8923 Ssl  15-18:32:57 /opt/gitlab/embedded/bin/gitlab-workhorse -listenNetwork unix -listenUmask 0 -listenAddr /var/opt/gitlab/gitlab-workhorse/sockets/socket -authBackend http://localhost:8080 -authSocket /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket -documentRoot /opt/gitlab/embedded/service/gitlab-rails/public -pprofListenAddr  -prometheusListenAddr localhost:9229 -secretPath /opt/gitlab/embedded/service/gitlab-rails/.gitlab_workhorse_secret -logFormat json -config config.toml
+   8958    8926 Ss   15-18:32:57 nginx: master process /opt/gitlab/embedded/sbin/nginx -p /var/opt/gitlab/nginx
+   8988    8958 S    15-18:32:57 nginx: worker process
+   8989    8958 S    15-18:32:57 nginx: worker process
+   8990    8958 S    15-18:32:57 nginx: worker process
+   8991    8958 S    15-18:32:57 nginx: worker process
+   8992    8958 S    15-18:32:57 nginx: worker process
+   8995    8958 S    15-18:32:57 nginx: worker process
+   8997    8958 S    15-18:32:57 nginx: worker process
+   8999    8958 S    15-18:32:57 nginx: worker process
+   9001    8958 S    15-18:32:57 nginx: worker process
+   9002    8958 S    15-18:32:57 nginx: worker process
+   9003    8958 S    15-18:32:57 nginx: worker process
+   9004    8958 S    15-18:32:57 nginx: worker process
+   9005    8958 S    15-18:32:57 nginx: worker process
+   9006    8958 S    15-18:32:57 nginx: worker process
+   9007    8958 S    15-18:32:57 nginx: worker process
+   9008    8958 S    15-18:32:57 nginx: worker process
+   9009    8958 S    15-18:32:57 nginx: worker process
+   9010    8958 S    15-18:32:57 nginx: worker process
+   9011    8958 S    15-18:32:57 nginx: worker process
+   9012    8958 S    15-18:32:57 nginx: worker process
+   9013    8958 S    15-18:32:57 nginx: worker process
+   9014    8958 S    15-18:32:57 nginx: worker process
+   9015    8958 S    15-18:32:57 nginx: worker process
+   9016    8958 S    15-18:32:57 nginx: worker process
+   9017    8958 S    15-18:32:57 nginx: worker process
+   9018    8958 S    15-18:32:57 nginx: worker process
+   9019    8958 S    15-18:32:57 nginx: worker process
+   9020    8958 S    15-18:32:57 nginx: worker process
+   9021    8958 S    15-18:32:57 nginx: worker process
+   9023    8958 S    15-18:32:57 nginx: worker process
+   9027    8958 S    15-18:32:57 nginx: worker process
+   9029    8958 S    15-18:32:57 nginx: worker process
+   9031    8958 S    15-18:32:57 nginx: cache manager process
+ 108578    1708 Sl    1-16:22:40 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 108586  108578 Sl    1-16:22:40 npm exec @paperclipai/mcp-server@2026.416.0
+ 108620  108586 S     1-16:22:40 sh -c paperclip-mcp-server
+ 108621  108620 Sl    1-16:22:40 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 108899    1708 Sl      01:44:03 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 108907  108899 Sl      01:44:03 npm exec @paperclipai/mcp-server@2026.416.0
+ 108981  108907 S       01:44:03 sh -c paperclip-mcp-server
+ 108982  108981 Sl      01:44:03 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 127361       2 I<    1-16:19:12 [kworker/u97:0-rb_allocator]
+ 138054    1708 Sl    1-16:17:15 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 138062  138054 Sl    1-16:17:14 npm exec @paperclipai/mcp-server@2026.416.0
+ 138120  138062 S     1-16:17:14 sh -c paperclip-mcp-server
+ 138121  138120 Sl    1-16:17:14 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 168397    1708 Sl    1-16:11:40 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 168405  168397 Sl    1-16:11:40 npm exec @paperclipai/mcp-server@2026.416.0
+ 168425  168405 S     1-16:11:40 sh -c paperclip-mcp-server
+ 168426  168425 Sl    1-16:11:40 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 181887       1 Ssl  15-18:02:12 /usr/libexec/fwupd/fwupd
+ 237125       2 I       01:20:29 [kworker/11:2-cgroup_release]
+ 261399       2 I       01:15:59 [kworker/u96:5-writeback]
+ 324292       2 I       01:04:16 [kworker/13:0-events]
+ 327708       2 I       01:03:39 [kworker/15:1-events]
+ 338475    1718 Ssl     01:01:38 /snap/snapd-desktop-integration/391/usr/bin/user-session-helper /snap/snapd-desktop-integration/391/usr/bin/snapd-desktop-integration
+ 345699       2 I       01:00:19 [kworker/17:3-cgroup_release]
+ 377676       2 I          54:20 [kworker/u96:1-iou_exit]
+ 409127       2 I          48:26 [kworker/u96:0-iou_exit]
+ 445669       2 I          41:36 [kworker/u96:3-kvfree_rcu_reclaim]
+ 454735       2 I          39:56 [kworker/12:0-cgroup_release]
+ 463739       2 I          38:15 [kworker/9:1-events]
+ 479463       2 I          35:22 [kworker/u96:6-flush-259:0]
+ 480342       2 I          35:12 [kworker/21:2-events]
+ 482084       2 I          34:53 [kworker/3:1-cgroup_free]
+ 483539       2 I          34:36 [kworker/18:2-events]
+ 488548       2 I          33:41 [kworker/11:1-events]
+ 492258    2458 Ss         32:58 postgres: paperclip paperclip 127.0.0.1(45172) idle
+ 492668    8648 Ss         32:54 /bin/sh /opt/gitlab/embedded/bin/gitlab-logrotate-wrapper
+ 492942       2 I          32:51 [kworker/7:1-events]
+ 492951       2 I          32:51 [kworker/6:1-mm_percpu_wq]
+ 494068       2 I          32:38 [kworker/1:2-events]
+ 496736       2 I          32:08 [kworker/4:0-events]
+ 511142    2458 Ss         29:28 postgres: paperclip paperclip 127.0.0.1(40430) idle
+ 522438       2 I          27:21 [kworker/10:0-cgroup_bpf_destroy]
+ 524849       2 I          26:55 [kworker/23:1-cgroup_release]
+ 536556       2 I          24:47 [kworker/8:0-cgroup_free]
+ 537923       2 I          24:32 [kworker/20:0-cgroup_free]
+ 544845       2 I          23:15 [kworker/16:3-cgroup_free]
+ 544855       2 I          23:15 [kworker/u96:2-flush-259:0]
+ 545852       2 I          23:04 [kworker/9:0-cgroup_free]
+ 546781  492668 S          22:54 sleep 3000
+ 552636       2 I          21:49 [kworker/7:2-events]
+ 560043    2458 Ss         20:28 postgres: paperclip paperclip 127.0.0.1(50552) idle
+ 561828       2 I          20:09 [kworker/2:1-mm_percpu_wq]
+ 565002       2 I          19:34 [kworker/14:2-cgroup_free]
+ 581501       2 I          16:30 [kworker/5:2-events]
+ 584452       2 I          15:59 [kworker/4:2-cgroup_release]
+ 587715       2 I          15:22 [kworker/0:0-mm_percpu_wq]
+ 593364       2 I          14:20 [kworker/19:2-mm_percpu_wq]
+ 594360       2 I          14:09 [kworker/22:0-mm_percpu_wq]
+ 597845       2 I          13:30 [kworker/14:1-cgroup_release]
+ 599004       2 I          13:17 [kworker/3:2-events]
+ 599077    1708 Sl    1-14:51:33 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 599084  599077 Sl    1-14:51:33 npm exec @paperclipai/mcp-server@2026.416.0
+ 599200  599084 S     1-14:51:33 sh -c paperclip-mcp-server
+ 599201  599200 Sl    1-14:51:33 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 605095       2 I          12:09 [kworker/12:1-events]
+ 606025       2 I          11:59 [kworker/21:1-cgroup_free]
+ 608870    2458 Ss         11:28 postgres: paperclip paperclip 127.0.0.1(41976) idle
+ 609247       2 I          11:23 [kworker/16:1-cgroup_free]
+ 613615       2 I          10:37 [kworker/20:2-events]
+ 613988       2 I          10:32 [kworker/1:1-mm_percpu_wq]
+ 618892       2 I          09:37 [kworker/23:0-events]
+ 620418       2 I          09:20 [kworker/8:3-cgroup_free]
+ 621536       2 I          09:07 [kworker/13:1-events]
+ 622721       2 I          08:55 [kworker/15:2-events]
+ 624297       2 I          08:37 [kworker/5:0-mm_percpu_wq]
+ 624923       2 I          08:30 [kworker/10:1-events]
+ 625038       2 I          08:29 [kworker/22:1-cgroup_free]
+ 628339       2 I          07:53 [kworker/0:1-cgroup_release]
+ 631511    1708 Sl         07:17 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 631519  631511 Sl         07:17 npm exec @paperclipai/mcp-server@2026.416.0
+ 631584  631519 S          07:16 sh -c paperclip-mcp-server
+ 631585  631584 Sl         07:16 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 632761       2 I          07:05 [kworker/19:0-cgroup_free]
+ 635310       2 I          06:36 [kworker/17:1-mm_percpu_wq]
+ 635992       2 I          06:28 [kworker/18:1-cgroup_release]
+ 636217       2 I          06:26 [kworker/14:0-mm_percpu_wq]
+ 641336       2 I          05:31 [kworker/6:0-events]
+ 641893       2 I          05:25 [kworker/2:3-cgroup_free]
+ 643052    1708 Sl         05:12 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 643060  643052 Sl         05:12 npm exec @paperclipai/mcp-server@2026.416.0
+ 643080  643060 S          05:12 sh -c paperclip-mcp-server
+ 643081  643080 Sl         05:12 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 645553       2 I          04:44 [kworker/21:0]
+ 647663       2 I          04:23 [kworker/23:2-events]
+ 650145       2 I          03:54 [kworker/16:0-mm_percpu_wq]
+ 650342       2 I          03:52 [kworker/8:1-mm_percpu_wq]
+ 654511       2 I          03:06 [kworker/12:2-cgroup_free]
+ 656272       2 I          02:46 [kworker/22:2-events]
+ 656537       2 I          02:43 [kworker/22:3-cgroup_free]
+ 656816       2 I          02:40 [kworker/20:1-events]
+ 658253       2 I          02:27 [kworker/u96:4-flush-259:0]
+ 658255       2 I          02:27 [kworker/u96:7]
+ 658263    1708 Sl         02:26 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 658289  658263 Sl         02:26 npm exec @paperclipai/mcp-server@2026.416.0
+ 658361  658289 S          02:26 sh -c paperclip-mcp-server
+ 658362  658361 Sl         02:26 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+ 659105       2 I          02:20 [kworker/11:0-events]
+ 659188       2 I          02:20 [kworker/10:2-events]
+ 661942       2 I          01:49 [kworker/0:2-cgroup_release]
+ 665540       2 I          01:08 [kworker/19:1]
+ 666584       2 I          01:00 [kworker/17:0-cgroup_release]
+ 666694       2 I          00:58 [kworker/3:0-cgroup_free]
+ 667615       2 I          00:48 [kworker/18:0-events]
+ 669120       2 I          00:32 [kworker/4:1-events]
+ 670224       2 I          00:20 [kworker/10:3-events]
+ 670917    8924 Ssl        00:13 ruby /opt/gitlab/embedded/service/gitlab-rails/bin/sidekiq-cluster -e production -r /opt/gitlab/embedded/service/gitlab-rails -c 5 --timeout 25 *
+ 671379    3815 Ss         00:08 postgres: postgres postgres 172.19.0.5(49526) idle
+ 671596       1 Rsl        00:05 /home/straughter/Wan2GP/venv/bin/python /home/straughter/Wan2GP/wgp.py --server-name 0.0.0.0 --server-port 7861 --profile 4 --attention sage --verbose 1
+ 671968    8927 Rsl        00:01 puma 7.2.0 (unix:///var/opt/gitlab/gitlab-rails/sockets/gitlab.socket,tcp://127.0.0.1:8080) [gitlab-puma-worker]
+ 672053    8647 Ssl        00:00 /opt/gitlab/embedded/bin/gitaly-wrapper /opt/gitlab/embedded/bin/gitaly serve /var/opt/gitlab/gitaly/config.toml
+ 672120    1708 Sl         00:00 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=timeout 30 ps -eo pid,ppid,stat,etime,args
+ 672129  672120 S          00:00 timeout 30 ps -eo pid,ppid,stat,etime,args
+ 672131  672129 R          00:00 ps -eo pid,ppid,stat,etime,args
+ 847724    1708 Sl    1-14:05:48 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+ 847733  847724 Sl    1-14:05:48 npm exec @paperclipai/mcp-server@2026.416.0
+ 847777  847733 S     1-14:05:48 sh -c paperclip-mcp-server
+ 847778  847777 Sl    1-14:05:48 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1131091    1708 Sl    1-13:13:36 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1131104 1131091 Sl    1-13:13:36 npm exec @paperclipai/mcp-server@2026.416.0
+1131125 1131104 S     1-13:13:36 sh -c paperclip-mcp-server
+1131126 1131125 Sl    1-13:13:36 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1198407    1708 Sl    1-13:01:20 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1198415 1198407 Sl    1-13:01:20 npm exec @paperclipai/mcp-server@2026.416.0
+1198448 1198415 S     1-13:01:20 sh -c paperclip-mcp-server
+1198449 1198448 Sl    1-13:01:20 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1735428    1708 Sl    4-04:19:30 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1735437 1735428 Sl    4-04:19:30 npm exec @paperclipai/mcp-server@2026.416.0
+1735567 1735437 S     4-04:19:30 sh -c paperclip-mcp-server
+1735568 1735567 Sl    4-04:19:30 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1735800    1708 Sl    4-04:19:27 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1735808 1735800 Sl    4-04:19:27 npm exec @paperclipai/mcp-server@2026.416.0
+1735846 1735808 S     4-04:19:27 sh -c paperclip-mcp-server
+1735847 1735846 Sl    4-04:19:27 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1736521    1708 Sl    4-04:19:19 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1736529 1736521 Sl    4-04:19:19 npm exec @paperclipai/mcp-server@2026.416.0
+1736596 1736529 S     4-04:19:19 sh -c paperclip-mcp-server
+1736601 1736596 Sl    4-04:19:19 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1953435    1708 Sl    1-10:40:56 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1953446 1953435 Sl    1-10:40:56 npm exec @paperclipai/mcp-server@2026.416.0
+1953468 1953446 S     1-10:40:56 sh -c paperclip-mcp-server
+1953469 1953468 Sl    1-10:40:56 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+1976615    1708 Sl      21:45:48 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+1976625 1976615 Sl      21:45:48 npm exec @paperclipai/mcp-server@2026.416.0
+1976695 1976625 S       21:45:47 sh -c paperclip-mcp-server
+1976696 1976695 Sl      21:45:47 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+2064284    1708 Sl    1-10:20:33 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+2064292 2064284 Sl    1-10:20:33 npm exec @paperclipai/mcp-server@2026.416.0
+2064395 2064292 S     1-10:20:33 sh -c paperclip-mcp-server
+2064397 2064395 Sl    1-10:20:33 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+2137727    1708 Sl      21:15:47 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+2137736 2137727 Sl      21:15:47 npm exec @paperclipai/mcp-server@2026.416.0
+2137792 2137736 S       21:15:46 sh -c paperclip-mcp-server
+2137793 2137792 Sl      21:15:46 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+2448263       2 I<    5-04:35:24 [kworker/R-tls-strp]
+2502083    1708 Sl      20:08:50 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+2502098 2502083 Sl      20:08:50 npm exec @paperclipai/mcp-server@2026.416.0
+2502117 2502098 S       20:08:49 sh -c paperclip-mcp-server
+2502118 2502117 Sl      20:08:49 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+2594003       2 I<    3-00:20:44 [kworker/u97:1-rb_allocator]
+2900548    1708 Sl    1-07:46:32 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+2900561 2900548 Sl    1-07:46:32 npm exec @paperclipai/mcp-server@2026.416.0
+2900644 2900561 S     1-07:46:32 sh -c paperclip-mcp-server
+2900645 2900644 Sl    1-07:46:32 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3214282    3815 Ss      05:02:43 postgres: postgres postgres 172.19.0.5(58372) idle
+3241217    1708 Sl      04:57:43 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3241229 3241217 Sl      04:57:43 npm exec @paperclipai/mcp-server@2026.416.0
+3241285 3241229 S       04:57:43 sh -c paperclip-mcp-server
+3241286 3241285 Sl      04:57:43 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3320703       2 S     2-22:08:08 [psimon]
+3722257    1708 Sl    2-20:54:49 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3722267 3722257 Sl    2-20:54:49 npm exec @paperclipai/mcp-server@2026.416.0
+3722327 3722267 S     2-20:54:48 sh -c paperclip-mcp-server
+3722328 3722327 Sl    2-20:54:48 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3777780       1 Ss      16:12:12 /usr/sbin/cupsd -l
+3777783       1 Ssl     16:12:12 /usr/sbin/cups-browsed
+3883238    1708 Sl    2-20:24:47 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3883272 3883238 Sl    2-20:24:47 npm exec @paperclipai/mcp-server@2026.416.0
+3883314 3883272 S     2-20:24:47 sh -c paperclip-mcp-server
+3883315 3883314 Sl    2-20:24:47 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3947516    1708 Sl    1-17:29:05 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3947524 3947516 Sl    1-17:29:05 npm exec @paperclipai/mcp-server@2026.416.0
+3947632 3947524 S     1-17:29:03 sh -c paperclip-mcp-server
+3947633 3947632 Sl    1-17:29:03 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3947752    1708 Sl    1-17:29:03 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3947763 3947752 Sl    1-17:29:03 npm exec @paperclipai/mcp-server@2026.416.0
+3947932 3947763 S     1-17:29:01 sh -c paperclip-mcp-server
+3947933 3947932 Sl    1-17:29:01 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3949070    1708 Sl    1-17:28:48 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3949099 3949070 Sl    1-17:28:48 npm exec @paperclipai/mcp-server@2026.416.0
+3949204 3949099 S     1-17:28:46 sh -c paperclip-mcp-server
+3949205 3949204 Sl    1-17:28:46 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3949794    1708 Sl    1-17:28:40 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3949802 3949794 Sl    1-17:28:40 npm exec @paperclipai/mcp-server@2026.416.0
+3949836 3949802 S     1-17:28:39 sh -c paperclip-mcp-server
+3949837 3949836 Sl    1-17:28:39 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3950751    1708 Sl    1-17:28:30 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3950760 3950751 Sl    1-17:28:30 npm exec @paperclipai/mcp-server@2026.416.0
+3950938 3950760 S     1-17:28:29 sh -c paperclip-mcp-server
+3950939 3950938 Sl    1-17:28:29 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3951808    1708 Sl    1-17:28:19 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3951816 3951808 Sl    1-17:28:19 npm exec @paperclipai/mcp-server@2026.416.0
+3951900    1708 Sl    1-17:28:18 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3951906 3951816 S     1-17:28:18 sh -c paperclip-mcp-server
+3951907 3951906 Sl    1-17:28:18 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3951910 3951900 Sl    1-17:28:18 npm exec @paperclipai/mcp-server@2026.416.0
+3952082 3951910 S     1-17:28:17 sh -c paperclip-mcp-server
+3952083 3952082 Sl    1-17:28:17 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+3953549    1708 Sl    1-17:28:00 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+3953557 3953549 Sl    1-17:28:00 npm exec @paperclipai/mcp-server@2026.416.0
+3953641 3953557 S     1-17:28:00 sh -c paperclip-mcp-server
+3953642 3953641 Sl    1-17:28:00 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4003119    1708 Sl    1-04:24:29 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4003127 4003119 Sl    1-04:24:29 npm exec @paperclipai/mcp-server@2026.416.0
+4003147 4003127 S     1-04:24:28 sh -c paperclip-mcp-server
+4003148 4003147 Sl    1-04:24:28 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4075359    1708 Sl    1-17:04:04 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4075367 4075359 Sl    1-17:04:04 npm exec @paperclipai/mcp-server@2026.416.0
+4075386 4075367 S     1-17:04:03 sh -c paperclip-mcp-server
+4075387 4075386 Sl    1-17:04:03 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4075536    1708 Sl    1-17:04:01 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4075545 4075536 Sl    1-17:04:01 npm exec @paperclipai/mcp-server@2026.416.0
+4075582 4075545 S     1-17:04:01 sh -c paperclip-mcp-server
+4075583 4075582 Sl    1-17:04:01 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4079505    1708 Sl    1-17:03:19 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4079513 4079505 Sl    1-17:03:19 npm exec @paperclipai/mcp-server@2026.416.0
+4079579 4079513 S     1-17:03:18 sh -c paperclip-mcp-server
+4079580 4079579 Sl    1-17:03:18 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4080936    1708 Sl    1-04:10:02 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4080956 4080936 Sl    1-04:10:02 npm exec @paperclipai/mcp-server@2026.416.0
+4080978 4080956 S     1-04:10:01 sh -c paperclip-mcp-server
+4080979 4080978 Sl    1-04:10:01 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4111515    1708 Sl    1-16:57:33 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4111525 4111515 Sl    1-16:57:33 npm exec @paperclipai/mcp-server@2026.416.0
+4111583 4111525 S     1-16:57:32 sh -c paperclip-mcp-server
+4111584 4111583 Sl    1-16:57:32 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4117829    1708 Sl    1-16:56:23 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4117871 4117829 Sl    1-16:56:23 npm exec @paperclipai/mcp-server@2026.416.0
+4118026 4117871 S     1-16:56:23 sh -c paperclip-mcp-server
+4118027 4118026 Sl    1-16:56:23 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4141714    1708 Sl    1-16:52:01 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4141724 4141714 Sl    1-16:52:01 npm exec @paperclipai/mcp-server@2026.416.0
+4141748 4141724 S     1-16:52:00 sh -c paperclip-mcp-server
+4141749 4141748 Sl    1-16:52:00 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4171143    3815 Ss      14:59:09 postgres: postgres postgres 172.19.0.5(37296) idle
+4188791    1708 Sl      02:04:15 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4188799 4188791 Sl      02:04:15 npm exec @paperclipai/mcp-server@2026.416.0
+4188823 4188799 S       02:04:15 sh -c paperclip-mcp-server
+4188824 4188823 Sl      02:04:15 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4188925    1708 Sl      02:04:14 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4188933 4188925 Sl      02:04:14 npm exec @paperclipai/mcp-server@2026.416.0
+4189014 4188933 S       02:04:13 sh -c paperclip-mcp-server
+4189015 4189014 Sl      02:04:13 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+4192261    1708 Sl    1-16:42:39 /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server
+4192269 4192261 Sl    1-16:42:39 npm exec @paperclipai/mcp-server@2026.416.0
+4192285 4192269 S     1-16:42:38 sh -c paperclip-mcp-server
+4192286 4192285 Sl    1-16:42:38 node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server
+$ qwen-voicedesign-trial top-level files
+find: paths must precede expression: `%s'
+$ qwen-voicedesign-trial lock/config files
+find: paths must precede expression: `%sn'
+$ vb7-venv marker/config files
+find: paths must precede expression: `%sn'
+$ .ce pixi environment names and markers
+find: paths must precede expression: `%s'

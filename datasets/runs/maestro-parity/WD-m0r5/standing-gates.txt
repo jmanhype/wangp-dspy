@@ -1,0 +1,30 @@
+fullsuite_xml=/tmp/WD-m0r5-full.xml
+tests=2072 errors=0 failures=0 skipped=1
+$ uv run --frozen --extra dev wgp release verify
+diagnostic code=INPUT_INVALID severity=error: Typed input or configuration check failed
+  observed: tree is dirty: changed_path_count=1, untracked_path_count=1
+  why: The CLI rejected the request before an engine side effect.
+  remediation: Fix the named field/path/configuration value, then rerun the same command.
+  next: wgp release verify --json
+  evidence: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5
+  details: {"source": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5"}
+check=version status=pass expected='0.1.0' observed={'VERSION': '0.1.0', 'pyproject.toml': '0.1.0', 'wangp.__version__': '0.1.0'}
+check=changelog status=pass expected='0.1.0' observed='0.1.0'
+check=recipe_schema status=pass expected='wangp-dspy.render-recipe/v3' observed='wangp-dspy.render-recipe/v3'
+check=tree status=failed expected='clean_tree=true changed_path_count=0 untracked_path_count=0' observed={'commit_sha': '89b5562ddd37aba4afa44523785f8393f44d138c', 'clean_tree': False, 'dirty_tree': True, 'changed_path_count': 1, 'untracked_path_count': 1, 'status_sha256': '6906058e4c507a6a4a33a54b27bce1f1c5558a552e46e1cab957cf759552c5f6', 'tracked_diff_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'untracked_content_sha256': '97868ff166f276d9b439fe022679d3bbd9a4a849a39ea4f7bcbbdb9b5b938bd7'}
+release=not_ready
+$ git diff --exit-code 8f0b225 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+protected_parity_exit=0
+$ git diff --check
+diff_check_exit=0
+$ aggregate bundle size
+312	/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5
+$ four matrix rows remain unchanged
+| Family/preset | Generate | Edit | Upscale | Outpaint | Identity edit |
+| --- | --- | --- | --- | --- | --- |
+| qwen_image/qwen-standard | planned | planned | planned | planned | planned |
+| qwen_image/qwen-professional | planned | planned | planned | planned | planned |
+| flux_kontext/flux-standard | planned | planned | unsupported | unsupported | planned |
+| flux_kontext/flux-kontext | planned | planned | unsupported | unsupported | planned |
+
+Every supported row is `planned`; no row has generation evidence. A row can become `host_run_verified` only from a separately authorized bundle recording operator authorization, command, repository commit, model/reference provenance, queue attempt, output hash, image metadata/dimensions/alpha mode, objective identity-gate result where applicable, and reviewer verdict. No GPU, SSH, model download, paid provider, or host mutation is performed by this delivery.

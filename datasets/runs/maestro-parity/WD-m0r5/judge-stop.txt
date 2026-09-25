@@ -1,0 +1,2 @@
+judge stopped: 0 remaining
+NVIDIA GeForce RTX 3090, 24576, 83, 24034

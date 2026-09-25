@@ -1,0 +1,32 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-m0r5-qwen-identity-attempt2.json
+Output directory: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-identity-attempt2
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-m0r5-qwen-identity-attempt2.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/Tess-face-512.png
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-m0r5-inputs/face-512-jacket-mask.png
+[load_settings] Task 1/1 ready, ID: 1, model: qwen_image_edit_plus_20B_nunchaku_r128_int4
+Loaded 1 task(s)
+
+[Task 1/1] Edit this frontal face portrait: preserve the exact facial i...
+Loading Model 'ckpts/svdq-int4_r128-qwen-image-edit-2509-lightning-4steps-251115.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+Loading model Qwen Image Edit Plus (2509) Nunchaku INT4 r128 20B...
+[nunchaku_int4] Nunchaku kernels unavailable; using Python fallback.
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 51 large blocks spread across 12244.23 MB
+Hooked to model 'transformer' (QwenImageTransformer2DModel)
+Async loading plan for model 'transformer' : base size of 57.78 MB will be preloaded with a 202.78 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Async loading plan for model 'text_encoder' : base size of 2081.88 MB will be preloaded with a 222.37 MB async shuttle
+Hooked to model 'vae' (AutoencoderKLQwenImage)
+  Model loaded  [0/1] Removing Images References Background  [0/1] Encoding Prompt                        [0/4] Denoising | 0.0s[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/4] Denoising | 19.8s  [0/4] Denoising | 20.9s  [0/4] Denoising | 21.9s  [0/4] Denoising | 23.4s  [0/4] Denoising | 24.5s  [0/4] Denoising | 25.5s  [0/4] Denoising | 27.0s  [0/4] Denoising | 28.0s  [0/4] Denoising | 29.6s  [0/4] Denoising | 30.6s  [0/4] Denoising | 31.6s  [0/4] Denoising | 32.6s  [0/4] Denoising | 33.7s  [0/4] Denoising | 34.7s  [0/4] Denoising | 35.8s  [0/4] Denoising | 36.8s  [0/4] Denoising | 37.9s  [0/4] Denoising | 38.9s  [0/4] Denoising | 39.9s  [0/4] Denoising | 41.0s  [0/4] Denoising | 42.0s  [0/4] Denoising | 43.1s  [0/4] Denoising | 44.1s  [0/4] Denoising | 45.6s  [0/4] Denoising | 46.7s  [0/4] Denoising | 47.7s  [0/4] Denoising | 48.8s  [0/4] Denoising | 49.8s  [1/4] Denoising | 50.9s / 2m 24s  [1/4] Denoising | 52.3s / 2m 24s  [1/4] Denoising | 53.8s / 2m 24s  [1/4] Denoising | 54.9s / 2m 24s  [1/4] Denoising | 56.3s / 2m 24s  [1/4] Denoising | 57.4s / 2m 24s  [1/4] Denoising | 58.8s / 2m 24s  [1/4] Denoising | 1m 00s / 2m 24s  [1/4] Denoising | 1m 01s / 2m 24s  [1/4] Denoising | 1m 02s / 2m 24s  [1/4] Denoising | 1m 03s / 2m 24s  [1/4] Denoising | 1m 04s / 2m 24s  [1/4] Denoising | 1m 05s / 2m 24s  [1/4] Denoising | 1m 06s / 2m 24s  [1/4] Denoising | 1m 07s / 2m 24s  [1/4] Denoising | 1m 09s / 2m 24s  [1/4] Denoising | 1m 10s / 2m 24s  [1/4] Denoising | 1m 11s / 2m 24s  [1/4] Denoising | 1m 12s / 2m 24s  [1/4] Denoising | 1m 13s / 2m 24s  [1/4] Denoising | 1m 14s / 2m 24s  [1/4] Denoising | 1m 15s / 2m 24s  [1/4] Denoising | 1m 16s / 2m 24s  [1/4] Denoising | 1m 17s / 2m 24s  [1/4] Denoising | 1m 18s / 2m 24s  [1/4] Denoising | 1m 19s / 2m 24s  [1/4] Denoising | 1m 20s / 2m 24s  [2/4] Denoising | 1m 21s / 2m 23s  [2/4] Denoising | 1m 22s / 2m 23s  [2/4] Denoising | 1m 23s / 2m 23s  [2/4] Denoising | 1m 24s / 2m 23s  [2/4] Denoising | 1m 25s / 2m 23s  [2/4] Denoising | 1m 26s / 2m 23s  [2/4] Denoising | 1m 27s / 2m 23s  [2/4] Denoising | 1m 28s / 2m 23s  [2/4] Denoising | 1m 29s / 2m 23s  [2/4] Denoising | 1m 30s / 2m 23s  [2/4] Denoising | 1m 31s / 2m 23s  [2/4] Denoising | 1m 33s / 2m 23s  [2/4] Denoising | 1m 34s / 2m 23s  [2/4] Denoising | 1m 35s / 2m 23s  [2/4] Denoising | 1m 36s / 2m 23s  [2/4] Denoising | 1m 37s / 2m 23s  [2/4] Denoising | 1m 38s / 2m 23s  [2/4] Denoising | 1m 39s / 2m 23s  [2/4] Denoising | 1m 40s / 2m 23s  [2/4] Denoising | 1m 41s / 2m 23s  [2/4] Denoising | 1m 42s / 2m 23s  [2/4] Denoising | 1m 43s / 2m 23s  [2/4] Denoising | 1m 44s / 2m 23s  [2/4] Denoising | 1m 45s / 2m 23s  [2/4] Denoising | 1m 46s / 2m 23s  [2/4] Denoising | 1m 48s / 2m 23s  [2/4] Denoising | 1m 49s / 2m 23s  [2/4] Denoising | 1m 50s / 2m 23s  [2/4] Denoising | 1m 51s / 2m 23s  [3/4] Denoising | 1m 52s / 2m 23s  [3/4] Denoising | 1m 53s / 2m 23s  [3/4] Denoising | 1m 54s / 2m 23s  [3/4] Denoising | 1m 55s / 2m 23s  [3/4] Denoising | 1m 56s / 2m 23s  [3/4] Denoising | 1m 57s / 2m 23s  [3/4] Denoising | 1m 58s / 2m 23s  [3/4] Denoising | 1m 59s / 2m 23s  [3/4] Denoising | 2m 01s / 2m 23s  [3/4] Denoising | 2m 02s / 2m 23s  [3/4] Denoising | 2m 03s / 2m 23s  [3/4] Denoising | 2m 04s / 2m 23s  [3/4] Denoising | 2m 05s / 2m 23s  [3/4] Denoising | 2m 06s / 2m 23s  [3/4] Denoising | 2m 07s / 2m 23s  [3/4] Denoising | 2m 08s / 2m 23s  [3/4] Denoising | 2m 09s / 2m 23s  [3/4] Denoising | 2m 10s / 2m 23s  [3/4] Denoising | 2m 11s / 2m 23s  [3/4] Denoising | 2m 13s / 2m 23s  [3/4] Denoising | 2m 14s / 2m 23s  [3/4] Denoising | 2m 15s / 2m 23s  [3/4] Denoising | 2m 16s / 2m 23s  [3/4] Denoising | 2m 17s / 2m 23s  [3/4] Denoising | 2m 18s / 2m 23s  [3/4] Denoising | 2m 20s / 2m 23s  [3/4] Denoising | 2m 21s / 2m 23s  [3/4] Denoising | 2m 22s / 2m 23s  [4/4] VAE Decoding | 2m 23s / 2m 23sError saving metadata: No module named 'piexif'
+Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-identity-attempt2/wd_m0r5_qwen_standard_identity_edit_attempt2.jpg
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 2m 44s

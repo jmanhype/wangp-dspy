@@ -1,0 +1,102 @@
+
+$ du -x -d2 -h /home/straughter/.ce
+19G	/home/straughter/.ce/.pixi/envs
+19G	/home/straughter/.ce/.pixi
+19G	/home/straughter/.ce
+
+$ du -x -d2 -h /home/straughter/.local
+16K	/home/straughter/.local/include/python3.12
+20K	/home/straughter/.local/include
+8.0K	/home/straughter/.local/share/tirith
+332K	/home/straughter/.local/share/nautilus
+16K	/home/straughter/.local/share/handy
+32M	/home/straughter/.local/share/stemforge
+88K	/home/straughter/.local/share/xorg
+28K	/home/straughter/.local/share/grilo-plugins
+34M	/home/straughter/.local/share/osa-release
+76K	/home/straughter/.local/share/gvfs-metadata
+8.0K	/home/straughter/.local/share/icc
+4.0K	/home/straughter/.local/share/totem
+4.0K	/home/straughter/.local/share/ibus-table
+14M	/home/straughter/.local/share/fish
+12K	/home/straughter/.local/share/applications
+4.0K	/home/straughter/.local/share/warp-terminal
+303M	/home/straughter/.local/share/uv
+20K	/home/straughter/.local/share/Trash
+4.0K	/home/straughter/.local/share/sounds
+172K	/home/straughter/.local/share/doc
+213M	/home/straughter/.local/share/claude
+12K	/home/straughter/.local/share/gnome-shell
+16K	/home/straughter/.local/share/bash-completion
+160K	/home/straughter/.local/share/evolution
+14M	/home/straughter/.local/share/opencode
+4.0K	/home/straughter/.local/share/gnome-settings-daemon
+8.0K	/home/straughter/.local/share/flatpak
+844K	/home/straughter/.local/share/zed
+24K	/home/straughter/.local/share/icons
+216K	/home/straughter/.local/share/man
+640M	/home/straughter/.local/share/com.pais.handy
+12K	/home/straughter/.local/share/com.vercel.cli
+16K	/home/straughter/.local/share/org.gnome.TextEditor
+12K	/home/straughter/.local/share/keyrings
+8.0K	/home/straughter/.local/share/systemd
+8.0K	/home/straughter/.local/share/hf
+16K	/home/straughter/.local/share/zsh
+1.3G	/home/straughter/.local/share
+104K	/home/straughter/.local/bin/__pycache__
+163M	/home/straughter/.local/bin
+8.0K	/home/straughter/.local/testing
+16G	/home/straughter/.local/lib/python3.12
+16G	/home/straughter/.local/lib
+12K	/home/straughter/.local/state/wireplumber
+41M	/home/straughter/.local/state/warp-terminal
+8.0K	/home/straughter/.local/state/claude
+4.0K	/home/straughter/.local/state/opencode
+30M	/home/straughter/.local/state/kittylitter
+12K	/home/straughter/.local/state/hermes
+70M	/home/straughter/.local/state
+17G	/home/straughter/.local
+
+$ du -x -d2 -h /home/straughter/qwen-voicedesign-trial
+196K	/home/straughter/qwen-voicedesign-trial/hf-cache/xet
+200K	/home/straughter/qwen-voicedesign-trial/hf-cache
+80K	/home/straughter/qwen-voicedesign-trial/audio-cache/cc29e0a0d5559ad74484324f464741d1208fc3f1bec8083e9d736e2586c8bb08
+120K	/home/straughter/qwen-voicedesign-trial/audio-cache/58d4dee4391e11a2268e4aa7c948e2064676946fc5faa90c50b73fa36774a1bf
+4.0K	/home/straughter/qwen-voicedesign-trial/audio-cache/vibe_edit_history
+208K	/home/straughter/qwen-voicedesign-trial/audio-cache
+20K	/home/straughter/qwen-voicedesign-trial/venv/share
+24M	/home/straughter/qwen-voicedesign-trial/venv/bin
+7.3G	/home/straughter/qwen-voicedesign-trial/venv/lib
+7.3G	/home/straughter/qwen-voicedesign-trial/venv
+72K	/home/straughter/qwen-voicedesign-trial/model/.cache
+651M	/home/straughter/qwen-voicedesign-trial/model/speech_tokenizer
+4.3G	/home/straughter/qwen-voicedesign-trial/model
+24K	/home/straughter/qwen-voicedesign-trial/evidence
+12G	/home/straughter/qwen-voicedesign-trial
+
+$ du -x -d2 -h /home/straughter/acestep-datasets
+1.5G	/home/straughter/acestep-datasets/ice-spice-y2k-v7-combined
+512M	/home/straughter/acestep-datasets/ice-spice-y2k-extended-segmented
+367M	/home/straughter/acestep-datasets/ice-spice-y2k-segmented
+542M	/home/straughter/acestep-datasets/ice-spice-y2k-extended
+940M	/home/straughter/acestep-datasets/ice-spice-y2k-augmented
+4.0K	/home/straughter/acestep-datasets/ice-spice-y2k-acapellas
+465M	/home/straughter/acestep-datasets/ice-spice-y2k
+1.3G	/home/straughter/acestep-datasets/ice-spice-y2k-v7-stems
+5.5G	/home/straughter/acestep-datasets
+
+$ du -x -d2 -h /home/straughter/render-archive
+926M	/home/straughter/render-archive
+
+$ du -x -d2 -h /home/straughter/vb7-venv
+4.0K	/home/straughter/vb7-venv/include/python3.11
+8.0K	/home/straughter/vb7-venv/include
+16K	/home/straughter/vb7-venv/share/man
+20K	/home/straughter/vb7-venv/share
+144K	/home/straughter/vb7-venv/bin
+6.1G	/home/straughter/vb7-venv/lib/python3.11
+6.1G	/home/straughter/vb7-venv/lib
+6.1G	/home/straughter/vb7-venv
+
+$ recent Wan2GP output/acceptance timestamps
+find: paths must precede expression: `%TH:%TM'

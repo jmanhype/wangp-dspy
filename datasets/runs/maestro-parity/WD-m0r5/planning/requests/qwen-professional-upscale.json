@@ -1,0 +1,33 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "qwen_image",
+    "preset": "qwen-professional"
+  },
+  "operation": "upscale",
+  "prompt": "Upscale the provided teapot photograph with crisp photographic detail and no content change",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/qwen-base.jpg",
+      "sha256": "24330c72dd1eadac16a9226cbb85e8a387a9151d1ff103a297dd1035237386df",
+      "role": "subject",
+      "license": "WD-m0r5 generated reference output; operator-authorized research/evaluation"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 2048,
+    "height": 2048
+  },
+  "recipe_seed": 974,
+  "upscale": {
+    "source_width": 1024,
+    "source_height": 1024,
+    "factor": 2
+  }
+}

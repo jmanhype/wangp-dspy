@@ -1,0 +1,85 @@
+[
+  {
+    "model_type": "flux_dev_kontext",
+    "prompt": "Change the green glass carafe into a copper carafe while preserving the reference composition and lighting",
+    "resolution": "1024x1024",
+    "num_inference_steps": 12,
+    "seed": 915,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_flux_standard_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "flux_dev_kontext",
+    "prompt": "Preserve this exact person and facial identity while changing her jacket to a warm red jacket",
+    "resolution": "256x368",
+    "num_inference_steps": 12,
+    "seed": 925,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_flux_standard_identity_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "flux_dev_kontext",
+    "prompt": "Using the reference image, preserve the two people and their positions while adding a calm blue morning light across the observatory",
+    "resolution": "1024x1024",
+    "num_inference_steps": 12,
+    "seed": 935,
+    "batch_size": 1,
+    "settings_version": 99,
+    "remove_background_images_ref": 0,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/anchor.png"
+    ],
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_flux_kontext_generate"
+  },
+  {
+    "model_type": "flux_dev_kontext",
+    "prompt": "Change the green glass carafe into a brushed steel carafe while preserving the reference composition and lighting",
+    "resolution": "1024x1024",
+    "num_inference_steps": 12,
+    "seed": 945,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-base.jpg"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-object-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_flux_kontext_edit",
+    "remove_background_images_ref": 0
+  },
+  {
+    "model_type": "flux_dev_kontext",
+    "prompt": "Preserve this exact person and facial identity while changing her jacket to a deep teal jacket",
+    "resolution": "256x368",
+    "num_inference_steps": 12,
+    "seed": 955,
+    "batch_size": 1,
+    "settings_version": 99,
+    "image_refs": [
+      "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess.png"
+    ],
+    "image_mask": "/home/straughter/Wan2GP/wd-m0r5-inputs/flux-identity-mask.png",
+    "image_mode": 2,
+    "video_prompt_type": "KI",
+    "output_filename": "wd_m0r5_flux_kontext_identity_edit",
+    "remove_background_images_ref": 0
+  }
+]

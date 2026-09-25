@@ -1,0 +1,28 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "flux_kontext",
+    "preset": "flux-standard"
+  },
+  "operation": "generate",
+  "prompt": "A clear studio product photograph of a green glass carafe on a plain white table, sharp focus, even lighting",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/anchor.png",
+      "sha256": "c87547fe9ac64f3e84b0f09d8b1d0aa716ba3a0c0e486260eff2e8f0c831e210",
+      "role": "composition",
+      "license": "Operator-owned LF004 evaluation reference; WD-m0r5 operator authorization"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 1136,
+    "height": 928
+  },
+  "recipe_seed": 905
+}

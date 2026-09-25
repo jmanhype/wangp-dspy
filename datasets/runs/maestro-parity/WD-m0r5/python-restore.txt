@@ -1,0 +1,11 @@
+$ uv python install 3.11 (restore interpreter deleted with uv cache)
+Downloading cpython-3.11.15-linux-x86_64-gnu (download) (29.4MiB)
+ Downloaded cpython-3.11.15-linux-x86_64-gnu (download)
+Installed Python 3.11.15 in 2.91s
+ + cpython-3.11.15-linux-x86_64-gnu (python3.11)
+$ uv python find 3.11
+/home/straughter/.local/share/uv/python/cpython-3.11-linux-x86_64-gnu/bin/python3.11
+$ relink venv python/python3/python3.11 to restored interpreter
+$ restored imports
+/bin/bash: -c: line 1: syntax error near unexpected token `torch.__version__'
+/bin/bash: -c: line 1: `timeout 60 /home/straughter/Wan2GP/venv/bin/python -c import torch,diffusers,transformers,PIL; print(torch.__version__); print(diffusers.__version__); print(transformers.__version__); print(PIL.__version__); print(torch.cuda.is_available())'

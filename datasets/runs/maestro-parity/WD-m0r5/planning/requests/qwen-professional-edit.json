@@ -1,0 +1,40 @@
+{
+  "schema_version": "wangp-dspy.image-capability-request/v1",
+  "model": {
+    "family": "qwen_image",
+    "preset": "qwen-professional"
+  },
+  "operation": "edit",
+  "prompt": "Change the blue ceramic teapot into a polished brass teapot and add a subtle studio reflection",
+  "license": "WD-m0r5 operator-authorized research/evaluation output",
+  "references": [
+    {
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/qwen-base.jpg",
+      "sha256": "24330c72dd1eadac16a9226cbb85e8a387a9151d1ff103a297dd1035237386df",
+      "role": "subject",
+      "license": "WD-m0r5 generated reference output; operator-authorized research/evaluation"
+    }
+  ],
+  "prompt_enhancement": {
+    "mode": "off"
+  },
+  "output": {
+    "format": "jpeg",
+    "transparency": false,
+    "width": 1024,
+    "height": 1024
+  },
+  "recipe_seed": 964,
+  "mask": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-m0r5/datasets/runs/maestro-parity/WD-m0r5/inputs/object-mask.png",
+    "sha256": "90de2a825908f22e9570feb564494d70f1f78cdfc9375a9eb218bf984b4c2929"
+  },
+  "edit_region": {
+    "x": 288,
+    "y": 352,
+    "width": 448,
+    "height": 320,
+    "source_width": 1024,
+    "source_height": 1024
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "assets": {
+    "qwen-standard-transformer-int8": {
+      "paused": false,
+      "resume_requested": true
+    }
+  },
+  "schema_version": "wangp-dspy.download-state/v1"
+}

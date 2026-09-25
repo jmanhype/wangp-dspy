@@ -1,0 +1,74 @@
+
+== port 3002 ==
+curl: (22) The requested URL returned error: 404
+
+== port 3100 ==
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#18181b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Paperclip" />
+    <title>Paperclip</title>
+    <!-- PAPERCLIP_RUNTIME_BRANDING_START -->
+    <!-- PAPERCLIP_RUNTIME_BRANDING_END -->
+    <!-- PAPERCLIP_FAVICON_START -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <!-- PAPERCLIP_FAVICON_END -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script>
+      (() => {
+        const key = "paperclip.theme";
+        const darkThemeColor = "#18181b";
+        const lightThemeColor = "#ffffff";
+        try {
+          const stored = window.localStorage.getItem(key);
+          const theme = stored === "light" || stored === "dark" ? stored : "dark";
+          const isDark = theme === "dark";
+          document.documentElement.classList.toggle("dark", isDark);
+          document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+          const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute("content", isDark ? darkThemeColor : lightThemeColor);
+          }
+        } catch {
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-ChLuXRS1.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CQwRK-8A.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+== port 7860 ==
+curl: (22) The requested URL returned error: 404
+
+== port 8060 ==
+curl: (22) The requested URL returned error: 404
+
+== port 8899 ==
+{"ok":true,"running":true,"engine":"camoufox","version":"2.1.1","browserConnected":false,"poolSize":0,"activeUserIds":[],"profileDirsTotal":0}
+== port 8929 ==
+curl: (22) The requested URL returned error: 502
+
+== port 9800 ==
+curl: (1) Received HTTP/0.9 when not allowed
+
+== port 11434 ==
+curl: (22) The requested URL returned error: 404
+
+== port 18080 ==
+curl: (22) The requested URL returned error: 404

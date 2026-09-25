@@ -1,0 +1,1 @@
+4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43  /home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx

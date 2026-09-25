@@ -1,0 +1,16 @@
+{
+  "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+  "prompt": "Upscale the provided teapot photograph without changing its content",
+  "resolution": "2048x2048",
+  "num_inference_steps": 4,
+  "guidance_scale": 1,
+  "seed": 924,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+  ],
+  "spatial_upsampling": "qwen_vae_pid(1.5)",
+  "video_prompt_type": "KI",
+  "output_filename": "wd_m0r5_qwen_standard_upscale"
+}

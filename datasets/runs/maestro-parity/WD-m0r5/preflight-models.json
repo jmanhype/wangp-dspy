@@ -1,0 +1,18 @@
+[
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/qwen_image_20B_quanto_bf16_int8.safetensors",
+    "sha256": "10887aba71af59892627f76d07c331b16f501e3815196f6950df50f9748d3381"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/qwen_image_edit_plus2_20B_quanto_bf16_int8.safetensors",
+    "sha256": "67c1642db72ac3906a091807712b6a65a8bd461457fd73009400816c9be96c76"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/flux1-schnell_quanto_bf16_int8.safetensors",
+    "sha256": "df13cc7c6b559ec9a3819331de4b21799336d06711b65350ae8fca8d4b5fff89"
+  },
+  {
+    "remote_path": "/home/straughter/Wan2GP/ckpts/flux1_kontext_dev_quanto_bf16_int8.safetensors",
+    "sha256": "996f65d10957edd4be2c46644dbdce675797d566f9513a291552c11ad82fd265"
+  }
+]

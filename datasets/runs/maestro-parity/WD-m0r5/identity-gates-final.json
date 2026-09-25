@@ -1,0 +1,35 @@
+{
+  "analyzer": "insightface.FaceAnalysis buffalo_l",
+  "model_sha256": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43",
+  "threshold": 0.75,
+  "pairs": [
+    {
+      "row": "qwen-standard",
+      "source": "inputs/Tess.png",
+      "output": "outputs/wd_m0r5_qwen_standard_identity_edit.jpg",
+      "measured": 0.950228214263916,
+      "passed": true
+    },
+    {
+      "row": "qwen-professional",
+      "source": "inputs/Tess.png",
+      "output": "outputs/wd_m0r5_qwen_professional_identity_edit.jpg",
+      "measured": 0.7926919460296631,
+      "passed": true
+    },
+    {
+      "row": "flux-standard",
+      "source": "inputs/Tess.png",
+      "output": "outputs/wd_m0r5_flux_standard_identity_edit.jpg",
+      "measured": 0.9426988363265991,
+      "passed": true
+    },
+    {
+      "row": "flux-kontext",
+      "source": "inputs/Tess.png",
+      "output": "outputs/wd_m0r5_flux_kontext_identity_edit.jpg",
+      "measured": 0.9505001306533813,
+      "passed": true
+    }
+  ]
+}

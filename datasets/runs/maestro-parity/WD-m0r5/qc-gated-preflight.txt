@@ -1,0 +1,6 @@
+$ operator-authorized judge start using existing judge_ctl.sh
+judge up after 30s
+$ judge health
+{"status":"ok"}$ direct GPU while judge runs
+NVIDIA GeForce RTX 3090, 24576, 7840, 16276
+729195, /home/straughter/llama.cpp/build/bin/llama-server, 7752

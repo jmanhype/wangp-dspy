@@ -1,0 +1,17 @@
+{
+  "model_type": "qwen_image_edit_plus_20B_nunchaku_r128_int4",
+  "prompt": "Extend the white studio table and soft background naturally beyond the original photograph",
+  "resolution": "1280x1280",
+  "num_inference_steps": 4,
+  "guidance_scale": 1,
+  "seed": 934,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/qwen-base.jpg"
+  ],
+  "image_mode": 2,
+  "video_prompt_type": "KI",
+  "video_guide_outpainting": "20 20 20 20",
+  "output_filename": "wd_m0r5_qwen_standard_outpaint"
+}

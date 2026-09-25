@@ -1,0 +1,6 @@
+$ df
+Filesystem     1G-blocks  Used Available Use% Mounted on
+/dev/nvme0n1p4      800G  779G       13G  99% /
+$ gpu
+NVIDIA GeForce RTX 3090, 24576, 83, 24033
+$ compute apps

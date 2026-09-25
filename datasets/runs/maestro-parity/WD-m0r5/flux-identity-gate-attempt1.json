@@ -1,0 +1,46 @@
+{
+  "model": "/home/straughter/.insightface/models/buffalo_l/w600k_r50.onnx",
+  "embedding_model_sha256": "unhashed in this diagnostic; hash recorded separately",
+  "pairs": [
+    {
+      "output": "/home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_standard_identity_edit.jpg",
+      "source": "Tess.png",
+      "source_box": [
+        52,
+        18,
+        156,
+        144
+      ],
+      "output_box": [
+        51,
+        18,
+        153,
+        147
+      ],
+      "metric": "face_embedding_cosine",
+      "measured": 0.7772535791697773,
+      "threshold": 0.75,
+      "passed": true
+    },
+    {
+      "output": "/home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_kontext_identity_edit.jpg",
+      "source": "Tess.png",
+      "source_box": [
+        52,
+        18,
+        156,
+        144
+      ],
+      "output_box": [
+        51,
+        18,
+        153,
+        147
+      ],
+      "metric": "face_embedding_cosine",
+      "measured": 0.7644245174927123,
+      "threshold": 0.75,
+      "passed": true
+    }
+  ]
+}

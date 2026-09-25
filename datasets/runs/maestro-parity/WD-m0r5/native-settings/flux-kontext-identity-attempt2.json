@@ -1,0 +1,15 @@
+{
+  "model_type": "flux_dev_kontext",
+  "prompt": "Edit this frontal face portrait: keep the exact same facial identity, eyes, nose, mouth, and hair, and change only the jacket color to deep teal. Keep the entire face centered and fully visible.",
+  "resolution": "512x512",
+  "num_inference_steps": 12,
+  "seed": 1045,
+  "batch_size": 1,
+  "settings_version": 99,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-m0r5-inputs/Tess-face-512.png"
+  ],
+  "image_mode": 0,
+  "video_prompt_type": "KI",
+  "output_filename": "wd_m0r5_flux_kontext_identity_edit_attempt2"
+}
