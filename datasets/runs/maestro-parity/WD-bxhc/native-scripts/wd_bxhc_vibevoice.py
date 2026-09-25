@@ -168,6 +168,19 @@ def main() -> int:
         parameter.device.type == "meta" for parameter in model.parameters()
     )
     if meta_parameters:
+        meta_names = [
+            name for name, parameter in model.named_parameters()
+            if parameter.device.type == "meta"
+        ]
+        device_counts: dict[str, int] = {}
+        for value in getattr(model, "hf_device_map", {}).values():
+            key = str(value)
+            device_counts[key] = device_counts.get(key, 0) + 1
+        print(json.dumps({
+            "meta_parameter_count": len(meta_names),
+            "first_meta_parameters": meta_names[:80],
+            "device_map_counts": device_counts,
+        }, sort_keys=True), flush=True)
         raise RuntimeError(f"model contains {meta_parameters} meta parameters")
 
     records = []
