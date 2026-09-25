@@ -4,11 +4,11 @@ title: "Director composition evidence"
 status: open
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration, delivered]
+labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:23:01Z
+updated_at: 2026-09-25T23:23:02Z
 content_hash: "sha256:00518a90ecdb2cbcdc7cdc659787935021c03196661aa2a07ae8343c39e9c0f5"
 blocks: [WD-fay0]
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
