@@ -4,7 +4,7 @@ title: "Voice portable character evidence"
 status: open
 priority: 2
 type: feature
-labels: [capability, evidence, external-integration, delivered]
+labels: [capability, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
