@@ -1,5 +1,1 @@
-$ uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-2gyw
-FAIL reviewer_verdict.decision: must be approved
-exit=1
-expected_at_delivery=true
-reason=reviewer_verdict is intentionally pending; no self-approval is claimed
+PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-2gyw
