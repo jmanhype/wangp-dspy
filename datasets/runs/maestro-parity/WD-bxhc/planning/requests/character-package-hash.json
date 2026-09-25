@@ -1,0 +1,20 @@
+{
+  "character": {
+    "appearance_member": "appearance/native.png",
+    "appearance_sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+    "character_id": "Portable Witness",
+    "modes": [
+      "image",
+      "video"
+    ],
+    "package_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/packages/portable-witness.wgpcharacter",
+    "package_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "speaker_label": "Witness",
+    "voice_binding_id": "portable-witness-v1",
+    "voice_member": "voice/character.wgpvoice",
+    "voice_sha256": "232866634eee225f4a7bb05216d53861b49feb81697bcbe6e994f4e8435ef3ef"
+  },
+  "prompt": "Preserve the bound Portable Witness identity while producing the WD-bxhc mode artifact.",
+  "recipe_seed": 9441,
+  "schema_version": "wangp-dspy.character-continuity-request/v1"
+}

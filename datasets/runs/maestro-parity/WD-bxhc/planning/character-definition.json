@@ -1,0 +1,40 @@
+{
+  "appearance": [
+    {
+      "consent_ref": "operator-authorization.md#operator-owned-appearance",
+      "height": 360,
+      "license": "Operator-owned WD-m0r5/LF004 evaluation asset; authorized reference reuse only",
+      "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/inputs/appearance-native.png",
+      "role": "native",
+      "sha256": "5fe5fac33312fa9675930c3a07d22f76c0838bb48e0b3c93e22e0fc2ac484ef6",
+      "source_path": "inputs/appearance-native.png",
+      "width": 260
+    }
+  ],
+  "character_id": "Portable Witness",
+  "continuity": {
+    "constraints": [
+      {
+        "metric": "face_embedding_cosine",
+        "threshold": 0.75
+      },
+      {
+        "metric": "cross_mode_binding",
+        "threshold": 1.0
+      }
+    ],
+    "modes": [
+      "image",
+      "video"
+    ]
+  },
+  "description": "Operator-owned synthetic portable character for WD-bxhc evidence",
+  "recipe_seed": 9441,
+  "schema_version": "wangp-dspy.character-package/v1",
+  "speaker_label": "Witness",
+  "version": 1,
+  "voice": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bxhc/datasets/runs/maestro-parity/WD-bxhc/packages/portable-witness.wgpvoice",
+    "voice_binding_id": "portable-witness-v1"
+  }
+}

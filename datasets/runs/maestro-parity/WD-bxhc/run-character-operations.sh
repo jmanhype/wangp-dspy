@@ -6,6 +6,7 @@ BUNDLE="$ROOT/datasets/runs/maestro-parity/WD-bxhc"
 WGP="$ROOT/.venv/bin/wgp"
 PYTHON="$ROOT/.venv/bin/python"
 cd "$BUNDLE"
+mkdir -p packages planning/boundaries
 
 "$PYTHON" - <<'PY'
 import json
@@ -40,7 +41,10 @@ definitions = {
             'license': 'Operator-owned WD-m0r5/LF004 evaluation asset; authorized reference reuse only',
             'consent_ref': 'operator-authorization.md#operator-owned-appearance',
         }],
-        'voice': None,
+        'voice': {
+            'path': str(bundle / 'packages/portable-witness.wgpvoice'),
+            'voice_binding_id': 'portable-witness-v1',
+        },
         'continuity': {
             'modes': ['image', 'video'],
             'constraints': [
@@ -55,6 +59,10 @@ payload = dict(definitions['planning/character-definition.json'])
 payload['character_id'] = 'Ambiguous Witness'
 payload['description'] = 'Second operator-owned synthetic identity sharing the Witness alias'
 payload['recipe_seed'] = 9442
+payload['voice'] = {
+    'path': str(bundle / 'packages/ambiguous-witness.wgpvoice'),
+    'voice_binding_id': 'ambiguous-witness-v1',
+}
 definitions['planning/ambiguous-character-definition.json'] = payload
 for name, document in definitions.items():
     Path(name).write_text(json.dumps(document, indent=2, sort_keys=True) + '\n')
