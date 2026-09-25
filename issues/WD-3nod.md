@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-25T03:35:50Z
-content_hash: "sha256:faf4bd3efa84be9b34110279afcb4359abf42c53f74ea3a0032c5bb33d774d2f"
+updated_at: 2026-09-25T07:07:14Z
+content_hash: "sha256:f2ef91d06e061ff1befbd42e73ea8925078f28c030fa8d9a5ac01f096ab5dd80"
 ---
 
 ## Description
@@ -42,3 +42,6 @@ HOST REPAIR (dispatcher): the uv-managed CPython 3.11.14 interpreter previously 
 
 ### 2026-09-25T03:35:50Z speed
 DISPATCH PROCESS GAP (dispatcher, corrected): the music lane (WD-rous) was first dispatched to a worktree that had never been created — the branch, worktree and claim were skipped. The agent ran for a while producing nothing and was interrupted; the main checkout remained CLEAN and untouched (verified: no stray files, main still at d8671f3, only WD-m0r5 under datasets/runs/maestro-parity/), so there was no collateral damage. Corrected by creating story/WD-rous from main, adding .claude/worktrees/dev-WD-rous, claiming the story, and re-dispatching. RULE for every lane dispatch: create the branch, add the worktree, and atomically claim the story BEFORE spawning the developer; then verify the worktree exists and is clean. Combined with the earlier push rule (verify the branch is PUSHED, not merely committed), these are the two integration steps the dispatcher must perform rather than assume.
+
+### 2026-09-25T07:07:14Z speed
+PROGRAMME MILESTONE at merged main c91a6d8 — every lane NOT gated by video is complete and independently accepted. Rows dispositioned on main: image 4 (16 cells host_run_verified + 4 unsupported), music 2 (ace_step generate+style verified; stable_audio unsupported at measured 44.1 kHz), sfx 3 (vibevoice revoice + deepfilternet refinement verified with ffmpeg-confirmed identical video packet hashes 5f820953...; stable_audio sound_effect unsupported). That is 9 of 45 rows with terminal evidence dispositions. Also landed: WD-651z fail-closed parity evidence checker, WD-e4r7 GPU preflight fail-closed (authorized protected-file change, independently accepted), WD-0zj8 clean-machine install no-GPU half (generated-artifact half explicitly blocked). Efficiency: the sfx lane reused the music lane's Stable Audio assets, so its incremental download was 8,677,764 B. REMAINING 36 ROWS (video 11 + finishing 5 + voice 2 + character 9 + director 9) are all behind the video lane, which is blocked on two operator decisions: (1) VRAM contention - the operator's llama-server endpoint holds 7.75 GB on the 3090 and auto-recovers after being killed, while H3 renders need ~20+ GB, so video rendering and that service cannot coexist; (2) the non-H3 families (LTX-2.3/2.5, SCAIL-2, Hunyuan int8) are not installed and need 119 GB on a host with ~10 GB free, which would require authorizing the 78 GB prune of superseded H3 weights. The H3 rank8 FL/Ref weights ARE present, so H3-based video rows need zero download and are blocked only by the VRAM contention.
