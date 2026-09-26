@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
 updated_at: 2026-09-26T19:18:11Z
-content_hash: "sha256:0ca0e66dccaaae911d0228aed4d81c3f23222e68065b3fb73c35a787c953c7e2"
+content_hash: "sha256:28b7547ce3aa6bb0640e60cebe9b049984f73f1c5625b4d856dc528b92c341e1"
 assignee: dev-WD-43tj
 follows: [WD-9ymi, WD-f0vk]
 closed_at: 2026-09-26T19:18:10Z
@@ -38,6 +38,18 @@ None identified.
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-26]: Evidence reviewed and meets the boundary-only bar.
 
