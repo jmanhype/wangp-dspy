@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:13:51Z
+updated_at: 2026-09-26T18:14:50Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:2209dd51c852d029087d53079e26ff3f2aa84aa8e47e4dcf4c7cead5cc182548"
+content_hash: "sha256:d7b067dd73cae094cc89d53375106dff354681374c5a6c7867b643ad840f1f72"
 blocks: [WD-fay0]
 assignee: dev-WD-9ymi
 follows: [WD-9t9o, WD-isg9]
@@ -86,7 +86,31 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+- go test ./internal/lint ./internal/story ./cmd/pvg -count=1
+- go test -cover -count=1 ./internal/lint ./internal/story ./cmd/pvg
+- go test ./cmd/pvg -run TestFormalAcceptanceCriteriaIntegration -count=1 -v
+- go test -count=1 ./...
+- pvg verify changed source and changed integration tests --include-tests --check-mocks
+- git diff --check; git diff --cached --check
+
+Summary: targeted PASS (3/3 packages), full Go suite PASS (24/24 tested packages, 0 failures), integration PASS (1/1), pvg verify PASS, mock check PASS, whitespace PASS. Coverage: lint 94.0%, story 77.9%, cmd/pvg 6.7%.
+
+Commit SHA: 98f5b1d6e8f6603d6e0ba2031e4cf3cce6e9f347
+
+Detailed commands, outputs, wiring, AC table, historical WD-9t9o SHA evidence, safe isolated backlog lint, and DISCOVERED_BUG for WD-t0il are in the preceding DELIVERED evidence block.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit 98f5b1d6e8f6603d6e0ba2031e4cf3cce6e9f347 pushed to fork story/WD-9ymi.
+- All targeted, integration, full-suite, verify, mock, whitespace, safe-lint, and historical-record checks recorded above.
+
+### proof
+- [x] AC #1 through AC #6 verified in the preceding AC Verification table.
 
 ## nd_contract
 status: delivered
