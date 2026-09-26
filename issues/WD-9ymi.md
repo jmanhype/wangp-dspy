@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:35:16Z
+updated_at: 2026-09-26T18:38:25Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:1d0b925246e4198767eb6b7220469a7ef814191a9f527f2fb087d27baf1f4df3"
+content_hash: "sha256:920fd051f1b8f248cfe1ed7bba108250e61d7ce62a034c1b7237ad7114c14c77"
 blocks: [WD-fay0]
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
@@ -86,7 +86,25 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-26]: The DOCS_STALE rejection is closed and the prior functional evidence remains valid.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Rework commit e00cd9d23bf85dc687b7253e48b19c539b07d4dc exactly matches the PR head and fork ref.
+- Rework delta is limited to cmd/pvg/main.go and cmd/pvg/lint_help_test.go; the only additional main.go edit is behavior-equivalent named-return cleanup required for pvg verify on the touched file.
+- Branch-built `pvg lint --help` lists `external-integration, acceptance-criteria, atomicity` in execution order.
+- Focused TestLintHelpListsAcceptanceCriteria PASS; targeted 3/3 packages PASS; real formal-AC integration PASS; full `go test ./... -count=1` PASS for all 24 tested packages.
+- `pvg verify cmd/pvg/main.go` and `pvg verify cmd/pvg/lint_help_test.go --include-tests` both PASS.
+- Branch-built `pvg story verify-delivery WD-9ymi` reports 10 passed, 0 failed.
+- Historical WD-9t9o remains unchanged and is reported as a legacy accepted record; shared-vault lint scans 134 issues and fail-closes only on disclosed tracker issue WD-t0il.
+- Wangp HEAD/status and WD-9t9o content hash remained unchanged during verification.
+
+### proof
+- [x] DOCS_STALE gap closed: command help and focused ordering test include acceptance-criteria.
+- [x] Prior AC #1 through AC #6 evidence remains valid at the rework head.
 
 ## nd_contract
 status: delivered
