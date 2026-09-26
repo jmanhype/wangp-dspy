@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T15:55:59Z
-content_hash: "sha256:9b0aba5198a63f83af42e8a293d1d153b2577a599532ed1d6a4fad04cfc86ad8"
+updated_at: 2026-09-26T18:40:46Z
+content_hash: "sha256:28202a6d335555bf3ba31d3086ca187b8e332167fdfd417637e5bc52715b8866"
 blocks: [WD-fay0]
 ---
 
@@ -83,7 +83,9 @@ status: blocked
 - [ ] Criterion (b) checker demonstrated on a director-lane bundle
 
 ## Acceptance Criteria
-
+- [ ] Zero capability matrix cells remain `planned` without an operator-approved terminal disposition or an explicit scope decision.
+- [ ] The clean-machine one-command install emits a real generated artifact from a complete authorized model manifest.
+- [ ] The parity checker is demonstrated successfully on a director-lane evidence bundle.
 
 ## Design
 
