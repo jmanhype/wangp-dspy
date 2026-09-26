@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T15:11:25Z
-content_hash: "sha256:77ae10eb12d48778afc7ec0b1aaf4155ee70f4ea36416d03891f26a0160cd8e3"
+updated_at: 2026-09-26T15:13:39Z
+content_hash: "sha256:6b484ba4a35dfafe8362569e71ded3e0cfcb98a3dac9fcc4c5d1396811b2b8c1"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0, WD-dmf2, WD-bxhc]
 blocks: [WD-fay0]
 assignee: dev-WD-isg9
@@ -344,7 +344,7 @@ Corrected delivery commit SHA to ee81c0ccd763376d86734791a342e16efad78ebb.
 Corrected delivery commit SHA to ee81c0ccd763376d86734791a342e16efad78ebb.
 
 ### 2026-09-26T14:57:11Z speed
-## PM Decision
+PM Decision
 REJECTED [2026-09-26]:
 EXPECTED: AC2 requires a pre-host-contact live preflight recording SSH, model hashes, disk floor, GPU state, and unrelated-process state; AC3 requires exact local/remote command argv. The pm_acceptor contract also requires a LEARNINGS section and ownership of test-output warnings.
 DELIVERED: datasets/runs/maestro-parity/WD-isg9/preflight.json:8-11 records only model_files=true with blank detail; model-assets.json:3-34 lists expected hashes but no live measured hashes; build-evidence.py:125-132 records only boundary/render SSH argv and no preflight argv. The delivery notes contain no LEARNINGS block. The full-suite artifact has two release failures (fullsuite-dirty-tree-counters.json:3-8), and fullsuite-dirty-tree.out:87-95 also has an unreported StarletteDeprecationWarning.
@@ -353,3 +353,6 @@ FIX: Add a fail-closed preflight artifact generated before host rendering with i
 
 ### 2026-09-26T15:10:06Z speed
 Rework delivery contract placed at EOF; authoritative commit is d79979614ea5fd2a97ef4257247e2d098e66217c.
+
+### 2026-09-26T15:13:39Z speed
+Rework delivery complete; normalized the prior PM comment heading so pvg contract EOF validation remains valid.
