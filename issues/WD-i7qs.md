@@ -9,13 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
 updated_at: 2026-09-26T04:06:33Z
-content_hash: "sha256:25e89da0ec6f0ffdf65f43a8812ec7887e6b5439c5ea59a1d08ed707901c4e82"
+content_hash: "sha256:eeeb2fcef76f0cce26434a821623e671dac7be7585e995b27c037fd4ade379d9"
 assignee: dev-WD-i7qs
 follows: [WD-r4n8, WD-fay0, WD-dmf2]
 closed_at: 2026-09-26T04:06:33Z
 close_reason: "Accepted: independently reproduced real gemma4 load, video token 258884, RED/GREEN/skip behavior, branch and live-tree gates. Live deployment is deliberately NOT changed; LTX-2.5 host run remains a separately authorized batch."
 blocks: [WD-fay0]
-led_to: [WD-14ej]
+led_to: [WD-14ej, WD-isg9]
 ---
 
 ## Description
@@ -300,6 +300,6 @@ status: delivered
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Follows: [[WD-r4n8]], [[WD-fay0]], [[WD-dmf2]]
-- Led to: [[WD-14ej]]
+- Led to: [[WD-14ej]], [[WD-isg9]]
 
 ## Comments
