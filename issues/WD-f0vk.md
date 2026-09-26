@@ -8,10 +8,10 @@ labels: [discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:14:42Z
+updated_at: 2026-09-26T17:31:26Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:6338a2f409fcbed37fe1fd239c83d6b588b65d3c40cbec232bd587b969805fd8"
+content_hash: "sha256:383673c1283e889813a0c74d5fe4f577c38102befcfccd71b18d41f8095c5036"
 blocks: [WD-fay0]
 assignee: dev-WD-f0vk
 follows: [WD-9t9o]
@@ -89,6 +89,65 @@ status: new
 
 ### proof
 - [ ] Pending implementation
+
+## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### Commands and measured results
+- Targeted: `uv run --frozen --offline --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_production_render_seam.py --junitxml=/tmp/WD-f0vk-targeted.xml` — PASS, JUnit tests=95 errors=0 failures=0 skipped=0.
+- Real-byte scanner: `uv run --frozen --offline python /tmp/wdf0vk_scan_real_final.py` — WD-9t9o owned_warnings=4 diagnostics=0; WD-isg9 owned_warnings=4 diagnostics=0. Each set includes edit metadata, repaint metadata, and upscale cover-art + metadata at the exact committed lines/hashes.
+- Compile/JSON: `uv run --frozen --offline python -m py_compile scripts/verify_maestro_parity.py tests/test_maestro_parity_evidence.py` and `python -m json.tool datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json` — PASS.
+- Static: `pvg verify scripts/verify_maestro_parity.py tests/test_maestro_parity_evidence.py datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json docs/findings/86-wan2gp-mutagen-metadata-warnings.md docs/maestro-parity-evidence-contract.md --format=text` — VERIFY PASSED (2 scannable files, 0 issues).
+- Backlog: `pvg lint --backlog` — PASS, 134 scanned, 0 errors, 0 review findings.
+- Whitespace/clean tree: `git diff --check`, `git diff --cached --check`, and clean `git status --short` — PASS after commit.
+- Release: `uv run --frozen --offline --extra dev wgp release verify` — release=ready, tag_created=false.
+- Accepted-log preservation: `git diff --exit-code -- datasets/runs/maestro-parity/WD-9t9o datasets/runs/maestro-parity/WD-isg9` — PASS. Recomputed SHA-256 values exactly match the six values in the diagnosis artifact.
+- No SSH, GPU, inference, model download, host mutation, accepted-log edit, output edit, ffprobe edit, or gate-result edit was performed.
+
+### Diagnosis
+- Exact accepted-evidence source site: `/home/straughter/Wan2GP/wgp.py::generate_media`; accepted same-runtime stack frames identify generate_media at wgp.py:7583 and 7870. The exact mutagen statement line is not present in preserved bytes and is not invented.
+- Runtime: host straughter-Z690-Steel-Legend, `/home/straughter/Wan2GP/venv/bin/python`, Python 3.11, mutagen absent in active venv. Accepted WD-m0r5 local inventory separately shows user Python 3.12 mutagen 1.47.0, not active Wan2GP venv.
+- Dependency classification: mutagen is required for embedded metadata/cover-art success but optional for saved media bytes in the observed caught-error control flow. Wangp does not declare it; upstream declaration is not preserved, and no ad hoc install is made.
+
+### Commit
+- Branch: story/WD-f0vk
+- SHA: 59ae97903978c5f04a4dbffd7e372e0fe7d5a74a
+- Remote: origin/story/WD-f0vk at the same SHA (verified by git ls-remote).
+- Files: scripts/verify_maestro_parity.py; tests/test_maestro_parity_evidence.py; docs/maestro-parity-evidence-contract.md; datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json; docs/findings/86-wan2gp-mutagen-metadata-warnings.md.
+
+### AC Verification
+| AC | Requirement | Code/Evidence Location | Status |
+|---|---|---|---|
+| 1 | Exact source site, runtime identity, dependency classification | diagnosis artifact sections source_diagnosis/runtime_identity/dependency_classification (JSON lines 5-46); Finding 86 | PASS |
+| 2 | Durable Wangp-owned correction, no undocumented install | verify_native_logs at scripts/verify_maestro_parity.py:91-203 and warning code line 193; contract line 33 | PASS |
+| 3 | Real WD-9t9o/WD-isg9 regression bytes/hashes and explicit warning ownership | tests/test_maestro_parity_evidence.py:201-228; JSON accepted_log_bytes | PASS |
+| 4 | Preserve accepted artifacts/logs/results | unchanged diff + six recomputed hashes above | PASS |
+| 5 | No SSH/GPU/download/unrelated host mutation | command boundary and diagnosis probe_boundary | PASS |
+| 6 | Targeted tests, backlog lint, diff check | measured outputs above; release additionally ready | PASS |
+
+LEARNINGS:
+- The canonical Maestro-parity verifier is the best local seam because queue_attempt already names native logs and the checker is contractually read-only.
+- Python splitlines changes line numbering for logs containing carriage-return progress updates; split on newline preserves accepted-log line numbers.
+- Mutagen exists in the host user Python 3.12 inventory but not the active Wan2GP Python 3.11 venv; package presence elsewhere is not an install authorization.
+- Successful media bytes and optional embedded metadata must remain separate success boundaries so neither masks the other.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit and pushed branch 59ae97903978c5f04a4dbffd7e372e0fe7d5a74a.
+- Targeted 95/95 PASS; real-byte scanner 4 owned warnings per story and 0 diagnostics; backlog lint PASS; diff checks PASS; release ready.
+- Accepted WD-9t9o/WD-isg9 bundles unchanged and all six log hashes match.
+
+### proof
+- [x] AC #1: exact accepted-evidence source component site, runtime identity, and required-vs-optional dependency classification recorded.
+- [x] AC #2: Wangp-owned read-only warning ownership implemented without ad hoc install or host mutation.
+- [x] AC #3: real WD-9t9o/WD-isg9 bytes and hashes drive regression coverage and explicit warning classification.
+- [x] AC #4: accepted evidence, output hashes, ffprobe/gate records, and logs remain unchanged.
+- [x] AC #5: no prohibited live-host operation was run.
+- [x] AC #6: targeted tests, backlog lint, and diff checks pass; release verify also reports ready.
 
 ## History
 - 2026-09-26T17:13:27Z dep_added: blocks WD-fay0
