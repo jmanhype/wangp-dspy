@@ -11,7 +11,7 @@ created_by: speed
 updated_at: 2026-09-26T18:34:34Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:7d1d8bb0557fd30eb297f51ce659b7eea0db2097f9711c45628790ce86c8f4c6"
+content_hash: "sha256:4457c08637fc9f4b84f3244838902c884fb92c009eb735a720073f2c0b3a7fc9"
 blocks: [WD-fay0]
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
@@ -86,6 +86,18 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Commands run:
