@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T20:57:49Z
-content_hash: "sha256:9678b1a6c31403186138950144d46ba7341e0184948b8fd83ba4bd5b78c7a244"
+updated_at: 2026-09-26T22:54:50Z
+content_hash: "sha256:49b0cbd8a928e21999e327fec35e669dcebd13a76f0be05c626b4ea7da103e4b"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 assignee: dev-WD-obkn
@@ -112,7 +112,16 @@ status: new
 
 
 ## Notes
+## Clean full-suite concurrent-hang boundary (interim)
 
+- Clean-tree commit: 2d778cef293ef3c5a441a35e15d89d715999e10d.
+- Attempt: uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full-clean.xml.
+- Progress: reached 47%; then tests/test_lf004_recovery_tooling.py::test_launcher_setup_is_root_relative_from_foreign_cwd did not return.
+- Exact owned tree: pytest PID 73854; launcher bash PID 99130; nested bash PID 99411.
+- Stack evidence: macOS sample of PID 99411 showed reader_loop -> execute_command_internal -> execute_simple_command -> execute_disk_command -> do_redirections -> heredoc_write -> write for effectively the entire one-second sample.
+- Concurrent boundary: a separate WD-7fvx full suite simultaneously had the same launcher test blocked in analogous nested bash processes. This suggests a concurrent full-suite interaction and is not claimed as a WD-obkn code failure or a full-suite pass.
+- Parent-directed termination: sent SIGTERM only to WD-obkn PIDs 99411, 99130, and 73854 after >30 minutes; WD-7fvx processes were not touched. The terminated attempt ended 143 at 47%; no clean full-suite pass is claimed.
+- Awaiting explicit parent signal before any full-suite retry.
 
 ## History
 - 2026-09-26T20:53:46Z dep_added: blocks WD-fay0
