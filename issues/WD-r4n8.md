@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:50:33Z
-content_hash: "sha256:95dd8fce41e436a7356d5999ca2656f2920eba75bdedab23f84063ca1209a99b"
+updated_at: 2026-09-26T02:51:26Z
+content_hash: "sha256:6808b9303125b71fc580d2fba5faef9a9edbde9041c191ee737fcc3f2d54a58d"
 assignee: dev-WD-r4n8
 follows: [WD-fay0]
 blocks: [WD-fay0]
@@ -275,3 +275,18 @@ status: new
 - Follows: [[WD-fay0]]
 
 #### Comments
+
+## Notes
+
+### Implementation Evidence
+- Commit/push: `3edd0282da0cb7b8983debd3c10b86b908c4046a` on `story/WD-r4n8`; `git ls-remote origin refs/heads/story/WD-r4n8` returned the same SHA.
+- AC1/AC2 graph proof: size 4 emits `scale=ceil(iw/4):ceil(ih/4)` and `scale=iw*4:ih*4`; size 64 emits `scale=ceil(iw/64):ceil(ih/64)` and `scale=iw*64:ih*64`. Persistence 0 emits `blend=all_mode=normal:all_opacity=0`; persistence 1 emits `all_opacity=1`. Both graphs retain seeded `allf=u` held and `allf=t+u` reseeded branches, so the emitted graph differs for each control.
+- AC3: two compilations of the same request/seed produced identical canonical plan bytes, `backend_settings_sha256=09cfe594f5ccb081af18edfe31ecda055881e7db218a6e1f6ec81c75f84d2cc5`, and `command_graph_sha256=c88faff36f3628acd6874b1a085e6a73ac5b2a99426d99ef6d911aef9da80a4d`.
+- AC4: backend `film` with grain controls exits through typed `FINISH_GRAIN_CONTROL_UNSUPPORTED`, naming `film_grain.size` and `film_grain.temporal_persistence`; no ffmpeg fallback is emitted.
+- AC5: compiled record invariants were `plan_only=True`, `executable=False`, `queue_submitted=False`, `host_contact=False`, `media_generated=False`, `measurement_status=unverified`; plan-only compilation created no `jobs` table. No render, GPU work, host contact, model download, or network operation was performed.
+- AC6: `docs/finishing-capabilities.md` now defines the ceil-grid/nearest-neighbor size semantics, static-versus-reseeded persistence blend, and honest unmeasured/fail-closed film dispositions.
+- Full suite: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-r4n8-full.xml` passed after commit; parsed JUnit `tests=2089,failures=0,errors=0,skipped=1`. The pre-commit attempt had two release-tree failures caused solely by the intentionally dirty working tree and was superseded by the clean-tree run.
+- Backlog lint: `pvg lint --backlog` PASS, 127 scanned, 0 errors, 0 review findings.
+- Release: `uv run --frozen --extra dev wgp release verify` returned `release=ready`, `tag_created=false`.
+- Whitespace/protected parity: `git diff --check` exit 0; protected-file diff from `9cc501d6` exit 0.
+
