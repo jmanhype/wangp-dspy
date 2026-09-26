@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
 updated_at: 2026-09-26T15:35:12Z
-content_hash: "sha256:c0a3a6ff1581c3600387f5e8519ff5104560cbdfc78e2d648f89e33eb724af90"
+content_hash: "sha256:68595867f7e8b791e03943cc82e0d0792f35ed8daa638854de967998bc19f55a"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0, WD-dmf2, WD-bxhc]
 assignee: dev-WD-isg9
 closed_at: 2026-09-26T15:35:12Z
 close_reason: "Accepted: verified reworked preflight/provenance, all eight terminal dispositions, canonical checker PASS, CI PASS, and reviewer evidence commit 83858000."
-led_to: [WD-9t9o]
+led_to: [WD-9t9o, WD-f0vk]
 ---
 
 ## Description
@@ -344,7 +344,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-14ej]], [[WD-i7qs]], [[WD-r4n8]], [[WD-fay0]], [[WD-dmf2]], [[WD-bxhc]]
-- Led to: [[WD-9t9o]]
+- Led to: [[WD-9t9o]], [[WD-f0vk]]
 
 ## Comments
 
