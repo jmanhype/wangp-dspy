@@ -1,0 +1,1 @@
+["ffmpeg", "-y", "-v", "error", "-ss", "2.20", "-i", "/home/straughter/Wan2GP/wd-7fvx/inputs/wd_cpow_vibevoice_revoice.mp4", "-frames:v", "1", "-q:v", "2", "/home/straughter/Wan2GP/wd-7fvx/review/audio/frames/frame_003.jpg"]

@@ -1,0 +1,454 @@
+{
+  "command": [
+    "timeout",
+    "3600",
+    "ssh",
+    "-n",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "3500",
+    "env",
+    "PYTHONPATH=/home/straughter/Wan2GP/wd-7fvx/repo",
+    "/home/straughter/Wan2GP/venv/bin/python",
+    "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 768,
+      "kind": "video",
+      "path": "outputs/wd_7fvx_audio_rework.mp4",
+      "width": 960
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 768,
+      "kind": "video",
+      "path": "outputs/wd_7fvx_screenplay_rework.mp4",
+      "width": 960
+    }
+  ],
+  "model_provenance": [
+    {
+      "bytes_pulled": 0,
+      "download_approved": true,
+      "identity": "whisper-small",
+      "license": "operator research/evaluation only",
+      "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "source": "operator-installed preexisting local model"
+    },
+    {
+      "bytes_pulled": 0,
+      "download_approved": true,
+      "identity": "qwen38-27b-uncensored-Q4_K_M.gguf",
+      "license": "operator research/evaluation only",
+      "sha256": "3445102e9cde5d562508642c100a2f5ac3368a5a3f748442811d7a95daee3bec",
+      "source": "operator-installed preexisting local model"
+    },
+    {
+      "bytes_pulled": 0,
+      "download_approved": true,
+      "identity": "qwen38-27b-uncensored-mmproj-f16.gguf",
+      "license": "operator research/evaluation only",
+      "sha256": "add205b7bfdb3f71f6da36b0a82aa20928dd829a920878c602628cdfbebc5288",
+      "source": "operator-installed preexisting local model"
+    },
+    {
+      "bytes_pulled": 0,
+      "download_approved": true,
+      "identity": "syncnet_v2.model",
+      "license": "operator research/evaluation only",
+      "sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+      "source": "operator-installed preexisting local model"
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "source-pair.json",
+        "inputs/"
+      ],
+      "measured": 2,
+      "name": "synchronized_pair_identity_count",
+      "source_field": "recomputed input SHA-256 and measured durations",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_7fvx_audio_rework.mp4",
+        "source-pair.json"
+      ],
+      "measured": 2.333333,
+      "name": "audio_full_utterance_duration_s",
+      "source_field": "format.duration >= synchronized pair duration",
+      "threshold": 2.333333,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.0,
+      "name": "audio_post_whisper_score",
+      "source_field": "whisper[1].score",
+      "threshold": 0.6,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.95,
+      "name": "audio_identity_action_score",
+      "source_field": "identity_vision.action_match",
+      "threshold": 0.7,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.9,
+      "name": "audio_identity_speaker_score",
+      "source_field": "identity_vision.speaker_attribution",
+      "threshold": 0.7,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.016000000000000014,
+      "name": "audio_mouth_center_spread_x",
+      "source_field": "center_spread[0]",
+      "threshold": 0.03,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.029000000000000026,
+      "name": "audio_mouth_center_spread_y",
+      "source_field": "center_spread[1]",
+      "threshold": 0.03,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.12648,
+      "name": "audio_syncnet_confidence",
+      "source_field": "syncnet_av.confidence",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 10,
+      "name": "audio_syncnet_abs_offset_frames_25fps",
+      "source_field": "abs(offset_frames_25fps)",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "review/frame-hashes.json"
+      ],
+      "measured": 3,
+      "name": "audio_unique_source_frame_hash_count",
+      "source_field": "unique_frame_hash_count",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-final-state.json"
+      ],
+      "measured": 1,
+      "name": "audio_queue_clip_done_count",
+      "source_field": "clips[].status",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_7fvx_screenplay_rework.mp4",
+        "source-pair.json"
+      ],
+      "measured": 2.333333,
+      "name": "screenplay_full_utterance_duration_s",
+      "source_field": "format.duration >= synchronized pair duration",
+      "threshold": 2.333333,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.0,
+      "name": "screenplay_post_whisper_score",
+      "source_field": "whisper[1].score",
+      "threshold": 0.6,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.95,
+      "name": "screenplay_identity_action_score",
+      "source_field": "identity_vision.action_match",
+      "threshold": 0.7,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.9,
+      "name": "screenplay_identity_speaker_score",
+      "source_field": "identity_vision.speaker_attribution",
+      "threshold": 0.7,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.016000000000000014,
+      "name": "screenplay_mouth_center_spread_x",
+      "source_field": "center_spread[0]",
+      "threshold": 0.03,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.029000000000000026,
+      "name": "screenplay_mouth_center_spread_y",
+      "source_field": "center_spread[1]",
+      "threshold": 0.03,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.12648,
+      "name": "screenplay_syncnet_confidence",
+      "source_field": "syncnet_av.confidence",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 10,
+      "name": "screenplay_syncnet_abs_offset_frames_25fps",
+      "source_field": "abs(offset_frames_25fps)",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "review/frame-hashes.json"
+      ],
+      "measured": 3,
+      "name": "screenplay_unique_source_frame_hash_count",
+      "source_field": "unique_frame_hash_count",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-final-state.json"
+      ],
+      "measured": 1,
+      "name": "screenplay_queue_clip_done_count",
+      "source_field": "clips[].status",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-preflight.json"
+      ],
+      "measured": 4,
+      "name": "model_hash_match_count",
+      "source_field": "four model SHA-256 matches",
+      "threshold": 4,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-preflight.json"
+      ],
+      "measured": 0,
+      "name": "planned_model_download_bytes",
+      "source_field": "planned_model_download_bytes",
+      "threshold": 0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-preflight.json"
+      ],
+      "measured": 0,
+      "name": "actual_model_download_bytes",
+      "source_field": "actual_model_download_bytes",
+      "threshold": 0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-record.json"
+      ],
+      "measured": 1,
+      "name": "queue_admission_success_count",
+      "source_field": "admission_state",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-final-state.json"
+      ],
+      "measured": 1,
+      "name": "queue_exit_success_count",
+      "source_field": "state",
+      "threshold": 1,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root dispatcher",
+    "scope": "WD-7fvx synchronous no-download source-pairing rework on 3090",
+    "status": "approved",
+    "text": "# WD-7fvx operator authorization\n\n## Verbatim authorization\n\n> 2026-09-26 user said 'Authorized and approved.' then 'continue', and most\n> recently explicitly requested: '1. Create the no-download director\n> source-pairing rework story using the proven WD-cpow synchronized pair.'\n\n## Recorded boundary supplied by /root dispatcher\n\n- `approved_by`: operator via /root dispatcher\n- `timestamp`: 2026-09-26T20:31:00Z\n- `scope`: WD-7fvx read-only inventory plus synchronous no-download director\n  source-pairing/review on host `3090`, using only preexisting hash-verified\n  WD-cpow synchronized media and models; preserve WD-dmf2 immutable; no model\n  downloads, training, paid provider, unrelated GPU work, or accepted-artifact\n  mutation.\n- `rights`: use only operator-owned Wangp/WanGP evaluation assets already\n  recorded in WD-dmf2/WD-cpow; no third-party redistribution or cloning consent\n  is granted.\n- `stop boundary`: fail closed on any hash mismatch, missing model, disk/GPU/QC\n  preflight failure, rights gap, or score below existing thresholds; do not\n  lower gates.\n- `model identities/hashes`: those embedded in WD-7fvx and WD-dmf2 evidence;\n  exact no-download approval: `true`.\n\nThe dispatcher additionally instructed: continue synchronously and report\nartifacts. WD-dmf2 is consumed read-only as immutable baseline evidence.\n",
+    "timestamp": "2026-09-26T20:31:00Z"
+  },
+  "output": [
+    {
+      "path": "outputs/wd_7fvx_audio_rework.mp4",
+      "sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b"
+    },
+    {
+      "path": "outputs/wd_7fvx_screenplay_rework.mp4",
+      "sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790457887200-3571e01c",
+    "native_log_sha256": {
+      "wd-7fvx-audio.native.log": "d32bfc4869eebd8797158cc7418b8620bdcc587abe264c630ea818fc3de72b50",
+      "wd-7fvx-screenplay.native.log": "5b5cc88cdacffcb99b7ae5444dba76fbdb691d15fc22c7b936c4e59d37437f5d"
+    },
+    "native_logs": [
+      "wd-7fvx-audio.native.log",
+      "wd-7fvx-screenplay.native.log"
+    ],
+    "operator_authorization": "operator-authorization.md",
+    "preflight": "host-preflight.json",
+    "queue_id": "wangp-JobQueue-WD-7fvx",
+    "retry_id": "attempt-8"
+  },
+  "reference_provenance": [
+    {
+      "license": "operator-owned WD-cpow evaluation asset; no redistribution",
+      "path": "inputs/wd_cpow_vibevoice_raw.prepared.wav",
+      "role": "synchronized_speech_pair",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+    },
+    {
+      "license": "operator-owned WD-cpow evaluation asset; no redistribution",
+      "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+      "role": "synchronized_speech_pair",
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+    }
+  ],
+  "repository": {
+    "commit": "2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "87aed5f84dcc64597664a20aef42551a3a06fe33522de074aa860c43d78260f7"
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "director-qc-evidence.json",
+      "objective-gates.json",
+      "source-pair.json",
+      "queue-final-state.json",
+      "host-preflight.json",
+      "reviewer-record.md"
+    ],
+    "review": "Mechanical reviewer approves only the two measured auto-review cells after raw gate derivation, frame motion, and checker validation; no human PM acceptance is claimed."
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "story_id": "WD-7fvx",
+  "wd7fvx_context": {
+    "baseline": {
+      "after_identity_sha256": "32b443680a0dacde1103a87d3fa263d75744fa25614ec83d9a414a521020fd46",
+      "base_commit": "2b4714bf",
+      "before_identity_sha256": "32b443680a0dacde1103a87d3fa263d75744fa25614ec83d9a414a521020fd46",
+      "file_count": 292,
+      "immutable": true,
+      "story": "WD-dmf2"
+    },
+    "download_report": "download-report.json",
+    "execution_attempts": "execution-attempts.json",
+    "review_artifacts": [
+      "renders/review_audio/contact_sheet.jpg",
+      "renders/review_audio/audio_analysis/TRANSCRIPTION_AND_TIMING_REPORT.md",
+      "renders/review_screenplay/contact_sheet.jpg",
+      "renders/review_screenplay/audio_analysis/TRANSCRIPTION_AND_TIMING_REPORT.md"
+    ],
+    "source_plans": {
+      "audio": {
+        "plan_database_sha256": "ac810c7f05eb06047d6724a9967e3a695f0f101aa01987e975e385f5009e4b33",
+        "record_ids": [
+          "director-plan-1790457010145-a192c196"
+        ],
+        "request_sha256": "58f392037cd1d47c176d42ee8819c9172ddf539dae221c443e2f443a95e6ad99"
+      },
+      "screenplay": {
+        "plan_database_sha256": "c40aa1aeeb39e014046ab51e71c7266828a0f4fd87241c13dd19dd282ee81262",
+        "record_ids": [
+          "director-plan-1790457014389-ebe62b65"
+        ],
+        "request_sha256": "eff6d93feaec455cd568595f8e9a8a9f2cd0a1f56ca8eda9beee8df341f4e50d"
+      }
+    }
+  }
+}

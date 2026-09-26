@@ -1,0 +1,255 @@
+{
+  "expected_action": "an elder speaks while offering a bowl beside a restrained man in a firelit cave",
+  "expected_speaker": "elder woman with white hair holding a bowl",
+  "ffprobe": {
+    "format": {
+      "bit_rate": "1173343",
+      "duration": "2.333333",
+      "filename": "/home/straughter/Wan2GP/wd-7fvx/outputs/wd_7fvx_audio_rework.mp4",
+      "format_long_name": "QuickTime / MOV",
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "nb_programs": 0,
+      "nb_streams": 2,
+      "probe_score": 100,
+      "size": "342225",
+      "start_time": "0.000000",
+      "tags": {
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf60.16.100",
+        "major_brand": "isom",
+        "minor_version": "512"
+      }
+    },
+    "streams": [
+      {
+        "avg_frame_rate": "24/1",
+        "bit_rate": "997649",
+        "bits_per_raw_sample": "8",
+        "chroma_location": "left",
+        "closed_captions": 0,
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "codec_name": "h264",
+        "codec_tag": "0x31637661",
+        "codec_tag_string": "avc1",
+        "codec_type": "video",
+        "coded_height": 768,
+        "coded_width": 960,
+        "disposition": {
+          "attached_pic": 0,
+          "captions": 0,
+          "clean_effects": 0,
+          "comment": 0,
+          "default": 1,
+          "dependent": 0,
+          "descriptions": 0,
+          "dub": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "karaoke": 0,
+          "lyrics": 0,
+          "metadata": 0,
+          "non_diegetic": 0,
+          "original": 0,
+          "still_image": 0,
+          "timed_thumbnails": 0,
+          "visual_impaired": 0
+        },
+        "duration": "2.333333",
+        "duration_ts": 28672,
+        "extradata_size": 44,
+        "field_order": "progressive",
+        "film_grain": 0,
+        "has_b_frames": 2,
+        "height": 768,
+        "id": "0x1",
+        "index": 0,
+        "is_avc": "true",
+        "level": 31,
+        "nal_length_size": "4",
+        "nb_frames": "56",
+        "pix_fmt": "yuv420p",
+        "profile": "High",
+        "r_frame_rate": "24/1",
+        "refs": 1,
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "tags": {
+          "encoder": "Lavc60.31.102 libx264",
+          "handler_name": "VideoHandler",
+          "language": "und",
+          "vendor_id": "[0][0][0][0]"
+        },
+        "time_base": "1/12288",
+        "width": 960
+      },
+      {
+        "avg_frame_rate": "0/0",
+        "bit_rate": "163712",
+        "bits_per_sample": 0,
+        "channel_layout": "stereo",
+        "channels": 2,
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "codec_name": "aac",
+        "codec_tag": "0x6134706d",
+        "codec_tag_string": "mp4a",
+        "codec_type": "audio",
+        "disposition": {
+          "attached_pic": 0,
+          "captions": 0,
+          "clean_effects": 0,
+          "comment": 0,
+          "default": 1,
+          "dependent": 0,
+          "descriptions": 0,
+          "dub": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "karaoke": 0,
+          "lyrics": 0,
+          "metadata": 0,
+          "non_diegetic": 0,
+          "original": 0,
+          "still_image": 0,
+          "timed_thumbnails": 0,
+          "visual_impaired": 0
+        },
+        "duration": "2.333000",
+        "duration_ts": 111984,
+        "extradata_size": 5,
+        "id": "0x2",
+        "index": 1,
+        "initial_padding": 0,
+        "nb_frames": "111",
+        "profile": "LC",
+        "r_frame_rate": "0/0",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "tags": {
+          "handler_name": "SoundHandler",
+          "language": "und",
+          "vendor_id": "[0][0][0][0]"
+        },
+        "time_base": "1/48000"
+      }
+    ]
+  },
+  "frame_motion": {
+    "frame_sha256": [
+      "79702b33d5ca6a28feabc5d54a26f3e0f4439a4761de2087cdf2040414ca0a9b",
+      "85c7af59087928ffe76069ef5f99ef056cacf3ca0c61b141d10f21b925f4f069",
+      "d0cdf31c0477a159327a8f5a1b93adaebf6a226c03b746c83d9a14f9f7b4a4da"
+    ],
+    "unique_frame_hash_count": 3
+  },
+  "identity_vision": {
+    "action_match": 0.95,
+    "pass_bar": 0.7,
+    "passed": true,
+    "raw_response_sha256": "a4379e3d1d666afcb6081354d75154bf71bac4144ded8914cfe7382799d94254",
+    "speaker_attribution": 0.9
+  },
+  "mode": "audio",
+  "mouth_box_consensus": {
+    "center_spread": [
+      0.016000000000000014,
+      0.029000000000000026
+    ],
+    "passed": true,
+    "speaker_mouth_bboxes": [
+      [
+        0.497,
+        0.497,
+        0.018,
+        0.013
+      ],
+      [
+        0.48,
+        0.47,
+        0.02,
+        0.01
+      ],
+      [
+        0.495,
+        0.495,
+        0.018,
+        0.018
+      ]
+    ]
+  },
+  "objective_gate_pass": true,
+  "output_path": "outputs/wd_7fvx_audio_rework.mp4",
+  "output_sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b",
+  "path": "/home/straughter/Wan2GP/wd-7fvx/outputs/wd_7fvx_audio_rework.mp4",
+  "syncnet_av": {
+    "confidence": 1.12648,
+    "crop_factors": [
+      4.0,
+      8.0,
+      12.0
+    ],
+    "crop_results": [
+      {
+        "confidence": 0.7584362030029297,
+        "factor": 4.0,
+        "minimum_distance": 13.48870849609375,
+        "offset_frames": 10
+      },
+      {
+        "confidence": 1.1264801025390625,
+        "factor": 8.0,
+        "minimum_distance": 12.862841606140137,
+        "offset_frames": 10
+      },
+      {
+        "confidence": 1.7025203704833984,
+        "factor": 12.0,
+        "minimum_distance": 11.204275131225586,
+        "offset_frames": 10
+      }
+    ],
+    "method": "syncnet_v2_multicrop/v1",
+    "model_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+    "offset_frames_25fps": 10,
+    "offset_seconds": 0.4,
+    "pass_bar": {
+      "max_abs_offset_frames_25fps": 10,
+      "min_confidence": 1.0
+    },
+    "passed": true,
+    "phonetic_sync_verified": false,
+    "speaker_mouth_bbox": [
+      0.495,
+      0.495,
+      0.018,
+      0.013
+    ],
+    "video_path": "/home/straughter/Wan2GP/wd-7fvx/outputs/wd_7fvx_audio_rework.mp4",
+    "video_sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b"
+  },
+  "whisper": [
+    {
+      "intended_text": "This is the last rain we have.",
+      "model": "whisper-small",
+      "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "pass_bar": 0.6,
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/wd-7fvx/inputs/wd_cpow_vibevoice_raw.prepared.wav",
+      "phase": "pre",
+      "score": 1.0,
+      "transcript": "This is the last rain we have."
+    },
+    {
+      "intended_text": "This is the last rain we have.",
+      "model": "whisper-small",
+      "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "pass_bar": 0.6,
+      "passed": true,
+      "path": "/home/straughter/Wan2GP/wd-7fvx/outputs/wd_7fvx_audio_rework.mp4",
+      "phase": "post",
+      "score": 1.0,
+      "transcript": "This is the last rain we have."
+    }
+  ]
+}

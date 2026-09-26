@@ -1,0 +1,29 @@
+{
+  "action_match": 0.95,
+  "critic": "local:q",
+  "mouth_activity": 0.85,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.497,0.497,0.018,0.013],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.497, 0.497, 0.018, 0.013]}\\n```\",\"raw_response_sha256\":\"965e3d1c10f544bdcafcf4282f18d1dd62dc74cd107eca51f49248e6a2733765\",\"status\":\"success\"}],\"bbox\":[0.497,0.497,0.018,0.013],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.48,0.47,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.48, 0.47, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"24fab4446db74c5e0d9f393b02dcb44b7b76940b3e7160493c1512f565c3708c\",\"status\":\"success\"}],\"bbox\":[0.48,0.47,0.02,0.01],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.495,0.495,0.018,0.018],\"raw_response\":\"```json\\n{\\n  \\\"speaker_mouth_bbox\\\": [0.495, 0.495, 0.018, 0.018]\\n}\\n```\",\"raw_response_sha256\":\"0a48f97b0c19db94e09da66d6de3f85218a2b15e22a7ec3c38e1966c5a9e09d4\",\"status\":\"success\"}],\"bbox\":[0.495,0.495,0.018,0.018],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The scene matches the expected composition: an elder woman with white hair and glasses stands in the center holding a plate of food and a glass, facing a restrained man tied to a wooden frame on the right. The firelit cave setting and the small devil character on the left are consistent. The woman's mouth is open in a speaking pose in the second frame, indicating visible mouth activity. The action of offering food to the restrained man is clearly depicted.",
+  "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.95,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The scene matches the expected composition: an elder woman with white hair and glasses stands in the center holding a plate of food and a glass, facing a restrained man tied to a wooden frame on the right. The firelit cave setting and the small devil character on the left are consistent. The woman's mouth is open in a speaking pose in the second frame, indicating visible mouth activity. The action of offering food to the restrained man is clearly depicted.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.497,
+      0.497,
+      0.018,
+      0.013
+    ],
+    [
+      0.48,
+      0.47,
+      0.02,
+      0.01
+    ],
+    [
+      0.495,
+      0.495,
+      0.018,
+      0.018
+    ]
+  ]
+}

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 263, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 219, in main
+    queue = JobQueue(database); queue.set_state(job_id, "rendering"); queue.close()
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/repo/services/jobs/queue.py", line 434, in set_state
+    raise InvalidTransition(
+services.jobs.states.InvalidTransition: illegal job state transition 'rendered_pending_qc' -> 'rendering'

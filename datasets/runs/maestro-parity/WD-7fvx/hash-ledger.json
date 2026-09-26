@@ -1,0 +1,21 @@
+{
+  "entries": {
+    "inputs/wd_cpow_vibevoice_raw.prepared.wav": {
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "size": 112078
+    },
+    "inputs/wd_cpow_vibevoice_revoice.mp4": {
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3",
+      "size": 1189700
+    },
+    "outputs/wd_7fvx_audio_rework.mp4": {
+      "sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b",
+      "size": 342225
+    },
+    "outputs/wd_7fvx_screenplay_rework.mp4": {
+      "sha256": "c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b",
+      "size": 342225
+    }
+  },
+  "schema_version": "wangp-dspy.wd-7fvx-hashes/v1"
+}

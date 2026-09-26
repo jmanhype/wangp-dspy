@@ -1,0 +1,27 @@
+{
+  "changed_rows": [
+    {
+      "after": [
+        "Auto/manual review checkpoints",
+        "planned",
+        "host_run_verified (WD-7fvx)",
+        "host_run_verified (WD-7fvx)",
+        "none"
+      ],
+      "before": [
+        "Auto/manual review checkpoints",
+        "planned",
+        "planned",
+        "planned",
+        "none"
+      ],
+      "row": "Auto/manual review checkpoints"
+    }
+  ],
+  "evidence": "evidence.json",
+  "generated_media_row_unchanged": true,
+  "row_count_after": 10,
+  "row_count_before": 10,
+  "row_identities_match": true,
+  "schema_version": "wangp-dspy.wd-7fvx-matrix-transition/v1"
+}

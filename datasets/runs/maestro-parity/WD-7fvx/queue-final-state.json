@@ -1,0 +1,36 @@
+{
+  "clips": [
+    {
+      "clip_index": 1,
+      "kind": "director_source_pairing_rework",
+      "lane": "director_source_pairing_rework",
+      "log": "wd-7fvx-audio.native.log",
+      "mode": "audio",
+      "mp4": "outputs/wd_7fvx_audio_rework.mp4",
+      "qc_verdict": {
+        "path": "qc/audio-target.json",
+        "verdict": "PASS"
+      },
+      "render_fingerprint": "c2c17044663a8883ca7a1425b7399c8b1961ec7dff6cd2976079059c44bfb5a0",
+      "render_native": true,
+      "status": "done"
+    },
+    {
+      "clip_index": 2,
+      "kind": "director_source_pairing_rework",
+      "lane": "director_source_pairing_rework",
+      "log": "wd-7fvx-screenplay.native.log",
+      "mode": "screenplay",
+      "mp4": "outputs/wd_7fvx_screenplay_rework.mp4",
+      "qc_verdict": {
+        "path": "qc/screenplay-target.json",
+        "verdict": "PASS"
+      },
+      "render_fingerprint": "c2c17044663a8883ca7a1425b7399c8b1961ec7dff6cd2976079059c44bfb5a0",
+      "render_native": true,
+      "status": "done"
+    }
+  ],
+  "job_id": "job-1790457887200-3571e01c",
+  "state": "done"
+}

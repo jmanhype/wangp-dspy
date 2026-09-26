@@ -1,0 +1,29 @@
+{
+  "action_match": 0.95,
+  "critic": "local:q",
+  "mouth_activity": 0.85,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.49,0.49,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.49, 0.49, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"4034418cd1a7159969b702d461ace8c7ad5fc1635d99d256aefdf0c4ebe9f733\",\"status\":\"success\"}],\"bbox\":[0.49,0.49,0.02,0.01],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.48,0.48,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.48, 0.48, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"a5b145a4cf54a8b3c080d6b5611bd6648b3f32146803600b0d6c21ce8350de4c\",\"status\":\"success\"}],\"bbox\":[0.48,0.48,0.02,0.01],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.49,0.49,0.02,0.01],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.49, 0.49, 0.02, 0.01]}\\n```\",\"raw_response_sha256\":\"4034418cd1a7159969b702d461ace8c7ad5fc1635d99d256aefdf0c4ebe9f733\",\"status\":\"success\"}],\"bbox\":[0.49,0.49,0.02,0.01],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The scene matches the expected composition: an elder woman with white hair and glasses stands in the center holding a plate of food and a glass, facing a restrained man tied to a wooden frame on the right. The firelit cave setting is consistent. The woman's mouth is open in a speaking pose in the second frame, indicating visible mouth activity. The action of offering food is clearly depicted. The identity and spatial blocking are preserved.",
+  "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.95,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The scene matches the expected composition: an elder woman with white hair and glasses stands in the center holding a plate of food and a glass, facing a restrained man tied to a wooden frame on the right. The firelit cave setting is consistent. The woman's mouth is open in a speaking pose in the second frame, indicating visible mouth activity. The action of offering food is clearly depicted. The identity and spatial blocking are preserved.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.49,
+      0.49,
+      0.02,
+      0.01
+    ],
+    [
+      0.48,
+      0.48,
+      0.02,
+      0.01
+    ],
+    [
+      0.49,
+      0.49,
+      0.02,
+      0.01
+    ]
+  ]
+}

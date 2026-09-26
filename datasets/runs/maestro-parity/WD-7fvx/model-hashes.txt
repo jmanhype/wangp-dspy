@@ -1,0 +1,4 @@
+9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794  /home/straughter/.cache/whisper/small.pt
+961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442  /home/straughter/models/syncnet_v2/syncnet_v2.model
+3445102e9cde5d562508642c100a2f5ac3368a5a3f748442811d7a95daee3bec  /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf
+add205b7bfdb3f71f6da36b0a82aa20928dd829a920878c602628cdfbebc5288  /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/mmproj-f16.gguf

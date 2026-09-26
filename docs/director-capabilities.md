@@ -34,10 +34,10 @@ Typed exit-2 diagnostics include remediation and a live next command for missing
 | Explicit continuity state and transitions | planned | planned | planned | none |
 | Beat-aware measured window mapping | not applicable | planned | not applicable | none |
 | Exact/window pacing preservation | planned | planned | planned | none |
-| Auto/manual review checkpoints | planned | planned | planned | none |
+| Auto/manual review checkpoints | planned | host_run_verified (WD-7fvx) | host_run_verified (WD-7fvx) | none |
 | Immutable non-executable queue records | planned | planned | planned | none |
 | Authorized prompt-only enhancement | planned | planned | planned | none |
 | Seed-based hash reconstruction | planned | planned | planned | none |
 | Generated clip, audio, or finished film | unsupported in this lane | unsupported in this lane | unsupported in this lane | none |
 
-Every executable row remains `planned`. A row can become `host_run_verified` only from a separately authorized run bundle recording operator authorization, command, repository commit, model and source provenance, queue attempts, exit status, output hashes, objective duration/media metadata, all mandatory QC gates, review decisions, and recipe linkage. Generated media, final duration, aesthetic quality, and cross-clip visual continuity are therefore **not verified - requires authorized host run**. No GPU, SSH, model download, paid provider, renderer admission, retry, QC/AV, or gate semantic is exercised or changed by this planning slice.
+Only the Audio/music-video and Screenplay cells in `Auto/manual review checkpoints` are `host_run_verified`, mechanically from `datasets/runs/maestro-parity/WD-7fvx/evidence.json`: the synchronized WD-cpow speech pair preserved its complete 2.333333 s utterance and passed unchanged Whisper, identity-vision, three-frame mouth-box, motion, multicrop SyncNet, queue, and reviewer gates. Every other executable cell remains `planned`; the generated-media row remains unchanged. Generated media outside this row, final aesthetic quality, and cross-clip visual continuity are therefore **not verified - requires an authorized host run**. No GPU, SSH, model download, paid provider, renderer admission, retry, QC/AV, or gate semantic is exercised or changed by this planning slice.

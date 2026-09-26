@@ -1,0 +1,9 @@
+{
+  "admission_state": "admitted",
+  "database": "queue.db",
+  "job_id": "job-1790457530350-2e9c44c0",
+  "operator_authorization": "operator-authorization.md",
+  "preflight": "host-preflight.json",
+  "queue_id": "wangp-JobQueue-WD-7fvx",
+  "retry_id": "attempt-5"
+}

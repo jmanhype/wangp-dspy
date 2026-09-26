@@ -1,0 +1,22 @@
+{
+  "schema_version": "wangp-dspy.director-request/v1",
+  "mode": "audio",
+  "title": "Synchronized Rain Signal",
+  "audio": {
+    "path": "datasets/runs/maestro-parity/WD-7fvx/inputs/wd_cpow_vibevoice_raw.prepared.wav",
+    "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+    "duration_s": 2.333333
+  },
+  "pacing": {
+    "strategy": "exact_timecode",
+    "exact_start_s": 0.0,
+    "exact_end_s": 2.333333,
+    "target_duration_s": 2.333333
+  },
+  "review": {
+    "mode": "auto",
+    "manual_checkpoint_required": false,
+    "reviewer": "objective-gates"
+  },
+  "recipe_seed": 9713
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "wangp-dspy.wd-7fvx-source-pair/v1",
+  "pairing_rule": "speech_video_with_matching_prepared_speech",
+  "speech_guide": {
+    "path": "inputs/wd_cpow_vibevoice_raw.prepared.wav",
+    "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+    "duration_s": 2.333333,
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "source_story": "WD-cpow",
+    "utterance": "This is the last rain we have."
+  },
+  "speech_video": {
+    "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+    "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3",
+    "duration_s": 2.333333,
+    "audio_duration_s": 2.333,
+    "width": 704,
+    "height": 576,
+    "fps": 24,
+    "source_story": "WD-cpow"
+  },
+  "duration_match_tolerance_s": 0.001,
+  "instrumental_audio_used": false,
+  "instrumental_policy": "wd_rous_ace_generate.wav is excluded; it is permitted only for an explicitly declared non-speech target"
+}
