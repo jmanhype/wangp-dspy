@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-26T21:31:32Z
-content_hash: "sha256:c4b0bf2efa098436f5a17f686a6834c5127f87846f6534affdaaece371b19b17"
+content_hash: "sha256:26a198f9f7c5e2adc02a5c3663343f239e04d8d4ffd79c34ba0e6ff751e76ca9"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj]
@@ -155,3 +155,17 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
 - Follows: [[WD-5k28]], [[WD-43tj]]
 
 ## Comments
+
+### 2026-09-26T21:31:32Z speed
+BLOCKED 2026-09-26T21:17:11Z (authorized-host-state preflight): all fifteen LTX-2.5 asset hashes matched, the isolated Wan2GP run tree was deployed at faea82d15bf10b3479c42c0ea430892aae975870, and the real tokenizer check passed with vocab=262144 and video_token_id=258884. Queue admission then stopped because unrelated llama-server PID 3213164 occupied 18154 MiB of the RTX 3090, leaving 5873 MiB free. The operator authorization explicitly forbids killing or restarting unrelated services. No inference command ran, no queue job was admitted, zero output files existed, and docs/video-capabilities.md:81 remains unchanged. This is not unsupported_on_this_hardware and not a model capability verdict.
+
+Evidence: datasets/runs/maestro-parity/WD-m7xw/EXECUTION_BOUNDARY.md; host-logs/10_asset_hash_preflight.txt; host-logs/22_tokenizer_check.txt; host-logs/23_deploy_state.txt; host-logs/30_gpu_preflight_blocked.txt; host-logs/40_postflight_no_inference.txt.
+
+Commit: 5c873f72addf2792fd56f74cbfe55037487a1670; branch story/WD-m7xw pushed to origin.
+Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-parity tests 78/78 PASS, errors=0 failures=0 skipped=0; release verify at final clean tree reported release=ready and tag_created=false; protected-file parity and git diff --check PASS. Full pytest was bounded/stopped after >6 minutes at about 13% because another developer story was concurrently running its full suite; only this story's process was interrupted. Canonical bundle checker was not run because there was no admitted queue, output, or accepted unsupported disposition.
+
+### DISCOVERED_BUG
+  title: RTX 3090 unavailable to WD-m7xw due to unrelated llama-server occupancy
+  context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
+  affected_files: none; external host process and GPU state
+  discovered_during: WD-m7xw
