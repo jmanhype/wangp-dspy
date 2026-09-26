@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T15:08:59Z
-content_hash: "sha256:cf32393b43a5054ddd6c9e11c67be2daec09f727a05188ec57ee94accd08f58b"
+updated_at: 2026-09-26T15:10:06Z
+content_hash: "sha256:be1f152bed55b3fe5fddd3d2ffae779c2feb9a8caded944b843c9b1e96f46b3b"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0]
 blocks: [WD-fay0]
 assignee: dev-WD-isg9
@@ -280,6 +280,22 @@ status: delivered
 - [ ] Developer evidence block must remain authoritative above this contract.
 
 
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: d79979614ea5fd2a97ef4257247e2d098e66217c
+- Rework preserves original preflight argv, raw live model hashes/sizes/mtimes, disk/GPU/process/QC state, and warning ownership.
+- Objective gates 48/48 pass; scoped tests 92/92 pass; lint and diff-check pass; clean release verification is ready with no tag.
+- Independent reviewer approval remains pending.
+
+### proof
+
+- [x] AC1 through AC5 pass with artifacts cited in the rework Implementation Evidence above.
+- [ ] AC6 completes after independent reviewer approval and PR CI.
+- [ ] AC7 completes after PM acceptance and merge.
+
 ## History
 - 2026-09-26T13:08:07Z status: open -> in_progress
 - 2026-09-26T13:08:07Z auto-follows: linked to predecessor WD-14ej
@@ -318,3 +334,6 @@ EXPECTED: AC2 requires a pre-host-contact live preflight recording SSH, model ha
 DELIVERED: datasets/runs/maestro-parity/WD-isg9/preflight.json:8-11 records only model_files=true with blank detail; model-assets.json:3-34 lists expected hashes but no live measured hashes; build-evidence.py:125-132 records only boundary/render SSH argv and no preflight argv. The delivery notes contain no LEARNINGS block. The full-suite artifact has two release failures (fullsuite-dirty-tree-counters.json:3-8), and fullsuite-dirty-tree.out:87-95 also has an unreported StarletteDeprecationWarning.
 GAP: A boolean model_files result plus a separate expected-hash catalog does not prove the live host assets matched those hashes before contact, and the bundle does not capture the preflight command or unrelated-process check. The proof is therefore incomplete for AC2/AC3 and does not meet the mandatory delivery-note/warning ownership requirements.
 FIX: Add a fail-closed preflight artifact generated before host rendering with its exact argv, timestamp/order, repository state, SSH result, actual sha256sum output for every required model and expected-hash comparison, disk floor, GPU state, and unrelated-process state. Record that artifact and its command in evidence.json. Add LEARNINGS, then provide a clean committed-tree full-suite result or explicitly file/dispose the warning under the project bug model; rerun the canonical checker and update delivery proof.
+
+### 2026-09-26T15:10:06Z speed
+Rework delivery contract placed at EOF; authoritative commit is d79979614ea5fd2a97ef4257247e2d098e66217c.
