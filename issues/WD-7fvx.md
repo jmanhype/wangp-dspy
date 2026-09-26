@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T23:47:52Z
-content_hash: "sha256:b354b1dbce017f94f236e6083c546901682ff6c1649a420fac99a26cd2dbfba5"
+updated_at: 2026-09-26T23:48:00Z
+content_hash: "sha256:7f8a8dd8f418a362dae5dd143d4f017a2b5a3b9f945840c765c726e628ee0e26"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 assignee: dev-WD-7fvx
@@ -114,6 +114,24 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commit SHA: 45d4c7f3
+
+Commands run: see the preceding verifier-shaped addendum; all exact terminal receipts are retained in datasets/runs/maestro-parity/WD-7fvx/standing-gates-final.md.
+
+Summary: all required commands passed; full suite 2108 tests, 0 errors, 0 failures, 1 skipped; checker exit 0; release=ready.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Exact final evidence commit SHA supplied for structural verification.
+
+### proof
+- [x] AC #1 through AC #9 remain PASS.
+
+
 ## Implementation Evidence
 
 Commands run:
