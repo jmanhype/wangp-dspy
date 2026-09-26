@@ -4,11 +4,11 @@ title: "Director no-download source-pairing rework"
 status: open
 priority: 1
 type: task
-labels: [capability, evidence, director, external-integration]
+labels: [capability, evidence, director, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T23:58:05Z
+updated_at: 2026-09-26T23:58:06Z
 content_hash: "sha256:8b61b5574f377d010b5b1998510cd8a307ebc8500ab9adcd8b67259dc16a9ff5"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
