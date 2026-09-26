@@ -4,7 +4,7 @@ title: "Finishing: honor film-grain size plus temporal_persistence in the emitte
 status: in_progress
 priority: 1
 type: feature
-labels: [capability, finishing, evidence]
+labels: [capability, finishing, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
