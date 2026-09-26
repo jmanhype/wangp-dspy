@@ -1,15 +1,17 @@
 ---
 id: WD-i7qs
 title: "Video LTX-2.5: decouple fix_mistral_regex from the gemma4 extra_special_tokens override in the WanGP LTX tokenizer wrapper"
-status: open
+status: in_progress
 priority: 1
 type: bug
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
-updated_at: 2026-09-26T03:44:27Z
-content_hash: "sha256:1991d25361f4bacef3ffc38d2ee31419262b46bde763ecf3f7ee5f8f1f636d0e"
+updated_at: 2026-09-26T03:44:33Z
+content_hash: "sha256:424a7353ca5d6563930d88a90ea98ae145bc18276006b241293f4cdde9a1c484"
+assignee: dev-WD-i7qs
+follows: [WD-r4n8]
 ---
 
 ## Description
@@ -113,9 +115,12 @@ status: new
 
 
 ## History
-
+- 2026-09-26T03:44:33Z status: open -> in_progress
+- 2026-09-26T03:44:33Z auto-follows: linked to predecessor WD-r4n8
+- 2026-09-26T03:44:33Z claimed by dev-WD-i7qs
 
 ## Links
 - Parent: [[WD-3nod]]
+- Follows: [[WD-r4n8]]
 
 ## Comments

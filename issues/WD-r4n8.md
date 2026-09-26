@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
 updated_at: 2026-09-26T03:17:49Z
-content_hash: "sha256:11f9365b32c0c277726abf80f880d743657d9d5d6a2cc8d61a579d4052393610"
+content_hash: "sha256:e781b079742e5e76edd2c811561654b1862369e6c37064aef163b001093d6350"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2, WD-bxhc]
 closed_at: 2026-09-26T03:17:49Z
 close_reason: "AC1-AC7 independently reproduced at 3edd0282da0cb7b8983debd3c10b86b908c4046a: real-source grain graphs differ by encoded size/persistence, plans deterministic, plan-only invariants and fail-closed film rejection verified, docs honest, full suite/lint/release/diff and scope gates green."
+led_to: [WD-i7qs]
 ---
 
 ## Description
@@ -281,6 +282,7 @@ status: new
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-fay0]], [[WD-dmf2]], [[WD-bxhc]]
+- Led to: [[WD-i7qs]]
 
 ## Notes
 
