@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T06:08:32Z
-content_hash: "sha256:dfaf465b11b3527c394e7e000f2786e82158a2de0e9146e17e2527463a942686"
+updated_at: 2026-09-26T15:55:59Z
+content_hash: "sha256:9b0aba5198a63f83af42e8a293d1d153b2577a599532ed1d6a4fad04cfc86ad8"
 blocks: [WD-fay0]
 ---
 
@@ -165,3 +165,6 @@ Also re-checked and clean, for the same reason:
 - `FaceTrack.source` / `.license` / `.consent_ref` -- all `min_length=1` under
   `extra="forbid"`, so a track cannot be declared without them. Guard is real, and
   the surface only ever claimed to prove request shape.
+
+### 2026-09-26T15:55:59Z speed
+Progress update only (gate remains deferred): WD-isg9 was accepted and merged at 07a7f47d. It terminalized eight minimax_h3/standard video cells (five host_run_verified, three unsupported host boundaries). Current video matrix census: 10 host_run_verified, 7 unsupported, 82 planned. Combined known planned scope is now 112 cells: video 82, director 25, finishing 5.
