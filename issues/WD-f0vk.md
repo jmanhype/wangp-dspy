@@ -11,9 +11,10 @@ created_by: speed
 updated_at: 2026-09-26T18:18:54Z
 closed_at: 2026-09-26T18:18:54Z
 close_reason: "Accepted: diagnosis, fail-closed warning ownership, real-byte regression coverage, preservation evidence, targeted gates, and head CI all pass."
-content_hash: "sha256:81ae705849166390c24aede8e0dc94727df1cfd69f3cb44d83a3b3829b274acd"
+content_hash: "sha256:7547d7dd4c24b45798e71eba0ab22bb323d4f94de4fa224dd7b615eb36c2645a"
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9, WD-14ej]
+led_to: [WD-9ymi]
 ---
 ## Description
 ## Context
@@ -260,5 +261,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-9t9o]], [[WD-isg9]], [[WD-14ej]]
+- Led to: [[WD-9ymi]]
 
 ## Comments

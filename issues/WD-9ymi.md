@@ -1,19 +1,20 @@
 ---
 id: WD-9ymi
 title: "Story workflow accepts a delivered story with a blank formal AC section"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [discovered-by-pm, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:30:19Z
+updated_at: 2026-09-26T18:31:12Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:248edc00534ce1958aa37f0210574ced50779c3e77ff049bdc139becc243b5e3"
+content_hash: "sha256:848b49879d83f7a9b21ede322007b81f2c1bcecdfa3b907bf11332f6f8b5af3d"
 blocks: [WD-fay0]
-follows: [WD-9t9o, WD-isg9]
+follows: [WD-9t9o, WD-isg9, WD-f0vk]
+assignee: dev-WD-9ymi
 ---
 ## Description
 ## Context
@@ -221,11 +222,14 @@ status: delivered
 - 2026-09-26T18:13:50Z auto-follows: linked to predecessor WD-isg9
 - 2026-09-26T18:30:19Z status: in_progress -> open
 - 2026-09-26T18:30:19Z released by speed
+- 2026-09-26T18:31:12Z status: open -> in_progress
+- 2026-09-26T18:31:12Z auto-follows: linked to predecessor WD-f0vk
+- 2026-09-26T18:31:12Z claimed by dev-WD-9ymi
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-9t9o]], [[WD-isg9]]
+- Follows: [[WD-9t9o]], [[WD-isg9]], [[WD-f0vk]]
 
 ## Comments
 
