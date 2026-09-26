@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
 updated_at: 2026-09-26T23:58:06Z
-content_hash: "sha256:8b61b5574f377d010b5b1998510cd8a307ebc8500ab9adcd8b67259dc16a9ff5"
+content_hash: "sha256:26aa9e898996cc06b7d7a3193b76966baeedead9f14c764e8dae87d22bc52a9d"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw]
@@ -278,3 +278,21 @@ status: delivered
 - Follows: [[WD-5k28]], [[WD-m7xw]]
 
 ## Comments
+
+### 2026-09-26T23:58:06Z speed
+## PM Decision
+REJECTED [2026-09-26]:
+EXPECTED: AC #8 requires docs/director-capabilities.md to change only mechanically from the WD-7fvx bundle and accurately describe the authorized run boundary.
+DELIVERED: docs/director-capabilities.md:37 correctly marks only Audio/music-video and Screenplay review checkpoints as host_run_verified (WD-7fvx), but docs/director-capabilities.md:43 still ends with: "No GPU, SSH, model download, paid provider, renderer admission, retry, QC/AV, or gate semantic is exercised or changed by this planning slice." The delivered bundle contradicts that stale sentence: evidence.json records the SSH host command; host-preflight.json records the RTX 3090/local Qwen judge; queue-record.json records admitted attempt-8; queue-final-state.json records retry/done; and director-qc-evidence.json records Whisper, identity, mouth-box, and SyncNet QC.
+GAP: DOCS_STALE: the inherited planning-only sentence was not updated after promoting two cells from an authorized host/QC bundle. It falsely says GPU, SSH, queue admission/retry, and QC/AV were not exercised, so the final matrix narrative is not mechanically true to WD-7fvx and fails AC #8.
+FIX: Update only the stale authorization-boundary sentence to accurately distinguish what WD-7fvx exercised (authorized SSH/3090 execution, preexisting local models, queue admission/retry, and QC/AV) from what it did not do or change (model/dependency/provider mutation or download, thresholds, and protected queue/preflight/renderer/wiring/engine semantics). Then rerun the relevant standing gates from the new final head, including targeted director tests, the maestro-parity checker, pvg verify, git diff --check, and protected-file parity; supply the corrected commit SHA and outputs.
+
+## nd_contract
+status: rejected
+
+### evidence
+- docs/director-capabilities.md:37,43 versus evidence.json, host-preflight.json, queue-record.json, queue-final-state.json, and director-qc-evidence.json.
+- Independently verified checker PASS, 26/26 objective gates, source/output hashes, WD-dmf2 parity, protected-file parity, and delivery-proof shape before finding the stale docs claim.
+
+### proof
+- [ ] AC #8: documentation is not mechanically accurate at the final authorization-boundary sentence.
