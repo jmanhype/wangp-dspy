@@ -1,14 +1,16 @@
 ---
 id: WD-3nod
 title: "Maestro parity: generation evidence"
-status: open
+status: closed
 priority: 1
 type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-26T04:30:47Z
-content_hash: "sha256:5cbdec28278d87ddbed1b8d1520236d19358a73253e0b4504ebc439d787b1367"
+updated_at: 2026-09-26T05:37:11Z
+content_hash: "sha256:dddfbe8b84b9d71daa5fbcb274f5b3129d353db3292a2404052812876d76e20c"
+closed_at: 2026-09-26T05:37:11Z
+close_reason: "All stories accepted"
 ---
 
 ## Description
@@ -26,6 +28,7 @@ Temporary creation body; authoritative body is installed immediately after ID as
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
 - 2026-09-26T04:07:53Z status: closed -> open (reopened)
+- 2026-09-26T05:37:11Z status: open -> closed
 
 ## Links
 
