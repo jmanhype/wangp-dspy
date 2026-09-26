@@ -8,10 +8,10 @@ labels: [discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T17:12:35Z
+updated_at: 2026-09-26T17:13:20Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:83b59537d2164648c26059fade081bade3ffb991d255beae02572070c8f957c2"
+content_hash: "sha256:6ad1b18b3c90b1ea7080a60e349b8cbe42d96f674b120b6b85eeedf21894f1e5"
 ---
 ## Description
 ## Context
@@ -61,7 +61,7 @@ Story WD-9t9o: PM triage found the tracker-visible formal Acceptance Criteria se
 
 ## Capstone Impact
 
-No `blocks WD-fay0` dependency is added. This is a governance/workflow defect, not missing Maestro-parity evidence; WD-fay0's consolidated evidence contract can still consume the accepted lane artifacts. The guard must prevent future acceptances rather than invalidate the existing capstone linkage.
+This bug blocks WD-fay0 at the governance gate. WD-fay0 requires a clean backlog lint gate and reliable future story acceptance; an open P0 sibling without the required capstone edge makes that gate fail, and the guard must be in place before remaining epic work is accepted. The consolidated evidence contract can still consume already accepted lane artifacts, so this blocker corrects governance rather than invalidating prior evidence.
 
 ## MANDATORY SKILLS
 
