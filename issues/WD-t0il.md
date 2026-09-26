@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T19:21:02Z
-content_hash: "sha256:b40b66270326b82d762c889441e3a606556958416bd1caed35539b9162f4b82d"
+updated_at: 2026-09-26T20:21:28Z
+content_hash: "sha256:bfc99c8ab6b198a7590ecb324d95e2cc9994bdef7af678b10ba08230ac8a7034"
 blocks: [WD-fay0]
 ---
 
@@ -173,3 +173,6 @@ Progress update only (gate remains deferred): WD-isg9 was accepted and merged at
 
 ### 2026-09-26T19:21:02Z speed
 Progress update only (gate remains deferred): WD-43tj was accepted and merged at fed25bdf. All nine minimax_h3/taomate_three_step cells are unsupported host implementation boundaries. Current video matrix census: 13 host_run_verified, 21 unsupported, 65 planned. Combined known planned scope is now 95 cells: video 65, director 25, finishing 5.
+
+### 2026-09-26T20:21:28Z speed
+Progress update only (gate remains deferred): WD-5k28 accepted and merged at 2b4714bf. All nine h3_outpaint cells are unsupported host implementation boundaries. Current video census: 13 host_run_verified, 30 unsupported, 56 planned. Combined known planned scope: 86 cells (video 56, director 25, finishing 5).
