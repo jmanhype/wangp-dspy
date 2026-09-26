@@ -1,0 +1,19 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-9t9o/settings/upscale.json
+Output directory: /home/straughter/Wan2GP/wd-9t9o/outputs/upscale
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-9t9o/settings/upscale.json
+[load_settings] Using path: /home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[Task 1/1] Media postprocessing...
+  [0/1] Upsampling - StartingPostprocessed video saved to Path: /home/straughter/Wan2GP/wd-9t9o/outputs/upscale/source_post.mp4
+Error extracting cover art from MP4: No module named 'mutagen'
+Error saving metadata to MP4 /home/straughter/Wan2GP/wd-9t9o/outputs/upscale/source_post.mp4: No module named 'mutagen'
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1.5s

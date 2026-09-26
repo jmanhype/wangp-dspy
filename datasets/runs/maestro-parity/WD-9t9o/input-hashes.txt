@@ -1,0 +1,4 @@
+6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb  /home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4
+4b882f0f513263effabc31e1ef7cd1f87b24086abfdc90278a7d128cd813449b  /home/straughter/Wan2GP/wd-9t9o/inputs/first-frame.png
+3ab2ab7a721a5ad82887451f8873d1a28d6d99112dbd9c868118da89e29237cb  /home/straughter/Wan2GP/wd-9t9o/inputs/recast-reference.png
+8e58f8f4389218384069525c1eda95652ef2b7a91b1957bcebff37a9e28e6657  /home/straughter/Wan2GP/wd-9t9o/inputs/repaint-mask.mp4

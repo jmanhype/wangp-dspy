@@ -1,0 +1,16 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-9t9o/settings/edit.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-9t9o/settings/edit.json
+[load_settings] Using path: /home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4
+With Denoising Strength 0.5, Denoising will start at Step no 4 
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=minimax_h3_fl2va_pruned, steps=8, frames=56
+          prompt: Edit the VDN crane scene: warm the light, refine t...
+With Denoising Strength 0.5, Denoising will start at Step no 4 
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.

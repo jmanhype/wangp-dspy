@@ -1,0 +1,10 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/Wan2GP/wd-9t9o/settings/blend-probe.json
+--profile
+3
+--attention
+auto
+--output-dir
+/home/straughter/Wan2GP/wd-9t9o/outputs/blend-probe
