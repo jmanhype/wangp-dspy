@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:02:25Z
-content_hash: "sha256:e9eb56fdc56755a93a734bddd9ce584696e25ac9e2be58ab7d70b052f26b870c"
+updated_at: 2026-09-26T23:03:02Z
+content_hash: "sha256:94279aeaebb70ff1da33cd16532d10738b09cb7194835f7950b4e8f916e36548"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
@@ -133,6 +133,37 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+## Implementation Evidence (DELIVERED)
+
+### CI/Test Results
+Commands run:
+- pvg verify datasets/runs/maestro-parity/WD-m7xw docs/video-capabilities.md --include-tests --format=text
+- uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_video_capabilities.py --junitxml=datasets/runs/maestro-parity/WD-m7xw/targeted-tests-resumed.xml
+- pvg lint --backlog
+- uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-m7xw
+- uv run --frozen --extra dev pytest -q --junitxml=datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed.xml
+- uv run --frozen --extra dev wgp release verify
+Summary: pvg verify PASS; targeted pytest 110/110 PASS (errors=0, failures=0, skipped=0); backlog lint 0 errors/0 review; canonical checker FAIL only pending reviewer decision/links; full pytest operator-stopped at 47% with exit 143 and no JUnit verdict; release=ready/tag_created=false; protected parity and git diff --check PASS.
+Coverage: not applicable—docs/evidence-only story, no production runtime module changed.
+Commit SHA: a4f145bb (final branch head; evidence 8ba5e638 and full-suite boundary 0d44dff2 below it).
+
+## nd_contract
+status: delivered
+
+### evidence
+- Four real outputs and four exact dependency boundaries are committed/pushed on story/WD-m7xw at a4f145bb.
+- Gate receipts are in datasets/runs/maestro-parity/WD-m7xw; canonical checker is pending only independent PM decision/links.
+
+### proof
+- [x] AC #1: authorization, 15/15 hashes, exact commit/tree, tokenizer PASS.
+- [x] AC #2: zero-download/offline boundary and fail-closed dependency attempts PASS.
+- [x] AC #3: all eight cells dispositioned with zero planned target cells PASS.
+- [x] AC #4: create/extend/retake/edit outputs and evidence PASS pending independent reviewer approval.
+- [x] AC #5: exact four dependency boundaries with native exit/stderr/stage/GPU/source identity PASS.
+- [x] AC #6: no substitution, inheritance, QC weakening, or tokenizer smoke-test claim PASS.
+- [x] AC #7: exact eight-cell matrix transition with unchanged blend PASS.
+- [x] AC #8: live tree unchanged and no unrelated service touched PASS.
+- [ ] AC #9: lint/release/parity PASS, but full suite has operator-directed 47% stop boundary and canonical reviewer is pending.
 
 
 ## nd_contract
