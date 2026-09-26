@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T20:53:45Z
-content_hash: "sha256:43bf72477bc6dcfb905555c481e89e58fd10a97c6a8a61b58457259ff69aa35f"
+updated_at: 2026-09-26T20:54:23Z
+content_hash: "sha256:702283474cf82cfa3ccdfb19be69dd0ac859b40b49e4f4fc1459b0dc76b68a22"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 ---
@@ -48,12 +48,12 @@ This story grants no execution. The operator must separately authorize the exact
 - Reusing WD-r81u's old `noise=alls=12:allf=t+u` output as evidence for the corrected graph.
 
 ## DIFF BUDGET
-- About 2 authored files and under 250 changed LOC: `docs/finishing-capabilities.md` plus the current-head plan, local ffmpeg logs, lossless/final artifacts, measurements, typed refusals, and boundary records under `datasets/runs/maestro-parity/<story-id>/`.
+- About 2 authored files and under 250 changed LOC: `docs/finishing-capabilities.md` plus the current-head plan, local ffmpeg logs, lossless/final artifacts, measurements, typed refusals, and boundary records under `datasets/runs/maestro-parity/WD-obkn/`.
 - Keep the aggregate bundle under 512 MiB and commit no model weights.
 
 ## Boundary Map
 PRODUCES:
-- datasets/runs/maestro-parity/<story-id>/ -> terminal five-cell finishing evidence bundle
+- datasets/runs/maestro-parity/WD-obkn/ -> terminal five-cell finishing evidence bundle
   spec: operator decisions, current-head graph, immutable source/output hashes, ffmpeg transcripts, measured size/persistence evidence, typed neural refusals, face-input absence proof, checker results, and exact matrix citations.
 - docs/finishing-capabilities.md -> terminal five-cell finishing matrix updates
   event: mark only ffmpeg film grain `host_run_verified` on real evidence and mark the other four cells with operator-approved unsupported missing-input/host-boundary labels that do not claim hardware infeasibility.
@@ -85,7 +85,7 @@ CONSUMES:
 - Run no-GPU typed-request probes for neural interpolation and spatial upscale and retain exit 2 plus `FINISH_NEURAL_PATH_UNAVAILABLE`; prove no media was emitted.
 - Re-verify the existing no-face frame, zero-hit named-implementation evidence, and mandatory `FaceTrack` fields; do not perform SSH or host discovery.
 - Invoke the WD-651z checker on the successful and disposition evidence; parse the final matrix for exactly the five intended transitions and no collateral changes.
-- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/<story-id>-full.xml`; `uv run --frozen --extra dev wgp release verify`; `git diff --check`; and protected-file parity against the recorded base.
+- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full.xml`; `uv run --frozen --extra dev wgp release verify`; `git diff --check`; and protected-file parity against the recorded base.
 
 ## Delivery Requirements
 - Paste operator decisions, current-head plan/graph identity, ffmpeg command and output tails, source/intermediate/final hashes, ffprobe summaries, measurement matrices, deterministic replay result, typed refusals, face-input evidence, checker result, matrix transition, lint/JUnit/release/parity outputs, and bundle size.
