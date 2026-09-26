@@ -8,11 +8,11 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
-updated_at: 2026-09-26T16:25:12Z
-content_hash: "sha256:6470f76b2e736f3c52e3584261cdc3701c832455b591b01a10408a0ffd557fce"
+updated_at: 2026-09-26T16:27:56Z
+content_hash: "sha256:2ada37e9f4b7688d77336f6fb7d7dea3241a8f24dfadde8c5ebe61e530552e24"
 blocks: [WD-fay0]
 assignee: dev-WD-9t9o
-follows: [WD-isg9]
+follows: [WD-isg9, WD-14ej]
 ---
 
 ## Description
@@ -59,11 +59,13 @@ None identified.
 - 2026-09-26T15:57:03Z status: open -> in_progress
 - 2026-09-26T15:57:03Z auto-follows: linked to predecessor WD-isg9
 - 2026-09-26T15:57:03Z claimed by dev-WD-9t9o
+- 2026-09-26T16:27:56Z status: in_progress -> in_progress
+- 2026-09-26T16:27:57Z auto-follows: linked to predecessor WD-14ej
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-isg9]]
+- Follows: [[WD-isg9]], [[WD-14ej]]
 
 ## Comments
 
