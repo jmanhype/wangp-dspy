@@ -1,18 +1,19 @@
 ---
 id: WD-m7xw
 title: "LTX-2.5 no-download operation batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T21:31:37Z
-content_hash: "sha256:add1c74c054aab19069ce304503e2f27778512a03b18dc5668f4b8c905ccc3cd"
+updated_at: 2026-09-26T21:35:04Z
+content_hash: "sha256:74c43e53d7261da086fc5a7563ba9e1474786fcbec20c3ddad561010749e4fcd"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
-follows: [WD-5k28, WD-43tj]
+follows: [WD-5k28, WD-43tj, WD-9ymi]
+assignee: dev-WD-m7xw
 ---
 
 ## Description
@@ -148,12 +149,15 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
 - 2026-09-26T21:10:03Z claimed by dev-WD-m7xw
 - 2026-09-26T21:31:37Z status: in_progress -> open
 - 2026-09-26T21:31:37Z released by speed
+- 2026-09-26T21:35:04Z status: open -> in_progress
+- 2026-09-26T21:35:04Z auto-follows: linked to predecessor WD-9ymi
+- 2026-09-26T21:35:04Z claimed by dev-WD-m7xw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
-- Follows: [[WD-5k28]], [[WD-43tj]]
+- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]]
 
 ## Comments
 
