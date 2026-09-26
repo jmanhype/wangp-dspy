@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
-updated_at: 2026-09-26T05:36:40Z
-content_hash: "sha256:350ab03d6f6a1eb6ec8ebf6fffe7a3000abdb56111ab46eaa020e199fa0db3ad"
+updated_at: 2026-09-26T05:36:41Z
+content_hash: "sha256:9b90d397a47b416cf07261b8e66982da3da07ccf44645e69fd9d79999e38644d"
 assignee: dev-WD-14ej
 follows: [WD-i7qs, WD-r4n8, WD-fay0]
 closed_at: 2026-09-26T05:36:40Z
@@ -187,6 +187,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 ### CI/Test Results
