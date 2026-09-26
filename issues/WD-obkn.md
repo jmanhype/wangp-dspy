@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-26T23:38:09Z
-content_hash: "sha256:24775f291aa40a22ab5aeae432a71e9f1ebd8594f465e4a490ad1523f0856e56"
+content_hash: "sha256:43b1a7e516962767a0d6095796d016c0971ead8f8328da6f17f62a908874190c"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw]
@@ -349,3 +349,6 @@ status: delivered
 - [x] AC #1 through AC #9 verified from artifacts.
 - [ ] AC #10 clean full-suite completion remains concurrency-blocked; checker/lint/release/diff/protected passed and no pass is claimed.
 
+
+### 2026-09-26T23:38:09Z speed
+EXPECTED: AC #10 requires the canonical checker acceptance plus backlog lint 0 errors, a full pytest JUnit with errors=0 and failures=0, release verification release=ready tag_created=false, and diff/protected-file checks. DELIVERED: checker, lint, release, diff, protected parity, and scoped 136-test JUnit pass at pushed 2d778cef293ef3c5a441a35e15d89d715999e10d, but the committed full JUnit reports 2108 tests with failures=2 and the clean retry was dispatcher-stopped at 47% with no JUnit. GAP: A future CI promise is not completed full-suite evidence, and the PM cannot waive or interpret away the explicit AC #10 gate. FIX: Run the full suite to completion for exact pushed 2d778cef in an isolated runner or record completed CI JUnit for that exact commit showing errors=0 failures=0, then redeliver WD-obkn for PM review. Do not merge or PR on this rejection.
