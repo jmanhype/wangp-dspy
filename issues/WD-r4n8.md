@@ -9,13 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
 updated_at: 2026-09-26T03:17:49Z
-content_hash: "sha256:bd4f7926896e50e92e726906309530f2b790e21def3b1c2528e84724ea27c338"
+content_hash: "sha256:e18d4703c133f6c47149476bc741f1bf9bbf7ee9489b54176cdf8ce8e1f3d825"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2, WD-bxhc]
 closed_at: 2026-09-26T03:17:49Z
 close_reason: "AC1-AC7 independently reproduced at 3edd0282da0cb7b8983debd3c10b86b908c4046a: real-source grain graphs differ by encoded size/persistence, plans deterministic, plan-only invariants and fail-closed film rejection verified, docs honest, full suite/lint/release/diff and scope gates green."
 led_to: [WD-i7qs, WD-14ej, WD-isg9]
-blocks: [WD-fay0]
+blocks: [WD-fay0, WD-mulc]
 ---
 
 ## Description
@@ -280,10 +280,11 @@ status: new
 - 2026-09-26T03:17:49Z status: in_progress -> closed
 - 2026-09-26T03:17:49Z dep_removed: no_longer_blocks WD-fay0
 - 2026-09-26T04:30:28Z dep_added: blocks WD-fay0
+- 2026-09-26T20:50:57Z dep_added: blocks WD-mulc
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
+- Blocks: [[WD-fay0]], [[WD-mulc]]
 - Follows: [[WD-fay0]], [[WD-dmf2]], [[WD-bxhc]]
 - Led to: [[WD-i7qs]], [[WD-14ej]], [[WD-isg9]]
 
