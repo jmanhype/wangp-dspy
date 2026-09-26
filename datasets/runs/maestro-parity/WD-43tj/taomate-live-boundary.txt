@@ -1,0 +1,36 @@
+2026-09-26T18:45:05Z
+straughter-Z690-Steel-Legend
+--- all current-tree TaoMate matches (context) ---
+/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py:41:    taomate_three_step = "taomate_three_step"
+/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py:56:        VideoPreset.taomate_three_step,
+all_matches_grep_exit=0
+--- TaoMate host-implementation search ---
+host_grep_exit=1
+3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b  /home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py
+--- TaoMate filename search ---
+find_exit=0 match_count=0
+--- checked-out tree identities ---
+4c93b64a47b5b0a915f2abec2ce754be98227150
+ M models/minimax_h3/minimax_h3_handler.py
+ M models/minimax_h3/multishot.py
+ M models/minimax_h3/transformer.py
+ M shared/gradio/hierarchy_selector/hierarchy_selector.pyi
+ M wgp.py
+?? acceptance-grid56-20260907/
+?? acceptance-grid56-r2/
+?? film/
+?? lf002-cut2-retry-after-finding60-20260916/
+?? lf002-two-cut-seed905-fresh-20260916/
+?? lf002-two-cut-seed905-prefix-20260916/
+?? lf002-two-cut-vibevoice-20260917/
+?? lf003-four-cut-fullgate-20260919/
+?? lf003-four-cut-fullgate-retry-20260919/
+?? lf003-two-cut-vibevoice-20260917/
+?? lf003-two-cut-vibevoice-fullgate-20260918/
+?? lf003-two-cut-vibevoice-rhostrong-20260918/
+?? lf003-two-cut-vibevoice-strict-20260917/
+?? lf003-v2-control-20260911/
+?? lf003-v3-exact-20260911/
+60951bb7519a53264e8fc57d991700ccdd0c4f4a
+--- host state ---
+NVIDIA GeForce RTX 3090, 24576 MiB, 84 MiB, 24033 MiB
