@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:38:09Z
-content_hash: "sha256:43b1a7e516962767a0d6095796d016c0971ead8f8328da6f17f62a908874190c"
+updated_at: 2026-09-26T23:38:10Z
+content_hash: "sha256:3e0413f8b1881a178630edcdcdc3efde5beaa52082721d30abef0ec8d01f4884"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw]
@@ -111,6 +111,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-26.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence (structural normalization)
 
 ### CI/Test Results
