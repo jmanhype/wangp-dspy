@@ -1,16 +1,18 @@
 ---
 id: WD-9t9o
 title: "Maestro parity: H3 VDN operation batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
-updated_at: 2026-09-26T15:56:38Z
-content_hash: "sha256:048b52071daa090ff9d3eb0de1941e9b3070d9b86ebc75d1a083c86527b573aa"
+updated_at: 2026-09-26T15:57:03Z
+content_hash: "sha256:3c31ee8f1ed01ed0f127181b24ce328c5f13d48790612df61fcd2dd99604e606"
 blocks: [WD-fay0]
+assignee: dev-WD-9t9o
+follows: [WD-isg9]
 ---
 
 ## Description
@@ -51,9 +53,13 @@ delivery proof, clean release verification, and PR CI must pass.
 
 ## History
 - 2026-09-26T15:56:58Z dep_added: blocks WD-fay0
+- 2026-09-26T15:57:03Z status: open -> in_progress
+- 2026-09-26T15:57:03Z auto-follows: linked to predecessor WD-isg9
+- 2026-09-26T15:57:03Z claimed by dev-WD-9t9o
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-isg9]]
 
 ## Comments
