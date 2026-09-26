@@ -42,13 +42,17 @@ external venv by an ad hoc install.
 
 ## Wangp-owned correction
 
-The canonical Maestro-parity verifier now reads referenced native logs and
-computes their exact SHA-256. It emits
+The canonical Maestro-parity verifier now resolves output, reference, and
+native-log paths through one strict bundle resolver and computes exact
+SHA-256 values case-insensitively without weakening 64-character shape checks.
+When native-log hashes are declared, their key set must exactly match the
+deduplicated native-log list. The verifier emits
 `WAN2GP_OPTIONAL_MUTAGEN_MISSING` for only the exact successful-save metadata
 and cover-art signatures. It fails closed on a missing/non-regular log, hash
-mismatch, a mutagen warning without a save marker, or an unrelated Python
-import error. Thus a pass explicitly reports the warning instead of normalizing
-it as ordinary success output.
+mismatch, a mutagen warning without a save marker, any unrelated
+`No module named`, `ModuleNotFoundError`, or `ImportError` line, or multiple
+ambiguous import failures. Thus a pass explicitly reports the warning instead
+of normalizing it as ordinary success output.
 
 Machine-readable diagnosis and all six relevant log hashes are retained in
 `datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json`.

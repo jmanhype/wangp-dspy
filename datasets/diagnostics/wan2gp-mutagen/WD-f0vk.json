@@ -75,10 +75,12 @@
     "warning_code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
     "contract": "docs/maestro-parity-evidence-contract.md",
     "fail_closed": [
-      "referenced native log absent, non-regular, duplicated, or outside the bundle",
-      "recorded native-log SHA-256 mismatch",
+      "referenced output, reference, or native-log path is absolute, lexically contains '..', has a symlinked component, resolves outside the bundle, or is not a regular file",
+      "recorded output, reference, or native-log SHA-256 is malformed or mismatched after case normalization",
+      "native_log_sha256 key set differs from deduplicated native_logs",
       "exact mutagen warning without a successful media-save marker",
-      "any unrelated Python import failure"
+      "any unrelated No module named, ModuleNotFoundError, or ImportError line",
+      "multiple or ambiguous import failures on one native-log line"
     ],
     "host_mutation": "none"
   }

@@ -90,6 +90,98 @@ def test_complete_authorized_bundle_passes_without_mutation(tmp_path: Path) -> N
     assert report.diagnostics == ()
 
 
+def test_uppercase_sha256_values_match_exact_bytes_for_all_hashed_groups(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "uppercase"
+    payload = _write_bundle(root)
+    payload["reference_provenance"][0]["sha256"] = (
+        payload["reference_provenance"][0]["sha256"].upper()
+    )
+    payload["output"][0]["sha256"] = payload["output"][0]["sha256"].upper()
+    log = root / "host-logs" / "render.log"
+    log.parent.mkdir()
+    log.write_bytes(
+        (
+            ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/edit.render.log"
+        ).read_bytes()
+    )
+    payload["queue_attempt"].update(
+        native_logs=["host-logs/render.log"],
+        native_log_sha256={
+            "host-logs/render.log": hashlib.sha256(log.read_bytes()).hexdigest().upper()
+        },
+    )
+    report = _record_and_verify(root, payload)
+    assert report.passed
+    assert report.diagnostics == ()
+    assert [warning.code for warning in report.warnings] == [
+        "WAN2GP_OPTIONAL_MUTAGEN_MISSING"
+    ]
+
+
+@pytest.mark.parametrize("group", ["reference", "output", "native-log"])
+def test_lexical_dotdot_component_fails_closed_for_every_hashed_path(
+    tmp_path: Path, group: str
+) -> None:
+    root = tmp_path / f"{group}-lexical-dotdot"
+    payload = _write_bundle(root)
+    if group == "reference":
+        payload["reference_provenance"][0]["path"] = "inputs/../inputs/reference.bin"
+        field = "reference_provenance[0].sha256"
+        relative = payload["reference_provenance"][0]["path"]
+    elif group == "output":
+        payload["output"][0]["path"] = "inputs/../outputs/final.mp4"
+        field = "output.sha256[0].sha256"
+        relative = payload["output"][0]["path"]
+    else:
+        log = root / "host-logs" / "render.log"
+        log.parent.mkdir()
+        log.write_text("Queue completed: 1/1 tasks\n", encoding="utf-8")
+        payload["queue_attempt"]["native_logs"] = [
+            "host-logs/../host-logs/render.log"
+        ]
+        field = "queue_attempt.native_logs[0]"
+        relative = payload["queue_attempt"]["native_logs"][0]
+    report = _record_and_verify(root, payload)
+    assert not report.passed
+    diagnostic = next(item for item in report.diagnostics if item.field == field)
+    assert diagnostic.message == f"path contains a lexical '..' component: {relative}"
+
+
+@pytest.mark.parametrize("group", ["reference", "output", "native-log"])
+def test_symlinked_parent_component_fails_closed_for_every_hashed_path(
+    tmp_path: Path, group: str
+) -> None:
+    root = tmp_path / f"{group}-symlinked-parent"
+    payload = _write_bundle(root)
+    if group == "reference":
+        (root / "linked-inputs").symlink_to(root / "inputs", target_is_directory=True)
+        payload["reference_provenance"][0]["path"] = "linked-inputs/reference.bin"
+        field = "reference_provenance[0].sha256"
+    elif group == "output":
+        (root / "linked-inputs").symlink_to(root / "inputs", target_is_directory=True)
+        payload["output"][0].update(
+            path="linked-inputs/reference.bin",
+            sha256=payload["reference_provenance"][0]["sha256"],
+        )
+        field = "output.sha256[0].sha256"
+    else:
+        log = root / "host-logs" / "render.log"
+        log.parent.mkdir()
+        log.write_text("Queue completed: 1/1 tasks\n", encoding="utf-8")
+        (root / "linked-host-logs").symlink_to(
+            root / "host-logs", target_is_directory=True)
+        payload["queue_attempt"]["native_logs"] = [
+            "linked-host-logs/render.log"
+        ]
+        field = "queue_attempt.native_logs[0]"
+    report = _record_and_verify(root, payload)
+    assert not report.passed
+    diagnostic = next(item for item in report.diagnostics if item.field == field)
+    assert diagnostic.message.startswith("path contains a symlinked component: ")
+
+
 @pytest.mark.parametrize("field", list(ROOT_KEYS), ids=list(ROOT_KEYS))
 def test_every_missing_field_group_fails_by_exact_name(
     tmp_path: Path, field: str
@@ -241,6 +333,59 @@ def test_unrelated_python_import_error_is_not_mislabeled_as_mutagen(tmp_path: Pa
     assert "unclassified Python import failure 'some_dependency'" in diagnostics[0].message
 
 
+def test_secondary_import_failure_fails_closed_even_with_owned_mutagen(
+    tmp_path: Path,
+) -> None:
+    source = ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/edit.render.log"
+    target = tmp_path / "render.log"
+    target.write_bytes(
+        source.read_bytes()
+        + b"\nNo module named 'secondary_dependency'\n"
+    )
+    warnings, diagnostics = verify_native_logs(tmp_path, {"native_logs": ["render.log"]})
+    secondary = next(
+        item for item in diagnostics
+        if "unclassified Python import failure 'secondary_dependency'" in item.message
+    )
+    assert secondary.field == "queue_attempt.native_logs[0]"
+    assert warnings
+
+
+def test_import_error_spelling_fails_closed_as_unclassified_import_failure(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "render.log"
+    target.write_text(
+        "Video file saved to Path: /run/output.mp4\n"
+        "ImportError: No module named 'some_dependency'\n",
+        encoding="utf-8",
+    )
+    warnings, diagnostics = verify_native_logs(tmp_path, {"native_logs": ["render.log"]})
+    assert warnings == ()
+    assert diagnostics[0].field == "queue_attempt.native_logs[0]"
+    assert (
+        "unclassified Python import failure 'some_dependency' at line 2"
+        in diagnostics[0].message
+    )
+
+
+def test_multiple_no_module_named_occurrences_on_one_line_are_ambiguous(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "render.log"
+    target.write_text(
+        "Video file saved to Path: /run/output.mp4\n"
+        "No module named 'mutagen' and No module named 'other_module'\n",
+        encoding="utf-8",
+    )
+    warnings, diagnostics = verify_native_logs(tmp_path, {"native_logs": ["render.log"]})
+    assert warnings == ()
+    assert diagnostics[0].field == "queue_attempt.native_logs[0]"
+    assert diagnostics[0].message == (
+        "multiple or ambiguous Python import failures at line 2"
+    )
+
+
 def test_missing_native_log_fails_closed(tmp_path: Path) -> None:
     warnings, diagnostics = verify_native_logs(
         tmp_path, {"native_logs": ["host-logs/edit.render.log"]})
@@ -264,6 +409,28 @@ def test_native_log_hash_mismatch_fails_closed(tmp_path: Path) -> None:
         "recorded 0000000000000000000000000000000000000000000000000000000000000000 "
         "but native log bytes hash "
     )
+
+
+def test_extra_native_log_hash_key_fails_closed(tmp_path: Path) -> None:
+    source = ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/edit.render.log"
+    target = tmp_path / "render.log"
+    target.write_bytes(source.read_bytes())
+    warnings, diagnostics = verify_native_logs(tmp_path, {
+        "native_logs": ["render.log"],
+        "native_log_sha256": {
+            "render.log": hashlib.sha256(target.read_bytes()).hexdigest(),
+            "host-logs/extra.render.log": "A" * 64,
+        },
+    })
+    key_set = next(
+        item for item in diagnostics
+        if item.field == "queue_attempt.native_log_sha256"
+    )
+    assert key_set.message == (
+        "key set must exactly match deduplicated native_logs: "
+        "extra ['host-logs/extra.render.log']"
+    )
+    assert warnings
 
 
 def test_mutagen_warning_without_media_save_marker_fails_closed(tmp_path: Path) -> None:
