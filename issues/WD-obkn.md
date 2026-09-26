@@ -4,11 +4,11 @@ title: "Finishing terminal disposition batch"
 status: open
 priority: 1
 type: task
-labels: [capability, finishing, evidence, external-integration, delivered]
+labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:38:08Z
+updated_at: 2026-09-26T23:38:09Z
 content_hash: "sha256:24775f291aa40a22ab5aeae432a71e9f1ebd8594f465e4a490ad1523f0856e56"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
