@@ -1,15 +1,17 @@
 ---
 id: WD-r4n8
 title: "Finishing: honor film-grain size and temporal_persistence in the emitted command graph"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:04:03Z
-content_hash: "sha256:8b38cda516d46fb87ad9a8080378ad2366d0afb08acebf95f757ed10c4d0c1b7"
+updated_at: 2026-09-26T02:04:16Z
+content_hash: "sha256:c1ed7ae5381644a4fcd106331fd967601e15db95e38a53238a28d8f510bd9071"
+assignee: dev-WD-r4n8
+follows: [WD-fay0]
 ---
 
 ## Description
@@ -101,9 +103,12 @@ status: new
 
 
 ## History
-
+- 2026-09-26T02:04:16Z status: open -> in_progress
+- 2026-09-26T02:04:16Z auto-follows: linked to predecessor WD-fay0
+- 2026-09-26T02:04:16Z claimed by dev-WD-r4n8
 
 ## Links
 - Parent: [[WD-3nod]]
+- Follows: [[WD-fay0]]
 
 ## Comments
