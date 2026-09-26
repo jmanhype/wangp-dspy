@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-26T23:15:12Z
-content_hash: "sha256:2790dc3d49a48283ad03c155dcbb414f4bea737a5f63f756ef18871a4713ba22"
+content_hash: "sha256:bd90a786f7c10da332e749b50240f224b2159f3f6555c0703b1f8e2d0deefdb3"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
@@ -132,6 +132,18 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-26.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence
 
 This heading is a verifier-format correction; the authoritative detailed proof is in the preceding delivered block. Commands, summary, coverage, final commit SHA a4f145bb, operation evidence, boundaries, and AC table are present there.
