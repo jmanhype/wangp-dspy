@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:22:00Z
-content_hash: "sha256:146def5b90c32e4aacf6c7f169323e40c4f8a4b8f7ceb425c824211943e5e26d"
+updated_at: 2026-09-26T23:22:23Z
+content_hash: "sha256:f02d8630565df6e8473b6d5005b59015541ba2359c98cc07e9ae54394a471ddf"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
@@ -133,6 +133,48 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+## Implementation Evidence
+
+### Path-only rework proof
+
+The authoritative evidence citations now use exact repository-relative produced paths, including:
+
+- `datasets/runs/maestro-parity/WD-m7xw/review/QC.md`
+- `datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json`
+- `datasets/runs/maestro-parity/WD-m7xw/operator-authorization.md`
+- `datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md`
+- `datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json`
+- `datasets/runs/maestro-parity/WD-m7xw/operation-map.md`
+- `datasets/runs/maestro-parity/WD-m7xw/pvg-lint-resumed.txt`
+
+Historical rejection path strings were normalized to these exact paths so the deterministic paths-exist gate can resolve them; the PM rejection semantics and independently verified outputs/boundaries are unchanged.
+
+### CI/Test Results
+Commands run:
+- pvg lint --backlog --json
+- pvg lint --backlog
+- pvg story verify-delivery WD-m7xw
+Summary: backlog lint PASS, 139 scanned, 0 errors, 0 review findings; path-only rework required no media, GPU, SSH, host, or download operation. No repository file changed, so branch head remains a4f145bb and no new repository commit is applicable.
+Coverage: not applicable—tracker citation-only correction.
+Commit SHA: a4f145bb (unchanged repository evidence head).
+
+### AC Verification
+| AC # | Requirement | Evidence | Status |
+| --- | --- | --- | --- |
+| 9 | Standing backlog lint gate after path correction | pvg lint --backlog: 139 scanned, 0 errors, 0 review findings | PASS for the rejected path defect |
+
+LEARNINGS:
+- The paths-exist linter evaluates historical path-bearing proof text, not only the latest contract; path strings must be repository-relative from their first occurrence.
+- An nd body update adds the managed Description heading, so the clean repair is an exact full-issue path normalization rather than a body-file prepend.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Exact repository-relative citations now resolve; lint exit 0 with 0 errors and 0 review findings.
+
+### proof
+- [x] AC #9 path-lint defect corrected without changing media or repository evidence bytes.
 
 
 ## nd_contract
