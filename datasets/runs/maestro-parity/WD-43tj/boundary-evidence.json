@@ -1,0 +1,50 @@
+{
+  "schema_version": "wangp-dspy.wd-43tj.taomate-boundary/v1",
+  "probe_timestamp": "2026-09-26T18:45:05Z",
+  "host": "straughter-Z690-Steel-Legend",
+  "operator_authorization": "operator-authorization.md",
+  "probe_script": "host-scripts/wd_43tj_boundary_probe.sh",
+  "raw_probe": "taomate-live-boundary.txt",
+  "host_implementation_search": {
+    "paths": [
+      "/home/straughter/Wan2GP/models",
+      "/home/straughter/Wan2GP/shared",
+      "/home/straughter/Wan2GP/wgp.py",
+      "/home/straughter/Wan2GP/defaults",
+      "/home/straughter/Wan2GP/profiles",
+      "/mnt/bulk/straughter/Maestro/app"
+    ],
+    "exit_status": 1,
+    "match_count": 0,
+    "meaning": "no runtime implementation, handler, preset, settings path, or model identity"
+  },
+  "filename_search": {
+    "roots": [
+      "/home/straughter/Wan2GP",
+      "/mnt/bulk/straughter/Maestro/app"
+    ],
+    "exit_status": 0,
+    "match_count": 0
+  },
+  "context_only_match": {
+    "path": "/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py",
+    "sha256": "3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b",
+    "classification": "nested Wangp typed planner copy; not a host runtime implementation"
+  },
+  "accepted_prior_evidence": "../../WD-2gyw/taomate-search-evidence.md",
+  "dispositions": {
+    "create": "unsupported",
+    "extend": "unsupported",
+    "blend": "unsupported",
+    "retake": "unsupported",
+    "edit": "unsupported",
+    "outpaint": "unsupported",
+    "repaint": "unsupported",
+    "recast": "unsupported",
+    "upscale": "unsupported"
+  },
+  "boundary_reason": "No TaoMate runtime implementation exists in either checked-out host tree; a generic three-step H3 render would fabricate the named preset.",
+  "host_mutations": [],
+  "gpu_work": false,
+  "downloads_bytes": 0
+}
