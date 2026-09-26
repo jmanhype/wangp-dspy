@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
 updated_at: 2026-09-26T05:36:41Z
-content_hash: "sha256:9b90d397a47b416cf07261b8e66982da3da07ccf44645e69fd9d79999e38644d"
+content_hash: "sha256:6362a30e31342ffd49982fef048e3956db27df03cad26788563fca56f48bfd2f"
 assignee: dev-WD-14ej
 follows: [WD-i7qs, WD-r4n8, WD-fay0]
 closed_at: 2026-09-26T05:36:40Z
 close_reason: "Accepted: independently reproduced explicit scd=1/scd=0 graphs, default compatibility, deterministic records/hashes, plan-only invariants and absent jobs table, synthetic ffmpeg validity, honest docs, full gates, and clean scope."
+led_to: [WD-isg9]
 ---
 
 ## Description
@@ -357,5 +358,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-i7qs]], [[WD-r4n8]], [[WD-fay0]]
+- Led to: [[WD-isg9]]
 
 ## Comments
