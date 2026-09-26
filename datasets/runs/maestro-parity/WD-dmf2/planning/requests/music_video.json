@@ -1,0 +1,27 @@
+{
+  "schema_version": "wangp-dspy.director-request/v1",
+  "mode": "music_video",
+  "title": "Measured Analog Swing",
+  "audio": {
+    "path": "datasets/runs/maestro-parity/WD-dmf2/inputs/wd_rous_ace_generate.wav",
+    "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9",
+    "duration_s": 10.0,
+    "beats": [
+      {
+        "time_s": 5.28,
+        "confidence": 0.234944,
+        "measurement": "measured: librosa.beat.beat_track(y=mono, sr=48000, trim=False, units=frames, tightness=100), selected nearest midpoint; onset-strength confidence 0.234944 on datasets/runs/maestro-parity/WD-dmf2/inputs/wd_rous_ace_generate.wav sha256=6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+      }
+    ]
+  },
+  "pacing": {
+    "strategy": "beat",
+    "target_duration_s": 10.0
+  },
+  "review": {
+    "mode": "auto",
+    "manual_checkpoint_required": false,
+    "reviewer": "objective-gates"
+  },
+  "recipe_seed": 9414
+}

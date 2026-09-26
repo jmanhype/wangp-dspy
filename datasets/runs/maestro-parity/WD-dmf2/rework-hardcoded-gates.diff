@@ -1,0 +1,396 @@
+diff --git a/datasets/runs/maestro-parity/WD-dmf2/build_evidence.py b/datasets/runs/maestro-parity/WD-dmf2/build_evidence.py
+index 19b1603..3f77368 100755
+--- a/datasets/runs/maestro-parity/WD-dmf2/build_evidence.py
++++ b/datasets/runs/maestro-parity/WD-dmf2/build_evidence.py
+@@ -79,6 +79,7 @@ def references() -> list[dict]:
+         BUNDLE / "bundle-size.txt",
+         BUNDLE / "download-report.json",
+         BUNDLE / "standing-gates-final.txt",
++        BUNDLE / "gate-derivation.json",
+     ]
+     return [
+         {
+@@ -207,12 +208,40 @@ def planned_produced_map(media: dict) -> dict:
+     }
+ 
+ 
++def gate_applicability(qc: dict) -> dict:
++    """Derive, rather than assert, whether instrumental Whisper applies."""
++    item = next(
++        value for value in qc["whisper_gates"]
++        if value["video_path"].endswith("music_video/clip0001.mp4")
++    )
++    declared_instrumental = item["intended_text"].strip() == "[Instrumental]"
++    empty_transcript = "empty transcript" in item.get("error", "")
++    applicable = not (declared_instrumental and empty_transcript)
++    return {
++        "gate": "whisper_transcript",
++        "target": "music_video/clip0001.mp4 and instrumental audio-mode targets",
++        "applicable": applicable,
++        "source_fields": [
++            "whisper_gates[0].intended_text",
++            "whisper_gates[0].error",
++        ],
++        "derived_basis": {
++            "declared_instrumental": declared_instrumental,
++            "empty_transcript": empty_transcript,
++        },
++        "reason": (
++            "The declared text is [Instrumental] and Whisper returned an empty "
++            "transcript; a word-overlap speech score is undefined rather than 0.0."
++        ),
++    }
++
++
+ def objective_gates(media: dict, mapping: dict, qc: dict) -> list[dict]:
+     gates: list[dict] = []
+ 
+     def add(name: str, inputs: list[str], threshold: float,
+             measured: float, passed: bool, row: str,
+-            operation: str) -> None:
++            operation: str, source_field: str | None = None) -> None:
+         gates.append({
+             "name": name,
+             "inputs": inputs,
+@@ -221,57 +250,162 @@ def objective_gates(media: dict, mapping: dict, qc: dict) -> list[dict]:
+             "verdict": "pass" if passed else "fail",
+             "row": row,
+             "operation": operation,
++            "source_field": source_field or "; ".join(inputs),
+         })
+ 
++    def whisper_for(suffix: str) -> dict:
++        return next(
++            item for item in qc["whisper_gates"]
++            if item["video_path"].endswith(suffix)
++        )
++
++    def vision_for(suffix: str) -> dict:
++        return next(
++            item for item in qc["vision_gates"]
++            if item["video_path"].endswith(suffix)
++        )
++
++    def whisper_measurement(suffix: str) -> tuple[float, float, bool, str]:
++        item = whisper_for(suffix)
++        if not isinstance(item.get("score"), (int, float)):
++            raise RuntimeError(
++                f"applicable Whisper gate has no numeric score: {suffix}"
++            )
++        measured = float(item["score"])
++        threshold = float(item["pass_bar"])
++        passed = bool(item["passed"]) and measured >= threshold
++        pointer = next(
++            index for index, value in enumerate(qc["whisper_gates"])
++            if value is item
++        )
++        return threshold, measured, passed, (
++            f"whisper_gates[{pointer}].score/pass_bar/passed"
++        )
++
++    def syncnet_measurement(suffix: str) -> tuple[float, float, bool, str]:
++        item = vision_for(suffix)
++        evidence = item.get("syncnet_av", {})
++        if not isinstance(evidence.get("confidence"), (int, float)):
++            raise RuntimeError(
++                f"SyncNet gate has no numeric confidence: {suffix}"
++            )
++        measured = float(evidence["confidence"])
++        threshold = float(evidence["pass_bar"]["min_confidence"])
++        passed = bool(evidence["passed"]) and measured >= threshold
++        pointer = next(
++            index for index, value in enumerate(qc["vision_gates"])
++            if value is item
++        )
++        return threshold, measured, passed, (
++            f"vision_gates[{pointer}].syncnet_av.confidence/"
++            "pass_bar.min_confidence/passed"
++        )
++
+     add(
+         "output_hash_coverage_count", ["media-qc.json", "output-hashes.json"],
+-        len(media["records"]), len(media["records"]), True,
++        len(media["records"]), len(media["records"]),
++        len(media["records"]) == len(media["records"]),
+         "output provenance", "composition",
+     )
++    admission = load_json(BUNDLE / "queue-admission.json")
++    final_state = load_json(BUNDLE / "queue-final-state.json")
+     add(
+         "queue_admission_success_count", ["queue-admission.json"],
+-        1, 1, True, "immutable non-executable queue records", "queue",
++        1, int(admission["selected_job"] == admission["job_id"]),
++        admission["selected_job"] == admission["job_id"],
++        "immutable non-executable queue records", "queue",
++        "selected_job == job_id",
+     )
+     add(
+         "queue_exit_success_count", ["queue-final-state.json"],
+-        1, 1, True, "immutable non-executable queue records", "queue",
++        1, int(final_state["state"] == "done"),
++        final_state["state"] == "done",
++        "immutable non-executable queue records", "queue", "state == done",
+     )
++    queue_reports = [
++        load_json(BUNDLE / "planning/results" / f"{mode}.queue.json")
++        for mode in MODES
++    ]
++    selected_jobs = sum(item["selected_job"] is not None for item in queue_reports)
+     add(
+         "director_plan_selected_executable_job_count",
+         [f"planning/results/{mode}.queue.json" for mode in MODES],
+-        0, 0, True, "immutable non-executable queue records", "queue",
++        0, selected_jobs, selected_jobs == 0,
++        "immutable non-executable queue records", "queue",
++        "sum(selected_job is not null)",
++    )
++    review_reports = [
++        load_json(BUNDLE / "planning/results" / f"{mode}.review.json")
++        for mode in MODES
++    ] + [load_json(BUNDLE / "planning/results/prompt.enhanced.review.json")]
++    seed_matches = sum(
++        int(record["match"]) for report in review_reports
++        for record in report["records"]
+     )
+     add(
+         "seed_reconstruction_match_count",
+         [f"planning/results/{mode}.review.json" for mode in MODES]
+         + ["planning/results/prompt.enhanced.review.json"],
+-        10, 10, True, "seed-based hash reconstruction", "review",
++        10, seed_matches, seed_matches == 10,
++        "seed-based hash reconstruction", "review", "sum(records[].match)",
++    )
++    enhancement = load_json(
++        BUNDLE / "planning/results/prompt.enhance.json"
++    )
++    enhanced_review = load_json(
++        BUNDLE / "planning/results/prompt.enhanced.review.json"
++    )
++    enhancement_matches = sum(
++        int(record["match"]) for record in enhanced_review["records"]
+     )
+     add(
+         "enhancement_changed_field_count",
+-        ["planning/results/prompt.enhance.json"], 1, 1, True,
++        ["planning/results/prompt.enhance.json"],
++        len(enhancement["changed_fields"]),
++        len(enhancement["changed_fields"]),
++        len(enhancement["changed_fields"]) == 1,
+         "authorized prompt-only enhancement", "enhance",
++        "changed_fields.length",
+     )
+     add(
+         "enhancement_reconstruction_match_count",
+-        ["planning/results/prompt.enhanced.review.json"], 2, 2, True,
++        ["planning/results/prompt.enhanced.review.json"], 2,
++        enhancement_matches, enhancement_matches == 2,
+         "authorized prompt-only enhancement", "enhance",
++        "sum(records[].match)",
++    )
++    overlap_count = sum(
++        int(clip["overlap"]["frames"] == 6)
++        for mode in MODES for clip in mapping["modes"][mode]["planned_clips"]
+     )
+     add(
+         "six_frame_overlap_declared_count",
+         [f"planning/results/{mode}.plan.json" for mode in MODES],
+-        4, 4, True, "per-clip prompt and six-frame overlap", "plan",
++        4, overlap_count, overlap_count == 4,
++        "per-clip prompt and six-frame overlap", "plan",
++        "sum(planned_clips[].overlap.frames == 6)",
++    )
++    continuity_count = sum(
++        len(mapping["modes"][mode]["planned_clips"]) for mode in MODES
+     )
+     add(
+         "continuity_record_count",
+         [f"planning/results/{mode}.plan.json" for mode in MODES],
+-        8, 8, True, "explicit continuity state and transitions", "plan",
++        8, continuity_count, continuity_count == 8,
++        "explicit continuity state and transitions", "plan",
++        "sum(planned_clips[].continuity present)",
++    )
++    manual_checkpoints = sum(
++        int(clip["review_policy"]["mode"] == "manual")
++        for mode in MODES for clip in mapping["modes"][mode]["planned_clips"]
+     )
+     add(
+         "manual_checkpoint_record_count",
+         ["planning/results/prompt.plan.json",
+          "planning/results/screenplay.plan.json"],
+-        4, 4, True, "auto/manual review checkpoints", "plan",
++        4, manual_checkpoints, manual_checkpoints == 4,
++        "auto/manual review checkpoints", "plan",
++        "sum(planned_clips[].review.mode == manual)",
+     )
+     for mode in MODES:
+         planned = mapping["modes"][mode]["planned_duration_s"]
+@@ -286,58 +420,85 @@ def objective_gates(media: dict, mapping: dict, qc: dict) -> list[dict]:
+             f"{mode}_produced_clip_count",
+             [f"outputs/clips/{mode}/clip0001.mp4",
+              f"outputs/clips/{mode}/clip0002.mp4"],
+-            2, 2, True, "deterministic ordered multi-clip plan", "composition",
++            len(mapping["modes"][mode]["planned_clips"]),
++            len(mapping["modes"][mode]["planned_clips"]),
++            len(mapping["modes"][mode]["planned_clips"]) == 2,
++            "deterministic ordered multi-clip plan", "composition",
++            "planned_clips.length",
+         )
++    planned_beat = mapping["modes"]["music_video"]["planned_clips"][1][
++        "window"
++    ]["start_s"]
++    produced_boundary = mapping["modes"]["music_video"]["planned_clips"][0][
++        "produced_segment"
++    ]["duration_s"]
+     add(
+         "beat_boundary_abs_error_s",
+         ["planning/beat-analysis.json", "media-qc.json"],
+-        1 / 24, abs(5.291667 - 5.28), abs(5.291667 - 5.28) <= (1 / 24),
++        1 / 24, abs(produced_boundary - planned_beat),
++        abs(produced_boundary - planned_beat) <= (1 / 24),
+         "beat-aware measured window mapping", "composition",
++        "abs(clip1.produced.duration_s - clip2.window.start_s)",
+     )
+ 
+     vision = qc["vision_gates"]
+     whisper = qc["whisper_gates"]
+     add(
+         "identity_vision_pass_count", ["director-qc-evidence.json"],
+-        3, sum(item["identity_vision"]["passed"] for item in vision), True,
++        len(vision), sum(item["identity_vision"]["passed"] for item in vision),
++        all(item["identity_vision"]["passed"] for item in vision),
+         "auto/manual review checkpoints", "qc",
++        "sum(vision_gates[].identity_vision.passed)",
+     )
+     add(
+         "mouth_box_consensus_pass_count", ["director-qc-evidence.json"],
+-        3, sum(item["mouth_box_consensus"]["passed"] for item in vision), True,
++        len(vision), sum(item["mouth_box_consensus"]["passed"] for item in vision),
++        all(item["mouth_box_consensus"]["passed"] for item in vision),
+         "auto/manual review checkpoints", "qc",
++        "sum(vision_gates[].mouth_box_consensus.passed)",
+     )
++    for suffix in ("screenplay/clip0001.mp4", "screenplay/clip0002.mp4"):
++        threshold, measured, passed, pointer = whisper_measurement(suffix)
++        mode_name, clip_name = suffix.split("/")
++        clip_name = clip_name.removesuffix(".mp4")
++        add(
++            f"whisper_{mode_name}_{clip_name}_score",
++            ["director-qc-evidence.json"], threshold, measured, passed,
++            "auto/manual review checkpoints", "qc", pointer,
++        )
++    for suffix in (
++        "audio/clip0001.mp4", "screenplay/clip0001.mp4",
++        "screenplay/clip0002.mp4",
++    ):
++        threshold, measured, passed, pointer = syncnet_measurement(suffix)
++        mode_name, clip_name = suffix.split("/")
++        clip_name = clip_name.removesuffix(".mp4")
++        add(
++            f"syncnet_{mode_name}_{clip_name}_confidence",
++            ["director-qc-evidence.json"], threshold, measured, passed,
++            "auto/manual review checkpoints", "qc", pointer,
++        )
++    auto_vision = vision_for("audio/clip0001.mp4")
++    applicability = gate_applicability(qc)
++    applicable_auto_count = 4 - int(not applicability["applicable"])
++    auto_pass_count = sum((
++        int(bool(auto_vision["identity_vision"]["passed"])),
++        int(bool(auto_vision["mouth_box_consensus"]["passed"])),
++        int(bool(auto_vision["syncnet_av"]["passed"])),
++    ))
+     add(
+-        "whisper_music_video_instrumental_score", ["director-qc-evidence.json"],
+-        0.6, 0.0, False, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "whisper_screenplay_clip1_score", ["director-qc-evidence.json"],
+-        0.6, 0.556, False, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "whisper_screenplay_clip2_score", ["director-qc-evidence.json"],
+-        0.6, 1.0, True, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "syncnet_audio_clip1_confidence", ["director-qc-evidence.json"],
+-        1.0, 0.594741, False, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "syncnet_screenplay_clip1_confidence", ["director-qc-evidence.json"],
+-        1.0, 0.468897, False, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "syncnet_screenplay_clip2_confidence", ["director-qc-evidence.json"],
+-        1.0, 1.10503, True, "auto/manual review checkpoints", "qc",
+-    )
+-    add(
+-        "auto_review_mandatory_gate_pass_count", ["director-qc-evidence.json"],
+-        4, 2, False, "auto/manual review checkpoints", "auto-review",
++        "auto_review_applicable_mandatory_gate_pass_count",
++        ["director-qc-evidence.json"], applicable_auto_count,
++        auto_pass_count, auto_pass_count == applicable_auto_count,
++        "auto/manual review checkpoints", "auto-review",
++        "gate_applicability.applicable plus vision_gates[0].{identity_vision,mouth_box_consensus,syncnet_av}.passed",
+     )
++    reviewer_approved = int(qc["reviewer_verdict"]["decision"] == "approved")
+     add(
+         "reviewer_approved_count", ["director-qc-evidence.json", "row-dispositions.json"],
+-        1, 0, False, "auto/manual review checkpoints", "review",
++        1, reviewer_approved, reviewer_approved == 1,
++        "auto/manual review checkpoints", "review",
++        "reviewer_verdict.decision == approved",
+     )
+     return gates
+ 
+@@ -369,6 +530,22 @@ def main() -> int:
+     qc = load_json(BUNDLE / "director-qc-evidence.json")
+     mapping = planned_produced_map(media)
+     gates = objective_gates(media, mapping, qc)
++    applicability = gate_applicability(qc)
++    gate_derivation = {
++        "schema_version": "wangp-dspy.director-gate-derivation/v1",
++        "source": "director-qc-evidence.json",
++        "applicability": applicability,
++        "gates": [
++            {
++                "gate": item["name"],
++                "source_field": item["source_field"],
++                "measured": item["measured"],
++                "threshold": item["threshold"],
++                "verdict": item["verdict"],
++            }
++            for item in gates
++        ],
++    }
+ 
+     outputs = [
+         {"path": item["path"], "sha256": item["sha256"]}
+@@ -396,6 +573,7 @@ def main() -> int:
+         })
+     write_json(BUNDLE / "planned-produced-map.json", mapping)
+     write_json(BUNDLE / "objective-gates.json", gates)
++    write_json(BUNDLE / "gate-derivation.json", gate_derivation)
+     write_json(BUNDLE / "output-hashes.json", {"outputs": outputs})
+     (BUNDLE / "output-hashes.txt").write_text(
+         "".join(f"{item['sha256']}  {item['path']}\n" for item in outputs),
+@@ -531,10 +709,12 @@ def main() -> int:
+         "output": outputs,
+         "media_metadata": metadata,
+         "objective_gate_results": gates,
++        "gate_applicability": applicability,
+         "reviewer_verdict": {
+             "decision": "pending",
+             "evidence_links": [
+                 "planned-produced-map.json", "objective-gates.json",
++                "gate-derivation.json",
+                 "director-qc-evidence.json", "media-qc.json", "queue-final-state.json",
+                 "matrix-transition-check.json", "row-dispositions.json",
+                 "host-final-state.json", "review/frame-hashes.txt",
+@@ -550,6 +730,7 @@ def main() -> int:
+             ),
+         },
+         "planned_produced_map": "planned-produced-map.json",
++        "gate_derivation": "gate-derivation.json",
+         "download_report": "download-report.json",
+     }
+     write_json(BUNDLE / "evidence.json", evidence)

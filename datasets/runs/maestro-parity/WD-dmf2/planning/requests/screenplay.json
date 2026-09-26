@@ -1,0 +1,78 @@
+{
+  "schema_version": "wangp-dspy.director-request/v1",
+  "mode": "screenplay",
+  "title": "Witness and Rain",
+  "screenplay": {
+    "title": "Witness and Rain",
+    "characters": [
+      {
+        "name": "Witness",
+        "appearance": "young astronomer in a dark star-ember jacket",
+        "voice": "plain synthetic witness voice"
+      },
+      {
+        "name": "Orin",
+        "appearance": "elder in a firelit cave",
+        "voice": "Orin reference voice"
+      }
+    ],
+    "scenes": [
+      {
+        "scene_index": 1,
+        "slugline": "INT. OBSERVATORY - NIGHT",
+        "duration_s": 3.5,
+        "characters": [
+          "Witness",
+          "Orin"
+        ],
+        "location": "observatory",
+        "states": [
+          {
+            "name": "Witness",
+            "appearance": "young astronomer in a dark star-ember jacket",
+            "voice": "plain synthetic witness voice"
+          },
+          {
+            "name": "Orin",
+            "appearance": "elder in a firelit cave",
+            "voice": "Orin reference voice"
+          }
+        ],
+        "action": "The portable witness speaks plainly without claiming another voice."
+      },
+      {
+        "scene_index": 2,
+        "slugline": "EXT. RAIN THRESHOLD - NIGHT",
+        "duration_s": 2.333333,
+        "characters": [
+          "Witness",
+          "Orin"
+        ],
+        "location": "rain threshold",
+        "states": [
+          {
+            "name": "Witness",
+            "appearance": "young astronomer in a dark star-ember jacket",
+            "voice": "plain synthetic witness voice"
+          },
+          {
+            "name": "Orin",
+            "appearance": "elder in a firelit cave",
+            "voice": "Orin reference voice"
+          }
+        ],
+        "action": "Orin says this is the last rain we have."
+      }
+    ]
+  },
+  "pacing": {
+    "strategy": "even",
+    "target_duration_s": 5.833333
+  },
+  "review": {
+    "mode": "manual",
+    "manual_checkpoint_required": true,
+    "reviewer": "operator"
+  },
+  "recipe_seed": 9415
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "wangp-dspy.director-request/v1",
+  "mode": "prompt",
+  "title": "Compass Signal",
+  "prompt": "A concise cinematic test shot: in a firelit cave, an elder offers a bowl beside a restrained man while a small creature waits near the flames.",
+  "pacing": {
+    "strategy": "even",
+    "target_duration_s": 4.666666666666667,
+    "clip_count": 2
+  },
+  "review": {
+    "mode": "manual",
+    "manual_checkpoint_required": true,
+    "reviewer": "operator"
+  },
+  "recipe_seed": 9412,
+  "queue_enhancement": {
+    "intent": "replace_prompt",
+    "allowed_fields": [
+      "prompt"
+    ],
+    "reason": "operator requested a narrower compass close-up for the enhanced plan"
+  }
+}

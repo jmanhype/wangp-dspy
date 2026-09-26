@@ -1,0 +1,7 @@
+diagnostic code=INPUT_INVALID severity=error: Typed input or configuration check failed
+  observed: typed model-assets manifest is invalid
+  why: The CLI rejected the request before an engine side effect.
+  remediation: Fix the named field/path/configuration value, then rerun the same command.
+  next: wgp doctor --capabilities --models <models>
+  evidence: <models>
+  details: {"source": "<models>"}

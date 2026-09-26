@@ -1,0 +1,42 @@
+{
+  "applicable": false,
+  "derived_basis": {
+    "declared_instrumental": true,
+    "empty_transcript": true
+  },
+  "gate": "whisper_transcript",
+  "reason": "The declared text is [Instrumental] and Whisper returned an empty transcript; a word-overlap speech score is undefined rather than 0.0.",
+  "source_fields": [
+    "whisper_gates[0].intended_text",
+    "whisper_gates[0].error"
+  ],
+  "target": "music_video/clip0001.mp4 and instrumental audio-mode targets"
+}
+output_hash_coverage_count	media-qc.json; output-hashes.json	12	12	pass
+queue_admission_success_count	selected_job == job_id	1	1	pass
+queue_exit_success_count	state == done	1	1	pass
+director_plan_selected_executable_job_count	sum(selected_job is not null)	0	0	pass
+seed_reconstruction_match_count	sum(records[].match)	10	10	pass
+enhancement_changed_field_count	changed_fields.length	1	1	pass
+enhancement_reconstruction_match_count	sum(records[].match)	2	2	pass
+six_frame_overlap_declared_count	sum(planned_clips[].overlap.frames == 6)	4	4	pass
+continuity_record_count	sum(planned_clips[].continuity present)	8	8	pass
+manual_checkpoint_record_count	sum(planned_clips[].review.mode == manual)	4	4	pass
+prompt_final_duration_abs_error_s	outputs/wd_dmf2_prompt_composition.mp4; media-qc.json	3.340000001017529E-7	0.000001	pass
+prompt_produced_clip_count	planned_clips.length	2	2	pass
+audio_final_duration_abs_error_s	outputs/wd_dmf2_audio_composition.mp4; media-qc.json	0.0	0.000001	pass
+audio_produced_clip_count	planned_clips.length	2	2	pass
+music_video_final_duration_abs_error_s	outputs/wd_dmf2_music_video_composition.mp4; media-qc.json	0.0	0.000001	pass
+music_video_produced_clip_count	planned_clips.length	2	2	pass
+screenplay_final_duration_abs_error_s	outputs/wd_dmf2_screenplay_composition.mp4; media-qc.json	0.0	0.000001	pass
+screenplay_produced_clip_count	planned_clips.length	2	2	pass
+beat_boundary_abs_error_s	abs(clip1.produced.duration_s - clip2.window.start_s)	0.011667000000000094	0.041666666666666664	pass
+identity_vision_pass_count	sum(vision_gates[].identity_vision.passed)	3	3	pass
+mouth_box_consensus_pass_count	sum(vision_gates[].mouth_box_consensus.passed)	3	3	pass
+whisper_screenplay_clip0001_score	whisper_gates[1].score/pass_bar/passed	0.556	0.6	fail
+whisper_screenplay_clip0002_score	whisper_gates[2].score/pass_bar/passed	1.0	0.6	pass
+syncnet_audio_clip0001_confidence	vision_gates[0].syncnet_av.confidence/pass_bar.min_confidence/passed	0.594741	1.0	fail
+syncnet_screenplay_clip0001_confidence	vision_gates[1].syncnet_av.confidence/pass_bar.min_confidence/passed	0.468897	1.0	fail
+syncnet_screenplay_clip0002_confidence	vision_gates[2].syncnet_av.confidence/pass_bar.min_confidence/passed	1.10503	1.0	pass
+auto_review_applicable_mandatory_gate_pass_count	gate_applicability.applicable plus vision_gates[0].{identity_vision,mouth_box_consensus,syncnet_av}.passed	2	3	fail
+reviewer_approved_count	reviewer_verdict.decision == approved	0	1	fail

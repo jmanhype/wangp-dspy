@@ -1,0 +1,14 @@
+Verifying delivery proof for WD-dmf2
+---
+[OK]   label:delivered
+[OK]   nd_contract:last_block
+[OK]   nd_contract:eof
+[OK]   notes:implementation_evidence
+[OK]   notes:ci_test_results
+[OK]   notes:commands_run
+[OK]   notes:summary
+[OK]   notes:commit_sha
+[OK]   proof:ac_items
+---
+Passed: 9, Failed: 0
+[PASS] Delivery proof looks complete enough for PM review.

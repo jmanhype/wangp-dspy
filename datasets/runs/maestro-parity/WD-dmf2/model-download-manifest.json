@@ -1,0 +1,13 @@
+{
+  "schema_version": "wangp-dspy.model-assets/v1",
+  "assets": [
+    {
+      "id": "whisper-small",
+      "source_url": "https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt",
+      "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "size_bytes": 483617219,
+      "license": "MIT (OpenAI Whisper); operator research/evaluation only",
+      "destination": "/home/straughter/.cache/whisper/small.pt"
+    }
+  ]
+}

@@ -1,0 +1,1090 @@
+{
+  "command": [
+    "timeout",
+    "3600",
+    "ssh",
+    "-n",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "timeout",
+    "3500",
+    "/home/straughter/Wan2GP/wd-dmf2/host-scripts/wd_dmf2_run.sh"
+  ],
+  "contract_status": "incomplete_pending_review_and_failed_auto_gates",
+  "download_report": "download-report.json",
+  "gate_applicability": {
+    "applicable": false,
+    "derived_basis": {
+      "declared_instrumental": true,
+      "empty_transcript": true
+    },
+    "gate": "whisper_transcript",
+    "reason": "The declared text is [Instrumental] and Whisper returned an empty transcript; a word-overlap speech score is undefined rather than 0.0.",
+    "source_fields": [
+      "whisper_gates[0].intended_text",
+      "whisper_gates[0].error"
+    ],
+    "target": "music_video/clip0001.mp4 and instrumental audio-mode targets"
+  },
+  "gate_derivation": "gate-derivation.json",
+  "media_metadata": [
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 5.0,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/audio/clip0001.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 5.0,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/audio/clip0002.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 5.291667,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/music_video/clip0001.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 4.72,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/music_video/clip0002.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "present": false
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/prompt/clip0001.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "present": false
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/prompt/clip0002.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 3.5,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/screenplay/clip0001.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/clips/screenplay/clip0002.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 10.0,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_dmf2_audio_composition.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 10.0,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_dmf2_music_video_composition.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "present": false
+      },
+      "duration_s": 4.666667,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_dmf2_prompt_composition.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "opaque_yuv420p",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 48000
+      },
+      "duration_s": 5.833333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/wd_dmf2_screenplay_composition.mp4",
+      "width": 480
+    }
+  ],
+  "model_provenance": [
+    {
+      "bytes_pulled": 0,
+      "destination": "/home/straughter/.cache/whisper/small.pt",
+      "download_approved": true,
+      "identity": "whisper-small",
+      "license": "MIT (OpenAI Whisper); operator research/evaluation only",
+      "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "size_bytes": 483617219,
+      "source": "https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt"
+    },
+    {
+      "bytes_pulled": 0,
+      "destination": "/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf",
+      "download_approved": true,
+      "identity": "qwen38-27b-uncensored-Q4_K_M.gguf",
+      "license": "Operator-owned local Qwen3.8-27B GGUF; upstream license not recorded in this lane; research/evaluation only, no redistribution",
+      "sha256": "3445102e9cde5d562508642c100a2f5ac3368a5a3f748442811d7a95daee3bec",
+      "size_bytes": 16810714496,
+      "source": "operator-installed /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf"
+    },
+    {
+      "bytes_pulled": 0,
+      "destination": "/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/mmproj-f16.gguf",
+      "download_approved": true,
+      "identity": "qwen38-27b-uncensored-mmproj-f16.gguf",
+      "license": "Operator-owned local Qwen3.8-27B multimodal projector; upstream license not recorded in this lane; research/evaluation only, no redistribution",
+      "sha256": "add205b7bfdb3f71f6da36b0a82aa20928dd829a920878c602628cdfbebc5288",
+      "size_bytes": 931145984,
+      "source": "operator-installed /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/mmproj-f16.gguf"
+    },
+    {
+      "bytes_pulled": 0,
+      "destination": "/home/straughter/models/syncnet_v2/syncnet_v2.model",
+      "download_approved": true,
+      "identity": "syncnet_v2.model",
+      "license": "MIT-licensed SyncNet v2 model provenance; operator research/evaluation only",
+      "sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+      "size_bytes": 54573114,
+      "source": "operator-installed /home/straughter/models/syncnet_v2/syncnet_v2.model"
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "media-qc.json",
+        "output-hashes.json"
+      ],
+      "measured": 12,
+      "name": "output_hash_coverage_count",
+      "operation": "composition",
+      "row": "output provenance",
+      "source_field": "media-qc.json; output-hashes.json",
+      "threshold": 12,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-admission.json"
+      ],
+      "measured": 1,
+      "name": "queue_admission_success_count",
+      "operation": "queue",
+      "row": "immutable non-executable queue records",
+      "source_field": "selected_job == job_id",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "queue-final-state.json"
+      ],
+      "measured": 1,
+      "name": "queue_exit_success_count",
+      "operation": "queue",
+      "row": "immutable non-executable queue records",
+      "source_field": "state == done",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.queue.json",
+        "planning/results/audio.queue.json",
+        "planning/results/music_video.queue.json",
+        "planning/results/screenplay.queue.json"
+      ],
+      "measured": 0,
+      "name": "director_plan_selected_executable_job_count",
+      "operation": "queue",
+      "row": "immutable non-executable queue records",
+      "source_field": "sum(selected_job is not null)",
+      "threshold": 0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.review.json",
+        "planning/results/audio.review.json",
+        "planning/results/music_video.review.json",
+        "planning/results/screenplay.review.json",
+        "planning/results/prompt.enhanced.review.json"
+      ],
+      "measured": 10,
+      "name": "seed_reconstruction_match_count",
+      "operation": "review",
+      "row": "seed-based hash reconstruction",
+      "source_field": "sum(records[].match)",
+      "threshold": 10,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.enhance.json"
+      ],
+      "measured": 1,
+      "name": "enhancement_changed_field_count",
+      "operation": "enhance",
+      "row": "authorized prompt-only enhancement",
+      "source_field": "changed_fields.length",
+      "threshold": 1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.enhanced.review.json"
+      ],
+      "measured": 2,
+      "name": "enhancement_reconstruction_match_count",
+      "operation": "enhance",
+      "row": "authorized prompt-only enhancement",
+      "source_field": "sum(records[].match)",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.plan.json",
+        "planning/results/audio.plan.json",
+        "planning/results/music_video.plan.json",
+        "planning/results/screenplay.plan.json"
+      ],
+      "measured": 4,
+      "name": "six_frame_overlap_declared_count",
+      "operation": "plan",
+      "row": "per-clip prompt and six-frame overlap",
+      "source_field": "sum(planned_clips[].overlap.frames == 6)",
+      "threshold": 4,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.plan.json",
+        "planning/results/audio.plan.json",
+        "planning/results/music_video.plan.json",
+        "planning/results/screenplay.plan.json"
+      ],
+      "measured": 8,
+      "name": "continuity_record_count",
+      "operation": "plan",
+      "row": "explicit continuity state and transitions",
+      "source_field": "sum(planned_clips[].continuity present)",
+      "threshold": 8,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/results/prompt.plan.json",
+        "planning/results/screenplay.plan.json"
+      ],
+      "measured": 4,
+      "name": "manual_checkpoint_record_count",
+      "operation": "plan",
+      "row": "auto/manual review checkpoints",
+      "source_field": "sum(planned_clips[].review.mode == manual)",
+      "threshold": 4,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_dmf2_prompt_composition.mp4",
+        "media-qc.json"
+      ],
+      "measured": 3.340000001017529e-07,
+      "name": "prompt_final_duration_abs_error_s",
+      "operation": "composition",
+      "row": "exact/window pacing preservation",
+      "source_field": "outputs/wd_dmf2_prompt_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/clips/prompt/clip0001.mp4",
+        "outputs/clips/prompt/clip0002.mp4"
+      ],
+      "measured": 2,
+      "name": "prompt_produced_clip_count",
+      "operation": "composition",
+      "row": "deterministic ordered multi-clip plan",
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_dmf2_audio_composition.mp4",
+        "media-qc.json"
+      ],
+      "measured": 0.0,
+      "name": "audio_final_duration_abs_error_s",
+      "operation": "composition",
+      "row": "exact/window pacing preservation",
+      "source_field": "outputs/wd_dmf2_audio_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/clips/audio/clip0001.mp4",
+        "outputs/clips/audio/clip0002.mp4"
+      ],
+      "measured": 2,
+      "name": "audio_produced_clip_count",
+      "operation": "composition",
+      "row": "deterministic ordered multi-clip plan",
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_dmf2_music_video_composition.mp4",
+        "media-qc.json"
+      ],
+      "measured": 0.0,
+      "name": "music_video_final_duration_abs_error_s",
+      "operation": "composition",
+      "row": "exact/window pacing preservation",
+      "source_field": "outputs/wd_dmf2_music_video_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/clips/music_video/clip0001.mp4",
+        "outputs/clips/music_video/clip0002.mp4"
+      ],
+      "measured": 2,
+      "name": "music_video_produced_clip_count",
+      "operation": "composition",
+      "row": "deterministic ordered multi-clip plan",
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/wd_dmf2_screenplay_composition.mp4",
+        "media-qc.json"
+      ],
+      "measured": 0.0,
+      "name": "screenplay_final_duration_abs_error_s",
+      "operation": "composition",
+      "row": "exact/window pacing preservation",
+      "source_field": "outputs/wd_dmf2_screenplay_composition.mp4; media-qc.json",
+      "threshold": 1e-06,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/clips/screenplay/clip0001.mp4",
+        "outputs/clips/screenplay/clip0002.mp4"
+      ],
+      "measured": 2,
+      "name": "screenplay_produced_clip_count",
+      "operation": "composition",
+      "row": "deterministic ordered multi-clip plan",
+      "source_field": "planned_clips.length",
+      "threshold": 2,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "planning/beat-analysis.json",
+        "media-qc.json"
+      ],
+      "measured": 0.011667000000000094,
+      "name": "beat_boundary_abs_error_s",
+      "operation": "composition",
+      "row": "beat-aware measured window mapping",
+      "source_field": "abs(clip1.produced.duration_s - clip2.window.start_s)",
+      "threshold": 0.041666666666666664,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 3,
+      "name": "identity_vision_pass_count",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "sum(vision_gates[].identity_vision.passed)",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 3,
+      "name": "mouth_box_consensus_pass_count",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "sum(vision_gates[].mouth_box_consensus.passed)",
+      "threshold": 3,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.556,
+      "name": "whisper_screenplay_clip0001_score",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "whisper_gates[1].score/pass_bar/passed",
+      "threshold": 0.6,
+      "verdict": "fail"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.0,
+      "name": "whisper_screenplay_clip0002_score",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "whisper_gates[2].score/pass_bar/passed",
+      "threshold": 0.6,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.594741,
+      "name": "syncnet_audio_clip0001_confidence",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "vision_gates[0].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "fail"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 0.468897,
+      "name": "syncnet_screenplay_clip0001_confidence",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "vision_gates[1].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "fail"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 1.10503,
+      "name": "syncnet_screenplay_clip0002_confidence",
+      "operation": "qc",
+      "row": "auto/manual review checkpoints",
+      "source_field": "vision_gates[2].syncnet_av.confidence/pass_bar.min_confidence/passed",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json"
+      ],
+      "measured": 2,
+      "name": "auto_review_applicable_mandatory_gate_pass_count",
+      "operation": "auto-review",
+      "row": "auto/manual review checkpoints",
+      "source_field": "gate_applicability.applicable plus vision_gates[0].{identity_vision,mouth_box_consensus,syncnet_av}.passed",
+      "threshold": 3,
+      "verdict": "fail"
+    },
+    {
+      "inputs": [
+        "director-qc-evidence.json",
+        "row-dispositions.json"
+      ],
+      "measured": 0,
+      "name": "reviewer_approved_count",
+      "operation": "review",
+      "row": "auto/manual review checkpoints",
+      "source_field": "reviewer_verdict.decision == approved",
+      "threshold": 1,
+      "verdict": "fail"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-dmf2 director composition host batch on 3090; planned 483,617,219-byte Whisper small transfer under the 20,000,000,000-byte ceiling; 0 bytes pulled because the hash-matched asset preexisted; synchronous composition/QC; leave llama-server running",
+    "status": "approved",
+    "text": "the operator approved host batch 1 with a 20 GB download ceiling and has repeatedly instructed to continue/unblock the programme. This lane's need (~0.48 GB) is far below it, so it is covered. ... the operator's llama-server is RUNNING and holds ~7.7 GB of the 24 GB card \u2014 leave it alone, do not stop it; size your work to the remaining ~16 GB.",
+    "timestamp": "2026-09-25T21:28:59Z"
+  },
+  "output": [
+    {
+      "path": "outputs/clips/audio/clip0001.mp4",
+      "sha256": "ba9c70c70d6c8de930495508a877cc809656d510172f9dae17d8f8de286478fb"
+    },
+    {
+      "path": "outputs/clips/audio/clip0002.mp4",
+      "sha256": "f72309692c672cc0d93e23701bf852a05877e43eadf5092dfeb9cd4e245c2bb0"
+    },
+    {
+      "path": "outputs/clips/music_video/clip0001.mp4",
+      "sha256": "7c222da88b9c9befc01e60b54eaa45594c655f51f617fed1537bfad92d3ed212"
+    },
+    {
+      "path": "outputs/clips/music_video/clip0002.mp4",
+      "sha256": "fbd12661a8f5a4dc7f57dbf9346b65e3b2bb7d6bce30ea2c49a034901495af84"
+    },
+    {
+      "path": "outputs/clips/prompt/clip0001.mp4",
+      "sha256": "f5eb8ebd00ac1d9ba3002b4f4e05f1791e730215d423aad68d880e949c6e5e63"
+    },
+    {
+      "path": "outputs/clips/prompt/clip0002.mp4",
+      "sha256": "f5eb8ebd00ac1d9ba3002b4f4e05f1791e730215d423aad68d880e949c6e5e63"
+    },
+    {
+      "path": "outputs/clips/screenplay/clip0001.mp4",
+      "sha256": "eac7d130be1ff6f82d48b4b26c55ada442319aad3c97928d5ab9288d784a01d9"
+    },
+    {
+      "path": "outputs/clips/screenplay/clip0002.mp4",
+      "sha256": "5d3f18ad64a0ce89e1b6ac3a24b31d2f398992c3db27fc76d1ab1cc98178ae46"
+    },
+    {
+      "path": "outputs/wd_dmf2_audio_composition.mp4",
+      "sha256": "c4078d72f7cdffa0d55fd03edcf0da2bc8f3d166697f3b92ce944e0637530c4e"
+    },
+    {
+      "path": "outputs/wd_dmf2_music_video_composition.mp4",
+      "sha256": "5e951f39ece9e7f63e5c5002500b4cd40f87b36b7f6e3b3bd167c3a3be44e4b8"
+    },
+    {
+      "path": "outputs/wd_dmf2_prompt_composition.mp4",
+      "sha256": "6cf83d5e6a572be2da154cba0a74878dd5c39bb64c64ac87709326b51c799c19"
+    },
+    {
+      "path": "outputs/wd_dmf2_screenplay_composition.mp4",
+      "sha256": "98129a5e11f26dd7823a83c1cb50acdc1713d4fa331b3507d8ed43c71bc2f25c"
+    }
+  ],
+  "planned_produced_map": "planned-produced-map.json",
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "final_state": "queue-final-state.json",
+    "job_id": "job-1790373082258-e4889656",
+    "native_logs": [
+      "wd-dmf2.native.log",
+      "qc-rerun.native.log",
+      "finalize-analysis.native.log",
+      "wd-dmf2-prompt.native.log",
+      "wd-dmf2-audio.native.log",
+      "wd-dmf2-music_video.native.log",
+      "wd-dmf2-screenplay.native.log",
+      "wd-dmf2-finalize.native.log"
+    ],
+    "preflight": "host-preflight.json",
+    "queue_id": "wangp-JobQueue-WD-dmf2",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms; operator research/evaluation only",
+      "path": "inputs/wd_2gyw_h3_audio_refinement.mp4",
+      "role": "immutable upstream input",
+      "sha256": "9fd0ab632a7b66d9be911cb86a20b746a15bb6557e2300e47a80993524d2f0d0"
+    },
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms; operator research/evaluation only",
+      "path": "inputs/wd_2gyw_h3_standard.mp4",
+      "role": "immutable upstream input",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    },
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms; operator research/evaluation only",
+      "path": "inputs/wd_2gyw_h3_vdn_hybrid_attention.mp4",
+      "role": "immutable upstream input",
+      "sha256": "6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb"
+    },
+    {
+      "license": "WD-2gyw generated output under MiniMax H3 Community License terms; operator research/evaluation only",
+      "path": "inputs/wd_2gyw_hunyuan.mp4",
+      "role": "immutable upstream input",
+      "sha256": "8c36757e077cb1f080ed3596691ec3186a2c2307297ccb76bedee26507608fa0"
+    },
+    {
+      "license": "Operator-owned WD-bxhc synthetic character/audio output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_bxhc_character_first_frame.png",
+      "role": "immutable upstream input",
+      "sha256": "529e62252a767f7c92722205f29e1967b4b6c43ce880334e77fc6b5c850a17b0"
+    },
+    {
+      "license": "Operator-owned WD-bxhc synthetic character/audio output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_bxhc_character_video.mp4",
+      "role": "immutable upstream input",
+      "sha256": "1cba8c8a7e0b2d43142cc053766ca729850ebb5b3beaa0ba02e99df8252eca81"
+    },
+    {
+      "license": "Operator-owned WD-bxhc synthetic character/audio output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_bxhc_vibevoice_speech.wav",
+      "role": "immutable upstream input",
+      "sha256": "7780efa5de3c36faf3c1a84abd698f63ccfe88cb8a6f200e656fe9be54a33687"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_cpow_deepfilternet_refine.mp4",
+      "role": "immutable upstream input",
+      "sha256": "716c6c25d549fce2fbaa4509dba12e97fe98838c2943925f4cb0858cd154bc91"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_cpow_vibevoice_raw.prepared.wav",
+      "role": "immutable upstream input",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+    },
+    {
+      "license": "Operator-owned WD-cpow evaluation output; authorized composition reuse only, no redistribution",
+      "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+      "role": "immutable upstream input",
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+    },
+    {
+      "license": "WD-rous generated output under MIT ACE-Step 1.5 upstream terms; operator research/evaluation only",
+      "path": "inputs/wd_rous_ace_generate.wav",
+      "role": "immutable upstream input",
+      "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+    },
+    {
+      "license": "Operator-owned upstream parity evidence record; no redistribution",
+      "path": "upstream/WD-2gyw-evidence.json",
+      "role": "upstream checker evidence record",
+      "sha256": "3b4486412a9cf20d05b7b2d1235fe70cbb35315ce8df5abe28ede97f36b2315a"
+    },
+    {
+      "license": "Operator-owned upstream parity evidence record; no redistribution",
+      "path": "upstream/WD-bxhc-evidence.json",
+      "role": "upstream checker evidence record",
+      "sha256": "9197c7782c1f8f3360ddaecba16b9d2bbb1bcc7629fb5f7da6534af7ba7727d8"
+    },
+    {
+      "license": "Operator-owned upstream parity evidence record; no redistribution",
+      "path": "upstream/WD-cpow-evidence.json",
+      "role": "upstream checker evidence record",
+      "sha256": "74a4098fa66acd8ed80b0b2578acb8af17841925750c63de9f641efbe4a82d56"
+    },
+    {
+      "license": "Operator-owned upstream parity evidence record; no redistribution",
+      "path": "upstream/WD-r81u-evidence.json",
+      "role": "upstream checker evidence record",
+      "sha256": "e14c4b367f4876c279c8c167e770988817cc1e044274cd6978b0e266039c444d"
+    },
+    {
+      "license": "Operator-owned upstream parity evidence record; no redistribution",
+      "path": "upstream/WD-rous-evidence.json",
+      "role": "upstream checker evidence record",
+      "sha256": "100fa53ba45b573f8e7237f508f75412dbcdc32160f5ad58c473eb08ced85c50"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/requests/audio.json",
+      "role": "canonical director request",
+      "sha256": "407cfe6c4d1d30fa336ad1c3cfa29296caf85744d181853d70f04dbf3b560b5e"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/requests/enhancement.json",
+      "role": "canonical director request",
+      "sha256": "f4414a22886da8fd968e067bd2d7a32e55cad19d1bae7b56eccbc2705547fb19"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/requests/music_video.json",
+      "role": "canonical director request",
+      "sha256": "e1da7b729ad82b2f35d37325981b6396caaaa8bce25e9cb0c36932623291cbd5"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/requests/prompt.json",
+      "role": "canonical director request",
+      "sha256": "9f15b9ce5f7293d4b284d50dcc888f0ffbcd99cd12f61c8373b30bc5421c45d0"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/requests/screenplay.json",
+      "role": "canonical director request",
+      "sha256": "83d947d0474aa948e78bd8034ae734bd44fe8b587745018736db5f0b0e699756"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/plans/audio.db",
+      "role": "immutable director plan database",
+      "sha256": "470adaa8ceddd8b40fbfe92164d90e2ad3b9ff8d8f44109aa4a58978ca2295a9"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/plans/music_video.db",
+      "role": "immutable director plan database",
+      "sha256": "ad77a1e96584a53eaff373ac70c31db146081f865e073057c80a58582109b5c5"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/plans/prompt.db",
+      "role": "immutable director plan database",
+      "sha256": "42a69e600ca64a80af5388b5c6036778856386f7fee696a9ef10ea9070f4aebe"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/plans/prompt.enhanced.db",
+      "role": "immutable director plan database",
+      "sha256": "a36535760ac4366247e49f617d2f14f307e563b43fa4b4009a6f89cd9189fd7f"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 governed director planning record; no redistribution",
+      "path": "planning/plans/screenplay.db",
+      "role": "immutable director plan database",
+      "sha256": "7e63dd22464e27b02a8860e2778058ffcba21902a97a6a9c2f139f734b344914"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/audio-boundary-contact.png",
+      "role": "derived boundary/review frame",
+      "sha256": "87b7acc0163637a4a5176a90f1101a9395d502e44deb6501bf7f94734a222479"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/audio-boundary-pair.png",
+      "role": "derived boundary/review frame",
+      "sha256": "080585f3891a3da3d762ec1c07ed7345aeb5c48c6181234f12849de754ecad22"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/audio-clip0001-last.png",
+      "role": "derived boundary/review frame",
+      "sha256": "61d0dfdfc4f7f57cc4685e819a8ebc68716c25a8f981a7cdc0c877b5aa39d0f5"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/audio-clip0002-first.png",
+      "role": "derived boundary/review frame",
+      "sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/music_video-boundary-contact.png",
+      "role": "derived boundary/review frame",
+      "sha256": "87b7acc0163637a4a5176a90f1101a9395d502e44deb6501bf7f94734a222479"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/music_video-boundary-pair.png",
+      "role": "derived boundary/review frame",
+      "sha256": "b773c256e9f34d7fee601a9a5f88938ea6ec2f396e3fd1ea56e2bc2aa299bc41"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/music_video-clip0001-last.png",
+      "role": "derived boundary/review frame",
+      "sha256": "1108c0d8536dec82122a30185bea9ab1509651c00b2267e7c174a56ca715a7ed"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/music_video-clip0002-first.png",
+      "role": "derived boundary/review frame",
+      "sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/prompt-boundary-contact.png",
+      "role": "derived boundary/review frame",
+      "sha256": "87b7acc0163637a4a5176a90f1101a9395d502e44deb6501bf7f94734a222479"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/prompt-boundary-pair.png",
+      "role": "derived boundary/review frame",
+      "sha256": "ae5a24a90d5b3198a9a3eaa7a6549ce03286908adaf0d1fe8f69357e23b93d57"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/prompt-clip0001-last.png",
+      "role": "derived boundary/review frame",
+      "sha256": "e3a39a034ddc103dca9ff96cf66c02963d26ab477e61c6020658b917cfe78fcc"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/prompt-clip0002-first.png",
+      "role": "derived boundary/review frame",
+      "sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/screenplay-boundary-contact.png",
+      "role": "derived boundary/review frame",
+      "sha256": "83e1a32e2de7c026948eeb614db5896dbb11f0994f54991b535e1a965d33866a"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/screenplay-boundary-pair.png",
+      "role": "derived boundary/review frame",
+      "sha256": "d7f6266eb5beae83fad506c67d2093064fb37a63695f513a93b1ac8303ce3d11"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/screenplay-clip0001-last.png",
+      "role": "derived boundary/review frame",
+      "sha256": "7a0a021851dadde26c7ff1e056f5f71799658bcc48c3b84c37aa878ce9a6f3dc"
+    },
+    {
+      "license": "Derived WD-dmf2 review frame from authorized upstream outputs; operator review only, no redistribution",
+      "path": "review/frames/screenplay-clip0002-first.png",
+      "role": "derived boundary/review frame",
+      "sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+    },
+    {
+      "license": "Operator authorization record for WD-dmf2 only",
+      "path": "operator-authorization.md",
+      "role": "operator authorization",
+      "sha256": "259487e0063b27803302b116800909eb3b94b1abc07e64579b19f593af07a95f"
+    },
+    {
+      "license": "Operator-owned durable WD-dmf2 queue record; no redistribution",
+      "path": "queue.db",
+      "role": "immutable director plan database",
+      "sha256": "2fd0a3dc2ad53bafbae8f44116df371030e7481fdd7c48557aa4aa5a5c90b281"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "director-qc-evidence.json",
+      "role": "measured QC/provenance record",
+      "sha256": "8bdbb657890802d0ec156848558ded5d14cf87175374adf68ea9156c944cd171"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "media-qc.json",
+      "role": "measured QC/provenance record",
+      "sha256": "188648fde0e6cc341d0e18f904896e4f02de8417a82947f36a20ddce44949e3e"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "host-preflight.json",
+      "role": "measured QC/provenance record",
+      "sha256": "7dbf350fa02100cde50bf3895a3516843a89221372043b048b407f35d36c9f1b"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "host-final-state.json",
+      "role": "measured QC/provenance record",
+      "sha256": "1996741473d39a3fe5a97974e2b074f9369f7cbc562856c34fdac170c4d5fb93"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "execution-summary.md",
+      "role": "measured QC/provenance record",
+      "sha256": "eec3b3c8a9599014b0ce7323c8b3f166060015ff652d7a36d50286234173818c"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "bundle-size.txt",
+      "role": "measured QC/provenance record",
+      "sha256": "d35db97b0224dd3ebb5bcc4de6b18712a59f4b73cb751a724988e21830644c46"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "download-report.json",
+      "role": "measured QC/provenance record",
+      "sha256": "4f5bd68fc581b7562de765697575f140e2c23408881cdee7d29e0953935796ea"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "standing-gates-final.txt",
+      "role": "measured QC/provenance record",
+      "sha256": "13c074bf9d006ed890c6bbfc468bef8d1d32bcfa14dd3aeaf7e5f7cc0dfecf5c"
+    },
+    {
+      "license": "Operator-owned WD-dmf2 provenance record; no redistribution",
+      "path": "gate-derivation.json",
+      "role": "measured QC/provenance record",
+      "sha256": "0c650221012ef0b448d1099f77b846a7b2f30c16dc0712cfc9596752f16f77a0"
+    }
+  ],
+  "repository": {
+    "commit": "31ec071abec9b80e922166c6683703b0a27ab893",
+    "commit_semantics": "31ec071 is the clean preparation commit immediately before queue admission and host composition; generated outputs and evidence are intentionally dirty state in this record",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "df4eb2d8d83651fa2b588de724192a6d289e7e31c29bda49671f49ede77cf35d",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-dmf2/evidence-assembly.txt",
+        " M datasets/runs/maestro-parity/WD-dmf2/fullsuite-counters.json",
+        " M datasets/runs/maestro-parity/WD-dmf2/fullsuite.xml",
+        "?? datasets/runs/maestro-parity/WD-dmf2/download-report.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/evidence.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/output-hashes.json",
+        "?? datasets/runs/maestro-parity/WD-dmf2/planned-produced-map.json"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [
+      "planned-produced-map.json",
+      "objective-gates.json",
+      "gate-derivation.json",
+      "director-qc-evidence.json",
+      "media-qc.json",
+      "queue-final-state.json",
+      "matrix-transition-check.json",
+      "row-dispositions.json",
+      "host-final-state.json",
+      "review/frame-hashes.txt",
+      "operator-authorization.md",
+      "execution-summary.md",
+      "checker-result.txt",
+      "checker-result.stderr",
+      "bundle-size.txt",
+      "download-report.json",
+      "standing-gates-final.txt"
+    ],
+    "review": "No operator/PM approval is claimed. Manual review is pending; auto review is not eligible because Whisper and SyncNet do not pass every tested clip."
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "secondary_commands": [
+    [
+      "timeout",
+      "2400",
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "cd",
+      "/home/straughter/Wan2GP/wd-dmf2/repo",
+      "&&",
+      "PYTHONPATH=/home/straughter/Wan2GP/wd-dmf2/repo",
+      "timeout",
+      "2300",
+      "/home/straughter/Wan2GP/venv/bin/python",
+      "/home/straughter/Wan2GP/wd-dmf2/host-scripts/wd_dmf2_qc.py",
+      "/home/straughter/Wan2GP/wd-dmf2"
+    ],
+    [
+      "timeout",
+      "600",
+      "ssh",
+      "-n",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "timeout",
+      "500",
+      "/home/straughter/Wan2GP/venv/bin/python",
+      "/home/straughter/Wan2GP/wd-dmf2/host-scripts/wd_dmf2_finalize.py",
+      "/home/straughter/Wan2GP/wd-dmf2"
+    ]
+  ],
+  "story_id": "WD-dmf2"
+}

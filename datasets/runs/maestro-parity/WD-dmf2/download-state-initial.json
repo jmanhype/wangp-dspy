@@ -1,0 +1,9 @@
+{
+  "assets": {
+    "whisper-small": {
+      "paused": false,
+      "resume_requested": true
+    }
+  },
+  "schema_version": "wangp-dspy.download-state/v1"
+}

@@ -1,0 +1,32 @@
+{
+  "disk_floor_pass": true,
+  "disk_free_bytes": 40993148928,
+  "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB, 7893 MiB, 0 %",
+  "host": "straughter-Z690-Steel-Legend",
+  "llama_server_health": {
+    "exit_code": 0,
+    "stdout": "{\"status\":\"ok\"}"
+  },
+  "llama_server_processes": [
+    "2591139 /bin/bash -c cd /home/straughter/qwen3vl-video && nohup /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000 > /home/straughter/qwen3vl-video/llama-server.restart.log 2>&1 & sleep 25; echo \"=== health ===\"; curl -s -m 5 http://127.0.0.1:8000/health || echo \"(health endpoint not ready yet)\"; echo; echo \"=== process ===\"; pgrep -af \"llama-server\" | grep -v pgrep | cut -c1-100 | head -2; echo \"=== GPU after ===\"; nvidia-smi --query-gpu=memory.used,memory.free --format=csv,noheader",
+    "2591141 /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000"
+  ],
+  "llama_server_running": true,
+  "min_free_bytes": 15000000000,
+  "operator_service_mutation": false,
+  "schema_version": "wangp-dspy.director-host-preflight/v1",
+  "syncnet_v2": {
+    "path": "/home/straughter/models/syncnet_v2/syncnet_v2.model",
+    "present": true,
+    "sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+    "size_bytes": 54573114
+  },
+  "user": "straughter",
+  "wgp_root": "/home/straughter/Wan2GP",
+  "whisper_small": {
+    "path": "/home/straughter/.cache/whisper/small.pt",
+    "present": true,
+    "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+    "size_bytes": 483617219
+  }
+}

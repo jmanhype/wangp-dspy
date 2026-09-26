@@ -1,0 +1,5 @@
+9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794  /home/straughter/.cache/whisper/small.pt
+961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442  /home/straughter/models/syncnet_v2/syncnet_v2.model
+/home/straughter/.cache/whisper/small.pt 483617219
+/home/straughter/models/syncnet_v2/syncnet_v2.model 54573114
+{"status":"ok"}

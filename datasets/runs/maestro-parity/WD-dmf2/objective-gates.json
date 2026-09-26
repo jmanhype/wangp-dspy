@@ -1,0 +1,363 @@
+[
+  {
+    "inputs": [
+      "media-qc.json",
+      "output-hashes.json"
+    ],
+    "measured": 12,
+    "name": "output_hash_coverage_count",
+    "operation": "composition",
+    "row": "output provenance",
+    "source_field": "media-qc.json; output-hashes.json",
+    "threshold": 12,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-admission.json"
+    ],
+    "measured": 1,
+    "name": "queue_admission_success_count",
+    "operation": "queue",
+    "row": "immutable non-executable queue records",
+    "source_field": "selected_job == job_id",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-final-state.json"
+    ],
+    "measured": 1,
+    "name": "queue_exit_success_count",
+    "operation": "queue",
+    "row": "immutable non-executable queue records",
+    "source_field": "state == done",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.queue.json",
+      "planning/results/audio.queue.json",
+      "planning/results/music_video.queue.json",
+      "planning/results/screenplay.queue.json"
+    ],
+    "measured": 0,
+    "name": "director_plan_selected_executable_job_count",
+    "operation": "queue",
+    "row": "immutable non-executable queue records",
+    "source_field": "sum(selected_job is not null)",
+    "threshold": 0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.review.json",
+      "planning/results/audio.review.json",
+      "planning/results/music_video.review.json",
+      "planning/results/screenplay.review.json",
+      "planning/results/prompt.enhanced.review.json"
+    ],
+    "measured": 10,
+    "name": "seed_reconstruction_match_count",
+    "operation": "review",
+    "row": "seed-based hash reconstruction",
+    "source_field": "sum(records[].match)",
+    "threshold": 10,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.enhance.json"
+    ],
+    "measured": 1,
+    "name": "enhancement_changed_field_count",
+    "operation": "enhance",
+    "row": "authorized prompt-only enhancement",
+    "source_field": "changed_fields.length",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.enhanced.review.json"
+    ],
+    "measured": 2,
+    "name": "enhancement_reconstruction_match_count",
+    "operation": "enhance",
+    "row": "authorized prompt-only enhancement",
+    "source_field": "sum(records[].match)",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.plan.json",
+      "planning/results/audio.plan.json",
+      "planning/results/music_video.plan.json",
+      "planning/results/screenplay.plan.json"
+    ],
+    "measured": 4,
+    "name": "six_frame_overlap_declared_count",
+    "operation": "plan",
+    "row": "per-clip prompt and six-frame overlap",
+    "source_field": "sum(planned_clips[].overlap.frames == 6)",
+    "threshold": 4,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.plan.json",
+      "planning/results/audio.plan.json",
+      "planning/results/music_video.plan.json",
+      "planning/results/screenplay.plan.json"
+    ],
+    "measured": 8,
+    "name": "continuity_record_count",
+    "operation": "plan",
+    "row": "explicit continuity state and transitions",
+    "source_field": "sum(planned_clips[].continuity present)",
+    "threshold": 8,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/results/prompt.plan.json",
+      "planning/results/screenplay.plan.json"
+    ],
+    "measured": 4,
+    "name": "manual_checkpoint_record_count",
+    "operation": "plan",
+    "row": "auto/manual review checkpoints",
+    "source_field": "sum(planned_clips[].review.mode == manual)",
+    "threshold": 4,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_dmf2_prompt_composition.mp4",
+      "media-qc.json"
+    ],
+    "measured": 3.340000001017529e-07,
+    "name": "prompt_final_duration_abs_error_s",
+    "operation": "composition",
+    "row": "exact/window pacing preservation",
+    "source_field": "outputs/wd_dmf2_prompt_composition.mp4; media-qc.json",
+    "threshold": 1e-06,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/clips/prompt/clip0001.mp4",
+      "outputs/clips/prompt/clip0002.mp4"
+    ],
+    "measured": 2,
+    "name": "prompt_produced_clip_count",
+    "operation": "composition",
+    "row": "deterministic ordered multi-clip plan",
+    "source_field": "planned_clips.length",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_dmf2_audio_composition.mp4",
+      "media-qc.json"
+    ],
+    "measured": 0.0,
+    "name": "audio_final_duration_abs_error_s",
+    "operation": "composition",
+    "row": "exact/window pacing preservation",
+    "source_field": "outputs/wd_dmf2_audio_composition.mp4; media-qc.json",
+    "threshold": 1e-06,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/clips/audio/clip0001.mp4",
+      "outputs/clips/audio/clip0002.mp4"
+    ],
+    "measured": 2,
+    "name": "audio_produced_clip_count",
+    "operation": "composition",
+    "row": "deterministic ordered multi-clip plan",
+    "source_field": "planned_clips.length",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_dmf2_music_video_composition.mp4",
+      "media-qc.json"
+    ],
+    "measured": 0.0,
+    "name": "music_video_final_duration_abs_error_s",
+    "operation": "composition",
+    "row": "exact/window pacing preservation",
+    "source_field": "outputs/wd_dmf2_music_video_composition.mp4; media-qc.json",
+    "threshold": 1e-06,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/clips/music_video/clip0001.mp4",
+      "outputs/clips/music_video/clip0002.mp4"
+    ],
+    "measured": 2,
+    "name": "music_video_produced_clip_count",
+    "operation": "composition",
+    "row": "deterministic ordered multi-clip plan",
+    "source_field": "planned_clips.length",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_dmf2_screenplay_composition.mp4",
+      "media-qc.json"
+    ],
+    "measured": 0.0,
+    "name": "screenplay_final_duration_abs_error_s",
+    "operation": "composition",
+    "row": "exact/window pacing preservation",
+    "source_field": "outputs/wd_dmf2_screenplay_composition.mp4; media-qc.json",
+    "threshold": 1e-06,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/clips/screenplay/clip0001.mp4",
+      "outputs/clips/screenplay/clip0002.mp4"
+    ],
+    "measured": 2,
+    "name": "screenplay_produced_clip_count",
+    "operation": "composition",
+    "row": "deterministic ordered multi-clip plan",
+    "source_field": "planned_clips.length",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "planning/beat-analysis.json",
+      "media-qc.json"
+    ],
+    "measured": 0.011667000000000094,
+    "name": "beat_boundary_abs_error_s",
+    "operation": "composition",
+    "row": "beat-aware measured window mapping",
+    "source_field": "abs(clip1.produced.duration_s - clip2.window.start_s)",
+    "threshold": 0.041666666666666664,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 3,
+    "name": "identity_vision_pass_count",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "sum(vision_gates[].identity_vision.passed)",
+    "threshold": 3,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 3,
+    "name": "mouth_box_consensus_pass_count",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "sum(vision_gates[].mouth_box_consensus.passed)",
+    "threshold": 3,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.556,
+    "name": "whisper_screenplay_clip0001_score",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "whisper_gates[1].score/pass_bar/passed",
+    "threshold": 0.6,
+    "verdict": "fail"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.0,
+    "name": "whisper_screenplay_clip0002_score",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "whisper_gates[2].score/pass_bar/passed",
+    "threshold": 0.6,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.594741,
+    "name": "syncnet_audio_clip0001_confidence",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "vision_gates[0].syncnet_av.confidence/pass_bar.min_confidence/passed",
+    "threshold": 1.0,
+    "verdict": "fail"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.468897,
+    "name": "syncnet_screenplay_clip0001_confidence",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "vision_gates[1].syncnet_av.confidence/pass_bar.min_confidence/passed",
+    "threshold": 1.0,
+    "verdict": "fail"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.10503,
+    "name": "syncnet_screenplay_clip0002_confidence",
+    "operation": "qc",
+    "row": "auto/manual review checkpoints",
+    "source_field": "vision_gates[2].syncnet_av.confidence/pass_bar.min_confidence/passed",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 2,
+    "name": "auto_review_applicable_mandatory_gate_pass_count",
+    "operation": "auto-review",
+    "row": "auto/manual review checkpoints",
+    "source_field": "gate_applicability.applicable plus vision_gates[0].{identity_vision,mouth_box_consensus,syncnet_av}.passed",
+    "threshold": 3,
+    "verdict": "fail"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json",
+      "row-dispositions.json"
+    ],
+    "measured": 0,
+    "name": "reviewer_approved_count",
+    "operation": "review",
+    "row": "auto/manual review checkpoints",
+    "source_field": "reviewer_verdict.decision == approved",
+    "threshold": 1,
+    "verdict": "fail"
+  }
+]

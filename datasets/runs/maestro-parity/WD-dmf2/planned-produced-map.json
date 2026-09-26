@@ -1,0 +1,561 @@
+{
+  "modes": {
+    "audio": {
+      "boundary_frames": {
+        "boundary_pair": "review/frames/audio-boundary-pair.png",
+        "boundary_pair_sha256": "080585f3891a3da3d762ec1c07ed7345aeb5c48c6181234f12849de754ecad22",
+        "clip1_last": "review/frames/audio-clip0001-last.png",
+        "clip1_last_sha256": "61d0dfdfc4f7f57cc4685e819a8ebc68716c25a8f981a7cdc0c877b5aa39d0f5",
+        "clip2_first": "review/frames/audio-clip0002-first.png",
+        "clip2_first_sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+      },
+      "plan_database": "planning/plans/audio.db",
+      "plan_database_sha256": "470adaa8ceddd8b40fbfe92164d90e2ad3b9ff8d8f44109aa4a58978ca2295a9",
+      "planned_clip_count": 2,
+      "planned_clips": [
+        {
+          "clip_index": 1,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 1,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 6,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 5.0,
+            "path": "outputs/clips/audio/clip0001.mp4",
+            "sha256": "ba9c70c70d6c8de930495508a877cc809656d510172f9dae17d8f8de286478fb"
+          },
+          "prompt_sha256": "8282e18791928ef99ed0d2f990c242dc2e4c914f3c35e2296b67ee969a606959",
+          "recipe_seed": 114142,
+          "record_id": "director-plan-1790372742790-6f7d7434",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "auto"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 5.0,
+            "end_s": 5.0,
+            "index": 1,
+            "scene_index": null,
+            "start_s": 0.0
+          }
+        },
+        {
+          "clip_index": 2,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 2,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 0,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 5.0,
+            "path": "outputs/clips/audio/clip0002.mp4",
+            "sha256": "f72309692c672cc0d93e23701bf852a05877e43eadf5092dfeb9cd4e245c2bb0"
+          },
+          "prompt_sha256": "a1b58ca7ec99ab3b9233753d6399556d88cc6f302576df1833451cf8fa5920a3",
+          "recipe_seed": 218871,
+          "record_id": "director-plan-1790372742790-080129fc",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "auto"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 5.0,
+            "end_s": 10.0,
+            "index": 2,
+            "scene_index": null,
+            "start_s": 5.0
+          }
+        }
+      ],
+      "planned_duration_s": 10.0,
+      "produced_assembly": {
+        "duration_s": 10.0,
+        "path": "outputs/wd_dmf2_audio_composition.mp4",
+        "sha256": "c4078d72f7cdffa0d55fd03edcf0da2bc8f3d166697f3b92ce944e0637530c4e"
+      },
+      "recipe_seed": 9413,
+      "record_ids": [
+        "director-plan-1790372742790-6f7d7434",
+        "director-plan-1790372742790-080129fc"
+      ],
+      "request_path": "planning/requests/audio.json",
+      "request_sha256": "afecd602a5690603a66bc4e38f01165101324bfeb12822364794ada6b5b6c0a1",
+      "upstream_inputs": [
+        {
+          "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+          "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+        },
+        {
+          "path": "inputs/wd_cpow_deepfilternet_refine.mp4",
+          "sha256": "716c6c25d549fce2fbaa4509dba12e97fe98838c2943925f4cb0858cd154bc91"
+        },
+        {
+          "path": "inputs/wd_rous_ace_generate.wav",
+          "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+        }
+      ]
+    },
+    "music_video": {
+      "boundary_frames": {
+        "boundary_pair": "review/frames/music_video-boundary-pair.png",
+        "boundary_pair_sha256": "b773c256e9f34d7fee601a9a5f88938ea6ec2f396e3fd1ea56e2bc2aa299bc41",
+        "clip1_last": "review/frames/music_video-clip0001-last.png",
+        "clip1_last_sha256": "1108c0d8536dec82122a30185bea9ab1509651c00b2267e7c174a56ca715a7ed",
+        "clip2_first": "review/frames/music_video-clip0002-first.png",
+        "clip2_first_sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+      },
+      "plan_database": "planning/plans/music_video.db",
+      "plan_database_sha256": "ad77a1e96584a53eaff373ac70c31db146081f865e073057c80a58582109b5c5",
+      "planned_clip_count": 2,
+      "planned_clips": [
+        {
+          "clip_index": 1,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 1,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 6,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 5.291667,
+            "path": "outputs/clips/music_video/clip0001.mp4",
+            "sha256": "7c222da88b9c9befc01e60b54eaa45594c655f51f617fed1537bfad92d3ed212"
+          },
+          "prompt_sha256": "e55256ebe37583d33fc2da9885eb2cb836c07316da73d3523b2e86c1ee50304c",
+          "recipe_seed": 114143,
+          "record_id": "director-plan-1790372746585-f7bcfc0d",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "auto"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 5.28,
+            "end_s": 5.28,
+            "index": 1,
+            "scene_index": null,
+            "start_s": 0.0
+          }
+        },
+        {
+          "clip_index": 2,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 2,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 0,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 4.72,
+            "path": "outputs/clips/music_video/clip0002.mp4",
+            "sha256": "fbd12661a8f5a4dc7f57dbf9346b65e3b2bb7d6bce30ea2c49a034901495af84"
+          },
+          "prompt_sha256": "77e8a8555a63c96859b99957f8436f808ef90bf7415ac4c5589508fa35482f38",
+          "recipe_seed": 218872,
+          "record_id": "director-plan-1790372746585-685a3a76",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "auto"
+          },
+          "window": {
+            "beat_evidence": [
+              {
+                "confidence": 0.234944,
+                "measurement": "measured: librosa.beat.beat_track(y=mono, sr=48000, trim=False, units=frames, tightness=100), selected nearest midpoint; onset-strength confidence 0.234944 on datasets/runs/maestro-parity/WD-dmf2/inputs/wd_rous_ace_generate.wav sha256=6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9",
+                "time_s": 5.28
+              }
+            ],
+            "duration_s": 4.72,
+            "end_s": 10.0,
+            "index": 2,
+            "scene_index": null,
+            "start_s": 5.28
+          }
+        }
+      ],
+      "planned_duration_s": 10.0,
+      "produced_assembly": {
+        "duration_s": 10.0,
+        "path": "outputs/wd_dmf2_music_video_composition.mp4",
+        "sha256": "5e951f39ece9e7f63e5c5002500b4cd40f87b36b7f6e3b3bd167c3a3be44e4b8"
+      },
+      "recipe_seed": 9414,
+      "record_ids": [
+        "director-plan-1790372746585-f7bcfc0d",
+        "director-plan-1790372746585-685a3a76"
+      ],
+      "request_path": "planning/requests/music_video.json",
+      "request_sha256": "d5a82bd868edb93f89bef5484b6ec3a19e121bb1c64af451726a6f4f5e527456",
+      "upstream_inputs": [
+        {
+          "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+          "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+        },
+        {
+          "path": "inputs/wd_cpow_deepfilternet_refine.mp4",
+          "sha256": "716c6c25d549fce2fbaa4509dba12e97fe98838c2943925f4cb0858cd154bc91"
+        },
+        {
+          "path": "inputs/wd_rous_ace_generate.wav",
+          "sha256": "6ee782ec4f8ea86fa531669ee1c762d7a5d9685ab7e08bf6dd74d84abf3868a9"
+        }
+      ]
+    },
+    "prompt": {
+      "boundary_frames": {
+        "boundary_pair": "review/frames/prompt-boundary-pair.png",
+        "boundary_pair_sha256": "ae5a24a90d5b3198a9a3eaa7a6549ce03286908adaf0d1fe8f69357e23b93d57",
+        "clip1_last": "review/frames/prompt-clip0001-last.png",
+        "clip1_last_sha256": "e3a39a034ddc103dca9ff96cf66c02963d26ab477e61c6020658b917cfe78fcc",
+        "clip2_first": "review/frames/prompt-clip0002-first.png",
+        "clip2_first_sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+      },
+      "plan_database": "planning/plans/prompt.db",
+      "plan_database_sha256": "42a69e600ca64a80af5388b5c6036778856386f7fee696a9ef10ea9070f4aebe",
+      "planned_clip_count": 2,
+      "planned_clips": [
+        {
+          "clip_index": 1,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 1,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 6,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 2.333333,
+            "path": "outputs/clips/prompt/clip0001.mp4",
+            "sha256": "f5eb8ebd00ac1d9ba3002b4f4e05f1791e730215d423aad68d880e949c6e5e63"
+          },
+          "prompt_sha256": "9d546fc5e6b31ee3c95e2f20e87e3823866cb1c85014bf28cc401f325a59baa5",
+          "recipe_seed": 114141,
+          "record_id": "director-plan-1790372738980-da17be79",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "manual"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 2.333333333,
+            "end_s": 2.333333333,
+            "index": 1,
+            "scene_index": null,
+            "start_s": 0.0
+          }
+        },
+        {
+          "clip_index": 2,
+          "continuity": {
+            "appearance": "source-declared appearance carries forward unchanged",
+            "changes": [],
+            "clip_index": 2,
+            "kind": "single_source_continuity",
+            "location": "source-declared composition location",
+            "voice": "source-declared voice carries forward unchanged"
+          },
+          "overlap": {
+            "frames": 0,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 2.333333,
+            "path": "outputs/clips/prompt/clip0002.mp4",
+            "sha256": "f5eb8ebd00ac1d9ba3002b4f4e05f1791e730215d423aad68d880e949c6e5e63"
+          },
+          "prompt_sha256": "c3b73270d533a5c9776ed8a78e81e3bb69393f5e71ca17f9230d2fc869766a68",
+          "recipe_seed": 218870,
+          "record_id": "director-plan-1790372738980-71860a21",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "manual"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 2.333333333,
+            "end_s": 4.666666667,
+            "index": 2,
+            "scene_index": null,
+            "start_s": 2.333333333
+          }
+        }
+      ],
+      "planned_duration_s": 4.666666666,
+      "produced_assembly": {
+        "duration_s": 4.666667,
+        "path": "outputs/wd_dmf2_prompt_composition.mp4",
+        "sha256": "6cf83d5e6a572be2da154cba0a74878dd5c39bb64c64ac87709326b51c799c19"
+      },
+      "recipe_seed": 9412,
+      "record_ids": [
+        "director-plan-1790372738980-da17be79",
+        "director-plan-1790372738980-71860a21"
+      ],
+      "request_path": "planning/requests/prompt.json",
+      "request_sha256": "9ccd581610a1bd15e94e5e4ffe1750c6fb192378b48585bb7184e6a487a30908",
+      "upstream_inputs": [
+        {
+          "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+          "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+        },
+        {
+          "path": "inputs/wd_cpow_deepfilternet_refine.mp4",
+          "sha256": "716c6c25d549fce2fbaa4509dba12e97fe98838c2943925f4cb0858cd154bc91"
+        }
+      ]
+    },
+    "screenplay": {
+      "boundary_frames": {
+        "boundary_pair": "review/frames/screenplay-boundary-pair.png",
+        "boundary_pair_sha256": "d7f6266eb5beae83fad506c67d2093064fb37a63695f513a93b1ac8303ce3d11",
+        "clip1_last": "review/frames/screenplay-clip0001-last.png",
+        "clip1_last_sha256": "7a0a021851dadde26c7ff1e056f5f71799658bcc48c3b84c37aa878ce9a6f3dc",
+        "clip2_first": "review/frames/screenplay-clip0002-first.png",
+        "clip2_first_sha256": "b9d703c02f6eed4a56509b02dfcee402d6bc07d7651a28b8166e0100bc9ecc92"
+      },
+      "plan_database": "planning/plans/screenplay.db",
+      "plan_database_sha256": "7e63dd22464e27b02a8860e2778058ffcba21902a97a6a9c2f139f734b344914",
+      "planned_clip_count": 2,
+      "planned_clips": [
+        {
+          "clip_index": 1,
+          "continuity": {
+            "carried_forward": [
+              "Orin",
+              "Witness"
+            ],
+            "changes": [],
+            "characters": [
+              "Witness",
+              "Orin"
+            ],
+            "clip_index": 1,
+            "location": "observatory",
+            "scene_index": 1,
+            "slugline": "INT. OBSERVATORY - NIGHT",
+            "states": [
+              {
+                "appearance": "young astronomer in a dark star-ember jacket",
+                "name": "Witness",
+                "voice": "plain synthetic witness voice"
+              },
+              {
+                "appearance": "elder in a firelit cave",
+                "name": "Orin",
+                "voice": "Orin reference voice"
+              }
+            ]
+          },
+          "overlap": {
+            "frames": 6,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 3.5,
+            "path": "outputs/clips/screenplay/clip0001.mp4",
+            "sha256": "eac7d130be1ff6f82d48b4b26c55ada442319aad3c97928d5ab9288d784a01d9"
+          },
+          "prompt_sha256": "256b9cbf93331ba97346a046700bbe6895e01feab2d349ff6390b5157bc9cb4d",
+          "recipe_seed": 114144,
+          "record_id": "director-plan-1790372812207-a21d0b2b",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "manual"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 3.5,
+            "end_s": 3.5,
+            "index": 1,
+            "scene_index": 1,
+            "start_s": 0.0
+          }
+        },
+        {
+          "clip_index": 2,
+          "continuity": {
+            "carried_forward": [
+              "Orin",
+              "Witness"
+            ],
+            "changes": [],
+            "characters": [
+              "Witness",
+              "Orin"
+            ],
+            "clip_index": 2,
+            "location": "rain threshold",
+            "scene_index": 2,
+            "slugline": "EXT. RAIN THRESHOLD - NIGHT",
+            "states": [
+              {
+                "appearance": "young astronomer in a dark star-ember jacket",
+                "name": "Witness",
+                "voice": "plain synthetic witness voice"
+              },
+              {
+                "appearance": "elder in a firelit cave",
+                "name": "Orin",
+                "voice": "Orin reference voice"
+              }
+            ]
+          },
+          "overlap": {
+            "frames": 0,
+            "frames_on_24fps_grid": true,
+            "strategy": "six_frame_sliding_window"
+          },
+          "produced_segment": {
+            "duration_s": 2.333333,
+            "path": "outputs/clips/screenplay/clip0002.mp4",
+            "sha256": "5d3f18ad64a0ce89e1b6ac3a24b31d2f398992c3db27fc76d1ab1cc98178ae46"
+          },
+          "prompt_sha256": "c9887bae394dcdac3c6238b28d7d081f5282d39feeb08ebd014dde745bd2bee6",
+          "recipe_seed": 218873,
+          "record_id": "director-plan-1790372812207-39a2cb64",
+          "review_policy": {
+            "bypasses_gate": false,
+            "checkpoint": "after_clip",
+            "mandatory_gates": [
+              "whisper_transcript",
+              "identity_vision",
+              "mouth_box_consensus",
+              "syncnet_av"
+            ],
+            "mode": "manual"
+          },
+          "window": {
+            "beat_evidence": [],
+            "duration_s": 2.333333,
+            "end_s": 5.833333,
+            "index": 2,
+            "scene_index": 2,
+            "start_s": 3.5
+          }
+        }
+      ],
+      "planned_duration_s": 5.833333,
+      "produced_assembly": {
+        "duration_s": 5.833333,
+        "path": "outputs/wd_dmf2_screenplay_composition.mp4",
+        "sha256": "98129a5e11f26dd7823a83c1cb50acdc1713d4fa331b3507d8ed43c71bc2f25c"
+      },
+      "recipe_seed": 9415,
+      "record_ids": [
+        "director-plan-1790372812207-a21d0b2b",
+        "director-plan-1790372812207-39a2cb64"
+      ],
+      "request_path": "planning/requests/screenplay.json",
+      "request_sha256": "798a913c25868792fff85c7d5f568e3b95ba9b4e16b4746e02b541e5f3e4a540",
+      "upstream_inputs": [
+        {
+          "path": "inputs/wd_bxhc_character_video.mp4",
+          "sha256": "1cba8c8a7e0b2d43142cc053766ca729850ebb5b3beaa0ba02e99df8252eca81"
+        },
+        {
+          "path": "inputs/wd_bxhc_vibevoice_speech.wav",
+          "sha256": "7780efa5de3c36faf3c1a84abd698f63ccfe88cb8a6f200e656fe9be54a33687"
+        },
+        {
+          "path": "inputs/wd_cpow_vibevoice_revoice.mp4",
+          "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+        },
+        {
+          "path": "inputs/wd_cpow_vibevoice_raw.prepared.wav",
+          "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+        }
+      ]
+    }
+  },
+  "schema_version": "wangp-dspy.director-planned-produced-map/v1"
+}

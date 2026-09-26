@@ -1,0 +1,14 @@
+platform=Darwin arm64
+python=CPython 3.14.4
+ffmpeg=available ffprobe=available
+local_accelerator=no local accelerator (nvidia-smi not found on PATH)
+ram_available_bytes=6529089536
+disk_free_bytes=122157228032
+host_configuration=incomplete (missing host.target, host.wgp_root, host.wgp_python)
+model_manifest=present entries=whisper-small:absent
+download_plan=present would_download=1 total_size_bytes=483617219 wangp_downloads=false
+download_entry=whisper-small status=absent required_action=operator-authorized download required
+download_plan_remediation=run wgp first-run download with this manifest and an explicit state path for operator review
+implemented=video planning; image planning; music planning; content planning; first-run planning
+not_implemented=video generation; image generation; music generation; speech/voice cloning; sound effects; upscaling; face refinement; video editing; GUI
+collection=read_only network_access=false host_contact=false

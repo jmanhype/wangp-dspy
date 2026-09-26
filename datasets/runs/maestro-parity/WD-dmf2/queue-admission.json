@@ -1,0 +1,6 @@
+{
+  "admission_state": "admitted",
+  "job_id": "job-1790373082258-e4889656",
+  "selected_job": "job-1790373082258-e4889656",
+  "selector": "services.jobs.queue.JobQueue.next_admissible"
+}
