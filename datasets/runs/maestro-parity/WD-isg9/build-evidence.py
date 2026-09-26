@@ -56,6 +56,10 @@ def main() -> int:
     status = git(["status", "--porcelain=v1"])
     status_lines = status.splitlines()
     models_payload = json.loads((ROOT / "model-assets.json").read_text())
+    preflight_hash_summary = json.loads((ROOT / "preflight-model-hash-summary.json").read_text())
+    observed_models = {
+        row["destination"]: row for row in preflight_hash_summary["assets"]
+    }
     queue = json.loads((ROOT / "queue-record.json").read_text())
     gates = json.loads((ROOT / "objective-gates.json").read_text())
     measurements = json.loads((ROOT / "objective-measurements.json").read_text())
@@ -127,6 +131,8 @@ def main() -> int:
             "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh",
         ],
         "native_commands": [
+            ["uv", "run", "--frozen", "--extra", "dev", "python", "datasets/runs/maestro-parity/WD-2gyw/preflight-runner.py", "/tmp/wd_isg9_h3_doctor_models.json", "24.0"],
+            ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "3090", "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh"],
             ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "3090", "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_boundary_probes.sh"],
             ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "3090", "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh"],
         ],
@@ -144,6 +150,10 @@ def main() -> int:
                 "identity": asset["id"],
                 "source": asset["source_url"],
                 "download_approved": True,
+                "observed_sha256": observed_models[asset["destination"]]["observed_sha256"],
+                "observed_size_bytes": observed_models[asset["destination"]]["observed_size_bytes"],
+                "observed_mtime": observed_models[asset["destination"]]["observed_mtime"],
+                "preflight_hash_verified": observed_models[asset["destination"]]["live_hash_match"],
             }
             for asset in models_payload["assets"]
         ],
@@ -183,6 +193,9 @@ def main() -> int:
         "runtime_notes": {
             "download_bytes": 0,
             "preflight": "preflight.json",
+            "preflight_original_command": "preflight-original-command.txt",
+            "preflight_model_hash_rerun": "preflight-model-hash-rerun.txt",
+            "preflight_model_hash_summary": "preflight-model-hash-summary.json",
             "dry_run": "dry-run-output.txt",
             "boundary_runtime_exits": {
                 "blend": 1,
@@ -191,6 +204,10 @@ def main() -> int:
             "attempt1_note": "Dispatcher stopped attempt 1 before denoising after a host snapshot path bug; remote files were quarantined and are not evidence.",
             "objective_measurements": measurements,
             "final_host_state": "host-after.txt",
+            "test_ownership": {
+                "dirty_tree_release_failures": "The two tests/test_release.py failures are the intentional clean-tree gate checking this uncommitted evidence worktree; CI runs after the story commit.",
+                "StarletteDeprecationWarning": "The existing FastAPI test-client import emits a deprecation warning, unrelated to WD-isg9; observed and retained here rather than dismissed.",
+            },
         },
     }
     (ROOT / "evidence.json").write_text(

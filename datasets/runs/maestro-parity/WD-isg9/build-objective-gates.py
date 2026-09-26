@@ -20,6 +20,7 @@ def gate(name: str, inputs: list[str], measured: float, threshold: float) -> dic
 
 def main() -> int:
     measurements = json.loads((ROOT / "objective-measurements.json").read_text())
+    preflight = json.loads((ROOT / "preflight-model-hash-summary.json").read_text())
     rows = {row["operation"]: row for row in measurements["rows"]}
     gates: list[dict] = []
     for operation, row in rows.items():
@@ -33,6 +34,11 @@ def main() -> int:
             gate(f"{prefix}_audio_channels", [row["path"], f"ffprobe-{operation}.json"], row["audio_channels"], 2.0),
         ))
     gates.extend((
+        gate("wd_isg9_preflight_model_hash_match_count", ["preflight-model-hash-rerun.txt", "preflight-model-hash-summary.json"], preflight["sha256sum_check_ok_count"], 4.0),
+        gate("wd_isg9_preflight_all_model_hashes_match", ["preflight-model-hash-summary.json"], 1.0 if preflight["all_live_hashes_match"] else 0.0, 1.0),
+        gate("wd_isg9_preflight_all_model_sizes_match", ["preflight-model-hash-summary.json"], 1.0 if preflight["all_live_sizes_match"] else 0.0, 1.0),
+        gate("wd_isg9_preflight_disk_available_bytes", ["preflight-model-hash-rerun.txt"], preflight["disk"]["available_bytes"], 24000000000.0),
+        gate("wd_isg9_preflight_gpu_free_mib", ["preflight-model-hash-rerun.txt"], preflight["gpu"]["memory_free_mib"], 20000.0),
         gate("wd_isg9_distinct_output_hashes", ["output-hashes-local.txt"], measurements["distinct_output_hashes"], 5.0),
         gate("wd_isg9_extend_longer_than_source_s", ["inputs/source.mp4", rows["extend"]["path"]], rows["extend"]["duration_s"], 2.333334),
         gate("wd_isg9_extend_source_prefix_psnr_db", ["inputs/source.mp4", rows["extend"]["path"]], rows["extend"]["source_prefix_psnr_db"], 20.0),

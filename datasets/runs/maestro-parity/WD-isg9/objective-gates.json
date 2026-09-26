@@ -1,6 +1,6 @@
 {
   "failed": [],
-  "gate_count": 43,
+  "gate_count": 48,
   "results": [
     {
       "inputs": [
@@ -295,6 +295,52 @@
       "measured": 2,
       "name": "wd_isg9_upscale_audio_channels",
       "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt",
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 4,
+      "name": "wd_isg9_preflight_model_hash_match_count",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_hashes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_sizes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 65084743680,
+      "name": "wd_isg9_preflight_disk_available_bytes",
+      "threshold": 24000000000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 24033,
+      "name": "wd_isg9_preflight_gpu_free_mib",
+      "threshold": 20000.0,
       "verdict": "pass"
     },
     {

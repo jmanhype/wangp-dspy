@@ -4,6 +4,15 @@ The batch used zero new model-download bytes. Live preflight passed SSH, all
 four selected H3 model hashes, 61G free at the derived 24G floor, an idle RTX
 3090, and CPU-only QC health at `127.0.0.1:8377`.
 
+The original preflight command is recorded in `preflight-original-command.txt`.
+The first PM review correctly observed that its JSON summarized model-file
+validation as a boolean. The committed rerunnable
+`host-scripts/wd_isg9_preflight_hash_probe.sh` now preserves exact `sha256sum
+-c` output, all four raw hashes and sizes, mtimes that predate the render,
+disk/GPU state, unrelated process state, and QC health in
+`preflight-model-hash-rerun.txt`. `preflight-model-hash-summary.json` reports
+4/4 hash and size matches.
+
 Dry-run validation passed for extend, retake, edit, repaint, and upscale. The
 serial render then emitted five distinct MP4s:
 
@@ -42,3 +51,10 @@ paths were malformed; its remote files were quarantined and are not evidence.
 The QC service started for this batch is CPU-only on port 8377. No unrelated
 GPU process was killed, no model was downloaded or deleted, and no paid
 provider or training run was used.
+
+Test-output ownership: the dirty-tree release suite's two failures are its
+intentional clean-tree gate checking an uncommitted evidence worktree; the
+pushed PR/CI runs the suite after commit. The suite also emits the existing
+FastAPI `StarletteDeprecationWarning` when importing Starlette's test client.
+That warning is unrelated to WD-isg9 and is explicitly recorded here rather
+than dismissed.

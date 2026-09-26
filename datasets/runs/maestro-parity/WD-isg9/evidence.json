@@ -92,6 +92,10 @@
       "id": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
       "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
       "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-01 17:21:46.441729800 -0500",
+      "observed_sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "observed_size_bytes": 21057674787,
+      "preflight_hash_verified": true,
       "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
       "size_bytes": 21057674787,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
@@ -103,6 +107,10 @@
       "id": "h3-MiniMax-H3-video_vae_fp16.safetensors",
       "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
       "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-02 10:26:50.620329222 -0500",
+      "observed_sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "observed_size_bytes": 5207806512,
+      "preflight_hash_verified": true,
       "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
       "size_bytes": 5207806512,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors",
@@ -114,6 +122,10 @@
       "id": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
       "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
       "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-08-04 15:04:24.101527735 -0500",
+      "observed_sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "observed_size_bytes": 605429308,
+      "preflight_hash_verified": true,
       "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
       "size_bytes": 605429308,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors",
@@ -125,6 +137,10 @@
       "id": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
       "identity": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
       "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-02 14:03:05.949235916 -0500",
+      "observed_sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "observed_size_bytes": 26723791903,
+      "preflight_hash_verified": true,
       "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
       "size_bytes": 26723791903,
       "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
@@ -132,6 +148,26 @@
     }
   ],
   "native_commands": [
+    [
+      "uv",
+      "run",
+      "--frozen",
+      "--extra",
+      "dev",
+      "python",
+      "datasets/runs/maestro-parity/WD-2gyw/preflight-runner.py",
+      "/tmp/wd_isg9_h3_doctor_models.json",
+      "24.0"
+    ],
+    [
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh"
+    ],
     [
       "ssh",
       "-o",
@@ -449,6 +485,52 @@
     },
     {
       "inputs": [
+        "preflight-model-hash-rerun.txt",
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 4,
+      "name": "wd_isg9_preflight_model_hash_match_count",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_hashes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_sizes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 65084743680,
+      "name": "wd_isg9_preflight_disk_available_bytes",
+      "threshold": 24000000000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 24033,
+      "name": "wd_isg9_preflight_gpu_free_mib",
+      "threshold": 20000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
         "output-hashes-local.txt"
       ],
       "measured": 5,
@@ -582,7 +664,7 @@
     "scope": "WD-isg9 H3-standard operation evidence on host 3090 using existing assets only; no downloads, training, paid provider, GUI work, unrelated GPU process, or model deletion",
     "status": "approved",
     "text": "Authorized and approved.\ncontinue",
-    "timestamp": "2026-09-26T14:42:28.289081Z"
+    "timestamp": "2026-09-26T15:07:36.587688Z"
   },
   "output": [
     {
@@ -652,13 +734,26 @@
     }
   ],
   "repository": {
-    "commit": "c65512a9975c027b49073349036bb65b23dc355a",
+    "commit": "ee81c0ccd763376d86734791a342e16efad78ebb",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "2fdfe4670eb6e33e069f8182c6849bbb5c53493aec37563456f25be86880f725",
+      "identity_sha256": "3a2defb3b3bf090320523f337be6869d397ff61552d6befe9de8d7a0f9d1629f",
       "status_lines": [
-        "M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-isg9/"
+        "M datasets/runs/maestro-parity/WD-isg9/build-evidence.py",
+        " M datasets/runs/maestro-parity/WD-isg9/build-objective-gates.py",
+        " M datasets/runs/maestro-parity/WD-isg9/bundle-file-count.txt",
+        " M datasets/runs/maestro-parity/WD-isg9/evidence-build-output.txt",
+        " M datasets/runs/maestro-parity/WD-isg9/evidence.json",
+        " M datasets/runs/maestro-parity/WD-isg9/execution-summary.md",
+        " M datasets/runs/maestro-parity/WD-isg9/objective-gates-output.txt",
+        " M datasets/runs/maestro-parity/WD-isg9/objective-gates.json",
+        "?? datasets/runs/maestro-parity/WD-isg9/build_preflight_hash_summary.py",
+        "?? datasets/runs/maestro-parity/WD-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh",
+        "?? datasets/runs/maestro-parity/WD-isg9/preflight-hash-summary-output.txt",
+        "?? datasets/runs/maestro-parity/WD-isg9/preflight-model-hash-rerun.txt",
+        "?? datasets/runs/maestro-parity/WD-isg9/preflight-model-hash-summary.json",
+        "?? datasets/runs/maestro-parity/WD-isg9/preflight-original-command.txt",
+        "?? datasets/runs/maestro-parity/WD-isg9/wd-isg9-model-hashes.sha256"
       ]
     }
   },
@@ -805,7 +900,14 @@
       "schema_version": "wangp-dspy.wd-isg9.objective-measurements/v1",
       "source_sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
     },
-    "preflight": "preflight.json"
+    "preflight": "preflight.json",
+    "preflight_model_hash_rerun": "preflight-model-hash-rerun.txt",
+    "preflight_model_hash_summary": "preflight-model-hash-summary.json",
+    "preflight_original_command": "preflight-original-command.txt",
+    "test_ownership": {
+      "StarletteDeprecationWarning": "The existing FastAPI test-client import emits a deprecation warning, unrelated to WD-isg9; observed and retained here rather than dismissed.",
+      "dirty_tree_release_failures": "The two tests/test_release.py failures are the intentional clean-tree gate checking this uncommitted evidence worktree; CI runs after the story commit."
+    }
   },
   "schema": "wangp-dspy.maestro-parity-evidence/v1"
 }
