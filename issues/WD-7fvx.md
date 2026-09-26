@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T20:53:44Z
-content_hash: "sha256:79c8a35c22509d9e1a0b930f304285834ec5c14dfb2b63d22d729bbf2f601b27"
+updated_at: 2026-09-26T20:54:23Z
+content_hash: "sha256:20f800e070cebd76a833286d9a749cad9b50b879b9e640c7b593cb8222ca7e58"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 ---
@@ -52,12 +52,12 @@ This story authorizes nothing. Before execution the operator must supply verbati
 - Changing `services/jobs/queue.py`, `services/director/renderers/policy.py`, `services/director/wiring.py`, `services/jobs/preflight.py`, or `scripts/run_film.py`.
 
 ## DIFF BUDGET
-- About 2 authored files and under 250 changed LOC: `docs/director-capabilities.md` plus manifests, scripts, logs, measurements, and evidence under `datasets/runs/maestro-parity/<story-id>/`.
+- About 2 authored files and under 250 changed LOC: `docs/director-capabilities.md` plus manifests, scripts, logs, measurements, and evidence under `datasets/runs/maestro-parity/WD-7fvx/`.
 - Keep the aggregate new bundle under 2 GiB unless an authorized failure log is larger. Do not copy model weights or mutate WD-dmf2.
 
 ## Boundary Map
 PRODUCES:
-- datasets/runs/maestro-parity/<story-id>/ -> checker-valid no-download director rework bundle
+- datasets/runs/maestro-parity/WD-7fvx/ -> checker-valid no-download director rework bundle
   spec: immutable baseline hash, authorization, zero-download preflight, model hashes, source-pair derivation, new request/plan/output hashes, queue attempts, raw Whisper/vision/mouth-box/SyncNet evidence, mechanically derived gates, checker result, and reviewer decision.
 - docs/director-capabilities.md -> evidence-backed director-row updates
   event: update only cells supported by this bundle, cite the exact record, and leave every failed or unauthorized cell unchanged.
@@ -87,7 +87,7 @@ CONSUMES:
 - Real integration MANDATORY with no mocks: authorized no-download host execution, exact command tails, source and output hashes, queue admission/exit, raw media metadata, all QC inputs/outputs, checker transcript, and matrix-transition proof.
 - Verify all copied source hashes before and after execution, including the synchronized pair and any WD-dmf2 input reused.
 - Mechanically compare raw QC fields to each objective gate; do not substitute a derived summary for raw evidence.
-- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/<story-id>-full.xml` with parsed JUnit `errors=0` and `failures=0`; `uv run --frozen --extra dev wgp release verify` with `release=ready` and `tag_created=false`; protected-file parity against the recorded base; `git diff --check`; and the WD-651z checker.
+- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-7fvx-full.xml` with parsed JUnit `errors=0` and `failures=0`; `uv run --frozen --extra dev wgp release verify` with `release=ready` and `tag_created=false`; protected-file parity against the recorded base; `git diff --check`; and the WD-651z checker.
 
 ## Delivery Requirements
 - Paste authorization, base identity, zero-download/model preflight, source-pair table, commands, queue transitions, hashes, metadata, raw gate tables, derivation rule, checker result, reviewer decision, lint/JUnit/release/parity outputs, bundle size, and final matrix delta.
