@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T05:38:22Z
-content_hash: "sha256:a18d8212e88dc2321516f3fce270b54392862ae9776856139827ee7afae337f3"
+updated_at: 2026-09-26T06:08:32Z
+content_hash: "sha256:dfaf465b11b3527c394e7e000f2786e82158a2de0e9146e17e2527463a942686"
 blocks: [WD-fay0]
 ---
 
@@ -135,3 +135,33 @@ Two further toolchain gaps found in the same pass:
 - Creating any new child of an epic that has a `capstone` sibling requires an
   immediate `pvg issues link <new> --blocks <capstone>` and a `MANDATORY SKILLS`
   section in the body, or lint fails. Both are undocumented in the story template.
+
+### 2026-09-26T06:08:32Z speed
+Director-lane blocker re-examined by the dispatcher; the harness-threshold
+hypothesis is FALSIFIED. Recorded so it is not re-investigated.
+
+Hypothesis tested: "the SyncNet gate bar of 1.0 is unreachable, so the 25 director
+cells are blocked by a mis-specified threshold rather than by media."
+
+Evidence from the accepted WD-dmf2 bundle, `datasets/runs/maestro-parity/WD-dmf2/evidence.json`:
+
+- `syncnet_screenplay_clip0002_confidence`: measured `1.10503`, threshold `1.0`
+- `syncnet_screenplay_clip0001_confidence`: measured `0.468897`, threshold `1.0`
+- `syncnet_audio_clip0001_confidence`:     measured `0.594741`, threshold `1.0`
+- `whisper_gates[2]`: score `0.556`, `pass_bar` `0.6`
+
+Clip 2 CLEARS the 1.0 bar at 1.10503 while clip 1 does not. The threshold is
+therefore reachable, the gate is not structurally unpassable, and the same harness
+passes a different clip. The failures are media-specific to clip 1, exactly as the
+capstone recorded.
+
+Conclusion: the director lane stays a genuine operator decision
+(rework the clip-1 media versus record a measured structural limitation). It is not
+a threshold defect and there is no ungated fix here.
+
+Also re-checked and clean, for the same reason:
+- `predict/finishing.py:313-317` -- `real_esrgan` requires `model_sha256` and the
+  hash is rejected on every other backend. Enforced, not a gap.
+- `FaceTrack.source` / `.license` / `.consent_ref` -- all `min_length=1` under
+  `extra="forbid"`, so a track cannot be declared without them. Guard is real, and
+  the surface only ever claimed to prove request shape.
