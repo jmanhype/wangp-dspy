@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:52:46Z
-content_hash: "sha256:431d34ec18d3d1a4fc66eb3f5ccee6f981707eab7a7d4476abe9b0e2ebf40659"
+updated_at: 2026-09-26T02:53:12Z
+content_hash: "sha256:b4aa6f5ca89c29ebd0612e36baa7bec9ef64a0e5f3b328df1a45953aa4bf076e"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2, WD-bxhc]
 blocks: [WD-fay0]
@@ -293,11 +293,12 @@ status: new
 - Backlog lint: `pvg lint --backlog` PASS, 127 scanned, 0 errors, 0 review findings.
 - Release: `uv run --frozen --extra dev wgp release verify` returned `release=ready`, `tag_created=false`.
 - Whitespace/protected parity: `git diff --check` exit 0; protected-file diff from `9cc501d6` exit 0.
+Delivery proof headings normalized for verify-delivery.
 
 ## Implementation Evidence
 The ffmpeg graph now generates grain on a ceil(width/size) x ceil(height/size) nearest-neighbor grid, then crops to the exact frame. It seeds and blends one held `allf=u` branch with one reseeded `allf=t+u` branch using `temporal_persistence` as the held-pattern opacity. Requests for the non-native `film` backend fail closed with `FINISH_GRAIN_CONTROL_UNSUPPORTED`; they do not fall back to ffmpeg.
 
-## CI/Test Results
+### CI/Test Results
 Commands run:
 - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-r4n8-full.xml`
 - `uv run --frozen --extra dev python /tmp/WD-r4n8-evidence.py`
@@ -314,7 +315,7 @@ Summary: full suite PASS with JUnit tests=2089, failures=0, errors=0, skipped=1;
 
 Commit SHA: 3edd0282da0cb7b8983debd3c10b86b908c4046a
 
-## AC Verification
+### AC Verification
 - [x] AC1: size 4 versus 64 changes and is encoded by the ceil/downsample and nearest-neighbor upscale graph.
 - [x] AC2: persistence 0 versus 1 changes `all_opacity`; 1 selects the held pattern and 0 selects the reseeded pattern.
 - [x] AC3: identical request/seed compilations produced identical plan bytes and matching settings/command hashes.
@@ -332,4 +333,3 @@ status: delivered
 
 ### proof
 - [ ] Developer evidence block must remain authoritative above this contract.
-
