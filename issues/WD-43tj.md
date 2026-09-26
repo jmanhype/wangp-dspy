@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
 updated_at: 2026-09-26T19:18:11Z
-content_hash: "sha256:81c4b3ba17179cd2db38d65ee4dad5fc2e0122781be487d2fbae44a091aefd62"
+content_hash: "sha256:ce2bc1df0538811ddfd20831859b2d8036bf243f39b0c727b7c6e187c75208bc"
 assignee: dev-WD-43tj
 follows: [WD-9ymi, WD-f0vk]
 closed_at: 2026-09-26T19:18:10Z
 close_reason: "Accepted: verified live TaoMate boundary evidence, planner-only match classification, hashes, docs scope, delivery proof, CI, and clean release readiness."
-led_to: [WD-5k28]
+led_to: [WD-5k28, WD-m7xw]
 ---
 
 ## Description
@@ -145,6 +145,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-9ymi]], [[WD-f0vk]]
-- Led to: [[WD-5k28]]
+- Led to: [[WD-5k28]], [[WD-m7xw]]
 
 ## Comments
