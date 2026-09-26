@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
 updated_at: 2026-09-26T16:27:57Z
-content_hash: "sha256:2ada37e9f4b7688d77336f6fb7d7dea3241a8f24dfadde8c5ebe61e530552e24"
+content_hash: "sha256:4da68d8cd7fb25166fe4b7b22c2f0b8729314319a657895342e20ae3f7e3669b"
 blocks: [WD-fay0]
 assignee: dev-WD-9t9o
 follows: [WD-isg9, WD-14ej]
@@ -49,6 +49,16 @@ delivery proof, clean release verification, and PR CI must pass.
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## MANDATORY SKILLS
