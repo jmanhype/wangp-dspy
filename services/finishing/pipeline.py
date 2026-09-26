@@ -244,7 +244,10 @@ def _command_graph(
         if request.backend is FinishingBackend.ffmpeg:
             command = (
                 "ffmpeg", "-nostdin", "-i", str(current), "-an", "-vf",
-                f"minterpolate=fps={fps:g}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
+                (
+                    f"minterpolate=fps={fps:g}:mi_mode=mci:mc_mode=aobmc:"
+                    f"me_mode=bidir:vsbmc=1:scd={int(request.interpolation.scene_detection)}"
+                ),
                 "-c:v", "ffv1", destination.name,
             )
         else:
