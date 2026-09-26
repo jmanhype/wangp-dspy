@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
 updated_at: 2026-09-26T15:08:59Z
-content_hash: "sha256:69da7b63cb9471a9c190afe75d66e8d780216a50642ca838c5931c424b0a96c0"
+content_hash: "sha256:cf32393b43a5054ddd6c9e11c67be2daec09f727a05188ec57ee94accd08f58b"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0]
 blocks: [WD-fay0]
 assignee: dev-WD-isg9
@@ -69,7 +69,74 @@ None identified.
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+Commands run:
+
+- `ssh 3090 /home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build_preflight_hash_summary.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-objective-gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-evidence.py`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-isg9`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py`
+- `pvg lint --backlog`
+- `git diff --check`
+- `uv run --frozen --extra dev wgp release verify --json`
+
+Summary:
+
+Rework preserved the original preflight argv and added a rerunnable raw live model-hash probe: 4/4 expected model hashes and sizes match, model mtimes predate rendering, disk/GPU/process/QC state is recorded, and the evidence now has 48/48 passing objective gates.
+
+Commit SHA: d79979614ea5fd2a97ef4257247e2d098e66217c
+
+### CI/Test Results
+
+- Scoped capability/evidence tests: 92 passed, exit 0.
+- Backlog lint: 131 scanned, 0 errors, 0 review findings.
+- `git diff --check`: exit 0.
+- Clean-tree release verification at `d7997961`: version/changelog/recipe/tree all pass; `release=ready`; no tag created.
+- PR 197 CI restarted at `d7997961` and is pending.
+- Dirty-tree full-suite ownership: the two `tests/test_release.py` failures were the intentional clean-tree gate on the uncommitted evidence worktree; clean release verification now passes. The existing FastAPI/Starlette test-client deprecation warning is unrelated and explicitly retained as an observation, not dismissed.
+- Canonical parity checker at delivery: fails only the two independent reviewer-verdict fields.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Story reclaimed and clean worktree updated on `story/WD-isg9`. |
+| 2 | PASS | Original command in `preflight-original-command.txt`; raw hash/size/mtime/disk/GPU/process/QC evidence in `preflight-model-hash-rerun.txt` and summary JSON. |
+| 3 | PASS | `evidence.json` now records preflight, hash-probe, boundary, and render argv plus observed model hashes. |
+| 4 | PASS | Five distinct media outputs and three real host boundaries remain valid. |
+| 5 | PASS | Matrix scope remains limited to the eight H3-standard cells and supporting narrative. |
+| 6 | PENDING REVIEWER | 48/48 objective gates and scoped tests pass; canonical checker awaits reviewer approval. |
+| 7 | PENDING REVIEWER | Delivery proof passes; PM acceptance and merge remain. |
+
+LEARNINGS:
+
+- A preflight check that collapses hash verification to `model_files=true` is not sufficient audit evidence; preserve `sha256sum -c`, size, and mtime output in the bundle.
+- Release-tree tests intentionally reject dirty evidence worktrees; commit first, then run clean release verification and CI.
+- Verbatim host/test logs can contain trailing whitespace; bundle-local `.gitattributes` can preserve exact bytes without weakening the repository-wide diff check.
+
+### OBSERVATIONS (unrelated)
+
+- [CONCERN] dependency warning: FastAPI's test client emits `StarletteDeprecationWarning: Using httpx with starlette.test_client is deprecated`; no failures. This is outside WD-isg9 and retained for SrPM triage.
+
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: d79979614ea5fd2a97ef4257247e2d098e66217c
+- Preflight hash summary: 4/4 hashes and sizes match.
+- Objective gates: 48 pass, 0 fail.
+- Scoped tests, backlog lint, diff-check, and clean release verify pass.
+- Reviewer approval remains pending.
+
+### proof
+
+- [x] AC1 through AC5 pass with artifacts cited above.
+- [ ] AC6 completes after independent reviewer approval and CI.
+- [ ] AC7 completes after PM acceptance and merge.
 
 ## nd_contract
 status: delivered
