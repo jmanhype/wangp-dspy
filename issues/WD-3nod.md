@@ -4,10 +4,10 @@ title: "Maestro parity: generation evidence"
 status: closed
 priority: 1
 type: epic
-labels: [capability, evidence]
+labels: [capability, evidence, accepted]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-26T04:06:49Z
+updated_at: 2026-09-26T04:06:53Z
 content_hash: "sha256:2f5010a2245620350ea0412df73da08d03d151f8ea552e4ba19fc536de00abd2"
 closed_at: 2026-09-26T04:06:49Z
 close_reason: "All 13 child stories are closed."
