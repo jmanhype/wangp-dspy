@@ -1,0 +1,58 @@
+{
+  "schema_version": "wangp-dspy.wd-5k28.h3-outpaint-boundary/v1",
+  "probe_timestamp": "2026-09-26T19:25:29Z",
+  "host": "straughter-Z690-Steel-Legend",
+  "operator_authorization": "operator-authorization.md",
+  "probe_script": "host-scripts/wd_5k28_boundary_probe.sh",
+  "raw_probe": "h3-outpaint-live-boundary.txt",
+  "active_identity_search": {
+    "paths": [
+      "/home/straughter/Wan2GP/models",
+      "/home/straughter/Wan2GP/shared",
+      "/home/straughter/Wan2GP/wgp.py",
+      "/home/straughter/Wan2GP/defaults",
+      "/home/straughter/Wan2GP/profiles",
+      "/mnt/bulk/straughter/Maestro/app"
+    ],
+    "exit_status": 1,
+    "match_count": 0
+  },
+  "filename_search": {
+    "match_count": 0
+  },
+  "disabled_control_evidence": {
+    "path": "/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py",
+    "sha256": "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6",
+    "lines": [
+      416,
+      417,
+      418
+    ],
+    "classification": "control declaration and label are commented out; adjacent quantize margins do not re-enable it"
+  },
+  "wgp_hash": "28720ae526c09fa502c406c5eace16ec833fa9e026e170701245a3f8b5632907",
+  "context_only_matches": {
+    "path": "/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py",
+    "sha256": "3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b",
+    "classification": "nested Wangp typed planner copy; not active host runtime implementation"
+  },
+  "accepted_prior_evidence": [
+    "../../WD-2gyw/h3-outpaint-boundary.md",
+    "../../WD-9t9o/boundary-code-evidence.txt"
+  ],
+  "dispositions": {
+    "create": "unsupported",
+    "extend": "unsupported",
+    "blend": "unsupported",
+    "retake": "unsupported",
+    "edit": "unsupported",
+    "outpaint": "unsupported",
+    "repaint": "unsupported",
+    "recast": "unsupported",
+    "upscale": "unsupported"
+  },
+  "boundary_reason": "The named H3 outpaint preset has no active runtime identity and its distinguishing FL2VA outpaint control is disabled in the hashed host handler.",
+  "host_mutations": [],
+  "gpu_work": false,
+  "downloads_bytes": 0
+}

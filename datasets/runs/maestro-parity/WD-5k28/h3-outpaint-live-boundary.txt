@@ -1,0 +1,137 @@
+2026-09-26T19:57:11Z
+straughter-Z690-Steel-Legend
+--- active h3_outpaint runtime identity search ---
+active_identity_grep_exit=1
+--- active disabled control search ---
+/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py:416:                # "video_guide_outpainting": [0],
+/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py:417:                # "video_guide_outpainting_label": "Enable Spatial Outpainting on the H3 Control Video",
+/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py:418:                "outpainting_quantize_margins": 32,
+/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py:457:            outpainting = get_outpainting_dims(inputs.get("video_guide_outpainting"), inputs.get("video_guide_outpainting_ratio", "")) is not None
+/home/straughter/Wan2GP/shared/utils/utils.py:420:def get_outpainting_dims(video_guide_outpainting, video_guide_outpainting_ratio = ""):
+/home/straughter/Wan2GP/shared/utils/utils.py:421:    if video_guide_outpainting is None:
+/home/straughter/Wan2GP/shared/utils/utils.py:423:    video_guide_outpainting = str(video_guide_outpainting).strip()
+/home/straughter/Wan2GP/shared/utils/utils.py:424:    if video_guide_outpainting.startswith("#") :
+/home/straughter/Wan2GP/shared/utils/utils.py:426:    if video_guide_outpainting == "0 0 0 0" or len(video_guide_outpainting) == 0:
+/home/straughter/Wan2GP/shared/utils/utils.py:427:        return [0, 0, 0, 0] if len(video_guide_outpainting_ratio) else None
+/home/straughter/Wan2GP/shared/utils/utils.py:428:    outpainting_dims = video_guide_outpainting.split(" ")
+/home/straughter/Wan2GP/shared/utils/utils.py:639:def resize_and_remove_background(img_list, budget_width, budget_height, rm_background, any_background_ref, fit_into_canvas = 0, block_size= 16, outpainting_dims = None, outpainting_ratio = "", background_ref_outpainted = True, inpaint_color = 127.5, return_tensor = False, ignore_last_refs = 0, background_removal_color =  [255, 255, 255], outpainting_quantize_margins = 0):
+/home/straughter/Wan2GP/shared/utils/utils.py:650:                resized_image, resized_mask = fit_image_into_canvas(img, (budget_height, budget_width), inpaint_color, full_frame = True, outpainting_dims = outpainting_dims, outpainting_ratio = outpainting_ratio, return_mask= True, return_image= True, outpainting_quantize_margins = outpainting_quantize_margins)
+/home/straughter/Wan2GP/shared/utils/utils.py:686:def fit_image_into_canvas(ref_img, image_size, canvas_tf_bg =127.5, device ="cpu", full_frame = False, outpainting_dims = None, outpainting_ratio = "", return_mask = False, return_image = False, outpainting_quantize_margins = 0):
+/home/straughter/Wan2GP/shared/utils/utils.py:697:            canvas_height, canvas_width, margin_top, margin_left = get_outpainting_frame_location(final_height, final_width, outpainting_dims, 1, outpainting_ratio, ref_height, ref_width, quantize_margins=outpainting_quantize_margins)
+/home/straughter/Wan2GP/shared/utils/utils.py:737:def prepare_video_guide_and_mask( video_guides, video_masks, pre_video_guide, image_size, current_video_length = 81, latent_size = 4, any_mask = False, any_guide_padding = False, guide_inpaint_color = 127.5, keep_video_guide_frames = [],  inject_frames = [], outpainting_dims = None, outpainting_ratio = "", device ="cpu", outpainting_quantize_margins = 0, frame_offset = 1):
+/home/straughter/Wan2GP/shared/utils/utils.py:779:                    src_video[:, pos:pos+1], msk = fit_image_into_canvas(frame, image_size, guide_inpaint_color, device, True, outpainting_dims, outpainting_ratio, return_mask= any_mask, outpainting_quantize_margins=outpainting_quantize_margins)
+/home/straughter/Wan2GP/shared/settings_metadata.py:15:    "force_fps", "keep_frames_video_source", "keep_frames_video_guide", "video_guide_outpainting", "video_guide_outpainting_ratio",
+/home/straughter/Wan2GP/shared/settings_metadata.py:86:        (model_def.get("video_guide_outpainting") is not None, {"video_guide_outpainting", "video_guide_outpainting_ratio"}),
+/home/straughter/Wan2GP/shared/deepy/settings/edit_image/Flux Klein 9B.json:18:    "video_guide_outpainting": "#",
+/home/straughter/Wan2GP/wgp.py:1138:    video_guide_outpainting = inputs["video_guide_outpainting"]
+/home/straughter/Wan2GP/wgp.py:1139:    video_guide_outpainting_ratio = inputs.get("video_guide_outpainting_ratio", "")
+/home/straughter/Wan2GP/wgp.py:1164:    outpainting_modes = model_def.get("video_guide_outpainting", [])
+/home/straughter/Wan2GP/wgp.py:1166:        video_guide_outpainting = ""
+/home/straughter/Wan2GP/wgp.py:1167:        video_guide_outpainting_ratio = ""
+/home/straughter/Wan2GP/wgp.py:1169:    outpainting_dims = get_outpainting_dims(video_guide_outpainting, video_guide_outpainting_ratio)
+/home/straughter/Wan2GP/wgp.py:1534:        "video_guide_outpainting": video_guide_outpainting,
+/home/straughter/Wan2GP/wgp.py:1535:        "video_guide_outpainting_ratio": inputs.get("video_guide_outpainting_ratio", ""),
+/home/straughter/Wan2GP/wgp.py:4975:            video_video_guide_outpainting = configs.get("video_guide_outpainting", "")
+/home/straughter/Wan2GP/wgp.py:4976:            video_video_guide_outpainting_ratio = configs.get("video_guide_outpainting_ratio", "")
+/home/straughter/Wan2GP/wgp.py:4978:            if len(video_video_guide_outpainting) > 0  and not video_video_guide_outpainting.startswith("#") \
+/home/straughter/Wan2GP/wgp.py:4980:                video_video_guide_outpainting = video_video_guide_outpainting.split(" ")
+/home/straughter/Wan2GP/wgp.py:4981:                video_outpainting = f"Top={video_video_guide_outpainting[0]}%, Bottom={video_video_guide_outpainting[1]}%, Left={video_video_guide_outpainting[2]}%, Right={video_video_guide_outpainting[3]}%" 
+/home/straughter/Wan2GP/wgp.py:4982:            elif len(video_video_guide_outpainting_ratio) > 0 and not video_video_guide_outpainting.startswith("#") and any_letters(video_video_prompt_type, "VFK"):
+/home/straughter/Wan2GP/wgp.py:4984:            if len(video_outpainting) > 0 and len(video_video_guide_outpainting_ratio) > 0:
+/home/straughter/Wan2GP/wgp.py:4985:                video_outpainting += f", Fit {video_video_guide_outpainting_ratio}"
+/home/straughter/Wan2GP/wgp.py:5446:def preprocess_video_with_mask(pre_video_guide, input_video_path, input_mask_path, height, width,  max_frames, start_frame=0, fit_canvas = None, fit_crop = False, target_fps = 16, block_size= 16, expand_scale = 2, process_type = "inpaint", process_type2 = None, to_bbox = False, RGB_Mask = False, negate_mask = False, process_outside_mask = None, inpaint_color = 127, outpainting_dims = None, outpainting_ratio = "", proc_no = 1, outpainting_quantize_margins = 0):
+/home/straughter/Wan2GP/wgp.py:5515:        height, width, margin_top, margin_left = get_outpainting_frame_location(final_height, final_width, outpainting_dims, 1, outpainting_ratio, source_frame_height, source_frame_width, quantize_margins=outpainting_quantize_margins)
+/home/straughter/Wan2GP/wgp.py:6591:def get_outpainting_quantize_margins(model_def):
+/home/straughter/Wan2GP/wgp.py:6592:    value = model_def.get("outpainting_quantize_margins", 0)
+/home/straughter/Wan2GP/wgp.py:6712:    video_guide_outpainting,
+/home/straughter/Wan2GP/wgp.py:6713:    video_guide_outpainting_ratio,
+/home/straughter/Wan2GP/wgp.py:7057:    outpainting_dims = get_outpainting_dims(video_guide_outpainting, video_guide_outpainting_ratio)
+/home/straughter/Wan2GP/wgp.py:7059:    outpainting_quantize_margins = get_outpainting_quantize_margins(model_def) if any_outpainting else 0
+/home/straughter/Wan2GP/wgp.py:7641:                                h, w = get_outpainting_full_area_dimensions(h, w, outpainting_dims, video_guide_outpainting_ratio)
+/home/straughter/Wan2GP/wgp.py:7649:                                                                                            outpainting_ratio = video_guide_outpainting_ratio,
+/home/straughter/Wan2GP/wgp.py:7651:                                                                                            outpainting_quantize_margins = outpainting_quantize_margins,
+/home/straughter/Wan2GP/wgp.py:7662:                        video_guide_processed, video_mask_processed = preprocess_video_with_mask(ref_pose_tensor, guide_source, video_mask, height=guide_height, width=guide_width, max_frames=guide_frames_extract_count, start_frame=guide_frames_extract_start, fit_canvas=guide_fit_canvas, fit_crop=fit_crop, target_fps=fps, process_type=preprocess_type, expand_scale=mask_expand, RGB_Mask=True, negate_mask="N" in video_prompt_type, process_outside_mask=process_outside_mask, outpainting_dims=outpainting_dims, outpainting_ratio=video_guide_outpainting_ratio, proc_no=1, inpaint_color=inpaint_color, block_size=block_size, to_bbox="H" in video_prompt_type, outpainting_quantize_margins=outpainting_quantize_margins)
+/home/straughter/Wan2GP/wgp.py:7671:                            video_guide_processed2, video_mask_processed2 = preprocess_video_with_mask(ref_pose_tensor, video_guide, video_mask, height=image_size[0], width = image_size[1], max_frames= guide_frames_extract_count, start_frame = guide_frames_extract_start, fit_canvas = sample_fit_canvas, fit_crop = fit_crop, target_fps = fps,  process_type = preprocess_type2, expand_scale = mask_expand, RGB_Mask = True, negate_mask = "N" in video_prompt_type, process_outside_mask = process_outside_mask, outpainting_dims = outpainting_dims, outpainting_ratio = video_guide_outpainting_ratio, proc_no =2, block_size = block_size, to_bbox = "H" in video_prompt_type, outpainting_quantize_margins = outpainting_quantize_margins)
+/home/straughter/Wan2GP/wgp.py:7694:                        h, w = get_outpainting_full_area_dimensions(h, w, outpainting_dims, video_guide_outpainting_ratio)
+/home/straughter/Wan2GP/wgp.py:7736:                                                                                        outpainting_ratio = video_guide_outpainting_ratio,
+/home/straughter/Wan2GP/wgp.py:7738:                                                                                        outpainting_quantize_margins = outpainting_quantize_margins,
+/home/straughter/Wan2GP/wgp.py:7760:                                                                        keep_frames_parsed, [] if custom_frames_injection else frames_to_inject_parsed , outpainting_dims, video_guide_outpainting_ratio, outpainting_quantize_margins=outpainting_quantize_margins, frame_offset=frames_offset)
+/home/straughter/Wan2GP/wgp.py:7860:                if outpainting_dims is not None and len((video_guide_outpainting_ratio or "").strip()) > 0:
+/home/straughter/Wan2GP/wgp.py:7868:                        model_outpainting_dims = resolve_outpainting_dims(control_source_height, control_source_width, outpainting_dims, video_guide_outpainting_ratio)
+/home/straughter/Wan2GP/wgp.py:10401:              video_guide_outpainting,
+/home/straughter/Wan2GP/wgp.py:10402:              video_guide_outpainting_ratio,
+/home/straughter/Wan2GP/wgp.py:10845:    any_outpainting= image_mode in model_def.get("video_guide_outpainting", [])
+/home/straughter/Wan2GP/wgp.py:10924:    any_outpainting= image_mode in model_def.get("video_guide_outpainting", [])
+/home/straughter/Wan2GP/wgp.py:11117:def update_video_guide_outpainting(video_guide_outpainting_value, value, pos):
+/home/straughter/Wan2GP/wgp.py:11118:    if len(video_guide_outpainting_value) <= 1:
+/home/straughter/Wan2GP/wgp.py:11119:        video_guide_outpainting_list = ["0"] * 4
+/home/straughter/Wan2GP/wgp.py:11121:        video_guide_outpainting_list = video_guide_outpainting_value.split(" ")
+/home/straughter/Wan2GP/wgp.py:11122:    video_guide_outpainting_list[pos] = str(value)
+/home/straughter/Wan2GP/wgp.py:11123:    if all(v=="0" for v in video_guide_outpainting_list):
+/home/straughter/Wan2GP/wgp.py:11125:    return " ".join(video_guide_outpainting_list)
+/home/straughter/Wan2GP/wgp.py:11127:def refresh_video_guide_outpainting_row(video_guide_outpainting_checkbox, video_guide_outpainting):
+/home/straughter/Wan2GP/wgp.py:11128:    video_guide_outpainting = video_guide_outpainting[1:] if video_guide_outpainting_checkbox else "#" + video_guide_outpainting 
+/home/straughter/Wan2GP/wgp.py:11130:    return gr.update(visible=video_guide_outpainting_checkbox), gr.update(visible=video_guide_outpainting_checkbox), video_guide_outpainting
+/home/straughter/Wan2GP/wgp.py:11132:def refresh_video_guide_outpainting_labels(video_guide_outpainting_ratio):
+/home/straughter/Wan2GP/wgp.py:11133:    suffix = "%" if len((video_guide_outpainting_ratio or "").strip()) == 0 else "x"
+/home/straughter/Wan2GP/wgp.py:11810:                video_guide_outpainting_modes = model_def.get("video_guide_outpainting", [])
+/home/straughter/Wan2GP/wgp.py:11811:                with gr.Column(visible= ("V" in video_prompt_type_value  or "K" in video_prompt_type_value  or "F" in video_prompt_type_value) and image_mode_value in video_guide_outpainting_modes) as video_guide_outpainting_col:
+/home/straughter/Wan2GP/wgp.py:11812:                    video_guide_outpainting_value = ui_get("video_guide_outpainting")
+/home/straughter/Wan2GP/wgp.py:11813:                    video_guide_outpainting_ratio_value = ui_get("video_guide_outpainting_ratio", "")
+/home/straughter/Wan2GP/wgp.py:11814:                    video_guide_outpainting = gr.Text(value=video_guide_outpainting_value , visible= False)
+/home/straughter/Wan2GP/wgp.py:11816:                        video_guide_outpainting_enabled = not video_guide_outpainting_value.startswith("#") and (len(video_guide_outpainting_value) > 0 or len(video_guide_outpainting_ratio_value) > 0)
+/home/straughter/Wan2GP/wgp.py:11817:                        outpainting_label_suffix = "%" if len(video_guide_outpainting_ratio_value) == 0 else "x"
+/home/straughter/Wan2GP/wgp.py:11819:                            video_guide_outpainting_checkbox = gr.Checkbox(label=model_def.get("video_guide_outpainting_label", "Enable Spatial Outpainting on Control Video, Landscape or Positioned Reference Frames") if image_mode_value == 0 else "Enable Spatial Outpainting on Control Image", value=video_guide_outpainting_enabled, scale=3)
+/home/straughter/Wan2GP/wgp.py:11820:                            video_guide_outpainting_ratio = gr.Dropdown([("Manual Expansion", ""), ("Fit into a 1:1 Box", "1:1"), ("Fit into a 4:3 Box", "4:3"), ("Fit into a 3:4 Box", "3:4"), ("Fit into a 16:9 Box", "16:9"), ("Fit into a 9:16 Box", "9:16"), ("Fit into a 21:9 Box", "21:9"), ("Fit into a 9:21 Box", "9:21")], value=video_guide_outpainting_ratio_value, visible=video_guide_outpainting_enabled, show_label=False, allow_custom_value=False, scale=1)
+/home/straughter/Wan2GP/wgp.py:11821:                        with gr.Row(visible = not video_guide_outpainting_value.startswith("#")) as video_guide_outpainting_row:
+/home/straughter/Wan2GP/wgp.py:11822:                            video_guide_outpainting_value = video_guide_outpainting_value[1:] if video_guide_outpainting_value.startswith("#") else video_guide_outpainting_value
+/home/straughter/Wan2GP/wgp.py:11823:                            video_guide_outpainting_list = [0] * 4 if len(video_guide_outpainting_value) == 0 else [int(v) for v in video_guide_outpainting_value.split(" ")]
+/home/straughter/Wan2GP/wgp.py:11824:                            video_guide_outpainting_top= gr.Slider(0, 100, value= video_guide_outpainting_list[0], step=5, label=f"Top {outpainting_label_suffix}", show_reset_button= False)
+/home/straughter/Wan2GP/wgp.py:11825:                            video_guide_outpainting_bottom = gr.Slider(0, 100, value= video_guide_outpainting_list[1], step=5, label=f"Bottom {outpainting_label_suffix}", show_reset_button= False)
+/home/straughter/Wan2GP/wgp.py:11826:                            video_guide_outpainting_left = gr.Slider(0, 100, value= video_guide_outpainting_list[2], step=5, label=f"Left {outpainting_label_suffix}", show_reset_button= False)
+/home/straughter/Wan2GP/wgp.py:11827:                            video_guide_outpainting_right = gr.Slider(0, 100, value= video_guide_outpainting_list[3], step=5, label=f"Right {outpainting_label_suffix}", show_reset_button= False)
+/home/straughter/Wan2GP/wgp.py:12793:                                      video_guide_outpainting_col,video_guide_outpainting_top, video_guide_outpainting_bottom, video_guide_outpainting_left, video_guide_outpainting_right,
+/home/straughter/Wan2GP/wgp.py:12794:                                      video_guide_outpainting_checkbox, video_guide_outpainting_ratio, video_guide_outpainting_row, show_advanced, magic_mask_image_btn, magic_mask_video_btn, video_info_to_control_video_btn, video_info_to_video_source_btn, sample_solver_row,
+/home/straughter/Wan2GP/wgp.py:12836:            video_prompt_type_image_refs.input(fn=refresh_video_prompt_type_image_refs, inputs = [state, video_prompt_type, video_prompt_type_image_refs,image_mode, image_prompt_type], outputs = [video_prompt_type, image_refs_row, remove_background_images_ref,  image_refs_relative_size, frames_positions,video_guide_outpainting_col, input_video_strength, custom_settings_visibility_trigger], show_progress="hidden")
+/home/straughter/Wan2GP/wgp.py:12837:            video_prompt_type_video_guide.input(fn=refresh_video_prompt_type_video_guide,     inputs = [state, gr.State(""),   video_prompt_type, video_prompt_type_video_guide,     image_mode, image_mask_guide, image_guide, image_mask, image_prompt_type, audio_prompt_type], outputs = [video_prompt_type, video_guide, video_guide2, image_guide, keep_frames_video_guide, denoising_strength, masking_strength, video_guide_outpainting_col, video_prompt_type_video_mask, video_mask, image_mask, image_mask_guide, mask_expand, image_refs_row, remove_background_images_ref, frames_positions, video_prompt_type_video_custom_dropbox, video_prompt_type_video_custom_checkbox, input_video_strength, magic_mask_image_btn, magic_mask_video_btn, force_control_video_trim, custom_settings_visibility_trigger], show_progress="hidden")
+/home/straughter/Wan2GP/wgp.py:12838:            video_prompt_type_video_guide_alt.input(fn=refresh_video_prompt_type_video_guide, inputs = [state, gr.State("alt"),video_prompt_type, video_prompt_type_video_guide_alt, image_mode, image_mask_guide, image_guide, image_mask, image_prompt_type, audio_prompt_type], outputs = [video_prompt_type, video_guide, video_guide2, image_guide, keep_frames_video_guide, denoising_strength, masking_strength, video_guide_outpainting_col, video_prompt_type_video_mask, video_mask, image_mask, image_mask_guide, mask_expand, image_refs_row, remove_background_images_ref, frames_positions, video_prompt_type_video_custom_dropbox, video_prompt_type_video_custom_checkbox, input_video_strength, magic_mask_image_btn, magic_mask_video_btn, force_control_video_trim, custom_settings_visibility_trigger], show_progress="hidden")
+/home/straughter/Wan2GP/wgp.py:12848:            video_guide_outpainting_top.input(fn=update_video_guide_outpainting, inputs=[video_guide_outpainting, video_guide_outpainting_top, gr.State(0)], outputs = [video_guide_outpainting], trigger_mode="multiple" )
+/home/straughter/Wan2GP/wgp.py:12849:            video_guide_outpainting_bottom.input(fn=update_video_guide_outpainting, inputs=[video_guide_outpainting, video_guide_outpainting_bottom,gr.State(1)], outputs = [video_guide_outpainting], trigger_mode="multiple" )
+/home/straughter/Wan2GP/wgp.py:12850:            video_guide_outpainting_left.input(fn=update_video_guide_outpainting, inputs=[video_guide_outpainting, video_guide_outpainting_left,gr.State(2)], outputs = [video_guide_outpainting], trigger_mode="multiple" )
+/home/straughter/Wan2GP/wgp.py:12851:            video_guide_outpainting_right.input(fn=update_video_guide_outpainting, inputs=[video_guide_outpainting, video_guide_outpainting_right,gr.State(3)], outputs = [video_guide_outpainting], trigger_mode="multiple" )
+/home/straughter/Wan2GP/wgp.py:12852:            video_guide_outpainting_ratio.input(fn=refresh_video_guide_outpainting_labels, inputs=[video_guide_outpainting_ratio], outputs=[video_guide_outpainting_top, video_guide_outpainting_bottom, video_guide_outpainting_left, video_guide_outpainting_right], show_progress="hidden")
+/home/straughter/Wan2GP/wgp.py:12853:            video_guide_outpainting_checkbox.input(fn=refresh_video_guide_outpainting_row, inputs=[video_guide_outpainting_checkbox, video_guide_outpainting], outputs= [video_guide_outpainting_row, video_guide_outpainting_ratio, video_guide_outpainting])
+disabled_control_grep_exit=0
+--- filename search ---
+filename_match_count=0
+--- broad planner-only context ---
+/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py:43:    h3_outpaint = "h3_outpaint"
+/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py:58:        VideoPreset.h3_outpaint,
+--- hashes and tree identity ---
+e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6  /home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py
+28720ae526c09fa502c406c5eace16ec833fa9e026e170701245a3f8b5632907  /home/straughter/Wan2GP/wgp.py
+3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b  /home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py
+4c93b64a47b5b0a915f2abec2ce754be98227150
+ M models/minimax_h3/minimax_h3_handler.py
+ M models/minimax_h3/multishot.py
+ M models/minimax_h3/transformer.py
+ M shared/gradio/hierarchy_selector/hierarchy_selector.pyi
+ M wgp.py
+?? acceptance-grid56-20260907/
+?? acceptance-grid56-r2/
+?? film/
+?? lf002-cut2-retry-after-finding60-20260916/
+?? lf002-two-cut-seed905-fresh-20260916/
+?? lf002-two-cut-seed905-prefix-20260916/
+?? lf002-two-cut-vibevoice-20260917/
+?? lf003-four-cut-fullgate-20260919/
+?? lf003-four-cut-fullgate-retry-20260919/
+?? lf003-two-cut-vibevoice-20260917/
+?? lf003-two-cut-vibevoice-fullgate-20260918/
+?? lf003-two-cut-vibevoice-rhostrong-20260918/
+?? lf003-two-cut-vibevoice-strict-20260917/
+?? lf003-v2-control-20260911/
+?? lf003-v3-exact-20260911/
+60951bb7519a53264e8fc57d991700ccdd0c4f4a
+--- host state ---
+NVIDIA GeForce RTX 3090, 24576 MiB, 84 MiB, 24033 MiB

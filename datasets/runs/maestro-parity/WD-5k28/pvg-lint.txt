@@ -1,0 +1,6 @@
+[LINT] backlog: scanned 136 issues
+
+vertical-slice:
+  [review] WD-5k28: story body has no observable-outcome verb (returns/displays/redirects/stores/emits/user can...)
+
+[LINT] PASSED: 0 error(s), 1 review finding(s)
