@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:31:26Z
+updated_at: 2026-09-26T17:31:27Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:c69eaf430289a6d89eb1488aa02fb96f860fd5ae9dec85c818fa062a3943239d"
+content_hash: "sha256:10d594c212b814aa2de6cb6547b33ad05e732f80579fac66eab6bf1d35b0228c"
 blocks: [WD-fay0]
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9]
@@ -91,6 +91,18 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 PROOF:
