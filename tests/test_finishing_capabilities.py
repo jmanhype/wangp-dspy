@@ -472,8 +472,74 @@ def test_each_film_grain_control_setting_compiles_unexecuted(
     payload = _real_request(tmp_path, interpolation=None, film_grain=grain)
     record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
     stage = next(item for item in record["command_graph"] if item["stage_id"] == "film_grain")
-    assert f"noise=alls={float(grain['strength']):g}" in stage["command"][6]
+    graph = stage["command"][6]
+    size = int(grain["size"])
+    strength = format(float(grain["strength"]), ".17g")
+    persistence = format(float(grain["temporal_persistence"]), ".17g")
+    assert f"scale=ceil(iw/{size}):ceil(ih/{size})" in graph
+    assert f"scale=iw*{size}:ih*{size}" in graph
+    assert f"noise=alls={strength}" in graph
+    assert f"all_opacity={persistence}" in graph
+    assert "all_seed=8107" in graph
     assert stage["executed"] is False
+
+
+def test_film_grain_size_and_temporal_persistence_each_change_the_graph(
+    tmp_path: Path,
+) -> None:
+    def graph_for(grain: dict[str, float | int]) -> str:
+        payload = _real_request(tmp_path, interpolation=None, film_grain=grain)
+        record = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()["records"][0]
+        return next(
+            item["command"][6] for item in record["command_graph"]
+            if item["stage_id"] == "film_grain"
+        )
+
+    size_4 = graph_for({"strength": 12.0, "size": 4, "temporal_persistence": 0.5})
+    size_64 = graph_for({"strength": 12.0, "size": 64, "temporal_persistence": 0.5})
+    assert size_4 != size_64
+    assert "ceil(iw/4):ceil(ih/4)" in size_4 and "iw*4:ih*4" in size_4
+    assert "ceil(iw/64):ceil(ih/64)" in size_64 and "iw*64:ih*64" in size_64
+
+    reseeded = graph_for({"strength": 12.0, "size": 16, "temporal_persistence": 0.0})
+    held = graph_for({"strength": 12.0, "size": 16, "temporal_persistence": 1.0})
+    assert reseeded != held
+    assert "all_opacity=0" in reseeded and "all_opacity=1" in held
+    assert "allf=t+u" in reseeded and held
+
+
+def test_film_grain_plan_is_deterministic_for_the_same_request_and_seed(
+    tmp_path: Path,
+) -> None:
+    payload = _real_request(
+        tmp_path,
+        interpolation=None,
+        film_grain={"strength": 12.0, "size": 16, "temporal_persistence": 0.5},
+    )
+    request = FinishingRequest.model_validate(payload)
+    first = compile_finishing_request(request).mapping()
+    second = compile_finishing_request(FinishingRequest.model_validate(payload)).mapping()
+    assert first == second
+    first_record, second_record = first["records"][0], second["records"][0]
+    assert first_record["backend_settings_sha256"] == second_record["backend_settings_sha256"]
+    assert first_record["command_graph_sha256"] == second_record["command_graph_sha256"]
+
+
+def test_non_ffmpeg_film_grain_controls_fail_closed_without_backend_fallback(
+    tmp_path: Path,
+) -> None:
+    payload = _real_request(
+        tmp_path,
+        backend="film",
+        interpolation=None,
+        film_grain={"strength": 12.0, "size": 17, "temporal_persistence": 0.75},
+    )
+    with pytest.raises(FinishingCapabilityError, match="film_grain.size") as raised:
+        compile_finishing_request(FinishingRequest.model_validate(payload))
+    assert raised.value.code == "FINISH_GRAIN_CONTROL_UNSUPPORTED"
+    assert raised.value.metadata["unsupported_controls"] == [
+        "film_grain.size", "film_grain.temporal_persistence"
+    ]
 
 
 @pytest.mark.parametrize(
@@ -551,6 +617,7 @@ def test_each_declared_neural_profile_remains_typed_unavailable(
         ("operation-unsupported", "FINISH_OPERATION_UNSUPPORTED"),
         ("interpolation-invalid", "FINISH_INTERPOLATION_INVALID"),
         ("spatial-invalid", "FINISH_SPATIAL_UPSCALE_INVALID"),
+        ("grain-control-unsupported", "FINISH_GRAIN_CONTROL_UNSUPPORTED"),
         ("codec-unsupported", "FINISH_CODEC_UNSUPPORTED"),
         ("face-invalid", "FINISH_FACE_TRACK_INVALID"),
         ("face-ambiguous", "FINISH_FACE_TRACK_AMBIGUOUS"),
@@ -599,6 +666,10 @@ def test_every_typed_failure_class_is_exit_2_and_next_command_resolves_live(
             "film_grain": None,
             "spatial_upscale": {"scale": "x2", "model_sha256": None},
         })
+    elif case == "grain-control-unsupported":
+        payload["backend"] = "film"
+        payload["interpolation"] = None
+        payload["film_grain"].update({"size": 17, "temporal_persistence": 0.75})
     elif case == "codec-unsupported":
         payload["output"].update({"container": "webm", "codec": "h264"})
     elif case == "face-invalid":

@@ -184,6 +184,33 @@ def _planned_stage(
     }
 
 
+def _film_grain_filter_graph(
+    request: FinishingRequest,
+    width: int,
+    height: int,
+    frame_rate: str,
+) -> str:
+    grain = request.film_grain
+    if grain is None:
+        raise AssertionError("film-grain graph requested without film-grain controls")
+    strength = format(grain.strength, ".17g")
+    persistence = format(grain.temporal_persistence, ".17g")
+    seed = request.recipe_seed
+    size = grain.size
+    return (
+        f"nullsrc=s={width}x{height}:r={frame_rate},"
+        f"scale=ceil(iw/{size}):ceil(ih/{size}):flags=neighbor,"
+        "split=2[grain_static_source][grain_temporal_source];"
+        f"[grain_static_source]noise=alls={strength}:all_seed={seed}:allf=u[grain_static];"
+        f"[grain_temporal_source]noise=alls={strength}:all_seed={seed}:allf=t+u[grain_temporal];"
+        f"[grain_static][grain_temporal]blend=all_mode=normal:"
+        f"all_opacity={persistence}[grain_mixed];"
+        f"[grain_mixed]scale=iw*{size}:ih*{size}:flags=neighbor,"
+        f"crop={width}:{height}[grain];"
+        "[0:v][grain]blend=all_mode=addition:shortest=1[grained]"
+    )
+
+
 def _command_graph(
     request: FinishingRequest,
     source: Path,
@@ -261,14 +288,22 @@ def _command_graph(
 
     if request.film_grain is not None:
         destination = stage_root / f"{stage_index:04d}-film-grain.mp4"
+        frame_rate = (
+            f"{request.interpolation.target_fps:g}"
+            if request.interpolation is not None
+            else request.source.stream.avg_frame_rate
+        )
+        graph = _film_grain_filter_graph(request, width, height, frame_rate)
         command = (
-            "ffmpeg", "-nostdin", "-i", str(current), "-an", "-vf",
-            f"noise=alls={request.film_grain.strength:g}:allf=t+u",
-            "-c:v", "ffv1", destination.name,
+            "ffmpeg", "-nostdin", "-i", str(current), "-an", "-filter_complex",
+            graph, "-map", "[grained]", "-c:v", "ffv1", destination.name,
         )
         stages.append(_planned_stage(
             "film_grain", request.backend, command, source, destination,
-            purpose="declare deterministic temporal film grain",
+            purpose=(
+                "declare deterministic film grain with encoded grain size "
+                "and temporal persistence"
+            ),
             input_path=current,
         ))
         current = destination
@@ -315,6 +350,19 @@ def _command_graph(
 
 
 def _build_record(request: FinishingRequest) -> dict[str, Any]:
+    if request.film_grain is not None and request.backend is not FinishingBackend.ffmpeg:
+        raise _failure(
+            "FINISH_GRAIN_CONTROL_UNSUPPORTED",
+            (
+                f"backend {request.backend.value} cannot honour film_grain.size "
+                "or film_grain.temporal_persistence without falling back to another backend"
+            ),
+            "Use backend ffmpeg for the complete grain control graph, or extend film natively.",
+            backend=request.backend.value,
+            unsupported_controls=[
+                "film_grain.size", "film_grain.temporal_persistence"
+            ],
+        )
     actual_source_hash = _validate_source(request)
     face_track = _selected_face_track(request)
     output = _validate_output(request)
