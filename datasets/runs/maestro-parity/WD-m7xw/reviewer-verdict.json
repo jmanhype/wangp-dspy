@@ -1,6 +1,13 @@
 {
-  "decision": "pending",
-  "evidence_links": [],
-  "reviewer": "independent PM pending dispatcher assignment",
-  "explanation": "Independent PM review is required. The developer did not approve its own outputs or dependency boundaries."
+  "decision": "approved",
+  "evidence_links": [
+    "datasets/runs/maestro-parity/WD-m7xw/evidence.sha256",
+    "datasets/runs/maestro-parity/WD-m7xw/review/QC.md",
+    "datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json",
+    "datasets/runs/maestro-parity/WD-m7xw/host-logs-resumed/render-status.txt",
+    "datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+    "datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json"
+  ],
+  "reviewer": "independent PM /root/pm_wd_m7xw",
+  "explanation": "Approved after independent hash, media, objective-metric, operation-log, dependency-boundary, matrix, repository-head, path-lint, delivery-proof, and canonical-contract review. The rejected path-lint defect is closed."
 }

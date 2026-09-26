@@ -16,34 +16,12 @@
     "create"
   ],
   "repository": {
-    "commit": "5c873f72addf2792fd56f74cbfe55037487a1670",
+    "commit": "a4f145bb3b07f78569d694abd3592273c72d77bd",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "2ebc99de2bf9532e6a8fee6c2732f9b1ff16109ed25a89f5933265db6a502695",
+      "identity_sha256": "401c8880b414e3048ac43afb7b374d7ae37056437ef49cf413a32b200a3bedc4",
       "status_lines": [
-        " M datasets/runs/maestro-parity/WD-m7xw/.gitattributes",
-        " M datasets/runs/maestro-parity/WD-m7xw/EXECUTION_BOUNDARY.md",
-        " M datasets/runs/maestro-parity/WD-m7xw/operator-authorization.md",
-        " M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-m7xw/build-evidence.py",
-        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.exit",
-        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.stderr",
-        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.txt",
-        "?? datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
-        "?? datasets/runs/maestro-parity/WD-m7xw/evidence.json",
-        "?? datasets/runs/maestro-parity/WD-m7xw/host-logs-resumed/",
-        "?? datasets/runs/maestro-parity/WD-m7xw/host-scripts/50_run_operation.sh",
-        "?? datasets/runs/maestro-parity/WD-m7xw/inputs/",
-        "?? datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json",
-        "?? datasets/runs/maestro-parity/WD-m7xw/native-settings/",
-        "?? datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json",
-        "?? datasets/runs/maestro-parity/WD-m7xw/operation-map.md",
-        "?? datasets/runs/maestro-parity/WD-m7xw/outputs/",
-        "?? datasets/runs/maestro-parity/WD-m7xw/review-edit-psnr.log",
-        "?? datasets/runs/maestro-parity/WD-m7xw/review-retake-first-frame-psnr.log",
-        "?? datasets/runs/maestro-parity/WD-m7xw/review-retake-first-frame-ssim.log",
-        "?? datasets/runs/maestro-parity/WD-m7xw/review/",
-        "?? datasets/runs/maestro-parity/WD-m7xw/reviewer-verdict.json"
+        " M datasets/runs/maestro-parity/WD-m7xw/reviewer-verdict.json"
       ]
     }
   },
@@ -381,10 +359,17 @@
     }
   ],
   "reviewer_verdict": {
-    "decision": "pending",
-    "evidence_links": [],
-    "reviewer": "independent PM pending dispatcher assignment",
-    "explanation": "Independent PM review is required. The developer did not approve its own outputs or dependency boundaries."
+    "decision": "approved",
+    "evidence_links": [
+      "datasets/runs/maestro-parity/WD-m7xw/evidence.sha256",
+      "datasets/runs/maestro-parity/WD-m7xw/review/QC.md",
+      "datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json",
+      "datasets/runs/maestro-parity/WD-m7xw/host-logs-resumed/render-status.txt",
+      "datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+      "datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json"
+    ],
+    "reviewer": "independent PM /root/pm_wd_m7xw",
+    "explanation": "Approved after independent hash, media, objective-metric, operation-log, dependency-boundary, matrix, repository-head, path-lint, delivery-proof, and canonical-contract review. The rejected path-lint defect is closed."
   },
   "row_dispositions": {
     "create": {
