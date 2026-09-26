@@ -9,7 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
 updated_at: 2026-09-26T15:56:38Z
-content_hash: "sha256:92e278a324691a2ec103093273a935b84a51c00b288f69c2bdebf71315f25ae6"
+content_hash: "sha256:048b52071daa090ff9d3eb0de1941e9b3070d9b86ebc75d1a083c86527b573aa"
+blocks: [WD-fay0]
 ---
 
 ## Description
@@ -49,9 +50,10 @@ delivery proof, clean release verification, and PR CI must pass.
 
 
 ## History
-
+- 2026-09-26T15:56:58Z dep_added: blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-fay0]]
 
 ## Comments
