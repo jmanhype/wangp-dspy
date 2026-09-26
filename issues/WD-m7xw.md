@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:17:38Z
-content_hash: "sha256:23a6e31144d23d0e6b381e45eb9285b5beab002bd7a83d851934434a580ee130"
+updated_at: 2026-09-26T23:17:55Z
+content_hash: "sha256:44a505054eb7cca5b18280b2e9b0e606fe36745b31981559451cf9ae8d0b6cee"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o]
@@ -133,6 +133,34 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+## Implementation Evidence
+
+### Path-only rework correction
+
+The prior proof used bundle-relative names. The authoritative produced paths are:
+
+- `datasets/runs/maestro-parity/WD-m7xw/review/QC.md`
+- `datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json`
+- `datasets/runs/maestro-parity/WD-m7xw/operator-authorization.md`
+- `datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md`
+- `datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json`
+- `datasets/runs/maestro-parity/WD-m7xw/operation-map.md`
+- `datasets/runs/maestro-parity/WD-m7xw/EXECUTION_BOUNDARY.md`
+- `datasets/runs/maestro-parity/WD-m7xw/evidence.json`
+- `datasets/runs/maestro-parity/WD-m7xw/pvg-lint-resumed.txt`
+- `datasets/runs/maestro-parity/WD-m7xw/release-verify-resumed.txt`
+- `datasets/runs/maestro-parity/WD-m7xw/protected-parity-and-diff-check-final.txt`
+
+No media, GPU, SSH, host, or download operation was repeated. The four independently reviewed outputs and four dependency boundaries are unchanged.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Path-only correction for the PM rejection; all authoritative citations above resolve in this repository.
+
+### proof
+- [x] Corrected QC and sibling evidence paths recorded.
 
 
 ## nd_contract
