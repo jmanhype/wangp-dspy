@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:09:51Z
-content_hash: "sha256:92d01ac2a8281c6e1f7d1655c156390cae9ae32098415a4b489015467fa64522"
+updated_at: 2026-09-26T00:55:32Z
+content_hash: "sha256:4f4b870abf6c7f074bce894f3fe9fb03064a67f9b7e27aa8bc5def40fb7df9fd"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -114,6 +114,65 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+### Scope and artifacts
+- Consolidated row/cell index: `datasets/runs/maestro-parity/WD-fay0/evidence-index.md`.
+- Machine-readable index: `datasets/runs/maestro-parity/WD-fay0/evidence-index.json`.
+- Exact checker/gate transcript: `datasets/runs/maestro-parity/WD-fay0/gate-transcript.md`.
+- Mechanical validator: `datasets/runs/maestro-parity/WD-fay0/validate_index.py`.
+- Bundle size: 212 KiB, four files, under the 16 MiB ceiling. No lane media, model weights, credentials, or disposable checkout was copied. No render host was contacted.
+
+### Lane checker results
+- WD-m0r5 image: exit 0, PASS.
+- WD-rous music: exit 0, PASS.
+- WD-cpow SFX/audio-post: exit 0, PASS.
+- WD-2gyw video subset: exit 0, PASS.
+- WD-r81u finishing: exit 0, PASS.
+- WD-bxhc voice/character: exit 0, PASS.
+- WD-dmf2 director: exit 1 at PM-recorded accepted commit `741a8bb27c4bec3be38667b090a03bedb00e3010`; failures are objective gates 21, 23, 24, 26, 27 and pending reviewer. The bundle is absent from capstone base `82f6c38` and was inspected only in a disposable detached worktree.
+- WD-0zj8 clean install: exit 1 because no canonical `evidence.json` exists. The accepted artifact is the no-GPU plan/typed-refusal half only.
+
+### Row inventory
+- Parsed all state-bearing columns in image, music, SFX, video, finishing, voice, character, and director matrices: 208 cells.
+- Totals: 46 `host_run_verified`, 34 unsupported (including typed/lane boundaries and measured hardware boundaries), 120 planned, 6 `evidence_complete_pending_review`, and 2 not applicable.
+- The six undelivered video family groups remain TaoMate, H3 outpaint, LTX-2.5, LTX-2.3, SCAIL-2, and Wan-2gp. Four logical voice/character rows—six Image/Video or clone state cells—remain pending cloning-reuse consent.
+- Explicit non-matrix editor/first-run inventory: 7 verified-local, 1 unsupported, 2 planned.
+- Every planned entry has a recorded blocker in the index. No verdict was upgraded, downgraded, copied, or relabelled by WD-fay0.
+
+### Better-than-Maestro proofs
+- Checker fail-closed proof: targeted suite passed 61 tests with errors=0/failures=0/skipped=0, covering every canonical field/constraint violation, symlink, hash tampering, denied authorization, and non-mutating exact CLI failure.
+- Clean-machine proof: no-GPU half verified from a disposable checkout: install succeeded, clips=4 plan emitted, `generated_artifact=false`, exit 3 with `HOST_CONFIGURATION_INCOMPLETE` and `MODEL_MANIFEST_REQUIRED`, no traceback. Generated half remains blocked on per-batch host authorization, model-download approval, and a complete authorized host/model manifest.
+
+### CI/Test Results
+Commands run:
+- `python3 scripts/verify_maestro_parity.py datasets/runs/maestro-parity/<each lane>`
+- `python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py`
+- `uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal --junitxml=/tmp/WD-fay0-targeted.xml`
+- `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-fay0-full.xml`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --exit-code 82f6c38570a818dd8dbd3e70baebd037459661b3 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+
+Summary: validator PASS (208 rows, 8 lanes, 6 passing bundles, 2 failing bundles); targeted proof PASS 61/0/0/0; clean-tree full suite PASS tests=2085 errors=0 failures=0 skipped=1; lint PASS 126 scanned, 0 errors, 0 review findings; release=ready/tag_created=false; story-base protected parity PASS; diff-check PASS. The only difference from `40f8c2b` is `services/jobs/preflight.py`, independently accepted by WD-e4r7 for fail-closed `nvidia-smi` CSV parsing. The first full-suite attempt had two failures caused solely by in-repo gate instrumentation dirtying the real-tree release checks; that transcript is retained and the clean-tree rerun above passed.
+
+Commit SHA: 1dbdd7977560c74a31a05986413b5671880b8031
+Branch: story/WD-fay0; pushed and byte-verified against origin.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Artifacts, checker transcripts, row inventory, hashes, gate receipts, commit, and pushed branch are recorded above and in `datasets/runs/maestro-parity/WD-fay0/`.
+
+### proof
+- [x] AC #1 evaluated: NOT MET — 120 cells remain planned and 6 remain pending operator consent; no operator-approved terminal disposition exists.
+- [x] AC #2 evaluated: NOT MET — WD-0zj8 and WD-dmf2 checker exits are non-zero; WD-dmf2 is also absent from capstone base.
+- [x] AC #3 evaluated: NOT MET — WD-0zj8 has no generated artifact or canonical evidence bundle; required operator host/model inputs remain absent.
+- [x] AC #4 evaluated: MET — lint, clean-tree full suite, release, story-base protected parity, and diff-check pass; the sole older-base preflight difference is the independently accepted WD-e4r7 exception.
+- [x] AC #5 evaluated: NOT MET — coverage is complete and mechanically validated, but the referenced bundle set cannot pass while WD-0zj8/WD-dmf2 fail and unresolved planned entries lack operator disposition.
+
 ## nd_contract
 status: in_progress
 
