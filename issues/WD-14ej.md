@@ -1,16 +1,18 @@
 ---
 id: WD-14ej
 title: "Finishing: honor interpolation scene_detection in the emitted minterpolate graph"
-status: open
+status: in_progress
 priority: 2
 type: bug
 labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
-updated_at: 2026-09-26T04:32:47Z
-content_hash: "sha256:ee03bbc6018f6e06312c4628d6836451b349616f1882b39a56338e461ceea4b4"
+updated_at: 2026-09-26T04:32:54Z
+content_hash: "sha256:ad7fd28782e167fec0960f4477eef171b6e7319fdeb821fcebbfcfbcc60f56bc"
 blocks: [WD-fay0]
+assignee: dev-WD-14ej
+follows: [WD-i7qs]
 ---
 
 ## Description
@@ -105,9 +107,13 @@ status: new
 
 ## History
 - 2026-09-26T04:32:53Z dep_added: blocks WD-fay0
+- 2026-09-26T04:32:54Z status: open -> in_progress
+- 2026-09-26T04:32:54Z auto-follows: linked to predecessor WD-i7qs
+- 2026-09-26T04:32:54Z claimed by dev-WD-14ej
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-i7qs]]
 
 ## Comments
