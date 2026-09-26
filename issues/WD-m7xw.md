@@ -8,11 +8,11 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:01:54Z
-content_hash: "sha256:000d53255ad947bca4ccb587c322afc8e690191e36c3e10fa3965e73c1e909f7"
+updated_at: 2026-09-26T23:02:24Z
+content_hash: "sha256:0e1d843b46ccb88bdcbe915ea1fa60ded7f78071701e1518755f8a591aada8f4"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
-follows: [WD-5k28, WD-43tj, WD-9ymi]
+follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
 assignee: dev-WD-m7xw
 ---
 
@@ -234,12 +234,14 @@ status: delivered
 - 2026-09-26T21:35:04Z status: open -> in_progress
 - 2026-09-26T21:35:04Z auto-follows: linked to predecessor WD-9ymi
 - 2026-09-26T21:35:04Z claimed by dev-WD-m7xw
+- 2026-09-26T23:02:24Z status: in_progress -> in_progress
+- 2026-09-26T23:02:24Z auto-follows: linked to predecessor WD-f0vk
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
-- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]]
+- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]]
 
 ## Comments
 
