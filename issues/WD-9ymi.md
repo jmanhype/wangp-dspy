@@ -1,7 +1,7 @@
 ---
 id: WD-9ymi
 title: "Story workflow accepts a delivered story with a blank formal AC section"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [discovered-by-pm, delivered]
@@ -9,10 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
 updated_at: 2026-09-26T18:38:25Z
-closed_at: ""
-close_reason: ""
-content_hash: "sha256:920fd051f1b8f248cfe1ed7bba108250e61d7ce62a034c1b7237ad7114c14c77"
-blocks: [WD-fay0]
+closed_at: 2026-09-26T18:38:25Z
+close_reason: "Accepted: DOCS_STALE gap closed; help and focused ordering test updated; all targeted, integration, and full Go tests pass."
+content_hash: "sha256:accd73d2a4971c63393374e554617621a36847a0780de317f1e247db5c4707e7"
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
 ---
@@ -297,10 +296,11 @@ status: delivered
 - 2026-09-26T18:31:12Z claimed by dev-WD-9ymi
 - 2026-09-26T18:34:33Z status: in_progress -> in_progress
 - 2026-09-26T18:34:33Z auto-follows: linked to predecessor WD-14ej
+- 2026-09-26T18:38:25Z status: in_progress -> closed
+- 2026-09-26T18:38:26Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-9t9o]], [[WD-isg9]], [[WD-f0vk]], [[WD-14ej]]
 
 ## Comments
