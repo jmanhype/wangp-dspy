@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
-updated_at: 2026-09-26T18:48:46Z
-content_hash: "sha256:fcb89f05bbdb9be96b1a8050c264340e02acc2b3accb624d4ed6ac3e922186f6"
+updated_at: 2026-09-26T19:18:06Z
+content_hash: "sha256:840def82b269b0060c63040422a0a2f2f065f0d7adbd89ae83c5cff6d7a23606"
 blocks: [WD-fay0]
 assignee: dev-WD-43tj
 follows: [WD-9ymi, WD-f0vk]
@@ -37,6 +37,21 @@ None identified.
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-26]: Evidence reviewed and meets the boundary-only bar.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Verified live host-search evidence, nested planner-only match classification, current and prior evidence hashes, nine-cell docs dispositions, and docs-only scope.
+- Verified delivery proof 9/9; scoped-test output has 110 passing dots and exit 0; lint artifact has 0 errors; git diff --check is clean.
+- Independently reran offline clean release verification at f19fa500697712f72edac09d54eb0d5b5daa3a34: all 4 checks pass, release=true, no tag.
+- PR 200 test check passed at head f19fa500 in 21m20s.
+
+### proof
+- [x] AC1 through AC6 verified from artifacts, independent hash/release checks, and CI evidence.
+
 ## Implementation Evidence
 
 Commands run:
