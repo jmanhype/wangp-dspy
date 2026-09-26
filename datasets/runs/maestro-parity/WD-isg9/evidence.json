@@ -664,7 +664,7 @@
     "scope": "WD-isg9 H3-standard operation evidence on host 3090 using existing assets only; no downloads, training, paid provider, GUI work, unrelated GPU process, or model deletion",
     "status": "approved",
     "text": "Authorized and approved.\ncontinue",
-    "timestamp": "2026-09-26T15:07:36.587688Z"
+    "timestamp": "2026-09-26T15:34:15.703204Z"
   },
   "output": [
     {
@@ -734,33 +734,54 @@
     }
   ],
   "repository": {
-    "commit": "ee81c0ccd763376d86734791a342e16efad78ebb",
+    "commit": "d79979614ea5fd2a97ef4257247e2d098e66217c",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "3a2defb3b3bf090320523f337be6869d397ff61552d6befe9de8d7a0f9d1629f",
+      "identity_sha256": "6bdb147a4b690364496b40b9d244eef51c15f957ecc1972380d4a66121446a6b",
       "status_lines": [
-        "M datasets/runs/maestro-parity/WD-isg9/build-evidence.py",
-        " M datasets/runs/maestro-parity/WD-isg9/build-objective-gates.py",
-        " M datasets/runs/maestro-parity/WD-isg9/bundle-file-count.txt",
-        " M datasets/runs/maestro-parity/WD-isg9/evidence-build-output.txt",
-        " M datasets/runs/maestro-parity/WD-isg9/evidence.json",
-        " M datasets/runs/maestro-parity/WD-isg9/execution-summary.md",
-        " M datasets/runs/maestro-parity/WD-isg9/objective-gates-output.txt",
-        " M datasets/runs/maestro-parity/WD-isg9/objective-gates.json",
-        "?? datasets/runs/maestro-parity/WD-isg9/build_preflight_hash_summary.py",
-        "?? datasets/runs/maestro-parity/WD-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh",
-        "?? datasets/runs/maestro-parity/WD-isg9/preflight-hash-summary-output.txt",
-        "?? datasets/runs/maestro-parity/WD-isg9/preflight-model-hash-rerun.txt",
-        "?? datasets/runs/maestro-parity/WD-isg9/preflight-model-hash-summary.json",
-        "?? datasets/runs/maestro-parity/WD-isg9/preflight-original-command.txt",
-        "?? datasets/runs/maestro-parity/WD-isg9/wd-isg9-model-hashes.sha256"
+        "?? datasets/runs/maestro-parity/WD-isg9/reviewer-verdict.json"
       ]
     }
   },
   "reviewer_verdict": {
-    "decision": "pending",
-    "evidence_links": [],
-    "review": "Independent PM review has not run."
+    "decision": "approved",
+    "evidence_links": [
+      "reviewer-verdict.json",
+      "evidence.json",
+      "preflight-original-command.txt",
+      "preflight-model-hash-rerun.txt",
+      "preflight-model-hash-summary.json",
+      "objective-gates.json",
+      "host-logs/blend-probe.render.log",
+      "host-logs/recast-probe.render.log",
+      "boundary-code-evidence.txt"
+    ],
+    "reviewed_at": "2026-09-26T15:33:54Z",
+    "reviewed_commit": "d79979614ea5fd2a97ef4257247e2d098e66217c",
+    "reviewer": "independent PM /root/pm_wd_isg9_rework",
+    "summary": "All seven acceptance criteria are supported. The original preflight path performed live sha256 comparisons before render; the rework preserves its exact argv and adds raw live hash, size, mtime, host-state, process, and QC evidence. Five outputs have distinct verified hashes and operation-specific gates; three cells have real host boundaries. LEARNINGS and warning ownership are present. CI and clean release verification pass at the reviewed head.",
+    "verification": {
+      "backlog_lint": "PASS 131 scanned, 0 errors, 0 review findings",
+      "canonical_checker_before_rebuild": "Failed only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+      "clean_release_verify": "PASS; release=ready, tag_created=false",
+      "delivery_proof": "PASS 9/9",
+      "objective_gates": "48 pass, 0 fail",
+      "operation_dispositions": {
+        "host_run_verified": [
+          "extend",
+          "retake",
+          "edit",
+          "repaint",
+          "upscale"
+        ],
+        "unsupported_with_host_boundary": [
+          "blend",
+          "outpaint",
+          "recast"
+        ]
+      },
+      "pr_197_test": "SUCCESS at d79979614ea5fd2a97ef4257247e2d098e66217c"
+    }
   },
   "row_dispositions": {
     "blend": {
