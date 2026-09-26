@@ -1,15 +1,15 @@
 ---
 id: WD-t0il
 title: "Gate: remaining Maestro-parity scope (120 planned cells) pending operator authorization"
-status: blocked
+status: deferred
 priority: 1
 type: task
 labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T05:37:53Z
-content_hash: "sha256:ebc8ac2a4d1a33ef1ab3cb465d96a9e8f1a8cb6dc493face1e1af643a0a18fa4"
+updated_at: 2026-09-26T05:38:12Z
+content_hash: "sha256:b3ae330c7e3e429a54f8deb71d5bb3f50c24e3a18b4a1bf544e6497fb9e10df2"
 blocks: [WD-fay0]
 ---
 
@@ -94,6 +94,7 @@ status: blocked
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
 - 2026-09-26T05:37:53Z status: open -> blocked
+- 2026-09-26T05:38:12Z status: blocked -> deferred
 
 ## Links
 - Parent: [[WD-3nod]]
