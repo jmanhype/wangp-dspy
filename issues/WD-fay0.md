@@ -1,16 +1,18 @@
 ---
 id: WD-fay0
 title: "E2e: verified Maestro parity evidence"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [capstone, e2e, evidence]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-24T16:17:34Z
-content_hash: "sha256:e11e0c6e0774db2414a82f50ec84bee464ddc8374f8055f472937e2bb6987eef"
+updated_at: 2026-09-26T00:08:49Z
+content_hash: "sha256:29fe703fecaea0c4f6a4c325d31e19b147043ed8e118e037073339c3bdb18c8d"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
+assignee: dev-WD-fay0
+follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 ---
 
 ## Description
@@ -138,9 +140,22 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-25T20:13:03Z dep_removed: was_blocked_by WD-r81u
 - 2026-09-25T21:27:31Z dep_removed: was_blocked_by WD-bxhc
 - 2026-09-26T00:07:41Z dep_removed: was_blocked_by WD-dmf2
+- 2026-09-26T00:08:49Z status: open -> in_progress
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-651z
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-m0r5
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-e4r7
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-0zj8
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-rous
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-cpow
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-2gyw
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-r81u
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-bxhc
+- 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-dmf2
+- 2026-09-26T00:08:50Z claimed by dev-WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
+- Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
 
 ## Comments

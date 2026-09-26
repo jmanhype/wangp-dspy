@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T06:24:28Z
-content_hash: "sha256:ea919ac418f5f92e2520d23829a7f2a6026acfdac3407429ca706960c92d3375"
+content_hash: "sha256:c7bcfda0c48282865ca5a35fb3e0bac0ce2a25cd48d8183910000b53bffd1419"
 assignee: dev-WD-cpow
 follows: [WD-rous, WD-0zj8]
 closed_at: 2026-09-25T06:24:28Z
 close_reason: "Approved after independent artifact hash, media packet-stream, gate, download-reuse, checker, and standing-gate verification at 10a5e92060041a0d7542ae46299730d6c639325f."
-led_to: [WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
+led_to: [WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-fay0]
 ---
 
 ## Description
@@ -207,7 +207,7 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-rous]], [[WD-0zj8]]
-- Led to: [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
+- Led to: [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-fay0]]
 
 ## Comments
 
