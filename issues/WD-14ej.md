@@ -4,7 +4,7 @@ title: "Finishing: honor interpolation scene_detection in the emitted minterpola
 status: closed
 priority: 2
 type: bug
-labels: [capability, finishing, evidence, delivered, accepted]
+labels: [capability, finishing, evidence, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
