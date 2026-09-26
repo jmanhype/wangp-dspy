@@ -8,14 +8,67 @@ labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:47:58Z
-content_hash: "sha256:bbdff0f90d071af1eee5f26d8a9726e26e54e9428e78c5e47fabefa97d67c0c1"
+updated_at: 2026-09-26T02:48:32Z
+content_hash: "sha256:8a3b7b9fd85d5c853b73686e64ea016f538916d5bd35d286c3a80263a8361955"
 assignee: dev-WD-r4n8
 follows: [WD-fay0]
 blocks: [WD-fay0]
 ---
 
 ## Description
+### Why (measured evidence, all on main @ 9cc501d6)
+
+The finishing surface declares film-grain controls it never applies:
+
+- `predict/finishing.py:187-192` — `FilmGrainControls` declares `strength`, `size`
+  (default 16, ge=4, le=64) and `temporal_persistence` (default 0.5, ge=0, le=1)
+  with `extra="forbid"`, so these are validated, frozen request inputs.
+- `predict/finishing.py:367` records the full control set into `backend_settings`,
+  and `backend_settings_sha256` hashes it.
+- `services/finishing/pipeline.py:266` emitted only
+  `noise=alls={strength:g}:allf=t+u`; `size` and `temporal_persistence` never
+  reached the command.
+- Host measurement in `datasets/runs/maestro-parity/WD-r81u/execution-summary.md`
+  found actual pixel grain size 1 and temporal persistence 0, contradicting the
+  declared defaults 16 and 0.5.
+
+The plan's recorded settings and emitted command therefore disagreed, and measured
+media followed the command. FFmpeg's bare `noise` filter is per-pixel by
+construction and `allf=t` reseeds every frame, so the declared controls require a
+different graph or a typed refusal.
+
+### Acceptance criteria
+
+- AC1: Identical requests differing only in `film_grain.size` emit different
+  film-grain graphs, each encoding its own size; size is never silently dropped.
+- AC2: Identical requests differing only in `temporal_persistence` emit different
+  graphs. Persistence 1.0 holds grain across frames, while 0.0 reseeds every frame.
+- AC3: The same request and `recipe_seed` produce byte-identical plan records,
+  including `backend_settings_sha256` and command-hash fields.
+- AC4: Any backend/operation that cannot honour a non-default size or persistence
+  returns a typed exit-2 rejection naming the control; it never silently drops the
+  control or falls back to another backend.
+- AC5: Plan-only invariants remain unchanged: no host contact, execution, GPU work,
+  or model download; records keep `plan_only=true`, `executable=false`,
+  `queue_submitted=false`, `host_contact=false`, `media_generated=false`, and
+  `measurement_status=unverified`, and the `jobs` table remains absent.
+- AC6: `docs/finishing-capabilities.md` states the applied grain semantics and
+  updates the film disposition honestly to match the graph.
+- AC7: Standing gates remain green: backlog lint has 0 errors; the full suite has
+  0 failures/errors; release verification reports `release=ready` with
+  `tag_created=false`.
+
+### Constraints
+
+- Do not execute any render and do not contact the host. Verification of produced
+  media belongs to a later authorized batch.
+- Protect `services/jobs/queue.py`, `services/director/renderers/policy.py`,
+  `services/director/wiring.py`, `services/jobs/preflight.py`, and
+  `scripts/run_film.py` from changes.
+- Add no capability outside the finishing matrix row.
+
+## MANDATORY SKILLS
+- pvg
 
 ## Description
 ## Why (measured evidence, all on main @ 9cc501d6)
