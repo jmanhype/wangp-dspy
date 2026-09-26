@@ -8,12 +8,12 @@ labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:31:04Z
-content_hash: "sha256:5e53803a5f0bedb2b5e0d647cc935c3f702f96055d0e9c8ac089c25f828369dd"
+updated_at: 2026-09-26T23:31:13Z
+content_hash: "sha256:25c701d3527e7d290ad63ad38499aab89dbaf95371ca8fcbba135a4a24f19bd3"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 assignee: dev-WD-obkn
-follows: [WD-5k28]
+follows: [WD-5k28, WD-m7xw]
 ---
 
 ## Description
@@ -253,11 +253,13 @@ status: delivered
 - 2026-09-26T20:57:49Z status: open -> in_progress
 - 2026-09-26T20:57:49Z auto-follows: linked to predecessor WD-5k28
 - 2026-09-26T20:57:49Z claimed by dev-WD-obkn
+- 2026-09-26T23:31:13Z status: in_progress -> in_progress
+- 2026-09-26T23:31:13Z auto-follows: linked to predecessor WD-m7xw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-r81u]], [[WD-r4n8]]
-- Follows: [[WD-5k28]]
+- Follows: [[WD-5k28]], [[WD-m7xw]]
 
 ## Comments

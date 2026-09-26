@@ -9,12 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-26T23:28:54Z
-content_hash: "sha256:35825809cde5baff6396057895262fc635a9f8867dc1c8a77a5ac730fe3e1009"
+content_hash: "sha256:9440cc848a2d8c9afa90581e900e22fec659384a71231922875764c1930cd7cd"
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
 assignee: dev-WD-m7xw
 closed_at: 2026-09-26T23:28:53Z
 close_reason: "Accepted: path-lint rework verified; four outputs, four dependency boundaries, gates, targeted tests, and canonical checker independently pass."
+led_to: [WD-obkn]
 ---
 
 ## Description
@@ -382,6 +383,7 @@ status: delivered
 - Parent: [[WD-3nod]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
 - Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]], [[WD-9t9o]], [[WD-isg9]]
+- Led to: [[WD-obkn]]
 
 ## Comments
 
