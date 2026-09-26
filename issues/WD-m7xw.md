@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T20:53:45Z
-content_hash: "sha256:4c267da5d40d8298abeaedca793120a295d047b9369f97bb6777f6061a872560"
+updated_at: 2026-09-26T20:54:23Z
+content_hash: "sha256:d371a497e4424b0898244f2a06867aa83f7196f0bbffda5d81d6f32c30c97a9b"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 ---
@@ -56,12 +56,12 @@ This story authorizes no host, GPU, SSH, branch deployment, or model use. The op
 - Changing `services/jobs/queue.py`, `services/director/renderers/policy.py`, `services/director/wiring.py`, `services/jobs/preflight.py`, or `scripts/run_film.py`.
 
 ## DIFF BUDGET
-- About 2 authored files and under 250 changed LOC: `docs/video-capabilities.md` plus operation manifests/native scripts/logs/QC/checker evidence under `datasets/runs/maestro-parity/<story-id>/`.
+- About 2 authored files and under 250 changed LOC: `docs/video-capabilities.md` plus operation manifests/native scripts/logs/QC/checker evidence under `datasets/runs/maestro-parity/WD-m7xw/`.
 - Keep aggregate generated media under 4 GiB unless authorized failure diagnostics are larger; never commit model weights.
 
 ## Boundary Map
 PRODUCES:
-- datasets/runs/maestro-parity/<story-id>/ -> per-operation LTX-2.5 terminal evidence bundles
+- datasets/runs/maestro-parity/WD-m7xw/ -> per-operation LTX-2.5 terminal evidence bundles
   spec: one record for each of create/extend/retake/edit/outpaint/repaint/recast/upscale with commit, model/reference hashes, argv, queue state, output hash/metadata/QC for success, or exact native exit/stderr/stage for a host boundary.
 - docs/video-capabilities.md -> terminal LTX-2.5 row updates
   event: mechanically update exactly the eight targeted cells, preserve the existing blend boundary, and cite each bundle record.
@@ -92,7 +92,7 @@ CONSUMES:
 - Before and after every batch, record host/GPU process state, disk headroom, model hashes, branch commit, tree cleanliness, and zero network transfer.
 - For every output, run the canonical checker and retain objective media/QC evidence; for every failure, retain the complete typed boundary and prove no output bytes existed.
 - Parse the final video matrix and prove the exact eight-cell transition, unchanged blend boundary, no dropped row/cell, and exact evidence citation.
-- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/<story-id>-full.xml`; `uv run --frozen --extra dev wgp release verify`; `git diff --check`; and protected-file parity against the recorded base.
+- Run `pvg lint --backlog`; `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-m7xw-full.xml`; `uv run --frozen --extra dev wgp release verify`; `git diff --check`; and protected-file parity against the recorded base.
 
 ## Delivery Requirements
 - Paste authorization, asset/hash table result, commit/tree proof, tokenizer check, operation inventory, command tails, queue/output/boundary evidence, checker results, matrix transition, lint/JUnit/release/parity outputs, bundle size, and zero-download accounting.
