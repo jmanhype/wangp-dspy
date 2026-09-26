@@ -1,18 +1,20 @@
 ---
 id: WD-fay0
 title: "E2e: verified Maestro parity evidence"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [capstone, e2e, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:57:33Z
-content_hash: "sha256:658af1872f9a37f484fc23726b7043b35016c8f10cf468eb5b4c5ec5989698c2"
+updated_at: 2026-09-26T01:18:10Z
+content_hash: "sha256:4f65776501446dcbaf914f95f3f5c5b704f5ad5a442814da3cd1c8ac30a203b3"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
+closed_at: 2026-09-26T01:18:10Z
+close_reason: "Accepted as a DELIVERED DISPOSITION INDEX only, not programme completion. Independently verified head/diff, lane checker outcomes, 208-cell disposition totals, no cross-lane edits, honest AC assessment, 61 fail-closed tests, and standing gates. Remaining scope: 120 matrix cells planned, 6 await operator consent, WD-dmf2 director gates fail structurally, and WD-0zj8 clean-machine generated-artifact half remains blocked."
 ---
 
 ## Description
@@ -244,6 +246,7 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-dmf2
 - 2026-09-26T00:08:50Z claimed by dev-WD-fay0
 - 2026-09-26T00:55:32Z status: in_progress -> in_progress
+- 2026-09-26T01:18:10Z status: in_progress -> closed
 
 ## Links
 - Parent: [[WD-3nod]]
