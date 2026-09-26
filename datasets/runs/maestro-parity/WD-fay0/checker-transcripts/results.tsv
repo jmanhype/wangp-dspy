@@ -1,0 +1,9 @@
+lane	retrieval	exit	result
+WD-0zj8	82f6c38	1	FAIL manifest: [Errno 2] No such file or directory: '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-fay0/datasets/runs/maestro-parity/WD-0zj8/evidence.json'
+WD-2gyw	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-2gyw
+WD-bxhc	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-bxhc
+WD-cpow	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-cpow
+WD-dmf2	accepted story/WD-dmf2@741a8bb27c4bec3be38667b090a03bedb00e3010	1	FAIL objective_gate_results[21].verdict: must be pass | FAIL objective_gate_results[23].verdict: must be pass | FAIL objective_gate_results[24].verdict: must be pass | FAIL objective_gate_results[26].verdict: must be pass | FAIL objective_gate_results[27].verdict: must be pass | FAIL reviewer_verdict.decision: must be approved
+WD-m0r5	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-m0r5
+WD-r81u	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-r81u
+WD-rous	82f6c38	0	PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-rous

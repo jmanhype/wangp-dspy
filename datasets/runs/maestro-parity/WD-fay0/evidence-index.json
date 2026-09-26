@@ -1,0 +1,3065 @@
+{
+  "base_commit": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+  "better_than_maestro_proofs": {
+    "checker_fail_closed": {
+      "evidence": "61 targeted tests passed: every canonical field/constraint failure, symlink, tampered hash, denied authorization, and exact non-mutating CLI diagnostic is covered; transcript gate-transcripts/targeted-proofs.txt.",
+      "state": "VERIFIED"
+    },
+    "clean_machine": {
+      "evidence": "Same targeted run reproduced disposable install, clips=4 plan, generated_artifact=false, exit 3 HOST_CONFIGURATION_INCOMPLETE and MODEL_MANIFEST_REQUIRED with no traceback. WD-0zj8 blocked-record has 0 media bytes; operator host/model inputs absent.",
+      "state": "NO-GPU HALF VERIFIED; GENERATED HALF BLOCKED"
+    }
+  },
+  "contract": {
+    "checker": "scripts/verify_maestro_parity.py",
+    "path": "docs/maestro-parity-evidence-contract.md"
+  },
+  "generated_at": "2026-09-26T00:24:32.451856+00:00",
+  "lane_bundles": [
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 27417,
+        "file_count": 21
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-0zj8"
+        ],
+        "diagnostics": [
+          "FAIL manifest: [Errno 2] No such file or directory: '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-fay0/datasets/runs/maestro-parity/WD-0zj8/evidence.json'"
+        ],
+        "exit": 1,
+        "passed": false
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 0,
+        "objective_gates": 0,
+        "outputs": 0,
+        "references": 0
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-0zj8/evidence.json",
+      "manifest_sha256": null,
+      "operator_authorization": {
+        "approved_by": null,
+        "scope": "WD-0zj8 no-GPU plan/refusal only; generated half blocked on host/model operator inputs",
+        "status": "not_applicable_no_generation_bundle",
+        "timestamp": null
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-0zj8",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "not_applicable_no_generation_bundle",
+        "evidence_links": [
+          "datasets/runs/maestro-parity/WD-0zj8/clean-machine/BLOCKED.md"
+        ]
+      },
+      "scope": "clean-machine install",
+      "state": "no_generation_bundle",
+      "story_id": "WD-0zj8"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 8671186,
+        "file_count": 181
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-2gyw"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-2gyw"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 40,
+        "objective_gates": 28,
+        "outputs": 5,
+        "references": 2
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+      "manifest_sha256": "3b4486412a9cf20d05b7b2d1235fe70cbb35315ce8df5abe28ede97f36b2315a",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-2gyw feasible video subset on host 3090: H3 assets already present, LTX-2.5 int8 and Hunyuan-1.5 int8 downloads bounded to 57,801,926,853 bytes under the dispatcher-approved 60,000,000,000-byte lane ceiling; synchronous renders; no llama-server restart or unrelated GPU work",
+        "status": "approved",
+        "timestamp": "2026-09-25T14:15:32Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-2gyw",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "execution-summary.md",
+          "operator-authorization.md",
+          "download-plan.json",
+          "download-report.json",
+          "host-before-download.txt",
+          "host-after-download.txt",
+          "doctor-preflight-before-download.json",
+          "doctor-preflight-after-download.json",
+          "queue-record.json",
+          "queue-complete.log",
+          "output-hashes.txt",
+          "media-qc.json",
+          "objective-gates.json",
+          "row-dispositions.json",
+          "matrix-transition-check.json",
+          "checker-result.txt",
+          "final-host-state.txt",
+          "bundle-size.txt",
+          "ltx25.failure.log",
+          "taomate-search-evidence.md",
+          "h3-outpaint-boundary.md",
+          "planning/cli-summary.json",
+          "fullsuite.xml",
+          "fullsuite-counters.json",
+          "pvg-lint.txt",
+          "release-verify.txt",
+          "protected-parity-c91a6d8.exit",
+          "git-diff-check.exit",
+          "standing-gates-final.txt",
+          "output-hashes.json",
+          "download-plan-summary.json",
+          "model-assets.json",
+          "queue.db",
+          "ffprobe-wd_2gyw_h3_standard.json",
+          "ffprobe-wd_2gyw_h3_vdn_hybrid_attention.json",
+          "ffprobe-wd_2gyw_h3_kfi_frames_injection.json",
+          "ffprobe-wd_2gyw_h3_audio_refinement.json",
+          "ffprobe-wd_2gyw_hunyuan.json",
+          "h3-standard.render.log",
+          "h3-specialized.render.log",
+          "h3-kfi-retry.render.log",
+          "hunyuan.render.log",
+          "ltx25.render.log"
+        ],
+        "review": "Independent PM approval is limited to the delivered five-output subset. The five SHA-256s, media metadata, queue state, download accounting, and fixture search were independently verified. The remaining 90 matrix cells stay planned: LTX-2.5, LTX-2.3, SCAIL, Wan, TaoMate, and H3 outpaint are not delivered, so this is not full video parity. The LTX-2.5 tokenizer TypeError remains a dependency failure, not hardware infeasibility."
+      },
+      "scope": "video subset",
+      "state": "partial_verified",
+      "story_id": "WD-2gyw"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 14852376,
+        "file_count": 342
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-bxhc"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-bxhc"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 7,
+        "objective_gates": 42,
+        "outputs": 6,
+        "references": 8
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+      "manifest_sha256": "9197c7782c1f8f3360ddaecba16b9d2bbb1bcc7629fb5f7da6534af7ba7727d8",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-bxhc host batch 1: 3,208,948,928-byte Chatterbox asset set, existing VibeVoice-7B, real speech operations, and model-free portable-character operations; llama-server remains running",
+        "status": "approved",
+        "timestamp": "2026-09-25T19:05:00Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-bxhc",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "execution-summary.md",
+          "operator-authorization.md",
+          "download-plan.json",
+          "download-report.json",
+          "doctor-capabilities-download-plan.json",
+          "standard-preflight.json",
+          "lane-coexistence-preflight.json",
+          "chatterbox-report.json",
+          "vibevoice-custom-report.json",
+          "reference-consent-rework.md",
+          "reference-consent-verification.json",
+          "reference-provenance-rework.log",
+          "rework-plans.log",
+          "character-media-identity.json",
+          "character-media-objective-gates.json",
+          "packages/character-operation-results.json",
+          "queue-record.json",
+          "queue-complete.log",
+          "output-hashes.txt",
+          "objective-gates.json",
+          "row-dispositions.json",
+          "final-host-state.txt",
+          "bundle-size.txt",
+          "checker-result.txt",
+          "checker-approved-projection.txt",
+          "matrix-transition-check.json",
+          "fullsuite-counters.json",
+          "release-verify.txt",
+          "standing-gates-final.txt",
+          "protected-parity-c91a6d8.diff",
+          "git-diff-check.txt",
+          "inputs/voice-primary-vibe.wav",
+          "inputs/voice-secondary.wav",
+          "outputs/wd_bxhc_chatterbox_speech.wav",
+          "outputs/wd_bxhc_vibevoice_speech.wav",
+          "packages/portable-witness.wgpcharacter",
+          "packages/portable-witness.repeated.wgpcharacter",
+          "../WD-cpow/operator-authorization.md",
+          "../WD-cpow/inputs/target-voice.wav",
+          "../WD-cpow/outputs/wd_cpow_vibevoice_raw.prepared.wav"
+        ],
+        "review": "Independent PM re-review at aea2edec0df0d99e86f81cd69939d68d8ee3f7be approved the two plain-speech rows and seven deterministic character rows only. Both clone rows, Saved voice binding, and Cross-mode identity preservation are not delivered because WD-bxhc cloning-reuse consent is not evidenced; this is a partial acceptance, not a hardware-infeasibility verdict."
+      },
+      "scope": "voice + portable character",
+      "state": "partial_verified",
+      "story_id": "WD-bxhc"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 5108477,
+        "file_count": 113
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-cpow"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-cpow"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 11,
+        "objective_gates": 11,
+        "outputs": 3,
+        "references": 10
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-cpow/evidence.json",
+      "manifest_sha256": "74a4098fa66acd8ed80b0b2578acb8af17841925750c63de9f641efbe4a82d56",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-cpow host batch 1: minimum SFX/audio-post assets and one Stable Audio sound-effect attempt, one VibeVoice revoice, and one DeepFilterNet refinement; 20,000,000,000-byte download ceiling; research/evaluation only",
+        "status": "approved",
+        "timestamp": "2026-09-25T05:12:08Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-cpow",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "execution-summary.md",
+          "objective-gates.json",
+          "audio-statistics.json",
+          "stable-audio-infeasibility.md",
+          "vibevoice-report.json",
+          "output-hashes.txt",
+          "ffprobe-wd_cpow_vibevoice_revoice.json",
+          "ffprobe-wd_cpow_deepfilternet_refine.json",
+          "queue-record.json",
+          "final-host-state.txt",
+          "selected-download.log",
+          "selected-doctor-preflight-after-download.json",
+          "operator-authorization.md",
+          "matrix-transition-check.json",
+          "download-plan.json",
+          "download-report.json",
+          "asset-inventory.txt",
+          "fullsuite-counters.json",
+          "release-verify.txt",
+          "standing-gates-final.txt"
+        ],
+        "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
+      },
+      "scope": "SFX/audio post",
+      "state": "verified_with_boundaries",
+      "story_id": "WD-cpow"
+    },
+    {
+      "available_on_capstone_base": false,
+      "bundle_stats": {
+        "aggregate_bytes": 28004352,
+        "file_count": 292
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-dmf2"
+        ],
+        "diagnostics": [
+          "FAIL objective_gate_results[21].verdict: must be pass",
+          "FAIL objective_gate_results[23].verdict: must be pass",
+          "FAIL objective_gate_results[24].verdict: must be pass",
+          "FAIL objective_gate_results[26].verdict: must be pass",
+          "FAIL objective_gate_results[27].verdict: must be pass",
+          "FAIL reviewer_verdict.decision: must be approved"
+        ],
+        "exit": 1,
+        "passed": false
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [
+          {
+            "index": 21,
+            "measured": 0.556,
+            "name": "whisper_screenplay_clip0001_score",
+            "threshold": 0.6,
+            "verdict": "fail"
+          },
+          {
+            "index": 23,
+            "measured": 0.594741,
+            "name": "syncnet_audio_clip0001_confidence",
+            "threshold": 1.0,
+            "verdict": "fail"
+          },
+          {
+            "index": 24,
+            "measured": 0.468897,
+            "name": "syncnet_screenplay_clip0001_confidence",
+            "threshold": 1.0,
+            "verdict": "fail"
+          },
+          {
+            "index": 26,
+            "measured": 2,
+            "name": "auto_review_applicable_mandatory_gate_pass_count",
+            "threshold": 3,
+            "verdict": "fail"
+          },
+          {
+            "index": 27,
+            "measured": 0,
+            "name": "reviewer_approved_count",
+            "threshold": 1,
+            "verdict": "fail"
+          }
+        ],
+        "models": 4,
+        "objective_gates": 28,
+        "outputs": 12,
+        "references": 53
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-dmf2/evidence.json",
+      "manifest_sha256": "024d049cf39aab51913b3eaed107066136db0da1faf91f3bea8d8b2397fcf6de",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-dmf2 director composition host batch on 3090; planned 483,617,219-byte Whisper small transfer under the 20,000,000,000-byte ceiling; 0 bytes pulled because the hash-matched asset preexisted; synchronous composition/QC; leave llama-server running",
+        "status": "approved",
+        "timestamp": "2026-09-25T21:28:59Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-dmf2",
+      "retrieval": "741a8bb27c4bec3be38667b090a03bedb00e3010",
+      "reviewer_verdict": {
+        "decision": "pending",
+        "evidence_links": [
+          "planned-produced-map.json",
+          "objective-gates.json",
+          "gate-derivation.json",
+          "director-qc-evidence.json",
+          "media-qc.json",
+          "queue-final-state.json",
+          "matrix-transition-check.json",
+          "row-dispositions.json",
+          "host-final-state.json",
+          "review/frame-hashes.txt",
+          "operator-authorization.md",
+          "execution-summary.md",
+          "checker-result.txt",
+          "checker-result.stderr",
+          "bundle-size.txt",
+          "download-report.json",
+          "standing-gates-final.txt"
+        ],
+        "review": "No operator/PM approval is claimed. Manual review is pending; auto review is not eligible because Whisper and SyncNet do not pass every tested clip."
+      },
+      "scope": "director/editor composition",
+      "state": "delivered_evidence_only_checker_fail",
+      "story_id": "WD-dmf2"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 34840635,
+        "file_count": 155
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-m0r5"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-m0r5"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 32,
+        "objective_gates": 16,
+        "outputs": 16,
+        "references": 10
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+      "manifest_sha256": "e6ca75ae8144f3e28e482c37b8aefd58833e9354657511c97371286e4b2d8eab",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-m0r5 host batch 1: minimum checkpoint download and real Qwen/Flux image operations for research/evaluation only",
+        "status": "approved",
+        "timestamp": "2026-09-24T23:57:09.100092Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-m0r5",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "qwen-contact-sheet.jpg",
+          "flux-contact-sheet.jpg",
+          "identity-gates-final.json",
+          "qwen-batch.native.log",
+          "flux-batch.native.log",
+          "operator-authorization.md",
+          "selected-download.log",
+          "selected-doctor-preflight-after-download.json"
+        ]
+      },
+      "scope": "image",
+      "state": "verified_with_boundaries",
+      "story_id": "WD-m0r5"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 18246836,
+        "file_count": 146
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-r81u"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-r81u"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 4,
+        "objective_gates": 29,
+        "outputs": 7,
+        "references": 2
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-r81u/evidence.json",
+      "manifest_sha256": "e14c4b367f4876c279c8c167e770988817cc1e044274cd6978b0e266039c444d",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-r81u host batch 1 on 3090: 71,567,775-byte planned RIFE/Real-ESRGAN transfer under the dispatcher-approved 20,000,000,000-byte ceiling; synchronous finishing only; leave llama-server running",
+        "status": "approved",
+        "timestamp": "2026-09-25T18:14:32Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-r81u",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "execution-summary.md",
+          "operator-authorization.md",
+          "model-download-manifest.json",
+          "doctor-capabilities-download-plan.json",
+          "doctor-capabilities-corrected-plan.json",
+          "download-hash-correction.md",
+          "download-report-before.json",
+          "download-refusal.json",
+          "wd-r81u-final2.native.log",
+          "ffprobe-source.json",
+          "output-hashes.txt",
+          "output-hashes-local.txt",
+          "realesrgan-model-hashes.txt",
+          "media-qc.json",
+          "objective-gates.json",
+          "objective-gate-derivation.md",
+          "queue-record.json",
+          "queue-complete.log",
+          "missing-required-inputs.md",
+          "neural-frame-gen-boundary-probe.txt",
+          "final-host-state.txt",
+          "bundle-size.txt",
+          "pvg-lint.txt",
+          "fullsuite.xml",
+          "fullsuite-counters.json",
+          "release-verify.txt",
+          "protected-parity-c91a6d8.txt",
+          "git-diff-check.txt",
+          "matrix-transition-check.json",
+          "standing-gates-final.txt",
+          "pvg-verify-authoring.txt",
+          "ffprobe-wd_r81u_ffmpeg_codec_h264.json",
+          "ffprobe-wd_r81u_ffmpeg_film_grain.json",
+          "ffprobe-wd_r81u_ffmpeg_interpolation_x2.json",
+          "ffprobe-wd_r81u_ffmpeg_spatial_x2.json",
+          "ffprobe-wd_r81u_film_film_grain.json",
+          "ffprobe-wd_r81u_real_esrgan_spatial_x2.json",
+          "ffprobe-wd_r81u_rife_interpolation_x2.json",
+          "host-scripts/wd_r81u_run.sh",
+          "host-scripts/wd_r81u_rife.py",
+          "host-scripts/wd_r81u_film.py",
+          "inputs/source.mp4",
+          "review/source-mid.png",
+          "outputs/wd_r81u_ffmpeg_codec_h264.mp4",
+          "outputs/wd_r81u_ffmpeg_film_grain.mp4",
+          "outputs/wd_r81u_ffmpeg_interpolation_x2.mp4",
+          "outputs/wd_r81u_ffmpeg_spatial_x2.mp4",
+          "outputs/wd_r81u_film_film_grain.mp4",
+          "outputs/wd_r81u_real_esrgan_spatial_x2.mp4",
+          "outputs/wd_r81u_rife_interpolation_x2.mp4"
+        ],
+        "review": "Independent PM approval is limited to five verified cells: FFmpeg interpolation/spatial/grain, RIFE interpolation, and Real-ESRGAN spatial upscale. Their SHA-256s, decodability, measurements, visual comparisons, and source lineage were independently verified. Film grain stays planned because measured controls size=1 and persistence=0 contradict planned 16 and 0.5. Face cells stay planned for absent source-face/track consent, and neural_frame_gen stays planned because no named implementation exists."
+      },
+      "scope": "finishing",
+      "state": "partial_verified",
+      "story_id": "WD-r81u"
+    },
+    {
+      "available_on_capstone_base": true,
+      "bundle_stats": {
+        "aggregate_bytes": 6042432,
+        "file_count": 68
+      },
+      "checker": {
+        "argv": [
+          "python3",
+          "scripts/verify_maestro_parity.py",
+          "datasets/runs/maestro-parity/WD-rous"
+        ],
+        "diagnostics": [
+          "PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-rous"
+        ],
+        "exit": 0,
+        "passed": true
+      },
+      "evidence_summary": {
+        "failed_objective_gates": [],
+        "models": 11,
+        "objective_gates": 9,
+        "outputs": 3,
+        "references": 2
+      },
+      "manifest_path": "datasets/runs/maestro-parity/WD-rous/evidence.json",
+      "manifest_sha256": "100fa53ba45b573f8e7237f508f75412dbcdc32160f5ad58c473eb08ced85c50",
+      "operator_authorization": {
+        "approved_by": "operator via /root parent authorization",
+        "scope": "WD-rous host batch 1: minimum 2,356,908,559-byte Stable Audio model download and real ACE-Step generate/style-adapt plus Stable Audio generate operations; research/evaluation only; no training",
+        "status": "approved",
+        "timestamp": "2026-09-25T03:42:53Z"
+      },
+      "relative_path": "datasets/runs/maestro-parity/WD-rous",
+      "retrieval": "82f6c38570a818dd8dbd3e70baebd037459661b3",
+      "reviewer_verdict": {
+        "decision": "approved",
+        "evidence_links": [
+          "execution-summary.md",
+          "objective-gates.json",
+          "audio-statistics.json",
+          "stable-audio-infeasibility.md",
+          "ace-generate.native.log",
+          "stable-generate.native.log",
+          "ace-style-adapt.native.log",
+          "output-hashes.txt",
+          "ffprobe-wd_rous_ace_generate.json",
+          "ffprobe-wd_rous_ace_style_adapt.json",
+          "ffprobe-wd_rous_stable_generate.json",
+          "queue-record.json",
+          "final-host-state.txt",
+          "selected-download.log",
+          "selected-doctor-preflight-after-download.json",
+          "selected-doctor-preflight-pre-download-floor-11.5-failed.json",
+          "operator-authorization.md",
+          "matrix-transition-check.json"
+        ],
+        "review": "Human audible/reviewer approval has not been granted; no self-approval is claimed."
+      },
+      "scope": "music",
+      "state": "verified_with_boundaries",
+      "story_id": "WD-rous"
+    }
+  ],
+  "non_matrix_inventory": {
+    "rows": [
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/editor.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "accepted headless typed service; deterministic export behavior documented",
+        "row": "Headless deterministic project/export service",
+        "source_line": 13
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/editor.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "real JobQueue.submit record; explicitly not host work or media",
+        "row": "Editor export durable queue submission",
+        "source_line": 15
+      },
+      {
+        "blocker": "No authorized host run bundle with command, provenance, queue attempts, output hashes, QC evidence, and reviewer linkage.",
+        "canonical_state": "planned",
+        "cell": "generation",
+        "doc": "docs/editor.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "none",
+        "row": "Authorized host export/media",
+        "source_line": 19
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "surface",
+        "doc": "docs/editor.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "explicitly deferred; no GUI in this lane",
+        "row": "Graphical/browser UI",
+        "source_line": 32
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/first-run.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "typed profile; verified_generation=false",
+        "row": "Hardware/advisory profile",
+        "source_line": 8
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/first-run.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "typed status and operator-gated resume; no transfer",
+        "row": "Download status/pause/resume",
+        "source_line": 34
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/first-run.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "configuration-only resolution; provider_contact=false",
+        "row": "LLM runtime resolution",
+        "source_line": 59
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/first-run.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "typed guidance; no automatic render change",
+        "row": "Recorded OOM recovery guidance",
+        "source_line": 68
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified_local",
+        "cell": "local",
+        "doc": "docs/first-run.md",
+        "documented_state": "verified_local",
+        "evidence_or_boundary": "complete/incomplete preview only; host_contact=false",
+        "row": "Remote host preview",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-0zj8 generated half blocked on per-batch GPU/render-host authorization, model-download approval, and complete authorized host/model manifest.",
+        "canonical_state": "planned",
+        "cell": "generation",
+        "doc": "docs/first-run.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "none",
+        "row": "Generated artifact from first-run",
+        "source_line": 97
+      }
+    ],
+    "scope": "Explicit editor.md and first-run.md capability claims that have no matrix.",
+    "total": 10,
+    "totals": {
+      "planned": 2,
+      "unsupported": 1,
+      "verified_local": 7
+    }
+  },
+  "own_acceptance_criteria": {
+    "1": {
+      "met": false,
+      "reason": "120 matrix cells remain planned and 6 pending consent; no operator-approved terminal disposition exists."
+    },
+    "2": {
+      "met": false,
+      "reason": "WD-0zj8 and WD-dmf2 checker exit 1; WD-dmf2 also is absent from capstone base and retrievable only from accepted story branch."
+    },
+    "3": {
+      "met": false,
+      "reason": "WD-0zj8 has no generated artifact or canonical evidence.json; generated half remains blocked on host/model operator inputs."
+    },
+    "4": {
+      "met": null,
+      "reason": "Mechanical gates are recorded in gate-transcripts; full suite was pending at initial index generation and is finalized after commit."
+    },
+    "5": {
+      "met": false,
+      "reason": "Consolidated coverage exists, but referenced set cannot validate successfully while WD-0zj8/WD-dmf2 fail or are absent and unresolved entries lack operator approval."
+    }
+  },
+  "row_inventory": {
+    "pending_operator_consent_logical_rows": [
+      "Cross-mode identity preservation",
+      "Saved voice binding",
+      "vibevoice/vibe_7b"
+    ],
+    "planned_groups": {
+      "docs/director-capabilities.md::Authorized prompt-only enhancement": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Auto/manual review checkpoints": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Beat-aware measured window mapping": [
+        "Audio/music video"
+      ],
+      "docs/director-capabilities.md::Deterministic ordered multi-clip plan": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Exact/window pacing preservation": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Explicit continuity state and transitions": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Immutable non-executable queue records": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Per-clip prompt and six-frame overlap": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/director-capabilities.md::Seed-based hash reconstruction": [
+        "Prompt",
+        "Audio/music video",
+        "Screenplay"
+      ],
+      "docs/finishing-capabilities.md::ffmpeg": [
+        "Face refinement"
+      ],
+      "docs/finishing-capabilities.md::film": [
+        "Film grain"
+      ],
+      "docs/finishing-capabilities.md::neural_frame_gen": [
+        "Interpolation",
+        "Spatial upscale",
+        "Face refinement"
+      ],
+      "docs/video-capabilities.md::hunyuan/standard": [
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::ltx/2.3": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::ltx/2.5": [
+        "Create",
+        "Extend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/h3_audio_refinement": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/h3_outpaint": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/h3_vdn_hybrid_attention": [
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/kfi_frames_injection": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/standard": [
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::minimax_h3/taomate_three_step": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ],
+      "docs/video-capabilities.md::scail/2": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Repaint",
+        "Recast"
+      ],
+      "docs/video-capabilities.md::wan/2gp": [
+        "Create",
+        "Extend",
+        "Blend",
+        "Retake",
+        "Edit",
+        "Outpaint",
+        "Repaint",
+        "Recast",
+        "Upscale"
+      ]
+    },
+    "rows": [
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Generate",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-standard",
+        "source_line": 60
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-standard",
+        "source_line": 60
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Upscale",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-standard",
+        "source_line": 60
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Outpaint",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-standard",
+        "source_line": 60
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Identity edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-standard",
+        "source_line": 60
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Generate",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-professional",
+        "source_line": 61
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-professional",
+        "source_line": 61
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Upscale",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-professional",
+        "source_line": 61
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Outpaint",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-professional",
+        "source_line": 61
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Identity edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "qwen_image/qwen-professional",
+        "source_line": 61
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Generate",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-standard",
+        "source_line": 62
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-standard",
+        "source_line": 62
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Upscale",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "flux_kontext/flux-standard",
+        "source_line": 62
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Outpaint",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "flux_kontext/flux-standard",
+        "source_line": 62
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Identity edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-standard",
+        "source_line": 62
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Generate",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-kontext",
+        "source_line": 63
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-kontext",
+        "source_line": 63
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Upscale",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "flux_kontext/flux-kontext",
+        "source_line": 63
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Outpaint",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "flux_kontext/flux-kontext",
+        "source_line": 63
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Identity edit",
+        "doc": "docs/image-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m0r5/evidence.json",
+        "row": "flux_kontext/flux-kontext",
+        "source_line": 63
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Generate",
+        "doc": "docs/music-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-rous/evidence.json",
+        "row": "ace_step",
+        "source_line": 35
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Style adapt",
+        "doc": "docs/music-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-rous/evidence.json",
+        "row": "ace_step",
+        "source_line": 35
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Generate",
+        "doc": "docs/music-capabilities.md",
+        "documented_state": "unsupported_on_this_hardware",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-rous/evidence.json",
+        "row": "stable_audio",
+        "source_line": 36
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Style adapt",
+        "doc": "docs/music-capabilities.md",
+        "documented_state": "unsupported for planning",
+        "evidence_or_boundary": "documented boundary",
+        "row": "stable_audio",
+        "source_line": 36
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Sound effect",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported_on_this_hardware",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-cpow/stable-audio-infeasibility.md",
+        "row": "stable_audio/sound_effect",
+        "source_line": 28
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Revoice",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "stable_audio/sound_effect",
+        "source_line": 28
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Refinement",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "stable_audio/sound_effect",
+        "source_line": 28
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Sound effect",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "vibevoice/revoice",
+        "source_line": 29
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Revoice",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-cpow/evidence.json",
+        "row": "vibevoice/revoice",
+        "source_line": 29
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Refinement",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "vibevoice/revoice",
+        "source_line": 29
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Sound effect",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "deepfilternet/refinement",
+        "source_line": 30
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Revoice",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "deepfilternet/refinement",
+        "source_line": 30
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Refinement",
+        "doc": "docs/sfx-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-cpow/evidence.json",
+        "row": "deepfilternet/refinement",
+        "source_line": 30
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Extend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Blend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Retake was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Edit was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Outpaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Repaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Recast was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Upscale was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/standard",
+        "source_line": 75
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Extend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Blend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Retake was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Edit was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Outpaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Repaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Recast was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Upscale was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_vdn_hybrid_attention",
+        "source_line": 76
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "No TaoMate implementation or preset exists in either searched host tree; a generic three-step render would fabricate the named preset.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/taomate_three_step",
+        "source_line": 77
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Create was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Extend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Blend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Edit was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Outpaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Repaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Recast was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Retake operation; Upscale was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/kfi_frames_injection",
+        "source_line": 78
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "Wan2GP FL2VA model definition comments out video_guide_outpainting; host control is disabled (implementation boundary, not 24-GiB infeasibility).",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_outpaint",
+        "source_line": 79
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Create was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Extend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Blend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Retake was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Outpaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Repaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Recast was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Edit operation; Upscale was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "minimax_h3/h3_audio_refinement",
+        "source_line": 80
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Create output for this family.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Extend output for this family.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/ltx-2.5-blend.result.json",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Retake output for this family.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Edit output for this family.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Outpaint output for this family.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Repaint output for this family.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Recast output for this family.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "WD-2gyw authorized int8 ConvRot attempt reached the Gemma4 tokenizer, then failed before generation with TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment; fixable dependency failure, not hardware. The representative lane validated no Upscale output for this family.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.5",
+        "source_line": 81
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "Only a pre-existing 29,531,884,062-byte ComfyUI FP8 checkpoint is present; hash/package mismatch the WanGP LTX-2.3 manifest. A correct package/download authorization is still required.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ltx/2.3",
+        "source_line": 82
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-outpaint.result.json",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "SCAIL-2 int8 main asset is 16,644,305,281 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/scail-2-upscale.result.json",
+        "row": "scail/2",
+        "source_line": 83
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "Wan 2.1 14B int8 main asset is 14,903,022,013 bytes, exceeding the 2,198,073,147 bytes remaining under the operator-approved 60,000,000,000-byte WD-2gyw download ceiling.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "wan/2gp",
+        "source_line": 84
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Create",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/evidence.json",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Extend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Extend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Blend was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Blend",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Retake was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Retake",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Edit was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Edit",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Outpaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/hunyuan-standard-outpaint.result.json",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Repaint was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Repaint",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Recast was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Recast",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "WD-2gyw verified only the representative Create operation; Upscale was not run and needs a new operator-approved per-family/per-operation batch.",
+        "canonical_state": "planned",
+        "cell": "Upscale",
+        "doc": "docs/video-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "hunyuan/standard",
+        "source_line": 85
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Interpolation",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-r81u/evidence.json",
+        "row": "ffmpeg",
+        "source_line": 17
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Spatial upscale",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-r81u/evidence.json",
+        "row": "ffmpeg",
+        "source_line": 17
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Film grain",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-r81u/evidence.json",
+        "row": "ffmpeg",
+        "source_line": 17
+      },
+      {
+        "blocker": "The compass source contains no human face and no track identity, bounds, rights, or consent was supplied.",
+        "canonical_state": "planned",
+        "cell": "Face refinement",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "ffmpeg",
+        "source_line": 17
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Interpolation",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-r81u/evidence.json",
+        "row": "rife",
+        "source_line": 18
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Spatial upscale",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "rife",
+        "source_line": 18
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Film grain",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "rife",
+        "source_line": 18
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Face refinement",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "rife",
+        "source_line": 18
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Interpolation",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "real_esrgan",
+        "source_line": 19
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Spatial upscale",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-r81u/evidence.json",
+        "row": "real_esrgan",
+        "source_line": 19
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Film grain",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "real_esrgan",
+        "source_line": 19
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Face refinement",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "real_esrgan",
+        "source_line": 19
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Interpolation",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "film",
+        "source_line": 20
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Spatial upscale",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "film",
+        "source_line": 20
+      },
+      {
+        "blocker": "Measured film-grain pixel size 1 and temporal persistence 0 contradict planned controls 16 and 0.5.",
+        "canonical_state": "planned",
+        "cell": "Film grain",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "film",
+        "source_line": 20
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Face refinement",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "film",
+        "source_line": 20
+      },
+      {
+        "blocker": "No named neural_frame_gen host implementation exists; absence is not hardware infeasibility.",
+        "canonical_state": "planned",
+        "cell": "Interpolation",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "neural_frame_gen",
+        "source_line": 21
+      },
+      {
+        "blocker": "No named neural_frame_gen host implementation exists; absence is not hardware infeasibility.",
+        "canonical_state": "planned",
+        "cell": "Spatial upscale",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "neural_frame_gen",
+        "source_line": 21
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Film grain",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "neural_frame_gen",
+        "source_line": 21
+      },
+      {
+        "blocker": "The compass source contains no human face and no track identity, bounds, rights, or consent was supplied.",
+        "canonical_state": "planned",
+        "cell": "Face refinement",
+        "doc": "docs/finishing-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "neural_frame_gen",
+        "source_line": 21
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Plain speech",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "vibevoice/vibe_7b",
+        "source_line": 43
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "One-reference clone",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "vibevoice/vibe_7b",
+        "source_line": 43
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "Two-reference clone",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "vibevoice/vibe_7b",
+        "source_line": 43
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Plain speech",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "chatterbox/chatterbox_multilingual",
+        "source_line": 44
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "One-reference clone",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "chatterbox/chatterbox_multilingual",
+        "source_line": 44
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Two-reference clone",
+        "doc": "docs/voice-capabilities.md",
+        "documented_state": "unsupported",
+        "evidence_or_boundary": "documented boundary",
+        "row": "chatterbox/chatterbox_multilingual",
+        "source_line": 44
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Portable package round-trip and hashes",
+        "source_line": 48
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Portable package round-trip and hashes",
+        "source_line": 48
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "Saved voice binding",
+        "source_line": 49
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "Saved voice binding",
+        "source_line": 49
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Native-source recovery",
+        "source_line": 50
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Native-source recovery",
+        "source_line": 50
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Registry identity resolution",
+        "source_line": 51
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Registry identity resolution",
+        "source_line": 51
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Appearance and voice mismatch rejection",
+        "source_line": 52
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Appearance and voice mismatch rejection",
+        "source_line": 52
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Duplicate and ambiguous identity rejection",
+        "source_line": 53
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Duplicate and ambiguous identity rejection",
+        "source_line": 53
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Immutable non-executable planning",
+        "source_line": 54
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Immutable non-executable planning",
+        "source_line": 54
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Seed-based reconstruction",
+        "source_line": 55
+      },
+      {
+        "blocker": "",
+        "canonical_state": "verified",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+        "row": "Seed-based reconstruction",
+        "source_line": 55
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "Cross-mode identity preservation",
+        "source_line": 56
+      },
+      {
+        "blocker": "WD-bxhc provenance is corrected and hashes exist, but cross-story cloning-reuse consent for the WD-cpow-owned references is not evidenced; operator consent decision required.",
+        "canonical_state": "pending_operator_consent",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "evidence_complete_pending_review",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+        "row": "Cross-mode identity preservation",
+        "source_line": 56
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Image",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "unsupported in this lane",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Generated speech, image, or video continuity",
+        "source_line": 57
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Video",
+        "doc": "docs/character-capabilities.md",
+        "documented_state": "unsupported in this lane",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Generated speech, image, or video continuity",
+        "source_line": 57
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Deterministic ordered multi-clip plan",
+        "source_line": 32
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Deterministic ordered multi-clip plan",
+        "source_line": 32
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Deterministic ordered multi-clip plan",
+        "source_line": 32
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Per-clip prompt and six-frame overlap",
+        "source_line": 33
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Per-clip prompt and six-frame overlap",
+        "source_line": 33
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Per-clip prompt and six-frame overlap",
+        "source_line": 33
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Explicit continuity state and transitions",
+        "source_line": 34
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Explicit continuity state and transitions",
+        "source_line": 34
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Explicit continuity state and transitions",
+        "source_line": 34
+      },
+      {
+        "blocker": "",
+        "canonical_state": "not_applicable",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "not applicable",
+        "evidence_or_boundary": "not applicable",
+        "row": "Beat-aware measured window mapping",
+        "source_line": 35
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Beat-aware measured window mapping",
+        "source_line": 35
+      },
+      {
+        "blocker": "",
+        "canonical_state": "not_applicable",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "not applicable",
+        "evidence_or_boundary": "not applicable",
+        "row": "Beat-aware measured window mapping",
+        "source_line": 35
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Exact/window pacing preservation",
+        "source_line": 36
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Exact/window pacing preservation",
+        "source_line": 36
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Exact/window pacing preservation",
+        "source_line": 36
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. Applicable auto-mode mandatory gate count is 2/3.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Auto/manual review checkpoints",
+        "source_line": 37
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. Applicable auto-mode mandatory gate count is 2/3.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Auto/manual review checkpoints",
+        "source_line": 37
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. Applicable auto-mode mandatory gate count is 2/3.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Auto/manual review checkpoints",
+        "source_line": 37
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Immutable non-executable queue records",
+        "source_line": 38
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Immutable non-executable queue records",
+        "source_line": 38
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Immutable non-executable queue records",
+        "source_line": 38
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. No produced media corresponds to the enhanced prompt.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Authorized prompt-only enhancement",
+        "source_line": 39
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. No produced media corresponds to the enhanced prompt.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Authorized prompt-only enhancement",
+        "source_line": 39
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb. No produced media corresponds to the enhanced prompt.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Authorized prompt-only enhancement",
+        "source_line": 39
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Seed-based hash reconstruction",
+        "source_line": 40
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Seed-based hash reconstruction",
+        "source_line": 40
+      },
+      {
+        "blocker": "WD-dmf2 bundle is checker-failing: Whisper screenplay clip 1 0.556<0.6; SyncNet audio clip 1 0.594741<1.0; SyncNet screenplay clip 1 0.468897<1.0; reviewer_approved_count 0/1. It is also absent from capstone base 82f6c38 and retrievable only from accepted story/WD-dmf2@741a8bb.",
+        "canonical_state": "planned",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "planned",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Seed-based hash reconstruction",
+        "source_line": 40
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Prompt",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "unsupported in this lane",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Generated clip, audio, or finished film",
+        "source_line": 41
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Audio/music video",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "unsupported in this lane",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Generated clip, audio, or finished film",
+        "source_line": 41
+      },
+      {
+        "blocker": "",
+        "canonical_state": "unsupported",
+        "cell": "Screenplay",
+        "doc": "docs/director-capabilities.md",
+        "documented_state": "unsupported in this lane",
+        "evidence_or_boundary": "documented boundary",
+        "row": "Generated clip, audio, or finished film",
+        "source_line": 41
+      }
+    ],
+    "scope": "Every state-bearing operation/mode column in the eight markdown capability matrices; trailing Generation evidence prose columns are supporting citations, not additional capability states.",
+    "source_documents": [
+      "docs/image-capabilities.md",
+      "docs/music-capabilities.md",
+      "docs/sfx-capabilities.md",
+      "docs/video-capabilities.md",
+      "docs/finishing-capabilities.md",
+      "docs/voice-capabilities.md",
+      "docs/character-capabilities.md",
+      "docs/director-capabilities.md"
+    ],
+    "total": 208,
+    "totals": {
+      "not_applicable": 2,
+      "pending_operator_consent": 6,
+      "planned": 120,
+      "unsupported": 34,
+      "verified": 46
+    }
+  },
+  "schema": "wangp-dspy.maestro-parity-capstone-index/v1",
+  "standing_gates": {
+    "full_suite": {
+      "command": "uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-fay0-full.xml",
+      "result": "PENDING_AT_INITIAL_COMMIT",
+      "transcript": "gate-transcripts/full-suite.txt"
+    },
+    "git_diff_check": {
+      "command": "git diff --check",
+      "result": "PASS exit 0",
+      "transcript": "gate-transcripts/git-diff-check.txt"
+    },
+    "protected_parity_40f8c2b": {
+      "command": "git diff --exit-code 40f8c2b373dec1c84ca5a596c821b740934af6fb -- <protected files>",
+      "result": "EXPECTED_EXCEPTION: services/jobs/preflight.py differs from accepted WD-e4r7 GPU CSV fail-closed fix; all other protected files unchanged",
+      "transcript": "gate-transcripts/protected-parity-40f8c2b.txt"
+    },
+    "protected_parity_base": {
+      "command": "git diff --exit-code 82f6c38570a818dd8dbd3e70baebd037459661b3 -- <protected files>",
+      "result": "PASS exit 0",
+      "transcript": "gate-transcripts/protected-parity-base.txt"
+    },
+    "pvg_lint": {
+      "command": "pvg lint --backlog",
+      "result": "PASS 126 scanned, 0 errors, 0 review findings",
+      "transcript": "gate-transcripts/pvg-lint.txt"
+    },
+    "release_verify": {
+      "command": "uv run --frozen --extra dev wgp release verify",
+      "result": "PENDING_CLEAN_TREE_RERUN",
+      "transcript": "gate-transcripts/release-verify.txt"
+    },
+    "targeted_proofs": {
+      "command": "uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal --junitxml=/tmp/WD-fay0-targeted.xml",
+      "result": "PASS tests=61 errors=0 failures=0 skipped=0",
+      "transcript": "gate-transcripts/targeted-proofs.txt"
+    }
+  },
+  "story_id": "WD-fay0",
+  "verdict": "NOT COMPLETE: operator scope decisions and checker/generation prerequisites remain; no lane verdict was upgraded by this capstone."
+}

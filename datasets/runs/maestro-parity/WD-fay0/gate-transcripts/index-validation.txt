@@ -1,0 +1,3 @@
+$ python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py
+{"bundle_files": 31, "failing_bundles": 2, "lanes": 8, "matrix_rows": 208, "matrix_totals": {"not_applicable": 2, "pending_operator_consent": 6, "planned": 120, "unsupported": 34, "verified": 46}, "passing_bundles": 6, "result": "PASS"}
+exit=0

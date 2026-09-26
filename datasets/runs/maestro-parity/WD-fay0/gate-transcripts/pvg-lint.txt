@@ -1,0 +1,4 @@
+$ pvg lint --backlog
+[LINT] backlog: scanned 126 issues
+[LINT] PASSED: 0 error(s), 0 review finding(s)
+exit=0

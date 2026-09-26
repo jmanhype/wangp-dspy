@@ -1,0 +1,11 @@
+$ uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal --junitxml=/tmp/WD-fay0-targeted.xml
+Using CPython 3.14.4
+Creating virtual environment at: .venv
+   Building wangp-dspy @ file:///Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-fay0
+      Built wangp-dspy @ file:///Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-fay0
+Installed 84 packages in 254ms
+.............................................................            [100%]
+exit=0
+
+JUnit counters:
+{'tests': '61', 'errors': '0', 'failures': '0', 'skipped': '0', 'time': '24.693'}
