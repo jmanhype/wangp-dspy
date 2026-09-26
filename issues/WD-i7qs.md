@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
-updated_at: 2026-09-26T03:44:33Z
-content_hash: "sha256:424a7353ca5d6563930d88a90ea98ae145bc18276006b241293f4cdde9a1c484"
+updated_at: 2026-09-26T03:58:50Z
+content_hash: "sha256:a2fe52bec70a0a6a56b829caf64ffa2bac901d439c561e3244335acdf8c158eb"
 assignee: dev-WD-i7qs
 follows: [WD-r4n8]
 ---
@@ -112,7 +112,91 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+PROOF:
+
+### Implementation
+- Wan2GP branch: `story/WD-i7qs`
+- Wan2GP commit: `faea82d15bf10b3479c42c0ea430892aae975870`
+- Wan2GP base: `origin/main` at `071ce70aab1169c61cc14bbefd71bdda3a04a9e9`
+- Wan2GP remote: `fork/story/WD-i7qs`
+- Code locations:
+  - `models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py:11-30` adds independent `extra_special_tokens` handling while preserving `fix_mistral_regex=False` by default.
+  - `models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py:472-473` requests the gemma4 token override without enabling the Mistral patch.
+  - `models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py:497` leaves the legacy two-argument call unchanged.
+  - `tests/test_ltx_gemma_tokenizer.py:24-59` builds the checkpoint-free synthetic tokenizer; `:60-94` covers decoupling/list-config/bare-Split behavior; `:96-109` covers the deployed tokenizer and skips if absent.
+
+### CI/Test Results
+- Commands run:
+  - RED: `cd /home/straughter/Wan2GP-story-WD-i7qs && /home/straughter/Wan2GP/venv/bin/python -m unittest discover -s tests -p "test_ltx_gemma_tokenizer.py" -v`
+  - GREEN: same command after the fix.
+  - Real path: `PYTHONPATH=/home/straughter/Wan2GP-story-WD-i7qs /home/straughter/Wan2GP/venv/bin/python /tmp/50_real_path_check.py`
+  - Compile/diff gate: `/tmp/70_commit_and_push.sh` (`py_compile` on 3 files + `git diff --check`)
+  - Full suite: `cd /home/straughter/Wan2GP-story-WD-i7qs && /home/straughter/Wan2GP/venv/bin/python -m unittest discover -s tests -v`
+  - Full-suite baseline: same MiniMax H3 discovery command in a clean worktree at base `071ce70a`.
+- Summary: RED 0/5 passing (3 errors, 1 incorrect expected failure, 1 expected config failure); GREEN 5/5 passing; real path PASS; compile PASS; diff-check PASS. Full suite ran 24 tests: 21 passed and the same 3 unrelated MiniMax H3 tests failed before and after this change.
+- Coverage: no coverage runner is installed in the existing venv; no dependency was added. Behavioral coverage is 5 targeted tests plus the real-path check.
+- Key output:
+  - RED: `FAILED (failures=1, errors=3)`, including `TypeError: LTXVGemmaTokenizer.__init__() got an unexpected keyword argument 'extra_special_tokens'`.
+  - GREEN: `Ran 5 tests in 1.731s` / `OK`.
+  - Real path: `old_conflation: FAIL TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment`; `no_override: FAIL AttributeError: 'list' object has no attribute 'keys'`; `real_gemma4_path: OK vocab=262144 video_token_id=258884`; sample IDs contain `258884`.
+
+### Evidence commit
+- wangp-dspy branch: `story/WD-i7qs`
+- wangp-dspy commit: `9539cf5ca8e2b9c6b6966b0781c616c37bfb0068`
+- Evidence: `datasets/runs/maestro-parity/WD-i7qs/native-scripts/RESULTS.md`
+- SHA-256 manifest: `datasets/runs/maestro-parity/WD-i7qs/native-scripts/91_evidence_manifest.sha256`
+
+### Wiring
+- `base_encoder.py:472-473` reaches the new wrapper option for gemma4.
+- `base_encoder.py:497` retains the unchanged legacy default call.
+- Changed files in the Wan2GP commit are exactly the two implementation files plus the new regression test; no dependency or model files changed.
+
+### pvg verify
+- `VERIFY: PASSED (3 files scanned, 0 issues)` from the explicit evidence/test/script paths recorded in `90_pvg_verify.raw.txt`.
+
+### AC Verification
+| AC # | Requirement | Code Location | Test Location | Status |
+|------|-------------|---------------|---------------|--------|
+| 1 | Real gemma4 tokenizer path loads without TypeError | `base_encoder.py:472-473` | `tests/test_ltx_gemma_tokenizer.py:96-109`, `50_real_path_check.raw.txt` | PASS |
+| 2 | Video token remains 258884 and appears in IDs | `base_encoder.py:472-473` | `tests/test_ltx_gemma_tokenizer.py:103-109` | PASS |
+| 3 | Extra token override is independent; defaults and line 497 unchanged | `tokenizer.py:11-30`; `base_encoder.py:497` | `tests/test_ltx_gemma_tokenizer.py:60-77` | PASS |
+| 4 | Checkpoint-free test fails before, passes after, and guards real-path absence | `tokenizer.py:11-30` | `tests/test_ltx_gemma_tokenizer.py:24-109` | PASS |
+| 5 | Own branch from origin/main, committed and pushed to fork | Wan2GP commit `faea82d1...` | `70_commit_and_push.raw.txt`, `71_source_and_remote.raw.txt` | PASS |
+| 6 | Live deployment tree untouched | N/A | `00_setup.raw.txt`, `80_live_postflight.raw.txt` | PASS |
+
+LEARNINGS:
+- The synthetic regression fixture needs both a list-form `extra_special_tokens` config and a vocabulary over 100,000 entries; transformers gates `_patch_mistral_regex` on vocabulary size.
+- A bare top-level `Split` pre-tokenizer is sufficient to reproduce the immutable-item-assignment failure without any model weights.
+- The real-path matrix independently reproduced both dispatcher failure modes and the successful decoupled path.
+- The dispatcher's core diagnosis held. One auxiliary exact sequence differed (`"<|video|>"` encoded as `[2, 258884]` through the wrapper rather than the reported `[2, 258884, 236768]`), but the required token identity remained correct.
+- Creating the Wan2GP branch as a sibling git worktree kept the 106-file dirty live deployment unchanged.
+
+### OBSERVATIONS (unrelated)
+- The repository's 3 pre-existing MiniMax H3 failures are recorded in `61_existing_suite_base.raw.txt`; they reproduce identically at base.
+
+### DISCOVERED_BUG
+  title: MiniMax H3 legacy masking tests fail at Wan2GP origin/main
+  context: While running the full CPU unittest suite, three failures appeared in tests unrelated to the LTX tokenizer. They also reproduce in a clean worktree at base commit 071ce70a with the existing venv. `tests/test_minimax_h3_grouped_masking.py:193` raises KeyError for video_guide_outpainting; line 212 sees only the Grouped Rows masking choice instead of Shared Timestep plus Grouped Rows; line 219 sees h3_grouped_masking_enabled(None) return True instead of False.
+  affected_files: models/minimax_h3; tests/test_minimax_h3_grouped_masking.py
+  discovered_during: WD-i7qs
+
+## nd_contract
+status: delivered
+
+### evidence
+- Wan2GP `story/WD-i7qs@faea82d15bf10b3479c42c0ea430892aae975870`, pushed to fork.
+- wangp-dspy `story/WD-i7qs@9539cf5ca8e2b9c6b6966b0781c616c37bfb0068`, pushed to origin.
+- Raw commands and outputs under `datasets/runs/maestro-parity/WD-i7qs/native-scripts/`.
+
+### proof
+- [x] AC1: gemma4 real tokenizer loads via wrapper with no TypeError; vocab=262144.
+- [x] AC2: `<|video|>` maps to 258884 and appears in encoded IDs.
+- [x] AC3: `extra_special_tokens` and `fix_mistral_regex` are independent; wrapper default remains False; line 497 unchanged.
+- [x] AC4: checkpoint-free synthetic test is RED before and GREEN after; real-path test skips if directory is absent.
+- [x] AC5: Wan2GP branch is based on origin/main 071ce70a and pushed to fork at full SHA above.
+- [x] AC6: live dirty count remained 106; live HEAD and target hashes remained unchanged.
 
 ## History
 - 2026-09-26T03:44:33Z status: open -> in_progress
