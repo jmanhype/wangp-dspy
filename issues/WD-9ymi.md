@@ -11,7 +11,7 @@ created_by: speed
 updated_at: 2026-09-26T18:30:19Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:2bfdd89d47ec526018552086824cf3c9b270ad886ba8e33732685183cf7c17c4"
+content_hash: "sha256:248edc00534ce1958aa37f0210574ced50779c3e77ff049bdc139becc243b5e3"
 blocks: [WD-fay0]
 follows: [WD-9t9o, WD-isg9]
 ---
@@ -85,6 +85,18 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-26.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
+
 ## Implementation Evidence
 
 Commands run:
