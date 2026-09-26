@@ -1,6 +1,6 @@
 # WD-fay0 consolidated Maestro-parity evidence index
 
-Generated: `2026-09-26T00:24:32.451856+00:00`; capstone base: `82f6c38570a818dd8dbd3e70baebd037459661b3`.
+Generated: `2026-09-26T00:53:56.870507+00:00`; capstone base: `82f6c38570a818dd8dbd3e70baebd037459661b3`.
 
 **VERDICT: NOT COMPLETE: operator scope decisions and checker/generation prerequisites remain; no lane verdict was upgraded by this capstone.**
 
@@ -269,7 +269,7 @@ Non-matrix totals: **7 verified-local, 1 unsupported, 2 planned** across 10 clai
 | 1 | False | 120 matrix cells remain planned and 6 pending consent; no operator-approved terminal disposition exists. |
 | 2 | False | WD-0zj8 and WD-dmf2 checker exit 1; WD-dmf2 also is absent from capstone base and retrievable only from accepted story branch. |
 | 3 | False | WD-0zj8 has no generated artifact or canonical evidence.json; generated half remains blocked on host/model operator inputs. |
-| 4 | None | Mechanical gates are recorded in gate-transcripts; full suite was pending at initial index generation and is finalized after commit. |
+| 4 | True | Lint 0/0; clean-tree full suite errors=0/failures=0; release ready/tag false; story-base protected parity clean. The sole 40f8c2b preflight difference is accepted WD-e4r7 fail-closed GPU CSV work. |
 | 5 | False | Consolidated coverage exists, but referenced set cannot validate successfully while WD-0zj8/WD-dmf2 fail or are absent and unresolved entries lack operator approval. |
 
 ## Standing gates
@@ -278,8 +278,8 @@ Non-matrix totals: **7 verified-local, 1 unsupported, 2 planned** across 10 clai
 | --- | --- | --- |
 | pvg_lint | PASS 126 scanned, 0 errors, 0 review findings | `gate-transcript.md#backlog-lint` |
 | targeted_proofs | PASS tests=61 errors=0 failures=0 skipped=0 | `gate-transcript.md#targeted-fail-closed-and-clean-machine-proofs` |
-| full_suite | FIRST ATTEMPT FAIL: tests=2085 errors=0 failures=2 skipped=1; both failures are the real-tree check seeing in-repo gate instrumentation. Clean rerun pending | `gate-transcript.md#full-suite` |
-| release_verify | PENDING_CLEAN_TREE_RERUN | `gate-transcript.md#release-verify` |
+| full_suite | PASS tests=2085 errors=0 failures=0 skipped=1 (clean-tree rerun; first instrumentation-only failure retained) | `gate-transcript.md#full-suite` |
+| release_verify | PASS release=ready tag_created=false | `gate-transcript.md#release-verify` |
 | protected_parity_base | PASS exit 0 | `gate-transcript.md#protected-file-parity` |
 | protected_parity_40f8c2b | EXPECTED_EXCEPTION: services/jobs/preflight.py differs from accepted WD-e4r7 GPU CSV fail-closed fix; all other protected files unchanged | `gate-transcript.md#protected-file-parity` |
 | git_diff_check | PASS exit 0 | `gate-transcript.md#whitespace-gate` |

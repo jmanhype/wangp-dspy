@@ -14,7 +14,7 @@
     "checker": "scripts/verify_maestro_parity.py",
     "path": "docs/maestro-parity-evidence-contract.md"
   },
-  "generated_at": "2026-09-26T00:24:32.451856+00:00",
+  "generated_at": "2026-09-26T00:53:56.870507+00:00",
   "lane_bundles": [
     {
       "available_on_capstone_base": true,
@@ -746,8 +746,8 @@
       "reason": "WD-0zj8 has no generated artifact or canonical evidence.json; generated half remains blocked on host/model operator inputs."
     },
     "4": {
-      "met": null,
-      "reason": "Mechanical gates are recorded in gate-transcripts; full suite was pending at initial index generation and is finalized after commit."
+      "met": true,
+      "reason": "pvg lint 0/0; clean-tree full suite errors=0/failures=0; release=ready/tag_created=false; story-base protected parity clean. The sole 40f8c2b preflight difference is the independently accepted WD-e4r7 fail-closed GPU CSV exception."
     },
     "5": {
       "met": false,
@@ -3034,7 +3034,7 @@
   "standing_gates": {
     "full_suite": {
       "command": "uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-fay0-full.xml",
-      "result": "FIRST ATTEMPT FAIL: tests=2085 errors=0 failures=2 skipped=1; both failures are the real repository tree check seeing in-repo gate instrumentation. CLEAN RERUN PENDING",
+      "result": "PASS tests=2085 errors=0 failures=0 skipped=1 time=797.986 (clean-tree rerun)",
       "transcript": "gate-transcript.md#full-suite"
     },
     "git_diff_check": {
@@ -3064,7 +3064,7 @@
     },
     "release_verify": {
       "command": "uv run --frozen --extra dev wgp release verify",
-      "result": "PENDING_CLEAN_TREE_RERUN",
+      "result": "PASS release=ready tag_created=false",
       "transcript": "gate-transcript.md#release-verify"
     },
     "targeted_proofs": {
