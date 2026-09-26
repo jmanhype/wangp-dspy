@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T21:01:16Z
-content_hash: "sha256:3cfac2a096601a815c153043b9420326f4ab838fc82bd0ccce0217406bf6adbb"
+updated_at: 2026-09-26T21:01:29Z
+content_hash: "sha256:48c60abe5e52016f4dead418450cf5069f8302e50e9c0ec267205ca2acb3f7ff"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28]
@@ -119,6 +119,7 @@ status: new
 
 ## Notes
 BLOCKED 2026-09-26T21:00:00Z (authorization preflight): required operator input is incomplete, so execution stopped before SSH, GPU, queue admission, fixed-branch deployment, downloads, dependency changes, and hash preflight. Present scope supplies the eight operations, fifteen expected LTX-2.5 hashes, fixed Wan2GP commit faea82d15bf10b3479c42c0ea430892aae975870, zero-download intent, and serial-render intent, but not verbatim approval timestamp, approver identity, exact render-host identity, command/time boundary, or VRAM/service policy. Existing WD-2gyw authorization is scoped only to WD-2gyw, and WD-i7qs explicitly performed no render and left deployment separate. This is a missing-operator-input blocker, not unsupported_on_this_hardware. docs/video-capabilities.md:81 remains unchanged: create/extend/retake/edit/outpaint/repaint/recast/upscale stay planned and blend stays the existing typed backend boundary.
+CORRECTION: the preceding blocker timestamp was a placeholder. Actual local execution timestamp is 2026-09-26T21:01:28Z. All substantive blocker facts and the fail-closed boundary remain as stated.
 
 ## History
 - 2026-09-26T20:53:46Z dep_added: blocks WD-fay0
@@ -129,6 +130,7 @@ BLOCKED 2026-09-26T21:00:00Z (authorization preflight): required operator input 
 - 2026-09-26T20:57:46Z claimed by dev-WD-m7xw
 - 2026-09-26T21:01:15Z status: in_progress -> blocked
 - 2026-09-26T21:01:16Z released by speed
+- 2026-09-26T21:01:28Z status: blocked -> blocked
 
 ## Links
 - Parent: [[WD-3nod]]
