@@ -1,0 +1,47 @@
+{
+  "actual_model_download_bytes": 0,
+  "all_required_hashes_match": true,
+  "disk_floor_pass": true,
+  "disk_free_bytes": 65195208704,
+  "files": {
+    "/home/straughter/.cache/whisper/small.pt": {
+      "expected_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "match": true,
+      "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794"
+    },
+    "/home/straughter/models/syncnet_v2/syncnet_v2.model": {
+      "expected_sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442",
+      "match": true,
+      "sha256": "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442"
+    },
+    "/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf": {
+      "expected_sha256": "3445102e9cde5d562508642c100a2f5ac3368a5a3f748442811d7a95daee3bec",
+      "match": true,
+      "sha256": "3445102e9cde5d562508642c100a2f5ac3368a5a3f748442811d7a95daee3bec"
+    },
+    "/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/mmproj-f16.gguf": {
+      "expected_sha256": "add205b7bfdb3f71f6da36b0a82aa20928dd829a920878c602628cdfbebc5288",
+      "match": true,
+      "sha256": "add205b7bfdb3f71f6da36b0a82aa20928dd829a920878c602628cdfbebc5288"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB, 18195 MiB, 0 %",
+  "gpu_compute_processes": [
+    "3213164, /home/straughter/llama.cpp/build/bin/llama-server, 18106 MiB"
+  ],
+  "gpu_preflight_pass": true,
+  "host": "straughter-Z690-Steel-Legend",
+  "llama_health": {
+    "exit_code": 0,
+    "stdout": "{\"status\":\"ok\"}"
+  },
+  "llama_models": {
+    "exit_code": 0,
+    "stdout": "{\"models\":[{\"name\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"model\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"modified_at\":\"\",\"size\":\"\",\"digest\":\"\",\"type\":\"model\",\"description\":\"\",\"tags\":[\"\"],\"capabilities\":[\"completion\",\"multimodal\"],\"parameters\":\"\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"\",\"families\":[\"\"],\"parameter_size\":\"\",\"quantization_level\":\"\"}}],\"object\":\"list\",\"data\":[{\"id\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"aliases\":[\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\"],\"tags\":[],\"object\":\"model\",\"created\":1790457291,\"owned_by\":\"llamacpp\",\"meta\":{\"vocab_type\":2,\"n_vocab\":248320,\"n_ctx\":20480,\"n_ctx_train\":262144,\"n_embd\":5120,\"n_params\":27320697856,\"size\":16799719424,\"ftype\":\"Q4_K - Medium\"}}]}"
+  },
+  "min_free_bytes": 15000000000,
+  "operator_service_mutation": false,
+  "planned_model_download_bytes": 0,
+  "schema_version": "wangp-dspy.wd-7fvx-preflight/v1",
+  "user": "straughter"
+}

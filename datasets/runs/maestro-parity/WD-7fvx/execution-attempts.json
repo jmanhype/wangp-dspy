@@ -1,0 +1,84 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "evidence": [
+        "host-preflight.attempt-1.json",
+        "wd-7fvx.attempt-1.stderr"
+      ],
+      "exit": 2,
+      "outcome": "fail_closed_preflight",
+      "reason": "local Qwen judge endpoint absent; all hashes matched"
+    },
+    {
+      "attempt": 2,
+      "evidence": [
+        "wd-7fvx-audio.attempt-2.native.log",
+        "queue-record.attempt-2.json"
+      ],
+      "exit": 1,
+      "outcome": "fail_closed_composition",
+      "reason": "outputs directory absent before ffmpeg"
+    },
+    {
+      "attempt": 3,
+      "evidence": [
+        "outputs/wd_7fvx_audio_rework.attempt-3.mp4",
+        "queue-record.attempt-3.json"
+      ],
+      "exit": 1,
+      "outcome": "fail_closed_qc_staging",
+      "reason": "qc directory absent after composition"
+    },
+    {
+      "attempt": 4,
+      "evidence": [
+        "qc/audio_local-qwen-raw.attempt-4.json",
+        "queue-record.attempt-4.json"
+      ],
+      "exit": 1,
+      "outcome": "fail_closed_identity_gate",
+      "reason": "raw action 0.4 and mouth x spread above bar"
+    },
+    {
+      "attempt": 5,
+      "evidence": [
+        "qc/audio_local-qwen-raw.attempt-5.json",
+        "queue-record.attempt-5.json"
+      ],
+      "exit": 1,
+      "outcome": "fail_closed_queue_evidence_shape",
+      "reason": "queue rejected PASS without artifact path after visual action/mouth failure"
+    },
+    {
+      "attempt": 6,
+      "evidence": [
+        "qc/audio-target.attempt-6.json"
+      ],
+      "exit": 3,
+      "outcome": "fail_closed_mouth_y",
+      "reason": "SyncNet passed; y spread 0.039"
+    },
+    {
+      "attempt": 7,
+      "evidence": [
+        "qc/audio-target.attempt-7.json"
+      ],
+      "exit": 3,
+      "outcome": "fail_closed_syncnet",
+      "reason": "mouth spreads passed; aggregate confidence 0.825957"
+    },
+    {
+      "attempt": 8,
+      "evidence": [
+        "queue-record.attempt-8.json",
+        "queue-final-state.json",
+        "director-qc-evidence.json"
+      ],
+      "exit": 0,
+      "outcome": "done_after_legal_queue_resume",
+      "reason": "audio passed all gates; screenplay completed same admitted job after fixing batch state order"
+    }
+  ],
+  "schema_version": "wangp-dspy.wd-7fvx-attempts/v1"
+}

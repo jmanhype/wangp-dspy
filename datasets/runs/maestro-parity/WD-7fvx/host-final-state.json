@@ -1,0 +1,38 @@
+{
+  "actual_model_download_bytes": 0,
+  "all_required_hashes_match": true,
+  "disk_floor_pass": true,
+  "disk_free_bytes": 65071591424,
+  "files": {
+    "inputs/wd_cpow_vibevoice_raw.prepared.wav": {
+      "expected_sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "match": true,
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+    },
+    "inputs/wd_cpow_vibevoice_revoice.mp4": {
+      "expected_sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3",
+      "match": true,
+      "sha256": "1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3"
+    }
+  },
+  "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB, 18856 MiB, 94 %",
+  "gpu_compute_processes": [
+    "3213164, /home/straughter/llama.cpp/build/bin/llama-server, 18178 MiB",
+    "3281659, /home/straughter/Wan2GP/venv/bin/python, 584 MiB"
+  ],
+  "gpu_preflight_pass": false,
+  "host": "straughter-Z690-Steel-Legend",
+  "llama_health": {
+    "exit_code": 0,
+    "stdout": "{\"status\":\"ok\"}"
+  },
+  "llama_models": {
+    "exit_code": 0,
+    "stdout": "{\"models\":[{\"name\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"model\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"modified_at\":\"\",\"size\":\"\",\"digest\":\"\",\"type\":\"model\",\"description\":\"\",\"tags\":[\"\"],\"capabilities\":[\"completion\",\"multimodal\"],\"parameters\":\"\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"\",\"families\":[\"\"],\"parameter_size\":\"\",\"quantization_level\":\"\"}}],\"object\":\"list\",\"data\":[{\"id\":\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\",\"aliases\":[\"/mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf\"],\"tags\":[],\"object\":\"model\",\"created\":1790458033,\"owned_by\":\"llamacpp\",\"meta\":{\"vocab_type\":2,\"n_vocab\":248320,\"n_ctx\":20480,\"n_ctx_train\":262144,\"n_embd\":5120,\"n_params\":27320697856,\"size\":16799719424,\"ftype\":\"Q4_K - Medium\"}}]}"
+  },
+  "min_free_bytes": 15000000000,
+  "operator_service_mutation": false,
+  "planned_model_download_bytes": 0,
+  "schema_version": "wangp-dspy.wd-7fvx-preflight/v1",
+  "user": "straughter"
+}
