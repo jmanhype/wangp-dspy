@@ -4,11 +4,11 @@ title: "LTX-2.5 no-download operation batch"
 status: closed
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration, delivered]
+labels: [capability, video, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:28:53Z
+updated_at: 2026-09-26T23:28:54Z
 content_hash: "sha256:332e6915fa2ba9fa1155b66d2b67b25b5e0d6dbd241fd8f064ac7d2d35d67e12"
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
