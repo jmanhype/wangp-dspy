@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
-updated_at: 2026-09-26T16:27:57Z
-content_hash: "sha256:33eec5057b544cbdaed6bbe8de6e96dc87fa2d91faac4bd7c02cc89db9234166"
+updated_at: 2026-09-26T16:28:44Z
+content_hash: "sha256:d323191b686b8e5717a76af1b1685e7663bce293a79f1c30e04457796f8d45b1"
 blocks: [WD-fay0]
 assignee: dev-WD-9t9o
 follows: [WD-isg9, WD-14ej]
@@ -49,7 +49,7 @@ delivery proof, clean release verification, and PR CI must pass.
 
 
 ## Notes
-## Implementation Evidence (DELIVERED)
+## Implementation Evidence
 
 Commands run:
 
@@ -135,6 +135,22 @@ status: delivered
 ## MANDATORY SKILLS
 None identified.
 
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: 216e7448c9a287f9df1b74e56f7dfd044e35af96
+- Raw live preflight and operation evidence are committed and pushed.
+- Objective gates 39/39 pass; scoped tests, lint, diff-check, and clean release verification pass.
+- Independent reviewer approval remains pending.
+
+### proof
+
+- [x] AC1 through AC5 pass with artifacts cited above.
+- [ ] AC6 completes after independent reviewer approval and PR CI.
+- [ ] AC7 completes after PM acceptance and merge.
+
 ## History
 - 2026-09-26T15:56:58Z dep_added: blocks WD-fay0
 - 2026-09-26T15:57:03Z status: open -> in_progress
@@ -152,3 +168,6 @@ None identified.
 
 ### 2026-09-26T16:25:12Z speed
 Added the missing MANDATORY SKILLS section required by backlog lint.
+
+### 2026-09-26T16:28:44Z speed
+Delivery evidence normalized to the exact pvg Implementation Evidence heading and contract placed at EOF.
