@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
 updated_at: 2026-09-26T14:57:11Z
-content_hash: "sha256:a5abeca6177fa1c2236f9cf8bc98efea317580dde2a2dfb1405139388a7acff6"
+content_hash: "sha256:2959df5633854d70cd23a4a9676ab7e1d2e0c8698ebeaa0360835f8cb51c7179"
 follows: [WD-14ej, WD-i7qs]
 blocks: [WD-fay0]
 ---
@@ -215,3 +215,11 @@ Corrected delivery commit SHA to ee81c0ccd763376d86734791a342e16efad78ebb.
 
 ### 2026-09-26T14:50:51Z speed
 Corrected delivery commit SHA to ee81c0ccd763376d86734791a342e16efad78ebb.
+
+### 2026-09-26T14:57:11Z speed
+## PM Decision
+REJECTED [2026-09-26]:
+EXPECTED: AC2 requires a pre-host-contact live preflight recording SSH, model hashes, disk floor, GPU state, and unrelated-process state; AC3 requires exact local/remote command argv. The pm_acceptor contract also requires a LEARNINGS section and ownership of test-output warnings.
+DELIVERED: datasets/runs/maestro-parity/WD-isg9/preflight.json:8-11 records only model_files=true with blank detail; model-assets.json:3-34 lists expected hashes but no live measured hashes; build-evidence.py:125-132 records only boundary/render SSH argv and no preflight argv. The delivery notes contain no LEARNINGS block. The full-suite artifact has two release failures (fullsuite-dirty-tree-counters.json:3-8), and fullsuite-dirty-tree.out:87-95 also has an unreported StarletteDeprecationWarning.
+GAP: A boolean model_files result plus a separate expected-hash catalog does not prove the live host assets matched those hashes before contact, and the bundle does not capture the preflight command or unrelated-process check. The proof is therefore incomplete for AC2/AC3 and does not meet the mandatory delivery-note/warning ownership requirements.
+FIX: Add a fail-closed preflight artifact generated before host rendering with its exact argv, timestamp/order, repository state, SSH result, actual sha256sum output for every required model and expected-hash comparison, disk floor, GPU state, and unrelated-process state. Record that artifact and its command in evidence.json. Add LEARNINGS, then provide a clean committed-tree full-suite result or explicitly file/dispose the warning under the project bug model; rerun the canonical checker and update delivery proof.
