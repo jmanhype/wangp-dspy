@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T15:11:24Z
-content_hash: "sha256:531a457d74f356c9344a3d215176826aff34aa964d36bd12865d822cc91242f6"
+updated_at: 2026-09-26T15:11:25Z
+content_hash: "sha256:77ae10eb12d48778afc7ec0b1aaf4155ee70f4ea36416d03891f26a0160cd8e3"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0, WD-dmf2, WD-bxhc]
 blocks: [WD-fay0]
 assignee: dev-WD-isg9
@@ -69,6 +69,18 @@ None identified.
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 Commands run:
