@@ -70,11 +70,8 @@ different graph or a typed refusal.
 ## MANDATORY SKILLS
 - pvg
 
-
-## MANDATORY SKILLS
-- pvg
-
-## Description
+### Superseded malformed body
+#### Description
 ## Why (measured evidence, all on main @ 9cc501d6)
 
 The finishing surface declares film-grain controls it never applies:
@@ -103,7 +100,7 @@ controls it accepts. ffmpeg's `noise` filter is per-pixel by construction and
 `allf=t` reseeds every frame, so the declared size/persistence are unreachable
 without a different graph.
 
-## Acceptance criteria
+#### Acceptance criteria
 
 - AC1: For identical requests differing only in `film_grain.size`, the emitted
   film-grain command graph differs and each encodes its own `size`. A request's
@@ -129,7 +126,7 @@ without a different graph.
   `uv run --frozen --extra dev pytest -q` 0 failures/errors per JUnit counters;
   `wgp release verify` release=ready with tag_created=false.
 
-## Constraints
+#### Constraints
 
 - Do not execute any render and do not contact the host; this is the deterministic
   plan surface. Verification of produced media is a later authorized batch.
@@ -138,10 +135,10 @@ without a different graph.
   stay unchanged.
 - No new capability outside the finishing matrix row.
 
-## MANDATORY SKILLS
+#### MANDATORY SKILLS
 - pvg
 
-## nd_contract
+#### nd_contract
 status: new
 
 ### evidence
@@ -156,27 +153,27 @@ status: new
 - [ ] AC6: docs/finishing-capabilities.md updated and film row honest
 - [ ] AC7: lint + pytest + release verify green
 
-## Acceptance Criteria
+#### Acceptance Criteria
 
 
-## Design
+#### Design
 
 
-## Notes
+#### Notes
 
 
-## History
+#### History
 - 2026-09-26T02:04:16Z status: open -> in_progress
 - 2026-09-26T02:04:16Z auto-follows: linked to predecessor WD-fay0
 - 2026-09-26T02:04:16Z claimed by dev-WD-r4n8
 
-## Links
+#### Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-fay0]]
 
-## Comments
+#### Comments
 
-## Why (measured evidence, all on main @ 9cc501d6)
+#### Why (measured evidence, all on main @ 9cc501d6)
 
 The finishing surface declares film-grain controls it never applies:
 
@@ -204,7 +201,7 @@ controls it accepts. ffmpeg's `noise` filter is per-pixel by construction and
 `allf=t` reseeds every frame, so the declared size/persistence are unreachable
 without a different graph.
 
-## Acceptance criteria
+#### Acceptance criteria
 
 - AC1: For identical requests differing only in `film_grain.size`, the emitted
   film-grain command graph differs and each encodes its own `size`. A request's
@@ -230,7 +227,7 @@ without a different graph.
   `uv run --frozen --extra dev pytest -q` 0 failures/errors per JUnit counters;
   `wgp release verify` release=ready with tag_created=false.
 
-## Constraints
+#### Constraints
 
 - Do not execute any render and do not contact the host; this is the deterministic
   plan surface. Verification of produced media is a later authorized batch.
@@ -239,7 +236,7 @@ without a different graph.
   stay unchanged.
 - No new capability outside the finishing matrix row.
 
-## nd_contract
+#### nd_contract
 status: new
 
 ### evidence
@@ -254,24 +251,24 @@ status: new
 - [ ] AC6: docs/finishing-capabilities.md updated and film row honest
 - [ ] AC7: lint + pytest + release verify green
 
-## Acceptance Criteria
+#### Acceptance Criteria
 
 
-## Design
+#### Design
 
 
-## Notes
+#### Notes
 
 
-## History
+#### History
 - 2026-09-26T02:04:16Z status: open -> in_progress
 - 2026-09-26T02:04:16Z auto-follows: linked to predecessor WD-fay0
 - 2026-09-26T02:04:16Z claimed by dev-WD-r4n8
 - 2026-09-26T02:47:58Z dep_added: blocks WD-fay0
 
-## Links
+#### Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Follows: [[WD-fay0]]
 
-## Comments
+#### Comments
