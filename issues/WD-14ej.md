@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
-updated_at: 2026-09-26T04:33:11Z
-content_hash: "sha256:7af5b5746f6b01fb15e096c882cfcef3376a0d791417ad710b37bb34c4a01e53"
+updated_at: 2026-09-26T05:11:43Z
+content_hash: "sha256:2e6fdc568e40e6c05696a71b7924c66ed9af8695295bad0293317274348a4ee9"
 blocks: [WD-fay0]
 assignee: dev-WD-14ej
 follows: [WD-i7qs]
@@ -186,7 +186,91 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+PROOF:
+
+### Change
+- Commit: `2a564c5a544161def3fdc943ab6c254a2b8b8d38` on `story/WD-14ej`.
+- Diff: 3 files changed, 64 insertions(+), 1 deletion(-).
+- `services/finishing/pipeline.py:247-250` now emits ffmpeg
+  `minterpolate` with `scd=1` for `scene_detection=True` and `scd=0`
+  for `scene_detection=False`.
+- `tests/test_finishing_capabilities.py:444-499` covers both graphs,
+  deterministic repeat records/hashes, and plan-only flags.
+- `docs/finishing-capabilities.md:9` documents explicit `scd` semantics and
+  keeps the graph unexecuted/unmeasured.
+
+### Required verification
+- Initial focused RED run failed exactly because the old graph had no `scd`:
+  `AssertionError: ... 'minterpolate=fps=48:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1'.endswith(':scd=1')`.
+- Final focused test: `uv run --frozen --extra dev pytest -q tests/test_finishing_capabilities.py::test_interpolation_scene_detection_is_explicit_deterministic_and_plan_only`
+  -> `1 passed`.
+- Plan probe (`uv run --frozen --extra dev python /tmp/wd_14ej_verify.py`,
+  synthetic non-repository source):
+  - enabled: `minterpolate=fps=48:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=1`
+  - disabled: `minterpolate=fps=48:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=0`
+  - repeated enabled record bytes identical; record SHA-256 both
+    `ca408229762c561b2b46e89c314d28dc3d726fc14e82246d8082cc484502915e`
+  - `backend_settings_sha256` and `command_graph_sha256` repeat matches.
+  - `plan_only=true executable=false queue_submitted=false host_contact=false
+    media_generated=false measurement_status=unverified jobs_table_absent=true`.
+- Synthetic ffmpeg graphs (no repository media):
+  `ffmpeg -v error -f lavfi -i testsrc=duration=0.2:size=128x96:rate=24 -vf <graph> -frames:v 3 -f null -`
+  -> enabled exit 0; disabled exit 0.
+- Full suite: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-14ej-full.xml`.
+  Parsed JUnit: tests=2090, failures=0, errors=0, skipped=1, time=970.275s.
+  The sole skip is the explicitly env-gated live 3090 preflight; this story forbids host contact.
+- `pvg verify services/finishing/pipeline.py tests/test_finishing_capabilities.py docs/finishing-capabilities.md --format=text`
+  -> `VERIFY: PASSED (2 files scanned, 0 issues)` (docs need no code scan).
+- `pvg lint --backlog` -> scanned 129 issues, 0 errors, 0 review findings.
+- `uv run --frozen --extra dev wgp release verify` -> all four checks pass,
+  `tag_created=false`, `release=ready`. Bare shell `wgp` was not on PATH, so the
+  project venv entry point was used.
+- `git diff --check` -> exit 0.
+- Push: `git push -u origin story/WD-14ej`; remote head equals local
+  `2a564c5a544161def3fdc943ab6c254a2b8b8d38`.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Explicit `scd=1` / `scd=0` graphs differ; strings quoted above; test lines 464-468. |
+| 2 | PASS | Both graphs state `scd`; implementation never omits the declared control. |
+| 3 | PASS | Repeated request serialized record bytes and both hashes match. |
+| 4 | PASS | Plan-only flags, unverified measurement, executed=false, and absent jobs table recorded above. |
+| 5 | PASS | Both graphs run from synthetic lavfi testsrc to null sink with exit 0. |
+| 6 | PASS | Docs state enabled/disabled semantics and unexecuted/unmeasured status. |
+| 7 | PASS | Lint, full pytest counters, release ready/tag false, and diff-check recorded above. |
+
+LEARNINGS:
+- A split f-string fragment must itself be prefixed with `f`; the first synthetic
+  ffmpeg run caught a literal `{fps:g}` and prevented shipping an invalid graph.
+- Full release tests intentionally treat an uncommitted story worktree as dirty;
+  commit before the authoritative full-suite/release verification.
+- Keep host-gated 3090 tests skipped under this no-host story rather than violating
+  the no-contact constraint.
+
+### OBSERVATIONS (unrelated)
+- [CONCERN] dependency warning: FastAPI's testclient import emits
+  `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated`;
+  no failures. This is outside the four owned files.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `2a564c5a544161def3fdc943ab6c254a2b8b8d38`, pushed to `origin/story/WD-14ej`.
+- Full JUnit 2090/0/0; lint 0 errors; release ready with no tag; diff-check clean.
+- Synthetic ffmpeg probes exit 0 for both `scd=1` and `scd=0`.
+
+### proof
+- [x] AC1: both explicit, different interpolation graphs quoted above.
+- [x] AC2: emitted graph always includes `scd`; no ffmpeg default reliance.
+- [x] AC3: same request/seed yields byte-identical record and matching hashes.
+- [x] AC4: all plan-only invariants and absent jobs table verified.
+- [x] AC5: both synthetic lavfi-to-null ffmpeg runs exit 0.
+- [x] AC6: applied semantics and unmeasured status documented.
+- [x] AC7: all standing gates green per evidence above.
 
 ## History
 - 2026-09-26T04:32:53Z dep_added: blocks WD-fay0
