@@ -9,13 +9,14 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T20:13:04Z
-content_hash: "sha256:35c0fe0a9a78d4291143332a326289986ca44c3680610b9d2a5ce110f830e0ce"
+content_hash: "sha256:2baf27a761fdd2dfa1832e5b55cf84ad889531e4e82119122c2f00f1ec2b3dcf"
 was_blocked_by: [WD-2gyw]
 assignee: dev-WD-r81u
 follows: [WD-2gyw, WD-cpow]
 closed_at: 2026-09-25T20:13:03Z
 close_reason: "Accepted for delivered scope: five independently verified cells (FFmpeg interpolation/spatial/grain, RIFE x2, RealESRGAN x2). Film stays planned for control mismatch; face cells stay planned for missing source face/track consent; neural_frame_gen stays planned with no named implementation."
 led_to: [WD-bxhc, WD-dmf2, WD-fay0]
+blocks: [WD-mulc]
 ---
 
 ## Description
@@ -773,9 +774,11 @@ Observable outcome: an explicitly authorized future run emits hashed finished-me
 - 2026-09-25T20:13:03Z status: in_progress -> closed
 - 2026-09-25T20:13:03Z dep_removed: no_longer_blocks WD-dmf2
 - 2026-09-25T20:13:03Z dep_removed: no_longer_blocks WD-fay0
+- 2026-09-26T20:50:57Z dep_added: blocks WD-mulc
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-mulc]]
 - Was blocked by: [[WD-2gyw]]
 - Follows: [[WD-2gyw]], [[WD-cpow]]
 - Led to: [[WD-bxhc]], [[WD-dmf2]], [[WD-fay0]]
