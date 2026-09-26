@@ -1,19 +1,18 @@
 ---
 id: WD-m7xw
 title: "LTX-2.5 no-download operation batch"
-status: in_progress
+status: open
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:04:22Z
-content_hash: "sha256:3bcdff2b6afaead72d8f6d5f6ecb541268b18687549f27217fd612a1466af3b2"
+updated_at: 2026-09-26T23:15:11Z
+content_hash: "sha256:4d133d5aed6c861d29672965c1fb1a70e3d43034e4237c9204c9972307538c23"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
-assignee: dev-WD-m7xw
 ---
 
 ## Description
@@ -294,6 +293,8 @@ status: delivered
 - 2026-09-26T21:35:04Z claimed by dev-WD-m7xw
 - 2026-09-26T23:02:24Z status: in_progress -> in_progress
 - 2026-09-26T23:02:24Z auto-follows: linked to predecessor WD-f0vk
+- 2026-09-26T23:15:11Z status: in_progress -> open
+- 2026-09-26T23:15:11Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
