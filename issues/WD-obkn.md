@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T22:54:50Z
-content_hash: "sha256:49b0cbd8a928e21999e327fec35e669dcebd13a76f0be05c626b4ea7da103e4b"
+updated_at: 2026-09-26T23:31:04Z
+content_hash: "sha256:5e53803a5f0bedb2b5e0d647cc935c3f702f96055d0e9c8ac089c25f828369dd"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 assignee: dev-WD-obkn
@@ -112,6 +112,129 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED at parent direction)
+
+PROOF:
+
+### Commit
+- Branch: `story/WD-obkn`
+- Local and pushed SHA: `2d778cef293ef3c5a441a35e15d89d715999e10d`
+- Push: `git push -u origin story/WD-obkn`
+- Remote byte check: `git ls-remote origin refs/heads/story/WD-obkn` returned `2d778cef293ef3c5a441a35e15d89d715999e10d`.
+- Worktree after push: clean and tracking `origin/story/WD-obkn`.
+
+### Operator decisions and current-head plan
+- Operator authorization and four terminal dispositions were recorded before media execution in `datasets/runs/maestro-parity/WD-obkn/operator-decisions.md`.
+- Request: `datasets/runs/maestro-parity/WD-obkn/request.json`.
+- Command: `uv run --frozen wgp finish plan --request datasets/runs/maestro-parity/WD-obkn/request.json --dry-run --json > datasets/runs/maestro-parity/WD-obkn/current-head-plan.json`.
+- Plan identity: `command_graph_sha256=0db6e426d6b96edf504131b657acac06d254c4540397a10dad3d4d18266d7722`; seed `8108`; source SHA-256 `e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859`.
+- Current graph is unchanged at `services/finishing/pipeline.py:187-211`: ceil/downsample by 16, seeded `allf=u` and `allf=t+u`, `all_opacity=0.5`, nearest-neighbor x16, crop `480x832`, addition to `[0:v]`.
+
+### FFmpeg execution and hashes
+Commands represented by exact argv/cwd/exit/stream hashes in `primary-execution.json` and `replay-execution.json`:
+- Planned probe: exit 0.
+- Corrected lossless grain stage: exit 0; tail `frame=56 ... Lsize=7422KiB time=00:00:02.33 ... speed=3.74x`.
+- Planned H.264 codec stage: exit 0; tail `frame=56 ... Lsize=542KiB time=00:00:02.25 ... speed=3.02x`.
+- Source hash before and after: `e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859`; decoded source hash also matched before/after.
+- Primary/replay lossless FFV1 SHA-256: `856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336` (byte-identical).
+- Primary/replay final H.264 SHA-256: `5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff` (byte-identical).
+- FFprobe: source, FFV1, and H.264 are all 480x832, 24 fps, 2.333333 s, 56 frames, `yuv420p`; final retains AAC 32 kHz stereo. Summaries are in `ffprobe-summary.json`.
+- Command: `python3 datasets/runs/maestro-parity/WD-obkn/analyze_film_grain.py`.
+
+### Pixel measurement
+- Verdict: PASS (`measurement-results.json`; matrices in `measurement-matrices.npz`).
+- Horizontal support: `15.735622357819338` px; vertical support: `15.143568751741263` px; both within pre-registered `[15,17]`.
+- Lag-16 correlations: horizontal `-0.016801219307941165`, vertical `-0.056554122895396824`; both within absolute tolerance `0.10`.
+- Persistence statistic: `0.4924941396514256`; different-phase median `-0.005015892705023033`.
+- Strength proxy: p99 absolute block residual `9.682057291666675`, maximum `16`; tolerances `[8,14]` and `<=24`.
+- Analyzer inputs, exact algorithm parameters, matrices, all 56-frame decoded hashes, and artifact hashes are retained.
+
+### Terminal boundaries
+- Neural interpolation and spatial upscale commands both returned exit 2 with only `FINISH_NEURAL_PATH_UNAVAILABLE`; no expected output file exists (`neural-boundaries.json`).
+- Zero-hit named-implementation evidence is copied and hashed at `inputs/neural-frame-gen-boundary-probe.txt`; H3 face refinement remains a different backend.
+- Face record: `face-input-boundary.json` proves the reviewed frame has no human face and all 12 mandatory `FaceTrack` fields are absent; no synthetic detector/identity/license/consent was created.
+- Boundary interpretation: `terminal-boundaries.md:1-15`.
+
+### Matrix transition and checker
+- Command: `python3 /tmp/wd_obkn_matrix_check.py`.
+- Result: exactly 5 intended cell changes, all other matrix cells unchanged (`matrix-transition-check.json`).
+- Command: `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-obkn`.
+- Result at pushed commit: `PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-obkn owned_warnings=0`.
+- Bundle size: `26,612 KiB`, below 512 MiB; no model weights.
+
+### CI/Test and gate results
+- Commands run:
+  - `uv run --frozen --extra dev pytest -q tests/test_finishing_capabilities.py tests/test_maestro_parity_evidence.py tests/test_no_maestro_verbatim.py --junitxml=/tmp/WD-obkn-scoped.xml`
+  - `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full.xml`
+  - Clean-tree retry: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full-clean.xml`
+  - `pvg lint --backlog`
+  - `uv run --frozen --extra dev wgp release verify`
+  - `pvg verify docs/finishing-capabilities.md datasets/runs/maestro-parity/WD-obkn/operator-decisions.md datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md datasets/runs/maestro-parity/WD-obkn/analyze_film_grain.py --format=text`
+  - `git diff --check`
+  - `git diff --exit-code 2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- Summary:
+  - Scoped suite PASS: 136 tests, 0 failures, 0 errors, 0 skipped.
+  - Pre-commit full suite: 2,108 tests, 2 failures, 0 errors, 1 skipped. Both failures were the release tests that deliberately require a clean repository; the evidence was uncommitted at that moment. After commit, `wgp release verify` passed `release=ready`, `tag_created=false`.
+  - Clean full-suite retry did NOT complete. It reached 47%, then dispatcher directed termination of only WD-obkn PIDs 99411/99130/73854 after the LF004 launcher test hung concurrently with another full suite. Exit 143; no clean full-suite pass or JUnit is claimed.
+  - Backlog lint PASS: 139 scanned, 0 errors, 0 review findings.
+  - Release PASS: version/changelog/recipe schema/tree all pass; `release=ready`, `tag_created=false`.
+  - pvg verify PASS: 0 issues.
+  - `git diff --check` exit 0.
+  - Protected-file parity from base `2b4714bf` exit 0.
+- Coverage: not_applicable at delivery; no production runtime control flow was changed. No instrumented coverage percentage was claimed.
+
+### AC Verification
+| AC # | Requirement | Code/Evidence Location | Test/Check Location | Status |
+|---|---|---|---|---|
+| 1 | Pre-execution operator approval and terminal decisions | `operator-decisions.md` | Plan/execution timestamps and `current-head-plan.json` | PASS |
+| 2 | Current-head request/graph controls and seed | `request.json`; `services/finishing/pipeline.py:187-211` | `current-head-plan.json` graph/hash | PASS |
+| 3 | Local stages, immutable source, hashes, metadata, decoded evidence | `primary-execution.json` | `ffprobe-summary.json`, frame hashes | PASS |
+| 4 | Pixel-derived size/strength/persistence measurement | `analyze_film_grain.py:73-180` | `measurement-results.json`, matrices | PASS |
+| 5 | Same-build deterministic replay and measured codec bytes | `replay-execution.json` | identical FFV1/H.264 hashes | PASS |
+| 6 | Neural interpolation/spatial unsupported host boundary | `terminal-boundaries.md:3-7` | typed exit-2 probes in `neural-boundaries.json` | PASS |
+| 7 | Face cells missing all required inputs | `terminal-boundaries.md:9-11` | `face-input-boundary.json` | PASS |
+| 8 | Exactly five matrix cells transition | `docs/finishing-capabilities.md:19-25,44-46` | `matrix-transition-check.json` | PASS |
+| 9 | No prohibited process/change; protected files unchanged | execution records | protected parity exit 0 | PASS |
+| 10 | Checker plus all full gates | `evidence.json`; gate logs | checker/lint/release/diff/protected PASS | PARTIAL: clean full-suite completion is not claimed because dispatcher stopped the concurrent-hang attempt at 47% |
+
+LEARNINGS:
+- Record approval and exact command boundaries inside the story worktree before invoking the planner or media process; the planner correctly fail-closed when the first patched approval file landed outside the worktree.
+- Commit completed evidence before long clean-tree verification so release tree checks do not misclassify intentional evidence as a dirty release.
+- Pixel autocorrelation plus retained matrices is a compact way to prove grain support without committing 64 MiB of decoded raw frames.
+- Concurrent full-suite runs can reproduce a >30-minute LF004 launcher heredoc hang; do not claim or retry a full pass until that boundary is isolated.
+- The honest terminal labels distinguish missing named implementation or missing required inputs from hardware infeasibility.
+
+### DISCOVERED_BUG
+  title: Concurrent full suites can hang LF004 launcher setup test
+  context: On clean WD-obkn at 2d778cef, full pytest reached 47% and stayed in test_launcher_setup_is_root_relative_from_foreign_cwd. WD-obkn PIDs 73854/99130/99411 were blocked; sample showed nested bash in heredoc_write -> write. A concurrent WD-7fvx full suite had analogous stuck launcher processes. Dispatcher directed stopping only WD-obkn, which exited 143.
+  affected_files: tests/test_lf004_recovery_tooling.py, datasets/content_briefs/lf004-operator-dogfood-56f/run/run_recovery_once.sh
+  discovered_during: WD-obkn
+
+### DISCOVERED_BUG
+  title: Full suite emits StarletteDeprecationWarning
+  context: Pre-commit full pytest emitted `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated, install httpx2 instead` from fastapi/testclient.py. This is outside WD-obkn and no dependency change was authorized.
+  affected_files: tests using FastAPI TestClient; project dependency constraints
+  discovered_during: WD-obkn
+
+## nd_contract
+status: delivered
+
+### evidence
+- Pushed commit `2d778cef293ef3c5a441a35e15d89d715999e10d`; checker PASS; scoped tests, lint, release, pvg verify, diff, and protected parity PASS; execution/measurement/boundary artifacts under `datasets/runs/maestro-parity/WD-obkn/`.
+
+### proof
+- [x] AC #1: operator approval recorded before execution
+- [x] AC #2: current-head request/graph controls recorded
+- [x] AC #3: local media execution and hashes recorded
+- [x] AC #4: deterministic pixel measurement retained
+- [x] AC #5: FFV1 and H.264 replay bytes matched
+- [x] AC #6: neural cells terminalized by typed host boundary
+- [x] AC #7: face cells terminalized by missing inputs
+- [x] AC #8: exactly five intended matrix cells changed
+- [x] AC #9: no prohibited action and protected files unchanged
+- [ ] AC #10: clean full-suite completion remains concurrency-blocked; no full pass is fabricated
+
+
 ## Clean full-suite concurrent-hang boundary (interim)
 
 - Clean-tree commit: 2d778cef293ef3c5a441a35e15d89d715999e10d.
