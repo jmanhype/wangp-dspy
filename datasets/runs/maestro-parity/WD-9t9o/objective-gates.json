@@ -1,0 +1,388 @@
+{
+  "failed": [],
+  "gate_count": 39,
+  "results": [
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_9t9o_edit_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_9t9o_edit_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4"
+      ],
+      "measured": 1500728,
+      "name": "wd_9t9o_edit_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_9t9o_edit_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 32000,
+      "name": "wd_9t9o_edit_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_9t9o_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2,
+      "name": "wd_9t9o_edit_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_9t9o_repaint_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_9t9o_repaint_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4"
+      ],
+      "measured": 1787838,
+      "name": "wd_9t9o_repaint_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_9t9o_repaint_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 32000,
+      "name": "wd_9t9o_repaint_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_9t9o_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2,
+      "name": "wd_9t9o_repaint_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2.334,
+      "name": "wd_9t9o_upscale_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_9t9o_upscale_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4"
+      ],
+      "measured": 4592419,
+      "name": "wd_9t9o_upscale_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_9t9o_upscale_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 32000,
+      "name": "wd_9t9o_upscale_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2,
+      "name": "wd_9t9o_upscale_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash.txt",
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 4,
+      "name": "wd_9t9o_preflight_model_hash_match_count",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_preflight_all_model_hashes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_preflight_all_model_sizes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_preflight_source_hash_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash.txt"
+      ],
+      "measured": 65013923840,
+      "name": "wd_9t9o_preflight_disk_available_bytes",
+      "threshold": 24000000000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash.txt"
+      ],
+      "measured": 24033,
+      "name": "wd_9t9o_preflight_gpu_free_mib",
+      "threshold": 20000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-hashes-local.txt"
+      ],
+      "measured": 3,
+      "name": "wd_9t9o_distinct_output_hashes",
+      "threshold": 3.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/edit.render.log",
+        "host-logs/repaint.render.log"
+      ],
+      "measured": 2,
+      "name": "wd_9t9o_sol_attention_log_count",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/edit/wd_9t9o_edit.mp4"
+      ],
+      "measured": 33.666008000000005,
+      "name": "wd_9t9o_edit_visual_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_9t9o_repaint.mp4"
+      ],
+      "measured": 23.826266,
+      "name": "wd_9t9o_repaint_outside_mask_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_9t9o_repaint.mp4"
+      ],
+      "measured": 46.42166,
+      "name": "wd_9t9o_repaint_inside_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 960,
+      "name": "wd_9t9o_upscale_width_px",
+      "threshold": 960.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_9t9o_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 1664,
+      "name": "wd_9t9o_upscale_height_px",
+      "threshold": 1664.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/upscale/wd_9t9o_upscale.mp4"
+      ],
+      "measured": 46.86431,
+      "name": "wd_9t9o_upscale_downscaled_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/extend.render.log",
+        "host-logs/extend.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_extend_auto_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/extend-sdpa-retry.render.log",
+        "host-logs/extend-sdpa-retry.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_extend_sdpa_retry_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/retake.render.log",
+        "host-logs/retake.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_retake_auto_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/retake-sdpa-retry.render.log",
+        "host-logs/retake-sdpa-retry.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_retake_sdpa_retry_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/blend-probe.render.log",
+        "host-logs/blend-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_blend_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/recast-probe.render.log",
+        "host-logs/recast-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_recast_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "boundary-code-evidence.txt",
+        "boundary-source-hashes.txt"
+      ],
+      "measured": 1.0,
+      "name": "wd_9t9o_outpaint_disabled_host_control_count",
+      "threshold": 1.0,
+      "verdict": "pass"
+    }
+  ],
+  "schema_version": "wangp-dspy.wd-9t9o.objective-gates/v1"
+}

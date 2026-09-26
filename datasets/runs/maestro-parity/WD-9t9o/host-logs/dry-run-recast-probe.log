@@ -1,0 +1,14 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-9t9o/settings/recast-probe.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-9t9o/settings/recast-probe.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-9t9o/inputs/recast-reference.png
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=minimax_h3_fl2va_pruned, steps=8, frames=56
+          prompt: Recast the visual subject using the supplied conte...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.

@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-9t9o/outputs/upscale/source_post.mp4
+final=/home/straughter/Wan2GP/wd-9t9o/outputs/upscale/wd_9t9o_upscale.mp4

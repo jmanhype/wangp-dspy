@@ -1,0 +1,5 @@
+name=extend exit=1 output=
+name=retake exit=1 output=
+name=edit exit=0 output=/home/straughter/Wan2GP/wd-9t9o/outputs/edit/2026-09-26-11h10m07s_seed2963_Edit the VDN crane scene warm the light, refine the brass compass, and preserve motion and soundtra.mp4
+name=repaint exit=0 output=/home/straughter/Wan2GP/wd-9t9o/outputs/repaint/2026-09-26-11h13m41s_seed2964_Repaint only the central compass region with cleaner brass; preserve the surrounding crane, map, and.mp4
+name=upscale exit=0 output=/home/straughter/Wan2GP/wd-9t9o/outputs/upscale/source_post.mp4

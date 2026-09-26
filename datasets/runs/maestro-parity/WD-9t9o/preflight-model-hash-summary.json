@@ -1,0 +1,87 @@
+{
+  "all_model_hashes_match": true,
+  "all_model_sizes_match": true,
+  "assets": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "id": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "live_hash_match": true,
+      "live_size_match": true,
+      "observed_mtime": "2026-09-01 17:21:46.441729800 -0500",
+      "observed_sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "observed_size_bytes": 21057674787,
+      "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "size_bytes": 21057674787,
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
+      "id": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "live_hash_match": true,
+      "live_size_match": true,
+      "observed_mtime": "2026-09-02 10:26:50.620329222 -0500",
+      "observed_sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "observed_size_bytes": 5207806512,
+      "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "size_bytes": 5207806512,
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
+      "id": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "live_hash_match": true,
+      "live_size_match": true,
+      "observed_mtime": "2026-08-04 15:04:24.101527735 -0500",
+      "observed_sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "observed_size_bytes": 605429308,
+      "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "size_bytes": 605429308,
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "id": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "live_hash_match": true,
+      "live_size_match": true,
+      "observed_mtime": "2026-09-02 14:03:05.949235916 -0500",
+      "observed_sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "observed_size_bytes": 26723791903,
+      "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "size_bytes": 26723791903,
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors"
+    }
+  ],
+  "disk": {
+    "available_bytes": 65013923840,
+    "filesystem": "/dev/nvme0n1p4",
+    "total_bytes": 857997254656,
+    "used_bytes": 784238084096
+  },
+  "gpu": {
+    "memory_free_mib": 24033,
+    "memory_total_mib": 24576,
+    "memory_used_mib": 84,
+    "name": "NVIDIA GeForce RTX 3090"
+  },
+  "host": "straughter-Z690-Steel-Legend",
+  "model_check_ok_count": 4,
+  "probe_timestamp_utc": "2026-09-26T15:59:56Z",
+  "qc_health": {
+    "model_loaded": false,
+    "queue_depth": 0
+  },
+  "raw_evidence": "preflight-model-hash.txt",
+  "schema_version": "wangp-dspy.wd-9t9o.live-hash-preflight/v1",
+  "source": {
+    "expected_sha256": "6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb",
+    "hash_match": true,
+    "observed_mtime": "2026-09-26 10:59:56.647008564 -0500",
+    "observed_sha256": "6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb",
+    "observed_size_bytes": 1509343,
+    "path": "/home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4"
+  }
+}

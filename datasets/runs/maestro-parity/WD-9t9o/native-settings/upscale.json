@@ -1,0 +1,17 @@
+{
+  "batch_size": 1,
+  "film_grain_intensity": 0,
+  "film_grain_saturation": 0.5,
+  "image_mode": 0,
+  "mode": "edit_postprocessing",
+  "postprocess_audio": "",
+  "prompt": "Media postprocessing",
+  "repeat_generation": 1,
+  "seed": 2968,
+  "spatial_upsampler_face_count": 1,
+  "spatial_upsampler_prompt": "",
+  "spatial_upsampler_reference_images": [],
+  "spatial_upsampling": "lanczos2",
+  "temporal_upsampling": "",
+  "video_source": "/home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4"
+}

@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-9t9o/outputs/edit/2026-09-26-11h10m07s_seed2963_Edit the VDN crane scene warm the light, refine the brass compass, and preserve motion and soundtra.mp4
+final=/home/straughter/Wan2GP/wd-9t9o/outputs/edit/wd_9t9o_edit.mp4

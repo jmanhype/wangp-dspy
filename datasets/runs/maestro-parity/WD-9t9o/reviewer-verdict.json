@@ -1,0 +1,52 @@
+{
+  "decision": "approved",
+  "reviewed_at": "2026-09-26T16:56:12Z",
+  "reviewer": "independent PM /root/pm_wd_9t9o",
+  "reviewed_commit": "216e7448c9a287f9df1b74e56f7dfd044e35af96",
+  "summary": "The explicit WD-9t9o requirements are supported. Live preflight evidence records four matching model hashes/sizes plus source hash and host state; local hashes reproduce the VDN source, three distinct outputs, four references, and review visuals. Edit, repaint, and upscale have real operation-specific media with Sol-Attn or measured upscaling proof. Extend, retake, blend, recast, and outpaint are supported by concrete host failures or hashed disabled controls, not generic-render substitutions. CI passes at the reviewed head.",
+  "verification": {
+    "canonical_checker_before_rebuild": "FAIL only reviewer_verdict.decision and reviewer_verdict.evidence_links",
+    "delivery_proof": "PASS 9/9",
+    "backlog_lint": "PASS 132 scanned, 0 errors, 0 review findings",
+    "objective_gates": "39 pass, 0 fail",
+    "local_hash_recomputation": "PASS: 4 inputs, 3 outputs, and 4 review visuals match their SHA-256 manifests; source also matches WD-2gyw VDN output",
+    "pr_198_test": "SUCCESS at 216e7448c9a287f9df1b74e56f7dfd044e35af96; 2026-09-26T16:27:14Z to 16:49:55Z (22m41s)",
+    "operation_dispositions": {
+      "host_run_verified": [
+        "edit",
+        "repaint",
+        "upscale"
+      ],
+      "unsupported_with_real_boundary": [
+        "extend",
+        "retake",
+        "blend",
+        "recast",
+        "outpaint"
+      ]
+    },
+    "boundary_findings": {
+      "extend_retake": "Required visual-conditioning path fails before denoising with SageAttention varlen head_dim assertion in original and retry logs; no generic output admitted",
+      "blend": "Two-reference runtime probe exits 1 at missing reference_video_max_frames model definition key",
+      "recast": "Reference probe exits 1 with explicit Ref2VA checkpoint requirement",
+      "outpaint": "Hashed FL2VA handler has video_guide_outpainting controls commented out"
+    },
+    "story_process_risk": "The tracker-visible Acceptance Criteria section is blank; this review used the explicit story Description requirements and the delivered seven-item proof mapping. Tracker repair is recommended separately and does not weaken this evidence bundle."
+  },
+  "evidence_links": [
+    "reviewer-verdict.json",
+    "evidence.json",
+    "preflight-model-hash.txt",
+    "preflight-model-hash-summary.json",
+    "objective-gates.json",
+    "objective-measurements.json",
+    "output-hashes-local.txt",
+    "review/review-visual-hashes.txt",
+    "host-logs/extend.render.log",
+    "host-logs/retake.render.log",
+    "host-logs/blend-probe.render.log",
+    "host-logs/recast-probe.render.log",
+    "boundary-code-evidence.txt",
+    "boundary-source-hashes.txt"
+  ]
+}

@@ -1,0 +1,4 @@
+3ecff261ea7890292231e7fe848ec785f29060ddc03b1d57be127cb82980d4a4  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-9t9o/datasets/runs/maestro-parity/WD-9t9o/review/edit-contact-sheet.jpg
+0dc0ba6a555e1df57a25523c550bf73e9e744ffc973098b7e0a805752abaf9de  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-9t9o/datasets/runs/maestro-parity/WD-9t9o/review/repaint-contact-sheet.jpg
+299708e1922cc6caa4f1d453865d92922df1b7486232d69acf74c24af1c3f15a  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-9t9o/datasets/runs/maestro-parity/WD-9t9o/review/source-edit-repaint-midframe.jpg
+4450cd52615906c718315e7df5f05cb6ec8096a71b67283002b4582c10e728a0  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-9t9o/datasets/runs/maestro-parity/WD-9t9o/review/upscale-contact-sheet.jpg

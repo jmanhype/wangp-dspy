@@ -1,0 +1,29 @@
+2026-09-26T15:59:56Z
+straughter-Z690-Steel-Legend
+--- model sha256sum -c ---
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors: OK
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors: OK
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors: OK
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors: OK
+--- source hash ---
+6becf70d98be579159b0e3ed6b212517ee78c7a1cc01906588c3ad6f0dfb8beb  /home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4
+--- raw model sha256sum ---
+30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0  /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b  /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2  /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors
+4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301  /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+--- stat size/mtime ---
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors|21057674787|2026-09-01 17:21:46.441729800 -0500
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors|5207806512|2026-09-02 10:26:50.620329222 -0500
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors|605429308|2026-08-04 15:04:24.101527735 -0500
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors|26723791903|2026-09-02 14:03:05.949235916 -0500
+/home/straughter/Wan2GP/wd-9t9o/inputs/source.mp4|1509343|2026-09-26 10:59:56.647008564 -0500
+--- disk ---
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 784238084096 65013923840  93% /
+--- gpu ---
+NVIDIA GeForce RTX 3090, 24576 MiB, 84 MiB, 24033 MiB
+--- unrelated process state ---
+803069 /usr/bin/python3.12 /home/straughter/.local/bin/uvicorn qc.audio_critic.service:app --host 127.0.0.1 --port 8377 --workers 1
+--- QC health ---
+{"model_loaded":false,"queue_depth":0}

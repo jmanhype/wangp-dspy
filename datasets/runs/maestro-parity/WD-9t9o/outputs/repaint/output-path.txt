@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-9t9o/outputs/repaint/2026-09-26-11h13m41s_seed2964_Repaint only the central compass region with cleaner brass; preserve the surrounding crane, map, and.mp4
+final=/home/straughter/Wan2GP/wd-9t9o/outputs/repaint/wd_9t9o_repaint.mp4
