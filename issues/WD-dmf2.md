@@ -15,7 +15,7 @@ follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7, WD-m0r5
 assignee: dev-WD-dmf2
 closed_at: 2026-09-26T00:07:41Z
 close_reason: "Accepted DELIVERED EVIDENCE ONLY at 741a8bb27c4bec3be38667b090a03bedb00e3010: gate provenance is independently auditable and failures are honest/structural. All nine director rows remain undelivered and unverified; none is host_run_verified or unsupported_on_this_hardware. Structural measurement failures: Whisper screenplay clip0001 0.556<0.6; SyncNet audio clip0001 0.594741<1.0; SyncNet screenplay clip0001 0.468897<1.0. Pending reviewer and row 8 enhanced-prompt media also prevent verification. Operator scope decision required: rework the composition path or accept a measured structural limitation as disposition."
-led_to: [WD-fay0]
+led_to: [WD-fay0, WD-r4n8]
 ---
 
 ## Description
