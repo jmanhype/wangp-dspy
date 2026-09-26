@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
-updated_at: 2026-09-26T05:11:44Z
-content_hash: "sha256:95787038b7dca15dab13c22f375ba356e605142a73f9a74859ff36cf50756610"
+updated_at: 2026-09-26T05:12:59Z
+content_hash: "sha256:6d8ea8fc3a23bffe47c23356275134c8d78ee07549928c75ae9d5028de33dcb1"
 blocks: [WD-fay0]
 assignee: dev-WD-14ej
 follows: [WD-i7qs, WD-r4n8]
@@ -186,7 +186,52 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### CI/Test Results
+Commands run:
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-14ej-full.xml
+- uv run --frozen --extra dev python /tmp/wd_14ej_verify.py
+- pvg verify services/finishing/pipeline.py tests/test_finishing_capabilities.py docs/finishing-capabilities.md --format=text
+- pvg lint --backlog
+- uv run --frozen --extra dev wgp release verify
+- git diff --check
+
+Summary: full regression PASS with JUnit tests=2090, failures=0, errors=0, skipped=1; synthetic ffmpeg probes PASS for scd=1 and scd=0; pvg verify PASS; backlog lint PASS with 0 errors; release=ready tag_created=false; diff-check PASS.
+Coverage: coverage collection was not requested; full no-GPU regression evidence is the JUnit XML.
+Commit SHA: 2a564c5a544161def3fdc943ab6c254a2b8b8d38
+
+### Commit
+- Branch: story/WD-14ej
+- SHA: 2a564c5a544161def3fdc943ab6c254a2b8b8d38
+- Push: origin/story/WD-14ej at the same SHA.
+
+### AC Verification
+| AC # | Requirement | Code Location | Test Location | Status |
+|------|-------------|---------------|---------------|--------|
+| 1 | Explicit differing scd modes | services/finishing/pipeline.py:247-250 | tests/test_finishing_capabilities.py:444-468 | PASS |
+| 2 | No ffmpeg default reliance | services/finishing/pipeline.py:247-250 | tests/test_finishing_capabilities.py:464-468 | PASS |
+| 3 | Deterministic records and hashes | services/finishing/pipeline.py:352-415 | tests/test_finishing_capabilities.py:472-483 | PASS |
+| 4 | Plan-only invariants | services/finishing/pipeline.py:384-415 | tests/test_finishing_capabilities.py:484-499 | PASS |
+| 5 | Valid graphs on synthetic source | services/finishing/pipeline.py:247-250 | /tmp/wd_14ej_verify.py synthetic lavfi run | PASS |
+| 6 | Honest interpolation docs | docs/finishing-capabilities.md:9 | docs review | PASS |
+| 7 | Standing gates | N/A | CI/Test Results above | PASS |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commands and outputs recorded in CI/Test Results.
+- Commit 2a564c5a544161def3fdc943ab6c254a2b8b8d38 is pushed.
+
+### proof
+- [x] AC1: explicit scd=1 and scd=0 graphs differ.
+- [x] AC2: emitted graph always states scd.
+- [x] AC3: repeated request has byte-identical record and matching hashes.
+- [x] AC4: plan-only flags, unverified status, and absent jobs table verified.
+- [x] AC5: both synthetic lavfi-to-null graphs exit 0.
+- [x] AC6: semantics and unmeasured status documented.
+- [x] AC7: lint, pytest, release, and diff-check gates pass.
 
 ## nd_contract
 status: delivered
