@@ -7,7 +7,14 @@ from typing import Any
 
 import pytest
 
-from scripts.verify_maestro_parity import ROOT_KEYS, canonical_constraints, canonical_field_ids, contract_rows, verify_bundle
+from scripts.verify_maestro_parity import (
+    ROOT_KEYS,
+    canonical_constraints,
+    canonical_field_ids,
+    contract_rows,
+    verify_bundle,
+    verify_native_logs,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -119,6 +126,7 @@ CONSTRAINT_CASES = (
     ("queue-ids", lambda p: p["queue_attempt"].update(queue_id="", job_id=" ", retry_id=None), ("queue_attempt.queue_id", "queue_attempt.job_id", "queue_attempt.retry_id")),
     ("queue-admission", lambda p: p["queue_attempt"].update(admission_state="rejected"), ("queue_attempt.admission_state",)),
     ("queue-exit", lambda p: p["queue_attempt"].update(exit_status="failed"), ("queue_attempt.exit_status",)),
+    ("queue-native-log-warning-ownership", lambda p: p["queue_attempt"].update(native_logs=["host-logs/render.log"]), ("queue_attempt.native_logs[0]",)),
     ("output-array", lambda p: p.__setitem__("output", []), ("output.sha256",)),
     ("output-path", lambda p: p["output"][0].update(path="/outside.mp4"), ("output.sha256[0].sha256",)),
     ("output-hash-shape", lambda p: p["output"][0].update(sha256="short"), ("output.sha256[0].sha256",)),
@@ -142,6 +150,135 @@ CONSTRAINT_CASES = (
     ("reviewer-decision", lambda p: p["reviewer_verdict"].update(decision="rejected"), ("reviewer_verdict.decision",)),
     ("reviewer-links", lambda p: p["reviewer_verdict"].update(evidence_links=[]), ("reviewer_verdict.evidence_links",)),
 )
+
+
+@pytest.mark.parametrize(
+    ("story", "expected"),
+    [
+        (
+            "WD-9t9o",
+            {
+                "host-logs/edit.render.log": (
+                    39,
+                    "231e61e337b000739786a58609c06ea3e8b4f546208148f8ef9fe3ea59fab64f",
+                    ("mp4_metadata",),
+                ),
+                "host-logs/repaint.render.log": (
+                    40,
+                    "7bae39cb07ac15d5697253879e1f9313dfa23981a9dfa017baa3eb864901ca0a",
+                    ("mp4_metadata",),
+                ),
+                "host-logs/upscale.render.log": (
+                    12,
+                    "91146c81e34bf1f73c214fe6766988d3245de28025b35092f2b2f9802bc4a101",
+                    ("mp4_cover_art", "mp4_metadata"),
+                ),
+            },
+        ),
+        (
+            "WD-isg9",
+            {
+                "host-logs/edit.render.log": (
+                    38,
+                    "8de14ecd509f4e163233f2c83caa849e4d2fd85eff6a89d0587f81862f9bd39d",
+                    ("mp4_metadata",),
+                ),
+                "host-logs/repaint.render.log": (
+                    39,
+                    "46e3fba34575c9f0b539aa6b1971763844dcfa774466009b45c61b3b6d1f1ce3",
+                    ("mp4_metadata",),
+                ),
+                "host-logs/upscale.render.log": (
+                    12,
+                    "a8ee74be2c9ddaabfedd8128ebd2f06c402881157a711b54872cafb3e2b547a4",
+                    ("mp4_cover_art", "mp4_metadata"),
+                ),
+            },
+        ),
+    ],
+    ids=["WD-9t9o-real-bytes", "WD-isg9-real-bytes"],
+)
+def test_real_wan2gp_mutagen_logs_are_hashed_and_explicitly_owned(
+    story: str, expected: dict[str, tuple[int, str, tuple[str, ...]]]
+) -> None:
+    """Integrate against committed accepted log bytes, hashes, and warnings."""
+
+    bundle = ROOT / "datasets/runs/maestro-parity" / story
+    queue_attempt = {
+        "native_logs": list(expected),
+        "native_log_sha256": {path: item[1] for path, item in expected.items()},
+    }
+    warnings, diagnostics = verify_native_logs(bundle, queue_attempt)
+    assert diagnostics == ()
+    assert [warning.code for warning in warnings] == [
+        "WAN2GP_OPTIONAL_MUTAGEN_MISSING" for _ in range(sum(len(item[2]) for item in expected.values()))
+    ]
+    observed: dict[str, list[tuple[int, str, str]]] = {}
+    for warning in warnings:
+        observed.setdefault(warning.path, []).append(
+            (warning.line, warning.sha256, warning.message)
+        )
+    for path, (first_line, digest, kinds) in expected.items():
+        assert [item[0] for item in observed[path]] == list(
+            range(first_line, first_line + len(kinds))
+        )
+        assert {item[1] for item in observed[path]} == {digest}
+        for kind, item in zip(kinds, observed[path], strict=True):
+            assert f"Wan2GP {kind} enhancement failed" in item[2]
+
+
+def test_unrelated_python_import_error_is_not_mislabeled_as_mutagen(tmp_path: Path) -> None:
+    source = ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/edit.render.log"
+    target = tmp_path / "render.log"
+    target.write_bytes(
+        source.read_bytes().replace(
+            b"No module named 'mutagen'", b"No module named 'some_dependency'"
+        )
+    )
+    warnings, diagnostics = verify_native_logs(tmp_path, {"native_logs": ["render.log"]})
+    assert warnings == ()
+    assert diagnostics[0].field == "queue_attempt.native_logs[0]"
+    assert "unclassified Python import failure 'some_dependency'" in diagnostics[0].message
+
+
+def test_missing_native_log_fails_closed(tmp_path: Path) -> None:
+    warnings, diagnostics = verify_native_logs(
+        tmp_path, {"native_logs": ["host-logs/edit.render.log"]})
+    assert warnings == ()
+    assert len(diagnostics) == 1
+    assert diagnostics[0].field == "queue_attempt.native_logs[0]"
+    assert diagnostics[0].message == "file does not exist: host-logs/edit.render.log"
+
+
+def test_native_log_hash_mismatch_fails_closed(tmp_path: Path) -> None:
+    source = ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/edit.render.log"
+    target = tmp_path / "render.log"
+    target.write_bytes(source.read_bytes())
+    warnings, diagnostics = verify_native_logs(tmp_path, {
+        "native_logs": ["render.log"],
+        "native_log_sha256": {"render.log": "0" * 64},
+    })
+    assert warnings == ()
+    assert diagnostics[0].field == "queue_attempt.native_logs[0].sha256"
+    assert diagnostics[0].message.startswith(
+        "recorded 0000000000000000000000000000000000000000000000000000000000000000 "
+        "but native log bytes hash "
+    )
+
+
+def test_mutagen_warning_without_media_save_marker_fails_closed(tmp_path: Path) -> None:
+    source = ROOT / "datasets/runs/maestro-parity/WD-9t9o/host-logs/upscale.render.log"
+    target = tmp_path / "render.log"
+    target.write_bytes(
+        source.read_bytes().replace(b"Postprocessed video saved to Path: ", b"removed: ")
+    )
+    warnings, diagnostics = verify_native_logs(tmp_path, {"native_logs": ["render.log"]})
+    assert warnings == ()
+    assert len(diagnostics) == 2
+    assert {diagnostic.message for diagnostic in diagnostics} == {
+        "mp4_cover_art mutagen warning has no successful media-save marker",
+        "mp4_metadata mutagen warning has no successful media-save marker",
+    }
 
 
 @pytest.mark.parametrize(("constraint", "change", "expected"), CONSTRAINT_CASES, ids=[case[0] for case in CONSTRAINT_CASES])
