@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
 updated_at: 2026-09-26T16:57:25Z
-content_hash: "sha256:bf7c4c32f342be930136688fb72307e621419bf450b9cc4314f1975acafc96fc"
+content_hash: "sha256:977dfa42d0356142f5fca21afd55e4016cf3d41f4f8dc36d77b5c4d1d4f71347"
 assignee: dev-WD-9t9o
 follows: [WD-isg9, WD-14ej]
 closed_at: 2026-09-26T16:57:25Z
 close_reason: "Accepted: verified all eight VDN dispositions, real boundaries, local hashes, objective gates, delivery proof, canonical checker, and PR 198 CI at 216e7448."
-led_to: [WD-f0vk, WD-9ymi]
+led_to: [WD-f0vk, WD-9ymi, WD-5k28]
 ---
 
 ## Description
@@ -178,7 +178,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-isg9]], [[WD-14ej]]
-- Led to: [[WD-f0vk]], [[WD-9ymi]]
+- Led to: [[WD-f0vk]], [[WD-9ymi]], [[WD-5k28]]
 
 ## Comments
 
