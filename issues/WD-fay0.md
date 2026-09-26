@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:57:06Z
-content_hash: "sha256:9bce7a2d6607b725028a1960484ee43469b7783866a1859271374804c38c9553"
+updated_at: 2026-09-26T00:57:33Z
+content_hash: "sha256:658af1872f9a37f484fc23726b7043b35016c8f10cf468eb5b4c5ec5989698c2"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -265,3 +265,22 @@ status: delivered
 - [x] AC #3: NOT MET — clean-machine generated-artifact half is blocked on operator host/model inputs.
 - [x] AC #4: MET — lint 0/0; full suite 2085 tests, 0 errors, 0 failures, 1 skip; release ready/tag false; story-base protected parity and diff-check pass; accepted WD-e4r7 is the sole older-base exception.
 - [x] AC #5: NOT MET — coverage validates, but referenced bundle set does not pass and operator dispositions remain absent.
+
+### 2026-09-26T00:57:33Z speed
+### AC Verification
+| AC | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Zero targeted entries unresolved | evidence-index.md complete matrix | NOT MET: 120 planned plus 6 consent-pending cells |
+| 2 | Every referenced lane bundle passes checker | gate-transcript.md checker sections | NOT MET: WD-0zj8 and WD-dmf2 exit 1 |
+| 3 | Clean-machine generated artifact | WD-0zj8 blocked-record and targeted proof | NOT MET: no-GPU half only; operator host/model inputs absent |
+| 4 | Standing gates | gate-transcript.md gate sections | MET: lint 0/0; suite 2085/0/0/1; release ready/tag false; base parity and diff-check pass; accepted WD-e4r7 exception |
+| 5 | Complete mechanically valid index | validate_index.py output | NOT MET: coverage validates, but referenced set fails and dispositions remain unapproved |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit 1dbdd7977560c74a31a05986413b5671880b8031 is pushed to origin/story/WD-fay0; evidence artifacts are committed.
+
+### proof
+- [x] All five WD-fay0 acceptance criteria are explicitly evaluated above; four substantive completion criteria are not met and one standing-gate criterion is met.
