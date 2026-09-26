@@ -1,6 +1,6 @@
 ---
 id: WD-r4n8
-title: "Finishing: honor film-grain size and temporal_persistence in the emitted command graph"
+title: "Finishing: honor film-grain size plus temporal_persistence in the emitted command graph"
 status: in_progress
 priority: 1
 type: feature
