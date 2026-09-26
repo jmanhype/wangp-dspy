@@ -11,7 +11,8 @@ created_by: speed
 updated_at: 2026-09-26T17:13:20Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:6ad1b18b3c90b1ea7080a60e349b8cbe42d96f674b120b6b85eeedf21894f1e5"
+content_hash: "sha256:4221d3f543c19ce40a93b32eed2ba1a56ebb1bc35d9aecc0b13d489a6f41b90b"
+blocks: [WD-fay0]
 ---
 ## Description
 ## Context
@@ -83,8 +84,10 @@ status: new
 - [ ] Pending implementation
 
 ## History
+- 2026-09-26T17:13:27Z dep_added: blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-fay0]]
 
 ## Comments
