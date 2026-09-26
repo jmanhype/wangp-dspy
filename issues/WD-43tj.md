@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
 updated_at: 2026-09-26T18:48:46Z
-content_hash: "sha256:2b0b60c85396a7b368663782d74f27ebbfce4c384cd50ec88b3fc49af4d9c735"
+content_hash: "sha256:fcb89f05bbdb9be96b1a8050c264340e02acc2b3accb624d4ed6ac3e922186f6"
 blocks: [WD-fay0]
 assignee: dev-WD-43tj
 follows: [WD-9ymi, WD-f0vk]
@@ -37,7 +37,61 @@ None identified.
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+
+- `ssh 3090 /tmp/wd_43tj_boundary_probe.sh`
+- `shasum -a 256 datasets/runs/maestro-parity/WD-43tj/taomate-live-boundary.txt datasets/runs/maestro-parity/WD-43tj/taomate-boundary.md datasets/runs/maestro-parity/WD-43tj/boundary-evidence.json datasets/runs/maestro-parity/WD-2gyw/taomate-search-evidence.md`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py`
+- `pvg lint --backlog`
+- `git diff --check`
+- `uv run --frozen --extra dev wgp release verify --json`
+
+Summary:
+
+WD-43tj records a live host implementation boundary for all nine TaoMate cells. Active host implementation surfaces and Maestro contain zero TaoMate matches; the only broad-tree matches are the typed planner enum in a nested Wangp repository copy, which is hashed and excluded as non-runtime context.
+
+Commit SHA: f19fa500697712f72edac09d54eb0d5b5daa3a34
+
+### CI/Test Results
+
+- Scoped capability/evidence tests: 110 passed, exit 0.
+- Backlog lint: 135 scanned, 0 errors, 0 review-blocking errors; one nonblocking vertical-slice review note for a boundary-only story.
+- `git diff --check`: exit 0.
+- Clean release verification at `f19fa500`: all four checks pass; `release=ready`; no tag created.
+- PR CI is pending.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | `taomate-live-boundary.txt` records timestamp, host, exact search, host exit 1, filename exit 0, and tree identities. |
+| 2 | PASS | `boundary-evidence.json` cites accepted WD-2gyw evidence and records its hash in `evidence-hashes.txt`. |
+| 3 | PASS | All nine TaoMate matrix cells are unsupported and link to `taomate-boundary.md`. |
+| 4 | PASS | `docs/video-capabilities.md` changes only the TaoMate row and supporting narrative. |
+| 5 | PASS | Scoped tests, lint, diff-check, and clean release verification pass. |
+| 6 | PASS | Boundary evidence records zero downloads and no GPU/inference/host mutation. |
+
+LEARNINGS:
+
+- Broad host-tree searches can hit nested Wangp repository copies; implementation-boundary searches must target active runtime surfaces and explicitly classify downstream planner-only matches.
+- A named preset cannot be inferred from a prompt that merely describes its mechanics.
+
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: f19fa500697712f72edac09d54eb0d5b5daa3a34
+- Live host implementation search exit 1 with zero runtime matches.
+- Filename search match count zero.
+- Nested planner-only context match SHA-256 `3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b`.
+- Scoped tests 110/110; lint 0 errors; diff-check clean; clean release ready.
+
+### proof
+
+- [x] AC1 through AC6 pass with artifacts cited above.
 
 ## nd_contract
 status: delivered
