@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T05:38:12Z
-content_hash: "sha256:b3ae330c7e3e429a54f8deb71d5bb3f50c24e3a18b4a1bf544e6497fb9e10df2"
+updated_at: 2026-09-26T05:38:22Z
+content_hash: "sha256:a18d8212e88dc2321516f3fce270b54392862ae9776856139827ee7afae337f3"
 blocks: [WD-fay0]
 ---
 
@@ -101,3 +101,37 @@ status: blocked
 - Blocks: [[WD-fay0]]
 
 ## Comments
+
+### 2026-09-26T05:38:22Z speed
+State note (dispatcher): this gate is held in `deferred`, deliberately — neither
+open nor closed.
+
+Why: `pvg` closes an epic automatically when its last child closes. That has now
+produced a false "Maestro parity: generation evidence — accepted" state twice
+(once on `WD-i7qs` acceptance, once on `WD-14ej` acceptance), while 120 matrix
+cells remained `planned`. Keeping one non-closed child in the epic prevents the
+spurious closure and keeps the epic open, which is the truthful state.
+
+Observed `pvg` behaviour while establishing this (worth a toolchain fix; `pvg` is
+an operator-owned binary and cannot be changed from this repo):
+
+- `status: blocked` is NOT what the loop reads. With this story set to `blocked`,
+  `pvg loop next --json` still returned `decision: act`, `Ready: 1`, and offered it
+  as a `developer_new` dispatch target.
+- `status: deferred` gives the correct signal: `pvg loop next --json` returns
+  `decision: wait`, `Ready: 0`, `Other: 1`, reason "1 stories in non-dispatcher
+  workflow states". That is the honest state: there is no dispatchable work and the
+  programme is waiting on operator authorization.
+- An epic with zero non-closed children reports `decision: epic_complete` /
+  "run completion gate", which reads as programme completion. It is not.
+
+Two further toolchain gaps found in the same pass:
+- `.github/workflows/ci.yml` runs only `pytest -q` and a build. It does NOT run
+  `pvg lint --backlog`, so the lint gate in the programme's criterion (c) can
+  regress and merge with CI green. This actually happened: creating a sibling story
+  broke the capstone `blocked_by` invariant and lint failed, while CI stayed green.
+  `pvg` is a Mach-O arm64 binary, so it cannot run on `ubuntu-latest` as-is; the
+  gate is currently enforced by story-level discipline, not structurally.
+- Creating any new child of an epic that has a `capstone` sibling requires an
+  immediate `pvg issues link <new> --blocks <capstone>` and a `MANDATORY SKILLS`
+  section in the body, or lint fails. Both are undocumented in the story template.
