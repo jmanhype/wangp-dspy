@@ -8,14 +8,38 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T13:27:04Z
-content_hash: "sha256:db904f9ebf8da9e9a2d74facd327c5fa15948c064c42bed9b2fc9d302b7db87d"
+updated_at: 2026-09-26T13:27:54Z
+content_hash: "sha256:e14ce04e4dba1eacc3c9ba07bc9fcf7087804b73591f7a71d914b9230af1be9f"
 assignee: dev-WD-isg9
 follows: [WD-14ej]
 blocks: [WD-fay0]
 ---
 
 ## Description
+WD-isg9 emits terminal, operation-specific evidence for the eight remaining
+`minimax_h3/standard` cells using already present hash-verified FL2VA assets on
+host `3090`, with no new model download. The cells are extend, blend, retake,
+edit, outpaint, repaint, recast, and upscale. The verified create cell cannot
+proxy for any other cell.
+
+Each cell must end as `host_run_verified` with its own distinct nonempty hashed
+media artifact and objective gates, or as documented `unsupported` backed by a
+real host rejection or implementation boundary. Never relabel a generic render
+as an operation.
+
+Operator authorization is the 2026-09-26 text "Authorized and approved." followed
+by "continue", scoped to this existing-asset host-run batch. Training, paid
+providers, GUI work, unrelated GPU processes, new downloads, and model deletion
+are not authorized.
+
+The bundle must record repository/base state; live SSH, H3 hash, disk, GPU, and
+QC preflight; exact command argv; model/reference/mask provenance; durable
+queue admission; output hashes; ffprobe metadata; operation-specific objective
+gates; and reviewer links. Capture fail-closed diagnostics for blend, recast,
+and outpaint. Update only the eight `minimax_h3/standard` cells in
+`docs/video-capabilities.md`. The parity checker, scoped/full tests, backlog
+lint, and delivery proof must pass.
+
 ## Scope
 
 WD-isg9 emits terminal, operation-specific evidence for the eight remaining
