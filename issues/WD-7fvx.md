@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T23:47:35Z
-content_hash: "sha256:3fe7bf908fab1366a5cecabcf23711f26ce3852f9eddfe19e5bf0890ec45268d"
+updated_at: 2026-09-26T23:47:52Z
+content_hash: "sha256:b354b1dbce017f94f236e6083c546901682ff6c1649a420fac99a26cd2dbfba5"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 assignee: dev-WD-7fvx
@@ -114,6 +114,31 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev pytest -q tests/test_director_capabilities.py`
+- clean-tree `/bin/bash`-precedence `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-7fvx-full.xml`
+- `uv run --frozen --extra dev wgp release verify`
+- `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-7fvx`
+- `pvg verify docs/director-capabilities.md datasets/runs/maestro-parity/WD-7fvx/build_evidence.py datasets/runs/maestro-parity/WD-7fvx/host-scripts/wd_7fvx_run.py datasets/runs/maestro-parity/WD-7fvx/judge-start.sh datasets/runs/maestro-parity/WD-7fvx/judge-stop.sh datasets/runs/maestro-parity/WD-7fvx/standing-gates-final.md`
+- `git diff --check`
+
+Summary: checker PASS exit 0 with owned_warnings=0; backlog lint PASS 139 scanned, 0 errors, 0 review findings; targeted PASS 34/34; full suite PASS tests=2108 errors=0 failures=0 skipped=1; release PASS release=ready tag_created=false; pvg verify PASS 0 issues; protected parity and diff-check PASS. All 9 story ACs PASS as detailed in the preceding Implementation Evidence (DELIVERED FOR REVIEW) block.
+
+Commit SHA: test-producing `d71ca053245a508bec02f28b29f815d230aa6f37`; final evidence/pushed HEAD `45d4c7f3`.
+
+Coverage: not instrumented and not claimed; evidence-only story with real no-mock host integration.
+
+## nd_contract
+status: delivered
+
+### evidence
+- The addendum preserves the exact commands, terminal summary, and commit SHA required by pvg delivery verification.
+
+### proof
+- [x] AC #1 through AC #9 remain PASS per the preceding AC table and bundle artifacts.
 
 
 ## nd_contract
