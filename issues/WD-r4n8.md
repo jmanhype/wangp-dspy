@@ -9,9 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
 updated_at: 2026-09-26T02:47:58Z
-content_hash: "sha256:623f1b398714f4a735179eecd89af6e8748fe09926074842a3a772a066fe80e7"
+content_hash: "sha256:bbdff0f90d071af1eee5f26d8a9726e26e54e9428e78c5e47fabefa97d67c0c1"
 assignee: dev-WD-r4n8
 follows: [WD-fay0]
+blocks: [WD-fay0]
 ---
 
 ## Description
@@ -209,9 +210,11 @@ status: new
 - 2026-09-26T02:04:16Z status: open -> in_progress
 - 2026-09-26T02:04:16Z auto-follows: linked to predecessor WD-fay0
 - 2026-09-26T02:04:16Z claimed by dev-WD-r4n8
+- 2026-09-26T02:47:58Z dep_added: blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-fay0]]
 - Follows: [[WD-fay0]]
 
 ## Comments
