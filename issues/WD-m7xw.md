@@ -4,11 +4,11 @@ title: "LTX-2.5 no-download operation batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:02:24Z
+updated_at: 2026-09-26T23:02:25Z
 content_hash: "sha256:0e1d843b46ccb88bdcbe915ea1fa60ded7f78071701e1518755f8a591aada8f4"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
