@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T21:10:03Z
-content_hash: "sha256:c61fed6663740c1f01083508fd73259192c14bd62ec67fcdf332d54832c6e006"
+updated_at: 2026-09-26T21:31:32Z
+content_hash: "sha256:c4b0bf2efa098436f5a17f686a6834c5127f87846f6534affdaaece371b19b17"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj]
@@ -121,6 +121,18 @@ status: new
 ## Notes
 BLOCKED 2026-09-26T21:00:00Z (authorization preflight): required operator input is incomplete, so execution stopped before SSH, GPU, queue admission, fixed-branch deployment, downloads, dependency changes, and hash preflight. Present scope supplies the eight operations, fifteen expected LTX-2.5 hashes, fixed Wan2GP commit faea82d15bf10b3479c42c0ea430892aae975870, zero-download intent, and serial-render intent, but not verbatim approval timestamp, approver identity, exact render-host identity, command/time boundary, or VRAM/service policy. Existing WD-2gyw authorization is scoped only to WD-2gyw, and WD-i7qs explicitly performed no render and left deployment separate. This is a missing-operator-input blocker, not unsupported_on_this_hardware. docs/video-capabilities.md:81 remains unchanged: create/extend/retake/edit/outpaint/repaint/recast/upscale stay planned and blend stays the existing typed backend boundary.
 CORRECTION: the preceding blocker timestamp was a placeholder. Actual local execution timestamp is 2026-09-26T21:01:28Z. All substantive blocker facts and the fail-closed boundary remain as stated.
+BLOCKED 2026-09-26T21:17:11Z (authorized-host-state preflight): all fifteen LTX-2.5 asset hashes matched, the isolated Wan2GP run tree was deployed at faea82d15bf10b3479c42c0ea430892aae975870, and the real tokenizer check passed with vocab=262144 and video_token_id=258884. Queue admission then stopped because unrelated llama-server PID 3213164 occupied 18154 MiB of the RTX 3090, leaving 5873 MiB free. The operator authorization explicitly forbids killing or restarting unrelated services. No inference command ran, no queue job was admitted, zero output files existed, and docs/video-capabilities.md:81 remains unchanged. This is not unsupported_on_this_hardware and not a model capability verdict.
+
+Evidence: datasets/runs/maestro-parity/WD-m7xw/EXECUTION_BOUNDARY.md; host-logs/10_asset_hash_preflight.txt; host-logs/22_tokenizer_check.txt; host-logs/23_deploy_state.txt; host-logs/30_gpu_preflight_blocked.txt; host-logs/40_postflight_no_inference.txt.
+
+Commit: 5c873f72addf2792fd56f74cbfe55037487a1670; branch story/WD-m7xw pushed to origin.
+Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-parity tests 78/78 PASS, errors=0 failures=0 skipped=0; release verify at final clean tree reported release=ready and tag_created=false; protected-file parity and git diff --check PASS. Full pytest was bounded/stopped after >6 minutes at about 13% because another developer story was concurrently running its full suite; only this story's process was interrupted. Canonical bundle checker was not run because there was no admitted queue, output, or accepted unsupported disposition.
+
+### DISCOVERED_BUG
+  title: RTX 3090 unavailable to WD-m7xw due to unrelated llama-server occupancy
+  context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
+  affected_files: none; external host process and GPU state
+  discovered_during: WD-m7xw
 
 ## History
 - 2026-09-26T20:53:46Z dep_added: blocks WD-fay0
