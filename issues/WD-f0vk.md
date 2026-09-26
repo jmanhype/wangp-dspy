@@ -1,18 +1,20 @@
 ---
 id: WD-f0vk
 title: "Wan2GP emits nonfatal mutagen metadata errors after successful media saves"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:13:20Z
+updated_at: 2026-09-26T17:14:42Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:e236b86fdf4bedda0939f24f63335a2e8d58cf3e19505495601d392e9a5c2dc2"
+content_hash: "sha256:6338a2f409fcbed37fe1fd239c83d6b588b65d3c40cbec232bd587b969805fd8"
 blocks: [WD-fay0]
+assignee: dev-WD-f0vk
+follows: [WD-9t9o]
 ---
 ## Description
 ## Context
@@ -90,9 +92,13 @@ status: new
 
 ## History
 - 2026-09-26T17:13:27Z dep_added: blocks WD-fay0
+- 2026-09-26T17:14:42Z status: open -> in_progress
+- 2026-09-26T17:14:42Z auto-follows: linked to predecessor WD-9t9o
+- 2026-09-26T17:14:42Z claimed by dev-WD-f0vk
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-9t9o]]
 
 ## Comments
