@@ -1,0 +1,10 @@
+test_deployed_gemma4_video_token (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_deployed_gemma4_video_token) ... ok
+test_enabling_the_mistral_patch_still_fails_on_bare_split (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_enabling_the_mistral_patch_still_fails_on_bare_split) ... ok
+test_extra_special_tokens_load_without_the_mistral_patch (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_extra_special_tokens_load_without_the_mistral_patch) ... ok
+test_list_only_extra_special_tokens_still_need_the_dict_override (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_list_only_extra_special_tokens_still_need_the_dict_override) ... ok
+test_wrapper_defaults_keep_the_two_options_independent (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_wrapper_defaults_keep_the_two_options_independent) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.731s
+
+OK

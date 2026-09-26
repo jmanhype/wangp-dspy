@@ -1,0 +1,73 @@
+test_deployed_gemma4_video_token (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_deployed_gemma4_video_token) ... ok
+test_enabling_the_mistral_patch_still_fails_on_bare_split (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_enabling_the_mistral_patch_still_fails_on_bare_split) ... ok
+test_extra_special_tokens_load_without_the_mistral_patch (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_extra_special_tokens_load_without_the_mistral_patch) ... ok
+test_list_only_extra_special_tokens_still_need_the_dict_override (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_list_only_extra_special_tokens_still_need_the_dict_override) ... ok
+test_wrapper_defaults_keep_the_two_options_independent (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_wrapper_defaults_keep_the_two_options_independent) ... ok
+test_active_grouped_masking_runs_with_dense_attention (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_active_grouped_masking_runs_with_dense_attention) ... ok
+test_active_grouping_is_invariant_to_order_within_each_timestep_group (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_active_grouping_is_invariant_to_order_within_each_timestep_group) ... ok
+test_any_pixel_coverage_activates_the_complete_h3_cell (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_any_pixel_coverage_activates_the_complete_h3_cell) ... ok
+test_grouped_masking_rejects_sol_before_kernel_validation (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_grouped_masking_rejects_sol_before_kernel_validation) ... ok
+test_grouped_timestep_uses_two_scalar_adaln_segments (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_grouped_timestep_uses_two_scalar_adaln_segments) ... ok
+test_grouping_places_fixed_rows_first_and_builds_an_inverse (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_grouping_places_fixed_rows_first_and_builds_an_inverse) ... ok
+test_handler_exposes_g_only_mask_mode_with_legacy_default (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_handler_exposes_g_only_mask_mode_with_legacy_default) ... FAIL
+test_handler_exposes_outpainting_and_rejects_masked_sol (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_handler_exposes_outpainting_and_rejects_masked_sol) ... ERROR
+test_inactive_grouping_is_permutation_equivalent_and_keeps_canonical_rope (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_inactive_grouping_is_permutation_equivalent_and_keeps_canonical_rope) ... ok
+test_mask_is_snapped_to_exact_patch_cells_without_extra_dilation (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_mask_is_snapped_to_exact_patch_cells_without_extra_dilation) ... ok
+test_missing_mask_mode_uses_shared_timestep (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_missing_mask_mode_uses_shared_timestep) ... FAIL
+test_old_ref2va_generic_control_settings_receive_the_g_flag (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_old_ref2va_generic_control_settings_receive_the_g_flag) ... ok
+test_old_ref2va_reference_settings_receive_the_u_flag (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_old_ref2va_reference_settings_receive_the_u_flag) ... ok
+test_outpainting_builds_an_editable_margin_mask (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_outpainting_builds_an_editable_margin_mask) ... ok
+test_ref2va_generic_control_exposes_masking_without_enabling_it_for_references (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_ref2va_generic_control_exposes_masking_without_enabling_it_for_references) ... ok
+test_ref2va_generic_control_is_not_validated_as_a_reference_video (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_ref2va_generic_control_is_not_validated_as_a_reference_video) ... ok
+test_temporal_mask_max_pools_every_frame_covered_by_each_latent (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_temporal_mask_max_pools_every_frame_covered_by_each_latent) ... ok
+test_temporal_mask_pooling_includes_the_short_final_interval (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_temporal_mask_pooling_includes_the_short_final_interval) ... ok
+test_zero_length_masking_window_has_no_active_spatial_mask (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_zero_length_masking_window_has_no_active_spatial_mask) ... ok
+
+======================================================================
+ERROR: test_handler_exposes_outpainting_and_rejects_masked_sol (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_handler_exposes_outpainting_and_rejects_masked_sol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_minimax_h3_grouped_masking.py", line 193, in test_handler_exposes_outpainting_and_rejects_masked_sol
+    self.assertEqual(model_def["video_guide_outpainting"], [0])
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'video_guide_outpainting'
+
+======================================================================
+FAIL: test_handler_exposes_g_only_mask_mode_with_legacy_default (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_handler_exposes_g_only_mask_mode_with_legacy_default)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_minimax_h3_grouped_masking.py", line 212, in test_handler_exposes_g_only_mask_mode_with_legacy_default
+    self.assertEqual([label for label, _ in setting["choices"]], [
+AssertionError: Lists differ: ['Grouped Rows [conditioning timestep for f[125 chars]ws]'] != ['Shared Timestep [same denoising timestep [125 chars]ws]']
+
+First differing element 0:
+'Grouped Rows [conditioning timestep for f[44 chars]ows]'
+'Shared Timestep [same denoising timestep [31 chars]ows]'
+
++ ['Shared Timestep [same denoising timestep for fixed and editable latent rows]',
+- ['Grouped Rows [conditioning timestep for fixed rows; denoising timestep for '
+? ^
+
++  'Grouped Rows [conditioning timestep for fixed rows; denoising timestep for '
+? ^
+
+-  'editable rows]',
+?                  ^
+
++  'editable rows]']
+?                  ^
+
+-  'Shared Timestep [same denoising timestep for fixed and editable latent rows]']
+
+======================================================================
+FAIL: test_missing_mask_mode_uses_shared_timestep (test_minimax_h3_grouped_masking.MiniMaxH3GroupedMaskingTests.test_missing_mask_mode_uses_shared_timestep)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_minimax_h3_grouped_masking.py", line 219, in test_missing_mask_mode_uses_shared_timestep
+    self.assertFalse(h3_grouped_masking_enabled(None))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 24 tests in 1.713s
+
+FAILED (failures=2, errors=1)
