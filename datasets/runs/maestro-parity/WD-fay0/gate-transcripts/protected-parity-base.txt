@@ -1,2 +1,0 @@
-$ git diff --exit-code 82f6c38 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
-exit=0

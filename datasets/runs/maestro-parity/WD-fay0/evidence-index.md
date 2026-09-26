@@ -19,7 +19,7 @@ The index is read-only consolidation. It does not authorize work, edit another l
 | WD-r81u | finishing | base `82f6c38570a818dd8dbd3e70baebd037459661b3` | `e14c4b367f4876c279c8c167e770988817cc1e044274cd6978b0e266039c444d` | 146 / 18246836 | auth=approved; reviewer=approved | exit 0 | PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-r81u |
 | WD-rous | music | base `82f6c38570a818dd8dbd3e70baebd037459661b3` | `100fa53ba45b573f8e7237f508f75412dbcdc32160f5ad58c473eb08ced85c50` | 68 / 6042432 | auth=approved; reviewer=approved | exit 0 | PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/WD-rous |
 
-Checker transcripts and exact argv are under `checker-transcripts/`. WD-dmf2 was checked read-only in a disposable worktree at the PM-recorded accepted commit; it is not merged into this capstone base.
+Raw checker output, exact command identities, and gate output tails are consolidated in `gate-transcript.md`. WD-dmf2 was checked read-only in a disposable worktree at the PM-recorded accepted commit; it is not merged into this capstone base.
 
 ## Complete matrix-row/cell disposition table
 
@@ -244,22 +244,22 @@ The six undelivered video family groups are TaoMate, H3 outpaint, LTX-2.5, LTX-2
 
 | Source | Line | Capability | State | Evidence/blocker |
 | --- | ---: | --- | --- | --- |
-| docs/editor.md | 13 | Headless deterministic project/export service | `verified_local` | accepted headless typed service; deterministic export behavior documented |
-| docs/editor.md | 15 | Editor export durable queue submission | `verified_local` | real JobQueue.submit record; explicitly not host work or media |
+| docs/editor.md | 13 | Headless deterministic project/export service | `verified_local` | tests/test_editor_project.py:150-291 real-process no-GPU coverage |
+| docs/editor.md | 15 | Editor export durable queue submission | `verified_local` | tests/test_editor_project.py:178-220 deterministic export and real queue consumption |
 | docs/editor.md | 19 | Authorized host export/media | `planned` | No authorized host run bundle with command, provenance, queue attempts, output hashes, QC evidence, and reviewer linkage. |
 | docs/editor.md | 32 | Graphical/browser UI | `unsupported` | explicitly deferred; no GUI in this lane |
-| docs/first-run.md | 8 | Hardware/advisory profile | `verified_local` | typed profile; verified_generation=false |
-| docs/first-run.md | 34 | Download status/pause/resume | `verified_local` | typed status and operator-gated resume; no transfer |
-| docs/first-run.md | 59 | LLM runtime resolution | `verified_local` | configuration-only resolution; provider_contact=false |
-| docs/first-run.md | 68 | Recorded OOM recovery guidance | `verified_local` | typed guidance; no automatic render change |
-| docs/first-run.md | 81 | Remote host preview | `verified_local` | complete/incomplete preview only; host_contact=false |
+| docs/first-run.md | 8 | Hardware/advisory profile | `verified_local` | tests/test_first_run_platform.py:145-318 profile and advisory tests |
+| docs/first-run.md | 34 | Download status/pause/resume | `verified_local` | tests/test_first_run_platform.py:320-433 durable download and provenance tests |
+| docs/first-run.md | 59 | LLM runtime resolution | `verified_local` | tests/test_first_run_platform.py:435-474 local/external runtime tests |
+| docs/first-run.md | 68 | Recorded OOM recovery guidance | `verified_local` | tests/test_first_run_platform.py:476-534 OOM recovery tests |
+| docs/first-run.md | 81 | Remote host preview | `verified_local` | tests/test_first_run_platform.py:536-566 non-contacting preview tests |
 | docs/first-run.md | 97 | Generated artifact from first-run | `planned` | WD-0zj8 generated half blocked on per-batch GPU/render-host authorization, model-download approval, and complete authorized host/model manifest. |
 
 Non-matrix totals: **7 verified-local, 1 unsupported, 2 planned** across 10 claims.
 
 ## Better-than-Maestro proofs
 
-1. Checker fail-closed: **VERIFIED** — 61 targeted tests passed: every canonical field/constraint failure, symlink, tampered hash, denied authorization, and exact non-mutating CLI diagnostic is covered; transcript gate-transcripts/targeted-proofs.txt.
+1. Checker fail-closed: **VERIFIED** — 61 targeted tests passed: every canonical field/constraint failure, symlink, tampered hash, denied authorization, and exact non-mutating CLI diagnostic is covered; transcript gate-transcript.md#targeted-fail-closed-and-clean-machine-proofs.
 2. Clean-machine one command: **NO-GPU HALF VERIFIED; GENERATED HALF BLOCKED** — Same targeted run reproduced disposable install, clips=4 plan, generated_artifact=false, exit 3 HOST_CONFIGURATION_INCOMPLETE and MODEL_MANIFEST_REQUIRED with no traceback. WD-0zj8 blocked-record has 0 media bytes; operator host/model inputs absent.
 
 ## WD-fay0 acceptance-criteria assessment
@@ -276,13 +276,13 @@ Non-matrix totals: **7 verified-local, 1 unsupported, 2 planned** across 10 clai
 
 | Gate | Result | Transcript |
 | --- | --- | --- |
-| pvg_lint | PASS 126 scanned, 0 errors, 0 review findings | `gate-transcripts/pvg-lint.txt` |
-| targeted_proofs | PASS tests=61 errors=0 failures=0 skipped=0 | `gate-transcripts/targeted-proofs.txt` |
-| full_suite | PENDING_AT_INITIAL_COMMIT | `gate-transcripts/full-suite.txt` |
-| release_verify | PENDING_CLEAN_TREE_RERUN | `gate-transcripts/release-verify.txt` |
-| protected_parity_base | PASS exit 0 | `gate-transcripts/protected-parity-base.txt` |
-| protected_parity_40f8c2b | EXPECTED_EXCEPTION: services/jobs/preflight.py differs from accepted WD-e4r7 GPU CSV fail-closed fix; all other protected files unchanged | `gate-transcripts/protected-parity-40f8c2b.txt` |
-| git_diff_check | PASS exit 0 | `gate-transcripts/git-diff-check.txt` |
+| pvg_lint | PASS 126 scanned, 0 errors, 0 review findings | `gate-transcript.md#backlog-lint` |
+| targeted_proofs | PASS tests=61 errors=0 failures=0 skipped=0 | `gate-transcript.md#targeted-fail-closed-and-clean-machine-proofs` |
+| full_suite | FIRST ATTEMPT FAIL: tests=2085 errors=0 failures=2 skipped=1; both failures are the real-tree check seeing in-repo gate instrumentation. Clean rerun pending | `gate-transcript.md#full-suite` |
+| release_verify | PENDING_CLEAN_TREE_RERUN | `gate-transcript.md#release-verify` |
+| protected_parity_base | PASS exit 0 | `gate-transcript.md#protected-file-parity` |
+| protected_parity_40f8c2b | EXPECTED_EXCEPTION: services/jobs/preflight.py differs from accepted WD-e4r7 GPU CSV fail-closed fix; all other protected files unchanged | `gate-transcript.md#protected-file-parity` |
+| git_diff_check | PASS exit 0 | `gate-transcript.md#whitespace-gate` |
 
 Protected-file exception note: the only difference from `40f8c2b` is `services/jobs/preflight.py`, independently accepted by WD-e4r7 to parse `nvidia-smi` CSV and fail closed on occupied GPUs. Parity against this story base `82f6c38` is clean.
 

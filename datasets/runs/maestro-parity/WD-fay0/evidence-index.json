@@ -34,6 +34,7 @@
         "exit": 1,
         "passed": false
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-0zj8",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 0,
@@ -79,6 +80,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-2gyw",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 40,
@@ -167,6 +169,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-bxhc",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 7,
@@ -252,6 +255,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-cpow",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 11,
@@ -322,6 +326,7 @@
         "exit": 1,
         "passed": false
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-dmf2",
       "evidence_summary": {
         "failed_objective_gates": [
           {
@@ -420,6 +425,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-m0r5",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 32,
@@ -472,6 +478,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-r81u",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 4,
@@ -567,6 +574,7 @@
         "exit": 0,
         "passed": true
       },
+      "checker_transcript": "gate-transcript.md#checker-wd-rous",
       "evidence_summary": {
         "failed_objective_gates": [],
         "models": 11,
@@ -621,7 +629,7 @@
         "cell": "local",
         "doc": "docs/editor.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "accepted headless typed service; deterministic export behavior documented",
+        "evidence_or_boundary": "tests/test_editor_project.py:150-291 real-process no-GPU coverage",
         "row": "Headless deterministic project/export service",
         "source_line": 13
       },
@@ -631,7 +639,7 @@
         "cell": "local",
         "doc": "docs/editor.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "real JobQueue.submit record; explicitly not host work or media",
+        "evidence_or_boundary": "tests/test_editor_project.py:178-220 deterministic export and real queue consumption",
         "row": "Editor export durable queue submission",
         "source_line": 15
       },
@@ -661,7 +669,7 @@
         "cell": "local",
         "doc": "docs/first-run.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "typed profile; verified_generation=false",
+        "evidence_or_boundary": "tests/test_first_run_platform.py:145-318 profile and advisory tests",
         "row": "Hardware/advisory profile",
         "source_line": 8
       },
@@ -671,7 +679,7 @@
         "cell": "local",
         "doc": "docs/first-run.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "typed status and operator-gated resume; no transfer",
+        "evidence_or_boundary": "tests/test_first_run_platform.py:320-433 durable download and provenance tests",
         "row": "Download status/pause/resume",
         "source_line": 34
       },
@@ -681,7 +689,7 @@
         "cell": "local",
         "doc": "docs/first-run.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "configuration-only resolution; provider_contact=false",
+        "evidence_or_boundary": "tests/test_first_run_platform.py:435-474 local/external runtime tests",
         "row": "LLM runtime resolution",
         "source_line": 59
       },
@@ -691,7 +699,7 @@
         "cell": "local",
         "doc": "docs/first-run.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "typed guidance; no automatic render change",
+        "evidence_or_boundary": "tests/test_first_run_platform.py:476-534 OOM recovery tests",
         "row": "Recorded OOM recovery guidance",
         "source_line": 68
       },
@@ -701,7 +709,7 @@
         "cell": "local",
         "doc": "docs/first-run.md",
         "documented_state": "verified_local",
-        "evidence_or_boundary": "complete/incomplete preview only; host_contact=false",
+        "evidence_or_boundary": "tests/test_first_run_platform.py:536-566 non-contacting preview tests",
         "row": "Remote host preview",
         "source_line": 81
       },
@@ -3026,38 +3034,43 @@
   "standing_gates": {
     "full_suite": {
       "command": "uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-fay0-full.xml",
-      "result": "PENDING_AT_INITIAL_COMMIT",
-      "transcript": "gate-transcripts/full-suite.txt"
+      "result": "FIRST ATTEMPT FAIL: tests=2085 errors=0 failures=2 skipped=1; both failures are the real repository tree check seeing in-repo gate instrumentation. CLEAN RERUN PENDING",
+      "transcript": "gate-transcript.md#full-suite"
     },
     "git_diff_check": {
       "command": "git diff --check",
       "result": "PASS exit 0",
-      "transcript": "gate-transcripts/git-diff-check.txt"
+      "transcript": "gate-transcript.md#whitespace-gate"
+    },
+    "index_validation": {
+      "command": "python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py",
+      "result": "PASS 208 rows, 8 lanes, 6 passing bundles, 2 failing bundles",
+      "transcript": "gate-transcript.md#index-validation"
     },
     "protected_parity_40f8c2b": {
       "command": "git diff --exit-code 40f8c2b373dec1c84ca5a596c821b740934af6fb -- <protected files>",
       "result": "EXPECTED_EXCEPTION: services/jobs/preflight.py differs from accepted WD-e4r7 GPU CSV fail-closed fix; all other protected files unchanged",
-      "transcript": "gate-transcripts/protected-parity-40f8c2b.txt"
+      "transcript": "gate-transcript.md#protected-file-parity"
     },
     "protected_parity_base": {
       "command": "git diff --exit-code 82f6c38570a818dd8dbd3e70baebd037459661b3 -- <protected files>",
       "result": "PASS exit 0",
-      "transcript": "gate-transcripts/protected-parity-base.txt"
+      "transcript": "gate-transcript.md#protected-file-parity"
     },
     "pvg_lint": {
       "command": "pvg lint --backlog",
       "result": "PASS 126 scanned, 0 errors, 0 review findings",
-      "transcript": "gate-transcripts/pvg-lint.txt"
+      "transcript": "gate-transcript.md#backlog-lint"
     },
     "release_verify": {
       "command": "uv run --frozen --extra dev wgp release verify",
       "result": "PENDING_CLEAN_TREE_RERUN",
-      "transcript": "gate-transcripts/release-verify.txt"
+      "transcript": "gate-transcript.md#release-verify"
     },
     "targeted_proofs": {
       "command": "uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal --junitxml=/tmp/WD-fay0-targeted.xml",
       "result": "PASS tests=61 errors=0 failures=0 skipped=0",
-      "transcript": "gate-transcripts/targeted-proofs.txt"
+      "transcript": "gate-transcript.md#targeted-fail-closed-and-clean-machine-proofs"
     }
   },
   "story_id": "WD-fay0",

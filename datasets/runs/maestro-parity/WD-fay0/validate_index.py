@@ -97,16 +97,13 @@ def main() -> int:
             manifest = REPO / lane["manifest_path"]
             assert digest(manifest) == lane["manifest_sha256"], lane["story_id"]
 
-    transcript = (BUNDLE / "checker-transcripts/results.tsv").read_text(
-        encoding="utf-8"
-    ).splitlines()
-    assert len(transcript) == 9, "checker result table must cover eight lanes"
-    checker_rows = [line.split("\t") for line in transcript]
-    assert checker_rows[0] == ["lane", "retrieval", "exit", "result"]
-    assert [row[0] for row in checker_rows[1:]] == [lane["story_id"] for lane in lanes]
-    assert [int(row[2]) for row in checker_rows[1:]] == [
-        lane["checker"]["exit"] for lane in lanes
-    ]
+    gate_transcript = (BUNDLE / "gate-transcript.md").read_text(encoding="utf-8")
+    for lane in lanes:
+        marker = f"## Checker {lane['story_id']}"
+        assert marker in gate_transcript, f"missing checker transcript: {marker}"
+        exit_marker = f"exit={lane['checker']['exit']}"
+        section = gate_transcript.split(marker, 1)[1].split("\n## ", 1)[0]
+        assert exit_marker in section, f"missing checker exit: {marker}"
 
     totals = Counter(row["canonical_state"] for row in rows)
     assert dict(totals) == index["row_inventory"]["totals"]
