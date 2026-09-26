@@ -11,7 +11,7 @@ created_by: speed
 updated_at: 2026-09-26T18:30:19Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:d278a2461e294ed4040e0e33c62002e09b155219477cc6ea0f845b6fd2b13a61"
+content_hash: "sha256:2bfdd89d47ec526018552086824cf3c9b270ad886ba8e33732685183cf7c17c4"
 blocks: [WD-fay0]
 follows: [WD-9t9o, WD-isg9]
 ---
@@ -216,3 +216,23 @@ status: delivered
 - Follows: [[WD-9t9o]], [[WD-isg9]]
 
 ## Comments
+
+### 2026-09-26T18:30:19Z speed
+## PM Decision
+REJECTED [2026-09-26]:
+EXPECTED: A change that adds a new backlog lint check must keep command/flag help accurate. Tier 1b documentation freshness requires README, docs/, command help, public API references, or usage examples to reflect changed behavior.
+DELIVERED: The implementation adds the `acceptance-criteria` check to `CheckBacklog` and emits its finding, but branch-built `pvg lint --help` still says `--backlog` runs only walking-skeleton through release-gate/paths-exist and omits acceptance-criteria. The stale help string is in `cmd/pvg/main.go:1833-1839` at commit 98f5b1d6e8f6603d6e0ba2031e4cf3cce6e9f347.
+GAP: DOCS_STALE: `pvg lint --help` references the backlog structure-check suite but was not updated for the new acceptance-criteria check. Functional targeted/full Go tests and real integration coverage otherwise passed independent PM verification.
+FIX: Add `acceptance-criteria` to the `pvg lint --help` backlog-check enumeration (and any directly stale usage documentation), then rerun the targeted command/help test coverage and delivery verification.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Independent PM tests at 98f5b1d6e8f6603d6e0ba2031e4cf3cce6e9f347: targeted 3/3 packages PASS; TestFormalAcceptanceCriteriaIntegration PASS; full `go test ./... -count=1` 24/24 tested packages PASS.
+- Branch-built `pvg lint --help` omits the new check; source help text is `cmd/pvg/main.go:1833-1839`.
+- Correct shared-vault lint probe scanned 134 issues and fail-closed on disclosed WD-t0il only; Wangp HEAD/status unchanged.
+- Historical WD-9t9o probe reported the legacy blank-AC diagnostic without changing its content hash or Wangp state.
+
+### proof
+- [ ] AC #6 supporting deliverable is incomplete: command help does not reflect the changed lint behavior.
