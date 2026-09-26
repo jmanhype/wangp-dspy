@@ -4,7 +4,7 @@ title: "Video LTX-2.5: decouple fix_mistral_regex from the gemma4 extra_special_
 status: closed
 priority: 1
 type: bug
-labels: [capability, video, evidence, external-integration, delivered]
+labels: [capability, video, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
