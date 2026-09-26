@@ -1,19 +1,20 @@
 ---
 id: WD-dmf2
 title: "Director composition evidence"
-status: in_progress
+status: closed
 priority: 2
 type: feature
 labels: [capability, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
-updated_at: 2026-09-25T23:49:14Z
-content_hash: "sha256:2249289beadaa61b165559adc5c861acf0aa4fd349fca7e9a7eb9b16f994b509"
-blocks: [WD-fay0]
+updated_at: 2026-09-26T00:07:41Z
+content_hash: "sha256:c7e7df14a62a4fe7401808e5eb940238a9618855919bf716bab19e0665086e72"
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7, WD-m0r5]
 assignee: dev-WD-dmf2
+closed_at: 2026-09-26T00:07:41Z
+close_reason: "Accepted DELIVERED EVIDENCE ONLY at 741a8bb27c4bec3be38667b090a03bedb00e3010: gate provenance is independently auditable and failures are honest/structural. All nine director rows remain undelivered and unverified; none is host_run_verified or unsupported_on_this_hardware. Structural measurement failures: Whisper screenplay clip0001 0.556<0.6; SyncNet audio clip0001 0.594741<1.0; SyncNet screenplay clip0001 0.468897<1.0. Pending reviewer and row 8 enhanced-prompt media also prevent verification. Operator scope decision required: rework the composition path or accept a measured structural limitation as disposition."
 ---
 
 ## Description
@@ -268,6 +269,8 @@ FIX: rework source selection/assembly so applicable Whisper and SyncNet gates ge
 - 2026-09-25T23:24:07Z claimed by dev-WD-dmf2
 - 2026-09-25T23:49:13Z status: in_progress -> in_progress
 - 2026-09-25T23:49:14Z auto-follows: linked to predecessor WD-m0r5
+- 2026-09-26T00:07:41Z status: in_progress -> closed
+- 2026-09-26T00:07:41Z dep_removed: no_longer_blocks WD-fay0
 
 ## Implementation Evidence
 
