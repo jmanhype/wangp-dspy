@@ -8,14 +8,55 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T13:08:07Z
-content_hash: "sha256:2055302c80a1a891cf9c0a6a257fa8cc987b49cc7aae106f1939a388091bc55c"
+updated_at: 2026-09-26T13:26:32Z
+content_hash: "sha256:fa971d1a0f121083b136c9634756a22e8a4d81ca6ad555dc9e914f1107a318d1"
 assignee: dev-WD-isg9
 follows: [WD-14ej]
 blocks: [WD-fay0]
 ---
 
 ## Description
+## Scope
+
+WD-isg9 emits terminal, operation-specific evidence for the eight remaining
+`minimax_h3/standard` cells using the already present hash-verified FL2VA
+assets on host `3090`. It performs no new model download.
+
+Cells: extend, blend, retake, edit, outpaint, repaint, recast, upscale. The
+already verified create cell is not rerun and cannot proxy for another cell.
+
+Each cell must end as either:
+
+- `host_run_verified`, with its own distinct nonempty hashed media artifact and
+  objective gates; or
+- documented `unsupported`, backed by a real host rejection or implementation
+  boundary.
+
+Never relabel a generic render as an operation.
+
+## Operator authorization
+
+- 2026-09-26: "Authorized and approved."
+- 2026-09-26: "continue"
+- Scope: begin the previously identified per-family/per-operation host-run
+  evidence batch using existing assets.
+- Not authorized: training, paid providers, GUI work, unrelated GPU processes,
+  new downloads, or model deletion.
+
+## Required evidence
+
+1. Record clean worktree/base and live host preflight: SSH, H3 hashes, disk
+   floor, GPU state, and QC health. Stop on any failure.
+2. Record exact local and remote command argv, model provenance, source and
+   mask hashes, durable queue admission, output hashes, ffprobe metadata,
+   operation-specific objective gates, and reviewer links.
+3. Capture fail-closed host diagnostics for blend, recast, and outpaint rather
+   than inventing substitute renders.
+4. Update only the eight `minimax_h3/standard` cells in
+   `docs/video-capabilities.md`, each linked to the new evidence.
+5. The parity checker passes, scoped/full tests pass, `pvg lint --backlog`
+   passes, and the delivery proof passes.
+
 ## Description
 
 Execute the next operator-authorized Maestro-parity video evidence batch with
