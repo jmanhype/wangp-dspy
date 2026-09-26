@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:22:23Z
-content_hash: "sha256:f02d8630565df6e8473b6d5005b59015541ba2359c98cc07e9ae54394a471ddf"
+updated_at: 2026-09-26T23:22:48Z
+content_hash: "sha256:5aaf5a86916e872f471177e4b7ac3d67b7c1f508ffd939c4717f1caadfa72a9c"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
@@ -407,3 +407,15 @@ status: rejected
 
 ### proof
 - [ ] AC #9: current backlog lint has 1 error, not 0.
+
+### 2026-09-26T23:22:48Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Path-only rework corrected historical proof paths to exact repository-relative artifacts; pvg lint --backlog scanned 139 issues with 0 errors and 0 review findings.
+- Repository evidence head remains a4f145bb; no repository file changed, and no media/GPU/SSH/download operation was repeated.
+
+### proof
+- [x] AC #9 path-lint defect corrected.
+
