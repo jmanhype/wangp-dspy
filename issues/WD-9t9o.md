@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
 updated_at: 2026-09-26T16:57:25Z
-content_hash: "sha256:89a5ec3e24abf818290bfd0d1cac10cacb3860989efcf5ca638d4ff61bc7de7a"
+content_hash: "sha256:b8cda0d4799de1849f588a8d258c633d08072cf57f6a3eee0d13ea5625af9070"
 assignee: dev-WD-9t9o
 follows: [WD-isg9, WD-14ej]
 closed_at: 2026-09-26T16:57:25Z
@@ -50,6 +50,18 @@ delivery proof, clean release verification, and PR CI must pass.
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Commands run:
