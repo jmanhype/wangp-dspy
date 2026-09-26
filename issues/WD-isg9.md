@@ -1,16 +1,15 @@
 ---
 id: WD-isg9
 title: "Maestro parity: H3 standard operation batch"
-status: in_progress
+status: open
 priority: 1
 type: task
 labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T14:50:51Z
-content_hash: "sha256:eee459adc81118830bf34eb48e17c6da19aa90e482bd8b3ee7b716710a705bcf"
-assignee: dev-WD-isg9
+updated_at: 2026-09-26T14:57:11Z
+content_hash: "sha256:a5abeca6177fa1c2236f9cf8bc98efea317580dde2a2dfb1405139388a7acff6"
 follows: [WD-14ej, WD-i7qs]
 blocks: [WD-fay0]
 ---
@@ -198,6 +197,8 @@ status: delivered
 - 2026-09-26T13:08:15Z dep_added: blocks WD-fay0
 - 2026-09-26T14:44:30Z status: in_progress -> in_progress
 - 2026-09-26T14:44:30Z auto-follows: linked to predecessor WD-i7qs
+- 2026-09-26T14:57:11Z status: in_progress -> open
+- 2026-09-26T14:57:11Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
