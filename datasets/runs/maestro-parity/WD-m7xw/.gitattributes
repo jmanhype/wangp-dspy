@@ -1,0 +1,4 @@
+host-scripts/** text
+host-logs/*.txt text
+*.json text
+*.md text

@@ -1,0 +1,4 @@
+vocab_size=262144
+video_token_id=258884
+encoded=[258884, 496, 5866, 23241, 1343, 6927]
+tokenizer_check=PASS

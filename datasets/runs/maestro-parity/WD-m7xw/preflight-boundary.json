@@ -1,0 +1,45 @@
+{
+  "schema": "wangp-dspy.maestro-parity-preflight-boundary/v1",
+  "story": "WD-m7xw",
+  "queue_admission": "blocked_before_admission",
+  "inference_attempted": false,
+  "model_download_bytes_planned": 0,
+  "model_download_bytes_actual": 0,
+  "output_files": 0,
+  "boundary": {
+    "type": "authorized_host_state",
+    "reason": "Unrelated llama-server PID 3213164 occupied 18154 MiB of the 24576 MiB RTX 3090, leaving 5873 MiB free. The operator authorization forbids killing or restarting unrelated services, so all inference stopped before queue admission.",
+    "evidence": "host-logs/30_gpu_preflight_blocked.txt",
+    "not_a_hardware_verdict": true,
+    "not_an_unsupported_operation_verdict": true
+  },
+  "operations": {
+    "create": {"attempted": false, "disposition": "blocked_before_inference"},
+    "extend": {"attempted": false, "disposition": "blocked_before_inference"},
+    "retake": {"attempted": false, "disposition": "blocked_before_inference"},
+    "edit": {"attempted": false, "disposition": "blocked_before_inference"},
+    "outpaint": {"attempted": false, "disposition": "blocked_before_inference"},
+    "repaint": {"attempted": false, "disposition": "blocked_before_inference"},
+    "recast": {"attempted": false, "disposition": "blocked_before_inference"},
+    "upscale": {"attempted": false, "disposition": "blocked_before_inference"}
+  },
+  "matrix_disposition": {
+    "ltx/2.5/create": "unchanged: planned",
+    "ltx/2.5/extend": "unchanged: planned",
+    "ltx/2.5/blend": "unchanged: existing typed backend boundary",
+    "ltx/2.5/retake": "unchanged: planned",
+    "ltx/2.5/edit": "unchanged: planned",
+    "ltx/2.5/outpaint": "unchanged: planned",
+    "ltx/2.5/repaint": "unchanged: planned",
+    "ltx/2.5/recast": "unchanged: planned",
+    "ltx/2.5/upscale": "unchanged: planned"
+  },
+  "preflight": {
+    "asset_hashes": "15/15 matched",
+    "fixed_wan2gp_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+    "tokenizer_vocab_size": 262144,
+    "tokenizer_video_token_id": 258884,
+    "gpu_free_mib": 5873,
+    "gpu_blocking_process": "llama-server PID 3213164 using 18154 MiB"
+  }
+}
