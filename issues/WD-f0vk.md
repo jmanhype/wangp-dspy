@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:31:54Z
+updated_at: 2026-09-26T17:48:54Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:5bfd00e4757cfef2c38a4350cda733c88b1f2aaf946d3bb9d3a45c062d3c11c2"
+content_hash: "sha256:8802004483b31cb56553dbc50e3a64f2fbf57097d54c547dbc83f22dcfc1f051"
 blocks: [WD-fay0]
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9]
@@ -91,6 +91,58 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+## Implementation Evidence (REWORK DELIVERED)
+
+### CI/Test Results
+Commands run:
+- uv run --frozen --offline --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_production_render_seam.py --junitxml=/tmp/WD-f0vk-rework-targeted.xml
+- uv run --frozen --offline python /tmp/wdf0vk_scan_real_final.py
+- uv run --frozen --offline python -m py_compile scripts/verify_maestro_parity.py tests/test_maestro_parity_evidence.py
+- uv run --frozen --offline python -m json.tool datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json
+- pvg verify scripts/verify_maestro_parity.py tests/test_maestro_parity_evidence.py datasets/diagnostics/wan2gp-mutagen/WD-f0vk.json docs/findings/86-wan2gp-mutagen-metadata-warnings.md docs/maestro-parity-evidence-contract.md --format=text
+- pvg lint --backlog
+- git diff --check
+- git diff --cached --check
+- git diff --exit-code -- datasets/runs/maestro-parity/WD-9t9o datasets/runs/maestro-parity/WD-isg9
+- uv run --frozen --offline --extra dev wgp release verify
+- git push origin story/WD-f0vk
+
+Summary: rework PASS. Targeted JUnit tests=106 errors=0 failures=0 skipped=0. Real-byte scan remains WD-9t9o owned_warnings=4 diagnostics=0 and WD-isg9 owned_warnings=4 diagnostics=0 with exact lines/hashes. Compile and JSON validation PASS. pvg verify PASS (2 scannable files, 0 issues). Backlog lint PASS (134 scanned, 0 errors, 0 review findings). Both diff checks and accepted-evidence diff check PASS. Release verify PASS with release=ready and tag_created=false. Branch pushed from 59ae9790 to 0a3d95c070a6618e58d16617f5d9a13b34ebe894.
+
+### Rework blocker verification
+| QC blocker | Correction | Test |
+|---|---|---|
+| SHA case normalization | Output, reference, and native-log comparisons lower normalized valid 64-hex values before comparison while preserving shape diagnostics and exact recorded values in mismatch text | tests/test_maestro_parity_evidence.py:test_uppercase_sha256_values_match_exact_bytes_for_all_hashed_groups |
+| Shared strict path resolver | One _safe_bundle_file resolver is used by outputs, references, and native logs; rejects blank/absolute paths, lexical .., symlinked components, resolved escapes, and non-files | lexical-dotdot and symlinked-parent parametrized tests across all three groups |
+| Exhaustive import classification | Every No-module occurrence is found with finditer; multiple/ambiguous failures reject; ModuleNotFoundError/ImportError-only lines reject; only one exact owned mutagen form passes | secondary-import, ImportError-spelling, multiple-occurrence, and unrelated-import tests |
+| Native hash map exactness | When present, values must be valid SHA-256 and key set must exactly equal deduplicated native_logs; extras and missing keys fail | test_extra_native_log_hash_key_fails_closed and existing mismatch/real-hash tests |
+
+### Commit
+- Branch: story/WD-f0vk
+- Rework SHA: 0a3d95c070a6618e58d16617f5d9a13b34ebe894
+- Push: origin/story/WD-f0vk advanced 59ae9790 -> 0a3d95c0.
+- No SSH, GPU, inference, download, host mutation, or accepted evidence-byte mutation.
+
+LEARNINGS:
+- Case-insensitive hex comparison must happen only after the existing 64-hex shape gate, never by widening the value pattern.
+- Checking only the final path component misses symlinked parents; the shared resolver walks and lstats every lexical component before resolve.
+- Import-failure classification needs all occurrences and both Python exception spellings, not the first regex search result.
+- Hash-map key-set equality prevents an otherwise valid log from hiding undeclared extra expectations.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Rework commit 0a3d95c070a6618e58d16617f5d9a13b34ebe894 pushed to origin/story/WD-f0vk.
+- Targeted 106/106 PASS; real WD scans unchanged at 4 owned warnings and 0 diagnostics each; pvg verify/backlog lint/diff checks/release verify PASS.
+
+### proof
+- [x] QC blocker 1: uppercase output/reference/native-log SHA values compare correctly without weakening shape checks.
+- [x] QC blocker 2: outputs, references, and native logs share one strict path resolver and reject all requested unsafe forms.
+- [x] QC blocker 3: every import failure occurrence and exception spelling is classified or fails closed.
+- [x] QC blocker 4: native-log hash values and exact deduplicated key set are enforced, including extras.
+- [x] Accepted WD-9t9o/WD-isg9 evidence remains byte-unchanged.
+
 ## Implementation Evidence
 
 ### CI/Test Results
