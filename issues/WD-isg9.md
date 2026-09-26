@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T14:46:49Z
-content_hash: "sha256:9d02ffed792dadffe40a422f86cc6068ae96ac6c309df818f4bfed453a661232"
+updated_at: 2026-09-26T14:48:37Z
+content_hash: "sha256:f226fed3322b6a4ef582b0c50cf5787bd4d3da879978eef65d79338ceef327a9"
 assignee: dev-WD-isg9
 follows: [WD-14ej, WD-i7qs]
 blocks: [WD-fay0]
@@ -85,7 +85,7 @@ Summary:
 
 Five H3-standard operations produced real distinct hashed media; blend, recast, and outpaint reached evidenced host implementation boundaries. Independent PM review is pending.
 
-Commit SHA: `ee81c0cce64c1cbd90c7f7328402d63f183ed569`
+Commit SHA: `ee81c0ccd763376d86734791a342e16efad78ebb`
 
 ### AC Verification
 
@@ -104,7 +104,7 @@ status: delivered
 
 ### evidence
 
-- Commit `ee81c0cce64c1cbd90c7f7328402d63f183ed569` is pushed on `story/WD-isg9`.
+- Commit `ee81c0ccd763376d86734791a342e16efad78ebb` is pushed on `story/WD-isg9`.
 - Objective gates 43/43 pass; scoped tests exit 0; backlog lint and diff-check exit 0.
 - Reviewer approval is intentionally pending.
 
@@ -162,7 +162,7 @@ status: delivered
 
 ### evidence
 
-- Commit SHA: `ee81c0cce64c1cbd90c7f7328402d63f183ed569`
+- Commit SHA: `ee81c0ccd763376d86734791a342e16efad78ebb`
 - Branch: `story/WD-isg9` pushed to origin.
 - Bundle: `datasets/runs/maestro-parity/WD-isg9/evidence.json`.
 - Preflight: SSH/model hashes/disk/GPU/QC all pass.
@@ -208,3 +208,6 @@ status: delivered
 
 ### 2026-09-26T13:28:50Z speed
 Dispatcher repaired malformed authored sections created by repeated body updates; canonical Description and Acceptance Criteria now occur once.
+
+### 2026-09-26T14:48:37Z speed
+Corrected delivery commit SHA to ee81c0ccd763376d86734791a342e16efad78ebb.
