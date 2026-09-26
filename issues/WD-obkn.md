@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:38:43Z
-content_hash: "sha256:22bcb8188bb4c98f9418bef6a29123bf09840fdbce2b75ef23381c4749cfec7f"
+updated_at: 2026-09-26T23:39:04Z
+content_hash: "sha256:36ef73b513945fc1480f33dcd828a4f377542df7545aa9b06479f858f07d86ec"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw]
@@ -364,3 +364,17 @@ status: delivered
 
 ### 2026-09-26T23:38:09Z speed
 EXPECTED: AC #10 requires the canonical checker acceptance plus backlog lint 0 errors, a full pytest JUnit with errors=0 and failures=0, release verification release=ready tag_created=false, and diff/protected-file checks. DELIVERED: checker, lint, release, diff, protected parity, and scoped 136-test JUnit pass at pushed 2d778cef293ef3c5a441a35e15d89d715999e10d, but the committed full JUnit reports 2108 tests with failures=2 and the clean retry was dispatcher-stopped at 47% with no JUnit. GAP: A future CI promise is not completed full-suite evidence, and the PM cannot waive or interpret away the explicit AC #10 gate. FIX: Run the full suite to completion for exact pushed 2d778cef in an isolated runner or record completed CI JUnit for that exact commit showing errors=0 failures=0, then redeliver WD-obkn for PM review. Do not merge or PR on this rejection.
+
+### 2026-09-26T23:39:04Z speed
+## PM Decision
+REJECTED [2026-09-26]: AC #10 lacks a completed full-suite result for the exact pushed commit.
+
+## nd_contract
+status: rejected
+
+### evidence
+- fullsuite.xml reports 2108 tests, errors=0, failures=2, skipped=1.
+- The clean retry stopped at 47% and produced no JUnit; future CI is not completed evidence.
+
+### proof
+- [ ] AC #10: full pytest JUnit errors=0 and failures=0 at 2d778cef293ef3c5a441a35e15d89d715999e10d remains unproven.
