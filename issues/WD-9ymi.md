@@ -4,11 +4,11 @@ title: "Story workflow accepts a delivered story with a blank formal AC section"
 status: closed
 priority: 0
 type: bug
-labels: [discovered-by-pm, delivered]
+labels: [discovered-by-pm, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:38:25Z
+updated_at: 2026-09-26T18:38:26Z
 closed_at: 2026-09-26T18:38:25Z
 close_reason: "Accepted: DOCS_STALE gap closed; help and focused ordering test updated; all targeted, integration, and full Go tests pass."
 content_hash: "sha256:accd73d2a4971c63393374e554617621a36847a0780de317f1e247db5c4707e7"
