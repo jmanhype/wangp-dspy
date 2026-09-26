@@ -4,11 +4,11 @@ title: "Story workflow accepts a delivered story with a blank formal AC section"
 status: in_progress
 priority: 0
 type: bug
-labels: [discovered-by-pm]
+labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:34:33Z
+updated_at: 2026-09-26T18:34:34Z
 closed_at: ""
 close_reason: ""
 content_hash: "sha256:7d1d8bb0557fd30eb297f51ce659b7eea0db2097f9711c45628790ce86c8f4c6"
