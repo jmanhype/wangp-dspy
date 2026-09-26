@@ -4,11 +4,11 @@ title: "Maestro parity: H3 standard operation batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, evidence, delivered]
+labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T15:10:40Z
+updated_at: 2026-09-26T15:11:24Z
 content_hash: "sha256:144f89fa19496216df6e196e352f6734540a5a789f600c546a8173d599b80da8"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0, WD-dmf2]
 blocks: [WD-fay0]
