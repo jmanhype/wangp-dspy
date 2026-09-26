@@ -1,4 +1,8 @@
 host-scripts/** text
 host-logs/*.txt text
+host-logs-resumed/*.txt text
+host-logs-resumed/*.log text
+host-logs-resumed/*.exit text
+review-*.log text
 *.json text
 *.md text

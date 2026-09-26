@@ -1,0 +1,21 @@
+{
+  "model_type": "ltx2_25_22B_distilled",
+  "prompt": "Continue naturally: the blue paper crane completes one more circle, window light warms, and the compass needle settles.",
+  "resolution": "448x832",
+  "seed": 2942,
+  "video_length": 65,
+  "guidance_phases": 1,
+  "sample_solver": "distilled_8_steps_ancestral",
+  "image_prompt_type": "V",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [],
+  "video_source": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "T",
+  "audio_prompt_type": "",
+  "sliding_window_size": 68,
+  "sliding_window_overlap": 9,
+  "output_filename": "wd_m7xw_extend"
+}

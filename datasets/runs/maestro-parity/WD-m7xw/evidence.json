@@ -1,0 +1,439 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "kill whatever that is that was holding up the GPU and get back to work\\nUnblock\\nnow requested prioritizing LTX-2.5",
+    "scope": "WD-m7xw eight-operation LTX-2.5 no-download batch on 3090; stop only re-verified llama-server PID 3213164; leave it stopped",
+    "timestamp": "2026-09-26T21:36:04Z",
+    "approved_by": "operator via /root dispatcher"
+  },
+  "command": [
+    "timeout",
+    "1900",
+    "ssh",
+    "3090",
+    "/home/straughter/wd-m7xw-run/host-scripts/50_run_operation.sh",
+    "create"
+  ],
+  "repository": {
+    "commit": "5c873f72addf2792fd56f74cbfe55037487a1670",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "2ebc99de2bf9532e6a8fee6c2732f9b1ff16109ed25a89f5933265db6a502695",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-m7xw/.gitattributes",
+        " M datasets/runs/maestro-parity/WD-m7xw/EXECUTION_BOUNDARY.md",
+        " M datasets/runs/maestro-parity/WD-m7xw/operator-authorization.md",
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-m7xw/build-evidence.py",
+        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.exit",
+        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.stderr",
+        "?? datasets/runs/maestro-parity/WD-m7xw/checker-pending.txt",
+        "?? datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+        "?? datasets/runs/maestro-parity/WD-m7xw/evidence.json",
+        "?? datasets/runs/maestro-parity/WD-m7xw/host-logs-resumed/",
+        "?? datasets/runs/maestro-parity/WD-m7xw/host-scripts/50_run_operation.sh",
+        "?? datasets/runs/maestro-parity/WD-m7xw/inputs/",
+        "?? datasets/runs/maestro-parity/WD-m7xw/matrix-transition-check.json",
+        "?? datasets/runs/maestro-parity/WD-m7xw/native-settings/",
+        "?? datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json",
+        "?? datasets/runs/maestro-parity/WD-m7xw/operation-map.md",
+        "?? datasets/runs/maestro-parity/WD-m7xw/outputs/",
+        "?? datasets/runs/maestro-parity/WD-m7xw/review-edit-psnr.log",
+        "?? datasets/runs/maestro-parity/WD-m7xw/review-retake-first-frame-psnr.log",
+        "?? datasets/runs/maestro-parity/WD-m7xw/review-retake-first-frame-ssim.log",
+        "?? datasets/runs/maestro-parity/WD-m7xw/review/",
+        "?? datasets/runs/maestro-parity/WD-m7xw/reviewer-verdict.json"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_video_vae_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_vocoder_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_vocoder_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-gemma4-gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903",
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-gemma4-tokenizer.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/tokenizer.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-gemma4-config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0",
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-gemma4-chat_template.jinja",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/chat_template.jinja",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "ltx25-gemma4-tokenizer_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/tokenizer_config.json",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8",
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "outputs/create/wd_m7xw_create.mp4",
+      "role": "ltx25_generated_source_video",
+      "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+      "license": "Operator-owned WD-m7xw generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "outputs/create/first-frame.png",
+      "role": "retake_and_recast_reference_frame",
+      "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+      "license": "Operator-owned WD-m7xw generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/repaint-mask.mp4",
+      "role": "repaint_editable_region_mask",
+      "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+      "license": "Operator-owned WD-m7xw generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-m7xw-ltx25-native-cli",
+    "job_id": "wd-m7xw-ltx25-eight-operations",
+    "retry_id": "attempt-1",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "native_logs": [
+      "host-logs-resumed/create.render.log",
+      "host-logs-resumed/extend.render.log",
+      "host-logs-resumed/retake.render.log",
+      "host-logs-resumed/edit.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs-resumed/create.render.log": "04f459e694093fe2c067a38b909c84791a4749a7c7273d6e3c165684952f656b",
+      "host-logs-resumed/extend.render.log": "3b1b44f5b46852379cd1f42915a8425549750e1da1bbdac86f3de38024152eaa",
+      "host-logs-resumed/retake.render.log": "bbf63da9fa38deaf0b30b744991ba4dad47790a0275de2d69367f073371997f6",
+      "host-logs-resumed/edit.render.log": "e81935eb3269429cb4a020da53c2a03509c47975d521a9ceeac73daeb12900e5"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/create/wd_m7xw_create.mp4",
+      "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f"
+    },
+    {
+      "path": "outputs/extend/wd_m7xw_extend.mp4",
+      "sha256": "e08c4186594ba94bffc033a44cab65edf4b7c4b486e444995dcd33f7e7cf6ba4"
+    },
+    {
+      "path": "outputs/retake/wd_m7xw_retake.mp4",
+      "sha256": "662ef1c68a03a84abf1bd00ac1d782030d63a77337bd37246973d6166fd88b9e"
+    },
+    {
+      "path": "outputs/edit/wd_m7xw_edit.mp4",
+      "sha256": "ccf301019b1f0c6ea8099a2f49893b8a4793b950821e41df38315c5094412ea1"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/create/wd_m7xw_create.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/extend/wd_m7xw_extend.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 4.033,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/retake/wd_m7xw_retake.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/edit/wd_m7xw_edit.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_m7xw_create_duration_s",
+      "inputs": [
+        "outputs/create/wd_m7xw_create.mp4"
+      ],
+      "threshold": 1.375,
+      "measured": 1.375,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m7xw_create_audio_present",
+      "inputs": [
+        "outputs/create/wd_m7xw_create.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m7xw_extend_duration_s",
+      "inputs": [
+        "outputs/extend/wd_m7xw_extend.mp4",
+        "outputs/create/wd_m7xw_create.mp4"
+      ],
+      "threshold": 1.375,
+      "measured": 4.033,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m7xw_retake_first_frame_ssim",
+      "inputs": [
+        "outputs/retake/wd_m7xw_retake.mp4",
+        "outputs/create/first-frame.png"
+      ],
+      "threshold": 0.95,
+      "measured": 0.988417,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m7xw_edit_global_psnr_db",
+      "inputs": [
+        "outputs/edit/wd_m7xw_edit.mp4",
+        "outputs/create/wd_m7xw_create.mp4"
+      ],
+      "threshold": 20.0,
+      "measured": 38.30245,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m7xw_distinct_output_hashes",
+      "inputs": [
+        "outputs/create/wd_m7xw_create.mp4",
+        "outputs/extend/wd_m7xw_extend.mp4",
+        "outputs/retake/wd_m7xw_retake.mp4",
+        "outputs/edit/wd_m7xw_edit.mp4"
+      ],
+      "threshold": 4.0,
+      "measured": 4.0,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [],
+    "reviewer": "independent PM pending dispatcher assignment",
+    "explanation": "Independent PM review is required. The developer did not approve its own outputs or dependency boundaries."
+  },
+  "row_dispositions": {
+    "create": {
+      "disposition": "host_run_verified",
+      "operation": "create",
+      "evidence": "outputs/create/wd_m7xw_create.mp4"
+    },
+    "extend": {
+      "disposition": "host_run_verified",
+      "operation": "extend",
+      "evidence": "outputs/extend/wd_m7xw_extend.mp4"
+    },
+    "retake": {
+      "disposition": "host_run_verified",
+      "operation": "retake",
+      "evidence": "outputs/retake/wd_m7xw_retake.mp4"
+    },
+    "edit": {
+      "disposition": "host_run_verified",
+      "operation": "edit",
+      "evidence": "outputs/edit/wd_m7xw_edit.mp4"
+    },
+    "outpaint": {
+      "disposition": "dependency_blocked",
+      "operation": "outpaint",
+      "evidence": "host-logs-resumed/outpaint.render.log"
+    },
+    "repaint": {
+      "disposition": "dependency_blocked",
+      "operation": "repaint",
+      "evidence": "host-logs-resumed/repaint.render.log"
+    },
+    "recast": {
+      "disposition": "dependency_blocked",
+      "operation": "recast",
+      "evidence": "host-logs-resumed/recast.render.log"
+    },
+    "upscale": {
+      "disposition": "dependency_blocked",
+      "operation": "upscale",
+      "evidence": "host-logs-resumed/upscale.render.log"
+    }
+  },
+  "runtime_notes": {
+    "wan2gp_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+    "download_bytes": 0,
+    "offline_mode": true,
+    "dependency_boundaries": "dependency-boundaries.md",
+    "gpu_holder_final": "llama-server PID 3213164 absent/stopped; GPU 84 MiB used",
+    "operation_map": "operation-map.md"
+  }
+}

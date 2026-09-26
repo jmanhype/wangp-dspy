@@ -1,0 +1,10 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-m7xw-run/settings/repaint.json
+--profile
+3
+--attention
+sdpa
+--output-dir
+/home/straughter/wd-m7xw-run/outputs/repaint

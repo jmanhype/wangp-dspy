@@ -1,0 +1,77 @@
+{
+  "schema_version": "wangp-dspy.wd-m7xw.objective-measurements/v1",
+  "source_sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+  "rows": [
+    {
+      "operation": "create",
+      "path": "outputs/create/wd_m7xw_create.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "bytes": 438713
+    },
+    {
+      "operation": "extend",
+      "path": "outputs/extend/wd_m7xw_extend.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 4.033,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "bytes": 1331303
+    },
+    {
+      "operation": "retake",
+      "path": "outputs/retake/wd_m7xw_retake.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "bytes": 388029
+    },
+    {
+      "operation": "edit",
+      "path": "outputs/edit/wd_m7xw_edit.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "bytes": 449032
+    }
+  ],
+  "retake_first_frame_ssim_all": 0.988417,
+  "retake_first_frame_psnr_db": 41.494432,
+  "edit_global_psnr_db": 38.30245
+}

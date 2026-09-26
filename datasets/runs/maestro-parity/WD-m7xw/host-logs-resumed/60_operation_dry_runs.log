@@ -1,0 +1,113 @@
+=== dry-run extend ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/extend.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/extend
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/extend.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=65
+          prompt: Continue naturally: the blue paper crane completes...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run retake ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/retake.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/retake
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/retake.json
+[load_settings] Loaded image: /home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=33
+          prompt: Retake from the same first frame: the blue paper c...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run edit ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/edit.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/edit
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/edit.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=33
+          prompt: Edit the controlled video: warm the window light, ...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run recast ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/recast.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/recast
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/recast.json
+[load_settings] Loaded image: /home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=33
+          prompt: Use the supplied reference frame to recast the sho...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run outpaint ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/outpaint.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/outpaint
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/outpaint.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=33
+          prompt: Widen the supplied crane scene with more paper map...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run repaint ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/repaint.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/repaint
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/repaint.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Using path: /home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=ltx2_25_22B_distilled, steps=8, frames=33
+          prompt: Repaint only the central compass region with warme...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.
+=== dry-run upscale ===
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/upscale.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/upscale
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/upscale.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=unknown, steps=30, frames=81
+          prompt: Media postprocessing...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.

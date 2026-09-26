@@ -1,0 +1,2 @@
+source=/home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend(2).mp4
+final=/home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend.mp4

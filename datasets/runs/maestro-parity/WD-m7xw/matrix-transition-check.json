@@ -1,0 +1,33 @@
+{
+  "schema": "wangp-dspy.wd-m7xw.matrix-transition/v1",
+  "source": "docs/video-capabilities.md",
+  "row": "ltx/2.5",
+  "before": {
+    "create": "planned",
+    "extend": "planned",
+    "blend": "unsupported",
+    "retake": "planned",
+    "edit": "planned",
+    "outpaint": "planned",
+    "repaint": "planned",
+    "recast": "planned",
+    "upscale": "planned"
+  },
+  "after": {
+    "create": "host_run_verified",
+    "extend": "host_run_verified",
+    "blend": "unsupported",
+    "retake": "host_run_verified",
+    "edit": "host_run_verified",
+    "outpaint": "dependency_blocked",
+    "repaint": "dependency_blocked",
+    "recast": "dependency_blocked",
+    "upscale": "dependency_blocked"
+  },
+  "changed_cells": 8,
+  "unchanged_cells": 1,
+  "unchanged_cell": "blend",
+  "planned_cells_after": 0,
+  "success_evidence": "evidence.json",
+  "dependency_evidence": "dependency-boundaries.md"
+}

@@ -1,0 +1,44 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/repaint.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/repaint
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/repaint.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Using path: /home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[Task 1/1] Repaint only the central compass region with warmer brass an...
+Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+Loading model LTX-2 2.5 Distilled 22B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Switching to partial pinning since full requirements for pinned models is 18561.5 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+The model was partially pinned to reserved RAM: 72 large blocks spread across 15720.76 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma4UnifiedForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'video_embeddings_connector' (Embeddings1DConnector)
+Hooked to model 'audio_embeddings_connector' (Embeddings1DConnector)
+  Model loaded  Downloading Lora ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors...Error downloading https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors:An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors']."
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 8841, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 7012, in generate_media
+    if len(errors) > 0 : raise gr.Error(errors)
+                         ^^^^^^^^^^^^^^^^^^^^^^
+gradio.exceptions.Error: "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors']."
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors']."
+
+==================================================
+Queue completed: 0/1 tasks in 17.6s

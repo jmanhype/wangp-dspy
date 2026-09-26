@@ -1,0 +1,75 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/upscale.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/upscale
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/upscale.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[Task 1/1] Media postprocessing...
+  Downloading LTX-2 Video Upsampler model files...
+  [ERROR] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1550, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1467, in get_hf_file_metadata
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 283, in _request_wrapper
+    response = _request_wrapper(
+               ^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 306, in _request_wrapper
+    response = http_backoff(method=method, url=url, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 307, in http_backoff
+    response = session.request(method=method, url=url, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 107, in send
+    raise OfflineModeIsEnabled(
+huggingface_hub.errors.OfflineModeIsEnabled: Cannot reach https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 8841, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 6809, in generate_media
+    edit_media(send_cmd, state, mode, video_source, seed, temporal_upsampling, spatial_upsampling, film_grain_intensity, film_grain_saturation, postprocess_audio, postprocess_audio_prompt, postprocess_audio_neg_prompt, repeat_generation, audio_source, replace_voice_method, replace_voice_sample, replace_voice_sample2, prompt=prompt, image_refs=image_refs, image_refs_relative_size=image_refs_relative_size, spatial_upsampler_prompt=spatial_upsampler_prompt, spatial_upsampler_reference_images=spatial_upsampler_reference_images, spatial_upsampler_face_count=spatial_upsampler_face_count, client_id=client_id, plugin_data=plugin_data)
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 5956, in edit_media
+    download_requested_postprocessing_assets(
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 3581, in download_requested_postprocessing_assets
+    edit_upsampler.download(process_files_def, send_cmd=send_cmd, status_text=f"Downloading {edit_upsampler.query_upsampler_def().get('name', 'postprocessing')} model files...", spatial_upsampling=spatial_upsampling)
+  File "/home/straughter/Wan2GP-story-WD-m7xw/postprocessing/ltx2_upsampler/wgp_bridge.py", line 118, in download
+    wgp.download_file(url, path)
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 3587, in download_file
+    return shared_download_file(url, filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-m7xw/shared/utils/download.py", line 225, in download_file
+    hf_hub_download(repo_id=repoId, filename=onefile, local_dir=fl.get_download_location() if len(base_dir) == 0 else base_dir)
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 994, in hf_hub_download
+    return _hf_hub_download_to_local_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1257, in _hf_hub_download_to_local_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1665, in _raise_on_head_call_error
+    raise LocalEntryNotFoundError(
+huggingface_hub.errors.LocalEntryNotFoundError: An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+
+  [ERROR] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+
+==================================================
+Queue completed: 0/1 tasks in 0.3s

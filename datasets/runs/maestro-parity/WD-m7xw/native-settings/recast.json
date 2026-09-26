@@ -1,0 +1,19 @@
+{
+  "model_type": "ltx2_25_22B_distilled",
+  "prompt": "Use the supplied reference frame to recast the shot with cleaner highlights on the blue paper crane and a clearer brass compass.",
+  "resolution": "448x832",
+  "seed": 2945,
+  "video_length": 33,
+  "guidance_phases": 1,
+  "sample_solver": "distilled_8_steps_ancestral",
+  "image_prompt_type": "I",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": ["/home/straughter/wd-m7xw-run/outputs/create/first-frame.png"],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "I",
+  "audio_prompt_type": "",
+  "output_filename": "wd_m7xw_recast"
+}

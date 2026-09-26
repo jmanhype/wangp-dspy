@@ -1,0 +1,21 @@
+{
+  "model_type": "ltx2_25_22B_distilled",
+  "prompt": "Repaint only the central compass region with warmer brass and cleaner enamel; preserve the surrounding scene and soundtrack.",
+  "resolution": "448x832",
+  "seed": 2947,
+  "video_length": 33,
+  "guidance_phases": 1,
+  "sample_solver": "distilled_8_steps_ancestral",
+  "image_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [],
+  "video_source": null,
+  "video_guide": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+  "video_mask": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+  "video_prompt_type": "MVGA",
+  "audio_prompt_type": "K",
+  "denoising_strength": 1.0,
+  "masking_strength": 0.0,
+  "output_filename": "wd_m7xw_repaint"
+}
