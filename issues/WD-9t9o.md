@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
 updated_at: 2026-09-26T16:27:57Z
-content_hash: "sha256:4da68d8cd7fb25166fe4b7b22c2f0b8729314319a657895342e20ae3f7e3669b"
+content_hash: "sha256:33eec5057b544cbdaed6bbe8de6e96dc87fa2d91faac4bd7c02cc89db9234166"
 blocks: [WD-fay0]
 assignee: dev-WD-9t9o
 follows: [WD-isg9, WD-14ej]
@@ -49,7 +49,78 @@ delivery proof, clean release verification, and PR CI must pass.
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
 
+Commands run:
+
+- `ssh 3090 /home/straughter/Wan2GP/wd-9t9o/host-scripts/wd_9t9o_preflight_hash_probe.sh`
+- `ssh 3090 /home/straughter/Wan2GP/wd-9t9o/host-scripts/wd_9t9o_boundary_probes.sh`
+- `ssh 3090 /home/straughter/Wan2GP/wd-9t9o/host-scripts/wd_9t9o_render.sh`
+- `ssh 3090 bash /tmp/wd_9t9o_retry_sdpa.sh`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-9t9o/build_preflight_hash_summary.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-9t9o/measure_objective_gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-9t9o/build-objective-gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-9t9o/build-evidence.py`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-9t9o`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py`
+- `pvg lint --backlog`
+- `git diff --check`
+- `uv run --frozen --extra dev wgp release verify --json`
+
+Summary:
+
+WD-9t9o terminally dispositioned all eight H3 VDN cells: edit, repaint, and upscale produced real distinct media with Sol-Attn proof; extend, retake, blend, recast, and outpaint reached evidenced host boundaries. No model-download bytes were used.
+
+Commit SHA: 216e7448c9a287f9df1b74e56f7dfd044e35af96
+
+### CI/Test Results
+
+- Scoped capability/evidence tests: 92 passed, exit 0.
+- Backlog lint: 132 scanned, 0 errors, 0 review findings.
+- `git diff --check`: exit 0.
+- Clean-tree release verification at `216e7448`: version/changelog/recipe/tree all pass; `release=ready`; no tag created.
+- PR 198 CI is pending at `216e7448`.
+- Canonical parity checker at delivery: fails only the two independent reviewer-verdict fields.
+- No scoped-test warning was emitted. Any full-suite FastAPI/Starlette deprecation warning is pre-existing and unrelated; it remains observable in CI rather than dismissed.
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Story claimed and delivered from clean story worktree. |
+| 2 | PASS | Raw live preflight records 4/4 model hashes/sizes, source hash, mtimes, disk, GPU, process, and QC state. |
+| 3 | PASS | `evidence.json` records exact preflight, boundary, render, and retry argv with observed model provenance. |
+| 4 | PASS | Three real outputs and five real host boundaries disposition all eight VDN cells. |
+| 5 | PASS | Matrix changes are limited to the eight VDN cells and supporting narrative. |
+| 6 | PENDING REVIEWER | 39/39 objective gates and scoped tests pass; checker awaits reviewer approval and CI. |
+| 7 | PENDING REVIEWER | Delivery proof, PM acceptance, and merge remain. |
+
+LEARNINGS:
+
+- H3 VDN with visual source/first-frame conditioning and required Sol settings currently fails in the text/vision encoder SageAttention path before denoising; this is a reproducible host boundary, not a 24-GiB verdict.
+- Grouped-row masked repaint conflicts with Sol-Attn; `h3_mask_mode=shared_timestep` preserves both the mask and the required Sol runtime.
+- Preserve raw model/source hashes and mtimes up front; boolean preflight summaries are insufficient for independent PM review.
+
+### OBSERVATIONS (unrelated)
+
+- The existing FastAPI test-client import can emit `StarletteDeprecationWarning` in the full suite; it is unrelated to WD-9t9o and is retained for SrPM triage if CI reports it.
+
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: 216e7448c9a287f9df1b74e56f7dfd044e35af96
+- Preflight model/source hash summary passes 4/4 plus source match.
+- Objective gates: 39 pass, 0 fail.
+- Scoped tests, lint, diff-check, and clean release verification pass.
+- Reviewer approval remains pending.
+
+### proof
+
+- [x] AC1 through AC5 pass with artifacts cited above.
+- [ ] AC6 completes after independent reviewer approval and PR CI.
+- [ ] AC7 completes after PM acceptance and merge.
 
 ## nd_contract
 status: delivered
