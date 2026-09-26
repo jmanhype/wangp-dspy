@@ -8,7 +8,7 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T13:27:54Z
+updated_at: 2026-09-26T13:28:09Z
 content_hash: "sha256:e14ce04e4dba1eacc3c9ba07bc9fcf7087804b73591f7a71d914b9230af1be9f"
 assignee: dev-WD-isg9
 follows: [WD-14ej]
