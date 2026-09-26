@@ -8,10 +8,10 @@ labels: [discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:12:24Z
+updated_at: 2026-09-26T17:13:20Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:2d59d4650da46ae44a6f75f335ed1f274acd71c34441fe4e3fa5d21e2c03c682"
+content_hash: "sha256:2b38aa52d84dc9642a7d20ebc0f263b6d22ea869d77eaba635167dec3dc0078a"
 ---
 ## Description
 ## Context
@@ -66,7 +66,7 @@ Story WD-9t9o: PM closeout review observed nonfatal missing-mutagen errors in ed
 
 ## Capstone Impact
 
-No `blocks WD-fay0` dependency is added. The saved media, hashes, ffprobe records, objective gates, and checker evidence remain usable, so this warning-quality/host-dependency defect does not truly block the capstone's evidence verification. It must be tracked and owned separately.
+This bug blocks WD-fay0 at the governance gate, not by invalidating the accepted lane evidence. The saved media, hashes, ffprobe records, objective gates, and checker evidence remain usable, but WD-fay0 requires a clean backlog lint gate and WD-3nod cannot complete with this P0 sibling unresolved. The `WD-fay0 depends on WD-f0vk` edge is therefore required.
 
 ## MANDATORY SKILLS
 
