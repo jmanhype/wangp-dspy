@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:07:01Z
 created_by: speed
-updated_at: 2026-09-26T18:34:34Z
+updated_at: 2026-09-26T18:35:16Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:4457c08637fc9f4b84f3244838902c884fb92c009eb735a720073f2c0b3a7fc9"
+content_hash: "sha256:1d0b925246e4198767eb6b7220469a7ef814191a9f527f2fb087d27baf1f4df3"
 blocks: [WD-fay0]
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
@@ -306,3 +306,16 @@ status: rejected
 
 ### proof
 - [ ] AC #6 supporting deliverable is incomplete: command help does not reflect the changed lint behavior.
+
+### 2026-09-26T18:35:16Z speed
+DOCS_STALE rework delivered at e00cd9d23bf85dc687b7253e48b19c539b07d4dc. This later marker records the authoritative rework state after the rejected comment above.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit e00cd9d23bf85dc687b7253e48b19c539b07d4dc pushed to fork story/WD-9ymi.
+- Focused help test, targeted cmd/pvg suite, pvg verify, branch-built lint help, and whitespace checks passed.
+
+### proof
+- [x] AC #6 documentation support: pvg lint --help includes acceptance-criteria.
