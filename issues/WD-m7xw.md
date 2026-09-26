@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:03:02Z
-content_hash: "sha256:94279aeaebb70ff1da33cd16532d10738b09cb7194835f7950b4e8f916e36548"
+updated_at: 2026-09-26T23:04:22Z
+content_hash: "sha256:3bcdff2b6afaead72d8f6d5f6ecb541268b18687549f27217fd612a1466af3b2"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
@@ -133,6 +133,21 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+## Implementation Evidence
+
+This heading is a verifier-format correction; the authoritative detailed proof is in the preceding delivered block. Commands, summary, coverage, final commit SHA a4f145bb, operation evidence, boundaries, and AC table are present there.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Detailed delivered proof immediately above; final branch commit a4f145bb.
+
+### proof
+- [x] AC #1 through AC #8 verified as detailed above.
+- [ ] AC #9 remains explicitly partial: full-suite stop boundary and pending independent reviewer.
+
+
 ## Implementation Evidence (DELIVERED)
 
 ### CI/Test Results
