@@ -4,7 +4,7 @@ title: "Maestro parity: generation evidence"
 status: open
 priority: 1
 type: epic
-labels: [capability, evidence, accepted]
+labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
 updated_at: 2026-09-26T05:37:53Z
