@@ -8,7 +8,7 @@ labels: [capability, finishing, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:49:02Z
+updated_at: 2026-09-26T02:50:28Z
 content_hash: "sha256:af64c29f26d404d9839e1189c8ce71ca737b9c6e5c0aa497cd1cf75a7711221f"
 assignee: dev-WD-r4n8
 follows: [WD-fay0]
@@ -266,7 +266,7 @@ status: new
 - 2026-09-26T02:04:16Z claimed by dev-WD-r4n8
 - 2026-09-26T02:47:58Z dep_added: blocks WD-fay0
 
-#### Links
+## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Follows: [[WD-fay0]]
