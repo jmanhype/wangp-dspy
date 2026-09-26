@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:55:32Z
-content_hash: "sha256:41ac269956af4b18e58ce2ce44f7f44212e66ed358d9b594af22677b9b411206"
+updated_at: 2026-09-26T00:55:33Z
+content_hash: "sha256:5dfb7b8c6cb339d375ee227feebf19193c952f59058f611ef107a736f5f62bbc"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -114,6 +114,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-25.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 ### Scope and artifacts
