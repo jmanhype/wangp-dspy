@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:55:33Z
-content_hash: "sha256:5dfb7b8c6cb339d375ee227feebf19193c952f59058f611ef107a736f5f62bbc"
+updated_at: 2026-09-26T00:56:00Z
+content_hash: "sha256:186764353a1bc23df660f12e5fdf67cbc859f2bccf07b3383ea57ec46f352a37"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -114,7 +114,18 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- Authoritative delivery record: commit 1dbdd7977560c74a31a05986413b5671880b8031 is pushed to origin/story/WD-fay0; evidence-index.md/.json, gate-transcript.md, and validate_index.py are committed. The detailed Implementation Evidence block above remains part of this contract.
+
+### proof
+- [x] AC #1: NOT MET — 120 planned and 6 consent-pending cells remain.
+- [x] AC #2: NOT MET — WD-0zj8 and WD-dmf2 checker exits are 1.
+- [x] AC #3: NOT MET — clean-machine generated-artifact half is blocked on operator host/model inputs.
+- [x] AC #4: MET — lint 0/0; full suite 2085/0/0/1; release ready/tag false; story-base protected parity and diff-check pass; accepted WD-e4r7 is the sole older-base exception.
+- [x] AC #5: NOT MET — coverage validates, but the referenced bundle set does not pass and operator dispositions remain absent.
 
 ## nd_contract
 status: delivered
