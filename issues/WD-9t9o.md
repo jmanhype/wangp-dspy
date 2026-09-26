@@ -4,11 +4,11 @@ title: "Maestro parity: H3 VDN operation batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, evidence]
+labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
-updated_at: 2026-09-26T16:27:56Z
+updated_at: 2026-09-26T16:27:57Z
 content_hash: "sha256:2ada37e9f4b7688d77336f6fb7d7dea3241a8f24dfadde8c5ebe61e530552e24"
 blocks: [WD-fay0]
 assignee: dev-WD-9t9o
