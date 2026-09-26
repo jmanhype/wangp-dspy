@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:38:10Z
-content_hash: "sha256:3e0413f8b1881a178630edcdcdc3efde5beaa52082721d30abef0ec8d01f4884"
+updated_at: 2026-09-26T23:38:43Z
+content_hash: "sha256:22bcb8188bb4c98f9418bef6a29123bf09840fdbce2b75ef23381c4749cfec7f"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw]
@@ -111,7 +111,7 @@ status: new
 
 
 ## Notes
-
+## PM Decision REJECTED [2026-09-26]: AC #10 lacks completed full-suite or exact-commit CI evidence. ## nd_contract status: rejected ### evidence - Committed fullsuite.xml: 2108 tests, errors=0, failures=2, skipped=1; clean retry stopped at 47% with no JUnit. - Checker, scoped tests, lint, release, diff, and protected parity passed, but those do not substitute for the explicit full-suite gate. ### proof - [ ] AC #10: full pytest JUnit errors=0 failures=0 for exact pushed commit 2d778cef293ef3c5a441a35e15d89d715999e10d remains unproven.
 
 ## nd_contract
 status: rejected
