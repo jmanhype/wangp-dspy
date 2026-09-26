@@ -8,6 +8,11 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/
 c17c12a1c21fc7ef6a5145c4a391e1f7e738d5a9e4827c5e088b95a4886d2d2c  datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md
 015233e3c34d4681ec626ccdebaae46ae064dcbbccb3d0884b64850d4125e114  datasets/runs/maestro-parity/WD-m7xw/evidence.json
 e5ad5669c4629a96420f8b66d98a34a566db2f49c12ed9fb2ce538cceb4152ae  datasets/runs/maestro-parity/WD-m7xw/fullsuite-boundary.md
+355ebdd98fd922443f76f8be36049ea7de12f1389068f06531f47638c7c6eb1a  datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed-boundary.md
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed.err
+9d9b18720961e9b4689fd763b85e7b6f36160ccd3a8a1c9ddc5103bb0f66c396  datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed.exit
+0817972ee1b4d84d18e4d4ed70a79880600035d7d30a372933b8f913609c117c  datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed.out
+7e0a18393fae14f6df04d0d1f99ae41d689f608c0c27e992d21078783a48627a  datasets/runs/maestro-parity/WD-m7xw/fullsuite-resumed.stop-boundary.txt
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/maestro-parity/WD-m7xw/fullsuite.err
 f5bde7eb9f6c71611dc5726e8aca3eb4eba3e386da49e0a4ed5c295a90a73a0d  datasets/runs/maestro-parity/WD-m7xw/fullsuite.exit
 1fb3a0ca39fa4ab55ed41023e886b1207763fb64b8880d3681bd905c108406cf  datasets/runs/maestro-parity/WD-m7xw/fullsuite.out
@@ -111,6 +116,7 @@ c75c46aa61eb88f06a408602211b7c106b6e5d146848d5d0c0207b1cd6a38e5b  datasets/runs/
 662ef1c68a03a84abf1bd00ac1d782030d63a77337bd37246973d6166fd88b9e  datasets/runs/maestro-parity/WD-m7xw/outputs/retake/wd_m7xw_retake.mp4
 5aa02e5b2d58d7e244a34f3d8bd64a67a53331383ce94cac531f77a91a9d8449  datasets/runs/maestro-parity/WD-m7xw/outputs/retake/wd_m7xw_retake.sha256
 da1347bf5c87a4218760f4867bf79e0b63c6c97cf696bf747781bc69259c892a  datasets/runs/maestro-parity/WD-m7xw/preflight-boundary.json
+ae230242e14b7dec95a0b6ce60f020952d3df4228767d969afac484df3b6a713  datasets/runs/maestro-parity/WD-m7xw/protected-parity-and-diff-check-final.txt
 98a41dfeed8031a11b4b353935ab3c5e48752138da24846b5df6041bb455c3bd  datasets/runs/maestro-parity/WD-m7xw/protected-parity-and-diff-check-resumed.txt
 8b2ae5be68c1a58c25cc827fca9098b7e3e7f01b233fc37b383582806cb9415d  datasets/runs/maestro-parity/WD-m7xw/protected-parity-and-diff-check.txt
 9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  datasets/runs/maestro-parity/WD-m7xw/pvg-lint-resumed.exit
@@ -122,6 +128,9 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/
 9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  datasets/runs/maestro-parity/WD-m7xw/pvg-verify-resumed.exit
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/maestro-parity/WD-m7xw/pvg-verify-resumed.stderr
 39f329c1a36b0368c4fe114340d2a1164ca81c4b1dd609f816048aa2f3131b46  datasets/runs/maestro-parity/WD-m7xw/pvg-verify-resumed.txt
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  datasets/runs/maestro-parity/WD-m7xw/release-verify-resumed.exit
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/maestro-parity/WD-m7xw/release-verify-resumed.stderr
+892e180075e0bed6e6cee99e05cb0c6d35ee3fb09418b5bf2d20bd4bf37a63cc  datasets/runs/maestro-parity/WD-m7xw/release-verify-resumed.txt
 9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  datasets/runs/maestro-parity/WD-m7xw/release-verify.exit
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  datasets/runs/maestro-parity/WD-m7xw/release-verify.stderr
 892e180075e0bed6e6cee99e05cb0c6d35ee3fb09418b5bf2d20bd4bf37a63cc  datasets/runs/maestro-parity/WD-m7xw/release-verify.txt

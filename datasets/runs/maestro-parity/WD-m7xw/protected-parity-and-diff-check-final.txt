@@ -1,0 +1,3 @@
+commit=0d44dff2e642bccb22fae63e8463ebea7b5e7d9a
+protected_parity_exit=0
+git_diff_check_exit=0
