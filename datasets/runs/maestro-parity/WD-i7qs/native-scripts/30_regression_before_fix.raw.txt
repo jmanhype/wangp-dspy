@@ -1,0 +1,45 @@
+test_deployed_gemma4_video_token (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_deployed_gemma4_video_token) ... ERROR
+test_enabling_the_mistral_patch_still_fails_on_bare_split (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_enabling_the_mistral_patch_still_fails_on_bare_split) ... FAIL
+test_extra_special_tokens_load_without_the_mistral_patch (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_extra_special_tokens_load_without_the_mistral_patch) ... ERROR
+test_list_only_extra_special_tokens_still_need_the_dict_override (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_list_only_extra_special_tokens_still_need_the_dict_override) ... ok
+test_wrapper_defaults_keep_the_two_options_independent (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_wrapper_defaults_keep_the_two_options_independent) ... ERROR
+
+======================================================================
+ERROR: test_deployed_gemma4_video_token (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_deployed_gemma4_video_token)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_ltx_gemma_tokenizer.py", line 98, in test_deployed_gemma4_video_token
+    tokenizer = LTXVGemmaTokenizer(
+                ^^^^^^^^^^^^^^^^^^^
+TypeError: LTXVGemmaTokenizer.__init__() got an unexpected keyword argument 'extra_special_tokens'
+
+======================================================================
+ERROR: test_extra_special_tokens_load_without_the_mistral_patch (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_extra_special_tokens_load_without_the_mistral_patch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_ltx_gemma_tokenizer.py", line 61, in test_extra_special_tokens_load_without_the_mistral_patch
+    tokenizer = LTXVGemmaTokenizer(
+                ^^^^^^^^^^^^^^^^^^^
+TypeError: LTXVGemmaTokenizer.__init__() got an unexpected keyword argument 'extra_special_tokens'
+
+======================================================================
+ERROR: test_wrapper_defaults_keep_the_two_options_independent (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_wrapper_defaults_keep_the_two_options_independent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_ltx_gemma_tokenizer.py", line 77, in test_wrapper_defaults_keep_the_two_options_independent
+    self.assertIsNone(parameters["extra_special_tokens"].default)
+                      ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'extra_special_tokens'
+
+======================================================================
+FAIL: test_enabling_the_mistral_patch_still_fails_on_bare_split (test_ltx_gemma_tokenizer.LTXVGemmaTokenizerTests.test_enabling_the_mistral_patch_still_fails_on_bare_split)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-i7qs/tests/test_ltx_gemma_tokenizer.py", line 94, in test_enabling_the_mistral_patch_still_fails_on_bare_split
+    self.assertIn("does not support item assignment", str(raised.exception))
+AssertionError: 'does not support item assignment' not found in "LTXVGemmaTokenizer.__init__() got an unexpected keyword argument 'extra_special_tokens'"
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.237s
+
+FAILED (failures=1, errors=3)

@@ -1,0 +1,72 @@
+--- tokenizer ---
+     8	    ensuring correct settings and output formatting for downstream consumption.
+     9	    """
+    10	
+    11	    def __init__(
+    12	        self,
+    13	        tokenizer_path: str,
+    14	        max_length: int = 256,
+    15	        fix_mistral_regex: bool = False,
+    16	        extra_special_tokens: dict[str, str] | None = None,
+    17	    ):
+    18	        """
+    19	        Initialize the tokenizer.
+    20	        Args:
+    21	            tokenizer_path (str): Path to the pretrained tokenizer files or model directory.
+    22	            max_length (int, optional): Max sequence length for encoding. Defaults to 256.
+    23	            extra_special_tokens (dict[str, str] | None, optional): Optional Hugging Face
+    24	                extra-special-token overrides. Defaults to None.
+    25	        """
+    26	        kwargs = {}
+    27	        if extra_special_tokens is not None:
+    28	            kwargs["extra_special_tokens"] = extra_special_tokens
+    29	        self.tokenizer = AutoTokenizer.from_pretrained(
+    30	            tokenizer_path, local_files_only=True, model_max_length=max_length, fix_mistral_regex=fix_mistral_regex, **kwargs
+    31	        )
+    32	        # Gemma expects left padding for chat-style prompts; for plain text it doesn't matter much.
+    33	        self.tokenizer.padding_side = "left"
+    34	        if self.tokenizer.pad_token is None:
+--- base encoder call sites ---
+   466	        writable_tensors=False,
+   467	        preprocess_sd=preprocess_sd,
+   468	        forcedConfigPath= config_path,
+   469	        default_dtype=default_dtype,
+   470	        ignore_unused_weights=gemma4,
+   471	    )
+   472	    tokenizer_kwargs = {"extra_special_tokens": {"video_token": "<|video|>"}} if gemma4 else {}
+   473	    text_encoder.tokenizer = LTXVGemmaTokenizer(tokenizer_path, 1024, **tokenizer_kwargs)
+   474	    text_encoder._gemma_root = side_files_root
+   475	
+   476	    return text_encoder
+   477	
+   478	
+   479	def module_ops_from_gemma_root(gemma_root: str) -> tuple[ModuleOps, ...]:
+   480	    gemma_path = gemma_root
+   481	    gemma_root = os.path.dirname(gemma_root)
+   482	    tokenizer_path =  fl.locate_folder(os.path.join(_GEMMA_FOLDER)) #, "tokenizer.model"
+   483	
+   484	    def load_gemma(module: GemmaTextEncoderModelBase) -> GemmaTextEncoderModelBase:
+   485	        config_path = fl.locate_file(os.path.join(_GEMMA_FOLDER, "config.json"))
+   486	        module.model = offload.fast_load_transformers_model(
+   487	            gemma_path,
+   488	            modelClass=Gemma3ForConditionalGeneration,
+   489	            defaultConfigPath=config_path,
+   490	            writable_tensors=False,
+   491	            preprocess_sd=_preprocess_gemma_state_dict,
+   492	        )
+   493	        module._gemma_root = module._gemma_root or gemma_root
+   494	        return module
+   495	
+   496	    def load_tokenizer(module: GemmaTextEncoderModelBase) -> GemmaTextEncoderModelBase:
+   497	        module.tokenizer = LTXVGemmaTokenizer(tokenizer_path, 1024)
+   498	        module._gemma_root = module._gemma_root or gemma_root
+   499	        return module
+   500	
+   501	    gemma_load_ops = ModuleOps(
+   502	        "GemmaLoad",
+--- commit files ---
+M	models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py
+M	models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py
+A	tests/test_ltx_gemma_tokenizer.py
+--- remote SHA ---
+faea82d15bf10b3479c42c0ea430892aae975870	refs/heads/story/WD-i7qs

@@ -1,0 +1,21 @@
+live_dirty_count=106
+live_head=4c93b64a47b5b0a915f2abec2ce754be98227150
+origin_main=071ce70aab1169c61cc14bbefd71bdda3a04a9e9
+remotes:
+fork	git@github.com:jmanhype/Wan2GP.git (fetch)
+fork	https://github.com/jmanhype/Wan2GP.git (push)
+origin	git@github.com:deepbeepmeep/Wan2GP.git (fetch)
+origin	git@github.com:deepbeepmeep/Wan2GP.git (push)
+target_hashes:
+0accdf91f65ff63eee107ff28fbe64424052c39e809c0415164feb83acee5299  /home/straughter/Wan2GP/models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py
+2ac7aaed0e0ad852461aed1b8d2be4023b00e0f7b84308e9a8902c896e5ec824  /home/straughter/Wan2GP/models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py
+tokenizer_config_extra_special_tokens:
+['<|video|>']
+Preparing worktree (new branch 'story/WD-i7qs')
+HEAD is now at 071ce70a fixed typo
+isolated_branch=story/WD-i7qs
+isolated_head=071ce70aab1169c61cc14bbefd71bdda3a04a9e9
+isolated_dirty_count=0
+target_hashes:
+c97ba6ae5f3eb5b5fe79dfbe02deab07b7d610e8
+5ebfe722bc14086e579bdc26dd1be6425328cb71

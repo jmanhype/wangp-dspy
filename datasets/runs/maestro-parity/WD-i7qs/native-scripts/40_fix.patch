@@ -1,0 +1,41 @@
+--- a/models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py
++++ b/models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py
+@@ -8,14 +8,24 @@
+     ensuring correct settings and output formatting for downstream consumption.
+     """
+ 
+-    def __init__(self, tokenizer_path: str, max_length: int = 256, fix_mistral_regex: bool = False):
++    def __init__(
++        self,
++        tokenizer_path: str,
++        max_length: int = 256,
++        fix_mistral_regex: bool = False,
++        extra_special_tokens: dict[str, str] | None = None,
++    ):
+         """
+         Initialize the tokenizer.
+         Args:
+             tokenizer_path (str): Path to the pretrained tokenizer files or model directory.
+             max_length (int, optional): Max sequence length for encoding. Defaults to 256.
++            extra_special_tokens (dict[str, str] | None, optional): Optional Hugging Face
++                extra-special-token overrides. Defaults to None.
+         """
+-        kwargs = {"extra_special_tokens": {"video_token": "<|video|>"}} if fix_mistral_regex else {}
++        kwargs = {}
++        if extra_special_tokens is not None:
++            kwargs["extra_special_tokens"] = extra_special_tokens
+         self.tokenizer = AutoTokenizer.from_pretrained(
+             tokenizer_path, local_files_only=True, model_max_length=max_length, fix_mistral_regex=fix_mistral_regex, **kwargs
+         )
+--- a/models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py
++++ b/models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py
+@@ -469,7 +469,8 @@
+         default_dtype=default_dtype,
+         ignore_unused_weights=gemma4,
+     )
+-    text_encoder.tokenizer = LTXVGemmaTokenizer(tokenizer_path, 1024, fix_mistral_regex=gemma4)
++    tokenizer_kwargs = {"extra_special_tokens": {"video_token": "<|video|>"}} if gemma4 else {}
++    text_encoder.tokenizer = LTXVGemmaTokenizer(tokenizer_path, 1024, **tokenizer_kwargs)
+     text_encoder._gemma_root = side_files_root
+ 
+     return text_encoder

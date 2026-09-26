@@ -1,0 +1,19 @@
+pre_commit_status:
+ M models/ltx2/ltx_core/text_encoders/gemma/encoders/base_encoder.py
+ M models/ltx2/ltx_core/text_encoders/gemma/tokenizer.py
+?? tests/test_ltx_gemma_tokenizer.py
+[story/WD-i7qs faea82d1] fix(WD-i7qs): decouple gemma extra tokens from mistral patch
+ 3 files changed, 127 insertions(+), 3 deletions(-)
+ create mode 100644 tests/test_ltx_gemma_tokenizer.py
+remote: 
+remote: Create a pull request for 'story/WD-i7qs' on GitHub by visiting:        
+remote:      https://github.com/jmanhype/Wan2GP/pull/new/story/WD-i7qs        
+remote: 
+To https://github.com/jmanhype/Wan2GP.git
+ * [new branch]        story/WD-i7qs -> story/WD-i7qs
+branch 'story/WD-i7qs' set up to track 'fork/story/WD-i7qs'.
+branch=story/WD-i7qs
+head=faea82d15bf10b3479c42c0ea430892aae975870
+upstream=fork/story/WD-i7qs
+post_push_status:
+## story/WD-i7qs...fork/story/WD-i7qs

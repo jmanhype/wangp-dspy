@@ -1,0 +1,8 @@
+transformers=4.57.6 tokenizers=0.22.2
+tokenizer_path=/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1
+model_type=gemma4_unified_text gemma4=True
+old_conflation: FAIL TypeError: 'tokenizers.pre_tokenizers.Split' object does not support item assignment
+no_override: FAIL AttributeError: 'list' object has no attribute 'keys'
+real_gemma4_path: OK vocab=262144 video_token_id=258884
+real_gemma4_path: ids=[258884, 496, 5866, 23241, 1343, 6927]
+real_gemma4_path: video_only_ids=[2, 258884]
