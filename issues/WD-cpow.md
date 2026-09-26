@@ -9,12 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T06:24:28Z
-content_hash: "sha256:389e0e932708093be30e4910708fcda064b2627fc44e47c429282effd5d3188d"
+content_hash: "sha256:5c2770ce105c41d1e9afa517132462fc7e1295e2bb391c293ade240eac3dd220"
 assignee: dev-WD-cpow
 follows: [WD-rous, WD-0zj8]
 closed_at: 2026-09-25T06:24:28Z
 close_reason: "Approved after independent artifact hash, media packet-stream, gate, download-reuse, checker, and standing-gate verification at 10a5e92060041a0d7542ae46299730d6c639325f."
 led_to: [WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-fay0]
+blocks: [WD-7fvx]
 ---
 
 ## Description
@@ -207,9 +208,11 @@ Observable outcome: an explicitly authorized future run emits hashed SFX/audio-p
 - 2026-09-26T20:53:06Z dep_removed: no_longer_blocks WD-gqlc
 - 2026-09-26T20:53:09Z dep_added: blocks WD-6g3g
 - 2026-09-26T20:53:43Z dep_removed: no_longer_blocks WD-6g3g
+- 2026-09-26T20:53:46Z dep_added: blocks WD-7fvx
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-7fvx]]
 - Follows: [[WD-rous]], [[WD-0zj8]]
 - Led to: [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-fay0]]
 
