@@ -1,15 +1,15 @@
 ---
 id: WD-m7xw
 title: "LTX-2.5 no-download operation batch"
-status: in_progress
+status: blocked
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T20:57:46Z
-content_hash: "sha256:231feff23a6115d6235fa0885fa43a7182d91401f39482a797a54604a4c61e25"
+updated_at: 2026-09-26T21:01:15Z
+content_hash: "sha256:cefc166383f267052412b98673969e753c91d149e9d91134c817b401ac009d56"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 assignee: dev-WD-m7xw
@@ -119,7 +119,7 @@ status: new
 
 
 ## Notes
-
+BLOCKED 2026-09-26T21:00:00Z (authorization preflight): required operator input is incomplete, so execution stopped before SSH, GPU, queue admission, fixed-branch deployment, downloads, dependency changes, and hash preflight. Present scope supplies the eight operations, fifteen expected LTX-2.5 hashes, fixed Wan2GP commit faea82d15bf10b3479c42c0ea430892aae975870, zero-download intent, and serial-render intent, but not verbatim approval timestamp, approver identity, exact render-host identity, command/time boundary, or VRAM/service policy. Existing WD-2gyw authorization is scoped only to WD-2gyw, and WD-i7qs explicitly performed no render and left deployment separate. This is a missing-operator-input blocker, not unsupported_on_this_hardware. docs/video-capabilities.md:81 remains unchanged: create/extend/retake/edit/outpaint/repaint/recast/upscale stay planned and blend stays the existing typed backend boundary.
 
 ## History
 - 2026-09-26T20:53:46Z dep_added: blocks WD-fay0
@@ -128,6 +128,7 @@ status: new
 - 2026-09-26T20:57:46Z status: open -> in_progress
 - 2026-09-26T20:57:46Z auto-follows: linked to predecessor WD-5k28
 - 2026-09-26T20:57:46Z claimed by dev-WD-m7xw
+- 2026-09-26T21:01:15Z status: in_progress -> blocked
 
 ## Links
 - Parent: [[WD-3nod]]
