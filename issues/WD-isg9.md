@@ -4,7 +4,7 @@ title: "Maestro parity: H3 standard operation batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, evidence, rejected]
+labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
