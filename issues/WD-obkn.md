@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:33:25Z
-content_hash: "sha256:ed61e80807f9198ae14c9a0acc18b6b69f039855069f55b86199bf8a9304f3ef"
+updated_at: 2026-09-26T23:35:11Z
+content_hash: "sha256:5108282c3b7b2a4285b8f245c58895b054642fb1c5d636b7088cc6de59df844f"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 assignee: dev-WD-obkn
@@ -312,3 +312,39 @@ status: delivered
 - Follows: [[WD-5k28]], [[WD-m7xw]]
 
 ## Comments
+
+### 2026-09-26T23:35:11Z speed
+## Implementation Evidence
+
+### CI/Test Results
+Commands run:
+- uv run --frozen --extra dev pytest -q tests/test_finishing_capabilities.py tests/test_maestro_parity_evidence.py tests/test_no_maestro_verbatim.py --junitxml=/tmp/WD-obkn-scoped.xml
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full.xml
+- uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full-clean.xml
+- uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-obkn
+- pvg lint --backlog
+- uv run --frozen --extra dev wgp release verify
+- pvg verify docs/finishing-capabilities.md datasets/runs/maestro-parity/WD-obkn/operator-decisions.md datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md datasets/runs/maestro-parity/WD-obkn/analyze_film_grain.py --format=text
+- git diff --check
+- git diff --exit-code 2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+- git push -u origin story/WD-obkn
+- git ls-remote origin refs/heads/story/WD-obkn
+
+Summary: checker PASS with owned_warnings=0; scoped pytest 136/136 PASS; backlog lint 0 errors/0 review; release=ready and tag_created=false; pvg verify PASS; diff and protected parity PASS. Pre-commit full JUnit was 2108 tests, 2 expected dirty-tree release failures, 0 errors, 1 skipped. Clean full-suite retry was dispatcher-stopped at 47% during a concurrent LF004 launcher hang and is NOT claimed as a pass. Coverage is not_applicable because no production runtime control flow changed.
+
+Commit SHA: 2d778cef293ef3c5a441a35e15d89d715999e10d
+
+LEARNINGS:
+- Keep pvg verify-delivery's literal proof headings and contract-at-EOF shape.
+- No clean full-suite pass is fabricated; the concurrency boundary remains part of the authoritative proof.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Pushed commit 2d778cef293ef3c5a441a35e15d89d715999e10d and all artifacts/gates recorded above.
+
+### proof
+- [x] AC #1 through AC #9 verified from artifacts.
+- [ ] AC #10 clean full-suite completion remains concurrency-blocked; checker/lint/release/diff/protected passed and no pass is claimed.
+
