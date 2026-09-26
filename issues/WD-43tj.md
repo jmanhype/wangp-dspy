@@ -4,7 +4,7 @@ title: "Maestro parity: TaoMate host boundary"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, evidence]
+labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
