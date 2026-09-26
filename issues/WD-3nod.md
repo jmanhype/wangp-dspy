@@ -4,10 +4,10 @@ title: "Maestro parity: generation evidence"
 status: open
 priority: 1
 type: epic
-labels: [capability, evidence, accepted]
+labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-26T04:07:53Z
+updated_at: 2026-09-26T04:30:47Z
 content_hash: "sha256:5cbdec28278d87ddbed1b8d1520236d19358a73253e0b4504ebc439d787b1367"
 ---
 
