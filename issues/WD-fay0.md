@@ -9,14 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-26T01:18:10Z
-content_hash: "sha256:a3593686383aa62e4f176bc1bdcb6df2bf3606831ebb7fa0ca3e1960f4ca7603"
-was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
+content_hash: "sha256:6ff21e509b3bb42277dd27b6a32c861548bd8d2c93759cd7dd367e6a00d020a9"
+was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 closed_at: 2026-09-26T01:18:10Z
 close_reason: "Accepted as a DELIVERED DISPOSITION INDEX only, not programme completion. Independently verified head/diff, lane checker outcomes, 208-cell disposition totals, no cross-lane edits, honest AC assessment, 61 fail-closed tests, and standing gates. Remaining scope: 120 matrix cells planned, 6 await operator consent, WD-dmf2 director gates fail structurally, and WD-0zj8 clean-machine generated-artifact half remains blocked."
 led_to: [WD-r4n8]
-blocked_by: [WD-r4n8]
 ---
 
 ## Description
@@ -262,11 +261,11 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-26T00:55:32Z status: in_progress -> in_progress
 - 2026-09-26T01:18:10Z status: in_progress -> closed
 - 2026-09-26T02:47:58Z dep_added: blocked_by WD-r4n8
+- 2026-09-26T03:17:49Z dep_removed: was_blocked_by WD-r4n8
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-r4n8]]
-- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
+- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
 - Led to: [[WD-r4n8]]
 

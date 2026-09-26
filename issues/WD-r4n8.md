@@ -1,18 +1,19 @@
 ---
 id: WD-r4n8
 title: "Finishing: honor film-grain size plus temporal_persistence in the emitted command graph"
-status: in_progress
+status: closed
 priority: 1
 type: feature
 labels: [capability, finishing, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
-updated_at: 2026-09-26T02:53:12Z
-content_hash: "sha256:b4aa6f5ca89c29ebd0612e36baa7bec9ef64a0e5f3b328df1a45953aa4bf076e"
+updated_at: 2026-09-26T03:17:49Z
+content_hash: "sha256:7e7b280344aca458f7dbe00ef17e18d8d054cf552025799fca6ab069738cf3d4"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2, WD-bxhc]
-blocks: [WD-fay0]
+closed_at: 2026-09-26T03:17:49Z
+close_reason: "AC1-AC7 independently reproduced at 3edd0282da0cb7b8983debd3c10b86b908c4046a: real-source grain graphs differ by encoded size/persistence, plans deterministic, plan-only invariants and fail-closed film rejection verified, docs honest, full suite/lint/release/diff and scope gates green."
 ---
 
 ## Description
@@ -274,10 +275,11 @@ status: new
 - 2026-09-26T02:51:31Z auto-follows: linked to predecessor WD-dmf2
 - 2026-09-26T02:52:46Z status: in_progress -> in_progress
 - 2026-09-26T02:52:46Z auto-follows: linked to predecessor WD-bxhc
+- 2026-09-26T03:17:49Z status: in_progress -> closed
+- 2026-09-26T03:17:49Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-fay0]], [[WD-dmf2]], [[WD-bxhc]]
 
 ## Notes
