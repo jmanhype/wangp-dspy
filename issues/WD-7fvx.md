@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T20:57:47Z
-content_hash: "sha256:346b90f47545c89625425e1e6eb3e53f221131c5f852c4cd98aa49625109a01e"
+updated_at: 2026-09-26T23:47:34Z
+content_hash: "sha256:19a792fee29cd86688170715479d9b8a549d7203e89f0a55ae6221f21c2509a5"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 assignee: dev-WD-7fvx
@@ -114,6 +114,95 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED FOR REVIEW)
+
+PROOF:
+
+### Authorization, immutability, and scope
+- Verbatim authorization is recorded in `operator-authorization.md` and `evidence.json.operator_authorization`: operator via /root dispatcher, timestamp `2026-09-26T20:31:00Z`, host `3090`, exact no-download scope/rights/stop boundary.
+- Story base: `2b4714bf`. WD-dmf2 before/after recursive content identity is `32b443680a0dacde1103a87d3fa263d75744fa25614ec83d9a414a521020fd46` across 285 files (`baseline-parity-before.json`, `baseline-parity-after.json`); immutable.
+- New evidence was written only under `datasets/runs/maestro-parity/WD-7fvx/` plus the mechanically derived two-cell matrix update in `docs/director-capabilities.md:37,43`.
+- Bundle terminal size/count: 200 files, 5920 KiB (`bundle-file-count.txt`, `bundle-size-kib.txt`).
+
+### No-download/model preflight and synchronized source pair
+- Preflight matched all four required model hashes before queue admission: Whisper `9ecf7799…`, Qwen text `3445102e…`, Qwen projector `add205b7…`, SyncNet `961e8696…` (`host-preflight.json`, `model-hashes.txt`).
+- Planned and actual model-download bytes are both 0; dependency/provider/model-fetch mutation lists are empty (`download-report.json`, `host-preflight.json`).
+- Source pair recomputed identical before and after: prepared speech `e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175` (2.333333 s, 24 kHz mono) and speech video `1cdac314c38142e15af22e1122a3df8177a5e2027b9a7fcde5807e13c8c407d3` (2.333333 s, 704x576, 24 fps) (`source-pair.json`, `host-final-state.json`).
+- Instrumental `wd_rous_ace_generate.wav` was not copied or paired; `source-pair.json.instrumental_audio_used=false`.
+
+### Real queue, outputs, and QC
+- Final durable queue: `wangp-JobQueue-WD-7fvx`, job `job-1790457887200-3571e01c`, retry `attempt-8`, admission admitted, exit `done` (`queue-record.json`, `queue-final-state.json`).
+- New director request hashes: audio `58f392037cd1d47c176d42ee8819c9172ddf539dae221c443e2f443a95e6ad99`; screenplay `eff6d93feaec455cd568595f8e9a8a9f2cd0a1f56ca8eda9beee8df341f4e50d`. Plan DBs and immutable plan queue/review records are retained under `planning/`.
+- Newly composed audio and screenplay outputs are `960x768`, 24 fps, 56 frames, `2.333333` s, SHA-256 `c9b9dbc6038e6cc7a3403c05372cb6ed25d1d586ec6eceecc57615e608a7050b`. The paths are mode-specific and the bytes differ from both WD-cpow source `1cdac314…` and all WD-dmf2 outputs; deterministic reuse of the same synchronized pair yields identical reworked bytes across the two mode paths.
+- Raw pre/post Whisper for both modes: intended `This is the last rain we have.`, transcript exact, score `1.0`, bar `0.6`.
+- Raw identity action/speaker for both: `0.95/0.9`, bar `0.7`. Raw three-frame mouth center spreads: `0.016` x and `0.029` y, bar `<=0.03` each.
+- Multicrop SyncNet for both: crop confidences `0.758436`, `1.126480`, `1.702520`; aggregate `1.126480 >= 1.0`, offset `10 <= 10` frames at 25 fps. Source motion proof has 3 unique frame hashes, so static zoompan is rejected.
+- PID-scoped Qwen judge start/stop receipts are retained (`judge-start.*`, `judge-stop.*`); no broad operator service mutation.
+- Reviewer decision is explicitly approved only for these two cells in `reviewer-record.md` and `evidence.json.reviewer_verdict`; no human PM acceptance or creative keeper claim is made.
+
+### Mechanical gates, checker, and matrix
+- `build_evidence.py` mechanically derived `objective-gates.json`: 26/26 gates `pass`; no failed value was converted to pass.
+- Final checker command `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-7fvx` exited 0: `PASS wangp-dspy.maestro-parity-evidence/v1 ... owned_warnings=0` (`checker-final.txt`).
+- Matrix parser (`matrix-transition-check.json`): 10 row identities before/after match; exactly one changed row, `Auto/manual review checkpoints`; Prompt stays planned, Audio/music-video and Screenplay become `host_run_verified (WD-7fvx)`, generation evidence stays none, and the generated-media row is unchanged.
+
+### CI/Test Results
+- Commands run:
+  - `pvg lint --backlog`
+  - `uv run --frozen --extra dev pytest -q tests/test_director_capabilities.py`
+  - clean-tree `/bin/bash`-precedence run of `uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-7fvx-full.xml`
+  - `uv run --frozen --extra dev wgp release verify`
+  - `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-7fvx`
+  - `pvg verify <authored subset>`
+  - `git diff --check`
+- Summary: backlog lint PASS 139 scanned / 0 errors / 0 review findings; targeted PASS 34/34; full suite PASS `tests=2108, errors=0, failures=0, skipped=1`; release PASS `release=ready`, `tag_created=false`; checker PASS 0 warnings; pvg verify PASS 2 files / 0 issues; diff-check PASS.
+- Coverage: not instrumented/claimed. This is an evidence-only story with no production package path change; real integration behavior is covered by the 2108-test suite plus the no-mock host/QC bundle.
+- The first full-suite attempts are owned in `standing-gates-final.md`: Homebrew Bash 5.2.37 reproduced a heredoc deadlock, and writing suite receipts inside the bundle made release tree checks dirty. The terminal clean-tree `/bin/bash`-precedence run and exact-test probe are retained. One FastAPI/Starlette deprecation warning is also reported, not suppressed.
+
+### Commit
+- Test-producing implementation commit: `d71ca053245a508bec02f28b29f815d230aa6f37`
+- Final evidence/pushed HEAD: `45d4c7f3` on `story/WD-7fvx`
+- Both commits are pushed to `origin/story/WD-7fvx`.
+
+### AC Verification
+| AC | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Authorization, immutable WD-dmf2 identity, namespace-only new evidence | operator-authorization.md; baseline-parity-before/after.json | PASS |
+| 2 | Zero downloads, all model hashes, no dependency/provider/fetch mutation | host-preflight.json; download-report.json | PASS |
+| 3 | Complete synchronized utterance preserved | source-pair.json; director-qc-evidence.json (2.333333 s / 56 frames) | PASS |
+| 4 | Audio mode uses matching WD-cpow speech pair; no instrumental pairing | source-pair.json; hash-ledger.json | PASS |
+| 5 | Screenplay uses motion-bearing speech video, rejects zoompan | director-qc-evidence.json; review/*/frame-hashes.json | PASS |
+| 6 | Raw pre/post Whisper, identity, three-frame mouth, multicrop SyncNet at unchanged bars | director-qc-evidence.json; qc/*-target.json | PASS |
+| 7 | Objective values mechanically derived and fail closed | build_evidence.py; objective-gates.json | PASS |
+| 8 | Checker exit 0, all applicable gates pass, explicit reviewer approval, mechanical matrix citation | checker-final.txt; reviewer-record.md; matrix-transition-check.json; docs/director-capabilities.md | PASS |
+| 9 | No threshold/queue/preflight/renderer/wiring/engine semantic change, no baseline mutation/fabrication | protected-parity-2b4714bf.*; baseline parity; objective-gates.json | PASS |
+
+LEARNINGS:
+- Pairing the speech video with its exact prepared audio removes both predecessor audio/screen clip-1 source failures without changing any bar.
+- A visually assessable action prompt is necessary for the still-frame identity judge; dialogue semantics belong to Whisper/SyncNet, not action vision.
+- Normalized mouth consensus and SyncNet respond differently to camera stabilization. The final 960x768 two-axis follow preserved all 56 frames and passed both.
+- Homebrew Bash 5.2.37 can deadlock this repository's LF004 heredoc test; `/bin/bash` precedence is a non-mutating run environment workaround, with the exact probe retained.
+- Full-suite receipts must stay outside the repository until the run terminates or release tree checks correctly fail on their own dirt.
+
+### DISCOVERED_BUG (one block per bug; details in standing-gates-final.md)
+- Homebrew Bash 5.2.37 heredoc deadlock in `tests/test_lf004_recovery_tooling.py`.
+- FastAPI testclient emits a Starlette/httpx deprecation warning.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Implementation commit `d71ca053245a508bec02f28b29f815d230aa6f37`; final evidence commit `45d4c7f3`; checker exit 0; full suite 2108/0 errors/0 failures; release ready; bundle and matrix evidence under `datasets/runs/maestro-parity/WD-7fvx/`.
+
+### proof
+- [x] AC #1: authorization and immutable baseline proven.
+- [x] AC #2: zero-download/model preflight and no mutation proven.
+- [x] AC #3: full synchronized utterance preserved.
+- [x] AC #4: matching speech pair used; instrumental excluded.
+- [x] AC #5: motion-bearing speech visual proven.
+- [x] AC #6: all raw gates and unchanged bars recorded.
+- [x] AC #7: 26 mechanical gates derived and pass.
+- [x] AC #8: checker, reviewer, and exact two-cell matrix transition recorded.
+- [x] AC #9: protected semantics, baseline immutability, and no fabrication verified.
 
 
 ## History
