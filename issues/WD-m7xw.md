@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T21:35:04Z
-content_hash: "sha256:74c43e53d7261da086fc5a7563ba9e1474786fcbec20c3ddad561010749e4fcd"
+updated_at: 2026-09-26T23:01:54Z
+content_hash: "sha256:000d53255ad947bca4ccb587c322afc8e690191e36c3e10fa3965e73c1e909f7"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi]
@@ -133,6 +133,88 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### Authorization, host, and no-download preflight
+- Verbatim resumed authorization and exact GPU/service scope: `operator-authorization.md`.
+- Re-run preflight at 2026-09-26T21:42:08Z: 15/15 required LTX-2.5 asset hashes MATCH; tokenizer vocab=262144, video_token_id=258884.
+- Re-verified holder: llama-server PID 3213164 was already absent, GPU 84 MiB used / 24032 MiB free, no compute app. No process was killed. Final postflight again records PID absent/stopped and 84 MiB used.
+- Isolated Wan2GP HEAD: faea82d15bf10b3479c42c0ea430892aae975870; final dirty state only `?? ckpts`. Live Wan2GP HEAD 4c93b64a47b5b0a915f2abec2ce754be98227150 and dirty identity 2ec8e92fdab0e639ef564c520f4464c59707e4b6a507d7980a69bf9f201c0b53 remained unchanged.
+- Offline flags `HF_HUB_OFFLINE=1` and `TRANSFORMERS_OFFLINE=1`; all four dependency target LoRAs remained absent with zero bytes at final postflight. No dependency or model file was downloaded.
+
+### Native operation inventory and outputs
+- create: exit 0; outputs/create/wd_m7xw_create.mp4; SHA-256 f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f; 448x832, 24 fps, 1.375 s, AAC stereo.
+- extend: exit 0; outputs/extend/wd_m7xw_extend.mp4; SHA-256 e08c4186594ba94bffc033a44cab65edf4b7c4b486e444995dcd33f7e7cf6ba4; 4.033 s, longer than source.
+- retake: exit 0; outputs/retake/wd_m7xw_retake.mp4; SHA-256 662ef1c68a03a84abf1bd00ac1d782030d63a77337bd37246973d6166fd88b9e; first-frame SSIM 0.988417 and PSNR 41.494432 dB.
+- edit: exit 0; outputs/edit/wd_m7xw_edit.mp4; SHA-256 ccf301019b1f0c6ea8099a2f49893b8a4793b950821e41df38315c5094412ea1; whole-video PSNR versus source 38.302450 dB.
+- outpaint, repaint, recast, upscale: each exit 1 with zero output bytes. Exact logs/argv/GPU snapshots are in host-logs-resumed; missing ingredients/outpaint/in-outpainting/pixel-spatial-upscaler LoRAs are recorded in dependency-boundaries.md. These are dependency_blocked boundaries, explicitly not unsupported_on_this_hardware or capability verdicts.
+- Exactly eight native generation/postprocessing attempts were admitted, serially. Local ffmpeg first-frame/mask preparation was not inference.
+- Visual QC and objective measurements: review/QC.md and objective-measurements.json. No dialogue exists, so transcription is not applicable.
+
+### Matrix transition
+- docs/video-capabilities.md now maps create/extend/retake/edit to host_run_verified and outpaint/repaint/recast/upscale to dependency_blocked, each citing WD-m7xw evidence.
+- blend remains the unchanged WD-2gyw typed unsupported boundary. matrix-transition-check.json proves 8 changed target cells, 1 unchanged blend cell, and 0 planned target cells.
+
+### CI/test/gate results
+- Commands: pvg verify; targeted pytest; pvg lint --backlog; canonical checker; full pytest; release verify; protected-file parity and git diff --check.
+- pvg verify: PASS, 0 issues (`pvg-verify-resumed.txt`).
+- Targeted pytest `tests/test_maestro_parity_evidence.py tests/test_video_capabilities.py`: 110/110 PASS; JUnit tests=110, errors=0, failures=0, skipped=0 (`targeted-tests-resumed.xml`).
+- Backlog lint: PASS, 139 scanned, 0 errors, 0 review findings (`pvg-lint-resumed.txt`).
+- Canonical checker at pending reviewer: FAIL exactly and only reviewer_verdict.decision must be approved and reviewer_verdict.evidence_links must be non-empty (`checker-pending.txt`, exit 1). reviewer-verdict.json is pending with empty links as explicitly directed; the developer did not self-approve.
+- Full pytest boundary: started at 8ba5e638 with timeout 3600; progress reached 47% with no emitted failure/error, one displayed `s`, then dispatcher ordered stopping only this process tree at 22:59:03Z to avoid concurrent LF004 deadlock. Exact WD-m7xw timeout PID/process group ended; unrelated processes untouched; exit 143; no JUnit XML. This is an operator-directed concurrent-host boundary, not a full-suite pass or failure (`fullsuite-resumed-boundary.md`).
+- Release verify at clean commit 0d44dff2 before receipt commit: all checks pass, release=ready, tag_created=false (`release-verify-resumed.txt`).
+- Protected-file parity and git diff --check at 0d44dff2: PASS (`protected-parity-and-diff-check-final.txt`).
+- Coverage: not applicable to docs/evidence-only delivery; no production runtime module changed. Artifact builder passed Python py_compile.
+
+### Commits and bundle
+- Branch: story/WD-m7xw pushed to origin.
+- Evidence commit: 8ba5e638 (outputs, boundaries, configs, logs, matrix, targeted gates).
+- Full-suite boundary commit: 0d44dff2.
+- Final gate receipt commit: a4f145bb.
+- Bundle: 152 files, 5,587,983 bytes (`bundle-size.txt`); hashes in `evidence.sha256`.
+
+### AC Verification
+| AC # | Requirement | Evidence | Status |
+| --- | --- | --- | --- |
+| 1 | Authorization, hashes, exact commit/tree, tokenizer | operator-authorization.md; host-logs-resumed/50-52 | PASS |
+| 2 | Zero downloads; mismatch/dirty/dependency fail-closed | 51_resume_asset_hashes.txt; 70_final_postflight.txt; offline logs | PASS |
+| 3 | All eight cells separately dispositioned | matrix-transition-check.json; operation-map.md | PASS |
+| 4 | Successful operation argv/provenance/queue/exit/hash/probe/QC/checker fields | evidence.json; per-op logs/outputs | PASS except canonical final approval pending independent PM |
+| 5 | Unsuccessful exact native boundary, no false hardware label | dependency-boundaries.md; four exit-1 logs | PASS |
+| 6 | No substitute, inheritance, weakened QC, or tokenizer-as-generation | operation-map.md; distinct hashes/measurements | PASS |
+| 7 | Mechanical eight-cell matrix update, blend unchanged | docs/video-capabilities.md; matrix-transition-check.json | PASS |
+| 8 | Live dirty tree unchanged; no unrelated service touched | 70_final_postflight.txt | PASS |
+| 9 | Standing gates | lint/release/parity PASS; targeted 110/110 PASS; full suite operator-stopped at 47%; canonical checker pending only reviewer fields | PARTIAL/BOUNDARY |
+
+LEARNINGS:
+- The accepted tokenizer fix is sufficient for real LTX-2.5 create/extend/retake/edit on the RTX 3090 at profile 3/SDPA.
+- LTX control specializations silently require additional system LoRAs beyond the fifteen core checkpoint assets; offline mode exposes this before denoising and prevents accidental downloads.
+- Runtime imports can regenerate a Gradio .pyi stub in the isolated source tree. It was restored after each failing attempt and final source state was clean apart from the ckpts symlink.
+- Full-suite concurrency can deadlock unrelated LF004 bash tests; the dispatcher correctly scoped interruption to only WD-m7xw's process group.
+
+### OBSERVATIONS (unrelated)
+- The developer-skill vault search command reported configured vault `Claude` unavailable (available nd-vault/Obsidian Vault); story evidence came from pvg nd and repository artifacts.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Native eight-operation inventory, four hashed outputs, four exact dependency boundaries, zero-download preflight/postflight, matrix transition, targeted gates, release/parity, commits 8ba5e638/0d44dff2/a4f145bb.
+- Canonical success bundle is pending only independent reviewer decision/links; full suite has an explicit operator-directed 47% stop boundary.
+
+### proof
+- [x] AC #1: authorization/hash/tokenizer/source preflight passed.
+- [x] AC #2: zero download bytes and fail-closed dependency attempts recorded.
+- [x] AC #3: all eight target cells dispositioned; zero planned target cells.
+- [x] AC #4: four successful outputs have exact argv, provenance, queue/exit, hashes, probes, QC, and checker-compatible fields pending PM reviewer approval.
+- [x] AC #5: four unsuccessful operations preserve exit/stderr/stage/GPU/source identity and are not hardware labels.
+- [x] AC #6: no family/backend substitution, output inheritance, QC weakening, or tokenizer smoke-test claim.
+- [x] AC #7: exact matrix transition recorded and blend unchanged.
+- [x] AC #8: live Wan2GP identity unchanged and no unrelated service touched.
+- [ ] AC #9: full pytest was operator-stopped at 47% and canonical checker is pending independent reviewer; lint, targeted tests, release, protected parity, and diff check pass.
+
 
 ## History
 - 2026-09-26T20:53:46Z dep_added: blocks WD-fay0
