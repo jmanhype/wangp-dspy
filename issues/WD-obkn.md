@@ -1,18 +1,19 @@
 ---
 id: WD-obkn
 title: "Finishing terminal disposition batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:39:04Z
-content_hash: "sha256:36ef73b513945fc1480f33dcd828a4f377542df7545aa9b06479f858f07d86ec"
+updated_at: 2026-09-26T23:50:00Z
+content_hash: "sha256:de5825b3cccdc01e0bf5c78f842fc845f84feae2fb35744830155b05958edaae"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
-follows: [WD-5k28, WD-m7xw]
+follows: [WD-5k28, WD-m7xw, WD-43tj]
+assignee: dev-WD-obkn
 ---
 
 ## Description
@@ -317,12 +318,15 @@ status: delivered
 - 2026-09-26T23:31:13Z auto-follows: linked to predecessor WD-m7xw
 - 2026-09-26T23:38:08Z status: in_progress -> open
 - 2026-09-26T23:38:08Z released by speed
+- 2026-09-26T23:50:00Z status: open -> in_progress
+- 2026-09-26T23:50:00Z auto-follows: linked to predecessor WD-43tj
+- 2026-09-26T23:50:00Z claimed by dev-WD-obkn
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-r81u]], [[WD-r4n8]]
-- Follows: [[WD-5k28]], [[WD-m7xw]]
+- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]]
 
 ## Comments
 
