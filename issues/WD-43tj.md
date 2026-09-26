@@ -8,11 +8,11 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
-updated_at: 2026-09-26T18:43:33Z
-content_hash: "sha256:f3696f5512f6725347873edb9b7fe8cb50456a0899887ef36444d318dc7fc68c"
+updated_at: 2026-09-26T18:48:46Z
+content_hash: "sha256:5aced447c1780662a7e74590571fc77236c7eb9b229b3da4c27ceb0009ed09dc"
 blocks: [WD-fay0]
 assignee: dev-WD-43tj
-follows: [WD-9ymi]
+follows: [WD-9ymi, WD-f0vk]
 ---
 
 ## Description
@@ -44,10 +44,12 @@ None identified.
 - 2026-09-26T18:43:33Z status: open -> in_progress
 - 2026-09-26T18:43:33Z auto-follows: linked to predecessor WD-9ymi
 - 2026-09-26T18:43:33Z claimed by dev-WD-43tj
+- 2026-09-26T18:48:46Z status: in_progress -> in_progress
+- 2026-09-26T18:48:46Z auto-follows: linked to predecessor WD-f0vk
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-9ymi]]
+- Follows: [[WD-9ymi]], [[WD-f0vk]]
 
 ## Comments
