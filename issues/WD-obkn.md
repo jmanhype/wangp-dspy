@@ -1,18 +1,17 @@
 ---
 id: WD-obkn
 title: "Finishing terminal disposition batch"
-status: in_progress
+status: open
 priority: 1
 type: task
 labels: [capability, finishing, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:35:11Z
-content_hash: "sha256:5108282c3b7b2a4285b8f245c58895b054642fb1c5d636b7088cc6de59df844f"
+updated_at: 2026-09-26T23:38:08Z
+content_hash: "sha256:24775f291aa40a22ab5aeae432a71e9f1ebd8594f465e4a490ad1523f0856e56"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
-assignee: dev-WD-obkn
 follows: [WD-5k28, WD-m7xw]
 ---
 
@@ -304,6 +303,8 @@ status: delivered
 - 2026-09-26T20:57:49Z claimed by dev-WD-obkn
 - 2026-09-26T23:31:13Z status: in_progress -> in_progress
 - 2026-09-26T23:31:13Z auto-follows: linked to predecessor WD-m7xw
+- 2026-09-26T23:38:08Z status: in_progress -> open
+- 2026-09-26T23:38:08Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
