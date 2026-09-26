@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-26T23:28:54Z
-content_hash: "sha256:332e6915fa2ba9fa1155b66d2b67b25b5e0d6dbd241fd8f064ac7d2d35d67e12"
+content_hash: "sha256:35825809cde5baff6396057895262fc635a9f8867dc1c8a77a5ac730fe3e1009"
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
 assignee: dev-WD-m7xw
@@ -134,6 +134,18 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 ### Path-only rework proof
