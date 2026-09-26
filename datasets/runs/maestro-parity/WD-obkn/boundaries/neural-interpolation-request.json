@@ -1,0 +1,39 @@
+{
+  "schema_version": "wangp-dspy.finishing-request/v1",
+  "backend": "neural_frame_gen",
+  "source": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+    "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+    "immutable": true,
+    "measurement": "declared_ffprobe_unverified",
+    "stream": {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 480,
+      "height": 832,
+      "duration_s": 2.333333,
+      "avg_frame_rate": "24/1"
+    }
+  },
+  "neural_path": {
+    "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "backend_profile": "named-host-implementation-required",
+    "minimum_vram_gb": 4,
+    "authorized_host": null,
+    "support_status": "unavailable_without_authorized_host"
+  },
+  "output": {
+    "container": "mp4",
+    "codec": "h264",
+    "overwrite": false,
+    "measurement": "planned_ffprobe_unverified",
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/boundaries/neural-interpolation-absent-output.mp4"
+  },
+  "recipe_seed": 8108,
+  "interpolation": {
+    "factor": "x2",
+    "target_fps": 48.0,
+    "scene_detection": true
+  }
+}

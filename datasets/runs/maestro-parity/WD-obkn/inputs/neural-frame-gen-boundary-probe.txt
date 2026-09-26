@@ -1,0 +1,11 @@
+--- WanGP neural_frame_gen implementation search ---
+--- WanGP neural file search ---
+--- H3 face refiner implementation (separate named backend, not neural_frame_gen) ---
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/LICENSE.upstream
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/__init__.py
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/__pycache__/__init__.cpython-311.pyc
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/__pycache__/runtime.cpython-311.pyc
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/__pycache__/wgp_bridge.cpython-311.pyc
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/face.py
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/runtime.py
+/home/straughter/Wan2GP/postprocessing/h3_face_refiner/wgp_bridge.py

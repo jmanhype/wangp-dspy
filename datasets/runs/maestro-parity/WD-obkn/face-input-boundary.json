@@ -1,0 +1,82 @@
+{
+  "schema": "wangp-dspy.wd-obkn-face-input-boundary/v1",
+  "verdict": "unsupported_missing_required_input",
+  "source": {
+    "path": "inputs/source.mp4",
+    "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+    "review_extract": "inputs/source-mid.png",
+    "review_extract_sha256": "bf7a21e4b7251085f151a1d64b2d2e885cc7e18dc6da3d25a318038e4b5c2876",
+    "visual_review": "Brass compass on a printed map; no human face is visible.",
+    "review_basis": "WD-r81u reviewer extract re-opened visually on 2026-09-26; no detector inference, model, download, SSH, or GPU was used."
+  },
+  "facetrack_contract": {
+    "model": "predict.finishing.FaceTrack",
+    "extra": "forbid",
+    "required_fields": [
+      "track_id",
+      "identity_label",
+      "confidence",
+      "start_s",
+      "end_s",
+      "x",
+      "y",
+      "width",
+      "height",
+      "source",
+      "license",
+      "consent_ref"
+    ],
+    "field_status": {
+      "track_id": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "identity_label": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "confidence": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "start_s": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "end_s": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "x": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "y": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "width": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "height": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "source": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "license": "absent from WD-obkn consumed request and WD-r81u supplied inputs",
+      "consent_ref": "absent from WD-obkn consumed request and WD-r81u supplied inputs"
+    },
+    "synthetic_track_created": false,
+    "detector_result_created": false,
+    "identity_claim_created": false,
+    "consent_or_rights_claim_created": false
+  },
+  "consumed_request": {
+    "face_refinement": null,
+    "selected_face_track": null
+  },
+  "filesystem_input_search": {
+    "root": "../WD-r81u",
+    "name_tokens": [
+      "face",
+      "track",
+      "consent",
+      "license",
+      "detector",
+      "identity"
+    ],
+    "matches": {},
+    "interpretation": "Only review/boundary documentation and the no-face review image match; no detector output, face track, identity source, rights record, or consent reference was supplied.",
+    "known_boundary_documents": {
+      "missing-required-inputs.md": "51cf27aa555da71548c5d6e89589714b8652c80673db12e4cff800e71309bdf5",
+      "neural-frame-gen-boundary-probe.txt": "7cfabb6e93fa1e13ca2fd644fecbb6849057302b0d3f9df63e566b0b2345e4f0"
+    }
+  },
+  "terminal_cells": [
+    {
+      "backend": "ffmpeg",
+      "operation": "face_refinement",
+      "disposition": "unsupported_missing_required_input"
+    },
+    {
+      "backend": "neural_frame_gen",
+      "operation": "face_refinement",
+      "disposition": "unsupported_missing_required_input"
+    }
+  ],
+  "no_hardware_infeasibility_claim": true
+}

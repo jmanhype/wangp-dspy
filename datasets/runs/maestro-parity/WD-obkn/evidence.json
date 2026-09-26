@@ -1,0 +1,341 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "story": "WD-obkn",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "Measure corrected size-16/persistence-0.5 graph deterministically, capture typed neural boundary and missing face-input boundary, update only five finishing cells; this story is local/no SSH/no GPU/no download.",
+    "scope": "One local corrected FFmpeg film-grain attempt plus planned codec completion and same-build replay; terminalize two neural cells as host-implementation boundaries and two face cells as missing-input boundaries.",
+    "timestamp": "2026-09-26T21:01:30Z",
+    "approved_by": "operator via parent dispatcher /root/dev_wd_obkn",
+    "record": "operator-decisions.md"
+  },
+  "command": [
+    "python3",
+    "datasets/runs/maestro-parity/WD-obkn/analyze_film_grain.py"
+  ],
+  "repository": {
+    "commit": "2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "02f9d4dd410fed2e1877a43c26084619507a55ed41d4210c2040392327afb860",
+      "note": "Identity hashes git porcelain immediately before evidence.json creation; execution used the clean HEAD implementation with evidence artifacts uncommitted."
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "no-model-local-ffmpeg-boundary",
+      "source": "local macOS installation only; no model or dependency downloaded",
+      "license": "FFmpeg tools under GPL-2.0-or-later as built by Homebrew; no neural model used",
+      "immutable_version": "FFmpeg 8.0.1 (Homebrew 8.0.1_2), FFV1 and libx264 stages; download_approved=true denotes local authorization boundary, not an occurred download",
+      "download_approved": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "operator-decisions.md",
+      "role": "pre-execution local run and terminal-disposition approval",
+      "sha256": "aa0328dcb2d205d3217da8f5394bc7e30096753c7d8155a9be96164a10ba42d3",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "request.json",
+      "role": "typed current-head film-grain request",
+      "sha256": "25124b406c68a6289b3f65d4d490e0c9e9030732398a0037987b36f9430c402b",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "current-head-plan.json",
+      "role": "current-head compiled plan and exact stage argv",
+      "sha256": "d498d18c21e83ee5c319fda111d37ddfd9617a320cf009f92cdced11bb168618",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "primary-execution.json",
+      "role": "exact primary execution transcript and hashes",
+      "sha256": "e91dafa3938d69d1bc13d3fa761cadaa88bfc4581f68c47a8304153012232654",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "replay-execution.json",
+      "role": "same-build deterministic replay transcript and hashes",
+      "sha256": "14b04699e64f7dffa90061652e525cee113e9c91f5293f9f8f1ea6b2110a0121",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "ffprobe-summary.json",
+      "role": "source, lossless, and final media metadata",
+      "sha256": "898a4075dbb2b9b5ee8efbd93efd6a7a528cd63661f50d1cfd1c8c198ea42ba7",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "measurement-results.json",
+      "role": "deterministic pixel measurement and decoded-frame hashes",
+      "sha256": "184d4f06fd9a36314f76534597f9da865195060a122a61dc7c4f07e7c635e14c",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "measurement-matrices.npz",
+      "role": "retained measurement input matrices",
+      "sha256": "8de7328792ab7083b469b7906894979c5f50ed57d5dc1b65018a147678cd1330",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "neural-boundaries.json",
+      "role": "typed neural refusal results",
+      "sha256": "7cf663d7fdfd4519ce79f58b5b55f9765678f6b9128b95c6e42a65dd569f90bf",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "face-input-boundary.json",
+      "role": "missing face-input and FaceTrack contract evidence",
+      "sha256": "335ec277807a84cf8150ea240b07e45338406506e0f485034c02c986ae07a00a",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "terminal-boundaries.md",
+      "role": "terminal disposition interpretation",
+      "sha256": "17b24a0dca01192316cd2fa7a70d881a1a5a4c23674e2987bbe4e6054f48a253",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "matrix-transition-check.json",
+      "role": "exactly-five-cell matrix transition proof",
+      "sha256": "64ee73924f54b96a0d29b148aa539c2cf51409c7e69e829e2707257218cd2f6a",
+      "license": "Program evidence; repository license"
+    },
+    {
+      "path": "inputs/source.mp4",
+      "role": "immutable consumed source copy",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+      "license": "WD-r81u operator-supplied research asset; no identity or face-rights claim"
+    },
+    {
+      "path": "inputs/source-mid.png",
+      "role": "no-human-face review extract",
+      "sha256": "bf7a21e4b7251085f151a1d64b2d2e885cc7e18dc6da3d25a318038e4b5c2876",
+      "license": "WD-r81u operator-supplied research asset; no identity or face-rights claim"
+    },
+    {
+      "path": "inputs/neural-frame-gen-boundary-probe.txt",
+      "role": "zero-hit named-implementation evidence",
+      "sha256": "7cfabb6e93fa1e13ca2fd644fecbb6849057302b0d3f9df63e566b0b2345e4f0",
+      "license": "WD-r81u program evidence; repository license"
+    },
+    {
+      "path": "inputs/missing-required-inputs.md",
+      "role": "predecessor missing-input record",
+      "sha256": "51cf27aa555da71548c5d6e89589714b8652c80673db12e4cff800e71309bdf5",
+      "license": "WD-r81u program evidence; repository license"
+    },
+    {
+      "path": "film_grain.stderr",
+      "role": "primary lossless graph FFmpeg stderr",
+      "sha256": "2fd5c242dc1a973d029a61465ed8dcba9e0f642c5c558a4680a0d03d9cda30d6",
+      "license": "FFmpeg output; repository license"
+    },
+    {
+      "path": "codec.stderr",
+      "role": "primary H.264 stage FFmpeg stderr",
+      "sha256": "5c44692ca059f5e2abd06742308c2a86ffab1f32dfc910b7c385a08c4ab3d994",
+      "license": "FFmpeg output; repository license"
+    },
+    {
+      "path": "film_grain-replay.stderr",
+      "role": "replay lossless graph FFmpeg stderr",
+      "sha256": "60dce3d0bbc65d8cd01aa0106450e9e47c75f0d8af42888e7d11c12426246aac",
+      "license": "FFmpeg output; repository license"
+    },
+    {
+      "path": "codec-replay.stderr",
+      "role": "replay H.264 stage FFmpeg stderr",
+      "sha256": "8f1cce774034c9ae0f2f78db4585a877c78710f6304521c11818d8a8ccae90d5",
+      "license": "FFmpeg output; repository license"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "WD-obkn-local-authorization-ledger",
+    "job_id": "WD-obkn-film-grain-primary",
+    "retry_id": "WD-obkn-film-grain-replay",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "semantics": "Manual local authorization ledger required by the parity checker; no services/jobs queue row was created or mutated."
+  },
+  "output": [
+    {
+      "path": "replay/primary-0002-film-grain.mp4",
+      "sha256": "856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336"
+    },
+    {
+      "path": "replay/replay-0002-film-grain.mp4",
+      "sha256": "856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336"
+    },
+    {
+      "path": "replay/primary-wd_obkn_ffmpeg_film_grain_h264.mp4",
+      "sha256": "5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff"
+    },
+    {
+      "path": "replay/replay-wd_obkn_ffmpeg_film_grain_h264.mp4",
+      "sha256": "5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "replay/primary-0002-film-grain.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "alpha_mode": "none",
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "replay/replay-0002-film-grain.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "alpha_mode": "none",
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "replay/primary-wd_obkn_ffmpeg_film_grain_h264.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "alpha_mode": "none",
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "replay/replay-wd_obkn_ffmpeg_film_grain_h264.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "alpha_mode": "none",
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "source_sha256_preserved",
+      "inputs": [
+        "inputs/source.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "duration_dimensions_fps_pixfmt_match",
+      "inputs": [
+        "ffprobe-summary.json"
+      ],
+      "threshold": 4.0,
+      "measured": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "horizontal_grain_support_abs_error_px",
+      "inputs": [
+        "replay/primary-0002-film-grain.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 0.26437764218066206,
+      "verdict": "pass"
+    },
+    {
+      "name": "vertical_grain_support_abs_error_px",
+      "inputs": [
+        "replay/primary-0002-film-grain.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 0.8564312482587368,
+      "verdict": "pass"
+    },
+    {
+      "name": "temporal_persistence_abs_error",
+      "inputs": [
+        "replay/primary-0002-film-grain.mp4"
+      ],
+      "threshold": 0.05,
+      "measured": 0.007505860348574422,
+      "verdict": "pass"
+    },
+    {
+      "name": "strength_proxy_abs_error",
+      "inputs": [
+        "replay/primary-0002-film-grain.mp4"
+      ],
+      "threshold": 4.0,
+      "measured": 2.317942708333325,
+      "verdict": "pass"
+    },
+    {
+      "name": "lossless_replay_match",
+      "inputs": [
+        "replay/primary-0002-film-grain.mp4",
+        "replay/replay-0002-film-grain.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "h264_replay_match",
+      "inputs": [
+        "replay/primary-wd_obkn_ffmpeg_film_grain_h264.mp4",
+        "replay/replay-wd_obkn_ffmpeg_film_grain_h264.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "typed_neural_refusals",
+      "inputs": [
+        "neural-boundaries.json"
+      ],
+      "threshold": 2.0,
+      "measured": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "face_required_inputs_absent",
+      "inputs": [
+        "face-input-boundary.json"
+      ],
+      "threshold": 12.0,
+      "measured": 12.0,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "measurement-results.json",
+      "neural-boundaries.json",
+      "face-input-boundary.json",
+      "matrix-transition-check.json"
+    ],
+    "approved_by": "operator via parent dispatcher /root/dev_wd_obkn"
+  }
+}

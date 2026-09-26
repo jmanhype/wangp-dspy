@@ -1,0 +1,48 @@
+{
+  "interpolation": {
+    "request": "boundaries/neural-interpolation-request.json",
+    "argv": [
+      "uv",
+      "run",
+      "--frozen",
+      "wgp",
+      "finish",
+      "plan",
+      "--request",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/boundaries/neural-interpolation-request.json",
+      "--dry-run",
+      "--json"
+    ],
+    "exit": 2,
+    "diagnostic_codes": [
+      "FINISH_NEURAL_PATH_UNAVAILABLE"
+    ],
+    "stdout": "neural-interpolation-refusal.json",
+    "stderr": "neural-interpolation-refusal.stderr",
+    "media_emitted": false,
+    "expected_output_absent": "boundaries/neural-interpolation-absent-output.mp4"
+  },
+  "spatial_upscale": {
+    "request": "boundaries/neural-spatial-request.json",
+    "argv": [
+      "uv",
+      "run",
+      "--frozen",
+      "wgp",
+      "finish",
+      "plan",
+      "--request",
+      "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/boundaries/neural-spatial-request.json",
+      "--dry-run",
+      "--json"
+    ],
+    "exit": 2,
+    "diagnostic_codes": [
+      "FINISH_NEURAL_PATH_UNAVAILABLE"
+    ],
+    "stdout": "neural-spatial-refusal.json",
+    "stderr": "neural-spatial-refusal.stderr",
+    "media_emitted": false,
+    "expected_output_absent": "boundaries/neural-spatial-absent-output.mp4"
+  }
+}
