@@ -4,7 +4,7 @@ title: "Maestro parity: H3 VDN operation batch"
 status: closed
 priority: 1
 type: task
-labels: [capability, evidence, delivered]
+labels: [capability, evidence, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T15:56:38Z
 created_by: speed
