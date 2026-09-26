@@ -1,18 +1,19 @@
 ---
 id: WD-m7xw
 title: "LTX-2.5 no-download operation batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:15:12Z
-content_hash: "sha256:bd90a786f7c10da332e749b50240f224b2159f3f6555c0703b1f8e2d0deefdb3"
+updated_at: 2026-09-26T23:17:38Z
+content_hash: "sha256:23a6e31144d23d0e6b381e45eb9285b5beab002bd7a83d851934434a580ee130"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
-follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
+follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o]
+assignee: dev-WD-m7xw
 ---
 
 ## Description
@@ -307,12 +308,15 @@ status: delivered
 - 2026-09-26T23:02:24Z auto-follows: linked to predecessor WD-f0vk
 - 2026-09-26T23:15:11Z status: in_progress -> open
 - 2026-09-26T23:15:11Z released by speed
+- 2026-09-26T23:17:38Z status: open -> in_progress
+- 2026-09-26T23:17:38Z auto-follows: linked to predecessor WD-9t9o
+- 2026-09-26T23:17:38Z claimed by dev-WD-m7xw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
-- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]]
+- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]], [[WD-9t9o]]
 
 ## Comments
 
