@@ -11,7 +11,7 @@ created_by: speed
 updated_at: 2026-09-26T18:18:54Z
 closed_at: 2026-09-26T18:18:54Z
 close_reason: "Accepted: diagnosis, fail-closed warning ownership, real-byte regression coverage, preservation evidence, targeted gates, and head CI all pass."
-content_hash: "sha256:20bca847b12c0b35ffab81d65ab1765fc2683c9d85e7913deddea79d122c4377"
+content_hash: "sha256:81ae705849166390c24aede8e0dc94727df1cfd69f3cb44d83a3b3829b274acd"
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9, WD-14ej]
 ---
@@ -90,6 +90,18 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence (REWORK DELIVERED)
 
 ### CI/Test Results
