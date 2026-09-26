@@ -1,18 +1,19 @@
 ---
 id: WD-isg9
 title: "Maestro parity: H3 standard operation batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T15:13:39Z
-content_hash: "sha256:6b484ba4a35dfafe8362569e71ded3e0cfcb98a3dac9fcc4c5d1396811b2b8c1"
+updated_at: 2026-09-26T15:35:12Z
+content_hash: "sha256:122c53ec9d2703c74146dbdcbfdadb71129352b7907b138cd673331199a3a86d"
 follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0, WD-dmf2, WD-bxhc]
-blocks: [WD-fay0]
 assignee: dev-WD-isg9
+closed_at: 2026-09-26T15:35:12Z
+close_reason: "Accepted: verified reworked preflight/provenance, all eight terminal dispositions, canonical checker PASS, CI PASS, and reviewer evidence commit 83858000."
 ---
 
 ## Description
@@ -326,10 +327,11 @@ status: delivered
 - 2026-09-26T15:10:40Z auto-follows: linked to predecessor WD-dmf2
 - 2026-09-26T15:11:24Z status: in_progress -> in_progress
 - 2026-09-26T15:11:24Z auto-follows: linked to predecessor WD-bxhc
+- 2026-09-26T15:35:12Z status: in_progress -> closed
+- 2026-09-26T15:35:12Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-14ej]], [[WD-i7qs]], [[WD-r4n8]], [[WD-fay0]], [[WD-dmf2]], [[WD-bxhc]]
 
 ## Comments

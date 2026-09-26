@@ -9,14 +9,14 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-26T01:18:10Z
-content_hash: "sha256:8685c8d631da3bad02a182943316d7dd9cc9fb257bfea92b5ce4f4759b7687b6"
-was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8, WD-14ej]
+content_hash: "sha256:1383d568a98b9d3f8c4fe7744d55a2fb193ff2376786c115bea45021fa20a3cc"
+was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8, WD-14ej, WD-isg9]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 closed_at: 2026-09-26T01:18:10Z
 close_reason: "Accepted as a DELIVERED DISPOSITION INDEX only, not programme completion. Independently verified head/diff, lane checker outcomes, 208-cell disposition totals, no cross-lane edits, honest AC assessment, 61 fail-closed tests, and standing gates. Remaining scope: 120 matrix cells planned, 6 await operator consent, WD-dmf2 director gates fail structurally, and WD-0zj8 clean-machine generated-artifact half remains blocked."
 led_to: [WD-r4n8, WD-i7qs, WD-14ej, WD-isg9]
-blocked_by: [WD-i7qs, WD-r4n8, WD-t0il, WD-isg9]
+blocked_by: [WD-i7qs, WD-r4n8, WD-t0il]
 ---
 
 ## Description
@@ -269,11 +269,12 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-26T05:36:40Z dep_removed: was_blocked_by WD-14ej
 - 2026-09-26T05:37:53Z dep_added: blocked_by WD-t0il
 - 2026-09-26T13:08:15Z dep_added: blocked_by WD-isg9
+- 2026-09-26T15:35:12Z dep_removed: was_blocked_by WD-isg9
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]], [[WD-isg9]]
-- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]], [[WD-14ej]]
+- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]]
+- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]], [[WD-14ej]], [[WD-isg9]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
 - Led to: [[WD-r4n8]], [[WD-i7qs]], [[WD-14ej]], [[WD-isg9]]
 
