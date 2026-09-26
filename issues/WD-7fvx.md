@@ -1,18 +1,17 @@
 ---
 id: WD-7fvx
 title: "Director no-download source-pairing rework"
-status: in_progress
+status: open
 priority: 1
 type: task
 labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T23:48:00Z
-content_hash: "sha256:7f8a8dd8f418a362dae5dd143d4f017a2b5a3b9f945840c765c726e628ee0e26"
+updated_at: 2026-09-26T23:58:04Z
+content_hash: "sha256:8b61b5574f377d010b5b1998510cd8a307ebc8500ab9adcd8b67259dc16a9ff5"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
-assignee: dev-WD-7fvx
 follows: [WD-5k28, WD-m7xw]
 ---
 
@@ -269,6 +268,8 @@ status: delivered
 - 2026-09-26T20:57:48Z claimed by dev-WD-7fvx
 - 2026-09-26T23:47:34Z status: in_progress -> in_progress
 - 2026-09-26T23:47:34Z auto-follows: linked to predecessor WD-m7xw
+- 2026-09-26T23:58:04Z status: in_progress -> open
+- 2026-09-26T23:58:04Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
