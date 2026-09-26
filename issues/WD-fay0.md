@@ -4,7 +4,7 @@ title: "E2e: verified Maestro parity evidence"
 status: in_progress
 priority: 1
 type: feature
-labels: [capstone, e2e, evidence]
+labels: [capstone, e2e, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
