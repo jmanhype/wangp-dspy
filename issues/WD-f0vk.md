@@ -4,7 +4,7 @@ title: "Wan2GP emits nonfatal mutagen metadata errors after successful media sav
 status: in_progress
 priority: 0
 type: bug
-labels: [discovered-by-pm]
+labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
