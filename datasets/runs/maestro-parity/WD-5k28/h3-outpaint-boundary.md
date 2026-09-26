@@ -23,7 +23,8 @@ is hashed as
 A broad search found `h3_outpaint` only in the nested Wangp planner enum at
 `/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py`. That is
 the same typed-planner boundary class as WD-43tj, not an active host runtime
-implementation.
+implementation. Its SHA-256 is
+`3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b`.
 
 Therefore all nine `minimax_h3/h3_outpaint` cells are `unsupported` host
 implementation boundaries. Other H3 operations can render, but they cannot

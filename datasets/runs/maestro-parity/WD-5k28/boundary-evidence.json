@@ -33,6 +33,7 @@
   "wgp_hash": "28720ae526c09fa502c406c5eace16ec833fa9e026e170701245a3f8b5632907",
   "context_only_matches": {
     "path": "/home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py",
+    "sha256": "3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b",
     "classification": "nested Wangp typed planner copy; not active host runtime implementation"
   },
   "accepted_prior_evidence": [

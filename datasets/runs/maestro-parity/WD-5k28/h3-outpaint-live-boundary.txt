@@ -1,4 +1,4 @@
-2026-09-26T19:25:29Z
+2026-09-26T19:57:11Z
 straughter-Z690-Steel-Legend
 --- active h3_outpaint runtime identity search ---
 active_identity_grep_exit=1
@@ -110,6 +110,7 @@ filename_match_count=0
 --- hashes and tree identity ---
 e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6  /home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py
 28720ae526c09fa502c406c5eace16ec833fa9e026e170701245a3f8b5632907  /home/straughter/Wan2GP/wgp.py
+3111b78ad110493a9ba8d5c26ed1fdee0a8183f432cedd37be986495cd65d04b  /home/straughter/Wan2GP/wd-dmf2/repo/predict/video_capabilities.py
 4c93b64a47b5b0a915f2abec2ce754be98227150
  M models/minimax_h3/minimax_h3_handler.py
  M models/minimax_h3/multishot.py

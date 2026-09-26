@@ -32,7 +32,7 @@ MAESTRO=/mnt/bulk/straughter/Maestro/app
     --exclude='*.mp4' --exclude='*.wav' --exclude='*.png' --exclude='*.jpg' \
     --exclude-dir=.git --exclude-dir=__pycache__ --exclude-dir=node_modules | head -50
   printf '%s\n' '--- hashes and tree identity ---'
-  sha256sum "$WAN2GP/models/minimax_h3/minimax_h3_handler.py" "$WAN2GP/wgp.py"
+  sha256sum "$WAN2GP/models/minimax_h3/minimax_h3_handler.py" "$WAN2GP/wgp.py" "$WAN2GP/wd-dmf2/repo/predict/video_capabilities.py"
   git -C "$WAN2GP" rev-parse HEAD 2>/dev/null || true
   git -C "$WAN2GP" status --short 2>/dev/null | head -20 || true
   git -C "$MAESTRO" rev-parse HEAD 2>/dev/null || true
