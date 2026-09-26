@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
 updated_at: 2026-09-26T03:17:49Z
-content_hash: "sha256:7e7b280344aca458f7dbe00ef17e18d8d054cf552025799fca6ab069738cf3d4"
+content_hash: "sha256:11f9365b32c0c277726abf80f880d743657d9d5d6a2cc8d61a579d4052393610"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2, WD-bxhc]
 closed_at: 2026-09-26T03:17:49Z
@@ -296,6 +296,17 @@ status: new
 - Release: `uv run --frozen --extra dev wgp release verify` returned `release=ready`, `tag_created=false`.
 - Whitespace/protected parity: `git diff --check` exit 0; protected-file diff from `9cc501d6` exit 0.
 Delivery proof headings normalized for verify-delivery.
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-25.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
 
 ## Implementation Evidence
 The ffmpeg graph now generates grain on a ceil(width/size) x ceil(height/size) nearest-neighbor grid, then crops to the exact frame. It seeds and blends one held `allf=u` branch with one reseeded `allf=t+u` branch using `temporal_persistence` as the held-pattern opacity. Requests for the non-native `film` backend fail closed with `FINISH_GRAIN_CONTROL_UNSUPPORTED`; they do not fall back to ffmpeg.
