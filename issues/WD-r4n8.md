@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T02:04:03Z
 created_by: speed
 updated_at: 2026-09-26T02:51:31Z
-content_hash: "sha256:41d7a1d433d41f0625cdd7a56d638039c88b6b01618080f54982ace76c2643a4"
+content_hash: "sha256:e4a2de6557952a0bdacbac2e2f9721842e74ee445f16464b2fd0e1e5ad6d96d2"
 assignee: dev-WD-r4n8
 follows: [WD-fay0, WD-dmf2]
 blocks: [WD-fay0]
@@ -291,4 +291,14 @@ status: new
 - Backlog lint: `pvg lint --backlog` PASS, 127 scanned, 0 errors, 0 review findings.
 - Release: `uv run --frozen --extra dev wgp release verify` returned `release=ready`, `tag_created=false`.
 - Whitespace/protected parity: `git diff --check` exit 0; protected-file diff from `9cc501d6` exit 0.
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-25.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
