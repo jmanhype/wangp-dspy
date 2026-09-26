@@ -11,10 +11,10 @@ created_by: speed
 updated_at: 2026-09-26T18:38:26Z
 closed_at: 2026-09-26T18:38:25Z
 close_reason: "Accepted: DOCS_STALE gap closed; help and focused ordering test updated; all targeted, integration, and full Go tests pass."
-content_hash: "sha256:4d0226f5224fdf3011c8ec753e3bcd2aef41631c9d459747c5a9e8258a2d9ca6"
+content_hash: "sha256:397f5be37b9fa490b5e12ba79ea0ddca14d7fd185ad73c345f8fd8ed2b64b21a"
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
-led_to: [WD-43tj]
+led_to: [WD-43tj, WD-5k28]
 ---
 ## Description
 ## Context
@@ -315,7 +315,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-9t9o]], [[WD-isg9]], [[WD-f0vk]], [[WD-14ej]]
-- Led to: [[WD-43tj]]
+- Led to: [[WD-43tj]], [[WD-5k28]]
 
 ## Comments
 
