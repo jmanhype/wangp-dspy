@@ -1,0 +1,13 @@
+{
+  "errors": "0",
+  "expected_failure_reason": "release tree gate requires a committed clean tree; run final full suite after commit/CI",
+  "expected_failures": [
+    "tests/test_release.py::test_clean_checkout_and_real_repository_are_release_ready",
+    "tests/test_release.py::test_probe_fails_closed_when_import_shadowing_is_disabled"
+  ],
+  "failures": "2",
+  "skipped": "1",
+  "suite": "dirty story worktree",
+  "tests": "2090",
+  "time": "1134.901"
+}

@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-isg9/outputs/retake/2026-09-26-09h03m34s_seed2946_Retake from the supplied compass frame with a slower turn, warmer light, and one clear paper click..mp4
+final=/home/straughter/Wan2GP/wd-isg9/outputs/retake/wd_isg9_retake.mp4

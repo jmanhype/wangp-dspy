@@ -1,0 +1,23 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "resolution": "480x832",
+  "seed": 2945,
+  "video_length": 120,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "sample_solver": "euler",
+  "image_prompt_type": "V",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [],
+  "video_source": "/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4",
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "T",
+  "audio_prompt_type": "",
+  "sliding_window_size": 362,
+  "sliding_window_overlap": 18,
+  "prompt": "Continue the compass scene naturally: the brass dial completes one more slow rotation, window light warms across the paper map, and the paper settles with a soft click."
+}

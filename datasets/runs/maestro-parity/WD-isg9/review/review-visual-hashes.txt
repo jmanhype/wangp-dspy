@@ -1,0 +1,7 @@
+c89c8b072808f5e133fa88a9b1c3365f3d7689fd50d8c86791ccd68e7a1f2a42  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/edit-contact-sheet.jpg
+91c33358ef5ad1d18973e089daf978e5b615d7fb89999bebc5879e2de9fc3ba1  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/extend-contact-sheet.jpg
+942d6e10be4ba61660bc5182f67102fbcb6bea40e0eed9881f9fa8a8bad51fab  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/mask-source-midframe.jpg
+fb3f0f443f2fa384d7712c5b3c402641d61f2ec044159b34f19d2c5c21a89907  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/repaint-contact-sheet.jpg
+479eddf79c719d8ce3d7374c71e17bc72fea796506f40408c720275b078ec520  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/retake-contact-sheet.jpg
+49f53257f524ab338f1aa592dc19737abd5f24d10dbb55801c49217a02d8670a  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/source-edit-repaint-midframe.jpg
+bf2432c3c2fac5776d7e882f198480cdb1d945658b82150931318b012dc0a715  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/review/upscale-contact-sheet.jpg

@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-isg9/outputs/edit/2026-09-26-09h07m09s_seed2947_Edit the compass scene make the light warmer, slightly sharpen the brass dial, and preserve the pap.mp4
+final=/home/straughter/Wan2GP/wd-isg9/outputs/edit/wd_isg9_edit.mp4

@@ -1,0 +1,4 @@
+name=blend-probe exit=1
+name=recast-probe exit=1
+blend-probe: 1
+recast-probe: 1

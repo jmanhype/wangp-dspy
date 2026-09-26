@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-isg9/outputs/extend/2026-09-26-09h00m06s_seed2945_Continue the compass scene naturally the brass dial completes one more slow rotation, window light.mp4
+final=/home/straughter/Wan2GP/wd-isg9/outputs/extend/wd_isg9_extend.mp4

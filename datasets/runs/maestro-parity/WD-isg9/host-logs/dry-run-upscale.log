@@ -1,0 +1,14 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-isg9/settings/upscale.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-isg9/settings/upscale.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[DRY-RUN] Queue validation:
+  Task 1: model=unknown, steps=30, frames=81
+          prompt: Media postprocessing...
+          [OK]
+
+[DRY-RUN] Validation complete. 1/1 task(s) valid.

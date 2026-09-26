@@ -1,0 +1,44 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/wd-isg9/settings/extend.json
+Output directory: /home/straughter/Wan2GP/wd-isg9/outputs/extend
+[load_settings] Loading settings from: /home/straughter/Wan2GP/wd-isg9/settings/extend.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] Continue the compass scene naturally: the brass dial complet...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+Loading model MiniMax H3 FL2VA Pruned 20B...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Encoding Prompt  [0/1] Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Denoising                          [0/8] Denoising | 1m 42sH3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s]  [1/8] Denoising | 1m 57s / 3m 46sH3 denoising:  12%|█▎        | 1/8 [00:15<01:48, 15.52s/steps]H3 denoising:  25%|██▌       | 2/8 [00:31<01:33, 15.56s/steps]  [2/8] Denoising | 2m 13s / 3m 46sH3 denoising:  38%|███▊      | 3/8 [00:46<01:18, 15.61s/steps]  [3/8] Denoising | 2m 29s / 3m 47sH3 denoising:  50%|█████     | 4/8 [01:02<01:02, 15.54s/steps]  [4/8] Denoising | 2m 44s / 3m 46sH3 denoising:  62%|██████▎   | 5/8 [01:17<00:46, 15.53s/steps]  [5/8] Denoising | 3m 00s / 3m 46sH3 denoising:  75%|███████▌  | 6/8 [01:33<00:31, 15.54s/steps]  [6/8] Denoising | 3m 15s / 3m 46sH3 denoising:  88%|████████▊ | 7/8 [01:48<00:15, 15.58s/steps]  [7/8] Denoising | 3m 31s / 3m 46sH3 denoising: 100%|██████████| 8/8 [02:04<00:00, 15.66s/steps]H3 denoising: 100%|██████████| 8/8 [02:04<00:00, 15.60s/steps]  [8/8] VAE Decoding | 3m 47s / 3m 47s
+  [0/1] VAE Decoding of Video and Audio16 frames trimmed to match expected duration (Sliding Window 1).
+Error saving metadata to MP4 /home/straughter/Wan2GP/wd-isg9/outputs/extend/2026-09-26-09h00m06s_seed2945_Continue the compass scene naturally the brass dial completes one more slow rotation, window light.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/Wan2GP/wd-isg9/outputs/extend/2026-09-26-09h00m06s_seed2945_Continue the compass scene naturally the brass dial completes one more slow rotation, window light.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 4m 58s

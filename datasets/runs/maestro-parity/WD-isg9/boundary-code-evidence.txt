@@ -1,0 +1,15 @@
+--- FL2VA exposed guide choices and disabled outpaint control ---
+361-                    "choices": [("Generate without a Reference or Control Video", ""), ("Use One Reference Video", "V-U"),
+362-                                ("Use Two Reference Videos", "V+-U"),
+378-                "video_guide2_label": "Reference Video 2",
+408-                                ("Use Control Video", "GV"),
+409-                                ("Inject Frames", "KFI")],
+416-                # "video_guide_outpainting": [0],
+417-                # "video_guide_outpainting_label": "Enable Spatial Outpainting on the H3 Control Video",
+418-                "outpainting_quantize_margins": 32,
+--- non-Ref2VA reference rejection ---
+735-        visual_latents, keyframes = prepare_keyframes(height, width, presentation)
+736-        if not self.reference_mode and (input_ref_images or input_frames is not None and not (control_video or audio_from_control_video) or input_frames2 is not None):
+737:            raise ValueError("Image, video, and audio references require the Ref2VA checkpoint")
+738-        if continuation_count:
+739-            if waveform is not None:

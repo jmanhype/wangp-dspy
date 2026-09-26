@@ -1,0 +1,5 @@
+1367844	/home/straughter/Wan2GP/wd-isg9/outputs/edit/wd_isg9_edit.mp4
+3449127	/home/straughter/Wan2GP/wd-isg9/outputs/extend/wd_isg9_extend.mp4
+1364603	/home/straughter/Wan2GP/wd-isg9/outputs/repaint/wd_isg9_repaint.mp4
+1320128	/home/straughter/Wan2GP/wd-isg9/outputs/retake/wd_isg9_retake.mp4
+3666411	/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_isg9_upscale.mp4

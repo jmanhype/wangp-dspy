@@ -1,0 +1,1 @@
+{"admission_state": "admitted", "attempt_note": "Attempt 1 was dispatcher-stopped before denoising because host snapshot paths were malformed; its files were quarantined on the host and are not evidence.", "database": "queue.db", "job_id": "job-1790432067211-5481d486", "preflight": "preflight.json", "queue_id": "wangp-JobQueue-WD-isg9", "retry_id": "attempt-2"}

@@ -1,0 +1,17 @@
+{
+  "mode": "edit_postprocessing",
+  "prompt": "Media postprocessing",
+  "image_mode": 0,
+  "video_source": "/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "lanczos2",
+  "spatial_upsampler_prompt": "",
+  "spatial_upsampler_reference_images": [],
+  "spatial_upsampler_face_count": 1,
+  "film_grain_intensity": 0,
+  "film_grain_saturation": 0.5,
+  "postprocess_audio": "",
+  "repeat_generation": 1,
+  "batch_size": 1,
+  "seed": 2949
+}
