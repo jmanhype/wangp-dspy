@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:17:55Z
-content_hash: "sha256:44a505054eb7cca5b18280b2e9b0e606fe36745b31981559451cf9ae8d0b6cee"
+updated_at: 2026-09-26T23:18:35Z
+content_hash: "sha256:6a88d3fa70f50980a1978c4922b65dc194d3e3ee9f27fc8c3652b0f2e6ce3fc2"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o]
@@ -133,6 +133,11 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+PRODUCES:
+- datasets/runs/maestro-parity/WD-m7xw/review/QC.md -> independently reviewed successful-output QC record
+- datasets/runs/maestro-parity/WD-m7xw/objective-measurements.json -> independently reviewed objective measurements
+
+
 ## Implementation Evidence
 
 ### Path-only rework correction
