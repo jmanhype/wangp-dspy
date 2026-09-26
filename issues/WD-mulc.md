@@ -8,13 +8,15 @@ labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:50:54Z
 created_by: speed
-updated_at: 2026-09-26T20:51:57Z
-content_hash: "sha256:e1d98e43ff5202f8800d71cd96db2ca0610c3d96c61395e73d7581389f5f6dc1"
+updated_at: 2026-09-26T20:52:22Z
+content_hash: "sha256:e13ba80e85e1ad5e759c98f956d931ec000fbd453a02196df64ab33c5efbb7a7"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 ---
 
 ## Description
+
+
 ## USER INTENT
 The five remaining finishing cells must stop being an ambiguous backlog: run the corrected local FFmpeg film-grain graph once, and terminalize the neural and face gaps with honest, operator-approved missing-input or host-implementation boundaries rather than fabricated GPU or quality claims.
 
