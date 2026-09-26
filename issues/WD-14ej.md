@@ -1,18 +1,19 @@
 ---
 id: WD-14ej
 title: "Finishing: honor interpolation scene_detection in the emitted minterpolate graph"
-status: in_progress
+status: closed
 priority: 2
 type: bug
 labels: [capability, finishing, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T04:32:47Z
 created_by: speed
-updated_at: 2026-09-26T05:12:59Z
-content_hash: "sha256:9882c976f4a215ea6a089e7422e842060e2f4f4b7ea292a3cc89bc299326076d"
-blocks: [WD-fay0]
+updated_at: 2026-09-26T05:36:40Z
+content_hash: "sha256:350ab03d6f6a1eb6ec8ebf6fffe7a3000abdb56111ab46eaa020e199fa0db3ad"
 assignee: dev-WD-14ej
 follows: [WD-i7qs, WD-r4n8, WD-fay0]
+closed_at: 2026-09-26T05:36:40Z
+close_reason: "Accepted: independently reproduced explicit scd=1/scd=0 graphs, default compatibility, deterministic records/hashes, plan-only invariants and absent jobs table, synthetic ffmpeg validity, honest docs, full gates, and clean scope."
 ---
 
 ## Description
@@ -338,10 +339,11 @@ status: delivered
 - 2026-09-26T05:11:44Z auto-follows: linked to predecessor WD-r4n8
 - 2026-09-26T05:12:59Z status: in_progress -> in_progress
 - 2026-09-26T05:12:59Z auto-follows: linked to predecessor WD-fay0
+- 2026-09-26T05:36:40Z status: in_progress -> closed
+- 2026-09-26T05:36:40Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-i7qs]], [[WD-r4n8]], [[WD-fay0]]
 
 ## Comments
