@@ -8,8 +8,8 @@ labels: [capstone, e2e, evidence]
 parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
-updated_at: 2026-09-26T00:08:49Z
-content_hash: "sha256:29fe703fecaea0c4f6a4c325d31e19b147043ed8e118e037073339c3bdb18c8d"
+updated_at: 2026-09-26T00:09:51Z
+content_hash: "sha256:92d01ac2a8281c6e1f7d1655c156390cae9ae32098415a4b489015467fa64522"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -114,6 +114,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- 2026-09-26 capstone execution started in story worktree at HEAD 82f6c38.
+
+### proof
+- [ ] Pending consolidated checker matrix, row disposition table, standing gates, commit, push, and delivery verification.
+
 ## MANDATORY SKILLS
 - pvg
 
