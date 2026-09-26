@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
-updated_at: 2026-09-26T03:59:20Z
-content_hash: "sha256:36c48170281bbb6030c524d21c086d706966ae7ba3b926d1237b5d356b57f3bf"
+updated_at: 2026-09-26T04:00:22Z
+content_hash: "sha256:4fe3c4b46d06dfa6de79f55d6c05514472bc45846787df646f786d1276bd242d"
 assignee: dev-WD-i7qs
 follows: [WD-r4n8, WD-fay0, WD-dmf2]
 ---
@@ -112,6 +112,31 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Commands run:
+- Targeted unittest before and after the fix.
+- Real-path tokenizer check.
+- `pvg verify --include-tests`.
+
+Summary: targeted GREEN 5/5 PASS; real path PASS; pvg verify 0 issues.
+
+Commit SHA: faea82d15bf10b3479c42c0ea430892aae975870
+
+## nd_contract
+status: delivered
+
+### evidence
+- Wan2GP commit SHA: faea82d15bf10b3479c42c0ea430892aae975870
+
+### proof
+- [x] AC1: PASS
+- [x] AC2: PASS
+- [x] AC3: PASS
+- [x] AC4: PASS
+- [x] AC5: PASS
+- [x] AC6: PASS
+
 ## Implementation Evidence
 
 Commands run:
