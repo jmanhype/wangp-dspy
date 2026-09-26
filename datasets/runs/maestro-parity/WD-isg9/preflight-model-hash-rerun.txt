@@ -1,0 +1,27 @@
+2026-09-26T15:01:00Z
+straughter-Z690-Steel-Legend
+--- sha256sum -c wd-isg9-model-hashes.sha256 ---
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors: OK
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors: OK
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors: OK
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors: OK
+--- raw sha256sum ---
+30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0  /home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors
+455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b  /home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors
+37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2  /home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors
+4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301  /home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors
+--- stat size/mtime ---
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors|21057674787|2026-09-01 17:21:46.441729800 -0500
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors|5207806512|2026-09-02 10:26:50.620329222 -0500
+/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors|605429308|2026-08-04 15:04:24.101527735 -0500
+/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors|26723791903|2026-09-02 14:03:05.949235916 -0500
+--- disk ---
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 784167264256 65084743680  93% /
+--- gpu ---
+NVIDIA GeForce RTX 3090, 24576 MiB, 84 MiB, 24033 MiB
+--- unrelated process state ---
+803069 /usr/bin/python3.12 /home/straughter/.local/bin/uvicorn qc.audio_critic.service:app --host 127.0.0.1 --port 8377 --workers 1
+1357394 /home/straughter/Wan2GP/venv/bin/python /home/straughter/Wan2GP/wgp.py --server-name 0.0.0.0 --server-port 7861 --profile 4 --attention sage --verbose 1
+--- QC health ---
+{"model_loaded":false,"queue_depth":0}

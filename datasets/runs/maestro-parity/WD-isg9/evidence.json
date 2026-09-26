@@ -1,0 +1,934 @@
+{
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 6.791667,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/extend/wd_isg9_extend.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/retake/wd_isg9_retake.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/edit/wd_isg9_edit.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "height": 832,
+      "kind": "video",
+      "path": "outputs/repaint/wd_isg9_repaint.mp4",
+      "width": 480
+    },
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 2,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 32000
+      },
+      "duration_s": 2.334,
+      "fps": 24.0,
+      "height": 1664,
+      "kind": "video",
+      "path": "outputs/upscale/wd_isg9_upscale.mp4",
+      "width": 960
+    }
+  ],
+  "model_provenance": [
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "download_approved": true,
+      "id": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-01 17:21:46.441729800 -0500",
+      "observed_sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "observed_size_bytes": 21057674787,
+      "preflight_hash_verified": true,
+      "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "size_bytes": 21057674787,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
+      "download_approved": true,
+      "id": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+      "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-02 10:26:50.620329222 -0500",
+      "observed_sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "observed_size_bytes": 5207806512,
+      "preflight_hash_verified": true,
+      "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "size_bytes": 5207806512,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors",
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
+      "download_approved": true,
+      "id": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+      "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-08-04 15:04:24.101527735 -0500",
+      "observed_sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "observed_size_bytes": 605429308,
+      "preflight_hash_verified": true,
+      "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "size_bytes": 605429308,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors",
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors"
+    },
+    {
+      "destination": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "id": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "identity": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "license": "Upstream distribution license; operator research/evaluation only",
+      "observed_mtime": "2026-09-02 14:03:05.949235916 -0500",
+      "observed_sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "observed_size_bytes": 26723791903,
+      "preflight_hash_verified": true,
+      "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "size_bytes": 26723791903,
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "source_url": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors"
+    }
+  ],
+  "native_commands": [
+    [
+      "uv",
+      "run",
+      "--frozen",
+      "--extra",
+      "dev",
+      "python",
+      "datasets/runs/maestro-parity/WD-2gyw/preflight-runner.py",
+      "/tmp/wd_isg9_h3_doctor_models.json",
+      "24.0"
+    ],
+    [
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_preflight_hash_probe.sh"
+    ],
+    [
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_boundary_probes.sh"
+    ],
+    [
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=15",
+      "3090",
+      "/home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh"
+    ]
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 6.791667,
+      "name": "wd_isg9_extend_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_extend_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 3449127,
+      "name": "wd_isg9_extend_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_extend_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_extend_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_extend_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_retake_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_retake_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4"
+      ],
+      "measured": 1320128,
+      "name": "wd_isg9_retake_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_retake_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_retake_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_retake_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_edit_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_edit_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4"
+      ],
+      "measured": 1367844,
+      "name": "wd_isg9_edit_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_edit_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_edit_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_edit_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_repaint_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_repaint_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 1364603,
+      "name": "wd_isg9_repaint_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_repaint_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_repaint_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_repaint_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2.334,
+      "name": "wd_isg9_upscale_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_upscale_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4"
+      ],
+      "measured": 3666411,
+      "name": "wd_isg9_upscale_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_upscale_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_upscale_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_upscale_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt",
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 4,
+      "name": "wd_isg9_preflight_model_hash_match_count",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_hashes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_sizes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 65084743680,
+      "name": "wd_isg9_preflight_disk_available_bytes",
+      "threshold": 24000000000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 24033,
+      "name": "wd_isg9_preflight_gpu_free_mib",
+      "threshold": 20000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-hashes-local.txt"
+      ],
+      "measured": 5,
+      "name": "wd_isg9_distinct_output_hashes",
+      "threshold": 5.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 6.791667,
+      "name": "wd_isg9_extend_longer_than_source_s",
+      "threshold": 2.333334,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 47.611382,
+      "name": "wd_isg9_extend_source_prefix_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/first-frame.png",
+        "outputs/retake/wd_isg9_retake.mp4"
+      ],
+      "measured": 38.456445,
+      "name": "wd_isg9_retake_first_frame_anchor_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/edit/wd_isg9_edit.mp4"
+      ],
+      "measured": 35.548159999999996,
+      "name": "wd_isg9_edit_visual_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 29.053942,
+      "name": "wd_isg9_repaint_outside_mask_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 44.245926,
+      "name": "wd_isg9_repaint_inside_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 960,
+      "name": "wd_isg9_upscale_width_px",
+      "threshold": 960.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 1664,
+      "name": "wd_isg9_upscale_height_px",
+      "threshold": 1664.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/upscale/wd_isg9_upscale.mp4"
+      ],
+      "measured": 47.322634,
+      "name": "wd_isg9_upscale_downscaled_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/blend-probe.render.log",
+        "host-logs/blend-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_blend_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/recast-probe.render.log",
+        "host-logs/recast-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_recast_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "boundary-code-evidence.txt",
+        "boundary-source-hashes.txt"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_outpaint_disabled_host_control_count",
+      "threshold": 1.0,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator via /root dispatcher",
+    "scope": "WD-isg9 H3-standard operation evidence on host 3090 using existing assets only; no downloads, training, paid provider, GUI work, unrelated GPU process, or model deletion",
+    "status": "approved",
+    "text": "Authorized and approved.\ncontinue",
+    "timestamp": "2026-09-26T15:34:15.703204Z"
+  },
+  "output": [
+    {
+      "path": "outputs/extend/wd_isg9_extend.mp4",
+      "sha256": "489f8aae72b41b669df2259182eb287ca805ff3033d2b7ed93a130b903c00cef"
+    },
+    {
+      "path": "outputs/retake/wd_isg9_retake.mp4",
+      "sha256": "4a75cccc6aefe55cbf3cb65e276f9783a3430635cbbc65e140ab5d7b30dd864b"
+    },
+    {
+      "path": "outputs/edit/wd_isg9_edit.mp4",
+      "sha256": "93acbbd1c4d432555d14135dad2648b88f19bec7a1ec40457ce6e17978158f1c"
+    },
+    {
+      "path": "outputs/repaint/wd_isg9_repaint.mp4",
+      "sha256": "3f14efa860a0a3564abbb4a39fcc56a380731d7f5595991639dc2cfc08fa9416"
+    },
+    {
+      "path": "outputs/upscale/wd_isg9_upscale.mp4",
+      "sha256": "ee703d736fc6a065b6d546d8756838fa2edd5feeebd4755d304463f33dbe505a"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "attempt_note": "Attempt 1 was dispatcher-stopped before denoising because host snapshot paths were malformed; its files were quarantined on the host and are not evidence.",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790432067211-5481d486",
+    "native_logs": [
+      "host-logs/extend.render.log",
+      "host-logs/retake.render.log",
+      "host-logs/edit.render.log",
+      "host-logs/repaint.render.log",
+      "host-logs/upscale.render.log",
+      "host-logs/blend-probe.render.log",
+      "host-logs/recast-probe.render.log"
+    ],
+    "preflight": "preflight.json",
+    "queue_id": "wangp-JobQueue-WD-isg9",
+    "retry_id": "attempt-2"
+  },
+  "reference_provenance": [
+    {
+      "license": "Operator-owned WD-2gyw/WD-isg9 generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/source.mp4",
+      "role": "accepted_h3_standard_source_video",
+      "sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    },
+    {
+      "license": "Operator-owned WD-2gyw/WD-isg9 generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/first-frame.png",
+      "role": "retake_first_frame_anchor",
+      "sha256": "888e32c332c922616d39f802383d66a3de8733d7bb54d5aacdb6a03560bd638b"
+    },
+    {
+      "license": "Operator-owned WD-2gyw/WD-isg9 generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/repaint-mask.mp4",
+      "role": "repaint_editable_region_mask",
+      "sha256": "8e58f8f4389218384069525c1eda95652ef2b7a91b1957bcebff37a9e28e6657"
+    },
+    {
+      "license": "Operator-owned WD-2gyw/WD-isg9 generated evaluation asset; operator-authorized research/evaluation use; no redistribution",
+      "path": "inputs/recast-reference.png",
+      "role": "synthetic_recast_boundary_probe_reference",
+      "sha256": "321f91b39796ea9112d682c8a38e3bca02d5677acc462dcbf019b9b7e7e7ad7d"
+    }
+  ],
+  "repository": {
+    "commit": "d79979614ea5fd2a97ef4257247e2d098e66217c",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "6bdb147a4b690364496b40b9d244eef51c15f957ecc1972380d4a66121446a6b",
+      "status_lines": [
+        "?? datasets/runs/maestro-parity/WD-isg9/reviewer-verdict.json"
+      ]
+    }
+  },
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "reviewer-verdict.json",
+      "evidence.json",
+      "preflight-original-command.txt",
+      "preflight-model-hash-rerun.txt",
+      "preflight-model-hash-summary.json",
+      "objective-gates.json",
+      "host-logs/blend-probe.render.log",
+      "host-logs/recast-probe.render.log",
+      "boundary-code-evidence.txt"
+    ],
+    "reviewed_at": "2026-09-26T15:33:54Z",
+    "reviewed_commit": "d79979614ea5fd2a97ef4257247e2d098e66217c",
+    "reviewer": "independent PM /root/pm_wd_isg9_rework",
+    "summary": "All seven acceptance criteria are supported. The original preflight path performed live sha256 comparisons before render; the rework preserves its exact argv and adds raw live hash, size, mtime, host-state, process, and QC evidence. Five outputs have distinct verified hashes and operation-specific gates; three cells have real host boundaries. LEARNINGS and warning ownership are present. CI and clean release verification pass at the reviewed head.",
+    "verification": {
+      "backlog_lint": "PASS 131 scanned, 0 errors, 0 review findings",
+      "canonical_checker_before_rebuild": "Failed only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+      "clean_release_verify": "PASS; release=ready, tag_created=false",
+      "delivery_proof": "PASS 9/9",
+      "objective_gates": "48 pass, 0 fail",
+      "operation_dispositions": {
+        "host_run_verified": [
+          "extend",
+          "retake",
+          "edit",
+          "repaint",
+          "upscale"
+        ],
+        "unsupported_with_host_boundary": [
+          "blend",
+          "outpaint",
+          "recast"
+        ]
+      },
+      "pr_197_test": "SUCCESS at d79979614ea5fd2a97ef4257247e2d098e66217c"
+    }
+  },
+  "row_dispositions": {
+    "blend": {
+      "disposition": "unsupported",
+      "evidence": "host-logs/blend-probe.render.log",
+      "reason": "Real FL2VA-standard runtime probe loaded the model and exited 1 with KeyError reference_video_max_frames when asked for two reference videos; the two-reference controls are defined only for Ref2VA."
+    },
+    "edit": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/edit/wd_isg9_edit.mp4",
+      "operation": "edit"
+    },
+    "extend": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/extend/wd_isg9_extend.mp4",
+      "operation": "extend"
+    },
+    "outpaint": {
+      "disposition": "unsupported",
+      "evidence": "boundary-code-evidence.txt",
+      "reason": "The FL2VA host model definition comments out video_guide_outpainting and its label; adjacent quantization settings do not re-enable it."
+    },
+    "recast": {
+      "disposition": "unsupported",
+      "evidence": "host-logs/recast-probe.render.log",
+      "reason": "Real FL2VA-standard runtime probe exited 1 with ValueError: Image, video, and audio references require the Ref2VA checkpoint."
+    },
+    "repaint": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/repaint/wd_isg9_repaint.mp4",
+      "operation": "repaint"
+    },
+    "retake": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/retake/wd_isg9_retake.mp4",
+      "operation": "retake"
+    },
+    "upscale": {
+      "disposition": "host_run_verified",
+      "evidence": "outputs/upscale/wd_isg9_upscale.mp4",
+      "operation": "upscale"
+    }
+  },
+  "runtime_notes": {
+    "attempt1_note": "Dispatcher stopped attempt 1 before denoising after a host snapshot path bug; remote files were quarantined and are not evidence.",
+    "boundary_runtime_exits": {
+      "blend": 1,
+      "recast": 1
+    },
+    "download_bytes": 0,
+    "dry_run": "dry-run-output.txt",
+    "final_host_state": "host-after.txt",
+    "objective_measurements": {
+      "distinct_output_hashes": 5,
+      "rows": [
+        {
+          "audio_channels": 2,
+          "audio_present": true,
+          "audio_sample_rate_hz": 32000,
+          "black_intervals_max_s": 0.0,
+          "bytes": 3449127,
+          "duration_s": 6.791667,
+          "first_frame_psnr_db": 48.298506,
+          "fps": 24.0,
+          "global_psnr_vs_source_db": 16.088814,
+          "height": 832,
+          "operation": "extend",
+          "path": "outputs/extend/wd_isg9_extend.mp4",
+          "sha256": "489f8aae72b41b669df2259182eb287ca805ff3033d2b7ed93a130b903c00cef",
+          "source_prefix_psnr_db": 47.611382,
+          "width": 480
+        },
+        {
+          "audio_channels": 2,
+          "audio_present": true,
+          "audio_sample_rate_hz": 32000,
+          "black_intervals_max_s": 0.0,
+          "bytes": 1320128,
+          "duration_s": 2.333333,
+          "first_frame_psnr_db": 38.456445,
+          "fps": 24.0,
+          "global_psnr_vs_source_db": 15.899255,
+          "height": 832,
+          "operation": "retake",
+          "path": "outputs/retake/wd_isg9_retake.mp4",
+          "sha256": "4a75cccc6aefe55cbf3cb65e276f9783a3430635cbbc65e140ab5d7b30dd864b",
+          "width": 480
+        },
+        {
+          "audio_channels": 2,
+          "audio_present": true,
+          "audio_sample_rate_hz": 32000,
+          "black_intervals_max_s": 0.0,
+          "bytes": 1367844,
+          "duration_s": 2.333333,
+          "fps": 24.0,
+          "global_psnr_vs_source_db": 24.45184,
+          "height": 832,
+          "operation": "edit",
+          "path": "outputs/edit/wd_isg9_edit.mp4",
+          "sha256": "93acbbd1c4d432555d14135dad2648b88f19bec7a1ec40457ce6e17978158f1c",
+          "width": 480
+        },
+        {
+          "audio_channels": 2,
+          "audio_present": true,
+          "audio_sample_rate_hz": 32000,
+          "black_intervals_max_s": 0.0,
+          "bytes": 1364603,
+          "duration_s": 2.333333,
+          "fps": 24.0,
+          "global_psnr_vs_source_db": 21.083216,
+          "height": 832,
+          "inside_mask_psnr_db": 15.754074,
+          "operation": "repaint",
+          "outside_mask_psnr_db": 29.053942,
+          "path": "outputs/repaint/wd_isg9_repaint.mp4",
+          "sha256": "3f14efa860a0a3564abbb4a39fcc56a380731d7f5595991639dc2cfc08fa9416",
+          "width": 480
+        },
+        {
+          "audio_channels": 2,
+          "audio_present": true,
+          "audio_sample_rate_hz": 32000,
+          "black_intervals_max_s": 0.0,
+          "bytes": 3666411,
+          "duration_s": 2.334,
+          "fps": 24.0,
+          "global_psnr_vs_source_db": 47.322634,
+          "height": 1664,
+          "operation": "upscale",
+          "path": "outputs/upscale/wd_isg9_upscale.mp4",
+          "sha256": "ee703d736fc6a065b6d546d8756838fa2edd5feeebd4755d304463f33dbe505a",
+          "width": 960
+        }
+      ],
+      "schema_version": "wangp-dspy.wd-isg9.objective-measurements/v1",
+      "source_sha256": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859"
+    },
+    "preflight": "preflight.json",
+    "preflight_model_hash_rerun": "preflight-model-hash-rerun.txt",
+    "preflight_model_hash_summary": "preflight-model-hash-summary.json",
+    "preflight_original_command": "preflight-original-command.txt",
+    "test_ownership": {
+      "StarletteDeprecationWarning": "The existing FastAPI test-client import emits a deprecation warning, unrelated to WD-isg9; observed and retained here rather than dismissed.",
+      "dirty_tree_release_failures": "The two tests/test_release.py failures are the intentional clean-tree gate checking this uncommitted evidence worktree; CI runs after the story commit."
+    }
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}

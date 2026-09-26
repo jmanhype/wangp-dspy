@@ -1,0 +1,5 @@
+93acbbd1c4d432555d14135dad2648b88f19bec7a1ec40457ce6e17978158f1c  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/outputs/edit/wd_isg9_edit.mp4
+489f8aae72b41b669df2259182eb287ca805ff3033d2b7ed93a130b903c00cef  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/outputs/extend/wd_isg9_extend.mp4
+3f14efa860a0a3564abbb4a39fcc56a380731d7f5595991639dc2cfc08fa9416  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/outputs/repaint/wd_isg9_repaint.mp4
+4a75cccc6aefe55cbf3cb65e276f9783a3430635cbbc65e140ab5d7b30dd864b  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/outputs/retake/wd_isg9_retake.mp4
+ee703d736fc6a065b6d546d8756838fa2edd5feeebd4755d304463f33dbe505a  /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/maestro-parity/WD-isg9/outputs/upscale/wd_isg9_upscale.mp4

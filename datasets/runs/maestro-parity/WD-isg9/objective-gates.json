@@ -1,0 +1,477 @@
+{
+  "failed": [],
+  "gate_count": 48,
+  "results": [
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 6.791667,
+      "name": "wd_isg9_extend_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_extend_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 3449127,
+      "name": "wd_isg9_extend_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_extend_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_extend_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/extend/wd_isg9_extend.mp4",
+        "ffprobe-extend.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_extend_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_retake_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_retake_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4"
+      ],
+      "measured": 1320128,
+      "name": "wd_isg9_retake_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_retake_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_retake_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/retake/wd_isg9_retake.mp4",
+        "ffprobe-retake.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_retake_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_edit_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_edit_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4"
+      ],
+      "measured": 1367844,
+      "name": "wd_isg9_edit_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_edit_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_edit_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/edit/wd_isg9_edit.mp4",
+        "ffprobe-edit.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_edit_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2.333333,
+      "name": "wd_isg9_repaint_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_repaint_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 1364603,
+      "name": "wd_isg9_repaint_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_repaint_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_repaint_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/repaint/wd_isg9_repaint.mp4",
+        "ffprobe-repaint.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_repaint_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2.334,
+      "name": "wd_isg9_upscale_duration_s",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 24.0,
+      "name": "wd_isg9_upscale_fps",
+      "threshold": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4"
+      ],
+      "measured": 3666411,
+      "name": "wd_isg9_upscale_nonempty_bytes",
+      "threshold": 500000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffmpeg blackdetect"
+      ],
+      "measured": 0.0,
+      "name": "wd_isg9_upscale_black_intervals_max_s",
+      "threshold": 0.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 32000,
+      "name": "wd_isg9_upscale_audio_sample_rate_hz",
+      "threshold": 32000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 2,
+      "name": "wd_isg9_upscale_audio_channels",
+      "threshold": 2.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt",
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 4,
+      "name": "wd_isg9_preflight_model_hash_match_count",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_hashes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-summary.json"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_preflight_all_model_sizes_match",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 65084743680,
+      "name": "wd_isg9_preflight_disk_available_bytes",
+      "threshold": 24000000000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "preflight-model-hash-rerun.txt"
+      ],
+      "measured": 24033,
+      "name": "wd_isg9_preflight_gpu_free_mib",
+      "threshold": 20000.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-hashes-local.txt"
+      ],
+      "measured": 5,
+      "name": "wd_isg9_distinct_output_hashes",
+      "threshold": 5.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 6.791667,
+      "name": "wd_isg9_extend_longer_than_source_s",
+      "threshold": 2.333334,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/extend/wd_isg9_extend.mp4"
+      ],
+      "measured": 47.611382,
+      "name": "wd_isg9_extend_source_prefix_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/first-frame.png",
+        "outputs/retake/wd_isg9_retake.mp4"
+      ],
+      "measured": 38.456445,
+      "name": "wd_isg9_retake_first_frame_anchor_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/edit/wd_isg9_edit.mp4"
+      ],
+      "measured": 35.548159999999996,
+      "name": "wd_isg9_edit_visual_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 29.053942,
+      "name": "wd_isg9_repaint_outside_mask_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/repaint/wd_isg9_repaint.mp4"
+      ],
+      "measured": 44.245926,
+      "name": "wd_isg9_repaint_inside_change_margin_db",
+      "threshold": 0.1,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 960,
+      "name": "wd_isg9_upscale_width_px",
+      "threshold": 960.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/upscale/wd_isg9_upscale.mp4",
+        "ffprobe-upscale.json"
+      ],
+      "measured": 1664,
+      "name": "wd_isg9_upscale_height_px",
+      "threshold": 1664.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "inputs/source.mp4",
+        "outputs/upscale/wd_isg9_upscale.mp4"
+      ],
+      "measured": 47.322634,
+      "name": "wd_isg9_upscale_downscaled_psnr_db",
+      "threshold": 20.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/blend-probe.render.log",
+        "host-logs/blend-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_blend_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "host-logs/recast-probe.render.log",
+        "host-logs/recast-probe.exit"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_recast_runtime_rejection_exit",
+      "threshold": 1.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "boundary-code-evidence.txt",
+        "boundary-source-hashes.txt"
+      ],
+      "measured": 1.0,
+      "name": "wd_isg9_outpaint_disabled_host_control_count",
+      "threshold": 1.0,
+      "verdict": "pass"
+    }
+  ],
+  "schema_version": "wangp-dspy.wd-isg9.objective-gates/v1"
+}

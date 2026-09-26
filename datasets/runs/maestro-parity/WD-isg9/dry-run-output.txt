@@ -1,0 +1,16 @@
+name=extend exit=0
+name=retake exit=0
+name=edit exit=0
+name=repaint exit=0
+name=upscale exit=0
+name=blend-probe exit=0
+name=recast-probe exit=0
+name=outpaint-probe exit=0
+blend-probe: 0
+edit: 0
+extend: 0
+outpaint-probe: 0
+recast-probe: 0
+repaint: 0
+retake: 0
+upscale: 0

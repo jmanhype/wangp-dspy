@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-isg9/outputs/repaint/2026-09-26-09h10m51s_seed2948_Repaint only the central compass region with warmer brass and cleaner enamel; preserve the surroundi.mp4
+final=/home/straughter/Wan2GP/wd-isg9/outputs/repaint/wd_isg9_repaint.mp4

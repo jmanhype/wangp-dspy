@@ -1,0 +1,18 @@
+Executed before boundary probes and rendering:
+
+```text
+cd /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9
+export WANGP_SSH_TARGET=3090
+export WANGP_WGP_ROOT=/home/straughter/Wan2GP
+export WANGP_PULL_ROOT=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-isg9/datasets/runs/pull
+export WANGP_WGP_PYTHON=/home/straughter/Wan2GP/venv/bin/python
+export WANGP_QC_URL=http://127.0.0.1:8377/health
+uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-2gyw/preflight-runner.py /tmp/wd_isg9_h3_doctor_models.json 24.0
+```
+
+The output was captured as `preflight.json`. Its checks passed SSH, model-file
+hash validation, 61G free against the 24G floor, idle GPU, and QC health. The
+runner unfortunately summarized `model_files` as a boolean. The committed
+`host-scripts/wd_isg9_preflight_hash_probe.sh` now supplies the missing raw
+hash, size, mtime, disk, GPU, process, and QC evidence; model mtimes predate
+the render and no model mutation is authorized or performed by this story.

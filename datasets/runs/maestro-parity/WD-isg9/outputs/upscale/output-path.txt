@@ -1,0 +1,2 @@
+source=/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_2gyw_h3_standard_post.mp4
+final=/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_isg9_upscale.mp4

@@ -1,0 +1,42 @@
+name=extend exit=0 output=/home/straughter/Wan2GP/wd-isg9/outputs/extend/2026-09-26-09h00m06s_seed2945_Continue the compass scene naturally the brass dial completes one more slow rotation, window light.mp4
+name=retake exit=0 output=/home/straughter/Wan2GP/wd-isg9/outputs/retake/2026-09-26-09h03m34s_seed2946_Retake from the supplied compass frame with a slower turn, warmer light, and one clear paper click..mp4
+name=edit exit=0 output=/home/straughter/Wan2GP/wd-isg9/outputs/edit/2026-09-26-09h07m09s_seed2947_Edit the compass scene make the light warmer, slightly sharpen the brass dial, and preserve the pap.mp4
+name=repaint exit=0 output=/home/straughter/Wan2GP/wd-isg9/outputs/repaint/2026-09-26-09h10m51s_seed2948_Repaint only the central compass region with warmer brass and cleaner enamel; preserve the surroundi.mp4
+name=upscale exit=0 output=/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_2gyw_h3_standard_post.mp4
+[
+  {
+    "operation": "extend",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/extend/wd_isg9_extend.mp4",
+    "exists": true,
+    "bytes": 3449127
+  },
+  {
+    "operation": "retake",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/retake/wd_isg9_retake.mp4",
+    "exists": true,
+    "bytes": 1320128
+  },
+  {
+    "operation": "edit",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/edit/wd_isg9_edit.mp4",
+    "exists": true,
+    "bytes": 1367844
+  },
+  {
+    "operation": "repaint",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/repaint/wd_isg9_repaint.mp4",
+    "exists": true,
+    "bytes": 1364603
+  },
+  {
+    "operation": "upscale",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_isg9_upscale.mp4",
+    "exists": true,
+    "bytes": 3666411
+  }
+]

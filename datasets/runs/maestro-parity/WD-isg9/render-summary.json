@@ -1,0 +1,37 @@
+[
+  {
+    "operation": "extend",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/extend/wd_isg9_extend.mp4",
+    "exists": true,
+    "bytes": 3449127
+  },
+  {
+    "operation": "retake",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/retake/wd_isg9_retake.mp4",
+    "exists": true,
+    "bytes": 1320128
+  },
+  {
+    "operation": "edit",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/edit/wd_isg9_edit.mp4",
+    "exists": true,
+    "bytes": 1367844
+  },
+  {
+    "operation": "repaint",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/repaint/wd_isg9_repaint.mp4",
+    "exists": true,
+    "bytes": 1364603
+  },
+  {
+    "operation": "upscale",
+    "exit": 0,
+    "output": "/home/straughter/Wan2GP/wd-isg9/outputs/upscale/wd_isg9_upscale.mp4",
+    "exists": true,
+    "bytes": 3666411
+  }
+]

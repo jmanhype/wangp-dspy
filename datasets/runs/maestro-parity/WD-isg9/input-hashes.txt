@@ -1,0 +1,2 @@
+321f91b39796ea9112d682c8a38e3bca02d5677acc462dcbf019b9b7e7e7ad7d  /home/straughter/Wan2GP/wd-isg9/inputs/recast-reference.png
+8e58f8f4389218384069525c1eda95652ef2b7a91b1957bcebff37a9e28e6657  /home/straughter/Wan2GP/wd-isg9/inputs/repaint-mask.mp4

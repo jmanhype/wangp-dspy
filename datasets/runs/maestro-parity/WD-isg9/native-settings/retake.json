@@ -1,0 +1,21 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "resolution": "480x832",
+  "seed": 2946,
+  "video_length": 56,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "sample_solver": "euler",
+  "image_prompt_type": "S",
+  "image_start": "/home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard_first_frame.png",
+  "image_end": null,
+  "image_refs": [],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "T",
+  "audio_prompt_type": "",
+  "prompt": "Retake from the supplied compass frame with a slower turn, warmer light, and one clear paper click."
+}

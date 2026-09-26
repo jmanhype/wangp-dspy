@@ -1,0 +1,23 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "resolution": "480x832",
+  "seed": 2951,
+  "video_length": 56,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "sample_solver": "euler",
+  "image_prompt_type": "I",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [
+    "/home/straughter/Wan2GP/wd-isg9/inputs/recast-reference.png"
+  ],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "I",
+  "audio_prompt_type": "",
+  "prompt": "Recast the visual subject using the supplied contextual reference while preserving the scene."
+}
