@@ -1,18 +1,17 @@
 ---
 id: WD-f0vk
 title: "Wan2GP emits nonfatal mutagen metadata errors after successful media saves"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:48:54Z
-closed_at: ""
-close_reason: ""
-content_hash: "sha256:15d36b7aa1a6e05ad09e0fdf5e83fdc75e4f5922887b21951efab2f3ac7b85da"
-blocks: [WD-fay0]
+updated_at: 2026-09-26T18:18:54Z
+closed_at: 2026-09-26T18:18:54Z
+close_reason: "Accepted: diagnosis, fail-closed warning ownership, real-byte regression coverage, preservation evidence, targeted gates, and head CI all pass."
+content_hash: "sha256:20bca847b12c0b35ffab81d65ab1765fc2683c9d85e7913deddea79d122c4377"
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9, WD-14ej]
 ---
@@ -243,10 +242,11 @@ status: delivered
 - 2026-09-26T17:31:26Z auto-follows: linked to predecessor WD-isg9
 - 2026-09-26T17:48:54Z status: in_progress -> in_progress
 - 2026-09-26T17:48:54Z auto-follows: linked to predecessor WD-14ej
+- 2026-09-26T18:18:54Z status: in_progress -> closed
+- 2026-09-26T18:18:54Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-9t9o]], [[WD-isg9]], [[WD-14ej]]
 
 ## Comments
