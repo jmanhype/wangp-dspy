@@ -8,9 +8,9 @@ labels: [capability, evidence, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T14:59:51Z
-content_hash: "sha256:9886e700a16e8a6cd20aea2efff5da64d077c154625aa755791639c64e3e6f7b"
-follows: [WD-14ej, WD-i7qs, WD-r4n8]
+updated_at: 2026-09-26T15:08:58Z
+content_hash: "sha256:c0814a08136d5bedf045ea68605e3bb225b91481d78074da93c51aa6860a08f1"
+follows: [WD-14ej, WD-i7qs, WD-r4n8, WD-fay0]
 blocks: [WD-fay0]
 assignee: dev-WD-isg9
 ---
@@ -215,11 +215,13 @@ status: delivered
 - 2026-09-26T14:59:51Z status: open -> in_progress
 - 2026-09-26T14:59:51Z auto-follows: linked to predecessor WD-r4n8
 - 2026-09-26T14:59:51Z claimed by dev-WD-isg9
+- 2026-09-26T15:08:58Z status: in_progress -> in_progress
+- 2026-09-26T15:08:58Z auto-follows: linked to predecessor WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-14ej]], [[WD-i7qs]], [[WD-r4n8]]
+- Follows: [[WD-14ej]], [[WD-i7qs]], [[WD-r4n8]], [[WD-fay0]]
 
 ## Comments
 
