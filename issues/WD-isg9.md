@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T14:44:30Z
-content_hash: "sha256:0bbe03a68d16b88e3906998e394f704c43741d4a84e0e2d7129e7eb574b3be72"
+updated_at: 2026-09-26T14:45:49Z
+content_hash: "sha256:e89b55d0af2cd3db1828ff0dc54d1e05d323f569f9f05499af60ed03844d5c3e"
 assignee: dev-WD-isg9
 follows: [WD-14ej, WD-i7qs]
 blocks: [WD-fay0]
@@ -69,7 +69,72 @@ None identified.
 
 
 ## Notes
+## Implementation Evidence
 
+### Bundle
+
+- `datasets/runs/maestro-parity/WD-isg9/evidence.json`
+- `datasets/runs/maestro-parity/WD-isg9/execution-summary.md`
+- `datasets/runs/maestro-parity/WD-isg9/objective-gates.json`
+- `datasets/runs/maestro-parity/WD-isg9/queue.db`
+- `docs/video-capabilities.md`
+
+### Outputs
+
+- extend SHA-256 `489f8aae72b41b669df2259182eb287ca805ff3033d2b7ed93a130b903c00cef`
+- retake SHA-256 `4a75cccc6aefe55cbf3cb65e276f9783a3430635cbbc65e140ab5d7b30dd864b`
+- edit SHA-256 `93acbbd1c4d432555d14135dad2648b88f19bec7a1ec40457ce6e17978158f1c`
+- repaint SHA-256 `3f14efa860a0a3564abbb4a39fcc56a380731d7f5595991639dc2cfc08fa9416`
+- upscale SHA-256 `ee703d736fc6a065b6d546d8756838fa2edd5feeebd4755d304463f33dbe505a`
+
+### CI/Test Results
+
+- Scoped tests: 92 passed, exit 0 (`scoped-tests.out`).
+- Dirty-worktree full suite: 2090 tests, 0 errors, 2088 passed, 1 skipped, 2 expected release-tree failures because the evidence worktree was intentionally dirty (`fullsuite-dirty-tree-counters.json`).
+- Backlog lint: 131 scanned, 0 errors, 0 review findings.
+- Objective gates: 43/43 pass.
+- Canonical parity checker at delivery: fails only `reviewer_verdict.decision` and `reviewer_verdict.evidence_links`; independent PM review is pending.
+
+### Commands run
+
+- `pvg story claim WD-isg9`
+- `ssh 3090 /home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_boundary_probes.sh`
+- `ssh 3090 /home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/measure_objective_gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-objective-gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-evidence.py`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-isg9`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py`
+- `pvg lint --backlog`
+- `git diff --check`
+
+### Summary
+
+WD-isg9 terminally dispositioned all eight remaining H3-standard cells with five real hashed media outputs and three evidenced host implementation boundaries, using zero new download bytes.
+
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit SHA: `ee81c0cce64c1cbd90c7f7328402d63f183ed569`
+- Branch: `story/WD-isg9` pushed to origin.
+- Bundle: `datasets/runs/maestro-parity/WD-isg9/evidence.json`.
+- Preflight: SSH/model hashes/disk/GPU/QC all pass.
+- Render exits: extend/retake/edit/repaint/upscale all 0.
+- Boundary exits: blend 1, recast 1; outpaint control disabled in hashed host code.
+- Objective gates: 43 pass, 0 fail.
+- Review status: pending independent PM approval.
+
+### proof
+
+- [x] AC1: clean story worktree and atomic claim completed.
+- [x] AC2: live preflight recorded and all prerequisites passed.
+- [x] AC3: authorization, argv, provenance, queue, hashes, ffprobe, gates, and reviewer links recorded.
+- [x] AC4: all eight cells reached operation-specific terminal dispositions.
+- [x] AC5: only the eight H3-standard matrix cells and their supporting narrative changed.
+- [ ] AC6: canonical checker and tests complete after independent reviewer approval.
+- [ ] AC7: delivery proof, PM acceptance, and final merge gate remain.
 
 ## nd_contract
 status: delivered
