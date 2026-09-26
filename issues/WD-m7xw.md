@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:15:11Z
-content_hash: "sha256:4d133d5aed6c861d29672965c1fb1a70e3d43034e4237c9204c9972307538c23"
+updated_at: 2026-09-26T23:15:12Z
+content_hash: "sha256:2790dc3d49a48283ad03c155dcbb414f4bea737a5f63f756ef18871a4713ba22"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk]
@@ -317,3 +317,26 @@ Checks: pvg verify PASS; pvg lint --backlog 0 errors/0 review; targeted Maestro-
   context: WD-m7xw completed asset, commit, and tokenizer preflight, but llama-server PID 3213164 (/home/straughter/llama.cpp/build/bin/llama-server) held 18154 MiB with only 5873 MiB free. Operator policy forbids killing or restarting unrelated services, so all eight LTX operations stopped before inference.
   affected_files: none; external host process and GPU state
   discovered_during: WD-m7xw
+
+### 2026-09-26T23:15:12Z speed
+## PM Decision
+REJECTED [2026-09-26]:
+
+EXPECTED: AC #9 requires standing gates to pass, including backlog lint with 0 errors. Story citations must resolve to the exact produced bundle paths.
+
+DELIVERED: The recorded receipt pvg-lint-resumed.txt says 139 scanned / 0 errors, but an independent rerun at the current delivered tracker state fails: `WD-m7xw: path review/QC.md does not exist on disk and is not in any PRODUCES block` with exit 1. The authoritative delivered proof cites `review/QC.md`; the actual artifact is `datasets/runs/maestro-parity/WD-m7xw/review/QC.md`.
+
+GAP: The current live backlog lint gate is red because the delivered proof path is unqualified, so AC #9 is not currently proven even though the QC file itself exists and hashes correctly.
+
+FIX: Correct the authoritative delivered proof citation to `datasets/runs/maestro-parity/WD-m7xw/review/QC.md` (and use exact bundle paths for sibling citations such as objective-measurements.json), rerun `pvg lint --backlog`, and redeliver with the new 0-error receipt. No media rerun is required for this path-only defect.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Independent `pvg lint --backlog --json` exit 1 with paths-exist error for WD-m7xw.
+- `pvg nd show WD-m7xw` delivery proof cites unqualified `review/QC.md`.
+- Actual hashed file exists at `datasets/runs/maestro-parity/WD-m7xw/review/QC.md`.
+
+### proof
+- [ ] AC #9: current backlog lint has 1 error, not 0.
