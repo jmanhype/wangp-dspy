@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T03:44:27Z
 created_by: speed
-updated_at: 2026-09-26T03:58:50Z
-content_hash: "sha256:239f39f47daa76105331df8d981bc52519be13d09ee540d8f10b4440920dac91"
+updated_at: 2026-09-26T03:59:20Z
+content_hash: "sha256:7ed9b20ef83b1c303b0121a4fbdb514bc2229f2744755e6d1408c08e05bf2d53"
 assignee: dev-WD-i7qs
 follows: [WD-r4n8, WD-fay0]
 ---
@@ -112,7 +112,41 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Commands run:
+- `cd /home/straughter/Wan2GP-story-WD-i7qs && /home/straughter/Wan2GP/venv/bin/python -m unittest discover -s tests -p "test_ltx_gemma_tokenizer.py" -v`
+- `PYTHONPATH=/home/straughter/Wan2GP-story-WD-i7qs /home/straughter/Wan2GP/venv/bin/python /tmp/50_real_path_check.py`
+- `pvg verify --include-tests --format=text <explicit WD-i7qs evidence/test/script paths>`
+
+Summary: targeted RED 0/5 (3 errors, 1 failure, 1 expected config failure); targeted GREEN 5/5 PASS; real gemma4 path PASS; py_compile 3/3 PASS; git diff --check PASS; full suite 21/24 PASS with 3 unrelated failures reproduced at base.
+
+Commit SHA: Wan2GP `faea82d15bf10b3479c42c0ea430892aae975870`; wangp-dspy `9539cf5ca8e2b9c6b6966b0781c616c37bfb0068`.
+
+### AC Verification
+| AC | Status |
+|----|--------|
+| AC1 real tokenizer loads without TypeError | PASS |
+| AC2 video token ID 258884 appears | PASS |
+| AC3 options independent and legacy call unchanged | PASS |
+| AC4 synthetic RED/GREEN with absence skip guard | PASS |
+| AC5 branch pushed to fork | PASS |
+| AC6 live tree unchanged | PASS |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Wan2GP `story/WD-i7qs@faea82d15bf10b3479c42c0ea430892aae975870`.
+- wangp-dspy `story/WD-i7qs@9539cf5ca8e2b9c6b6966b0781c616c37bfb0068`.
+
+### proof
+- [x] AC1: PASS
+- [x] AC2: PASS
+- [x] AC3: PASS
+- [x] AC4: PASS
+- [x] AC5: PASS
+- [x] AC6: PASS
 
 ## nd_contract
 status: delivered
