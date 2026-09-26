@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-26T00:55:32Z
-content_hash: "sha256:4f4b870abf6c7f074bce894f3fe9fb03064a67f9b7e27aa8bc5def40fb7df9fd"
+content_hash: "sha256:41ac269956af4b18e58ce2ce44f7f44212e66ed358d9b594af22677b9b411206"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
@@ -220,6 +220,7 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-bxhc
 - 2026-09-26T00:08:50Z auto-follows: linked to predecessor WD-dmf2
 - 2026-09-26T00:08:50Z claimed by dev-WD-fay0
+- 2026-09-26T00:55:32Z status: in_progress -> in_progress
 
 ## Links
 - Parent: [[WD-3nod]]
