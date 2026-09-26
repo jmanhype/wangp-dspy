@@ -8,8 +8,8 @@ labels: [capability, evidence]
 parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
-updated_at: 2026-09-26T18:42:51Z
-content_hash: "sha256:67b7356c3a1634f9849b82199f63b50f8409925fc70fdfd8f6a3c576312e7f32"
+updated_at: 2026-09-26T18:43:27Z
+content_hash: "sha256:3ab42560d36c6088e8025c59d824e112437506011face970450b35c0603a9fab"
 ---
 
 ## Description
@@ -20,7 +20,15 @@ Each cell must become `unsupported` only from live read-only host search evidenc
 Operator authorization is the 2026-09-26 text "Authorized and approved." followed by "continue", scoped to read-only host inventory. No GPU, inference, download, training, host mutation, paid provider, or accepted-artifact mutation is authorized.
 
 ## Acceptance Criteria
+- [ ] A live read-only search of the checked-out Wan2GP and Maestro trees finds zero TaoMate implementation, handler, preset, settings, or model-identity matches and records the exact command, exit status, timestamp, and host.
+- [ ] The boundary record preserves and cites the accepted WD-2gyw TaoMate search evidence without mutating it.
+- [ ] All nine `minimax_h3/taomate_three_step` cells become `unsupported` with links to the new boundary evidence; no generic H3 render is relabelled.
+- [ ] `docs/video-capabilities.md` changes only the TaoMate row and the supporting disposition narrative.
+- [ ] Scoped capability/evidence tests, `pvg lint --backlog`, `git diff --check`, and clean release verification pass.
+- [ ] Delivery evidence records that no GPU, inference, download, training, host mutation, paid provider, or accepted-artifact mutation occurred.
 
+## MANDATORY SKILLS
+None identified.
 
 ## Design
 
