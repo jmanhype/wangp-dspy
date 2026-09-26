@@ -8,11 +8,11 @@ labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:21:38Z
-content_hash: "sha256:1e45bfe5344b2f1d7865728db22710e7d2180054aa92cadb5811e4d7093de0cf"
+updated_at: 2026-09-26T23:21:59Z
+content_hash: "sha256:d2b8d6483003e7812fcdd1c679ef39af17e859fbc5b26561fd40db724e09fd60"
 blocks: [WD-fay0]
 blocked_by: [WD-2gyw, WD-i7qs]
-follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o]
+follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
 assignee: dev-WD-m7xw
 ---
 
@@ -308,12 +308,14 @@ status: delivered
 - 2026-09-26T23:02:24Z auto-follows: linked to predecessor WD-f0vk
 - 2026-09-26T23:15:11Z status: in_progress -> open
 - 2026-09-26T23:15:11Z released by speed
+- 2026-09-26T23:21:59Z status: in_progress -> in_progress
+- 2026-09-26T23:21:59Z auto-follows: linked to predecessor WD-isg9
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
-- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]], [[WD-9t9o]]
+- Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]], [[WD-9t9o]], [[WD-isg9]]
 
 ## Comments
 
