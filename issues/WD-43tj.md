@@ -1,18 +1,19 @@
 ---
 id: WD-43tj
 title: "Maestro parity: TaoMate host boundary"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T18:42:51Z
 created_by: speed
-updated_at: 2026-09-26T19:18:06Z
-content_hash: "sha256:840def82b269b0060c63040422a0a2f2f065f0d7adbd89ae83c5cff6d7a23606"
-blocks: [WD-fay0]
+updated_at: 2026-09-26T19:18:11Z
+content_hash: "sha256:0ca0e66dccaaae911d0228aed4d81c3f23222e68065b3fb73c35a787c953c7e2"
 assignee: dev-WD-43tj
 follows: [WD-9ymi, WD-f0vk]
+closed_at: 2026-09-26T19:18:10Z
+close_reason: "Accepted: verified live TaoMate boundary evidence, planner-only match classification, hashes, docs scope, delivery proof, CI, and clean release readiness."
 ---
 
 ## Description
@@ -125,10 +126,11 @@ status: delivered
 - 2026-09-26T18:43:33Z claimed by dev-WD-43tj
 - 2026-09-26T18:48:46Z status: in_progress -> in_progress
 - 2026-09-26T18:48:46Z auto-follows: linked to predecessor WD-f0vk
+- 2026-09-26T19:18:11Z status: in_progress -> closed
+- 2026-09-26T19:18:11Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-9ymi]], [[WD-f0vk]]
 
 ## Comments
