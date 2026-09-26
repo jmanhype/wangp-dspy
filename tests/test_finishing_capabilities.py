@@ -441,6 +441,64 @@ def test_each_interpolation_factor_compiles_to_a_deterministic_graph(
     assert record["backend_settings"]["interpolation"]["factor"] == factor
 
 
+def test_interpolation_scene_detection_is_explicit_deterministic_and_plan_only(
+    tmp_path: Path,
+) -> None:
+    payload = _real_request(tmp_path, film_grain=None)
+    enabled = _mutate(payload, "interpolation.scene_detection", True)
+    disabled = _mutate(payload, "interpolation.scene_detection", False)
+    enabled_record = compile_finishing_request(
+        FinishingRequest.model_validate(enabled)
+    ).mapping()["records"][0]
+    disabled_record = compile_finishing_request(
+        FinishingRequest.model_validate(disabled)
+    ).mapping()["records"][0]
+
+    def interpolation_graph(record: dict[str, Any]) -> str:
+        stage = next(
+            item for item in record["command_graph"]
+            if item["stage_id"] == "interpolation"
+        )
+        return stage["command"][6]
+
+    enabled_graph = interpolation_graph(enabled_record)
+    disabled_graph = interpolation_graph(disabled_record)
+    assert enabled_graph.endswith(":scd=1")
+    assert disabled_graph.endswith(":scd=0")
+    assert enabled_graph != disabled_graph
+    assert enabled_record["backend_settings"]["interpolation"]["scene_detection"] is True
+    assert disabled_record["backend_settings"]["interpolation"]["scene_detection"] is False
+
+    repeated_record = compile_finishing_request(
+        FinishingRequest.model_validate(enabled)
+    ).mapping()["records"][0]
+    record_bytes = json.dumps(
+        enabled_record, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    repeated_bytes = json.dumps(
+        repeated_record, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    assert record_bytes == repeated_bytes
+    assert enabled_record["backend_settings_sha256"] == repeated_record["backend_settings_sha256"]
+    assert enabled_record["command_graph_sha256"] == repeated_record["command_graph_sha256"]
+    for record in (enabled_record, disabled_record):
+        assert record["plan_only"] is True
+        assert all(
+            record[key] is False for key in (
+                "executable", "queue_submitted", "host_contact", "media_generated",
+            )
+        )
+    assert all(
+        record["measurement_status"] == "unverified"
+        for record in (enabled_record, disabled_record)
+    )
+    assert all(
+        stage["executed"] is False
+        for record in (enabled_record, disabled_record)
+        for stage in record["command_graph"]
+    )
+
+
 @pytest.mark.parametrize("scale", ("x2", "x3", "x4"))
 def test_each_spatial_upscale_factor_compiles_to_a_deterministic_graph(
     tmp_path: Path, scale: str
