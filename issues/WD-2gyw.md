@@ -9,13 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T18:11:22Z
-content_hash: "sha256:b376c9aacd3b760bfcc3c8b1275a266e744904948d2a547b1d3a61113abc01df"
+content_hash: "sha256:33236eed922c70104e93b673e360b2b65110e74dd2a2b845aca1ab2fc3766d1b"
 assignee: dev-WD-2gyw
 follows: [WD-cpow, WD-rous]
 closed_at: 2026-09-25T18:11:21Z
 close_reason: "PARTIAL ACCEPTANCE: H3 family and Hunyuan subset delivered; LTX-2.3, LTX-2.5, SCAIL, Wan, TaoMate and H3 outpaint NOT delivered; video lane incomplete, not full video parity."
 led_to: [WD-r81u, WD-bxhc, WD-dmf2, WD-fay0]
-blocks: [WD-btch]
 ---
 
 ## Description
@@ -264,10 +263,10 @@ Observable outcome: an explicitly authorized future run emits hashed breadth-cas
 - 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-dmf2
 - 2026-09-25T18:11:21Z dep_removed: no_longer_blocks WD-fay0
 - 2026-09-26T20:50:56Z dep_added: blocks WD-btch
+- 2026-09-26T20:53:06Z dep_removed: no_longer_blocks WD-btch
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-btch]]
 - Follows: [[WD-cpow]], [[WD-rous]]
 - Led to: [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-fay0]]
 

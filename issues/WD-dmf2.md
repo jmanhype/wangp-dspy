@@ -9,14 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:07Z
 created_by: speed
 updated_at: 2026-09-26T00:07:42Z
-content_hash: "sha256:2759a4cb9405946cb901cf5724bf4223a4bd615d57ced5ee0bc596534e81b571"
+content_hash: "sha256:92418c1cead80afd926747be950683623d86cf8feab1c3a4bba1dd588d28e9d0"
 was_blocked_by: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc]
 follows: [WD-rous, WD-2gyw, WD-r81u, WD-bxhc, WD-cpow, WD-0zj8, WD-e4r7, WD-m0r5]
 assignee: dev-WD-dmf2
 closed_at: 2026-09-26T00:07:41Z
 close_reason: "Accepted DELIVERED EVIDENCE ONLY at 741a8bb27c4bec3be38667b090a03bedb00e3010: gate provenance is independently auditable and failures are honest/structural. All nine director rows remain undelivered and unverified; none is host_run_verified or unsupported_on_this_hardware. Structural measurement failures: Whisper screenplay clip0001 0.556<0.6; SyncNet audio clip0001 0.594741<1.0; SyncNet screenplay clip0001 0.468897<1.0. Pending reviewer and row 8 enhanced-prompt media also prevent verification. Operator scope decision required: rework the composition path or accept a measured structural limitation as disposition."
 led_to: [WD-fay0, WD-r4n8, WD-i7qs, WD-isg9]
-blocks: [WD-gqlc]
 ---
 
 ## Description
@@ -284,6 +283,7 @@ FIX: rework source selection/assembly so applicable Whisper and SyncNet gates ge
 - 2026-09-26T00:07:41Z status: in_progress -> closed
 - 2026-09-26T00:07:41Z dep_removed: no_longer_blocks WD-fay0
 - 2026-09-26T20:50:56Z dep_added: blocks WD-gqlc
+- 2026-09-26T20:53:06Z dep_removed: no_longer_blocks WD-gqlc
 
 ## Implementation Evidence
 
