@@ -1,19 +1,20 @@
 ---
 id: WD-m7xw
 title: "LTX-2.5 no-download operation batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:22:48Z
-content_hash: "sha256:5aaf5a86916e872f471177e4b7ac3d67b7c1f508ffd939c4717f1caadfa72a9c"
-blocks: [WD-fay0]
+updated_at: 2026-09-26T23:28:53Z
+content_hash: "sha256:332e6915fa2ba9fa1155b66d2b67b25b5e0d6dbd241fd8f064ac7d2d35d67e12"
 blocked_by: [WD-2gyw, WD-i7qs]
 follows: [WD-5k28, WD-43tj, WD-9ymi, WD-f0vk, WD-9t9o, WD-isg9]
 assignee: dev-WD-m7xw
+closed_at: 2026-09-26T23:28:53Z
+close_reason: "Accepted: path-lint rework verified; four outputs, four dependency boundaries, gates, targeted tests, and canonical checker independently pass."
 ---
 
 ## Description
@@ -362,10 +363,11 @@ status: delivered
 - 2026-09-26T23:15:11Z released by speed
 - 2026-09-26T23:21:59Z status: in_progress -> in_progress
 - 2026-09-26T23:21:59Z auto-follows: linked to predecessor WD-isg9
+- 2026-09-26T23:28:53Z status: in_progress -> closed
+- 2026-09-26T23:28:54Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Blocked by: [[WD-2gyw]], [[WD-i7qs]]
 - Follows: [[WD-5k28]], [[WD-43tj]], [[WD-9ymi]], [[WD-f0vk]], [[WD-9t9o]], [[WD-isg9]]
 
