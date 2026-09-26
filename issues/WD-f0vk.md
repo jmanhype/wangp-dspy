@@ -8,10 +8,10 @@ labels: [discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T17:06:49Z
 created_by: speed
-updated_at: 2026-09-26T17:31:27Z
+updated_at: 2026-09-26T17:31:54Z
 closed_at: ""
 close_reason: ""
-content_hash: "sha256:10d594c212b814aa2de6cb6547b33ad05e732f80579fac66eab6bf1d35b0228c"
+content_hash: "sha256:5bfd00e4757cfef2c38a4350cda733c88b1f2aaf946d3bb9d3a45c062d3c11c2"
 blocks: [WD-fay0]
 assignee: dev-WD-f0vk
 follows: [WD-9t9o, WD-isg9]
@@ -91,7 +91,28 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+## Implementation Evidence
 
+### CI/Test Results
+Commands run:
+- uv run --frozen --offline --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_production_render_seam.py --junitxml=/tmp/WD-f0vk-targeted.xml
+- pvg lint --backlog
+- git diff --check
+- git diff --cached --check
+- uv run --frozen --offline --extra dev wgp release verify
+- git ls-remote origin refs/heads/story/WD-f0vk
+
+Summary: targeted tests PASS (95 run, 0 errors, 0 failures, 0 skipped); backlog lint PASS (134 scanned, 0 errors, 0 review findings); both diff checks PASS; release=ready and tag_created=false; pushed branch SHA 59ae97903978c5f04a4dbffd7e372e0fe7d5a74a. Coverage was not collected; the targeted result provides 95 exact executed tests with zero skips.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Authoritative detailed proof, diagnosis, AC table, and SHA remain in the preceding delivered evidence block.
+- Delivery-shape repair records the exact verifier-required CI/Test Results, Commands run, and Summary fields without changing code or the pushed commit.
+
+### proof
+- [x] Delivery proof preflight shape complete in addition to the detailed 6/6 AC proof above.
 
 ## nd_contract
 status: delivered
