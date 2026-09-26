@@ -11,7 +11,7 @@ created_by: speed
 updated_at: 2026-09-26T18:38:26Z
 closed_at: 2026-09-26T18:38:25Z
 close_reason: "Accepted: DOCS_STALE gap closed; help and focused ordering test updated; all targeted, integration, and full Go tests pass."
-content_hash: "sha256:accd73d2a4971c63393374e554617621a36847a0780de317f1e247db5c4707e7"
+content_hash: "sha256:e8c85b8d4080c478d60347bb62371521a6d5d6c04f5ebb9e7f1b5b091ed93c2d"
 follows: [WD-9t9o, WD-isg9, WD-f0vk, WD-14ej]
 assignee: dev-WD-9ymi
 ---
@@ -85,6 +85,18 @@ status: new
 - [ ] Pending implementation
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-26]: The DOCS_STALE rejection is closed and the prior functional evidence remains valid.
 
