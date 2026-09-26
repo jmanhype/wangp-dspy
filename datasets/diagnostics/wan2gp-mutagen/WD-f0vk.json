@@ -1,0 +1,87 @@
+{
+  "schema": "wangp-dspy.wan2gp-mutagen-diagnosis/v1",
+  "story": "WD-f0vk",
+  "created": "2026-09-26",
+  "source_diagnosis": {
+    "component": "Wan2GP CLI",
+    "source_site": "/home/straughter/Wan2GP/wgp.py::generate_media",
+    "source_site_evidence": [
+      "The successful edit/repaint logs enter WanGP CLI Mode and emit the mutagen errors immediately before their media-save lines.",
+      "The successful upscale logs emit both mutagen errors immediately after their postprocessed-media-save line.",
+      "Accepted same-source stack frames place generate_media at wgp.py:7583 (blend) and wgp.py:7870 (extend/recast), identifying the media-generation function without contacting the host.",
+      "The exact mutagen warning line number is not present in the preserved evidence; no network/source download was used to invent it."
+    ],
+    "source_revision": {
+      "status": "not_recorded_by_accepted_evidence",
+      "boundary_source_hashes": {
+        "/home/straughter/Wan2GP/models/minimax_h3/minimax_h3_handler.py": "e5c470257bac14f49aa2d5dba2feb257d838efababa0a2e387227fedf4765ae6",
+        "/home/straughter/Wan2GP/models/minimax_h3/pipeline.py": "f2080bb6fae4f65db5e41b87d922531904df7d2f33668c49c259f0c26e94eda9"
+      }
+    }
+  },
+  "runtime_identity": {
+    "host": "straughter-Z690-Steel-Legend",
+    "ssh_alias_recorded": "3090",
+    "wgp_root": "/home/straughter/Wan2GP",
+    "interpreter": "/home/straughter/Wan2GP/venv/bin/python",
+    "python": "3.11",
+    "active_venv_mutagen_available": false,
+    "user_python_312_mutagen_available": true,
+    "user_python_312_mutagen_version": "1.47.0",
+    "probe_boundary": "repository/local accepted evidence only; no SSH, GPU, model inference, download, or host mutation"
+  },
+  "dependency_classification": {
+    "classification": "required_for_embedded_metadata_and_cover_art_success__optional_for_saved_media_bytes",
+    "observed_control_flow": "Wan2GP catches the failed mutagen-dependent metadata/cover-art operations, logs an Error line, and continues to a completed queue task after the media bytes are saved.",
+    "wangp_dependency": "not_declared",
+    "upstream_dependency_declaration": "not_recorded_in_accepted_evidence",
+    "ad_hoc_install_authorized": false
+  },
+  "accepted_log_bytes": {
+    "WD-9t9o": {
+      "host-logs/edit.render.log": {
+        "line": 39,
+        "sha256": "231e61e337b000739786a58609c06ea3e8b4f546208148f8ef9fe3ea59fab64f"
+      },
+      "host-logs/repaint.render.log": {
+        "line": 40,
+        "sha256": "7bae39cb07ac15d5697253879e1f9313dfa23981a9dfa017baa3eb864901ca0a"
+      },
+      "host-logs/upscale.render.log": {
+        "cover_art_line": 12,
+        "metadata_line": 13,
+        "sha256": "91146c81e34bf1f73c214fe6766988d3245de28025b35092f2b2f9802bc4a101"
+      }
+    },
+    "WD-isg9": {
+      "host-logs/edit.render.log": {
+        "line": 38,
+        "sha256": "8de14ecd509f4e163233f2c83caa849e4d2fd85eff6a89d0587f81862f9bd39d"
+      },
+      "host-logs/repaint.render.log": {
+        "line": 39,
+        "sha256": "46e3fba34575c9f0b539aa6b1971763844dcfa774466009b45c61b3b6d1f1ce3"
+      },
+      "host-logs/upscale.render.log": {
+        "cover_art_line": 12,
+        "metadata_line": 13,
+        "sha256": "a8ee74be2c9ddaabfedd8128ebd2f06c402881157a711b54872cafb3e2b547a4"
+      }
+    }
+  },
+  "local_correction": {
+    "owner": "Wangp Maestro-parity evidence verifier",
+    "implementation": "scripts/verify_maestro_parity.py::verify_native_logs",
+    "warning_code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+    "contract": "docs/maestro-parity-evidence-contract.md",
+    "fail_closed": [
+      "referenced output, reference, or native-log path is absolute, lexically contains '..', has a symlinked component, resolves outside the bundle, or is not a regular file",
+      "recorded output, reference, or native-log SHA-256 is malformed or mismatched after case normalization",
+      "native_log_sha256 key set differs from deduplicated native_logs",
+      "exact mutagen warning without a successful media-save marker",
+      "any unrelated No module named, ModuleNotFoundError, or ImportError line",
+      "multiple or ambiguous import failures on one native-log line"
+    ],
+    "host_mutation": "none"
+  }
+}
