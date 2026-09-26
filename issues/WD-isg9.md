@@ -8,8 +8,8 @@ labels: [capability, evidence, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
-updated_at: 2026-09-26T14:45:49Z
-content_hash: "sha256:e89b55d0af2cd3db1828ff0dc54d1e05d323f569f9f05499af60ed03844d5c3e"
+updated_at: 2026-09-26T14:46:49Z
+content_hash: "sha256:9d02ffed792dadffe40a422f86cc6068ae96ac6c309df818f4bfed453a661232"
 assignee: dev-WD-isg9
 follows: [WD-14ej, WD-i7qs]
 blocks: [WD-fay0]
@@ -69,6 +69,51 @@ None identified.
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+Commands run:
+
+- `ssh 3090 /home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_boundary_probes.sh`
+- `ssh 3090 /home/straughter/Wan2GP/wd-isg9/host-scripts/wd_isg9_render.sh`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-objective-gates.py`
+- `uv run --frozen --extra dev python datasets/runs/maestro-parity/WD-isg9/build-evidence.py`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-isg9`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py`
+- `pvg lint --backlog`
+
+Summary:
+
+Five H3-standard operations produced real distinct hashed media; blend, recast, and outpaint reached evidenced host implementation boundaries. Independent PM review is pending.
+
+Commit SHA: `ee81c0cce64c1cbd90c7f7328402d63f183ed569`
+
+### AC Verification
+
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Clean story worktree and atomic claim completed. |
+| 2 | PASS | `preflight.json` passes SSH, model hashes, disk, GPU, and QC. |
+| 3 | PASS | `evidence.json`, queue DB, argv logs, hashes, ffprobe, and gates record the required provenance. |
+| 4 | PASS | Five outputs and three boundary diagnostics disposition all eight cells. |
+| 5 | PASS | `docs/video-capabilities.md` changes only the eight H3-standard cells plus their supporting narrative. |
+| 6 | PENDING REVIEWER | Objective/scoped gates pass; canonical checker awaits independent reviewer approval. |
+| 7 | PENDING REVIEWER | Lint/diff pass; PM acceptance and merge remain. |
+
+## nd_contract
+status: delivered
+
+### evidence
+
+- Commit `ee81c0cce64c1cbd90c7f7328402d63f183ed569` is pushed on `story/WD-isg9`.
+- Objective gates 43/43 pass; scoped tests exit 0; backlog lint and diff-check exit 0.
+- Reviewer approval is intentionally pending.
+
+### proof
+
+- [x] AC1 through AC5 pass with artifacts cited above.
+- [ ] AC6 completes after independent reviewer approval.
+- [ ] AC7 completes after PM acceptance and merge.
+
 ## Implementation Evidence
 
 ### Bundle
