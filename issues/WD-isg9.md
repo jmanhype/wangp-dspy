@@ -9,9 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-26T13:07:47Z
 created_by: speed
 updated_at: 2026-09-26T13:08:07Z
-content_hash: "sha256:070520f5e83c586b04b58159a2cab6fcabc1932e8ccc1349acd8bee4feaac38b"
+content_hash: "sha256:2055302c80a1a891cf9c0a6a257fa8cc987b49cc7aae106f1939a388091bc55c"
 assignee: dev-WD-isg9
 follows: [WD-14ej]
+blocks: [WD-fay0]
 ---
 
 ## Description
@@ -88,9 +89,11 @@ None identified.
 - 2026-09-26T13:08:07Z status: open -> in_progress
 - 2026-09-26T13:08:07Z auto-follows: linked to predecessor WD-14ej
 - 2026-09-26T13:08:07Z claimed by dev-WD-isg9
+- 2026-09-26T13:08:15Z dep_added: blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-fay0]]
 - Follows: [[WD-14ej]]
 
 ## Comments
