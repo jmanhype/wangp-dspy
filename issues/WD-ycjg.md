@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
 updated_at: 2026-09-27T14:48:01Z
-content_hash: "sha256:195d2424e67c2c6ef476659a477d44866f8da97c65149ccd665828b15c762847"
+content_hash: "sha256:68200e874c35eecf102077ba2069af40fed4e2682152e959ed826f6beb0b35ee"
 follows: [WD-8h6p, WD-m25k, WD-obkn]
 closed_at: 2026-09-27T14:48:01Z
 close_reason: "Accepted: the exact 665045-byte story-local subtotal, 2408936960 combined session bytes, and unchanged media/boundary evidence close the prior AC #3 rejection."
@@ -655,6 +655,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-27.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
