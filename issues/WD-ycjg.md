@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T14:35:41Z
-content_hash: "sha256:cd224f30d2de9f3278016762a70ba5b0720b9056666d05c0a10bc8c4bd5436b1"
+updated_at: 2026-09-27T14:43:22Z
+content_hash: "sha256:07cca5e60e9fc35911f96eaaf5000c5571d3481c86abe95657a3e4699cb251b9"
 blocks: [WD-fay0]
 follows: [WD-8h6p, WD-m25k]
 ---
@@ -654,7 +654,36 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### Byte-accounting rework
+The PM rejection identified one arithmetic typo and no implementation/media defect. Corrected subtotal:
+
+- `iopath` 42,226 bytes
+- `portalocker` 129,647 bytes
+- `pycocotools` 493,172 bytes
+- Exact story-local total: **665,045 bytes**
+- Combined session network bytes: `2,408,271,915 + 665,045 = 2,408,936,960`
+- Total authorized bytes remain `28,418,905,124`.
+
+Corrected artifacts: `host-logs/15-story-local-download-accounting.txt`, `host-logs/96_final_download_accounting.txt`, and `evidence.json.download_evidence`. No `664045` value remains in the bundle.
+
+### CI/Test Results
+Commands run:
+- `/tmp/15_story_local_python_deps.sh`
+- `/tmp/40_postflight.sh`
+- `uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_video_capabilities.py --junitxml=datasets/runs/maestro-parity/WD-ycjg/targeted-tests.xml`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-ycjg`
+- `pvg verify ...`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --check`
+- protected-file parity from `079651d9`
+
+Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`; pvg verify PASS; backlog lint PASS 142 scanned, 0 errors, 0 review findings; release at clean rework head is `release=ready` and `tag_created=false`; diff and protected parity PASS. Canonical checker remains pending only independent reviewer decision/links.
+
+Commit SHA: c10e1ee449a8e05897626457e912265e0f78fba7
+Final pushed evidence head: 45465a7a27bd5a180dd7ce88f99922a536e143ba
 
 ## nd_contract
 status: rejected
