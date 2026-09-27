@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T20:10:33Z
-content_hash: "sha256:b00ad33ae75d1587ba3ea9bfb769ab0b15c44f64e9b2f3a36e8e3eb0069e818d"
+updated_at: 2026-09-27T20:26:15Z
+content_hash: "sha256:59d797768d702f0aa84f9c5d9a1ac5c020d4ac00fc2ea59988437ab899f94586"
 blocks: [WD-fay0]
 assignee: dev-WD-qswf
 follows: [WD-osfm]
@@ -94,6 +94,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
+
+### evidence
+- Claimed by dev-WD-qswf; implementation underway at base 7393245f59c7ff03f26493d722577e2481657299.
+
+### proof
+- [ ] Pending launcher fix, focused repeats, undeselected full suite, release gates, branch, commit, and PR.
+
 ## MANDATORY SKILLS
 - pvg
 - tool-systematic-debugging
