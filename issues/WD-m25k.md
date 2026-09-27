@@ -1,18 +1,19 @@
 ---
 id: WD-m25k
 title: "H3 KFI/audio-refinement no-download video batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
-updated_at: 2026-09-27T02:41:46Z
-content_hash: "sha256:0ed47485235523e8a1101d12bd235405bf054ad680da9c5c3bc31534ebca936b"
-blocks: [WD-fay0]
+updated_at: 2026-09-27T03:03:21Z
+content_hash: "sha256:3a24c65ef1b01cec970b685db6a1e22d27d2e9bf2e03c6a4e70942600572958e"
 assignee: dev-WD-m25k
 follows: [WD-obkn, WD-7fvx, WD-m7xw, WD-5k28]
+closed_at: 2026-09-27T03:03:21Z
+close_reason: "Accepted: independent PM review at 716ed13f recomputed all source/output/boundary hashes, media dimensions/durations/audio, both repaint PSNR values, twelve typed boundaries, sixteen-cell matrix transition, zero-download/offline accounting, isolated-source state, targeted 110/110 tests, canonical checker PASS with six owned optional mutagen warnings, pvg verify/lint, release=ready/tag_created=false, protected parity, and diff check. Four new cells are host_run_verified and twelve are exact unsupported host boundaries; no target cell remains planned."
 ---
 
 ## Description
@@ -160,10 +161,11 @@ Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`
 - 2026-09-27T02:41:34Z auto-follows: linked to predecessor WD-m7xw
 - 2026-09-27T02:41:46Z status: in_progress -> in_progress
 - 2026-09-27T02:41:46Z auto-follows: linked to predecessor WD-5k28
+- 2026-09-27T03:03:21Z status: in_progress -> closed
+- 2026-09-27T03:03:21Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-obkn]], [[WD-7fvx]], [[WD-m7xw]], [[WD-5k28]]
 
 ## Comments
