@@ -35,5 +35,5 @@ sha256sum $(tail -n +2 "$PY_MANIFEST" | cut -f2) >"$LOG/92_python_dependency_has
 sha256sum "$RUN/inputs/control.mp4" "$RUN/inputs/reference.png" "$RUN/inputs/alternate-reference.png" "$RUN/inputs/control-mask.mp4" >"$LOG/93_input_hashes_after.txt"
 find "$RUN" -type f -printf '%s %p\n' | sort >"$LOG/94_run_inventory.txt"
 du -sb "$RUN" >"$LOG/95_run_size.txt"
-printf 'model_download_bytes=28418240079\nstory_local_dependency_bytes=664045\ntotal_authorized_bytes=28418905124\nlive_dependency_mutation=0\n' >"$LOG/96_final_download_accounting.txt"
+printf 'model_download_bytes=28418240079\nmodel_session_bytes=2408271915\nstory_local_dependency_bytes=665045\ncombined_session_network_bytes=2408936960\ntotal_authorized_bytes=28418905124\nlive_dependency_mutation=0\n' >"$LOG/96_final_download_accounting.txt"
 printf 'POSTFLIGHT_PASS\n'

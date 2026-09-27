@@ -13,15 +13,22 @@
     "/tmp/31_run_remaining.sh"
   ],
   "repository": {
-    "commit": "588fae0940e984b60693b5ca832f95ab6f3b01f1",
+    "commit": "8855d1d9048fdcbf5487bf15f55cc7edb690c7ae",
     "base_commit": "079651d9",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "ad730dc4a0b578d62572b04ed897571fa4d1b66f333dc6c651982c724cc6d51c",
+      "identity_sha256": "ec672a09bfca8a024ce9b541d3176010a3470bb07232b10be3075b7dc07c7bf1",
       "status_lines": [
-        "?? datasets/runs/maestro-parity/WD-ycjg/release-verify.exit",
-        "?? datasets/runs/maestro-parity/WD-ycjg/release-verify.stderr",
-        "?? datasets/runs/maestro-parity/WD-ycjg/release-verify.txt"
+        " M datasets/runs/maestro-parity/WD-ycjg/build_evidence.py",
+        " M datasets/runs/maestro-parity/WD-ycjg/bundle-size.txt",
+        " M datasets/runs/maestro-parity/WD-ycjg/evidence.json",
+        " M datasets/runs/maestro-parity/WD-ycjg/evidence.sha256",
+        " M datasets/runs/maestro-parity/WD-ycjg/host-logs/15-story-local-download-accounting.txt",
+        " M datasets/runs/maestro-parity/WD-ycjg/host-logs/96_final_download_accounting.txt",
+        " M datasets/runs/maestro-parity/WD-ycjg/host-scripts/15_story_local_python_deps.sh",
+        " M datasets/runs/maestro-parity/WD-ycjg/host-scripts/40_postflight.sh",
+        " M datasets/runs/maestro-parity/WD-ycjg/targeted-tests-counters.json",
+        " M datasets/runs/maestro-parity/WD-ycjg/targeted-tests.xml"
       ]
     }
   },
@@ -519,7 +526,8 @@
         "live_dependency_mutation": false
       }
     ],
-    "story_local_dependency_bytes": 664045,
+    "story_local_dependency_bytes": 665045,
+    "combined_session_network_bytes": 2408936960,
     "total_authorized_bytes": 28418905124,
     "live_dependency_mutation": false,
     "report": "host-logs/download-report.tsv"

@@ -26,7 +26,7 @@ unzip -q -o "$SRC/pycocotools-2.0.11-cp311-cp311-manylinux2014_x86_64.manylinux_
 test -f "$RUN/python-deps/packages/iopath/common/file_io.py"
 test -f "$RUN/python-deps/packages/portalocker/__init__.py"
 test -f "$RUN/python-deps/packages/pycocotools/mask.py"
-printf 'planned_bytes=664045\nactual_bytes=664045\nasset_count=3\nlive_dependency_mutation=0\n' >"$RUN/host-logs/15-story-local-download-accounting.txt"
+printf 'planned_bytes=665045\nactual_bytes=665045\nasset_count=3\nlive_dependency_mutation=0\n' >"$RUN/host-logs/15-story-local-download-accounting.txt"
 PYTHONPATH="$RUN/python-deps/packages:/home/straughter/Wan2GP-story-WD-ycjg" \
   /home/straughter/Wan2GP/venv/bin/python -c 'from iopath.common.file_io import g_pathmgr; import portalocker; import pycocotools.mask; print("STORY_LOCAL_PYTHON_DEPS_PASS")' \
   >"$RUN/host-logs/15-story-local-python-deps.txt"
