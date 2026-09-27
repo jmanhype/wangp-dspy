@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T14:27:26Z
-content_hash: "sha256:d52296e1b8d57e261b83450da6629bed07e3fd73748cd2abc555dd94d3f7d0f4"
+updated_at: 2026-09-27T14:27:27Z
+content_hash: "sha256:df566d0ac4dfee82da08414500f8df34a29ef0db8447f4db1e4184646e61c846"
 blocks: [WD-fay0]
 assignee: dev-WD-ycjg
 follows: [WD-8h6p, WD-m25k]
@@ -655,6 +655,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 ### Authorization, download, and isolation
