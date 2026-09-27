@@ -1,7 +1,7 @@
 ---
 id: WD-7fvx
 title: "Director no-download source-pairing rework"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, evidence, director, external-integration, delivered]
@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
 updated_at: 2026-09-27T00:13:32Z
-content_hash: "sha256:815cb5941ee46f2455537b1502a0f4a865c830d72a1da72bd3b635f3f0eb1557"
-blocks: [WD-fay0]
+content_hash: "sha256:cc6aa663d6258306777b3fb2432d887ca13805f9861c02ce0bb1c9a351dc23d0"
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
 assignee: dev-WD-7fvx
+closed_at: 2026-09-27T00:13:32Z
+close_reason: "Accepted: docs-only 982e9d6d closes DOCS_STALE while preserving the verified no-download source-pairing evidence and protected boundaries."
 ---
 
 ## Description
@@ -368,10 +369,11 @@ status: delivered
 - 2026-09-27T00:01:24Z claimed by dev-WD-7fvx
 - 2026-09-27T00:05:33Z status: in_progress -> in_progress
 - 2026-09-27T00:05:33Z auto-follows: linked to predecessor WD-9ymi
+- 2026-09-27T00:13:32Z status: in_progress -> closed
+- 2026-09-27T00:13:32Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Blocked by: [[WD-dmf2]], [[WD-cpow]]
 - Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-9ymi]]
 
