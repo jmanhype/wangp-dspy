@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
 updated_at: 2026-09-27T21:04:36Z
-content_hash: "sha256:12d3d741aa03053d6358b18e74a63a8c08a962f7a826352af4d2d0992020d172"
+content_hash: "sha256:47547f98d102df95d4b3fc095826941e022b1e662c334a97184c49d11cfb9504"
 blocks: [WD-fay0]
 assignee: dev-WD-qswf
 follows: [WD-osfm, WD-28i5]
@@ -94,6 +94,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: WD-qswf removes the reader-less LF004 setup-command Bash heredoc by moving payload construction to a directly executed Python helper, bounds the real launcher test with process-group timeout, and proves the previously hanging undeselected full suite now finishes green.
