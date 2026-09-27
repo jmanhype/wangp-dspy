@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
-updated_at: 2026-09-27T03:46:23Z
-content_hash: "sha256:c7ca8109f0b0b3374a783758f24db7d91163d7ae2d12100b1836bfe11676e397"
+updated_at: 2026-09-27T03:54:17Z
+content_hash: "sha256:ed30942772d9400ebc82e5c3b3d3798c1c10b029de45c605f7d5ae8b80e3e863"
 blocks: [WD-fay0]
 assignee: dev-WD-8h6p
 follows: [WD-m25k, WD-obkn]
@@ -220,3 +220,27 @@ status: delivered
 
 ### proof
 - [ ] Developer evidence block must remain authoritative above this contract.
+
+### 2026-09-27T03:54:17Z speed
+## PM Decision
+ACCEPTED [2026-09-27 UTC]: Independent review supports all eight acceptance criteria.
+
+Implementation evidence commit: 79c8af780da385de447d3d1f734fe41c3711037c.
+Delivered gate head reviewed before reviewer receipt: 40e4a48afaa86bf2f2c10e3b8eecde0dd439a8bd.
+Final pushed reviewer head: c543cbec8a7cc5ebc4595a6bcc21ec10fa1e8cd9.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Six output hashes, media metrics, PSNR/SSIM, native logs, blend boundary, seven-cell matrix transition, zero-download accounting, and isolation receipts independently reproduced.
+- Final-head canonical checker, targeted tests, backlog lint, pvg verify, release verification, diff check, and protected parity PASS.
+
+### proof
+- [x] AC #1 through AC #8 verified from artifacts and receipts
+
+## DISCOVERED_BUG
+  title: Maestro evidence builders can emit self-referential stale bundle-receipt hashes and include ignored bytecode
+  context: The initial WD-8h6p evidence.sha256 failed checksum verification for bundle-file-count.txt and bundle-size.txt because build_evidence.py hashes those receipts before rewriting them. It also listed two ignored __pycache__ files when present. The PM quarantined cache, reran the builder, and stabilized receipts to a fixed point; all 144 PR-tracked bundle hashes now verify. Future builder runs may regress until the generator excludes or settles these self-referential entries.
+  affected_files: datasets/runs/maestro-parity/WD-8h6p/build_evidence.py, datasets/runs/maestro-parity/WD-8h6p/evidence.sha256, datasets/runs/maestro-parity/WD-m25k/build_evidence.py
+  discovered_during: WD-8h6p
