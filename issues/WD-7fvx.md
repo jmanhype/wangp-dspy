@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-27T00:05:33Z
-content_hash: "sha256:6bd4511f808e1fc5f6650db5a01b3db18e439936053c1da2b80a572b3dc8c4bd"
+updated_at: 2026-09-27T00:06:09Z
+content_hash: "sha256:981960d180f46807218316fdfbe4b1fa9410cd31af85233281c13e0b318f92a3"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
@@ -114,6 +114,15 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
+
+### evidence
+- Corrected docs-only commit 982e9d6d and rerun gates: targeted director 34/34 PASS, checker exit 0/owned_warnings=0, pvg verify PASS, git diff --check PASS, protected parity PASS. Existing full-suite receipt remains scoped to the one-line docs-only delta from 45d4c7f3 to 982e9d6d.
+
+### proof
+- [x] AC #8 documentation now accurately distinguishes exercised authorized host/queue/QC work from unchanged download, threshold, dependency/provider, and protected-engine boundaries.
+- [x] AC #1 through AC #9 remain PASS.
 
 
 ## nd_contract
