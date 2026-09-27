@@ -15,6 +15,8 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  ./git-diff-che
 921325d4882bdcfc1ecc4dbe90fa229ff2759047cd6bb9ce8c68263986823cf6  ./protected-parity.txt
 9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  ./pvg-lint.exit
 aad87173cd77a6506a37f1bb62a6eea5f3982bb14ebabaf88d9995dde8c97fd1  ./pvg-lint.txt
+9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa  ./release-verify-clean.exit
+892e180075e0bed6e6cee99e05cb0c6d35ee3fb09418b5bf2d20bd4bf37a63cc  ./release-verify-clean.txt
 53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3  ./release-verify.exit
 625e84631c489cd69960f14660f33ef2d85a4e20898afe6b9323af5c10d3bfda  ./release-verify.txt
 74044aefde9c6e95c4aa1cb6058d34733d439659dc618fb8f0b728f4d99396a5  ./root-cause.md

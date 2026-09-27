@@ -1,0 +1,9 @@
+version=0.1.0
+check=version status=pass
+check=changelog status=pass
+check=recipe_schema status=pass
+check=tree status=pass
+tag-ready=v0.1.0
+tag_created=false
+v0.1.0 is tag-ready; no tag was created
+release=ready
