@@ -1,0 +1,6 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-osfm-run/settings/upscale.json
+--output-dir
+/home/straughter/wd-osfm-run/outputs/upscale

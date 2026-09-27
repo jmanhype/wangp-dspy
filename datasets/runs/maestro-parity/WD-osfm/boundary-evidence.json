@@ -1,0 +1,55 @@
+{
+  "schema_version": "wangp-dspy.wd-osfm.boundary-evidence/v1",
+  "records": [
+    {
+      "operation": "blend",
+      "log": "host-logs/probe-batch.render.log",
+      "native_task_result": "error",
+      "failing_stage": "guide frame admission",
+      "missing_or_invalid_field": "reference_video_max_frames",
+      "boundary": "unsupported_host_implementation",
+      "reason": "The two-guide setup raises KeyError reference_video_max_frames before generation; this exact host tree lacks the field required by its guide-frame accounting path."
+    },
+    {
+      "operation": "outpaint",
+      "log": "host-logs/probe-batch.render.log",
+      "native_task_result": "error",
+      "failing_stage": "undeclared LoRA acquisition",
+      "dependency": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "dependency_source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "boundary": "dependency_blocked",
+      "reason": "The operation requires an undeclared LoRA. HF_HUB_OFFLINE=1 prevented the download, as required by the exact-manifest boundary."
+    },
+    {
+      "operation": "recast",
+      "log": "host-logs/probe-batch.render.log",
+      "native_task_result": "error",
+      "failing_stage": "undeclared ingredients LoRA acquisition",
+      "dependency": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "dependency_source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "boundary": "dependency_blocked",
+      "reason": "Reference recast requires an undeclared ingredients LoRA. Offline mode blocked the download before generation."
+    },
+    {
+      "operation": "upscale",
+      "log": "host-logs/upscale.render.log",
+      "native_task_result": "error",
+      "failing_stage": "postprocessing model acquisition",
+      "dependency": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "dependency_source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "boundary": "dependency_blocked",
+      "reason": "The native ltx232 postprocessing path requests a separate dev int8 transformer that is absent from the exact authorized manifest; offline mode blocked it."
+    }
+  ],
+  "probe_batch_process_exit": 1,
+  "upscale_process_exit": 1,
+  "successful_probe_tasks": [
+    "extend",
+    "retake",
+    "edit",
+    "repaint"
+  ],
+  "probe_batch_log_sha256": "633f4ddac3ca27af85e38368859a2886187180b6a81754108476db0676d82224",
+  "upscale_log_sha256": "aef37bbc98edab796fb5803bb9d8e2464553d2699dcdbe7f1b823128684d2c98",
+  "visual_review": "review/QC.md"
+}

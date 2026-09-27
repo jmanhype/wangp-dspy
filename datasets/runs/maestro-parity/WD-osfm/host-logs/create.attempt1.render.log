@@ -1,0 +1,49 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-osfm-run/settings/create.json
+Output directory: /home/straughter/wd-osfm-run/outputs/create
+[load_settings] Loading settings from: /home/straughter/wd-osfm-run/settings/create.json
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_22B_distilled_gguf_q4_k_m
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test: two grounded fantasy combatants gr...
+Loading model LTX-2 2.3 Distilled 1.0 GGUF Q4_K_M Light 22B...
+Loading Model 'ckpts/ltx-2.3-22b-distilled-Q4_K_M_light.gguf' ...
+Loading Text Encoder 'ckpts/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors' ...
+
+  [ERROR] GGUF support requires the 'gguf' package.
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 6886, in generate_media
+    wan_model, offloadobj = load_models(
+                            ^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 4100, in load_models
+    wan_model, pipe = model_type_handler.load_model(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/models/ltx2/ltx2_handler.py", line 1004, in load_model
+    ltx2_model = LTX2(
+                 ^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/models/ltx2/ltx2.py", line 916, in __init__
+    pipeline_models = self._init_models(
+                      ^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/models/ltx2/ltx2.py", line 948, in _init_models
+    base_config = _load_config_from_checkpoint(transformer_path, fallback_config_path=fallback_config_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/models/ltx2/ltx2.py", line 175, in _load_config_from_checkpoint
+    config = _read_config_metadata(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/models/ltx2/ltx2.py", line 170, in _read_config_metadata
+    _, metadata = quant_router.load_metadata_state_dict(one_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/venv/lib/python3.11/site-packages/mmgp/quant_router.py", line 985, in load_metadata_state_dict
+    return ext_handler.get_file_metadata(file_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP-story-WD-osfm/shared/qtypes/gguf.py", line 489, in get_file_metadata
+    raise RuntimeError("GGUF support requires the 'gguf' package.")
+RuntimeError: GGUF support requires the 'gguf' package.
+
+  [ERROR] GGUF support requires the 'gguf' package.
+
+==================================================
+Queue completed: 0/1 tasks in 1.5s

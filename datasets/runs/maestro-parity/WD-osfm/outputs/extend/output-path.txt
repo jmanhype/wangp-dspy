@@ -1,0 +1,2 @@
+source=/home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h15m35s_seed3702_LTX-2.3 extension boundary continue the supplied combat take for a longer beat..mp4
+final=/home/straughter/wd-osfm-run/outputs/extend/wd_osfm_extend.mp4

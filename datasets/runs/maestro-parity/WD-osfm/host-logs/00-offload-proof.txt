@@ -1,0 +1,11 @@
+2026-09-27T17:30:31Z
+destination_free_before=42
+local_size=34038903007
+local_sha256=83a36b67776962f44087f2f7c12d95791393f3cce1ef898efc90405216e7b0c0
+remote_size=34038903007
+remote_sha256=83a36b67776962f44087f2f7c12d95791393f3cce1ef898efc90405216e7b0c0
+remote_unlink=PASS
+chunk_unlink=PASS
+remote_free_after=55114153984
+destination_free_after=69
+OFFLOAD_VERIFIED_AND_REMOTE_FREED=PASS

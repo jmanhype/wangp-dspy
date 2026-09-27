@@ -1,0 +1,34 @@
+{
+  "schema_version": "wangp-dspy.wd-osfm.matrix-transition/v1",
+  "base_commit": "0f91e83c",
+  "before": [
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned"
+  ],
+  "after": [
+    "host_run_verified",
+    "host_run_verified",
+    "unsupported",
+    "host_run_verified",
+    "host_run_verified",
+    "dependency_blocked",
+    "host_run_verified",
+    "dependency_blocked",
+    "dependency_blocked"
+  ],
+  "changed_cells": 9,
+  "expected_changed_cells": 9,
+  "planned_after": 0,
+  "verified_after": 5,
+  "unsupported_after": 1,
+  "dependency_blocked_after": 3,
+  "unrelated_matrix_rows_changed": [],
+  "pass": true
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "wangp-dspy.wd-osfm.objective-measurements/v1",
+  "source_sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+  "extend_first_frame_psnr_versus_create_db": 44.645864,
+  "extend_first_frame_ssim_versus_create": 0.992708,
+  "retake_first_frame_psnr_versus_control_db": 30.868159,
+  "retake_first_frame_ssim_versus_control": 0.91771,
+  "edit_first_frame_psnr_versus_control_db": 16.463385,
+  "edit_first_frame_ssim_versus_control": 0.54056,
+  "repaint_first_frame_psnr_versus_control_db": 20.189776,
+  "repaint_first_frame_ssim_versus_control": 0.744104,
+  "freeze_events": {
+    "create": 0,
+    "extend": 0,
+    "retake": 0,
+    "edit": 0,
+    "repaint": 0
+  },
+  "first_last_motion": {
+    "create": {
+      "psnr_db": 9.831913,
+      "ssim": 0.398166
+    },
+    "extend": {
+      "psnr_db": 11.986285,
+      "ssim": 0.42266
+    },
+    "retake": {
+      "psnr_db": 13.114005,
+      "ssim": 0.616649
+    },
+    "edit": {
+      "psnr_db": 12.093584,
+      "ssim": 0.443049
+    },
+    "repaint": {
+      "psnr_db": 11.365441,
+      "ssim": 0.421566
+    }
+  },
+  "rows": [
+    {
+      "operation": "create",
+      "path": "outputs/create/wd_osfm_create.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+      "bytes": 984165
+    },
+    {
+      "operation": "extend",
+      "path": "outputs/extend/wd_osfm_extend.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 4.731,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "sha256": "28889e82b96acf6b6b2f417e4ddb8a45b23c7c642d9d38608107932de73406c3",
+      "bytes": 2556072
+    },
+    {
+      "operation": "retake",
+      "path": "outputs/retake/wd_osfm_retake.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "sha256": "e39904befb76d409762492f8038f153af1b7a707acbc134f4c3038febf3e7769",
+      "bytes": 548009
+    },
+    {
+      "operation": "edit",
+      "path": "outputs/edit/wd_osfm_edit.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "sha256": "8e10fafedca771f4d90b94bf6ae1fe47c64b35b517c5aa0cfa2e5f427f7bdb60",
+      "bytes": 853638
+    },
+    {
+      "operation": "repaint",
+      "path": "outputs/repaint/wd_osfm_repaint.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      },
+      "sha256": "ba9202ddf487c0ce5c139332725d19024f2aecd6b427aa39df365fb9290fd20f",
+      "bytes": 853784
+    }
+  ]
+}

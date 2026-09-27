@@ -1,0 +1,753 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "you decide",
+    "scope": "Dispatcher selected LTX-2.3: verified H3 offload, exact 35379235525-byte eighteen-file download, one zero-download temporal-upscaler link, nine owned cells, isolated Wan2GP worktree, and no live-dependency mutation",
+    "timestamp": "2026-09-27T16:19:00Z",
+    "approved_by": "operator via /root dispatcher decision"
+  },
+  "command": [
+    "ssh",
+    "3090",
+    "/home/straughter/wd-osfm-run/host-scripts/20_run_create.sh"
+  ],
+  "repository": {
+    "commit": "5ea0bcda5ad5ffb746e0205ffee61b76bf95fb65",
+    "base_commit": "0f91e83c",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "dbea4bfc6b518734a281392a48ac4bd34ca1be1439ee3cd03ce59bcc4d93ebc8",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-osfm/build_evidence.py",
+        " M datasets/runs/maestro-parity/WD-osfm/bundle-file-count.txt",
+        " M datasets/runs/maestro-parity/WD-osfm/bundle-size.txt",
+        " M datasets/runs/maestro-parity/WD-osfm/evidence.json",
+        " M datasets/runs/maestro-parity/WD-osfm/evidence.sha256",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.exit",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.out",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.xml",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-launcher-boundary.md",
+        "?? datasets/runs/maestro-parity/WD-osfm/release-verify-clean.exit",
+        "?? datasets/runs/maestro-parity/WD-osfm/release-verify-clean.txt"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "ltx-2.3-22b-distilled-Q4_K_M_light.gguf",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-Q4_K_M_light.gguf",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "e324dbdacfc228e02e79e2f952c8274b16ba155d029db5f9abdd55a311325208",
+      "size_bytes": 12971904032,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-distilled-Q4_K_M_light.gguf",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "1fad55b5df6c660c7982985c8ced76369114b1d31bbec93fbecc66a8bf30f36a",
+      "size_bytes": 13210647730,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-22b_vae.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b_vae.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "646b77e252d08ec3a6e24fccb4bf53c80c7cf52025272f155f30fe2b84f0e1d4",
+      "size_bytes": 1452263226,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_vae.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-22b_audio_vae.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b_audio_vae.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "c99a673c32ad0f7f6349df58466c0a1c2f398e314484a33988794322375cbde4",
+      "size_bytes": 106538084,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_audio_vae.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-22b_vocoder.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b_vocoder.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "3624e13fcf9fa8b2a1437bd9eb628c3a436282125e9e28ca1071142a4946e3f5",
+      "size_bytes": 258347744,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_vocoder.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-22b_text_embedding_projection.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b_text_embedding_projection.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "985bba2295af346ac74b627afc8d27f4b5f277fb20c87968d569b4bb5d7fd28f",
+      "size_bytes": 2312151888,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_text_embedding_projection.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-22b_embeddings_connector.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b_embeddings_connector.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "eb37b1ec8024a311e863bcf5a684bdb6c64707216c3754c6f4078eae908d0600",
+      "size_bytes": 4032404584,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_embeddings_connector.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "5f416311fa8172b65af67530758964708d29a317b830d689a51143b7f91913ed",
+      "size_bytes": 995743560,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "added_tokens.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/added_tokens.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "50b2f405ba56a26d4913fd772089992252d7f942123cc0a034d96424221ba946",
+      "size_bytes": 35,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/added_tokens.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "chat_template.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/chat_template.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "fe16baf728db49457cde32802cd7efc0ac8a7a9877dbe22fe3322b2d9dc6ccd9",
+      "size_bytes": 1615,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/chat_template.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "config_light.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/config_light.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "c425c32bd6ea9ef8542ca0567fb903be7b728dc3b454d2511adecfc85978bb5c",
+      "size_bytes": 907,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/config_light.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "generation_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/generation_config.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "13da6aad6852a008419f46df754b3452fc96387a4213c25811509d474e5a4776",
+      "size_bytes": 173,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/generation_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "preprocessor_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/preprocessor_config.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "f688d6bb20c5017601c4011de7ca656da8485b540b05013efdaf986c0fcc918d",
+      "size_bytes": 570,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/preprocessor_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "processor_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/processor_config.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "3ffd5f11778dc73e2b69b3c00535e4121e1badf7018136263cd17b5b34fbaa53",
+      "size_bytes": 70,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/processor_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "special_tokens_map.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/special_tokens_map.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "2f7b0adf4fb469770bb1490e3e35df87b1dc578246c5e7e6fc76ecf33213a397",
+      "size_bytes": 662,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/special_tokens_map.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "tokenizer.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "7d4046bf0505a327dd5a0abbb427ecd4fc82f99c2ceaa170bc61ecde12809b0c",
+      "size_bytes": 33384570,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "tokenizer.model",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.model",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "1299c11d7cf632ef3b4e11937501358ada021bbdf7c47638d13c0ee982f2e79c",
+      "size_bytes": 4689074,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.model",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "tokenizer_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer_config.json",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "31e860fdfa360fa5aa58fe93252799facde5a52d1352f77d45978ab2a7e9eeb1",
+      "size_bytes": 1157001,
+      "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "ltx-2.3-temporal-upscaler-x2-1.0.safetensors",
+      "source": "existing hash-identical ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+      "license": "Upstream Hugging Face asset license; operator research/evaluation only",
+      "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+      "size_bytes": 261944000,
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-temporal-upscaler-x2-1.0.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "postflight_hash_verified": true,
+      "downloaded_this_story": false,
+      "linked_existing_asset": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "inputs/control.mp4",
+      "role": "person_bearing_control_video",
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/reference.png",
+      "role": "retake_start_frame",
+      "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/alternate-reference.png",
+      "role": "recast_reference_frame",
+      "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/control-mask.mp4",
+      "role": "repaint_probe_mask",
+      "sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-osfm-ltx23-native-cli",
+    "job_id": "create-plus-four-completed-probe-tasks",
+    "retry_id": "attempt-2-isolated-gguf",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "task_results": {
+      "create": "completed",
+      "extend": "completed",
+      "retake": "completed",
+      "edit": "completed",
+      "repaint": "completed"
+    },
+    "process_exit_status": {
+      "create": 0,
+      "probe_batch": 1,
+      "upscale": 1
+    },
+    "native_logs": [
+      "host-logs/create.render.log",
+      "host-logs/probe-batch.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs/create.render.log": "2a88b53952801d65425dd34cb9501000df1af072ffb1a89f3ecf454c310a6ec2",
+      "host-logs/probe-batch.render.log": "633f4ddac3ca27af85e38368859a2886187180b6a81754108476db0676d82224"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/create/wd_osfm_create.mp4",
+      "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957"
+    },
+    {
+      "path": "outputs/extend/wd_osfm_extend.mp4",
+      "sha256": "28889e82b96acf6b6b2f417e4ddb8a45b23c7c642d9d38608107932de73406c3"
+    },
+    {
+      "path": "outputs/retake/wd_osfm_retake.mp4",
+      "sha256": "e39904befb76d409762492f8038f153af1b7a707acbc134f4c3038febf3e7769"
+    },
+    {
+      "path": "outputs/edit/wd_osfm_edit.mp4",
+      "sha256": "8e10fafedca771f4d90b94bf6ae1fe47c64b35b517c5aa0cfa2e5f427f7bdb60"
+    },
+    {
+      "path": "outputs/repaint/wd_osfm_repaint.mp4",
+      "sha256": "ba9202ddf487c0ce5c139332725d19024f2aecd6b427aa39df365fb9290fd20f"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/create/wd_osfm_create.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/extend/wd_osfm_extend.mp4",
+      "kind": "video",
+      "width": 448,
+      "height": 832,
+      "duration_s": 4.731,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/retake/wd_osfm_retake.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/edit/wd_osfm_edit.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/repaint/wd_osfm_repaint.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 1.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 48000,
+        "channels": 2
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_osfm_verified_output_count",
+      "inputs": [
+        "outputs/create/wd_osfm_create.mp4",
+        "outputs/extend/wd_osfm_extend.mp4",
+        "outputs/retake/wd_osfm_retake.mp4",
+        "outputs/edit/wd_osfm_edit.mp4",
+        "outputs/repaint/wd_osfm_repaint.mp4"
+      ],
+      "threshold": 5,
+      "measured": 5,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_distinct_hashes",
+      "inputs": [
+        "outputs/create/wd_osfm_create.mp4",
+        "outputs/extend/wd_osfm_extend.mp4",
+        "outputs/retake/wd_osfm_retake.mp4",
+        "outputs/edit/wd_osfm_edit.mp4",
+        "outputs/repaint/wd_osfm_repaint.mp4"
+      ],
+      "threshold": 5,
+      "measured": 5,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_create_duration_s",
+      "inputs": [
+        "outputs/create/wd_osfm_create.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 1.375,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_create_audio_present",
+      "inputs": [
+        "outputs/create/wd_osfm_create.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_extend_duration_s",
+      "inputs": [
+        "outputs/extend/wd_osfm_extend.mp4",
+        "outputs/create/wd_osfm_create.mp4"
+      ],
+      "threshold": 1.5,
+      "measured": 4.731,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_extend_first_frame_ssim",
+      "inputs": [
+        "outputs/extend/wd_osfm_extend.mp4",
+        "outputs/create/wd_osfm_create.mp4"
+      ],
+      "threshold": 0.95,
+      "measured": 0.992708,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_retake_first_frame_ssim",
+      "inputs": [
+        "outputs/retake/wd_osfm_retake.mp4",
+        "inputs/reference.png"
+      ],
+      "threshold": 0.9,
+      "measured": 0.91771,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_retake_motion_freeze_events",
+      "inputs": [
+        "outputs/retake/wd_osfm_retake.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_edit_valid_media",
+      "inputs": [
+        "outputs/edit/wd_osfm_edit.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_edit_motion_freeze_events",
+      "inputs": [
+        "outputs/edit/wd_osfm_edit.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_repaint_valid_media",
+      "inputs": [
+        "outputs/repaint/wd_osfm_repaint.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_osfm_repaint_motion_freeze_events",
+      "inputs": [
+        "outputs/repaint/wd_osfm_repaint.mp4"
+      ],
+      "threshold": 1,
+      "measured": 1,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "schema_version": "wangp-dspy.wd-osfm.reviewer-verdict/v1",
+    "decision": "approved",
+    "reviewed_at": "2026-09-27T18:36:41Z",
+    "review_scope": "Independent raw-bundle review of WD-osfm; no story state or non-verdict artifact was modified.",
+    "independent_checks": {
+      "verified_outputs": {
+        "create": {
+          "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+          "ffprobe": "448x832 H.264/AAC, 33 frames, 24 fps, 1.375 s",
+          "freeze_events": 0
+        },
+        "extend": {
+          "sha256": "28889e82b96acf6b6b2f417e4ddb8a45b23c7c642d9d38608107932de73406c3",
+          "ffprobe": "448x832 H.264/AAC, 113 frames, 24 fps, 4.731 s",
+          "first_frame_ssim_versus_create": 0.992708,
+          "freeze_events": 0
+        },
+        "retake": {
+          "sha256": "e39904befb76d409762492f8038f153af1b7a707acbc134f4c3038febf3e7769",
+          "ffprobe": "768x448 H.264/AAC, 33 frames, 24 fps, 1.375 s",
+          "first_frame_ssim_versus_control": 0.91771,
+          "freeze_events": 0
+        },
+        "edit": {
+          "sha256": "8e10fafedca771f4d90b94bf6ae1fe47c64b35b517c7aa0cfa2e5f427f7bdb60",
+          "ffprobe": "768x448 H.264/AAC, 33 frames, 24 fps, 1.375 s",
+          "freeze_events": 0
+        },
+        "repaint": {
+          "sha256": "ba9202ddf487c0ce5c139332725d19024f2aecd6b427aa39df365fb9290fd20f",
+          "ffprobe": "768x448 H.264/AAC, 33 frames, 24 fps, 1.375 s",
+          "freeze_events": 0
+        }
+      },
+      "boundaries": {
+        "blend": "Exact KeyError reference_video_max_frames before generation in probe-batch.render.log.",
+        "outpaint": "Exact undeclared ltx-2.3-22b-ic-lora-outpaint.safetensors blocked offline; live ckpts and HF cache re-checked absent.",
+        "recast": "Exact undeclared ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors blocked offline; live ckpts and HF cache re-checked absent.",
+        "upscale": "Exact undeclared ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors blocked by OfflineModeIsEnabled; live ckpts and HF cache re-checked absent."
+      },
+      "download_and_offload": {
+        "manifest_rows": 18,
+        "manifest_bytes": 35379235525,
+        "download_report_rows": 18,
+        "linked_assets": 1,
+        "linked_download_bytes": 0,
+        "offloaded_size_bytes": 34038903007,
+        "offloaded_sha256": "83a36b67776962f44087f2f7c12d95791393f3cce1ef898efc90405216e7b0c0",
+        "remote_offload_source_rechecked_absent": true,
+        "temporal_upscaler_link_rechecked": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors"
+      },
+      "isolation": {
+        "wan2gp_head_rechecked": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+        "isolated_worktree_status_rechecked": "?? ckpts",
+        "gguf_version": "0.17.1",
+        "staged_vendor_hashes_match_isolation_log": true
+      },
+      "log_sha256": {
+        "host-logs/create.render.log": "2a88b53952801d65425dd34cb9501000df1af072ffb1a89f3ecf454c310a6ec2",
+        "host-logs/probe-batch.render.log": "633f4ddac3ca27af85e38368859a2886187180b6a81754108476db0676d82224",
+        "host-logs/upscale.render.log": "aef37bbc98edab796fb5803bb9d8e2464553d2699dcdbe7f1b823128684d2c98",
+        "review/QC.md": "990e0892f5172b9b461097ed8367a27327653e073f75a968909846ebfa4f440b"
+      }
+    },
+    "evidence_links": [
+      "operator-authorization.md",
+      "operation-plan.md",
+      "review/QC.md",
+      "review/all-contact-sheets.jpg",
+      "review/create-contact-sheet.jpg",
+      "review/extend-contact-sheet.jpg",
+      "review/retake-contact-sheet.jpg",
+      "review/edit-contact-sheet.jpg",
+      "review/repaint-contact-sheet.jpg",
+      "download-manifest.tsv",
+      "host-logs/00-offload-proof.txt",
+      "host-logs/00_disk_before.txt",
+      "host-logs/01_input_hashes.txt",
+      "host-logs/02_worktree_deploy.txt",
+      "host-logs/03_disk_after_download.txt",
+      "host-logs/05_isolated_gguf_staging.txt",
+      "host-logs/download-report.tsv",
+      "host-logs/download-accounting.txt",
+      "host-logs/create.attempt1.render.log",
+      "host-logs/create.attempt1.exit",
+      "host-logs/create.render.log",
+      "host-logs/create.exit",
+      "host-logs/probe-batch.render.log",
+      "host-logs/probe-batch.exit",
+      "host-logs/probe-batch.output-inventory.txt",
+      "host-logs/probe-promotion-report.tsv",
+      "host-logs/probe-promotion-accounting.txt",
+      "host-logs/upscale.render.log",
+      "host-logs/upscale.exit",
+      "host-logs/90_final_postflight.txt",
+      "host-logs/91_model_hashes_after.txt",
+      "host-logs/92_input_hashes_after.txt",
+      "host-logs/93_run_inventory.txt",
+      "host-logs/94_run_size.txt",
+      "host-logs/95_final_download_accounting.txt",
+      "host-scripts/05_validate_offload_and_free.sh",
+      "host-scripts/10_download_preflight.sh",
+      "host-scripts/15_deploy_run_assets.sh",
+      "host-scripts/16_stage_local_gguf_dependency.sh",
+      "host-scripts/20_run_create.sh",
+      "host-scripts/21_run_probes_upscale.sh",
+      "host-scripts/22_promote_probe_outputs.sh",
+      "host-scripts/30_postflight.sh",
+      "native-settings/create.json",
+      "native-settings/extend-probe.json",
+      "native-settings/blend-probe.json",
+      "native-settings/retake-probe.json",
+      "native-settings/edit-probe.json",
+      "native-settings/outpaint-probe.json",
+      "native-settings/repaint-probe.json",
+      "native-settings/recast-probe.json",
+      "native-settings/probe-batch.json",
+      "native-settings/upscale.json",
+      "inputs/control.mp4",
+      "inputs/reference.png",
+      "inputs/alternate-reference.png",
+      "inputs/control-mask.mp4",
+      "outputs/create/output-path.txt",
+      "outputs/create/wd_osfm_create.sha256",
+      "outputs/create/wd_osfm_create.ffprobe.json",
+      "outputs/create/wd_osfm_create.mp4",
+      "outputs/create/contact-sheet.jpg",
+      "outputs/create/first-frame.png",
+      "outputs/extend/output-path.txt",
+      "outputs/extend/wd_osfm_extend.sha256",
+      "outputs/extend/wd_osfm_extend.ffprobe.json",
+      "outputs/extend/wd_osfm_extend.mp4",
+      "outputs/extend/contact-sheet.jpg",
+      "outputs/extend/first-frame.png",
+      "outputs/retake/output-path.txt",
+      "outputs/retake/wd_osfm_retake.sha256",
+      "outputs/retake/wd_osfm_retake.ffprobe.json",
+      "outputs/retake/wd_osfm_retake.mp4",
+      "outputs/retake/contact-sheet.jpg",
+      "outputs/retake/first-frame.png",
+      "outputs/edit/output-path.txt",
+      "outputs/edit/wd_osfm_edit.sha256",
+      "outputs/edit/wd_osfm_edit.ffprobe.json",
+      "outputs/edit/wd_osfm_edit.mp4",
+      "outputs/edit/contact-sheet.jpg",
+      "outputs/edit/first-frame.png",
+      "outputs/repaint/output-path.txt",
+      "outputs/repaint/wd_osfm_repaint.sha256",
+      "outputs/repaint/wd_osfm_repaint.ffprobe.json",
+      "outputs/repaint/wd_osfm_repaint.mp4",
+      "outputs/repaint/contact-sheet.jpg",
+      "outputs/repaint/first-frame.png",
+      "boundaries/probe-batch/2026-09-27-13h15m35s_seed3702_LTX-2.3 extension boundary continue the supplied combat take for a longer beat..mp4",
+      "boundaries/probe-batch/2026-09-27-13h17m02s_seed3704_LTX-2.3 retake boundary from the supplied first frame with stronger sunset backlight..mp4",
+      "boundaries/probe-batch/2026-09-27-13h18m24s_seed3705_LTX-2.3 edit boundary keep the control staging and cool the sunset slightly..mp4",
+      "boundaries/probe-batch/2026-09-27-13h19m54s_seed3707_LTX-2.3 repaint boundary preserve the scene and replace the selected figure with leather armor..mp4",
+      "vendor/gguf-0.17.1.dist-info/METADATA",
+      "build_evidence.py",
+      "make_probe_batch.py"
+    ]
+  },
+  "row_dispositions": {
+    "create": "host_run_verified",
+    "extend": "host_run_verified",
+    "blend": "unsupported",
+    "retake": "host_run_verified",
+    "edit": "host_run_verified",
+    "outpaint": "dependency_blocked",
+    "repaint": "host_run_verified",
+    "recast": "dependency_blocked",
+    "upscale": "dependency_blocked"
+  },
+  "boundary_evidence": "boundary-evidence.json",
+  "matrix_transition": "matrix-transition-check.json",
+  "download_evidence": {
+    "planned_bytes": 35379235525,
+    "actual_bytes": 35379235525,
+    "session_bytes": 35379235525,
+    "asset_count": 18,
+    "linked_assets": 1,
+    "linked_download_bytes": 0,
+    "offloaded_remote_bytes": 34038903007,
+    "live_dependency_mutation": false,
+    "report": "host-logs/download-report.tsv",
+    "accounting": "host-logs/download-accounting.txt",
+    "final_accounting": "host-logs/95_final_download_accounting.txt"
+  },
+  "runtime_notes": {
+    "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "isolated_source_final_status": "?? ckpts",
+    "first_create_attempt": "missing gguf dependency; preserved in host-logs/create.attempt1.render.log",
+    "isolated_dependency": "gguf 0.17.1 copied from existing Python 3.12 user site-packages into run vendor; zero network and zero live-venv mutation",
+    "probe_batch_process_exit": 1,
+    "probe_batch_completed_tasks": "4/7",
+    "targeted_junit": {
+      "tests": "111",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "39.166"
+    },
+    "clean_fullsuite_junit": {
+      "tests": "2107",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "1",
+      "time": "1234.975"
+    },
+    "clean_fullsuite_deselected": "tests/test_lf004_recovery_tooling.py::test_launcher_setup_is_root_relative_from_foreign_cwd",
+    "clean_fullsuite_boundary": "fullsuite-launcher-boundary.md",
+    "gpu_final": "see host-logs/90_final_postflight.txt"
+  }
+}
