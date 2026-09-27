@@ -4,7 +4,7 @@ title: "Bug: LF004 launcher setup heredoc deadlock"
 status: closed
 priority: 0
 type: bug
-labels: [bug, test, evidence, discovered-by-pm, delivered]
+labels: [bug, test, evidence, discovered-by-pm, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
