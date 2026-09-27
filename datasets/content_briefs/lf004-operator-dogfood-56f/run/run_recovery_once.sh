@@ -51,21 +51,9 @@ export WANGP_SYNCNET_MODEL=/home/straughter/models/syncnet_v2/syncnet_v2.model
 export WANGP_SYNCNET_PYTHON=/home/straughter/Wan2GP/venv/bin/python
 export WANGP_SYNCNET_REPO=/home/straughter/wangp-dspy-vibevoice-20260916
 
-"$PYTHON" - <<'PY'
-import json, os
-from pathlib import Path
-root = Path(os.environ["RECOVERY_ROOT"])
-base = root / "datasets/content_briefs/lf004-operator-dogfood-56f"
-source = root / "datasets/content_briefs/lf004-operator-dogfood"
-command = [str(base / "run/recover_once.py"), "run-film"]
-expanded = {"script": str(base / "run/script.txt"), "plates": str(source / "plates"), "characters": "Tess:S1:... Rho:S2:...", "db": "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db", "run_ledger": "datasets/lf004-operator-dogfood-56f-recovery-20260921.run_ledger.json", "duration_s": [2.3333333333333335] * 4, "audio": [str(root / "datasets/runs/provenance/lf003-vibevoice-audition-20260917/audio/tess.prepared.wav"), str(root / "datasets/runs/provenance/lf003-vibevoice-rho-strong-20260918/audio/rho.prepared.wav"), str(root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/tess-cut3.prepared.wav"), str(root / "datasets/runs/provenance/lf003-four-cut-fullgate-20260919/audio/rho-cut4.prepared.wav")]}
-verification = json.loads((root / "datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/input-verification.json").read_text())
-payload = {"schema_version": 1, "execution_count": 1, "command": command, "expanded_run_film_inputs": expanded, "input_verification": verification, "environment": {key: value for key, value in os.environ.items() if key.startswith("WANGP_")}}
-out = Path(os.environ["LF004_COMMAND_RECORD"])
-out.parent.mkdir(parents=True, exist_ok=True)
-out.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-print(json.dumps(payload, sort_keys=True))
-PY
+"$PYTHON" "$BASE/run/write_command_record.py" \
+  --root "$ROOT" \
+  --output "$COMMAND_RECORD"
 
 if [[ "${WANGP_RECOVERY_SETUP_ONLY:-0}" == "1" ]]; then
   "$PYTHON" "$BASE/run/recover_once.py" stage-assets --root "$ROOT" --dry-run "$PROVENANCE/stage-plan.json"

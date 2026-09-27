@@ -4,8 +4,10 @@ import importlib.util
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -14,6 +16,7 @@ from services.jobs.queue import JobQueue, effective_render_fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "datasets/content_briefs/lf004-operator-dogfood-56f/run"
+LAUNCHER_TIMEOUT_S = 15.0
 SPEC = importlib.util.spec_from_file_location("lf004_recover_once", RUN / "recover_once.py")
 recover = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
@@ -92,24 +95,75 @@ def make_launcher_root(target: Path) -> Path:
 def run_launcher(launcher: Path, cwd: Path) -> subprocess.CompletedProcess[str]:
     cwd.mkdir(parents=True, exist_ok=True)
     environment = {**os.environ, "RECOVERY_PYTHON": sys.executable, "WANGP_RECOVERY_SETUP_ONLY": "1"}
-    return subprocess.run(["bash", str(launcher)], cwd=cwd, text=True, capture_output=True, env=environment, check=False)
+    argv = ["bash", str(launcher)]
+    with (
+        tempfile.TemporaryFile(mode="w+b") as stdout_file,
+        tempfile.TemporaryFile(mode="w+b") as stderr_file,
+    ):
+        process = subprocess.Popen(
+            argv,
+            cwd=cwd,
+            stdout=stdout_file,
+            stderr=stderr_file,
+            env=environment,
+            start_new_session=True,
+        )
+        try:
+            process.wait(timeout=LAUNCHER_TIMEOUT_S)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGTERM)
+            try:
+                process.wait(timeout=2.0)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait()
+            stdout_file.seek(0)
+            stderr_file.seek(0)
+            stdout = stdout_file.read().decode(errors="replace")
+            stderr = stderr_file.read().decode(errors="replace")
+            return subprocess.CompletedProcess(
+                argv,
+                124,
+                stdout=stdout,
+                stderr=f"LAUNCHER_TIMEOUT after {LAUNCHER_TIMEOUT_S:g}s\n{stderr}",
+            )
+        stdout_file.seek(0)
+        stderr_file.seek(0)
+        return subprocess.CompletedProcess(
+            argv,
+            process.returncode,
+            stdout=stdout_file.read().decode(errors="replace"),
+            stderr=stderr_file.read().decode(errors="replace"),
+        )
 
 
 def test_launcher_setup_is_root_relative_from_foreign_cwd(tmp_path: Path) -> None:
     launcher = make_launcher_root(tmp_path / "root")
     first = run_launcher(launcher, tmp_path / "cwd-a")
     assert first.returncode == 0, first.stderr
-    stage_path = tmp_path / "root/datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/stage-plan.json"
+    provenance = tmp_path / "root/datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921"
+    stage_path = provenance / "stage-plan.json"
+    record_path = provenance / "setup-command.json"
     first_stage = stage_path.read_bytes()
+    first_record = record_path.read_bytes()
     stage_path.unlink()
     second = run_launcher(launcher, tmp_path / "cwd-b")
     assert second.returncode == 0, second.stderr
     assert stage_path.read_bytes() == first_stage
+    assert record_path.read_bytes() == first_record
     payload = json.loads(stage_path.read_text())
-    assert payload["root"] == str(tmp_path / "root")
+    root = tmp_path / "root"
+    assert payload["root"] == str(root)
     assert len(payload["assets"]) == 7
-    assert all(item["local"].startswith(str(tmp_path / "root")) for item in payload["assets"])
-    assert not (tmp_path / "root/datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/execution-command.json").exists()
+    assert all(item["local"].startswith(str(root)) for item in payload["assets"])
+    record = json.loads(record_path.read_text())
+    assert record["expanded_run_film_inputs"]["db"] == "datasets/lf004-operator-dogfood-56f-recovery-20260921.jobs.db"
+    assert record["expanded_run_film_inputs"]["run_ledger"] == "datasets/lf004-operator-dogfood-56f-recovery-20260921.run_ledger.json"
+    assert record["expanded_run_film_inputs"]["script"].startswith(str(root))
+    serialized_record = record_path.read_text()
+    assert str(tmp_path / "cwd-a") not in serialized_record
+    assert str(tmp_path / "cwd-b") not in serialized_record
+    assert not (provenance / "execution-command.json").exists()
 
 
 def test_launcher_hash_failure_aborts_before_setup_or_staging(tmp_path: Path) -> None:
@@ -120,6 +174,8 @@ def test_launcher_hash_failure_aborts_before_setup_or_staging(tmp_path: Path) ->
     brief.write_text(json.dumps(payload))
     result = run_launcher(launcher, tmp_path / "foreign")
     assert result.returncode != 0
+    assert "raw corrected brief hash changed" in result.stdout + result.stderr
+    assert "LAUNCHER_TIMEOUT" not in result.stderr
     provenance = tmp_path / "root/datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921"
     assert (provenance / "input-verification.json").exists()
     assert not (provenance / "execution-command.json").exists()
