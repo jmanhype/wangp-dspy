@@ -8,11 +8,11 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
-updated_at: 2026-09-27T02:39:35Z
-content_hash: "sha256:787948b0f8fdfc9d76169b66f2900037d669f97598f0b1833f9ac9b60d08ffc9"
+updated_at: 2026-09-27T02:39:36Z
+content_hash: "sha256:c1fe238ed57a1a865423c14b19d68210040eaf9e3f68b20af9057ca624987fce"
 blocks: [WD-fay0]
 assignee: dev-WD-m25k
-follows: [WD-obkn]
+follows: [WD-obkn, WD-7fvx]
 ---
 
 ## Description
@@ -219,10 +219,12 @@ status: new
 - 2026-09-27T01:24:44Z status: open -> in_progress
 - 2026-09-27T01:24:44Z auto-follows: linked to predecessor WD-obkn
 - 2026-09-27T01:24:44Z claimed by dev-WD-m25k
+- 2026-09-27T02:39:36Z status: in_progress -> in_progress
+- 2026-09-27T02:39:36Z auto-follows: linked to predecessor WD-7fvx
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-obkn]]
+- Follows: [[WD-obkn]], [[WD-7fvx]]
 
 ## Comments
