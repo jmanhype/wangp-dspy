@@ -9,14 +9,14 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-26T01:18:10Z
-content_hash: "sha256:988b2a45360a5f0a70f31a999cd8578ae2ef571d98e3a169465a4276d34ef0bf"
-was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8, WD-14ej, WD-isg9, WD-9t9o, WD-f0vk, WD-9ymi, WD-43tj, WD-5k28, WD-gqlc, WD-btch, WD-mulc, WD-6g3g, WD-kjtp, WD-e96x, WD-m7xw, WD-7fvx, WD-obkn, WD-rtza, WD-m25k, WD-8h6p, WD-ycjg, WD-28i5]
+content_hash: "sha256:e2fd7c5cd55d18b3afd4903329b158f4a1b4e78ad89cd07129c6f25a20272ea8"
+was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8, WD-14ej, WD-isg9, WD-9t9o, WD-f0vk, WD-9ymi, WD-43tj, WD-5k28, WD-gqlc, WD-btch, WD-mulc, WD-6g3g, WD-kjtp, WD-e96x, WD-m7xw, WD-7fvx, WD-obkn, WD-rtza, WD-m25k, WD-8h6p, WD-ycjg, WD-28i5, WD-ghh6]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 closed_at: 2026-09-26T01:18:10Z
 close_reason: "Accepted as a DELIVERED DISPOSITION INDEX only, not programme completion. Independently verified head/diff, lane checker outcomes, 208-cell disposition totals, no cross-lane edits, honest AC assessment, 61 fail-closed tests, and standing gates. Remaining scope: 120 matrix cells planned, 6 await operator consent, WD-dmf2 director gates fail structurally, and WD-0zj8 clean-machine generated-artifact half remains blocked."
 led_to: [WD-r4n8, WD-i7qs, WD-14ej, WD-isg9]
-blocked_by: [WD-i7qs, WD-r4n8, WD-t0il, WD-ghh6]
+blocked_by: [WD-i7qs, WD-r4n8, WD-t0il]
 ---
 
 ## Description
@@ -309,11 +309,12 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-27T15:07:37Z dep_added: blocked_by WD-28i5
 - 2026-09-27T15:54:23Z dep_removed: was_blocked_by WD-28i5
 - 2026-09-27T16:19:23Z dep_added: blocked_by WD-ghh6
+- 2026-09-27T16:21:08Z dep_removed: was_blocked_by WD-ghh6
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]], [[WD-ghh6]]
-- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]], [[WD-14ej]], [[WD-isg9]], [[WD-9t9o]], [[WD-f0vk]], [[WD-9ymi]], [[WD-43tj]], [[WD-5k28]], [[WD-gqlc]], [[WD-btch]], [[WD-mulc]], [[WD-6g3g]], [[WD-kjtp]], [[WD-e96x]], [[WD-m7xw]], [[WD-7fvx]], [[WD-obkn]], [[WD-rtza]], [[WD-m25k]], [[WD-8h6p]], [[WD-ycjg]], [[WD-28i5]]
+- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]]
+- Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]], [[WD-14ej]], [[WD-isg9]], [[WD-9t9o]], [[WD-f0vk]], [[WD-9ymi]], [[WD-43tj]], [[WD-5k28]], [[WD-gqlc]], [[WD-btch]], [[WD-mulc]], [[WD-6g3g]], [[WD-kjtp]], [[WD-e96x]], [[WD-m7xw]], [[WD-7fvx]], [[WD-obkn]], [[WD-rtza]], [[WD-m25k]], [[WD-8h6p]], [[WD-ycjg]], [[WD-28i5]], [[WD-ghh6]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
 - Led to: [[WD-r4n8]], [[WD-i7qs]], [[WD-14ej]], [[WD-isg9]]
 
