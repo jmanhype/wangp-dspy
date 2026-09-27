@@ -4,11 +4,11 @@ title: "Bug: LF004 launcher setup heredoc deadlock"
 status: open
 priority: 0
 type: bug
-labels: [bug, test, evidence]
+labels: [bug, test, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T20:09:48Z
+updated_at: 2026-09-27T20:09:49Z
 content_hash: "sha256:61b8e6efa256e70fcd32f9464cf17db4182604987ff94946445a21706fe39ebb"
 blocks: [WD-fay0]
 ---
