@@ -9,12 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-27T00:28:14Z
-content_hash: "sha256:f02db8e5c737c28a1e940a37033db88556b4ce47afa2174817713e9787c74e9b"
+content_hash: "sha256:db614dfa2821073f664072f1110ec709c4b8de8d79f3e596b8452553b78209c3"
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
 assignee: dev-WD-obkn
 closed_at: 2026-09-27T00:28:09Z
 close_reason: "Accepted: isolated full suite passed 2108 tests with 0 failures and 0 errors at implementation head 2d778cef; all final-head gates pass at receipt head 015ce238."
+led_to: [WD-m25k]
 ---
 
 ## Description
@@ -353,6 +354,7 @@ status: delivered
 - Parent: [[WD-3nod]]
 - Blocked by: [[WD-r81u]], [[WD-r4n8]]
 - Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-7fvx]]
+- Led to: [[WD-m25k]]
 
 ## Comments
 

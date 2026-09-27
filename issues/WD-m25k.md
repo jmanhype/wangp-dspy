@@ -1,16 +1,18 @@
 ---
 id: WD-m25k
 title: "H3 KFI/audio-refinement no-download video batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
-updated_at: 2026-09-27T01:24:29Z
-content_hash: "sha256:8d1d8d0e5c20a720f9b3aeaf34bf5374a4b09f99496a12186eeaf0814125126d"
+updated_at: 2026-09-27T01:24:44Z
+content_hash: "sha256:0938314a0277c8044153b14282cde9cb205dd0e39a3dbd3a30853ca87a75c0c8"
 blocks: [WD-fay0]
+assignee: dev-WD-m25k
+follows: [WD-obkn]
 ---
 
 ## Description
@@ -179,9 +181,13 @@ status: new
 
 ## History
 - 2026-09-27T01:24:29Z dep_added: blocks WD-fay0
+- 2026-09-27T01:24:44Z status: open -> in_progress
+- 2026-09-27T01:24:44Z auto-follows: linked to predecessor WD-obkn
+- 2026-09-27T01:24:44Z claimed by dev-WD-m25k
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-obkn]]
 
 ## Comments
