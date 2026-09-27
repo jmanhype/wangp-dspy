@@ -1,0 +1,71 @@
+{
+  "schema": "wangp-dspy.wd-obkn-replay/v1",
+  "purpose": "exact same argv/source/seed/build replay; codec nondeterminism measured, not assumed",
+  "primary_lossless_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/replay/primary-0002-film-grain.mp4",
+  "primary_lossless_sha256": "856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336",
+  "replay_lossless_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/replay/replay-0002-film-grain.mp4",
+  "replay_lossless_sha256": "856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336",
+  "lossless_byte_identical": true,
+  "primary_final_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/replay/primary-wd_obkn_ffmpeg_film_grain_h264.mp4",
+  "primary_final_sha256": "5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff",
+  "replay_final_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/replay/replay-wd_obkn_ffmpeg_film_grain_h264.mp4",
+  "replay_final_sha256": "5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff",
+  "final_byte_identical": true,
+  "stages": [
+    {
+      "stage_id": "film_grain",
+      "argv": [
+        "ffmpeg",
+        "-nostdin",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+        "-an",
+        "-filter_complex",
+        "nullsrc=s=480x832:r=24/1,scale=ceil(iw/16):ceil(ih/16):flags=neighbor,split=2[grain_static_source][grain_temporal_source];[grain_static_source]noise=alls=12:all_seed=8108:allf=u[grain_static];[grain_temporal_source]noise=alls=12:all_seed=8108:allf=t+u[grain_temporal];[grain_static][grain_temporal]blend=all_mode=normal:all_opacity=0.5[grain_mixed];[grain_mixed]scale=iw*16:ih*16:flags=neighbor,crop=480:832[grain];[0:v][grain]blend=all_mode=addition:shortest=1[grained]",
+        "-map",
+        "[grained]",
+        "-c:v",
+        "ffv1",
+        "0002-film-grain.mp4"
+      ],
+      "cwd": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a",
+      "exit": 0,
+      "elapsed_s": 0.234642,
+      "stdout_path": "film_grain-replay.stdout",
+      "stderr_path": "film_grain-replay.stderr",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "60dce3d0bbc65d8cd01aa0106450e9e47c75f0d8af42888e7d11c12426246aac"
+    },
+    {
+      "stage_id": "codec",
+      "argv": [
+        "ffmpeg",
+        "-nostdin",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a/0002-film-grain.mp4",
+        "-map",
+        "1:v:0",
+        "-map",
+        "0:a?",
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/wd_obkn_ffmpeg_film_grain_h264.mp4"
+      ],
+      "cwd": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn",
+      "exit": 0,
+      "elapsed_s": 0.377285,
+      "stdout_path": "codec-replay.stdout",
+      "stderr_path": "codec-replay.stderr",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8f1cce774034c9ae0f2f78db4585a877c78710f6304521c11818d8a8ccae90d5"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "wangp-dspy.wd-obkn-matrix-transition/v1",
+  "changed_cell_count": 5,
+  "changes": [
+    {
+      "backend": "neural_frame_gen",
+      "operation": "interpolation",
+      "before": "planned",
+      "after": "unsupported_host_implementation ([WD-obkn boundary](../datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md))"
+    },
+    {
+      "backend": "neural_frame_gen",
+      "operation": "spatial_upscale",
+      "before": "planned",
+      "after": "unsupported_host_implementation ([WD-obkn boundary](../datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md))"
+    },
+    {
+      "backend": "neural_frame_gen",
+      "operation": "face_refinement",
+      "before": "planned",
+      "after": "unsupported_missing_required_input ([WD-obkn boundary](../datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md))"
+    },
+    {
+      "backend": "ffmpeg",
+      "operation": "film_grain",
+      "before": "planned (new size/persistence graph unmeasured)",
+      "after": "host_run_verified ([WD-obkn evidence](../datasets/runs/maestro-parity/WD-obkn/evidence.json))"
+    },
+    {
+      "backend": "ffmpeg",
+      "operation": "face_refinement",
+      "before": "planned",
+      "after": "unsupported_missing_required_input ([WD-obkn boundary](../datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md))"
+    }
+  ],
+  "expected_count": 5,
+  "exactly_five_intended_changes": true,
+  "verdict": "pass"
+}

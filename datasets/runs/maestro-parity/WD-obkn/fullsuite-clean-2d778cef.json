@@ -1,0 +1,38 @@
+{
+  "schema": "wangp-dspy.wd-obkn-clean-fullsuite/v1",
+  "commit": "2d778cef293ef3c5a441a35e15d89d715999e10d",
+  "branch": "story/WD-obkn",
+  "command": [
+    "/Users/speed/.local/bin/uv",
+    "run",
+    "--frozen",
+    "--extra",
+    "dev",
+    "pytest",
+    "-q",
+    "--junitxml=/tmp/WD-obkn-full-clean-2d778cef.xml"
+  ],
+  "environment": {
+    "PATH": "/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin:/Users/speed/.local/bin",
+    "resolved_bash": "/bin/bash",
+    "bash_version": "GNU bash 3.2.57"
+  },
+  "purpose": "Sole full-suite run after competing WD-7fvx completed; /bin precedence avoids Homebrew Bash LF004 heredoc deadlock without repository mutation.",
+  "junit": {
+    "tests": "2108",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "1",
+    "time": "1796.923"
+  },
+  "process_exit": 0,
+  "warning_ownership": "One pre-existing StarletteDeprecationWarning came from the dependency-owned FastAPI TestClient import; it is retained, not suppressed, and is not attributed to a repository source path.",
+  "receipts": [
+    "fullsuite-clean-2d778cef.out",
+    "fullsuite-clean-2d778cef.err",
+    "fullsuite-clean-2d778cef.xml",
+    "fullsuite-clean-2d778cef.exit",
+    "bash-precedence.txt",
+    "bash-precedence.err"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "source-ffprobe.json": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+    "codec_name": "h264",
+    "width": 480,
+    "height": 832,
+    "pix_fmt": "yuv420p",
+    "avg_frame_rate": "24/1",
+    "duration_s": 2.333333,
+    "nb_frames": 56,
+    "audio_present": true,
+    "audio_codec": "aac",
+    "audio_sample_rate_hz": 32000,
+    "audio_channels": 2
+  },
+  "lossless-intermediate-ffprobe.json": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a/0002-film-grain.mp4",
+    "codec_name": "ffv1",
+    "width": 480,
+    "height": 832,
+    "pix_fmt": "yuv420p",
+    "avg_frame_rate": "24/1",
+    "duration_s": 2.333333,
+    "nb_frames": 56,
+    "audio_present": false,
+    "audio_codec": null,
+    "audio_sample_rate_hz": null,
+    "audio_channels": null
+  },
+  "final-h264-ffprobe.json": {
+    "path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/wd_obkn_ffmpeg_film_grain_h264.mp4",
+    "codec_name": "h264",
+    "width": 480,
+    "height": 832,
+    "pix_fmt": "yuv420p",
+    "avg_frame_rate": "24/1",
+    "duration_s": 2.333333,
+    "nb_frames": 56,
+    "audio_present": true,
+    "audio_codec": "aac",
+    "audio_sample_rate_hz": 32000,
+    "audio_channels": 2
+  }
+}

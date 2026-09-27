@@ -1,0 +1,93 @@
+{
+  "schema": "wangp-dspy.wd-obkn-primary-execution/v1",
+  "repository_commit": "2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a",
+  "ffmpeg_path": "",
+  "ffmpeg_version": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers",
+  "source_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+  "source_sha256_before": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+  "source_sha256_after": "e8b690774b0df7a73c85505ea507277d2745641b34f68c60c24855882da88859",
+  "source_decoded_yuv420p_sha256_before": "ee193c29117dab0c78fc09b75605289c2eb23fd5556dc8206e173e4e93b6f240",
+  "source_decoded_yuv420p_sha256_after": "ee193c29117dab0c78fc09b75605289c2eb23fd5556dc8206e173e4e93b6f240",
+  "source_unchanged": true,
+  "stages": [
+    {
+      "stage_id": "probe",
+      "argv": [
+        "ffprobe",
+        "-v",
+        "error",
+        "-print_format",
+        "json",
+        "-show_format",
+        "-show_streams",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4"
+      ],
+      "cwd": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn",
+      "exit": 0,
+      "elapsed_s": 0.195727,
+      "stdout_path": "probe.stdout",
+      "stderr_path": "probe.stderr",
+      "stdout_sha256": "0fb2bda99dfa2e7d493af53659b9c3d76ab98ba0e9e0f95ca67b54c331614de3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage_id": "film_grain",
+      "argv": [
+        "ffmpeg",
+        "-nostdin",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+        "-an",
+        "-filter_complex",
+        "nullsrc=s=480x832:r=24/1,scale=ceil(iw/16):ceil(ih/16):flags=neighbor,split=2[grain_static_source][grain_temporal_source];[grain_static_source]noise=alls=12:all_seed=8108:allf=u[grain_static];[grain_temporal_source]noise=alls=12:all_seed=8108:allf=t+u[grain_temporal];[grain_static][grain_temporal]blend=all_mode=normal:all_opacity=0.5[grain_mixed];[grain_mixed]scale=iw*16:ih*16:flags=neighbor,crop=480:832[grain];[0:v][grain]blend=all_mode=addition:shortest=1[grained]",
+        "-map",
+        "[grained]",
+        "-c:v",
+        "ffv1",
+        "0002-film-grain.mp4"
+      ],
+      "cwd": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a",
+      "exit": 0,
+      "elapsed_s": 0.792583,
+      "stdout_path": "film_grain.stdout",
+      "stderr_path": "film_grain.stderr",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2fd5c242dc1a973d029a61465ed8dcba9e0f642c5c558a4680a0d03d9cda30d6"
+    },
+    {
+      "stage_id": "codec",
+      "argv": [
+        "ffmpeg",
+        "-nostdin",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-r81u/inputs/source.mp4",
+        "-i",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a/0002-film-grain.mp4",
+        "-map",
+        "1:v:0",
+        "-map",
+        "0:a?",
+        "-c:v",
+        "libx264",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
+        "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/wd_obkn_ffmpeg_film_grain_h264.mp4"
+      ],
+      "cwd": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn",
+      "exit": 0,
+      "elapsed_s": 0.84628,
+      "stdout_path": "codec.stdout",
+      "stderr_path": "codec.stderr",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "5c44692ca059f5e2abd06742308c2a86ffab1f32dfc910b7c385a08c4ab3d994"
+    }
+  ],
+  "lossless_intermediate_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/.wd_obkn_ffmpeg_film_grain_h264.finishing-b5941a325e9a/0002-film-grain.mp4",
+  "lossless_intermediate_sha256": "856a5f7af12f285e54a79a22cc04011687fceda1ef55ca3d4cfdc50f60619336",
+  "final_h264_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-obkn/datasets/runs/maestro-parity/WD-obkn/outputs/wd_obkn_ffmpeg_film_grain_h264.mp4",
+  "final_h264_sha256": "5d3dfc20deb5d2879d677b7a4af327b417d9a32ea23629afc92491b6994adaff"
+}
