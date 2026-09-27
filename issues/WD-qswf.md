@@ -1,17 +1,18 @@
 ---
 id: WD-qswf
 title: "Bug: LF004 launcher setup heredoc deadlock"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [bug, test, evidence, discovered-by-pm, rejected]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T21:31:32Z
-content_hash: "sha256:44b46ca873bc3fa97dd1e7191f549ab9f06784d9bffc19715757949451de48f3"
+updated_at: 2026-09-27T21:35:18Z
+content_hash: "sha256:c907cd3e6306fa95b022673dabed60b17ba69c75c6a49a1970b18e5ae72bb2d1"
 blocks: [WD-fay0]
-follows: [WD-osfm, WD-28i5]
+follows: [WD-osfm, WD-28i5, WD-ycjg]
+assignee: dev-WD-qswf
 ---
 
 ## Description
@@ -516,11 +517,14 @@ status: in_progress
 - 2026-09-27T21:04:36Z auto-follows: linked to predecessor WD-28i5
 - 2026-09-27T21:31:29Z status: in_progress -> open
 - 2026-09-27T21:31:29Z released by speed
+- 2026-09-27T21:35:18Z status: open -> in_progress
+- 2026-09-27T21:35:18Z auto-follows: linked to predecessor WD-ycjg
+- 2026-09-27T21:35:18Z claimed by dev-WD-qswf
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-osfm]], [[WD-28i5]]
+- Follows: [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]]
 
 ## Comments
 
