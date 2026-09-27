@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
 updated_at: 2026-09-27T00:13:33Z
-content_hash: "sha256:cc6aa663d6258306777b3fb2432d887ca13805f9861c02ce0bb1c9a351dc23d0"
+content_hash: "sha256:55a44c6d4250c7533053562addf26c7a842cf35044a0fa109bb14b6aa0c1bee0"
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
 assignee: dev-WD-7fvx
@@ -115,6 +115,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-09-26]: The prior DOCS_STALE gap is closed at docs-only commit 982e9d6d.
 
