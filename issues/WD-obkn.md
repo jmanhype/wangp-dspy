@@ -1,19 +1,20 @@
 ---
 id: WD-obkn
 title: "Finishing terminal disposition batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, finishing, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:28:07Z
-content_hash: "sha256:101dba6018fced7f14d5246f38f7fe8e5749995a49f271f0558ec6ad2d63be27"
-blocks: [WD-fay0]
+updated_at: 2026-09-27T00:28:09Z
+content_hash: "sha256:1965233daf69718a02f5e9b5b6ba2fab9bf52e8e13b9f698df4dd7189eedba86"
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
 assignee: dev-WD-obkn
+closed_at: 2026-09-27T00:28:09Z
+close_reason: "Accepted: isolated full suite passed 2108 tests with 0 failures and 0 errors at implementation head 2d778cef; all final-head gates pass at receipt head 015ce238."
 ---
 
 ## Description
@@ -335,10 +336,11 @@ status: delivered
 - 2026-09-26T23:50:00Z claimed by dev-WD-obkn
 - 2026-09-27T00:25:12Z status: in_progress -> in_progress
 - 2026-09-27T00:25:12Z auto-follows: linked to predecessor WD-7fvx
+- 2026-09-27T00:28:09Z status: in_progress -> closed
+- 2026-09-27T00:28:10Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Blocked by: [[WD-r81u]], [[WD-r4n8]]
 - Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-7fvx]]
 
