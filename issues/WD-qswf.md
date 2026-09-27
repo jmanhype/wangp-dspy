@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
 updated_at: 2026-09-27T21:35:21Z
-content_hash: "sha256:4117250c046dd06aefb85d660d70c375de23751505cf8e109bf2a28ee80d2c5e"
+content_hash: "sha256:97f6153a44f4e96768f61f2cfa8d5fd15db01de7cc97de7d6fb6b7d41800b2cd"
 blocks: [WD-fay0]
 follows: [WD-osfm, WD-28i5, WD-ycjg, WD-8h6p]
 assignee: dev-WD-qswf
@@ -427,6 +427,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Rework adds the missing delivery proof only: measured focused coverage, required learnings, exact-head CI result, and explicit ownership of the two pre-existing CI warning classes. The implementation head remains `5e017192760c11c6382561a98ea1c701013f9cee`.
