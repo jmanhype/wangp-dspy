@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T14:43:23Z
-content_hash: "sha256:9ac847ba9cf59894b35e316d6501d97cce0908b5f2e4eef15dee14959e006d4f"
+updated_at: 2026-09-27T14:48:01Z
+content_hash: "sha256:93f2685e51ccf198ea5d2143cd05681b2e343301a35ada792a47a6a12afe9edd"
 blocks: [WD-fay0]
 follows: [WD-8h6p, WD-m25k, WD-obkn]
 ---
@@ -805,3 +805,23 @@ status: delivered
 
 ### 2026-09-27T14:35:41Z speed
 EXPECTED: AC #3 requires rehashing every downloaded asset and recording actual network bytes and destination sizes exactly. The three story-local dependencies are declared and verified as 42,226 + 129,647 + 493,172 = 665,045 bytes. DELIVERED: All nineteen destination files independently rehash to the declared sizes and SHA-256 values on the 3090, and the total authorized size 28,418,905,124 is arithmetically correct, but host-logs/15-story-local-download-accounting.txt:2, host-logs/96_final_download_accounting.txt:2, evidence.json download_evidence.story_local_dependency_bytes, and build_evidence.py:271 incorrectly record 664,045 bytes. GAP: The delivered actual local-network byte accounting is internally inconsistent by 1,000 bytes, so the explicit AC #3 proof is not exact even though individual file hashes and sizes are valid. FIX: Correct every story-local dependency subtotal from 664045 to 665045, retain total_authorized_bytes=28418905124, and explicitly record combined session network bytes 2408271915 + 665045 = 2408936960 where applicable; rerun the builder, canonical checker after independent review, targeted tests, lint, release, diff, and protected parity, then redeliver. Do not merge or PR on this rejection.
+
+### 2026-09-27T14:48:00Z speed
+## PM Decision
+ACCEPTED [2026-09-27 UTC]: The rejected AC #3 byte-accounting gap is closed.
+
+Rejected head: 8855d1d9048fdcbf5487bf15f55cc7edb690c7ae.
+Rework head: 45465a7a27bd5a180dd7ce88f99922a536e143ba.
+Final pushed reviewer head: 17e752883ef6a6880591004d76628bb84820fbc2.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Story-local dependency subtotal is exactly 665045 bytes; combined session network bytes are 2408936960; total authorized bytes remain 28418905124.
+- No stale 664045 token remains in the bundle.
+- Inputs, outputs, boundaries, review media, objective measurements, matrix transition, model/input hash evidence, and native logs are unchanged from the rejected head.
+- Canonical checker passes at the final reviewer head with 6 owned optional Wan2GP mutagen warnings and 0 unowned failures.
+
+### proof
+- [x] AC #1 through AC #10 verified; the prior AC #3 arithmetic rejection is closed
