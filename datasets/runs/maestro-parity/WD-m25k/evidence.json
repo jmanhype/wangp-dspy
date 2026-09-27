@@ -13,15 +13,13 @@
     "/tmp/23_postprocess_retry.sh"
   ],
   "repository": {
-    "commit": "90c9f9efa06272be0a0f47d4d4bda6222259d58f",
+    "commit": "cb18f108edc8737d01bbd9367a5dc181c7bba9f5",
     "base_commit": "28fc76a1",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "33ed9791da5cb96c0e728a3884bfb05bca45dacb83d65065a5da5dc38993d87f",
+      "identity_sha256": "305353da9187196f020e83424ffcb27a9c6b19f787634b6d0ab47576eee19d8b",
       "status_lines": [
-        " M datasets/runs/maestro-parity/WD-m25k/release-verify.exit",
-        " M datasets/runs/maestro-parity/WD-m25k/release-verify.stderr",
-        " M datasets/runs/maestro-parity/WD-m25k/release-verify.txt"
+        " M datasets/runs/maestro-parity/WD-m25k/reviewer-verdict.json"
       ]
     }
   },
@@ -293,10 +291,44 @@
     }
   ],
   "reviewer_verdict": {
-    "decision": "pending",
-    "evidence_links": [],
-    "reviewer": "independent PM pending",
-    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+    "decision": "approved",
+    "reviewed_at": "2026-09-27T02:55:08Z",
+    "reviewer": "independent PM /root/pm_wd_obkn",
+    "reviewed_commit": "cb18f108edc8737d01bbd9367a5dc181c7bba9f5",
+    "summary": "All nine acceptance criteria are supported at the delivered head. The bundle independently reproduces four distinct successful media hashes and metrics, twelve concrete per-cell host boundaries, exactly sixteen target-cell transitions, unchanged predecessor evidence, forced-offline zero-download accounting, and unchanged protected files.",
+    "verification": {
+      "canonical_checker_before_rebuild": "FAIL only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+      "delivery_proof": "PASS 9/9",
+      "targeted_tests": "PASS 110 tests, 0 failures, 0 errors, 0 skipped",
+      "backlog_lint": "PASS 140 scanned, 0 errors, 0 review findings",
+      "release_verify": "PASS; release=ready, tag_created=false",
+      "pvg_verify": "PASS 1 file scanned, 0 issues",
+      "diff_check": "PASS",
+      "protected_parity": "PASS from base 28fc76a1",
+      "matrix_transition": "PASS 16 changed target cells; 0 target cells planned afterward; 6 row cells host_run_verified including 2 predecessor-verified cells; 12 unsupported",
+      "media_recomputation": {
+        "kfi_repaint": "480x832, 56 frames, 24 fps, stereo AAC; SHA-256 and PSNR 20.118892 dB reproduced",
+        "kfi_upscale": "960x1664, 56 frames, 24 fps, stereo AAC; SHA-256 reproduced",
+        "audio_repaint": "480x832, 56 frames, 24 fps, stereo AAC; SHA-256 and PSNR 21.554022 dB reproduced",
+        "audio_upscale": "960x1664, 56 frames, 24 fps, stereo AAC; SHA-256 reproduced"
+      },
+      "boundary_recomputation": "All 12 records have matching exit files, claimed reasons in native logs, and matching log SHA-256 values; audio outpaint remains correctly unsupported because its emitted media stayed 480x832",
+      "zero_download_and_isolation": "Before/after H3 asset hashes match; HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1 are present on execution paths; planned and actual download bytes are zero; the run used detached Wan2GP worktree 4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "manifest_rebuild_note": "The PM builder rerun excluded transient local __pycache__ content so evidence.sha256 references only files intended for the PR"
+    },
+    "evidence_links": [
+      "evidence.json",
+      "boundary-evidence.json",
+      "matrix-transition-check.json",
+      "objective-measurements.json",
+      "host-logs/11_asset_hashes_before.txt",
+      "host-logs/91_asset_hashes_after.txt",
+      "host-logs/94_download_accounting.txt",
+      "host-logs/render-batch.render.log",
+      "host-logs/render-batch-retry.render.log",
+      "host-logs/kfi_upscale.retry.render.log",
+      "host-logs/audio_upscale.retry.render.log"
+    ]
   },
   "row_dispositions": {
     "minimax_h3/kfi_frames_injection": {
