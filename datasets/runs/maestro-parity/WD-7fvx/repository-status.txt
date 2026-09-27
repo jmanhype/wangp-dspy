@@ -1,0 +1,24 @@
+ M datasets/runs/maestro-parity/WD-7fvx/bundle-file-count.txt
+ M datasets/runs/maestro-parity/WD-7fvx/bundle-size-kib.txt
+ M datasets/runs/maestro-parity/WD-7fvx/repository-status.txt
+?? datasets/runs/maestro-parity/WD-7fvx/bash-precedence-probe.err
+?? datasets/runs/maestro-parity/WD-7fvx/bash-precedence-probe.out
+?? datasets/runs/maestro-parity/WD-7fvx/checker-final.exit
+?? datasets/runs/maestro-parity/WD-7fvx/checker-final.stderr
+?? datasets/runs/maestro-parity/WD-7fvx/checker-final.txt
+?? datasets/runs/maestro-parity/WD-7fvx/fullsuite-counters.json
+?? datasets/runs/maestro-parity/WD-7fvx/fullsuite.err
+?? datasets/runs/maestro-parity/WD-7fvx/fullsuite.exit
+?? datasets/runs/maestro-parity/WD-7fvx/fullsuite.out
+?? datasets/runs/maestro-parity/WD-7fvx/fullsuite.xml
+?? datasets/runs/maestro-parity/WD-7fvx/git-diff-check-final.exit
+?? datasets/runs/maestro-parity/WD-7fvx/git-diff-check-final.stderr
+?? datasets/runs/maestro-parity/WD-7fvx/git-diff-check-final.txt
+?? datasets/runs/maestro-parity/WD-7fvx/homebrew-bash-heredoc-sample.txt
+?? datasets/runs/maestro-parity/WD-7fvx/pvg-verify-final.exit
+?? datasets/runs/maestro-parity/WD-7fvx/pvg-verify-final.stderr
+?? datasets/runs/maestro-parity/WD-7fvx/pvg-verify-final.txt
+?? datasets/runs/maestro-parity/WD-7fvx/release-verify.exit
+?? datasets/runs/maestro-parity/WD-7fvx/release-verify.stderr
+?? datasets/runs/maestro-parity/WD-7fvx/release-verify.txt
+?? datasets/runs/maestro-parity/WD-7fvx/standing-gates-final.md

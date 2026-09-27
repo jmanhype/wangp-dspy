@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 249, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 226, in main
+    queue = JobQueue(database); queue.update_clip(job_id, 1 if mode == "audio" else 2, status="done",
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/repo/services/jobs/queue.py", line 464, in update_clip
+    _check_clip_artifacts(status, log, mp4, qc_verdict)
+  File "/home/straughter/Wan2GP/wd-7fvx/repo/services/jobs/queue.py", line 233, in _check_clip_artifacts
+    raise ValueError(
+ValueError: qc_verdict claim must carry its artifact path ({'verdict': ..., 'path': ...})

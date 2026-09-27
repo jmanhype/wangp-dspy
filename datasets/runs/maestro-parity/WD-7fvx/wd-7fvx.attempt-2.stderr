@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 247, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 218, in main
+    compose(root, mode, root / relative, root / log_name)
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 108, in compose
+    run([
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 45, in run
+    subprocess.run(list(argv), stdout=log.open("a"), stderr=subprocess.STDOUT, check=True)
+  File "/home/straughter/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['ffmpeg', '-y', '-v', 'error', '-i', '/home/straughter/Wan2GP/wd-7fvx/inputs/wd_cpow_vibevoice_revoice.mp4', '-i', '/home/straughter/Wan2GP/wd-7fvx/inputs/wd_cpow_vibevoice_raw.prepared.wav', '-map', '0:v:0', '-map', '1:a:0', '-t', '2.333333', '-vf', 'scale=480:832:force_original_aspect_ratio=increase,crop=480:832,fps=24,format=yuv420p', '-r', '24', '-c:v', 'libx264', '-crf', '18', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', '/home/straughter/Wan2GP/wd-7fvx/outputs/wd_7fvx_audio_rework.mp4']' returned non-zero exit status 254.

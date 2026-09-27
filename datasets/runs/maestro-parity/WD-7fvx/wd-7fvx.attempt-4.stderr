@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 249, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 222, in main
+    target = qc(root, mode, root / relative)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/host-scripts/wd_7fvx_run.py", line 167, in qc
+    evidence = run_vision_judge(
+               ^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/wd-7fvx/repo/qc/audio_critic/vision_judge.py", line 165, in run_vision_judge
+    raise VisionJudgeError(
+qc.audio_critic.vision_judge.VisionJudgeError: visual gate failed: mouth/action/speaker attribution below pass bar

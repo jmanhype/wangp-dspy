@@ -1,0 +1,265 @@
+[
+  {
+    "inputs": [
+      "source-pair.json",
+      "inputs/"
+    ],
+    "measured": 2,
+    "name": "synchronized_pair_identity_count",
+    "source_field": "recomputed input SHA-256 and measured durations",
+    "threshold": 2,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_7fvx_audio_rework.mp4",
+      "source-pair.json"
+    ],
+    "measured": 2.333333,
+    "name": "audio_full_utterance_duration_s",
+    "source_field": "format.duration >= synchronized pair duration",
+    "threshold": 2.333333,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.0,
+    "name": "audio_post_whisper_score",
+    "source_field": "whisper[1].score",
+    "threshold": 0.6,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.95,
+    "name": "audio_identity_action_score",
+    "source_field": "identity_vision.action_match",
+    "threshold": 0.7,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.9,
+    "name": "audio_identity_speaker_score",
+    "source_field": "identity_vision.speaker_attribution",
+    "threshold": 0.7,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.016000000000000014,
+    "name": "audio_mouth_center_spread_x",
+    "source_field": "center_spread[0]",
+    "threshold": 0.03,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.029000000000000026,
+    "name": "audio_mouth_center_spread_y",
+    "source_field": "center_spread[1]",
+    "threshold": 0.03,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.12648,
+    "name": "audio_syncnet_confidence",
+    "source_field": "syncnet_av.confidence",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 10,
+    "name": "audio_syncnet_abs_offset_frames_25fps",
+    "source_field": "abs(offset_frames_25fps)",
+    "threshold": 10,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "review/frame-hashes.json"
+    ],
+    "measured": 3,
+    "name": "audio_unique_source_frame_hash_count",
+    "source_field": "unique_frame_hash_count",
+    "threshold": 3,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-final-state.json"
+    ],
+    "measured": 1,
+    "name": "audio_queue_clip_done_count",
+    "source_field": "clips[].status",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_7fvx_screenplay_rework.mp4",
+      "source-pair.json"
+    ],
+    "measured": 2.333333,
+    "name": "screenplay_full_utterance_duration_s",
+    "source_field": "format.duration >= synchronized pair duration",
+    "threshold": 2.333333,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.0,
+    "name": "screenplay_post_whisper_score",
+    "source_field": "whisper[1].score",
+    "threshold": 0.6,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.95,
+    "name": "screenplay_identity_action_score",
+    "source_field": "identity_vision.action_match",
+    "threshold": 0.7,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.9,
+    "name": "screenplay_identity_speaker_score",
+    "source_field": "identity_vision.speaker_attribution",
+    "threshold": 0.7,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.016000000000000014,
+    "name": "screenplay_mouth_center_spread_x",
+    "source_field": "center_spread[0]",
+    "threshold": 0.03,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 0.029000000000000026,
+    "name": "screenplay_mouth_center_spread_y",
+    "source_field": "center_spread[1]",
+    "threshold": 0.03,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 1.12648,
+    "name": "screenplay_syncnet_confidence",
+    "source_field": "syncnet_av.confidence",
+    "threshold": 1.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "director-qc-evidence.json"
+    ],
+    "measured": 10,
+    "name": "screenplay_syncnet_abs_offset_frames_25fps",
+    "source_field": "abs(offset_frames_25fps)",
+    "threshold": 10,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "review/frame-hashes.json"
+    ],
+    "measured": 3,
+    "name": "screenplay_unique_source_frame_hash_count",
+    "source_field": "unique_frame_hash_count",
+    "threshold": 3,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-final-state.json"
+    ],
+    "measured": 1,
+    "name": "screenplay_queue_clip_done_count",
+    "source_field": "clips[].status",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "host-preflight.json"
+    ],
+    "measured": 4,
+    "name": "model_hash_match_count",
+    "source_field": "four model SHA-256 matches",
+    "threshold": 4,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "host-preflight.json"
+    ],
+    "measured": 0,
+    "name": "planned_model_download_bytes",
+    "source_field": "planned_model_download_bytes",
+    "threshold": 0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "host-preflight.json"
+    ],
+    "measured": 0,
+    "name": "actual_model_download_bytes",
+    "source_field": "actual_model_download_bytes",
+    "threshold": 0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-record.json"
+    ],
+    "measured": 1,
+    "name": "queue_admission_success_count",
+    "source_field": "admission_state",
+    "threshold": 1,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "queue-final-state.json"
+    ],
+    "measured": 1,
+    "name": "queue_exit_success_count",
+    "source_field": "state",
+    "threshold": 1,
+    "verdict": "pass"
+  }
+]

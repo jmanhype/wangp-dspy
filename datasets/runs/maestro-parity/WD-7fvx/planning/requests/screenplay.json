@@ -1,0 +1,42 @@
+{
+  "schema_version": "wangp-dspy.director-request/v1",
+  "mode": "screenplay",
+  "title": "Synchronized Rain Threshold",
+  "screenplay": {
+    "title": "Synchronized Rain Threshold",
+    "characters": [
+      {
+        "name": "Orin",
+        "appearance": "elder woman with white hair holding a bowl",
+        "voice": "matching WD-cpow prepared speech"
+      }
+    ],
+    "scenes": [
+      {
+        "scene_index": 1,
+        "slugline": "EXT. RAIN THRESHOLD - NIGHT",
+        "duration_s": 2.333333,
+        "characters": ["Orin"],
+        "location": "rain threshold",
+        "states": [
+          {
+            "name": "Orin",
+            "appearance": "elder woman with white hair holding a bowl",
+            "voice": "matching WD-cpow prepared speech"
+          }
+        ],
+        "action": "Orin says this is the last rain we have."
+      }
+    ]
+  },
+  "pacing": {
+    "strategy": "even",
+    "target_duration_s": 2.333333
+  },
+  "review": {
+    "mode": "auto",
+    "manual_checkpoint_required": false,
+    "reviewer": "objective-gates"
+  },
+  "recipe_seed": 9715
+}

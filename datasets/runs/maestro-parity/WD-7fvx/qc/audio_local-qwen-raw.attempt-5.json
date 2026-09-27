@@ -1,0 +1,29 @@
+{
+  "action_match": 0.95,
+  "critic": "local:q",
+  "mouth_activity": 0.85,
+  "mouth_bbox_raw_response": "{\"frames\":[{\"attempts\":[{\"bbox\":[0.37,0.36,0.04,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.37, 0.36, 0.04, 0.02]}\\n```\",\"raw_response_sha256\":\"9a4c091f04a5d8a0ba6206d643166ae823f753ae3617193b94cfab0caa0438a1\",\"status\":\"success\"}],\"bbox\":[0.37,0.36,0.04,0.02],\"frame_index\":0,\"frame_role\":\"start\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.33,0.37,0.04,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.33, 0.37, 0.04, 0.02]}\\n```\",\"raw_response_sha256\":\"d10d13a64af40469811dbe74e1b91e7d1e3e8237faaf0a435548f3dbebc46e0d\",\"status\":\"success\"}],\"bbox\":[0.33,0.37,0.04,0.02],\"frame_index\":1,\"frame_role\":\"middle\",\"status\":\"success\"},{\"attempts\":[{\"bbox\":[0.33,0.35,0.04,0.02],\"raw_response\":\"```json\\n{\\\"speaker_mouth_bbox\\\": [0.33, 0.35, 0.04, 0.02]}\\n```\",\"raw_response_sha256\":\"f7d585a89fd07f88657a0a0fa560d1ad1c257ae37e479cf078e3b6ee7c769152\",\"status\":\"success\"}],\"bbox\":[0.33,0.35,0.04,0.02],\"frame_index\":2,\"frame_role\":\"end\",\"status\":\"success\"}],\"schema\":\"wangp-dspy.local-qwen-mouth-localizer/v1\"}",
+  "notes": "The identity is correctly preserved as an elder woman with white hair and glasses. The composition matches the expected blocking: the woman is on the left holding a plate of food and a glass, while the restrained man is on the right, bound to a wooden frame in a firelit cave. The action of offering the bowl/plate is clearly visible. The woman's mouth is open in a speaking or smiling pose, consistent with the expected speaking identity.",
+  "raw_response": "{\n  \"mouth_activity\": 0.85,\n  \"action_match\": 0.95,\n  \"speaker_attribution\": 0.9,\n  \"notes\": \"The identity is correctly preserved as an elder woman with white hair and glasses. The composition matches the expected blocking: the woman is on the left holding a plate of food and a glass, while the restrained man is on the right, bound to a wooden frame in a firelit cave. The action of offering the bowl/plate is clearly visible. The woman's mouth is open in a speaking or smiling pose, consistent with the expected speaking identity.\"\n}",
+  "speaker_attribution": 0.9,
+  "speaker_mouth_bboxes": [
+    [
+      0.37,
+      0.36,
+      0.04,
+      0.02
+    ],
+    [
+      0.33,
+      0.37,
+      0.04,
+      0.02
+    ],
+    [
+      0.33,
+      0.35,
+      0.04,
+      0.02
+    ]
+  ]
+}
