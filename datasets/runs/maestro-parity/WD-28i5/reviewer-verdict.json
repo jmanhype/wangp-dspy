@@ -1,6 +1,59 @@
 {
-  "decision": "pending",
-  "evidence_links": [],
-  "reviewer": "independent PM pending",
-  "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+  "decision": "approved",
+  "reviewed_at": "2026-09-27T15:50:17Z",
+  "reviewer": "independent PM /root/pm_wd_obkn",
+  "reviewed_commit": "90bb97183721bff82df81c9d967595c6a25a6ed4",
+  "implementation_commit": "2f40d10a78dc096a33b23ae65bf938d738ec9610",
+  "summary": "All nine acceptance criteria are supported. One exact 14,903,022,013-byte Wan checkpoint and eight shared dependencies rehash correctly; the isolated source and live tree remain clean; create and upscale have real reproduced media evidence; the other seven operations have exact visual, metric, KeyError, non-enlargement, or killed-process boundaries; and exactly nine target cells transition.",
+  "verification": {
+    "download_and_asset_rehash": {
+      "main_checkpoint": "14903022013 bytes, SHA-256 74ac1b282a7cb5562e73511dc865afcab38abe060d26f880d36f3e58735671a7, independently rehashed on 3090",
+      "main_session_bytes": 14903022013,
+      "shared_assets": 8,
+      "shared_bytes": 10156887370,
+      "shared_download_bytes": 0,
+      "partial_files": 0
+    },
+    "resumed_download_note": "The final preflight rerun correctly reports the checkpoint already-present and preserves the earlier 14903022013-byte session total. Host evidence supports the completed download: authorization-to-final free-space fell by 14929207296 bytes, the checkpoint mtime is 2026-09-27T15:20:54Z before final postflight, and no .wd-28i5.part remains.",
+    "isolation": "Detached Wan2GP source is 4c93b64a47b5b0a915f2abec2ce754be98227150 with final status ?? ckpts; live-tree status SHA remains 2ec8e92fdab0e639ef564c520f4464c59707e4b6a507d7980a69bf9f201c0b53; no live dependency mutation occurred",
+    "delivery_proof": "PASS 9/9",
+    "canonical_checker_before_rebuild": "FAIL only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+    "canonical_checker_after_rebuild": "PASS with 3 owned optional Wan2GP mutagen warnings and 0 unowned failures",
+    "targeted_tests": "PASS 110 tests, 0 failures, 0 errors, 0 skipped",
+    "backlog_lint": "PASS 143 scanned, 0 errors, 0 review findings",
+    "release_verify": "PASS; release=ready, tag_created=false",
+    "pvg_verify": "PASS 2 files scanned, 0 issues",
+    "diff_check": "PASS",
+    "protected_parity": "PASS from base 1e9578f7",
+    "media_recomputation": {
+      "create": "384x224, 9 frames, 0.5625 s, 16 fps; SHA-256 384c801752025f0a7483f79ecc4741f5005a0ed2e1b31e929a07311d42464bbc reproduced",
+      "upscale": "768x448, 9 frames, 0.5625 s, 16 fps; SHA-256 5b8b99f4e1965fccf63776c58b553697da78cc3c3b1ed3a7e92dcf437c226785 and scaled-source PSNR 46.842196 dB reproduced"
+    },
+    "boundary_recomputation": {
+      "extend": "2.0625 s output with first-frame PSNR 45.036993 dB but whole-control PSNR 12.221085 dB; visual review confirms later frames abandon the combat premise",
+      "blend": "Probe-batch exit 137; exact KeyError reference_video_max_frames before generation",
+      "retake": "First-frame SSIM 0.267002 and PSNR 8.009577 dB; visual review confirms unrelated glowing landscape",
+      "edit": "Whole PSNR 14.966600 dB and first-frame PSNR 10.402382 dB; visual review confirms unrelated people near water",
+      "outpaint": "Emitted media stayed 384x224; no enlargement",
+      "repaint": "Whole PSNR 10.505929 dB and first-frame PSNR 10.540743 dB; visual review confirms unrelated dim interior",
+      "recast": "Probe-batch exit 137 during Removing Images References Background before generation; no output admitted"
+    },
+    "matrix_transition": "PASS exactly 9 target cells changed; 0 target planned cells remain; 2 host_run_verified and 7 unsupported",
+    "manifest_rebuild_note": "PM quarantined transient local __pycache__ content before rebuilding; evidence.sha256 is settled over PR-tracked bundle files only"
+  },
+  "evidence_links": [
+    "evidence.json",
+    "download-manifest.tsv",
+    "shared-manifest.tsv",
+    "host-logs/download-accounting.txt",
+    "host-logs/96_final_download_accounting.txt",
+    "host-logs/91_model_hashes_after.txt",
+    "host-logs/92_shared_dependency_hashes_after.txt",
+    "host-logs/90_final_postflight.txt",
+    "boundary-evidence.json",
+    "objective-measurements.json",
+    "matrix-transition-check.json",
+    "review/QC.md",
+    "review/all-contact-sheets.jpg"
+  ]
 }
