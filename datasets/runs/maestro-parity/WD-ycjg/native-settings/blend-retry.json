@@ -1,0 +1,27 @@
+{
+  "model_type": "scail2_14B",
+  "prompt": "SCAIL-2 two-guide blend retry: blend motion and appearance evidence from the original control and the generated replacement take.",
+  "negative_prompt": "cartoon, cel shading, broken anatomy, extra limbs, jitter, blur, low quality",
+  "resolution": "384x224",
+  "seed": 3508,
+  "video_length": 9,
+  "num_inference_steps": 6,
+  "guidance_scale": 5.0,
+  "flow_shift": 3.0,
+  "sample_solver": "unipc",
+  "image_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": ["/home/straughter/wd-ycjg-run/inputs/reference.png"],
+  "video_source": null,
+  "video_guide": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+  "video_guide2": "/home/straughter/wd-ycjg-run/outputs/create/wd_ycjg_create.mp4",
+  "video_mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+  "video_prompt_type": "V01AI+",
+  "audio_prompt_type": "",
+  "custom_settings": {
+    "scail2_animate_preprocessing": "raw",
+    "image_ref_keyword_content": "person",
+    "scail2_inject_ref_frames_in_video": "No"
+  }
+}

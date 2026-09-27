@@ -1,0 +1,28 @@
+{
+  "model_type": "scail2_14B",
+  "prompt": "Create a stable SCAIL-2 replacement take: preserve the two combatants' motion and rooftop staging while grounding them as realistic fantasy warriors at sunset.",
+  "negative_prompt": "cartoon, cel shading, broken anatomy, extra limbs, jitter, blur, low quality",
+  "resolution": "384x224",
+  "seed": 3501,
+  "video_length": 9,
+  "num_inference_steps": 6,
+  "guidance_scale": 5.0,
+  "flow_shift": 3.0,
+  "sample_solver": "unipc",
+  "image_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": ["/home/straughter/wd-ycjg-run/inputs/reference.png"],
+  "video_source": null,
+  "video_guide": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+  "video_mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+    "video_prompt_type": "V01AI",
+  "audio_prompt_type": "",
+  "sliding_window_size": 81,
+  "sliding_window_overlap": 4,
+  "custom_settings": {
+    "scail2_animate_preprocessing": "raw",
+    "image_ref_keyword_content": "person",
+    "scail2_inject_ref_frames_in_video": "No"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "wangp-dspy.wd-ycjg.objective-measurements/v1",
+  "source_sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+  "psnr_versus_create_db": {
+    "retake": 11.066936,
+    "repaint": 14.037307,
+    "recast": 14.461542,
+    "edit": 19.480868,
+    "blend": 16.512936
+  },
+  "extend_psnr_versus_create_db": 46.5932,
+  "extend_requested_duration_s": 0.875,
+  "extend_measured_duration_s": 0.375,
+  "rows": [
+    {
+      "operation": "create",
+      "path": "outputs/create/wd_ycjg_create.mp4",
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "bytes": 101143,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    },
+    {
+      "operation": "retake",
+      "path": "outputs/retake/wd_ycjg_retake.mp4",
+      "sha256": "a557d6ddf16a61a8a523c1db79e9fcbf99917c831de7edfc2925e18ca72e9bdf",
+      "bytes": 107377,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    },
+    {
+      "operation": "repaint",
+      "path": "outputs/repaint/wd_ycjg_repaint.mp4",
+      "sha256": "86fe90785f812b1c94f2b3bb3dd4eb83c79f19d6a5d4779b4131cb36c9f0b5df",
+      "bytes": 97720,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    },
+    {
+      "operation": "recast",
+      "path": "outputs/recast/wd_ycjg_recast.mp4",
+      "sha256": "9c1dc8ee2ddc69a9ecb9919fe2cba515c14bc69b4f0491bcb24f1986ecdb4636",
+      "bytes": 86415,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    },
+    {
+      "operation": "edit",
+      "path": "outputs/edit/wd_ycjg_edit.mp4",
+      "sha256": "ecc3017004f7d96584f5a6a984e58589500e12793694555aa2bdec589848de42",
+      "bytes": 103441,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    },
+    {
+      "operation": "blend",
+      "path": "outputs/blend/wd_ycjg_blend.mp4",
+      "sha256": "8dc7f0799efb0a16fdfade35d83b48a251eabcf6c9828c885ba2a6249c40ed5c",
+      "bytes": 78431,
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+model_download_bytes=28418240079
+story_local_dependency_bytes=664045
+total_authorized_bytes=28418905124
+live_dependency_mutation=0

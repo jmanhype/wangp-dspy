@@ -1,0 +1,543 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "you decide",
+    "scope": "Dispatcher selected SCAIL-2: sixteen model/helper downloads, three story-local Python dependencies, seven target cells, isolated Wan2GP worktree, no live dependency mutation",
+    "timestamp": "2026-09-27T04:20:00Z",
+    "approved_by": "operator via /root dispatcher decision"
+  },
+  "command": [
+    "ssh",
+    "3090",
+    "/tmp/31_run_remaining.sh"
+  ],
+  "repository": {
+    "commit": "079651d9446027dff66e258ab97923d21e438d50",
+    "base_commit": "079651d9",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "b53c584b352df5e2c913a3241bf4138fee9e42c25365d883827b7c1c756e6840",
+      "status_lines": [
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-ycjg/"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "scail2_14B_quanto_mbf16_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/scail2_14B_quanto_mbf16_int8.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "94e4c007370587157f4ca80637fee01aaab9c700192254a6c1379d9047a14460",
+      "size_bytes": 16644305281,
+      "destination": "/home/straughter/Wan2GP/ckpts/scail2_14B_quanto_mbf16_int8.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "5e4961851c78838931990549810ed51c9036081b2ad80bf464c4e2603c5f922c",
+      "size_bytes": 6733337738,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "Wan2.1_VAE.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan2.1_VAE.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "3ce0c02b9470532e7f63f3e2f8e83b0681fdeaa432e969c412482d2b3b78267b",
+      "size_bytes": 507593157,
+      "destination": "/home/straughter/Wan2GP/ckpts/Wan2.1_VAE.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "nlf_l_multi_0.3.2.eager.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/pose/nlf_l_multi_0.3.2.eager.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "07494758eb4b7832a099dee9b3a5040288fa869b9417dc71f8dfd519c85eebd7",
+      "size_bytes": 355296592,
+      "destination": "/home/straughter/Wan2GP/ckpts/pose/nlf_l_multi_0.3.2.eager.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "nlf_l_multi_0.3.2.eager.meta.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/pose/nlf_l_multi_0.3.2.eager.meta.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "1704420d3b1767d3939a32aeaa34cc6d08188109fdfea4713181eaf9b55f3c1f",
+      "size_bytes": 27222,
+      "destination": "/home/straughter/Wan2GP/ckpts/pose/nlf_l_multi_0.3.2.eager.meta.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "sam3.1_multiplex_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/sam3/sam3.1_multiplex_bf16.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "4e2cd82698b64b7d32349c8bbb4f43422e199cd1bfc9ca6b88bbef562af7e99e",
+      "size_bytes": 1746597176,
+      "destination": "/home/straughter/Wan2GP/ckpts/sam3/sam3.1_multiplex_bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "bpe_simple_vocab_16e6.txt.gz",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/sam3/bpe_simple_vocab_16e6.txt.gz",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a",
+      "size_bytes": 1356917,
+      "destination": "/home/straughter/Wan2GP/ckpts/sam3/bpe_simple_vocab_16e6.txt.gz",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "tokenizer.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/tokenizer.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b",
+      "size_bytes": 16837417,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/tokenizer.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "spiece.model",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/spiece.model",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+      "size_bytes": 4548313,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/spiece.model",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "tokenizer_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/tokenizer_config.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "ed9a3a8b0faa71a70a32847e0435fe036e6e112d4df4edb7bb48a921e344dc05",
+      "size_bytes": 61728,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/tokenizer_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "special_tokens_map.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/special_tokens_map.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "7b8a9f5040adb67b5805abdfd42c1f8d0f3d0e711f10726580eb3789cd0ad61d",
+      "size_bytes": 6623,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/special_tokens_map.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "742b68fe1cade9e54863aee12aed5390a994269957bd0638799b141cbc236ad8",
+      "size_bytes": 2386119506,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "sentencepiece.bpe.model",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/sentencepiece.bpe.model",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "size_bytes": 5069051,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/sentencepiece.bpe.model",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "special_tokens_map.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/special_tokens_map.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "06e405a36dfe4b9604f484f6a1e619af1a7f7d09e34a8555eb0b77b66318067f",
+      "size_bytes": 280,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/special_tokens_map.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "tokenizer.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/tokenizer.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+      "size_bytes": 17082660,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    },
+    {
+      "identity": "tokenizer_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/tokenizer_config.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "efb5c0d09722e5fe59a462cd2a9976ee216d55b037597d997cd3fe833216da15",
+      "size_bytes": 418,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "inputs/control.mp4",
+      "role": "person_bearing_control_video",
+      "sha256": "c71398ba3c4fe6394c83450d7cd5267187e4c65b8d9b568f9457f1a9aac03ca8",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/reference.png",
+      "role": "primary_scail_reference_frame",
+      "sha256": "72d305c77584ba75823b9e575cf9c470fbbc30b46451d0cc349b4a9b9b7d4f19",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/alternate-reference.png",
+      "role": "recast_reference_frame",
+      "sha256": "67b6ba0cbbea309d9567744c6ab24add8e709fffefc5190001b7841f36c344eb",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/control-mask.mp4",
+      "role": "sam3_colored_one_person_mask",
+      "sha256": "d645b15fddd51c540755697bb4ffb05949db17ea606aa0d6896f18c3175b5c9d",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-ycjg-scail2-native-cli",
+    "job_id": "wd-ycjg-scail2-seven-cells",
+    "retry_id": "attempt-2",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "native_logs": [
+      "host-logs/create.render.log",
+      "host-logs/replacement-batch.render.log",
+      "host-logs/edit.render.log",
+      "host-logs/blend-retry.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs/create.render.log": "886fa6a703b76385117adb995b6655ec23eff964e090411a0e481420828dcd4c",
+      "host-logs/replacement-batch.render.log": "3252ddb912e4ae68a1057167a700bf1a352de3038a74b23dd7ba9cdde79eb715",
+      "host-logs/edit.render.log": "54179ec9e6447f7a77f9897eb3831cc4416b934442b524d0c11ad3e8f2a46065",
+      "host-logs/blend-retry.render.log": "693f6c5837ebef588357b9dfe1e135e657e9bdf95a657d39590c56ee70359649"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/create/wd_ycjg_create.mp4",
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a"
+    },
+    {
+      "path": "outputs/retake/wd_ycjg_retake.mp4",
+      "sha256": "a557d6ddf16a61a8a523c1db79e9fcbf99917c831de7edfc2925e18ca72e9bdf"
+    },
+    {
+      "path": "outputs/repaint/wd_ycjg_repaint.mp4",
+      "sha256": "86fe90785f812b1c94f2b3bb3dd4eb83c79f19d6a5d4779b4131cb36c9f0b5df"
+    },
+    {
+      "path": "outputs/recast/wd_ycjg_recast.mp4",
+      "sha256": "9c1dc8ee2ddc69a9ecb9919fe2cba515c14bc69b4f0491bcb24f1986ecdb4636"
+    },
+    {
+      "path": "outputs/edit/wd_ycjg_edit.mp4",
+      "sha256": "ecc3017004f7d96584f5a6a984e58589500e12793694555aa2bdec589848de42"
+    },
+    {
+      "path": "outputs/blend/wd_ycjg_blend.mp4",
+      "sha256": "8dc7f0799efb0a16fdfade35d83b48a251eabcf6c9828c885ba2a6249c40ed5c"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/create/wd_ycjg_create.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/retake/wd_ycjg_retake.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/repaint/wd_ycjg_repaint.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/recast/wd_ycjg_recast.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/edit/wd_ycjg_edit.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/blend/wd_ycjg_blend.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.375,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_ycjg_output_count",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 6,
+      "measured": 6,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_distinct_hashes",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 6,
+      "measured": 6,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_duration_s",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 0.3,
+      "measured": 0.375,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_fps",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 24.0,
+      "measured": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_width",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 384,
+      "measured": 384,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_height",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 224,
+      "measured": 224,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_retake_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/retake/wd_ycjg_retake.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 11.066936,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_repaint_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/repaint/wd_ycjg_repaint.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 14.037307,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_recast_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/recast/wd_ycjg_recast.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 14.461542,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_edit_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/edit/wd_ycjg_edit.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 19.480868,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_ycjg_blend_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_ycjg_create.mp4",
+        "outputs/blend/wd_ycjg_blend.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 16.512936,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [],
+    "reviewer": "independent PM pending",
+    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "scail/2": {
+      "create": "host_run_verified",
+      "extend": "unsupported",
+      "blend": "host_run_verified",
+      "retake": "host_run_verified",
+      "edit": "host_run_verified",
+      "outpaint": "unsupported",
+      "repaint": "host_run_verified",
+      "recast": "host_run_verified",
+      "upscale": "unsupported"
+    }
+  },
+  "boundary_evidence": "boundary-evidence.json",
+  "matrix_transition": "matrix-transition-check.json",
+  "download_evidence": {
+    "model_assets": 16,
+    "model_bytes": 28418240079,
+    "model_session_bytes": 2408271915,
+    "story_local_dependencies": [
+      {
+        "identity": "iopath-0.1.10.tar.gz",
+        "source": "https://files.pythonhosted.org/packages/72/73/b3d451dfc523756cf177d3ebb0af76dc7751b341c60e2a21871be400ae29/iopath-0.1.10.tar.gz",
+        "sha256": "3311c16a4d9137223e20f141655759933e1eda24f8bff166af834af3c645ef01",
+        "size_bytes": 42226,
+        "destination": "/home/straughter/wd-ycjg-run/python-deps/src/iopath-0.1.10.tar.gz",
+        "live_dependency_mutation": false
+      },
+      {
+        "identity": "portalocker-4.4.0-py3-none-any.whl",
+        "source": "https://files.pythonhosted.org/packages/52/6c/07fa2775e87b6e241c2aca5cef79f65e450bc115de55f03cda6251f81690/portalocker-4.4.0-py3-none-any.whl",
+        "sha256": "a8e99ea29bfb61766ee0b4008cbaf0651e8e050f7a2485ebf54316480e99226e",
+        "size_bytes": 129647,
+        "destination": "/home/straughter/wd-ycjg-run/python-deps/src/portalocker-4.4.0-py3-none-any.whl",
+        "live_dependency_mutation": false
+      },
+      {
+        "identity": "pycocotools-2.0.11-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "source": "https://files.pythonhosted.org/packages/34/70/7a12752784e57d8034a76c245c618a2f88a9d2463862b990f314aea7e5d6/pycocotools-2.0.11-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "sha256": "18ba75ff58cedb33a85ce2c18f1452f1fe20c9dd59925eec5300b2bf6205dbe1",
+        "size_bytes": 493172,
+        "destination": "/home/straughter/wd-ycjg-run/python-deps/src/pycocotools-2.0.11-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+        "live_dependency_mutation": false
+      }
+    ],
+    "story_local_dependency_bytes": 664045,
+    "total_authorized_bytes": 28418905124,
+    "live_dependency_mutation": false,
+    "report": "host-logs/download-report.tsv"
+  },
+  "runtime_notes": {
+    "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "isolated_source_final_status": "?? ckpts",
+    "mask_generation": "Downloaded SAM3 plus story-local iopath/portalocker/pycocotools generated a stable colored one-person mask from keyword person.",
+    "targeted_junit": {
+      "tests": "110",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0"
+    },
+    "gpu_final": "see host-logs/90_final_postflight.txt",
+    "initial_runtime_dependencies_missing": [
+      "iopath",
+      "portalocker",
+      "pycocotools"
+    ]
+  }
+}

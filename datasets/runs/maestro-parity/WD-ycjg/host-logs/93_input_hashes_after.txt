@@ -1,0 +1,4 @@
+c71398ba3c4fe6394c83450d7cd5267187e4c65b8d9b568f9457f1a9aac03ca8  /home/straughter/wd-ycjg-run/inputs/control.mp4
+72d305c77584ba75823b9e575cf9c470fbbc30b46451d0cc349b4a9b9b7d4f19  /home/straughter/wd-ycjg-run/inputs/reference.png
+67b6ba0cbbea309d9567744c6ab24add8e709fffefc5190001b7841f36c344eb  /home/straughter/wd-ycjg-run/inputs/alternate-reference.png
+d645b15fddd51c540755697bb4ffb05949db17ea606aa0d6896f18c3175b5c9d  /home/straughter/wd-ycjg-run/inputs/control-mask.mp4

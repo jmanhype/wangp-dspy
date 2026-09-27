@@ -1,0 +1,14 @@
+{
+  "schema_version": "wangp-dspy.wd-ycjg.mask-preparation/v1",
+  "source": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+  "source_sha256": "c71398ba3c4fe6394c83450d7cd5267187e4c65b8d9b568f9457f1a9aac03ca8",
+  "generated_mask_source": "mask_outputs/control_magic_mask_person_20260927_085309.mp4",
+  "mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+  "mask_sha256": "d645b15fddd51c540755697bb4ffb05949db17ea606aa0d6896f18c3175b5c9d",
+  "keywords": [
+    "person"
+  ],
+  "colorized": true,
+  "max_colored_objects": 1,
+  "download_bytes": 0
+}
