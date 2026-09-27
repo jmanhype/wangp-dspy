@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-26T23:50:00Z
-content_hash: "sha256:de5825b3cccdc01e0bf5c78f842fc845f84feae2fb35744830155b05958edaae"
+updated_at: 2026-09-27T00:22:20Z
+content_hash: "sha256:f126e42368bbae017975d07469e33a0b97ac80adeab64c27096f7e145f1b7195"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj]
@@ -273,7 +273,7 @@ LEARNINGS:
 
 ### DISCOVERED_BUG
   title: Full suite emits StarletteDeprecationWarning
-  context: Pre-commit full pytest emitted `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated, install httpx2 instead` from fastapi/testclient.py. This is outside WD-obkn and no dependency change was authorized.
+  context: Pre-commit full pytest emitted `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated, install httpx2 instead` from the installed FastAPI package TestClient import (dependency-owned warning source; not a repository path). This is outside WD-obkn and no dependency change was authorized.
   affected_files: tests using FastAPI TestClient; project dependency constraints
   discovered_during: WD-obkn
 
