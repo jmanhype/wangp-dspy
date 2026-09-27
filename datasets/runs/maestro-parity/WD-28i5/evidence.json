@@ -13,14 +13,15 @@
     "/tmp/20_run_create.sh"
   ],
   "repository": {
-    "commit": "1e9578f77e12d43dbbc2b3986b2a061555ef453b",
+    "commit": "2f40d10a78dc096a33b23ae65bf938d738ec9610",
     "base_commit": "1e9578f7",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "07fa57845f3e920f3923cd2ec0bc7d4da011f31c05f6bcf1fd5e71af0a836101",
+      "identity_sha256": "653f385655dc3d32f6704ab8201e11bb210076228b377baeba192a24cfcfb214",
       "status_lines": [
-        " M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-28i5/"
+        "?? datasets/runs/maestro-parity/WD-28i5/release-verify.exit",
+        "?? datasets/runs/maestro-parity/WD-28i5/release-verify.stderr",
+        "?? datasets/runs/maestro-parity/WD-28i5/release-verify.txt"
       ]
     }
   },
