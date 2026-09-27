@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm, rejected]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T21:31:31Z
-content_hash: "sha256:e77950c4cb0ae80771f514bf58d4a690e26bea028df02a16717e48504765f244"
+updated_at: 2026-09-27T21:31:32Z
+content_hash: "sha256:8129ca564b6a2dd4b70d3e453d6308b23e4cb484d3fb4ec701df27bf93c6921b"
 blocks: [WD-fay0]
 follows: [WD-osfm, WD-28i5]
 ---
@@ -530,3 +530,24 @@ status: delivered
 - [x] AC 4: timeout terminates the process group and returns diagnostic exit 124.
 - [x] AC 5: undeselected full suite passed 2,108 tests with 0 failures/errors and 1 skip.
 - [x] AC 6: protected engine files are unchanged.
+
+### 2026-09-27T21:31:32Z speed
+## PM Decision
+REJECTED [2026-09-27]:
+EXPECTED: A delivered story must carry the canonical proof fields: exact commands, full pass/fail counts, commit SHA, coverage percentage, and AC verification, plus a LEARNINGS section. Test/build output must own every warning through resolution or an explicit OBSERVATIONS/DISCOVERED_BUG block; exact-head CI must be terminal.
+DELIVERED: Technical review supports the launcher fix: final worktree is clean at 5e017192760c11c6382561a98ea1c701013f9cee; evidence hashes verify; focused runs are 3x2 passed; committed JUnit reports 2108 tests, 0 failures, 0 errors, 1 skipped with the launcher test passing; protected files are unchanged; and PR #210 CI succeeded at the exact head in 22m9s. However, the story has no coverage percentage, no LEARNINGS section, and exact-head CI logs contain a StarletteDeprecationWarning plus Node.js 20 action-deprecation warnings with no corresponding OBSERVATIONS/DISCOVERED_BUG delivery block.
+GAP: The implementation appears behaviorally correct, but the delivery proof is incomplete and does not satisfy the mandatory zero-warning ownership rule. A green exit status alone cannot be accepted.
+FIX: Re-deliver with (1) a measured coverage percentage and exact command, (2) a LEARNINGS section, and (3) every exact-head CI/test warning either resolved or explicitly acknowledged in OBSERVATIONS/DISCOVERED_BUG blocks. Keep the current exact-head terminal CI result unless the code/head changes.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Missing canonical proof fields: coverage percentage and LEARNINGS.
+- Exact-head CI run 36350323341 succeeded but emitted unowned warnings.
+- Launcher behavior evidence itself was independently verified and is not the rejection cause.
+
+### proof
+- [ ] Delivery proof completeness: coverage percentage and LEARNINGS are absent.
+- [ ] Zero-warning ownership: exact-head CI warnings are not acknowledged or reported.
+
