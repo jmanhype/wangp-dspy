@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T19:42:15Z
-content_hash: "sha256:aec494e7b3885f7637866b50736cda0659ee7dc706c93575825e91edbcc3ff17"
+updated_at: 2026-09-27T19:43:07Z
+content_hash: "sha256:e2f1764bb517cac806e4d7fc54a6ff39dfd527dd9554d92ca50a3511257c5f51"
 blocks: [WD-fay0]
 assignee: dev-WD-osfm
 follows: [WD-28i5, WD-ycjg]
@@ -203,7 +203,72 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: WD-osfm terminalizes all nine LTX-2.3 cells with five real hashed outputs, one exact host boundary, three exact dependency boundaries, exact storage/network accounting, independent review, and all delivery gates except PM acceptance.
+
+Commit SHA: `d34f0b65b04d8d15edad92f73d1621baf561e254`
+
+Branch: `story/WD-osfm`
+
+PR: https://github.com/jmanhype/wangp-dspy/pull/209
+
+Commands run:
+
+- `git fetch origin main && git worktree add .claude/worktrees/dev-WD-osfm -b story/WD-osfm origin/main && pvg story claim WD-osfm`
+- `datasets/runs/maestro-parity/WD-osfm/host-scripts/05_validate_offload_and_free.sh`
+- `datasets/runs/maestro-parity/WD-osfm/host-scripts/15_deploy_run_assets.sh`
+- `ssh 3090 /tmp/10_download_preflight_osfm.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/16_stage_local_gguf_dependency.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/20_run_create.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/21_run_probes_upscale.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/22_promote_probe_outputs.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/30_postflight.sh`
+- `python3 datasets/runs/maestro-parity/WD-osfm/build_evidence.py`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-osfm`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py tests/test_no_maestro_verbatim.py --junitxml=datasets/runs/maestro-parity/WD-osfm/targeted-tests.xml`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `uv run --frozen --extra dev pytest -q --deselect tests/test_lf004_recovery_tooling.py::test_launcher_setup_is_root_relative_from_foreign_cwd --junitxml=/tmp/wd-osfm-fullsuite-clean.xml`
+- `git diff --check`
+- `git add docs/video-capabilities.md datasets/runs/maestro-parity/WD-osfm && git commit`
+- `git push -u origin story/WD-osfm`
+- `gh pr create --base main --head story/WD-osfm`
+
+Implementation artifacts:
+
+- Canonical evidence: `datasets/runs/maestro-parity/WD-osfm/evidence.json`
+- Hash manifest: `datasets/runs/maestro-parity/WD-osfm/evidence.sha256`
+- Matrix proof: `datasets/runs/maestro-parity/WD-osfm/matrix-transition-check.json`
+- Boundary proof: `datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json`
+- Objective measurements: `datasets/runs/maestro-parity/WD-osfm/objective-measurements.json`
+- Independent reviewer proof: `datasets/runs/maestro-parity/WD-osfm/reviewer-verdict.json`
+
+## CI/Test Results
+
+- Canonical evidence checker: PASS; 5 owned optional Wan2GP mutagen warnings; 0 unowned failures.
+- Targeted video/evidence tests: PASS.
+- Backlog lint: scanned 144 issues; 0 errors; 0 review findings.
+- Clean-head selected full suite: 2,107 tests, 0 failures, 0 errors, 1 skip, 1234.975 seconds.
+- Full-suite exclusion boundary: unrelated launcher test documented in `fullsuite-launcher-boundary.md`; not fixed in this one-finding PR.
+- Clean-head release verification: version/changelog/recipe/tree PASS; `release=ready`; `tag_created=false`.
+- Protected-file parity: 0 files changed.
+- `git diff --check`: PASS.
+- Bundle hash manifest: every listed file verifies.
+
+## Acceptance Verification
+
+| AC | Verdict | Proof |
+| --- | --- | --- |
+| 1. Clean branch/worktree/base and atomic claim | PASS | Base `0f91e83c`, story head `d34f0b65`, assignee `dev-WD-osfm` |
+| 2. Exact verified H3 offload before unlink | PASS | `host-logs/00-offload-proof.txt`, `OFFLOAD_VERIFIED_AND_REMOTE_FREED=PASS` |
+| 3. Exact 18-file download and zero-download link | PASS | `download-report.tsv`, `download-accounting.txt`, `95_final_download_accounting.txt` |
+| 4. Operation-specific attempts/boundaries | PASS | native settings/logs and `boundary-evidence.json` |
+| 5. Successful media evidence and gates | PASS | `evidence.json`, `objective-measurements.json`, ffprobe/contact sheets |
+| 6. Exact unsuccessful boundaries | PASS | blend `reference_video_max_frames`; outpaint/recast/upscale exact absent assets |
+| 7. No unwanted action | PASS | exact manifest, offline mode, protected parity, isolated source status `?? ckpts` |
+| 8. Exact nine-cell matrix transition | PASS | `matrix-transition-check.json`: 9 changed, 0 planned, no unrelated rows |
+| 9. Delivery gates and independent review | PASS pending PM acceptance | checker/tests/lint/release/parity/diff/reviewer all pass |
 
 ## nd_contract
 status: delivered
