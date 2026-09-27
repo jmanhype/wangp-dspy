@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
-updated_at: 2026-09-27T03:23:11Z
-content_hash: "sha256:b97897e68d21e992db044bd55e97cc146cbf0d17275d7b80396bf655caef1fb4"
+updated_at: 2026-09-27T03:46:23Z
+content_hash: "sha256:04639fa01e2a9b5b5f42ccb4b006fc169a2a7299c070e6d272ab1b72180e12d2"
 blocks: [WD-fay0]
 assignee: dev-WD-8h6p
 follows: [WD-m25k]
@@ -145,7 +145,55 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### Authorization, source, and no-download preflight
+- Verbatim authorization and scope: `datasets/runs/maestro-parity/WD-8h6p/operator-authorization.md`.
+- Repository base: `8103327f`; isolated Wan2GP source: `4c93b64a47b5b0a915f2abec2ce754be98227150`.
+- Six required Hunyuan model/config assets and reused source/helpers matched hashes before and after: `host-logs/11_asset_hashes_before.txt`, `host-logs/16_resume_preflight.txt`, `host-logs/91_asset_hashes_after.txt`.
+- Offline mode was forced and planned/actual download bytes are zero: `host-logs/94_download_accounting.txt`.
+
+### Real outputs and boundaries
+- extend: `outputs/extend/wd_8h6p_extend.mp4`; SHA-256 `19eb4928aa6621dc1742e23e348cae7bbfed5138cb91e0fa155057e0e3e4f58a`; duration `5.041667 s`.
+- retake: `outputs/retake/wd_8h6p_retake.mp4`; SHA-256 `ca2b45eb74683548ddcbb261b7fdf367ef1d36811bffc379459eb6198149f818`; first-frame SSIM `0.448707`.
+- edit: `outputs/edit/wd_8h6p_edit.mp4`; SHA-256 `c6403260e3031fed37e3ce3f7dc4f6c4dd31c9595bd71e6bb2d3fc92d85b803b`; source PSNR `18.160307 dB`.
+- repaint: `outputs/repaint/wd_8h6p_repaint.mp4`; SHA-256 `c1d78362c20078e8830cc53c0decd54a8edf973bd3c1ca58c0094bc58759e57e`; source PSNR `17.875626 dB`.
+- recast: `outputs/recast/wd_8h6p_recast.mp4`; SHA-256 `3784b2b8533bc6c05a37722248dd9942b44676c210c0071dbf18131fb668fe38`; source PSNR `17.448752 dB`.
+- upscale: `outputs/upscale/wd_8h6p_upscale.mp4`; SHA-256 `1b8dc53cf5c084b104da2a5db189a5dc4ddc7f9e0b8f6da16c7013a8f186bf44`; dimensions `1664x960`.
+- blend is an exact unsupported host boundary because the T2V model definition lacks `reference_video_max_frames`: `boundary-evidence.json`.
+
+### CI/Test Results
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_video_capabilities.py --junitxml=datasets/runs/maestro-parity/WD-8h6p/targeted-tests.xml`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-8h6p`
+- `pvg verify docs/video-capabilities.md datasets/runs/maestro-parity/WD-8h6p/build_evidence.py datasets/runs/maestro-parity/WD-8h6p/promote_outputs.py datasets/runs/maestro-parity/WD-8h6p/host-scripts/*.sh`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --check`
+- `git diff --exit-code 8103327f -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+
+Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`; pvg verify PASS; backlog lint PASS 141 scanned, 0 errors, 0 review findings; release at clean implementation head is `release=ready` with `tag_created=false`; protected parity and diff-check PASS. Canonical checker is pending only independent reviewer decision/links.
+
+### Matrix transition
+`matrix-transition-check.json` records seven target-cell transitions, zero planned Hunyuan target cells, seven host_run_verified cells, and two unsupported cells including the pre-existing outpaint boundary.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Clean pushed branch/worktree and atomic claim |
+| 2 | PASS | Asset/source hashes, offline mode, disk/GPU checks, zero downloads |
+| 3 | PASS | Six per-operation outputs plus one exact blend boundary |
+| 4 | PASS | Hashes, argv/logs, ffprobe metadata, duration/SSIM/PSNR/dimension gates |
+| 5 | PASS | Exact blend exit, stack tail, and missing model-definition field |
+| 6 | PASS | Isolated source, protected files unchanged, no unrelated process action |
+| 7 | PASS | Exactly seven matrix cells changed; zero target planned cells |
+| 8 | PASS pending independent reviewer | All local gates pass; canonical checker awaits reviewer fields only |
+
+### Branch and PR
+Commit SHA: 40e4a48a3f4634028467c26b8681a52d1d40954f
+Branch: `story/WD-8h6p`
+PR: https://github.com/jmanhype/wangp-dspy/pull/206
+Bundle: 143 files, 36,883,770 bytes.
 
 ## History
 - 2026-09-27T03:22:56Z dep_added: blocks WD-fay0
