@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
 updated_at: 2026-09-27T00:25:13Z
-content_hash: "sha256:19731df7a29da7f91d90332e6ed9785dbe12ab66275138adce14850549d8e7d0"
+content_hash: "sha256:e4656d986099f63d63b618fd447484aa9a527e2c5553fc37ccf72d3e046a64a6"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
@@ -112,6 +112,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## PM Decision REJECTED [2026-09-26]: AC #10 lacks completed full-suite or exact-commit CI evidence. ## nd_contract status: rejected ### evidence - Committed fullsuite.xml: 2108 tests, errors=0, failures=2, skipped=1; clean retry stopped at 47% with no JUnit. - Checker, scoped tests, lint, release, diff, and protected parity passed, but those do not substitute for the explicit full-suite gate. ### proof - [ ] AC #10: full pytest JUnit errors=0 failures=0 for exact pushed commit 2d778cef293ef3c5a441a35e15d89d715999e10d remains unproven.
 
 ## nd_contract
