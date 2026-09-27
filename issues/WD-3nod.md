@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-26T05:37:53Z
-content_hash: "sha256:b68fbcbdf4b03032e03e232715dfc6b1f0043c1355892f0f386ab939e2aeb30c"
+updated_at: 2026-09-27T04:13:20Z
+content_hash: "sha256:4ed8142e341def3f2768e621820458075e05f4982cd93eb29ddd5b536a83fa45"
 ---
 
 ## Description
@@ -87,3 +87,6 @@ What still blocks the remaining 120 cells, by lane:
 Host prerequisites are cleared and tool-verified (preflight `disk_headroom` PASS at
 60G vs the 50G floor; `gpu_state` idle with 24 GB free; ssh and model-hash checks
 PASS). The binding constraint is operator authorization, not the machine.
+
+### 2026-09-27T04:13:20Z speed
+PROGRAM UPDATE at merged main 079651d9: WD-m25k and WD-8h6p are accepted and merged. Video matrix now has 27 host_run_verified, 43 unsupported, 4 dependency_blocked, and 25 planned cells. All remaining planned cells are LTX-2.3 (9), SCAIL-2 (7), and Wan/2GP (9); they require new model/download authorization because the current instruction authorized no-download work only. Host has about 61 GB free and GPU is idle. Upstream pvg PR 13 remains open/blocked with viewer READ permission and no checks, so it is being waited on rather than force-merged.
