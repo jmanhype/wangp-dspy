@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T21:06:00Z
-content_hash: "sha256:58d4c1cfc3e65dd5dbf17a70ba7ec8bde06ad80cc980b6849a0447c137273bba"
+updated_at: 2026-09-27T21:06:46Z
+content_hash: "sha256:c2e217e2d80f11c658eb535c0f781e7548c7252ff23707028723324ef6352a40"
 blocks: [WD-fay0]
 assignee: dev-WD-qswf
 follows: [WD-osfm, WD-28i5]
@@ -512,3 +512,20 @@ status: in_progress
 - Follows: [[WD-osfm]], [[WD-28i5]]
 
 ## Comments
+
+### 2026-09-27T21:06:46Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Final delivered head `5e017192760c11c6382561a98ea1c701013f9cee` on `story/WD-qswf`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/210
+- Delivery proof and gate outputs are recorded in the story notes and `datasets/runs/maestro-parity/WD-qswf/`.
+
+### proof
+- [x] AC 1: two real foreign-cwd launcher runs pass under a bounded process-group timeout.
+- [x] AC 2: deterministic root-relative command record and seven-asset stage plan are asserted.
+- [x] AC 3: command-record generation uses a directly executed helper, not a reader-less heredoc.
+- [x] AC 4: timeout terminates the process group and returns diagnostic exit 124.
+- [x] AC 5: undeselected full suite passed 2,108 tests with 0 failures/errors and 1 skip.
+- [x] AC 6: protected engine files are unchanged.
