@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T19:45:58Z
-content_hash: "sha256:1bb0f78b1ecc9593fbe54a3e8219164c59a8e111a9a7003a870d93c9b659bc9e"
+updated_at: 2026-09-27T20:02:02Z
+content_hash: "sha256:b0cd5ab408a3a321d2546182e90f4874d51c6d664ae83869185d60917d1b2a3d"
 blocks: [WD-fay0]
 assignee: dev-WD-osfm
 follows: [WD-28i5, WD-ycjg]
@@ -203,6 +203,22 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-27]: Evidence reviewed and meets the story bar.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Delivered and remote PR head verified as `d34f0b65b04d8d15edad92f73d1621baf561e254`; PR 209 CI completed successfully.
+- Independently verified all 168 files in `evidence.sha256`; local offload bytes/hash and remote source removal were rechecked.
+- Canonical checker, 111 targeted tests, backlog lint, release verification, protected-file parity, and diff check independently passed at the delivered head.
+- Matrix transition and native evidence prove five verified outputs plus four exact typed boundaries, with zero LTX-2.3 planned cells.
+- Independent reviewer verdict SHA-256 `00391d93bf504c5cfe24a5b7f48c08b1ce9867c0060eae9476dcdffa323fb017` was verified.
+
+### proof
+- [x] AC 1 through AC 9 verified from artifact-backed evidence and independent checks.
+
 ## Implementation Evidence
 
 Summary: WD-osfm is delivered at PR 209 with five real LTX-2.3 outputs, one exact unsupported host boundary, three exact dependency boundaries, verified storage/network accounting, independent adversarial review, and passing delivery gates.
