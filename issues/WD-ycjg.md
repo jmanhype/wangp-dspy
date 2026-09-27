@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
 updated_at: 2026-09-27T14:35:41Z
-content_hash: "sha256:81ff121b8df0bd8f25116f77447e1b2c7a562d958d4dcd6327a7302212ef78cf"
+content_hash: "sha256:81643c7f3a00e6fbee58f7fb4a1ca1c379ffe428493c7358c3637271eb08f570"
 blocks: [WD-fay0]
 follows: [WD-8h6p, WD-m25k]
 ---
@@ -749,3 +749,6 @@ status: delivered
 
 ### proof
 - [ ] Developer evidence block must remain authoritative above this contract.
+
+### 2026-09-27T14:35:41Z speed
+EXPECTED: AC #3 requires rehashing every downloaded asset and recording actual network bytes and destination sizes exactly. The three story-local dependencies are declared and verified as 42,226 + 129,647 + 493,172 = 665,045 bytes. DELIVERED: All nineteen destination files independently rehash to the declared sizes and SHA-256 values on the 3090, and the total authorized size 28,418,905,124 is arithmetically correct, but host-logs/15-story-local-download-accounting.txt:2, host-logs/96_final_download_accounting.txt:2, evidence.json download_evidence.story_local_dependency_bytes, and build_evidence.py:271 incorrectly record 664,045 bytes. GAP: The delivered actual local-network byte accounting is internally inconsistent by 1,000 bytes, so the explicit AC #3 proof is not exact even though individual file hashes and sizes are valid. FIX: Correct every story-local dependency subtotal from 664045 to 665045, retain total_authorized_bytes=28418905124, and explicitly record combined session network bytes 2408271915 + 665045 = 2408936960 where applicable; rerun the builder, canonical checker after independent review, targeted tests, lint, release, diff, and protected parity, then redeliver. Do not merge or PR on this rejection.
