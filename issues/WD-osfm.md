@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T16:21:32Z
-content_hash: "sha256:22b1230e5e4ac7e6ba633d6cf8cbeb468e1580288dc168d150e51eb50ea78ad1"
+updated_at: 2026-09-27T19:42:15Z
+content_hash: "sha256:39778e21d3f974f759fe8f63330c0d1569bfbb2bb64e2ad42a6908f48b1305f1"
 blocks: [WD-fay0]
 assignee: dev-WD-osfm
 follows: [WD-28i5]
@@ -203,7 +203,39 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: delivered
 
+### evidence
+- Base merged main: `0f91e83c9afb61fc07825d2ede6c3f265445e0fb`.
+- Delivered story head: `d34f0b65b04d8d15edad92f73d1621baf561e254`.
+- Pull request: https://github.com/jmanhype/wangp-dspy/pull/209
+- Bundle: `datasets/runs/maestro-parity/WD-osfm/evidence.json`.
+- Bundle hash manifest: `datasets/runs/maestro-parity/WD-osfm/evidence.sha256`; every listed file verifies.
+- Matrix transition: exactly 9 LTX-2.3 cells changed, 0 planned remain, no unrelated row changed.
+- Terminal dispositions: create/extend/retake/edit/repaint `host_run_verified`; blend `unsupported`; outpaint/recast/upscale `dependency_blocked`.
+- Real output SHA-256 values:
+  - create `d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957`
+  - extend `28889e82b96acf6b6b2f417e4ddb8a45b23c7c642d9d38608107932de73406c3`
+  - retake `e39904befb76d409762492f8038f153af1b7a707acbc134f4c3038febf3e7769`
+  - edit `8e10fafedca771f4d90b94bf6ae1fe47c64b35b517c7aa0cfa2e5f427f7bdb60`
+  - repaint `ba9202ddf487c0ce5c139332725d19024f2aecd6b427aa39df365fb9290fd20f`
+- Exact storage/network accounting: 18 downloads totaling `35379235525` bytes, one zero-download hash-identical temporal-upscaler link, and verified `34038903007`-byte H3 offload before remote unlink.
+- Canonical checker: PASS with 5 owned optional Wan2GP mutagen warnings and zero unowned failures.
+- Independent adversarial reviewer verdict: approved at `reviewer-verdict.json`, SHA-256 `00391d93bf504c5cfe24a5b7f48c08b1ce9867c0060eae9476dcdffa323fb017`.
+- Targeted tests, backlog lint, protected-file parity, diff check, bundle hash manifest, and clean-head release verification pass.
+- Clean-head full-suite boundary: 2,107/2,107 selected tests pass, 0 failures/errors, 1 skip; one unrelated pre-existing launcher deadlock is explicitly documented and excluded in `fullsuite-launcher-boundary.md`.
+
+### proof
+- [x] AC 1: clean story branch/worktree from current origin/main, base identity recorded, story atomically claimed before storage/network mutation.
+- [x] AC 2: superseded H3 checkpoint byte-verified and offloaded before unlink; every other checkpoint preserved.
+- [x] AC 3: exactly eighteen declared files downloaded and hash-verified; temporal upscaler linked from an existing hash-identical file with zero download bytes; storage/network accounting recorded.
+- [x] AC 4: all nine cells have operation-specific native attempts or exact typed boundaries; no evidence inherited across operations.
+- [x] AC 5: each successful output records argv/log/task status/hash/ffprobe/contact sheet/first frame and an operation-appropriate objective gate.
+- [x] AC 6: each unsuccessful cell records exact failing field/dependency and is typed as host implementation or dependency boundary, not hardware infeasibility.
+- [x] AC 7: no undeclared download, live dependency mutation, protected-engine change, threshold change, training, provider spend, unrelated process action, or unverified deletion occurred.
+- [x] AC 8: matrix transition artifact proves exactly nine LTX-2.3 cells changed and zero remain planned.
+- [x] AC 9: lint, targeted tests, canonical checker, release=ready/tag_created=false, protected parity, diff check, delivery proof, and independent review passed; PM acceptance remains outstanding.
 
 ## History
 - 2026-09-27T16:21:09Z dep_added: blocks WD-fay0
