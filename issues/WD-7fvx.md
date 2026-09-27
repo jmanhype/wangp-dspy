@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-27T00:07:24Z
-content_hash: "sha256:bdad3370345e623c84fbfde18ad77b7bc9be43e1ff78e978cc3008814f379020"
+updated_at: 2026-09-27T00:13:32Z
+content_hash: "sha256:815cb5941ee46f2455537b1502a0f4a865c830d72a1da72bd3b635f3f0eb1557"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
@@ -114,6 +114,24 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-26]: The prior DOCS_STALE gap is closed at docs-only commit 982e9d6d.
+
+The delta from 45d4c7f3 is exactly one documentation line. The corrected sentence accurately states that WD-7fvx exercised authorized SSH/RTX 3090 execution, preexisting hash-verified local models, queue admission/retry, and QC/AV, while it made no model/dependency/provider mutation or download, performed no training or paid-provider work, and changed no threshold or protected queue/preflight/renderer/wiring/engine semantics.
+
+Fresh PM checks: targeted director suite 34/34 PASS; checker PASS with owned_warnings=0; pvg verify PASS; release verify PASS release=ready tag_created=false; git diff --check PASS; protected-file parity PASS. The prior full-suite receipt remains valid for the unchanged implementation/evidence tree: 2108 tests, 0 errors, 0 failures, 1 skipped. Independent hash audit reconfirmed WD-dmf2 parity, WD-cpow source identities, both output hashes, 26/26 objective gates, and the 200-file/5920-KiB bundle. A concurrent unrelated WD-obkn backlog-lint path error remains outside WD-7fvx and does not alter this docs-only delta.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Corrected docs-only commit 982e9d6d09cbaddad51b7074411564923a65671a.
+- docs/director-capabilities.md:37,43 and the unchanged WD-7fvx evidence bundle.
+- Fresh targeted/checker/pvg/release/diff/protected checks plus the scoped full-suite receipt.
+
+### proof
+- [x] AC #1 through AC #9 verified, including the corrected AC #8 documentation boundary.
+
 ## nd_contract
 status: delivered
 
