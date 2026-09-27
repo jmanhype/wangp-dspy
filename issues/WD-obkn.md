@@ -4,7 +4,7 @@ title: "Finishing terminal disposition batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, finishing, evidence, external-integration, rejected]
+labels: [capability, finishing, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
