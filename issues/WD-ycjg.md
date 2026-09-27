@@ -4,7 +4,7 @@ title: "SCAIL-2 authorized download video batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
