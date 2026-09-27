@@ -1,7 +1,7 @@
 ---
 id: WD-8h6p
 title: "Hunyuan no-download video boundary batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration, delivered]
@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
 updated_at: 2026-09-27T03:54:17Z
-content_hash: "sha256:ed30942772d9400ebc82e5c3b3d3798c1c10b029de45c605f7d5ae8b80e3e863"
-blocks: [WD-fay0]
+content_hash: "sha256:cb778142111e5ca6c4e4dc4971fb45fe4f51dc1858ac6f5a19d5723b6ee99b9e"
 assignee: dev-WD-8h6p
 follows: [WD-m25k, WD-obkn]
+closed_at: 2026-09-27T03:54:17Z
+close_reason: "Accepted: six real Hunyuan outputs and one exact blend boundary cover all seven target cells; independent media/hash/isolation review and final gates pass."
 ---
 
 ## Description
@@ -204,10 +205,11 @@ Bundle: 143 files, 36,883,770 bytes.
 - 2026-09-27T03:23:11Z claimed by dev-WD-8h6p
 - 2026-09-27T03:46:23Z status: in_progress -> in_progress
 - 2026-09-27T03:46:23Z auto-follows: linked to predecessor WD-obkn
+- 2026-09-27T03:54:17Z status: in_progress -> closed
+- 2026-09-27T03:54:17Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-m25k]], [[WD-obkn]]
 
 ## Comments
