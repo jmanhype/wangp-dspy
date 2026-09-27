@@ -1,0 +1,2 @@
+source=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/boundaries/repaint-probe/2026-09-26-22h36m49s_seed3305_Hunyuan repaint boundary using the accepted source and mask..mp4
+final=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/outputs/repaint/wd_8h6p_repaint.mp4

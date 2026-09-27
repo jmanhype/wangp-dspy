@@ -1,0 +1,10 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-8h6p-run/settings/extend-probe.json
+--profile
+3
+--attention
+sdpa
+--output-dir
+/home/straughter/wd-8h6p-run/boundaries/extend-probe

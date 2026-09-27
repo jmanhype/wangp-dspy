@@ -1,0 +1,14 @@
+{
+  "schema_version": "wangp-dspy.wd-8h6p.boundary-evidence/v1",
+  "records": [
+    {
+      "row": "hunyuan/standard",
+      "operation": "blend",
+      "log": "host-logs/blend-probe.render.log",
+      "exit": 1,
+      "log_sha256": "0aa8eae9ea0ee8859ddd78f1f576f8effd09ee00b345e3a36cc6b44167189c66",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Two-guide Hunyuan blend reaches generation setup and fails because the T2V model definition has no reference_video_max_frames field."
+    }
+  ]
+}

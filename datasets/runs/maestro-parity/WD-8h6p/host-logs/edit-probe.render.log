@@ -1,0 +1,33 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-8h6p-run/settings/edit-probe.json
+Output directory: /home/straughter/wd-8h6p-run/boundaries/edit-probe
+[load_settings] Loading settings from: /home/straughter/wd-8h6p-run/settings/edit-probe.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/wd_2gyw_hunyuan.mp4
+With Denoising Strength 0.5, Denoising will start at Step no 2 
+[load_settings] Task 1/1 ready, ID: 1, model: hunyuan_1_5_480_t2v_lightx2v
+Loaded 1 task(s)
+
+[Task 1/1] Hunyuan edit boundary using the accepted source as guide....
+With Denoising Strength 0.5, Denoising will start at Step no 2 
+Loading Model 'ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+Loading model Hunyuan Video 1.5 Text2video 480p Lightx2v 8B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 33 large blocks spread across 8120.37 MB
+Hooked to model 'transformer' (HYVideoDiffusionTransformer)
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Hooked to model 'vae' (AutoencoderKLConv3D)
+Hooked to model 'byt5_model' (T5Stack)
+  Model loadedNo audio track found in Control Video #1: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/wd_2gyw_hunyuan.mp4
+  [0/1] Extracting Raw Format  [0/1] Encoding Prompt      [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/4] Denoising | 12.6s  0%|          | 0/4 [00:00<?, ?steps/s]  [0/4] Denoising | 24.0s  [0/4] Denoising | 25.0s  [0/4] Denoising | 26.1s  [0/4] Denoising | 27.1s  [0/4] Denoising | 28.2s  [0/4] Denoising | 29.2s  [1/4] Denoising | 30.3s / 1m 23s  [1/4] Denoising | 31.4s / 1m 23s  [1/4] Denoising | 32.4s / 1m 23s  [1/4] Denoising | 33.5s / 1m 23s  [1/4] Denoising | 34.5s / 1m 23s  [1/4] Denoising | 35.5s / 1m 23s  [2/4] Denoising | 36.6s / 1m 00s  [2/4] Denoising | 37.7s / 1m 00s  [2/4] Denoising | 38.8s / 1m 00s  [2/4] Denoising | 39.9s / 1m 00s  [2/4] Denoising | 41.0s / 1m 00s  [2/4] Denoising | 42.1s / 1m 00s  [2/4] Denoising | 43.2s / 1m 00s  [3/4] Denoising | 43.3s / 53.5s   [3/4] Denoising | 44.4s / 53.5s  [3/4] Denoising | 45.5s / 53.5s  [3/4] Denoising | 46.5s / 53.5s  [3/4] Denoising | 47.6s / 53.5s  [3/4] Denoising | 48.7s / 53.5s  [3/4] Denoising | 49.7s / 53.5s  0%|          | 0/4 [00:37<?, ?steps/s]
+  [4/4] VAE Decoding | 49.9s / 49.9sError saving metadata to MP4 /home/straughter/wd-8h6p-run/boundaries/edit-probe/2026-09-26-22h35m09s_seed3304_Hunyuan edit boundary using the accepted source as guide..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-8h6p-run/boundaries/edit-probe/2026-09-26-22h35m09s_seed3304_Hunyuan edit boundary using the accepted source as guide..mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 31s

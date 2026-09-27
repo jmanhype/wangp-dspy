@@ -1,0 +1,30 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-8h6p-run/settings/extend-probe.json
+Output directory: /home/straughter/wd-8h6p-run/boundaries/extend-probe
+[load_settings] Loading settings from: /home/straughter/wd-8h6p-run/settings/extend-probe.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/wd_2gyw_hunyuan.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: hunyuan_1_5_480_t2v_lightx2v
+Loaded 1 task(s)
+
+[Task 1/1] Hunyuan extend boundary: continue the compass shot from its ...
+Loading model Hunyuan Video 1.5 Text2video 480p Lightx2v 8B...
+Loading Model 'ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 33 large blocks spread across 8120.37 MB
+Hooked to model 'transformer' (HYVideoDiffusionTransformer)
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Hooked to model 'vae' (AutoencoderKLConv3D)
+Hooked to model 'byt5_model' (T5Stack)
+  Model loaded  [0/1] Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/4] Denoising | 12.4s  0%|          | 0/4 [00:00<?, ?steps/s]  [0/4] Denoising | 23.7s  [0/4] Denoising | 24.9s  [0/4] Denoising | 25.9s  [0/4] Denoising | 27.0s  [0/4] Denoising | 28.0s  [0/4] Denoising | 29.1s  [0/4] Denoising | 30.1s  [0/4] Denoising | 31.2s  [0/4] Denoising | 32.3s  [0/4] Denoising | 33.3s  [0/4] Denoising | 34.4s  [0/4] Denoising | 35.5s  [0/4] Denoising | 36.5s  [0/4] Denoising | 37.6s  [0/4] Denoising | 38.7s  [0/4] Denoising | 39.8s  [0/4] Denoising | 40.9s  [0/4] Denoising | 42.0s  [1/4] Denoising | 43.0s / 2m 14s  [1/4] Denoising | 44.1s / 2m 14s  [1/4] Denoising | 45.2s / 2m 14s  [1/4] Denoising | 46.3s / 2m 14s  [1/4] Denoising | 47.4s / 2m 14s  [1/4] Denoising | 48.5s / 2m 14s  [1/4] Denoising | 49.7s / 2m 14s  [1/4] Denoising | 50.8s / 2m 14s  [1/4] Denoising | 51.9s / 2m 14s  [1/4] Denoising | 53.0s / 2m 14s  [1/4] Denoising | 54.1s / 2m 14s  [1/4] Denoising | 55.2s / 2m 14s  [1/4] Denoising | 56.4s / 2m 14s  [1/4] Denoising | 57.4s / 2m 14s  [1/4] Denoising | 58.6s / 2m 14s  [1/4] Denoising | 59.7s / 2m 14s  [1/4] Denoising | 1m 00s / 2m 14s  [1/4] Denoising | 1m 01s / 2m 14s  [2/4] Denoising | 1m 02s / 1m 52s  [2/4] Denoising | 1m 03s / 1m 52s  [2/4] Denoising | 1m 04s / 1m 52s  [2/4] Denoising | 1m 05s / 1m 52s  [2/4] Denoising | 1m 06s / 1m 52s  [2/4] Denoising | 1m 07s / 1m 52s  [2/4] Denoising | 1m 09s / 1m 52s  [2/4] Denoising | 1m 10s / 1m 52s  [2/4] Denoising | 1m 11s / 1m 52s  [2/4] Denoising | 1m 12s / 1m 52s  [2/4] Denoising | 1m 13s / 1m 52s  [2/4] Denoising | 1m 14s / 1m 52s  [2/4] Denoising | 1m 15s / 1m 52s  [2/4] Denoising | 1m 16s / 1m 52s  [2/4] Denoising | 1m 18s / 1m 52s  [2/4] Denoising | 1m 19s / 1m 52s  [2/4] Denoising | 1m 20s / 1m 52s  [2/4] Denoising | 1m 21s / 1m 52s  [3/4] Denoising | 1m 22s / 1m 45s  [3/4] Denoising | 1m 23s / 1m 45s  [3/4] Denoising | 1m 24s / 1m 45s  [3/4] Denoising | 1m 25s / 1m 45s  [3/4] Denoising | 1m 26s / 1m 45s  [3/4] Denoising | 1m 27s / 1m 45s  [3/4] Denoising | 1m 29s / 1m 45s  [3/4] Denoising | 1m 30s / 1m 45s  [3/4] Denoising | 1m 31s / 1m 45s  [3/4] Denoising | 1m 32s / 1m 45s  [3/4] Denoising | 1m 33s / 1m 45s  [3/4] Denoising | 1m 34s / 1m 45s  [3/4] Denoising | 1m 35s / 1m 45s  [3/4] Denoising | 1m 36s / 1m 45s  [3/4] Denoising | 1m 37s / 1m 45s  [3/4] Denoising | 1m 38s / 1m 45s  [3/4] Denoising | 1m 40s / 1m 45s  [3/4] Denoising | 1m 41s / 1m 45s  0%|          | 0/4 [01:29<?, ?steps/s]
+  [4/4] VAE Decoding | 1m 42s / 1m 42sError saving metadata to MP4 /home/straughter/wd-8h6p-run/boundaries/extend-probe/2026-09-26-22h31m23s_seed3301_Hunyuan extend boundary continue the compass shot from its supplied source video..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-8h6p-run/boundaries/extend-probe/2026-09-26-22h31m23s_seed3301_Hunyuan extend boundary continue the compass shot from its supplied source video..mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 2m 52s

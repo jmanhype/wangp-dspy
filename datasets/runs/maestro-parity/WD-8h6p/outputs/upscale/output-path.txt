@@ -1,0 +1,2 @@
+source=/home/straughter/wd-8h6p-run/outputs/upscale/wd_2gyw_hunyuan_post.mp4
+final=/home/straughter/wd-8h6p-run/outputs/upscale/wd_8h6p_upscale.mp4
