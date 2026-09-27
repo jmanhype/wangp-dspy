@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
 updated_at: 2026-09-27T02:41:46Z
-content_hash: "sha256:26166a925e46067af0ec66eb8a23ef07723f3a06602929a9a56291fa38f660d3"
+content_hash: "sha256:0ed47485235523e8a1101d12bd235405bf054ad680da9c5c3bc31534ebca936b"
 blocks: [WD-fay0]
 assignee: dev-WD-m25k
 follows: [WD-obkn, WD-7fvx, WD-m7xw, WD-5k28]
@@ -89,6 +89,18 @@ Paste authorization, asset hash result, base/source identity, host and GPU snaps
 ## Design
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 ### Authorization, source, and no-download preflight
