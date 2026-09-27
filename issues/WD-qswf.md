@@ -9,10 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
 updated_at: 2026-09-27T21:04:36Z
-content_hash: "sha256:7a4915aec453127a58157b82a4c39d6ae83eef97493025111eed5e22fd60a7ae"
+content_hash: "sha256:12d3d741aa03053d6358b18e74a63a8c08a962f7a826352af4d2d0992020d172"
 blocks: [WD-fay0]
 assignee: dev-WD-qswf
-follows: [WD-osfm]
+follows: [WD-osfm, WD-28i5]
 ---
 
 ## Description
@@ -158,10 +158,12 @@ status: in_progress
 - 2026-09-27T20:10:33Z status: open -> in_progress
 - 2026-09-27T20:10:33Z auto-follows: linked to predecessor WD-osfm
 - 2026-09-27T20:10:34Z claimed by dev-WD-qswf
+- 2026-09-27T21:04:36Z status: in_progress -> in_progress
+- 2026-09-27T21:04:36Z auto-follows: linked to predecessor WD-28i5
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-osfm]]
+- Follows: [[WD-osfm]], [[WD-28i5]]
 
 ## Comments
