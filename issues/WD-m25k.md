@@ -4,11 +4,11 @@ title: "H3 KFI/audio-refinement no-download video batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
-updated_at: 2026-09-27T02:41:45Z
+updated_at: 2026-09-27T02:41:46Z
 content_hash: "sha256:26166a925e46067af0ec66eb8a23ef07723f3a06602929a9a56291fa38f660d3"
 blocks: [WD-fay0]
 assignee: dev-WD-m25k
