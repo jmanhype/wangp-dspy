@@ -1,0 +1,69 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m25k-run/settings/render-batch.json
+Output directory: /home/straughter/wd-m25k-run/outputs/render-batch
+[load_settings] Loading settings from: /home/straughter/wd-m25k-run/settings/render-batch.json
+[load_settings] Loaded image: /home/straughter/wd-m25k-run/inputs/kfi-first-frame.png
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/wd_2gyw_h3_kfi_frames_injection.mp4
+[load_settings] Invalid Frame Position Value'0' for task #1. Skipping.
+[load_settings] Loaded image: /home/straughter/wd-m25k-run/inputs/kfi-first-frame.png
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/wd_2gyw_h3_kfi_frames_injection.mp4
+[load_settings] You must enable a Control Video to use the Control Video Audio Track as an audio prompt for task #2. Skipping.
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/wd_2gyw_h3_kfi_frames_injection.mp4
+[load_settings] Using path: /home/straughter/Wan2GP/wd-isg9/inputs/repaint-mask.mp4
+With Masking Strength 0.5, Masking will last 4 Steps
+[load_settings] Task 3/6 ready, ID: 3, model: minimax_h3_fl2va_pruned
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/wd_2gyw_h3_audio_refinement.mp4
+[load_settings] MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file for task #4. Skipping.
+[load_settings] Loaded image: /home/straughter/wd-m25k-run/inputs/audio-first-frame.png
+[load_settings] MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file for task #5. Skipping.
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/wd_2gyw_h3_audio_refinement.mp4
+[load_settings] Using path: /home/straughter/Wan2GP/wd-isg9/inputs/repaint-mask.mp4
+With Masking Strength 0.5, Masking will last 4 Steps
+[load_settings] Task 6/6 ready, ID: 6, model: minimax_h3_fl2va_pruned
+Loaded 2 task(s)
+
+[Task 1/2] KFI repaint: warm only the compass region while preserving t...
+With Masking Strength 0.5, Masking will last 4 Steps
+Loading model MiniMax H3 FL2VA Pruned 20B...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+  Model loaded  [0/1] Prompt 1/2 - Extracting Raw Format  [0/1] Prompt 1/2 - Encoding Prompt        [0/1] Prompt 1/2 - Encoding H3 control video  [0/1] Prompt 1/2 - Encoding H3 prompt and references[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Prompt 1/2 - Denoising                          [0/8] Prompt 1/2 - Denoising | 1m 36sH3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s]H3 denoising:  12%|█▎        | 1/8 [00:07<00:49,  7.08s/steps]  [1/8] Prompt 1/2 - Denoising | 1m 43s / 2m 33sH3 denoising:  25%|██▌       | 2/8 [00:13<00:40,  6.80s/steps]  [2/8] Prompt 1/2 - Denoising | 1m 49s / 2m 31sH3 denoising:  38%|███▊      | 3/8 [00:20<00:34,  6.83s/steps]  [3/8] Prompt 1/2 - Denoising | 1m 56s / 2m 31sH3 denoising:  50%|█████     | 4/8 [00:27<00:27,  6.91s/steps]  [4/8] Prompt 1/2 - Denoising | 2m 03s / 2m 31sH3 denoising:  62%|██████▎   | 5/8 [00:34<00:20,  6.88s/steps]  [5/8] Prompt 1/2 - Denoising | 2m 10s / 2m 31sH3 denoising:  75%|███████▌  | 6/8 [00:41<00:13,  6.97s/steps]  [6/8] Prompt 1/2 - Denoising | 2m 17s / 2m 31sH3 denoising:  88%|████████▊ | 7/8 [00:48<00:06,  6.92s/steps]  [7/8] Prompt 1/2 - Denoising | 2m 24s / 2m 31sH3 denoising: 100%|██████████| 8/8 [00:55<00:00,  6.86s/steps]H3 denoising: 100%|██████████| 8/8 [00:55<00:00,  6.89s/steps]
+  [8/8] Prompt 1/2 - VAE Decoding | 2m 31s / 2m 31s  [0/1] Prompt 1/2 - VAE Decoding of Video and AudioError saving metadata to MP4 /home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h12m03s_seed3103_KFI repaint warm only the compass region while preserving the injected-frame continuity and soundtr.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h12m03s_seed3103_KFI repaint warm only the compass region while preserving the injected-frame continuity and soundtr.mp4
+
+
+  Task 1 completed
+
+[Task 2/2] Audio-refinement repaint: warm the compass region while pres...
+With Masking Strength 0.5, Masking will last 4 Steps
+  [0/1] Prompt 2/2 - Extracting Raw Format  [0/1] Prompt 2/2 - Encoding Prompt        [0/1] Prompt 2/2 - Encoding H3 control video  [0/1] Prompt 2/2 - Encoding H3 prompt and references  [0/1] Prompt 2/2 - Denoising                        H3 denoising:   0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 2/2 - Denoising | 1m 51sH3 denoising:  12%|█▎        | 1/8 [00:07<00:52,  7.47s/steps]  [1/8] Prompt 2/2 - Denoising | 1m 58s / 2m 50sH3 denoising:  25%|██▌       | 2/8 [00:14<00:43,  7.31s/steps]  [2/8] Prompt 2/2 - Denoising | 2m 05s / 2m 49sH3 denoising:  38%|███▊      | 3/8 [00:21<00:35,  7.09s/steps]  [3/8] Prompt 2/2 - Denoising | 2m 12s / 2m 48sH3 denoising:  50%|█████     | 4/8 [00:28<00:28,  7.13s/steps]  [4/8] Prompt 2/2 - Denoising | 2m 19s / 2m 48sH3 denoising:  62%|██████▎   | 5/8 [00:35<00:21,  7.19s/steps]  [5/8] Prompt 2/2 - Denoising | 2m 27s / 2m 48sH3 denoising:  75%|███████▌  | 6/8 [00:43<00:14,  7.15s/steps]  [6/8] Prompt 2/2 - Denoising | 2m 34s / 2m 48sH3 denoising:  88%|████████▊ | 7/8 [00:49<00:07,  7.08s/steps]  [7/8] Prompt 2/2 - Denoising | 2m 41s / 2m 48sH3 denoising: 100%|██████████| 8/8 [00:56<00:00,  7.02s/steps]H3 denoising: 100%|██████████| 8/8 [00:56<00:00,  7.11s/steps]
+  [8/8] Prompt 2/2 - VAE Decoding | 2m 48s / 2m 48s  [0/1] Prompt 2/2 - VAE Decoding of Video and AudioError saving metadata to MP4 /home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h15m30s_seed3106_Audio-refinement repaint warm the compass region while preserving the refined soundtrack..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h15m30s_seed3106_Audio-refinement repaint warm the compass region while preserving the refined soundtrack..mp4
+
+
+  Task 2 completed
+
+==================================================
+Queue completed: 2/2 tasks in 7m 13s

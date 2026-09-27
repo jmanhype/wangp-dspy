@@ -1,0 +1,7 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m25k-run/settings/kfi-create-retry-probe.json
+Output directory: /home/straughter/wd-m25k-run/boundaries/kfi-create-retry-probe
+[load_settings] Loading settings from: /home/straughter/wd-m25k-run/settings/kfi-create-retry-probe.json
+[load_settings] You must provide at least one Reference Image for task #1. Skipping.
+[ERROR] You must provide at least one Reference Image

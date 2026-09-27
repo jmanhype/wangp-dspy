@@ -1,0 +1,2 @@
+source=/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_2gyw_h3_kfi_frames_injection_post.mp4
+final=/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4

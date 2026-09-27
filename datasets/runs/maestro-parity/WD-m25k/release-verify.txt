@@ -1,0 +1,5 @@
+check=version status=pass expected='0.1.0' observed={'VERSION': '0.1.0', 'pyproject.toml': '0.1.0', 'wangp.__version__': '0.1.0'}
+check=changelog status=pass expected='0.1.0' observed='0.1.0'
+check=recipe_schema status=pass expected='wangp-dspy.render-recipe/v3' observed='wangp-dspy.render-recipe/v3'
+check=tree status=failed expected='clean_tree=true changed_path_count=0 untracked_path_count=0' observed={'commit_sha': '28fc76a1ff735fb2dbfd9ec726a254f147630fcc', 'clean_tree': False, 'dirty_tree': True, 'changed_path_count': 2, 'untracked_path_count': 1, 'status_sha256': '15cd519b159a26b3e0972fdac8d25f5469d5b625423e35a42e38d6001550d55f', 'tracked_diff_sha256': '69f995fb99ff06182a30365f8ab79cf068a033d54c24c80f86671c213bfd979f', 'untracked_content_sha256': 'd98aca4f23430dd8e4027e3037aff5c16d8e137b5db392cf13b397c35418062d'}
+release=not_ready

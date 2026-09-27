@@ -1,0 +1,8 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m25k-run/settings/audio-recast-probe.json
+Output directory: /home/straughter/wd-m25k-run/boundaries/audio-recast-probe
+[load_settings] Loading settings from: /home/straughter/wd-m25k-run/settings/audio-recast-probe.json
+[load_settings] Loaded image: /home/straughter/Wan2GP/wd-isg9/inputs/recast-reference.png
+[load_settings] MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file for task #1. Skipping.
+[ERROR] MiniMax H3 audio generation from Control Video requires Use Control Video and a Control Video file

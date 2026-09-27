@@ -1,0 +1,8 @@
+render_batch_exit=0 outputs=2
+postprocess=kfi_upscale exit=1 output=
+postprocess=audio_upscale exit=1 output=
+render_batch_retry_exit=1
+postprocess=kfi_upscale exit=1 output=
+postprocess=audio_upscale exit=1 output=
+postprocess_retry=kfi_upscale exit=0 output=/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_2gyw_h3_kfi_frames_injection_post.mp4
+postprocess_retry=audio_upscale exit=0 output=/home/straughter/wd-m25k-run/outputs/audio_upscale/wd_2gyw_h3_audio_refinement_post.mp4

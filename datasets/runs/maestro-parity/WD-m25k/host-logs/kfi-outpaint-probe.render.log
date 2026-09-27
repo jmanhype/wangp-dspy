@@ -1,0 +1,9 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m25k-run/settings/kfi-outpaint-probe.json
+Output directory: /home/straughter/wd-m25k-run/boundaries/kfi-outpaint-probe
+[load_settings] Loading settings from: /home/straughter/wd-m25k-run/settings/kfi-outpaint-probe.json
+[load_settings] Loaded image: /home/straughter/wd-m25k-run/inputs/kfi-first-frame.png
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-kfi-retry/wd_2gyw_h3_kfi_frames_injection.mp4
+[load_settings] Invalid Frame Position Value'0' for task #1. Skipping.
+[ERROR] Invalid Frame Position Value'0'

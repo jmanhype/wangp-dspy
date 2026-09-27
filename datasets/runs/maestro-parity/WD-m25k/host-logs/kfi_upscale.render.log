@@ -1,0 +1,3 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+[ERROR] File not found: /home/straughter/wd-m25k-run/settings//home/straughter/wd-m25k-run/host-logs/kfi_upscale.host-before.txt.json

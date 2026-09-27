@@ -1,0 +1,49 @@
+{
+  "schema_version": "wangp-dspy.wd-m25k.objective-measurements/v1",
+  "psnr_source_pairs": {
+    "kfi_repaint": 20.118892,
+    "audio_repaint": 21.554022
+  },
+  "rows": [
+    {
+      "operation": "kfi_repaint",
+      "path": "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+      "sha256": "421921a18a43edfe7d8d14848a33a326403d7dbc4a015132f38db45cbfd116cf",
+      "bytes": 1242939,
+      "width": 480,
+      "height": 832,
+      "duration_s": 2.333333,
+      "fps": 24.0
+    },
+    {
+      "operation": "kfi_upscale",
+      "path": "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+      "sha256": "e0967683615ab24bb2536d51040e68667f88774873d4f531100dda81fd4a3249",
+      "bytes": 3952963,
+      "width": 960,
+      "height": 1664,
+      "duration_s": 2.334,
+      "fps": 24.0
+    },
+    {
+      "operation": "audio_repaint",
+      "path": "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+      "sha256": "a604bb30d15ff05f8a2c9f57b2125f1cb96c80e650e699bfc0351b94aaeefa53",
+      "bytes": 1409924,
+      "width": 480,
+      "height": 832,
+      "duration_s": 2.333333,
+      "fps": 24.0
+    },
+    {
+      "operation": "audio_upscale",
+      "path": "outputs/audio_upscale/wd_m25k_audio_upscale.mp4",
+      "sha256": "7b3b0ea53d287a55bdd114b559816d06a258ee6b835c972a16eb2d0551cab6fa",
+      "bytes": 3713048,
+      "width": 960,
+      "height": 1664,
+      "duration_s": 2.334,
+      "fps": 24.0
+    }
+  ]
+}

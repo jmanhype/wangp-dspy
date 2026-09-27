@@ -1,0 +1,334 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "Continue the remaining 56 video cells, prioritizing no-download LTX-2.5 after the tokenizer fix.",
+    "scope": "WD-m25k sixteen-cell H3 KFI/audio-refinement no-download batch on 3090; zero downloads; isolated Wan2GP worktree; no unrelated service mutation",
+    "timestamp": "2026-09-27T01:22:06Z",
+    "approved_by": "operator via /root dispatcher"
+  },
+  "command": [
+    "ssh",
+    "3090",
+    "/tmp/23_postprocess_retry.sh"
+  ],
+  "repository": {
+    "commit": "28fc76a1ff735fb2dbfd9ec726a254f147630fcc",
+    "base_commit": "28fc76a1",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "290250772b8f7dfed232287bd04df9381e343914c7c081837467cebefc2779e1",
+      "status_lines": [
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-m25k/"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
+      "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
+      "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
+      "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+      "license": "MiniMax H3 Community License Agreement; operator research/evaluation only",
+      "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "inputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+      "role": "kfi_generated_source_video",
+      "sha256": "b75cca624728675d5de5851098de0b0227f86384f29785348262dcb4bc4efb86",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/wd_2gyw_h3_audio_refinement.mp4",
+      "role": "audio_refinement_generated_source_video",
+      "sha256": "9fd0ab632a7b66d9be911cb86a20b746a15bb6557e2300e47a80993524d2f0d0",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/repaint-mask.mp4",
+      "role": "repaint_editable_region_mask",
+      "sha256": "8e58f8f4389218384069525c1eda95652ef2b7a91b1957bcebff37a9e28e6657",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/kfi-first-frame.png",
+      "role": "kfi_retry_reference_frame",
+      "sha256": "cef70dbe1d40dc26acd19109f01d62e19197fc580e88d69b52a4624cc7dc98c7",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/audio-first-frame.png",
+      "role": "audio_retry_reference_frame",
+      "sha256": "82e5cb5509832944e00615123f999297106b21ad1e8191cbdf63a42b81ca2876",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-m25k-h3-native-cli",
+    "job_id": "wd-m25k-h3-sixteen-cells",
+    "retry_id": "attempt-2",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "native_logs": [
+      "host-logs/render-batch.render.log",
+      "host-logs/kfi_upscale.retry.render.log",
+      "host-logs/audio_upscale.retry.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs/render-batch.render.log": "ec853f435a1fe1d8ff80a8cb0a06132f21fd810bf091eb12d1064cdf458d0a75",
+      "host-logs/kfi_upscale.retry.render.log": "94d788876ccfa85871599c741be92bc2b927e6d50b314e84769246d655b401a7",
+      "host-logs/audio_upscale.retry.render.log": "e788788e1aba09986f71ffacb5f672cab80481815e30d88f183b0fa587e61bf7"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+      "sha256": "421921a18a43edfe7d8d14848a33a326403d7dbc4a015132f38db45cbfd116cf"
+    },
+    {
+      "path": "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+      "sha256": "e0967683615ab24bb2536d51040e68667f88774873d4f531100dda81fd4a3249"
+    },
+    {
+      "path": "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+      "sha256": "a604bb30d15ff05f8a2c9f57b2125f1cb96c80e650e699bfc0351b94aaeefa53"
+    },
+    {
+      "path": "outputs/audio_upscale/wd_m25k_audio_upscale.mp4",
+      "sha256": "7b3b0ea53d287a55bdd114b559816d06a258ee6b835c972a16eb2d0551cab6fa"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+      "kind": "video",
+      "width": 960,
+      "height": 1664,
+      "duration_s": 2.334,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+      "kind": "video",
+      "width": 480,
+      "height": 832,
+      "duration_s": 2.333333,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    },
+    {
+      "path": "outputs/audio_upscale/wd_m25k_audio_upscale.mp4",
+      "kind": "video",
+      "width": 960,
+      "height": 1664,
+      "duration_s": 2.334,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": true,
+        "codec": "aac",
+        "sample_rate_hz": 32000,
+        "channels": 2
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_m25k_output_count",
+      "inputs": [
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 4,
+      "measured": 4,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_distinct_hashes",
+      "inputs": [
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 4,
+      "measured": 4,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_duration_s",
+      "inputs": [
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 2.0,
+      "measured": 2.333333,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_fps",
+      "inputs": [
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 24.0,
+      "measured": 24.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_audio_channels",
+      "inputs": [
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4",
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4",
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 2,
+      "measured": 2,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_kfi_repaint_source_psnr_db",
+      "inputs": [
+        "inputs/wd_2gyw_h3_kfi_frames_injection.mp4",
+        "outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 20.118892,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_audio_repaint_source_psnr_db",
+      "inputs": [
+        "inputs/wd_2gyw_h3_audio_refinement.mp4",
+        "outputs/audio_repaint/wd_m25k_audio_repaint.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 21.554022,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_kfi_upscale_width",
+      "inputs": [
+        "outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4"
+      ],
+      "threshold": 960,
+      "measured": 960,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_m25k_audio_upscale_width",
+      "inputs": [
+        "outputs/audio_upscale/wd_m25k_audio_upscale.mp4"
+      ],
+      "threshold": 960,
+      "measured": 960,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [],
+    "reviewer": "independent PM pending",
+    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "minimax_h3/kfi_frames_injection": {
+      "create": "unsupported",
+      "extend": "unsupported",
+      "blend": "unsupported",
+      "retake": "host_run_verified",
+      "edit": "unsupported",
+      "outpaint": "unsupported",
+      "repaint": "host_run_verified",
+      "recast": "unsupported",
+      "upscale": "host_run_verified"
+    },
+    "minimax_h3/h3_audio_refinement": {
+      "create": "unsupported",
+      "extend": "unsupported",
+      "blend": "unsupported",
+      "retake": "unsupported",
+      "edit": "host_run_verified",
+      "outpaint": "unsupported",
+      "repaint": "host_run_verified",
+      "recast": "unsupported",
+      "upscale": "host_run_verified"
+    }
+  },
+  "boundary_evidence": "boundary-evidence.json",
+  "matrix_transition": "matrix-transition-check.json",
+  "runtime_notes": {
+    "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "download_bytes": 0,
+    "offline_mode": true,
+    "first_preflight_pip_check": "advisory-only existing environment conflicts; no dependency mutation",
+    "initial_output_mapping_error": "Two successful repaint files were first copied to kfi_extend/kfi_edit by mtime; they were quarantined under mapping-error and re-bound by seed before evidence generation.",
+    "gpu_final": "see host-logs/90_final_postflight.txt"
+  }
+}
