@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:22:20Z
-content_hash: "sha256:f126e42368bbae017975d07469e33a0b97ac80adeab64c27096f7e145f1b7195"
+updated_at: 2026-09-27T00:25:11Z
+content_hash: "sha256:b1718a495ed8d1b7b09114e324b36271ba9cc5e5c723fe37d919f60a291af150"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj]
@@ -382,3 +382,49 @@ status: rejected
 
 ### proof
 - [ ] AC #10: full pytest JUnit errors=0 and failures=0 at 2d778cef293ef3c5a441a35e15d89d715999e10d remains unproven.
+
+### 2026-09-27T00:25:11Z speed
+## Implementation Evidence
+
+### CI/Test Results
+Commands run:
+- env PATH=/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin:/Users/speed/.local/bin /Users/speed/.local/bin/uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-obkn-full-clean-2d778cef.xml
+- pvg lint --backlog
+- uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-obkn
+- uv run --frozen --extra dev wgp release verify
+- pvg verify docs/finishing-capabilities.md datasets/runs/maestro-parity/WD-obkn/operator-decisions.md datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md datasets/runs/maestro-parity/WD-obkn/analyze_film_grain.py --format=text
+- git diff --check
+- git diff --exit-code 2b4714bf45d8f9e9cccf4c5796ac21afa501ea5a -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+- git push origin story/WD-obkn
+- git ls-remote origin refs/heads/story/WD-obkn
+
+Summary: sole clean full-suite run completed at rejected commit 2d778cef293ef3c5a441a35e15d89d715999e10d with JUnit tests=2108, failures=0, errors=0, skipped=1, time=1796.923s. /bin/bash precedence was recorded and the prior LF004 deadlock point was passed. Backlog lint passed with 139 scanned, 0 errors, 0 review findings. Canonical checker passed with owned_warnings=0. Release verification passed with release=ready and tag_created=false. pvg verify, git diff --check, and protected-file parity passed. Gate receipts are committed at 015ce2387b3509eaf8ce1233749e45c5d0a388dd and the branch is clean and pushed. Coverage remains not_applicable because production runtime control flow did not change.
+
+Warning ownership: one pre-existing StarletteDeprecationWarning came from the dependency-owned installed FastAPI TestClient import and remains visible; it is not attributed to a repository source path.
+
+Commit SHA: 015ce2387b3509eaf8ce1233749e45c5d0a388dd
+Full-suite evidence commit: 2d778cef293ef3c5a441a35e15d89d715999e10d
+
+LEARNINGS:
+- /bin/bash PATH precedence is an effective non-mutating workaround for the Homebrew Bash LF004 heredoc deadlock.
+- Gate receipts must be committed before final release verification so the tree check remains clean.
+- Dependency warning provenance should be described semantically rather than as a nonexistent repository path.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Clean full-suite JUnit failures=0 and errors=0 at 2d778cef; gate receipts and proof pushed at 015ce238; checker, lint, release, diff, protected parity, and pvg verify PASS.
+
+### proof
+- [x] AC #1: authorization recorded before execution
+- [x] AC #2: current-head graph and controls recorded
+- [x] AC #3: exact local execution, hashes, metadata, and decoded evidence recorded
+- [x] AC #4: deterministic pixel measurement recorded
+- [x] AC #5: FFV1 and H.264 replay bytes matched
+- [x] AC #6: neural cells terminalized by typed host-implementation boundary
+- [x] AC #7: face cells terminalized by missing required inputs
+- [x] AC #8: exactly five intended matrix cells changed
+- [x] AC #9: no prohibited action and protected files unchanged
+- [x] AC #10: checker, clean full suite, lint, release, diff, and protected-file gates PASS
+
