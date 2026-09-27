@@ -9,10 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
 updated_at: 2026-09-27T02:41:45Z
-content_hash: "sha256:9941208298bcb8e0ce88464b6c6dc6848583fe426ba6f4ca1d8de24ff8d927ba"
+content_hash: "sha256:26166a925e46067af0ec66eb8a23ef07723f3a06602929a9a56291fa38f660d3"
 blocks: [WD-fay0]
 assignee: dev-WD-m25k
-follows: [WD-obkn, WD-7fvx, WD-m7xw]
+follows: [WD-obkn, WD-7fvx, WD-m7xw, WD-5k28]
 ---
 
 ## Description
@@ -156,11 +156,13 @@ Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`
 - 2026-09-27T02:39:36Z auto-follows: linked to predecessor WD-7fvx
 - 2026-09-27T02:41:33Z status: in_progress -> in_progress
 - 2026-09-27T02:41:34Z auto-follows: linked to predecessor WD-m7xw
+- 2026-09-27T02:41:46Z status: in_progress -> in_progress
+- 2026-09-27T02:41:46Z auto-follows: linked to predecessor WD-5k28
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-obkn]], [[WD-7fvx]], [[WD-m7xw]]
+- Follows: [[WD-obkn]], [[WD-7fvx]], [[WD-m7xw]], [[WD-5k28]]
 
 ## Comments
 
