@@ -1,0 +1,9 @@
+{
+  "tests": 2108,
+  "errors": 0,
+  "failures": 0,
+  "skipped": 1,
+  "time_s": 1168.374,
+  "deselected": 0,
+  "command": "uv run --frozen --extra dev pytest -q --junitxml=..."
+}

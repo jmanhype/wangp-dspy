@@ -1,0 +1,12 @@
+diagnostic code=INPUT_INVALID severity=error: Typed input or configuration check failed
+  observed: tree is dirty: changed_path_count=3, untracked_path_count=3
+  why: The CLI rejected the request before an engine side effect.
+  remediation: Fix the named field/path/configuration value, then rerun the same command.
+  next: wgp release verify --json
+  evidence: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qswf
+  details: {"source": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qswf"}
+check=version status=pass expected='0.1.0' observed={'VERSION': '0.1.0', 'pyproject.toml': '0.1.0', 'wangp.__version__': '0.1.0'}
+check=changelog status=pass expected='0.1.0' observed='0.1.0'
+check=recipe_schema status=pass expected='wangp-dspy.render-recipe/v3' observed='wangp-dspy.render-recipe/v3'
+check=tree status=failed expected='clean_tree=true changed_path_count=0 untracked_path_count=0' observed={'commit_sha': 'ae1a94fd8fc25c1ab6b4f1842aacb4a14dd65f83', 'clean_tree': False, 'dirty_tree': True, 'changed_path_count': 3, 'untracked_path_count': 3, 'status_sha256': '651e8a937f19d9ec70f58c1eb24b4c9e38c13b94f484d965b186a083d5059d77', 'tracked_diff_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'untracked_content_sha256': 'e9ab340ffaaec260289bf2d1ea3ace16a1f8a7d5562dbaebc3e78d6bd4d31a3f'}
+release=not_ready
