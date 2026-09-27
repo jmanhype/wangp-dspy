@@ -1,0 +1,28 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28i5-run/settings/create.json
+Output directory: /home/straughter/wd-28i5-run/outputs/create
+[load_settings] Loading settings from: /home/straughter/wd-28i5-run/settings/create.json
+[load_settings] Task 1/1 ready, ID: 1, model: t2v
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test: two grounded fantasy combatants gr...
+Loading model Wan2.1 Text2video 14B...
+Loading Model 'ckpts/wan2.1_text2video_14B_quanto_mbf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 62 large blocks spread across 13858.97 MB
+Hooked to model 'transformer' (WanModel)
+Hooked to model 'vae' (WanVAE_)
+Hooked to model 'text_encoder' (T5Encoder)
+  Model loaded  [0/1] Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/8] Denoising | 10.2s  [0/8] Denoising | 10.2s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Denoising | 27.3s 12%|█▎        | 1/8 [00:17<02:03, 17.67s/steps]  [1/8] Denoising | 28.1s / 2m 32s 25%|██▌       | 2/8 [00:18<00:46,  7.73s/steps]  [2/8] Denoising | 28.8s / 1m 24s 38%|███▊      | 3/8 [00:19<00:23,  4.61s/steps]  [3/8] Denoising | 29.7s / 1m 02s 50%|█████     | 4/8 [00:20<00:12,  3.09s/steps]  [4/8] Denoising | 30.5s / 50.8s  62%|██████▎   | 5/8 [00:20<00:06,  2.27s/steps]  [5/8] Denoising | 31.3s / 44.0s 75%|███████▌  | 6/8 [00:21<00:03,  1.77s/steps]  [6/8] Denoising | 32.1s / 39.4s 88%|████████▊ | 7/8 [00:22<00:01,  1.46s/steps]  [7/8] Denoising | 32.9s / 36.2s100%|██████████| 8/8 [00:23<00:00,  1.25s/steps]100%|██████████| 8/8 [00:23<00:00,  2.92s/steps]
+  [8/8] VAE Decoding | 33.8s / 33.8sError saving metadata to MP4 /home/straughter/wd-28i5-run/outputs/create/2026-09-27-10h25m38s_seed3601_A concise cinematic test two grounded fantasy combatants grapple on a rooftop at sunset with cohere.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/outputs/create/2026-09-27-10h25m38s_seed3601_A concise cinematic test two grounded fantasy combatants grapple on a rooftop at sunset with cohere.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 54.6s

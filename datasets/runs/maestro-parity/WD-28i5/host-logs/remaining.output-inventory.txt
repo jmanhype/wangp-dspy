@@ -1,0 +1,20 @@
+/home/straughter/wd-28i5-run/outputs/create/2026-09-27-10h25m38s_seed3601_A concise cinematic test two grounded fantasy combatants grapple on a rooftop at sunset with cohere.mp4
+/home/straughter/wd-28i5-run/outputs/create/contact-sheet.jpg
+/home/straughter/wd-28i5-run/outputs/create/first-frame.png
+/home/straughter/wd-28i5-run/outputs/create/output-path.txt
+/home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.ffprobe.json
+/home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.mp4
+/home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.sha256
+/home/straughter/wd-28i5-run/outputs/extend/contact-sheet.jpg
+/home/straughter/wd-28i5-run/outputs/extend/first-frame.png
+/home/straughter/wd-28i5-run/outputs/extend/output-path.txt
+/home/straughter/wd-28i5-run/outputs/extend/wd_28i5_extend.ffprobe.json
+/home/straughter/wd-28i5-run/outputs/extend/wd_28i5_extend.mp4
+/home/straughter/wd-28i5-run/outputs/extend/wd_28i5_extend.sha256
+/home/straughter/wd-28i5-run/outputs/upscale/contact-sheet.jpg
+/home/straughter/wd-28i5-run/outputs/upscale/first-frame.png
+/home/straughter/wd-28i5-run/outputs/upscale/output-path.txt
+/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_create_post.mp4
+/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_upscale.ffprobe.json
+/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_upscale.mp4
+/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_upscale.sha256

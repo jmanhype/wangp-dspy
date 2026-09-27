@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_create_post.mp4
+final=/home/straughter/wd-28i5-run/outputs/upscale/wd_28i5_upscale.mp4

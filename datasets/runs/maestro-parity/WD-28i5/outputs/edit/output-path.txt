@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m35s_seed3605_Wan edit boundary keep the control staging and cool the sunset slightly..mp4
+final=/home/straughter/wd-28i5-run/outputs/edit/wd_28i5_edit.mp4

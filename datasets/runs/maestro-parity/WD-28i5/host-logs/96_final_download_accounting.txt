@@ -1,0 +1,5 @@
+model_download_bytes=14903022013
+model_session_bytes=14903022013
+shared_dependency_download_bytes=0
+total_authorized_bytes=14903022013
+live_dependency_mutation=0

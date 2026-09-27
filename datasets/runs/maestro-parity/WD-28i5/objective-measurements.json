@@ -1,0 +1,50 @@
+{
+  "schema_version": "wangp-dspy.wd-28i5.objective-measurements/v1",
+  "source_sha256": "384c801752025f0a7483f79ecc4741f5005a0ed2e1b31e929a07311d42464bbc",
+  "upscale_vs_scaled_source_psnr_db": 46.842196,
+  "boundary_whole_psnr_versus_control_db": {
+    "extend": 12.221085,
+    "retake": 11.594282,
+    "edit": 14.9666,
+    "repaint": 10.505929
+  },
+  "boundary_first_frame_psnr_versus_create_db": {
+    "extend": 45.036993,
+    "retake": 8.009577,
+    "edit": 10.402382,
+    "repaint": 10.540743
+  },
+  "retake_first_frame_ssim_versus_reference": 0.267002,
+  "rows": [
+    {
+      "operation": "create",
+      "path": "outputs/create/wd_28i5_create.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.5625,
+      "fps": 16.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "384c801752025f0a7483f79ecc4741f5005a0ed2e1b31e929a07311d42464bbc",
+      "bytes": 99442
+    },
+    {
+      "operation": "upscale",
+      "path": "outputs/upscale/wd_28i5_upscale.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 0.5625,
+      "fps": 16.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "5b8b99f4e1965fccf63776c58b553697da78cc3c3b1ed3a7e92dcf437c226785",
+      "bytes": 281658
+    }
+  ]
+}

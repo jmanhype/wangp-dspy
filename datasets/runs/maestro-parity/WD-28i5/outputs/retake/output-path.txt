@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m00s_seed3604_Wan retake boundary from the supplied first frame with stronger sunset backlight..mp4
+final=/home/straughter/wd-28i5-run/outputs/retake/wd_28i5_retake.mp4

@@ -1,0 +1,6 @@
+2026-09-27T15:24:39Z
+4c93b64a47b5b0a915f2abec2ce754be98227150
+?? ckpts
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 827977768960 21274238976  98% /
+NVIDIA GeForce RTX 3090, 24576, 260, 23856

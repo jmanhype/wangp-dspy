@@ -1,0 +1,69 @@
+{
+  "schema_version": "wangp-dspy.wd-28i5.boundary-evidence/v1",
+  "records": [
+    {
+      "operation": "extend",
+      "output": "boundaries/probe-batch/2026-09-27-10h27m26s_seed3602_Wan extension boundary continue the supplied combat take for a longer beat..mp4",
+      "output_sha256": "067957f8bcdc639355339ded5c6e953d911039aded7486269bd54a7940dafb4c",
+      "duration_s": 2.0625,
+      "whole_psnr_db": 12.221085,
+      "first_frame_psnr_db": 45.036993,
+      "boundary": "unsupported_host_implementation",
+      "reason": "The first frame is preserved, but later frames abandon the supplied combat premise for an unrelated industrial subject; the operation is not a faithful continuation."
+    },
+    {
+      "operation": "blend",
+      "log": "host-logs/probe-batch.render.log",
+      "native_exit": 137,
+      "boundary": "unsupported_host_implementation",
+      "reason": "Two-guide setup fails with KeyError reference_video_max_frames before generation."
+    },
+    {
+      "operation": "retake",
+      "output": "boundaries/probe-batch/2026-09-27-10h28m00s_seed3604_Wan retake boundary from the supplied first frame with stronger sunset backlight..mp4",
+      "output_sha256": "94c1c515aa001b78698e79fdffa099300f94195cc99acbb293e2ca52f5b2815a",
+      "whole_psnr_db": 11.594282,
+      "first_frame_psnr_db": 8.009577,
+      "first_frame_ssim": 0.267002,
+      "boundary": "unsupported_host_implementation",
+      "reason": "The supplied combat start frame is not preserved; the output is an unrelated glowing landscape."
+    },
+    {
+      "operation": "edit",
+      "output": "boundaries/probe-batch/2026-09-27-10h28m35s_seed3605_Wan edit boundary keep the control staging and cool the sunset slightly..mp4",
+      "output_sha256": "b270833977dd7e8ced596021517bb9db37d636960efc094def44401cba75a737",
+      "whole_psnr_db": 14.9666,
+      "first_frame_psnr_db": 10.402382,
+      "boundary": "unsupported_host_implementation",
+      "reason": "The guide is ignored and the output becomes unrelated people near water."
+    },
+    {
+      "operation": "outpaint",
+      "output": "boundaries/probe-batch/2026-09-27-10h29m10s_seed3606_Wan outpaint boundary widen the rooftop scene with more skyline..mp4",
+      "output_sha256": "055e7779067b9bbf02499e7d920fdf1e11a70b09cc1e9e0158ea12f8c4383fa4",
+      "width": 384,
+      "height": 224,
+      "boundary": "unsupported_host_implementation",
+      "reason": "Media was emitted but dimensions stayed 384x224; no frame enlargement occurred."
+    },
+    {
+      "operation": "repaint",
+      "output": "boundaries/probe-batch/2026-09-27-10h29m45s_seed3607_Wan repaint boundary preserve the scene and replace the selected figure with leather armor..mp4",
+      "output_sha256": "bc33dd86049f1b130c3acb8bfe2a13c42ce7fef7e31f2ff2d94e584d613cb58e",
+      "whole_psnr_db": 10.505929,
+      "first_frame_psnr_db": 10.540743,
+      "boundary": "unsupported_host_implementation",
+      "reason": "The control scene is abandoned for an unrelated dim interior."
+    },
+    {
+      "operation": "recast",
+      "log": "host-logs/probe-batch.render.log",
+      "native_exit": 137,
+      "failing_stage": "Removing Images References Background",
+      "boundary": "unsupported_host_implementation",
+      "reason": "The process was killed during reference-background removal before generation; no output was admitted."
+    }
+  ],
+  "probe_batch_log_sha256": "696cce332f351a73c2025f02321ddcca3046619d085bb7795f258c16357787fb",
+  "visual_review": "review/QC.md"
+}

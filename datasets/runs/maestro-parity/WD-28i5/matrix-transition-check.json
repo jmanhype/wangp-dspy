@@ -1,0 +1,32 @@
+{
+  "schema_version": "wangp-dspy.wd-28i5.matrix-transition/v1",
+  "base_commit": "1e9578f7",
+  "before": [
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned",
+    "planned"
+  ],
+  "after": [
+    "host_run_verified",
+    "unsupported",
+    "unsupported",
+    "unsupported",
+    "unsupported",
+    "unsupported",
+    "unsupported",
+    "unsupported",
+    "host_run_verified"
+  ],
+  "changed_cells": 9,
+  "expected_changed_cells": 9,
+  "planned_after": 0,
+  "verified_after": 2,
+  "unsupported_after": 7,
+  "pass": true
+}

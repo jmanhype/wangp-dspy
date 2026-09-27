@@ -1,0 +1,325 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "you decide",
+    "scope": "Dispatcher selected Wan/2GP after SCAIL-2: one main checkpoint download, eight shared assets rehashed, nine target cells, isolated Wan2GP worktree, no live dependency mutation",
+    "timestamp": "2026-09-27T15:07:00Z",
+    "approved_by": "operator via /root dispatcher decision"
+  },
+  "command": [
+    "ssh",
+    "3090",
+    "/tmp/20_run_create.sh"
+  ],
+  "repository": {
+    "commit": "1e9578f77e12d43dbbc2b3986b2a061555ef453b",
+    "base_commit": "1e9578f7",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "07fa57845f3e920f3923cd2ec0bc7d4da011f31c05f6bcf1fd5e71af0a836101",
+      "status_lines": [
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-28i5/"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "wan2.1_text2video_14B_quanto_mbf16_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/wan2.1_text2video_14B_quanto_mbf16_int8.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "74ac1b282a7cb5562e73511dc865afcab38abe060d26f880d36f3e58735671a7",
+      "size_bytes": 14903022013,
+      "destination": "/home/straughter/Wan2GP/ckpts/wan2.1_text2video_14B_quanto_mbf16_int8.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": true
+    },
+    {
+      "identity": "models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "5e4961851c78838931990549810ed51c9036081b2ad80bf464c4e2603c5f922c",
+      "size_bytes": 6733337738,
+      "destination": "/home/straughter/Wan2GP/ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "Wan2.1_VAE.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan2.1_VAE.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "3ce0c02b9470532e7f63f3e2f8e83b0681fdeaa432e969c412482d2b3b78267b",
+      "size_bytes": 507593157,
+      "destination": "/home/straughter/Wan2GP/ckpts/Wan2.1_VAE.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "2413554bbec24215185662d009893cf4666b8e777efece2d895e03e1a6b63e06",
+      "size_bytes": 507684560,
+      "destination": "/home/straughter/Wan2GP/ckpts/Wan2.1_VAE_upscale2x_imageonly_real_v1.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "742b68fe1cade9e54863aee12aed5390a994269957bd0638799b141cbc236ad8",
+      "size_bytes": 2386119506,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "sentencepiece.bpe.model",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/sentencepiece.bpe.model",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "size_bytes": 5069051,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/sentencepiece.bpe.model",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "special_tokens_map.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/special_tokens_map.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "06e405a36dfe4b9604f484f6a1e619af1a7f7d09e34a8555eb0b77b66318067f",
+      "size_bytes": 280,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/special_tokens_map.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "tokenizer.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/tokenizer.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+      "size_bytes": 17082660,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    },
+    {
+      "identity": "tokenizer_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/Wan2.1/resolve/main/xlm-roberta-large/tokenizer_config.json",
+      "license": "Apache-2.0 (Wan2.1 upstream); operator research/evaluation only",
+      "sha256": "efb5c0d09722e5fe59a462cd2a9976ee216d55b037597d997cd3fe833216da15",
+      "size_bytes": 418,
+      "destination": "/home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer_config.json",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "downloaded_this_story": false
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "inputs/control.mp4",
+      "role": "person_bearing_control_video",
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/reference.png",
+      "role": "retake_start_frame",
+      "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/alternate-reference.png",
+      "role": "recast_reference_frame",
+      "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/control-mask.mp4",
+      "role": "repaint_probe_mask",
+      "sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-28i5-wan-t2v-native-cli",
+    "job_id": "wd-28i5-wan-nine-cells",
+    "retry_id": "attempt-1",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "native_logs": [
+      "host-logs/create.render.log",
+      "host-logs/upscale.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs/create.render.log": "5460b9fd105bd9efccaf00815d0d5424150a22ef743c6ed16e86c97b37ef7089",
+      "host-logs/upscale.render.log": "89d3f2cd52d9452b654aad772067031ce0d25ebd6b91d9876247f9d5ccbc62ff"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/create/wd_28i5_create.mp4",
+      "sha256": "384c801752025f0a7483f79ecc4741f5005a0ed2e1b31e929a07311d42464bbc"
+    },
+    {
+      "path": "outputs/upscale/wd_28i5_upscale.mp4",
+      "sha256": "5b8b99f4e1965fccf63776c58b553697da78cc3c3b1ed3a7e92dcf437c226785"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/create/wd_28i5_create.mp4",
+      "kind": "video",
+      "width": 384,
+      "height": 224,
+      "duration_s": 0.5625,
+      "fps": 16.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/upscale/wd_28i5_upscale.mp4",
+      "kind": "video",
+      "width": 768,
+      "height": 448,
+      "duration_s": 0.5625,
+      "fps": 16.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_28i5_output_count",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4",
+        "outputs/upscale/wd_28i5_upscale.mp4"
+      ],
+      "threshold": 2,
+      "measured": 2,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_distinct_hashes",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4",
+        "outputs/upscale/wd_28i5_upscale.mp4"
+      ],
+      "threshold": 2,
+      "measured": 2,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_create_duration_s",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4"
+      ],
+      "threshold": 0.5,
+      "measured": 0.5625,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_create_fps",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4"
+      ],
+      "threshold": 16.0,
+      "measured": 16.0,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_create_nonempty_bytes",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4"
+      ],
+      "threshold": 50000,
+      "measured": 99442,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_upscale_width",
+      "inputs": [
+        "outputs/upscale/wd_28i5_upscale.mp4"
+      ],
+      "threshold": 768,
+      "measured": 768,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_upscale_height",
+      "inputs": [
+        "outputs/upscale/wd_28i5_upscale.mp4"
+      ],
+      "threshold": 448,
+      "measured": 448,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_28i5_upscale_scaled_source_psnr_db",
+      "inputs": [
+        "outputs/create/wd_28i5_create.mp4",
+        "outputs/upscale/wd_28i5_upscale.mp4"
+      ],
+      "threshold": 40.0,
+      "measured": 46.842196,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [],
+    "reviewer": "independent PM pending",
+    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "wan/2gp": {
+      "create": "host_run_verified",
+      "extend": "unsupported",
+      "blend": "unsupported",
+      "retake": "unsupported",
+      "edit": "unsupported",
+      "outpaint": "unsupported",
+      "repaint": "unsupported",
+      "recast": "unsupported",
+      "upscale": "host_run_verified"
+    }
+  },
+  "boundary_evidence": "boundary-evidence.json",
+  "matrix_transition": "matrix-transition-check.json",
+  "download_evidence": {
+    "main_assets": 1,
+    "main_bytes": 14903022013,
+    "session_bytes": 14903022013,
+    "shared_assets_rehashed": 8,
+    "shared_bytes": 10156887370,
+    "shared_download_bytes": 0,
+    "live_dependency_mutation": false,
+    "report": "host-logs/download-report.tsv"
+  },
+  "runtime_notes": {
+    "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "isolated_source_final_status": "?? ckpts",
+    "probe_batch_exit": 137,
+    "targeted_junit": {
+      "tests": "110",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0"
+    },
+    "gpu_final": "see host-logs/90_final_postflight.txt"
+  }
+}

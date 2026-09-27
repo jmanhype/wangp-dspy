@@ -1,0 +1,4 @@
+planned_bytes=14903022013
+actual_bytes=14903022013
+session_bytes=14903022013
+asset_count=1

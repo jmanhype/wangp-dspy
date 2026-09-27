@@ -1,0 +1,21 @@
+{
+  "model_type": "t2v",
+  "prompt": "A concise cinematic test: two grounded fantasy combatants grapple on a rooftop at sunset with coherent limbs and stable camera motion.",
+  "negative_prompt": "cartoon, broken anatomy, extra limbs, jitter, blur, low quality",
+  "resolution": "384x224",
+  "seed": 3601,
+  "video_length": 9,
+  "num_inference_steps": 8,
+  "guidance_scale": 5.0,
+  "flow_shift": 3.0,
+  "sample_solver": "unipc",
+  "image_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "T",
+  "audio_prompt_type": ""
+}
