@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
 updated_at: 2026-09-27T03:54:18Z
-content_hash: "sha256:bc3ce0c19b537ab459f925d6be73050430b51ae8d5422cdabfbfb7ec898dd124"
+content_hash: "sha256:b76e570bd39cd42cca07f47c2b609ffb2f1085f0291083d6766f8a673a3cdd6a"
 assignee: dev-WD-8h6p
 follows: [WD-m25k, WD-obkn]
 closed_at: 2026-09-27T03:54:17Z
 close_reason: "Accepted: six real Hunyuan outputs and one exact blend boundary cover all seven target cells; independent media/hash/isolation review and final gates pass."
+led_to: [WD-ycjg]
 ---
 
 ## Description
@@ -221,6 +222,7 @@ Bundle: 143 files, 36,883,770 bytes.
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-m25k]], [[WD-obkn]]
+- Led to: [[WD-ycjg]]
 
 ## Comments
 

@@ -1,16 +1,18 @@
 ---
 id: WD-ycjg
 title: "SCAIL-2 authorized download video batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T13:24:25Z
-content_hash: "sha256:9bdf8f748ccc2266bced586510b129fd47290ef4056f93b1acf40b8ae3246896"
+updated_at: 2026-09-27T13:24:41Z
+content_hash: "sha256:3b182f32e05f5dcde22f208b08f1b1706729e9e381df26e7558af5205a9f6b00"
 blocks: [WD-fay0]
+assignee: dev-WD-ycjg
+follows: [WD-8h6p]
 ---
 
 ## Description
@@ -288,9 +290,13 @@ status: new
 
 ## History
 - 2026-09-27T13:24:02Z dep_added: blocks WD-fay0
+- 2026-09-27T13:24:41Z status: open -> in_progress
+- 2026-09-27T13:24:41Z auto-follows: linked to predecessor WD-8h6p
+- 2026-09-27T13:24:41Z claimed by dev-WD-ycjg
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-8h6p]]
 
 ## Comments
