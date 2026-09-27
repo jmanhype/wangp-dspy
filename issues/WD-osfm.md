@@ -4,7 +4,7 @@ title: "LTX-2.3 authorized download video batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
