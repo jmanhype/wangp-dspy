@@ -8,11 +8,11 @@ labels: [capability, evidence, director, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-27T00:05:32Z
-content_hash: "sha256:19dee38a45eca158d5bc74350ca4baf295b61bc9be4025b445fd7897bb4ca40a"
+updated_at: 2026-09-27T00:05:33Z
+content_hash: "sha256:be394121d8e23a64f0da6f01a34802aa6e78eb4ef0505777099f3a8109fda421"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
-follows: [WD-5k28, WD-m7xw, WD-43tj]
+follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
 assignee: dev-WD-7fvx
 ---
 
@@ -327,12 +327,14 @@ status: delivered
 - 2026-09-27T00:01:24Z status: open -> in_progress
 - 2026-09-27T00:01:24Z auto-follows: linked to predecessor WD-43tj
 - 2026-09-27T00:01:24Z claimed by dev-WD-7fvx
+- 2026-09-27T00:05:33Z status: in_progress -> in_progress
+- 2026-09-27T00:05:33Z auto-follows: linked to predecessor WD-9ymi
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-dmf2]], [[WD-cpow]]
-- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]]
+- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-9ymi]]
 
 ## Comments
 
