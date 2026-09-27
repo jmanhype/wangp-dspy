@@ -13,14 +13,15 @@
     "/tmp/23_postprocess_retry.sh"
   ],
   "repository": {
-    "commit": "28fc76a1ff735fb2dbfd9ec726a254f147630fcc",
+    "commit": "90c9f9efa06272be0a0f47d4d4bda6222259d58f",
     "base_commit": "28fc76a1",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "290250772b8f7dfed232287bd04df9381e343914c7c081837467cebefc2779e1",
+      "identity_sha256": "33ed9791da5cb96c0e728a3884bfb05bca45dacb83d65065a5da5dc38993d87f",
       "status_lines": [
-        " M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-m25k/"
+        " M datasets/runs/maestro-parity/WD-m25k/release-verify.exit",
+        " M datasets/runs/maestro-parity/WD-m25k/release-verify.stderr",
+        " M datasets/runs/maestro-parity/WD-m25k/release-verify.txt"
       ]
     }
   },
