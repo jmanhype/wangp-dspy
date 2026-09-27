@@ -1,0 +1,2 @@
+source=/home/straughter/wd-osfm-run/outputs/create/2026-09-27-13h12m43s_seed3701_A concise cinematic test two grounded fantasy combatants grapple on a rooftop at sunset with cohere.mp4
+final=/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4

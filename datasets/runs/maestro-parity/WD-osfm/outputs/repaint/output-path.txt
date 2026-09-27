@@ -1,0 +1,2 @@
+source=/home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h19m54s_seed3707_LTX-2.3 repaint boundary preserve the scene and replace the selected figure with leather armor..mp4
+final=/home/straughter/wd-osfm-run/outputs/repaint/wd_osfm_repaint.mp4

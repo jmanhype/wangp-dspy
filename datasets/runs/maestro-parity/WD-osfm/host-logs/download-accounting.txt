@@ -1,0 +1,6 @@
+planned_bytes=35379235525
+actual_bytes=35379235525
+session_bytes=35379235525
+asset_count=18
+linked_assets=1
+linked_download_bytes=0

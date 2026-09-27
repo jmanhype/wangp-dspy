@@ -1,0 +1,2 @@
+source=/home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h17m02s_seed3704_LTX-2.3 retake boundary from the supplied first frame with stronger sunset backlight..mp4
+final=/home/straughter/wd-osfm-run/outputs/retake/wd_osfm_retake.mp4

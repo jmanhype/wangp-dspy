@@ -1,0 +1,2 @@
+source=/home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h18m24s_seed3705_LTX-2.3 edit boundary keep the control staging and cool the sunset slightly..mp4
+final=/home/straughter/wd-osfm-run/outputs/edit/wd_osfm_edit.mp4

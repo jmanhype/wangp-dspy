@@ -1,0 +1,4 @@
+2556072 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h15m35s_seed3702_LTX-2.3 extension boundary continue the supplied combat take for a longer beat..mp4
+548009 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h17m02s_seed3704_LTX-2.3 retake boundary from the supplied first frame with stronger sunset backlight..mp4
+853638 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h18m24s_seed3705_LTX-2.3 edit boundary keep the control staging and cool the sunset slightly..mp4
+853784 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h19m54s_seed3707_LTX-2.3 repaint boundary preserve the scene and replace the selected figure with leather armor..mp4

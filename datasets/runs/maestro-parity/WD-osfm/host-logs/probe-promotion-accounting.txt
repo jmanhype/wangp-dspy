@@ -1,0 +1,3 @@
+promoted=4
+unpromoted_native_failures=blend,outpaint,recast
+gpu_invoked=0

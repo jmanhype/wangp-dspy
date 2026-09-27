@@ -1,0 +1,138 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-osfm-run/settings/probe-batch.json
+Output directory: /home/straughter/wd-osfm-run/boundaries/probe-batch
+[load_settings] Loading settings from: /home/straughter/wd-osfm-run/settings/probe-batch.json
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4
+[load_settings] Task 1/7 ready, ID: 1, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+[load_settings] Task 2/7 ready, ID: 2, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Loaded image: /home/straughter/wd-osfm-run/inputs/reference.png
+[load_settings] Task 3/7 ready, ID: 3, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control.mp4
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+[load_settings] Task 4/7 ready, ID: 4, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control.mp4
+Number of Phases has been set to 1 as Outpainting is enabled
+[load_settings] Task 5/7 ready, ID: 5, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-osfm-run/inputs/control-mask.mp4
+With Masking Strength 0.5, Masking will last 4 Steps
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+[load_settings] Task 6/7 ready, ID: 6, model: ltx2_22B_distilled_gguf_q4_k_m
+[load_settings] Loaded image: /home/straughter/wd-osfm-run/inputs/alternate-reference.png
+[load_settings] Task 7/7 ready, ID: 7, model: ltx2_22B_distilled_gguf_q4_k_m
+Loaded 7 task(s)
+
+[Task 1/7] LTX-2.3 extension boundary: continue the supplied combat tak...
+Loading Model 'ckpts/ltx-2.3-22b-distilled-Q4_K_M_light.gguf' ...
+Loading Text Encoder 'ckpts/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors' ...
+Loading model LTX-2 2.3 Distilled 1.0 GGUF Q4_K_M Light 22B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 52 large blocks spread across 12378.27 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma3ForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'text_embeddings_connector' (GemmaTextEmbeddingsConnectorModel)
+  Model loaded  [0/1] Prompt 1/7 - Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Prompt 1/7 - VAE Encoding     [0/8] Prompt 1/7 - Denoising First Phase | 24.6s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:12<01:25, 12.21s/steps]  [1/8] Prompt 1/7 - Denoising First Phase | 37.0s / 2m 03s 25%|██▌       | 2/8 [00:14<00:39,  6.59s/steps]  [2/8] Prompt 1/7 - Denoising First Phase | 39.7s / 1m 24s 38%|███▊      | 3/8 [00:17<00:24,  4.83s/steps]  [3/8] Prompt 1/7 - Denoising First Phase | 42.4s / 1m 12s 50%|█████     | 4/8 [00:20<00:15,  3.98s/steps]  [4/8] Prompt 1/7 - Denoising First Phase | 45.1s / 1m 05s 62%|██████▎   | 5/8 [00:23<00:10,  3.53s/steps]  [5/8] Prompt 1/7 - Denoising First Phase | 47.8s / 1m 01s 75%|███████▌  | 6/8 [00:25<00:06,  3.24s/steps]  [6/8] Prompt 1/7 - Denoising First Phase | 50.5s / 59.2s  88%|████████▊ | 7/8 [00:28<00:03,  3.06s/steps]  [7/8] Prompt 1/7 - Denoising First Phase | 53.2s / 57.3s100%|██████████| 8/8 [00:31<00:00,  2.95s/steps]  [8/8] Prompt 1/7 - VAE Decoding | 55.9s / 55.9s         100%|██████████| 8/8 [00:31<00:00,  3.89s/steps]
+  [0/1] Prompt 1/7 - VAE Encoding                  [0/3] Prompt 1/7 - Denoising Second Phase | 59.8s  0%|          | 0/3 [00:00<?, ?steps/s]  [1/3] Prompt 1/7 - Denoising Second Phase | 1m 21s / 2m 03s 33%|███▎      | 1/3 [00:20<00:41, 20.81s/steps] 67%|██████▋   | 2/3 [00:25<00:11, 11.46s/steps]  [2/3] Prompt 1/7 - Denoising Second Phase | 1m 26s / 1m 39s100%|██████████| 3/3 [00:30<00:00,  8.45s/steps]100%|██████████| 3/3 [00:30<00:00, 10.19s/steps]
+  [3/3] Prompt 1/7 - VAE Decoding | 1m 30s / 1m 30s          7 frames trimmed to match expected duration (Sliding Window 1).
+Error saving metadata to MP4 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h15m35s_seed3702_LTX-2.3 extension boundary continue the supplied combat take for a longer beat..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h15m35s_seed3702_LTX-2.3 extension boundary continue the supplied combat take for a longer beat..mp4
+
+
+  Task 1 completed
+
+[Task 2/7] LTX-2.3 two-guide blend boundary using the original control ...
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+
+  [ERROR] 'reference_video_max_frames'
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 7574, in generate_media
+    guide_frames_limit = round(model_def["reference_video_max_frames"] * fps / model_def["fps"]) if reference_videos else source_video_frames_count - source_video_overlap_frames_count + requested_frames_to_generate
+                               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'reference_video_max_frames'
+
+  [ERROR] 'reference_video_max_frames'
+
+[Task 3/7] LTX-2.3 retake boundary from the supplied first frame with s...
+  [0/1] Prompt 3/7 - Encoding Prompt  [0/1] Prompt 3/7 - VAE Encoding     [0/8] Prompt 3/7 - Denoising First Phase | 30.1s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:12<01:29, 12.85s/steps]  [1/8] Prompt 3/7 - Denoising First Phase | 43.2s / 2m 14s 25%|██▌       | 2/8 [00:14<00:35,  5.99s/steps]  [2/8] Prompt 3/7 - Denoising First Phase | 44.4s / 1m 27s 38%|███▊      | 3/8 [00:15<00:18,  3.80s/steps]  [3/8] Prompt 3/7 - Denoising First Phase | 45.6s / 1m 11s 50%|█████     | 4/8 [00:16<00:11,  2.77s/steps]  [4/8] Prompt 3/7 - Denoising First Phase | 46.8s / 1m 03s 62%|██████▎   | 5/8 [00:17<00:06,  2.19s/steps]  [5/8] Prompt 3/7 - Denoising First Phase | 47.9s / 58.6s  75%|███████▌  | 6/8 [00:18<00:03,  1.88s/steps]  [6/8] Prompt 3/7 - Denoising First Phase | 49.2s / 55.6s 88%|████████▊ | 7/8 [00:20<00:01,  1.66s/steps]  [7/8] Prompt 3/7 - Denoising First Phase | 50.4s / 53.3s100%|██████████| 8/8 [00:21<00:00,  1.52s/steps]100%|██████████| 8/8 [00:21<00:00,  2.66s/steps]
+  [8/8] Prompt 3/7 - VAE Decoding | 51.6s / 51.6s           [0/1] Prompt 3/7 - VAE Encoding                  [0/3] Prompt 3/7 - Denoising Second Phase | 54.7s  0%|          | 0/3 [00:00<?, ?steps/s] 33%|███▎      | 1/3 [00:18<00:37, 18.64s/steps]  [1/3] Prompt 3/7 - Denoising Second Phase | 1m 13s / 1m 51s 67%|██████▋   | 2/3 [00:21<00:09,  9.25s/steps]  [2/3] Prompt 3/7 - Denoising Second Phase | 1m 16s / 1m 27s100%|██████████| 3/3 [00:24<00:00,  6.27s/steps]100%|██████████| 3/3 [00:24<00:00,  8.01s/steps]
+  [3/3] Prompt 3/7 - VAE Decoding | 1m 19s / 1m 19s          Error saving metadata to MP4 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h17m02s_seed3704_LTX-2.3 retake boundary from the supplied first frame with stronger sunset backlight..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h17m02s_seed3704_LTX-2.3 retake boundary from the supplied first frame with stronger sunset backlight..mp4
+
+
+  Task 3 completed
+
+[Task 4/7] LTX-2.3 edit boundary: keep the control staging and cool the...
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+No audio track found in Control Video #1: /home/straughter/wd-osfm-run/inputs/control.mp4
+  [0/1] Prompt 4/7 - Extracting Raw Format  [0/1] Prompt 4/7 - Encoding Prompt        [0/1] Prompt 4/7 - VAE Encoding     [0/8] Prompt 4/7 - Denoising First Phase | 29.9s  0%|          | 0/8 [00:00<?, ?steps/s]  [1/8] Prompt 4/7 - Denoising First Phase | 40.9s / 1m 57s 12%|█▎        | 1/8 [00:10<01:15, 10.74s/steps] 25%|██▌       | 2/8 [00:11<00:30,  5.15s/steps]  [2/8] Prompt 4/7 - Denoising First Phase | 42.2s / 1m 18s 38%|███▊      | 3/8 [00:13<00:16,  3.37s/steps]  [3/8] Prompt 4/7 - Denoising First Phase | 43.4s / 1m 05s 50%|█████     | 4/8 [00:14<00:10,  2.54s/steps]  [4/8] Prompt 4/7 - Denoising First Phase | 44.7s / 59.4s  62%|██████▎   | 5/8 [00:15<00:06,  2.07s/steps]  [5/8] Prompt 4/7 - Denoising First Phase | 45.9s / 55.5s 75%|███████▌  | 6/8 [00:16<00:03,  1.79s/steps]  [6/8] Prompt 4/7 - Denoising First Phase | 47.1s / 52.9s 88%|████████▊ | 7/8 [00:18<00:01,  1.61s/steps]  [7/8] Prompt 4/7 - Denoising First Phase | 48.4s / 51.0s100%|██████████| 8/8 [00:19<00:00,  1.50s/steps]100%|██████████| 8/8 [00:19<00:00,  2.44s/steps]
+  [8/8] Prompt 4/7 - VAE Decoding | 49.6s / 49.6s           [0/1] Prompt 4/7 - VAE Encoding                  [0/3] Prompt 4/7 - Denoising Second Phase | 51.8s  0%|          | 0/3 [00:00<?, ?steps/s] 33%|███▎      | 1/3 [00:18<00:37, 18.61s/steps]  [1/3] Prompt 4/7 - Denoising Second Phase | 1m 10s / 1m 48s 67%|██████▋   | 2/3 [00:21<00:09,  9.26s/steps]  [2/3] Prompt 4/7 - Denoising Second Phase | 1m 13s / 1m 24s100%|██████████| 3/3 [00:24<00:00,  6.27s/steps]100%|██████████| 3/3 [00:24<00:00,  8.01s/steps]
+  [3/3] Prompt 4/7 - VAE Decoding | 1m 15s / 1m 15s          Error saving metadata to MP4 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h18m24s_seed3705_LTX-2.3 edit boundary keep the control staging and cool the sunset slightly..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h18m24s_seed3705_LTX-2.3 edit boundary keep the control staging and cool the sunset slightly..mp4
+
+
+  Task 4 completed
+
+[Task 5/7] LTX-2.3 outpaint boundary: widen the rooftop scene with more...
+  Downloading Lora ltx-2.3-22b-ic-lora-outpaint.safetensors...Error downloading https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-outpaint.safetensors:An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-outpaint.safetensors']."
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 7012, in generate_media
+    if len(errors) > 0 : raise gr.Error(errors)
+                         ^^^^^^^^^^^^^^^^^^^^^^
+gradio.exceptions.Error: "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-outpaint.safetensors']."
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-outpaint.safetensors']."
+
+[Task 6/7] LTX-2.3 repaint boundary: preserve the scene and replace the...
+With Masking Strength 0.5, Masking will last 4 Steps
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+Control Video will be only injected in LTX-2 Phase 1 since there isnt't any non null phase 2 Ic Lora multiplier
+No audio track found in Control Video #1: /home/straughter/wd-osfm-run/inputs/control.mp4
+  [0/1] Prompt 6/7 - Extracting Raw Format  [0/1] Prompt 6/7 - Encoding Prompt        [0/1] Prompt 6/7 - VAE Encoding     [0/8] Prompt 6/7 - Denoising First Phase | 29.2s  0%|          | 0/8 [00:00<?, ?steps/s]  [1/8] Prompt 6/7 - Denoising First Phase | 46.7s / 2m 49s 12%|█▎        | 1/8 [00:17<02:00, 17.22s/steps] 25%|██▌       | 2/8 [00:18<00:47,  7.87s/steps]  [2/8] Prompt 6/7 - Denoising First Phase | 48.0s / 1m 44s 38%|███▊      | 3/8 [00:19<00:24,  4.85s/steps]  [3/8] Prompt 6/7 - Denoising First Phase | 49.3s / 1m 22s 50%|█████     | 4/8 [00:21<00:13,  3.41s/steps]  [4/8] Prompt 6/7 - Denoising First Phase | 50.5s / 1m 11s 62%|██████▎   | 5/8 [00:22<00:07,  2.64s/steps]  [5/8] Prompt 6/7 - Denoising First Phase | 51.7s / 1m 05s 75%|███████▌  | 6/8 [00:23<00:04,  2.16s/steps]  [6/8] Prompt 6/7 - Denoising First Phase | 53.0s / 1m 00s 88%|████████▊ | 7/8 [00:24<00:01,  1.86s/steps]  [7/8] Prompt 6/7 - Denoising First Phase | 54.2s / 57.8s 100%|██████████| 8/8 [00:26<00:00,  1.67s/steps]100%|██████████| 8/8 [00:26<00:00,  3.25s/steps]
+  [8/8] Prompt 6/7 - VAE Decoding | 55.5s / 55.5s           [0/1] Prompt 6/7 - VAE Encoding                  [0/3] Prompt 6/7 - Denoising Second Phase | 58.9s  0%|          | 0/3 [00:00<?, ?steps/s] 33%|███▎      | 1/3 [00:18<00:37, 18.62s/steps]  [1/3] Prompt 6/7 - Denoising Second Phase | 1m 17s / 1m 55s 67%|██████▋   | 2/3 [00:21<00:09,  9.27s/steps]  [2/3] Prompt 6/7 - Denoising Second Phase | 1m 20s / 1m 31s100%|██████████| 3/3 [00:24<00:00,  6.27s/steps]100%|██████████| 3/3 [00:24<00:00,  8.02s/steps]
+  [3/3] Prompt 6/7 - VAE Decoding | 1m 23s / 1m 23s          Error saving metadata to MP4 /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h19m54s_seed3707_LTX-2.3 repaint boundary preserve the scene and replace the selected figure with leather armor..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-osfm-run/boundaries/probe-batch/2026-09-27-13h19m54s_seed3707_LTX-2.3 repaint boundary preserve the scene and replace the selected figure with leather armor..mp4
+
+
+  Task 6 completed
+
+[Task 7/7] LTX-2.3 recast boundary using an alternate reference frame w...
+  Downloading Lora ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors...Error downloading https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors:An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection is on.
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors']."
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-osfm/wgp.py", line 7012, in generate_media
+    if len(errors) > 0 : raise gr.Error(errors)
+                         ^^^^^^^^^^^^^^^^^^^^^^
+gradio.exceptions.Error: "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors']."
+
+  [ERROR] "The following Loras files could not be downloaded: ['ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors']."
+
+==================================================
+Queue completed: 4/7 tasks in 6m 25s
