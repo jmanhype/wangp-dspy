@@ -1,0 +1,3 @@
+canonical_checker_exit=not_run
+reason=no queue admission, no output artifact, and no accepted unsupported disposition; WD-m7xw stopped at the authorized-host-state preflight boundary
+targeted_checker_contract_tests=78/78 PASS with errors=0 failures=0 skipped=0

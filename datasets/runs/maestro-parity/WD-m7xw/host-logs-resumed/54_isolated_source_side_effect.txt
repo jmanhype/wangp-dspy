@@ -1,0 +1,9 @@
+time=
+2026-09-26T21:58:24Z
+observed_after_recast_exit_1:
+ M shared/gradio/hierarchy_selector/hierarchy_selector.pyi
+?? ckpts
+action=restored runtime-generated .pyi mutation in isolated WD-m7xw source tree only
+restored_status:
+?? ckpts
+head=faea82d15bf10b3479c42c0ea430892aae975870

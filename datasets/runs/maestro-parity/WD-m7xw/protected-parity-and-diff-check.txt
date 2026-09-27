@@ -1,0 +1,4 @@
+base=origin/main
+protected_files=services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py
+protected_file_parity=PASS
+git_diff_check=PASS

@@ -1,0 +1,68 @@
+time=2026-09-26T22:01:09Z
+host=straughter-Z690-Steel-Legend
+=== live ===
+head=4c93b64a47b5b0a915f2abec2ce754be98227150
+dirty_count=109
+dirty_identity=2ec8e92fdab0e639ef564c520f4464c59707e4b6a507d7980a69bf9f201c0b53
+=== isolated ===
+head=faea82d15bf10b3479c42c0ea430892aae975870
+dirty_count=1
+dirty_identity=ecb6cdde814713d27809caad4dfe19e8926cfbc33c02537934618b5a6d155d17
+?? ckpts
+=== disk ===
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 784214859776 65037148160  93% /
+=== gpu and llama holder ===
+NVIDIA GeForce RTX 3090, 24576, 84, 24033
+llama_server_pid_3213164=ABSENT_STOPPED
+=== operation outputs ===
+125 /home/straughter/wd-m7xw-run/outputs/edit/wd_m7xw_edit.sha256
+129 /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.sha256
+129 /home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend.sha256
+129 /home/straughter/wd-m7xw-run/outputs/retake/wd_m7xw_retake.sha256
+131 /home/straughter/wd-m7xw-run/outputs/edit/output-path.txt
+1331303 /home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend(2).mp4
+1331303 /home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend.mp4
+139 /home/straughter/wd-m7xw-run/outputs/create/output-path.txt
+139 /home/straughter/wd-m7xw-run/outputs/retake/output-path.txt
+142 /home/straughter/wd-m7xw-run/outputs/extend/output-path.txt
+295302 /home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+297038 /home/straughter/wd-m7xw-run/outputs/extend/first-frame.png
+300596 /home/straughter/wd-m7xw-run/outputs/edit/first-frame.png
+322938 /home/straughter/wd-m7xw-run/outputs/retake/first-frame.png
+388029 /home/straughter/wd-m7xw-run/outputs/retake/wd_m7xw_retake.mp4
+4271 /home/straughter/wd-m7xw-run/outputs/edit/wd_m7xw_edit.ffprobe.json
+4275 /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.ffprobe.json
+4275 /home/straughter/wd-m7xw-run/outputs/retake/wd_m7xw_retake.ffprobe.json
+4278 /home/straughter/wd-m7xw-run/outputs/extend/wd_m7xw_extend.ffprobe.json
+438713 /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+449032 /home/straughter/wd-m7xw-run/outputs/edit/wd_m7xw_edit.mp4
+46316 /home/straughter/wd-m7xw-run/outputs/create/contact-sheet.jpg
+46382 /home/straughter/wd-m7xw-run/outputs/extend/contact-sheet.jpg
+47447 /home/straughter/wd-m7xw-run/outputs/retake/contact-sheet.jpg
+47602 /home/straughter/wd-m7xw-run/outputs/edit/contact-sheet.jpg
+=== target download candidates ===
+ABSENT 0 ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors
+ABSENT 0 ltx-2.3-22b-ic-lora-outpaint.safetensors
+ABSENT 0 ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors
+ABSENT 0 ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors
+=== network counters ===
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo: 8316993334 8445337    0    0    0     0          0         0 8316993334 8445337    0    0    0     0       0          0
+enp4s0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+wlp3s0: 137709278133 112709095    0    0    0     0          0         0 9623197768 51525567    0  114    0     0       0          0
+tailscale0: 8817132  131225    0    0    0     0          0         0  8811076  174589    0    0    0     0       0          0
+   wg0:       0       0    0    0    0     0          0         0 34658196  234177    0 11964    0     0       0          0
+br-396f36972f0a: 93852083  308511    0    0    0     0          0         0 171300035  299086    0    5    0     0       0          0
+br-5050175d736a:       0       0    0    0    0     0          0         0        0       0    0  633    0     0       0          0
+docker0:      84       3    0    0    0     0          0         0    89321     902    0    5    0     0       0          0
+br-f5ca11a97977: 112109193  752846    0    0    0     0          0         0 1285085626  846885    0    6    0     0       0          0
+veth185e0d2: 160673287 2199054    0    0    0     0          0         0 577859883 2126644    0    0    0     0       0          0
+vethdbf01fb: 138517115  794659    0    0    0     0          0         0 1290289469  899789    0    0    0     0       0          0
+vethf4ac164: 43581203  158774    0    0    0     0          0         0 69042514  167333    0    0    0     0       0          0
+vetheb86bef:     126       3    0    0    0     0          0         0   167970    1776    0    0    0     0       0          0
+veth974eb2a: 5244784281 12532954    0    0    0     0          0         0 8647311322 24950189    0    0    0     0       0          0
+veth31c1d41: 1363022652 17338282    0    0    0     0          0         0 2838948615 32716710    0    0    0     0       0          0
+veth495ae9e: 12137408347 60040771    0    0    0     0          0         0 6889957675 32307792    0    0    0     0       0          0
+veth929ecbc: 5124794   52020    0    0    0     0          0         0 16031753   43571    0    0    0     0       0          0

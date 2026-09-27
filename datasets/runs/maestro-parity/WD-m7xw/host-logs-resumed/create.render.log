@@ -1,0 +1,37 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m7xw-run/settings/create.json
+Output directory: /home/straughter/wd-m7xw-run/outputs/create
+[load_settings] Loading settings from: /home/straughter/wd-m7xw-run/settings/create.json
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[Task 1/1] A concise cinematic test: a blue paper crane glides once aro...
+Loading model LTX-2 2.5 Distilled 22B...
+Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Switching to partial pinning since full requirements for pinned models is 18561.5 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+The model was partially pinned to reserved RAM: 72 large blocks spread across 15720.76 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma4UnifiedForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'video_embeddings_connector' (Embeddings1DConnector)
+Hooked to model 'audio_embeddings_connector' (Embeddings1DConnector)
+  Model loaded  [0/1] Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] VAE Encoding     [0/8] Denoising | 31.3s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:23<02:43, 23.39s/steps]  [1/8] Denoising | 55.0s / 3m 40s 25%|██▌       | 2/8 [00:24<01:00, 10.16s/steps]  [2/8] Denoising | 55.9s / 2m 09s 38%|███▊      | 3/8 [00:25<00:29,  5.93s/steps]  [3/8] Denoising | 56.8s / 1m 39s 50%|█████     | 4/8 [00:26<00:15,  3.95s/steps]  [4/8] Denoising | 57.7s / 1m 24s 62%|██████▎   | 5/8 [00:27<00:08,  2.86s/steps]  [5/8] Denoising | 58.6s / 1m 14s 75%|███████▌  | 6/8 [00:27<00:04,  2.20s/steps]  [6/8] Denoising | 59.5s / 1m 08s 88%|████████▊ | 7/8 [00:28<00:01,  1.78s/steps]  [7/8] Denoising | 1m 00s / 1m 04s100%|██████████| 8/8 [00:29<00:00,  1.50s/steps]100%|██████████| 8/8 [00:29<00:00,  3.72s/steps]
+  [8/8] VAE Decoding | 1m 01s / 1m 01sError saving metadata to MP4 /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 29s

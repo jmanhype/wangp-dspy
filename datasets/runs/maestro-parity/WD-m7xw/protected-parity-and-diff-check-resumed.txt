@@ -1,0 +1,4 @@
+=== protected files ===
+protected_parity_exit=0
+=== diff check ===
+git_diff_check_exit=0

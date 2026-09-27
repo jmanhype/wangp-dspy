@@ -1,0 +1,13 @@
+=== time ===
+2026-09-26T21:17:11Z
+=== gpu ===
+NVIDIA GeForce RTX 3090, 24576, 18243, 5873
+=== compute_apps ===
+3213164, /home/straughter/llama.cpp/build/bin/llama-server, 18154 MiB
+=== blocking_processes ===
+    PID    PPID USER     STAT                  STARTED CMD
+3213164       1 straugh+ Sl   Sat Sep 26 16:14:09 2026 /home/straughter/llama.cpp/build/bin/llama-server -m /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/Q4_K_M.gguf --mmproj /mnt/bulk/home/straughter/models/qwen38-27b-uncensored/mmproj-f16.gguf -ngl 99 -np 1 -c 20480 --port 8000 --host 127.0.0.1 --media-path /home/straughter/Wan2GP/wd-7fvx
+=== decision ===
+memory.used_mib=18243
+memory.free_mib=5873
+gpu_preflight=BLOCKED unauthorized unrelated llama-server occupies 18154 MiB; killing or restarting it is out of scope

@@ -1,0 +1,16 @@
+=== time ===
+2026-09-26T21:17:32Z
+=== live ===
+head=4c93b64a47b5b0a915f2abec2ce754be98227150
+dirty_count=109
+dirty_identity=2ec8e92fdab0e639ef564c520f4464c59707e4b6a507d7980a69bf9f201c0b53
+=== isolated source ===
+head=faea82d15bf10b3479c42c0ea430892aae975870
+dirty_count=1
+dirty_identity=ecb6cdde814713d27809caad4dfe19e8926cfbc33c02537934618b5a6d155d17
+status:?? ckpts
+=== run outputs ===
+output_count=0
+=== gpu ===
+NVIDIA GeForce RTX 3090, 24576, 18243, 5873
+3213164, /home/straughter/llama.cpp/build/bin/llama-server, 18154 MiB
