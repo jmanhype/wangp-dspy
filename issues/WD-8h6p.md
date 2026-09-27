@@ -1,16 +1,18 @@
 ---
 id: WD-8h6p
 title: "Hunyuan no-download video boundary batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
-updated_at: 2026-09-27T03:22:56Z
-content_hash: "sha256:baa651d55dea085dbac1adfd9fd8f3a77d179f101a4b2d4148a80bd163a2aebc"
+updated_at: 2026-09-27T03:23:11Z
+content_hash: "sha256:b97897e68d21e992db044bd55e97cc146cbf0d17275d7b80396bf655caef1fb4"
 blocks: [WD-fay0]
+assignee: dev-WD-8h6p
+follows: [WD-m25k]
 ---
 
 ## Description
@@ -147,9 +149,13 @@ status: new
 
 ## History
 - 2026-09-27T03:22:56Z dep_added: blocks WD-fay0
+- 2026-09-27T03:23:11Z status: open -> in_progress
+- 2026-09-27T03:23:11Z auto-follows: linked to predecessor WD-m25k
+- 2026-09-27T03:23:11Z claimed by dev-WD-8h6p
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-m25k]]
 
 ## Comments
