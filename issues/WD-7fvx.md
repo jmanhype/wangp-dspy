@@ -4,7 +4,7 @@ title: "Director no-download source-pairing rework"
 status: closed
 priority: 1
 type: task
-labels: [capability, evidence, director, external-integration, delivered]
+labels: [capability, evidence, director, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
