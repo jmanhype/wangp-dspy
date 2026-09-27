@@ -13,12 +13,18 @@
     "/tmp/31_run_remaining.sh"
   ],
   "repository": {
-    "commit": "c10e1ee49dd0c21e2ab7a22428fcb796c75bedd0",
+    "commit": "45465a7a27bd5a180dd7ce88f99922a536e143ba",
     "base_commit": "079651d9",
     "dirty_state": {
-      "dirty": false,
-      "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "status_lines": []
+      "dirty": true,
+      "identity_sha256": "fcc63edf8ca3364afc5449c787e9330ae80d314f1cded8387a82dc8a7d7fcf21",
+      "status_lines": [
+        " M datasets/runs/maestro-parity/WD-ycjg/bundle-file-count.txt",
+        " M datasets/runs/maestro-parity/WD-ycjg/bundle-size.txt",
+        " M datasets/runs/maestro-parity/WD-ycjg/evidence.json",
+        " M datasets/runs/maestro-parity/WD-ycjg/evidence.sha256",
+        " M datasets/runs/maestro-parity/WD-ycjg/reviewer-verdict.json"
+      ]
     }
   },
   "model_provenance": [
@@ -465,10 +471,47 @@
     }
   ],
   "reviewer_verdict": {
-    "decision": "pending",
-    "evidence_links": [],
-    "reviewer": "independent PM pending",
-    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+    "decision": "approved",
+    "reviewed_at": "2026-09-27T14:45:38Z",
+    "reviewer": "independent PM /root/pm_wd_obkn",
+    "reviewed_commit": "45465a7a27bd5a180dd7ce88f99922a536e143ba",
+    "implementation_commit": "588fae0940e984b60693b5ca832f95ab6f3b01f1",
+    "byte_accounting_rework_commit": "c10e1ee49dd0c21e2ab7a22428fcb796c75bedd0",
+    "summary": "The rejected AC #3 arithmetic gap is closed. Nineteen authorized destination assets remain hash-valid; story-local bytes total 665045, combined session network bytes total 2408936960, and total authorized bytes remain 28418905124. The prior media, boundary, native-log, review, and disposition evidence is unchanged.",
+    "verification": {
+      "prior_rejection_gap": "Closed: 42226 + 129647 + 493172 = 665045; the prior 1000-byte understatement is removed from the bundle",
+      "remote_asset_rehash": "All 16 model/helper files and all 3 story-local dependency files matched exact size and SHA-256 on 3090",
+      "accounting_recomputation": {
+        "model_bytes": 28418240079,
+        "model_session_bytes": 2408271915,
+        "story_local_dependency_bytes": 665045,
+        "combined_session_network_bytes": 2408936960,
+        "total_authorized_bytes": 28418905124
+      },
+      "unchanged_evidence_check": "Inputs, outputs, boundaries, review images, objective measurements, boundary evidence, matrix transition, model/input hash logs, and five native logs are byte-identical from rejected head 8855d1d9048fdcbf5487bf15f55cc7edb690c7ae through rework head 45465a7a27bd5a180dd7ce88f99922a536e143ba",
+      "delivery_proof": "PASS 9/9",
+      "canonical_checker_before_rebuild": "FAIL only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+      "targeted_tests": "PASS 110 tests, 0 failures, 0 errors, 0 skipped",
+      "backlog_lint": "PASS 142 scanned, 0 errors, 0 review findings",
+      "release_verify": "PASS; release=ready, tag_created=false",
+      "pvg_verify": "PASS 2 files scanned, 0 issues",
+      "diff_check": "PASS",
+      "protected_parity": "PASS from base 079651d9",
+      "matrix_transition": "PASS exactly 7 target cells changed; 6 host_run_verified, 3 unsupported including extend plus predecessor outpaint/upscale, and 0 target planned cells",
+      "manifest_rebuild_note": "PM quarantined transient local __pycache__ content before rebuilding; evidence.sha256 is settled over PR-tracked bundle files only"
+    },
+    "evidence_links": [
+      "evidence.json",
+      "download-manifest.tsv",
+      "story-local-python-dependencies.tsv",
+      "host-logs/15-story-local-download-accounting.txt",
+      "host-logs/96_final_download_accounting.txt",
+      "host-logs/91_model_asset_hashes_after.txt",
+      "host-logs/92_python_dependency_hashes_after.txt",
+      "boundary-evidence.json",
+      "objective-measurements.json",
+      "matrix-transition-check.json"
+    ]
   },
   "row_dispositions": {
     "scail/2": {
