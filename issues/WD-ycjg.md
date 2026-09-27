@@ -4,11 +4,11 @@ title: "SCAIL-2 authorized download video batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration, rejected]
+labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T14:43:22Z
+updated_at: 2026-09-27T14:43:23Z
 content_hash: "sha256:e727372d55cd2c71145482e41d08adbaf196c901a20324e11fb544cae28b857f"
 blocks: [WD-fay0]
 follows: [WD-8h6p, WD-m25k, WD-obkn]
