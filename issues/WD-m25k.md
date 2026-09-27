@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
 updated_at: 2026-09-27T03:03:22Z
-content_hash: "sha256:6a44ac56cded594f11313e7d437451cbfe1fbd0875d4dc54ea9003cd8f26a3e6"
+content_hash: "sha256:eee548ea6c91876eccba0d46e16b29b2b7675aaee6717202f4034e2a8a112ff3"
 assignee: dev-WD-m25k
 follows: [WD-obkn, WD-7fvx, WD-m7xw, WD-5k28]
 closed_at: 2026-09-27T03:03:21Z
 close_reason: "Accepted: independent PM review at 716ed13f recomputed all source/output/boundary hashes, media dimensions/durations/audio, both repaint PSNR values, twelve typed boundaries, sixteen-cell matrix transition, zero-download/offline accounting, isolated-source state, targeted 110/110 tests, canonical checker PASS with six owned optional mutagen warnings, pvg verify/lint, release=ready/tag_created=false, protected parity, and diff check. Four new cells are host_run_verified and twelve are exact unsupported host boundaries; no target cell remains planned."
-led_to: [WD-8h6p]
+led_to: [WD-8h6p, WD-ycjg]
 ---
 
 ## Description
@@ -178,7 +178,7 @@ Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-obkn]], [[WD-7fvx]], [[WD-m7xw]], [[WD-5k28]]
-- Led to: [[WD-8h6p]]
+- Led to: [[WD-8h6p]], [[WD-ycjg]]
 
 ## Comments
 

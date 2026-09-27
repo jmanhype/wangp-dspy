@@ -8,11 +8,11 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T14:27:25Z
-content_hash: "sha256:3816db16b458cbbe98d659426655ebd550ae1bb785b6891cb0d323d17982c43a"
+updated_at: 2026-09-27T14:27:26Z
+content_hash: "sha256:d52296e1b8d57e261b83450da6629bed07e3fd73748cd2abc555dd94d3f7d0f4"
 blocks: [WD-fay0]
 assignee: dev-WD-ycjg
-follows: [WD-8h6p]
+follows: [WD-8h6p, WD-m25k]
 ---
 
 ## Description
@@ -728,10 +728,12 @@ Bundle: 168 files, 3,723,556 bytes.
 - 2026-09-27T13:24:41Z status: open -> in_progress
 - 2026-09-27T13:24:41Z auto-follows: linked to predecessor WD-8h6p
 - 2026-09-27T13:24:41Z claimed by dev-WD-ycjg
+- 2026-09-27T14:27:26Z status: in_progress -> in_progress
+- 2026-09-27T14:27:26Z auto-follows: linked to predecessor WD-m25k
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-8h6p]]
+- Follows: [[WD-8h6p]], [[WD-m25k]]
 
 ## Comments
