@@ -147,16 +147,6 @@ status: new
 ## Notes
 
 
-## nd_contract
-status: delivered
-
-### evidence
-- Transitioned via pvg story deliver on 2026-09-26.
-
-### proof
-- [ ] Developer evidence block must remain authoritative above this contract.
-
-
 ## Implementation Evidence
 
 ### Authorization, source, and no-download preflight
@@ -221,3 +211,12 @@ Bundle: 143 files, 36,883,770 bytes.
 - Follows: [[WD-m25k]], [[WD-obkn]]
 
 ## Comments
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
