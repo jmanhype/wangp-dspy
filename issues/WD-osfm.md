@@ -4,11 +4,11 @@ title: "LTX-2.3 authorized download video batch"
 status: closed
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration, delivered]
+labels: [capability, video, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T20:02:02Z
+updated_at: 2026-09-27T20:02:03Z
 content_hash: "sha256:bc850835b1a1016da0877dffdf5f9d3158327076635020cbf4d3f81f394cf206"
 assignee: dev-WD-osfm
 follows: [WD-28i5, WD-ycjg]
