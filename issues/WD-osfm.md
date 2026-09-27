@@ -1,16 +1,18 @@
 ---
 id: WD-osfm
 title: "LTX-2.3 authorized download video batch"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T16:21:09Z
-content_hash: "sha256:5c95deb0bc9a204179d4644931cfffe9d69f7d599495570a3f72740e07bad20b"
+updated_at: 2026-09-27T16:21:32Z
+content_hash: "sha256:22b1230e5e4ac7e6ba633d6cf8cbeb468e1580288dc168d150e51eb50ea78ad1"
 blocks: [WD-fay0]
+assignee: dev-WD-osfm
+follows: [WD-28i5]
 ---
 
 ## Description
@@ -205,9 +207,13 @@ status: new
 
 ## History
 - 2026-09-27T16:21:09Z dep_added: blocks WD-fay0
+- 2026-09-27T16:21:32Z status: open -> in_progress
+- 2026-09-27T16:21:33Z auto-follows: linked to predecessor WD-28i5
+- 2026-09-27T16:21:33Z claimed by dev-WD-osfm
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-28i5]]
 
 ## Comments
