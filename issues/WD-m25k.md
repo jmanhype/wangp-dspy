@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
 updated_at: 2026-09-27T03:03:22Z
-content_hash: "sha256:3a24c65ef1b01cec970b685db6a1e22d27d2e9bf2e03c6a4e70942600572958e"
+content_hash: "sha256:16e8f0add89fbc7c84fdd688ad381c4fe9b7ac577b1ac196132e850813c645f5"
 assignee: dev-WD-m25k
 follows: [WD-obkn, WD-7fvx, WD-m7xw, WD-5k28]
 closed_at: 2026-09-27T03:03:21Z
@@ -90,6 +90,16 @@ Paste authorization, asset hash result, base/source identity, host and GPU snaps
 ## Design
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## Implementation Evidence
