@@ -1,0 +1,96 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28i5-run/settings/probe-batch.json
+Output directory: /home/straughter/wd-28i5-run/boundaries/probe-batch
+[load_settings] Loading settings from: /home/straughter/wd-28i5-run/settings/probe-batch.json
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.mp4
+[load_settings] Task 1/7 ready, ID: 1, model: t2v
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.mp4
+[load_settings] Task 2/7 ready, ID: 2, model: t2v
+[load_settings] Loaded image: /home/straughter/wd-28i5-run/inputs/reference.png
+[load_settings] Task 3/7 ready, ID: 3, model: t2v
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control.mp4
+With Denoising Strength 0.5, Denoising will start at Step no 4 
+[load_settings] Task 4/7 ready, ID: 4, model: t2v
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control.mp4
+[load_settings] Task 5/7 ready, ID: 5, model: t2v
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-28i5-run/inputs/control-mask.mp4
+With Masking Strength 0.5, Masking will last 4 Steps
+[load_settings] Task 6/7 ready, ID: 6, model: t2v
+[load_settings] Loaded image: /home/straughter/wd-28i5-run/inputs/alternate-reference.png
+[load_settings] Task 7/7 ready, ID: 7, model: t2v
+Loaded 7 task(s)
+
+[Task 1/7] Wan extension boundary: continue the supplied combat take fo...
+Loading model Wan2.1 Text2video 14B...
+Loading Model 'ckpts/wan2.1_text2video_14B_quanto_mbf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 62 large blocks spread across 13858.97 MB
+Hooked to model 'transformer' (WanModel)
+Hooked to model 'vae' (WanVAE_)
+Hooked to model 'text_encoder' (T5Encoder)
+  Model loaded  [0/1] Prompt 1/7 - Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/8] Prompt 1/7 - Denoising | 9.7s  [0/8] Prompt 1/7 - Denoising | 9.7s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 1/7 - Denoising | 26.5s  [0/8] Prompt 1/7 - Denoising | 27.5s 12%|█▎        | 1/8 [00:18<02:09, 18.46s/steps]  [1/8] Prompt 1/7 - Denoising | 28.3s / 2m 38s  [1/8] Prompt 1/7 - Denoising | 29.3s / 2m 38s 25%|██▌       | 2/8 [00:20<00:52,  8.68s/steps]  [2/8] Prompt 1/7 - Denoising | 30.1s / 1m 31s  [2/8] Prompt 1/7 - Denoising | 31.1s / 1m 31s 38%|███▊      | 3/8 [00:22<00:27,  5.57s/steps]  [3/8] Prompt 1/7 - Denoising | 32.0s / 1m 09s  [3/8] Prompt 1/7 - Denoising | 33.0s / 1m 09s 50%|█████     | 4/8 [00:23<00:16,  4.09s/steps]  [4/8] Prompt 1/7 - Denoising | 33.8s / 58.0s   [4/8] Prompt 1/7 - Denoising | 34.9s / 58.0s 62%|██████▎   | 5/8 [00:25<00:09,  3.29s/steps]  [5/8] Prompt 1/7 - Denoising | 35.7s / 51.3s  [5/8] Prompt 1/7 - Denoising | 36.7s / 51.3s 75%|███████▌  | 6/8 [00:27<00:05,  2.79s/steps]  [6/8] Prompt 1/7 - Denoising | 37.5s / 46.8s  [6/8] Prompt 1/7 - Denoising | 38.6s / 46.8s 88%|████████▊ | 7/8 [00:29<00:02,  2.49s/steps]  [7/8] Prompt 1/7 - Denoising | 39.4s / 43.6s  [7/8] Prompt 1/7 - Denoising | 40.4s / 43.6s100%|██████████| 8/8 [00:31<00:00,  2.29s/steps]100%|██████████| 8/8 [00:31<00:00,  3.93s/steps]
+  [8/8] Prompt 1/7 - VAE Decoding | 41.2s / 41.2sError saving metadata to MP4 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h27m26s_seed3602_Wan extension boundary continue the supplied combat take for a longer beat..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h27m26s_seed3602_Wan extension boundary continue the supplied combat take for a longer beat..mp4
+
+
+  Task 1 completed
+
+[Task 2/7] Wan two-guide blend boundary using the original control and ...
+
+  [ERROR] 'reference_video_max_frames'
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-28i5/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-28i5/wgp.py", line 7574, in generate_media
+    guide_frames_limit = round(model_def["reference_video_max_frames"] * fps / model_def["fps"]) if reference_videos else source_video_frames_count - source_video_overlap_frames_count + requested_frames_to_generate
+                               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'reference_video_max_frames'
+
+  [ERROR] 'reference_video_max_frames'
+
+[Task 3/7] Wan retake boundary from the supplied first frame with stron...
+  [0/1] Prompt 3/7 - Encoding Prompt  [0/8] Prompt 3/7 - Denoising | 9.0s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 3/7 - Denoising | 9.0s  [0/8] Prompt 3/7 - Denoising | 25.3s 12%|█▎        | 1/8 [00:16<01:58, 16.86s/steps]  [1/8] Prompt 3/7 - Denoising | 26.1s / 2m 25s 25%|██▌       | 2/8 [00:17<00:44,  7.41s/steps]  [2/8] Prompt 3/7 - Denoising | 26.9s / 1m 20s 38%|███▊      | 3/8 [00:18<00:21,  4.38s/steps]  [3/8] Prompt 3/7 - Denoising | 27.6s / 58.7s  50%|█████     | 4/8 [00:19<00:11,  2.96s/steps]  [4/8] Prompt 3/7 - Denoising | 28.4s / 47.8s 62%|██████▎   | 5/8 [00:19<00:06,  2.18s/steps]  [5/8] Prompt 3/7 - Denoising | 29.2s / 41.3s 75%|███████▌  | 6/8 [00:20<00:03,  1.71s/steps]  [6/8] Prompt 3/7 - Denoising | 30.0s / 37.0s 88%|████████▊ | 7/8 [00:21<00:01,  1.41s/steps]  [7/8] Prompt 3/7 - Denoising | 30.8s / 33.9s100%|██████████| 8/8 [00:22<00:00,  1.22s/steps]100%|██████████| 8/8 [00:22<00:00,  2.80s/steps]
+  [8/8] Prompt 3/7 - VAE Decoding | 31.6s / 31.6sError saving metadata to MP4 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m00s_seed3604_Wan retake boundary from the supplied first frame with stronger sunset backlight..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m00s_seed3604_Wan retake boundary from the supplied first frame with stronger sunset backlight..mp4
+
+
+  Task 3 completed
+
+[Task 4/7] Wan edit boundary: keep the control staging and cool the sun...
+With Denoising Strength 0.5, Denoising will start at Step no 4 
+  [0/1] Prompt 4/7 - Extracting Raw Formatinvalid number of control frames 6, potentially 1 frames will be lost
+  [0/1] Prompt 4/7 - Encoding Prompt        [0/8] Prompt 4/7 - Denoising | 9.7s  [0/8] Prompt 4/7 - Denoising | 9.7s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 4/7 - Denoising | 26.6s 12%|█▎        | 1/8 [00:17<02:01, 17.37s/steps]  [1/8] Prompt 4/7 - Denoising | 27.3s / 2m 30s 25%|██▌       | 2/8 [00:18<00:45,  7.63s/steps]  [2/8] Prompt 4/7 - Denoising | 28.1s / 1m 23s 38%|███▊      | 3/8 [00:18<00:22,  4.51s/steps]  [3/8] Prompt 4/7 - Denoising | 28.9s / 1m 00s 50%|█████     | 4/8 [00:19<00:12,  3.06s/steps]  [4/8] Prompt 4/7 - Denoising | 29.8s / 49.8s  62%|██████▎   | 5/8 [00:20<00:06,  2.25s/steps]  [5/8] Prompt 4/7 - Denoising | 30.6s / 43.1s 75%|███████▌  | 6/8 [00:21<00:03,  1.76s/steps]  [6/8] Prompt 4/7 - Denoising | 31.4s / 38.6s 88%|████████▊ | 7/8 [00:22<00:01,  1.45s/steps]  [7/8] Prompt 4/7 - Denoising | 32.2s / 35.4s100%|██████████| 8/8 [00:23<00:00,  1.25s/steps]100%|██████████| 8/8 [00:23<00:00,  2.88s/steps]
+  [8/8] Prompt 4/7 - VAE Decoding | 33.0s / 33.0sError saving metadata to MP4 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m35s_seed3605_Wan edit boundary keep the control staging and cool the sunset slightly..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m35s_seed3605_Wan edit boundary keep the control staging and cool the sunset slightly..mp4
+
+
+  Task 4 completed
+
+[Task 5/7] Wan outpaint boundary: widen the rooftop scene with more sky...
+  [0/1] Prompt 5/7 - Extracting Raw Formatinvalid number of control frames 6, potentially 1 frames will be lost
+  [0/1] Prompt 5/7 - Encoding Prompt        [0/8] Prompt 5/7 - Denoising | 9.7s  [0/8] Prompt 5/7 - Denoising | 9.7s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 5/7 - Denoising | 26.5s 12%|█▎        | 1/8 [00:17<02:01, 17.42s/steps]  [1/8] Prompt 5/7 - Denoising | 27.3s / 2m 30s 25%|██▌       | 2/8 [00:18<00:45,  7.64s/steps]  [2/8] Prompt 5/7 - Denoising | 28.1s / 1m 23s  [3/8] Prompt 5/7 - Denoising | 28.9s / 1m 00s 38%|███▊      | 3/8 [00:19<00:22,  4.52s/steps] 50%|█████     | 4/8 [00:19<00:12,  3.06s/steps]  [4/8] Prompt 5/7 - Denoising | 29.7s / 49.8s  62%|██████▎   | 5/8 [00:20<00:06,  2.25s/steps]  [5/8] Prompt 5/7 - Denoising | 30.5s / 43.1s 75%|███████▌  | 6/8 [00:21<00:03,  1.76s/steps]  [6/8] Prompt 5/7 - Denoising | 31.3s / 38.6s 88%|████████▊ | 7/8 [00:22<00:01,  1.45s/steps]  [7/8] Prompt 5/7 - Denoising | 32.2s / 35.4s100%|██████████| 8/8 [00:23<00:00,  1.25s/steps]100%|██████████| 8/8 [00:23<00:00,  2.89s/steps]
+  [8/8] Prompt 5/7 - VAE Decoding | 33.0s / 33.0sError saving metadata to MP4 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m10s_seed3606_Wan outpaint boundary widen the rooftop scene with more skyline..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m10s_seed3606_Wan outpaint boundary widen the rooftop scene with more skyline..mp4
+
+
+  Task 5 completed
+
+[Task 6/7] Wan repaint boundary: preserve the scene and replace the sel...
+With Masking Strength 0.5, Masking will last 4 Steps
+  [0/1] Prompt 6/7 - Extracting Raw Formatinvalid number of control frames 6, potentially 1 frames will be lost
+  [0/1] Prompt 6/7 - Encoding Prompt        [0/8] Prompt 6/7 - Denoising | 9.7s  [0/8] Prompt 6/7 - Denoising | 9.7s  0%|          | 0/8 [00:00<?, ?steps/s]  [0/8] Prompt 6/7 - Denoising | 26.5s 12%|█▎        | 1/8 [00:17<02:01, 17.40s/steps]  [1/8] Prompt 6/7 - Denoising | 27.3s / 2m 30s 25%|██▌       | 2/8 [00:18<00:45,  7.64s/steps]  [2/8] Prompt 6/7 - Denoising | 28.1s / 1m 23s 38%|███▊      | 3/8 [00:19<00:22,  4.53s/steps]  [3/8] Prompt 6/7 - Denoising | 28.9s / 1m 00s 50%|█████     | 4/8 [00:19<00:12,  3.05s/steps]  [4/8] Prompt 6/7 - Denoising | 29.7s / 49.8s  62%|██████▎   | 5/8 [00:20<00:06,  2.25s/steps]  [5/8] Prompt 6/7 - Denoising | 30.5s / 43.1s 75%|███████▌  | 6/8 [00:21<00:03,  1.76s/steps]  [6/8] Prompt 6/7 - Denoising | 31.3s / 38.6s 88%|████████▊ | 7/8 [00:22<00:01,  1.46s/steps]  [7/8] Prompt 6/7 - Denoising | 32.2s / 35.4s100%|██████████| 8/8 [00:23<00:00,  1.25s/steps]100%|██████████| 8/8 [00:23<00:00,  2.89s/steps]
+  [8/8] Prompt 6/7 - VAE Decoding | 33.0s / 33.0sError saving metadata to MP4 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m45s_seed3607_Wan repaint boundary preserve the scene and replace the selected figure with leather armor..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m45s_seed3607_Wan repaint boundary preserve the scene and replace the selected figure with leather armor..mp4
+
+
+  Task 6 completed
+
+[Task 7/7] Wan recast boundary using an alternate reference frame while...
+  [0/1] Prompt 7/7 - Removing Images References Background

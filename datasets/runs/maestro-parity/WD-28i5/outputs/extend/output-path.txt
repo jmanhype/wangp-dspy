@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h27m26s_seed3602_Wan extension boundary continue the supplied combat take for a longer beat..mp4
+final=/home/straughter/wd-28i5-run/outputs/extend/wd_28i5_extend.mp4

@@ -1,0 +1,17 @@
+{
+  "mode": "edit_postprocessing",
+  "prompt": "Wan create output lossless upscale",
+  "image_mode": 0,
+  "video_source": "/home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.mp4",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "lanczos2",
+  "spatial_upsampler_prompt": "",
+  "spatial_upsampler_reference_images": [],
+  "spatial_upsampler_face_count": 1,
+  "film_grain_intensity": 0,
+  "film_grain_saturation": 0.5,
+  "postprocess_audio": "",
+  "repeat_generation": 1,
+  "batch_size": 1,
+  "seed": 3609
+}

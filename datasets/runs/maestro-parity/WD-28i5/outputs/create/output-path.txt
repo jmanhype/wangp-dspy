@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/outputs/create/2026-09-27-10h25m38s_seed3601_A concise cinematic test two grounded fantasy combatants grapple on a rooftop at sunset with cohere.mp4
+final=/home/straughter/wd-28i5-run/outputs/create/wd_28i5_create.mp4

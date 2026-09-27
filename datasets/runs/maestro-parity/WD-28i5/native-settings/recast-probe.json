@@ -1,0 +1,21 @@
+{
+  "model_type": "t2v",
+  "prompt": "Wan recast boundary using an alternate reference frame while preserving staging.",
+  "negative_prompt": "broken anatomy, extra limbs, jitter, blur, low quality",
+  "resolution": "384x224",
+  "seed": 3608,
+  "video_length": 9,
+  "num_inference_steps": 8,
+  "guidance_scale": 5.0,
+  "flow_shift": 3.0,
+  "sample_solver": "unipc",
+  "image_prompt_type": "I",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": ["/home/straughter/wd-28i5-run/inputs/alternate-reference.png"],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "I",
+  "audio_prompt_type": ""
+}

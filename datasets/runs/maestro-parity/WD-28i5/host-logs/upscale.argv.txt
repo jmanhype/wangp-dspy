@@ -1,0 +1,6 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-28i5-run/settings/upscale.json
+--output-dir
+/home/straughter/wd-28i5-run/outputs/upscale

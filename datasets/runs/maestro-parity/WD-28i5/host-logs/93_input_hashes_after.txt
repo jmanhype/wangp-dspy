@@ -1,0 +1,4 @@
+1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a  /home/straughter/wd-28i5-run/inputs/control.mp4
+fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd  /home/straughter/wd-28i5-run/inputs/reference.png
+f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f  /home/straughter/wd-28i5-run/inputs/alternate-reference.png
+46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866  /home/straughter/wd-28i5-run/inputs/control-mask.mp4

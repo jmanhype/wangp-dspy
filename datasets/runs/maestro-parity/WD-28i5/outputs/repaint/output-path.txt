@@ -1,0 +1,2 @@
+source=/home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m45s_seed3607_Wan repaint boundary preserve the scene and replace the selected figure with leather armor..mp4
+final=/home/straughter/wd-28i5-run/outputs/repaint/wd_28i5_repaint.mp4

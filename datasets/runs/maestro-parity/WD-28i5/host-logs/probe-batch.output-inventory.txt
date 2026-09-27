@@ -1,0 +1,5 @@
+159442 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m00s_seed3604_Wan retake boundary from the supplied first frame with stronger sunset backlight..mp4
+176246 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h28m35s_seed3605_Wan edit boundary keep the control staging and cool the sunset slightly..mp4
+266236 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m10s_seed3606_Wan outpaint boundary widen the rooftop scene with more skyline..mp4
+331627 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h29m45s_seed3607_Wan repaint boundary preserve the scene and replace the selected figure with leather armor..mp4
+697894 /home/straughter/wd-28i5-run/boundaries/probe-batch/2026-09-27-10h27m26s_seed3602_Wan extension boundary continue the supplied combat take for a longer beat..mp4

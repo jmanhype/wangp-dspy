@@ -1,0 +1,21 @@
+{
+  "model_type": "t2v",
+  "prompt": "Wan retake boundary from the supplied first frame with stronger sunset backlight.",
+  "negative_prompt": "broken anatomy, extra limbs, jitter, blur, low quality",
+  "resolution": "384x224",
+  "seed": 3604,
+  "video_length": 9,
+  "num_inference_steps": 8,
+  "guidance_scale": 5.0,
+  "flow_shift": 3.0,
+  "sample_solver": "unipc",
+  "image_prompt_type": "S",
+  "image_start": "/home/straughter/wd-28i5-run/inputs/reference.png",
+  "image_end": null,
+  "image_refs": [],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "T",
+  "audio_prompt_type": ""
+}
