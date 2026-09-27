@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:25:13Z
-content_hash: "sha256:e4656d986099f63d63b618fd447484aa9a527e2c5553fc37ccf72d3e046a64a6"
+updated_at: 2026-09-27T00:27:44Z
+content_hash: "sha256:ed88aa4674ba5a9990a0be6437ae21163370f1bab647b82fd6010ea15435e754"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
@@ -442,3 +442,19 @@ status: delivered
 - [x] AC #9: no prohibited action and protected files unchanged
 - [x] AC #10: checker, clean full suite, lint, release, diff, and protected-file gates PASS
 
+
+### 2026-09-27T00:27:44Z speed
+## PM Decision
+ACCEPTED [$(date +%Y-%m-%d)]: The prior AC #10 rejection gap is closed with exact-commit evidence.
+
+Implementation head tested by the isolated full suite: 2d778cef293ef3c5a441a35e15d89d715999e10d. Final receipt head: 015ce2387b3509eaf8ce1233749e45c5d0a388dd; only gate receipts differ, while implementation, docs, and protected paths are unchanged.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Full-suite JUnit at 2d778cef: 2108 tests, 0 failures, 0 errors, 1 skip, 1796.923s.
+- Final-head checker, pvg verify, backlog lint, release verify, git diff --check, and protected-file parity all PASS.
+
+### proof
+- [x] AC #1 through AC #10 verified from artifacts and receipts
