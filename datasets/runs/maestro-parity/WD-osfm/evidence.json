@@ -13,14 +13,23 @@
     "/home/straughter/wd-osfm-run/host-scripts/20_run_create.sh"
   ],
   "repository": {
-    "commit": "0f91e83c9afb61fc07825d2ede6c3f265445e0fb",
+    "commit": "5ea0bcda5ad5ffb746e0205ffee61b76bf95fb65",
     "base_commit": "0f91e83c",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "d24a6b6ec7152acdc43fcb6002e48eac50d0524c28fd4bdb8f6895a33a677853",
+      "identity_sha256": "dbea4bfc6b518734a281392a48ac4bd34ca1be1439ee3cd03ce59bcc4d93ebc8",
       "status_lines": [
-        " M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-osfm/"
+        " M datasets/runs/maestro-parity/WD-osfm/build_evidence.py",
+        " M datasets/runs/maestro-parity/WD-osfm/bundle-file-count.txt",
+        " M datasets/runs/maestro-parity/WD-osfm/bundle-size.txt",
+        " M datasets/runs/maestro-parity/WD-osfm/evidence.json",
+        " M datasets/runs/maestro-parity/WD-osfm/evidence.sha256",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.exit",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.out",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-clean.xml",
+        "?? datasets/runs/maestro-parity/WD-osfm/fullsuite-launcher-boundary.md",
+        "?? datasets/runs/maestro-parity/WD-osfm/release-verify-clean.exit",
+        "?? datasets/runs/maestro-parity/WD-osfm/release-verify-clean.txt"
       ]
     }
   },
@@ -727,8 +736,18 @@
       "tests": "111",
       "errors": "0",
       "failures": "0",
-      "skipped": "0"
+      "skipped": "0",
+      "time": "39.166"
     },
+    "clean_fullsuite_junit": {
+      "tests": "2107",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "1",
+      "time": "1234.975"
+    },
+    "clean_fullsuite_deselected": "tests/test_lf004_recovery_tooling.py::test_launcher_setup_is_root_relative_from_foreign_cwd",
+    "clean_fullsuite_boundary": "fullsuite-launcher-boundary.md",
     "gpu_final": "see host-logs/90_final_postflight.txt"
   }
 }

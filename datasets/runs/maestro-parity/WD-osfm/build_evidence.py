@@ -247,12 +247,16 @@ def main() -> None:
     }
     (ROOT / "matrix-transition-check.json").write_text(json.dumps(transition, indent=2) + "\n")
 
-    junit_path = ROOT / "targeted-tests.xml"
-    junit = None
-    if junit_path.exists():
-        root = ET.parse(junit_path).getroot()
+    def junit_counters(name: str) -> dict[str, str | None] | None:
+        path = ROOT / name
+        if not path.exists():
+            return None
+        root = ET.parse(path).getroot()
         suite = root if root.tag == "testsuite" else root.find("testsuite")
-        junit = {key: suite.attrib.get(key) for key in ("tests", "errors", "failures", "skipped")}
+        return {key: suite.attrib.get(key) for key in ("tests", "errors", "failures", "skipped", "time")}
+
+    junit = junit_counters("targeted-tests.xml")
+    clean_fullsuite = junit_counters("fullsuite-clean.xml")
 
     models = []
     for url, destination, size, digest in parse_manifest():
@@ -363,6 +367,9 @@ def main() -> None:
             "probe_batch_process_exit": 1,
             "probe_batch_completed_tasks": "4/7",
             "targeted_junit": junit,
+            "clean_fullsuite_junit": clean_fullsuite,
+            "clean_fullsuite_deselected": "tests/test_lf004_recovery_tooling.py::test_launcher_setup_is_root_relative_from_foreign_cwd",
+            "clean_fullsuite_boundary": "fullsuite-launcher-boundary.md",
             "gpu_final": "see host-logs/90_final_postflight.txt",
         },
     }
@@ -376,10 +383,31 @@ def main() -> None:
         and path.suffix != ".pyc"
         and path.name != ".DS_Store"
     )
+    previous: tuple[str, str, str, str] | None = None
+    for _ in range(8):
+        manifest = "".join(f"{sha256(path)}  {path.relative_to(ROOT).as_posix()}\n" for path in files)
+        (ROOT / "evidence.sha256").write_text(manifest)
+        count = len(files) + 1
+        size = sum(path.stat().st_size for path in files) + len(manifest.encode())
+        count_path = ROOT / "bundle-file-count.txt"
+        size_path = ROOT / "bundle-size.txt"
+        count_path.write_text(f"{count}\n")
+        size_path.write_text(f"{size}\n")
+        current = (count_path.read_text(), size_path.read_text(), sha256(count_path), sha256(size_path))
+        if current == previous:
+            break
+        previous = current
+    else:
+        raise RuntimeError("bundle self-receipts did not stabilize")
+
     manifest = "".join(f"{sha256(path)}  {path.relative_to(ROOT).as_posix()}\n" for path in files)
     (ROOT / "evidence.sha256").write_text(manifest)
-    (ROOT / "bundle-file-count.txt").write_text(f"{len(files) + 1}\n")
-    (ROOT / "bundle-size.txt").write_text(f"{sum(path.stat().st_size for path in files) + len(manifest.encode())}\n")
+    final_count = len(files) + 1
+    final_size = sum(path.stat().st_size for path in files) + len(manifest.encode())
+    if (ROOT / "bundle-file-count.txt").read_text() != f"{final_count}\n":
+        raise RuntimeError("bundle file count receipt is unstable")
+    if (ROOT / "bundle-size.txt").read_text() != f"{final_size}\n":
+        raise RuntimeError("bundle size receipt is unstable")
 
 
 if __name__ == "__main__":
