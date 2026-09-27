@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, accepted]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:28:13Z
-content_hash: "sha256:1965233daf69718a02f5e9b5b6ba2fab9bf52e8e13b9f698df4dd7189eedba86"
+updated_at: 2026-09-27T00:28:14Z
+content_hash: "sha256:f02db8e5c737c28a1e940a37033db88556b4ce47afa2174817713e9787c74e9b"
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
 assignee: dev-WD-obkn
@@ -113,6 +113,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-26.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
