@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm, rejected]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T21:35:18Z
-content_hash: "sha256:c907cd3e6306fa95b022673dabed60b17ba69c75c6a49a1970b18e5ae72bb2d1"
+updated_at: 2026-09-27T21:35:19Z
+content_hash: "sha256:0918c78cacd5823877db839fe35c4047dc17c55180dbe1905e7a71987f0ae931"
 blocks: [WD-fay0]
 follows: [WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-qswf
@@ -427,7 +427,56 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: Rework adds the missing delivery proof only: measured focused coverage, required learnings, exact-head CI result, and explicit ownership of the two pre-existing CI warning classes. The implementation head remains `5e017192760c11c6382561a98ea1c701013f9cee`.
+
+Commands run:
+
+- `uv run --frozen --extra dev --with coverage coverage run -m pytest -q tests/test_lf004_recovery_tooling.py`
+- `uv run --frozen --extra dev --with coverage coverage report -m`
+- `uv run --frozen --extra dev --with coverage coverage report --include='tests/test_lf004_recovery_tooling.py,datasets/content_briefs/lf004-operator-dogfood-56f/run/write_command_record.py' -m`
+- Exact-head CI: GitHub Actions run `36350323341`, job `108707648658`, `test` completed successfully in 22m9s.
+
+SHA: 5e017192760c11c6382561a98ea1c701013f9cee
+
+PR: https://github.com/jmanhype/wangp-dspy/pull/210
+
+### CI/Test Results
+
+- Focused real-process integration test: 3/3 consecutive prior runs passed.
+- Undeselected full suite at the same code head: 2,108 tests, 0 failures, 0 errors, 1 skipped, 1,168.374 seconds.
+- Exact-head PR CI at `5e017192`: SUCCESS in 22m9s.
+- Measured coverage command scope: focused launcher test module.
+- Coverage result: `tests/test_lf004_recovery_tooling.py` 303 statements, 12 missed, **96%**; overall files imported by that focused run: 3,408 statements, 2,027 missed, **41%**.
+- Coverage boundary: the helper is intentionally exercised as a real subprocess by the integration test and therefore is not included in the parent pytest process's Python line-coverage report; its behavior is asserted through deterministic stdout, exit status, setup-command record, and stage-plan files.
+
+### AC Verification
+
+- [x] AC 1: two real foreign-cwd launcher runs pass under a bounded process-group timeout.
+- [x] AC 2: deterministic root-relative command record and seven-asset stage plan are asserted.
+- [x] AC 3: command-record generation uses a directly executed helper, not a reader-less heredoc.
+- [x] AC 4: timeout terminates the process group and returns diagnostic exit 124.
+- [x] AC 5: undeselected full suite and exact-head CI passed with zero failures/errors.
+- [x] AC 6: protected engine files are unchanged.
+
+LEARNINGS:
+
+- A Bash here-document inside a captured launcher can fork a child that holds both pipe ends before exec'ing the intended reader; direct execution of a small helper removes that reader-less state.
+- Integration tests that spawn Bash must own an entire process group, redirect descendant output away from pytest's pipes, and enforce a short timeout so a regression fails instead of stalling the suite.
+- A successful CI run is not warning-clean proof; every dependency and action warning must be explicitly owned or routed even when the test and build conclusions are success.
+
+DISCOVERED_BUG:
+  title: CI pytest emits StarletteDeprecationWarning
+  context: Exact-head CI run 36350323341 succeeded, but pytest reports a StarletteDeprecationWarning when importing FastAPI TestClient via fastapi/testclient.py and recommends httpx2.
+  affected_files: dependency environment evidenced by CI log; exact importing tests not isolated during WD-qswf review
+  discovered_during: WD-qswf
+
+DISCOVERED_BUG:
+  title: CI workflow emits action and runner deprecation warnings
+  context: Exact-head CI reports Node.js 20 deprecation for actions/setup-python@v5 and astral-sh/setup-uv@v6, plus an ubuntu-latest migration notice.
+  affected_files: .github/workflows/ci.yml
+  discovered_during: WD-qswf
 
 ## nd_contract
 status: rejected
