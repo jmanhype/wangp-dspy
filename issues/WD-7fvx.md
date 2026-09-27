@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-27T00:01:24Z
-content_hash: "sha256:b942c1aa90d6af9958f27dba4d111354dc97e99cb7cdb4c86cc96dfdbe6dcb44"
+updated_at: 2026-09-27T00:05:32Z
+content_hash: "sha256:19dee38a45eca158d5bc74350ca4baf295b61bc9be4025b445fd7897bb4ca40a"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj]
@@ -114,6 +114,47 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+### DOCS_STALE rework scope
+- Reclaimed WD-7fvx after the PM rejection.
+- Changed exactly one sentence in `docs/director-capabilities.md:43` (one-line diff, one insertion and one deletion).
+- The corrected sentence now states that WD-7fvx exercised authorized SSH execution on the RTX 3090 host, preexisting hash-verified local models, durable queue admission/retry transitions, and QC/AV gates.
+- It also states that WD-7fvx did not perform or change model/dependency/provider mutation or download, training, paid-provider work, thresholds, or protected queue/preflight/renderer/wiring/engine semantics.
+- No media, GPU, SSH, model download, dependency mutation, provider mutation, or WD-obkn path was touched during this docs rework.
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_director_capabilities.py`
+- `uv run --frozen python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-7fvx`
+- `pvg verify docs/director-capabilities.md datasets/runs/maestro-parity/WD-7fvx/build_evidence.py datasets/runs/maestro-parity/WD-7fvx/host-scripts/wd_7fvx_run.py datasets/runs/maestro-parity/WD-7fvx/judge-start.sh datasets/runs/maestro-parity/WD-7fvx/judge-stop.sh datasets/runs/maestro-parity/WD-7fvx/standing-gates-final.md`
+- `git diff --check`
+- `git diff --exit-code 2b4714bf -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+
+Summary: targeted director PASS 34/34; checker PASS exit 0 with owned_warnings=0; pvg verify PASS 2 files/0 issues; git diff --check PASS; protected-file parity PASS exit 0. Existing full-suite receipt remains valid for this commit because `982e9d6d` changes only the stale one-line docs sentence relative to `45d4c7f3`; no code, media, model, dependency, provider, queue, preflight, renderer, wiring, engine, or evidence payload path changed. The retained clean-tree result is tests=2108, errors=0, failures=0, skipped=1.
+
+Commit SHA: 982e9d6d
+
+### AC Verification after DOCS_STALE rework
+| AC | Result | Evidence |
+|---|---|---|
+| 1 | PASS | Existing authorization/immutability evidence unchanged |
+| 2 | PASS | Existing zero-download/model-hash evidence unchanged |
+| 3 | PASS | Existing full-utterance evidence unchanged |
+| 4 | PASS | Existing synchronized source-pair evidence unchanged |
+| 5 | PASS | Existing motion-frame evidence unchanged |
+| 6 | PASS | Existing raw QC evidence unchanged |
+| 7 | PASS | Existing 26 mechanical gates unchanged |
+| 8 | PASS | Corrected `docs/director-capabilities.md:43`; checker, tests, pvg verify, and matrix evidence pass |
+| 9 | PASS | Protected parity and no-mutation boundaries pass |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Docs-only rework commit `982e9d6d`; targeted/checker/pvg/diff/protected gates rerun PASS; prior full-suite receipt explicitly scoped to the docs-only delta.
+
+### proof
+- [x] AC #1 through AC #9 PASS after correcting the stale authorization-boundary sentence.
 
 
 ## nd_contract
