@@ -13,15 +13,13 @@
     "/tmp/20_run_operations.sh"
   ],
   "repository": {
-    "commit": "79c8af780da385de447d3d1f734fe41c3711037c",
+    "commit": "40e4a48afaa86bf2f2c10e3b8eecde0dd439a8bd",
     "base_commit": "8103327f",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "76ca6b147f9036aa5b359f5d876376f69ab1349002f992c5e49ecb7be6e138a7",
+      "identity_sha256": "4e5e9489dd74b57259056fc2616f13ff267fe19b9795b033417ee8ce0f75201c",
       "status_lines": [
-        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.exit",
-        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.stderr",
-        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.txt"
+        " M datasets/runs/maestro-parity/WD-8h6p/reviewer-verdict.json"
       ]
     }
   },
@@ -334,10 +332,51 @@
     }
   ],
   "reviewer_verdict": {
-    "decision": "pending",
-    "evidence_links": [],
-    "reviewer": "independent PM pending",
-    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+    "decision": "approved",
+    "reviewed_at": "2026-09-27T03:50:56Z",
+    "reviewer": "independent PM /root/pm_wd_obkn",
+    "reviewed_commit": "40e4a48afaa86bf2f2c10e3b8eecde0dd439a8bd",
+    "implementation_evidence_commit": "79c8af780da385de447d3d1f734fe41c3711037c",
+    "summary": "All eight acceptance criteria are supported. Six Hunyuan operations have distinct real media outputs with reproduced hashes and objective metrics, blend has a concrete unsupported host boundary, all seven target cells transition exactly, and the run is hash-backed, forced-offline, isolated, and protected-file clean.",
+    "verification": {
+      "canonical_checker_before_rebuild": "FAIL only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+      "delivery_proof": "PASS 9/9",
+      "targeted_tests": "PASS 110 tests, 0 failures, 0 errors, 0 skipped",
+      "backlog_lint": "PASS 141 scanned, 0 errors, 0 review findings",
+      "release_verify": "PASS; release=ready, tag_created=false",
+      "pvg_verify": "PASS 2 files scanned, 0 issues",
+      "diff_check": "PASS",
+      "protected_parity": "PASS from base 8103327f",
+      "matrix_transition": "PASS exactly 7 target cells changed; 0 target planned cells remain; 7 row cells host_run_verified and 2 unsupported including predecessor outpaint",
+      "media_recomputation": {
+        "extend": "832x480, 121 frames, 5.041667 s, 24 fps; SHA-256 reproduced",
+        "retake": "832x480, 61 frames, 2.541667 s, 24 fps; SHA-256 and first-frame SSIM 0.448707 reproduced",
+        "edit": "832x480, 61 frames, 2.541667 s, 24 fps; SHA-256 and source PSNR 18.160307 dB reproduced",
+        "repaint": "832x480, 61 frames, 2.541667 s, 24 fps; SHA-256 and source PSNR 17.875626 dB reproduced",
+        "recast": "832x480, 61 frames, 2.541667 s, 24 fps; SHA-256 and source PSNR 17.448752 dB reproduced",
+        "upscale": "1664x960, 61 frames, 2.541667 s, 24 fps; SHA-256 reproduced"
+      },
+      "blend_boundary_recomputation": "Exit 1 with empty output inventory; native log reproduces KeyError reference_video_max_frames at generation setup and its SHA-256 matches boundary-evidence.json",
+      "zero_download_and_isolation": "All six required Hunyuan model/config hashes match before and after; reused source/helpers hash correctly; execution paths force HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1; planned and actual download bytes are zero; detached Wan2GP worktree 4c93b64a47b5b0a915f2abec2ce754be98227150 was used",
+      "identity_note": "Canonical implementation evidence records 79c8af780da385de447d3d1f734fe41c3711037c; final delivered head 40e4a48afaa86bf2f2c10e3b8eecde0dd439a8bd adds only gate receipts. The malformed SHA spelling in tracker prose is non-authoritative.",
+      "manifest_rebuild_note": "The PM rerun quarantined transient local __pycache__, reran the builder, then regenerated evidence.sha256 after bundle receipts settled; all listed hashes verify and the manifest references only PR-tracked files"
+    },
+    "evidence_links": [
+      "evidence.json",
+      "boundary-evidence.json",
+      "matrix-transition-check.json",
+      "objective-measurements.json",
+      "host-logs/11_asset_hashes_before.txt",
+      "host-logs/91_asset_hashes_after.txt",
+      "host-logs/94_download_accounting.txt",
+      "host-logs/blend-probe.render.log",
+      "host-logs/extend-probe.render.log",
+      "host-logs/retake-probe.render.log",
+      "host-logs/edit-probe.render.log",
+      "host-logs/repaint-probe.render.log",
+      "host-logs/recast-probe.render.log",
+      "host-logs/upscale.render.log"
+    ]
   },
   "row_dispositions": {
     "hunyuan/standard": {
