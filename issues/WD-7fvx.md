@@ -8,8 +8,8 @@ labels: [capability, evidence, director, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-27T00:06:09Z
-content_hash: "sha256:981960d180f46807218316fdfbe4b1fa9410cd31af85233281c13e0b318f92a3"
+updated_at: 2026-09-27T00:07:24Z
+content_hash: "sha256:bdad3370345e623c84fbfde18ad77b7bc9be43e1ff78e978cc3008814f379020"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
@@ -376,3 +376,15 @@ status: rejected
 
 ### proof
 - [ ] AC #8: documentation is not mechanically accurate at the final authorization-boundary sentence.
+
+### 2026-09-27T00:07:24Z speed
+## nd_contract
+status: delivered
+
+### evidence
+- Corrected docs-only commit `982e9d6d` is pushed. Rerun gates: targeted director 34/34 PASS; checker exit 0 with owned_warnings=0; pvg verify PASS; git diff --check PASS; protected parity PASS. The existing full-suite receipt remains scoped to the one-line docs-only delta from `45d4c7f3` to `982e9d6d`.
+
+### proof
+- [x] AC #8 documentation now accurately distinguishes exercised authorized SSH/3090 execution, preexisting local models, queue admission/retry, and QC/AV from unchanged download, threshold, dependency/provider, and protected-engine boundaries.
+- [x] AC #1 through AC #9 remain PASS.
+
