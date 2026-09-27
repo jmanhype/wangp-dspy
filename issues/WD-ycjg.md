@@ -657,16 +657,6 @@ status: new
 ## Notes
 
 
-## nd_contract
-status: delivered
-
-### evidence
-- Transitioned via pvg story deliver on 2026-09-27.
-
-### proof
-- [ ] Developer evidence block must remain authoritative above this contract.
-
-
 ## Implementation Evidence
 
 ### Authorization, download, and isolation
@@ -749,3 +739,12 @@ Bundle: 168 files, 3,723,556 bytes.
 - Follows: [[WD-8h6p]], [[WD-m25k]]
 
 ## Comments
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
