@@ -1,18 +1,19 @@
 ---
 id: WD-7fvx
 title: "Director no-download source-pairing rework"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, evidence, director, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
-updated_at: 2026-09-26T23:58:06Z
-content_hash: "sha256:e34292f5519ecb310f388931ef6bd5fad2e2d68cafe56a630f772c850b8b4ef7"
+updated_at: 2026-09-27T00:01:24Z
+content_hash: "sha256:b942c1aa90d6af9958f27dba4d111354dc97e99cb7cdb4c86cc96dfdbe6dcb44"
 blocks: [WD-fay0]
 blocked_by: [WD-dmf2, WD-cpow]
-follows: [WD-5k28, WD-m7xw]
+follows: [WD-5k28, WD-m7xw, WD-43tj]
+assignee: dev-WD-7fvx
 ---
 
 ## Description
@@ -282,12 +283,15 @@ status: delivered
 - 2026-09-26T23:47:34Z auto-follows: linked to predecessor WD-m7xw
 - 2026-09-26T23:58:04Z status: in_progress -> open
 - 2026-09-26T23:58:04Z released by speed
+- 2026-09-27T00:01:24Z status: open -> in_progress
+- 2026-09-27T00:01:24Z auto-follows: linked to predecessor WD-43tj
+- 2026-09-27T00:01:24Z claimed by dev-WD-7fvx
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-dmf2]], [[WD-cpow]]
-- Follows: [[WD-5k28]], [[WD-m7xw]]
+- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]]
 
 ## Comments
 
