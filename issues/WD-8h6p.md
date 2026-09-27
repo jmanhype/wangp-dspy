@@ -4,11 +4,11 @@ title: "Hunyuan no-download video boundary batch"
 status: closed
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration, delivered]
+labels: [capability, video, evidence, external-integration, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
-updated_at: 2026-09-27T03:54:17Z
+updated_at: 2026-09-27T03:54:18Z
 content_hash: "sha256:cb778142111e5ca6c4e4dc4971fb45fe4f51dc1858ac6f5a19d5723b6ee99b9e"
 assignee: dev-WD-8h6p
 follows: [WD-m25k, WD-obkn]
