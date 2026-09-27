@@ -4,7 +4,7 @@ title: "H3 KFI/audio-refinement no-download video batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T01:24:28Z
 created_by: speed
