@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
-updated_at: 2026-09-27T19:43:07Z
-content_hash: "sha256:e2f1764bb517cac806e4d7fc54a6ff39dfd527dd9554d92ca50a3511257c5f51"
+updated_at: 2026-09-27T19:45:58Z
+content_hash: "sha256:1bb0f78b1ecc9593fbe54a3e8219164c59a8e111a9a7003a870d93c9b659bc9e"
 blocks: [WD-fay0]
 assignee: dev-WD-osfm
 follows: [WD-28i5, WD-ycjg]
@@ -203,6 +203,46 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: WD-osfm is delivered at PR 209 with five real LTX-2.3 outputs, one exact unsupported host boundary, three exact dependency boundaries, verified storage/network accounting, independent adversarial review, and passing delivery gates.
+
+Commands run:
+
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/20_run_create.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/21_run_probes_upscale.sh`
+- `ssh 3090 /home/straughter/wd-osfm-run/host-scripts/30_postflight.sh`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-osfm`
+- `uv run --frozen --extra dev pytest -q tests/test_video_capabilities.py tests/test_maestro_parity_evidence.py tests/test_no_maestro_verbatim.py --junitxml=datasets/runs/maestro-parity/WD-osfm/targeted-tests.xml`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --check`
+
+SHA: d34f0b65b04d8d15edad92f73d1621baf561e254
+
+PR: https://github.com/jmanhype/wangp-dspy/pull/209
+
+### CI/Test Results
+
+- Canonical checker: PASS with 5 owned optional Wan2GP mutagen warnings and 0 unowned failures.
+- Targeted tests: PASS.
+- Backlog lint: 144 scanned, 0 errors, 0 review findings.
+- Clean-head selected full suite: 2,107 tests, 0 failures, 0 errors, 1 skip; the one deselected unrelated launcher deadlock is documented in `fullsuite-launcher-boundary.md`.
+- Release verification: `release=ready`, `tag_created=false`.
+- Protected-file parity and `git diff --check`: PASS.
+
+### AC Verification
+
+- [x] AC 1: clean story worktree/base and atomic claim recorded.
+- [x] AC 2: exact 34,038,900,307-byte H3 offload hash-verified before remote unlink.
+- [x] AC 3: exact eighteen-file/35,379,235,525-byte download and zero-byte temporal-upscaler link verified.
+- [x] AC 4: every operation has its own native attempt or exact typed boundary.
+- [x] AC 5: five successful outputs have native save evidence, hashes, ffprobe, review frames, and objective gates.
+- [x] AC 6: blend/outpaint/recast/upscale record exact failure causes and are not hardware verdicts.
+- [x] AC 7: no undeclared download, live dependency mutation, protected-engine change, threshold change, training, provider spend, or unverified deletion occurred.
+- [x] AC 8: exactly nine LTX-2.3 cells changed and zero remain planned.
+- [x] AC 9: checker, targeted tests, lint, release, protected parity, diff check, bundle manifest, and independent review passed; PM acceptance is intentionally outstanding.
+
 ## Implementation Evidence
 
 Summary: WD-osfm terminalizes all nine LTX-2.3 cells with five real hashed outputs, one exact host boundary, three exact dependency boundaries, exact storage/network accounting, independent review, and all delivery gates except PM acceptance.
