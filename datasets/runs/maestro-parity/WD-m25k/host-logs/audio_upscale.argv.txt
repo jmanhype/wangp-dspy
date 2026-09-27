@@ -1,0 +1,6 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-m25k-run/settings//home/straughter/wd-m25k-run/host-logs/audio_upscale.host-before.txt.json
+--output-dir
+/home/straughter/wd-m25k-run/outputs/audio_upscale

@@ -1,0 +1,2 @@
+source=/home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h12m03s_seed3103_KFI repaint warm only the compass region while preserving the injected-frame continuity and soundtr.mp4
+final=/home/straughter/wd-m25k-run/outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4

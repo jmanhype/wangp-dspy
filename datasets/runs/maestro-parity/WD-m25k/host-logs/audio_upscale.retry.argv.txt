@@ -1,0 +1,6 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-m25k-run/settings/audio-upscale.json
+--output-dir
+/home/straughter/wd-m25k-run/outputs/audio_upscale

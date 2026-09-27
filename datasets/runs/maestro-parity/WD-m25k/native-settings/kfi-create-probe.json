@@ -1,0 +1,22 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "resolution": "480x832",
+  "seed": 3201,
+  "video_length": 56,
+  "num_inference_steps": 8,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "sample_solver": "euler",
+  "image_prompt_type": "",
+  "image_start": null,
+  "image_end": null,
+  "image_refs": [],
+  "video_source": null,
+  "video_guide": null,
+  "video_mask": null,
+  "video_prompt_type": "KFI",
+  "frames_positions": "0",
+  "audio_prompt_type": "",
+  "prompt": "KFI create boundary: no injected frame is supplied."
+}

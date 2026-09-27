@@ -1,0 +1,34 @@
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/contact-sheet.jpg
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/first-frame.png
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/output-path.txt
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/wd_m25k_audio_outpaint.ffprobe.json
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/wd_m25k_audio_outpaint.mp4
+/home/straughter/wd-m25k-run/outputs/audio_outpaint/wd_m25k_audio_outpaint.sha256
+/home/straughter/wd-m25k-run/outputs/audio_repaint/contact-sheet.jpg
+/home/straughter/wd-m25k-run/outputs/audio_repaint/first-frame.png
+/home/straughter/wd-m25k-run/outputs/audio_repaint/output-path.txt
+/home/straughter/wd-m25k-run/outputs/audio_repaint/wd_m25k_audio_repaint.ffprobe.json
+/home/straughter/wd-m25k-run/outputs/audio_repaint/wd_m25k_audio_repaint.mp4
+/home/straughter/wd-m25k-run/outputs/audio_repaint/wd_m25k_audio_repaint.sha256
+/home/straughter/wd-m25k-run/outputs/audio_upscale/contact-sheet.jpg
+/home/straughter/wd-m25k-run/outputs/audio_upscale/first-frame.png
+/home/straughter/wd-m25k-run/outputs/audio_upscale/output-path.txt
+/home/straughter/wd-m25k-run/outputs/audio_upscale/wd_2gyw_h3_audio_refinement_post.mp4
+/home/straughter/wd-m25k-run/outputs/audio_upscale/wd_m25k_audio_upscale.ffprobe.json
+/home/straughter/wd-m25k-run/outputs/audio_upscale/wd_m25k_audio_upscale.mp4
+/home/straughter/wd-m25k-run/outputs/audio_upscale/wd_m25k_audio_upscale.sha256
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/contact-sheet.jpg
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/first-frame.png
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/output-path.txt
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/wd_m25k_kfi_repaint.ffprobe.json
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/wd_m25k_kfi_repaint.mp4
+/home/straughter/wd-m25k-run/outputs/kfi_repaint/wd_m25k_kfi_repaint.sha256
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/contact-sheet.jpg
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/first-frame.png
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/output-path.txt
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_2gyw_h3_kfi_frames_injection_post.mp4
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_m25k_kfi_upscale.ffprobe.json
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_m25k_kfi_upscale.mp4
+/home/straughter/wd-m25k-run/outputs/kfi_upscale/wd_m25k_kfi_upscale.sha256
+/home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h12m03s_seed3103_KFI repaint warm only the compass region while preserving the injected-frame continuity and soundtr.mp4
+/home/straughter/wd-m25k-run/outputs/render-batch/2026-09-26-21h15m30s_seed3106_Audio-refinement repaint warm the compass region while preserving the refined soundtrack..mp4

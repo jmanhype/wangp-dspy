@@ -1,0 +1,8 @@
+2026-09-27T02:01:55Z
+straughter-Z690-Steel-Legend
+4c93b64a47b5b0a915f2abec2ce754be98227150
+?? ckpts
+/home/straughter/Wan2GP/ckpts
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 784694157312 64557850624  93% /
+NVIDIA GeForce RTX 3090, 24576, 491, 23625

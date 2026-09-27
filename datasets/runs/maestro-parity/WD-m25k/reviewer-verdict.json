@@ -1,0 +1,42 @@
+{
+  "decision": "approved",
+  "reviewed_at": "2026-09-27T02:55:08Z",
+  "reviewer": "independent PM /root/pm_wd_obkn",
+  "reviewed_commit": "cb18f108edc8737d01bbd9367a5dc181c7bba9f5",
+  "summary": "All nine acceptance criteria are supported at the delivered head. The bundle independently reproduces four distinct successful media hashes and metrics, twelve concrete per-cell host boundaries, exactly sixteen target-cell transitions, unchanged predecessor evidence, forced-offline zero-download accounting, and unchanged protected files.",
+  "verification": {
+    "canonical_checker_before_rebuild": "FAIL only pending reviewer_verdict.decision and reviewer_verdict.evidence_links",
+    "delivery_proof": "PASS 9/9",
+    "targeted_tests": "PASS 110 tests, 0 failures, 0 errors, 0 skipped",
+    "backlog_lint": "PASS 140 scanned, 0 errors, 0 review findings",
+    "canonical_checker_after_rebuild": "PASS with 6 owned optional Wan2GP mutagen warnings and 0 unowned failures",
+    "release_verify": "PASS; release=ready, tag_created=false",
+    "pvg_verify": "PASS 1 file scanned, 0 issues",
+    "diff_check": "PASS",
+    "protected_parity": "PASS from base 28fc76a1",
+    "matrix_transition": "PASS 16 changed target cells; 0 target cells planned afterward; 6 row cells host_run_verified including 2 predecessor-verified cells; 12 unsupported",
+    "media_recomputation": {
+      "kfi_repaint": "480x832, 56 frames, 24 fps, stereo AAC; SHA-256 and PSNR 20.118892 dB reproduced",
+      "kfi_upscale": "960x1664, 56 frames, 24 fps, stereo AAC; SHA-256 reproduced",
+      "audio_repaint": "480x832, 56 frames, 24 fps, stereo AAC; SHA-256 and PSNR 21.554022 dB reproduced",
+      "audio_upscale": "960x1664, 56 frames, 24 fps, stereo AAC; SHA-256 reproduced"
+    },
+    "boundary_recomputation": "All 12 records have matching exit files, claimed reasons in native logs, and matching log SHA-256 values; audio outpaint remains correctly unsupported because its emitted media stayed 480x832",
+    "zero_download_and_isolation": "Before/after H3 asset hashes match; HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1 are present on execution paths; planned and actual download bytes are zero; the run used detached Wan2GP worktree 4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "manifest_rebuild_note": "The PM rerun quarantined transient local __pycache__, reran the builder, then regenerated evidence.sha256 after bundle receipts settled; all listed hashes verify and the manifest references only PR-tracked files",
+    "reviewer_discovered_bug": "Python 3.14 emits a DeprecationWarning at build_evidence.py:172 because re.split receives maxsplit positionally; reported centrally and does not affect this receipt"
+  },
+  "evidence_links": [
+    "evidence.json",
+    "boundary-evidence.json",
+    "matrix-transition-check.json",
+    "objective-measurements.json",
+    "host-logs/11_asset_hashes_before.txt",
+    "host-logs/91_asset_hashes_after.txt",
+    "host-logs/94_download_accounting.txt",
+    "host-logs/render-batch.render.log",
+    "host-logs/render-batch-retry.render.log",
+    "host-logs/kfi_upscale.retry.render.log",
+    "host-logs/audio_upscale.retry.render.log"
+  ]
+}

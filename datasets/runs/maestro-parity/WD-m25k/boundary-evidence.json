@@ -1,0 +1,147 @@
+{
+  "schema_version": "wangp-dspy.wd-m25k.boundary-evidence/v1",
+  "base_commit": "28fc76a1",
+  "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+  "records": [
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "create",
+      "log": "host-logs/kfi-create-retry-probe.render.log",
+      "exit_file": "host-logs/kfi-create-retry-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "KFI requires at least one reference image; a create request cannot supply one.",
+      "exit": 1,
+      "log_sha256": "116a0d9845bce3696ff471dddaaa84fb4f63749181e4ee614e961080dd5f2468",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "extend",
+      "log": "host-logs/render-batch-retry.render.log",
+      "exit_file": "host-logs/render-batch-retry.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "KFI frame injection fails in the current host implementation with KeyError resolved_frame_index.",
+      "exit": 1,
+      "log_sha256": "ad72258937005d7c4d276d7561d259f544bb5d6dd1117ba2c7c535a4d7e147f5",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "blend",
+      "log": "host-logs/kfi-blend-retry-probe.render.log",
+      "exit_file": "host-logs/kfi-blend-retry-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Two-guide KFI blend reaches denoising and fails with KeyError resolved_frame_index.",
+      "exit": 1,
+      "log_sha256": "e0a50336d0652ffb0fdc57008d721f4ede63740be9d17a1252c92cb76512ddb0",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "edit",
+      "log": "host-logs/render-batch-retry.render.log",
+      "exit_file": "host-logs/render-batch-retry.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Guide-based KFI edit fails in the current host implementation with KeyError resolved_frame_index.",
+      "exit": 1,
+      "log_sha256": "ad72258937005d7c4d276d7561d259f544bb5d6dd1117ba2c7c535a4d7e147f5",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "outpaint",
+      "log": "host-logs/kfi-outpaint-retry-probe.render.log",
+      "exit_file": "host-logs/kfi-outpaint-retry-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Guide margins plus KFI fail with KeyError resolved_frame_index.",
+      "exit": 1,
+      "log_sha256": "d3dd312431a4ee96a5566ebf1848a1577ea15fb8fb0f80f9ac23440d720bb518",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/kfi_frames_injection",
+      "operation": "recast",
+      "log": "host-logs/kfi-recast-probe.render.log",
+      "exit_file": "host-logs/kfi-recast-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Image, video, and audio references require the Ref2VA checkpoint; this row used FL2VA.",
+      "exit": 1,
+      "log_sha256": "6634de8f43f963c9aa6a59ee1bdaf39db1ab87362556cca71370ccf4fc2f2b85",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "create",
+      "log": "host-logs/audio-create-probe.render.log",
+      "exit_file": "host-logs/audio-create-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Audio generation from Control Video requires Use Control Video and a control-video file.",
+      "exit": 1,
+      "log_sha256": "cc4bfe6411edf3403e13c3fe9524e7029e2012180aad0015038f54986c0b43a1",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "extend",
+      "log": "host-logs/render-batch.render.log",
+      "exit_file": "host-logs/render-batch.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Audio generation from Control Video requires Use Control Video and a control-video file.",
+      "exit": 0,
+      "log_sha256": "ec853f435a1fe1d8ff80a8cb0a06132f21fd810bf091eb12d1064cdf458d0a75",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "blend",
+      "log": "host-logs/audio-blend-probe.render.log",
+      "exit_file": "host-logs/audio-blend-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "FL2VA two-guide audio blend fails with KeyError reference_video_max_frames.",
+      "exit": 1,
+      "log_sha256": "ecebb459bfca9e0a67162dd359178821f84119e81c2c146becd243a7aa498388",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "retake",
+      "log": "host-logs/render-batch.render.log",
+      "exit_file": "host-logs/render-batch.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Audio generation from Control Video requires Use Control Video; a start frame alone is insufficient.",
+      "exit": 0,
+      "log_sha256": "ec853f435a1fe1d8ff80a8cb0a06132f21fd810bf091eb12d1064cdf458d0a75",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "outpaint",
+      "log": "host-logs/audio-outpaint-probe.render.log",
+      "exit_file": "host-logs/audio-outpaint-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "The command exited 0 and emitted media, but dimensions stayed 480x832; no outpaint enlargement occurred, so this cannot be host_run_verified.",
+      "exit": 0,
+      "log_sha256": "b54e1260efcad6863ca2e900523e9e2619baf1e612e22104352773c349a124e2",
+      "output_bytes": 0
+    },
+    {
+      "row": "minimax_h3/h3_audio_refinement",
+      "operation": "recast",
+      "log": "host-logs/audio-recast-probe.render.log",
+      "exit_file": "host-logs/audio-recast-probe.exit",
+      "boundary": "unsupported_host_implementation",
+      "reason": "Audio generation from Control Video requires Use Control Video; an image reference is insufficient.",
+      "exit": 1,
+      "log_sha256": "7a30a744985f593ab199c10eea1fbd60bc32a9ab2e9ac9d6ae38ef5b715975c9",
+      "output_bytes": 0
+    }
+  ],
+  "audio_outpaint_output": {
+    "path": "boundaries/audio-outpaint-probe/2026-09-26-21h08m01s_seed3207_Audio-refinement outpaint boundary with guide margins and audio mode..mp4",
+    "sha256": "33292caa13812ecdbe48b816c865cc371e25522c5b1c3833832c01d87a233961",
+    "width": 480,
+    "height": 832,
+    "expected_enlargement": "width or height greater than source",
+    "verdict": "fail"
+  }
+}

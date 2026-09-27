@@ -1,0 +1,19 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-m25k-run/settings/audio-upscale.json
+Output directory: /home/straughter/wd-m25k-run/outputs/audio_upscale
+[load_settings] Loading settings from: /home/straughter/wd-m25k-run/settings/audio-upscale.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-specialized/wd_2gyw_h3_audio_refinement.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[Task 1/1] Audio-refinement source lossless upscale...
+  [0/1] Upsampling - StartingPostprocessed video saved to Path: /home/straughter/wd-m25k-run/outputs/audio_upscale/wd_2gyw_h3_audio_refinement_post.mp4
+Error extracting cover art from MP4: No module named 'mutagen'
+Error saving metadata to MP4 /home/straughter/wd-m25k-run/outputs/audio_upscale/wd_2gyw_h3_audio_refinement_post.mp4: No module named 'mutagen'
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1.7s

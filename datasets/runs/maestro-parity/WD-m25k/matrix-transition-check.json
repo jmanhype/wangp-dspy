@@ -1,0 +1,62 @@
+{
+  "schema_version": "wangp-dspy.wd-m25k.matrix-transition/v1",
+  "base_commit": "28fc76a1",
+  "target_rows": [
+    "minimax_h3/kfi_frames_injection",
+    "minimax_h3/h3_audio_refinement"
+  ],
+  "before": {
+    "minimax_h3/kfi_frames_injection": [
+      "planned",
+      "planned",
+      "planned",
+      "host_run_verified",
+      "planned",
+      "planned",
+      "planned",
+      "planned",
+      "planned"
+    ],
+    "minimax_h3/h3_audio_refinement": [
+      "planned",
+      "planned",
+      "planned",
+      "planned",
+      "host_run_verified",
+      "planned",
+      "planned",
+      "planned",
+      "planned"
+    ]
+  },
+  "after": {
+    "minimax_h3/kfi_frames_injection": [
+      "unsupported",
+      "unsupported",
+      "unsupported",
+      "host_run_verified",
+      "unsupported",
+      "unsupported",
+      "host_run_verified",
+      "unsupported",
+      "host_run_verified"
+    ],
+    "minimax_h3/h3_audio_refinement": [
+      "unsupported",
+      "unsupported",
+      "unsupported",
+      "unsupported",
+      "host_run_verified",
+      "unsupported",
+      "host_run_verified",
+      "unsupported",
+      "host_run_verified"
+    ]
+  },
+  "changed_cells": 16,
+  "expected_changed_cells": 16,
+  "planned_after_target_rows": 0,
+  "verified_after_target_rows": 6,
+  "unsupported_after_target_rows": 12,
+  "pass": true
+}
