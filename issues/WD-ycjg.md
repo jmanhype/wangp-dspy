@@ -9,11 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
 updated_at: 2026-09-27T14:48:01Z
-content_hash: "sha256:fe8eb8a803fa76963132bd123eba911a5cf701214f08e4677c09cab894026bbb"
+content_hash: "sha256:9d34304264bd616c0621ebfba124d9f0643300ad2da9308ce932e9770c9da435"
 follows: [WD-8h6p, WD-m25k, WD-obkn]
 closed_at: 2026-09-27T14:48:01Z
 close_reason: "Accepted: the exact 665045-byte story-local subtotal, 2408936960 combined session bytes, and unchanged media/boundary evidence close the prior AC #3 rejection."
-led_to: [WD-28i5]
+led_to: [WD-28i5, WD-osfm]
 ---
 
 ## Description
@@ -804,7 +804,7 @@ Bundle: 168 files, 3,723,556 bytes.
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-8h6p]], [[WD-m25k]], [[WD-obkn]]
-- Led to: [[WD-28i5]]
+- Led to: [[WD-28i5]], [[WD-osfm]]
 
 ## Comments
 
