@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T20:09:49Z
-content_hash: "sha256:61b8e6efa256e70fcd32f9464cf17db4182604987ff94946445a21706fe39ebb"
+updated_at: 2026-09-27T20:10:04Z
+content_hash: "sha256:5c81ade99fa05b38ecad25cc7c2231e243805905beca2698b72ea4374f3fa9c7"
 blocks: [WD-fay0]
 ---
 
@@ -92,7 +92,9 @@ status: new
 
 
 ## Notes
-
+## MANDATORY SKILLS
+- pvg
+- tool-systematic-debugging
 
 ## History
 - 2026-09-27T20:09:49Z dep_added: blocks WD-fay0
