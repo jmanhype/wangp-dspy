@@ -13,14 +13,15 @@
     "/tmp/20_run_operations.sh"
   ],
   "repository": {
-    "commit": "8103327f8a3be48b7a6719aee4c74d58feeb0c5f",
+    "commit": "79c8af780da385de447d3d1f734fe41c3711037c",
     "base_commit": "8103327f",
     "dirty_state": {
       "dirty": true,
-      "identity_sha256": "2a8b562d59a187a111e251260b3ee1c600bbe7ec350185c06e3c2a67881a50d8",
+      "identity_sha256": "76ca6b147f9036aa5b359f5d876376f69ab1349002f992c5e49ecb7be6e138a7",
       "status_lines": [
-        " M docs/video-capabilities.md",
-        "?? datasets/runs/maestro-parity/WD-8h6p/"
+        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.exit",
+        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.stderr",
+        "?? datasets/runs/maestro-parity/WD-8h6p/release-verify.txt"
       ]
     }
   },
