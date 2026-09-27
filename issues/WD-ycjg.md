@@ -8,8 +8,8 @@ labels: [capability, video, evidence, external-integration]
 parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
-updated_at: 2026-09-27T13:58:05Z
-content_hash: "sha256:d1f9d7f6324fe22a5cf2cca7c142225e07cd572ba034de00dcfe7adc82efc0c9"
+updated_at: 2026-09-27T14:27:25Z
+content_hash: "sha256:3816db16b458cbbe98d659426655ebd550ae1bb785b6891cb0d323d17982c43a"
 blocks: [WD-fay0]
 assignee: dev-WD-ycjg
 follows: [WD-8h6p]
@@ -655,7 +655,73 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+### Authorization, download, and isolation
+- Verbatim authorization and dispatcher decision: `datasets/runs/maestro-parity/WD-ycjg/operator-authorization.md`.
+- Repository base: `079651d9`; isolated Wan2GP source: `4c93b64a47b5b0a915f2abec2ce754be98227150`; final isolated-source status is only `?? ckpts`.
+- Sixteen model/helper assets totaling `28,418,240,079` bytes matched exact size and SHA-256 before and after execution: `host-logs/download-report.tsv`, `host-logs/91_model_asset_hashes_after.txt`.
+- Three story-local dependencies totaling `664,045` bytes (`iopath`, `portalocker`, `pycocotools`) were used only under the run directory; live Wan2GP dependencies were not mutated: `host-logs/15-story-local-download-accounting.txt`.
+- Total authorized/downloaded bytes: `28,418,905,124`.
+- The local control video hash remained `c71398ba3c4fe6394c83450d7cd5267187e4c65b8d9b568f9457f1a9aac03ca8`; SAM3 generated a colored one-person mask with SHA-256 `d645b15fddd51c540755697bb4ffb05949db17ea606aa0d6896f18c3175b5c9d`.
+
+### Real outputs
+- create: `outputs/create/wd_ycjg_create.mp4`; SHA-256 `1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a`; 384x224, 9 frames, 0.375 s, 24 fps.
+- retake: `outputs/retake/wd_ycjg_retake.mp4`; SHA-256 `a557d6ddf16a61a8a523c1db79e9fcbf99917c831de7edfc2925e18ca72e9bdf`; PSNR versus create `11.066936 dB`.
+- repaint: `outputs/repaint/wd_ycjg_repaint.mp4`; SHA-256 `86fe90785f812b1c94f2b3bb3dd4eb83c79f19d6a5d4779b4131cb36c9f0b5df`; PSNR `14.037307 dB`.
+- recast: `outputs/recast/wd_ycjg_recast.mp4`; SHA-256 `9c1dc8ee2ddc69a9ecb9919fe2cba515c14bc69b4f0491bcb24f1986ecdb4636`; PSNR `14.461542 dB`.
+- edit: `outputs/edit/wd_ycjg_edit.mp4`; SHA-256 `ecc3017004f7d96584f5a6a984e58589500e12793694555aa2bdec589848de42`; PSNR `19.480868 dB`.
+- blend: `outputs/blend/wd_ycjg_blend.mp4`; SHA-256 `8dc7f0799efb0a16fdfade35d83b48a251eabcf6c9828c885ba2a6249c40ed5c`; authoritative retry loaded both guides via `V01AI+`; PSNR `16.512936 dB`.
+- Visual review: `review/all-contact-sheets.jpg` shows six distinct nonblank operation outputs; `review/control-mask-contact-sheet.jpg` shows the stable colored person mask.
+
+### Exact extension boundary
+- `outputs/extend/wd_ycjg_extend.mp4` was generated but cannot be host_run_verified.
+- Requested: 21 frames / 0.875 s. Measured: 9 frames / 0.375 s, exactly the control length.
+- PSNR versus create: `46.593200 dB`, showing a near-identical non-extension.
+- Boundary record: `boundary-evidence.json`; native log: `host-logs/extend.render.log`.
+
+### CI/Test Results
+Commands run:
+- `ssh 3090 /tmp/10_download_preflight.sh`
+- `ssh 3090 /tmp/15_story_local_python_deps.sh`
+- `ssh 3090 /home/straughter/Wan2GP/venv/bin/python /tmp/20_prepare_mask.py`
+- `ssh 3090 /tmp/30_run_create.sh`
+- `ssh 3090 /tmp/31_run_remaining.sh`
+- `ssh 3090 /tmp/32_blend_retry.sh`
+- `ssh 3090 /tmp/40_postflight.sh`
+- `uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py tests/test_video_capabilities.py --junitxml=datasets/runs/maestro-parity/WD-ycjg/targeted-tests.xml`
+- `uv run --frozen --extra dev python scripts/verify_maestro_parity.py datasets/runs/maestro-parity/WD-ycjg`
+- `pvg verify docs/video-capabilities.md datasets/runs/maestro-parity/WD-ycjg/build_evidence.py datasets/runs/maestro-parity/WD-ycjg/host-scripts/*.py datasets/runs/maestro-parity/WD-ycjg/host-scripts/*.sh`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --check`
+- `git diff --exit-code 079651d9 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+
+Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`; pvg verify PASS; backlog lint PASS 142 scanned, 0 errors, 0 review findings; release at clean implementation head is `release=ready` and `tag_created=false`; protected parity and diff-check PASS. Canonical checker is pending exactly and only independent reviewer decision/links.
+
+### Matrix transition
+`matrix-transition-check.json` records seven changed target cells, zero SCAIL planned cells, six host_run_verified cells, and three unsupported cells including the pre-existing typed outpaint/upscale boundaries.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 | PASS | Clean pushed branch/worktree and atomic claim |
+| 2 | PASS | Nineteen exact downloads verified; no partial file admitted |
+| 3 | PASS | Model/helper and source hashes reproduced after execution |
+| 4 | PASS | SAM3 colored mask and all derived inputs hashed |
+| 5 | PASS | Seven cells received native attempts; no evidence inherited |
+| 6 | PASS | Six outputs have argv, logs, exit, hash, probe, contact sheet, and gates |
+| 7 | PASS | Extend records exact non-extension boundary, not a false success |
+| 8 | PASS | No undeclared live mutation; isolated source final status `?? ckpts` |
+| 9 | PASS | Exactly seven matrix cells changed; zero target planned cells |
+| 10 | PASS pending independent reviewer | Local gates pass; canonical checker awaits reviewer fields only |
+
+### Branch and PR
+Commit SHA: 588fae0959f79ea3ad9d52367794e75795263c3e
+Final evidence head: 8855d1d9
+Branch: `story/WD-ycjg`
+PR: https://github.com/jmanhype/wangp-dspy/pull/207
+Bundle: 168 files, 3,723,556 bytes.
 
 ## History
 - 2026-09-27T13:24:02Z dep_added: blocks WD-fay0
