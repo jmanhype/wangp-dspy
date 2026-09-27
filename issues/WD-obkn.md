@@ -8,8 +8,8 @@ labels: [capability, finishing, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:27:44Z
-content_hash: "sha256:ed88aa4674ba5a9990a0be6437ae21163370f1bab647b82fd6010ea15435e754"
+updated_at: 2026-09-27T00:28:07Z
+content_hash: "sha256:101dba6018fced7f14d5246f38f7fe8e5749995a49f271f0558ec6ad2d63be27"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
@@ -458,3 +458,6 @@ status: accepted
 
 ### proof
 - [x] AC #1 through AC #10 verified from artifacts and receipts
+
+### 2026-09-27T00:28:07Z speed
+Correction to the preceding comment header: ACCEPTED [2026-09-27 UTC]. The literal date-substitution placeholder in that header was a PM recording error; all substantive evidence and contract text above remain unchanged and authoritative.
