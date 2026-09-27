@@ -91,16 +91,6 @@ Paste authorization, asset hash result, base/source identity, host and GPU snaps
 ## Notes
 
 
-## nd_contract
-status: delivered
-
-### evidence
-- Transitioned via pvg story deliver on 2026-09-26.
-
-### proof
-- [ ] Developer evidence block must remain authoritative above this contract.
-
-
 ## Implementation Evidence
 
 ### Authorization, source, and no-download preflight
@@ -152,7 +142,7 @@ Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`
 | 9 | PASS | Delivered, pushed branch/PR, exact paths, hashes, gates, bundle size/count, no self-acceptance |
 
 ### Branch, PR, and bundle
-- Implementation commit SHA: `a77b901e83372b00a04f0c45542f66ffd3c81b72`.
+- Commit SHA: a77b901e83372b00a04f0c45542f66ffd3c81b72.
 - Final pushed evidence head: `cb18f108`.
 - Branch: `story/WD-m25k`.
 - PR: https://github.com/jmanhype/wangp-dspy/pull/205
@@ -178,3 +168,11 @@ Summary: targeted pytest PASS 110/110 with `errors=0`, `failures=0`, `skipped=0`
 
 ## Comments
 
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-26.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
