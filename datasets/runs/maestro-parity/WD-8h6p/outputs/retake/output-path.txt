@@ -1,0 +1,2 @@
+source=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/boundaries/retake-probe/2026-09-26-22h33m30s_seed3303_Hunyuan retake boundary from the supplied first frame..mp4
+final=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/outputs/retake/wd_8h6p_retake.mp4

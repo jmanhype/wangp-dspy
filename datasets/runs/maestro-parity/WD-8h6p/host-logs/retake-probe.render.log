@@ -1,0 +1,30 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-8h6p-run/settings/retake-probe.json
+Output directory: /home/straughter/wd-8h6p-run/boundaries/retake-probe
+[load_settings] Loading settings from: /home/straughter/wd-8h6p-run/settings/retake-probe.json
+[load_settings] Loaded image: /home/straughter/wd-8h6p-run/inputs/hunyuan-first-frame.png
+[load_settings] Task 1/1 ready, ID: 1, model: hunyuan_1_5_480_t2v_lightx2v
+Loaded 1 task(s)
+
+[Task 1/1] Hunyuan retake boundary from the supplied first frame....
+Loading Model 'ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+Loading model Hunyuan Video 1.5 Text2video 480p Lightx2v 8B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 33 large blocks spread across 8120.37 MB
+Hooked to model 'transformer' (HYVideoDiffusionTransformer)
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Hooked to model 'vae' (AutoencoderKLConv3D)
+Hooked to model 'byt5_model' (T5Stack)
+  Model loaded  [0/1] Encoding Prompt[Quanto][INT8] Injected Triton int8 kernels are being used.
+  0%|          | 0/4 [00:00<?, ?steps/s]  [0/4] Denoising | 11.7s  [0/4] Denoising | 21.8s  [0/4] Denoising | 22.9s  [0/4] Denoising | 23.9s  [0/4] Denoising | 25.0s  [0/4] Denoising | 26.0s  [0/4] Denoising | 27.1s  [1/4] Denoising | 28.1s / 1m 17s  [1/4] Denoising | 29.2s / 1m 17s  [1/4] Denoising | 30.3s / 1m 17s  [1/4] Denoising | 31.4s / 1m 17s  [1/4] Denoising | 32.5s / 1m 17s  [1/4] Denoising | 33.5s / 1m 17s  [2/4] Denoising | 34.5s / 57.3s   [2/4] Denoising | 35.6s / 57.3s  [2/4] Denoising | 36.6s / 57.3s  [2/4] Denoising | 37.7s / 57.3s  [2/4] Denoising | 38.8s / 57.3s  [2/4] Denoising | 39.8s / 57.3s  [3/4] Denoising | 40.9s / 50.7s  [3/4] Denoising | 42.0s / 50.7s  [3/4] Denoising | 43.1s / 50.7s  [3/4] Denoising | 44.2s / 50.7s  [3/4] Denoising | 45.3s / 50.7s  [3/4] Denoising | 46.4s / 50.7s  0%|          | 0/4 [00:35<?, ?steps/s]
+  [4/4] VAE Decoding | 47.4s / 47.4sError saving metadata to MP4 /home/straughter/wd-8h6p-run/boundaries/retake-probe/2026-09-26-22h33m30s_seed3303_Hunyuan retake boundary from the supplied first frame..mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-8h6p-run/boundaries/retake-probe/2026-09-26-22h33m30s_seed3303_Hunyuan retake boundary from the supplied first frame..mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 23s

@@ -1,0 +1,2 @@
+source=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/boundaries/edit-probe/2026-09-26-22h35m09s_seed3304_Hunyuan edit boundary using the accepted source as guide..mp4
+final=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/outputs/edit/wd_8h6p_edit.mp4

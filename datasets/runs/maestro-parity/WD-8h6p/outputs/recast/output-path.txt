@@ -1,0 +1,2 @@
+source=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/boundaries/recast-probe/2026-09-26-22h38m45s_seed3306_Hunyuan recast boundary using a contextual image reference..mp4
+final=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/outputs/recast/wd_8h6p_recast.mp4

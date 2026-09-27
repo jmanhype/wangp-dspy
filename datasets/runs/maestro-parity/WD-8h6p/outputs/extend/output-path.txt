@@ -1,0 +1,2 @@
+source=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/boundaries/extend-probe/2026-09-26-22h31m23s_seed3301_Hunyuan extend boundary continue the compass shot from its supplied source video..mp4
+final=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-8h6p/datasets/runs/maestro-parity/WD-8h6p/outputs/extend/wd_8h6p_extend.mp4

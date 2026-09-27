@@ -1,0 +1,368 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "status": "approved",
+    "text": "Continue the remaining 56 video cells, prioritizing no-download LTX-2.5 after the tokenizer fix.",
+    "scope": "WD-8h6p seven-cell Hunyuan no-download batch on 3090; zero downloads; isolated Wan2GP worktree; no unrelated service mutation",
+    "timestamp": "2026-09-27T03:25:00Z",
+    "approved_by": "operator via /root dispatcher"
+  },
+  "command": [
+    "ssh",
+    "3090",
+    "/tmp/20_run_operations.sh"
+  ],
+  "repository": {
+    "commit": "8103327f8a3be48b7a6719aee4c74d58feeb0c5f",
+    "base_commit": "8103327f",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "2a8b562d59a187a111e251260b3ee1c600bbe7ec350185c06e3c2a67881a50d8",
+      "status_lines": [
+        " M docs/video-capabilities.md",
+        "?? datasets/runs/maestro-parity/WD-8h6p/"
+      ]
+    }
+  },
+  "model_provenance": [
+    {
+      "identity": "hunyuan15-hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "b045f314ae1ef2fb50de8efd7aa3fbf67526ec12ce59537ec9827bd417b09b77",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "hunyuan15-hunyuan_video_1_5_VAE_fp32.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE_fp32.safetensors",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "2609ed7033c052fdf164afcac71e8a7c82afccdbb001d673444a72f194fbb918",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "hunyuan15-hunyuan_video_1_5_VAE.json",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/hunyuan_video_1_5_VAE.json",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "899e63dae033b2fa14291cefbe6e1736741d816991456e96d4d497918dacf8af",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "hunyuan15-config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/config.json",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "b626aa9623e88440ce20623debc3f0d85e4ee61f38846deca16738784b8ac4e2",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "hunyuan15-model.safetensors",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/model.safetensors",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "d769e3a32a6a9bac72d4d93b989e44491f71b50f02bfa14cd9187758d4a68ff1",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    },
+    {
+      "identity": "hunyuan15-preprocessor_config.json",
+      "source": "https://huggingface.co/DeepBeepMeep/HunyuanVideo1.5/resolve/main/preprocessor_config.json",
+      "license": "No license declared by DeepBeepMeep/HunyuanVideo1.5 distribution; operator research/evaluation only, no redistribution",
+      "sha256": "ec1f371074fb4867ea1c654e00bc5ea99d706f409aaebf8dc614d67c0735aff8",
+      "download_approved": true,
+      "preflight_hash_verified": true,
+      "no_download_bytes": true
+    }
+  ],
+  "reference_provenance": [
+    {
+      "path": "inputs/wd_2gyw_hunyuan.mp4",
+      "role": "hunyuan_generated_source_video",
+      "sha256": "8c36757e077cb1f080ed3596691ec3186a2c2307297ccb76bedee26507608fa0",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/hunyuan-first-frame.png",
+      "role": "retake_start_frame",
+      "sha256": "5e4c2caf1f6db51d5e2781b7407425a02ce7eccba102ec1fc694f92b450c4d39",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/repaint-mask.mp4",
+      "role": "repaint_editable_region_mask",
+      "sha256": "8e58f8f4389218384069525c1eda95652ef2b7a91b1957bcebff37a9e28e6657",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    },
+    {
+      "path": "inputs/recast-reference.png",
+      "role": "recast_context_reference",
+      "sha256": "321f91b39796ea9112d682c8a38e3bca02d5677acc462dcbf019b9b7e7e7ad7d",
+      "license": "Operator-owned generated evaluation asset; operator-authorized research/evaluation use; no redistribution"
+    }
+  ],
+  "queue_attempt": {
+    "queue_id": "wd-8h6p-hunyuan-native-cli",
+    "job_id": "wd-8h6p-hunyuan-seven-cells",
+    "retry_id": "attempt-1",
+    "admission_state": "admitted",
+    "exit_status": "succeeded",
+    "native_logs": [
+      "host-logs/extend-probe.render.log",
+      "host-logs/retake-probe.render.log",
+      "host-logs/edit-probe.render.log",
+      "host-logs/repaint-probe.render.log",
+      "host-logs/recast-probe.render.log",
+      "host-logs/upscale.render.log"
+    ],
+    "native_log_sha256": {
+      "host-logs/extend-probe.render.log": "976fc1b0a0e67272f00c0cca6996b7502a435e86c6ee68fbe5761ef9a96d6567",
+      "host-logs/retake-probe.render.log": "b723d8b10165e4ab45d2290bfcaa5397b9b092c79c7f826cc73a57a4bc26ebd6",
+      "host-logs/edit-probe.render.log": "3ce831b3b0b184d6a0e2dc4ce35701fff0efe7dd0b2b5f19616b636cf794e486",
+      "host-logs/repaint-probe.render.log": "1361ca18dce49899acb4a6c84c2213a8bb7746a852e312b1cc72c52e8ce95b28",
+      "host-logs/recast-probe.render.log": "b41363a123224b30d37049e33b86fc05284d487cc61f2a42c4337bb36b6accd9",
+      "host-logs/upscale.render.log": "9656f6b8df9e730591bad9bb9d75b964fa0b3b6745c6a5afe31944c1fc1e046a"
+    }
+  },
+  "output": [
+    {
+      "path": "outputs/extend/wd_8h6p_extend.mp4",
+      "sha256": "19eb4928aa6621dc1742e23e348cae7bbfed5138cb91e0fa155057e0e3e4f58a"
+    },
+    {
+      "path": "outputs/retake/wd_8h6p_retake.mp4",
+      "sha256": "ca2b45eb74683548ddcbb261b7fdf367ef1d36811bffc379459eb6198149f818"
+    },
+    {
+      "path": "outputs/edit/wd_8h6p_edit.mp4",
+      "sha256": "c6403260e3031fed37e3ce3f7dc4f6c4dd31c9595bd71e6bb2d3fc92d85b803b"
+    },
+    {
+      "path": "outputs/repaint/wd_8h6p_repaint.mp4",
+      "sha256": "c1d78362c20078e8830cc53c0decd54a8edf973bd3c1ca58c0094bc58759e57e"
+    },
+    {
+      "path": "outputs/recast/wd_8h6p_recast.mp4",
+      "sha256": "3784b2b8533bc6c05a37722248dd9942b44676c210c0071dbf18131fb668fe38"
+    },
+    {
+      "path": "outputs/upscale/wd_8h6p_upscale.mp4",
+      "sha256": "1b8dc53cf5c084b104da2a5db189a5dc4ddc7f9e0b8f6da16c7013a8f186bf44"
+    }
+  ],
+  "media_metadata": [
+    {
+      "path": "outputs/extend/wd_8h6p_extend.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 5.041667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/retake/wd_8h6p_retake.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/edit/wd_8h6p_edit.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/repaint/wd_8h6p_repaint.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/recast/wd_8h6p_recast.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    },
+    {
+      "path": "outputs/upscale/wd_8h6p_upscale.mp4",
+      "kind": "video",
+      "width": 1664,
+      "height": 960,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      }
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "name": "wd_8h6p_output_count",
+      "inputs": [
+        "outputs/extend/wd_8h6p_extend.mp4",
+        "outputs/retake/wd_8h6p_retake.mp4",
+        "outputs/edit/wd_8h6p_edit.mp4",
+        "outputs/repaint/wd_8h6p_repaint.mp4",
+        "outputs/recast/wd_8h6p_recast.mp4",
+        "outputs/upscale/wd_8h6p_upscale.mp4"
+      ],
+      "threshold": 6,
+      "measured": 6,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_distinct_hashes",
+      "inputs": [
+        "outputs/extend/wd_8h6p_extend.mp4",
+        "outputs/retake/wd_8h6p_retake.mp4",
+        "outputs/edit/wd_8h6p_edit.mp4",
+        "outputs/repaint/wd_8h6p_repaint.mp4",
+        "outputs/recast/wd_8h6p_recast.mp4",
+        "outputs/upscale/wd_8h6p_upscale.mp4"
+      ],
+      "threshold": 6,
+      "measured": 6,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_extend_duration_s",
+      "inputs": [
+        "outputs/extend/wd_8h6p_extend.mp4",
+        "inputs/wd_2gyw_hunyuan.mp4"
+      ],
+      "threshold": 5.0,
+      "measured": 5.041667,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_retake_first_frame_ssim",
+      "inputs": [
+        "inputs/hunyuan-first-frame.png",
+        "outputs/retake/first-frame.png"
+      ],
+      "threshold": 0.0,
+      "measured": 0.448707,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_edit_source_psnr_db",
+      "inputs": [
+        "inputs/wd_2gyw_hunyuan.mp4",
+        "outputs/edit/wd_8h6p_edit.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 18.160307,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_repaint_source_psnr_db",
+      "inputs": [
+        "inputs/wd_2gyw_hunyuan.mp4",
+        "outputs/repaint/wd_8h6p_repaint.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 17.875626,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_recast_source_psnr_db",
+      "inputs": [
+        "inputs/wd_2gyw_hunyuan.mp4",
+        "outputs/recast/wd_8h6p_recast.mp4"
+      ],
+      "threshold": 1.0,
+      "measured": 17.448752,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_upscale_width",
+      "inputs": [
+        "outputs/upscale/wd_8h6p_upscale.mp4"
+      ],
+      "threshold": 1664,
+      "measured": 1664,
+      "verdict": "pass"
+    },
+    {
+      "name": "wd_8h6p_fps",
+      "inputs": [
+        "outputs/extend/wd_8h6p_extend.mp4",
+        "outputs/retake/wd_8h6p_retake.mp4",
+        "outputs/edit/wd_8h6p_edit.mp4",
+        "outputs/repaint/wd_8h6p_repaint.mp4",
+        "outputs/recast/wd_8h6p_recast.mp4",
+        "outputs/upscale/wd_8h6p_upscale.mp4"
+      ],
+      "threshold": 24.0,
+      "measured": 24.0,
+      "verdict": "pass"
+    }
+  ],
+  "reviewer_verdict": {
+    "decision": "pending",
+    "evidence_links": [],
+    "reviewer": "independent PM pending",
+    "explanation": "Developer delivery is pending independent review; no self-approval is claimed."
+  },
+  "row_dispositions": {
+    "hunyuan/standard": {
+      "create": "host_run_verified",
+      "extend": "host_run_verified",
+      "blend": "unsupported",
+      "retake": "host_run_verified",
+      "edit": "host_run_verified",
+      "outpaint": "unsupported",
+      "repaint": "host_run_verified",
+      "recast": "host_run_verified",
+      "upscale": "host_run_verified"
+    }
+  },
+  "boundary_evidence": "boundary-evidence.json",
+  "matrix_transition": "matrix-transition-check.json",
+  "runtime_notes": {
+    "wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "download_bytes": 0,
+    "offline_mode": true,
+    "targeted_junit": {
+      "tests": "110",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0"
+    },
+    "gpu_final": "see host-logs/90_final_postflight.txt"
+  }
+}

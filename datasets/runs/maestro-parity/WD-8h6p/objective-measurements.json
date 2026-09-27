@@ -1,0 +1,102 @@
+{
+  "schema_version": "wangp-dspy.wd-8h6p.objective-measurements/v1",
+  "source_sha256": "8c36757e077cb1f080ed3596691ec3186a2c2307297ccb76bedee26507608fa0",
+  "psnr_db": {
+    "edit": 18.160307,
+    "repaint": 17.875626,
+    "recast": 17.448752
+  },
+  "retake_first_frame_ssim": 0.448707,
+  "rows": [
+    {
+      "operation": "extend",
+      "path": "outputs/extend/wd_8h6p_extend.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 5.041667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "19eb4928aa6621dc1742e23e348cae7bbfed5138cb91e0fa155057e0e3e4f58a",
+      "bytes": 2529167
+    },
+    {
+      "operation": "retake",
+      "path": "outputs/retake/wd_8h6p_retake.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "ca2b45eb74683548ddcbb261b7fdf367ef1d36811bffc379459eb6198149f818",
+      "bytes": 1686578
+    },
+    {
+      "operation": "edit",
+      "path": "outputs/edit/wd_8h6p_edit.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "c6403260e3031fed37e3ce3f7dc4f6c4dd31c9595bd71e6bb2d3fc92d85b803b",
+      "bytes": 2423015
+    },
+    {
+      "operation": "repaint",
+      "path": "outputs/repaint/wd_8h6p_repaint.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "c1d78362c20078e8830cc53c0decd54a8edf973bd3c1ca58c0094bc58759e57e",
+      "bytes": 2170746
+    },
+    {
+      "operation": "recast",
+      "path": "outputs/recast/wd_8h6p_recast.mp4",
+      "kind": "video",
+      "width": 832,
+      "height": 480,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "3784b2b8533bc6c05a37722248dd9942b44676c210c0071dbf18131fb668fe38",
+      "bytes": 1499079
+    },
+    {
+      "operation": "upscale",
+      "path": "outputs/upscale/wd_8h6p_upscale.mp4",
+      "kind": "video",
+      "width": 1664,
+      "height": 960,
+      "duration_s": 2.541667,
+      "fps": 24.0,
+      "alpha_mode": "none",
+      "audio": {
+        "present": false
+      },
+      "sha256": "1b8dc53cf5c084b104da2a5db189a5dc4ddc7f9e0b8f6da16c7013a8f186bf44",
+      "bytes": 5039212
+    }
+  ]
+}

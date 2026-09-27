@@ -1,0 +1,35 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-8h6p-run/settings/blend-probe.json
+Output directory: /home/straughter/wd-8h6p-run/boundaries/blend-probe
+[load_settings] Loading settings from: /home/straughter/wd-8h6p-run/settings/blend-probe.json
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/hunyuan/wd_2gyw_hunyuan.mp4
+[load_settings] Using path: /home/straughter/Wan2GP/outputs/wd-2gyw/h3-standard/wd_2gyw_h3_standard.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: hunyuan_1_5_480_t2v_lightx2v
+Loaded 1 task(s)
+
+[Task 1/1] Hunyuan blend boundary with two guide videos....
+Loading Model 'ckpts/hy1.5_t2v_480p_lightx2v_4step_quanto_int8_bf16.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen2.5-VL-7B-Instruct/Qwen2.5-VL-7B-Instruct_quanto_bf16_int8.safetensors' ...
+Loading model Hunyuan Video 1.5 Text2video 480p Lightx2v 8B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 33 large blocks spread across 8120.37 MB
+Hooked to model 'transformer' (HYVideoDiffusionTransformer)
+Hooked to model 'text_encoder' (Qwen2_5_VLForConditionalGeneration)
+Hooked to model 'vae' (AutoencoderKLConv3D)
+Hooked to model 'byt5_model' (T5Stack)
+  Model loaded
+  [ERROR] 'reference_video_max_frames'
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-8h6p/wgp.py", line 8914, in error_handler
+    generate_media(task, send_cmd, plugin_data=plugin_data, **filtered_params)
+  File "/home/straughter/Wan2GP-story-WD-8h6p/wgp.py", line 7574, in generate_media
+    guide_frames_limit = round(model_def["reference_video_max_frames"] * fps / model_def["fps"]) if reference_videos else source_video_frames_count - source_video_overlap_frames_count + requested_frames_to_generate
+                               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'reference_video_max_frames'
+
+  [ERROR] 'reference_video_max_frames'
+
+==================================================
+Queue completed: 0/1 tasks in 24.0s

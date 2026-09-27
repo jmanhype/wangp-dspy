@@ -1,0 +1,2 @@
+actual_download_bytes=0
+offline_mode=forced
