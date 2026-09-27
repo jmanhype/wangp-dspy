@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-27T13:24:01Z
 created_by: speed
 updated_at: 2026-09-27T14:35:41Z
-content_hash: "sha256:81643c7f3a00e6fbee58f7fb4a1ca1c379ffe428493c7358c3637271eb08f570"
+content_hash: "sha256:cd224f30d2de9f3278016762a70ba5b0720b9056666d05c0a10bc8c4bd5436b1"
 blocks: [WD-fay0]
 follows: [WD-8h6p, WD-m25k]
 ---
@@ -654,6 +654,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-09-27.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
 
 
 ## Implementation Evidence
