@@ -13,23 +13,12 @@
     "/tmp/31_run_remaining.sh"
   ],
   "repository": {
-    "commit": "8855d1d9048fdcbf5487bf15f55cc7edb690c7ae",
+    "commit": "c10e1ee49dd0c21e2ab7a22428fcb796c75bedd0",
     "base_commit": "079651d9",
     "dirty_state": {
-      "dirty": true,
-      "identity_sha256": "ec672a09bfca8a024ce9b541d3176010a3470bb07232b10be3075b7dc07c7bf1",
-      "status_lines": [
-        " M datasets/runs/maestro-parity/WD-ycjg/build_evidence.py",
-        " M datasets/runs/maestro-parity/WD-ycjg/bundle-size.txt",
-        " M datasets/runs/maestro-parity/WD-ycjg/evidence.json",
-        " M datasets/runs/maestro-parity/WD-ycjg/evidence.sha256",
-        " M datasets/runs/maestro-parity/WD-ycjg/host-logs/15-story-local-download-accounting.txt",
-        " M datasets/runs/maestro-parity/WD-ycjg/host-logs/96_final_download_accounting.txt",
-        " M datasets/runs/maestro-parity/WD-ycjg/host-scripts/15_story_local_python_deps.sh",
-        " M datasets/runs/maestro-parity/WD-ycjg/host-scripts/40_postflight.sh",
-        " M datasets/runs/maestro-parity/WD-ycjg/targeted-tests-counters.json",
-        " M datasets/runs/maestro-parity/WD-ycjg/targeted-tests.xml"
-      ]
+      "dirty": false,
+      "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status_lines": []
     }
   },
   "model_provenance": [
