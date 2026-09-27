@@ -1,18 +1,19 @@
 ---
 id: WD-qswf
 title: "Bug: LF004 launcher setup heredoc deadlock"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [bug, test, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
-updated_at: 2026-09-27T21:35:22Z
-content_hash: "sha256:1a6cb0316b7665f86959df35c79e8f6643c82f3a449e4e42dfeeef0b3ad9f2a3"
-blocks: [WD-fay0]
+updated_at: 2026-09-27T21:36:48Z
+content_hash: "sha256:be2d2e6d81fe1d5f4efb0749740b85cb1afd385c8d6ffadab0e329cad0a0414d"
 follows: [WD-osfm, WD-28i5, WD-ycjg, WD-8h6p]
 assignee: dev-WD-qswf
+closed_at: 2026-09-27T21:36:48Z
+close_reason: "Accepted: implementation head and exact-head CI remain unchanged; rework closes all prior proof gaps with measured focused coverage, LEARNINGS, and explicit CI warning ownership."
 ---
 
 ## Description
@@ -583,10 +584,11 @@ status: in_progress
 - 2026-09-27T21:35:18Z claimed by dev-WD-qswf
 - 2026-09-27T21:35:19Z status: in_progress -> in_progress
 - 2026-09-27T21:35:19Z auto-follows: linked to predecessor WD-8h6p
+- 2026-09-27T21:36:48Z status: in_progress -> closed
+- 2026-09-27T21:36:48Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]], [[WD-8h6p]]
 
 ## Comments
