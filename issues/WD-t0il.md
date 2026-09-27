@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-26T20:21:28Z
-content_hash: "sha256:bfc99c8ab6b198a7590ecb324d95e2cc9994bdef7af678b10ba08230ac8a7034"
+updated_at: 2026-09-27T21:40:53Z
+content_hash: "sha256:e4e2cd1b9c6511129985ddbf16072b355352c89385a6087a9f6c8cca4b9f4c5f"
 blocks: [WD-fay0]
 ---
 
@@ -176,3 +176,6 @@ Progress update only (gate remains deferred): WD-43tj was accepted and merged at
 
 ### 2026-09-26T20:21:28Z speed
 Progress update only (gate remains deferred): WD-5k28 accepted and merged at 2b4714bf. All nine h3_outpaint cells are unsupported host implementation boundaries. Current video census: 13 host_run_verified, 30 unsupported, 56 planned. Combined known planned scope: 86 cells (video 56, director 25, finishing 5).
+
+### 2026-09-27T21:40:53Z speed
+Progress update only (gate remains deferred): WD-osfm was accepted and merged at 7393245f. Its nine LTX-2.3 cells moved to 5 host_run_verified, 1 unsupported, and 3 dependency_blocked. Consolidated video matrix is now 40 host_run_verified, 52 unsupported, 7 dependency_blocked, and 0 planned. Overall 208-cell census is therefore 51 verified, 35 unsupported, 111 planned, 6 pending consent, and 2 not applicable. Separately, WD-qswf was accepted and merged at 7275e44f; the undeselected full suite now passes 2108/2108 selected tests with 0 failures, 0 errors, and 1 skip.
