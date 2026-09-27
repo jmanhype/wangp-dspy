@@ -8,11 +8,11 @@ labels: [capability, finishing, evidence, external-integration, rejected]
 parent: WD-3nod
 created_at: 2026-09-26T20:53:45Z
 created_by: speed
-updated_at: 2026-09-27T00:25:11Z
-content_hash: "sha256:b1718a495ed8d1b7b09114e324b36271ba9cc5e5c723fe37d919f60a291af150"
+updated_at: 2026-09-27T00:25:12Z
+content_hash: "sha256:19731df7a29da7f91d90332e6ed9785dbe12ab66275138adce14850549d8e7d0"
 blocks: [WD-fay0]
 blocked_by: [WD-r81u, WD-r4n8]
-follows: [WD-5k28, WD-m7xw, WD-43tj]
+follows: [WD-5k28, WD-m7xw, WD-43tj, WD-7fvx]
 assignee: dev-WD-obkn
 ---
 
@@ -321,12 +321,14 @@ status: delivered
 - 2026-09-26T23:50:00Z status: open -> in_progress
 - 2026-09-26T23:50:00Z auto-follows: linked to predecessor WD-43tj
 - 2026-09-26T23:50:00Z claimed by dev-WD-obkn
+- 2026-09-27T00:25:12Z status: in_progress -> in_progress
+- 2026-09-27T00:25:12Z auto-follows: linked to predecessor WD-7fvx
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Blocked by: [[WD-r81u]], [[WD-r4n8]]
-- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]]
+- Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-7fvx]]
 
 ## Comments
 
