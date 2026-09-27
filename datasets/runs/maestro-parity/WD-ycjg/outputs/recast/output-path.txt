@@ -1,0 +1,2 @@
+source=/home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h06m38s_seed3504_Recast the selected combatant from the alternate reference frame while preserving the control choreo.mp4
+final=/home/straughter/wd-ycjg-run/outputs/recast/wd_ycjg_recast.mp4

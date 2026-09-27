@@ -1,0 +1,10 @@
+/home/straughter/Wan2GP/venv/bin/python
+wgp.py
+--process
+/home/straughter/wd-ycjg-run/settings/replacement-batch.json
+--profile
+3
+--attention
+sdpa
+--output-dir
+/home/straughter/wd-ycjg-run/boundaries/replacement-batch

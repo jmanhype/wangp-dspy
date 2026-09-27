@@ -1,0 +1,4 @@
+task=replacement-batch exit=0
+task=edit exit=0
+task=extend exit=0
+task=blend-probe exit=0

@@ -1,0 +1,16 @@
+94e4c007370587157f4ca80637fee01aaab9c700192254a6c1379d9047a14460  /home/straughter/Wan2GP/ckpts/scail2_14B_quanto_mbf16_int8.safetensors
+5e4961851c78838931990549810ed51c9036081b2ad80bf464c4e2603c5f922c  /home/straughter/Wan2GP/ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors
+3ce0c02b9470532e7f63f3e2f8e83b0681fdeaa432e969c412482d2b3b78267b  /home/straughter/Wan2GP/ckpts/Wan2.1_VAE.safetensors
+07494758eb4b7832a099dee9b3a5040288fa869b9417dc71f8dfd519c85eebd7  /home/straughter/Wan2GP/ckpts/pose/nlf_l_multi_0.3.2.eager.safetensors
+1704420d3b1767d3939a32aeaa34cc6d08188109fdfea4713181eaf9b55f3c1f  /home/straughter/Wan2GP/ckpts/pose/nlf_l_multi_0.3.2.eager.meta.json
+4e2cd82698b64b7d32349c8bbb4f43422e199cd1bfc9ca6b88bbef562af7e99e  /home/straughter/Wan2GP/ckpts/sam3/sam3.1_multiplex_bf16.safetensors
+924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a  /home/straughter/Wan2GP/ckpts/sam3/bpe_simple_vocab_16e6.txt.gz
+6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b  /home/straughter/Wan2GP/ckpts/umt5-xxl/tokenizer.json
+e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458  /home/straughter/Wan2GP/ckpts/umt5-xxl/spiece.model
+ed9a3a8b0faa71a70a32847e0435fe036e6e112d4df4edb7bb48a921e344dc05  /home/straughter/Wan2GP/ckpts/umt5-xxl/tokenizer_config.json
+7b8a9f5040adb67b5805abdfd42c1f8d0f3d0e711f10726580eb3789cd0ad61d  /home/straughter/Wan2GP/ckpts/umt5-xxl/special_tokens_map.json
+742b68fe1cade9e54863aee12aed5390a994269957bd0638799b141cbc236ad8  /home/straughter/Wan2GP/ckpts/xlm-roberta-large/models_clip_open-clip-xlm-roberta-large-vit-huge-14-bf16.safetensors
+cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865  /home/straughter/Wan2GP/ckpts/xlm-roberta-large/sentencepiece.bpe.model
+06e405a36dfe4b9604f484f6a1e619af1a7f7d09e34a8555eb0b77b66318067f  /home/straughter/Wan2GP/ckpts/xlm-roberta-large/special_tokens_map.json
+62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626  /home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer.json
+efb5c0d09722e5fe59a462cd2a9976ee216d55b037597d997cd3fe833216da15  /home/straughter/Wan2GP/ckpts/xlm-roberta-large/tokenizer_config.json

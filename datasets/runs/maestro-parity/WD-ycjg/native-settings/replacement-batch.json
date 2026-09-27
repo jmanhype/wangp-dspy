@@ -1,0 +1,80 @@
+[
+  {
+    "model_type": "scail2_14B",
+    "prompt": "Retake the SCAIL-2 combat beat with the same bodies and staging, slightly stronger sunset backlight and more grounded footwork.",
+    "negative_prompt": "cartoon, cel shading, broken anatomy, extra limbs, jitter, blur, low quality",
+    "resolution": "384x224",
+    "seed": 3502,
+    "video_length": 9,
+    "num_inference_steps": 6,
+    "guidance_scale": 5.0,
+    "flow_shift": 3.0,
+    "sample_solver": "unipc",
+    "image_prompt_type": "",
+    "image_start": null,
+    "image_end": null,
+    "image_refs": ["/home/straughter/wd-ycjg-run/inputs/reference.png"],
+    "video_source": null,
+    "video_guide": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+    "video_mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+    "video_prompt_type": "V01AI",
+    "audio_prompt_type": "",
+    "custom_settings": {
+      "scail2_animate_preprocessing": "raw",
+      "image_ref_keyword_content": "person",
+      "scail2_inject_ref_frames_in_video": "No"
+    }
+  },
+  {
+    "model_type": "scail2_14B",
+    "prompt": "Repaint the selected combatant with grounded leather armor and realistic cloth response while preserving the control motion and rooftop scene.",
+    "negative_prompt": "cartoon, cel shading, broken anatomy, extra limbs, jitter, blur, low quality",
+    "resolution": "384x224",
+    "seed": 3503,
+    "video_length": 9,
+    "num_inference_steps": 6,
+    "guidance_scale": 5.0,
+    "flow_shift": 3.0,
+    "sample_solver": "unipc",
+    "image_prompt_type": "",
+    "image_start": null,
+    "image_end": null,
+    "image_refs": ["/home/straughter/wd-ycjg-run/inputs/reference.png"],
+    "video_source": null,
+    "video_guide": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+    "video_mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+    "video_prompt_type": "V01AI",
+    "audio_prompt_type": "",
+    "custom_settings": {
+      "scail2_animate_preprocessing": "raw",
+      "image_ref_keyword_content": "person",
+      "scail2_inject_ref_frames_in_video": "No"
+    }
+  },
+  {
+    "model_type": "scail2_14B",
+    "prompt": "Recast the selected combatant from the alternate reference frame while preserving the control choreography and camera timing.",
+    "negative_prompt": "cartoon, cel shading, broken anatomy, extra limbs, jitter, blur, low quality",
+    "resolution": "384x224",
+    "seed": 3504,
+    "video_length": 9,
+    "num_inference_steps": 6,
+    "guidance_scale": 5.0,
+    "flow_shift": 3.0,
+    "sample_solver": "unipc",
+    "image_prompt_type": "",
+    "image_start": null,
+    "image_end": null,
+    "image_refs": ["/home/straughter/wd-ycjg-run/inputs/alternate-reference.png"],
+    "video_source": null,
+    "video_guide": "/home/straughter/wd-ycjg-run/inputs/control.mp4",
+    "video_mask": "/home/straughter/wd-ycjg-run/inputs/control-mask.mp4",
+    "video_prompt_type": "V01AI",
+    "audio_prompt_type": "",
+    "custom_settings": {
+      "scail2_animate_preprocessing": "raw",
+      "image_ref_keyword_content": "person",
+      "scail2_inject_ref_frames_in_video": "No"
+    }
+  }
+]

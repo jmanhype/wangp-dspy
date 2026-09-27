@@ -1,0 +1,89 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-ycjg-run/settings/replacement-batch.json
+Output directory: /home/straughter/wd-ycjg-run/boundaries/replacement-batch
+[load_settings] Loading settings from: /home/straughter/wd-ycjg-run/settings/replacement-batch.json
+[load_settings] Loaded image: /home/straughter/wd-ycjg-run/inputs/reference.png
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control-mask.mp4
+[load_settings] Task 1/3 ready, ID: 1, model: scail2_14B
+[load_settings] Loaded image: /home/straughter/wd-ycjg-run/inputs/reference.png
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control-mask.mp4
+[load_settings] Task 2/3 ready, ID: 2, model: scail2_14B
+[load_settings] Loaded image: /home/straughter/wd-ycjg-run/inputs/alternate-reference.png
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control-mask.mp4
+[load_settings] Task 3/3 ready, ID: 3, model: scail2_14B
+Loaded 3 task(s)
+
+[Task 1/3] Retake the SCAIL-2 combat beat with the same bodies and stag...
+Loading model SCAIL-2 14B...
+Loading Model 'ckpts/scail2_14B_quanto_mbf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 69 large blocks spread across 15872.88 MB
+Hooked to model 'transformer' (WanModel)
+Hooked to model 'vae' (WanVAE_)
+Hooked to model 'text_encoder' (T5Encoder)
+Hooked to model 'text_encoder_2' (XLMRobertaCLIP)
+  Model loaded  [0/1] Prompt 1/3 - Preparing Scail2 Inputs  [0/1] Building SCAIL-2 Image Reference Mask[0m[32mINFO 2026-09-27 09:04:10,558 4108488 preprocessor.py: 312:[0m SAM3 encoding keywords before propagation: 'person'
+dynamic_multimask_via_stability is reset to False in the multiplex model
+[0m[32mINFO 2026-09-27 09:04:14,154 4108488 sam3_multiplex_base.py: 332:[0m `setting max_num_objects` to 16 -- creating num_obj_for_compile=1 objects for torch.compile cache
+[0m[32mINFO 2026-09-27 09:04:14,337 4108488 sam3_base_predictor.py: 148:[0m started new session d39f5229-f333-4d3a-99f1-e17cae81c5f7
+[0m[32mINFO 2026-09-27 09:04:14,337 4108488 preprocessor.py: 355:[0m SAM3 keyword currently being processed: 'person'
+[0m[32mINFO 2026-09-27 09:04:15,861 4108488 sam3_multiplex_tracking.py:1693:[0m Running add_prompt on frame 0
+[0m[32mINFO 2026-09-27 09:04:17,052 4108488 sam3_multiplex_tracking.py:2336:[0m Running full VG propagation (reverse=False).
+propagate_in_video:   0%|          | 0/1 [00:00<?, ?steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.52steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.52steps/s]
+[0m[32mINFO 2026-09-27 09:04:17,711 4108488 sam3_multiplex_tracking.py: 581:[0m Bucket utilization rate: 12.50%, subscription rate: 200.00%
+[0m[32mINFO 2026-09-27 09:04:17,711 4108488 sam3_base_predictor.py: 310:[0m propagation ended in session d39f5229-f333-4d3a-99f1-e17cae81c5f7
+[0m[32mINFO 2026-09-27 09:04:17,921 4108488 sam3_base_predictor.py: 329:[0m removed session d39f5229-f333-4d3a-99f1-e17cae81c5f7
+  [0/1] Prompt 1/3 - Encoding Prompt         [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/6] Prompt 1/3 - Denoising | 13.1s  [0/6] Prompt 1/3 - Denoising | 13.1s  0%|          | 0/6 [00:00<?, ?steps/s]  [0/6] Prompt 1/3 - Denoising | 30.9s  [0/6] Prompt 1/3 - Denoising | 31.9s 17%|█▋        | 1/6 [00:18<01:33, 18.69s/steps]  [1/6] Prompt 1/3 - Denoising | 32.1s / 2m 06s  [1/6] Prompt 1/3 - Denoising | 33.1s / 2m 06s 33%|███▎      | 2/6 [00:19<00:33,  8.42s/steps]  [2/6] Prompt 1/3 - Denoising | 33.3s / 1m 13s  [2/6] Prompt 1/3 - Denoising | 34.3s / 1m 13s 50%|█████     | 3/6 [00:21<00:15,  5.17s/steps]  [3/6] Prompt 1/3 - Denoising | 34.6s / 56.1s   [3/6] Prompt 1/3 - Denoising | 35.6s / 56.1s 67%|██████▋   | 4/6 [00:22<00:07,  3.64s/steps]  [4/6] Prompt 1/3 - Denoising | 35.9s / 47.3s  [4/6] Prompt 1/3 - Denoising | 36.9s / 47.3s 83%|████████▎ | 5/6 [00:23<00:02,  2.78s/steps]  [5/6] Prompt 1/3 - Denoising | 37.2s / 42.0s  [5/6] Prompt 1/3 - Denoising | 38.2s / 42.0s100%|██████████| 6/6 [00:25<00:00,  2.26s/steps]100%|██████████| 6/6 [00:25<00:00,  4.17s/steps]
+  [6/6] Prompt 1/3 - VAE Decoding | 38.4s / 38.4sError saving metadata to MP4 /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h04m59s_seed3502_Retake the SCAIL-2 combat beat with the same bodies and staging, slightly stronger sunset backlight.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h04m59s_seed3502_Retake the SCAIL-2 combat beat with the same bodies and staging, slightly stronger sunset backlight.mp4
+
+
+  Task 1 completed
+
+[Task 2/3] Repaint the selected combatant with grounded leather armor a...
+  [0/1] Prompt 2/3 - Preparing Scail2 Inputs  [0/1] Building SCAIL-2 Image Reference Mask[0m[32mINFO 2026-09-27 09:05:00,694 4108488 preprocessor.py: 312:[0m SAM3 encoding keywords before propagation: 'person'
+dynamic_multimask_via_stability is reset to False in the multiplex model
+[0m[32mINFO 2026-09-27 09:05:03,479 4108488 sam3_multiplex_base.py: 332:[0m `setting max_num_objects` to 16 -- creating num_obj_for_compile=1 objects for torch.compile cache
+[0m[32mINFO 2026-09-27 09:05:03,634 4108488 sam3_base_predictor.py: 148:[0m started new session 0f90dece-ddfd-419a-9e01-2817bfbbcf41
+[0m[32mINFO 2026-09-27 09:05:03,634 4108488 preprocessor.py: 355:[0m SAM3 keyword currently being processed: 'person'
+[0m[32mINFO 2026-09-27 09:05:05,286 4108488 sam3_multiplex_tracking.py:1693:[0m Running add_prompt on frame 0
+[0m[32mINFO 2026-09-27 09:05:06,043 4108488 sam3_multiplex_tracking.py:2336:[0m Running full VG propagation (reverse=False).
+propagate_in_video:   0%|          | 0/1 [00:00<?, ?steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.48steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.48steps/s]
+[0m[32mINFO 2026-09-27 09:05:06,720 4108488 sam3_multiplex_tracking.py: 581:[0m Bucket utilization rate: 12.50%, subscription rate: 200.00%
+[0m[32mINFO 2026-09-27 09:05:06,720 4108488 sam3_base_predictor.py: 310:[0m propagation ended in session 0f90dece-ddfd-419a-9e01-2817bfbbcf41
+[0m[32mINFO 2026-09-27 09:05:06,906 4108488 sam3_base_predictor.py: 329:[0m removed session 0f90dece-ddfd-419a-9e01-2817bfbbcf41
+  [0/1] Prompt 2/3 - Encoding Prompt           [0/6] Prompt 2/3 - Denoising | 12.8s  [0/6] Prompt 2/3 - Denoising | 12.8s  0%|          | 0/6 [00:00<?, ?steps/s]  [0/6] Prompt 2/3 - Denoising | 32.1s  [0/6] Prompt 2/3 - Denoising | 33.1s 17%|█▋        | 1/6 [00:20<01:41, 20.25s/steps]  [1/6] Prompt 2/3 - Denoising | 33.3s / 2m 15s  [1/6] Prompt 2/3 - Denoising | 34.4s / 2m 15s 33%|███▎      | 2/6 [00:21<00:36,  9.07s/steps]  [2/6] Prompt 2/3 - Denoising | 34.6s / 1m 18s  [2/6] Prompt 2/3 - Denoising | 35.6s / 1m 18s 50%|█████     | 3/6 [00:22<00:16,  5.52s/steps]  [3/6] Prompt 2/3 - Denoising | 35.9s / 58.9s   [3/6] Prompt 2/3 - Denoising | 36.9s / 58.9s 67%|██████▋   | 4/6 [00:24<00:07,  3.85s/steps]  [4/6] Prompt 2/3 - Denoising | 37.2s / 49.3s  [4/6] Prompt 2/3 - Denoising | 38.2s / 49.3s 83%|████████▎ | 5/6 [00:25<00:02,  2.91s/steps]  [5/6] Prompt 2/3 - Denoising | 38.4s / 43.5s  [5/6] Prompt 2/3 - Denoising | 39.4s / 43.5s100%|██████████| 6/6 [00:26<00:00,  2.34s/steps]100%|██████████| 6/6 [00:26<00:00,  4.43s/steps]
+  [6/6] Prompt 2/3 - VAE Decoding | 39.6s / 39.6sError saving metadata to MP4 /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h05m50s_seed3503_Repaint the selected combatant with grounded leather armor and realistic cloth response while preser.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h05m50s_seed3503_Repaint the selected combatant with grounded leather armor and realistic cloth response while preser.mp4
+
+
+  Task 2 completed
+
+[Task 3/3] Recast the selected combatant from the alternate reference f...
+  [0/1] Prompt 3/3 - Preparing Scail2 Inputs  [0/1] Building SCAIL-2 Image Reference Mask[0m[32mINFO 2026-09-27 09:05:50,953 4108488 preprocessor.py: 312:[0m SAM3 encoding keywords before propagation: 'person'
+dynamic_multimask_via_stability is reset to False in the multiplex model
+[0m[32mINFO 2026-09-27 09:05:53,789 4108488 sam3_multiplex_base.py: 332:[0m `setting max_num_objects` to 16 -- creating num_obj_for_compile=1 objects for torch.compile cache
+[0m[32mINFO 2026-09-27 09:05:53,891 4108488 sam3_base_predictor.py: 148:[0m started new session e896d04e-33e1-4bcc-be10-32485c853bb5
+[0m[32mINFO 2026-09-27 09:05:53,891 4108488 preprocessor.py: 355:[0m SAM3 keyword currently being processed: 'person'
+[0m[32mINFO 2026-09-27 09:05:55,419 4108488 sam3_multiplex_tracking.py:1693:[0m Running add_prompt on frame 0
+[0m[32mINFO 2026-09-27 09:05:56,150 4108488 sam3_multiplex_tracking.py:2336:[0m Running full VG propagation (reverse=False).
+propagate_in_video:   0%|          | 0/1 [00:00<?, ?steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.60steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.60steps/s]
+[0m[32mINFO 2026-09-27 09:05:56,778 4108488 sam3_multiplex_tracking.py: 581:[0m Bucket utilization rate: 12.50%, subscription rate: 200.00%
+[0m[32mINFO 2026-09-27 09:05:56,778 4108488 sam3_base_predictor.py: 310:[0m propagation ended in session e896d04e-33e1-4bcc-be10-32485c853bb5
+[0m[32mINFO 2026-09-27 09:05:56,936 4108488 sam3_base_predictor.py: 329:[0m removed session e896d04e-33e1-4bcc-be10-32485c853bb5
+  [0/1] Prompt 3/3 - Encoding Prompt           [0/6] Prompt 3/3 - Denoising | 13.1s  [0/6] Prompt 3/3 - Denoising | 13.1s  0%|          | 0/6 [00:00<?, ?steps/s]  [0/6] Prompt 3/3 - Denoising | 30.8s  [0/6] Prompt 3/3 - Denoising | 31.9s 17%|█▋        | 1/6 [00:18<01:33, 18.75s/steps]  [1/6] Prompt 3/3 - Denoising | 32.1s / 2m 06s  [1/6] Prompt 3/3 - Denoising | 33.1s / 2m 06s 33%|███▎      | 2/6 [00:19<00:33,  8.44s/steps]  [2/6] Prompt 3/3 - Denoising | 33.3s / 1m 13s  [2/6] Prompt 3/3 - Denoising | 34.3s / 1m 13s 50%|█████     | 3/6 [00:21<00:15,  5.16s/steps]  [3/6] Prompt 3/3 - Denoising | 34.5s / 56.0s   [3/6] Prompt 3/3 - Denoising | 35.6s / 56.0s 67%|██████▋   | 4/6 [00:22<00:07,  3.63s/steps]  [4/6] Prompt 3/3 - Denoising | 35.8s / 47.2s  [4/6] Prompt 3/3 - Denoising | 36.8s / 47.2s 83%|████████▎ | 5/6 [00:23<00:02,  2.78s/steps]  [5/6] Prompt 3/3 - Denoising | 37.1s / 41.9s  [5/6] Prompt 3/3 - Denoising | 38.1s / 41.9s100%|██████████| 6/6 [00:25<00:00,  2.27s/steps]100%|██████████| 6/6 [00:25<00:00,  4.18s/steps]
+  [6/6] Prompt 3/3 - VAE Decoding | 38.4s / 38.4sError saving metadata to MP4 /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h06m38s_seed3504_Recast the selected combatant from the alternate reference frame while preserving the control choreo.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h06m38s_seed3504_Recast the selected combatant from the alternate reference frame while preserving the control choreo.mp4
+
+
+  Task 3 completed
+
+==================================================
+Queue completed: 3/3 tasks in 2m 47s

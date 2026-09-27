@@ -1,0 +1,22 @@
+{
+  "schema_version": "wangp-dspy.wd-ycjg.boundary-evidence/v1",
+  "records": [
+    {
+      "row": "scail/2",
+      "operation": "extend",
+      "native_exit": 0,
+      "log": "host-logs/extend.render.log",
+      "log_sha256": "2b8a74af06fc6fd88ff48efa5c337359297cf7dcdf04ecba776709b79be7588c",
+      "output": "outputs/extend/wd_ycjg_extend.mp4",
+      "output_sha256": "369a3116a9ea5fc6fd4b5f6d9f539279257098e6dbf53f3fd6d90a05f65e882a",
+      "requested_frames": 21,
+      "requested_duration_s": 0.875,
+      "measured_frames": 9,
+      "measured_duration_s": 0.375,
+      "psnr_versus_create_db": 46.5932,
+      "boundary": "unsupported_host_implementation",
+      "reason": "SCAIL-2 followed the nine-frame control length and returned a near-identical 0.375-second result rather than the requested 21-frame continuation."
+    }
+  ],
+  "initial_blend_probe_note": "The first blend probe loaded both guides but omitted '+' from video_prompt_type; blend-retry.json adds V01AI+ and is the authoritative successful two-guide attempt."
+}

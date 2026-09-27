@@ -1,0 +1,2 @@
+source=/home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h05m50s_seed3503_Repaint the selected combatant with grounded leather armor and realistic cloth response while preser.mp4
+final=/home/straughter/wd-ycjg-run/outputs/repaint/wd_ycjg_repaint.mp4

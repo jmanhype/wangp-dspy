@@ -1,0 +1,2 @@
+source=/home/straughter/wd-ycjg-run/boundaries/replacement-batch/2026-09-27-09h04m59s_seed3502_Retake the SCAIL-2 combat beat with the same bodies and staging, slightly stronger sunset backlight.mp4
+final=/home/straughter/wd-ycjg-run/outputs/retake/wd_ycjg_retake.mp4

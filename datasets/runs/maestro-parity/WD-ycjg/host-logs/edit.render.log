@@ -1,0 +1,43 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-ycjg-run/settings/edit.json
+Output directory: /home/straughter/wd-ycjg-run/boundaries/edit
+[load_settings] Loading settings from: /home/straughter/wd-ycjg-run/settings/edit.json
+[load_settings] Loaded image: /home/straughter/wd-ycjg-run/inputs/reference.png
+[load_settings] Using path: /home/straughter/wd-ycjg-run/outputs/create/wd_ycjg_create.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control-mask.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: scail2_14B
+Loaded 1 task(s)
+
+[Task 1/1] Edit the generated SCAIL-2 take: keep the combat mechanics a...
+Loading model SCAIL-2 14B...
+Loading Model 'ckpts/scail2_14B_quanto_mbf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 69 large blocks spread across 15872.88 MB
+Hooked to model 'transformer' (WanModel)
+Hooked to model 'vae' (WanVAE_)
+Hooked to model 'text_encoder' (T5Encoder)
+Hooked to model 'text_encoder_2' (XLMRobertaCLIP)
+  Model loaded  [0/1] Preparing Scail2 Inputs  [0/1] Building SCAIL-2 Image Reference Mask[0m[32mINFO 2026-09-27 09:07:07,972 4125129 preprocessor.py: 312:[0m SAM3 encoding keywords before propagation: 'person'
+dynamic_multimask_via_stability is reset to False in the multiplex model
+[0m[32mINFO 2026-09-27 09:07:11,072 4125129 sam3_multiplex_base.py: 332:[0m `setting max_num_objects` to 16 -- creating num_obj_for_compile=1 objects for torch.compile cache
+[0m[32mINFO 2026-09-27 09:07:11,277 4125129 sam3_base_predictor.py: 148:[0m started new session eeec97ba-29a3-43f2-9982-c7d7d793e333
+[0m[32mINFO 2026-09-27 09:07:11,277 4125129 preprocessor.py: 355:[0m SAM3 keyword currently being processed: 'person'
+[0m[32mINFO 2026-09-27 09:07:13,328 4125129 sam3_multiplex_tracking.py:1693:[0m Running add_prompt on frame 0
+[0m[32mINFO 2026-09-27 09:07:14,458 4125129 sam3_multiplex_tracking.py:2336:[0m Running full VG propagation (reverse=False).
+propagate_in_video:   0%|          | 0/1 [00:00<?, ?steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.57steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.57steps/s]
+[0m[32mINFO 2026-09-27 09:07:15,097 4125129 sam3_multiplex_tracking.py: 581:[0m Bucket utilization rate: 12.50%, subscription rate: 200.00%
+[0m[32mINFO 2026-09-27 09:07:15,097 4125129 sam3_base_predictor.py: 310:[0m propagation ended in session eeec97ba-29a3-43f2-9982-c7d7d793e333
+[0m[32mINFO 2026-09-27 09:07:15,275 4125129 sam3_base_predictor.py: 329:[0m removed session eeec97ba-29a3-43f2-9982-c7d7d793e333
+  [0/1] Encoding Prompt                      [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/6] Denoising | 13.6s  [0/6] Denoising | 13.6s  0%|          | 0/6 [00:00<?, ?steps/s]  [0/6] Denoising | 31.1s  [0/6] Denoising | 32.2s  [1/6] Denoising | 32.4s / 2m 06s 17%|█▋        | 1/6 [00:18<01:32, 18.55s/steps]  [1/6] Denoising | 33.4s / 2m 06s 33%|███▎      | 2/6 [00:19<00:33,  8.36s/steps]  [2/6] Denoising | 33.6s / 1m 13s  [2/6] Denoising | 34.6s / 1m 13s 50%|█████     | 3/6 [00:21<00:15,  5.13s/steps]  [3/6] Denoising | 34.9s / 56.2s   [3/6] Denoising | 35.9s / 56.2s 67%|██████▋   | 4/6 [00:22<00:07,  3.60s/steps]  [4/6] Denoising | 36.1s / 47.4s  [4/6] Denoising | 37.2s / 47.4s 83%|████████▎ | 5/6 [00:23<00:02,  2.75s/steps]  [5/6] Denoising | 37.4s / 42.1s  [5/6] Denoising | 38.4s / 42.1s100%|██████████| 6/6 [00:24<00:00,  2.25s/steps]  [6/6] VAE Decoding | 38.6s / 38.6s100%|██████████| 6/6 [00:24<00:00,  4.14s/steps]
+Error saving metadata to MP4 /home/straughter/wd-ycjg-run/boundaries/edit/2026-09-27-09h07m57s_seed3505_Edit the generated SCAIL-2 take keep the combat mechanics and identity, cool the sunset slightly, a.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-ycjg-run/boundaries/edit/2026-09-27-09h07m57s_seed3505_Edit the generated SCAIL-2 take keep the combat mechanics and identity, cool the sunset slightly, a.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 08s

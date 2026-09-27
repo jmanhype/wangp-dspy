@@ -1,0 +1,2 @@
+source=/home/straughter/wd-ycjg-run/outputs/create/2026-09-27-09h02m29s_seed3501_Create a stable SCAIL-2 replacement take preserve the two combatants' motion and rooftop staging wh.mp4
+final=/home/straughter/wd-ycjg-run/outputs/create/wd_ycjg_create.mp4

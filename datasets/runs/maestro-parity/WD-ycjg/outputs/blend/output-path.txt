@@ -1,0 +1,2 @@
+source=/home/straughter/wd-ycjg-run/boundaries/blend-retry/2026-09-27-09h13m25s_seed3508_SCAIL-2 two-guide blend retry blend motion and appearance evidence from the original control and th.mp4
+final=/home/straughter/wd-ycjg-run/outputs/blend/wd_ycjg_blend.mp4

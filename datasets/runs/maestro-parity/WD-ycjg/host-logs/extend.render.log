@@ -1,0 +1,44 @@
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-ycjg-run/settings/extend.json
+Output directory: /home/straughter/wd-ycjg-run/boundaries/extend
+[load_settings] Loading settings from: /home/straughter/wd-ycjg-run/settings/extend.json
+[load_settings] Loaded image: /home/straughter/wd-ycjg-run/inputs/reference.png
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/inputs/control-mask.mp4
+[load_settings] Using path: /home/straughter/wd-ycjg-run/outputs/create/wd_ycjg_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: scail2_14B
+Loaded 1 task(s)
+
+[Task 1/1] Continue the generated SCAIL-2 combat take for a longer beat...
+Loading model SCAIL-2 14B...
+Loading Model 'ckpts/scail2_14B_quanto_mbf16_int8.safetensors' ...
+Loading Text Encoder 'ckpts/umt5-xxl/models_t5_umt5-xxl-enc-quanto_int8.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 69 large blocks spread across 15872.88 MB
+Hooked to model 'transformer' (WanModel)
+Hooked to model 'vae' (WanVAE_)
+Hooked to model 'text_encoder' (T5Encoder)
+Hooked to model 'text_encoder_2' (XLMRobertaCLIP)
+  Model loaded  [0/1] Preparing Scail2 Inputs  [0/1] Building SCAIL-2 Image Reference Mask[0m[32mINFO 2026-09-27 09:08:25,183 4132482 preprocessor.py: 312:[0m SAM3 encoding keywords before propagation: 'person'
+dynamic_multimask_via_stability is reset to False in the multiplex model
+[0m[32mINFO 2026-09-27 09:08:28,071 4132482 sam3_multiplex_base.py: 332:[0m `setting max_num_objects` to 16 -- creating num_obj_for_compile=1 objects for torch.compile cache
+[0m[32mINFO 2026-09-27 09:08:28,286 4132482 sam3_base_predictor.py: 148:[0m started new session 3595089f-19cc-45c5-acab-cc1dfb9591b8
+[0m[32mINFO 2026-09-27 09:08:28,286 4132482 preprocessor.py: 355:[0m SAM3 keyword currently being processed: 'person'
+[0m[32mINFO 2026-09-27 09:08:29,729 4132482 sam3_multiplex_tracking.py:1693:[0m Running add_prompt on frame 0
+[0m[32mINFO 2026-09-27 09:08:30,833 4132482 sam3_multiplex_tracking.py:2336:[0m Running full VG propagation (reverse=False).
+propagate_in_video:   0%|          | 0/1 [00:00<?, ?steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.39steps/s]propagate_in_video: 100%|██████████| 1/1 [00:00<00:00,  1.39steps/s]
+[0m[32mINFO 2026-09-27 09:08:31,554 4132482 sam3_multiplex_tracking.py: 581:[0m Bucket utilization rate: 12.50%, subscription rate: 200.00%
+[0m[32mINFO 2026-09-27 09:08:31,554 4132482 sam3_base_predictor.py: 310:[0m propagation ended in session 3595089f-19cc-45c5-acab-cc1dfb9591b8
+[0m[32mINFO 2026-09-27 09:08:31,802 4132482 sam3_base_predictor.py: 329:[0m removed session 3595089f-19cc-45c5-acab-cc1dfb9591b8
+  [0/1] Encoding Prompt                      [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/6] Denoising | 13.5s  [0/6] Denoising | 13.5s  0%|          | 0/6 [00:00<?, ?steps/s]  [0/6] Denoising | 31.2s  [1/6] Denoising | 31.8s / 2m 03s 17%|█▋        | 1/6 [00:18<01:30, 18.13s/steps] 33%|███▎      | 2/6 [00:18<00:31,  7.87s/steps]  [2/6] Denoising | 32.5s / 1m 10s 50%|█████     | 3/6 [00:19<00:13,  4.60s/steps]  [3/6] Denoising | 33.2s / 52.9s  67%|██████▋   | 4/6 [00:20<00:06,  3.05s/steps]  [4/6] Denoising | 33.9s / 44.1s 83%|████████▎ | 5/6 [00:20<00:02,  2.20s/steps]  [5/6] Denoising | 34.6s / 38.8s100%|██████████| 6/6 [00:21<00:00,  1.69s/steps]100%|██████████| 6/6 [00:21<00:00,  3.60s/steps]
+  [6/6] VAE Decoding | 35.3s / 35.3sError saving metadata to MP4 /home/straughter/wd-ycjg-run/boundaries/extend/2026-09-27-09h09m10s_seed3506_Continue the generated SCAIL-2 combat take for a longer beat while preserving identity, staging, cam.mp4: No module named 'mutagen'
+Video file saved to Path: /home/straughter/wd-ycjg-run/boundaries/extend/2026-09-27-09h09m10s_seed3506_Continue the generated SCAIL-2 combat take for a longer beat while preserving identity, staging, cam.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 03s
