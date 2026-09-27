@@ -4,7 +4,7 @@ title: "Hunyuan no-download video boundary batch"
 status: in_progress
 priority: 1
 type: task
-labels: [capability, video, evidence, external-integration]
+labels: [capability, video, evidence, external-integration, delivered]
 parent: WD-3nod
 created_at: 2026-09-27T03:22:55Z
 created_by: speed
