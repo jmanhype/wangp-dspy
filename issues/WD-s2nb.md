@@ -9,8 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
 updated_at: 2026-09-28T02:22:04Z
-content_hash: "sha256:a9f62f187247a7551b36fdb5cc0c62e9aad1282c3a7d88497533a04942efeb40"
+content_hash: "sha256:47d128793eb71ec115553f363cb68347df696e2ed3b08b441f63887f5b10d307"
 blocks: [WD-fay0]
+follows: [WD-qswf]
 ---
 
 ## Description
@@ -124,5 +125,6 @@ status: new
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-qswf]]
 
 ## Comments
