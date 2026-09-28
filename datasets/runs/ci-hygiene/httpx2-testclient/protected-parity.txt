@@ -1,0 +1,9 @@
+base=7275e44f56c0df99e74d2a8b762b162bde07f95b
+head=63c9c52034712d2a1c856c1374fad5ffdf76f955
+command=git diff --name-only 7275e44f56c0df99e74d2a8b762b162bde07f95b..HEAD
+non_evidence_changed_paths=pyproject.toml,tests/qc/audio_critic/test_testclient_transport.py,uv.lock
+protected_engine_changed=0
+protected_renderer_changed=0
+protected_queue_changed=0
+protected_qc_threshold_changed=0
+protected_changed=0
