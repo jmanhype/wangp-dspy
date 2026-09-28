@@ -8,8 +8,8 @@ labels: [bug, ci, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T04:05:05Z
-content_hash: "sha256:0ef5d37e046dcf925b3804092c46e7e93edafa90d4183e2dee49e23c6d921fbd"
+updated_at: 2026-09-28T04:11:47Z
+content_hash: "sha256:2ff337165a24b1e70ec1c33801458e8a98ad31fa1a03abee2dd5a909d216aff2"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-s2nb
@@ -118,6 +118,26 @@ status: new
 
 
 ## Notes
+## PM Decision
+ACCEPTED [2026-09-27]: Evidence independently reviewed and meets the story bar.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed delivered story proof and verified worktree/origin/PR head is cbf6d58ae2133a8f071f64d88fa781b223a20017.
+- Base-to-head diff changes only .github/workflows/ci.yml plus the declared CI evidence receipt namespace; workflow values are ubuntu-24.04, actions/checkout@v5, actions/setup-python@v7.0.0, and astral-sh/setup-uv@v10.2.0.
+- Re-fetched exact upstream tags: setup-python v7.0.0 and setup-uv v10.2.0 resolve to the recorded commits and node24 action.yml metadata.
+- Implementation run 36371988124 / check 108770076101 succeeded at 103aee498639c590fd4dd888b160c90992ce15eb.
+- Independently fetched final evidence-only run 36374074529 / check 108776209699 at cbf6d58ae2133a8f071f64d88fa781b223a20017: success, every step success, annotations 0, all four deprecated-runtime strings 0, and zero workflow warning/notice command markers.
+- Derived 2107 passed, 1 existing skipped, 0 failed, 0 errors from the complete pytest progress report; sdist and wheel builds succeeded.
+- Re-ran YAML assertion, backlog lint (147 scanned, 0 errors, 0 review findings), release verification (release=ready, tag_created=false), protected parity, git diff --check, and pvg verify: all PASS.
+- Coverage N/A is accepted only for this YAML-only CI runtime change; no Python coverage number was invented.
+- The sole remaining Starlette/httpx TestClient deprecation warning is explicitly owned by WD-dc3w and was not mixed into this story.
+
+### proof
+- [x] AC #1 through AC #7 independently verified from live CI, repository diff, action metadata, and gates.
+
 ## Implementation Evidence
 
 Summary: Exact-form delivery proof index for WD-s2nb; detailed evidence is in the preceding Implementation Evidence (DELIVERED) block and `datasets/runs/ci-hygiene/node24-ci-runtime/`. Branch head `cbf6d58a` adds only final-head CI receipts; the exact externally verified CI head remains its parent `103aee498639c590fd4dd888b160c90992ce15eb`.
