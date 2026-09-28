@@ -1,17 +1,18 @@
 ---
 id: WD-s2nb
 title: "Bug: CI workflow emits deprecated runtime warnings"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [bug, ci, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T02:22:04Z
-content_hash: "sha256:47d128793eb71ec115553f363cb68347df696e2ed3b08b441f63887f5b10d307"
+updated_at: 2026-09-28T02:22:34Z
+content_hash: "sha256:86ba88d0a0fdb381671fcdd16885ece70163d1fdbff037815878d459549fa57a"
 blocks: [WD-fay0]
-follows: [WD-qswf]
+follows: [WD-qswf, WD-osfm]
+assignee: dev-WD-s2nb
 ---
 
 ## Description
@@ -121,10 +122,13 @@ status: new
 
 ## History
 - 2026-09-28T02:22:04Z dep_added: blocks WD-fay0
+- 2026-09-28T02:22:34Z status: open -> in_progress
+- 2026-09-28T02:22:34Z auto-follows: linked to predecessor WD-osfm
+- 2026-09-28T02:22:34Z claimed by dev-WD-s2nb
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-qswf]]
+- Follows: [[WD-qswf]], [[WD-osfm]]
 
 ## Comments
