@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
 updated_at: 2026-09-28T04:11:48Z
-content_hash: "sha256:6f39c47467fe8cc706824b66e4dbd6133c0e2b131d38f7cee7dae71858529c4a"
+content_hash: "sha256:148014f51cb942dd9a21f2694844e22115ac369c922a22f96d7a9bb667227691"
 follows: [WD-qswf, WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-s2nb
 closed_at: 2026-09-28T04:11:47Z
 close_reason: "Accepted: exact Node 24 runner/action pins and both implementation and final-head CI warning scans independently verified; remaining Starlette warning remains owned by WD-dc3w."
+led_to: [WD-dc3w]
 ---
 
 ## Description
@@ -296,6 +297,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-qswf]], [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]]
+- Led to: [[WD-dc3w]]
 
 ## Comments
 
