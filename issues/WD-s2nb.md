@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
 updated_at: 2026-09-28T03:27:51Z
-content_hash: "sha256:afe9c0880eab02a5c969ab6bcab34703f84d256d3a2d991af23e75fc19403da4"
+content_hash: "sha256:6378711f3474b7eda452c7b6a54bd08cfdc544ff95b3220bbbda9aa2818e5ed5"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-28i5]
 assignee: dev-WD-s2nb
@@ -118,6 +118,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-27.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 Summary: CI now declares an explicit `ubuntu-24.04` runner and uses the exact Node 24 action tags `actions/setup-python@v7.0.0` and `astral-sh/setup-uv@v10.2.0`. `actions/checkout@v5` is unchanged. The only functional file changed is `.github/workflows/ci.yml`; all other changed files are evidence receipts under `datasets/runs/ci-hygiene/node24-ci-runtime/`.
