@@ -8,8 +8,8 @@ labels: [bug, ci, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T03:27:51Z
-content_hash: "sha256:6378711f3474b7eda452c7b6a54bd08cfdc544ff95b3220bbbda9aa2818e5ed5"
+updated_at: 2026-09-28T03:32:10Z
+content_hash: "sha256:00766701b961575b8f4ee7794e86953ac178b4215c163e22e7d5254fb6066e27"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-28i5]
 assignee: dev-WD-s2nb
@@ -118,7 +118,42 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: Exact-form delivery proof index for WD-s2nb; detailed evidence is in the preceding Implementation Evidence (DELIVERED) block and `datasets/runs/ci-hygiene/node24-ci-runtime/`. Branch head `cbf6d58a` adds only final-head CI receipts; the exact externally verified CI head remains its parent `103aee498639c590fd4dd888b160c90992ce15eb`.
+
+Commands run:
+- `pvg lint --backlog` — PASS.
+- `uv run --frozen --extra dev wgp release verify` — PASS, `release=ready`, `tag_created=false`.
+- `git diff --exit-code 7275e44f56c0df99e74d2a8b762b162bde07f95b -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — PASS.
+- `git diff --check` — PASS.
+- `pvg verify <all changed paths> --format=text` — PASS, 0 issues.
+- `gh run view 36371988124 --job 108770076101 --log` — downloaded and scanned.
+- `gh api repos/jmanhype/wangp-dspy/check-runs/108770076101/annotations` — 0 annotations.
+
+SHA: cbf6d58ae2133a8f071f64d88fa781b223a20017
+
+### CI/Test Results
+- CI run 36371988124 / check 108770076101: success at exact verified PR head `103aee498639c590fd4dd888b160c90992ce15eb`; final receipts are committed at `cbf6d58ae2133a8f071f64d88fa781b223a20017`.
+- Tests: 2107 passed, 1 existing skipped, 0 failed, 0 errors; build passed.
+- Deprecated-runtime log/annotation counts: Node.js 20 forced compatibility 0, ubuntu-latest migration 0, punycode 0, url.parse 0.
+- Remaining Starlette/httpx warning count: 1, owned by WD-dc3w.
+- Coverage: N/A for this YAML-only CI runtime change.
+
+### AC Verification
+- AC 1 PASS; AC 2 PASS; AC 3 PASS; AC 4 PASS; AC 5 PASS; AC 6 PASS; AC 7 PASS. Detailed table is in the preceding delivery evidence.
+
+LEARNINGS:
+- Exact verifier spelling matters: this index preserves the required literal headings while the preceding block retains the full audit detail.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Detailed evidence, receipts, commands, CI counts, PR identity, and SHA are recorded above.
+
+### proof
+- [x] AC #1 through AC #7 are verified with committed receipts and live exact-head CI evidence.
 
 ## nd_contract
 status: delivered
