@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
-updated_at: 2026-09-28T05:10:16Z
-content_hash: "sha256:c238a5924cb1078b5dea5e71524b355b57f0099105a2d552ce6f05abf37689bf"
+updated_at: 2026-09-28T05:19:58Z
+content_hash: "sha256:e5fcc32019cb644ecddfe659ad0c5c808f05c4a652bddada8c33bf413506f0dd"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-s2nb]
 assignee: dev-WD-dc3w
@@ -117,6 +117,26 @@ status: new
 
 ## Notes
 SHA: 7a8d9e1088abd971c7e4053721050abd00b4c0ab
+## PM Decision
+ACCEPTED [2026-09-28]: Evidence independently reviewed and meets the bar.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Verified delivered exact head and remote PR alignment at 7a8d9e1088abd971c7e4053721050abd00b4c0ab; PR #212 diff byte-matched the local 29-file diff (SHA-256 461fb4865117c4a1e139c1ec960e439c403555d4e69a03613246c1fcfadb4a8d).
+- Parsed pyproject/uv lock from base to head: direct dev dependency changes httpx>=0.28.1 to httpx2>=2.13.1; packages 119->123 with only httpcore2/httpx2/httpx2-jsfetch/truststore added, zero removals, and zero existing-version changes.
+- Verified all 33 entries in the local evidence.sha256 manifest. Receipts show the legacy-warning RED failure, green guard, all four real TestClient modules plus guard passing 26/26 under warning-as-error, focused coverage 20.77% overall and 89.86% for qc/audio_critic/service.py, and the undeselected suite at 2108 passed / 1 recorded baseline skip / 0 failed / 0 errors with all forbidden warning scans zero.
+- Live-fetched CI run 36378948395 / check 108790483454: completed success at the exact head, all steps success, annotations zero. The freshly downloaded log byte-matched receipt SHA-256 3d7011cee97781822ac2e9a33fb0ea2c752a5c23e31fa68a65a40c27ee5769de; exact forbidden-string counts were zero, and no Starlette/httpx warning or deprecation line was present.
+- Independently confirmed uv lock --check, git diff --check, protected parity receipt (only pyproject.toml, uv.lock, and the new guard outside evidence), exact-head release=ready/tag_created=false, and delivered pvg lint/verify receipts. Tests were not rerun because the recorded proof was complete and internally consistent.
+
+### proof
+- [x] AC #1: locked dev transport is httpx2>=2.13.1 and direct legacy httpx is removed.
+- [x] AC #2: all four real TestClient modules passed under warning-as-error.
+- [x] AC #3: undeselected full suite passed with zero forbidden warning strings.
+- [x] AC #4: no protected behavior, broad dependency upgrade, or warning suppression was introduced.
+- [x] AC #5: exact PR-head CI succeeded with zero TestClient deprecations and annotations.
+- [x] AC #6: lint, release, protected parity, and diff gates pass.
 
 ## nd_contract
 status: delivered
