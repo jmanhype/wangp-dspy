@@ -4,7 +4,7 @@ title: "Cloning consent matrix closeout"
 status: closed
 priority: 1
 type: task
-labels: [voice, character, evidence, operator-decision, delivered, accepted]
+labels: [voice, character, evidence, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
