@@ -4,11 +4,11 @@ title: "Bug: FastAPI TestClient emits Starlette deprecation warning"
 status: closed
 priority: 0
 type: bug
-labels: [bug, test, evidence, discovered-by-pm, delivered]
+labels: [bug, test, evidence, discovered-by-pm, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
-updated_at: 2026-09-28T05:19:58Z
+updated_at: 2026-09-28T05:19:59Z
 content_hash: "sha256:bcf7f954c24fffe0b7099cf6dd402b8b307b6c32ab4c84ea22cab4db2584c273"
 follows: [WD-qswf, WD-osfm, WD-s2nb]
 assignee: dev-WD-dc3w
