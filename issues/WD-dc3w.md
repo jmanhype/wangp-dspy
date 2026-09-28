@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
-updated_at: 2026-09-28T02:22:41Z
-content_hash: "sha256:2400daad3e1d9d97f209d67fb086b49f46bb3a4c50bb6dae1c74c5afaaa6ba79"
+updated_at: 2026-09-28T05:09:53Z
+content_hash: "sha256:8ed38f4837bd42c47b00cc4260bb0a966918a7ff491a58330b0fa20cf92a1702"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm]
 assignee: dev-WD-dc3w
@@ -116,7 +116,87 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary:
+- Replaced the direct dev dependency `httpx>=0.28.1` with `httpx2>=2.13.1` in `pyproject.toml` and `uv.lock`.
+- Added `tests/qc/audio_critic/test_testclient_transport.py`, a clean-subprocess regression guard that installs a warning filter for `StarletteDeprecationWarning` before importing the real `fastapi.testclient`.
+- The guard was first executed against the legacy environment and failed with the exact warning (`red-warning-guard.out`); after the lock update it passed (`green-warning-guard.out`).
+- Legacy `httpx==0.28.1` remains transitive through dspy/openai/litellm/Hugging Face dependencies, not as a direct project requirement; `legacy-httpx-transitive-requirements.txt` records that provenance.
+- Lock additions only: `httpx2==2.13.1`, `httpcore2==2.13.1`, `httpx2-jsfetch==1.0`, and `truststore==0.10.4`. No existing package version was upgraded.
+- Evidence bundle: `datasets/runs/ci-hygiene/httpx2-testclient/`; exact-run receipts and `evidence.sha256` are retained locally in that bundle after the no-further-push instruction.
+
+Commands run:
+- `pvg issues show WD-dc3w --json`
+- `/opt/homebrew/bin/uv lock`
+- `/opt/homebrew/bin/uv run --frozen --extra dev pytest tests/qc/audio_critic/test_testclient_transport.py` (RED before dependency change: 1 failed; GREEN after: 1 passed)
+- `/opt/homebrew/bin/uv run --frozen --extra dev pytest -W error tests/qc/audio_critic/test_default_loader.py tests/qc/audio_critic/test_generate_contract.py tests/qc/audio_critic/test_pipe_waveform.py tests/qc/audio_critic/test_slice2.py tests/qc/audio_critic/test_testclient_transport.py`
+- `/opt/homebrew/bin/uv run --frozen --extra dev --with pytest-cov pytest -W error <same five modules> --cov=qc/audio_critic --cov-report=term-missing --cov-report=xml:datasets/runs/ci-hygiene/httpx2-testclient/coverage-focused.xml`
+- `/opt/homebrew/bin/uv run --frozen --extra dev pytest -q` on CPython 3.12
+- `pvg lint --backlog`
+- `pvg verify pyproject.toml uv.lock tests/qc/audio_critic/test_testclient_transport.py datasets/runs/ci-hygiene/httpx2-testclient --include-tests --format=text`
+- `wgp release verify --json` in a clean temporary checkout of the exact pushed head
+- `git diff --name-only 7275e44f56c0df99e74d2a8b762b162bde07f95b..HEAD`
+- `git diff --check 7275e44f56c0df99e74d2a8b762b162bde07f95b..HEAD`
+- `gh run view 36378948395 --log`
+- `gh api repos/jmanhype/wangp-dspy/check-runs/108790483454/annotations`
+
+### CI/Test Results
+- RED warning guard: 1 failed with `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead.`
+- GREEN warning guard: 1 passed.
+- Focused warning-as-error run over all four named real TestClient modules plus the new guard: 26 passed, 0 failed, 0 errors, 0 skipped.
+- Measured focused coverage: `qc/audio_critic/service.py` 89.86% line coverage (124/138 statements); whole `qc/audio_critic` scope 20.77% because unrelated judge/whisper/ref2va modules are not in this focused transport scope.
+- Undeselected local full suite: 2108 passed, 1 pre-existing baseline skip, 0 failed, 0 errors; no deselect was used.
+- Complete local full-suite output scan: `StarletteDeprecationWarning=0`, transport-deprecation message=0, `install httpx2 instead`=0, total=0.
+- `pvg lint --backlog`: PASS; scanned 147 issues, 0 errors, 0 review findings.
+- `pvg verify`: PASS; 1 file scanned, 0 issues.
+- Protected parity from base `7275e44f56c0df99e74d2a8b762b162bde07f95b` to head `7a8d9e1088abd971c7e4053721050abd00b4c0ab`: protected_changed=0; only non-evidence code paths are `pyproject.toml`, `uv.lock`, and the new test guard.
+- `git diff --check 7275e44f56c0df99e74d2a8b762b162bde07f95b..7a8d9e1088abd971c7e4053721050abd00b4c0ab`: PASS.
+- Exact-head CI run 36378948395 at `7a8d9e1088abd971c7e4053721050abd00b4c0ab`: SUCCESS in 22m13s.
+- Exact-head downloaded CI log scan: all three forbidden warning strings = 0; check-run annotations = 0 (`[]`).
+- Exact-head release verification: `release=ready`, `tag_created=false`, clean-tree commit SHA `7a8d9e1088abd971c7e4053721050abd00b4c0ab`.
+- Exact CI URL: https://github.com/jmanhype/wangp-dspy/actions/runs/36378948395
+- Exact receipt hashes:
+  - log SHA256 `3d7011cee97781822ac2e9a33fb0ea2c752a5c23e31fa68a65a40c27ee5769de`
+  - run JSON SHA256 `7051d899d0453fafcbdeb60b0b141369b288438199942b17d293e551bf6e424d`
+  - annotations JSON SHA256 `4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945`
+
+### Commit
+- Branch: `story/WD-dc3w`
+- SHA: `7a8d9e1088abd971c7e4053721050abd00b4c0ab`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/212
+- CI: exact-head `test` check SUCCESS at the SHA above.
+
+### AC Verification
+| AC # | Requirement | Result |
+|---|---|---|
+| 1 | Dev environment installs `httpx2>=2.13.1`; direct legacy dev `httpx` is removed | PASS — `pyproject.toml`/`uv.lock`; indirect legacy `httpx` provenance recorded |
+| 2 | All four real TestClient modules pass with Starlette warning as error | PASS — 26 focused tests passed under `-W error`, including all four named modules and the guard |
+| 3 | Undeselected full suite passes with zero forbidden warning strings | PASS — 2108 passed / 1 baseline skip / 0 failed; scan total 0 |
+| 4 | No production/protected behavior change, broad upgrade, or suppression filter | PASS — protected_changed=0; no existing package version changed; guard promotes rather than suppresses |
+| 5 | Exact PR-head CI success and downloaded log contains zero TestClient deprecations | PASS — run 36378948395 SUCCESS; log and annotations contain 0 |
+| 6 | Lint, release, protected parity, and diff gates pass | PASS — outputs above |
+
+LEARNINGS:
+- Python's command-line `-W` category parser cannot import a fully qualified third-party warning class; the reliable guard sets `warnings.simplefilter('error', StarletteDeprecationWarning)` inside a clean subprocess before importing `fastapi.testclient`.
+- Capturing a full-suite run directly into a tracked evidence file dirties the repository and makes the release-readiness tests fail on their own evidence; run from a clean tree to `/tmp`, then copy the immutable receipt.
+- Raw GitHub Actions logs can contain trailing whitespace; normalize evidence-only logs before committing so the branch-level `git diff --check` gate remains clean.
+- GitHub Actions runtime deprecations, if they recur, are explicitly WD-s2nb's separate finding; this exact-head log and annotation scan observed none.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `7a8d9e1088abd971c7e4053721050abd00b4c0ab`; PR #212; exact-head CI run 36378948395 SUCCESS.
+- Local evidence bundle `datasets/runs/ci-hygiene/httpx2-testclient/` contains focused/full-suite outputs, coverage XML/data, dependency inventories, lock diff, lint/release/parity receipts, exact CI log/annotations, and SHA256 manifest.
+
+### proof
+- [x] AC #1: `httpx2>=2.13.1` is the direct dev dependency and legacy direct `httpx` is removed.
+- [x] AC #2: all four real TestClient modules passed under warning-as-error coverage.
+- [x] AC #3: undeselected full suite passed and complete output scan found zero forbidden strings.
+- [x] AC #4: no protected behavior, broad upgrade, or warning suppression was introduced.
+- [x] AC #5: exact PR-head CI succeeded and downloaded log/annotations found zero TestClient deprecations.
+- [x] AC #6: lint, release, protected parity, and diff gates passed.
 
 ## History
 - 2026-09-28T02:20:14Z dep_added: blocks WD-fay0
