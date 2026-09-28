@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
 updated_at: 2026-09-28T14:56:29Z
-content_hash: "sha256:e38b680c787c2d288d952c1035d2ee282b2cd244561ab46208e7f0b92400f5a9"
+content_hash: "sha256:6cca55f5d43e2836855d93a6b293fdfaabe3c4b33990be6861d8a6de4597f45c"
 blocks: [WD-fay0]
 follows: [WD-bxhc, WD-dc3w, WD-s2nb]
 assignee: dev-WD-32hk
@@ -110,6 +110,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-28.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 Summary: recorded the operator's verbatim scoped `Approve`, verified both WD-cpow anchors byte-for-byte, created a canonical checker-passing consent-closeout projection, and advanced exactly the six named cells from `evidence_complete_pending_review` to `host_run_verified`.
