@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
 updated_at: 2026-09-28T05:10:00Z
-content_hash: "sha256:e6902c5df8923bf81f22bee0cbf2f622dfab4b6ab42cd89d644e803d59186ccf"
+content_hash: "sha256:2d31d404b059683f2a65c2e521d27f51a390321c12080ee4773e007a454a25aa"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-s2nb]
 assignee: dev-WD-dc3w
@@ -116,6 +116,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-28.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary:
