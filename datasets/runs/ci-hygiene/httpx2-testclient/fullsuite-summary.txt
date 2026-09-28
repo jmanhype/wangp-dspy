@@ -1,0 +1,7 @@
+command: /opt/homebrew/bin/uv run --frozen --extra dev pytest -q
+python: CPython 3.12.13
+exit_code: 0
+outcome_progress: 2108 passed, 1 skipped, 0 failed, 0 errors
+selection: undeselected full suite
+warning_scan: fullsuite-warning-scan.txt
+note: The skipped result is the pre-existing full-suite baseline skip; this story added no skips or deselects.

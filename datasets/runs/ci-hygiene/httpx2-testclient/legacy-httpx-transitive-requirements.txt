@@ -1,0 +1,16 @@
+httpx v0.28.1
+├── huggingface-hub v1.28.0
+│   ├── accelerate v1.14.0
+│   │   └── wangp-dspy v0.1.0 (extra: qc-gpu)
+│   ├── tokenizers v0.22.2
+│   │   ├── litellm v1.97.0
+│   │   │   └── dspy v3.3.1
+│   │   │       └── wangp-dspy v0.1.0
+│   │   └── transformers v5.15.1
+│   │       └── wangp-dspy v0.1.0 (extra: qc-gpu)
+│   └── transformers v5.15.1 (*)
+├── litellm v1.97.0 (*)
+└── openai v2.54.0
+    ├── dspy v3.3.1 (*)
+    └── litellm v1.97.0 (*)
+(*) Package tree already displayed

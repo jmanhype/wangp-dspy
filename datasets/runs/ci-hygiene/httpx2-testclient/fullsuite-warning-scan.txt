@@ -1,0 +1,5 @@
+command: exact-substring scan of complete captured full-suite stdout/stderr
+StarletteDeprecationWarning: 0
+Using httpx with starlette.testclient is deprecated: 0
+install httpx2 instead: 0
+total: 0

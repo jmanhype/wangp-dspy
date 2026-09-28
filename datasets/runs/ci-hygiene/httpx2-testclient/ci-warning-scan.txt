@@ -1,0 +1,13 @@
+run_url=https://github.com/jmanhype/wangp-dspy/actions/runs/36378948395
+head_sha=7a8d9e1088abd971c7e4053721050abd00b4c0ab
+workflow=CI
+status=completed
+conclusion=success
+downloaded_log=ci-36378948395.log
+annotations_json=ci-36378948395-annotations.json
+annotations_count=0
+StarletteDeprecationWarning=0
+Using httpx with starlette.testclient is deprecated=0
+install httpx2 instead=0
+total_forbidden_occurrences=0
+GitHub Actions Node 20/action deprecation warnings=0 observed in this exact-head downloaded log and annotations; any recurrence is owned by WD-s2nb and is not dismissed as unrelated
