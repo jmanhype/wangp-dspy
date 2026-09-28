@@ -1,0 +1,13 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 86b9dd10..e68c0d9c 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -25,7 +25,7 @@ wgp = "wangp.cli:main"
+ # dev/test extra: uv pip install -e .[dev]
+ dev = [
+     "pytest>=8",
+-    "httpx>=0.28.1",  # fastapi TestClient
++    "httpx2>=2.13.1",  # fastapi TestClient
+ ]
+ # GPU-side only (3090): lazy-imported inside load_real_model
+ qc-gpu = [

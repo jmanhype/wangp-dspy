@@ -1,0 +1,26 @@
+Installed 7 packages in 20ms
+..........................                                               [100%]
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.14.4-final-0 _______________
+
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+qc/audio_critic/__init__.py                      0      0   100%
+qc/audio_critic/av_sync_gate.py                130    130     0%   9-230
+qc/audio_critic/criticize.py                    95      7    93%   51, 80, 89, 132, 134, 203-204
+qc/audio_critic/extract.py                      39      6    85%   50, 52, 69, 81-84
+qc/audio_critic/local_qwen_vision_judge.py     152    152     0%   10-288
+qc/audio_critic/modelscope_vision_judge.py     193    193     0%   13-388
+qc/audio_critic/profiles.py                      4      0   100%
+qc/audio_critic/ref2va_stage.py                127    127     0%   20-318
+qc/audio_critic/schema.py                       46     13    72%   30, 32, 38, 41, 46, 49, 53, 60, 64, 69, 75, 78, 80
+qc/audio_critic/service.py                     138     14    90%   74-75, 88-90, 165-166, 182, 193-194, 198-199, 232-233
+qc/audio_critic/syncnet_model.py                18     18     0%   7-83
+qc/audio_critic/syncnet_runner.py              193    193     0%   8-303
+qc/audio_critic/vision_judge.py                 86     86     0%   8-172
+qc/audio_critic/whisper_cli.py                  88     88     0%   7-163
+qc/audio_critic/whisper_gate.py                 49     49     0%   8-89
+--------------------------------------------------------------------------
+TOTAL                                         1358   1076    21%
+Coverage XML written to file datasets/runs/ci-hygiene/httpx2-testclient/coverage-focused.xml
+26 passed in 10.68s

@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_fastapi_testclient_import_fails_on_legacy_httpx_warning _________
+
+    def test_fastapi_testclient_import_fails_on_legacy_httpx_warning() -> None:
+        """Keep the real TestClient import on its non-deprecated transport."""
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import warnings; from starlette.exceptions import StarletteDeprecationWarning; warnings.simplefilter('error', StarletteDeprecationWarning); import fastapi.testclient",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    
+>       assert result.returncode == 0, (result.stdout, result.stderr)
+E       AssertionError: ('', 'Traceback (most recent call last):
+E           File "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dc...ons.StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+E         ')
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-dc3w/.venv/bin/python', '-c'...ons.StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n').returncode
+
+tests/qc/audio_critic/test_testclient_transport.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/qc/audio_critic/test_testclient_transport.py::test_fastapi_testclient_import_fails_on_legacy_httpx_warning
+1 failed in 1.01s
