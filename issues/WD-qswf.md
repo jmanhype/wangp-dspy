@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-27T20:09:48Z
 created_by: speed
 updated_at: 2026-09-27T21:36:49Z
-content_hash: "sha256:9be0b30cbd535dd36775e1eba8a5e7e5273061a5ce2b72b47893a55e25c9bf57"
+content_hash: "sha256:5e63055b153e0ff83fd32063604436eaead1ea8bc95ccc8ddd1c7e1a81724e3e"
 follows: [WD-osfm, WD-28i5, WD-ycjg, WD-8h6p]
 assignee: dev-WD-qswf
 closed_at: 2026-09-27T21:36:48Z
 close_reason: "Accepted: implementation head and exact-head CI remain unchanged; rework closes all prior proof gaps with measured focused coverage, LEARNINGS, and explicit CI warning ownership."
+led_to: [WD-dc3w]
 ---
 
 ## Description
@@ -600,6 +601,7 @@ status: in_progress
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]], [[WD-8h6p]]
+- Led to: [[WD-dc3w]]
 
 ## Comments
 
