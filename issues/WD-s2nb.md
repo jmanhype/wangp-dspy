@@ -4,11 +4,11 @@ title: "Bug: CI workflow emits deprecated runtime warnings"
 status: closed
 priority: 0
 type: bug
-labels: [bug, ci, evidence, discovered-by-pm, delivered, accepted]
+labels: [bug, ci, evidence, discovered-by-pm, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T04:11:47Z
+updated_at: 2026-09-28T04:11:48Z
 content_hash: "sha256:d5d731b1162c4a2dc63d42d32d4d86c723e334efb5427a6e2a0b38954f896c27"
 follows: [WD-qswf, WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-s2nb
