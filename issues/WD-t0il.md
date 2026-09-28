@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-28T06:50:53Z
-content_hash: "sha256:6a9c2242c3a04025e5e0dab23bc6246dbcd812b3825f07723db70a5edbcbd793"
+updated_at: 2026-09-28T06:53:02Z
+content_hash: "sha256:7f66d94898785255754ed600b0a1afe712b3b2ec904d7aeca397a265fc8cc960"
 blocks: [WD-fay0]
 ---
 
@@ -182,3 +182,6 @@ Progress update only (gate remains deferred): WD-osfm was accepted and merged at
 
 ### 2026-09-28T06:50:53Z speed
 Warning-clean gate update at merged main 6ac1023b522726705d3ea560216f211003a1d4bd: WD-dc3w and WD-s2nb are accepted and merged. Exact-main CI 36383656953 succeeded with zero annotations and zero known warning classes; exact-main local JUnit parsed 2109 tests, 0 errors, 0 failures, 1 skip. Backlog lint and release verification pass. This does not change the operator-gated matrix census.
+
+### 2026-09-28T06:53:02Z speed
+CURRENT SCOPE CORRECTION at merged main 6ac1023b522726705d3ea560216f211003a1d4bd, superseding stale 120/111-cell arithmetic and prior progress comments: the live capability matrices now have zero planned video, image, music, sfx, or finishing cells. Outstanding work is 29 cells total: 23 director planning cells remain planned pending the operator's rework-versus-structural decision, and 6 voice/character clone/cross-mode cells remain evidence_complete_pending_review pending cloning-reference consent. The clean-machine generated-artifact demonstration also remains blocked on host/model authorization. CI warning hygiene is no longer an outstanding lane.
