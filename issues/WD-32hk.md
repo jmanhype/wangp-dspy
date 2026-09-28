@@ -1,18 +1,19 @@
 ---
 id: WD-32hk
 title: "Cloning consent matrix closeout"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [voice, character, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T14:57:12Z
-content_hash: "sha256:652f372851a44b9f25bf27d4f765b4ab0130c61563729be3b452e75eed0a4b44"
-blocks: [WD-fay0]
+updated_at: 2026-09-28T15:07:36Z
+content_hash: "sha256:99b33aadfac6fcc19f45f71dac31314da51e3fb1fbb0e783baedbef7659d7445"
 follows: [WD-bxhc, WD-dc3w, WD-s2nb, WD-qswf]
 assignee: dev-WD-32hk
+closed_at: 2026-09-28T15:07:36Z
+close_reason: "Accepted: exact-head PR 214 evidence verifies scoped consent, byte-identical references, exactly six matrix transitions, canonical projection, parity, and standing gates."
 ---
 
 ## Description
@@ -254,10 +255,11 @@ status: delivered
 - 2026-09-28T14:56:29Z auto-follows: linked to predecessor WD-s2nb
 - 2026-09-28T14:57:12Z status: in_progress -> in_progress
 - 2026-09-28T14:57:12Z auto-follows: linked to predecessor WD-qswf
+- 2026-09-28T15:07:36Z status: in_progress -> closed
+- 2026-09-28T15:07:36Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-bxhc]], [[WD-dc3w]], [[WD-s2nb]], [[WD-qswf]]
 
 ## Comments
