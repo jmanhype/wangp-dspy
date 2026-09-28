@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-28T13:33:26Z
-content_hash: "sha256:798af0dfabc4d6b5947b1cd0848ff8fc32e4fcd252ca0e41c5ee62d389b7005f"
+updated_at: 2026-09-28T14:37:03Z
+content_hash: "sha256:a06423b99fcc87bd6eb66209c3cf34fdd2170f02426ebeef8b8cfdca1b947f3a"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w]
 assignee: dev-WD-bw0h
@@ -132,6 +132,36 @@ status: new
 
 
 ## Notes
+## Authorized Attempt Boundary (STOPPED)
+
+STOPPED: the single authorized clean-generated command exited 4 with
+`UNEXPECTED_GENERATED_PROOF_FAILURE` after local clean install/clone/sync and
+before host contact. Root cause recorded from the fail-closed path: a
+`PosixPath` workspace value reached JSON serialization. No retry, existing-artifact
+substitution, SSH, model preflight, storage relocation, queue admission, Wan2GP
+render, provider spend, training, protected-engine change, threshold change, or
+deletion followed.
+
+Evidence:
+- Producing implementation commit: `eddff6bc8bf77fb7fa8d711a44beacbb314e4b2c`
+- Evidence commit: `223cb563bc242d7a17b544efc74094021a621d80`
+- Clean clone resolved commit: `eddff6bc8bf77fb7fa8d711a44beacbb314e4b2c`
+- Clean clone status: empty (`repository-status.txt`, 0 bytes)
+- Failure SHA-256: `f2314ba2c7b53a040bb43f5a595555140578e58a8c061e61c33ea4918a6566bf`
+- Boundary bundle: `datasets/runs/maestro-parity/clean-generated/failed-attempt/`
+- Boundary proof: `remote-scripts`, `storage`, `preflight`, `queue.db`, `host-logs`, `outputs`, and `checker` were absent.
+- Model bytes read/downloaded/rendered: 0; package installation did download locked dependencies, explicitly distinct from model bytes.
+
+Focused tests before the authorized command:
+- `uv run --frozen --extra dev pytest -q tests/test_clean_generated_proof.py` — 5/5 PASS
+- `uv run --frozen --extra dev pytest -q tests/test_clean_generated_proof.py tests/test_install.py` — 9/9 PASS
+- `uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal` — 1/1 PASS
+- `pvg verify ... --format=text` — PASS
+- `pvg lint --backlog` — PASS, 150 scanned, 0 errors, 0 review findings
+
+Full suite, release, protected parity, PR creation, exact-head CI, checker, and
+delivery were intentionally not claimed because the authorized command stopped
+before generation and the operator boundary forbids retry/substitution.
 
 
 ## History
