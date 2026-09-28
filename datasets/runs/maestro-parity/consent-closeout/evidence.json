@@ -1,0 +1,98 @@
+{
+  "schema": "wangp-dspy.maestro-parity-evidence/v1",
+  "operator_authorization": {
+    "approved_by": "operator via /root parent authorization",
+    "scope": "WD-bxhc-only cloning-reference reuse for operator research/evaluation; no redistribution, publication, training, provider spend, new inference, download, host mutation, or other use",
+    "status": "approved",
+    "text": "Approve",
+    "timestamp": "2026-09-28T13:20:11Z"
+  },
+  "command": [
+    "bash",
+    "-c",
+    "timeout 3600 ssh -o BatchMode=yes -o ConnectTimeout=15 3090 'cd /home/straughter/wangp-dspy-vibevoice-20260916 && timeout 3300 /home/straughter/vb7-venv/bin/python -' < datasets/runs/maestro-parity/WD-bxhc/native-scripts/wd_bxhc_vibevoice.py"
+  ],
+  "repository": {
+    "commit": "6ac1023b522726705d3ea560216f211003a1d4bd",
+    "dirty_state": {
+      "dirty": true,
+      "identity_sha256": "9bc760b5892175565b80de68cd5668373b0c6f9387f2302d10c769c7731d2c10",
+      "semantics": "Evidence-only projection assembled from the named clean base artifacts; no command in this record was re-executed"
+    }
+  },
+  "model_provenance": [
+    {
+      "destination": "/mnt/bulk/straughter/models/VibeVoice-7B-hf/model.safetensors.index.json",
+      "download_approved": true,
+      "execution_variant": "quanto qint8 nn.Linear weights; embeddings/convolutions source dtype",
+      "identity": "VibeVoice-7B-hf model index anchor",
+      "immutable_version": "11-shard 18,698,450,924-byte host install; index anchors this exact model",
+      "license": "Apache-2.0 (VibeVoice upstream); operator research/evaluation limitation",
+      "sha256": "183be9ae11700a9f8cee4f00ef974b9ef3e7c01f13b55457f5fe025a1e8e57eb",
+      "size_bytes": 124188,
+      "source": "https://huggingface.co/microsoft/VibeVoice-7B (pre-existing host copy /mnt/bulk/straughter/models/VibeVoice-7B-hf)"
+    }
+  ],
+  "reference_provenance": [
+    {"path": "inputs/primary.wav", "role": "approved_primary_vibevoice_cloning_reference", "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18", "license": "Operator-owned evaluation asset; WD-bxhc-only research/evaluation; no redistribution"},
+    {"path": "inputs/secondary.wav", "role": "approved_secondary_vibevoice_cloning_reference", "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175", "license": "Operator-owned WD-cpow evaluation output; WD-bxhc-only research/evaluation; no redistribution"},
+    {"path": "packages/portable-witness.wgpvoice", "role": "saved_voice_binding_evidence", "sha256": "232866634eee225f4a7bb05216d53861b49feb81697bcbe6e994f4e8435ef3ef", "license": "Operator-owned WD-bxhc synthetic portable voice; no redistribution"},
+    {"path": "operator-consent.md", "role": "operator_consent", "sha256": "0b9be707e7399c8593df2d3a70fea93713d13dffebc70a67a02b5e43af012705", "license": "Operator authorization record; no redistribution"},
+    {"path": "consent-record.json", "role": "six_cell_consent_chain", "sha256": "86e8640270f11255faa9eedea5ba5a21eb4d977398f4757aeb4d26bb412f7341", "license": "Operator authorization projection; no redistribution"},
+    {"path": "provenance/reference-consent-rework.md", "role": "historical_pre_consent_boundary", "sha256": "a031b6b6b332721b10bd66f660d775655a7b4718ba2e42fa7d81f77d6b443e16", "license": "Operator-owned provenance record; no redistribution"},
+    {"path": "provenance/wd-cpow-operator-authorization.md", "role": "ownership_and_evaluation_rights", "sha256": "8a957afa2bfdf04c169860935063ffce5f11a3846c4d79120a1508e81b076a94", "license": "Operator authorization record; no redistribution"}
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "database": "queue.db",
+    "exit_status": "succeeded",
+    "job_id": "job-1790363176711-127f786e",
+    "ledger_semantics": "Historical WD-bxhc queue ledger; this consent-closeout projection adds no queue work",
+    "queue_id": "wangp-JobQueue-WD-bxhc",
+    "retry_id": "attempt-final-after-recorded-debug-attempts"
+  },
+  "output": [
+    {"path": "outputs/wd_bxhc_vibevoice_clone_one.wav", "sha256": "23bdc389f731615ad1e5f566320a0b36240d98730d69dc8633069bccc4191d2b"},
+    {"path": "outputs/wd_bxhc_vibevoice_clone_two.wav", "sha256": "b9bec33bc91958f1fa39461cdd0f842f683e501cabd0ee87e15dc3a900c45024"},
+    {"path": "outputs/wd_bxhc_character_image.png", "sha256": "da4cbd9752c85a3eb7baaf9feba95533269d5e74d676a59e9d6660f1ba9fcfb6"},
+    {"path": "outputs/wd_bxhc_character_video.mp4", "sha256": "1cba8c8a7e0b2d43142cc053766ca729850ebb5b3beaa0ba02e99df8252eca81"}
+  ],
+  "media_metadata": [
+    {"path": "outputs/wd_bxhc_vibevoice_clone_one.wav", "kind": "video", "width": 2, "height": 1, "duration_s": 3.6, "fps": 1, "audio": {"present": true, "codec": "pcm_s16le", "sample_rate_hz": 24000, "channels": 1}, "alpha_mode": "none", "source": "WD-bxhc ffprobe-wd_bxhc_vibevoice_clone_one.json"},
+    {"path": "outputs/wd_bxhc_vibevoice_clone_two.wav", "kind": "video", "width": 2, "height": 1, "duration_s": 4.133333333333334, "fps": 1, "audio": {"present": true, "codec": "pcm_s16le", "sample_rate_hz": 24000, "channels": 1}, "alpha_mode": "none", "source": "WD-bxhc ffprobe-wd_bxhc_vibevoice_clone_two.json"},
+    {"path": "outputs/wd_bxhc_character_image.png", "kind": "image", "width": 544, "height": 744, "duration_s": null, "fps": null, "audio": {"present": false}, "alpha_mode": "none", "source": "WD-bxhc ffprobe-wd_bxhc_character_image.json"},
+    {"path": "outputs/wd_bxhc_character_video.mp4", "kind": "video", "width": 544, "height": 744, "duration_s": 5.0, "fps": 24.0, "audio": {"present": true, "codec": "aac", "sample_rate_hz": 24000, "channels": 1}, "alpha_mode": "none", "source": "WD-bxhc ffprobe-wd_bxhc_character_video.json"}
+  ],
+  "objective_gate_results": [
+    {"name": "wd_bxhc_vibevoice_clone_one_whisper_score", "inputs": ["outputs/wd_bxhc_vibevoice_clone_one.wav", "WD-bxhc/vibevoice-custom-report.json"], "threshold": 0.8, "measured": 1.0, "verdict": "pass"},
+    {"name": "wd_bxhc_vibevoice_clone_two_whisper_score", "inputs": ["outputs/wd_bxhc_vibevoice_clone_two.wav", "WD-bxhc/vibevoice-custom-report.json"], "threshold": 0.8, "measured": 1.0, "verdict": "pass"},
+    {"name": "saved_voice_binding_image", "inputs": ["WD-bxhc/packages/character-show.json", "packages/portable-witness.wgpvoice"], "threshold": 1.0, "measured": 1.0, "verdict": "pass"},
+    {"name": "saved_voice_binding_video", "inputs": ["WD-bxhc/packages/character-show.json", "packages/portable-witness.wgpvoice"], "threshold": 1.0, "measured": 1.0, "verdict": "pass"},
+    {"name": "cross_mode_identity_native_to_image_perceptual_hash", "inputs": ["WD-bxhc/character-media-identity.json", "WD-bxhc/character-media-objective-gates.json", "outputs/wd_bxhc_character_image.png", "WD-bxhc/packages/character-video-first-frame.png"], "threshold": 0.75, "measured": 0.859375, "verdict": "pass"},
+    {"name": "cross_mode_identity_image_to_video_first_frame_perceptual_hash", "inputs": ["WD-bxhc/character-media-identity.json", "WD-bxhc/character-media-objective-gates.json", "WD-bxhc/packages/character-video-first-frame.png", "outputs/wd_bxhc_character_video.mp4"], "threshold": 0.75, "measured": 0.984375, "verdict": "pass"}
+  ],
+  "reviewer_verdict": {
+    "decision": "approved",
+    "evidence_links": [
+      "operator-consent.md",
+      "consent-record.json",
+      "provenance/reference-consent-rework.md",
+      "provenance/wd-cpow-operator-authorization.md",
+      "../WD-bxhc/evidence.json"
+    ],
+    "review": "The historical independent reviewer approved the real media and objective gates but withheld exactly these six cells because cloning-reuse consent was absent. The scoped operator approval closes only that recorded gap; no new host operation is claimed."
+  },
+  "row_dispositions": [
+    {"document": "docs/voice-capabilities.md", "row": "vibevoice/vibe_7b", "cell": "one_reference_clone", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"},
+    {"document": "docs/voice-capabilities.md", "row": "vibevoice/vibe_7b", "cell": "two_reference_clone", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"},
+    {"document": "docs/character-capabilities.md", "row": "Saved voice binding", "mode": "image", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"},
+    {"document": "docs/character-capabilities.md", "row": "Saved voice binding", "mode": "video", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"},
+    {"document": "docs/character-capabilities.md", "row": "Cross-mode identity preservation", "mode": "image", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"},
+    {"document": "docs/character-capabilities.md", "row": "Cross-mode identity preservation", "mode": "video", "before": "evidence_complete_pending_review", "disposition": "host_run_verified"}
+  ],
+  "runtime_notes": {
+    "bundle_semantics": "Evidence-only closeout projection: exact accepted bytes were copied read-only; nothing was regenerated or re-executed.",
+    "historical_boundary": "WD-bxhc reference-consent-rework.md and every WD-bxhc/WD-cpow artifact remain byte-for-byte unchanged from 6ac1023b.",
+    "saved_voice_package": "The non-media .wgpvoice binding artifact is hash-bound under reference_provenance; the canonical checker's media output set intentionally contains only the four real image/audio/video artifacts."
+  }
+}

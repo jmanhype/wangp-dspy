@@ -1,0 +1,247 @@
+{
+  "schema": "wangp-dspy.wd-32hk.consent-closeout/v1",
+  "operator_consent": {
+    "approved_by": "operator via /root parent authorization",
+    "bundle_path": "operator-consent.md",
+    "question": "three-way authorization question for cross-story cloning-reference reuse",
+    "recorded_at": "2026-09-28T13:20:11Z",
+    "sha256": "0b9be707e7399c8593df2d3a70fea93713d13dffebc70a67a02b5e43af012705",
+    "verbatim_input": "Approve"
+  },
+  "anchors": [
+    {
+      "byte_identical": true,
+      "comparison": "cmp --silent",
+      "destination": "datasets/runs/maestro-parity/WD-bxhc/inputs/voice-primary-vibe.wav",
+      "destination_bundle_path": "inputs/primary.wav",
+      "role": "primary_vibevoice_cloning_reference",
+      "sha256": "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+      "source": "datasets/runs/maestro-parity/WD-cpow/inputs/target-voice.wav",
+      "verified_at": "2026-09-28T13:40:57Z"
+    },
+    {
+      "byte_identical": true,
+      "comparison": "cmp --silent",
+      "destination": "datasets/runs/maestro-parity/WD-bxhc/inputs/voice-secondary.wav",
+      "destination_bundle_path": "inputs/secondary.wav",
+      "role": "secondary_vibevoice_cloning_reference",
+      "sha256": "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175",
+      "source": "datasets/runs/maestro-parity/WD-cpow/outputs/wd_cpow_vibevoice_raw.prepared.wav",
+      "verified_at": "2026-09-28T13:40:57Z"
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "datasets/runs/maestro-parity/WD-bxhc/evidence.json",
+      "role": "canonical_media_output_gate_and_partial_review_record",
+      "sha256": "9197c7782c1f8f3360ddaecba16b9d2bbb1bcc7629fb5f7da6534af7ba7727d8"
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-bxhc/objective-gates.json",
+      "role": "voice_and_saved_binding_gate_record",
+      "sha256": "f00b18a94a0a98f3d9a8241543bc269720d6627a5faa888766351dd41272c34c"
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-bxhc/character-media-objective-gates.json",
+      "role": "cross_mode_gate_record",
+      "sha256": "a28eed630abc797593a0a59246a8a5d8afb9849c541015cafdc9c5720c40e9ba"
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-bxhc/reference-consent-rework.md",
+      "role": "historical_pre_consent_boundary",
+      "sha256": "a031b6b6b332721b10bd66f660d775655a7b4718ba2e42fa7d81f77d6b443e16"
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-cpow/operator-authorization.md",
+      "role": "ownership_and_evaluation_rights_provenance",
+      "sha256": "8a957afa2bfdf04c169860935063ffce5f11a3846c4d79120a1508e81b076a94"
+    }
+  ],
+  "cells": [
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "one-reference clone",
+      "document": "docs/voice-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "projection_path": "outputs/wd_bxhc_vibevoice_clone_one.wav",
+        "sha256": "23bdc389f731615ad1e5f566320a0b36240d98730d69dc8633069bccc4191d2b"
+      },
+      "row": "vibevoice/vibe_7b",
+      "gate_names": [
+        "wd_bxhc_vibevoice_clone_one_sample_rate_hz",
+        "wd_bxhc_vibevoice_clone_one_channels",
+        "wd_bxhc_vibevoice_clone_one_duration_s",
+        "wd_bxhc_vibevoice_clone_one_rms",
+        "wd_bxhc_vibevoice_clone_one_whisper_score"
+      ]
+    },
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+        "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "two-reference clone",
+      "document": "docs/voice-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "projection_path": "outputs/wd_bxhc_vibevoice_clone_two.wav",
+        "sha256": "b9bec33bc91958f1fa39461cdd0f842f683e501cabd0ee87e15dc3a900c45024"
+      },
+      "row": "vibevoice/vibe_7b",
+      "gate_names": [
+        "wd_bxhc_vibevoice_clone_two_sample_rate_hz",
+        "wd_bxhc_vibevoice_clone_two_channels",
+        "wd_bxhc_vibevoice_clone_two_duration_s",
+        "wd_bxhc_vibevoice_clone_two_rms",
+        "wd_bxhc_vibevoice_clone_two_whisper_score"
+      ]
+    },
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+        "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "Image",
+      "document": "docs/character-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/packages/portable-witness.wgpvoice",
+        "projection_path": "packages/portable-witness.wgpvoice",
+        "sha256": "232866634eee225f4a7bb05216d53861b49feb81697bcbe6e994f4e8435ef3ef"
+      },
+      "gate_inputs": [
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/packages/character-show.json",
+          "sha256": "487fb22cd62c9f635b934a546971ae05019747feb79486b43dabda1dbc1ffe50"
+        }
+      ],
+      "gate_names": [
+        "saved_voice_binding_image"
+      ],
+      "row": "Saved voice binding"
+    },
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+        "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "Video",
+      "document": "docs/character-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/packages/portable-witness.wgpvoice",
+        "projection_path": "packages/portable-witness.wgpvoice",
+        "sha256": "232866634eee225f4a7bb05216d53861b49feb81697bcbe6e994f4e8435ef3ef"
+      },
+      "gate_inputs": [
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/packages/character-show.json",
+          "sha256": "487fb22cd62c9f635b934a546971ae05019747feb79486b43dabda1dbc1ffe50"
+        }
+      ],
+      "gate_names": [
+        "saved_voice_binding_video"
+      ],
+      "row": "Saved voice binding"
+    },
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+        "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "Image",
+      "document": "docs/character-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_character_image.png",
+        "projection_path": "outputs/wd_bxhc_character_image.png",
+        "sha256": "da4cbd9752c85a3eb7baaf9feba95533269d5e74d676a59e9d6660f1ba9fcfb6"
+      },
+      "gate_inputs": [
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/character-media-identity.json",
+          "sha256": "c44b4920a849bd079df8c4196eb98af7f39da0e99e41e1e9e7a1e206ab4f1859"
+        },
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/packages/character-video-first-frame.png",
+          "sha256": "529e62252a767f7c92722205f29e1967b4b6c43ce880334e77fc6b5c850a17b0"
+        }
+      ],
+      "gate_names": [
+        "cross_mode_identity_native_to_image_perceptual_hash",
+        "cross_mode_identity_anchor_match_image"
+      ],
+      "row": "Cross-mode identity preservation"
+    },
+    {
+      "approved_reference_hashes": [
+        "b013bad88be5b44609304764aaa6b10afb9f0299d768c8abc48c2d1afd4bed18",
+        "e371ebe7ee1ce9964657b4f34f61d32fbff2a5345bdb90add6c3e7dba1ee2175"
+      ],
+      "before": "evidence_complete_pending_review",
+      "column": "Video",
+      "document": "docs/character-capabilities.md",
+      "after": "host_run_verified",
+      "artifact": {
+        "path": "datasets/runs/maestro-parity/WD-bxhc/outputs/wd_bxhc_character_video.mp4",
+        "projection_path": "outputs/wd_bxhc_character_video.mp4",
+        "sha256": "1cba8c8a7e0b2d43142cc053766ca729850ebb5b3beaa0ba02e99df8252eca81"
+      },
+      "gate_inputs": [
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/character-media-identity.json",
+          "sha256": "c44b4920a849bd079df8c4196eb98af7f39da0e99e41e1e9e7a1e206ab4f1859"
+        },
+        {
+          "path": "datasets/runs/maestro-parity/WD-bxhc/packages/character-video-first-frame.png",
+          "sha256": "529e62252a767f7c92722205f29e1967b4b6c43ce880334e77fc6b5c850a17b0"
+        }
+      ],
+      "gate_names": [
+        "cross_mode_identity_image_to_video_first_frame_perceptual_hash",
+        "cross_mode_identity_anchor_match_video"
+      ],
+      "row": "Cross-mode identity preservation"
+    }
+  ],
+  "matrix_transition": {
+    "changed_cells": 6,
+    "character": {
+      "before": {
+        "evidence_complete_pending_review": 4,
+        "host_run_verified": 14
+      },
+      "after": {
+        "evidence_complete_pending_review": 0,
+        "host_run_verified": 18
+      }
+    },
+    "voice": {
+      "before": {
+        "evidence_complete_pending_review": 2,
+        "host_run_verified": 2
+      },
+      "after": {
+        "evidence_complete_pending_review": 0,
+        "host_run_verified": 4
+      }
+    }
+  },
+  "constraints": {
+    "host_mutation": false,
+    "media_regeneration": false,
+    "new_inference": false,
+    "redistribution": false,
+    "training": false
+  }
+}
