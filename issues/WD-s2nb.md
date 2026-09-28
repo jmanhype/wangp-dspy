@@ -1,7 +1,7 @@
 ---
 id: WD-s2nb
 title: "Bug: CI workflow emits deprecated runtime warnings"
-status: in_progress
+status: closed
 priority: 0
 type: bug
 labels: [bug, ci, evidence, discovered-by-pm, delivered]
@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
 updated_at: 2026-09-28T04:11:47Z
-content_hash: "sha256:2ff337165a24b1e70ec1c33801458e8a98ad31fa1a03abee2dd5a909d216aff2"
-blocks: [WD-fay0]
+content_hash: "sha256:d5d731b1162c4a2dc63d42d32d4d86c723e334efb5427a6e2a0b38954f896c27"
 follows: [WD-qswf, WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-s2nb
+closed_at: 2026-09-28T04:11:47Z
+close_reason: "Accepted: exact Node 24 runner/action pins and both implementation and final-head CI warning scans independently verified; remaining Starlette warning remains owned by WD-dc3w."
 ---
 
 ## Description
@@ -277,10 +278,11 @@ status: delivered
 - 2026-09-28T03:27:51Z auto-follows: linked to predecessor WD-28i5
 - 2026-09-28T03:32:21Z status: in_progress -> in_progress
 - 2026-09-28T03:32:21Z auto-follows: linked to predecessor WD-ycjg
+- 2026-09-28T04:11:47Z status: in_progress -> closed
+- 2026-09-28T04:11:47Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-qswf]], [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]]
 
 ## Comments
