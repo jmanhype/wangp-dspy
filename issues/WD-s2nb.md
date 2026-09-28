@@ -8,8 +8,8 @@ labels: [bug, ci, evidence, discovered-by-pm, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T03:32:21Z
-content_hash: "sha256:b5a766e96af812dd2e78248bc4c2ab49235ca0db458693a3ae894f1162c0255b"
+updated_at: 2026-09-28T04:05:05Z
+content_hash: "sha256:0ef5d37e046dcf925b3804092c46e7e93edafa90d4183e2dee49e23c6d921fbd"
 blocks: [WD-fay0]
 follows: [WD-qswf, WD-osfm, WD-28i5, WD-ycjg]
 assignee: dev-WD-s2nb
@@ -264,3 +264,6 @@ status: delivered
 - Follows: [[WD-qswf]], [[WD-osfm]], [[WD-28i5]], [[WD-ycjg]]
 
 ## Comments
+
+### 2026-09-28T04:05:05Z speed
+Final-head follow-up: evidence-only head cbf6d58ae2133a8f071f64d88fa781b223a20017 completed CI run 36374074529 / check 108776209699 successfully. Independent annotation scan found 0 annotations; downloaded log had 0 occurrences of Node.js 20 forced compatibility, ubuntu-latest migration, punycode deprecation, or url.parse deprecation. This confirms the exact final delivered head as well as the already verified implementation head 103aee498639c590fd4dd888b160c90992ce15eb.
