@@ -4,7 +4,7 @@ title: "Bug: CI workflow emits deprecated runtime warnings"
 status: closed
 priority: 0
 type: bug
-labels: [bug, ci, evidence, discovered-by-pm, delivered]
+labels: [bug, ci, evidence, discovered-by-pm, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
