@@ -8,10 +8,10 @@ labels: [voice, character, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T14:57:01Z
-content_hash: "sha256:90fc82cb1ac60ea33a84e84a51a3dcb3b165e0378d6edeb028d28c1cf32940cf"
+updated_at: 2026-09-28T14:57:12Z
+content_hash: "sha256:652f372851a44b9f25bf27d4f765b4ab0130c61563729be3b452e75eed0a4b44"
 blocks: [WD-fay0]
-follows: [WD-bxhc, WD-dc3w, WD-s2nb]
+follows: [WD-bxhc, WD-dc3w, WD-s2nb, WD-qswf]
 assignee: dev-WD-32hk
 ---
 
@@ -252,10 +252,12 @@ status: delivered
 - 2026-09-28T13:33:04Z claimed by dev-WD-32hk
 - 2026-09-28T14:56:28Z status: in_progress -> in_progress
 - 2026-09-28T14:56:29Z auto-follows: linked to predecessor WD-s2nb
+- 2026-09-28T14:57:12Z status: in_progress -> in_progress
+- 2026-09-28T14:57:12Z auto-follows: linked to predecessor WD-qswf
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-bxhc]], [[WD-dc3w]], [[WD-s2nb]]
+- Follows: [[WD-bxhc]], [[WD-dc3w]], [[WD-s2nb]], [[WD-qswf]]
 
 ## Comments
