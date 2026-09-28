@@ -5,7 +5,7 @@ index b28b3656..10a536fc 100644
 @@ -882,6 +882,19 @@ wheels = [
      { url = "https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl", hash = "sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55", size = 78784, upload-time = "2025-04-24T22:06:20.566Z" },
  ]
- 
+
 +[[package]]
 +name = "httpcore2"
 +version = "2.13.1"
@@ -25,7 +25,7 @@ index b28b3656..10a536fc 100644
 @@ -897,6 +910,32 @@ wheels = [
      { url = "https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad", size = 73517, upload-time = "2024-12-06T15:37:21.509Z" },
  ]
- 
+
 +[[package]]
 +name = "httpx2"
 +version = "2.13.1"
@@ -58,7 +58,7 @@ index b28b3656..10a536fc 100644
 @@ -3137,6 +3176,15 @@ wheels = [
      { url = "https://files.pythonhosted.org/packages/f0/ac/229b7d4589d2e5937310e72c6d46e89599d16a4a12b479ffa1499fee8eb8/triton-3.7.1-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:10ba85fa2cca4a2fbdeb36bf1cb082f2c252bda55bf9fccd74f65ec5bc647e68", size = 197824404, upload-time = "2026-06-17T19:53:42.772Z" },
  ]
- 
+
 +[[package]]
 +name = "truststore"
 +version = "0.10.4"
@@ -72,7 +72,7 @@ index b28b3656..10a536fc 100644
  name = "typer"
  version = "0.27.1"
 @@ -3214,7 +3262,7 @@ dependencies = [
- 
+
  [package.optional-dependencies]
  dev = [
 -    { name = "httpx" },
