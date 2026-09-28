@@ -1,0 +1,22 @@
+{
+  "annotation_count": 0,
+  "annotation_target_string_counts": {
+    "Node.js 20 is deprecated": 0,
+    "forced to run on Node.js 24": 0,
+    "punycode module is deprecated": 0,
+    "ubuntu-latest label will migrate": 0,
+    "url.parse() behavior is not standardized": 0
+  },
+  "github_notice_command_count": 0,
+  "github_warning_command_count": 0,
+  "log_target_string_counts": {
+    "Node.js 20 is deprecated": 0,
+    "forced to run on Node.js 24": 0,
+    "punycode module is deprecated": 0,
+    "ubuntu-latest label will migrate": 0,
+    "url.parse() behavior is not standardized": 0
+  },
+  "starlette_httpx_warning_count": 1,
+  "workflow_command_notice_annotations": 0,
+  "workflow_command_warning_annotations": 0
+}

@@ -1,0 +1,36 @@
+{
+  "branch": "story/WD-s2nb",
+  "commit_sha": "103aee498639c590fd4dd888b160c90992ce15eb",
+  "pull_request": 211,
+  "workflow_run_id": 36371988124,
+  "check_run_id": 108770076101,
+  "run_conclusion": "success",
+  "annotation_count": 0,
+  "annotation_target_string_counts": {
+    "Node.js 20 is deprecated": 0,
+    "forced to run on Node.js 24": 0,
+    "punycode module is deprecated": 0,
+    "ubuntu-latest label will migrate": 0,
+    "url.parse() behavior is not standardized": 0
+  },
+  "github_notice_command_count": 0,
+  "github_warning_command_count": 0,
+  "log_target_string_counts": {
+    "Node.js 20 is deprecated": 0,
+    "forced to run on Node.js 24": 0,
+    "punycode module is deprecated": 0,
+    "ubuntu-latest label will migrate": 0,
+    "url.parse() behavior is not standardized": 0
+  },
+  "starlette_httpx_warning_count": 1,
+  "starlette_httpx_warning_owner": "WD-dc3w",
+  "test_outcomes": {
+    "passed": 2107,
+    "skipped": 1,
+    "failed": 0,
+    "errors": 0
+  },
+  "build_conclusion": "success",
+  "log_uncompressed_sha256": "b0983fbb740c6973e4b6f49d8c84ea5573ebba22c00a8c83b27b4442928acb77",
+  "log_gzip_sha256": "a0385296557d352023d8bb32cca4b3805749daab5ebf77cf591e798c2f0d5416"
+}
