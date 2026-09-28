@@ -4,11 +4,11 @@ title: "Cloning consent matrix closeout"
 status: in_progress
 priority: 1
 type: task
-labels: [voice, character, evidence, operator-decision]
+labels: [voice, character, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T14:56:28Z
+updated_at: 2026-09-28T14:56:29Z
 content_hash: "sha256:e38b680c787c2d288d952c1035d2ee282b2cd244561ab46208e7f0b92400f5a9"
 blocks: [WD-fay0]
 follows: [WD-bxhc, WD-dc3w, WD-s2nb]
