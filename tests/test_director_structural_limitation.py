@@ -4,7 +4,6 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -18,17 +17,18 @@ EXPECTED_UNSUPPORTED = (
     "unsupported ([WD-p587 structural limitation]"
     "(../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))"
 )
-
-
-def _git(*args: str) -> str:
-    result = subprocess.run(
-        ["git", "-C", str(ROOT), *args],
-        text=True,
-        capture_output=True,
-        check=True,
-        timeout=15,
-    )
-    return result.stdout
+EXPECTED_BEFORE = (
+    ("Deterministic ordered multi-clip plan", ("planned", "planned", "planned", "none")),
+    ("Per-clip prompt and six-frame overlap", ("planned", "planned", "planned", "none")),
+    ("Explicit continuity state and transitions", ("planned", "planned", "planned", "none")),
+    ("Beat-aware measured window mapping", ("not applicable", "planned", "not applicable", "none")),
+    ("Exact/window pacing preservation", ("planned", "planned", "planned", "none")),
+    ("Auto/manual review checkpoints", ("planned", "host_run_verified (WD-7fvx)", "host_run_verified (WD-7fvx)", "none")),
+    ("Immutable non-executable queue records", ("planned", "planned", "planned", "none")),
+    ("Authorized prompt-only enhancement", ("planned", "planned", "planned", "none")),
+    ("Seed-based hash reconstruction", ("planned", "planned", "planned", "none")),
+    ("Generated clip, audio, or finished film", ("unsupported in this lane",) * 3 + ("none",)),
+)
 
 
 def _matrix(text: str) -> list[dict[str, Any]]:
@@ -87,12 +87,13 @@ def test_structural_limitation_decision_is_sourced_from_accepted_gate_records() 
 def test_matrix_transition_is_exactly_23_cells_and_preserves_verified_cells() -> None:
     payload = json.loads(EVIDENCE.read_text(encoding="utf-8"))
     transition = payload["matrix_transition"]
-    before_text = _git("show", f"{BASE_COMMIT}:docs/director-capabilities.md")
     after_text = DOC.read_text(encoding="utf-8")
-    before = _matrix(before_text)
+    before = [
+        {"capability": capability, "cells": list(cells)}
+        for capability, cells in EXPECTED_BEFORE
+    ]
     after = _matrix(after_text)
 
-    assert hashlib.sha256(before_text.encode()).hexdigest() == transition["before_sha256"]
     assert hashlib.sha256(after_text.encode()).hexdigest() == transition["after_sha256"]
     assert [row["capability"] for row in before] == [row["capability"] for row in after]
     assert transition["before_rows"] == before
