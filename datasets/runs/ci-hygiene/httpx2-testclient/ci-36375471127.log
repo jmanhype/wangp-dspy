@@ -100,22 +100,22 @@ test	Run actions/checkout@v5	2026-09-28T03:53:40.9453624Z [command]/usr/bin/git 
 test	Run actions/checkout@v5	2026-09-28T03:53:40.9499965Z ##[group]Checking out the ref
 test	Run actions/checkout@v5	2026-09-28T03:53:40.9500889Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/212/merge
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9107246Z Note: switching to 'refs/remotes/pull/212/merge'.
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9108763Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9108763Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9109404Z You are in 'detached HEAD' state. You can look around, make experimental
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9110269Z changes and commit them, and you can discard any commits you make in this
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9111080Z state without impacting any branches by switching back to a branch.
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9111547Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9111547Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9111999Z If you want to create a new branch to retain commits you create, you may
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9112807Z do so (now or later) by using -c with the switch command. Example:
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9113719Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9113719Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9114493Z   git switch -c <new-branch-name>
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9115515Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9115515Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9115989Z Or undo this operation with:
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9116492Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9116492Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9117154Z   git switch -
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9118156Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9118156Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9119108Z Turn off this advice by setting config variable advice.detachedHead to false
-test	Run actions/checkout@v5	2026-09-28T03:53:41.9120044Z 
+test	Run actions/checkout@v5	2026-09-28T03:53:41.9120044Z
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9121161Z HEAD is now at a894e6c Merge 710b02bd4690c04c16d70dad321814df0a1ea26e into 7275e44f56c0df99e74d2a8b762b162bde07f95b
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9176373Z ##[endgroup]
 test	Run actions/checkout@v5	2026-09-28T03:53:41.9228206Z [command]/usr/bin/git log -1 --format=%H
@@ -148,7 +148,7 @@ test	Run astral-sh/setup-uv@v6	**/*constraints*.in
 test	Run astral-sh/setup-uv@v6	**/pyproject.toml
 test	Run astral-sh/setup-uv@v6	**/uv.lock
 test	Run astral-sh/setup-uv@v6	**/*.py.lock
-test	Run astral-sh/setup-uv@v6	
+test	Run astral-sh/setup-uv@v6
 test	Run astral-sh/setup-uv@v6	2026-09-28T03:53:42.1416428Z   restore-cache: true
 test	Run astral-sh/setup-uv@v6	2026-09-28T03:53:42.1417184Z   save-cache: true
 test	Run astral-sh/setup-uv@v6	2026-09-28T03:53:42.1418156Z   prune-cache: true
@@ -367,7 +367,7 @@ test	Install ffmpeg	2026-09-28T03:53:51.6131583Z Get:87 http://azure.archive.ubu
 test	Install ffmpeg	2026-09-28T03:53:51.6203452Z Get:88 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 ffmpeg amd64 7:6.1.1-3ubuntu5 [1879 kB]
 test	Install ffmpeg	2026-09-28T03:53:51.9518326Z Fetched 62.8 MB in 2s (40.5 MB/s)
 test	Install ffmpeg	2026-09-28T03:53:51.9781515Z Selecting previously unselected package libva2:amd64.
-test	Install ffmpeg	2026-09-28T03:53:52.0068053Z (Reading database ... 
+test	Install ffmpeg	2026-09-28T03:53:52.0068053Z (Reading database ...
 test	Install ffmpeg	2026-09-28T03:53:52.0068794Z (Reading database ... 5%
 test	Install ffmpeg	2026-09-28T03:53:52.0069392Z (Reading database ... 10%
 test	Install ffmpeg	2026-09-28T03:53:52.0069692Z (Reading database ... 15%
@@ -741,15 +741,15 @@ test	Install ffmpeg	2026-09-28T03:53:57.4809678Z Setting up ffmpeg (7:6.1.1-3ubu
 test	Install ffmpeg	2026-09-28T03:53:57.4834075Z Processing triggers for man-db (2.12.0-4build2) ...
 test	Install ffmpeg	2026-09-28T03:53:57.4855793Z Not building database; man-db/auto-update is not 'true'.
 test	Install ffmpeg	2026-09-28T03:53:57.4867175Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
-test	Install ffmpeg	2026-09-28T03:53:58.1683954Z 
+test	Install ffmpeg	2026-09-28T03:53:58.1683954Z
 test	Install ffmpeg	2026-09-28T03:53:58.1684615Z Running kernel seems to be up-to-date.
-test	Install ffmpeg	2026-09-28T03:53:58.1685109Z 
+test	Install ffmpeg	2026-09-28T03:53:58.1685109Z
 test	Install ffmpeg	2026-09-28T03:53:58.1685332Z No services need to be restarted.
-test	Install ffmpeg	2026-09-28T03:53:58.1685621Z 
+test	Install ffmpeg	2026-09-28T03:53:58.1685621Z
 test	Install ffmpeg	2026-09-28T03:53:58.1685772Z No containers need to be restarted.
-test	Install ffmpeg	2026-09-28T03:53:58.1686021Z 
+test	Install ffmpeg	2026-09-28T03:53:58.1686021Z
 test	Install ffmpeg	2026-09-28T03:53:58.1686202Z No user sessions are running outdated binaries.
-test	Install ffmpeg	2026-09-28T03:53:58.1686504Z 
+test	Install ffmpeg	2026-09-28T03:53:58.1686504Z
 test	Install ffmpeg	2026-09-28T03:53:58.1686794Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
 test	Run test suite	﻿2026-09-28T03:53:58.9899489Z ##[group]Run uv run --frozen --extra dev pytest -q
 test	Run test suite	2026-09-28T03:53:58.9899924Z [36;1muv run --frozen --extra dev pytest -q[0m
