@@ -8,8 +8,8 @@ labels: [voice, character, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T14:56:29Z
-content_hash: "sha256:6cca55f5d43e2836855d93a6b293fdfaabe3c4b33990be6861d8a6de4597f45c"
+updated_at: 2026-09-28T14:57:01Z
+content_hash: "sha256:90fc82cb1ac60ea33a84e84a51a3dcb3b165e0378d6edeb028d28c1cf32940cf"
 blocks: [WD-fay0]
 follows: [WD-bxhc, WD-dc3w, WD-s2nb]
 assignee: dev-WD-32hk
@@ -110,7 +110,25 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: exact-head implementation, checker, focused/full tests, lint, release, parity, and diff gates all passed.
+
+Commands run: canonical checker; focused pytest; undeselected full pytest; pvg lint --backlog; wgp release verify --json; protected and historical parity diffs; git diff --check.
+
+SHA: ec3b07360d7e142cd5c9bb0bddf177d118f423d4
+
+### CI/Test Results
+- PR: https://github.com/jmanhype/wangp-dspy/pull/214
+- CI: success at this SHA, run 36436770508.
+- Canonical checker: PASS, zero diagnostics/warnings.
+- Focused: 225 tests, 0 errors, 0 failures, 0 skipped.
+- Full undeselected: 2109 tests, 0 errors, 0 failures, 1 explicit optional live-host skip.
+
+### AC Verification
+| AC | Status |
+|---|---|
+| 1-6 | PASS |
 
 ## nd_contract
 status: delivered
