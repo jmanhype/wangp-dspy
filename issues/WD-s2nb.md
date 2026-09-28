@@ -8,10 +8,10 @@ labels: [bug, ci, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-28T02:22:04Z
 created_by: speed
-updated_at: 2026-09-28T03:27:50Z
-content_hash: "sha256:11bdfe131b7cbee1af9f2a9d72d01823c9c4c368641766d2012caa38e7ff5bf4"
+updated_at: 2026-09-28T03:27:51Z
+content_hash: "sha256:afe9c0880eab02a5c969ab6bcab34703f84d256d3a2d991af23e75fc19403da4"
 blocks: [WD-fay0]
-follows: [WD-qswf, WD-osfm]
+follows: [WD-qswf, WD-osfm, WD-28i5]
 assignee: dev-WD-s2nb
 ---
 
@@ -206,10 +206,12 @@ status: delivered
 - 2026-09-28T02:22:34Z status: open -> in_progress
 - 2026-09-28T02:22:34Z auto-follows: linked to predecessor WD-osfm
 - 2026-09-28T02:22:34Z claimed by dev-WD-s2nb
+- 2026-09-28T03:27:51Z status: in_progress -> in_progress
+- 2026-09-28T03:27:51Z auto-follows: linked to predecessor WD-28i5
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-qswf]], [[WD-osfm]]
+- Follows: [[WD-qswf]], [[WD-osfm]], [[WD-28i5]]
 
 ## Comments
