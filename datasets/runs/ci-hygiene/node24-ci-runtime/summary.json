@@ -1,0 +1,38 @@
+{
+  "branch": "story/WD-s2nb",
+  "commit_sha": "b978e818d3f8a3778f3ee74c005e3edc1739893e",
+  "pull_request": 211,
+  "pull_request_url": "https://github.com/jmanhype/wangp-dspy/pull/211",
+  "workflow_run_id": 36370137115,
+  "workflow_run_url": "https://github.com/jmanhype/wangp-dspy/actions/runs/36370137115",
+  "check_run_id": 108764537585,
+  "event": "pull_request",
+  "run_conclusion": "success",
+  "job_conclusion": "success",
+  "test_outcomes": {
+    "passed": 2107,
+    "skipped": 1,
+    "failed": 0,
+    "errors": 0
+  },
+  "build": {
+    "sdist": "wangp_dspy-0.1.0.tar.gz",
+    "wheel": "wangp_dspy-0.1.0-py3-none-any.whl",
+    "conclusion": "success"
+  },
+  "annotations": 0,
+  "deprecated_runtime_warning_or_notice_counts": {
+    "Node.js_20_forced_compatibility": 0,
+    "ubuntu_latest_migration": 0,
+    "punycode": 0,
+    "url_parse": 0
+  },
+  "remaining_warning": {
+    "count": 1,
+    "owner": "WD-dc3w",
+    "kind": "StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead."
+  },
+  "exact_head_job_log_sha256": "0e3a9e35987627a7e40b59c1d2bbd96e37d342e6f03df1ba85d28d9e9c45debd",
+  "run_json_sha256": "8f60854e0a1685d870c15db60741f0796b172873d8cb5ccbb2e459332e6eb79f",
+  "check_run_annotations_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+}

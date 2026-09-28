@@ -1,0 +1,18 @@
+{
+  "actions/setup-python": {
+    "tag": "v7.0.0",
+    "tag_commit_sha": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+    "action_yml_api": "https://api.github.com/repos/actions/setup-python/contents/action.yml?ref=v7.0.0",
+    "runs_using": "node24",
+    "action_yml_line": 42,
+    "action_yml_sha256": "e6dc8046c02bd3c9f7bf2fea6ba2e59b4e83c7de2b26ec2149a1627f5d66f96c"
+  },
+  "astral-sh/setup-uv": {
+    "tag": "v10.2.0",
+    "tag_commit_sha": "c18668ad3cf93ea998bef934396af7bb5c839dc7",
+    "action_yml_api": "https://api.github.com/repos/astral-sh/setup-uv/contents/action.yml?ref=v10.2.0",
+    "runs_using": "node24",
+    "action_yml_line": 115,
+    "action_yml_sha256": "c46aa40944f6586ac790309c66e26ae52da47f67d72d3fc3e82d9b1f35620b30"
+  }
+}
