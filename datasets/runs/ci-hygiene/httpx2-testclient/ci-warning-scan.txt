@@ -1,0 +1,11 @@
+run_url=https://github.com/jmanhype/wangp-dspy/actions/runs/36375471127
+head_sha=710b02bd4690c04c16d70dad321814df0a1ea26e
+workflow=CI
+status=completed
+conclusion=success
+downloaded_log=ci-36375471127.log
+StarletteDeprecationWarning=0
+Using httpx with starlette.testclient is deprecated=0
+install httpx2 instead=0
+total_forbidden_occurrences=0
+GitHub Actions Node 20/action deprecation warnings=still present; owned by WD-s2nb, not dismissed as unrelated
