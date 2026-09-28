@@ -4,7 +4,7 @@ title: "Bug: FastAPI TestClient emits Starlette deprecation warning"
 status: closed
 priority: 0
 type: bug
-labels: [bug, test, evidence, discovered-by-pm, delivered, accepted]
+labels: [bug, test, evidence, discovered-by-pm, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
