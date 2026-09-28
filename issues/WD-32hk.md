@@ -1,17 +1,18 @@
 ---
 id: WD-32hk
 title: "Cloning consent matrix closeout"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [voice, character, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T13:32:23Z
-content_hash: "sha256:19cc9c29acb51aa515ae9766b98a1667eb3ef919211d35f89c635296efee13ac"
+updated_at: 2026-09-28T13:33:03Z
+content_hash: "sha256:adb5dfd205afb4f638fda8cebb2a38532b9127c21853ba4857138eb7d045c95c"
 blocks: [WD-fay0]
-follows: [WD-bxhc]
+follows: [WD-bxhc, WD-dc3w]
+assignee: dev-WD-32hk
 ---
 
 ## Description
@@ -113,10 +114,13 @@ status: new
 
 ## History
 - 2026-09-28T13:32:26Z dep_added: blocks WD-fay0
+- 2026-09-28T13:33:03Z status: open -> in_progress
+- 2026-09-28T13:33:04Z auto-follows: linked to predecessor WD-dc3w
+- 2026-09-28T13:33:04Z claimed by dev-WD-32hk
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-bxhc]]
+- Follows: [[WD-bxhc]], [[WD-dc3w]]
 
 ## Comments
