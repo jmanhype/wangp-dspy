@@ -8,8 +8,8 @@ labels: [voice, character, evidence, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
-updated_at: 2026-09-28T15:07:37Z
-content_hash: "sha256:99b33aadfac6fcc19f45f71dac31314da51e3fb1fbb0e783baedbef7659d7445"
+updated_at: 2026-09-28T15:07:38Z
+content_hash: "sha256:5251972d22fcdd0d20c173d96a106699fcf22d45b2c90a9b42201d5327c2e173"
 follows: [WD-bxhc, WD-dc3w, WD-s2nb, WD-qswf]
 assignee: dev-WD-32hk
 closed_at: 2026-09-28T15:07:36Z
@@ -111,6 +111,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-28.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Summary: exact-head implementation, checker, focused/full tests, lint, release, parity, and diff gates all passed.
