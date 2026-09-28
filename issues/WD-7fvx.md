@@ -9,13 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-26T20:53:44Z
 created_by: speed
 updated_at: 2026-09-27T00:13:33Z
-content_hash: "sha256:3b38d47b89cca32ff6d33af68a7a4eee7eaf4c1523033ec0baed1fc3f30707df"
+content_hash: "sha256:b691ad128ece1d3559fe5e3926e782f7a9edc7c2388a6f36a48e20ea4888e34a"
 blocked_by: [WD-dmf2, WD-cpow]
 follows: [WD-5k28, WD-m7xw, WD-43tj, WD-9ymi]
 assignee: dev-WD-7fvx
 closed_at: 2026-09-27T00:13:32Z
 close_reason: "Accepted: docs-only 982e9d6d closes DOCS_STALE while preserving the verified no-download source-pairing evidence and protected boundaries."
-led_to: [WD-obkn, WD-m25k]
+led_to: [WD-obkn, WD-m25k, WD-p587]
 ---
 
 ## Description
@@ -389,7 +389,7 @@ status: delivered
 - Parent: [[WD-3nod]]
 - Blocked by: [[WD-dmf2]], [[WD-cpow]]
 - Follows: [[WD-5k28]], [[WD-m7xw]], [[WD-43tj]], [[WD-9ymi]]
-- Led to: [[WD-obkn]], [[WD-m25k]]
+- Led to: [[WD-obkn]], [[WD-m25k]], [[WD-p587]]
 
 ## Comments
 
