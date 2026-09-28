@@ -1,17 +1,18 @@
 ---
 id: WD-bw0h
 title: "Clean-machine H3 generated artifact"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-28T13:32:24Z
-content_hash: "sha256:cee1312ca1e8bb5c894795f71b3b111570bdf89118acba744cdeba10f5034283"
+updated_at: 2026-09-28T13:33:26Z
+content_hash: "sha256:798af0dfabc4d6b5947b1cd0848ff8fc32e4fcd252ca0e41c5ee62d389b7005f"
 blocks: [WD-fay0]
-follows: [WD-0zj8, WD-isg9]
+follows: [WD-0zj8, WD-isg9, WD-dc3w]
+assignee: dev-WD-bw0h
 ---
 
 ## Description
@@ -135,10 +136,13 @@ status: new
 
 ## History
 - 2026-09-28T13:32:27Z dep_added: blocks WD-fay0
+- 2026-09-28T13:33:26Z status: open -> in_progress
+- 2026-09-28T13:33:26Z auto-follows: linked to predecessor WD-dc3w
+- 2026-09-28T13:33:26Z claimed by dev-WD-bw0h
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-0zj8]], [[WD-isg9]]
+- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]]
 
 ## Comments

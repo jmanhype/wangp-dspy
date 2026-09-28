@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
 updated_at: 2026-09-28T06:50:53Z
-content_hash: "sha256:26415a4c5f45117e2f86ce706b84b4b6a5dc493893f9290c5ffeb753d7afefd9"
+content_hash: "sha256:96a3576c6a45d10947323f588100b2db9ae2fbaeebd283e892d01018dce6b334"
 follows: [WD-qswf, WD-osfm, WD-s2nb]
 assignee: dev-WD-dc3w
 closed_at: 2026-09-28T05:19:58Z
 close_reason: "Accepted: exact-head dependency, warning-guard, full-suite, CI, and gate evidence is complete and independently verified."
-led_to: [WD-32hk]
+led_to: [WD-32hk, WD-bw0h]
 ---
 
 ## Description
@@ -257,7 +257,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-qswf]], [[WD-osfm]], [[WD-s2nb]]
-- Led to: [[WD-32hk]]
+- Led to: [[WD-32hk]], [[WD-bw0h]]
 
 ## Comments
 
