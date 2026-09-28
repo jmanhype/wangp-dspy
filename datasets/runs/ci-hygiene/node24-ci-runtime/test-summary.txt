@@ -1,0 +1,7 @@
+progress_outcome_counts=.2107,s1,total2108
+passed=2107
+skipped=1
+failed=0
+errors=0
+pytest_exit=0
+build_exit=0
