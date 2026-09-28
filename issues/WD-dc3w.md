@@ -8,8 +8,8 @@ labels: [bug, test, evidence, discovered-by-pm, accepted]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
-updated_at: 2026-09-28T05:49:53Z
-content_hash: "sha256:12c053d12ff2f695e7a872cd66e1603d56d1ea9a2232a55c49b419d739724856"
+updated_at: 2026-09-28T06:50:53Z
+content_hash: "sha256:7ce2a25170be22870b4276411276c09244302f70eaaa8b644fe6ff14c9d6c58b"
 follows: [WD-qswf, WD-osfm, WD-s2nb]
 assignee: dev-WD-dc3w
 closed_at: 2026-09-28T05:19:58Z
@@ -261,3 +261,6 @@ status: delivered
 
 ### 2026-09-28T05:49:53Z speed
 Integration follow-up after accepted implementation head 7a8d9e1088abd971c7e4053721050abd00b4c0ab: current main advanced with WD-s2nb, so PR 212 was updated to integration head 5e4c2ccbc5e650cbeb7fef688e6a6e7f9da280b2 (exact final receipts plus merge of main 23adf931). Quick gates passed: uv lock --check, transport guard, release=ready/tag_created=false, backlog lint, and git diff --check. Exact-head CI run 36381691317/check 108798592566 completed SUCCESS. Independent scan found 0 annotations and 0 occurrences of Starlette/httpx, Node.js 20, ubuntu-latest, punycode, url.parse, warning, or notice markers.
+
+### 2026-09-28T06:50:53Z speed
+Merged-head closure: PR 212 merged as 6ac1023b522726705d3ea560216f211003a1d4bd. Main CI run 36383656953/check 108804414584 completed SUCCESS with 0 annotations and 0 occurrences of Starlette/httpx, Node.js 20, ubuntu-latest, punycode, url.parse, warning, or notice markers. Local exact-main JUnit: 2109 tests, 0 errors, 0 failures, 1 skip, 2207.754 seconds; no warning summary. uv lock --check, release=ready/tag_created=false, backlog lint, protected parity, and git diff --check pass.
