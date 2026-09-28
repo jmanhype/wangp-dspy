@@ -1,0 +1,68 @@
+{
+  "schema_version": "wangp-dspy.director-structural-limitation/v1",
+  "story_id": "WD-p587",
+  "base_commit": "6ac1023b522726705d3ea560216f211003a1d4bd",
+  "decision": {
+    "operator": {
+      "identity": "operator",
+      "verbatim": "Approve",
+      "recorded_at": "2026-09-28T13:20:11Z",
+      "scope": "director structural limitation only"
+    },
+    "disposition": "unsupported",
+    "reason": "The operator accepted the three WD-dmf2 clip-1 objective failures as a media-specific structural limitation for the remaining executable director planning cells.",
+    "hardware_impossibility_claimed": false,
+    "not_hardware_boundary": "The limitation is specific to the WD-dmf2 clip-1 media and is not a global RTX 3090 impossibility: WD-dmf2 screenplay clip 2 passed the same 1.0 SyncNet threshold.",
+    "gate_source": "datasets/runs/maestro-parity/WD-dmf2/gate-derivation.json",
+    "failed_gates": [
+      {"gate": "whisper_screenplay_clip0001_score", "measured": 0.556, "source_field": "whisper_gates[1].score/pass_bar/passed", "threshold": 0.6, "verdict": "fail"},
+      {"gate": "syncnet_audio_clip0001_confidence", "measured": 0.594741, "source_field": "vision_gates[0].syncnet_av.confidence/pass_bar.min_confidence/passed", "threshold": 1.0, "verdict": "fail"},
+      {"gate": "syncnet_screenplay_clip0001_confidence", "measured": 0.468897, "source_field": "vision_gates[1].syncnet_av.confidence/pass_bar.min_confidence/passed", "threshold": 1.0, "verdict": "fail"}
+    ],
+    "passing_counterexample": {"gate": "syncnet_screenplay_clip0002_confidence", "measured": 1.10503, "source_field": "vision_gates[2].syncnet_av.confidence/pass_bar.min_confidence/passed", "threshold": 1.0, "verdict": "pass"},
+    "prohibited_changes": ["clip-1 rework", "GPU or media work", "model download", "provider spend", "threshold change", "QC gate change", "production engine semantic change", "protected file change"],
+    "historical_source_sha256": {
+      "WD-dmf2/gate-derivation.json": "0c650221012ef0b448d1099f77b846a7b2f30c16dc0712cfc9596752f16f77a0",
+      "WD-7fvx/evidence.json": "da27a0a31a79250f336754322097e1787a7244c4c6753f46052bfccdb1df5a81"
+    }
+  },
+  "matrix_transition": {
+    "document": "docs/director-capabilities.md",
+    "before_sha256": "27523efda2a08bf5f045c014db118ee42df4fa9dce147378599b756daf1aa33b",
+    "after_sha256": "5ea8c7432aed021c1e3022f97b70f9d05fa3ae035511bad99c1ce79cbb61426a",
+    "changed_cell_count": 23,
+    "planned_before": 23,
+    "planned_after": 0,
+    "unsupported_transition_cells": 23,
+    "unsupported_cells_after_including_preexisting_row": 26,
+    "preserved_host_run_verified_cells": ["host_run_verified (WD-7fvx)", "host_run_verified (WD-7fvx)"],
+    "row_identities_before_after_equal": true,
+    "changed_row_capabilities": ["Authorized prompt-only enhancement", "Auto/manual review checkpoints", "Beat-aware measured window mapping", "Deterministic ordered multi-clip plan", "Exact/window pacing preservation", "Explicit continuity state and transitions", "Immutable non-executable queue records", "Per-clip prompt and six-frame overlap", "Seed-based hash reconstruction"],
+    "unchanged_row_capabilities": ["Generated clip, audio, or finished film"],
+    "non_transition_cell_changes": [],
+    "before_rows": [
+      {"capability": "Deterministic ordered multi-clip plan", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Per-clip prompt and six-frame overlap", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Explicit continuity state and transitions", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Beat-aware measured window mapping", "cells": ["not applicable", "planned", "not applicable", "none"]},
+      {"capability": "Exact/window pacing preservation", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Auto/manual review checkpoints", "cells": ["planned", "host_run_verified (WD-7fvx)", "host_run_verified (WD-7fvx)", "none"]},
+      {"capability": "Immutable non-executable queue records", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Authorized prompt-only enhancement", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Seed-based hash reconstruction", "cells": ["planned", "planned", "planned", "none"]},
+      {"capability": "Generated clip, audio, or finished film", "cells": ["unsupported in this lane", "unsupported in this lane", "unsupported in this lane", "none"]}
+    ],
+    "after_rows": [
+      {"capability": "Deterministic ordered multi-clip plan", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Per-clip prompt and six-frame overlap", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Explicit continuity state and transitions", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Beat-aware measured window mapping", "cells": ["not applicable", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "not applicable", "none"]},
+      {"capability": "Exact/window pacing preservation", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Auto/manual review checkpoints", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "host_run_verified (WD-7fvx)", "host_run_verified (WD-7fvx)", "none"]},
+      {"capability": "Immutable non-executable queue records", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Authorized prompt-only enhancement", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Seed-based hash reconstruction", "cells": ["unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "unsupported ([WD-p587 structural limitation](../datasets/runs/maestro-parity/director-structural-limitation/evidence.json))", "none"]},
+      {"capability": "Generated clip, audio, or finished film", "cells": ["unsupported in this lane", "unsupported in this lane", "unsupported in this lane", "none"]}
+    ]
+  }
+}
