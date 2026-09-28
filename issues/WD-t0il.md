@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-27T21:40:53Z
-content_hash: "sha256:e4e2cd1b9c6511129985ddbf16072b355352c89385a6087a9f6c8cca4b9f4c5f"
+updated_at: 2026-09-28T06:50:53Z
+content_hash: "sha256:6a9c2242c3a04025e5e0dab23bc6246dbcd812b3825f07723db70a5edbcbd793"
 blocks: [WD-fay0]
 ---
 
@@ -179,3 +179,6 @@ Progress update only (gate remains deferred): WD-5k28 accepted and merged at 2b4
 
 ### 2026-09-27T21:40:53Z speed
 Progress update only (gate remains deferred): WD-osfm was accepted and merged at 7393245f. Its nine LTX-2.3 cells moved to 5 host_run_verified, 1 unsupported, and 3 dependency_blocked. Consolidated video matrix is now 40 host_run_verified, 52 unsupported, 7 dependency_blocked, and 0 planned. Overall 208-cell census is therefore 51 verified, 35 unsupported, 111 planned, 6 pending consent, and 2 not applicable. Separately, WD-qswf was accepted and merged at 7275e44f; the undeselected full suite now passes 2108/2108 selected tests with 0 failures, 0 errors, and 1 skip.
+
+### 2026-09-28T06:50:53Z speed
+Warning-clean gate update at merged main 6ac1023b522726705d3ea560216f211003a1d4bd: WD-dc3w and WD-s2nb are accepted and merged. Exact-main CI 36383656953 succeeded with zero annotations and zero known warning classes; exact-main local JUnit parsed 2109 tests, 0 errors, 0 failures, 1 skip. Backlog lint and release verification pass. This does not change the operator-gated matrix census.
