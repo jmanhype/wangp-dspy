@@ -9,13 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:06Z
 created_by: speed
 updated_at: 2026-09-25T21:27:32Z
-content_hash: "sha256:3904febb2000a5f983bb25ba1382f13394e5eb83e2d1749e2b0a3e7ca62a8342"
+content_hash: "sha256:6396cb9c52fc1964c3ca683c8d52e5718c979703310358eddfb07b3081a186fa"
 was_blocked_by: [WD-m0r5, WD-2gyw]
 follows: [WD-m0r5, WD-2gyw, WD-cpow, WD-rous, WD-0zj8, WD-r81u, WD-e4r7]
 assignee: dev-WD-bxhc
 closed_at: 2026-09-25T21:27:31Z
 close_reason: "Accepted as partial: independent PM re-review approved VibeVoice plain, Chatterbox plain, and seven deterministic character rows at 9e77bc0. VibeVoice one/two-reference clone, Saved voice binding, and Cross-mode identity preservation are NOT delivered because cross-story cloning-reuse consent is not evidenced; this is not hardware infeasibility."
-led_to: [WD-dmf2, WD-fay0, WD-r4n8, WD-isg9, WD-51w5]
+led_to: [WD-dmf2, WD-fay0, WD-r4n8, WD-isg9]
 ---
 
 ## Description
@@ -261,7 +261,7 @@ Observable outcome: an explicitly authorized future run emits hashed portable vo
 - Parent: [[WD-3nod]]
 - Was blocked by: [[WD-m0r5]], [[WD-2gyw]]
 - Follows: [[WD-m0r5]], [[WD-2gyw]], [[WD-cpow]], [[WD-rous]], [[WD-0zj8]], [[WD-r81u]], [[WD-e4r7]]
-- Led to: [[WD-dmf2]], [[WD-fay0]], [[WD-r4n8]], [[WD-isg9]], [[WD-51w5]]
+- Led to: [[WD-dmf2]], [[WD-fay0]], [[WD-r4n8]], [[WD-isg9]]
 
 ## Comments
 
