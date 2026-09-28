@@ -1,0 +1,1 @@
+YAML_PARSE=PASS jobs=1 runs-on=ubuntu-24.04 setup-python=v7.0.0 setup-uv=v10.2.0
