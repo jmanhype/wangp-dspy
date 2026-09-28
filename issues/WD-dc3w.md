@@ -1,17 +1,18 @@
 ---
 id: WD-dc3w
 title: "Bug: FastAPI TestClient emits Starlette deprecation warning"
-status: open
+status: in_progress
 priority: 0
 type: bug
 labels: [bug, test, evidence, discovered-by-pm]
 parent: WD-3nod
 created_at: 2026-09-28T02:20:14Z
 created_by: speed
-updated_at: 2026-09-28T02:20:14Z
-content_hash: "sha256:4dbc72eba36ba86eee3968d335022ae9714518800f33c216f5743b8333110484"
+updated_at: 2026-09-28T02:22:41Z
+content_hash: "sha256:2400daad3e1d9d97f209d67fb086b49f46bb3a4c50bb6dae1c74c5afaaa6ba79"
 blocks: [WD-fay0]
-follows: [WD-qswf]
+follows: [WD-qswf, WD-osfm]
+assignee: dev-WD-dc3w
 ---
 
 ## Description
@@ -119,10 +120,13 @@ status: new
 
 ## History
 - 2026-09-28T02:20:14Z dep_added: blocks WD-fay0
+- 2026-09-28T02:22:41Z status: open -> in_progress
+- 2026-09-28T02:22:41Z auto-follows: linked to predecessor WD-osfm
+- 2026-09-28T02:22:41Z claimed by dev-WD-dc3w
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-qswf]]
+- Follows: [[WD-qswf]], [[WD-osfm]]
 
 ## Comments
