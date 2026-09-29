@@ -423,6 +423,51 @@
       "stable-generate.native.log",
       "ace-style-adapt.native.log"
     ],
+    "native_log_sha256": {
+      "ace-generate.native.log": "afb2a3cfb717836827a7195486ddb8a228223bba23b338f7b771361691835a63",
+      "stable-generate.native.log": "ebca7e6ec3c24c496a4acabca67704cda7ee52aa7dd8e962247b9d7bacbfec63",
+      "ace-style-adapt.native.log": "302348c284c456efa2c77cf4d0bc9e25c71b8cf8b7e4b15d86b2f09a304c2ff5"
+    },
+    "optional_import_fallbacks": [
+      {
+        "module": "flash_attn",
+        "import": {
+          "path": "stable-generate.native.log",
+          "line": 13
+        },
+        "fallback_marker": {
+          "path": "stable-generate.native.log",
+          "line": 14,
+          "kind": "flash_attention_disabled",
+          "text": "flash_attn not installed, disabling Flash Attention"
+        },
+        "success_marker": {
+          "path": "stable-generate.native.log",
+          "line": 21,
+          "kind": "audio_file_saved",
+          "text": "Audio file saved to Path: /home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav"
+        }
+      },
+      {
+        "module": "flash_attn",
+        "import": {
+          "path": "stable-generate.native.log",
+          "line": 15
+        },
+        "fallback_marker": {
+          "path": "stable-generate.native.log",
+          "line": 16,
+          "kind": "flash_attention_disabled",
+          "text": "flash_attn varlen/bert_padding not available, disabling varlen attention"
+        },
+        "success_marker": {
+          "path": "stable-generate.native.log",
+          "line": 21,
+          "kind": "audio_file_saved",
+          "text": "Audio file saved to Path: /home/straughter/Wan2GP/outputs/wd-rous/stable/wd_rous_stable_generate.wav"
+        }
+      }
+    ],
     "preflight": "selected-doctor-preflight-after-download.json",
     "queue_id": "wangp-JobQueue-WD-rous",
     "retry_id": "attempt-1"

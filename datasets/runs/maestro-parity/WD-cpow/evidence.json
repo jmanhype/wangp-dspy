@@ -409,6 +409,52 @@
       "vibevoice-revoice.native.log",
       "deepfilternet-refine.native.log"
     ],
+    "native_log_sha256": {
+      "stable-sfx.native.log": "4c173ad03256175b37b54df2affcbccd81c927ff1d44a1ad14485c85b0557100",
+      "vibevoice-remote.native.log": "37bb47e216a87234491622ddeab9a445d4f02cf55494aa8ae030a62c26460e92",
+      "vibevoice-revoice.native.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "deepfilternet-refine.native.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "optional_import_fallbacks": [
+      {
+        "module": "flash_attn",
+        "import": {
+          "path": "stable-sfx.native.log",
+          "line": 15
+        },
+        "fallback_marker": {
+          "path": "stable-sfx.native.log",
+          "line": 16,
+          "kind": "flash_attention_disabled",
+          "text": "flash_attn not installed, disabling Flash Attention"
+        },
+        "success_marker": {
+          "path": "stable-sfx.native.log",
+          "line": 24,
+          "kind": "audio_file_saved",
+          "text": "Audio file saved to Path: /home/straughter/Wan2GP/outputs/wd-cpow/stable/wd_cpow_stable_sfx.wav"
+        }
+      },
+      {
+        "module": "flash_attn",
+        "import": {
+          "path": "stable-sfx.native.log",
+          "line": 17
+        },
+        "fallback_marker": {
+          "path": "stable-sfx.native.log",
+          "line": 18,
+          "kind": "flash_attention_disabled",
+          "text": "flash_attn varlen/bert_padding not available, disabling varlen attention"
+        },
+        "success_marker": {
+          "path": "stable-sfx.native.log",
+          "line": 24,
+          "kind": "audio_file_saved",
+          "text": "Audio file saved to Path: /home/straughter/Wan2GP/outputs/wd-cpow/stable/wd_cpow_stable_sfx.wav"
+        }
+      }
+    ],
     "preflight": "selected-doctor-preflight-after-download.json",
     "queue_id": "wangp-JobQueue-WD-cpow",
     "retry_id": "attempt-1"

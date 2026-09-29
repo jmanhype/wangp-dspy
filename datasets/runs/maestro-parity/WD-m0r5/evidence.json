@@ -859,6 +859,338 @@
       "flux-standard-identity-attempt3.native.log",
       "flux-kontext-identity-attempt2.native.log"
     ],
+    "native_log_sha256": {
+      "qwen-batch.native.log": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07",
+      "flux-batch.native.log": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d",
+      "qwen-standard-identity-attempt2.native.log": "1cbc96feaba1be561968cec016ab9fefec824909e304e822ea9fcf10ce8efc31",
+      "flux-standard-identity-attempt3.native.log": "a3c9bcfadd7fe152fb1e181939a6911a50a5c218faef56ba8ec6b9e2494b62e4",
+      "flux-kontext-identity-attempt2.native.log": "bdf3fb79d11419401289753103bf5f938be18d52aff58e7a2feb80490ca84aeb"
+    },
+    "optional_import_fallbacks": [
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 44
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 44,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 45,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_standard_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 57
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 57,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 58,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_standard_upscale.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 64
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 64,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 65,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_standard_outpaint.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 71
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 71,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 72,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_standard_identity_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 78
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 78,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 79,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_professional_generate.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 85
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 85,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 86,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_professional_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 98
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 98,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 99,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_professional_upscale.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 105
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 105,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 106,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_professional_outpaint.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-batch.native.log",
+          "line": 112
+        },
+        "fallback_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 112,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-batch.native.log",
+          "line": 113,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-batch/wd_m0r5_qwen_professional_identity_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-batch.native.log",
+          "line": 37
+        },
+        "fallback_marker": {
+          "path": "flux-batch.native.log",
+          "line": 37,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-batch.native.log",
+          "line": 38,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_standard_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-batch.native.log",
+          "line": 44
+        },
+        "fallback_marker": {
+          "path": "flux-batch.native.log",
+          "line": 44,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-batch.native.log",
+          "line": 45,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_standard_identity_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-batch.native.log",
+          "line": 51
+        },
+        "fallback_marker": {
+          "path": "flux-batch.native.log",
+          "line": 51,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-batch.native.log",
+          "line": 52,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_kontext_generate.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-batch.native.log",
+          "line": 58
+        },
+        "fallback_marker": {
+          "path": "flux-batch.native.log",
+          "line": 58,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-batch.native.log",
+          "line": 59,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_kontext_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-batch.native.log",
+          "line": 65
+        },
+        "fallback_marker": {
+          "path": "flux-batch.native.log",
+          "line": 65,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-batch.native.log",
+          "line": 66,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-batch/wd_m0r5_flux_kontext_identity_edit.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "qwen-standard-identity-attempt2.native.log",
+          "line": 25
+        },
+        "fallback_marker": {
+          "path": "qwen-standard-identity-attempt2.native.log",
+          "line": 25,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "qwen-standard-identity-attempt2.native.log",
+          "line": 26,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/qwen-identity-attempt2/wd_m0r5_qwen_standard_identity_edit_attempt2.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-standard-identity-attempt3.native.log",
+          "line": 25
+        },
+        "fallback_marker": {
+          "path": "flux-standard-identity-attempt3.native.log",
+          "line": 25,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-standard-identity-attempt3.native.log",
+          "line": 26,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-identity-attempt3/wd_m0r5_flux_standard_identity_edit_attempt3.jpg"
+        }
+      },
+      {
+        "module": "piexif",
+        "import": {
+          "path": "flux-kontext-identity-attempt2.native.log",
+          "line": 25
+        },
+        "fallback_marker": {
+          "path": "flux-kontext-identity-attempt2.native.log",
+          "line": 25,
+          "kind": "image_metadata_save_failed",
+          "text": "Error saving metadata: No module named 'piexif'"
+        },
+        "success_marker": {
+          "path": "flux-kontext-identity-attempt2.native.log",
+          "line": 26,
+          "kind": "image_file_saved",
+          "text": "Image file saved to Path: /home/straughter/Wan2GP/outputs/wd-m0r5/flux-kontext-identity-attempt2/wd_m0r5_flux_kontext_identity_edit_attempt2.jpg"
+        }
+      }
+    ],
     "queue_id": "wgp-native-cli-WD-m0r5",
     "retry_id": "attempt-1-selected"
   },

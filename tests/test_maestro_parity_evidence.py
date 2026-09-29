@@ -13,6 +13,7 @@ from scripts.verify_maestro_parity import (
     canonical_field_ids,
     contract_rows,
     verify_bundle,
+    verify_checker_receipt,
     verify_native_logs,
 )
 
@@ -20,6 +21,7 @@ from scripts.verify_maestro_parity import (
 ROOT = Path(__file__).resolve().parents[1]
 CHECKER = ROOT / "scripts/verify_maestro_parity.py"
 CONTRACT = ROOT / "docs/maestro-parity-evidence-contract.md"
+RECEIPT = ROOT / "datasets/runs/maestro-parity/checker-lane-receipts/evidence.json"
 
 
 def _digest(data: bytes) -> str:
@@ -196,6 +198,212 @@ def test_every_missing_field_group_fails_by_exact_name(
 
 def _image(payload: dict[str, Any]) -> None:
     payload["media_metadata"][0].update(kind="image", duration_s=None, fps=None, audio={"present": False})
+
+
+def _copy_native_log(source: Path, target: Path) -> bytes:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(source.read_bytes())
+    return target.read_bytes()
+
+
+def _line_fragment(data: bytes, line_number: int, prefix: str) -> str:
+    line = data.decode("utf-8", errors="replace").split("\n")[line_number - 1]
+    position = line.find(prefix)
+    assert position >= 0, (line_number, prefix, line[-300:])
+    return line[position:]
+
+
+def _committed_fallbacks(lane: str, log_name: str) -> list[dict[str, Any]]:
+    source = json.loads(
+        (ROOT / "datasets/runs/maestro-parity" / lane / "evidence.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    return [
+        item
+        for item in source["queue_attempt"]["optional_import_fallbacks"]
+        if item["import"]["path"] == log_name
+    ]
+
+
+@pytest.mark.parametrize(
+    ("lane", "log_name"),
+    [
+        ("WD-cpow", "stable-sfx.native.log"),
+        ("WD-m0r5", "qwen-standard-identity-attempt2.native.log"),
+        ("WD-r81u", "wd-r81u-attempt5.native.log"),
+        ("WD-rous", "stable-generate.native.log"),
+    ],
+    ids=["flash-audio", "piexif-image", "postprocessing-ffmpeg", "flash-music"],
+)
+def test_exact_optional_import_fallbacks_are_owned_by_real_log_bytes(
+    tmp_path: Path,
+    lane: str,
+    log_name: str,
+) -> None:
+    root = tmp_path / lane
+    payload = _write_bundle(root)
+    data = _copy_native_log(
+        ROOT / "datasets/runs/maestro-parity" / lane / log_name,
+        root / log_name,
+    )
+    fallbacks = _committed_fallbacks(lane, log_name)
+    payload["queue_attempt"].update(
+        native_logs=[log_name],
+        native_log_sha256={log_name: _digest(data)},
+        optional_import_fallbacks=fallbacks,
+    )
+    report = _record_and_verify(root, payload)
+    assert report.passed
+    assert report.diagnostics == ()
+    assert [warning.code for warning in report.warnings] == [
+        "OPTIONAL_IMPORT_FALLBACK" for _ in fallbacks
+    ]
+    for warning, item in zip(
+        report.warnings,
+        payload["queue_attempt"]["optional_import_fallbacks"],
+        strict=True,
+    ):
+        assert warning.path == item["import"]["path"]
+        assert warning.line == item["import"]["line"]
+        assert warning.sha256 == payload["queue_attempt"]["native_log_sha256"][warning.path]
+        assert item["module"] in warning.message
+
+
+def test_unknown_module_cannot_use_optional_fallback_classification(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "unknown-module"
+    payload = _write_bundle(root)
+    source = ROOT / "datasets/runs/maestro-parity/WD-cpow/stable-sfx.native.log"
+    target = root / "stable-sfx.native.log"
+    original = source.read_bytes()
+    data = _copy_native_log(source, target).replace(
+        b"No module named 'flash_attn'", b"No module named 'unknown_dependency'"
+    )
+    target.write_bytes(data)
+    fallbacks = _committed_fallbacks("WD-cpow", "stable-sfx.native.log")
+    for item in fallbacks:
+        item["module"] = "unknown_dependency"
+    payload["queue_attempt"].update(
+        native_logs=["stable-sfx.native.log"],
+        native_log_sha256={"stable-sfx.native.log": _digest(data)},
+        optional_import_fallbacks=fallbacks,
+    )
+    report = _record_and_verify(root, payload)
+    assert not report.passed
+    assert any(
+        "module 'unknown_dependency' is not eligible" in item.message
+        for item in report.diagnostics
+    )
+
+
+def test_optional_fallback_changed_log_hash_fails_closed(tmp_path: Path) -> None:
+    root = tmp_path / "changed-hash"
+    payload = _write_bundle(root)
+    data = _copy_native_log(
+        ROOT / "datasets/runs/maestro-parity/WD-cpow/stable-sfx.native.log",
+        root / "stable-sfx.native.log",
+    )
+    payload["queue_attempt"].update(
+        native_logs=["stable-sfx.native.log"],
+        native_log_sha256={"stable-sfx.native.log": "0" * 64},
+        optional_import_fallbacks=_committed_fallbacks(
+            "WD-cpow", "stable-sfx.native.log"),
+    )
+    report = _record_and_verify(root, payload)
+    assert not report.passed
+    diagnostic = next(
+        item
+        for item in report.diagnostics
+        if item.field == "queue_attempt.native_logs[0].sha256"
+    )
+    assert diagnostic.message.endswith(f"native log bytes hash {_digest(data)}")
+
+
+def test_optional_fallback_without_successful_save_marker_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "missing-success-marker"
+    payload = _write_bundle(root)
+    source = ROOT / "datasets/runs/maestro-parity/WD-cpow/stable-sfx.native.log"
+    original = source.read_bytes()
+    data = _copy_native_log(
+        source,
+        root / "stable-sfx.native.log",
+    ).replace(b"Audio file saved to Path: ", b"Audio output removed: ")
+    target = root / "stable-sfx.native.log"
+    target.write_bytes(data)
+    fallbacks = _committed_fallbacks("WD-cpow", "stable-sfx.native.log")
+    fallbacks[0]["success_marker"]["text"] = _line_fragment(
+        data, 24, "Audio output removed: "
+    )
+    payload["queue_attempt"].update(
+        native_logs=["stable-sfx.native.log"],
+        native_log_sha256={"stable-sfx.native.log": _digest(data)},
+        optional_import_fallbacks=fallbacks,
+    )
+    report = _record_and_verify(root, payload)
+    assert not report.passed
+    assert any(
+        "marker kind audio_file_saved does not match text" in item.message
+        for item in report.diagnostics
+    )
+
+
+@pytest.mark.parametrize(
+    ("lane", "warning_count"),
+    [
+        ("WD-2gyw", 5),
+        ("WD-bxhc", 0),
+        ("WD-cpow", 2),
+        ("WD-m0r5", 17),
+        ("WD-r81u", 1),
+        ("WD-rous", 2),
+        ("consent-closeout", 0),
+    ],
+)
+def test_representative_real_bundles_have_expected_checker_outcomes(
+    lane: str, warning_count: int
+) -> None:
+    report = _verify_unmodified(ROOT / "datasets/runs/maestro-parity" / lane)
+    assert report.passed
+    assert report.diagnostics == ()
+    assert len(report.warnings) == warning_count
+
+
+def test_wd_dmf2_still_fails_real_objective_and_reviewer_gates() -> None:
+    report = _verify_unmodified(ROOT / "datasets/runs/maestro-parity/WD-dmf2")
+    assert not report.passed
+    fields = _diagnostic_fields(report)
+    assert "objective_gate_results[21].verdict" in fields
+    assert "objective_gate_results[23].verdict" in fields
+    assert "objective_gate_results[24].verdict" in fields
+    assert "objective_gate_results[26].verdict" in fields
+    assert "objective_gate_results[27].verdict" in fields
+    assert "reviewer_verdict.decision" in fields
+
+
+def test_current_checker_lane_receipt_fails_closed_on_drift() -> None:
+    report = verify_checker_receipt(ROOT, RECEIPT)
+    assert report.passed
+    assert report.diagnostics == ()
+
+    drifted = RECEIPT.read_text(encoding="utf-8").replace(
+        '"bundle_identity_sha256": "', '"bundle_identity_sha256": "0', 1
+    )
+    drifted_path = RECEIPT.with_name("drifted-evidence.json")
+    drifted_path.write_text(drifted, encoding="utf-8")
+    try:
+        drifted_report = verify_checker_receipt(ROOT, drifted_path)
+    finally:
+        drifted_path.unlink()
+    assert not drifted_report.passed
+    assert any(
+        item.field == "receipt.lanes[0].bundle_identity_sha256"
+        and "bundle bytes hash" in item.message
+        for item in drifted_report.diagnostics
+    )
 
 
 CONSTRAINT_CASES = (
