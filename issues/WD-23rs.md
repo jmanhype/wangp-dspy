@@ -1,16 +1,18 @@
 ---
 id: WD-23rs
 title: "Checker lane receipt coverage"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [evidence, qc, gate]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T04:33:41Z
-content_hash: "sha256:04ab0384b868b9be1c8d0a8b99573ee1043c360327a42b959e1b8273d5f4ce86"
+updated_at: 2026-09-29T04:34:03Z
+content_hash: "sha256:994ed6d76ce708636330d5950fe4ae8b30738f405d74c69581a875d064b9a52a"
 blocks: [WD-fay0]
+assignee: dev-WD-23rs
+follows: [WD-p587]
 ---
 
 ## Description
@@ -96,9 +98,13 @@ Observable outcome: the operator can run the canonical checker on each represent
 
 ## History
 - 2026-09-29T04:33:00Z dep_added: blocks WD-fay0
+- 2026-09-29T04:34:03Z status: open -> in_progress
+- 2026-09-29T04:34:03Z auto-follows: linked to predecessor WD-p587
+- 2026-09-29T04:34:03Z claimed by dev-WD-23rs
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Follows: [[WD-p587]]
 
 ## Comments
