@@ -4,7 +4,7 @@ title: "Checker lane receipt coverage"
 status: closed
 priority: 1
 type: task
-labels: [evidence, qc, gate, delivered, accepted]
+labels: [evidence, qc, gate, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
