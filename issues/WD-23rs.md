@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
 updated_at: 2026-09-29T06:04:44Z
-content_hash: "sha256:12bc2b83e3e2a1dbd1d74977515f2af5b86f20124a4eef9ab75ac63f0d1fb1be"
+content_hash: "sha256:fbb62bc4dba36e04f7c18e85dd6cf184acb51c7d0e4c1f9ed8165977ceb0e244"
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk, WD-dc3w]
 closed_at: 2026-09-29T06:04:43Z
@@ -96,6 +96,18 @@ status: new
 
 ## Notes
 Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-29.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 This standalone heading continues the preceding DELIVERED proof without replacing it. Commands run, CI/test counters, commit SHA, coverage, immutable hashes, PR, exact-head CI, AC table, and LEARNINGS remain authoritative in the preceding detailed block.
