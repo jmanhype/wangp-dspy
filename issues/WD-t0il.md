@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-29T08:35:55Z
-content_hash: "sha256:df635dde52d35684265c710cfacd2cda87c114c1abd943126690233981ab6d69"
+updated_at: 2026-09-29T10:17:55Z
+content_hash: "sha256:20221e7e6281f1eb4c16a42c9164a5c14ccb6a0eaf9370e72517c123a0aaa700"
 blocks: [WD-fay0]
 ---
 
@@ -194,3 +194,6 @@ LTX dependency decision metadata (HEAD-only, zero model bytes downloaded): the s
 
 ### 2026-09-29T08:35:55Z speed
 Strict current-state audit at merged main 2c20caa15b12b783188d5e707e0d29dda4f5eeb7: state-bearing matrices have zero planned cells but retain seven dependency_blocked LTX cells (WD-28ac prepared). The capstone non-matrix inventory additionally retains two planned generation rows: docs/editor.md "Authorized host export/media" and docs/first-run.md "Generated artifact from first-run". WD-bw0h owns the first-run row. No existing story owns the editor host-export row; it requires a separately authorized governed host export/render bundle and must not inherit WD-gc09's accepted no-GPU editor evidence. Standing quick gates remain green: backlog lint 152/0/0, release ready/tag_created=false, protected parity unchanged, clean main tree.
+
+### 2026-09-29T10:17:55Z speed
+Editor-gap ownership update at main 2c20caa1: WD-qthq now owns docs/editor.md "Authorized host export/media." Its local two-source deterministic project/export, not_authorized template, fail-closed runner, and real API tests are complete at PR 218 head e55588f57fd46ca43e144a57662a09eafad1668a with exact-head CI success. WD-qthq is deferred pending explicit host-3090 authorization; no editor host/media claim is made yet.
