@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-WD-bw0h-retry",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "diagnostic": {
+    "code": "STORAGE_PREPARATION_FAILED",
+    "detail": "cannot create offload root"
+  },
+  "generated_artifact": false,
+  "schema_version": "wangp-dspy.clean-generated-proof-failure/v1",
+  "substitution_attempted": false
+}

@@ -1,0 +1,139 @@
+Resolved 90 packages in 1.62s
+   Building wangp-dspy @ file:///Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h
+Downloading numpy (5.2MiB)
+Downloading llvmlite (38.6MiB)
+Downloading openai (1.6MiB)
+Downloading scikit-learn (7.9MiB)
+Downloading scipy (19.5MiB)
+Downloading soundfile (1.1MiB)
+Downloading hf-xet (3.7MiB)
+Downloading pydantic-core (1.8MiB)
+Downloading numba (2.6MiB)
+Downloading tokenizers (3.0MiB)
+Downloading botocore (15.2MiB)
+Downloading litellm (26.0MiB)
+ Downloaded soundfile
+ Downloaded pydantic-core
+      Built wangp-dspy @ file:///Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded numba
+ Downloaded numpy
+ Downloaded scikit-learn
+ Downloaded openai
+ Downloaded scipy
+ Downloaded llvmlite
+ Downloaded botocore
+ Downloaded litellm
+Prepared 90 packages in 15.08s
+Installed 90 packages in 681ms
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.3
+ + aiosignal==1.4.0
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + attrs==26.1.0
+ + boto3==1.43.105
+ + botocore==1.43.105
+ + cachetools==7.2.0
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + cloudpickle==3.1.2
+ + decorator==5.3.1
+ + diskcache==5.6.3
+ + distro==1.9.0
+ + dspy==3.4.0
+ + fastapi==0.142.1
+ + fastuuid==0.14.0
+ + filelock==4.0.7
+ + frozenlist==1.8.0
+ + fsspec==2026.9.0
+ + gepa==0.1.4
+ + h11==0.16.0
+ + h2==4.4.1
+ + hf-xet==1.6.0
+ + hpack==4.2.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.33.0
+ + hyperframe==6.1.0
+ + idna==3.20
+ + importlib-metadata==8.9.0
+ + jinja2==3.1.6
+ + jiter==0.17.0
+ + jmespath==1.1.0
+ + joblib==1.6.0
+ + json-repair==0.63.5
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + lazy-loader==0.6
+ + librosa==1.0.0
+ + litellm==1.103.1
+ + llvmlite==0.49.0
+ + markupsafe==3.0.3
+ + msgpack==1.2.3
+ + multidict==6.9.1
+ + narwhals==2.26.0
+ + numba==0.67.0
+ + numpy==2.5.3
+ + openai==2.54.0
+ + opentelemetry-api==1.45.0
+ + orjson==3.12.0
+ + packaging==26.3
+ + platformdirs==4.12.2
+ + pooch==1.9.0
+ + propcache==0.5.4
+ + pycparser==3.0
+ + pydantic==2.13.5
+ + pydantic-core==2.46.5
+ + pydantic-settings==2.15.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.3
+ + pyyaml==6.0.3
+ + referencing==0.37.0
+ + regex==2026.9.29
+ + requests==2.34.2
+ + rpds-py==2026.6.3
+ + s3transfer==0.19.2
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soundfile==0.14.0
+ + soxr==1.1.0
+ + starlette==1.7.0
+ + tenacity==9.1.4
+ + threadpoolctl==3.7.0
+ + tiktoken==0.14.0
+ + tokenizers==0.23.2
+ + tqdm==4.70.1
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uvicorn==0.54.0
+ + wangp-dspy==0.1.0 (from file:///Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h)
+ + yarl==1.25.1
+ + zipp==4.1.0
+Installed 1 executable: wgp
+[PASS] python: Python 3.12.13
+[PASS] uv: uv available at /Users/speed/.local/bin/uv
+[PASS] dependency_imports: 8 imports available
+[PASS] ffprobe: ffprobe available at /opt/homebrew/bin/ffprobe
+[PASS] ffmpeg: ffmpeg available at /opt/homebrew/bin/ffmpeg
+[PASS] queue_database: SQLite 3.53.1 is available for JobQueue databases
+[SKIP] model_files: No model manifest supplied; not required for no-GPU planning
+       remediation: Supply --models with path and sha256 entries before host work.
+[SKIP] host_configuration: host.target=unconfigured [unconfigured]; host.wgp_root=unconfigured [unconfigured]; host.pull_root=/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h/datasets/runs/pull [detection (/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h)]; host.wgp_python=unconfigured [unconfigured]; the no-GPU lane remains ready
+       remediation: Set WANGP_SSH_TARGET, WANGP_WGP_ROOT, WANGP_WGP_PYTHON (or the corresponding [host] keys) for GPU work.
+[PASS] local_disk_headroom: 68G free on the repository volume
+ready=yes
+Cloning into '/private/tmp/wangp-clean-generated-WD-bw0h-retry/checkout'...
+done.
+Updating files:  34% (1472/4316)Updating files:  35% (1511/4316)Updating files:  36% (1554/4316)Updating files:  37% (1597/4316)Updating files:  38% (1641/4316)Updating files:  39% (1684/4316)Updating files:  40% (1727/4316)Updating files:  41% (1770/4316)Updating files:  42% (1813/4316)Updating files:  43% (1856/4316)Updating files:  44% (1900/4316)Updating files:  45% (1943/4316)Updating files:  46% (1986/4316)Updating files:  47% (2029/4316)Updating files:  48% (2072/4316)Updating files:  49% (2115/4316)Updating files:  50% (2158/4316)Updating files:  51% (2202/4316)Updating files:  52% (2245/4316)Updating files:  53% (2288/4316)Updating files:  54% (2331/4316)Updating files:  55% (2374/4316)Updating files:  55% (2383/4316)Updating files:  56% (2417/4316)Updating files:  57% (2461/4316)Updating files:  58% (2504/4316)Updating files:  59% (2547/4316)Updating files:  60% (2590/4316)Updating files:  61% (2633/4316)Updating files:  62% (2676/4316)Updating files:  63% (2720/4316)Updating files:  64% (2763/4316)Updating files:  65% (2806/4316)Updating files:  66% (2849/4316)Updating files:  67% (2892/4316)Updating files:  68% (2935/4316)Updating files:  69% (2979/4316)Updating files:  70% (3022/4316)Updating files:  71% (3065/4316)Updating files:  71% (3076/4316)Updating files:  72% (3108/4316)Updating files:  73% (3151/4316)Updating files:  74% (3194/4316)Updating files:  75% (3237/4316)Updating files:  76% (3281/4316)Updating files:  77% (3324/4316)Updating files:  78% (3367/4316)Updating files:  79% (3410/4316)Updating files:  80% (3453/4316)Updating files:  81% (3496/4316)Updating files:  82% (3540/4316)Updating files:  83% (3583/4316)Updating files:  84% (3626/4316)Updating files:  85% (3669/4316)Updating files:  85% (3681/4316)Updating files:  86% (3712/4316)Updating files:  87% (3755/4316)Updating files:  88% (3799/4316)Updating files:  89% (3842/4316)Updating files:  90% (3885/4316)Updating files:  91% (3928/4316)Updating files:  92% (3971/4316)Updating files:  93% (4014/4316)Updating files:  94% (4058/4316)Updating files:  95% (4101/4316)Updating files:  96% (4144/4316)Updating files:  97% (4187/4316)Updating files:  98% (4230/4316)Updating files:  99% (4273/4316)Updating files: 100% (4316/4316)Updating files: 100% (4316/4316), done.
+Clean-machine generated lane: syncing the disposable checkout.
+Clean-machine generated lane: running preflight, one governed create, and evidence gates.
+GENERATED_PROOF_FAILED code=STORAGE_PREPARATION_FAILED
+diagnostic=cannot create offload root
