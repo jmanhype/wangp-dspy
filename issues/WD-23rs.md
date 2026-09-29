@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
 updated_at: 2026-09-29T05:45:16Z
-content_hash: "sha256:0c92ef98d895e3a29c97470e6ea836bf76de683a970fce187c3793345de40b80"
+content_hash: "sha256:1a7bdbf6c04c82d89a12a25d16b66551564ed764639985eb525807942b562133"
 blocks: [WD-fay0]
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk]
@@ -95,6 +95,18 @@ status: new
 
 ## Notes
 Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-29.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence (DELIVERED)
 
 ### CI/Test Results
