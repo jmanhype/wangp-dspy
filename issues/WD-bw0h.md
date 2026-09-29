@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T04:26:44Z
-content_hash: "sha256:53dbcc2f7c9ca353f23e689a48d045bd4616ffc3e8830930650d37cbde3f5d5e"
+updated_at: 2026-09-29T04:29:09Z
+content_hash: "sha256:e535599597aec35e2b0768915ad5a0cdd4f56dd290fdddcdef2326f81957cca3"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 assignee: dev-WD-bw0h
@@ -132,6 +132,14 @@ status: new
 
 
 ## Notes
+## Boundary Map Repair (dispatcher)
+
+PRODUCES:
+- scripts/record_clean_generated_proof.py -> clean-generated recorder for authorization, workspace identity, fail-closed evidence, and generated bundle receipts
+- tests/test_clean_generated_proof.py -> real regressions for recorder behavior, workspace path serialization, exact authorization input, and fail-closed host tampering
+
+This is a structural declaration repair only. It does not alter WD-bw0h status, consume or grant a new host attempt, or claim the real generated artifact.
+
 ## Local Repair Evidence (NOT DELIVERED)
 
 ### Root cause and repair
