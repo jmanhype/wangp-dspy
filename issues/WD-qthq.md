@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-29T10:17:15Z
-content_hash: "sha256:7a3bb0b9663c975130dc6092d70504a89eb976012fa6c789e07dc26839ec27c7"
+updated_at: 2026-09-29T23:17:31Z
+content_hash: "sha256:530dd12ac1bf9da74a3c9f8a57f76ccd2808e8ac6c4cd79885f034f38fc8f2db"
 blocks: [WD-fay0]
 follows: [WD-23rs]
 ---
@@ -196,3 +196,6 @@ status: in_progress
 
 ### 2026-09-29T10:17:15Z speed
 Parked as operator-gated after local preparation. PR 218 head e55588f57fd46ca43e144a57662a09eafad1668a has exact-head CI success and fail-closed editor project/export/authorization tests, but no operator approval exists. No network/host/model action is authorized by this status change.
+
+### 2026-09-29T23:17:31Z speed
+OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. Interpreted scope from the immediately prior authorization request: WD-qthq editor host export on host 3090, using only its two existing hash-verified sources and one CPU-only FFmpeg editor_export job.
