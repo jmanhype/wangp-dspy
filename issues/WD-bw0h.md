@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T04:29:09Z
-content_hash: "sha256:e535599597aec35e2b0768915ad5a0cdd4f56dd290fdddcdef2326f81957cca3"
+updated_at: 2026-09-29T06:36:58Z
+content_hash: "sha256:38cb5ae5600eeada9b3bc5d31470ebe0454c18c69314487bc7456e212a116d90"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 assignee: dev-WD-bw0h
@@ -238,3 +238,6 @@ before generation and the operator boundary forbids retry/substitution.
 - Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]]
 
 ## Comments
+
+### 2026-09-29T06:36:58Z speed
+Integration-only update: merged current main 2c20caa15b12b783188d5e707e0d29dda4f5eeb7 into story/WD-bw0h after WD-23rs. No host contact, generated-command retry, model access, storage mutation, protected-engine edit, or delivery occurred.
