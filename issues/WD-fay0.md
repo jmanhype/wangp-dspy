@@ -9,14 +9,14 @@ parent: WD-3nod
 created_at: 2026-09-24T14:14:09Z
 created_by: speed
 updated_at: 2026-09-26T01:18:10Z
-content_hash: "sha256:5b952cde71d18a3c78817f8c5d0ed4036d59d9818d4a3a9981987ab4cbf81152"
+content_hash: "sha256:cf3dfce4fddf170013687ed0885ae7c6b9fcfa24f5688385de7e769f81dadfdd"
 was_blocked_by: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2, WD-r4n8, WD-14ej, WD-isg9, WD-9t9o, WD-f0vk, WD-9ymi, WD-43tj, WD-5k28, WD-gqlc, WD-btch, WD-mulc, WD-6g3g, WD-kjtp, WD-e96x, WD-m7xw, WD-7fvx, WD-obkn, WD-rtza, WD-m25k, WD-8h6p, WD-ycjg, WD-28i5, WD-ghh6, WD-osfm, WD-qswf, WD-s2nb, WD-dc3w, WD-b3fn, WD-51w5, WD-bgdv, WD-32hk, WD-p587, WD-spke, WD-23rs]
 assignee: dev-WD-fay0
 follows: [WD-651z, WD-m0r5, WD-e4r7, WD-0zj8, WD-rous, WD-cpow, WD-2gyw, WD-r81u, WD-bxhc, WD-dmf2]
 closed_at: 2026-09-26T01:18:10Z
 close_reason: "Accepted as a DELIVERED DISPOSITION INDEX only, not programme completion. Independently verified head/diff, lane checker outcomes, 208-cell disposition totals, no cross-lane edits, honest AC assessment, 61 fail-closed tests, and standing gates. Remaining scope: 120 matrix cells planned, 6 await operator consent, WD-dmf2 director gates fail structurally, and WD-0zj8 clean-machine generated-artifact half remains blocked."
 led_to: [WD-r4n8, WD-i7qs, WD-14ej, WD-isg9]
-blocked_by: [WD-i7qs, WD-r4n8, WD-t0il, WD-bw0h]
+blocked_by: [WD-i7qs, WD-r4n8, WD-t0il, WD-bw0h, WD-28ac]
 ---
 
 ## Description
@@ -333,10 +333,11 @@ Observable outcome: the capstone returns a consolidated parity-evidence index an
 - 2026-09-29T04:32:59Z dep_removed: was_blocked_by WD-spke
 - 2026-09-29T04:33:00Z dep_added: blocked_by WD-23rs
 - 2026-09-29T06:04:43Z dep_removed: was_blocked_by WD-23rs
+- 2026-09-29T07:05:34Z dep_added: blocked_by WD-28ac
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]], [[WD-bw0h]]
+- Blocked by: [[WD-i7qs]], [[WD-r4n8]], [[WD-t0il]], [[WD-bw0h]], [[WD-28ac]]
 - Was blocked by: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]], [[WD-r4n8]], [[WD-14ej]], [[WD-isg9]], [[WD-9t9o]], [[WD-f0vk]], [[WD-9ymi]], [[WD-43tj]], [[WD-5k28]], [[WD-gqlc]], [[WD-btch]], [[WD-mulc]], [[WD-6g3g]], [[WD-kjtp]], [[WD-e96x]], [[WD-m7xw]], [[WD-7fvx]], [[WD-obkn]], [[WD-rtza]], [[WD-m25k]], [[WD-8h6p]], [[WD-ycjg]], [[WD-28i5]], [[WD-ghh6]], [[WD-osfm]], [[WD-qswf]], [[WD-s2nb]], [[WD-dc3w]], [[WD-b3fn]], [[WD-51w5]], [[WD-bgdv]], [[WD-32hk]], [[WD-p587]], [[WD-spke]], [[WD-23rs]]
 - Follows: [[WD-651z]], [[WD-m0r5]], [[WD-e4r7]], [[WD-0zj8]], [[WD-rous]], [[WD-cpow]], [[WD-2gyw]], [[WD-r81u]], [[WD-bxhc]], [[WD-dmf2]]
 - Led to: [[WD-r4n8]], [[WD-i7qs]], [[WD-14ej]], [[WD-isg9]]
