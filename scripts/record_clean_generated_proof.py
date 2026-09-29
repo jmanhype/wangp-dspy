@@ -38,9 +38,16 @@ def load(path: Path) -> Any:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", f"cannot read {path}: {exc}") from exc
 
 
+def json_safe(value: Any) -> Any:
+    if isinstance(value, Path): return str(value)
+    if isinstance(value, dict): return {key: json_safe(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)): return [json_safe(item) for item in value]
+    return value
+
+
 def record(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.with_name(path.name + ".tmp").write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.with_name(path.name + ".tmp").write_text(json.dumps(json_safe(value), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     path.with_name(path.name + ".tmp").replace(path)
 
 
