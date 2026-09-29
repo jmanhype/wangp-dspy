@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T23:18:01Z
-content_hash: "sha256:b5a1cfcced06fe12246be9e24e032787ad7027c39d146150962ffc8ecbee486e"
+updated_at: 2026-09-29T23:22:07Z
+content_hash: "sha256:662f761b5b7b447ae10c2a87ca3eec987f87d68bc6cc5566c43e529b2c1f398a"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-28ac
@@ -187,3 +187,6 @@ Parked as operator-gated after local preparation. PR 217 head cd57dfc53d41fa73b9
 
 ### 2026-09-29T23:17:30Z speed
 OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. Interpreted scope from the immediately prior authorization request: WD-28ac five-asset LTX dependency batch, exactly 23,701,298,279 bytes, on host 3090, only the seven named LTX operations, with exact manifest hashes and no unrelated mutation.
+
+### 2026-09-29T23:22:07Z speed
+Dispatch note: operator authorization is recorded, but host-3090 execution is queued behind the WD-bw0h one-attempt clean-machine H3 run to prevent overlapping host/GPU mutations. Do not interpret the wait as lost approval.
