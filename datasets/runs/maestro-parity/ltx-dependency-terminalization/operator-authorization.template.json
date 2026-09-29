@@ -1,0 +1,70 @@
+{
+  "schema_version": "wangp-dspy.operator-authorization/v1",
+  "status": "not_authorized",
+  "manifest": {
+    "path": "model-assets.json",
+    "sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
+    "total_download_bytes": 23701298279
+  },
+  "assets": [
+    {
+      "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "recast"},
+        {"row": "LTX-2.3", "operation": "recast"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "outpaint"},
+        {"row": "LTX-2.3", "operation": "outpaint"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "repaint"}
+      ]
+    },
+    {
+      "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "upscale"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "cells": [
+        {"row": "LTX-2.3", "operation": "upscale"}
+      ]
+    }
+  ],
+  "required_approval": {
+    "asset_ids": [
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors"
+    ],
+    "total_download_bytes": 23701298279,
+    "host": "3090",
+    "cells": [
+      {"row": "LTX-2.3", "operation": "outpaint"},
+      {"row": "LTX-2.3", "operation": "recast"},
+      {"row": "LTX-2.3", "operation": "upscale"},
+      {"row": "LTX-2.5", "operation": "outpaint"},
+      {"row": "LTX-2.5", "operation": "recast"},
+      {"row": "LTX-2.5", "operation": "repaint"},
+      {"row": "LTX-2.5", "operation": "upscale"}
+    ],
+    "prohibitions": [
+      "no model-byte download or HEAD request",
+      "no storage mutation",
+      "no queue admission, render, or retrieval",
+      "no protected-engine semantic change"
+    ]
+  },
+  "operator_approval": null
+}
