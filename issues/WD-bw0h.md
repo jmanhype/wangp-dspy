@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T03:29:34Z
-content_hash: "sha256:e81e7ad5b086841295e9a94c31f05f49ca059b9e6f2a7a68ffb5e3840ac81c16"
+updated_at: 2026-09-29T04:26:44Z
+content_hash: "sha256:53dbcc2f7c9ca353f23e689a48d045bd4616ffc3e8830930650d37cbde3f5d5e"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 assignee: dev-WD-bw0h
@@ -132,6 +132,55 @@ status: new
 
 
 ## Notes
+## Local Repair Evidence (NOT DELIVERED)
+
+### Root cause and repair
+- Read the recorded failure bundle at `datasets/runs/maestro-parity/clean-generated/failed-attempt/`: exit 4, `UNEXPECTED_GENERATED_PROOF_FAILURE`, `TypeError: Object of type PosixPath is not JSON serializable`.
+- Reproduced locally without invoking installer/generated mode: `record(..., {"workspace": Path, "checkout": Path})` raised the same `TypeError`.
+- Root cause: `record_clean_generated_proof.record()` passed values directly to `json.dumps()`, while `workspace.json` intentionally carried `Path` workspace/checkout values.
+- Added regression `test_workspace_record_serializes_paths_without_permissive_json_values`; it failed before the fix with the recorded `PosixPath` TypeError and now verifies string serialization plus rejection of unsupported non-JSON objects.
+- Fix commit `840a48a213435f79c97961dbd3c536ec654d3c15` recursively converts only `Path` values (inside mappings/sequences) before JSON encoding; it does not add permissive `default=str`.
+
+### Exact-head CI finding and follow-up repair
+- First PR CI at `840a48a213435f79c97961dbd3c536ec654d3c15` failed `tests/test_runtime_host_wiring.py::test_active_runtime_has_no_operator_host_defaults` because this story recorder embedded operator host values in active runtime code.
+- Follow-up fix commit `64897225cd219af5407c80235f664d11ac1f9eca` removes that runtime default and requires the exact tracked operator-authorization payload; the runtime host config is sourced from `allowed_host`.
+- Added `test_generated_mode_rejects_tampered_host_before_workspace`, proving a changed host target still exits 4 with `CLEAN_GENERATED_INPUT_INVALID` before the proof workspace is created.
+
+### Merge, commits, PR, CI
+- Merged `origin/main` exactly at `a382f747f31735c9eaa5eecb4bb6e1581b3403de` via merge commit `2f4e7c69571245ec9e515360f10c496f669bd356`.
+- Branch: `story/WD-bw0h`; final local head and pushed head: `64897225cd219af5407c80235f664d11ac1f9eca`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/215
+- Exact-head CI run `36519763680` at `64897225cd219af5407c80235f664d11ac1f9eca`: completed successfully in 23m53s (`test`, build distributables, and all job steps passed).
+
+### Local gates at final head
+- `uv run --frozen --extra dev pytest -q tests/test_clean_generated_proof.py tests/test_install.py` — PASS, 11/11.
+- `uv run --frozen --extra dev pytest -q tests/test_readme_quickstart.py::test_clean_checkout_install_plan_then_typed_generation_refusal` — PASS, 1/1.
+- `uv run --frozen --extra dev pytest -q tests/test_runtime_host_wiring.py::test_active_runtime_has_no_operator_host_defaults` — PASS, 1/1.
+- `uv run --frozen --extra dev python -m compileall -q scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py` — PASS.
+- `pvg verify scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py --format=text --include-tests` — PASS, 2 files, 0 issues.
+- `pvg lint --backlog` — PASS, 150 scanned, 0 errors, 0 review findings.
+- `uv run --frozen --extra dev wgp release verify --json` — PASS, `ready=true`, `tag_created=false`, clean tree at `64897225`.
+- Protected-file parity against `6ac1023b` for `services/jobs/queue.py`, `services/director/renderers/policy.py`, `services/director/wiring.py`, `services/jobs/preflight.py`, and `scripts/run_film.py` — PASS (empty diff).
+- `git diff --check` — PASS.
+
+### Explicit boundary
+- This local repair did NOT run the clean-generated command or retry generation, contact host 3090/SSH, preflight models, move storage, admit a queue job, download model bytes, render/retrieve/admit anything, modify protected engine files, or fabricate generated evidence.
+- WD-bw0h remains claimed/in_progress and is NOT delivered or accepted; the real H3 generated-artifact ACs remain unmet because the one authorized host attempt was already consumed.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Local repair commits: `840a48a213435f79c97961dbd3c536ec654d3c15`, `64897225cd219af5407c80235f664d11ac1f9eca`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/215
+- Exact-head CI success at `64897225cd219af5407c80235f664d11ac1f9eca`: run `36519763680`.
+
+### proof
+- [x] Local `PosixPath` serialization regression and fail-closed rejection coverage pass.
+- [x] Focused recorder/installer and available static/diff/release/protected-parity gates pass.
+- [x] Exact-head CI passes at the final PR head.
+- [ ] Real H3 generated artifact and canonical generated-evidence checker remain intentionally unclaimed; the authorized attempt is consumed.
+
 ## Authorized Attempt Boundary (STOPPED)
 
 STOPPED: the single authorized clean-generated command exited 4 with
