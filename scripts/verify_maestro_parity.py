@@ -17,7 +17,7 @@ CONTRACT_ROWS = {
     "repository.commit": (("repo-commit", "repo-dirty-state"), "Object with non-blank `commit` (40 lowercase/uppercase hexadecimal characters) and `dirty_state`. `dirty_state.dirty` must be boolean and `identity_sha256` must be a 64-character hexadecimal SHA-256 that captures the dirty-state identity."),
     "model_provenance": (("model-array", "model-required-text", "model-anchor", "model-download"), "Non-empty array. Each item requires non-blank `identity`, `source`, and `license`; either `sha256` (64 hexadecimal characters) or non-blank `immutable_version`; and `download_approved: true`. A model lacking both identity anchors or download approval fails."),
     "reference_provenance": (("reference-array", "reference-path", "reference-role", "reference-hash-shape", "reference-hash-bytes", "reference-license"), "Non-empty array. Every reference requires a bundle-relative `path`, non-blank `role`, a 64-character `sha256`, and non-blank `license`. The path must identify a regular file in the bundle, and its actual SHA-256 must equal the recorded value."),
-    "queue_attempt": (("queue-ids", "queue-admission", "queue-exit", "queue-native-log-warning-ownership"), "Object with non-blank durable `queue_id`, `job_id`, and `retry_id`; `admission_state` must be `admitted`; `exit_status` must be `succeeded`. Optional `native_logs` use the strict bundle path resolver and are regular files. Every `No module named`, `ModuleNotFoundError`, or `ImportError` line in a referenced native log must have exactly one unambiguous classification: only the exact successful-save Wan2GP mutagen metadata/cover-art forms become explicitly owned warnings; all other import failures fail. When present, `native_log_sha256` values are valid 64-character hexadecimal SHA-256 values (case-insensitive), its key set exactly matches deduplicated `native_logs`, and each value matches exact log bytes."),
+    "queue_attempt": (("queue-ids", "queue-admission", "queue-exit", "queue-native-log-warning-ownership"), "Object with non-blank durable `queue_id`, `job_id`, and `retry_id`; `admission_state` must be `admitted`; `exit_status` must be `succeeded`. Optional `native_logs` use the strict bundle path resolver and are regular files. Every `No module named`, `ModuleNotFoundError`, or `ImportError` line in a referenced native log must have exactly one unambiguous classification: only the exact successful-save Wan2GP mutagen metadata/cover-art forms and exact `optional_import_fallbacks` records for eligible `flash_attn`, `piexif`, or `postprocessing` import lines become owned warnings. Each optional record must bind the exact import and exact fallback/success marker paths, lines, kinds, and text in hash-matched native logs. Unknown modules, generic exceptions, changed hashes, malformed or unmatched records, and missing success markers fail. When present, `native_log_sha256` values are valid 64-character hexadecimal SHA-256 values (case-insensitive), its key set exactly matches deduplicated `native_logs`, and each value matches exact log bytes."),
     "output.sha256": (("output-array", "output-path", "output-hash-shape", "output-hash-bytes"), "Non-empty array with bundle-relative `path` and 64-character `sha256` for every emitted artifact. Every path must identify a regular file in the bundle, and hashing its exact bytes must reproduce the recorded value. One mismatch fails the entire bundle."),
     "media_metadata": (("media-exact-coverage", "media-kind", "media-dimensions", "media-alpha", "media-audio-present-boolean", "media-video-duration", "media-video-fps", "media-audio-properties", "media-image-duration-null", "media-image-fps-null", "media-image-audio-false"), "Non-empty array with exactly one entry for every `output.sha256` path and no others. Each entry has `path`, `kind`, positive integer `width` and `height`, non-blank `alpha_mode`, and an `audio` object whose `present` is boolean. For `kind: video`, `duration_s` and `fps` are positive numbers; when audio is present, non-blank `codec`, positive integer `sample_rate_hz`, and positive integer `channels` are required. For `kind: image`, `duration_s` and `fps` are null and `audio.present` is false."),
     "objective_gate_results": (("gate-array", "gate-name", "gate-inputs", "gate-measurements", "gate-verdict"), "Non-empty array for every declared objective gate. Each item has non-blank `name`, a non-empty `inputs` array of non-blank values, numeric `threshold`, numeric `measured`, and `verdict`. Only `pass` is acceptable for a verified parity row; failing or omitted gates fail."),
@@ -47,6 +47,22 @@ _PYTHON_IMPORT_EXCEPTION = re.compile(r"\b(?:ModuleNotFoundError|ImportError)\b"
 _WAN2GP_SAVE = re.compile(
     r"(?:Video file|Postprocessed video) saved to Path: (?P<path>.+)$"
 )
+_OPTIONAL_IMPORT_MODULES = {"flash_attn", "piexif", "postprocessing"}
+_FLASH_FALLBACK_TEXTS = {
+    "flash_attn not installed, disabling Flash Attention",
+    "flash_attn varlen/bert_padding not available, disabling varlen attention",
+}
+_AUDIO_SAVE_TEXT = re.compile(r"^Audio file saved to Path: .+$")
+_IMAGE_SAVE_TEXT = re.compile(r"^Image file saved to Path: .+$")
+_FFMPEG_TARGET_TEXT = re.compile(r"^Output #0, mp4, to '.+\.mp4':$")
+_FFMPEG_COMPLETE_TEXT = re.compile(
+    r"^frame=\s+\d+\s+fps=\S+\s+q=\S+\s+Lsize=\s+\d+kB\s+time=\S+\s+.+$"
+)
+_OPTIONAL_IMPORT_ENTRY_KEYS = {
+    "module", "import", "fallback_marker", "success_marker"
+}
+_OPTIONAL_IMPORT_LOCATION_KEYS = {"path", "line"}
+_OPTIONAL_IMPORT_MARKER_KEYS = {"path", "line", "kind", "text"}
 
 
 @dataclass(frozen=True)
@@ -72,6 +88,193 @@ class VerificationReport:
     passed: bool
     diagnostics: tuple[Diagnostic, ...]
     warnings: tuple[EvidenceWarning, ...] = ()
+
+
+@dataclass(frozen=True)
+class _NativeLogContext:
+    lines: tuple[str, ...]
+    sha256: str
+    hash_matches: bool
+
+
+@dataclass(frozen=True)
+class _OptionalImportFallback:
+    module: str
+    path: str
+    line: int
+
+
+def _exact_keys(value: Any, expected: set[str], field: str,
+                diagnostics: list[Diagnostic]) -> bool:
+    if not isinstance(value, dict) or set(value) != expected:
+        diagnostics.append(Diagnostic(
+            field, f"must be an object with exactly {sorted(expected)}"
+        ))
+        return False
+    return True
+
+
+def _positive_line(value: Any) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value > 0
+
+
+def _marker_text(
+    marker: dict[str, Any], field: str, contexts: dict[str, _NativeLogContext],
+    diagnostics: list[Diagnostic],
+) -> tuple[str, int, str] | None:
+    path = marker.get("path")
+    line_number = marker.get("line")
+    text = marker.get("text")
+    if not isinstance(path, str) or path not in contexts:
+        diagnostics.append(Diagnostic(
+            field + ".path", f"must name a referenced hash-matched native log: {path}"
+        ))
+        return None
+    if not _positive_line(line_number) or line_number > len(contexts[path].lines):
+        diagnostics.append(Diagnostic(field + ".line", "must name an existing log line"))
+        return None
+    if not isinstance(text, str) or not text.strip():
+        diagnostics.append(Diagnostic(field + ".text", "must be non-blank text"))
+        return None
+    if text not in contexts[path].lines[line_number - 1]:
+        diagnostics.append(Diagnostic(
+            field + ".text", "recorded marker text is absent from the named native log line"
+        ))
+        return None
+    return path, line_number, text
+
+
+def _validate_optional_marker(
+    value: Any, field: str, expected_kind: str,
+    contexts: dict[str, _NativeLogContext], diagnostics: list[Diagnostic],
+) -> tuple[str, int, str] | None:
+    if not _exact_keys(
+            value, _OPTIONAL_IMPORT_MARKER_KEYS, field, diagnostics):
+        return None
+    assert isinstance(value, dict)
+    if value.get("kind") != expected_kind:
+        diagnostics.append(Diagnostic(
+            field + ".kind", f"must be {expected_kind}"
+        ))
+        return None
+    marker = _marker_text(value, field, contexts, diagnostics)
+    if marker is None:
+        return None
+    _, _, text = marker
+    matches = (
+        text in _FLASH_FALLBACK_TEXTS
+        if expected_kind == "flash_attention_disabled"
+        else {
+            "image_metadata_save_failed": text == (
+                "Error saving metadata: No module named 'piexif'"
+            ),
+            "audio_file_saved": bool(_AUDIO_SAVE_TEXT.fullmatch(text)),
+            "image_file_saved": bool(_IMAGE_SAVE_TEXT.fullmatch(text)),
+            "ffmpeg_output_target": bool(_FFMPEG_TARGET_TEXT.fullmatch(text)),
+            "ffmpeg_encode_complete": bool(_FFMPEG_COMPLETE_TEXT.fullmatch(text)),
+        }.get(expected_kind, False)
+    )
+    if not matches:
+        diagnostics.append(Diagnostic(
+            field,
+            f"marker kind {expected_kind} does not match text"
+        ))
+        return None
+    return marker
+
+
+def _validate_optional_import_fallback(
+    index: int, value: Any, raw_logs: list[Any],
+    contexts: dict[str, _NativeLogContext],
+    diagnostics: list[Diagnostic],
+) -> _OptionalImportFallback | None:
+    field = f"queue_attempt.optional_import_fallbacks[{index}]"
+    if not _exact_keys(
+            value, _OPTIONAL_IMPORT_ENTRY_KEYS, field, diagnostics):
+        return None
+    assert isinstance(value, dict)
+    module = value.get("module")
+    if not isinstance(module, str) or not module.strip():
+        diagnostics.append(Diagnostic(field + ".module", "must be non-blank text"))
+        return None
+    if module not in _OPTIONAL_IMPORT_MODULES:
+        diagnostics.append(Diagnostic(
+            field + ".module",
+            f"module {module!r} is not eligible for optional import fallback classification"
+        ))
+        return None
+    import_location = value.get("import")
+    if not _exact_keys(
+            import_location, _OPTIONAL_IMPORT_LOCATION_KEYS,
+            field + ".import", diagnostics):
+        return None
+    assert isinstance(import_location, dict)
+    path = import_location.get("path")
+    line_number = import_location.get("line")
+    if not isinstance(path, str) or path not in contexts:
+        diagnostics.append(Diagnostic(
+            field + ".import.path",
+            f"must name a referenced hash-matched native log: {path}"
+        ))
+        return None
+    if not _positive_line(line_number) or line_number > len(contexts[path].lines):
+        diagnostics.append(Diagnostic(
+            field + ".import.line", "must name an existing native log line"
+        ))
+        return None
+    line = contexts[path].lines[line_number - 1]
+    import_match = _PYTHON_IMPORT_ERROR.search(line)
+    if import_match is None or import_match.group("module") != module:
+        diagnostics.append(Diagnostic(
+            field + ".import",
+            "named line is not the exact declared Python import failure"
+        ))
+        return None
+
+    fallback = _validate_optional_marker(
+        value.get("fallback_marker"),
+        field + ".fallback_marker",
+        {
+            "flash_attn": "flash_attention_disabled",
+            "piexif": "image_metadata_save_failed",
+            "postprocessing": "ffmpeg_output_target",
+        }[module],
+        contexts,
+        diagnostics,
+    )
+    success = _validate_optional_marker(
+        value.get("success_marker"),
+        field + ".success_marker",
+        {
+            "flash_attn": "audio_file_saved",
+            "piexif": "image_file_saved",
+            "postprocessing": "ffmpeg_encode_complete",
+        }[module],
+        contexts,
+        diagnostics,
+    )
+    if fallback is None or success is None:
+        return None
+    if module in {"flash_attn", "piexif"}:
+        fallback_valid = (
+            fallback[0] == path
+            and fallback[1] == line_number + (module == "flash_attn")
+            and fallback[1] <= success[1]
+            and line_number <= success[1]
+        )
+    else:
+        fallback_valid = (
+            fallback[0] == path
+            and success[0] == path
+            and fallback[1] < success[1] < line_number
+        )
+    if not fallback_valid:
+        diagnostics.append(Diagnostic(
+            field,
+            "fallback and success markers do not establish the required output boundary"
+        ))
+        return None
+    return _OptionalImportFallback(module, path, line_number)
 
 
 def canonical_field_ids() -> tuple[str, ...]:
@@ -188,6 +391,7 @@ def verify_native_logs(
                     "must be a 64-character hex SHA-256",
                 ))
 
+    contexts: dict[str, _NativeLogContext] = {}
     seen: set[str] = set()
     for index, relative in enumerate(raw_logs):
         field = f"queue_attempt.native_logs[{index}]"
@@ -214,14 +418,52 @@ def verify_native_logs(
                     f"recorded {expected} but native log bytes hash {digest}",
                 ))
         text = data.decode("utf-8", errors="replace")
+        contexts[relative] = _NativeLogContext(
+            tuple(text.split("\n")), digest, hash_matches
+        )
         if not hash_matches:
             continue
+
+    optional_imports: dict[tuple[str, str, int], _OptionalImportFallback] = {}
+    optional_declarations = queue_attempt.get("optional_import_fallbacks")
+    if optional_declarations is not None:
+        if not isinstance(optional_declarations, list):
+            diagnostics.append(Diagnostic(
+                "queue_attempt.optional_import_fallbacks",
+                "must be an array of exact import ownership records",
+            ))
+        elif expected_hashes is None:
+            diagnostics.append(Diagnostic(
+                "queue_attempt.optional_import_fallbacks",
+                "requires native_log_sha256 for every referenced native log",
+            ))
+        else:
+            for index, declaration in enumerate(optional_declarations):
+                fallback = _validate_optional_import_fallback(
+                    index, declaration, raw_logs, contexts, diagnostics
+                )
+                if fallback is None:
+                    continue
+                key = (fallback.module, fallback.path, fallback.line)
+                if key in optional_imports:
+                    diagnostics.append(Diagnostic(
+                        f"queue_attempt.optional_import_fallbacks[{index}]",
+                        f"duplicate optional import classification: {key}",
+                    ))
+                    continue
+                optional_imports[key] = fallback
+
+    used_optional_imports: set[tuple[str, str, int]] = set()
+    for relative, context in contexts.items():
+        if not context.hash_matches:
+            continue
+        field = f"queue_attempt.native_logs[{raw_logs.index(relative)}]"
         saved_paths: set[str] = set()
-        for line in text.split("\n"):
+        for line in context.lines:
             save_match = _WAN2GP_SAVE.search(line)
             if save_match is not None:
                 saved_paths.add(save_match.group("path"))
-        for line_number, line in enumerate(text.split("\n"), start=1):
+        for line_number, line in enumerate(context.lines, start=1):
             import_failures = list(_PYTHON_IMPORT_ERROR.finditer(line))
             import_exceptions = list(_PYTHON_IMPORT_EXCEPTION.finditer(line))
             if not import_failures and not import_exceptions:
@@ -251,6 +493,20 @@ def verify_native_logs(
                     f"unrecognized mutagen import failure at line {line_number}: {line.strip()}",
                 ))
                 continue
+            elif (module, relative, line_number) in optional_imports:
+                used_optional_imports.add((module, relative, line_number))
+                warnings.append(EvidenceWarning(
+                    code="OPTIONAL_IMPORT_FALLBACK",
+                    path=relative,
+                    line=line_number,
+                    sha256=context.sha256,
+                    message=(
+                        f"optional {module} import fallback is explicitly owned; "
+                        "exact fallback and successful output markers are hash-bound "
+                        "in immutable native logs"
+                    ),
+                ))
+                continue
             else:
                 diagnostics.append(Diagnostic(
                     field,
@@ -271,13 +527,19 @@ def verify_native_logs(
                 code="WAN2GP_OPTIONAL_MUTAGEN_MISSING",
                 path=relative,
                 line=line_number,
-                sha256=digest,
+                sha256=context.sha256,
                 message=(
                     f"Wan2GP {kind} enhancement failed because the active "
                     "Wan2GP venv lacks mutagen; saved media bytes remain the "
                     "success boundary and no ad hoc host install is authorized"
                 ),
-            ))
+                ))
+    extras = set(optional_imports) - used_optional_imports
+    if extras:
+        diagnostics.append(Diagnostic(
+            "queue_attempt.optional_import_fallbacks",
+            f"unmatched classifications: {sorted(extras)}",
+        ))
     return tuple(warnings), tuple(diagnostics)
 
 
@@ -318,6 +580,149 @@ def verify_bundle(bundle: Path) -> VerificationReport:
     diagnostics.extend(log_diagnostics)
     return VerificationReport(
         bundle, not diagnostics, tuple(diagnostics), warnings)
+
+
+def _bundle_identity_sha256(bundle: Path) -> str:
+    """Hash a stable path-and-byte identity for every immutable bundle file."""
+
+    identity = hashlib.sha256()
+    for path in sorted(bundle.rglob("*")):
+        relative = path.relative_to(bundle).as_posix().encode("utf-8")
+        if path.is_symlink():
+            raise ValueError(f"bundle identity requires regular files only: {relative}")
+        if not path.is_file():
+            continue
+        identity.update(relative)
+        identity.update(b"\0")
+        identity.update(hashlib.sha256(path.read_bytes()).hexdigest().encode("ascii"))
+        identity.update(b"\0")
+    return identity.hexdigest()
+
+
+def verify_checker_receipt(
+    repository_root: Path, receipt_path: Path
+) -> VerificationReport:
+    """Fail closed when the canonical lane receipt drifts from repository bytes."""
+
+    root = repository_root.resolve()
+    diagnostics: list[Diagnostic] = []
+    try:
+        payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        return VerificationReport(receipt_path, False, (Diagnostic("receipt", str(exc)),))
+    required_keys = {
+        "schema", "machine", "checker_commit", "checker_sha256", "lanes"
+    }
+    if not isinstance(payload, dict) or set(payload) != required_keys:
+        return VerificationReport(receipt_path, False, (Diagnostic(
+            "receipt", f"must be an object with exactly {sorted(required_keys)}"
+        ),))
+    if payload.get("schema") != "wangp-dspy.maestro-parity-checker-receipt/v1":
+        diagnostics.append(Diagnostic(
+            "receipt.schema", "must be wangp-dspy.maestro-parity-checker-receipt/v1"
+        ))
+    machine = payload.get("machine")
+    if not isinstance(machine, dict) or not (
+        _valid(machine.get("host"), "text")
+        and _valid(machine.get("python"), "text")
+    ):
+        diagnostics.append(Diagnostic(
+            "receipt.machine", "requires non-blank host and python"
+        ))
+    if not _valid(payload.get("checker_commit"), "commit"):
+        diagnostics.append(Diagnostic(
+            "receipt.checker_commit", "must be a 40-character hex commit"
+        ))
+    checker = root / "scripts/verify_maestro_parity.py"
+    try:
+        actual_checker_hash = hashlib.sha256(checker.read_bytes()).hexdigest()
+    except OSError as exc:
+        return VerificationReport(receipt_path, False, (Diagnostic(
+            "receipt.checker_sha256", str(exc)
+        ),))
+    if payload.get("checker_sha256") != actual_checker_hash:
+        diagnostics.append(Diagnostic(
+            "receipt.checker_sha256",
+            f"recorded {payload.get('checker_sha256')} but checker bytes hash "
+            f"{actual_checker_hash}",
+        ))
+
+    lanes = payload.get("lanes")
+    if not isinstance(lanes, list):
+        diagnostics.append(Diagnostic("receipt.lanes", "must be an array"))
+        lanes = []
+    expected_lanes = (
+        "WD-2gyw", "WD-bxhc", "WD-cpow", "WD-m0r5", "WD-r81u",
+        "WD-rous", "consent-closeout", "WD-dmf2",
+    )
+    lane_ids = [lane.get("lane") if isinstance(lane, dict) else None for lane in lanes]
+    if tuple(lane_ids) != expected_lanes:
+        diagnostics.append(Diagnostic(
+            "receipt.lanes", f"lane order and membership must be {expected_lanes}"
+        ))
+    for index, lane in enumerate(lanes):
+        field = f"receipt.lanes[{index}]"
+        if not isinstance(lane, dict) or set(lane) != {
+            "lane", "command", "result", "exit_code", "warnings",
+            "diagnostics", "bundle_identity_sha256",
+        }:
+            diagnostics.append(Diagnostic(
+                field, "receipt lane has an unexpected shape"
+            ))
+            continue
+        lane_id = lane.get("lane")
+        bundle = root / "datasets/runs/maestro-parity" / str(lane_id)
+        expected_command = [
+            "python3", "scripts/verify_maestro_parity.py",
+            f"datasets/runs/maestro-parity/{lane_id}",
+        ]
+        if lane.get("command") != expected_command:
+            diagnostics.append(Diagnostic(
+                field + ".command", f"must be {expected_command}"
+            ))
+        try:
+            actual_identity = _bundle_identity_sha256(bundle)
+        except (OSError, ValueError) as exc:
+            diagnostics.append(Diagnostic(
+                field + ".bundle_identity_sha256", str(exc)
+            ))
+        else:
+            if lane.get("bundle_identity_sha256") != actual_identity:
+                diagnostics.append(Diagnostic(
+                    field + ".bundle_identity_sha256",
+                    f"recorded {lane.get('bundle_identity_sha256')} but bundle "
+                    f"bytes hash {actual_identity}",
+                ))
+        report = verify_bundle(bundle)
+        expected_result = "pass" if report.passed else "fail"
+        expected_exit = 0 if report.passed else 1
+        if lane.get("result") != expected_result or lane.get("exit_code") != expected_exit:
+            diagnostics.append(Diagnostic(
+                field + ".result",
+                f"must be result={expected_result} exit_code={expected_exit}",
+            ))
+        actual_warnings = [
+            {
+                "code": warning.code,
+                "path": warning.path,
+                "line": warning.line,
+                "sha256": warning.sha256,
+            }
+            for warning in report.warnings
+        ]
+        if lane.get("warnings") != actual_warnings:
+            diagnostics.append(Diagnostic(
+                field + ".warnings", "must exactly match checker warnings"
+            ))
+        actual_diagnostics = [
+            {"field": item.field, "message": item.message}
+            for item in report.diagnostics
+        ]
+        if lane.get("diagnostics") != actual_diagnostics:
+            diagnostics.append(Diagnostic(
+                field + ".diagnostics", "must exactly match checker diagnostics"
+            ))
+    return VerificationReport(receipt_path, not diagnostics, tuple(diagnostics))
 
 
 def _items(payload: dict[str, Any], key: str) -> list[Any]:

@@ -1,0 +1,307 @@
+{
+  "schema": "wangp-dspy.maestro-parity-checker-receipt/v1",
+  "machine": {
+    "host": "speeds-MacBook-Pro",
+    "python": "3.14.3"
+  },
+  "checker_commit": "ffe1e126891e547dbaa63e5ec54708698f50b7a1",
+  "checker_sha256": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af",
+  "lanes": [
+    {
+      "lane": "WD-2gyw",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-2gyw"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [
+        {
+          "code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+          "path": "h3-standard.render.log",
+          "line": 35,
+          "sha256": "582799ba0708b63aa2a7511d79dab80947c6d9cfd34434d3ee95f7e0a66e465d"
+        },
+        {
+          "code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+          "path": "h3-specialized.render.log",
+          "line": 40,
+          "sha256": "d4fa502bee8bc7a17dc3321cd69cf754db2a2905c1356187ebee5bd58400e833"
+        },
+        {
+          "code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+          "path": "h3-specialized.render.log",
+          "line": 48,
+          "sha256": "d4fa502bee8bc7a17dc3321cd69cf754db2a2905c1356187ebee5bd58400e833"
+        },
+        {
+          "code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+          "path": "h3-kfi-retry.render.log",
+          "line": 36,
+          "sha256": "c2f69913d97648d8d55a38417dbda0e64aebba24c8378d541ddbb009199e5ce1"
+        },
+        {
+          "code": "WAN2GP_OPTIONAL_MUTAGEN_MISSING",
+          "path": "hunyuan.render.log",
+          "line": 22,
+          "sha256": "87d7d979daa0025ca0ed83bf24910f87c5e2a7df7bba0947c3fcdee7744a5650"
+        }
+      ],
+      "diagnostics": [],
+      "bundle_identity_sha256": "13f90452dfd87f93b9ab24c9dfaacb2063c0fdcdb92f4053142ab63b796908c0"
+    },
+    {
+      "lane": "WD-bxhc",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-bxhc"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [],
+      "diagnostics": [],
+      "bundle_identity_sha256": "2c10c5816b72779d8d6459f1921170c977ccb6e5459ea441ce2ceac5c49ce8ec"
+    },
+    {
+      "lane": "WD-cpow",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-cpow"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "stable-sfx.native.log",
+          "line": 15,
+          "sha256": "4c173ad03256175b37b54df2affcbccd81c927ff1d44a1ad14485c85b0557100"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "stable-sfx.native.log",
+          "line": 17,
+          "sha256": "4c173ad03256175b37b54df2affcbccd81c927ff1d44a1ad14485c85b0557100"
+        }
+      ],
+      "diagnostics": [],
+      "bundle_identity_sha256": "029a45f367aab1e93aa76fbbf6131084922555b3e1ad75d9990d47cf904b5bf9"
+    },
+    {
+      "lane": "WD-m0r5",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-m0r5"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 44,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 57,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 64,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 71,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 78,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 85,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 98,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 105,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-batch.native.log",
+          "line": 112,
+          "sha256": "e45615acbbdb98d786712047422b8e78ce7466f47a8c36dcc4d13596d9d93f07"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-batch.native.log",
+          "line": 37,
+          "sha256": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-batch.native.log",
+          "line": 44,
+          "sha256": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-batch.native.log",
+          "line": 51,
+          "sha256": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-batch.native.log",
+          "line": 58,
+          "sha256": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-batch.native.log",
+          "line": 65,
+          "sha256": "c8b213173905d95bf7cd157542651ceda705378aabc9c0d4d5a1fc645b31952d"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "qwen-standard-identity-attempt2.native.log",
+          "line": 25,
+          "sha256": "1cbc96feaba1be561968cec016ab9fefec824909e304e822ea9fcf10ce8efc31"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-standard-identity-attempt3.native.log",
+          "line": 25,
+          "sha256": "a3c9bcfadd7fe152fb1e181939a6911a50a5c218faef56ba8ec6b9e2494b62e4"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "flux-kontext-identity-attempt2.native.log",
+          "line": 25,
+          "sha256": "bdf3fb79d11419401289753103bf5f938be18d52aff58e7a2feb80490ca84aeb"
+        }
+      ],
+      "diagnostics": [],
+      "bundle_identity_sha256": "a0ceeafa66c2b8da0a6301c98acfb334dc1ff8f27db4b4db609986ecdb0281b6"
+    },
+    {
+      "lane": "WD-r81u",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-r81u"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "wd-r81u-attempt5.native.log",
+          "line": 472,
+          "sha256": "7639781ce306941a4f35d0ab8c568fd739dd1db293bf3354fadea72add6aa21d"
+        }
+      ],
+      "diagnostics": [],
+      "bundle_identity_sha256": "8d785c70257d8d73e4488d5dcbf81ef8d59a46afd29157782c6749d824fccf0d"
+    },
+    {
+      "lane": "WD-rous",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-rous"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "stable-generate.native.log",
+          "line": 13,
+          "sha256": "ebca7e6ec3c24c496a4acabca67704cda7ee52aa7dd8e962247b9d7bacbfec63"
+        },
+        {
+          "code": "OPTIONAL_IMPORT_FALLBACK",
+          "path": "stable-generate.native.log",
+          "line": 15,
+          "sha256": "ebca7e6ec3c24c496a4acabca67704cda7ee52aa7dd8e962247b9d7bacbfec63"
+        }
+      ],
+      "diagnostics": [],
+      "bundle_identity_sha256": "ce9673565413f0eb5f6841ad002fbbe103a3cd42fe94650f4d878f94d4d621cc"
+    },
+    {
+      "lane": "consent-closeout",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/consent-closeout"
+      ],
+      "result": "pass",
+      "exit_code": 0,
+      "warnings": [],
+      "diagnostics": [],
+      "bundle_identity_sha256": "74aebf6823ef52d91488c5d56f7569fcf661e5b9b48f946bd8247d59ee8c3479"
+    },
+    {
+      "lane": "WD-dmf2",
+      "command": [
+        "python3",
+        "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/WD-dmf2"
+      ],
+      "result": "fail",
+      "exit_code": 1,
+      "warnings": [],
+      "diagnostics": [
+        {
+          "field": "objective_gate_results[21].verdict",
+          "message": "must be pass"
+        },
+        {
+          "field": "objective_gate_results[23].verdict",
+          "message": "must be pass"
+        },
+        {
+          "field": "objective_gate_results[24].verdict",
+          "message": "must be pass"
+        },
+        {
+          "field": "objective_gate_results[26].verdict",
+          "message": "must be pass"
+        },
+        {
+          "field": "objective_gate_results[27].verdict",
+          "message": "must be pass"
+        },
+        {
+          "field": "reviewer_verdict.decision",
+          "message": "must be approved"
+        }
+      ],
+      "bundle_identity_sha256": "a120a5374c95dd4a533483c573b5d48f5d10981ce3e33ab7aa947b39ce904080"
+    }
+  ]
+}
