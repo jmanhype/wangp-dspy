@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
 updated_at: 2026-09-29T10:17:15Z
-content_hash: "sha256:9384e0e86888989c39d40f8e876ffd52a5ab113d175cb2789198208f7d7c282e"
+content_hash: "sha256:7a3bb0b9663c975130dc6092d70504a89eb976012fa6c789e07dc26839ec27c7"
 blocks: [WD-fay0]
 follows: [WD-23rs]
 ---
@@ -193,3 +193,6 @@ status: in_progress
 - Follows: [[WD-23rs]]
 
 ## Comments
+
+### 2026-09-29T10:17:15Z speed
+Parked as operator-gated after local preparation. PR 218 head e55588f57fd46ca43e144a57662a09eafad1668a has exact-head CI success and fail-closed editor project/export/authorization tests, but no operator approval exists. No network/host/model action is authorized by this status change.
