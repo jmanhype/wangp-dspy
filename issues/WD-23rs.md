@@ -8,8 +8,8 @@ labels: [evidence, qc, gate]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T04:33:00Z
-content_hash: "sha256:75528df133c7c29e8bc6e60c1bb0aa22fe5456098be193509a9a79861a0eb4b4"
+updated_at: 2026-09-29T04:33:41Z
+content_hash: "sha256:04ab0384b868b9be1c8d0a8b99573ee1043c360327a42b959e1b8273d5f4ce86"
 blocks: [WD-fay0]
 ---
 
@@ -92,7 +92,7 @@ status: new
 
 
 ## Notes
-
+Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
 
 ## History
 - 2026-09-29T04:33:00Z dep_added: blocks WD-fay0
