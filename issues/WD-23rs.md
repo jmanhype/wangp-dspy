@@ -4,11 +4,11 @@ title: "Checker lane receipt coverage"
 status: closed
 priority: 1
 type: task
-labels: [evidence, qc, gate, delivered]
+labels: [evidence, qc, gate, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T06:04:43Z
+updated_at: 2026-09-29T06:04:44Z
 content_hash: "sha256:12bc2b83e3e2a1dbd1d74977515f2af5b86f20124a4eef9ab75ac63f0d1fb1be"
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk, WD-dc3w]
