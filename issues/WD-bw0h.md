@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T06:36:58Z
-content_hash: "sha256:38cb5ae5600eeada9b3bc5d31470ebe0454c18c69314487bc7456e212a116d90"
+updated_at: 2026-09-29T06:52:23Z
+content_hash: "sha256:f347eb361886cbcb4fb50d458c1f4c3f8ed3be2bee9bcc2d857ed3f62e38bc70"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 assignee: dev-WD-bw0h
@@ -241,3 +241,6 @@ before generation and the operator boundary forbids retry/substitution.
 
 ### 2026-09-29T06:36:58Z speed
 Integration-only update: merged current main 2c20caa15b12b783188d5e707e0d29dda4f5eeb7 into story/WD-bw0h after WD-23rs. No host contact, generated-command retry, model access, storage mutation, protected-engine edit, or delivery occurred.
+
+### 2026-09-29T06:52:23Z speed
+Integration CI update: story/WD-bw0h head 6900884acd6baa3d978d30dd4aae92401b8f75e8 (merge of local repair 64897225 into main 2c20caa1) completed GitHub Actions run 36531998230 successfully in 14m43s. This remains code readiness only: WD-bw0h is still in_progress/not delivered, the consumed clean-generated host attempt was not retried, and no host contact/model/storage/render action occurred.
