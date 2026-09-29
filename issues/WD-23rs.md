@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
 updated_at: 2026-09-29T06:06:28Z
-content_hash: "sha256:66820520ba79233bbeb57687983705dcc238e46535002a1ad8cfa99adcf65c56"
+content_hash: "sha256:2122cc624d90164f61b5fc493a6c69dfbfecfef21c1ab39db5a97d85d9b0af98"
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk, WD-dc3w]
 closed_at: 2026-09-29T06:04:43Z
 close_reason: "Accepted: exact-head evidence, immutable lane hashes, fail-closed fallback ownership, receipt drift coverage, representative outcomes, and all standing gates verified."
-led_to: [WD-28ac, WD-qthq]
+led_to: [WD-28ac, WD-qthq, WD-bw0h]
 ---
 
 ## Description
@@ -292,6 +292,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
-- Led to: [[WD-28ac]], [[WD-qthq]]
+- Led to: [[WD-28ac]], [[WD-qthq]], [[WD-bw0h]]
 
 ## Comments
