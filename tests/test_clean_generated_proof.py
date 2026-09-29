@@ -52,6 +52,19 @@ def test_generated_mode_fails_closed_before_workspace(tmp_path: Path, authorizat
     assert not (tmp_path / "proof").exists()
 
 
+def test_generated_mode_rejects_tampered_host_before_workspace(tmp_path: Path) -> None:
+    payload = json.loads((BUNDLE / "operator-authorization.json").read_text(encoding="utf-8"))
+    payload["allowed_host"]["target"] = "unauthorized-host"
+    authorization = tmp_path / "operator-authorization.json"
+    authorization.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = _run_script(tmp_path, authorization, BUNDLE / "model-assets.json")
+
+    assert result.returncode == 4
+    assert "GENERATED_PROOF_FAILED code=CLEAN_GENERATED_INPUT_INVALID" in result.stderr
+    assert not (tmp_path / "proof").exists()
+
+
 def test_generated_install_mode_requires_all_explicit_inputs() -> None:
     result = subprocess.run(["sh", str(ROOT / "install.sh"), "--clean-generated-proof", "/tmp/absent-bw0h"], capture_output=True, text=True, check=False)
     assert result.returncode == 11 and "all three explicit input paths are required" in result.stderr

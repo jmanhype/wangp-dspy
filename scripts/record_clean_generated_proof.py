@@ -13,12 +13,7 @@ from scripts.run_jobs import drain_once
 BASE = "6ac1023b522726705d3ea560216f211003a1d4bd"
 ROOT = Path(__file__).resolve().parents[1]
 ACCEPTED = ROOT / "datasets/runs/maestro-parity/WD-isg9/model-assets.json"
-HOST = {
-    "target": "3090", "wgp_root": "/home/straughter/Wan2GP", "wgp_python": "/home/straughter/Wan2GP/venv/bin/python",
-    "pull_root": "{WORKSPACE}/pull", "qc_url": "http://127.0.0.1:8377/health", "min_free_gb": 50, "render_timeout_s": 3600,
-    "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
-    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated",
-}
+ACCEPTED_AUTHORIZATION = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-authorization.json"
 PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
           "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
 
@@ -86,7 +81,7 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
                   "tag_creation": False, "protected_engine_change": False, "threshold_change": False, "deletions": 0, "second_render": False}
     valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
              and authorization.get("allowed_operation") == operation
-             and authorization.get("allowed_host") == HOST
+             and authorization == load(ACCEPTED_AUTHORIZATION)
              and authorization.get("boundaries") == boundaries
              and len(authorization.get("superseded_relocations", [])) == 2)
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
@@ -325,7 +320,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         proof.mkdir(parents=True, exist_ok=True); (proof / "inputs").mkdir(parents=True, exist_ok=True)
         for source, name in ((args.authorization, "operator-authorization.json"), (args.model_manifest, "model-assets.json")):
             shutil.copyfile(source, proof / "inputs" / name)
-        config = dict(HOST); config["pull_root"] = config["pull_root"].replace("{WORKSPACE}", str(proof.parent.resolve()))
+        config = dict(auth["allowed_host"]); config["pull_root"] = config["pull_root"].replace("{WORKSPACE}", str(proof.parent.resolve()))
         record(proof / "inputs/resolved-host.json", config)
         record(proof / "workspace.json", {"workspace": proof.parent, "checkout": checkout, "commit": commit,
                                            "status": status, "identity_sha256": identity, "tools": toolset, "command": command})
