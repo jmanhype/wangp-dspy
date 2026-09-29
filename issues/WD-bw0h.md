@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T23:17:50Z
-content_hash: "sha256:c6efd83cb093aad7560387426e39ba2e9a2a77eacae2908e4b1f717b124d1c8f"
+updated_at: 2026-09-29T23:42:16Z
+content_hash: "sha256:90fd8ac9a40cf24228ff764d8dd29c8dcf682620d62388eca9f2907462e47105"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 assignee: dev-WD-bw0h
@@ -132,6 +132,35 @@ status: new
 
 
 ## Notes
+## Authorized Attempt Boundary (RETRY STOPPED)
+
+STOPPED: the sole authorized clean-machine H3 retry exited 4 with
+`STORAGE_PREPARATION_FAILED` / `cannot create offload root` after clean isolated
+install/clone/sync, clean workspace recording, successful SSH disk probing, and
+before relocation, model identity preflight, queue admission, offline wrapper
+setup, rendering, retrieval, media gates, or canonical checking.
+
+Evidence:
+- Exact operator authorization corrected and committed: `Authorize` at `2026-09-29T23:17:30Z`.
+- Authorization correction commit: `44c8d82dbfd4bebd7b337d9b60446b2357030613`.
+- Clean clone resolved commit: `44c8d82dbfd4bebd7b337d9b60446b2357030613`.
+- Clean clone status: empty (`repository-status.txt`, 0 bytes).
+- Failure bundle: `datasets/runs/maestro-parity/clean-generated/failed-retry/`.
+- Failure record SHA-256: `7d8320174c0d621cd32b4013acaddb81e92fc72a9d2af3eeabed76f5d987a6d5`.
+- Boundary bundle count/size: 20 files, 20,349 bytes.
+- No retry, second generation, artifact substitution, model download/read/render, queue admission, provider spend, training, relocation, deletion, protected-engine change, or threshold change followed.
+- The remote mkdir return code/stderr was not retained by the recorder; host recontact is prohibited by the one-attempt boundary.
+
+Local preflight before the sole attempt:
+- Local tool/version checks passed.
+- Four-asset manifest semantic comparison against accepted WD-isg9 manifest passed.
+- Generated workspace was absent; local disk had about 53 GiB available.
+- Installer dry-run passed.
+- `uv run --frozen --extra dev pytest -q tests/test_clean_generated_proof.py tests/test_install.py` — 12/12 PASS.
+- `pvg verify scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py --format=text --include-tests` — PASS, 0 issues.
+
+WD-bw0h remains in_progress/not delivered because ACs 1-6 and 8 do not have generated-artifact success evidence.
+
 ## Boundary Map Repair (dispatcher)
 
 PRODUCES:
