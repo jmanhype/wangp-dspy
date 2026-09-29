@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T06:59:02Z
-content_hash: "sha256:8f877bf2da3fc559e64f99e34930a138f425c5205805a5c517d6214543a3afd9"
+updated_at: 2026-09-29T23:17:30Z
+content_hash: "sha256:4b2a01814a2083916abfd9a979f46237b0cceec03686f6ea73490f335bfac0f9"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 ---
@@ -249,3 +249,6 @@ Integration CI update: story/WD-bw0h head 6900884acd6baa3d978d30dd4aae92401b8f75
 
 ### 2026-09-29T06:59:02Z speed
 Parked as operator-gated: local repair and integration CI are complete at PR 215 head 6900884acd6baa3d978d30dd4aae92401b8f75e8, but the prior one-attempt authorization was consumed before host contact. A new explicit operator authorization is required before claim/retry; no host or model action is authorized by this status change.
+
+### 2026-09-29T23:17:30Z speed
+OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. Interpreted scope from the immediately prior authorization request: WD-bw0h clean-machine H3 retry at head 6900884acd6baa3d978d30dd4aae92401b8f75e8, using the existing four-model no-download manifest and only the governed one-attempt boundary.
