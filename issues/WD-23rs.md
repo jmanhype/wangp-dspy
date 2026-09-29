@@ -8,11 +8,11 @@ labels: [evidence, qc, gate, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T05:47:39Z
-content_hash: "sha256:f3032003c6d1287de062a7c94e5ce98c77126d92265923205252305c7060a0ef"
+updated_at: 2026-09-29T05:47:40Z
+content_hash: "sha256:78e42013b95dfb77c409f810dcf8d18f81b830387480c6ed52b8ec8f7967008a"
 blocks: [WD-fay0]
 assignee: dev-WD-23rs
-follows: [WD-p587, WD-32hk]
+follows: [WD-p587, WD-32hk, WD-dc3w]
 ---
 
 ## Description
@@ -258,10 +258,12 @@ status: delivered
 - 2026-09-29T04:34:03Z claimed by dev-WD-23rs
 - 2026-09-29T05:45:15Z status: in_progress -> in_progress
 - 2026-09-29T05:45:15Z auto-follows: linked to predecessor WD-32hk
+- 2026-09-29T05:47:40Z status: in_progress -> in_progress
+- 2026-09-29T05:47:40Z auto-follows: linked to predecessor WD-dc3w
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-p587]], [[WD-32hk]]
+- Follows: [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
 
 ## Comments
