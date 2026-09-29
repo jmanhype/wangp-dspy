@@ -26,7 +26,6 @@ from wangp.editor_project import (
 
 
 AUTHORIZATION_SCHEMA = "wangp-dspy.editor-host-authorization/v1"
-HOST = "3090"
 REFERENCE_RELATIVE = Path("datasets/runs/maestro-parity/editor-host-export")
 PROJECT_RELATIVE = REFERENCE_RELATIVE / "project/lf002-editor-media.wgp-editor.json"
 EXPORT_RELATIVE = REFERENCE_RELATIVE / "export.json"
@@ -39,11 +38,10 @@ PROJECT_IDENTITY_SHA256 = "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c
 EXPORT_SHA256 = "ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12"
 DIRECTOR_REQUEST_SHA256 = "765eda5c737982c9fb9f2f72c8ad0a10a8cc205ca518a7aa25e8ff992dd82d46"
 CONTINUITY_DIGEST = "2d13c6c05ee59f9d63807bf36de1c1eb600fd5e00e3679bfb4fcaf78b55887c2"
-REQUIRED_VERBATIM = (
-    "I authorize host 3090 to transfer and execute only the two declared LF002 "
-    "editor sources for exactly one kind=editor_export governed queue job with "
-    "CPU-only FFmpeg, gpu_work=false, zero model downloads, and no other host mutation."
-)
+TEMPLATE_PATH = Path(__file__).resolve().parents[1] / REFERENCE_RELATIVE / "operator-authorization.template.json"
+TEMPLATE = json.loads(TEMPLATE_PATH.read_text(encoding="utf-8"))
+HOST = str(TEMPLATE["host"])
+REQUIRED_VERBATIM = str(TEMPLATE["authorization"]["required_verbatim"])
 EXPECTED_SOURCES: Mapping[str, Mapping[str, object]] = {
     "video-cut": {
         "role": "video", "repository_path": VIDEO_SOURCE_RELATIVE.as_posix(),
