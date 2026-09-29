@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T07:13:46Z
-content_hash: "sha256:73670c017f97acb3f4a124ce287e826b1740e03118eb4da251f330aa6574fe36"
+updated_at: 2026-09-29T08:14:27Z
+content_hash: "sha256:cc542345b01a8b86bbd9a6807344e0708dbaa90d8fdecdb92440edaf566d873a"
 blocks: [WD-fay0]
 assignee: dev-WD-28ac
 follows: [WD-23rs]
@@ -125,6 +125,30 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## nd_contract
+status: in_progress
+
+### evidence
+- Local artifacts committed at cd57dfc53d41fa73b94f7426c9c76e58360b20dc on story/WD-28ac:
+  - datasets/runs/maestro-parity/ltx-dependency-terminalization/model-assets.json
+  - datasets/runs/maestro-parity/ltx-dependency-terminalization/operator-authorization.template.json
+  - tests/test_ltx_dependency_manifest.py
+- Manifest contains exactly the five story assets, canonical schema, source/destination/size/SHA-256/license data, and total 23701298279 bytes. Its canonical-JSON SHA-256 linkage in the authorization template is 7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1.
+- Authorization template remains status=not_authorized with operator_approval=null; no approval is claimed.
+- Focused test: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_dependency_manifest.py -q => 11 passed.
+- Undeselected full suite with parsed JUnit: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q -ra --junitxml=/tmp/wd28ac_full.junit.xml => tests=2138 failures=0 errors=0 skipped=1 time=844.556s. The sole skip is the pre-existing live-host gate tests/test_jobs_integration_3090.py:20 requiring WANGP_3090=1; no host was contacted.
+- pvg verify changed files --include-tests => VERIFY: PASSED (1 files scanned, 0 issues).
+- pvg lint --backlog => scanned 152 issues; 0 errors, 0 review findings.
+- wgp release verify => version/checks pass, release=ready, tag_created=false.
+- Protected parity: git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py => exit 0. git diff --check => pass.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/217
+- Exact-head CI at cd57dfc53d41fa73b94f7426c9c76e58360b20dc: https://github.com/jmanhype/wangp-dspy/actions/runs/36538874449 => success, CI/test 24m37s.
+- Boundary honored: no SSH/3090 contact, model-byte download or HEAD request, Hugging Face curl, storage mutation, queue admission/render/retrieval, docs/video-capabilities.md change, or protected-engine edit.
+
+### proof
+- [x] Local manifest preparation and fail-closed JSON coverage exist at cd57dfc5 with passing focused, full-suite, lint, release, protected-parity, diff, and exact-head CI evidence.
+- [ ] NOT DELIVERED: operator authorization for all five assets, exactly 23701298279 bytes, host 3090, and the seven operations remains absent; downloads, host work, matrix terminalization, acceptance, and merge remain blocked.
+
 ## nd_contract
 status: in_progress
 
