@@ -1,18 +1,19 @@
 ---
 id: WD-23rs
 title: "Checker lane receipt coverage"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [evidence, qc, gate, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T05:47:40Z
-content_hash: "sha256:78e42013b95dfb77c409f810dcf8d18f81b830387480c6ed52b8ec8f7967008a"
-blocks: [WD-fay0]
+updated_at: 2026-09-29T06:04:43Z
+content_hash: "sha256:12bc2b83e3e2a1dbd1d74977515f2af5b86f20124a4eef9ab75ac63f0d1fb1be"
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk, WD-dc3w]
+closed_at: 2026-09-29T06:04:43Z
+close_reason: "Accepted: exact-head evidence, immutable lane hashes, fail-closed fallback ownership, receipt drift coverage, representative outcomes, and all standing gates verified."
 ---
 
 ## Description
@@ -260,10 +261,11 @@ status: delivered
 - 2026-09-29T05:45:15Z auto-follows: linked to predecessor WD-32hk
 - 2026-09-29T05:47:40Z status: in_progress -> in_progress
 - 2026-09-29T05:47:40Z auto-follows: linked to predecessor WD-dc3w
+- 2026-09-29T06:04:43Z status: in_progress -> closed
+- 2026-09-29T06:04:43Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
 
 ## Comments
