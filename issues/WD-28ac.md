@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-09-29T08:16:39Z
-content_hash: "sha256:8919d4f53e0cf73e585f4db232c8407d05186bed4269765a2c0740563a80e16b"
+content_hash: "sha256:a2fe4bb995f9a9d6bac91f6349bbbd96d3a94f47a64db3d42fdcf347a09ea2e6"
 blocks: [WD-fay0]
 follows: [WD-23rs]
 ---
@@ -176,3 +176,6 @@ status: in_progress
 - Follows: [[WD-23rs]]
 
 ## Comments
+
+### 2026-09-29T08:16:39Z speed
+Parked as operator-gated after local preparation. PR 217 head cd57dfc53d41fa73b94f7426c9c76e58360b20dc has exact-head CI success and the five-asset fail-closed manifest/tests, but no operator approval exists. No network/host/model action is authorized by this status change.
