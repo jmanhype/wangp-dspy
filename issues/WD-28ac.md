@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T07:05:34Z
-content_hash: "sha256:60448fa2abc8136e53744c1745ffbdfa48e1313b9c311ef871cd3f8df1f22896"
+updated_at: 2026-09-29T07:05:50Z
+content_hash: "sha256:6db2c30e0b8e221ec061e869bc867c327055b31cbb6680ae3824b4cf11aa2a74"
 blocks: [WD-fay0]
 ---
 
@@ -122,7 +122,7 @@ status: new
 
 
 ## Notes
-
+Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
 
 ## History
 - 2026-09-29T07:05:34Z dep_added: blocks WD-fay0
