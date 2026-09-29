@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-09-29T23:46:28Z
-content_hash: "sha256:18537eb844ce39c3d02a52b44b9ee1179b14b36501443acd6809fe6ee7776451"
+content_hash: "sha256:2eac45a923fb4dc65f5fb1d3566027f9226a4ce18da49bb1b3bb2159affdbf5d"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 ---
@@ -288,3 +288,6 @@ Parked as operator-gated: local repair and integration CI are complete at PR 215
 
 ### 2026-09-29T23:17:30Z speed
 OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. Interpreted scope from the immediately prior authorization request: WD-bw0h clean-machine H3 retry at head 6900884acd6baa3d978d30dd4aae92401b8f75e8, using the existing four-model no-download manifest and only the governed one-attempt boundary.
+
+### 2026-09-29T23:46:28Z speed
+Authorized retry consumed and stopped fail-closed at STORAGE_PREPARATION_FAILED: cannot create offload root. Boundary evidence is preserved on PR 215 at head 2dfe36863e29eef02af0ea330d13d331bafdc00e. No model read/download/render, queue admission, relocation/deletion, artifact substitution, or second attempt occurred. A fresh operator authorization is required before another host attempt; this note parks the story without claiming completion.
