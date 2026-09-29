@@ -1,0 +1,235 @@
+"""Real-process local preparation and fail-closed authorization coverage."""
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any, Mapping
+
+import pytest
+
+import scripts.run_editor_host_export as runner
+from services.editor.assembly_exporter import enqueue_export
+from services.editor.project_store import ProjectStore
+from services.jobs.queue import JobQueue
+
+
+ROOT = Path(__file__).resolve().parents[1]
+TEMPLATE = ROOT / "datasets/runs/maestro-parity/editor-host-export/operator-authorization.template.json"
+VIDEO = ROOT / "datasets/runs/provenance/lf002-vibevoice-film-20260917/cut1.mp4"
+AUDIO = ROOT / "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.wav"
+SCRIPT = ROOT / "scripts/run_editor_host_export.py"
+
+
+def _hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _temporary_repository(tmp_path: Path) -> Path:
+    root = tmp_path / "repository"
+    video = root / "datasets/runs/provenance/lf002-vibevoice-film-20260917"
+    audio = root / "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio"
+    video.mkdir(parents=True)
+    audio.mkdir(parents=True)
+    shutil.copyfile(VIDEO, video / "cut1.mp4")
+    shutil.copyfile(AUDIO, audio / "orin.wav")
+    return root
+
+
+def _boundary_environment(tmp_path: Path) -> tuple[dict[str, str], Path]:
+    """Instrument external boundaries without mocking any core Wangp behavior."""
+    forbidden = tmp_path / "forbidden-bin"
+    forbidden.mkdir(exist_ok=True)
+    calls = tmp_path / "external-calls.log"
+    calls.write_text("", encoding="utf-8")
+    for name in ("ssh", "scp", "rsync", "curl", "wget", "nvidia-smi"):
+        command = forbidden / name
+        command.write_text(
+            f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> {calls}\nexit 99\n',
+            encoding="utf-8",
+        )
+        command.chmod(0o755)
+    environment = os.environ.copy()
+    environment["PATH"] = f"{forbidden}:{environment['PATH']}"
+    environment.pop("WANGP_SSH_TARGET", None)
+    return environment, calls
+
+
+def _authorization() -> dict[str, Any]:
+    record = json.loads(TEMPLATE.read_text(encoding="utf-8"))
+    record["status"] = "authorized"
+    record["authorization"]["record"] = {
+        "operator": "operator",
+        "recorded_utc": "2026-09-29T08:44:11Z",
+        "verbatim": record["authorization"]["required_verbatim"],
+    }
+    return record
+
+
+def _rejection(record: Mapping[str, object]) -> runner.EditorHostExportError:
+    with pytest.raises(runner.EditorHostExportError) as raised:
+        runner.verify_authorization(record)
+    return raised.value
+
+
+def test_prepare_reproduces_exact_reference_and_preserves_sources(tmp_path: Path) -> None:
+    root = _temporary_repository(tmp_path)
+    original_hashes = {path: _hash(path) for path in (VIDEO, AUDIO)}
+    project_path = runner.prepare_reference(root)
+    export_path = root / "datasets/runs/maestro-parity/editor-host-export/export.json"
+    copied_video = project_path.parent / "sources/video-cut.mp4"
+    copied_audio = project_path.parent / "sources/voice.wav"
+
+    assert _hash(project_path) == runner.PROJECT_FILE_SHA256
+    assert _hash(export_path) == runner.EXPORT_SHA256
+    assert {path: _hash(path) for path in (VIDEO, AUDIO, copied_video, copied_audio)} == {
+        **original_hashes,
+        copied_video: runner.VIDEO_SHA256,
+        copied_audio: runner.AUDIO_SHA256,
+    }
+
+    store = ProjectStore(project_path)
+    project = store.load().project
+    assert store.verify_sources(project) == list(project.sources)
+    payload = json.loads(export_path.read_text(encoding="utf-8"))
+    assert payload["project_sha256"] == runner.PROJECT_IDENTITY_SHA256
+    assert payload["director"]["plan"]["request_sha256"] == runner.DIRECTOR_REQUEST_SHA256
+    assert payload["assembly"]["continuity_digest"] == runner.CONTINUITY_DIGEST
+    assert runner.verify_reference(root) == project_path
+
+
+def test_committed_reference_is_verified_without_regeneration() -> None:
+    assert runner.prepare_reference(ROOT) == ROOT / runner.PROJECT_RELATIVE
+    assert runner.verify_reference(ROOT) == ROOT / runner.PROJECT_RELATIVE
+
+
+def test_real_queue_admits_exactly_one_pending_editor_export(tmp_path: Path) -> None:
+    root = _temporary_repository(tmp_path)
+    project_path = runner.prepare_reference(root)
+    export_path = root / "datasets/runs/maestro-parity/editor-host-export/export.json"
+    payload = json.loads(export_path.read_text(encoding="utf-8"))
+    database = tmp_path / "queue/jobs.db"
+    job_id = enqueue_export(payload, export_path, database)
+
+    queue = JobQueue(database)
+    try:
+        pending = queue.list_state("pending")
+        record = queue.get(job_id)
+    finally:
+        queue.close()
+    assert pending == [job_id]
+    assert record.plan_ref == str(export_path)
+    assert len(record.clips) == 1
+    assert record.clips[0]["kind"] == "editor_export"
+    assert record.clips[0]["status"] == "planned"
+    assert record.clips[0]["gpu_work"] is False
+    assert record.clips[0]["host_contact"] is False
+    assert record.clips[0]["media_generated"] is False
+
+
+def test_authorization_rejects_template_partial_tampered_and_mismatches() -> None:
+    template = json.loads(TEMPLATE.read_text(encoding="utf-8"))
+    assert template["status"] == "not_authorized"
+    assert template["host"] == "3090"
+    assert template["jobs"] == [{"kind": "editor_export", "count": 1}]
+    assert template["execution"] == {"gpu_work": False, "model_downloads": 0}
+
+    absent = _rejection({})
+    assert absent.code == "EDITOR_HOST_AUTHORIZATION_ABSENT"
+    not_authorized = _rejection(template)
+    assert not_authorized.code == "EDITOR_HOST_AUTHORIZATION_NOT_AUTHORIZED"
+
+    partial = copy.deepcopy(template)
+    partial["status"] = "authorized"
+    assert _rejection(partial).code == "EDITOR_HOST_AUTHORIZATION_PARTIAL"
+
+    tampered = _authorization()
+    tampered["extra"] = True
+    assert _rejection(tampered).code == "EDITOR_HOST_AUTHORIZATION_TAMPERED"
+
+    host = _authorization()
+    host["host"] = "other-host"
+    assert _rejection(host).code == "EDITOR_HOST_AUTHORIZATION_HOST_MISMATCH"
+
+    source = _authorization()
+    source["sources"]["video-cut"]["sha256"] = "0" * 64
+    assert _rejection(source).code == "EDITOR_HOST_AUTHORIZATION_SOURCE_MISMATCH"
+
+    project = _authorization()
+    project["project"]["identity_sha256"] = "0" * 64
+    assert _rejection(project).code == "EDITOR_HOST_AUTHORIZATION_PROJECT_MISMATCH"
+    assert runner.verify_authorization(_authorization()) is None
+
+
+def test_workspace_source_mismatch_is_typed_before_editor_load(tmp_path: Path) -> None:
+    root = _temporary_repository(tmp_path)
+    project_path = runner.prepare_reference(root)
+    copied = project_path.parent / "sources/voice.wav"
+    copied.write_bytes(copied.read_bytes() + b"tamper")
+    with pytest.raises(runner.EditorHostExportError) as raised:
+        runner.verify_reference(root)
+    assert raised.value.code == "EDITOR_HOST_SOURCE_MISMATCH"
+
+
+def test_cli_has_no_external_boundary_contact_without_or_with_representation(tmp_path: Path) -> None:
+    root = _temporary_repository(tmp_path)
+    runner.prepare_reference(root)
+    environment, calls = _boundary_environment(tmp_path)
+    no_authorization = subprocess.run(
+        [sys.executable, str(SCRIPT), "--root", str(root)],
+        cwd=ROOT,
+        env=environment,
+        text=True,
+        capture_output=True,
+        timeout=120,
+        check=False,
+    )
+    assert no_authorization.returncode == 3
+    rejection = json.loads(no_authorization.stdout)
+    assert rejection["diagnostics"][0]["code"] == "EDITOR_HOST_AUTHORIZATION_ABSENT"
+    assert rejection["ssh_contact"] is False
+    assert rejection["workspace_transfer"] is False
+    assert calls.read_text(encoding="utf-8") == ""
+
+    authorization_path = tmp_path / "authorized.json"
+    authorization_path.write_text(json.dumps(_authorization()), encoding="utf-8")
+    represented = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT),
+            "--root",
+            str(root),
+            "--authorization",
+            str(authorization_path),
+            "--show-authorized-command",
+        ],
+        cwd=ROOT,
+        env=environment,
+        text=True,
+        capture_output=True,
+        timeout=120,
+        check=False,
+    )
+    assert represented.returncode == 0
+    command = json.loads(represented.stdout)
+    assert command["argv"][:2] == ["ssh", "3090"]
+    assert command["executed"] is False
+    assert command["gpu_work"] is False
+    assert command["model_downloads"] == 0
+    assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_authorized_runner_represents_argv_but_never_executes() -> None:
+    command = runner.authorized_command(_authorization())
+    assert isinstance(command.argv, tuple)
+    assert command.argv[:2] == ("ssh", "3090")
+    assert command.gpu_work is False
+    assert command.model_downloads == 0
+    with pytest.raises(runner.EditorHostExportError) as raised:
+        runner.run_authorized_host_export(_authorization())
+    assert raised.value.code == "EDITOR_HOST_EXECUTION_NOT_IMPLEMENTED"

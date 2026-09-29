@@ -1,0 +1,44 @@
+{
+  "schema_version": "wangp-dspy.editor-host-authorization/v1",
+  "status": "not_authorized",
+  "host": "3090",
+  "sources": {
+    "video-cut": {
+      "role": "video",
+      "repository_path": "datasets/runs/provenance/lf002-vibevoice-film-20260917/cut1.mp4",
+      "workspace_path": "sources/video-cut.mp4",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3",
+      "byte_size": 1421376
+    },
+    "voice": {
+      "role": "audio",
+      "repository_path": "datasets/runs/provenance/lf002-vibevoice-audition-20260916/audio/orin.wav",
+      "workspace_path": "sources/voice.wav",
+      "sha256": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+      "byte_size": 102444
+    }
+  },
+  "project": {
+    "path": "project/lf002-editor-media.wgp-editor.json",
+    "file_sha256": "e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e",
+    "identity_sha256": "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27"
+  },
+  "export": {
+    "path": "export.json",
+    "sha256": "ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12"
+  },
+  "jobs": [
+    {
+      "kind": "editor_export",
+      "count": 1
+    }
+  ],
+  "execution": {
+    "gpu_work": false,
+    "model_downloads": 0
+  },
+  "authorization": {
+    "required_verbatim": "I authorize host 3090 to transfer and execute only the two declared LF002 editor sources for exactly one kind=editor_export governed queue job with CPU-only FFmpeg, gpu_work=false, zero model downloads, and no other host mutation.",
+    "record": null
+  }
+}
