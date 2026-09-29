@@ -8,8 +8,8 @@ labels: [evidence, qc, gate, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T06:04:44Z
-content_hash: "sha256:fbb62bc4dba36e04f7c18e85dd6cf184acb51c7d0e4c1f9ed8165977ceb0e244"
+updated_at: 2026-09-29T06:06:28Z
+content_hash: "sha256:abaca53478dbe1b2cf59b9ddce6090cd3755362a7749ef7f2e2509703a2f979c"
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk, WD-dc3w]
 closed_at: 2026-09-29T06:04:43Z
@@ -96,7 +96,19 @@ status: new
 
 ## Notes
 Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
+## PM Decision
+ACCEPTED [2026-09-29]: Independently verified PR 216 exact head, exact-head CI, scoped immutable evidence, fail-closed fallback ownership, representative lane outcomes, receipt drift behavior, and standing gates.
 
+## nd_contract
+status: accepted
+
+### evidence
+- Reviewed PR 216 head baf16edd14d4bb92e1737c1b438beee072da05a1 and CI run 36525559743 success at that exact SHA.
+- Re-ran representative checker lanes, focused checker suite, receipt drift test, backlog lint, release verify, pvg verify, compile/JSON checks, protected-file parity, and whitespace checks.
+- Confirmed the exact eight-path diff scope and current checker/native-log SHA-256 bindings.
+
+### proof
+- [x] AC #1 through AC #6 independently verified.
 
 ## nd_contract
 status: accepted
