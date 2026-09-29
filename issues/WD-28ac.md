@@ -1,15 +1,15 @@
 ---
 id: WD-28ac
 title: "LTX dependency terminalization batch"
-status: open
+status: deferred
 priority: 1
 type: task
 labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T07:05:33Z
-content_hash: "sha256:a71dc93c95a86f59ae201585dda3cf13828152702db887e2b6e77a7d2bf9c1dd"
+updated_at: 2026-09-29T07:05:34Z
+content_hash: "sha256:60448fa2abc8136e53744c1745ffbdfa48e1313b9c311ef871cd3f8df1f22896"
 blocks: [WD-fay0]
 ---
 
@@ -126,6 +126,7 @@ status: new
 
 ## History
 - 2026-09-29T07:05:34Z dep_added: blocks WD-fay0
+- 2026-09-29T07:05:34Z status: open -> deferred
 
 ## Links
 - Parent: [[WD-3nod]]
