@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-28T06:53:02Z
-content_hash: "sha256:7f66d94898785255754ed600b0a1afe712b3b2ec904d7aeca397a265fc8cc960"
+updated_at: 2026-09-29T06:36:02Z
+content_hash: "sha256:ced06c5a47a33a36918ea94811ddd31f51201e403ac2ba68f498f642c77d6705"
 blocks: [WD-fay0]
 ---
 
@@ -185,3 +185,6 @@ Warning-clean gate update at merged main 6ac1023b522726705d3ea560216f211003a1d4b
 
 ### 2026-09-28T06:53:02Z speed
 CURRENT SCOPE CORRECTION at merged main 6ac1023b522726705d3ea560216f211003a1d4bd, superseding stale 120/111-cell arithmetic and prior progress comments: the live capability matrices now have zero planned video, image, music, sfx, or finishing cells. Outstanding work is 29 cells total: 23 director planning cells remain planned pending the operator's rework-versus-structural decision, and 6 voice/character clone/cross-mode cells remain evidence_complete_pending_review pending cloning-reference consent. The clean-machine generated-artifact demonstration also remains blocked on host/model authorization. CI warning hygiene is no longer an outstanding lane.
+
+### 2026-09-29T06:36:02Z speed
+Progress update at merged main 2c20caa15b12b783188d5e707e0d29dda4f5eeb7: WD-23rs was independently accepted and merged by PR #216. The current canonical lane-receipt test passes, the seven verified representative lanes pass with exact owned warnings, and WD-dmf2 still fails its real objective/reviewer gates. Main CI run 36529726239 succeeded in 24m14s; backlog lint passed 151/0/0; release verification reports ready=true/tag_created=false; protected-engine parity is unchanged. Current state-bearing capability matrices contain zero planned cells, but the non-matrix first-run "Generated artifact from first-run" row remains intentionally incomplete until WD-bw0h's real H3 clean-machine artifact is authorized and verified. WD-bw0h's local PosixPath/host-default repairs are green at PR #215 head 64897225, but the story remains not delivered because the prior one-attempt host authorization was consumed before host contact.
