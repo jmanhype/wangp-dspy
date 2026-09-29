@@ -1,15 +1,15 @@
 ---
 id: WD-qthq
 title: "Editor authorized host export media"
-status: deferred
+status: open
 priority: 1
 type: task
 labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-29T08:43:02Z
-content_hash: "sha256:03a897998f61e51ce9bd020dead419f80970a27b01726b7a0ca98212ceccd351"
+updated_at: 2026-09-29T08:44:05Z
+content_hash: "sha256:e8324ad010cedfae6a6cbaa423745c96514b2d344e46885f73a79fc1da8df3ea"
 blocks: [WD-fay0]
 ---
 
@@ -139,6 +139,7 @@ status: new
 ## History
 - 2026-09-29T08:43:02Z dep_added: blocks WD-fay0
 - 2026-09-29T08:43:02Z status: open -> deferred
+- 2026-09-29T08:44:05Z status: deferred -> open
 
 ## Links
 - Parent: [[WD-3nod]]
