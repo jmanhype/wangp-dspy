@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T07:07:37Z
-content_hash: "sha256:889aaaba098913118d7b9e26c4f7646755e4be4b1982065f629a464324dad465"
+updated_at: 2026-09-29T07:13:46Z
+content_hash: "sha256:73670c017f97acb3f4a124ce287e826b1740e03118eb4da251f330aa6574fe36"
 blocks: [WD-fay0]
 assignee: dev-WD-28ac
 follows: [WD-23rs]
@@ -125,6 +125,16 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## nd_contract
+status: in_progress
+
+### evidence
+- Local manifest-prep boundary active at worktree HEAD 2c20caa1 on story/WD-28ac.
+- No host/3090 contact, model-byte download, HEAD request, Hugging Face curl, storage mutation, queue/render action, or capability-matrix edit will occur.
+- Preparing only the exact five-asset model manifest, fail-closed JSON tests, and a not_authorized local authorization template.
+
+### proof
+- [ ] Pending local manifest/test artifact and exact-head CI; this remains not delivered while operator authorization is absent.
 
 ## History
 - 2026-09-29T07:05:34Z dep_added: blocks WD-fay0
