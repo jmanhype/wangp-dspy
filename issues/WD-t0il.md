@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-29T06:36:02Z
-content_hash: "sha256:ced06c5a47a33a36918ea94811ddd31f51201e403ac2ba68f498f642c77d6705"
+updated_at: 2026-09-29T06:55:18Z
+content_hash: "sha256:bbc0d47c87a968dcf101282f1b9060429a210edafaa5d219fd56c31bc2f590bd"
 blocks: [WD-fay0]
 ---
 
@@ -188,3 +188,6 @@ CURRENT SCOPE CORRECTION at merged main 6ac1023b522726705d3ea560216f211003a1d4bd
 
 ### 2026-09-29T06:36:02Z speed
 Progress update at merged main 2c20caa15b12b783188d5e707e0d29dda4f5eeb7: WD-23rs was independently accepted and merged by PR #216. The current canonical lane-receipt test passes, the seven verified representative lanes pass with exact owned warnings, and WD-dmf2 still fails its real objective/reviewer gates. Main CI run 36529726239 succeeded in 24m14s; backlog lint passed 151/0/0; release verification reports ready=true/tag_created=false; protected-engine parity is unchanged. Current state-bearing capability matrices contain zero planned cells, but the non-matrix first-run "Generated artifact from first-run" row remains intentionally incomplete until WD-bw0h's real H3 clean-machine artifact is authorized and verified. WD-bw0h's local PosixPath/host-default repairs are green at PR #215 head 64897225, but the story remains not delivered because the prior one-attempt host authorization was consumed before host contact.
+
+### 2026-09-29T06:55:18Z speed
+LTX dependency decision metadata (HEAD-only, zero model bytes downloaded): the seven dependency_blocked video cells require five unique upstream assets. Measured Content-Length / LFS ETag: ingredients LoRA 1,308,778,338 bytes / sha256 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba; outpaint LoRA 1,308,756,416 / 76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0; in-outpainting LoRA 1,308,778,338 / 748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837; LTX-2.5 spatial upscaler 327,322,640 / 229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996; LTX-2.3 dev int8 transformer 19,447,662,547 / f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22. Total unique download volume: 23,701,298,279 bytes (~23.7 GB), under the prior 60 GB ceiling. This note records the operator decision payload only; it does not authorize a download or host contact.
