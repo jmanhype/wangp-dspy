@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-29T08:44:11Z
-content_hash: "sha256:b4b9339aba30dc0ccfcbd3b424fe370bc0be5a207a687218db53bd2139c34a20"
+updated_at: 2026-09-29T10:15:47Z
+content_hash: "sha256:5a9aa9d7ba0058dbb1ddb401c499953d72a10eb1efd87f8e4515c93b400d1ef3"
 blocks: [WD-fay0]
 assignee: dev-WD-qthq
 follows: [WD-23rs]
@@ -136,6 +136,45 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (LOCAL PREPARATION ONLY — NOT DELIVERED)
+
+PROOF:
+- Commit: `e55588f57fd46ca43e144a57662a09eafad1668a` on `story/WD-qthq`; pushed to origin.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/218
+- PR head verified: `e55588f57fd46ca43e144a57662a09eafad1668a`; CI `test` passed in 22m56s at https://github.com/jmanhype/wangp-dspy/actions/runs/36551766900/job/109351377903
+- Added the immutable two-source project workspace and canonical export. SHA-256: project file `e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e`; export `ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12`; project identity `66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27`; director request `765eda5c737982c9fb9f2f72c8ad0a10a8cc205ca518a7aa25e8ff992dd82d46`; continuity `2d13c6c05ee59f9d63807bf36de1c1eb600fd5e00e3679bfb4fcaf78b55887c2`.
+- Added `operator-authorization.template.json` with status `not_authorized`, host `3090`, exactly one `kind=editor_export` job, `gpu_work=false`, `model_downloads=0`, and exact source/project/export bindings.
+- Added `scripts/run_editor_host_export.py`: typed local prepare/verify, exact hash verification through real `ProjectStore`/`export_project`, strict authorization validation, argv-only authorized command representation, and fail-closed execution refusal. No SSH execution is wired.
+- Focused command: `uv run --frozen --extra dev pytest tests/test_editor_host_export.py -q` — 7 passed, 0 failed.
+- Full undeselected command: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd-qthq-junit.xml` — parsed JUnit: 2134 tests, 0 failures, 0 errors, 1 existing `WANGP_3090`-gated live-host skip (`tests.test_jobs_integration_3090.test_live_preflight_against_3090`); no deselection.
+- `pvg verify scripts/run_editor_host_export.py tests/test_editor_host_export.py datasets/runs/maestro-parity/editor-host-export/operator-authorization.template.json --include-tests` — PASSED, 0 issues.
+- `pvg lint --backlog` — 153 issues scanned, 0 errors, 0 review findings.
+- `uv run --frozen --extra dev wgp release verify --json` — all checks pass, `ready=true`, `tag_created=false`.
+- Protected parity: `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` — exit 0, no output.
+- `git diff --check` — clean.
+
+BOUNDARY — NOT DELIVERED:
+- No SSH or host-3090 contact, workspace transfer, model download/HEAD request, provider spend, media generation, GUI work, or protected-engine edit occurred.
+- Queue execution was not run; tests admit one pending `kind=editor_export` job only in a local disposable SQLite database and leave it pending.
+- `docs/editor.md` is unchanged; Authorized host export/media remains unclaimed.
+- Authorization is still absent. This is local export preparation only and must not be treated as delivery or media evidence.
+
+LEARNINGS:
+- The exact project name was `LF002 authorized editor media export`; the dispatcher-supplied local generator removed ambiguity and reproduced all five declared identities.
+- Active Python scripts must not hardcode quoted operator host aliases. Reading host `3090` from the committed not-authorized template satisfies both story binding and the existing no-host-defaults runtime gate.
+- The intentionally gated live 3090 integration test is the sole full-suite skip when host contact is forbidden; it must remain skipped rather than violating authorization.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Commit `e55588f57fd46ca43e144a57662a09eafad1668a`; PR #218; exact-head CI passed.
+- Local preparation and fail-closed tests verified; no authorized host execution attempted.
+
+### proof
+- [x] Authorization-free local reference/export/template/runner/tests prepared.
+- [ ] Verbatim operator authorization recorded.
+- [ ] Host preflight, transfer, exactly one executed governed queue job, media output, checker/review evidence, and `docs/editor.md` terminal disposition completed.
 
 
 ## History
