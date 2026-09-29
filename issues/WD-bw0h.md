@@ -1,17 +1,18 @@
 ---
 id: WD-bw0h
 title: "Clean-machine H3 generated artifact"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-28T14:37:04Z
-content_hash: "sha256:b157002b3f9d825e31dde31deeadd8d4fa80c0c33f5504fec364cd41b0e692ed"
+updated_at: 2026-09-29T03:29:34Z
+content_hash: "sha256:e81e7ad5b086841295e9a94c31f05f49ca059b9e6f2a7a68ffb5e3840ac81c16"
 blocks: [WD-fay0]
-follows: [WD-0zj8, WD-isg9, WD-dc3w]
+follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
+assignee: dev-WD-bw0h
 ---
 
 ## Description
@@ -170,10 +171,13 @@ before generation and the operator boundary forbids retry/substitution.
 - 2026-09-28T13:33:26Z claimed by dev-WD-bw0h
 - 2026-09-28T14:37:04Z status: in_progress -> open
 - 2026-09-28T14:37:04Z released by speed
+- 2026-09-29T03:29:34Z status: open -> in_progress
+- 2026-09-29T03:29:34Z auto-follows: linked to predecessor WD-p587
+- 2026-09-29T03:29:34Z claimed by dev-WD-bw0h
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]]
+- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]]
 
 ## Comments
