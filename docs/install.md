@@ -74,7 +74,8 @@ model-download approval, and a complete authorized host/model manifest.
 
 ## Separately authorized clean-machine H3 generated proof
 
-WD-bw0h records one operator-approved no-new-download exception. From that authorized disposable checkout:
+WD-bw0h records the operator-approved `Authorize` no-new-download retry. From that
+authorized disposable checkout:
 
 ```bash
 sh install.sh --source "$PWD" --clean-generated-proof "${TMPDIR:-/tmp}/wangp-clean-generated" --generated-authorization datasets/runs/maestro-parity/clean-generated/operator-authorization.json --generated-manifest datasets/runs/maestro-parity/clean-generated/model-assets.json

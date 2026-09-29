@@ -75,7 +75,7 @@ def fail(proof: Path | None, code: str, detail: str, command: Sequence[str]) -> 
 
 def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
-             "text": "Approve", "timestamp": "2026-09-28T13:20:11Z", "base_commit": BASE}
+             "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
     operation = {"family": "minimax_h3", "preset": "standard", "operation": "create", "render_count": 1}
     boundaries = {"downloads": 0, "provider_spend": False, "training": False, "registry_publication": False, "gui": False,
                   "tag_creation": False, "protected_engine_change": False, "threshold_change": False, "deletions": 0, "second_render": False}

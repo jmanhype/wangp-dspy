@@ -37,6 +37,18 @@ def test_clean_generated_manifest_is_the_exact_four_h3_assets() -> None:
     assert payload == accepted and len(payload["assets"]) == 4
 
 
+def test_clean_generated_authorization_is_the_exact_retry_approval() -> None:
+    payload = json.loads((BUNDLE / "operator-authorization.json").read_text(encoding="utf-8"))
+
+    assert payload["text"] == "Authorize"
+    assert payload["timestamp"] == "2026-09-29T23:17:30Z"
+    assert payload["scope"] == (
+        "WD-bw0h clean-machine H3 retry at head "
+        "6900884acd6baa3d978d30dd4aae92401b8f75e8, using the existing four-model "
+        "no-download manifest and only the governed one-attempt boundary."
+    )
+
+
 @pytest.mark.parametrize("authorization,manifest,phrase", [
     (Path("absent.json"), BUNDLE / "model-assets.json", "CLEAN_GENERATED_INPUT_INVALID"),
     (BUNDLE / "operator-authorization.json", Path("models.json"), "model manifest must equal"),
