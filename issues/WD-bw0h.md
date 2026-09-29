@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T06:59:01Z
-content_hash: "sha256:57a7bfd5eaefd526c079e6459d67f145b7619268c9c473dec451a6972b63cb08"
+updated_at: 2026-09-29T06:59:02Z
+content_hash: "sha256:8f877bf2da3fc559e64f99e34930a138f425c5205805a5c517d6214543a3afd9"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587]
 ---
@@ -246,3 +246,6 @@ Integration-only update: merged current main 2c20caa15b12b783188d5e707e0d29dda4f
 
 ### 2026-09-29T06:52:23Z speed
 Integration CI update: story/WD-bw0h head 6900884acd6baa3d978d30dd4aae92401b8f75e8 (merge of local repair 64897225 into main 2c20caa1) completed GitHub Actions run 36531998230 successfully in 14m43s. This remains code readiness only: WD-bw0h is still in_progress/not delivered, the consumed clean-generated host attempt was not retried, and no host contact/model/storage/render action occurred.
+
+### 2026-09-29T06:59:02Z speed
+Parked as operator-gated: local repair and integration CI are complete at PR 215 head 6900884acd6baa3d978d30dd4aae92401b8f75e8, but the prior one-attempt authorization was consumed before host contact. A new explicit operator authorization is required before claim/retry; no host or model action is authorized by this status change.
