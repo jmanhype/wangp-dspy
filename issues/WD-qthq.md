@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-29T23:18:11Z
-content_hash: "sha256:b9260a3f9ab2ea72e2d4f67e84d797b1e5a992db4f9189a26bcd46907c2a4e39"
+updated_at: 2026-09-29T23:22:09Z
+content_hash: "sha256:f086f9532d4b3867f3f8586c0e5db30111e44bde118b98b2aab0d6f80671e6cd"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-qthq
@@ -204,3 +204,6 @@ Parked as operator-gated after local preparation. PR 218 head e55588f57fd46ca43e
 
 ### 2026-09-29T23:17:31Z speed
 OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. Interpreted scope from the immediately prior authorization request: WD-qthq editor host export on host 3090, using only its two existing hash-verified sources and one CPU-only FFmpeg editor_export job.
+
+### 2026-09-29T23:22:09Z speed
+Dispatch note: operator authorization is recorded, but host-3090 execution is queued behind the WD-bw0h one-attempt clean-machine H3 run to prevent overlapping host/workspace mutations. Do not interpret the wait as lost approval.
