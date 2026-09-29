@@ -8,8 +8,8 @@ labels: [evidence, qc, gate, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T05:45:16Z
-content_hash: "sha256:1a7bdbf6c04c82d89a12a25d16b66551564ed764639985eb525807942b562133"
+updated_at: 2026-09-29T05:47:39Z
+content_hash: "sha256:f3032003c6d1287de062a7c94e5ce98c77126d92265923205252305c7060a0ef"
 blocks: [WD-fay0]
 assignee: dev-WD-23rs
 follows: [WD-p587, WD-32hk]
@@ -95,7 +95,18 @@ status: new
 
 ## Notes
 Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
+## Implementation Evidence
 
+This standalone heading continues the preceding DELIVERED proof without replacing it. Commands run, CI/test counters, commit SHA, coverage, immutable hashes, PR, exact-head CI, AC table, and LEARNINGS remain authoritative in the preceding detailed block.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit SHA `baf16edd14d4bb92e1737c1b438beee072da05a1`; PR 216 exact-head CI success.
+
+### proof
+- [x] All six ACs are verified in the detailed Implementation Evidence above.
 
 ## nd_contract
 status: delivered
