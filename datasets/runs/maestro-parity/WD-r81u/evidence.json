@@ -471,6 +471,39 @@
       "wd-r81u-final.native.log",
       "wd-r81u-final2.native.log"
     ],
+    "native_log_sha256": {
+      "wd-r81u.native.log": "e525fed73229a896605d0b33c4e930131cf892cee4a8bcff63b604ede87c110a",
+      "wd-r81u-retry.native.log": "59ee067764cbf3df56f37643d651aaa68146964a35c54d8d522c0e88e5893d78",
+      "wd-r81u-attempt3.native.log": "6a937e32d3c6fc255b374d3b369012a1d563faf6a5612fc368ba695ea5eca38a",
+      "wd-r81u-attempt4.native.log": "f7f9241a390b06712e24a108ce3ee7001652597dafdbaf37da7c60a5acb3750b",
+      "wd-r81u-attempt5.native.log": "7639781ce306941a4f35d0ab8c568fd739dd1db293bf3354fadea72add6aa21d",
+      "wd-r81u-attempt6.native.log": "6bb0cebf67c0c2fa82d74e684f030f7c5ca3419ea4b5822fe5b3f92b92ad9865",
+      "wd-r81u-attempt7.native.log": "0d64265890718ed89e954e628642554d3c0eac5418c41e00e331ac70cf3632dd",
+      "wd-r81u-attempt8.native.log": "f18e5caf4e3fa77686e3cae537cc53e0755320e12f98bd54d7b8563dd111d30e",
+      "wd-r81u-final.native.log": "dfb639538a2646b2850e1ceafe4b400b13e9b8a05a09bba00ba7a2135a2720b0",
+      "wd-r81u-final2.native.log": "e8abdbe0dcab90363d00a66c5e2f12f6abced87cce1a1e7071a77fe8e7a9e133"
+    },
+    "optional_import_fallbacks": [
+      {
+        "module": "postprocessing",
+        "import": {
+          "path": "wd-r81u-attempt5.native.log",
+          "line": 472
+        },
+        "fallback_marker": {
+          "path": "wd-r81u-attempt5.native.log",
+          "line": 97,
+          "kind": "ffmpeg_output_target",
+          "text": "Output #0, mp4, to '/home/straughter/Wan2GP/wd-r81u/outputs/wd_r81u_ffmpeg_interpolation_x2.mp4':"
+        },
+        "success_marker": {
+          "path": "wd-r81u-attempt5.native.log",
+          "line": 118,
+          "kind": "ffmpeg_encode_complete",
+          "text": "frame=  109 fps=0.0 q=-1.0 Lsize=     468kB time=00:00:02.27 bitrate=1686.1kbits/s speed=4.47x"
+        }
+      }
+    ],
     "preflight": "doctor-preflight-after-download.json",
     "queue_id": "wangp-JobQueue-WD-r81u",
     "retry_id": "attempt-1"
