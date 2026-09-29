@@ -4,11 +4,11 @@ title: "Checker lane receipt coverage"
 status: in_progress
 priority: 1
 type: task
-labels: [evidence, qc, gate]
+labels: [evidence, qc, gate, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T05:45:15Z
+updated_at: 2026-09-29T05:45:16Z
 content_hash: "sha256:0c92ef98d895e3a29c97470e6ea836bf76de683a970fce187c3793345de40b80"
 blocks: [WD-fay0]
 assignee: dev-WD-23rs
