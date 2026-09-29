@@ -1,15 +1,15 @@
 ---
 id: WD-28ac
 title: "LTX dependency terminalization batch"
-status: deferred
+status: open
 priority: 1
 type: task
 labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T07:05:50Z
-content_hash: "sha256:6db2c30e0b8e221ec061e869bc867c327055b31cbb6680ae3824b4cf11aa2a74"
+updated_at: 2026-09-29T07:07:31Z
+content_hash: "sha256:1e481e73da00146bc8dc772df05b7d9eaa9cb082d5345bbe6d4ce74eb18946c2"
 blocks: [WD-fay0]
 ---
 
@@ -127,6 +127,7 @@ Observable outcome: after authorization and execution, the operator can run the 
 ## History
 - 2026-09-29T07:05:34Z dep_added: blocks WD-fay0
 - 2026-09-29T07:05:34Z status: open -> deferred
+- 2026-09-29T07:07:31Z status: deferred -> open
 
 ## Links
 - Parent: [[WD-3nod]]
