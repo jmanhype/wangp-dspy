@@ -8,8 +8,8 @@ labels: [evidence, qc, gate]
 parent: WD-3nod
 created_at: 2026-09-29T04:33:00Z
 created_by: speed
-updated_at: 2026-09-29T05:44:20Z
-content_hash: "sha256:0209f0d733a462dda932e202d86c4be75f9f8a0e705333cd1982784004a1007c"
+updated_at: 2026-09-29T05:45:14Z
+content_hash: "sha256:36d5aaae8c30e4166fed3edad1d94f09d772f1196ee7f1393ecbfa69a5b18966"
 blocks: [WD-fay0]
 assignee: dev-WD-23rs
 follows: [WD-p587]
@@ -95,6 +95,36 @@ status: new
 
 ## Notes
 Observable outcome: the operator can run the canonical checker on each representative bundle and it returns an explicit pass/fail result with owned warning provenance.
+## Implementation Evidence (DELIVERED)
+
+### CI/Test Results
+
+Commands run:
+- `python3 scripts/verify_maestro_parity.py datasets/runs/maestro-parity/<each representative lane and WD-dmf2>`
+- `uv run --frozen --extra dev pytest -q tests/test_maestro_parity_evidence.py --junitxml=/tmp/WD-23rs-focused.xml`
+- `timeout 1800 uv run --frozen --extra dev pytest -q --junitxml=/tmp/WD-23rs-full.xml`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify`
+- `git diff --exit-code a382f747f31735c9eaa5eecb4bb6e1581b3403de -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+- `pvg verify <eight changed paths> --include-tests --format=text`
+- `git push origin story/WD-23rs`
+
+Summary: checker lanes PASS/expected-fail as specified; focused 94/0/0/0; full 2127/0/0/1; lint 0/0; release ready/tag false; protected parity and whitespace PASS; PR exact-head CI PASS.
+Commit SHA: baf16edd14d4bb92e1737c1b438beee072da05a1
+PR: https://github.com/jmanhype/wangp-dspy/pull/216
+Coverage: 82% checker-module coverage from the coverage-only run; canonical warning count 0.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Story head and PR CI SHA `baf16edd14d4bb92e1737c1b438beee072da05a1`.
+- Full details, hashes, warnings, AC table, and LEARNINGS are in the preceding authoritative Implementation Evidence block.
+
+### proof
+- [x] All six story ACs verified as detailed above.
+
 ## Implementation Evidence (DELIVERED)
 
 PROOF:
