@@ -4,7 +4,7 @@
     "host": "speeds-MacBook-Pro",
     "python": "3.14.3"
   },
-  "checker_commit": "a382f747f31735c9eaa5eecb4bb6e1581b3403de",
+  "checker_commit": "ffe1e126891e547dbaa63e5ec54708698f50b7a1",
   "checker_sha256": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af",
   "lanes": [
     {
