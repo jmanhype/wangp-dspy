@@ -4,11 +4,11 @@ title: "Local-only storage remediation packet"
 status: closed
 priority: 1
 type: task
-labels: [storage, evidence, operator-decision, delivered, accepted]
+labels: [storage, evidence, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T19:29:46Z
+updated_at: 2026-09-30T19:29:47Z
 content_hash: "sha256:d4db39b4afca71e4c8d0775ee92449c09e1a7b3bb6c13a902348b2b4769aee8c"
 follows: [WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-1s5s
