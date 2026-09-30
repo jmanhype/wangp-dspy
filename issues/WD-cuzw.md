@@ -1,18 +1,17 @@
 ---
 id: WD-cuzw
 title: "Authorized reversible H3 checkpoint offload"
-status: in_progress
+status: open
 priority: 1
 type: task
 labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:09:33Z
-content_hash: "sha256:8d4ffca15e5671d62388aab545df582853e776318ac668d9a15be25131267494"
+updated_at: 2026-09-30T21:09:40Z
+content_hash: "sha256:ed03ae9f981e08f916a09759e9ad7b4f1cc2be5f0b36c8dd95926940c32812c3"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i]
-assignee: dev-WD-cuzw
 ---
 
 ## Description
@@ -363,6 +362,8 @@ DISCOVERED_BUG:
 - 2026-09-30T20:00:52Z status: open -> in_progress
 - 2026-09-30T20:00:52Z auto-follows: linked to predecessor WD-he8i
 - 2026-09-30T20:00:52Z claimed by dev-WD-cuzw
+- 2026-09-30T21:09:40Z status: in_progress -> open
+- 2026-09-30T21:09:40Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
