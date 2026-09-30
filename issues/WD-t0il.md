@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-29T10:17:55Z
-content_hash: "sha256:20221e7e6281f1eb4c16a42c9164a5c14ccb6a0eaf9370e72517c123a0aaa700"
+updated_at: 2026-09-30T15:30:18Z
+content_hash: "sha256:5319b06e0081ddc5b75131905e37ab75e39b8f0ac0e724b483e294aaaec46131"
 blocks: [WD-fay0]
 ---
 
@@ -197,3 +197,6 @@ Strict current-state audit at merged main 2c20caa15b12b783188d5e707e0d29dda4f5ee
 
 ### 2026-09-29T10:17:55Z speed
 Editor-gap ownership update at main 2c20caa1: WD-qthq now owns docs/editor.md "Authorized host export/media." Its local two-source deterministic project/export, not_authorized template, fail-closed runner, and real API tests are complete at PR 218 head e55588f57fd46ca43e144a57662a09eafad1668a with exact-head CI success. WD-qthq is deferred pending explicit host-3090 authorization; no editor host/media claim is made yet.
+
+### 2026-09-30T15:30:17Z speed
+Merged-main progress at 5a94eb491c524816334e23e1b2894acc3b772819: WD-qthq was independently accepted and merged. Main CI run 36733667937 succeeded in 25m24s; backlog lint 153/0/0; release ready/tag false; editor host-run canonical checker passed. Current authoritative docs leave seven LTX dependency_blocked cells and the first-run generated row incomplete. The historical WD-fay0 index still lists editor as planned, but merged docs/editor.md and the WD-qthq host-run bundle supersede that stale index row.
