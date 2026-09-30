@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
 updated_at: 2026-09-30T15:30:18Z
-content_hash: "sha256:6986f790ab5a51eaa10a850555c970af5b6c09dd812845d5870617ad17bbcf82"
+content_hash: "sha256:96e191d904abbd85538efbe6d1d9df85766c9a0f8b170d60c81c2f434c565a4e"
 blocks: [WD-fay0]
-blocked_by: [WD-he8i]
+was_blocked_by: [WD-he8i]
 ---
 
 ## Description
@@ -99,11 +99,12 @@ status: blocked
 - 2026-09-26T05:37:53Z status: open -> blocked
 - 2026-09-26T05:38:12Z status: blocked -> deferred
 - 2026-09-30T15:33:53Z dep_added: blocked_by WD-he8i
+- 2026-09-30T17:13:38Z dep_removed: was_blocked_by WD-he8i
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Blocked by: [[WD-he8i]]
+- Was blocked by: [[WD-he8i]]
 
 ## Comments
 

@@ -1,18 +1,19 @@
 ---
 id: WD-he8i
 title: "Maestro parity current index reconciliation"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [evidence, index, qc, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T17:08:41Z
-content_hash: "sha256:83f97d625bc6d350b7ce601618a738f6ea65a69b03683c527ee5dd9acd51b95f"
-blocks: [WD-t0il, WD-fay0]
+updated_at: 2026-09-30T17:13:37Z
+content_hash: "sha256:c9822ea25807483136e5221535ab809f33557a39fcf13f75ff2e3b99fabbf94e"
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
+closed_at: 2026-09-30T17:13:37Z
+close_reason: "Accepted: exact head ec9abf4a38afa5249acffeaac2d639353fbfc864 has passing CI, exact 208-row matrix parity and boundary preservation, focused validator/test coverage, and clean standing gates."
 ---
 
 ## Description
@@ -269,10 +270,12 @@ status: in_progress
 - 2026-09-30T15:34:39Z claimed by dev-WD-he8i
 - 2026-09-30T17:05:54Z status: in_progress -> in_progress
 - 2026-09-30T17:05:54Z auto-follows: linked to predecessor WD-23rs
+- 2026-09-30T17:13:37Z status: in_progress -> closed
+- 2026-09-30T17:13:38Z dep_removed: no_longer_blocks WD-t0il
+- 2026-09-30T17:13:38Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-t0il]], [[WD-fay0]]
 - Follows: [[WD-qthq]], [[WD-23rs]]
 
 ## Comments
