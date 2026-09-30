@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T00:38:50Z
-content_hash: "sha256:4509f26176fecf00837b84ab489ab1ebdb74d32fd29553fb160acf9448eba786"
+updated_at: 2026-09-30T14:49:15Z
+content_hash: "sha256:439d9a2e7fbb060c8694e9287917193c04c211f8dbc5114433217c81dca44df7"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-qthq
@@ -136,6 +136,55 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+
+Summary: Delivered the operator-authorized editor host-export media path. One governed `kind=editor_export` queue job ran on host `3090`, CPU-only FFmpeg produced a real nonempty four-second ordered video/audio artifact, both immutable source identities remained unchanged, all eight objective gates passed, the canonical Maestro parity checker exited zero, and the single editor row now links to the host-run evidence.
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_editor_host_export.py tests/test_runtime_host_wiring.py --junitxml=/tmp/wd-qthq-delivery-focused.xml`
+- `python3 scripts/verify_maestro_parity.py datasets/runs/maestro-parity/editor-host-export/host-run`
+- `pvg verify scripts/run_editor_host_export.py tests/test_editor_host_export.py datasets/runs/maestro-parity/editor-host-export/operator-authorization.template.json --include-tests --format=text`
+- `pvg lint --backlog`
+- `uv run --frozen --extra dev wgp release verify --json`
+- `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+- GitHub exact-head CI at PR #218 head `284c7f16259cab5c85a017f06bad1f29934e04ed`.
+
+SHA: `284c7f16259cab5c85a017f06bad1f29934e04ed` on `story/WD-qthq`; PR https://github.com/jmanhype/wangp-dspy/pull/218
+
+### CI/Test Results
+- Focused editor/runtime host-wiring JUnit: `tests=14 errors=0 failures=0 skipped=0`.
+- Exact-head CI run `36724918128`: `test` success at the same head, 24m56s, https://github.com/jmanhype/wangp-dspy/actions/runs/36724918128.
+- Canonical checker: `PASS wangp-dspy.maestro-parity-evidence/v1 datasets/runs/maestro-parity/editor-host-export/host-run owned_warnings=0`.
+- `pvg verify`: PASSED, 2 files, 0 issues.
+- `pvg lint --backlog`: 153 scanned, 0 errors, 0 review findings.
+- Release verification: `ready=true`, `tag_created=false`.
+- Protected-file parity: exit 0.
+- `git diff --check`: pass.
+- Host queue: `job-1790730445881-aa610b52`, attempt 1, final `done`, exit `succeeded`.
+- Output: `outputs/editor-export.mp4`, 515764 bytes, SHA-256 `4f7c955ebbf68daa98eed4c117cb879db8dfc6744924d6f1e7ad1e1de8c8725e`.
+- FFprobe: 704x576, 24 fps, 4.0 s, AAC 24 kHz mono.
+- Objective gates: 8/8 pass, including first-half SSIM `0.989087`, second-half SSIM `0.991025`, audio-head correlation `0.9995817278979054`, and audio-padding RMSE `0.000001645215474140844`.
+- Canonical evidence bundle: `datasets/runs/maestro-parity/editor-host-export/host-run/evidence.json`.
+- Boundary history: two local wrapper defects and two post-preflight local transport defects are recorded under `boundary-attempts/`; they did not execute a second queue job or FFmpeg operation.
+
+### AC Verification
+| AC | Result | Evidence |
+| --- | --- | --- |
+| 1 exact local reference and immutable source hashes | PASS | canonical project/export identities reproduced; before/after source hashes equal in `host-run/run-summary.json` |
+| 2 fail-closed authorization/input handling | PASS | `tests/test_editor_host_export.py`; typed boundary artifacts; focused 14/14 |
+| 3 authorized host preflight and zero model downloads | PASS | `execute-preflight.log`, host facts in `run-summary.json`, `model_downloads=0` |
+| 4 exactly one real governed queue job and CPU FFmpeg | PASS | queue DB and `queue_attempt` record one `editor_export` job, attempt 1, `gpu_work=false` |
+| 5 real ordered media artifact and objective gates | PASS | hashed MP4, ffprobe, contact sheet, SSIM/audio gates, checker PASS |
+| 6 source/project immutability and complete evidence | PASS | before/after hashes equal; queue, native logs, transfer/hash logs, metadata, gates, reviewer record present |
+| 7 exact editor row terminal transition | PASS | `docs/editor.md` updates only Authorized host export/media to evidence-backed host run |
+| 8 focused/full/standing gates | PASS | focused 14/14; exact-head full CI success; lint, release, protected parity, checker, and diff gates pass |
+
+LEARNINGS:
+- The remote root is operator-specific authorization data, not an active-runtime default; binding it in the authorization record preserves the no-host-defaults gate.
+- SSH scripts must be staged to absolute remote paths and invoked without `-n` stdin redirection.
+- Local wrapper failures before queue admission can be repaired without consuming the authorized operation; the successful run records exact continuity and all boundary attempts.
+
 ## Implementation Boundary (HOST PREFLIGHT — NOT DELIVERED)
 
 - Command: `bash /tmp/wd_qthq_execute_once.sh`; exit `3`.
