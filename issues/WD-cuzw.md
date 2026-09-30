@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
 updated_at: 2026-09-30T21:15:01Z
-content_hash: "sha256:8a75c9b9581992e28816d682bf9f744dfc90e2e98a8bad56462936ad1088b092"
+content_hash: "sha256:f5a141b0c0b9fd8c48f267e556abd481be85712ab9fb3de3d6d5c0dec4cc952b"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i]
 ---
@@ -482,3 +482,6 @@ DISCOVERED_BUG:
 - Follows: [[WD-1s5s]], [[WD-he8i]]
 
 ## Comments
+
+### 2026-09-30T21:15:01Z speed
+DISPATCHER ADJUDICATION: the 2026-09-30T21:08:21Z H3_ROOT_CONTAINMENT_INVALID boundary was read-only and provably stopped before push_file/run_argv/root creation/move. It did not consume the single mutation attempt. Preserve it immutably under boundary-attempts, repair the local mount parsing and branch argv defect, retry read-only preflight once, and only then use the original operator approval for the sole mutation attempt. No H3 retry/LTX/download/queue authority is added.
