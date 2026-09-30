@@ -1,0 +1,11 @@
+paths	exists	type	size	sha256
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/added_tokens.json	yes	file	35	50b2f405ba56a26d4913fd772089992252d7f942123cc0a034d96424221ba946
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/chat_template.json	yes	file	1615	fe16baf728db49457cde32802cd7efc0ac8a7a9877dbe22fe3322b2d9dc6ccd9
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/config_light.json	yes	file	907	c425c32bd6ea9ef8542ca0567fb903be7b728dc3b454d2511adecfc85978bb5c
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/generation_config.json	yes	file	173	13da6aad6852a008419f46df754b3452fc96387a4213c25811509d474e5a4776
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/preprocessor_config.json	yes	file	570	f688d6bb20c5017601c4011de7ca656da8485b540b05013efdaf986c0fcc918d
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/processor_config.json	yes	file	70	3ffd5f11778dc73e2b69b3c00535e4121e1badf7018136263cd17b5b34fbaa53
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/special_tokens_map.json	yes	file	662	2f7b0adf4fb469770bb1490e3e35df87b1dc578246c5e7e6fc76ecf33213a397
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.json	yes	file	33384570	7d4046bf0505a327dd5a0abbb427ecd4fc82f99c2ceaa170bc61ecde12809b0c
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.model	yes	file	4689074	1299c11d7cf632ef3b4e11937501358ada021bbdf7c47638d13c0ee982f2e79c
+/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer_config.json	yes	file	1157001	31e860fdfa360fa5aa58fe93252799facde5a52d1352f77d45978ab2a7e9eeb1

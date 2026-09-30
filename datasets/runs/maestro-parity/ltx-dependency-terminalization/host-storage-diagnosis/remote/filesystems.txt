@@ -1,0 +1,9 @@
+Filesystem         1B-blocks          Used    Available Use% Mounted on
+tmpfs             3339599872       3723264   3335876608   1% /run
+/dev/nvme0n1p4  857997254656  831386304512  17865703424  98% /
+tmpfs            16697999360       1691648  16696307712   1% /dev/shm
+tmpfs                5242880         12288      5230592   1% /run/lock
+efivarfs              196608        116942        74546  62% /sys/firmware/efi/efivars
+/dev/nvme0n1p1     100663296      32910336     67752960  33% /boot/efi
+tmpfs             3339599872        151552   3339448320   1% /run/user/1000
+/dev/sda4      1756157775872 1349657788416 317216575488  81% /mnt/bulk-hdd

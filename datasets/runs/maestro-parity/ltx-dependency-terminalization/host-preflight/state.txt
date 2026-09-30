@@ -1,0 +1,10 @@
+date_utc=2026-09-30T14:00:02Z
+hostname=straughter-Z690-Steel-Legend
+uname=Linux straughter-Z690-Steel-Legend 6.17.0-35-generic #35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+live_head=4c93b64a47b5b0a915f2abec2ce754be98227150
+live_branch=fix/ref2va-reference-image-resolution
+live_status_sha256=ed92a1b2f87b0ab61e736ff30240b82e3a34d0ec810f18c415dcb3327ab88aad
+m7xw_source_head=faea82d15bf10b3479c42c0ea430892aae975870
+m7xw_source_status_sha256=ecb6cdde814713d27809caad4dfe19e8926cfbc33c02537934618b5a6d155d17
+osfm_source_head=4c93b64a47b5b0a915f2abec2ce754be98227150
+osfm_source_status_sha256=ecb6cdde814713d27809caad4dfe19e8926cfbc33c02537934618b5a6d155d17
