@@ -4,11 +4,11 @@ title: "Maestro parity current index reconciliation"
 status: closed
 priority: 1
 type: task
-labels: [evidence, index, qc, delivered]
+labels: [evidence, index, qc, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T17:13:37Z
+updated_at: 2026-09-30T17:13:38Z
 content_hash: "sha256:c9822ea25807483136e5221535ab809f33557a39fcf13f75ff2e3b99fabbf94e"
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
