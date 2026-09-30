@@ -8,10 +8,9 @@ labels: [storage, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T18:10:49Z
-content_hash: "sha256:d391f7abdd3a68b02836b2f8c33172d8d3f98df1064c1e0cfd708f1e480e3595"
+updated_at: 2026-09-30T18:10:50Z
+content_hash: "sha256:4d9ced4862e2c709f57b04ec41485672e5595f005ed94bd059cb5f207102df0f"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
-assignee: dev-WD-1s5s
 follows: [WD-he8i]
 ---
 
@@ -375,6 +374,7 @@ BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required sourc
 - 2026-09-30T17:57:39Z auto-follows: linked to predecessor WD-he8i
 - 2026-09-30T17:57:39Z claimed by dev-WD-1s5s
 - 2026-09-30T18:09:31Z status: in_progress -> blocked
+- 2026-09-30T18:10:50Z released by speed
 
 ## Links
 - Parent: [[WD-3nod]]
