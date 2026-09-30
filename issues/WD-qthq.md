@@ -4,7 +4,7 @@ title: "Editor authorized host export media"
 status: in_progress
 priority: 1
 type: task
-labels: [editor, evidence, external-integration, operator-decision]
+labels: [editor, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
