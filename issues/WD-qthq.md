@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T00:14:45Z
-content_hash: "sha256:36c4f09cbd50d3d660f0ae5072496c44e918204cb3f76f9db6ea3896df53bddb"
+updated_at: 2026-09-30T00:38:50Z
+content_hash: "sha256:4509f26176fecf00837b84ab489ab1ebdb74d32fd29553fb160acf9448eba786"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-qthq
@@ -136,6 +136,28 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (HOST PREFLIGHT — NOT DELIVERED)
+
+- Command: `bash /tmp/wd_qthq_execute_once.sh`; exit `3`.
+- Typed diagnostic: `EDITOR_HOST_PREFLIGHT_INVALID` — SSH preflight returned no workspace/runtime facts.
+- Root cause evidence: the SSH wrapper used `-n`, which redirects stdin from `/dev/null`, while the preflight script was supplied on stdin to remote `/bin/sh -s`. The SSH process exited `0`, but stdout and stderr were empty and the preflight facts were absent.
+- Authoritative artifacts: `datasets/runs/maestro-parity/editor-host-export/host-run/ssh-preflight.log` (SHA-256 `9d3e4287aa5673f4a7bc87fd79f0202f99eb9d73bc14cff87625dcfb22983717`) and `datasets/runs/maestro-parity/editor-host-export/host-boundary-20260929T193758Z.md`.
+- Host effect: one SSH listener contact only. No remote preflight script execution, source/project/export transfer, workspace population, queue admission, FFmpeg execution, media retrieval, model download, GPU/provider work, or media substitution occurred.
+- Stopped fail-closed without retry or delivery as required.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Exact local guard and source/project/export preflight passed at `04f5b7261db2d1e35596bc9761fc38734aafae89`.
+- Authorized host attempt stopped at `EDITOR_HOST_PREFLIGHT_INVALID`; only `host-run/ssh-preflight.log` exists.
+
+### proof
+- [x] Verbatim authorization recorded as `Authorize`.
+- [x] Exact local source/project/export identities verified.
+- [x] Typed host boundary recorded without retry.
+- [ ] Host preflight facts, transfer, one real editor_export queue execution, CPU-only FFmpeg media, evidence bundle, row transition, and standing gates remain incomplete.
+
 ## Implementation Boundary (NOT DELIVERED)
 
 - Command: `bash /tmp/wd_qthq_execute_once.sh`
