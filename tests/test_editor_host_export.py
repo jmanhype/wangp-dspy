@@ -218,8 +218,11 @@ def test_cli_has_no_external_boundary_contact_without_or_with_representation(tmp
     )
     assert represented.returncode == 0
     command = json.loads(represented.stdout)
-    assert command["argv"][:2] == ["ssh", "-n"]
-    assert command["argv"][6] == "3090"
+    assert command["argv"][0] == "ssh"
+    assert "-n" not in command["argv"]
+    assert command["argv"][5] == "3090"
+    assert command["argv"][6] == "/bin/sh"
+    assert command["argv"][7] == "/tmp/wd-qthq-editor-export-contract-ffmpeg.sh"
     assert command["ffmpeg_argv"][0] == "ffmpeg"
     assert command["ffmpeg_argv"][1:3] == ["-nostdin", "-y"]
     assert command["executed"] is False
@@ -231,8 +234,11 @@ def test_cli_has_no_external_boundary_contact_without_or_with_representation(tmp
 def test_authorized_runner_represents_argv_but_never_executes() -> None:
     command = runner.authorized_command(_authorization())
     assert isinstance(command.argv, tuple)
-    assert command.argv[:2] == ("ssh", "-n")
-    assert command.argv[6] == "3090"
+    assert command.argv[0] == "ssh"
+    assert "-n" not in command.argv
+    assert command.argv[5] == "3090"
+    assert command.argv[6] == "/bin/sh"
+    assert command.argv[7] == "/tmp/wd-qthq-editor-export-contract-ffmpeg.sh"
     assert command.ffmpeg_argv[0] == "ffmpeg"
     assert "-filter_complex" in command.ffmpeg_argv
     assert "-c:v" in command.ffmpeg_argv

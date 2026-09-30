@@ -48,7 +48,7 @@ HOST = str(TEMPLATE["host"])
 REQUIRED_VERBATIM = str(TEMPLATE["authorization"]["required_verbatim"])
 OPERATOR_APPROVAL_VERBATIM = "Authorize"
 REMOTE_ROOT = Path("/home/straughter/Wan2GP/wd-qthq-editor-export")
-SSH_OPTIONS = ("-n", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15")
+SSH_OPTIONS = ("-o", "BatchMode=yes", "-o", "ConnectTimeout=15")
 MINIMUM_FREE_BYTES = 1_000_000_000
 FFMPEG_FILTER = (
     "[0:v]split=2[base][second];"
@@ -319,7 +319,8 @@ def authorized_command(record: Mapping[str, object]) -> AuthorizedCommand:
     """Represent the one authorized native FFmpeg run without executing it."""
     verify_authorization(record)
     ffmpeg_argv = _ffmpeg_argv(REMOTE_ROOT / "command-contract")
-    argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s")
+    remote_script = "/tmp/wd-qthq-editor-export-contract-ffmpeg.sh"
+    argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", remote_script)
     remote_script = "set -eu\nexec " + shlex.join(ffmpeg_argv) + "\n"
     return AuthorizedCommand(HOST, argv, ffmpeg_argv, remote_script, False, 0)
 
@@ -339,24 +340,21 @@ def _ffmpeg_argv(workspace: Path) -> tuple[str, ...]:
     )
 
 
-def _write_log(path: Path, command: Sequence[str], result: subprocess.CompletedProcess[bytes], script: str | None = None) -> None:
+def _write_log(path: Path, command: Sequence[str], result: subprocess.CompletedProcess[bytes]) -> None:
     lines = [
         "command=" + json.dumps(list(command), sort_keys=True),
     ]
-    if script is not None:
-        lines.append("remote_script:")
-        lines.extend("  " + item for item in script.splitlines())
     lines.extend(("stdout:", result.stdout.decode("utf-8", "replace")))
     lines.extend(("stderr:", result.stderr.decode("utf-8", "replace")))
     lines.append(f"exit={result.returncode}")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _run(command: Sequence[str], log: Path, *, script: str | None = None, timeout: int = 300) -> subprocess.CompletedProcess[bytes]:
+def _run(command: Sequence[str], log: Path, *, timeout: int = 300) -> subprocess.CompletedProcess[bytes]:
     try:
         result = subprocess.run(
             command,
-            input=None if script is None else script.encode("utf-8"),
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=timeout,
@@ -364,7 +362,7 @@ def _run(command: Sequence[str], log: Path, *, script: str | None = None, timeou
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         result = subprocess.CompletedProcess(command, 124, b"", str(exc).encode("utf-8", "replace"))
-    _write_log(log, command, result, script)
+    _write_log(log, command, result)
     if result.returncode != 0:
         raise _reject(
             "EDITOR_HOST_COMMAND_FAILED",
@@ -372,6 +370,42 @@ def _run(command: Sequence[str], log: Path, *, script: str | None = None, timeou
             "Stop at this typed boundary; do not retry or substitute media.",
         )
     return result
+
+
+def _run_staged_script(
+    bundle: Path,
+    run_token: str,
+    name: str,
+    script: str,
+    *,
+    timeout: int = 300,
+) -> tuple[subprocess.CompletedProcess[bytes], Mapping[str, object]]:
+    """Upload a script, execute its absolute remote path, and preserve its identity."""
+    local_script = bundle / "staged-scripts" / f"{name}.sh"
+    local_script.parent.mkdir(parents=True, exist_ok=True)
+    local_script.write_text(script, encoding="utf-8")
+    remote_script = f"/tmp/wd-qthq-editor-export-{run_token}-{name}.sh"
+    _run(
+        ("scp", *SSH_OPTIONS, str(local_script), f"{HOST}:{remote_script}"),
+        bundle / f"stage-{name}.log",
+        timeout=120,
+    )
+    result = _run(
+        ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", remote_script),
+        bundle / f"execute-{name}.log",
+        timeout=timeout,
+    )
+    identity = {
+        "name": name,
+        "local_path": str(local_script.relative_to(bundle)),
+        "remote_path": remote_script,
+        "sha256": _sha256(local_script),
+        "byte_size": local_script.stat().st_size,
+    }
+    (bundle / "staged-scripts" / f"{name}.json").write_text(
+        json.dumps(identity, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return result, identity
 
 
 def _parse_key_values(raw: bytes) -> dict[str, str]:
@@ -383,7 +417,7 @@ def _parse_key_values(raw: bytes) -> dict[str, str]:
     return values
 
 
-def _remote_preflight(bundle: Path) -> tuple[Path, Mapping[str, object]]:
+def _remote_preflight(bundle: Path, run_token: str) -> tuple[Path, Mapping[str, object], list[Mapping[str, object]]]:
     workspace = REMOTE_ROOT / time.strftime("%Y%m%dT%H%M%SZ") / os.urandom(4).hex()
     script = f"""set -eu
 ROOT=/home/straughter/Wan2GP
@@ -404,11 +438,7 @@ printf 'ffprobe=%s\\n' "$(command -v ffprobe)"
 printf 'free_bytes=%s\\n' "$FREE"
 ffmpeg -version | sed -n '1p'
 """
-    result = _run(
-        ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s"),
-        bundle / "ssh-preflight.log",
-        script=script,
-    )
+    result, staged_script = _run_staged_script(bundle, run_token, "preflight", script)
     facts = _parse_key_values(result.stdout)
     if set(facts) != {"host", "user", "workspace", "ffmpeg", "ffprobe", "free_bytes"}:
         raise _reject("EDITOR_HOST_PREFLIGHT_INVALID", "SSH preflight did not return the exact workspace/runtime facts", "Inspect the recorded log; do not transfer or queue.")
@@ -417,7 +447,7 @@ ffmpeg -version | sed -n '1p'
     return workspace, {
         "host": facts["host"], "user": facts["user"], "workspace": str(workspace),
         "ffmpeg": facts["ffmpeg"], "ffprobe": facts["ffprobe"], "free_bytes": int(facts["free_bytes"]),
-    }
+    }, [staged_script]
 
 
 def _transfer_inputs(repository: Path, bundle: Path, workspace: Path) -> None:
@@ -436,7 +466,13 @@ def _transfer_inputs(repository: Path, bundle: Path, workspace: Path) -> None:
         )
 
 
-def _verify_remote_inputs(bundle: Path, workspace: Path, log_name: str = "remote-hash-check.log") -> None:
+def _verify_remote_inputs(
+    bundle: Path,
+    workspace: Path,
+    run_token: str,
+    staged_scripts: list[Mapping[str, object]],
+    log_name: str = "remote-hash-check.log",
+) -> None:
     expected = {
         "sources/video-cut.mp4": VIDEO_SHA256,
         "sources/voice.wav": AUDIO_SHA256,
@@ -445,11 +481,8 @@ def _verify_remote_inputs(bundle: Path, workspace: Path, log_name: str = "remote
     }
     script = "set -eu\ncd " + str(workspace) + "\n"
     script += "".join(f"printf '%s=' '{relative}'; sha256sum '{relative}' | awk '{{print $1}}'\n" for relative in expected)
-    result = _run(
-        ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s"),
-        bundle / log_name,
-        script=script,
-    )
+    result, staged_script = _run_staged_script(bundle, run_token, Path(log_name).stem, script)
+    staged_scripts.append(staged_script)
     observed = _parse_key_values(result.stdout)
     if observed != expected:
         raise _reject("EDITOR_HOST_REMOTE_HASH_MISMATCH", f"remote hashes differ: {observed!r}", "Stop before queue admission; preserve the workspace and logs.")
@@ -486,10 +519,12 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
     }
     queue: JobQueue | None = None
     job_id: str | None = None
+    staged_scripts: list[Mapping[str, object]] = []
     try:
-        workspace, host = _remote_preflight(bundle)
+        run_token = time.strftime("%Y%m%dT%H%M%SZ") + "-" + os.urandom(4).hex()
+        workspace, host = _remote_preflight(bundle, run_token)
         _transfer_inputs(repository, bundle, workspace)
-        _verify_remote_inputs(bundle, workspace)
+        _verify_remote_inputs(bundle, workspace, run_token, staged_scripts)
 
         database = bundle / "queue/jobs.db"
         payload = _load_json(repository / EXPORT_RELATIVE, "EDITOR_HOST_EXPORT_INVALID")
@@ -507,15 +542,18 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
         queue.heartbeat(job_id)
 
         ffmpeg_argv = _ffmpeg_argv(workspace)
-        ssh_argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s")
+        ssh_argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", f"/tmp/wd-qthq-editor-export-{run_token}-ffmpeg.sh")
         ffmpeg_script = "set -eu\nexec " + shlex.join(ffmpeg_argv) + "\n"
-        _run(ssh_argv, bundle / "ffmpeg.native.log", script=ffmpeg_script, timeout=600)
+        _, ffmpeg_staged_script = _run_staged_script(
+            bundle, run_token, "ffmpeg", ffmpeg_script, timeout=600
+        )
+        staged_scripts.append(ffmpeg_staged_script)
         _run(
             ("ssh", *SSH_OPTIONS, HOST, "ffprobe", "-v", "error", "-show_format", "-show_streams", "-print_format", "json", str(workspace / "outputs/editor-export.mp4")),
             bundle / "ffprobe-remote-output.json.log",
             timeout=120,
         )
-        _verify_remote_inputs(bundle, workspace, "remote-post-hash-check.log")
+        _verify_remote_inputs(bundle, workspace, run_token, staged_scripts, "remote-post-hash-check.log")
         queue.set_state(job_id, "rendered_pending_qc")
         queue.set_state(job_id, "qc")
 
@@ -557,6 +595,7 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
             "command": list(ssh_argv),
             "native_ffmpeg_argv": list(ffmpeg_argv),
             "host": host,
+            "staged_scripts": staged_scripts,
             "queue": {
                 "queue_id": "wangp-JobQueue-WD-qthq",
                 "job_id": job_id,
