@@ -114,6 +114,14 @@ def test_preflight_passes_read_only_facts_and_rejects_each_fail_closed_boundary(
     assert result["candidates"]["superseded-h3-checkpoint-1"]["sha256"] == "a" * 64
     assert host.push_file.__name__ == "push_file"
 
+    namespace = StaticProbeHost(
+        _facts(),
+        mount="/mnt/bulk-hdd /dev/sda4 ext4\n/mnt/bulk-hdd/other /dev/sda4[/other] ext4\n",
+    )
+    namespaced = runner.preflight(ROOT, record, namespace)
+    assert namespaced["mount"]["target"] == "/mnt/bulk-hdd"
+    assert len(namespaced["mount"]["namespace"]) == 2
+
     wrong_host = StaticProbeHost(_facts(), target="other")
     with pytest.raises(runner.H3OffloadError) as raised:
         runner.preflight(ROOT, record, wrong_host)
@@ -145,6 +153,50 @@ def test_preflight_passes_read_only_facts_and_rejects_each_fail_closed_boundary(
     with pytest.raises(runner.H3OffloadError) as raised:
         runner.preflight(ROOT, record, ambiguous_mount)
     assert raised.value.code == "H3_ROOT_CONTAINMENT_INVALID"
+
+    nested_over_root = StaticProbeHost(
+        _facts(),
+        mount="/mnt/bulk-hdd /dev/sda4 ext4\n/mnt/bulk-hdd/straughter/model-offload /dev/sda4[/model] ext4\n",
+    )
+    with pytest.raises(runner.H3OffloadError) as raised:
+        runner.preflight(ROOT, record, nested_over_root)
+    assert raised.value.code == "H3_ROOT_CONTAINMENT_INVALID"
+
+
+def test_repository_identity_uses_real_git_branch_argv(tmp_path: Path) -> None:
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    (repository / "authorization.json").write_text("{}\n", encoding="utf-8")
+    commands = (
+        ["git", "-C", str(repository), "init", "-b", "story/WD-cuzw"],
+        ["git", "-C", str(repository), "add", "authorization.json"],
+        ["git", "-C", str(repository), "-c", "user.name=WD-cuzw", "-c", "user.email=dev@example.invalid", "commit", "-m", "identity fixture"],
+    )
+    for command in commands:
+        assert subprocess.run(command, text=True, capture_output=True, timeout=30, check=True).returncode == 0
+    identity = runner._repository_identity(repository)
+    assert identity["branch"] == "story/WD-cuzw"
+    assert identity["commit"] == subprocess.run(
+        ["git", "-C", str(repository), "rev-parse", "HEAD"], text=True, capture_output=True, check=True
+    ).stdout.strip()
+
+
+def test_only_the_exact_archived_boundary_is_not_current_evidence(tmp_path: Path) -> None:
+    bundle = tmp_path / "host-run"
+    archived = bundle / "boundary-attempts/20260930T210821Z"
+    archived.mkdir(parents=True)
+    for name in ("attempt.json", "failure.json", "evidence.sha256"):
+        (archived / name).write_text(name + "\n", encoding="utf-8")
+    assert runner._has_current_evidence(bundle) is False
+
+    current = tmp_path / "current-run"
+    current.mkdir()
+    (current / "run-summary.json").write_text("{}\n", encoding="utf-8")
+    assert runner._has_current_evidence(current) is True
+    malformed = tmp_path / "malformed-run/boundary-attempts/20260930T210821Z"
+    malformed.mkdir(parents=True)
+    (malformed / "unexpected").write_text("partial\n", encoding="utf-8")
+    assert runner._has_current_evidence(malformed.parent.parent) is True
 
 
 def _translated_script(path: Path, *, fail_after_first: bool = False, rollback_collision: bool = False) -> tuple[Path, dict[str, Path], dict[str, Path]]:

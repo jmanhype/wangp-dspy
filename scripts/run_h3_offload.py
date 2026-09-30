@@ -293,15 +293,32 @@ def _probe_json(host: SshHostLike, code: str, payload: Mapping[str, object], *, 
     return value
 
 
-def _mount_fact(host: SshHostLike) -> dict[str, str]:
+def _mount_fact(host: SshHostLike) -> dict[str, object]:
     rc, stdout, stderr = host.run_probe(["findmnt", "-n", "-o", "TARGET,SOURCE,FSTYPE", "--", BULK_MOUNT], timeout=60)
     lines = [line for line in stdout.splitlines() if line.strip()]
-    if rc != 0 or len(lines) != 1:
-        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"bulk mount probe was absent or ambiguous ({len(lines)} rows): {stderr.strip()[:200]}", "Stop before root creation or mutation.")
-    fields = lines[0].split()
-    if len(fields) != 3 or fields[0] != BULK_MOUNT or not fields[1] or not fields[2]:
-        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"bulk mount identity differs: {lines[0]!r}", "Use the exact mounted /mnt/bulk-hdd filesystem only.")
-    return {"target": fields[0], "source": fields[1], "filesystem_type": fields[2]}
+    rows: list[dict[str, str]] = []
+    for line in lines:
+        fields = line.split()
+        if len(fields) == 3 and fields[1] and fields[2]:
+            rows.append({"target": fields[0], "source": fields[1], "filesystem_type": fields[2]})
+    exact = [row for row in rows if row["target"] == BULK_MOUNT]
+    if rc != 0 or not rows or len(exact) != 1:
+        raise _reject(
+            "H3_ROOT_CONTAINMENT_INVALID",
+            f"bulk mount probe lacked one exact mount row (rows={rows!r}, stderr={stderr.strip()[:200]!r})",
+            "Stop before root creation or mutation.",
+        )
+    for row in rows:
+        target = row["target"]
+        in_namespace = target == BULK_MOUNT or target.startswith(BULK_MOUNT + "/")
+        covers_offload_root = target != BULK_MOUNT and (OFFLOAD_ROOT == target or OFFLOAD_ROOT.startswith(target + "/"))
+        if not in_namespace or covers_offload_root:
+            raise _reject(
+                "H3_ROOT_CONTAINMENT_INVALID",
+                f"mount namespace escapes or overlays the authorized root: {rows!r}",
+                "Stop before root creation or mutation.",
+            )
+    return {**exact[0], "namespace": rows}
 
 
 def _validate_preflight(record: Mapping[str, object], facts: dict[str, Any], identity: Mapping[str, object]) -> None:
@@ -394,12 +411,36 @@ def _repository_identity(root: Path) -> dict[str, object]:
     if clean.returncode or clean.stdout.strip():
         raise _reject("H3_REPOSITORY_DIRTY", f"repository is dirty or git failed: {clean.stdout.strip()!r}", "Commit the implementation before the sole host attempt.")
     values: dict[str, object] = {}
-    for key, revision in (("commit", "HEAD"), ("tree", "HEAD^{tree}"), ("branch", "--abbrev-ref HEAD")):
-        result = subprocess.run(["git", "-C", str(root), "rev-parse", revision], text=True, capture_output=True, check=False)
+    revisions: tuple[tuple[str, Sequence[str]], ...] = (
+        ("commit", ("HEAD",)),
+        ("tree", ("HEAD^{tree}",)),
+        ("branch", ("--abbrev-ref", "HEAD")),
+    )
+    for key, arguments in revisions:
+        result = subprocess.run(["git", "-C", str(root), "rev-parse", *arguments], text=True, capture_output=True, check=False)
         if result.returncode:
-            raise _reject("H3_REPOSITORY_IDENTITY_INVALID", f"cannot resolve {revision}: {result.stderr.strip()}", "Run from the prepared story worktree.")
+            raise _reject("H3_REPOSITORY_IDENTITY_INVALID", f"cannot resolve {' '.join(arguments)}: {result.stderr.strip()}", "Run from the prepared story worktree.")
         values[key] = result.stdout.strip()
     return values
+
+
+def _has_current_evidence(bundle: Path) -> bool:
+    if not bundle.exists():
+        return False
+    boundary = bundle / "boundary-attempts"
+    for child in bundle.iterdir():
+        if child.name != "boundary-attempts":
+            return True
+    if not boundary.exists():
+        return False
+    expected = {"attempt.json", "failure.json", "evidence.sha256"}
+    for attempt in boundary.iterdir():
+        if not attempt.is_dir() or not re.fullmatch(r"[0-9]{8}T[0-9]{6}Z", attempt.name):
+            return True
+        children = list(attempt.iterdir())
+        if any(child.is_dir() for child in children) or {child.name for child in children} != expected:
+            return True
+    return False
 
 
 def _parse_execution_stdout(stdout: str) -> dict[str, Any]:
@@ -462,7 +503,7 @@ def execute(root: Path, record: Mapping[str, object], host: SshHostLike) -> dict
     repository = root.expanduser().resolve()
     identity = _repository_identity(repository)
     bundle = repository / BUNDLE_RELATIVE
-    if bundle.exists() and any(bundle.iterdir()):
+    if _has_current_evidence(bundle):
         raise _reject("H3_RUN_ALREADY_PRESENT", f"host-run evidence already exists: {bundle}", "Do not retry or overwrite a prior attempt.")
     bundle.mkdir(parents=True, exist_ok=True)
     attempt_started = time.time_ns()
