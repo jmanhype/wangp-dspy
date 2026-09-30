@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
 updated_at: 2026-09-30T17:13:38Z
-content_hash: "sha256:c9822ea25807483136e5221535ab809f33557a39fcf13f75ff2e3b99fabbf94e"
+content_hash: "sha256:367b7f06846aa2036508fc17b601f6c62063c4746c0816cc93dc5d76e07f33cc"
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
 closed_at: 2026-09-30T17:13:37Z
@@ -113,6 +113,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-30.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 Commands run:
 - `python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py` => PASS: 208 rows; 89 host_run_verified; 7 dependency_blocked; 110 terminal unsupported/fail-closed; 2 not_applicable; 39 evidence files hash-verified.
