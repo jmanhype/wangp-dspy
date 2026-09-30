@@ -8,10 +8,10 @@ labels: [storage, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T19:18:04Z
-content_hash: "sha256:dd371a3a20e2979a38ca52736f30ddac53135679e96f46d9137a821d7aa7cd0b"
+updated_at: 2026-09-30T19:18:30Z
+content_hash: "sha256:8dccc8df26322604edba09fe68b3bd6ab05d70b3c84ae53e59a411dd17198503"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
-follows: [WD-he8i, WD-qthq]
+follows: [WD-he8i, WD-qthq, WD-23rs]
 assignee: dev-WD-1s5s
 ---
 
@@ -453,11 +453,13 @@ status: delivered
 - 2026-09-30T18:10:50Z status: blocked -> in_progress
 - 2026-09-30T18:10:50Z auto-follows: linked to predecessor WD-qthq
 - 2026-09-30T18:10:50Z claimed by dev-WD-1s5s
+- 2026-09-30T19:18:30Z status: in_progress -> in_progress
+- 2026-09-30T19:18:30Z auto-follows: linked to predecessor WD-23rs
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-28ac]], [[WD-fay0]]
-- Follows: [[WD-he8i]], [[WD-qthq]]
+- Follows: [[WD-he8i]], [[WD-qthq]], [[WD-23rs]]
 
 ## Comments
 
