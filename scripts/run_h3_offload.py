@@ -164,7 +164,7 @@ while candidate.startswith(p["bulk_mount"]+"/"):
  components.append(candidate);candidate=os.path.dirname(candidate)
 component_facts=[f(item) for item in reversed(components)]
 contained=(root.startswith(p["bulk_mount"]+"/") and f(nearest)["device"]==f(p["bulk_mount"])["device"] and all(item["exists"] and item["type"]=="directory" and not item["symlink"] and item["device"]==f(p["bulk_mount"])["device"] for item in component_facts if item["exists"]))
-out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"candidates":{},"destinations":{},"root":f(root),"root_nearest_parent":f(nearest),"root_contained":contained,"bulk":{"device":f(p["bulk_mount"])["device"],"free_bytes":space(p["bulk_mount"])},"source_filesystem_free_bytes":space(p["source_filesystem"]),"script":f(p["script_path"])}
+out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"candidates":{},"destinations":{},"root":f(root),"root_nearest_parent":f(nearest),"root_contained":contained,"root_free_bytes":space(nearest),"bulk":{"device":f(p["bulk_mount"])["device"],"free_bytes":space(p["bulk_mount"])},"source_filesystem_free_bytes":space(p["source_filesystem"]),"script":f(p["script_path"])}
 for c in p["candidates"]:
  x=f(c["source"]);x["sha256"]=h(c["source"]) if x["type"]=="regular_file" and not x["symlink"] else None;out["candidates"][c["id"]]=x;out["destinations"][c["id"]]=f(c["destination"])
 print(json.dumps(out,sort_keys=True,separators=(",",":")))'''
@@ -212,7 +212,7 @@ def check_prestate():
             raise OSError("source identity mismatch: " + item["id"])
         if facts(item["destination"])["exists"]: raise OSError("destination collision: " + item["id"])
         item["pre_sha256"] = digest(item["source"])
-    return {{"bulk_free_before": free(BULK), "source_free_before": free(SOURCE_FS)}}
+    return {{"root_free_before": free(nearest_existing(ROOT)), "bulk_free_before": free(BULK), "source_free_before": free(SOURCE_FS)}}
 def move_no_clobber(source, destination):
     return subprocess.run(["mv", "-n", source, destination], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
 def verify_moved(item):
@@ -254,12 +254,12 @@ try:
         record["move_stderr"] = result.stderr
         moved.append(record)
         # POST_MOVE_BOUNDARY
-    output = {{"status": "offloaded", "moved": moved, "root_created": root_created, "rollback": {{"state": "not_required", "outcomes": []}}, "free_bytes": {{"bulk_before": before["bulk_free_before"], "bulk_after": free(BULK), "source_filesystem_before": before["source_free_before"], "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "storage_result_only": True}}
+    output = {{"status": "offloaded", "moved": moved, "root_created": root_created, "rollback": {{"state": "not_required", "outcomes": []}}, "free_bytes": {{"root_before": before["root_free_before"], "root_after": free(ROOT), "bulk_before": before["bulk_free_before"], "bulk_after": free(BULK), "source_filesystem_before": before["source_free_before"], "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "root_doctor_floor_met": free(ROOT) >= FLOOR, "doctor_floor_path": SOURCE_FS, "storage_result_only": True}}
     print(json.dumps(output, sort_keys=True, separators=(",", ":")))
 except BaseException as exc:
     outcomes = rollback(moved)
     rollback_failed = any(not item.get("verified") for item in outcomes)
-    output = {{"status": "rollback_failed" if rollback_failed else "rolled_back", "failure": str(exc), "failure_type": type(exc).__name__, "moved_before_failure": moved, "root_created": root_created, "rollback": {{"state": "failed" if rollback_failed else "completed", "outcomes": outcomes}}, "free_bytes": {{"bulk_before": free(BULK), "bulk_after": free(BULK), "source_filesystem_before": free(SOURCE_FS), "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "storage_result_only": True}}
+    output = {{"status": "rollback_failed" if rollback_failed else "rolled_back", "failure": str(exc), "failure_type": type(exc).__name__, "moved_before_failure": moved, "root_created": root_created, "rollback": {{"state": "failed" if rollback_failed else "completed", "outcomes": outcomes}}, "free_bytes": {{"root_before": free(nearest_existing(ROOT)), "root_after": free(nearest_existing(ROOT)), "bulk_before": free(BULK), "bulk_after": free(BULK), "source_filesystem_before": free(SOURCE_FS), "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "root_doctor_floor_met": free(nearest_existing(ROOT)) >= FLOOR, "doctor_floor_path": SOURCE_FS, "storage_result_only": True}}
     print(json.dumps(output, sort_keys=True, separators=(",", ":")))
     raise SystemExit(2)
 PY
@@ -306,7 +306,7 @@ def _mount_fact(host: SshHostLike) -> dict[str, str]:
 
 def _validate_preflight(record: Mapping[str, object], facts: dict[str, Any], identity: Mapping[str, object]) -> None:
     candidates = verify_authorization(record)
-    required = {"host", "user", "candidates", "destinations", "root", "root_nearest_parent", "root_contained", "bulk", "source_filesystem_free_bytes", "script"}
+    required = {"host", "user", "candidates", "destinations", "root", "root_nearest_parent", "root_contained", "root_free_bytes", "bulk", "source_filesystem_free_bytes", "script"}
     if set(facts) != required:
         raise _reject("H3_PREFLIGHT_OUTPUT_INVALID", f"probe fields differ: {sorted(facts)}", "Stop before mutation; require the exact fact set.")
     if not isinstance(facts.get("host"), str) or not facts["host"].strip() or not isinstance(facts.get("user"), str) or not facts["user"].strip():
@@ -362,6 +362,7 @@ def preflight(root: Path, record: Mapping[str, object], host: SshHostLike) -> di
         "host": facts["host"], "user": facts["user"], "mount": mount,
         "root": facts["root"], "root_nearest_parent": facts["root_nearest_parent"],
         "source_filesystem_free_bytes": facts["source_filesystem_free_bytes"],
+        "root_free_bytes": facts["root_free_bytes"],
         "bulk_free_bytes": facts["bulk"]["free_bytes"],
         "required_bulk_free_bytes": COMBINED_BYTES + MARGIN_BYTES,
         "candidates": {
@@ -439,9 +440,9 @@ def _validate_success(record: Mapping[str, object], result: Mapping[str, Any]) -
         if item.get("pre_sha256") != item.get("post_sha256") or not isinstance(item.get("post_sha256"), str):
             raise _reject("H3_MOVED_HASH_MISMATCH", f"post-move hash mismatch for {candidate_id}", "Automatic rollback must be verified before stopping.")
     free = result.get("free_bytes")
-    if not isinstance(free, dict) or type(free.get("source_filesystem_after")) is not int or type(free.get("bulk_after")) is not int:
+    if not isinstance(free, dict) or type(free.get("source_filesystem_after")) is not int or type(free.get("bulk_after")) is not int or type(free.get("root_after")) is not int:
         raise _reject("H3_POSTOFFLIGHT_INVALID", "post-offload free-byte facts are absent", "Stop after automatic rollback evidence.")
-    if result.get("doctor_floor_bytes") != DOCTOR_FLOOR_BYTES or type(result.get("doctor_floor_met")) is not bool:
+    if result.get("doctor_floor_bytes") != DOCTOR_FLOOR_BYTES or type(result.get("doctor_floor_met")) is not bool or type(result.get("root_doctor_floor_met")) is not bool or result.get("doctor_floor_path") != SOURCE_FILESYSTEM:
         raise _reject("H3_POSTOFFLIGHT_INVALID", "doctor-floor fact is absent or ambiguous", "Stop after automatic rollback evidence.")
 
 
@@ -516,7 +517,7 @@ def execute(root: Path, record: Mapping[str, object], host: SshHostLike) -> dict
             "repository": identity, "clean_tree_before_attempt": True,
             "host_alias": HOST, "host": before["host"], "user": before["user"],
             "mount": before["mount"],
-            "preflight": {"bulk_free_bytes": before["bulk_free_bytes"], "source_filesystem_free_bytes": before["source_filesystem_free_bytes"], "candidates": before["candidates"]},
+            "preflight": {"root_free_bytes": before["root_free_bytes"], "bulk_free_bytes": before["bulk_free_bytes"], "source_filesystem_free_bytes": before["source_filesystem_free_bytes"], "candidates": before["candidates"]},
             "staged_script": stage, "mutation_attempt_count": 1, "result": result,
             "recovery_mapping": recovery, "storage_result_only": True,
             "generation_result": False, "hardware_verdict": False,

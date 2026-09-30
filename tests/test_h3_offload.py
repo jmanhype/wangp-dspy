@@ -95,7 +95,7 @@ def _facts(**changes: Any) -> dict[str, Any]:
             "superseded-h3-checkpoint-2": {"exists": False},
         },
         "root": {"exists": False}, "root_nearest_parent": parent,
-        "root_contained": True,
+        "root_contained": True, "root_free_bytes": runner.COMBINED_BYTES + runner.MARGIN_BYTES,
         "bulk": {"device": 22, "free_bytes": runner.COMBINED_BYTES + runner.MARGIN_BYTES},
         "source_filesystem_free_bytes": 100,
         "script": {"exists": False},
