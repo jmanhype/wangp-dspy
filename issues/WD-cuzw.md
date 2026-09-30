@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:36:55Z
-content_hash: "sha256:983cc947abed661ec99e1086cfb00051bf6114029bf5e56e7429973fe7c4753a"
+updated_at: 2026-09-30T21:42:25Z
+content_hash: "sha256:a0e6f456008b8b8c063ce0e4d5c32717a04e3c23b50cebc336c3f19927320447"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs]
 assignee: dev-WD-cuzw
@@ -566,6 +566,21 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (FINAL READ-ONLY PREFLIGHT)
+
+- Final adjudicated retry command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
+- Producing commit/tree/branch: `5500a9be0da2daf9402c1c67555dd4d9c1ef22ad` / `fafb8ed40e6098604e9d35fcf467b05075741ee1` / `story/WD-cuzw`
+- Mount adjudication result: passed. The exact `systemd-1`/`autofs` plus `/dev/sda4`/`ext4` namespace was accepted and both rows were recorded by the runner.
+- New typed boundary: `H3_ROOT_CONTAINMENT_INVALID`
+- Observed fact: authorized offload root did not exist; its existing bulk-HDD parent was a non-symlink directory on device `2052` but `writable=false` for the ordinary remote user.
+- Boundary consequence: ordinary-user root creation was not attempted; `SshHost.push_file` and `SshHost.run_argv` were not reached.
+- Preserved byte-identically under `datasets/runs/maestro-parity/h3-offload/host-run/boundary-attempts/20260930T214158Z/`:
+  - `attempt.json` SHA-256 `36220166b4e198cca9237dd3bdf84c94f12f132412ab631eb05e4dd66d410f39`
+  - `failure.json` SHA-256 `0ca3097140a285047b8f4744de8867f83b0a2dea9858c37b3353cafb1c4605af`
+  - `evidence.sha256` SHA-256 `1fa69bf07ae1a5fc5bbe501b6c3b32068bf7dcc85769809f26cae5865c145c5b`
+- No staged script, root creation, source move, destination write, rollback, retry, model download/inference, GPU work, provider action, or queue admission occurred. The sole mutation budget remains unconsumed.
+- Per the final adjudication, this third read-only boundary stops for operator review. No permissions repair, sudo, alternate root, retry, PR, delivery, or self-acceptance is permitted.
+
 ## Implementation Boundary (SECOND READ-ONLY PREFLIGHT)
 
 - Adjudicated retry command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
