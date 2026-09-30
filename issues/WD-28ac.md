@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-09-30T19:53:26Z
-content_hash: "sha256:3362ac01aa9d6b8e458160e6d7938048200a203f01a3d8a472211f2a9626fc31"
+content_hash: "sha256:b13df26c789c31b56c0a22f60243396dd14ba3c7020a73fb2680bb0122a2e17c"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 was_blocked_by: [WD-1s5s]
+blocked_by: [WD-cuzw]
 ---
 
 ## Description
@@ -187,10 +188,12 @@ status: in_progress
 - 2026-09-30T14:51:37Z status: open -> deferred
 - 2026-09-30T17:56:46Z dep_added: blocked_by WD-1s5s
 - 2026-09-30T19:29:46Z dep_removed: was_blocked_by WD-1s5s
+- 2026-09-30T20:00:02Z dep_added: blocked_by WD-cuzw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Blocked by: [[WD-cuzw]]
 - Was blocked by: [[WD-1s5s]]
 - Follows: [[WD-23rs]], [[WD-p587]]
 
