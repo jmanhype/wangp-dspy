@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
 updated_at: 2026-09-30T14:49:16Z
-content_hash: "sha256:a253c728801e38176effffda71ee8ec969abc2a61b9068d7237b4ec40389f459"
+content_hash: "sha256:7d80c1e3640bcf63e57a172d748eaf0bc4a93a883049ab5f209d71bbab3e6c59"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
@@ -136,6 +136,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-09-30.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Delivered the operator-authorized editor host-export media path. One governed `kind=editor_export` queue job ran on host `3090`, CPU-only FFmpeg produced a real nonempty four-second ordered video/audio artifact, both immutable source identities remained unchanged, all eight objective gates passed, the canonical Maestro parity checker exited zero, and the single editor row now links to the host-run evidence.
