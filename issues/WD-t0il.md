@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-30T15:30:18Z
-content_hash: "sha256:96e191d904abbd85538efbe6d1d9df85766c9a0f8b170d60c81c2f434c565a4e"
+updated_at: 2026-09-30T17:39:21Z
+content_hash: "sha256:0b15178863f11b7f73f7a5219efbc7eed9ce23c1c01d1594aa55c64e96f1e9a3"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -204,3 +204,6 @@ Editor-gap ownership update at main 2c20caa1: WD-qthq now owns docs/editor.md "A
 
 ### 2026-09-30T15:30:17Z speed
 Merged-main progress at 5a94eb491c524816334e23e1b2894acc3b772819: WD-qthq was independently accepted and merged. Main CI run 36733667937 succeeded in 25m24s; backlog lint 153/0/0; release ready/tag false; editor host-run canonical checker passed. Current authoritative docs leave seven LTX dependency_blocked cells and the first-run generated row incomplete. The historical WD-fay0 index still lists editor as planned, but merged docs/editor.md and the WD-qthq host-run bundle supersede that stale index row.
+
+### 2026-09-30T17:39:21Z speed
+Current-state index reconciliation at merged main b5169fec6885660f2c5806864d03d99b8db6fecc: WD-he8i was independently accepted and merged. The consolidated validator now passes with 208 matrix rows—89 host_run_verified, 7 dependency_blocked, 110 terminal unsupported/fail-closed, 2 not applicable, and 0 planned. Editor Authorized host export/media is host_run_verified via WD-qthq. The only remaining execution gaps are WD-bw0h first-run generated artifact at the storage-root boundary and seven WD-28ac LTX cells at the destination-storage shortfall boundary. Main CI 36750088915 succeeded, backlog lint 154/0/0, release ready/tag false, and protected parity is unchanged.
