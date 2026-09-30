@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-29T23:46:28Z
-content_hash: "sha256:2eac45a923fb4dc65f5fb1d3566027f9226a4ce18da49bb1b3bb2159affdbf5d"
+updated_at: 2026-09-30T15:30:18Z
+content_hash: "sha256:752f92834c8a553d39ec23673d12a5f3c5b5e999dc449be393b0ba37cf3ae1d4"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 ---
@@ -291,3 +291,6 @@ OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. 
 
 ### 2026-09-29T23:46:28Z speed
 Authorized retry consumed and stopped fail-closed at STORAGE_PREPARATION_FAILED: cannot create offload root. Boundary evidence is preserved on PR 215 at head 2dfe36863e29eef02af0ea330d13d331bafdc00e. No model read/download/render, queue admission, relocation/deletion, artifact substitution, or second attempt occurred. A fresh operator authorization is required before another host attempt; this note parks the story without claiming completion.
+
+### 2026-09-30T15:30:18Z speed
+Proposed distinct storage remediation requiring operator authorization: on host 3090, verify current existence/size of the two superseded H3 checkpoints MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors and MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors; create/repair a user-writable /mnt/bulk-hdd/straughter/model-offload/wangp-3090 root; record pre-move SHA-256; copy each to the offload root and verify byte size/hash before replacing/removing the original by reversible move; record post-move hashes and leave a restoration path. No deletion, unrelated asset mutation, model download, or retry is authorized by this proposal.
