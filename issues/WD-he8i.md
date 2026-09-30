@@ -8,8 +8,8 @@ labels: [evidence, index, qc]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T15:34:39Z
-content_hash: "sha256:d235a964a6df3078547b9aefcabc21691186686fafcb68d976afb88314acc57d"
+updated_at: 2026-09-30T15:38:32Z
+content_hash: "sha256:34444070a6ec04a5fb41424914e53008d188e898005a88d09a1a265aab154b69"
 blocks: [WD-t0il, WD-fay0]
 assignee: dev-WD-he8i
 follows: [WD-qthq]
@@ -112,7 +112,16 @@ status: new
 
 
 ## Notes
+## nd_contract
+status: in_progress
 
+### evidence
+- Claim verified via live tracker: WD-he8i assigned to dev-WD-he8i at required base 5a94eb491c524816334e23e1b2894acc3b772819.
+- Reproduced stale validator: python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py => exit 1, index rows diverge from source capability matrices.
+- Root cause: historical index maps 208 current cells to 120 planned/46 verified, while authoritative docs parse to 89 host_run_verified, 7 dependency_blocked, 110 terminal variants, and 2 not-applicable; old validator omits evidence-link comparison and current non-matrix boundary validation.
+
+### proof
+- [ ] Pending regenerated index, deterministic validator, negative/real tests, full gates, commit/PR/exact-head CI.
 
 ## History
 - 2026-09-30T15:33:53Z dep_added: blocks WD-t0il
