@@ -9,7 +9,8 @@ parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
 updated_at: 2026-09-30T15:33:52Z
-content_hash: "sha256:3ed334ed981cd1abf5a4368c2479468409d18ac42ee8424d74b24b894e910a4f"
+content_hash: "sha256:0bb17be08526d55db7fcaf51e18719f39439916c0376f3259a6824f3550ff9e7"
+blocks: [WD-t0il]
 ---
 
 ## Description
@@ -112,9 +113,10 @@ status: new
 
 
 ## History
-
+- 2026-09-30T15:33:53Z dep_added: blocks WD-t0il
 
 ## Links
 - Parent: [[WD-3nod]]
+- Blocks: [[WD-t0il]]
 
 ## Comments
