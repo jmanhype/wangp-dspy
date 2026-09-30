@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-29T23:22:09Z
-content_hash: "sha256:f086f9532d4b3867f3f8586c0e5db30111e44bde118b98b2aab0d6f80671e6cd"
+updated_at: 2026-09-30T00:14:45Z
+content_hash: "sha256:36c4f09cbd50d3d660f0ae5072496c44e918204cb3f76f9db6ea3896df53bddb"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-qthq
@@ -136,6 +136,27 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (NOT DELIVERED)
+
+- Command: `bash /tmp/wd_qthq_execute_once.sh`
+- Result: exit `1` at the local wrapper HEAD equality check, before the story runner was invoked.
+- Typed boundary: `EDITOR_HOST_EXECUTION_GUARD_HEAD_MISMATCH`; observed HEAD `04f5b7261db2d1e35596bc9761fc38734aafae89`, incorrect expected full SHA `04f5b7262d4153c2e58fc4c8f930a6ad30e7bf5b`.
+- Evidence: `datasets/runs/maestro-parity/editor-host-export/local-boundary-20260929.md`.
+- No SSH contact, source transfer, workspace mutation, queue admission, FFmpeg execution, media retrieval, model download, GPU/provider work, or media substitution occurred. `host-run/` remained absent.
+- Stopped fail-closed without retry or delivery as required.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Pre-execution authorization/reference checks passed at clean pushed head `04f5b7261db2d1e35596bc9761fc38734aafae89`.
+- Authorized execution wrapper failed before runner invocation due the typed local HEAD guard mismatch above.
+
+### proof
+- [x] Verbatim authorization recorded as `Authorize`.
+- [x] Local source/project/export hashes verified.
+- [ ] Authorized host preflight, transfer, one real editor_export queue execution, CPU-only FFmpeg media, evidence bundle, row transition, and standing gates remain incomplete.
+
 ## Implementation Evidence (LOCAL PREPARATION ONLY — NOT DELIVERED)
 
 PROOF:
