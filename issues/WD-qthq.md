@@ -8,8 +8,8 @@ labels: [editor, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T14:49:16Z
-content_hash: "sha256:7d80c1e3640bcf63e57a172d748eaf0bc4a93a883049ab5f209d71bbab3e6c59"
+updated_at: 2026-09-30T14:50:43Z
+content_hash: "sha256:57f4de81ec679d2cb2f38e069c3dac336db867086ad4aa355b01d9802738e847"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
@@ -313,3 +313,27 @@ OPERATOR AUTHORIZATION at 2026-09-29T23:17:30Z. Verbatim user input: Authorize. 
 
 ### 2026-09-29T23:22:09Z speed
 Dispatch note: operator authorization is recorded, but host-3090 execution is queued behind the WD-bw0h one-attempt clean-machine H3 run to prevent overlapping host/workspace mutations. Do not interpret the wait as lost approval.
+
+### 2026-09-30T14:50:42Z speed
+## Authoritative Delivery Contract
+
+Commit SHA: 284c7f16259cab5c85a017f06bad1f29934e04ed
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR #218 head and exact-head CI run 36724918128 both resolve to 284c7f16259cab5c85a017f06bad1f29934e04ed.
+- One authorized editor_export queue job completed on host 3090 with CPU-only FFmpeg and zero model downloads.
+- Real output outputs/editor-export.mp4 has SHA-256 4f7c955ebbf68daa98eed4c117cb879db8dfc6744924d6f1e7ad1e1de8c8725e.
+- Canonical checker passed with zero warnings; focused tests were 14/14; lint, release, protected parity, and diff gates passed.
+
+### proof
+- [x] AC #1: exact local reference and immutable source identities verified.
+- [x] AC #2: authorization/input failures fail closed before SSH.
+- [x] AC #3: authorized host preflight passed with zero model downloads.
+- [x] AC #4: exactly one real governed editor_export queue job ran with CPU-only FFmpeg.
+- [x] AC #5: real ordered video/audio artifact passed all eight objective gates.
+- [x] AC #6: source/project immutability and complete provenance/queue/log evidence recorded.
+- [x] AC #7: only the editor host-export row transitioned to evidence-backed host run.
+- [x] AC #8: focused tests, exact-head full CI, lint, release, protected parity, checker, and diff gates passed.
