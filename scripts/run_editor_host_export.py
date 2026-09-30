@@ -450,6 +450,60 @@ ffmpeg -version | sed -n '1p'
     }, [staged_script]
 
 
+def _resume_successful_preflight(bundle: Path) -> tuple[Path, Mapping[str, object], str, list[Mapping[str, object]]] | None:
+    """Continue the exact one operation after a local post-preflight wrapper defect."""
+    expected_files = {
+        "staged-scripts/preflight.sh",
+        "staged-scripts/preflight.json",
+        "stage-preflight.log",
+        "execute-preflight.log",
+    }
+    observed_files = {
+        path.relative_to(bundle).as_posix()
+        for path in bundle.rglob("*")
+        if path.is_file()
+    }
+    if observed_files != expected_files:
+        return None
+    identity = _load_json(bundle / "staged-scripts/preflight.json", "EDITOR_HOST_PREFLIGHT_INVALID")
+    if (
+        identity.get("name") != "preflight"
+        or identity.get("local_path") != "staged-scripts/preflight.sh"
+        or not isinstance(identity.get("remote_path"), str)
+        or not str(identity["remote_path"]).startswith("/tmp/wd-qthq-editor-export-")
+        or not str(identity["remote_path"]).endswith("-preflight.sh")
+    ):
+        return None
+    local_script = bundle / "staged-scripts/preflight.sh"
+    if not local_script.is_file() or _sha256(local_script) != identity.get("sha256"):
+        return None
+    log = (bundle / "execute-preflight.log").read_text(encoding="utf-8")
+    if "exit=0" not in log.splitlines():
+        return None
+    required_facts = {"host", "user", "workspace", "ffmpeg", "ffprobe", "free_bytes"}
+    facts = {
+        key: value
+        for line in log.splitlines()
+        if "=" in line
+        for key, value in (line.split("=", 1),)
+        if key in required_facts
+    }
+    if set(facts) != required_facts or int(facts["free_bytes"]) < MINIMUM_FREE_BYTES:
+        return None
+    workspace = Path(facts["workspace"])
+    if not workspace.is_absolute() or workspace.parent.parent != REMOTE_ROOT:
+        return None
+    remote_path = str(identity["remote_path"])
+    token = remote_path.removeprefix("/tmp/wd-qthq-editor-export-").removesuffix("-preflight.sh")
+    if not token or "/" in token:
+        return None
+    host = {
+        "host": facts["host"], "user": facts["user"], "workspace": str(workspace),
+        "ffmpeg": facts["ffmpeg"], "ffprobe": facts["ffprobe"], "free_bytes": int(facts["free_bytes"]),
+    }
+    return workspace, host, token, [identity]
+
+
 def _transfer_inputs(repository: Path, bundle: Path, workspace: Path) -> None:
     project = repository / PROJECT_RELATIVE
     transfers = (
@@ -507,9 +561,10 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
     verify_reference(root)
     repository = _root(root)
     bundle = repository / REFERENCE_RELATIVE / "host-run"
-    if bundle.exists() and any(bundle.iterdir()):
+    resumed_preflight = _resume_successful_preflight(bundle) if bundle.exists() else None
+    if bundle.exists() and any(bundle.iterdir()) and resumed_preflight is None:
         raise _reject("EDITOR_HOST_RUN_ALREADY_PRESENT", f"host-run evidence already exists: {bundle}", "Do not retry or overwrite a prior attempt.")
-    bundle.mkdir(parents=True)
+    bundle.mkdir(parents=True, exist_ok=True)
     before = {
         "video": VIDEO_SHA256,
         "audio": AUDIO_SHA256,
@@ -521,8 +576,13 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
     job_id: str | None = None
     staged_scripts: list[Mapping[str, object]] = []
     try:
-        run_token = time.strftime("%Y%m%dT%H%M%SZ") + "-" + os.urandom(4).hex()
-        workspace, host = _remote_preflight(bundle, run_token)
+        if resumed_preflight is None:
+            run_token = time.strftime("%Y%m%dT%H%M%SZ") + "-" + os.urandom(4).hex()
+            workspace, host, preflight_scripts = _remote_preflight(bundle, run_token)
+            staged_scripts.extend(preflight_scripts)
+        else:
+            workspace, host, run_token, preflight_scripts = resumed_preflight
+            staged_scripts.extend(preflight_scripts)
         _transfer_inputs(repository, bundle, workspace)
         _verify_remote_inputs(bundle, workspace, run_token, staged_scripts)
 
@@ -595,6 +655,10 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
             "command": list(ssh_argv),
             "native_ffmpeg_argv": list(ffmpeg_argv),
             "host": host,
+            "execution_continuity": {
+                "preflight_completed": True,
+                "resumed_after_local_boundary": resumed_preflight is not None,
+            },
             "staged_scripts": staged_scripts,
             "queue": {
                 "queue_id": "wangp-JobQueue-WD-qthq",

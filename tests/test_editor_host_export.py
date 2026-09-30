@@ -261,3 +261,46 @@ def test_execution_guard_fails_closed_before_host_contact(tmp_path: Path) -> Non
         runner.execute_authorized_host_export(root, _authorization())
     assert raised.value.code == "EDITOR_HOST_RUN_ALREADY_PRESENT"
     assert calls.read_text(encoding="utf-8") == ""
+
+
+def test_execution_can_continue_only_the_exact_successful_preflight_boundary(tmp_path: Path) -> None:
+    bundle = tmp_path / "host-run"
+    script = bundle / "staged-scripts/preflight.sh"
+    script.parent.mkdir(parents=True)
+    script.write_text("set -eu\n", encoding="utf-8")
+    workspace = runner.REMOTE_ROOT / "20260929T195201Z" / "cc0280f0"
+    identity = {
+        "name": "preflight",
+        "local_path": "staged-scripts/preflight.sh",
+        "remote_path": "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-preflight.sh",
+        "sha256": _hash(script),
+        "byte_size": script.stat().st_size,
+    }
+    (bundle / "staged-scripts/preflight.json").write_text(
+        json.dumps(identity), encoding="utf-8"
+    )
+    (bundle / "stage-preflight.log").write_text("exit=0\n", encoding="utf-8")
+    (bundle / "execute-preflight.log").write_text(
+        "command=[]\n"
+        "stdout:\n"
+        "host=straughter-Z690-Steel-Legend\n"
+        "user=straughter\n"
+        f"workspace={workspace}\n"
+        "ffmpeg=/usr/bin/ffmpeg\n"
+        "ffprobe=/usr/bin/ffprobe\n"
+        f"free_bytes={runner.MINIMUM_FREE_BYTES}\n"
+        "stderr:\n"
+        "exit=0\n",
+        encoding="utf-8",
+    )
+
+    resumed = runner._resume_successful_preflight(bundle)
+    assert resumed is not None
+    resumed_workspace, host, token, staged_scripts = resumed
+    assert resumed_workspace == workspace
+    assert host["free_bytes"] == runner.MINIMUM_FREE_BYTES
+    assert token == "20260929T195201Z-3c1a4bfd"
+    assert staged_scripts == [identity]
+
+    (bundle / "unexpected-file").write_text("partial evidence", encoding="utf-8")
+    assert runner._resume_successful_preflight(bundle) is None
