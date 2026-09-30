@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T20:00:52Z
-content_hash: "sha256:ca442d0e01abf812d6bd24d3270d6be097084dd77a50042b10ed88e2e9475113"
+updated_at: 2026-09-30T21:09:33Z
+content_hash: "sha256:8d4ffca15e5671d62388aab545df582853e776318ac668d9a15be25131267494"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i]
 assignee: dev-WD-cuzw
@@ -340,7 +340,21 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (FAILED PREFLIGHT)
 
+- Command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
+- Producing commit/tree: `4e157f298b69699889bf01f2d78d4df2d702f140` / `523a4118e3f8ae64520f6e15526404113655e7b6`
+- Typed boundary: `H3_ROOT_CONTAINMENT_INVALID`; `findmnt` returned 2 rows for `/mnt/bulk-hdd`.
+- Evidence: `datasets/runs/maestro-parity/h3-offload/host-run/attempt.json` and `failure.json`; manifest hashes are in `evidence.sha256`.
+- Process boundary: `stage.json`, `execution.json`, `offload-result.json`, and `run-summary.json` are absent; `SshHost.push_file` and `SshHost.run_argv` were never reached.
+- No root creation, source move, destination write, rollback, retry, model download/inference, GPU work, provider action, or queue admission was issued.
+- Stopping without delivery or retry as required.
+
+DISCOVERED_BUG:
+  title: H3 offload attempt evidence records an invalid branch identity
+  context: The one read-only preflight failed correctly on ambiguous mount output, but `attempt.json` recorded branch as the literal `--abbrev-ref HEAD` instead of `story/WD-cuzw`. Root cause is passing `--abbrev-ref HEAD` to `git rev-parse` as one argv element rather than separate arguments. The failed evidence must remain immutable; fix requires a new story/authorization path because this story must not retry.
+  affected_files: scripts/run_h3_offload.py; datasets/runs/maestro-parity/h3-offload/host-run/attempt.json
+  discovered_during: WD-cuzw
 
 ## History
 - 2026-09-30T20:00:02Z dep_added: blocks WD-fay0
