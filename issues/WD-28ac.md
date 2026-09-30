@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-29T23:22:07Z
-content_hash: "sha256:662f761b5b7b447ae10c2a87ca3eec987f87d68bc6cc5566c43e529b2c1f398a"
+updated_at: 2026-09-30T13:58:54Z
+content_hash: "sha256:7cb133ef4840bbc34a52265b22f3119ed16240df2e7130c4264f237f046408fd"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 assignee: dev-WD-28ac
@@ -125,6 +125,14 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## Authorized Execution Start
+
+- Worktree: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac
+- HEAD: cd57dfc53d41fa73b94f7426c9c76e58360b20dc
+- Authorization source: live tracker comment recorded at 2026-09-29T23:17:30Z, verbatim operator input "Authorize".
+- Authorized scope: exactly five manifest assets totaling 23701298279 bytes, host 3090, governed Wan2GP path, and only LTX-2.5 outpaint/repaint/recast/upscale plus LTX-2.3 outpaint/recast/upscale.
+- No unrelated model, training, provider spend, protected-engine semantic change, threshold change, merge, or acceptance is authorized.
+
 ## nd_contract
 status: in_progress
 
