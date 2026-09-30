@@ -8,8 +8,8 @@ labels: [storage, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T18:10:50Z
-content_hash: "sha256:b9145023e32482910ade0132c4fbe3649700cfcc47bf8075a4f46fb0f4c1e1c3"
+updated_at: 2026-09-30T19:18:04Z
+content_hash: "sha256:dd371a3a20e2979a38ca52736f30ddac53135679e96f46d9137a821d7aa7cd0b"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
 follows: [WD-he8i, WD-qthq]
 assignee: dev-WD-1s5s
@@ -366,6 +366,80 @@ status: new
 
 ## Notes
 BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required source blob story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/model-assets.json has verified SHA-256 25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0 and its four recorded sizes sum to 53594702510 bytes, but AC 1/2 requires that exact source hash and an exact manifest total of 53594932510 bytes (a 230000-byte discrepancy). Preserving the immutable source makes the required total impossible; altering an asset size would falsify the hash-identified snapshot. Sr PM must adjudicate the authoritative total/source before implementation can proceed. DISCOVERED_BUG: title=WD-bw0h manifest sum contradicts WD-1s5s required total; context=Hash-verified four-asset source manifest sums to 53594702510, not 53594932510; affected_files=datasets/runs/maestro-parity/clean-generated/model-assets.json, WD-1s5s story; discovered_during=WD-1s5s.
+## Implementation Evidence (DELIVERED)
+
+Summary: Implemented the local-only WD-1s5s storage-remediation packet using the Sr-PM-corrected, hash-verified WD-bw0h total of 53594702510 bytes; generated deterministic local-plan and operator authorization-request artifacts; preserved stale/snapshot-only labeling, unknown candidate hashes, separate future approvals, and the no-host-action boundary.
+
+Commands run:
+- `pvg nd sync` -> up to date at `95287905`; story reread with `pvg issues show WD-1s5s --json`.
+- `python -m py_compile scripts/build_storage_remediation_packet.py tests/test_storage_remediation_packet.py` -> PASS.
+- `python scripts/build_storage_remediation_packet.py` -> `STORAGE_REMEDIATION_PACKET_READY outputs=2 authorization_required=true commands_emitted=0`.
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest tests/test_storage_remediation_packet.py -q` -> 16 passed.
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest -q -rs` -> 2162 passed, 1 skipped; collection: 2163 tests. The sole skip is the pre-existing `tests/test_jobs_integration_3090.py:20` gate requiring `WANGP_3090=1`; enabling it would violate this story's LOCAL ONLY/no-host-3090 boundary.
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/pytest --collect-only | tail -n 1` -> `2163 tests collected`.
+- `pvg verify scripts/build_storage_remediation_packet.py tests/test_storage_remediation_packet.py datasets/runs/maestro-parity/storage-remediation-prep/inputs.json datasets/runs/maestro-parity/storage-remediation-prep/local-plan.json datasets/runs/maestro-parity/storage-remediation-prep/operator-authorization-request.md --format=text` -> `VERIFY: PASSED (2 files scanned, 0 issues)`.
+- `pvg lint --backlog` -> scanned 155 issues, 0 errors, 0 review findings.
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/wgp release verify --json` -> all 4 checks pass; `ready=true`; `tag=v0.1.0`; `tag_created=false`.
+- Protected parity: `git diff --exit-code b5169fec6885660f2c5806864d03d99b8db6fecc..HEAD -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py` -> PASS/no diff.
+- Whitespace/tree: `git diff --check` and `git diff --check b5169fec6885660f2c5806864d03d99b8db6fecc..HEAD` -> PASS; final tree clean.
+- `git commit -m 'feat(WD-1s5s): local storage remediation packet'` -> commit `77225696c693dc167915ad52d56ec08a7c29db97`.
+- `git push -u origin story/WD-1s5s` -> pushed exact commit.
+- PR: https://github.com/jmanhike/wangp-dspy/pull/220
+- Exact-head CI: https://github.com/jmanhike/wangp-dspy/actions/runs/36762786094/job/110049309036 -> `test` conclusion SUCCESS at PR head `77225696c693dc167915ad52d56ec08a7c29db97` after 15m1s.
+
+SHA:
+- Branch: `story/WD-1s5s`
+- Commit: `77225696c693dc167915ad52d56ec08a7c29db97`
+- Base: `b5169fec6885660f2c5806864d03d99b8db6fecc`
+
+### CI/Test Results
+- Focused real-process builder/import tests: 16/16 PASS, no skips.
+- Full undeselected suite: 2162 PASS, 1 pre-existing host-gated skip, 0 failures.
+- Exact-head GitHub CI: PASS.
+- All local standing gates: PASS.
+
+### Artifact SHA-256
+- `scripts/build_storage_remediation_packet.py`: `cce38a16a2b4238a69ff8a5a92a1004bd48ececa75d88631d04d8e8cd56be4a2`
+- `tests/test_storage_remediation_packet.py`: `38c7e9eadb3398c443836d5fbc535d7fdae0c75818c5dbb2af71210df9e25063`
+- `datasets/runs/maestro-parity/storage-remediation-prep/inputs.json`: `4f0e7fbd1de0f588a2cf6eefc8ea924b0deee7a2c15afa465af27411a6cf2647`
+- `datasets/runs/maestro-parity/storage-remediation-prep/local-plan.json`: `c7744a4a3aa3a01916f465f4a9475c2619304888413226f698b11d636275e7ee`
+- `datasets/runs/maestro-parity/storage-remediation-prep/operator-authorization-request.md`: `94b2eabcee423377c3e2ed2d1b12c4e72d33511a58b77ecde83c76363b3a47d2`
+- Authored/evidence line count: 536 total (under 550). Packet directory contains exactly `inputs.json`, `local-plan.json`, and `operator-authorization-request.md`; no model/download/queue artifact was created.
+
+### AC Verification
+| AC | Requirement | Evidence | Status |
+| --- | --- | --- | --- |
+| 1 | Committed input embeds all six source identities/hashes, 4 H3 assets, 5 LTX assets, candidates, disk values, offload root, snapshot-only flag | `inputs.json`; focused plan/input assertions | PASS |
+| 2 | Typed validation, exact corrected H3 total, LTX total, candidate/projection totals, deterministic stable JSON, no local checkout paths | Builder validation + deterministic focused tests; `local-plan.json` | PASS |
+| 3 | Invalid/missing/duplicate/mismatched/zero/negative/ambiguous input fails typed before output mutation | 11 parameterized negative cases + missing-input/render-preservation tests | PASS |
+| 4 | Unknown candidate hashes, stale/snapshot-only disk facts/projections, authorization-required, no commands | Plan assertions and command-safety test | PASS |
+| 5 | Separate H3-offload/retry versus exact LTX batch approvals; fresh live verification; deletion forbidden | `operator-authorization-request.md` and focused assertions | PASS |
+| 6 | No network/process/SSH/host/model/queue/protected/evidence transition side effects | Builder import-surface test; protected parity; artifact inventory; LOCAL ONLY execution | PASS |
+| 7 | Real-process clean-directory success/determinism and all AC3/4/5 safety families | 16 focused tests | PASS |
+| 8 | Focused/full tests, pvg verify, lint, release verify, protected parity, diff, exact-head CI | Commands and outputs above; PR #220 CI SUCCESS | PASS |
+
+LEARNINGS:
+- The original 230000-byte story-total mismatch was a source/story inconsistency, not a builder defect; the Sr PM correction to the hash-verified manifest sum made the packet implementable without changing source identities.
+- Release readiness tests require a clean tree, so the story must be committed before the full suite's real-repository checks; the first uncommitted run failed only those clean-tree checks and the post-commit rerun passed.
+- The sole full-suite skip is a live 3090 integration gate and must remain disabled under this story's explicit LOCAL ONLY boundary.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `77225696c693dc167915ad52d56ec08a7c29db97`; PR https://github.com/jmanhike/wangp-dspy/pull/220
+- Exact-head CI SUCCESS: https://github.com/jmanhike/wangp-dspy/actions/runs/36762786094/job/110049309036
+- Focused 16 PASS; full 2162 PASS/1 boundary-preserving pre-existing skip; pvg verify PASS; backlog lint PASS; release ready/no tag; protected parity and diff checks PASS.
+
+### proof
+- [x] AC 1: Complete committed typed input snapshot.
+- [x] AC 2: Fail-closed validation, corrected exact totals, deterministic local plan.
+- [x] AC 3: Typed invalid-input behavior before output mutation.
+- [x] AC 4: Unknown hashes, stale-only labels, authorization boundaries, no commands.
+- [x] AC 5: Separate future H3 and LTX authorization request with live verification and no deletion.
+- [x] AC 6: Local-only builder/tests and unchanged protected/evidence boundaries.
+- [x] AC 7: Real-process focused success, determinism, negative, and safety tests.
+- [x] AC 8: Full local gates, exact-head PR CI, and delivery checks.
 
 ## History
 - 2026-09-30T17:56:46Z dep_added: blocks WD-bw0h
