@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-09-30T14:51:37Z
-content_hash: "sha256:6d59845e2bd80e5c8d5dee74c81baeac88754dfee8b77b97befabbcc9379d7f6"
+content_hash: "sha256:8d2460ac7de50e199889018cfd4854f3e7f3ec2d3c6c0d2a3ac4f665a36c0e2d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 ---
@@ -206,3 +206,6 @@ BLOCKED: Authorized host-3090 preflight passed SSH, tree identity, 34 existing a
 
 ### 2026-09-30T14:50:25Z speed
 CORRECTION to the prior BLOCKED comment: the live integration test exercised the configured qc_available check kind, but it does not assert a healthy QC result and the status was not captured. The durable preflight evidence proves host Python, ffmpeg, and ffprobe executable probes; it does not claim QC health. The storage boundary and zero-download/zero-admission decision are unchanged.
+
+### 2026-09-30T14:51:37Z speed
+Parked on measured destination-storage boundary after authorized preflight. Root filesystem has 17,865,703,424 bytes free versus 23,701,298,279 declared bytes; largest asset exceeds free space alone. /mnt/bulk-hdd has headroom, but moving unrelated assets or redirecting declared destinations requires a distinct operator-approved reversible storage plan. No model bytes downloaded, queue admitted, operation attempted, matrix cell changed, or unrelated host mutation occurred. PR 217 head fced67e1293dc2dbbdf3f29b8b615f6357012ab6a has exact-head CI success.
