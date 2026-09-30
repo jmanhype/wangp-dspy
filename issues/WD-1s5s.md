@@ -1,7 +1,7 @@
 ---
 id: WD-1s5s
 title: "Local-only storage remediation packet"
-status: blocked
+status: in_progress
 priority: 1
 type: task
 labels: [storage, evidence, operator-decision]
@@ -9,9 +9,10 @@ parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
 updated_at: 2026-09-30T18:10:50Z
-content_hash: "sha256:4d9ced4862e2c709f57b04ec41485672e5595f005ed94bd059cb5f207102df0f"
+content_hash: "sha256:b9145023e32482910ade0132c4fbe3649700cfcc47bf8075a4f46fb0f4c1e1c3"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
-follows: [WD-he8i]
+follows: [WD-he8i, WD-qthq]
+assignee: dev-WD-1s5s
 ---
 
 ## Description
@@ -375,11 +376,14 @@ BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required sourc
 - 2026-09-30T17:57:39Z claimed by dev-WD-1s5s
 - 2026-09-30T18:09:31Z status: in_progress -> blocked
 - 2026-09-30T18:10:50Z released by speed
+- 2026-09-30T18:10:50Z status: blocked -> in_progress
+- 2026-09-30T18:10:50Z auto-follows: linked to predecessor WD-qthq
+- 2026-09-30T18:10:50Z claimed by dev-WD-1s5s
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-28ac]], [[WD-fay0]]
-- Follows: [[WD-he8i]]
+- Follows: [[WD-he8i]], [[WD-qthq]]
 
 ## Comments
 
