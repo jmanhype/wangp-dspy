@@ -1,15 +1,15 @@
 ---
 id: WD-1s5s
 title: "Local-only storage remediation packet"
-status: in_progress
+status: blocked
 priority: 1
 type: task
 labels: [storage, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T17:57:39Z
-content_hash: "sha256:46a4c84fdd6323168ded035663b5ef21ee0026c82c9039347ae8cc0c25060c6a"
+updated_at: 2026-09-30T18:09:31Z
+content_hash: "sha256:66b9b406d7f9c50cd1b1587707a0b282c4cbf8932e3b028000500c4638d31e52"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
 assignee: dev-WD-1s5s
 follows: [WD-he8i]
@@ -251,7 +251,7 @@ status: new
 
 
 ## Notes
-
+BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required source blob story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/model-assets.json has verified SHA-256 25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0 and its four recorded sizes sum to 53594702510 bytes, but AC 1/2 requires that exact source hash and an exact manifest total of 53594932510 bytes (a 230000-byte discrepancy). Preserving the immutable source makes the required total impossible; altering an asset size would falsify the hash-identified snapshot. Sr PM must adjudicate the authoritative total/source before implementation can proceed. DISCOVERED_BUG: title=WD-bw0h manifest sum contradicts WD-1s5s required total; context=Hash-verified four-asset source manifest sums to 53594702510, not 53594932510; affected_files=datasets/runs/maestro-parity/clean-generated/model-assets.json, WD-1s5s story; discovered_during=WD-1s5s.
 
 ## History
 - 2026-09-30T17:56:46Z dep_added: blocks WD-bw0h
@@ -260,6 +260,7 @@ status: new
 - 2026-09-30T17:57:39Z status: open -> in_progress
 - 2026-09-30T17:57:39Z auto-follows: linked to predecessor WD-he8i
 - 2026-09-30T17:57:39Z claimed by dev-WD-1s5s
+- 2026-09-30T18:09:31Z status: in_progress -> blocked
 
 ## Links
 - Parent: [[WD-3nod]]
