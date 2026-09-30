@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-09-30T19:53:26Z
-content_hash: "sha256:11346ca9d030f1ffc077620794c07cdb889610824ed74cebf871824a91a1f65d"
+content_hash: "sha256:223a21ee26ea30b7cc44a7f05a4d750f4a8f3246d6cebbedf36223d054665259"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s]
+blocked_by: [WD-cuzw]
 ---
 
 ## Description
@@ -272,10 +273,12 @@ before generation and the operator boundary forbids retry/substitution.
 - 2026-09-29T23:46:28Z status: open -> deferred
 - 2026-09-30T17:56:46Z dep_added: blocked_by WD-1s5s
 - 2026-09-30T19:29:46Z dep_removed: was_blocked_by WD-1s5s
+- 2026-09-30T20:00:02Z dep_added: blocked_by WD-cuzw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
+- Blocked by: [[WD-cuzw]]
 - Was blocked by: [[WD-1s5s]]
 - Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]]
 
