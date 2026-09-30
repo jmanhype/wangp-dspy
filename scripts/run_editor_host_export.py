@@ -514,7 +514,7 @@ def _transfer_inputs(repository: Path, bundle: Path, workspace: Path) -> None:
     )
     for local, relative in transfers:
         _run(
-            ("scp", *SSH_OPTIONS[1:], str(local), f"{HOST}:{workspace / relative}"),
+            ("scp", *SSH_OPTIONS, str(local), f"{HOST}:{workspace / relative}"),
             bundle / f"transfer-{relative.replace('/', '-')}.log",
             timeout=300,
         )
@@ -620,7 +620,7 @@ def execute_authorized_host_export(root: str | Path, record: Mapping[str, object
         output = bundle / "outputs/editor-export.mp4"
         output.parent.mkdir(parents=True, exist_ok=True)
         partial = bundle / f"outputs/.editor-export.{os.urandom(4).hex()}.part"
-        _run(("scp", *SSH_OPTIONS[1:], f"{HOST}:{workspace / 'outputs/editor-export.mp4'}", str(partial)), bundle / "retrieval.log", timeout=300)
+        _run(("scp", *SSH_OPTIONS, f"{HOST}:{workspace / 'outputs/editor-export.mp4'}", str(partial)), bundle / "retrieval.log", timeout=300)
         if partial.stat().st_size == 0:
             raise _reject("EDITOR_HOST_OUTPUT_EMPTY", "retrieved media artifact is empty", "Stop; never substitute existing media.")
         os.replace(partial, output)

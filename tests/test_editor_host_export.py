@@ -132,6 +132,34 @@ def test_real_queue_admits_exactly_one_pending_editor_export(tmp_path: Path) -> 
     assert record.clips[0]["media_generated"] is False
 
 
+def test_input_transfer_uses_valid_scp_options(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    root = _temporary_repository(tmp_path)
+    runner.prepare_reference(root)
+    bundle = tmp_path / "host-run"
+    bundle.mkdir()
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    calls = tmp_path / "scp-calls.log"
+    (fake_bin / "scp").write_text(
+        '#!/bin/sh\nprintf "%s\\n" "$*" >> ' + str(calls) + '\n',
+        encoding="utf-8",
+    )
+    (fake_bin / "scp").chmod(0o755)
+    monkeypatch.setenv("PATH", f"{fake_bin}:{os.environ['PATH']}")
+
+    runner._transfer_inputs(root, bundle, runner.REMOTE_ROOT / "workspace")
+
+    transfer_logs = sorted(bundle.glob("transfer-*.log"))
+    commands = [
+        json.loads(log.read_text(encoding="utf-8").splitlines()[0].removeprefix("command="))
+        for log in transfer_logs
+    ]
+    assert len(calls.read_text(encoding="utf-8").splitlines()) == 4
+    assert len(commands) == 4
+    assert {command[0] for command in commands} == {"scp"}
+    assert all(command[1:4] == ["-o", "BatchMode=yes", "-o"] for command in commands)
+
+
 def test_authorization_rejects_template_partial_tampered_and_mismatches() -> None:
     template = json.loads(TEMPLATE.read_text(encoding="utf-8"))
     template["status"] = "not_authorized"
