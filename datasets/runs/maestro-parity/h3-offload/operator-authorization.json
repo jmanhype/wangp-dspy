@@ -1,0 +1,51 @@
+{
+  "schema_version": "wangp-dspy.h3-offload-authorization/v1",
+  "status": "authorized",
+  "host": "3090",
+  "authorization": {
+    "required_scope": "reversible offload of exactly the two superseded H3 checkpoints on host 3090, with live size/SHA verification, a reversible recovery path, and no deletion",
+    "record": {
+      "operator": "operator",
+      "recorded_utc": "2026-09-30T19:57:10Z",
+      "verbatim": "Approved authorized"
+    }
+  },
+  "candidates": [
+    {
+      "id": "superseded-h3-checkpoint-1",
+      "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+      "destination": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+      "size_bytes": 22144108396
+    },
+    {
+      "id": "superseded-h3-checkpoint-2",
+      "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+      "destination": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+      "size_bytes": 22144108397
+    }
+  ],
+  "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+  "bulk_mount": "/mnt/bulk-hdd",
+  "source_filesystem": "/home/straughter/Wan2GP",
+  "combined_recovery_bytes": 44288216793,
+  "execution": {
+    "deletion": false,
+    "copy": false,
+    "hard_link": false,
+    "symlink": false,
+    "rewrite": false,
+    "privileged_command": false,
+    "download": false,
+    "gpu_work": false,
+    "provider_spend": false,
+    "queue_admission": false
+  },
+  "downstream_authority": {
+    "h3_retry": false,
+    "ltx_download": false,
+    "inference": false,
+    "generation_claim": false,
+    "hardware_verdict": false,
+    "capability_promotion": false
+  }
+}
