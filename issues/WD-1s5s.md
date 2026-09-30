@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
 updated_at: 2026-09-30T19:53:26Z
-content_hash: "sha256:3e474b26985324e4eb7d742ed6bfdf8d6b617702b820001ac99e195c1e2af658"
+content_hash: "sha256:6a7f98f1af6945ccc0462b129bada1b36635b915537297978f983f09b44908cd"
 follows: [WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-1s5s
 closed_at: 2026-09-30T19:29:46Z
 close_reason: "Accepted: independently verified exact PR head and CI, scoped five-file diff, immutable source hashes, deterministic local-only outputs, typed fail-closed negative behavior, focused tests and local gates, protected-file parity, and separate future-authorization boundaries."
+led_to: [WD-cuzw]
 ---
 
 ## Description
@@ -509,6 +510,7 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]]
+- Led to: [[WD-cuzw]]
 
 ## Comments
 
