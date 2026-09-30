@@ -16,15 +16,17 @@ from typing import Any, Mapping, Sequence
 
 AUTH_SCHEMA = "wangp-dspy.h3-offload-authorization/v1"
 RUN_SCHEMA = "wangp-dspy.h3-offload-run/v1"
-HOST = "3090"
-WGP_ROOT = "/home/straughter/Wan2GP"
-OFFLOAD_ROOT = "/mnt/bulk-hdd/straughter/model-offload/wangp-3090"
-BULK_MOUNT = "/mnt/bulk-hdd"
-SOURCE_FILESYSTEM = "/home/straughter/Wan2GP"
+BUNDLE_RELATIVE = Path("datasets/runs/maestro-parity/h3-offload/host-run")
+AUTHORIZATION_RELATIVE = Path("datasets/runs/maestro-parity/h3-offload/operator-authorization.json")
+_AUTHORIZED_TEMPLATE = json.loads((Path(__file__).resolve().parents[1] / AUTHORIZATION_RELATIVE).read_text(encoding="utf-8"))
+HOST = str(_AUTHORIZED_TEMPLATE["host"])
+WGP_ROOT = str(_AUTHORIZED_TEMPLATE["source_filesystem"])
+OFFLOAD_ROOT = str(_AUTHORIZED_TEMPLATE["offload_root"])
+BULK_MOUNT = str(_AUTHORIZED_TEMPLATE["bulk_mount"])
+SOURCE_FILESYSTEM = WGP_ROOT
 COMBINED_BYTES = 44_288_216_793
 MARGIN_BYTES = 1_073_741_824
 DOCTOR_FLOOR_BYTES = 53_687_091_200
-BUNDLE_RELATIVE = Path("datasets/runs/maestro-parity/h3-offload/host-run")
 VERBATIM = "Approved authorized"
 APPROVED_AT = "2026-09-30T19:57:10Z"
 REQUIRED_SCOPE = (
@@ -41,20 +43,7 @@ DOWNSTREAM_AUTHORITY = {
     "generation_claim": False, "hardware_verdict": False,
     "capability_promotion": False,
 }
-EXPECTED_CANDIDATES: tuple[dict[str, object], ...] = (
-    {
-        "id": "superseded-h3-checkpoint-1",
-        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
-        "destination": OFFLOAD_ROOT + "/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
-        "size_bytes": 22_144_108_396,
-    },
-    {
-        "id": "superseded-h3-checkpoint-2",
-        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
-        "destination": OFFLOAD_ROOT + "/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
-        "size_bytes": 22_144_108_397,
-    },
-)
+EXPECTED_CANDIDATES: tuple[dict[str, object], ...] = tuple(dict(item) for item in _AUTHORIZED_TEMPLATE["candidates"])
 
 
 class H3OffloadError(ValueError):
