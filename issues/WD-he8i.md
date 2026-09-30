@@ -4,7 +4,7 @@ title: "Maestro parity current index reconciliation"
 status: in_progress
 priority: 1
 type: task
-labels: [evidence, index, qc]
+labels: [evidence, index, qc, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
