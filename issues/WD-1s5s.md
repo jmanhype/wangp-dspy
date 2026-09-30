@@ -8,8 +8,8 @@ labels: [storage, evidence, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T19:29:47Z
-content_hash: "sha256:5fe070d1079c1631fb5dccadc5fbd5ef2fc3ad95494b2f2637f86459e3a53afc"
+updated_at: 2026-09-30T19:53:26Z
+content_hash: "sha256:3e474b26985324e4eb7d742ed6bfdf8d6b617702b820001ac99e195c1e2af658"
 follows: [WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-1s5s
 closed_at: 2026-09-30T19:29:46Z
@@ -514,3 +514,6 @@ status: delivered
 
 ### 2026-09-30T18:10:49Z speed
 SR_PM REPAIR: the hash-verified WD-bw0h manifest is authoritative. Its four recorded sizes sum to 53594702510 bytes, not 53594932510; the story total was corrected by 230000 bytes. No source snapshot or model identity was altered.
+
+### 2026-09-30T19:53:26Z speed
+Merged squash-PR closeout: PR 220 merged as main 498a9cb4c994033064161cace2a98165c0a1dbb2. Exact-head PR CI run 36762786094 and main CI run 36766286618 both completed successfully. Merged-head focused tests 16/16, pvg verify, backlog lint, release ready/tag false, protected parity, and diff checks passed. No host action occurred.
