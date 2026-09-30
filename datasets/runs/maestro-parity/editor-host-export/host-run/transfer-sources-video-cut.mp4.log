@@ -1,0 +1,6 @@
+command=["scp", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qthq/datasets/runs/provenance/lf002-vibevoice-film-20260917/cut1.mp4", "3090:/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0/sources/video-cut.mp4"]
+stdout:
+
+stderr:
+
+exit=0

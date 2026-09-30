@@ -1,0 +1,10 @@
+command=["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "3090", "/bin/sh", "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-remote-post-hash-check.sh"]
+stdout:
+sources/video-cut.mp4=b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3
+sources/voice.wav=f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857
+project/lf002-editor-media.wgp-editor.json=e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e
+export.json=ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12
+
+stderr:
+
+exit=0

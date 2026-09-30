@@ -1,0 +1,6 @@
+command=["scp", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qthq/datasets/runs/maestro-parity/editor-host-export/host-run/staged-scripts/remote-hash-check.sh", "3090:/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-remote-hash-check.sh"]
+stdout:
+
+stderr:
+
+exit=0

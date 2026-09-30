@@ -1,0 +1,1 @@
+{"diagnostics":[{"boundary":"authorized_host_execution","code":"EDITOR_HOST_EXECUTION_INVALID","observed":"ValueError: too many values to unpack (expected 2, got 3)","remediation":"Stop at this typed boundary; preserve all partial evidence."}],"model_downloads":0,"queue_submitted":false,"ssh_contact":false,"workspace_transfer":false}

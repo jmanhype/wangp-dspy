@@ -1,0 +1,138 @@
+{
+  "after_hashes": {
+    "audio": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+    "export": "ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12",
+    "project_file": "e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e",
+    "project_identity": "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27",
+    "video": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+  },
+  "authorization_verbatim": "Authorize",
+  "before_hashes": {
+    "audio": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857",
+    "export": "ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12",
+    "project_file": "e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e",
+    "project_identity": "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27",
+    "video": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+  },
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "/bin/sh",
+    "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-ffmpeg.sh"
+  ],
+  "execution_continuity": {
+    "preflight_completed": true,
+    "resumed_after_local_boundary": true
+  },
+  "gpu_work": false,
+  "host": {
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "ffprobe": "/usr/bin/ffprobe",
+    "free_bytes": 18361790464,
+    "host": "straughter-Z690-Steel-Legend",
+    "user": "straughter",
+    "workspace": "/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0"
+  },
+  "model_downloads": 0,
+  "native_ffmpeg_argv": [
+    "ffmpeg",
+    "-nostdin",
+    "-y",
+    "-i",
+    "/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0/sources/video-cut.mp4",
+    "-i",
+    "/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0/sources/voice.wav",
+    "-filter_complex",
+    "[0:v]split=2[base][second];[base]trim=start_frame=0:end_frame=48,setpts=PTS-STARTPTS[first];[second]trim=start_frame=48:end_frame=96,tpad=stop_mode=clone:stop=48,trim=start_frame=0:end_frame=48,setpts=PTS-STARTPTS[continued];[first][continued]concat=n=2:v=1:a=0[video];[1:a]atrim=0:4,asetpts=PTS-STARTPTS,apad=whole_dur=4,atrim=0:4[voice]",
+    "-map",
+    "[video]",
+    "-map",
+    "[voice]",
+    "-t",
+    "4",
+    "-c:v",
+    "libx264",
+    "-crf",
+    "18",
+    "-pix_fmt",
+    "yuv420p",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "128k",
+    "-movflags",
+    "+faststart",
+    "/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0/outputs/editor-export.mp4"
+  ],
+  "output": {
+    "byte_size": 515764,
+    "path": "outputs/editor-export.mp4",
+    "sha256": "4f7c955ebbf68daa98eed4c117cb879db8dfc6744924d6f1e7ad1e1de8c8725e"
+  },
+  "queue": {
+    "admission_state": "admitted",
+    "clips": [
+      {
+        "assembly_continuity_digest": "2d13c6c05ee59f9d63807bf36de1c1eb600fd5e00e3679bfb4fcaf78b55887c2",
+        "clip_index": 0,
+        "director_request_sha256": "765eda5c737982c9fb9f2f72c8ad0a10a8cc205ca518a7aa25e8ff992dd82d46",
+        "editor_export_sha256": "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27",
+        "gpu_work": false,
+        "host_contact": false,
+        "kind": "editor_export",
+        "log": "ffmpeg.native.log",
+        "media_generated": false,
+        "mp4": "outputs/editor-export.mp4",
+        "qc_verdict": {
+          "path": "objective-gates.json",
+          "verdict": "KEEP"
+        },
+        "render_attempted": true,
+        "render_fingerprint": "c4e7516e2332da68304decf64172f548d3330673ed115697b463bd86d59ad0b0",
+        "status": "done"
+      }
+    ],
+    "database": "queue/jobs.db",
+    "exit_status": "succeeded",
+    "final_state": "done",
+    "job_id": "job-1790730445881-aa610b52",
+    "queue_id": "wangp-JobQueue-WD-qthq",
+    "retry_id": "attempt-1"
+  },
+  "repository_commit": "4f854dd1b938f145dcbd5eef907f6348ee12657a",
+  "schema_version": "wangp-dspy.editor-host-run/v1",
+  "staged_scripts": [
+    {
+      "byte_size": 649,
+      "local_path": "staged-scripts/preflight.sh",
+      "name": "preflight",
+      "remote_path": "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-preflight.sh",
+      "sha256": "3fead82cdc95b62e5171cdb7d09db52d8c6c1ebab0790a20b76bb4492e7ed67a"
+    },
+    {
+      "byte_size": 461,
+      "local_path": "staged-scripts/remote-hash-check.sh",
+      "name": "remote-hash-check",
+      "remote_path": "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-remote-hash-check.sh",
+      "sha256": "32c07c4762168d6575f54dfac020b09e082bf77a47c5e6b7e81e8ac0b0712667"
+    },
+    {
+      "byte_size": 790,
+      "local_path": "staged-scripts/ffmpeg.sh",
+      "name": "ffmpeg",
+      "remote_path": "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-ffmpeg.sh",
+      "sha256": "c5b14598d49316b56370391fe6318a568290366b6d8e8f1b043b055e029b1da7"
+    },
+    {
+      "byte_size": 461,
+      "local_path": "staged-scripts/remote-post-hash-check.sh",
+      "name": "remote-post-hash-check",
+      "remote_path": "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-remote-post-hash-check.sh",
+      "sha256": "32c07c4762168d6575f54dfac020b09e082bf77a47c5e6b7e81e8ac0b0712667"
+    }
+  ]
+}

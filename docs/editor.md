@@ -16,7 +16,7 @@ An optional `--queue-db` submits one pending `kind=editor_export` record through
 
 ## Review and authorization boundary
 
-The project model preserves explicit review marks, but those are editor decisions only. Director export carries a manual review checkpoint and names all existing mandatory gates without bypassing any. A later authorized host run must produce its own command, repository/model/source provenance, queue attempts, output hashes, QC evidence, review evidence, and recipe linkage. The WD-gc09 authorized-host export bundle is therefore **not verified - requires authorized host run**.
+The project model preserves explicit review marks, but those are editor decisions only. Director export carries a manual review checkpoint and names all existing mandatory gates without bypassing any. The WD-qthq authorized host export is **verified - evidence-backed host run** at `datasets/runs/maestro-parity/editor-host-export/host-run/evidence.json`: one governed `editor_export` job ended `done`, CPU-only FFmpeg produced the real four-second ordered video/audio artifact, both immutable source hashes were unchanged, zero models were downloaded, and the canonical checker passed all eight objective gates.
 
 ## Commands
 

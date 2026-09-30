@@ -1,0 +1,15 @@
+command=["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "3090", "/bin/sh", "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-preflight.sh"]
+stdout:
+/usr/bin/ffmpeg
+/usr/bin/ffprobe
+host=straughter-Z690-Steel-Legend
+user=straughter
+workspace=/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0
+ffmpeg=/usr/bin/ffmpeg
+ffprobe=/usr/bin/ffprobe
+free_bytes=18361790464
+ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+
+stderr:
+
+exit=0
