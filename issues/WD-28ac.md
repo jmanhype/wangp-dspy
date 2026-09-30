@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-30T15:30:18Z
-content_hash: "sha256:b7396f4021b78ae55123a2941394fe00f57993be28709b06b989accf8e3a2189"
+updated_at: 2026-09-30T19:53:26Z
+content_hash: "sha256:3362ac01aa9d6b8e458160e6d7938048200a203f01a3d8a472211f2a9626fc31"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 was_blocked_by: [WD-1s5s]
@@ -216,3 +216,6 @@ Parked on measured destination-storage boundary after authorized preflight. Root
 
 ### 2026-09-30T15:30:18Z speed
 Proposed shared storage remediation requiring operator authorization: after the two superseded H3 checkpoints are hash-verified and reversibly moved to /mnt/bulk-hdd/straughter/model-offload/wangp-3090, root free space should rise by about 44.28GB, enough for the exact 23.70GB LTX manifest plus output/workspace margin. Re-run host preflight before any download; if either H3 checkpoint is absent, hashes differ, target creation fails, or post-move root free space remains insufficient, stop typed. No LTX retry is authorized by this proposal.
+
+### 2026-09-30T19:53:26Z speed
+WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c994033064161cace2a98165c0a1dbb2. Its stale-space projection does not authorize the exact five-asset/23701298279-byte LTX batch; that download/host batch still requires explicit operator approval.
