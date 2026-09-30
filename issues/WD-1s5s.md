@@ -8,8 +8,8 @@ labels: [storage, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T19:18:30Z
-content_hash: "sha256:7f00433f74b119d5e7b860376887a88d1f5f3344c0395512ea06d36659891b38"
+updated_at: 2026-09-30T19:19:11Z
+content_hash: "sha256:fd4459791bb2916edda71b24908e146aa2a64e4551d33d68ec719feb1285e7dc"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
 follows: [WD-he8i, WD-qthq, WD-23rs]
 assignee: dev-WD-1s5s
@@ -366,7 +366,14 @@ status: new
 
 ## Notes
 BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required source blob story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/model-assets.json has verified SHA-256 25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0 and its four recorded sizes sum to 53594702510 bytes, but AC 1/2 requires that exact source hash and an exact manifest total of 53594932510 bytes (a 230000-byte discrepancy). Preserving the immutable source makes the required total impossible; altering an asset size would falsify the hash-identified snapshot. Sr PM must adjudicate the authoritative total/source before implementation can proceed. DISCOVERED_BUG: title=WD-bw0h manifest sum contradicts WD-1s5s required total; context=Hash-verified four-asset source manifest sums to 53594702510, not 53594932510; affected_files=datasets/runs/maestro-parity/clean-generated/model-assets.json, WD-1s5s story; discovered_during=WD-1s5s.
-
+## Implementation Evidence
+Summary: WD-1s5s local-only storage remediation packet delivered; see the preceding full evidence block for all commands, hashes, gates, AC table, and LEARNINGS.
+Commands run: focused pytest 16 PASS; undeselected full pytest 2162 PASS / 1 boundary-preserving pre-existing 3090 skip; pvg verify PASS; pvg lint --backlog PASS; wgp release verify ready=true tag_created=false; protected parity and diff checks PASS; exact-head CI PASS.
+### CI/Test Results
+- PR: https://github.com/jmanhike/wangp-dspy/pull/220
+- CI: https://github.com/jmanhike/wangp-dspy/actions/runs/36762786094/job/110049309036
+- Exact-head CI conclusion: SUCCESS
+SHA: 77225696c693dc167915ad52d56ec08a7c29db97
 
 ## nd_contract
 status: delivered
