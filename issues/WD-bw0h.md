@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-30T15:30:18Z
-content_hash: "sha256:7adb75c17b98cc002671d0bfe966f7b9e7ad8d5cdc56118cf58324bdec91dd13"
+updated_at: 2026-09-30T19:53:26Z
+content_hash: "sha256:11346ca9d030f1ffc077620794c07cdb889610824ed74cebf871824a91a1f65d"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s]
@@ -298,3 +298,6 @@ Authorized retry consumed and stopped fail-closed at STORAGE_PREPARATION_FAILED:
 
 ### 2026-09-30T15:30:18Z speed
 Proposed distinct storage remediation requiring operator authorization: on host 3090, verify current existence/size of the two superseded H3 checkpoints MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors and MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors; create/repair a user-writable /mnt/bulk-hdd/straughter/model-offload/wangp-3090 root; record pre-move SHA-256; copy each to the offload root and verify byte size/hash before replacing/removing the original by reversible move; record post-move hashes and leave a restoration path. No deletion, unrelated asset mutation, model download, or retry is authorized by this proposal.
+
+### 2026-09-30T19:53:26Z speed
+WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c994033064161cace2a98165c0a1dbb2. The packet is snapshot-only and grants no host authority; reversible two-checkpoint offload and any WD-bw0h retry still require distinct explicit operator approvals.
