@@ -1,0 +1,38 @@
+{
+  "schema_version": "wangp-dspy.storage-remediation-input/v1",
+  "snapshot_only": true,
+  "source_evidence": [
+    {"story":"WD-bw0h","branch":"story/WD-bw0h","head":"2dfe36863e29eef02af0ea330d13d331bafdc00e","path":"datasets/runs/maestro-parity/clean-generated/model-assets.json","sha256":"25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0"},
+    {"story":"WD-bw0h","branch":"story/WD-bw0h","head":"2dfe36863e29eef02af0ea330d13d331bafdc00e","path":"datasets/runs/maestro-parity/clean-generated/failed-retry/failure.json","sha256":"7d8320174c0d621cd32b4013acaddb81e92fc72a9d2af3eeabed76f5d987a6d5"},
+    {"story":"WD-bw0h","branch":"story/WD-bw0h","head":"2dfe36863e29eef02af0ea330d13d331bafdc00e","path":"datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md","sha256":"b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f"},
+    {"story":"WD-28ac","branch":"story/WD-28ac","head":"fced67e1293dc2dbbdf3f29c8b615f6357012ab6","path":"datasets/runs/maestro-parity/ltx-dependency-terminalization/model-assets.json","sha256":"89f3b52bab6ff7f0ac028d5225798dd612ecdcdd10a1087f6e299474fb1b34a4"},
+    {"story":"WD-28ac","branch":"story/WD-28ac","head":"fced67e1293dc2dbbdf3f29c8b615f6357012ab6","path":"datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json","sha256":"6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53"},
+    {"story":"WD-28ac","branch":"story/WD-28ac","head":"fced67e1293dc2dbbdf3f29c8b615f6357012ab6","path":"datasets/runs/maestro-parity/ltx-dependency-terminalization/host-storage-diagnosis/remote/filesystems.txt","sha256":"fe48f4f09634a511ae43a20211ca78bef83d415b38817303926aeac623817e9e"}
+  ],
+  "model_manifests": {
+    "WD-bw0h": {
+      "schema_version": "wangp-dspy.model-assets/v1",
+      "assets": [
+        {"id":"h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors","destination":"/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors","size_bytes":21057674787,"sha256":"30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"h3-MiniMax-H3-video_vae_fp16.safetensors","destination":"/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors","size_bytes":5207806512,"sha256":"455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"h3-MiniMax-H3-audio_vae_fp32.safetensors","destination":"/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors","size_bytes":605429308,"sha256":"37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"h3-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors","destination":"/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors","size_bytes":26723791903,"sha256":"4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301","license":"Upstream distribution license; operator research/evaluation only"}
+      ]
+    },
+    "WD-28ac": {
+      "schema_version": "wangp-dspy.model-assets/v1",
+      "assets": [
+        {"id":"ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors","destination":"/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors","size_bytes":1308778338,"sha256":"4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"ltx-2.3-22b-ic-lora-outpaint.safetensors","destination":"/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors","size_bytes":1308756416,"sha256":"76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors","destination":"/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors","size_bytes":1308778338,"sha256":"748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors","destination":"/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors","size_bytes":327322640,"sha256":"229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996","license":"Upstream distribution license; operator research/evaluation only"},
+        {"id":"ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors","destination":"/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors","size_bytes":19447662547,"sha256":"f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22","license":"Upstream distribution license; operator research/evaluation only"}
+      ]
+    }
+  },
+  "boundaries": {"wd_bw0h_failure":{"schema_version":"wangp-dspy.clean-generated-proof-failure/v1","diagnostic":{"code":"STORAGE_PREPARATION_FAILED","detail":"cannot create offload root"},"generated_artifact":false,"substitution_attempted":false},"wd_28ac_preflight":{"schema":"wangp-dspy.maestro-parity-preflight-boundary/v1","queue_admission":"blocked_before_admission","model_download_bytes_actual":0,"destination_free_bytes":17865703424,"not_a_hardware_verdict":true},"wd_28ac_filesystems":{"destination_free_bytes":17865703424,"bulk_hdd_free_bytes":317216575488}},
+  "superseded_h3_candidates": [{"id":"superseded-h3-checkpoint-1","size_bytes":22144108396,"sha256":null,"sha256_status":"unknown_requires_live_verification"},{"id":"superseded-h3-checkpoint-2","size_bytes":22144108397,"sha256":null,"sha256_status":"unknown_requires_live_verification"}],
+  "recorded_disk": {"destination_free_bytes":17865703424,"bulk_hdd_free_bytes":317216575488,"snapshot_only":true,"stale":true,"live_verified":false},
+  "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090/",
+  "doctor_minimum_free": {"source_constant":"wangp/doctor.py:REMOTE_MINIMUM_FREE_GB","minimum_gb":50.0,"minimum_bytes":53687091200}
+}
