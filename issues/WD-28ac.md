@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-30T14:49:05Z
-content_hash: "sha256:cfa59e4405d0b827a16cc2a085e5f035897a5ed8ea9e8fbdfb508d9decc16837"
+updated_at: 2026-09-30T14:50:25Z
+content_hash: "sha256:ec313ef3aefbf6add26d832297c03b8a65bcdc5ce071a17754d64b8b13b05254"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 ---
@@ -202,3 +202,6 @@ Dispatch note: operator authorization is recorded, but host-3090 execution is qu
 
 ### 2026-09-30T14:49:05Z speed
 BLOCKED: Authorized host-3090 preflight passed SSH, tree identity, 34 existing accepted LTX assets, GPU idle, and host QC probes, but the destination filesystem has 17865703424 bytes free versus 23701298279 required (shortfall 5835594855). The largest declared asset is 19447662547 bytes, 1581959123 bytes larger than all free space. All five target assets remain absent. Moving/removing an unrelated asset or redirecting the declared destination was not authorized, so zero model bytes were downloaded and zero operations were admitted. Evidence and local gates are committed at fced67e1293dc2dbbdf3f29c8b615f6357012ab6; exact-head CI run 36728749388 passed. Distinct reversible-storage authorization is required before retry.
+
+### 2026-09-30T14:50:25Z speed
+CORRECTION to the prior BLOCKED comment: the live integration test exercised the configured qc_available check kind, but it does not assert a healthy QC result and the status was not captured. The durable preflight evidence proves host Python, ffmpeg, and ffprobe executable probes; it does not claim QC health. The storage boundary and zero-download/zero-admission decision are unchanged.
