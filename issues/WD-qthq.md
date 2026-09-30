@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
 updated_at: 2026-09-30T14:59:49Z
-content_hash: "sha256:69a629658d5973fbe605f05c356daa99d12893a934c23c05e5610f4c2745a30c"
+content_hash: "sha256:ddcbc418d8b23e6027d28a111110d07e1faf38d67e74128c40b1c71bed04e12d"
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
 closed_at: 2026-09-30T14:59:48Z
@@ -137,6 +137,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-30.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
