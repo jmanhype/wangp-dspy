@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
 updated_at: 2026-09-30T18:10:49Z
-content_hash: "sha256:157a2ded05dce869e97edf3919fa05a12b8694e037194bb7f6f3e13b46edc53e"
+content_hash: "sha256:d391f7abdd3a68b02836b2f8c33172d8d3f98df1064c1e0cfd708f1e480e3595"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
 assignee: dev-WD-1s5s
 follows: [WD-he8i]
@@ -382,3 +382,6 @@ BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required sourc
 - Follows: [[WD-he8i]]
 
 ## Comments
+
+### 2026-09-30T18:10:49Z speed
+SR_PM REPAIR: the hash-verified WD-bw0h manifest is authoritative. Its four recorded sizes sum to 53594702510 bytes, not 53594932510; the story total was corrected by 230000 bytes. No source snapshot or model identity was altered.
