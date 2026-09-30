@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-WD-bw0h",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "diagnostic": {
+    "code": "UNEXPECTED_GENERATED_PROOF_FAILURE",
+    "detail": "TypeError: Object of type PosixPath is not JSON serializable"
+  },
+  "generated_artifact": false,
+  "schema_version": "wangp-dspy.clean-generated-proof-failure/v1",
+  "substitution_attempted": false
+}

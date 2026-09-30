@@ -1,0 +1,25 @@
+{
+  "checkout": "/private/tmp/wangp-clean-generated-WD-bw0h-retry/checkout",
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-bw0h",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-WD-bw0h-retry",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "commit": "44c8d82dbfd4bebd7b337d9b60446b2357030613",
+  "identity_sha256": "2dd45328f3e57d0fcce2a45c7b85e7c22dd0658653abac27c3eff4c9c700a640",
+  "status": "",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.0.1 Copyright (c) 2007-2025 the FFmpeg developers",
+    "git": "git version 2.49.0",
+    "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]"
+  },
+  "workspace": "/private/tmp/wangp-clean-generated-WD-bw0h-retry"
+}

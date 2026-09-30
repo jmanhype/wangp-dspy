@@ -72,6 +72,19 @@ This is install-and-plan evidence only. It is never generated-artifact evidence.
 The generated-artifact half remains blocked pending per-batch render-host authorization,
 model-download approval, and a complete authorized host/model manifest.
 
+## Separately authorized clean-machine H3 generated proof
+
+WD-bw0h records the operator-approved `Authorize` no-new-download retry. From that
+authorized disposable checkout:
+
+```bash
+sh install.sh --source "$PWD" --clean-generated-proof "${TMPDIR:-/tmp}/wangp-clean-generated" --generated-authorization datasets/runs/maestro-parity/clean-generated/operator-authorization.json --generated-manifest datasets/runs/maestro-parity/clean-generated/model-assets.json
+```
+
+Unlike `--clean-proof`, this mode supplies complete committed authorization, host, and four-asset manifest inputs before SSH. It uses isolated HOME/cache/tool/checkout/pull paths, verifies the four exact local H3 assets, reversibly offloads only the two named superseded checkpoints when the 50 GB root floor is missed, admits exactly one durable H3 standard-create queue job, and runs the existing Wan2GP adapter under offline Hub variables. The command records native argv/log, queue/retry state, output hash, ffprobe metadata, first frame/contact sheet, objective gates, and the canonical checker result. It fails closed rather than substituting an existing artifact.
+
+This section is authorization-scoped evidence for WD-bw0h, not a general download path. The no-GPU refusal command above remains the default clean-machine proof and still exits `3` without host contact.
+
 ## Upgrade and uninstall
 
 Repeat the one-command install; it requests `uv tool install --upgrade`. Remove the user tool with:
