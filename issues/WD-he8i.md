@@ -8,8 +8,8 @@ labels: [evidence, index, qc]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T15:38:32Z
-content_hash: "sha256:34444070a6ec04a5fb41424914e53008d188e898005a88d09a1a265aab154b69"
+updated_at: 2026-09-30T17:05:47Z
+content_hash: "sha256:5cc5f5f9f2cc98eb1612ffd1714ed40ef09ab463a1120cc851a47f136e10bb05"
 blocks: [WD-t0il, WD-fay0]
 assignee: dev-WD-he8i
 follows: [WD-qthq]
@@ -112,6 +112,96 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+PROOF:
+
+### CI/Test Results
+- Commands run:
+  - `python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py`
+  - `uv run --frozen --extra dev pytest -q tests/test_current_parity_index.py --junitxml=/tmp/WD-he8i-focused-clean.junit.xml`
+  - `uv run --frozen --extra dev pytest -q -ra --junitxml=/tmp/WD-he8i-full-clean.junit.xml`
+  - `uv run --frozen --extra dev python -m compileall -q datasets/runs/maestro-parity/WD-fay0/validate_index.py tests/test_current_parity_index.py`
+  - `uv run --frozen --extra dev --with pytest-cov pytest -q tests/test_current_parity_index.py --cov=. --cov-report=` followed by `coverage report --include='datasets/runs/maestro-parity/WD-fay0/validate_index.py,tests/test_current_parity_index.py'`
+  - `pvg verify datasets/runs/maestro-parity/WD-fay0/evidence-index.json datasets/runs/maestro-parity/WD-fay0/evidence-index.md datasets/runs/maestro-parity/WD-fay0/validate_index.py tests/test_current_parity_index.py --format=text --include-tests`
+  - `pvg lint --backlog`
+  - `uv run --frozen --extra dev wgp release verify --json`
+  - `git diff --exit-code 5a94eb491c524816334e23e1b2894acc3b772819 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+  - `git diff --check`
+- Summary: validator PASS; focused tests 9/9 PASS; undeselected full suite PASS; compileall PASS; pvg verify PASS; backlog lint PASS; release PASS; protected parity PASS; whitespace PASS; exact-head CI PASS.
+- Consolidated validator output: `{"hashed_matrix_evidence_files":39,"ltx_dependency_cells":7,"matrix_rows":208,"matrix_totals":{"dependency_blocked":7,"host_run_verified":89,"not_applicable":2,"terminal_unsupported_or_fail_closed":110},"non_matrix_rows":3,"result":"PASS"}`
+- Focused JUnit: tests=9, failures=0, errors=0, skipped=0, time=0.109s.
+- Full JUnit: tests=2147, failures=0, errors=0, skipped=1, time=788.883s. The sole skip is the pre-existing live-host gate `tests/test_jobs_integration_3090.py:20` requiring `WANGP_3090=1`; no SSH/host contact occurred.
+- Coverage (validator plus new focused test only): 266 statements, 58 missed, 78%. This is focused coverage, not a full-project coverage claim.
+- pvg verify: `VERIFY: PASSED (2 files scanned, 0 issues)`.
+- pvg lint: `scanned 154 issues; 0 errors, 0 review findings`.
+- Release: version 0.1.0; version/changelog/recipe_schema/tree checks all pass; `release=ready`; `tag_created=false`.
+- Protected parity: exit 0 against base `5a94eb491c524816334e23e1b2894acc3b772819`.
+- Matrix evidence-byte parity: `git diff --exit-code 5a94eb491c524816334e23e1b2894acc3b772819 -- <39 manifest paths>` exited 0 with no changed paths.
+- Exact changed paths: `datasets/runs/maestro-parity/WD-fay0/evidence-index.json`, `datasets/runs/maestro-parity/WD-fay0/evidence-index.md`, `datasets/runs/maestro-parity/WD-fay0/validate_index.py`, and `tests/test_current_parity_index.py`.
+
+### Commit / PR / CI
+- Branch: `story/WD-he8i`
+- SHA: `ec9abf4a38afa5249acffeaac2d639353fbfc864`
+- Commit: `fix(WD-he8i): reconcile current parity index`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/219
+- PR state/merge status at delivery: OPEN / CLEAN; PR head is exactly `ec9abf4a38afa5249acffeaac2d639353fbfc864`.
+- Exact-head CI attempt 2: SUCCESS in 18m53s; all checkout/setup/ffmpeg/test/build/post steps passed. Run: https://github.com/jmanhype/wangp-dspy/actions/runs/36742380020 (job https://github.com/jmanhype/wangp-dspy/actions/runs/36742380020/job/109992851722)
+- CI attempt 1 was canceled by the repository's 30-minute job timeout while pytest was still progressing at 80%, with no assertion/test failure in the log. Same-head attempt 2 passed. No workflow or code change was made for that transient runner timing variance.
+
+### Hashes and boundary identities
+- Matrix identity SHA-256: `137529223a941dd8a95bebbcb37acf2b149b5cfa3513afed0b6a81bdb01489a2`.
+- WD-qthq editor evidence SHA-256: `7a292c0befd1bbbe59db3f9d0f8879f1ed17e3141f9ff07a06126803353b7d17`.
+- WD-23rs checker receipt SHA-256: `2d935d24db35116c9acf7677943d93204cd79826276a3390141cadb667f3c3c4`.
+- WD-bw0h first-run boundary ref/hash: `story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e`; SHA-256 `b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f`.
+- WD-28ac LTX boundary ref/hash: `story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6`; SHA-256 `6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53`.
+- Generated current index JSON SHA-256: `6e68a58af209805fba08554fff8dfeadb23f111fa2138c960a285843d907e8c7`.
+- Generated current index Markdown SHA-256: `71fe3d27b070ae22d243b9bf85745dc66f8e9387fdb471c5de36ae06a149308a`.
+- Validator SHA-256: `bcc1882d648eb2bf78576deed82bb61b2d8469a65744f46b8fa25a39024828ba`.
+- New focused test SHA-256: `1a88401cccd2dd8b7377b2f22279a571ea31cf4b618c33f7a238941efc0daa69`.
+
+### AC Verification
+| AC # | Requirement | Code Location | Test Location | Status |
+|---|---|---|---|---|
+| 1 | JSON/Markdown exactly match all 208 authoritative document/line/row/cell/state/link cells | `evidence-index.json`; `validate_index.py:127-209` | `tests/test_current_parity_index.py:43-63` | PASS |
+| 2 | Totals are 89 verified, 7 dependency-blocked, 110 terminal variants, 2 N/A, zero planned | `validate_index.py:26-49,211-235` | `tests/test_current_parity_index.py:43-63` | PASS |
+| 3 | Editor host export/media is WD-qthq host-run verified; first-run generated remains incomplete | `validate_index.py:51-109,238-260`; `evidence-index.json` | `tests/test_current_parity_index.py:87-114` | PASS |
+| 4 | Current WD-bw0h and exact seven-cell WD-28ac boundaries remain non-hardware, non-complete boundaries | `validate_index.py:51-109,237-244` | `tests/test_current_parity_index.py:65-114` | PASS |
+| 5 | Accepted evidence bytes/hashes remain unchanged; only index/navigation metadata and validation coverage change | `evidence-index.json` 39-file manifest; delivery byte-parity command above | `tests/test_current_parity_index.py:116-125` | PASS |
+| 6 | Validator passes current tree and fails matrix/index drift | `validate_index.py:192-308,398-416` | `tests/test_current_parity_index.py:127-195` | PASS |
+| 7 | Focused/full/lint/release/protected/diff/CI gates pass at exact head | Commands and results above | Full suite, PR CI, and local gate receipts above | PASS |
+
+### Boundary honored
+- No SSH/host-3090 contact, model download, storage mutation, render, queue admission, protected-engine edit, WD-bw0h/WD-28ac evidence mutation, or new capability claim occurred.
+- No acceptance, close, or merge occurred.
+
+### OBSERVATIONS (unrelated)
+- `pvg notes search` initially reported configured vault `Claude` unavailable (`Available: Obsidian Vault, Brand OS (AI Video Factory), vault, .vault, nd-vault`). Story context came from the live tracker and repository evidence; no global vault configuration was changed.
+- The first full-suite invocation had two release tests fail only because the four implementation files were intentionally uncommitted; after commit-first discipline, the clean-tree full suite passed. An initial path-valued `pytest --cov` invocation produced module-not-imported/no-data warnings and was corrected to `--cov=.` plus include filtering; the final coverage run produced 78% with no warnings.
+
+LEARNINGS:
+- The stale index was not just a count problem: evidence-link equality, a fixed matrix identity hash, and byte manifests are needed so coordinated or silent document/index drift fails closed.
+- The two active operator boundaries live on distinct story refs rather than merged main; recording exact ref/path/hash identities preserves their bytes without copying or mutating their bundles.
+- Release-aware tests require commit-first execution on this repository; a clean full-suite rerun is necessary after a scoped evidence commit.
+- GitHub CI can exceed its 30-minute timeout solely from runner variance. The failed attempt log reached 80% with no error; same-head rerun passed in 18m53s.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `ec9abf4a38afa5249acffeaac2d639353fbfc864`; PR 219; exact-head CI attempt 2 success.
+- Validator PASS over 208 rows and required totals; focused 9/9; full JUnit 2147/0/0 with one pre-existing host-gated skip.
+- pvg verify, pvg lint, release, protected parity, matrix evidence-byte parity, whitespace, and exact-head CI all pass.
+
+### proof
+- [x] AC #1: current 208-cell matrix/index identity, source lines, rows, cells, states, and links match exactly.
+- [x] AC #2: current counts are 89/7/110/2 with zero planned.
+- [x] AC #3: WD-qthq editor host run is verified; WD-bw0h first-run generated remains incomplete.
+- [x] AC #4: WD-bw0h and exactly seven WD-28ac LTX cells remain explicit boundaries, not hardware/complete verdicts.
+- [x] AC #5: accepted matrix evidence bytes remain unchanged.
+- [x] AC #6: validator passes current tree and negative drift fixtures fail.
+- [x] AC #7: focused/full/local standing gates and exact-head CI pass.
+
 ## nd_contract
 status: in_progress
 
