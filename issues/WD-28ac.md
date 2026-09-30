@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-30T14:51:37Z
-content_hash: "sha256:8d2460ac7de50e199889018cfd4854f3e7f3ec2d3c6c0d2a3ac4f665a36c0e2d"
+updated_at: 2026-09-30T15:30:18Z
+content_hash: "sha256:3c7d05233f00483d68cc2a15062c268a086d5c388044e17dd4a2c12a79031908"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 ---
@@ -209,3 +209,6 @@ CORRECTION to the prior BLOCKED comment: the live integration test exercised the
 
 ### 2026-09-30T14:51:37Z speed
 Parked on measured destination-storage boundary after authorized preflight. Root filesystem has 17,865,703,424 bytes free versus 23,701,298,279 declared bytes; largest asset exceeds free space alone. /mnt/bulk-hdd has headroom, but moving unrelated assets or redirecting declared destinations requires a distinct operator-approved reversible storage plan. No model bytes downloaded, queue admitted, operation attempted, matrix cell changed, or unrelated host mutation occurred. PR 217 head fced67e1293dc2dbbdf3f29b8b615f6357012ab6a has exact-head CI success.
+
+### 2026-09-30T15:30:18Z speed
+Proposed shared storage remediation requiring operator authorization: after the two superseded H3 checkpoints are hash-verified and reversibly moved to /mnt/bulk-hdd/straughter/model-offload/wangp-3090, root free space should rise by about 44.28GB, enough for the exact 23.70GB LTX manifest plus output/workspace margin. Re-run host preflight before any download; if either H3 checkpoint is absent, hashes differ, target creation fails, or post-move root free space remains insufficient, stop typed. No LTX retry is authorized by this proposal.
