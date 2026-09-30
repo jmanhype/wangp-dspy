@@ -1,18 +1,19 @@
 ---
 id: WD-qthq
 title: "Editor authorized host export media"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [editor, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T14:50:43Z
-content_hash: "sha256:57f4de81ec679d2cb2f38e069c3dac336db867086ad4aa355b01d9802738e847"
-blocks: [WD-fay0]
+updated_at: 2026-09-30T14:59:48Z
+content_hash: "sha256:69a629658d5973fbe605f05c356daa99d12893a934c23c05e5610f4c2745a30c"
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
+closed_at: 2026-09-30T14:59:48Z
+close_reason: "Accepted: independently verified exact PR head 284c7f16259cab5c85a017f06bad1f29934e04ed CI, scoped diff, exact immutable source/project identities, one CPU-only editor_export queue job, real media/hash/metadata/visual/objective evidence, canonical checker, docs transition, and standing gates."
 ---
 
 ## Description
@@ -297,10 +298,11 @@ status: in_progress
 - 2026-09-29T23:18:11Z claimed by dev-WD-qthq
 - 2026-09-30T14:49:16Z status: in_progress -> in_progress
 - 2026-09-30T14:49:16Z auto-follows: linked to predecessor WD-32hk
+- 2026-09-30T14:59:48Z status: in_progress -> closed
+- 2026-09-30T14:59:48Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Follows: [[WD-23rs]], [[WD-p587]], [[WD-32hk]]
 
 ## Comments
