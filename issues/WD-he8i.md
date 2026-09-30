@@ -8,8 +8,8 @@ labels: [evidence, index, qc, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T17:06:44Z
-content_hash: "sha256:0f2fa7f7397084c83ba6adbd93cf3160bdc7a25172b17baaeb15afcde769f9bb"
+updated_at: 2026-09-30T17:08:41Z
+content_hash: "sha256:83f97d625bc6d350b7ce601618a738f6ea65a69b03683c527ee5dd9acd51b95f"
 blocks: [WD-t0il, WD-fay0]
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
@@ -276,3 +276,21 @@ status: in_progress
 - Follows: [[WD-qthq]], [[WD-23rs]]
 
 ## Comments
+
+### 2026-09-30T17:08:41Z speed
+DELIVERED CONTRACT REPAIR (append-only): SHA: ec9abf4a38afa5249acffeaac2d639353fbfc864; branch story/WD-he8i; PR https://github.com/jmanhype/wangp-dspy/pull/219; exact-head CI attempt 2 success https://github.com/jmanhype/wangp-dspy/actions/runs/36742380020.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit ec9abf4a38afa5249acffeaac2d639353fbfc864; validator PASS 208 rows 89/7/110/2; focused 9/9; full JUnit tests=2147 failures=0 errors=0 skipped=1; pvg verify/lint/release/protected/evidence-byte/whitespace gates pass; PR CI success.
+
+### proof
+- [x] AC #1 exact current 208-cell matrix/index agreement.
+- [x] AC #2 totals 89 host_run_verified, 7 dependency_blocked, 110 terminal, 2 not_applicable, zero planned.
+- [x] AC #3 WD-qthq editor verified and WD-bw0h first-run incomplete.
+- [x] AC #4 exactly seven WD-28ac LTX boundary cells remain non-hardware/non-complete.
+- [x] AC #5 accepted evidence bytes unchanged.
+- [x] AC #6 current validator passes and negative drift fixtures fail.
+- [x] AC #7 focused/full/local standing gates and exact-head CI pass.
