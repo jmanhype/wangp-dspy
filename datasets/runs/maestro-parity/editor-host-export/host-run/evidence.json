@@ -1,0 +1,244 @@
+{
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "3090",
+    "/bin/sh",
+    "/tmp/wd-qthq-editor-export-20260929T195201Z-3c1a4bfd-ffmpeg.sh"
+  ],
+  "media_metadata": [
+    {
+      "alpha_mode": "none",
+      "audio": {
+        "channels": 1,
+        "codec": "aac",
+        "present": true,
+        "sample_rate_hz": 24000
+      },
+      "duration_s": 4.0,
+      "fps": 24.0,
+      "height": 576,
+      "kind": "video",
+      "path": "outputs/editor-export.mp4",
+      "width": 704
+    }
+  ],
+  "model_provenance": [
+    {
+      "download_approved": true,
+      "identity": "host FFmpeg 6.1.1-3ubuntu5 (CPU-only; no neural model)",
+      "immutable_version": "6.1.1-3ubuntu5",
+      "license": "GPL-2.1-or-later",
+      "model_downloads": 0,
+      "source": "3090:/usr/bin/ffmpeg pre-existing host runtime"
+    }
+  ],
+  "objective_gate_results": [
+    {
+      "inputs": [
+        "ffprobe-output.json:format.duration"
+      ],
+      "measured": 4.0,
+      "name": "duration_seconds",
+      "threshold": 4.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "execute-ffmpeg.log:frame=96"
+      ],
+      "measured": 96.0,
+      "name": "rendered_frame_count",
+      "threshold": 96.0,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/editor-export.mp4@0.5s",
+        "references/cut1.mp4@0.5s",
+        "review/order-first-ssim.log"
+      ],
+      "measured": 0.989087,
+      "name": "first_half_source_order_ssim",
+      "threshold": 0.98,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/editor-export.mp4@2.5s",
+        "references/cut1.mp4@2.0s",
+        "review/order-second-ssim.log"
+      ],
+      "measured": 0.991025,
+      "name": "second_half_clone_order_ssim",
+      "threshold": 0.98,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-audio.f32[:51200]",
+        "source-audio.f32",
+        "numpy.dot Pearson correlation at 24 kHz mono"
+      ],
+      "measured": 0.9995817278979054,
+      "name": "declared_audio_head_correlation",
+      "threshold": 0.99,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-audio.f32[:51200]",
+        "source-audio.f32",
+        "numpy.mean squared error at 24 kHz mono"
+      ],
+      "measured": 0.0019316417318656792,
+      "name": "declared_audio_head_rmse",
+      "threshold": 0.01,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "output-audio.f32[51200:]",
+        "expected silence after 2.133333s declared WAV"
+      ],
+      "measured": 1.645215474140844e-06,
+      "name": "audio_padding_tail_rmse",
+      "threshold": 0.01,
+      "verdict": "pass"
+    },
+    {
+      "inputs": [
+        "outputs/editor-export.mp4"
+      ],
+      "measured": 515764.0,
+      "name": "nonempty_output_bytes",
+      "threshold": 1.0,
+      "verdict": "pass"
+    }
+  ],
+  "operator_authorization": {
+    "approved_by": "operator",
+    "scope": "WD-qthq: host 3090; exactly two declared LF002 sources; one editor_export queue job; CPU-only FFmpeg; gpu_work=false; zero model downloads",
+    "status": "approved",
+    "text": "Authorize",
+    "timestamp": "2026-09-29T23:17:30Z"
+  },
+  "output": [
+    {
+      "path": "outputs/editor-export.mp4",
+      "sha256": "4f7c955ebbf68daa98eed4c117cb879db8dfc6744924d6f1e7ad1e1de8c8725e"
+    }
+  ],
+  "queue_attempt": {
+    "admission_state": "admitted",
+    "clips": [
+      {
+        "assembly_continuity_digest": "2d13c6c05ee59f9d63807bf36de1c1eb600fd5e00e3679bfb4fcaf78b55887c2",
+        "clip_index": 0,
+        "director_request_sha256": "765eda5c737982c9fb9f2f72c8ad0a10a8cc205ca518a7aa25e8ff992dd82d46",
+        "editor_export_sha256": "66dcc7acbca38fbeece2bbe478621f61bf9ac5dd166219b335f5c9a5242bed27",
+        "gpu_work": false,
+        "host_contact": false,
+        "kind": "editor_export",
+        "log": "ffmpeg.native.log",
+        "media_generated": false,
+        "mp4": "outputs/editor-export.mp4",
+        "qc_verdict": {
+          "path": "objective-gates.json",
+          "verdict": "KEEP"
+        },
+        "render_attempted": true,
+        "render_fingerprint": "c4e7516e2332da68304decf64172f548d3330673ed115697b463bd86d59ad0b0",
+        "status": "done"
+      }
+    ],
+    "database": "queue/jobs.db",
+    "exit_status": "succeeded",
+    "final_state": "done",
+    "job_id": "job-1790730445881-aa610b52",
+    "native_log_sha256": {
+      "execute-ffmpeg.log": "c5acf0346c3ba50d08c7d0959414308f68e4e63d8f1140e008dc74bcf67dfc27",
+      "execute-preflight.log": "69e1c7dbcf5cf161ac05d23698dbba487ba10135eda57115f98903166f1dd18c"
+    },
+    "native_logs": [
+      "execute-preflight.log",
+      "execute-ffmpeg.log"
+    ],
+    "queue_id": "wangp-JobQueue-WD-qthq",
+    "retry_id": "attempt-1"
+  },
+  "reference_provenance": [
+    {
+      "license": "LF002 repository-provenance output; operator research/evaluation only",
+      "path": "references/cut1.mp4",
+      "role": "immutable declared video source",
+      "sha256": "b53e5d37457f61db8c1bfa31d11d8d873139bf0aabddf97e0efa245de4d702a3"
+    },
+    {
+      "license": "LF002 repository-provenance output; operator research/evaluation only",
+      "path": "references/orin.wav",
+      "role": "immutable declared audio source",
+      "sha256": "f3d66cac4458d0d33870ff6dc97df75eff95d57b154180dd303be4f955c91857"
+    },
+    {
+      "license": "Wangp DSPy repository evidence; operator research/evaluation only",
+      "path": "references/lf002-editor-media.wgp-editor.json",
+      "role": "canonical editor project consumed by the host run",
+      "sha256": "e3ac1c1b973fc2e398b083d4e22eee98ed973cf0b8f09ca338c1d9848d35341e"
+    },
+    {
+      "license": "Wangp DSPy repository evidence; operator research/evaluation only",
+      "path": "references/export.json",
+      "role": "canonical editor export and queue plan",
+      "sha256": "ef2786b17d71c45a4931d4de88e03b129e040930bd63ad22185ad65df2fa9f12"
+    },
+    {
+      "license": "derived LF002 evidence; operator research/evaluation only",
+      "path": "review/order-contact-sheet.png",
+      "role": "visual review proof for first and second ordered video halves",
+      "sha256": "9ad8259ed04b41a56a276778f646369472d5229ab7fa59c6888d2cc861b67bd6"
+    }
+  ],
+  "repository": {
+    "commit": "4f854dd1b938f145dcbd5eef907f6348ee12657a",
+    "dirty_state": {
+      "commit_semantics": "clean tracked tree at the operating head; generated host evidence was committed after execution",
+      "dirty": false,
+      "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status_lines": []
+    }
+  },
+  "reviewer_verdict": {
+    "approved_by": "WD-qthq developer technical evidence review",
+    "decision": "approved",
+    "evidence_links": [
+      "outputs/editor-export.mp4",
+      "review/order-contact-sheet.png",
+      "media-qc.json",
+      "objective-gates.json",
+      "execute-ffmpeg.log"
+    ],
+    "review": "Technical order/audio/media gates pass. This is not an operator creative KEEP verdict."
+  },
+  "runtime_notes": {
+    "execution_continuity": {
+      "preflight_completed": true,
+      "resumed_after_local_boundary": true
+    },
+    "gpu_work": false,
+    "host": {
+      "ffmpeg": "/usr/bin/ffmpeg",
+      "ffprobe": "/usr/bin/ffprobe",
+      "free_bytes": 18361790464,
+      "host": "straughter-Z690-Steel-Legend",
+      "user": "straughter",
+      "workspace": "/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0"
+    },
+    "model_downloads": 0,
+    "queue_symbolic_log_note": "queue clip log names ffmpeg.native.log; authoritative captured native log is execute-ffmpeg.log"
+  },
+  "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}

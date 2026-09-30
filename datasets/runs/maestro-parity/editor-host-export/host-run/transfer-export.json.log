@@ -1,0 +1,6 @@
+command=["scp", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qthq/datasets/runs/maestro-parity/editor-host-export/export.json", "3090:/home/straughter/Wan2GP/wd-qthq-editor-export/20260929T195201Z/cc0280f0/export.json"]
+stdout:
+
+stderr:
+
+exit=0

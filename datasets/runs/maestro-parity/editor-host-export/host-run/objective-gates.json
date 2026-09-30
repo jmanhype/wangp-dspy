@@ -1,0 +1,83 @@
+[
+  {
+    "inputs": [
+      "ffprobe-output.json:format.duration"
+    ],
+    "measured": 4.0,
+    "name": "duration_seconds",
+    "threshold": 4.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "execute-ffmpeg.log:frame=96"
+    ],
+    "measured": 96.0,
+    "name": "rendered_frame_count",
+    "threshold": 96.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/editor-export.mp4@0.5s",
+      "references/cut1.mp4@0.5s",
+      "review/order-first-ssim.log"
+    ],
+    "measured": 0.989087,
+    "name": "first_half_source_order_ssim",
+    "threshold": 0.98,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/editor-export.mp4@2.5s",
+      "references/cut1.mp4@2.0s",
+      "review/order-second-ssim.log"
+    ],
+    "measured": 0.991025,
+    "name": "second_half_clone_order_ssim",
+    "threshold": 0.98,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "output-audio.f32[:51200]",
+      "source-audio.f32",
+      "numpy.dot Pearson correlation at 24 kHz mono"
+    ],
+    "measured": 0.9995817278979054,
+    "name": "declared_audio_head_correlation",
+    "threshold": 0.99,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "output-audio.f32[:51200]",
+      "source-audio.f32",
+      "numpy.mean squared error at 24 kHz mono"
+    ],
+    "measured": 0.0019316417318656792,
+    "name": "declared_audio_head_rmse",
+    "threshold": 0.01,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "output-audio.f32[51200:]",
+      "expected silence after 2.133333s declared WAV"
+    ],
+    "measured": 1.645215474140844e-06,
+    "name": "audio_padding_tail_rmse",
+    "threshold": 0.01,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/editor-export.mp4"
+    ],
+    "measured": 515764.0,
+    "name": "nonempty_output_bytes",
+    "threshold": 1.0,
+    "verdict": "pass"
+  }
+]

@@ -1,0 +1,54 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qthq/datasets/runs/maestro-parity/editor-host-export/host-run/outputs/editor-export.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:04.00, start: 0.000000, bitrate: 1031 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 704x576, 965 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 24000 Hz, mono, fltp, 58 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-qthq/datasets/runs/provenance/lf002-vibevoice-film-20260917/cut1.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:02.33, start: 0.000000, bitrate: 4873 kb/s
+  Stream #1:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 704x576, 4734 kb/s, 24 fps, 24 tbr, 12288 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.3.100 libx264
+  Stream #1:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 32000 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 (h264) -> format:default
+  Stream #1:0 (h264) -> format:default
+  ssim:default -> Stream #0:0 (wrapped_avframe)
+  Stream #1:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.3.100
+  Stream #0:0: Video: wrapped_avframe, gray(pc, progressive), 704x576, q=2-31, 200 kb/s, 24 fps, 24 tbn
+    Metadata:
+      encoder         : Lavc62.11.100 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 32000 Hz, stereo, s16, 1024 kb/s (default)
+    Metadata:
+      encoder         : Lavc62.11.100 pcm_s16le
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+[Parsed_ssim_2 @ 0x782a842f40] SSIM Y:0.989087 (19.620382) All:0.989087 (19.620382)
+[out#0/null @ 0x782ac246c0] video:34KiB audio:226KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=   84 fps=0.0 q=-0.0 Lsize=N/A time=00:00:01.80 bitrate=N/A speed=17.6x elapsed=0:00:00.10    

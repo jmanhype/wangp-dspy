@@ -14,6 +14,7 @@ from typing import Any, Mapping
 import pytest
 
 import scripts.run_editor_host_export as runner
+from scripts.verify_maestro_parity import verify_bundle
 from services.editor.assembly_exporter import enqueue_export
 from services.editor.project_store import ProjectStore
 from services.jobs.queue import JobQueue
@@ -332,3 +333,46 @@ def test_execution_can_continue_only_the_exact_successful_preflight_boundary(tmp
 
     (bundle / "unexpected-file").write_text("partial evidence", encoding="utf-8")
     assert runner._resume_successful_preflight(bundle) is None
+
+
+def test_recorded_real_host_replay_passes_canonical_checker() -> None:
+    bundle = ROOT / "datasets/runs/maestro-parity/editor-host-export/host-run"
+    summary = json.loads((bundle / "run-summary.json").read_text(encoding="utf-8"))
+    evidence = json.loads((bundle / "evidence.json").read_text(encoding="utf-8"))
+    output = bundle / "outputs/editor-export.mp4"
+
+    assert summary["repository_commit"] == "4f854dd1b938f145dcbd5eef907f6348ee12657a"
+    assert summary["host"]["host"] == "straughter-Z690-Steel-Legend"
+    assert summary["gpu_work"] is False and summary["model_downloads"] == 0
+    assert summary["before_hashes"] == summary["after_hashes"]
+    assert summary["queue"]["final_state"] == "done"
+    assert summary["queue"]["retry_id"] == "attempt-1"
+    assert summary["queue"]["clips"][0]["kind"] == "editor_export"
+    assert summary["queue"]["clips"][0]["render_attempted"] is True
+    assert summary["command"][0] == "ssh" and "-n" not in summary["command"]
+    assert summary["command"][6] == "/bin/sh"
+    assert Path(summary["command"][7]).is_absolute()
+    assert output.stat().st_size == summary["output"]["byte_size"]
+    assert _hash(output) == summary["output"]["sha256"] == evidence["output"][0]["sha256"]
+    for staged in summary["staged_scripts"]:
+        assert staged["sha256"] == _hash(bundle / str(staged["local_path"]))
+
+    queue = JobQueue(bundle / "queue/jobs.db")
+    try:
+        record = queue.get(summary["queue"]["job_id"])
+    finally:
+        queue.close()
+    assert record.state == "done"
+    assert record.clips == summary["queue"]["clips"]
+
+    gates = {gate["name"]: gate for gate in evidence["objective_gate_results"]}
+    assert gates["duration_seconds"]["measured"] == 4.0
+    assert gates["first_half_source_order_ssim"]["measured"] >= 0.98
+    assert gates["second_half_clone_order_ssim"]["measured"] >= 0.98
+    assert gates["declared_audio_head_correlation"]["measured"] >= 0.99
+    assert gates["audio_padding_tail_rmse"]["measured"] <= 0.01
+
+    report = verify_bundle(bundle)
+    assert report.passed
+    assert not report.diagnostics
+    assert not report.warnings
