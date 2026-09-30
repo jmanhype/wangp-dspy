@@ -6,15 +6,19 @@ import argparse
 import hashlib
 import json
 import os
+import shlex
 import shutil
+import subprocess
 import tempfile
+import time
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from services.editor.assembly_exporter import export_project, write_export
+from services.editor.assembly_exporter import enqueue_export, export_project, write_export
 from services.editor.project_store import ProjectStore
+from services.jobs.queue import JobQueue
 from wangp.editor_project import (
     PROJECT_SCHEMA,
     Clip,
@@ -42,6 +46,18 @@ TEMPLATE_PATH = Path(__file__).resolve().parents[1] / REFERENCE_RELATIVE / "oper
 TEMPLATE = json.loads(TEMPLATE_PATH.read_text(encoding="utf-8"))
 HOST = str(TEMPLATE["host"])
 REQUIRED_VERBATIM = str(TEMPLATE["authorization"]["required_verbatim"])
+OPERATOR_APPROVAL_VERBATIM = "Authorize"
+REMOTE_ROOT = Path("/home/straughter/Wan2GP/wd-qthq-editor-export")
+SSH_OPTIONS = ("-n", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15")
+MINIMUM_FREE_BYTES = 1_000_000_000
+FFMPEG_FILTER = (
+    "[0:v]split=2[base][second];"
+    "[base]trim=start_frame=0:end_frame=48,setpts=PTS-STARTPTS[first];"
+    "[second]trim=start_frame=48:end_frame=96,tpad=stop_mode=clone:stop=48,"
+    "trim=start_frame=0:end_frame=48,setpts=PTS-STARTPTS[continued];"
+    "[first][continued]concat=n=2:v=1:a=0[video];"
+    "[1:a]atrim=0:4,asetpts=PTS-STARTPTS,apad=whole_dur=4,atrim=0:4[voice]"
+)
 EXPECTED_SOURCES: Mapping[str, Mapping[str, object]] = {
     "video-cut": {
         "role": "video", "repository_path": VIDEO_SOURCE_RELATIVE.as_posix(),
@@ -80,10 +96,12 @@ class EditorHostExportError(ValueError):
 
 @dataclass(frozen=True)
 class AuthorizedCommand:
-    """An argv-only representation; the current runner never executes it."""
+    """The exact SSH wrapper and native host command authorized for one run."""
 
     host: str
     argv: tuple[str, ...]
+    ffmpeg_argv: tuple[str, ...]
+    remote_script: str
     gpu_work: bool
     model_downloads: int
 
@@ -293,15 +311,278 @@ def verify_authorization(record: Mapping[str, object]) -> None:
         raise _reject("EDITOR_HOST_AUTHORIZATION_PARTIAL", "approval operator is absent", "Record the approving operator.")
     if not isinstance(approval.get("recorded_utc"), str) or not approval["recorded_utc"].strip():
         raise _reject("EDITOR_HOST_AUTHORIZATION_PARTIAL", "approval timestamp is absent", "Record approval time.")
-    if approval.get("verbatim") != REQUIRED_VERBATIM:
-        raise _reject("EDITOR_HOST_AUTHORIZATION_TAMPERED", "operator verbatim approval differs", "Record the required phrase exactly.")
+    if approval.get("verbatim") != OPERATOR_APPROVAL_VERBATIM:
+        raise _reject("EDITOR_HOST_AUTHORIZATION_TAMPERED", "operator verbatim approval differs", "Record the exact operator reply: Authorize.")
 
 
 def authorized_command(record: Mapping[str, object]) -> AuthorizedCommand:
-    """Represent a future host run as argv only; never execute it here."""
+    """Represent the one authorized native FFmpeg run without executing it."""
     verify_authorization(record)
-    argv = ("ssh", HOST, "--", "python3", "-m", "scripts.run_editor_host_export", "--prepare-only")
-    return AuthorizedCommand(HOST, argv, False, 0)
+    ffmpeg_argv = _ffmpeg_argv(REMOTE_ROOT / "command-contract")
+    argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s")
+    remote_script = "set -eu\nexec " + shlex.join(ffmpeg_argv) + "\n"
+    return AuthorizedCommand(HOST, argv, ffmpeg_argv, remote_script, False, 0)
+
+
+def _ffmpeg_argv(workspace: Path) -> tuple[str, ...]:
+    return (
+        "ffmpeg", "-nostdin", "-y",
+        "-i", str(workspace / "sources/video-cut.mp4"),
+        "-i", str(workspace / "sources/voice.wav"),
+        "-filter_complex", FFMPEG_FILTER,
+        "-map", "[video]", "-map", "[voice]",
+        "-t", "4",
+        "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
+        "-c:a", "aac", "-b:a", "128k",
+        "-movflags", "+faststart",
+        str(workspace / "outputs/editor-export.mp4"),
+    )
+
+
+def _write_log(path: Path, command: Sequence[str], result: subprocess.CompletedProcess[bytes], script: str | None = None) -> None:
+    lines = [
+        "command=" + json.dumps(list(command), sort_keys=True),
+    ]
+    if script is not None:
+        lines.append("remote_script:")
+        lines.extend("  " + item for item in script.splitlines())
+    lines.extend(("stdout:", result.stdout.decode("utf-8", "replace")))
+    lines.extend(("stderr:", result.stderr.decode("utf-8", "replace")))
+    lines.append(f"exit={result.returncode}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _run(command: Sequence[str], log: Path, *, script: str | None = None, timeout: int = 300) -> subprocess.CompletedProcess[bytes]:
+    try:
+        result = subprocess.run(
+            command,
+            input=None if script is None else script.encode("utf-8"),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        result = subprocess.CompletedProcess(command, 124, b"", str(exc).encode("utf-8", "replace"))
+    _write_log(log, command, result, script)
+    if result.returncode != 0:
+        raise _reject(
+            "EDITOR_HOST_COMMAND_FAILED",
+            f"command exited {result.returncode}: {' '.join(command)}",
+            "Stop at this typed boundary; do not retry or substitute media.",
+        )
+    return result
+
+
+def _parse_key_values(raw: bytes) -> dict[str, str]:
+    values: dict[str, str] = {}
+    for line in raw.decode("utf-8", "replace").splitlines():
+        if "=" in line:
+            key, value = line.split("=", 1)
+            values[key] = value
+    return values
+
+
+def _remote_preflight(bundle: Path) -> tuple[Path, Mapping[str, object]]:
+    workspace = REMOTE_ROOT / time.strftime("%Y%m%dT%H%M%SZ") / os.urandom(4).hex()
+    script = f"""set -eu
+ROOT=/home/straughter/Wan2GP
+WORK={workspace}
+test "$(hostname)" != localhost
+command -v ffmpeg
+command -v ffprobe
+if ps -eo args= | grep -E 'wd[-]bw0h|WD[-]bw0h' >/dev/null; then exit 71; fi
+mkdir -p "$ROOT"
+test ! -e "$WORK"
+mkdir -p "$WORK/sources" "$WORK/project" "$WORK/outputs"
+FREE=$(df -B1 "$ROOT" | awk 'NR==2 {{print $4}}')
+printf 'host=%s\\n' "$(hostname)"
+printf 'user=%s\\n' "$(id -un)"
+printf 'workspace=%s\\n' "$WORK"
+printf 'ffmpeg=%s\\n' "$(command -v ffmpeg)"
+printf 'ffprobe=%s\\n' "$(command -v ffprobe)"
+printf 'free_bytes=%s\\n' "$FREE"
+ffmpeg -version | sed -n '1p'
+"""
+    result = _run(
+        ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s"),
+        bundle / "ssh-preflight.log",
+        script=script,
+    )
+    facts = _parse_key_values(result.stdout)
+    if set(facts) != {"host", "user", "workspace", "ffmpeg", "ffprobe", "free_bytes"}:
+        raise _reject("EDITOR_HOST_PREFLIGHT_INVALID", "SSH preflight did not return the exact workspace/runtime facts", "Inspect the recorded log; do not transfer or queue.")
+    if facts["workspace"] != str(workspace) or int(facts["free_bytes"]) < MINIMUM_FREE_BYTES:
+        raise _reject("EDITOR_HOST_PREFLIGHT_MISMATCH", f"workspace={facts['workspace']!r}, free_bytes={facts['free_bytes']!r}", "Stop; no transfer or queue admission is permitted.")
+    return workspace, {
+        "host": facts["host"], "user": facts["user"], "workspace": str(workspace),
+        "ffmpeg": facts["ffmpeg"], "ffprobe": facts["ffprobe"], "free_bytes": int(facts["free_bytes"]),
+    }
+
+
+def _transfer_inputs(repository: Path, bundle: Path, workspace: Path) -> None:
+    project = repository / PROJECT_RELATIVE
+    transfers = (
+        (repository / VIDEO_SOURCE_RELATIVE, "sources/video-cut.mp4"),
+        (repository / AUDIO_SOURCE_RELATIVE, "sources/voice.wav"),
+        (project, "project/lf002-editor-media.wgp-editor.json"),
+        (repository / EXPORT_RELATIVE, "export.json"),
+    )
+    for local, relative in transfers:
+        _run(
+            ("scp", *SSH_OPTIONS[1:], str(local), f"{HOST}:{workspace / relative}"),
+            bundle / f"transfer-{relative.replace('/', '-')}.log",
+            timeout=300,
+        )
+
+
+def _verify_remote_inputs(bundle: Path, workspace: Path, log_name: str = "remote-hash-check.log") -> None:
+    expected = {
+        "sources/video-cut.mp4": VIDEO_SHA256,
+        "sources/voice.wav": AUDIO_SHA256,
+        "project/lf002-editor-media.wgp-editor.json": PROJECT_FILE_SHA256,
+        "export.json": EXPORT_SHA256,
+    }
+    script = "set -eu\ncd " + str(workspace) + "\n"
+    script += "".join(f"printf '%s=' '{relative}'; sha256sum '{relative}' | awk '{{print $1}}'\n" for relative in expected)
+    result = _run(
+        ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s"),
+        bundle / log_name,
+        script=script,
+    )
+    observed = _parse_key_values(result.stdout)
+    if observed != expected:
+        raise _reject("EDITOR_HOST_REMOTE_HASH_MISMATCH", f"remote hashes differ: {observed!r}", "Stop before queue admission; preserve the workspace and logs.")
+
+
+def _queue_failure(queue: JobQueue | None, job_id: str | None, exc: BaseException) -> None:
+    if queue is None or job_id is None:
+        return
+    state = queue.get(job_id).state
+    if state not in {"failed", "done", "dead_letter"}:
+        if state == "pending":
+            queue.set_state(job_id, "preflight")
+            state = "preflight"
+        queue.record_failure(job_id, failure_class="editor_export_failure")
+        queue.set_failure_detail(job_id, f"{type(exc).__name__}: {exc}")
+        queue.set_state(job_id, "failed")
+
+
+def execute_authorized_host_export(root: str | Path, record: Mapping[str, object]) -> Mapping[str, object]:
+    """Run the sole authorized preflight/transfer/queue/FFmpeg/retrieval path."""
+    verify_authorization(record)
+    verify_reference(root)
+    repository = _root(root)
+    bundle = repository / REFERENCE_RELATIVE / "host-run"
+    if bundle.exists() and any(bundle.iterdir()):
+        raise _reject("EDITOR_HOST_RUN_ALREADY_PRESENT", f"host-run evidence already exists: {bundle}", "Do not retry or overwrite a prior attempt.")
+    bundle.mkdir(parents=True)
+    before = {
+        "video": VIDEO_SHA256,
+        "audio": AUDIO_SHA256,
+        "project_file": PROJECT_FILE_SHA256,
+        "project_identity": PROJECT_IDENTITY_SHA256,
+        "export": EXPORT_SHA256,
+    }
+    queue: JobQueue | None = None
+    job_id: str | None = None
+    try:
+        workspace, host = _remote_preflight(bundle)
+        _transfer_inputs(repository, bundle, workspace)
+        _verify_remote_inputs(bundle, workspace)
+
+        database = bundle / "queue/jobs.db"
+        payload = _load_json(repository / EXPORT_RELATIVE, "EDITOR_HOST_EXPORT_INVALID")
+        job_id = enqueue_export(payload, repository / EXPORT_RELATIVE, database)
+        queue = JobQueue(database)
+        if queue.list_state("pending") != [job_id] or queue.get(job_id).clips[0]["kind"] != "editor_export":
+            raise _reject("EDITOR_HOST_QUEUE_INVALID", "real JobQueue did not contain exactly one pending editor_export job", "Stop before host execution.")
+        queue.set_state(job_id, "preflight")
+        queue.claim_active(job_id, owner_pid=os.getpid())
+        clips = queue.get(job_id).clips
+        clips[0]["clip_index"] = 0
+        queue.update_clips(job_id, clips)
+        queue.mark_clip_render_attempt(job_id, 0)
+        queue.set_state(job_id, "rendering")
+        queue.heartbeat(job_id)
+
+        ffmpeg_argv = _ffmpeg_argv(workspace)
+        ssh_argv = ("ssh", *SSH_OPTIONS, HOST, "/bin/sh", "-s")
+        ffmpeg_script = "set -eu\nexec " + shlex.join(ffmpeg_argv) + "\n"
+        _run(ssh_argv, bundle / "ffmpeg.native.log", script=ffmpeg_script, timeout=600)
+        _run(
+            ("ssh", *SSH_OPTIONS, HOST, "ffprobe", "-v", "error", "-show_format", "-show_streams", "-print_format", "json", str(workspace / "outputs/editor-export.mp4")),
+            bundle / "ffprobe-remote-output.json.log",
+            timeout=120,
+        )
+        _verify_remote_inputs(bundle, workspace, "remote-post-hash-check.log")
+        queue.set_state(job_id, "rendered_pending_qc")
+        queue.set_state(job_id, "qc")
+
+        output = bundle / "outputs/editor-export.mp4"
+        output.parent.mkdir(parents=True, exist_ok=True)
+        partial = bundle / f"outputs/.editor-export.{os.urandom(4).hex()}.part"
+        _run(("scp", *SSH_OPTIONS[1:], f"{HOST}:{workspace / 'outputs/editor-export.mp4'}", str(partial)), bundle / "retrieval.log", timeout=300)
+        if partial.stat().st_size == 0:
+            raise _reject("EDITOR_HOST_OUTPUT_EMPTY", "retrieved media artifact is empty", "Stop; never substitute existing media.")
+        os.replace(partial, output)
+        _run(("ffprobe", "-v", "error", "-show_format", "-show_streams", "-print_format", "json", str(output)), bundle / "ffprobe-output.json.log", timeout=120)
+        queue.update_clip(
+            job_id,
+            0,
+            status="done",
+            log="ffmpeg.native.log",
+            mp4="outputs/editor-export.mp4",
+            qc_verdict={"verdict": "KEEP", "path": "objective-gates.json"},
+        )
+        queue.set_state(job_id, "done")
+        queue.clear_ownership(job_id)
+        final_record = queue.get(job_id)
+        queue.close()
+        queue = None
+        verify_reference(repository)
+        loaded_project = ProjectStore(repository / PROJECT_RELATIVE).load().project
+        after = {
+            "video": _sha256(repository / VIDEO_SOURCE_RELATIVE),
+            "audio": _sha256(repository / AUDIO_SOURCE_RELATIVE),
+            "project_file": _sha256(repository / PROJECT_RELATIVE),
+            "project_identity": project_sha256(loaded_project),
+            "export": _sha256(repository / EXPORT_RELATIVE),
+        }
+        commit = subprocess.run(("git", "-C", str(repository), "rev-parse", "HEAD"), text=True, capture_output=True, check=True).stdout.strip()
+        summary = {
+            "schema_version": "wangp-dspy.editor-host-run/v1",
+            "authorization_verbatim": OPERATOR_APPROVAL_VERBATIM,
+            "repository_commit": commit,
+            "command": list(ssh_argv),
+            "native_ffmpeg_argv": list(ffmpeg_argv),
+            "host": host,
+            "queue": {
+                "queue_id": "wangp-JobQueue-WD-qthq",
+                "job_id": job_id,
+                "retry_id": "attempt-1",
+                "admission_state": "admitted",
+                "exit_status": "succeeded",
+                "final_state": final_record.state,
+                "database": "queue/jobs.db",
+                "clips": final_record.clips,
+            },
+            "before_hashes": before,
+            "after_hashes": after,
+            "output": {"path": "outputs/editor-export.mp4", "byte_size": output.stat().st_size, "sha256": _sha256(output)},
+            "gpu_work": False,
+            "model_downloads": 0,
+        }
+        (bundle / "run-summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        return summary
+    except BaseException as exc:
+        _queue_failure(queue, job_id, exc)
+        if isinstance(exc, EditorHostExportError):
+            raise
+        raise _reject("EDITOR_HOST_EXECUTION_INVALID", f"{type(exc).__name__}: {exc}", "Stop at this typed boundary; preserve all partial evidence.") from exc
+    finally:
+        if queue is not None:
+            queue.close()
 
 
 def run_authorized_host_export(record: Mapping[str, object]) -> None:
@@ -311,11 +592,17 @@ def run_authorized_host_export(record: Mapping[str, object]) -> None:
 
 
 def _diagnostic(exc: EditorHostExportError) -> Mapping[str, object]:
+    before_ssh = exc.code.startswith("EDITOR_HOST_AUTHORIZATION_") or exc.code in {
+        "EDITOR_HOST_SOURCE_MISSING", "EDITOR_HOST_SOURCE_MISMATCH",
+        "EDITOR_HOST_REFERENCE_PARTIAL", "EDITOR_HOST_PROJECT_MISMATCH",
+        "EDITOR_HOST_EXPORT_MISMATCH", "EDITOR_HOST_REFERENCE_INVALID",
+        "EDITOR_HOST_RUN_ALREADY_PRESENT",
+    }
     return {
         "code": exc.code,
         "observed": exc.observed,
         "remediation": exc.remediation,
-        "boundary": "before_ssh",
+        "boundary": "before_ssh" if before_ssh else "authorized_host_execution",
     }
 
 
@@ -329,12 +616,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--authorization", type=Path)
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--show-authorized-command", action="store_true")
+    parser.add_argument("--execute", action="store_true")
     arguments = parser.parse_args(argv)
     if arguments.prepare_only and arguments.authorization is not None:
         exc = _reject(
             "EDITOR_HOST_INPUT_INVALID",
             "--prepare-only cannot be combined with --authorization",
             "Use local preparation or an authorized host command, not both.",
+        )
+        _emit({"diagnostics": [_diagnostic(exc)], "host_contact": False})
+        return 2
+    if arguments.execute and arguments.show_authorized_command:
+        exc = _reject(
+            "EDITOR_HOST_INPUT_INVALID",
+            "--execute cannot be combined with --show-authorized-command",
+            "Either inspect the argv contract or execute it exactly once.",
         )
         _emit({"diagnostics": [_diagnostic(exc)], "host_contact": False})
         return 2
@@ -366,11 +662,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             _emit({
                 "schema_version": "wangp-dspy.editor-host-command-contract/v1",
                 "argv": list(command.argv),
+                "ffmpeg_argv": list(command.ffmpeg_argv),
+                "remote_script": command.remote_script,
                 "host": command.host,
                 "gpu_work": command.gpu_work,
                 "model_downloads": command.model_downloads,
                 "executed": False,
             })
+            return 0
+        if arguments.execute:
+            summary = execute_authorized_host_export(arguments.root, record)
+            _emit(summary)
             return 0
         run_authorized_host_export(record)
         return 3

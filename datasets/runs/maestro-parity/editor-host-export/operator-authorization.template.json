@@ -1,6 +1,6 @@
 {
   "schema_version": "wangp-dspy.editor-host-authorization/v1",
-  "status": "not_authorized",
+  "status": "authorized",
   "host": "3090",
   "sources": {
     "video-cut": {
@@ -39,6 +39,10 @@
   },
   "authorization": {
     "required_verbatim": "I authorize host 3090 to transfer and execute only the two declared LF002 editor sources for exactly one kind=editor_export governed queue job with CPU-only FFmpeg, gpu_work=false, zero model downloads, and no other host mutation.",
-    "record": null
+    "record": {
+      "operator": "operator",
+      "recorded_utc": "2026-09-29T23:17:30Z",
+      "verbatim": "Authorize"
+    }
   }
 }
