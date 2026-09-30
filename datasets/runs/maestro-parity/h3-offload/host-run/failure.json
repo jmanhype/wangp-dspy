@@ -1,0 +1,11 @@
+{
+  "diagnostic": {
+    "code": "H3_ROOT_CONTAINMENT_INVALID",
+    "critical": false,
+    "observed": "bulk mount probe was absent or ambiguous (2 rows): ",
+    "remediation": "Stop before root creation or mutation."
+  },
+  "finished_utc": "2026-09-30T21:08:21Z",
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "status": "failed"
+}

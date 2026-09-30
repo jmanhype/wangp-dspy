@@ -1,0 +1,12 @@
+{
+  "clean_tree_before_attempt": true,
+  "mutation_attempt_budget": 1,
+  "repository": {
+    "branch": "--abbrev-ref HEAD",
+    "commit": "4e157f298b69699889bf01f2d78d4df2d702f140",
+    "tree": "523a4118e3f8ae64520f6e15526404113655e7b6"
+  },
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "started_utc": "2026-09-30T21:07:46Z",
+  "status": "started"
+}
