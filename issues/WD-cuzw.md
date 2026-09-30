@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:42:32Z
-content_hash: "sha256:de7a35a9fdd9ff0bf34936a48b8df13a978c8cb0db7b6c5ea19a134ee72267f5"
+updated_at: 2026-09-30T21:44:26Z
+content_hash: "sha256:c76d2e77d3a379d62065e1dc8b336346d2cae9efafa9cc73195664a2ccdb222e"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs]
 ---
@@ -643,3 +643,6 @@ DISPATCHER ADJUDICATION: the 2026-09-30T21:08:21Z H3_ROOT_CONTAINMENT_INVALID bo
 
 ### 2026-09-30T21:36:54Z speed
 FINAL DISPATCHER ADJUDICATION: the second boundary proved the expected mount namespace, not an unsafe mount: systemd autofs plus /dev/sda4 ext4 both target /mnt/bulk-hdd. Accept exactly that shape, record both rows, select the unique non-autofs ext4 block mount, and enforce resolved-root containment. One final read-only preflight retry is approved; mutation budget remains one. Any other shape or third preflight failure stops for operator review.
+
+### 2026-09-30T21:44:26Z speed
+Local evidence found an alternative already-proven ordinary-user destination: accepted WD-osfm successfully stored a 34,038,903,007-byte H3 checkpoint at /Users/Shared/HermesWorkspace/model-offload/wangp-3090/ and verified size/SHA before freeing the remote source. Current local free space is about 71 GiB, enough for the two 44,288,216,793-byte candidates but with only about 27 GiB headroom. This is not authorization to use it; an explicit offload-root change and verified-copy/free-source semantics are required.
