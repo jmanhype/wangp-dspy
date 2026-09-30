@@ -8,11 +8,11 @@ labels: [evidence, index, qc]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T17:05:47Z
-content_hash: "sha256:5cc5f5f9f2cc98eb1612ffd1714ed40ef09ab463a1120cc851a47f136e10bb05"
+updated_at: 2026-09-30T17:05:54Z
+content_hash: "sha256:c36b1d81925de56ca0c563b557872cdff51252083c49fd03efec71ddf0621e23"
 blocks: [WD-t0il, WD-fay0]
 assignee: dev-WD-he8i
-follows: [WD-qthq]
+follows: [WD-qthq, WD-23rs]
 ---
 
 ## Description
@@ -219,10 +219,12 @@ status: in_progress
 - 2026-09-30T15:34:39Z status: open -> in_progress
 - 2026-09-30T15:34:39Z auto-follows: linked to predecessor WD-qthq
 - 2026-09-30T15:34:39Z claimed by dev-WD-he8i
+- 2026-09-30T17:05:54Z status: in_progress -> in_progress
+- 2026-09-30T17:05:54Z auto-follows: linked to predecessor WD-23rs
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-t0il]], [[WD-fay0]]
-- Follows: [[WD-qthq]]
+- Follows: [[WD-qthq]], [[WD-23rs]]
 
 ## Comments
