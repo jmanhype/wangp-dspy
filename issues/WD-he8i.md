@@ -1,16 +1,18 @@
 ---
 id: WD-he8i
 title: "Maestro parity current index reconciliation"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [evidence, index, qc]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T15:33:52Z
-content_hash: "sha256:749e6068a2d32b5bed19c474d433cda600932b3ca06c179e2aeacc14e6363861"
+updated_at: 2026-09-30T15:34:39Z
+content_hash: "sha256:d235a964a6df3078547b9aefcabc21691186686fafcb68d976afb88314acc57d"
 blocks: [WD-t0il, WD-fay0]
+assignee: dev-WD-he8i
+follows: [WD-qthq]
 ---
 
 ## Description
@@ -115,9 +117,13 @@ status: new
 ## History
 - 2026-09-30T15:33:53Z dep_added: blocks WD-t0il
 - 2026-09-30T15:34:08Z dep_added: blocks WD-fay0
+- 2026-09-30T15:34:39Z status: open -> in_progress
+- 2026-09-30T15:34:39Z auto-follows: linked to predecessor WD-qthq
+- 2026-09-30T15:34:39Z claimed by dev-WD-he8i
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-t0il]], [[WD-fay0]]
+- Follows: [[WD-qthq]]
 
 ## Comments

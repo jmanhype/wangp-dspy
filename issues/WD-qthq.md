@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
 updated_at: 2026-09-30T14:59:49Z
-content_hash: "sha256:ddcbc418d8b23e6027d28a111110d07e1faf38d67e74128c40b1c71bed04e12d"
+content_hash: "sha256:754b68a49bd55e90b348e93c44d073ff8b3311de0a30245d25b9de3c6af341be"
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
 closed_at: 2026-09-30T14:59:48Z
 close_reason: "Accepted: independently verified exact PR head 284c7f16259cab5c85a017f06bad1f29934e04ed CI, scoped diff, exact immutable source/project identities, one CPU-only editor_export queue job, real media/hash/metadata/visual/objective evidence, canonical checker, docs transition, and standing gates."
+led_to: [WD-he8i]
 ---
 
 ## Description
@@ -314,6 +315,7 @@ status: in_progress
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-23rs]], [[WD-p587]], [[WD-32hk]]
+- Led to: [[WD-he8i]]
 
 ## Comments
 
