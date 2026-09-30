@@ -1,16 +1,18 @@
 ---
 id: WD-1s5s
 title: "Local-only storage remediation packet"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [storage, evidence, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T17:57:13Z
-content_hash: "sha256:fb9eed589ff45e42a0387f6f4a32283f59bd7e1d3fafcc2f4904cf6e1198549a"
+updated_at: 2026-09-30T17:57:39Z
+content_hash: "sha256:46a4c84fdd6323168ded035663b5ef21ee0026c82c9039347ae8cc0c25060c6a"
 blocks: [WD-bw0h, WD-28ac, WD-fay0]
+assignee: dev-WD-1s5s
+follows: [WD-he8i]
 ---
 
 ## Description
@@ -255,9 +257,13 @@ status: new
 - 2026-09-30T17:56:46Z dep_added: blocks WD-bw0h
 - 2026-09-30T17:56:46Z dep_added: blocks WD-28ac
 - 2026-09-30T17:57:13Z dep_added: blocks WD-fay0
+- 2026-09-30T17:57:39Z status: open -> in_progress
+- 2026-09-30T17:57:39Z auto-follows: linked to predecessor WD-he8i
+- 2026-09-30T17:57:39Z claimed by dev-WD-1s5s
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-28ac]], [[WD-fay0]]
+- Follows: [[WD-he8i]]
 
 ## Comments
