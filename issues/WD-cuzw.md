@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
 updated_at: 2026-09-30T21:36:54Z
-content_hash: "sha256:5c2c787f6454f06a3cb96f741bfebc0ff369636c397984261dab4b5a1db4760a"
+content_hash: "sha256:d23d9d89488f7c09bb48f027abe89620360ea974fc7ae13e678014712291b946"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq]
 ---
@@ -620,3 +620,6 @@ DISCOVERED_BUG:
 
 ### 2026-09-30T21:15:01Z speed
 DISPATCHER ADJUDICATION: the 2026-09-30T21:08:21Z H3_ROOT_CONTAINMENT_INVALID boundary was read-only and provably stopped before push_file/run_argv/root creation/move. It did not consume the single mutation attempt. Preserve it immutably under boundary-attempts, repair the local mount parsing and branch argv defect, retry read-only preflight once, and only then use the original operator approval for the sole mutation attempt. No H3 retry/LTX/download/queue authority is added.
+
+### 2026-09-30T21:36:54Z speed
+FINAL DISPATCHER ADJUDICATION: the second boundary proved the expected mount namespace, not an unsafe mount: systemd autofs plus /dev/sda4 ext4 both target /mnt/bulk-hdd. Accept exactly that shape, record both rows, select the unique non-autofs ext4 block mount, and enforce resolved-root containment. One final read-only preflight retry is approved; mutation budget remains one. Any other shape or third preflight failure stops for operator review.
