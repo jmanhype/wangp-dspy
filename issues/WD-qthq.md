@@ -8,10 +8,10 @@ labels: [editor, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T14:49:15Z
-content_hash: "sha256:439d9a2e7fbb060c8694e9287917193c04c211f8dbc5114433217c81dca44df7"
+updated_at: 2026-09-30T14:49:16Z
+content_hash: "sha256:a253c728801e38176effffda71ee8ec969abc2a61b9068d7237b4ec40389f459"
 blocks: [WD-fay0]
-follows: [WD-23rs, WD-p587]
+follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
 ---
 
@@ -283,11 +283,13 @@ status: in_progress
 - 2026-09-29T23:18:11Z status: open -> in_progress
 - 2026-09-29T23:18:11Z auto-follows: linked to predecessor WD-p587
 - 2026-09-29T23:18:11Z claimed by dev-WD-qthq
+- 2026-09-30T14:49:16Z status: in_progress -> in_progress
+- 2026-09-30T14:49:16Z auto-follows: linked to predecessor WD-32hk
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Follows: [[WD-23rs]], [[WD-p587]]
+- Follows: [[WD-23rs]], [[WD-p587]], [[WD-32hk]]
 
 ## Comments
 
