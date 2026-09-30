@@ -166,6 +166,7 @@ def test_authorization_rejects_template_partial_tampered_and_mismatches() -> Non
     template["status"] = "not_authorized"
     template["authorization"]["record"] = None
     assert template["host"] == "3090"
+    assert template["remote_root"] == runner.REMOTE_ROOT.as_posix()
     assert template["jobs"] == [{"kind": "editor_export", "count": 1}]
     assert template["execution"] == {"gpu_work": False, "model_downloads": 0}
 
@@ -185,6 +186,10 @@ def test_authorization_rejects_template_partial_tampered_and_mismatches() -> Non
     host = _authorization()
     host["host"] = "other-host"
     assert _rejection(host).code == "EDITOR_HOST_AUTHORIZATION_HOST_MISMATCH"
+
+    remote_root = _authorization()
+    remote_root["remote_root"] = "/other/root"
+    assert _rejection(remote_root).code == "EDITOR_HOST_AUTHORIZATION_REMOTE_ROOT_MISMATCH"
 
     source = _authorization()
     source["sources"]["video-cut"]["sha256"] = "0" * 64

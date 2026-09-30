@@ -2,6 +2,7 @@
   "schema_version": "wangp-dspy.editor-host-authorization/v1",
   "status": "authorized",
   "host": "3090",
+  "remote_root": "/home/straughter/Wan2GP/wd-qthq-editor-export",
   "sources": {
     "video-cut": {
       "role": "video",

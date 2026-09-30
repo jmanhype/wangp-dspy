@@ -45,9 +45,9 @@ CONTINUITY_DIGEST = "2d13c6c05ee59f9d63807bf36de1c1eb600fd5e00e3679bfb4fcaf78b55
 TEMPLATE_PATH = Path(__file__).resolve().parents[1] / REFERENCE_RELATIVE / "operator-authorization.template.json"
 TEMPLATE = json.loads(TEMPLATE_PATH.read_text(encoding="utf-8"))
 HOST = str(TEMPLATE["host"])
+REMOTE_ROOT = Path(str(TEMPLATE["remote_root"]))
 REQUIRED_VERBATIM = str(TEMPLATE["authorization"]["required_verbatim"])
 OPERATOR_APPROVAL_VERBATIM = "Authorize"
-REMOTE_ROOT = Path("/home/straughter/Wan2GP/wd-qthq-editor-export")
 SSH_OPTIONS = ("-o", "BatchMode=yes", "-o", "ConnectTimeout=15")
 MINIMUM_FREE_BYTES = 1_000_000_000
 FFMPEG_FILTER = (
@@ -275,7 +275,7 @@ def verify_authorization(record: Mapping[str, object]) -> None:
         raise _reject("EDITOR_HOST_AUTHORIZATION_ABSENT", "authorization record is absent or empty", "Record verbatim operator approval separately.")
     _require_keys(
         record,
-        {"schema_version", "status", "host", "sources", "project", "export", "jobs", "execution", "authorization"},
+        {"schema_version", "status", "host", "remote_root", "sources", "project", "export", "jobs", "execution", "authorization"},
         "EDITOR_HOST_AUTHORIZATION_TAMPERED",
         "authorization",
     )
@@ -287,6 +287,8 @@ def verify_authorization(record: Mapping[str, object]) -> None:
         raise _reject("EDITOR_HOST_AUTHORIZATION_AMBIGUOUS", f"authorization status is {record.get('status')!r}", "Use authorized or not_authorized only.")
     if record.get("host") != HOST:
         raise _reject("EDITOR_HOST_AUTHORIZATION_HOST_MISMATCH", f"authorized host is {record.get('host')!r}", f"Only host {HOST!r} is authorized.")
+    if record.get("remote_root") != REMOTE_ROOT.as_posix():
+        raise _reject("EDITOR_HOST_AUTHORIZATION_REMOTE_ROOT_MISMATCH", f"authorized remote root is {record.get('remote_root')!r}", f"Only {REMOTE_ROOT.as_posix()!r} is authorized.")
     sources = record.get("sources")
     if not isinstance(sources, dict) or sources != EXPECTED_SOURCES:
         raise _reject("EDITOR_HOST_AUTHORIZATION_SOURCE_MISMATCH", "source manifest differs from the two declared sources", "Bind both exact paths, sizes, and hashes.")
@@ -420,7 +422,7 @@ def _parse_key_values(raw: bytes) -> dict[str, str]:
 def _remote_preflight(bundle: Path, run_token: str) -> tuple[Path, Mapping[str, object], list[Mapping[str, object]]]:
     workspace = REMOTE_ROOT / time.strftime("%Y%m%dT%H%M%SZ") / os.urandom(4).hex()
     script = f"""set -eu
-ROOT=/home/straughter/Wan2GP
+ROOT={shlex.quote(str(REMOTE_ROOT.parent))}
 WORK={workspace}
 test "$(hostname)" != localhost
 command -v ffmpeg
