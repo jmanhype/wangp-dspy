@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
 updated_at: 2026-09-30T19:29:47Z
-content_hash: "sha256:d4db39b4afca71e4c8d0775ee92449c09e1a7b3bb6c13a902348b2b4769aee8c"
+content_hash: "sha256:5fe070d1079c1631fb5dccadc5fbd5ef2fc3ad95494b2f2637f86459e3a53afc"
 follows: [WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-1s5s
 closed_at: 2026-09-30T19:29:46Z
@@ -367,6 +367,18 @@ status: new
 
 ## Notes
 BLOCKED: WD-1s5s acceptance is internally inconsistent. The story-required source blob story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/model-assets.json has verified SHA-256 25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0 and its four recorded sizes sum to 53594702510 bytes, but AC 1/2 requires that exact source hash and an exact manifest total of 53594932510 bytes (a 230000-byte discrepancy). Preserving the immutable source makes the required total impossible; altering an asset size would falsify the hash-identified snapshot. Sr PM must adjudicate the authoritative total/source before implementation can proceed. DISCOVERED_BUG: title=WD-bw0h manifest sum contradicts WD-1s5s required total; context=Hash-verified four-asset source manifest sums to 53594702510, not 53594932510; affected_files=datasets/runs/maestro-parity/clean-generated/model-assets.json, WD-1s5s story; discovered_during=WD-1s5s.
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-09-30.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## nd_contract
 status: delivered
 
