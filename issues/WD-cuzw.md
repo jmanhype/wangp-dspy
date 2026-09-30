@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:15:01Z
-content_hash: "sha256:e09f2197f94e0e56386c55d35a91f940f0c7f1d728bb206c84a6d04f8c13a102"
+updated_at: 2026-09-30T21:35:36Z
+content_hash: "sha256:ae5b0d7b4833ea6acd6d4ba0bc09e4425cfbd12f361f8bed9677bec1ca97dd6a"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq]
 assignee: dev-WD-cuzw
@@ -451,6 +451,21 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (SECOND READ-ONLY PREFLIGHT)
+
+- Adjudicated retry command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
+- Producing commit/tree/branch: `e7dcb1e623fe919128521cfc3479b5ee75ff98f7` / `005fc86cd55abca7c9184230420b46a1d93475fc` / `story/WD-cuzw`
+- Typed boundary: `H3_ROOT_CONTAINMENT_INVALID`
+- Actual rows recorded in `failure.json`:
+  - `{'target': '/mnt/bulk-hdd', 'source': 'systemd-1', 'filesystem_type': 'autofs'}`
+  - `{'target': '/mnt/bulk-hdd', 'source': '/dev/sda4', 'filesystem_type': 'ext4'}`
+- Preserved byte-identically under `datasets/runs/maestro-parity/h3-offload/host-run/boundary-attempts/20260930T213452Z/`:
+  - `attempt.json` SHA-256 `173aedbc649a4a19fb731fc50c1a2b17e35404e071191dd458c910397bf45ddc`
+  - `failure.json` SHA-256 `8b7eb5bf6828b514c88de104bad09772f55d2fd3e16133675893df16fb6eab9d`
+  - `evidence.sha256` SHA-256 `bd2e2dc68ba8dcb201caf05eb5e5b857f1c19e347b22380ac0803a207e72c04a`
+- Boundary proof: the run stopped before `SshHost.push_file` and `SshHost.run_argv`; no staged script, root creation, source move, destination write, rollback, retry, model download/inference, GPU work, provider action, or queue admission occurred.
+- The single mutation budget remains unconsumed, but this second boundary requires a fresh dispatcher/operator decision as adjudicated. Stopping without repair, retry, PR, delivery, or self-acceptance.
+
 ## Implementation Boundary (FAILED PREFLIGHT)
 
 - Command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
