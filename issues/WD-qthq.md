@@ -4,11 +4,11 @@ title: "Editor authorized host export media"
 status: closed
 priority: 1
 type: task
-labels: [editor, evidence, external-integration, operator-decision, delivered, accepted]
+labels: [editor, evidence, external-integration, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T08:43:01Z
 created_by: speed
-updated_at: 2026-09-30T14:59:48Z
+updated_at: 2026-09-30T14:59:49Z
 content_hash: "sha256:69a629658d5973fbe605f05c356daa99d12893a934c23c05e5610f4c2745a30c"
 follows: [WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-qthq
