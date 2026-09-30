@@ -1,0 +1,11 @@
+{
+  "diagnostic": {
+    "code": "H3_ROOT_CONTAINMENT_INVALID",
+    "critical": false,
+    "observed": "root/parent containment or ordinary write permission failed: root={'exists': False}, parent={'device': 2052, 'exists': True, 'size_bytes': 4096, 'symlink': False, 'type': 'directory', 'writable': False}",
+    "remediation": "Stop; no alternate root, sudo, or permissions repair."
+  },
+  "finished_utc": "2026-09-30T21:41:58Z",
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "status": "failed"
+}
