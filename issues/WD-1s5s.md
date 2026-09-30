@@ -4,7 +4,7 @@ title: "Local-only storage remediation packet"
 status: in_progress
 priority: 1
 type: task
-labels: [storage, evidence, operator-decision]
+labels: [storage, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
