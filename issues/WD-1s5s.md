@@ -1,18 +1,19 @@
 ---
 id: WD-1s5s
 title: "Local-only storage remediation packet"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [storage, evidence, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T17:56:34Z
 created_by: speed
-updated_at: 2026-09-30T19:19:26Z
-content_hash: "sha256:650a7a8dd67a4276ba9380272e1be6024417f6e23da8ad0b7da42c153a02bd9d"
-blocks: [WD-bw0h, WD-28ac, WD-fay0]
+updated_at: 2026-09-30T19:29:46Z
+content_hash: "sha256:d4db39b4afca71e4c8d0775ee92449c09e1a7b3bb6c13a902348b2b4769aee8c"
 follows: [WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-1s5s
+closed_at: 2026-09-30T19:29:46Z
+close_reason: "Accepted: independently verified exact PR head and CI, scoped five-file diff, immutable source hashes, deterministic local-only outputs, typed fail-closed negative behavior, focused tests and local gates, protected-file parity, and separate future-authorization boundaries."
 ---
 
 ## Description
@@ -488,10 +489,13 @@ status: delivered
 - 2026-09-30T19:18:30Z auto-follows: linked to predecessor WD-23rs
 - 2026-09-30T19:19:11Z status: in_progress -> in_progress
 - 2026-09-30T19:19:11Z auto-follows: linked to predecessor WD-p587
+- 2026-09-30T19:29:46Z status: in_progress -> closed
+- 2026-09-30T19:29:46Z dep_removed: no_longer_blocks WD-bw0h
+- 2026-09-30T19:29:46Z dep_removed: no_longer_blocks WD-28ac
+- 2026-09-30T19:29:46Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bw0h]], [[WD-28ac]], [[WD-fay0]]
 - Follows: [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]]
 
 ## Comments
