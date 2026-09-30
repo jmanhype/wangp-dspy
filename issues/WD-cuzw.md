@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:44:26Z
-content_hash: "sha256:c76d2e77d3a379d62065e1dc8b336346d2cae9efafa9cc73195664a2ccdb222e"
+updated_at: 2026-09-30T21:45:23Z
+content_hash: "sha256:14da3cb9e2e5575c7354332c3b6825aa8a05a6fc1a2f2060e7e13880b2271fb4"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs]
 ---
@@ -646,3 +646,6 @@ FINAL DISPATCHER ADJUDICATION: the second boundary proved the expected mount nam
 
 ### 2026-09-30T21:44:26Z speed
 Local evidence found an alternative already-proven ordinary-user destination: accepted WD-osfm successfully stored a 34,038,903,007-byte H3 checkpoint at /Users/Shared/HermesWorkspace/model-offload/wangp-3090/ and verified size/SHA before freeing the remote source. Current local free space is about 71 GiB, enough for the two 44,288,216,793-byte candidates but with only about 27 GiB headroom. This is not authorization to use it; an explicit offload-root change and verified-copy/free-source semantics are required.
+
+### 2026-09-30T21:45:23Z speed
+Read-only alternate-destination audit at 2026-09-30T21:46Z: both exact candidate destination names are absent under /Users/Shared/HermesWorkspace/model-offload/wangp-3090. Live local free space is 76,998,832,128 bytes; required candidate bytes are 44,288,216,793; projected headroom is 32,710,615,335 bytes, passing a 2-GiB safety margin. The only existing file there is the accepted WD-osfm 34,038,903,007-byte checkpoint. No host contact, file creation, move, deletion, or remote-source unlink occurred. Operator approval is still required to switch destinations and use verified-copy-then-free-remote-source semantics.
