@@ -159,12 +159,13 @@ def space(path):
  v=os.statvfs(path);return v.f_bavail*v.f_frsize
 root=p["offload_root"];nearest=root
 while not os.path.lexists(nearest):nearest=os.path.dirname(nearest)
+resolved_bulk=os.path.realpath(p["bulk_mount"]);resolved_root_parent=os.path.realpath(nearest)
 components=[];candidate=root
 while candidate.startswith(p["bulk_mount"]+"/"):
  components.append(candidate);candidate=os.path.dirname(candidate)
 component_facts=[f(item) for item in reversed(components)]
-contained=(root.startswith(p["bulk_mount"]+"/") and f(nearest)["device"]==f(p["bulk_mount"])["device"] and all(item["exists"] and item["type"]=="directory" and not item["symlink"] and item["device"]==f(p["bulk_mount"])["device"] for item in component_facts if item["exists"]))
-out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"candidates":{},"destinations":{},"root":f(root),"root_nearest_parent":f(nearest),"root_contained":contained,"root_free_bytes":space(nearest),"bulk":{"device":f(p["bulk_mount"])["device"],"free_bytes":space(p["bulk_mount"])},"source_filesystem_free_bytes":space(p["source_filesystem"]),"script":f(p["script_path"])}
+contained=(root.startswith(p["bulk_mount"]+"/") and f(nearest)["device"]==f(p["bulk_mount"])["device"] and (resolved_root_parent==resolved_bulk or resolved_root_parent.startswith(resolved_bulk+"/")) and all(item["exists"] and item["type"]=="directory" and not item["symlink"] and item["device"]==f(p["bulk_mount"])["device"] for item in component_facts if item["exists"]))
+out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"candidates":{},"destinations":{},"root":f(root),"root_nearest_parent":f(nearest),"root_contained":contained,"root_free_bytes":space(nearest),"resolved_bulk":resolved_bulk,"resolved_root_parent":resolved_root_parent,"bulk":{"device":f(p["bulk_mount"])["device"],"free_bytes":space(p["bulk_mount"])},"source_filesystem_free_bytes":space(p["source_filesystem"]),"script":f(p["script_path"])}
 for c in p["candidates"]:
  x=f(c["source"]);x["sha256"]=h(c["source"]) if x["type"]=="regular_file" and not x["symlink"] else None;out["candidates"][c["id"]]=x;out["destinations"][c["id"]]=f(c["destination"])
 print(json.dumps(out,sort_keys=True,separators=(",",":")))'''
@@ -203,8 +204,10 @@ def nearest_existing(path):
 def check_prestate():
     bulk = facts(BULK)
     nearest = nearest_existing(ROOT)
+    bulk_real = os.path.realpath(BULK)
+    nearest_real = os.path.realpath(nearest)
     if not bulk["exists"] or bulk["type"] != "directory" or bulk["symlink"]: raise OSError("bulk mount invalid")
-    if not ROOT.startswith(BULK + "/") or facts(nearest)["device"] != bulk["device"]: raise OSError("offload root is not contained by bulk mount")
+    if not ROOT.startswith(BULK + "/") or facts(nearest)["device"] != bulk["device"] or not (nearest_real == bulk_real or nearest_real.startswith(bulk_real + "/")): raise OSError("offload root is not contained by bulk mount")
     if free(BULK) < sum(int(item["size_bytes"]) for item in CANDIDATES) + {MARGIN_BYTES}: raise OSError("insufficient bulk free space")
     for item in CANDIDATES:
         source = facts(item["source"])
@@ -242,7 +245,9 @@ try:
     root_created = not os.path.lexists(ROOT)
     os.makedirs(ROOT, exist_ok=True)
     root_fact = facts(ROOT)
-    if root_fact["type"] != "directory" or root_fact["symlink"] or root_fact["device"] != facts(BULK)["device"]:
+    bulk_real = os.path.realpath(BULK)
+    root_real = os.path.realpath(ROOT)
+    if root_fact["type"] != "directory" or root_fact["symlink"] or root_fact["device"] != facts(BULK)["device"] or not (root_real == bulk_real or root_real.startswith(bulk_real + "/")):
         raise OSError("created offload root is invalid")
     for candidate in CANDIDATES:
         move_started = time.time_ns()
@@ -301,29 +306,20 @@ def _mount_fact(host: SshHostLike) -> dict[str, object]:
         fields = line.split()
         if len(fields) == 3 and fields[1] and fields[2]:
             rows.append({"target": fields[0], "source": fields[1], "filesystem_type": fields[2]})
-    exact = [row for row in rows if row["target"] == BULK_MOUNT]
-    if rc != 0 or not rows or len(exact) != 1:
+    autofs = {"target": BULK_MOUNT, "source": "systemd-1", "filesystem_type": "autofs"}
+    block = {"target": BULK_MOUNT, "source": "/dev/sda4", "filesystem_type": "ext4"}
+    if rc != 0 or len(rows) != len(lines) or not rows or rows not in ([autofs, block], [block, autofs]):
         raise _reject(
             "H3_ROOT_CONTAINMENT_INVALID",
-            f"bulk mount probe lacked one exact mount row (rows={rows!r}, stderr={stderr.strip()[:200]!r})",
+            f"bulk mount namespace is not the final adjudicated shape (rows={rows!r}, stderr={stderr.strip()[:200]!r})",
             "Stop before root creation or mutation.",
         )
-    for row in rows:
-        target = row["target"]
-        in_namespace = target == BULK_MOUNT or target.startswith(BULK_MOUNT + "/")
-        covers_offload_root = target != BULK_MOUNT and (OFFLOAD_ROOT == target or OFFLOAD_ROOT.startswith(target + "/"))
-        if not in_namespace or covers_offload_root:
-            raise _reject(
-                "H3_ROOT_CONTAINMENT_INVALID",
-                f"mount namespace escapes or overlays the authorized root: {rows!r}",
-                "Stop before root creation or mutation.",
-            )
-    return {**exact[0], "namespace": rows}
+    return {**block, "namespace": rows}
 
 
 def _validate_preflight(record: Mapping[str, object], facts: dict[str, Any], identity: Mapping[str, object]) -> None:
     candidates = verify_authorization(record)
-    required = {"host", "user", "candidates", "destinations", "root", "root_nearest_parent", "root_contained", "root_free_bytes", "bulk", "source_filesystem_free_bytes", "script"}
+    required = {"host", "user", "candidates", "destinations", "root", "root_nearest_parent", "root_contained", "root_free_bytes", "resolved_bulk", "resolved_root_parent", "bulk", "source_filesystem_free_bytes", "script"}
     if set(facts) != required:
         raise _reject("H3_PREFLIGHT_OUTPUT_INVALID", f"probe fields differ: {sorted(facts)}", "Stop before mutation; require the exact fact set.")
     if not isinstance(facts.get("host"), str) or not facts["host"].strip() or not isinstance(facts.get("user"), str) or not facts["user"].strip():
@@ -332,6 +328,10 @@ def _validate_preflight(record: Mapping[str, object], facts: dict[str, Any], ide
     parent = facts["root_nearest_parent"]
     if facts.get("root_contained") is not True or root.get("type") not in {None, "directory"} or parent.get("type") != "directory" or parent.get("writable") is not True:
         raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"root/parent containment or ordinary write permission failed: root={root!r}, parent={parent!r}", "Stop; no alternate root, sudo, or permissions repair.")
+    resolved_bulk = facts.get("resolved_bulk")
+    resolved_root_parent = facts.get("resolved_root_parent")
+    if resolved_bulk != BULK_MOUNT or resolved_root_parent != BULK_MOUNT and not str(resolved_root_parent).startswith(BULK_MOUNT + "/"):
+        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"resolved root containment failed: bulk={resolved_bulk!r}, root_parent={resolved_root_parent!r}", "Stop; no alternate root or symlinked path.")
     if root.get("exists") and (root.get("type") != "directory" or root.get("symlink") or root.get("writable") is not True):
         raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"existing root is not an ordinary writable directory: {root!r}", "Stop; no alternate root or repair.")
     bulk_free = facts["bulk"].get("free_bytes")
@@ -378,6 +378,7 @@ def preflight(root: Path, record: Mapping[str, object], host: SshHostLike) -> di
         "status": "passed", "mutation": False, "host_alias": HOST,
         "host": facts["host"], "user": facts["user"], "mount": mount,
         "root": facts["root"], "root_nearest_parent": facts["root_nearest_parent"],
+        "root_containment": {"resolved_bulk": facts["resolved_bulk"], "resolved_root_parent": facts["resolved_root_parent"]},
         "source_filesystem_free_bytes": facts["source_filesystem_free_bytes"],
         "root_free_bytes": facts["root_free_bytes"],
         "bulk_free_bytes": facts["bulk"]["free_bytes"],

@@ -64,7 +64,7 @@ def test_authorization_rejects_tampering_third_path_and_wrong_host() -> None:
 
 
 class StaticProbeHost:
-    def __init__(self, facts: dict[str, Any], *, target: str = "3090", mount: str = "/mnt/bulk-hdd source ext4\n") -> None:
+    def __init__(self, facts: dict[str, Any], *, target: str = "3090", mount: str = "/mnt/bulk-hdd systemd-1 autofs\n/mnt/bulk-hdd /dev/sda4 ext4\n") -> None:
         self.target = target
         self.facts = facts
         self.mount = mount
@@ -96,6 +96,7 @@ def _facts(**changes: Any) -> dict[str, Any]:
         },
         "root": {"exists": False}, "root_nearest_parent": parent,
         "root_contained": True, "root_free_bytes": runner.COMBINED_BYTES + runner.MARGIN_BYTES,
+        "resolved_bulk": "/mnt/bulk-hdd", "resolved_root_parent": "/mnt/bulk-hdd",
         "bulk": {"device": 22, "free_bytes": runner.COMBINED_BYTES + runner.MARGIN_BYTES},
         "source_filesystem_free_bytes": 100,
         "script": {"exists": False},
@@ -113,14 +114,6 @@ def test_preflight_passes_read_only_facts_and_rejects_each_fail_closed_boundary(
     assert result["required_bulk_free_bytes"] == 45_361_958_617
     assert result["candidates"]["superseded-h3-checkpoint-1"]["sha256"] == "a" * 64
     assert host.push_file.__name__ == "push_file"
-
-    namespace = StaticProbeHost(
-        _facts(),
-        mount="/mnt/bulk-hdd /dev/sda4 ext4\n/mnt/bulk-hdd/other /dev/sda4[/other] ext4\n",
-    )
-    namespaced = runner.preflight(ROOT, record, namespace)
-    assert namespaced["mount"]["target"] == "/mnt/bulk-hdd"
-    assert len(namespaced["mount"]["namespace"]) == 2
 
     wrong_host = StaticProbeHost(_facts(), target="other")
     with pytest.raises(runner.H3OffloadError) as raised:
@@ -160,6 +153,39 @@ def test_preflight_passes_read_only_facts_and_rejects_each_fail_closed_boundary(
     )
     with pytest.raises(runner.H3OffloadError) as raised:
         runner.preflight(ROOT, record, nested_over_root)
+    assert raised.value.code == "H3_ROOT_CONTAINMENT_INVALID"
+
+
+def test_final_adjudicated_autofs_namespace_passes_and_all_other_shapes_fail() -> None:
+    record = _record()
+    final_shape = "/mnt/bulk-hdd systemd-1 autofs\n/mnt/bulk-hdd /dev/sda4 ext4\n"
+    result = runner.preflight(ROOT, record, StaticProbeHost(_facts(), mount=final_shape))
+    assert result["mount"]["source"] == "/dev/sda4"
+    assert result["mount"]["filesystem_type"] == "ext4"
+    assert result["mount"]["namespace"] == [
+        {"target": "/mnt/bulk-hdd", "source": "systemd-1", "filesystem_type": "autofs"},
+        {"target": "/mnt/bulk-hdd", "source": "/dev/sda4", "filesystem_type": "ext4"},
+    ]
+    assert result["root_containment"] == {
+        "resolved_bulk": "/mnt/bulk-hdd",
+        "resolved_root_parent": "/mnt/bulk-hdd",
+    }
+
+    rejected_shapes = {
+        "duplicate": final_shape + "/mnt/bulk-hdd /dev/sda5 ext4\n",
+        "foreign": "/mnt/bulk-hdd systemd-1 autofs\n/mnt/bulk-hdd /dev/other ext4\n",
+        "autofs-only": "/mnt/bulk-hdd systemd-1 autofs\n",
+        "ambiguous": "/mnt/bulk-hdd /dev/sda4 ext4\n/mnt/bulk-hdd /dev/sda4 xfs\n",
+        "foreign-target": "/other systemd-1 autofs\n/mnt/bulk-hdd /dev/sda4 ext4\n",
+    }
+    for shape in rejected_shapes.values():
+        with pytest.raises(runner.H3OffloadError) as raised:
+            runner.preflight(ROOT, record, StaticProbeHost(_facts(), mount=shape))
+        assert raised.value.code == "H3_ROOT_CONTAINMENT_INVALID"
+
+    escaped_root = _facts(resolved_root_parent="/other/root")
+    with pytest.raises(runner.H3OffloadError) as raised:
+        runner.preflight(ROOT, record, StaticProbeHost(escaped_root, mount=final_shape))
     assert raised.value.code == "H3_ROOT_CONTAINMENT_INVALID"
 
 
