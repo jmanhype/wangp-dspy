@@ -8,8 +8,8 @@ labels: [evidence, index, qc, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
-updated_at: 2026-09-30T17:05:54Z
-content_hash: "sha256:710ea457d701131866f6b96e598bf796c292948d4af01295381de06dc6b72396"
+updated_at: 2026-09-30T17:06:44Z
+content_hash: "sha256:0f2fa7f7397084c83ba6adbd93cf3160bdc7a25172b17baaeb15afcde769f9bb"
 blocks: [WD-t0il, WD-fay0]
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
@@ -112,7 +112,43 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Commands run:
+- `python3 datasets/runs/maestro-parity/WD-fay0/validate_index.py` => PASS: 208 rows; 89 host_run_verified; 7 dependency_blocked; 110 terminal unsupported/fail-closed; 2 not_applicable; 39 evidence files hash-verified.
+- `uv run --frozen --extra dev pytest -q tests/test_current_parity_index.py --junitxml=/tmp/WD-he8i-focused-clean.junit.xml` => PASS: tests=9 failures=0 errors=0 skipped=0.
+- `uv run --frozen --extra dev pytest -q -ra --junitxml=/tmp/WD-he8i-full-clean.junit.xml` => PASS: tests=2147 failures=0 errors=0 skipped=1 (pre-existing WANGP_3090 gate; no host contact).
+- `pvg verify <4 changed paths> --format=text --include-tests` => PASS, 0 issues.
+- `pvg lint --backlog` => PASS, 154 scanned, 0 errors, 0 review findings.
+- `uv run --frozen --extra dev wgp release verify --json` => PASS, release=ready, tag_created=false.
+- `git diff --exit-code 5a94eb491c524816334e23e1b2894acc3b772819 -- <5 protected engine files>` => PASS exit 0.
+- `git diff --check` => PASS exit 0.
+- Focused validator/test coverage command => validator+new-test coverage 78% (266 statements, 58 missed); full-project coverage is not claimed.
+Summary:
+The current consolidated JSON/Markdown index now exactly binds the authoritative 208-cell matrix and 39 linked evidence files. WD-qthq editor Authorized host export/media is host-run verified, WD-bw0h first-run generated media remains incomplete, and exactly seven WD-28ac LTX cells remain dependency-blocked. Deterministic drift tests, the undeselected full suite, local standing gates, protected/evidence byte parity, and exact-head CI all pass. No host/model/storage/render/queue action or new capability claim occurred.
+SHA:
+`ec9abf4a38afa5249acffeaac2d639353fbfc864` on `story/WD-he8i`; PR https://github.com/jmanhype/wangp-dspy/pull/219; exact-head CI attempt 2 SUCCESS https://github.com/jmanhype/wangp-dspy/actions/runs/36742380020.
 
+The full command list, parsed JUnit, hashes, PR/CI details, boundary identities, AC table, observations, and initial transient timeout/dirty-tree explanations are in the preceding detailed evidence block.
+
+LEARNINGS:
+- Deterministic delivery-note checks require exact heading/prefix shapes (`## Implementation Evidence`, `Commands run:`, `Summary:`, `SHA:`) and an authoritative final contract; this append repairs that shape without changing code or artifacts.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Commit `ec9abf4a38afa5249acffeaac2d639353fbfc864`; PR 219; exact-head CI attempt 2 success.
+- Validator PASS; focused 9/9; full suite 2147 tests, 0 failures, 0 errors, 1 pre-existing host-gated skip.
+- pvg verify, pvg lint, release, protected parity, evidence-byte parity, whitespace, and exact-head CI pass.
+
+### proof
+- [x] AC #1: exact 208-cell current matrix/index agreement.
+- [x] AC #2: 89/7/110/2 totals and zero planned.
+- [x] AC #3: WD-qthq editor verified; WD-bw0h first-run incomplete.
+- [x] AC #4: exact seven-cell WD-28ac boundary preserved without hardware/complete verdicts.
+- [x] AC #5: accepted evidence bytes unchanged.
+- [x] AC #6: current validator passes and drift fixtures fail.
+- [x] AC #7: focused/full/local gates and exact-head CI pass.
 
 ## nd_contract
 status: delivered
