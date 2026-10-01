@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:23Z
 created_by: speed
 updated_at: 2026-09-28T15:07:38Z
-content_hash: "sha256:263b0e28d36b63477de7e4c76d8635d6c15d0787582bbde66670320f31a180ba"
+content_hash: "sha256:1fb860d96a57d569cf825f565938378877750ce69538b6a0184149d655f1ba5f"
 follows: [WD-bxhc, WD-dc3w, WD-s2nb, WD-qswf]
 assignee: dev-WD-32hk
 closed_at: 2026-09-28T15:07:36Z
 close_reason: "Accepted: exact-head PR 214 evidence verifies scoped consent, byte-identical references, exactly six matrix transitions, canonical projection, parity, and standing gates."
-led_to: [WD-p587, WD-23rs, WD-qthq]
+led_to: [WD-p587, WD-23rs, WD-qthq, WD-cuzw]
 ---
 
 ## Description
@@ -274,6 +274,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-bxhc]], [[WD-dc3w]], [[WD-s2nb]], [[WD-qswf]]
-- Led to: [[WD-p587]], [[WD-23rs]], [[WD-qthq]]
+- Led to: [[WD-p587]], [[WD-23rs]], [[WD-qthq]], [[WD-cuzw]]
 
 ## Comments
