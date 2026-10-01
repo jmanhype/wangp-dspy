@@ -1,17 +1,18 @@
 ---
 id: WD-cuzw
 title: "Authorized reversible H3 checkpoint offload"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-09-30T21:45:23Z
-content_hash: "sha256:14da3cb9e2e5575c7354332c3b6825aa8a05a6fc1a2f2060e7e13880b2271fb4"
+updated_at: 2026-10-01T19:00:26Z
+content_hash: "sha256:22e352a3bc3dfa8438eda9ea3bb5ad6133f177447ba8cd806d77ebadf193d766"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
-follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs]
+follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587]
+assignee: dev-WD-cuzw
 ---
 
 ## Description
@@ -630,11 +631,14 @@ DISCOVERED_BUG:
 - 2026-09-30T21:36:55Z claimed by dev-WD-cuzw
 - 2026-09-30T21:42:32Z status: in_progress -> open
 - 2026-09-30T21:42:32Z released by speed
+- 2026-10-01T19:00:26Z status: open -> in_progress
+- 2026-10-01T19:00:27Z auto-follows: linked to predecessor WD-p587
+- 2026-10-01T19:00:27Z claimed by dev-WD-cuzw
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]], [[WD-bw0h]], [[WD-28ac]]
-- Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]]
+- Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]]
 
 ## Comments
 
