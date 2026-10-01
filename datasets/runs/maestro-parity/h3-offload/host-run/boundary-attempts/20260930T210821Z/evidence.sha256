@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "byte_size": 359,
+      "path": "attempt.json",
+      "sha256": "c2bcc7c162ba6636922edb80f64f050bbc9635c9eb07ed0fb3d253235625b568"
+    },
+    {
+      "byte_size": 339,
+      "path": "failure.json",
+      "sha256": "7fd88448aa60bf4d7905299ca9ee94814f60db4090916928a86b51638f00649c"
+    }
+  ],
+  "schema_version": "wangp-dspy.h3-offload-evidence/v1"
+}

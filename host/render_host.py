@@ -438,6 +438,45 @@ class SshHost(LocalHost):
                             f"failed: {err.strip()[:300]}")
         return local
 
+    def fetch_file_partial(self, remote: str, local: str) -> str:
+        """Pull one host file into an explicitly resumable local part."""
+        os.makedirs(os.path.dirname(os.path.abspath(local)), exist_ok=True)
+        rc, _o, err = self._run(
+            ["rsync", "-a", "--partial", "--inplace", "--append",
+             f"{self.target}:{remote}", local],
+            "rsync resumable file pull")
+        if rc != 0:
+            raise PullError(f"resumable rsync pull of {self.target}:{remote} "
+                            f"failed: {err.strip()[:300]}")
+        return local
+
+    def unlink_verified_file(self, remote: str, *, expected_size_bytes: int,
+                             expected_sha256: str) -> str:
+        """Free one exact regular host file only after size/hash reverify."""
+        code = r'''import hashlib,json,os,stat,sys
+p=sys.argv[2]
+expected_size=int(sys.argv[3])
+expected_hash=sys.argv[4]
+s=os.lstat(p)
+if not stat.S_ISREG(s.st_mode) or stat.S_ISLNK(s.st_mode) or s.st_size != expected_size:
+ raise OSError("source identity mismatch before unlink")
+h=hashlib.sha256()
+with open(p,"rb") as source:
+ for block in iter(lambda:source.read(4194304),b""): h.update(block)
+if h.hexdigest() != expected_hash: raise OSError("source hash mismatch before unlink")
+os.unlink(p)
+if os.path.lexists(p): raise OSError("source still exists after unlink")
+print(json.dumps({"path":p,"size_bytes":expected_size,"sha256":expected_hash,"freed":True},sort_keys=True))'''
+        result = self.run_argv(
+            ["python3", "-c", code, "wd-cuzw-verified-unlink", remote,
+             str(expected_size_bytes), expected_sha256],
+            cwd="/", timeout=3600)
+        if result.returncode != 0:
+            raise RenderHostError(
+                f"verified unlink of {self.target}:{remote} failed: "
+                f"{result.stderr.strip()[:300]}")
+        return remote
+
     def makedirs(self, path: str) -> None:
         """Remote mkdir -p (live T0 finding: rsync pushing a FILE does
         NOT create parent dirs, so the no-op made write_text fail on a

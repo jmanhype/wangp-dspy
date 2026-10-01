@@ -1,0 +1,17 @@
+{
+  "copies": [
+    {
+      "id": "superseded-h3-checkpoint-1",
+      "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+      "size_bytes": 22144108396
+    },
+    {
+      "id": "superseded-h3-checkpoint-2",
+      "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+      "size_bytes": 22144108397
+    }
+  ],
+  "required_count": 2,
+  "status": "both_copies_verified",
+  "verified_count": 2
+}

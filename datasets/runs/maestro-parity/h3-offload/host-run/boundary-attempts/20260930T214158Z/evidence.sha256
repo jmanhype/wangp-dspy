@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "byte_size": 355,
+      "path": "attempt.json",
+      "sha256": "36220166b4e198cca9237dd3bdf84c94f12f132412ab631eb05e4dd66d410f39"
+    },
+    {
+      "byte_size": 359,
+      "path": "boundary-attempts/20260930T210821Z/attempt.json",
+      "sha256": "c2bcc7c162ba6636922edb80f64f050bbc9635c9eb07ed0fb3d253235625b568"
+    },
+    {
+      "byte_size": 339,
+      "path": "boundary-attempts/20260930T210821Z/failure.json",
+      "sha256": "7fd88448aa60bf4d7905299ca9ee94814f60db4090916928a86b51638f00649c"
+    },
+    {
+      "byte_size": 355,
+      "path": "boundary-attempts/20260930T213452Z/attempt.json",
+      "sha256": "173aedbc649a4a19fb731fc50c1a2b17e35404e071191dd458c910397bf45ddc"
+    },
+    {
+      "byte_size": 510,
+      "path": "boundary-attempts/20260930T213452Z/failure.json",
+      "sha256": "8b7eb5bf6828b514c88de104bad09772f55d2fd3e16133675893df16fb6eab9d"
+    },
+    {
+      "byte_size": 505,
+      "path": "failure.json",
+      "sha256": "0ca3097140a285047b8f4744de8867f83b0a2dea9858c37b3353cafb1c4605af"
+    }
+  ],
+  "schema_version": "wangp-dspy.h3-offload-evidence/v1"
+}

@@ -1,0 +1,12 @@
+{
+  "clean_tree_before_attempt": true,
+  "mutation_attempt_budget": 1,
+  "repository": {
+    "branch": "story/WD-cuzw",
+    "commit": "e7dcb1e623fe919128521cfc3479b5ee75ff98f7",
+    "tree": "005fc86cd55abca7c9184230420b46a1d93475fc"
+  },
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "started_utc": "2026-09-30T21:34:17Z",
+  "status": "started"
+}

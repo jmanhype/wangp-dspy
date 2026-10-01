@@ -1,0 +1,11 @@
+{
+  "finished_ns": 1790891630251024000,
+  "id": "superseded-h3-checkpoint-2",
+  "method": "SshHost.unlink_verified_file",
+  "remote_free_bytes": 48494055424,
+  "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+  "size_bytes": 22144108397,
+  "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+  "source_absent": true,
+  "started_ns": 1790891610886840000
+}

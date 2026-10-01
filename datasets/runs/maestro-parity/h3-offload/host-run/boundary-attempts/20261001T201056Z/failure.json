@@ -1,0 +1,53 @@
+{
+  "diagnostic": {
+    "code": "H3_EXECUTION_CRITICAL",
+    "critical": true,
+    "observed": "PullError: resumable rsync pull of 3090:/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors failed: rsync: unrecognized option `--append-verify'\nusage: rsync [-0468BCDEFHIKLOPRSTWVabcdghiklnopqrtuvxyz] [-e program]\n\t[-f filter] [--8-bit-output] [--address=sourceaddr] [--append]\n\t[--backup-dir=dir] [--bwlimit=limit] [--cache | --no-cache]\n\t[--checksum-seed=NUM] [--chmod=mode] [--compare-dest=dir] [",
+    "remediation": "Stop and preserve state; no retry."
+  },
+  "finished_utc": "2026-10-01T20:10:56Z",
+  "preserved_state": {
+    "frees": [],
+    "remote_candidates": {
+      "superseded-h3-checkpoint-1": {
+        "exists": true,
+        "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "size_bytes": 22144108396,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "superseded-h3-checkpoint-2": {
+        "exists": true,
+        "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "size_bytes": 22144108397,
+        "symlink": false,
+        "type": "regular_file"
+      }
+    },
+    "transfers": []
+  },
+  "restoration_mapping": [
+    {
+      "from_local_copy": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+      "id": "superseded-h3-checkpoint-1",
+      "local_copy_present": false,
+      "local_sha256": null,
+      "remote_source_freed": false,
+      "restore_method": "separately authorized rsync push through SshHost.push_file",
+      "size_bytes": 22144108396,
+      "to_remote_source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors"
+    },
+    {
+      "from_local_copy": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+      "id": "superseded-h3-checkpoint-2",
+      "local_copy_present": false,
+      "local_sha256": null,
+      "remote_source_freed": false,
+      "restore_method": "separately authorized rsync push through SshHost.push_file",
+      "size_bytes": 22144108397,
+      "to_remote_source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors"
+    }
+  ],
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "status": "failed"
+}
