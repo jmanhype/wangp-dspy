@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T20:14:56Z
-content_hash: "sha256:62bdb52c9400fa1c5ba520f51aa355e4f10e93ad5583adb8f3b661690940473a"
+updated_at: 2026-10-01T23:34:20Z
+content_hash: "sha256:d93cbfdbd4a92786f4c0faf2055d619c61e1d718aa729625f0910cdb72e2f706"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-cuzw
@@ -566,6 +566,112 @@ status: new
 
 
 ## Notes
+## Implementation Evidence (DELIVERED)
+
+Summary: Authorized local-destination H3 offload completed successfully. Two exact superseded checkpoints were transferred sequentially through resumable `.part` files, size/SHA verified before promotion, both finals reverified, and only then were the exact verified remote sources freed through the governed host seam. The WD-osfm checkpoint was preserved. This is storage evidence only, not generation, hardware-verdict, or capability promotion.
+
+PROOF:
+
+### Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_h3_offload.py tests/test_runtime_host_wiring.py tests/test_render_host.py` -> `29 passed`
+- `uv run --frozen --extra dev pytest -q -ra` -> exit `0`, `2174 passed`, `1 skipped` (pre-existing `WANGP_3090` live-host gate), collection `2175`
+- `pvg verify scripts/run_h3_offload.py datasets/runs/maestro-parity/h3-offload/operator-authorization.json tests/test_h3_offload.py --include-tests --format=text` -> `VERIFY: PASSED (2 files scanned, 0 issues)`
+- `pvg lint --backlog` -> scanned `156`; `0 error(s), 0 review finding(s)`
+- `uv run --frozen --extra dev wgp release verify --json` -> `ready=true`, `tag_created=false`, all checks pass
+- Protected parity loop over the five protected files against `498a9cb4c994033064161cace2a98165c0a1dbb2` -> every base/head blob SHA matched
+- `git diff --check` -> pass
+- Authorized live command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute` -> exit `0`, status `passed`
+- `git push -u origin story/WD-cuzw` -> pushed exact branch
+- `gh pr create --base main --head story/WD-cuzw ...` -> PR #221
+- `gh pr checks 221 --watch --interval 10` -> `test pass 22m22s`
+
+### SHA:
+- Final branch/commit/tree: `story/WD-cuzw` / `eafa7b2b2ca0be3978e288924bccfe0871443736` / `3029670e76b01865ee7ecdce963991b219db3334`
+- Live run producing commit/tree: `5079fd20457325718a9e8eb157b3e557ce92d7e4` / `aa2f892b14296cfe75c29a4fdaa255bc65ed2d53`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/221
+- Exact-head CI: https://github.com/jmanhype/wangp-dspy/actions/runs/36939323639
+- CI head/conclusion: `eafa7b2b2ca0be3978e288924bccfe0871443736` / `success`
+
+### CI/Test Results
+- Focused: PASS, 29/29.
+- Full undeselected suite: PASS, 2174 passed, 1 pre-existing environment-gated skip, 0 failures.
+- Coverage: 8/8 acceptance criteria functionally covered (100%); line-coverage plugin was not part of the required command set.
+- Initial post-success full-suite run exposed a test-only dependency on live Mac disk free space after the 44.3 GB copies; fixed in `eafa7b2b` by isolating the local preflight capacity fixture. Full suite then passed.
+- Exact-head GitHub CI: PASS (`test`, 22m22s).
+
+### Authorized host result
+- Operator decisions: original `Approved authorized` at `2026-09-30T19:57:10Z`; local destination `You decide.` at corrected `2026-10-01T19:00:26Z`; zero-mutation compatibility adjudication at corrected `2026-10-01T20:14:55Z`.
+- Actual byte-transfer attempt: `2026-10-01T20:23:54.616422Z` through `2026-10-01T21:54:38.414549Z`.
+- Host/user: `straughter-Z690-Steel-Legend` / `straughter`.
+- Candidate 1 source -> local final:
+  - `/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors`
+  - `/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors`
+  - Bytes: `22,144,108,396`
+  - Remote preflight / `.part` / final SHA-256: `23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531`
+- Candidate 2 source -> local final:
+  - `/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors`
+  - `/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors`
+  - Bytes: `22,144,108,397`
+  - Remote preflight / `.part` / final SHA-256: `e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6`
+- Both `.part` files were absent after atomic promotion.
+- Both finals were reverified together before either source free.
+- Each exact remote source was size/SHA reverified inside `SshHost.unlink_verified_file`, then freed and confirmed absent.
+- Local free before/after: `73,677,606,912` -> `29,256,650,752` bytes.
+- Remote source filesystem free after: `48,494,047,232` bytes.
+- Doctor floor: `48,494,047,232 < 53,687,091,200`, so `doctor_floor_met_after_remote_free=false`.
+- Protected WD-osfm checkpoint: exact `34,038,903,007` bytes, unchanged inode `623363096` and mtime before/after.
+- Restoration mappings for both exact local copies -> remote source paths are recorded in `run-summary.json`.
+
+### Evidence bundle
+- `attempt.json` SHA-256 `a87ab5478750438d40abd1247ff967043dffee1bb2b6d548ea2edbedb584b9f0`
+- `preflight.json` SHA-256 `01559636429b45f68b2f4be3f3662690f0c2b6037098b86fb8080cb86a5b1cbd`
+- `transfer-superseded-h3-checkpoint-1.json` SHA-256 `02731490ba0c325950504debf3b07f2242223f4157d82d65d4c92b0cbed9b390`
+- `transfer-superseded-h3-checkpoint-2.json` SHA-256 `5cd23fd7fd5987c51297eec02c18191bdd631936089d85e7997031965dc915c0`
+- `final-verification.json` SHA-256 `92da245544cb57fb71cd4359a06ed7a3cd9e6dc0316c7abce57e32edd23cfb1d`
+- `free-superseded-h3-checkpoint-1.json` SHA-256 `dabebaa5b0a80cbc138eb4d4637b41d5e80ae5abcef1cf9d4a4578b7297fb1df`
+- `free-superseded-h3-checkpoint-2.json` SHA-256 `92ddd7efe601781bbc41992bddd922979d76cc3eec633a4a6b8821f5abe7d426`
+- `run-summary.json` SHA-256 `9e226d0c7d71972c91c9d9002d352a252ee2bef3defeb24f2af1a84cacc80ca5`
+- `evidence.sha256` file SHA-256 `b5a1777a7d84391d2791482792bda21df146a1faaf3245b21fab33c0292d17fb`
+- All four prior boundary-attempt directories remain immutable, including the four-file `20261001T201056Z/` compatibility boundary.
+
+### pvg verify
+- `VERIFY: PASSED (2 files scanned, 0 issues)`
+
+### AC Verification
+| AC | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Read-only exact remote size/SHA and local capacity preflight | `preflight.json`; exact hashes/sizes above | PASS |
+| 2 | Fail-closed typed boundaries and preserved zero-mutation state | Four immutable `boundary-attempts/` directories; regressions | PASS |
+| 3 | Sequential exact candidate transfer with resumable parts and atomic promotion | `transfer-*.json`; both parts absent after promotion | PASS |
+| 4 | Exact post-transfer size/SHA and restoration mappings | `final-verification.json`; `run-summary.json` | PASS |
+| 5 | Mismatch stops and preserves state without retry | Transfer-mismatch regression; terminal compatibility boundary | PASS |
+| 6 | Post-run free bytes and explicit doctor-floor/no-promotion labels | `run-summary.json`; floor false; all promotion flags false | PASS |
+| 7 | No H3 retry, LTX, inference, GPU, queue, sudo, unrelated mutation, protected edit | Run summary downstream authority false; protected parity | PASS |
+| 8 | Focused/full tests, standing gates, protected parity, diff check, exact-head CI | Commands above; PR #221 CI success | PASS |
+
+LEARNINGS:
+- macOS `/usr/bin/rsync` reports openrsync 2.6.9 compatibility and supports `--append` but not `--append-verify`; full post-transfer SHA remains the correctness boundary.
+- A live storage test must not derive capacity expectations from the developer Mac’s mutable free space; after copying 44.3 GB, the original fixture crossed below its own preflight threshold.
+- Verified local-copy-then-free semantics require both finals to pass before the first source free; otherwise a second-copy failure could leave no complete recovery pair.
+- The remote filesystem still does not meet the 50-GiB doctor floor after freeing these two files; this storage result must not be promoted to a hardware or capability verdict.
+
+## nd_contract
+status: delivered
+
+### evidence
+- Exact live hashes/sizes, free bytes, protected-file identity, transfer/free evidence, commit/tree, PR, and exact-head CI above.
+- Focused/full tests and all standing gates above.
+
+### proof
+- [x] AC #1: Exact read-only remote preflight and local capacity passed.
+- [x] AC #2: Typed fail-closed boundaries and all prior zero-mutation evidence preserved.
+- [x] AC #3: Exactly two candidates transferred sequentially via resumable parts and atomically promoted.
+- [x] AC #4: Both final sizes/hashes equal live preflight values; restoration mappings recorded.
+- [x] AC #5: Mismatch failure state is preserved and no automatic retry occurs.
+- [x] AC #6: Post-run local/remote free bytes and false doctor-floor status recorded without capability promotion.
+- [x] AC #7: No prohibited generation, download, inference, GPU, queue, sudo, unrelated mutation, or protected edit occurred.
+- [x] AC #8: Focused/full tests, pvg verify, backlog lint, release verify, protected parity, diff check, and exact-head CI passed.
+
 ## Implementation Boundary (LOCAL-DESTINATION MUTATION FAILED)
 
 - Operator decision bound: verbatim `You decide.` recorded at corrected time `2026-10-01T19:00:26Z`.
