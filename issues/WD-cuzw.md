@@ -1,18 +1,19 @@
 ---
 id: WD-cuzw
 title: "Authorized reversible H3 checkpoint offload"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [storage, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T23:34:56Z
-content_hash: "sha256:076ddb987b464659b0f2b1e840afca3d8d4c5386aafe2ff5ba791e2e032e5a71"
-blocks: [WD-fay0, WD-bw0h, WD-28ac]
+updated_at: 2026-10-01T23:49:42Z
+content_hash: "sha256:234aefbdaf04ac24f76614d36fb23668f2b6f233615b5ac42de9ad29ba94cadc"
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk, WD-dc3w]
 assignee: dev-WD-cuzw
+closed_at: 2026-10-01T23:49:42Z
+close_reason: "Accepted: exact-head CI, scoped diff and protected parity, independently verified local sizes/hashes and no .part files, preserved boundary history, restoration mappings, and no-promotion evidence all pass; verify-delivery 7/9 is structural only."
 ---
 
 ## Description
@@ -800,10 +801,13 @@ DISCOVERED_BUG:
 - 2026-10-01T20:14:30Z claimed by dev-WD-cuzw
 - 2026-10-01T23:34:55Z status: in_progress -> in_progress
 - 2026-10-01T23:34:55Z auto-follows: linked to predecessor WD-dc3w
+- 2026-10-01T23:49:42Z status: in_progress -> closed
+- 2026-10-01T23:49:42Z dep_removed: no_longer_blocks WD-fay0
+- 2026-10-01T23:49:42Z dep_removed: no_longer_blocks WD-bw0h
+- 2026-10-01T23:49:42Z dep_removed: no_longer_blocks WD-28ac
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]], [[WD-bw0h]], [[WD-28ac]]
 - Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
 
 ## Comments
