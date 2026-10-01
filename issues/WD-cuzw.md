@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
 updated_at: 2026-10-01T23:34:55Z
-content_hash: "sha256:57ea0cf66d86a1b2e17f8aac2e34e4c82fb6154907c5f64b001240134827bd86"
+content_hash: "sha256:8d0a6f4217a49d51e79cb820f55ebfc3d6c69101081852424ce17c4fbe1b255b"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
-follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk]
+follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk, WD-dc3w]
 assignee: dev-WD-cuzw
 ---
 
@@ -786,11 +786,13 @@ DISCOVERED_BUG:
 - 2026-10-01T20:14:30Z status: open -> in_progress
 - 2026-10-01T20:14:30Z auto-follows: linked to predecessor WD-32hk
 - 2026-10-01T20:14:30Z claimed by dev-WD-cuzw
+- 2026-10-01T23:34:55Z status: in_progress -> in_progress
+- 2026-10-01T23:34:55Z auto-follows: linked to predecessor WD-dc3w
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]], [[WD-bw0h]], [[WD-28ac]]
-- Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]], [[WD-32hk]]
+- Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
 
 ## Comments
 
