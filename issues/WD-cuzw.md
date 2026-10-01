@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T23:34:20Z
-content_hash: "sha256:d93cbfdbd4a92786f4c0faf2055d619c61e1d718aa729625f0910cdb72e2f706"
+updated_at: 2026-10-01T23:34:55Z
+content_hash: "sha256:57ea0cf66d86a1b2e17f8aac2e34e4c82fb6154907c5f64b001240134827bd86"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-cuzw
@@ -566,6 +566,21 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
+Summary: WD-cuzw completed the authorized two-file local-destination offload with exact size/SHA verification and governed remote-source free.
+
+Commands run:
+- `uv run --frozen --extra dev pytest -q tests/test_h3_offload.py tests/test_runtime_host_wiring.py tests/test_render_host.py` -> 29 passed
+- `uv run --frozen --extra dev pytest -q -ra` -> 2174 passed, 1 pre-existing skip, 0 failures
+- `pvg verify scripts/run_h3_offload.py datasets/runs/maestro-parity/h3-offload/operator-authorization.json tests/test_h3_offload.py --include-tests --format=text` -> passed
+- `pvg lint --backlog` -> 0 errors, 0 review findings
+- `uv run --frozen --extra dev wgp release verify --json` -> ready=true, tag_created=false
+- `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute` -> passed
+- `git push -u origin story/WD-cuzw` -> pushed
+- `gh pr checks 221 --watch --interval 10` -> exact-head test passed in 22m22s
+
+SHA: `eafa7b2b2ca0be3978e288924bccfe0871443736` (tree `3029670e76b01865ee7ecdce963991b219db3334`); PR https://github.com/jmanhype/wangp-dspy/pull/221; CI https://github.com/jmanhype/wangp-dspy/actions/runs/36939323639
+
 ## Implementation Evidence (DELIVERED)
 
 Summary: Authorized local-destination H3 offload completed successfully. Two exact superseded checkpoints were transferred sequentially through resumable `.part` files, size/SHA verified before promotion, both finals reverified, and only then were the exact verified remote sources freed through the governed host seam. The WD-osfm checkpoint was preserved. This is storage evidence only, not generation, hardware-verdict, or capability promotion.
