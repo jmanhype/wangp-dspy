@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T19:00:28Z
-content_hash: "sha256:d54d7ad0e4f4548a216a5c5dbb5e5bcb56a8817b3ba839920cc371b3f836aa10"
+updated_at: 2026-10-01T19:01:02Z
+content_hash: "sha256:9dbe903cd565fef8acbdc1688f308f9cb69bc829eceb85dd547de6e901aa9159"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-cuzw
@@ -656,3 +656,6 @@ Read-only alternate-destination audit at 2026-09-30T21:46Z: both exact candidate
 
 ### 2026-10-01T19:00:27Z speed
 OPERATOR DESTINATION DECISION at 2026-10-01T00:00:00Z. Verbatim user input: You decide. Dispatcher decision: use the already-proven ordinary-user destination /Users/Shared/HermesWorkspace/model-offload/wangp-3090/ for both exact superseded H3 candidates. Required semantics: sequential resumable local .part copies, exact pre/post size and SHA-256 verification, atomic promotion to final names, verify BOTH local copies before freeing either remote source, preserve restoration mappings, and stop/rollback on any mismatch. This decision does not authorize H3 generation, LTX download, inference, GPU work, queue admission, or unrelated storage mutation.
+
+### 2026-10-01T19:01:02Z speed
+TIMESTAMP CORRECTION: the immediately preceding destination-decision comment recorded 2026-10-01T00:00:00Z in error. The verbatim You decide decision was observed and recorded at 2026-10-01T19:00:26Z. Decision text and boundary are unchanged.
