@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T19:01:02Z
-content_hash: "sha256:9dbe903cd565fef8acbdc1688f308f9cb69bc829eceb85dd547de6e901aa9159"
+updated_at: 2026-10-01T20:11:47Z
+content_hash: "sha256:de53496868b119db46d5f59786120d435c6e993f52f3015a0a4d2822e6d722a2"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-cuzw
@@ -566,6 +566,32 @@ status: new
 
 
 ## Notes
+## Implementation Boundary (LOCAL-DESTINATION MUTATION FAILED)
+
+- Operator decision bound: verbatim `You decide.` recorded at corrected time `2026-10-01T19:00:26Z`.
+- Command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
+- Producing commit/tree/branch: `216e5cfd57d3c032e557251f5cd35c60f14160b0` / `f71f480ee91b6003f657711d99f6b0e76cc8fa00` / `story/WD-cuzw`
+- Read-only preflight: PASSED.
+  - Host/user: `straughter-Z690-Steel-Legend` / `straughter`
+  - Candidate 1 live size/SHA: `22,144,108,396` / `23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531`
+  - Candidate 2 live size/SHA: `22,144,108,397` / `e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6`
+  - Local free/required bytes: `61,795,053,568` / `46,435,700,441`
+  - Protected WD-osfm file observed at exact `34,038,903,007` bytes and unchanged inode/mtime.
+- Sole mutation attempt: FAILED before transfer bytes were promoted.
+  - Typed boundary: `H3_EXECUTION_CRITICAL`
+  - Root cause recorded in `failure.json`: local rsync does not recognize `--append-verify`.
+- Preserved terminal evidence:
+  - `attempt.json` SHA-256 `17190f6bf1b2cd269ded0d6c9e632232f1fa0e7605fc0bdca7778132e53d0a7f`
+  - `preflight.json` SHA-256 `87a53f4fb36a394cbcd340a10bff320af9f2a4ebe0bb6fab6c30b5498a4ff2b2`
+  - `failure.json` SHA-256 `3168bc16ae394ba030e1178a2e5f2fab0cbf73194bf43102a09ed2f6da71e26f`
+  - `evidence.sha256` manifest records all four current files plus the three immutable historical boundaries.
+- State:
+  - No candidate `.part` or final local copy exists.
+  - No `unlink_verified_file` / source-free command was reached.
+  - The accepted WD-osfm local checkpoint remains the only destination file.
+  - No H3 generation, LTX download, inference, GPU work, queue admission, sudo, unrelated storage mutation, or protected-file edit occurred.
+- The single mutation budget is consumed. Per the operator’s stop-on-failure boundary, preserve this state and do not repair or retry within WD-cuzw. No PR, delivery, or self-acceptance.
+
 ## Implementation Boundary (FINAL READ-ONLY PREFLIGHT)
 
 - Final adjudicated retry command: `uv run --frozen --extra dev python scripts/run_h3_offload.py --authorization datasets/runs/maestro-parity/h3-offload/operator-authorization.json --execute`
