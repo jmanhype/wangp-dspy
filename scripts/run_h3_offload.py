@@ -5,38 +5,44 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
 import tempfile
 import time
 from pathlib import Path
+from pathlib import PurePosixPath
 from typing import Any, Mapping, Sequence
 
 
-AUTH_SCHEMA = "wangp-dspy.h3-offload-authorization/v1"
+AUTH_SCHEMA = "wangp-dspy.h3-offload-authorization/v2"
 RUN_SCHEMA = "wangp-dspy.h3-offload-run/v1"
 BUNDLE_RELATIVE = Path("datasets/runs/maestro-parity/h3-offload/host-run")
 AUTHORIZATION_RELATIVE = Path("datasets/runs/maestro-parity/h3-offload/operator-authorization.json")
 _AUTHORIZED_TEMPLATE = json.loads((Path(__file__).resolve().parents[1] / AUTHORIZATION_RELATIVE).read_text(encoding="utf-8"))
 HOST = str(_AUTHORIZED_TEMPLATE["host"])
 WGP_ROOT = str(_AUTHORIZED_TEMPLATE["source_filesystem"])
-OFFLOAD_ROOT = str(_AUTHORIZED_TEMPLATE["offload_root"])
-BULK_MOUNT = str(_AUTHORIZED_TEMPLATE["bulk_mount"])
+DESTINATION_ROOT = Path(str(_AUTHORIZED_TEMPLATE["local_destination_root"]))
 SOURCE_FILESYSTEM = WGP_ROOT
 COMBINED_BYTES = 44_288_216_793
-MARGIN_BYTES = 1_073_741_824
+MARGIN_BYTES = int(_AUTHORIZED_TEMPLATE["local_capacity_margin_bytes"])
 DOCTOR_FLOOR_BYTES = 53_687_091_200
 VERBATIM = "Approved authorized"
 APPROVED_AT = "2026-09-30T19:57:10Z"
+DESTINATION_VERBATIM = "You decide."
+DESTINATION_DECIDED_AT = "2026-10-01T19:00:26Z"
 REQUIRED_SCOPE = (
     "reversible offload of exactly the two superseded H3 checkpoints on host 3090, "
     "with live size/SHA verification, a reversible recovery path, and no deletion"
 )
 EXECUTION_BOUNDARY = {
-    "deletion": False, "copy": False, "hard_link": False, "symlink": False,
-    "rewrite": False, "privileged_command": False, "download": False,
-    "gpu_work": False, "provider_spend": False, "queue_admission": False,
+    "sequential_transfer": True, "resumable_part_transfer": True,
+    "atomic_promotion": True, "verify_both_copies_before_free": True,
+    "free_verified_remote_source": True, "deletion": False,
+    "hard_link": False, "symlink": False, "rewrite": False,
+    "privileged_command": False, "download": False, "gpu_work": False,
+    "provider_spend": False, "queue_admission": False,
 }
 DOWNSTREAM_AUTHORITY = {
     "h3_retry": False, "ltx_download": False, "inference": False,
@@ -44,6 +50,7 @@ DOWNSTREAM_AUTHORITY = {
     "capability_promotion": False,
 }
 EXPECTED_CANDIDATES: tuple[dict[str, object], ...] = tuple(dict(item) for item in _AUTHORIZED_TEMPLATE["candidates"])
+PROTECTED_FILES: tuple[dict[str, object], ...] = tuple(dict(item) for item in _AUTHORIZED_TEMPLATE["protected_existing_files"])
 
 
 class H3OffloadError(ValueError):
@@ -100,21 +107,23 @@ def verify_authorization(record: Mapping[str, object]) -> dict[str, dict[str, ob
         raise _reject("H3_AUTHORIZATION_ABSENT", "authorization record is absent", "Record the exact operator approval.")
     _require_keys(
         record,
-        {"schema_version", "status", "host", "authorization", "candidates", "offload_root", "bulk_mount", "source_filesystem", "combined_recovery_bytes", "execution", "downstream_authority"},
+        {"schema_version", "status", "host", "authorization", "candidates", "local_destination_root", "source_filesystem", "combined_recovery_bytes", "local_capacity_margin_bytes", "protected_existing_files", "execution", "downstream_authority"},
         "H3_AUTHORIZATION_TAMPERED", "authorization",
     )
     if record.get("schema_version") != AUTH_SCHEMA or record.get("status") != "authorized":
         raise _reject("H3_AUTHORIZATION_TAMPERED", "schema or status is not the exact authorized pair", f"Use {AUTH_SCHEMA} with status=authorized.")
     if record.get("host") != HOST:
         raise _reject("H3_AUTHORIZATION_HOST_MISMATCH", f"authorized host is {record.get('host')!r}", f"Only host {HOST!r} is authorized.")
-    if record.get("offload_root") != OFFLOAD_ROOT or record.get("bulk_mount") != BULK_MOUNT or record.get("source_filesystem") != SOURCE_FILESYSTEM:
-        raise _reject("H3_AUTHORIZATION_PATH_MISMATCH", "offload root, bulk mount, or source filesystem differs", "Use only the exact authorized paths.")
+    if record.get("local_destination_root") != DESTINATION_ROOT.as_posix() or record.get("source_filesystem") != SOURCE_FILESYSTEM:
+        raise _reject("H3_AUTHORIZATION_PATH_MISMATCH", "local destination root or source filesystem differs", "Use only the exact authorized paths.")
     if type(record.get("combined_recovery_bytes")) is not int or record.get("combined_recovery_bytes") != COMBINED_BYTES:
         raise _reject("H3_AUTHORIZATION_TOTAL_MISMATCH", f"combined recovery bytes is {record.get('combined_recovery_bytes')!r}", f"Use {COMBINED_BYTES} exactly.")
+    if type(record.get("local_capacity_margin_bytes")) is not int or record.get("local_capacity_margin_bytes") != MARGIN_BYTES:
+        raise _reject("H3_AUTHORIZATION_CAPACITY_MARGIN_MISMATCH", f"local capacity margin is {record.get('local_capacity_margin_bytes')!r}", f"Use {MARGIN_BYTES} exactly.")
     authorization = record.get("authorization")
     if not isinstance(authorization, dict):
         raise _reject("H3_AUTHORIZATION_PARTIAL", "authorization object is absent", "Record the verbatim approval and scope.")
-    _require_keys(authorization, {"required_scope", "record"}, "H3_AUTHORIZATION_TAMPERED", "authorization")
+    _require_keys(authorization, {"required_scope", "record", "destination_decision"}, "H3_AUTHORIZATION_TAMPERED", "authorization")
     if authorization.get("required_scope") != REQUIRED_SCOPE:
         raise _reject("H3_AUTHORIZATION_SCOPE_MISMATCH", "required scope differs", "Record the exact approved storage scope.")
     approval = authorization.get("record")
@@ -123,8 +132,17 @@ def verify_authorization(record: Mapping[str, object]) -> dict[str, dict[str, ob
     _require_keys(approval, {"operator", "recorded_utc", "verbatim"}, "H3_AUTHORIZATION_TAMPERED", "operator approval")
     if approval != {"operator": "operator", "recorded_utc": APPROVED_AT, "verbatim": VERBATIM}:
         raise _reject("H3_AUTHORIZATION_VERBATIM_MISMATCH", "operator approval record differs", 'Record exactly "Approved authorized" at 2026-09-30T19:57:10Z.')
+    decision = authorization.get("destination_decision")
+    if decision != {
+        "operator": "operator", "recorded_utc": DESTINATION_DECIDED_AT,
+        "verbatim": DESTINATION_VERBATIM,
+        "decision": "Use the already-proven ordinary-user local destination for both exact superseded H3 candidates; transfer sequentially with resumable parts, verify both copies before freeing either source, and preserve restoration mappings.",
+    }:
+        raise _reject("H3_AUTHORIZATION_DESTINATION_DECISION_MISMATCH", "destination decision differs", "Record the corrected 2026-10-01T19:00:26Z operator decision exactly.")
     if record.get("execution") != EXECUTION_BOUNDARY or record.get("downstream_authority") != DOWNSTREAM_AUTHORITY:
         raise _reject("H3_AUTHORIZATION_BOUNDARY_MISMATCH", "execution or downstream authority differs", "All prohibited actions must remain false.")
+    if record.get("protected_existing_files") != list(PROTECTED_FILES):
+        raise _reject("H3_AUTHORIZATION_PROTECTED_FILE_MISMATCH", "protected existing-file identity differs", "Bind the exact accepted WD-osfm checkpoint and do not alter it.")
     return _candidate_map(record)
 
 
@@ -139,147 +157,9 @@ def _sha256(path: Path) -> str:
 def _host_object(host: SshHostLike) -> None:
     if getattr(host, "target", None) != HOST:
         raise _reject("H3_HOST_IDENTITY_MISMATCH", f"host seam target is {getattr(host, 'target', None)!r}", f"Use the real SshHost target {HOST!r}.")
-    for name in ("run_probe", "push_file", "run_argv"):
+    for name in ("run_probe", "fetch_file_partial", "unlink_verified_file"):
         if not callable(getattr(host, name, None)):
             raise _reject("H3_HOST_SEAM_INVALID", f"host seam lacks {name}", "Use host.render_host.SshHost or its exact seam contract.")
-
-
-_PROBE_CODE = r'''import hashlib,json,os,stat,sys
-p=json.loads(sys.argv[2])
-def f(path):
- try:s=os.lstat(path)
- except OSError:return {"exists":False}
- return {"exists":True,"type":"directory" if stat.S_ISDIR(s.st_mode) else "regular_file" if stat.S_ISREG(s.st_mode) else "other","symlink":stat.S_ISLNK(s.st_mode),"device":s.st_dev,"size_bytes":s.st_size,"writable":os.access(path,os.W_OK)}
-def h(path):
- d=hashlib.sha256()
- with open(path,"rb") as x:
-  for b in iter(lambda:x.read(4194304),b""):d.update(b)
- return d.hexdigest()
-def space(path):
- v=os.statvfs(path);return v.f_bavail*v.f_frsize
-root=p["offload_root"];nearest=root
-while not os.path.lexists(nearest):nearest=os.path.dirname(nearest)
-resolved_bulk=os.path.realpath(p["bulk_mount"]);resolved_root_parent=os.path.realpath(nearest)
-components=[];candidate=root
-while candidate.startswith(p["bulk_mount"]+"/"):
- components.append(candidate);candidate=os.path.dirname(candidate)
-component_facts=[f(item) for item in reversed(components)]
-contained=(root.startswith(p["bulk_mount"]+"/") and f(nearest)["device"]==f(p["bulk_mount"])["device"] and (resolved_root_parent==resolved_bulk or resolved_root_parent.startswith(resolved_bulk+"/")) and all(item["exists"] and item["type"]=="directory" and not item["symlink"] and item["device"]==f(p["bulk_mount"])["device"] for item in component_facts if item["exists"]))
-out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"candidates":{},"destinations":{},"root":f(root),"root_nearest_parent":f(nearest),"root_contained":contained,"root_free_bytes":space(nearest),"resolved_bulk":resolved_bulk,"resolved_root_parent":resolved_root_parent,"bulk":{"device":f(p["bulk_mount"])["device"],"free_bytes":space(p["bulk_mount"])},"source_filesystem_free_bytes":space(p["source_filesystem"]),"script":f(p["script_path"])}
-for c in p["candidates"]:
- x=f(c["source"]);x["sha256"]=h(c["source"]) if x["type"]=="regular_file" and not x["symlink"] else None;out["candidates"][c["id"]]=x;out["destinations"][c["id"]]=f(c["destination"])
-print(json.dumps(out,sort_keys=True,separators=(",",":")))'''
-
-_SCRIPT_ID_CODE = r'''import hashlib,json,os,stat,sys
-p=sys.argv[2];s=os.lstat(p)
-print(json.dumps({"type":"regular_file" if stat.S_ISREG(s.st_mode) else "other","symlink":stat.S_ISLNK(s.st_mode),"size_bytes":s.st_size,"sha256":hashlib.sha256(open(p,"rb").read()).hexdigest()},sort_keys=True,separators=(",",":")))'''
-
-
-def _offload_script(candidates: Sequence[Mapping[str, object]]) -> str:
-    literal = json.dumps(list(candidates), sort_keys=True, separators=(",", ":"))
-    return f"""#!/bin/sh
-set -eu
-exec python3 - <<'PY'
-import hashlib, json, os, stat, subprocess, time
-CANDIDATES = json.loads(r'''{literal}''')
-ROOT = {OFFLOAD_ROOT!r}
-BULK = {BULK_MOUNT!r}
-SOURCE_FS = {SOURCE_FILESYSTEM!r}
-FLOOR = {DOCTOR_FLOOR_BYTES}
-def facts(path):
-    try: item = os.lstat(path)
-    except OSError: return {{"exists": False}}
-    return {{"exists": True, "type": "directory" if stat.S_ISDIR(item.st_mode) else "regular_file" if stat.S_ISREG(item.st_mode) else "other", "symlink": stat.S_ISLNK(item.st_mode), "device": item.st_dev, "size_bytes": item.st_size}}
-def digest(path):
-    value = hashlib.sha256()
-    with open(path, "rb") as source:
-        for block in iter(lambda: source.read(4194304), b""): value.update(block)
-    return value.hexdigest()
-def free(path):
-    value = os.statvfs(path)
-    return value.f_bavail * value.f_frsize
-def nearest_existing(path):
-    while not os.path.lexists(path): path = os.path.dirname(path)
-    return path
-def check_prestate():
-    bulk = facts(BULK)
-    nearest = nearest_existing(ROOT)
-    bulk_real = os.path.realpath(BULK)
-    nearest_real = os.path.realpath(nearest)
-    if not bulk["exists"] or bulk["type"] != "directory" or bulk["symlink"]: raise OSError("bulk mount invalid")
-    if not ROOT.startswith(BULK + "/") or facts(nearest)["device"] != bulk["device"] or not (nearest_real == bulk_real or nearest_real.startswith(bulk_real + "/")): raise OSError("offload root is not contained by bulk mount")
-    if free(BULK) < sum(int(item["size_bytes"]) for item in CANDIDATES) + {MARGIN_BYTES}: raise OSError("insufficient bulk free space")
-    for item in CANDIDATES:
-        source = facts(item["source"])
-        if not source["exists"] or source["type"] != "regular_file" or source["symlink"] or source["size_bytes"] != int(item["size_bytes"]):
-            raise OSError("source identity mismatch: " + item["id"])
-        if facts(item["destination"])["exists"]: raise OSError("destination collision: " + item["id"])
-        item["pre_sha256"] = digest(item["source"])
-    return {{"root_free_before": free(nearest_existing(ROOT)), "bulk_free_before": free(BULK), "source_free_before": free(SOURCE_FS)}}
-def move_no_clobber(source, destination):
-    return subprocess.run(["mv", "-n", source, destination], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
-def verify_moved(item):
-    if os.path.lexists(item["source"]) or facts(item["destination"])["type"] != "regular_file": raise OSError("move outcome mismatch: " + item["id"])
-    observed_size = os.lstat(item["destination"]).st_size
-    observed_hash = digest(item["destination"])
-    if observed_size != int(item["size_bytes"]) or observed_hash != item["pre_sha256"]: raise OSError("moved bytes mismatch: " + item["id"])
-    return {{"id": item["id"], "source": item["source"], "destination": item["destination"], "size_bytes": int(item["size_bytes"]), "pre_sha256": item["pre_sha256"], "post_size_bytes": observed_size, "post_sha256": observed_hash, "source_absent": True, "destination_present": True}}
-def rollback(moved):
-    outcomes = []
-    for item in reversed(moved):
-        outcome = dict(item)
-        try:
-            if os.path.lexists(item["source"]) or not os.path.lexists(item["destination"]): raise OSError("rollback path collision")
-            result = move_no_clobber(item["destination"], item["source"])
-            if result.returncode or os.path.lexists(item["destination"]) or not os.path.lexists(item["source"]): raise OSError("reverse move failed")
-            if os.lstat(item["source"]).st_size != item["size_bytes"] or digest(item["source"]) != item["pre_sha256"]: raise OSError("rollback identity mismatch")
-            outcome.update({{"rolled_back": True, "destination_absent": True, "verified": True}})
-        except BaseException as exc:
-            outcome.update({{"rolled_back": False, "verified": False, "error": str(exc)}})
-        outcomes.append(outcome)
-    return outcomes
-moved = []
-root_created = False
-try:
-    before = check_prestate()
-    root_created = not os.path.lexists(ROOT)
-    os.makedirs(ROOT, exist_ok=True)
-    root_fact = facts(ROOT)
-    bulk_real = os.path.realpath(BULK)
-    root_real = os.path.realpath(ROOT)
-    if root_fact["type"] != "directory" or root_fact["symlink"] or root_fact["device"] != facts(BULK)["device"] or not (root_real == bulk_real or root_real.startswith(bulk_real + "/")):
-        raise OSError("created offload root is invalid")
-    for candidate in CANDIDATES:
-        move_started = time.time_ns()
-        result = move_no_clobber(candidate["source"], candidate["destination"])
-        if result.returncode: raise OSError("authorized move failed: " + candidate["id"])
-        record = verify_moved(candidate)
-        record["move_started_ns"] = move_started
-        record["move_finished_ns"] = time.time_ns()
-        record["move_stderr"] = result.stderr
-        moved.append(record)
-        # POST_MOVE_BOUNDARY
-    output = {{"status": "offloaded", "moved": moved, "root_created": root_created, "rollback": {{"state": "not_required", "outcomes": []}}, "free_bytes": {{"root_before": before["root_free_before"], "root_after": free(ROOT), "bulk_before": before["bulk_free_before"], "bulk_after": free(BULK), "source_filesystem_before": before["source_free_before"], "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "root_doctor_floor_met": free(ROOT) >= FLOOR, "doctor_floor_path": SOURCE_FS, "storage_result_only": True}}
-    print(json.dumps(output, sort_keys=True, separators=(",", ":")))
-except BaseException as exc:
-    outcomes = rollback(moved)
-    rollback_failed = any(not item.get("verified") for item in outcomes)
-    output = {{"status": "rollback_failed" if rollback_failed else "rolled_back", "failure": str(exc), "failure_type": type(exc).__name__, "moved_before_failure": moved, "root_created": root_created, "rollback": {{"state": "failed" if rollback_failed else "completed", "outcomes": outcomes}}, "free_bytes": {{"root_before": free(nearest_existing(ROOT)), "root_after": free(nearest_existing(ROOT)), "bulk_before": free(BULK), "bulk_after": free(BULK), "source_filesystem_before": free(SOURCE_FS), "source_filesystem_after": free(SOURCE_FS)}}, "doctor_floor_bytes": FLOOR, "doctor_floor_met": free(SOURCE_FS) >= FLOOR, "root_doctor_floor_met": free(nearest_existing(ROOT)) >= FLOOR, "doctor_floor_path": SOURCE_FS, "storage_result_only": True}}
-    print(json.dumps(output, sort_keys=True, separators=(",", ":")))
-    raise SystemExit(2)
-PY
-"""
-
-
-def _script_identity(script: str) -> dict[str, object]:
-    data = script.encode("utf-8")
-    digest = hashlib.sha256(data).hexdigest()
-    return {
-        "relative_path": BUNDLE_RELATIVE.joinpath("offload-script.sh").as_posix(),
-        "remote_path": f"/tmp/wd-cuzw-h3-offload-{digest}.sh",
-        "sha256": digest,
-        "byte_size": len(data),
-    }
 
 
 def _probe_json(host: SshHostLike, code: str, payload: Mapping[str, object], *, timeout: int) -> dict[str, Any]:
@@ -298,101 +178,119 @@ def _probe_json(host: SshHostLike, code: str, payload: Mapping[str, object], *, 
     return value
 
 
-def _mount_fact(host: SshHostLike) -> dict[str, object]:
-    rc, stdout, stderr = host.run_probe(["findmnt", "-n", "-o", "TARGET,SOURCE,FSTYPE", "--", BULK_MOUNT], timeout=60)
-    lines = [line for line in stdout.splitlines() if line.strip()]
-    rows: list[dict[str, str]] = []
-    for line in lines:
-        fields = line.split()
-        if len(fields) == 3 and fields[1] and fields[2]:
-            rows.append({"target": fields[0], "source": fields[1], "filesystem_type": fields[2]})
-    autofs = {"target": BULK_MOUNT, "source": "systemd-1", "filesystem_type": "autofs"}
-    block = {"target": BULK_MOUNT, "source": "/dev/sda4", "filesystem_type": "ext4"}
-    if rc != 0 or len(rows) != len(lines) or not rows or rows not in ([autofs, block], [block, autofs]):
-        raise _reject(
-            "H3_ROOT_CONTAINMENT_INVALID",
-            f"bulk mount namespace is not the final adjudicated shape (rows={rows!r}, stderr={stderr.strip()[:200]!r})",
-            "Stop before root creation or mutation.",
-        )
-    return {**block, "namespace": rows}
+_REMOTE_PREFLIGHT_CODE = r'''import hashlib,json,os,stat,sys
+p=json.loads(sys.argv[2])
+def f(path):
+ try:s=os.lstat(path)
+ except OSError:return {"exists":False}
+ return {"exists":True,"type":"directory" if stat.S_ISDIR(s.st_mode) else "regular_file" if stat.S_ISREG(s.st_mode) else "other","symlink":stat.S_ISLNK(s.st_mode),"size_bytes":s.st_size}
+def h(path):
+ value=hashlib.sha256()
+ with open(path,"rb") as source:
+  for block in iter(lambda:source.read(4194304),b""):value.update(block)
+ return value.hexdigest()
+out={"host":os.uname().nodename,"user":__import__("pwd").getpwuid(os.getuid()).pw_name,"source_filesystem_free_bytes":os.statvfs(p["source_filesystem"]).f_bavail*os.statvfs(p["source_filesystem"]).f_frsize,"candidates":{}}
+for item in p["candidates"]:
+ value=f(item["source"]);value["sha256"]=h(item["source"]) if value["type"]=="regular_file" and not value["symlink"] else None;out["candidates"][item["id"]]=value
+print(json.dumps(out,sort_keys=True,separators=(",",":")))'''
+
+_REMOTE_POSTFREE_CODE = r'''import json,os,sys
+p=json.loads(sys.argv[2]);value=os.statvfs(p["source_filesystem"])
+out={"source_filesystem_free_bytes":value.f_bavail*value.f_frsize,"candidates":{}}
+for item in p["candidates"]:out["candidates"][item["id"]]={"source_exists":os.path.lexists(item["source"]),"source_is_symlink":os.path.islink(item["source"])}
+print(json.dumps(out,sort_keys=True,separators=(",",":")))'''
 
 
-def _validate_preflight(record: Mapping[str, object], facts: dict[str, Any], identity: Mapping[str, object]) -> None:
+def _candidate_file(destination_root: Path, expected: Mapping[str, object]) -> Path:
+    destination = Path(str(expected["destination"]))
+    if PurePosixPath(destination).name in {"", ".", ".."}:
+        raise _reject("H3_AUTHORIZATION_CANDIDATES_INVALID", f"destination has no safe filename: {destination}", "Use the exact local destination names.")
+    return destination_root / destination.name
+
+
+def _local_destination_preflight(destination_root: Path, record: Mapping[str, object]) -> dict[str, object]:
     candidates = verify_authorization(record)
-    required = {"host", "user", "candidates", "destinations", "root", "root_nearest_parent", "root_contained", "root_free_bytes", "resolved_bulk", "resolved_root_parent", "bulk", "source_filesystem_free_bytes", "script"}
+    root = destination_root.expanduser()
+    try:
+        root_stat = root.lstat()
+    except OSError as exc:
+        raise _reject("H3_DESTINATION_ROOT_INVALID", f"local destination root is absent: {root}: {exc}", "Stop; no alternate root or creation is authorized.") from exc
+    if not root.is_dir() or root.is_symlink() or not os.access(root, os.W_OK):
+        raise _reject("H3_DESTINATION_ROOT_INVALID", f"local destination root is not an ordinary writable directory: {root}", "Stop; no alternate root, symlink, or permissions repair.")
+    allowed = {Path(str(item["path"])).name for item in PROTECTED_FILES}
+    observed = {item.name for item in root.iterdir()}
+    if observed - allowed:
+        raise _reject("H3_DESTINATION_COLLISION", f"unexpected local destination entries: {sorted(observed - allowed)}", "Stop; do not alter or clean unrelated files.")
+    protected: list[dict[str, object]] = []
+    for expected in PROTECTED_FILES:
+        path = root / Path(str(expected["path"])).name
+        try:
+            stat = path.lstat()
+        except OSError as exc:
+            raise _reject("H3_PROTECTED_FILE_INVALID", f"protected existing file is absent: {path}: {exc}", "Stop; WD-osfm evidence must remain intact.") from exc
+        if not path.is_file() or path.is_symlink() or stat.st_size != expected["size_bytes"]:
+            raise _reject("H3_PROTECTED_FILE_INVALID", f"protected existing file identity differs: {path}", "Stop; do not alter WD-osfm evidence.")
+        protected.append({"path": path.as_posix(), "size_bytes": stat.st_size, "inode": stat.st_ino, "mtime_ns": stat.st_mtime_ns})
+    for expected in candidates.values():
+        final = _candidate_file(root, expected)
+        part = final.with_name(final.name + ".part")
+        if final.exists() or final.is_symlink() or part.exists() or part.is_symlink():
+            raise _reject("H3_DESTINATION_COLLISION", f"candidate final or resumable part already exists: {final}", "Stop; no overwrite or cleanup is authorized.")
+    statvfs = os.statvfs(root)
+    free = statvfs.f_bavail * statvfs.f_frsize
+    required = COMBINED_BYTES + MARGIN_BYTES
+    if free < required:
+        raise _reject("H3_LOCAL_CAPACITY_INSUFFICIENT", f"local free bytes={free}, required={required}", "Stop before transfer.")
+    return {
+        "root": root.resolve().as_posix(),
+        "writable": True,
+        "free_bytes": free,
+        "required_free_bytes": required,
+        "protected_existing_files": protected,
+    }
+
+
+def _validate_remote_preflight(record: Mapping[str, object], facts: dict[str, Any]) -> None:
+    candidates = verify_authorization(record)
+    required = {"host", "user", "source_filesystem_free_bytes", "candidates"}
     if set(facts) != required:
-        raise _reject("H3_PREFLIGHT_OUTPUT_INVALID", f"probe fields differ: {sorted(facts)}", "Stop before mutation; require the exact fact set.")
+        raise _reject("H3_PREFLIGHT_OUTPUT_INVALID", f"remote probe fields differ: {sorted(facts)}", "Stop before transfer.")
     if not isinstance(facts.get("host"), str) or not facts["host"].strip() or not isinstance(facts.get("user"), str) or not facts["user"].strip():
-        raise _reject("H3_HOST_IDENTITY_INVALID", "remote hostname or user is absent", "Stop before mutation.")
-    root = facts["root"]
-    parent = facts["root_nearest_parent"]
-    if facts.get("root_contained") is not True or root.get("type") not in {None, "directory"} or parent.get("type") != "directory" or parent.get("writable") is not True:
-        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"root/parent containment or ordinary write permission failed: root={root!r}, parent={parent!r}", "Stop; no alternate root, sudo, or permissions repair.")
-    resolved_bulk = facts.get("resolved_bulk")
-    resolved_root_parent = facts.get("resolved_root_parent")
-    if resolved_bulk != BULK_MOUNT or resolved_root_parent != BULK_MOUNT and not str(resolved_root_parent).startswith(BULK_MOUNT + "/"):
-        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"resolved root containment failed: bulk={resolved_bulk!r}, root_parent={resolved_root_parent!r}", "Stop; no alternate root or symlinked path.")
-    if root.get("exists") and (root.get("type") != "directory" or root.get("symlink") or root.get("writable") is not True):
-        raise _reject("H3_ROOT_CONTAINMENT_INVALID", f"existing root is not an ordinary writable directory: {root!r}", "Stop; no alternate root or repair.")
-    bulk_free = facts["bulk"].get("free_bytes")
-    if type(bulk_free) is not int or bulk_free < COMBINED_BYTES + MARGIN_BYTES:
-        raise _reject("H3_FREE_SPACE_INSUFFICIENT", f"bulk free bytes={bulk_free!r}, required={COMBINED_BYTES + MARGIN_BYTES}", "Stop before root creation or move.")
-    script_fact = facts["script"]
-    if script_fact.get("exists") is not False:
-        raise _reject("H3_SCRIPT_IDENTITY_INVALID", f"remote staged script path is already occupied: {script_fact!r}", "Use the deterministic script path and never overwrite it.")
+        raise _reject("H3_HOST_IDENTITY_INVALID", "remote hostname or user is absent", "Stop before transfer.")
+    if type(facts.get("source_filesystem_free_bytes")) is not int:
+        raise _reject("H3_PREFLIGHT_OUTPUT_INVALID", "remote source filesystem free bytes is absent", "Stop before transfer.")
     for candidate_id, expected in candidates.items():
         source = facts["candidates"].get(candidate_id)
-        destination = facts["destinations"].get(candidate_id)
         if not isinstance(source, dict) or source.get("exists") is not True or source.get("type") != "regular_file" or source.get("symlink") is not False:
-            raise _reject("H3_SOURCE_TYPE_INVALID", f"source is absent, symlinked, or not regular: {candidate_id}={source!r}", "Stop before mutation.")
+            raise _reject("H3_SOURCE_TYPE_INVALID", f"remote source is absent, symlinked, or not regular: {candidate_id}={source!r}", "Stop before transfer.")
         if source.get("size_bytes") != expected["size_bytes"]:
-            raise _reject("H3_SOURCE_SIZE_MISMATCH", f"source size mismatch for {candidate_id}: {source.get('size_bytes')!r}", "Stop before mutation; do not substitute a file.")
+            raise _reject("H3_SOURCE_SIZE_MISMATCH", f"remote source size mismatch for {candidate_id}: {source.get('size_bytes')!r}", "Stop before transfer.")
         if not isinstance(source.get("sha256"), str) or not re.fullmatch(r"[0-9a-f]{64}", source["sha256"]):
-            raise _reject("H3_SOURCE_HASH_INVALID", f"live SHA-256 is absent or malformed for {candidate_id}", "Stop before mutation.")
-        if not isinstance(destination, dict) or destination.get("exists") is not False:
-            raise _reject("H3_DESTINATION_COLLISION", f"destination is occupied for {candidate_id}: {destination!r}", "Stop before mutation; no overwrite or cleanup is authorized.")
-    expected_identity = _script_identity(_offload_script(list(record["candidates"])))  # type: ignore[arg-type]
-    if identity != expected_identity:
-        raise _reject("H3_SCRIPT_IDENTITY_INVALID", "generated script identity changed", "Stop before staging the script.")
+            raise _reject("H3_SOURCE_HASH_INVALID", f"live remote SHA-256 is absent or malformed for {candidate_id}", "Stop before transfer.")
 
 
 def preflight(root: Path, record: Mapping[str, object], host: SshHostLike) -> dict[str, object]:
-    """Collect all live host facts through read-only SshHost probes."""
+    """Verify exact remote sources and the ordinary-user local destination."""
     del root
     candidates = verify_authorization(record)
     _host_object(host)
-    script = _offload_script(list(record["candidates"]))  # type: ignore[arg-type]
-    identity = _script_identity(script)
-    payload = {
+    remote = _probe_json(host, _REMOTE_PREFLIGHT_CODE, {
         "candidates": list(candidates.values()),
-        "offload_root": OFFLOAD_ROOT,
-        "bulk_mount": BULK_MOUNT,
         "source_filesystem": SOURCE_FILESYSTEM,
-        "script_path": identity["remote_path"],
-    }
-    facts = _probe_json(host, _PROBE_CODE, payload, timeout=3600)
-    mount = _mount_fact(host)
-    _validate_preflight(record, facts, identity)
+    }, timeout=3600)
+    _validate_remote_preflight(record, remote)
+    local = _local_destination_preflight(DESTINATION_ROOT, record)
     return {
-        "schema_version": "wangp-dspy.h3-offload-preflight/v1",
-        "status": "passed", "mutation": False, "host_alias": HOST,
-        "host": facts["host"], "user": facts["user"], "mount": mount,
-        "root": facts["root"], "root_nearest_parent": facts["root_nearest_parent"],
-        "root_containment": {"resolved_bulk": facts["resolved_bulk"], "resolved_root_parent": facts["resolved_root_parent"]},
-        "source_filesystem_free_bytes": facts["source_filesystem_free_bytes"],
-        "root_free_bytes": facts["root_free_bytes"],
-        "bulk_free_bytes": facts["bulk"]["free_bytes"],
-        "required_bulk_free_bytes": COMBINED_BYTES + MARGIN_BYTES,
-        "candidates": {
-            candidate_id: {
-                "size_bytes": facts["candidates"][candidate_id]["size_bytes"],
-                "sha256": facts["candidates"][candidate_id]["sha256"],
-                "type": facts["candidates"][candidate_id]["type"],
-                "symlink": facts["candidates"][candidate_id]["symlink"],
-            }
-            for candidate_id in candidates
-        },
-        "script": identity,
+        "schema_version": "wangp-dspy.h3-offload-preflight/v2",
+        "status": "passed",
+        "mutation": False,
+        "host_alias": HOST,
+        "host": remote["host"],
+        "user": remote["user"],
+        "source_filesystem": SOURCE_FILESYSTEM,
+        "source_filesystem_free_bytes": remote["source_filesystem_free_bytes"],
+        "local_destination": local,
+        "candidates": remote["candidates"],
     }
 
 
@@ -423,6 +321,158 @@ def _repository_identity(root: Path) -> dict[str, object]:
             raise _reject("H3_REPOSITORY_IDENTITY_INVALID", f"cannot resolve {' '.join(arguments)}: {result.stderr.strip()}", "Run from the prepared story worktree.")
         values[key] = result.stdout.strip()
     return values
+
+
+def _regular_hash_fact(path: Path) -> dict[str, object]:
+    try:
+        stat = path.lstat()
+    except OSError as exc:
+        return {"exists": False}
+    if not path.is_file() or path.is_symlink():
+        return {"exists": True, "type": "other", "symlink": path.is_symlink(), "size_bytes": stat.st_size}
+    return {"exists": True, "type": "regular_file", "symlink": False, "size_bytes": stat.st_size, "sha256": _sha256(path)}
+
+
+def _require_local_identity(path: Path, expected: Mapping[str, object], code: str) -> dict[str, object]:
+    fact = _regular_hash_fact(path)
+    if fact.get("type") != "regular_file" or fact.get("symlink") is not False:
+        raise _reject(code, f"path is absent, symlinked, or not regular: {path}={fact!r}", "Stop and preserve state; do not retry or substitute.")
+    if fact.get("size_bytes") != expected["size_bytes"]:
+        raise _reject(code, f"size mismatch for {path}: {fact.get('size_bytes')!r}", "Stop and preserve state; do not retry or substitute.")
+    if not isinstance(fact.get("sha256"), str):
+        raise _reject(code, f"hash is absent for {path}", "Stop and preserve state; do not retry or substitute.")
+    return fact
+
+
+def _restoration_state(destination_root: Path, record: Mapping[str, object], state: Mapping[str, object]) -> list[dict[str, object]]:
+    candidates = verify_authorization(record)
+    mapping: list[dict[str, object]] = []
+    freed = {item["id"]: item for item in state.get("frees", []) if isinstance(item, dict)}
+    for candidate_id, expected in candidates.items():
+        final = _candidate_file(destination_root, expected)
+        local = _regular_hash_fact(final)
+        mapping.append({
+            "id": candidate_id,
+            "from_local_copy": final.as_posix(),
+            "to_remote_source": expected["source"],
+            "size_bytes": expected["size_bytes"],
+            "local_copy_present": local.get("exists") is True and local.get("type") == "regular_file",
+            "local_sha256": local.get("sha256"),
+            "remote_source_freed": candidate_id in freed,
+            "restore_method": "separately authorized rsync push through SshHost.push_file",
+        })
+    return mapping
+
+
+def _transfer_and_free(
+    destination_root: Path,
+    record: Mapping[str, object],
+    host: SshHostLike,
+    bundle: Path,
+    state: dict[str, object],
+    remote_candidates: Mapping[str, object],
+) -> dict[str, object]:
+    candidates = verify_authorization(record)
+    local_before = _local_destination_preflight(destination_root, record)
+    transfers: list[dict[str, object]] = []
+    state["transfers"] = transfers
+    for candidate_id, expected in candidates.items():
+        final = _candidate_file(destination_root, expected)
+        part = final.with_name(final.name + ".part")
+        started = time.time_ns()
+        remote_hash = str(remote_candidates[candidate_id]["sha256"])
+        host.fetch_file_partial(str(expected["source"]), str(part))
+        part_fact = _require_local_identity(part, expected, "H3_PART_TRANSFER_MISMATCH")
+        if part_fact["sha256"] != remote_hash:
+            raise _reject("H3_PART_TRANSFER_MISMATCH", f"resumable part hash differs for {candidate_id}", "Stop and preserve the part; do not retry.")
+        if final.exists() or final.is_symlink():
+            raise _reject("H3_DESTINATION_COLLISION", f"final appeared before promotion: {final}", "Stop and preserve state; do not overwrite it.")
+        os.replace(part, final)
+        final_fact = _require_local_identity(final, expected, "H3_FINAL_COPY_MISMATCH")
+        if final_fact["sha256"] != remote_hash:
+            raise _reject("H3_FINAL_COPY_MISMATCH", f"promoted copy hash differs for {candidate_id}", "Stop and preserve the copy; do not retry.")
+        transfer = {
+            "id": candidate_id,
+            "source": expected["source"],
+            "destination": final.as_posix(),
+            "part_path": part.as_posix(),
+            "size_bytes": expected["size_bytes"],
+            "remote_preflight_sha256": remote_hash,
+            "part_sha256": part_fact["sha256"],
+            "final_sha256": final_fact["sha256"],
+            "part_absent_after_promotion": not part.exists() and not part.is_symlink(),
+            "started_ns": started,
+            "finished_ns": time.time_ns(),
+        }
+        transfers.append(transfer)
+        _write_json_once(bundle / f"transfer-{candidate_id}.json", transfer)
+    final_verification = []
+    for candidate_id, expected in candidates.items():
+        fact = _require_local_identity(_candidate_file(destination_root, expected), expected, "H3_FINAL_COPY_MISMATCH")
+        if fact["sha256"] != remote_candidates[candidate_id]["sha256"]:
+            raise _reject("H3_FINAL_COPY_MISMATCH", f"second final verification differs for {candidate_id}", "Stop and preserve both copies; do not free either source.")
+        final_verification.append({"id": candidate_id, "size_bytes": fact["size_bytes"], "sha256": fact["sha256"]})
+    verification = {
+        "status": "both_copies_verified",
+        "verified_count": len(final_verification),
+        "required_count": len(candidates),
+        "copies": final_verification,
+    }
+    _write_json_once(bundle / "final-verification.json", verification)
+    frees: list[dict[str, object]] = []
+    state["frees"] = frees
+    for candidate_id, expected in candidates.items():
+        started = time.time_ns()
+        host.unlink_verified_file(
+            str(expected["source"]),
+            expected_size_bytes=int(expected["size_bytes"]),  # type: ignore[arg-type]
+            expected_sha256=str(next(item for item in final_verification if item["id"] == candidate_id)["sha256"]),
+        )
+        post = _probe_json(host, _REMOTE_POSTFREE_CODE, {
+            "candidates": [expected],
+            "source_filesystem": SOURCE_FILESYSTEM,
+        }, timeout=120)
+        source_state = post.get("candidates", {}).get(candidate_id)
+        if not isinstance(source_state, dict) or source_state.get("source_exists") is not False or source_state.get("source_is_symlink") is not False:
+            raise _reject("H3_REMOTE_SOURCE_FREE_INVALID", f"source still exists after governed free: {source_state!r}", "Stop and preserve state; do not retry.")
+        free_record = {
+            "id": candidate_id,
+            "source": expected["source"],
+            "method": "SshHost.unlink_verified_file",
+            "size_bytes": expected["size_bytes"],
+            "sha256": next(item for item in final_verification if item["id"] == candidate_id)["sha256"],
+            "source_absent": True,
+            "remote_free_bytes": post["source_filesystem_free_bytes"],
+            "started_ns": started,
+            "finished_ns": time.time_ns(),
+        }
+        frees.append(free_record)
+        _write_json_once(bundle / f"free-{candidate_id}.json", free_record)
+    remote_after = _probe_json(host, _REMOTE_POSTFREE_CODE, {
+        "candidates": list(candidates.values()),
+        "source_filesystem": SOURCE_FILESYSTEM,
+    }, timeout=120)
+    protected_after: list[dict[str, object]] = []
+    for expected in PROTECTED_FILES:
+        path = destination_root / Path(str(expected["path"])).name
+        stat = path.lstat()
+        if not path.is_file() or path.is_symlink() or stat.st_size != expected["size_bytes"]:
+            raise _reject("H3_PROTECTED_FILE_INVALID", f"protected existing file changed during the run: {path}", "Stop and record the boundary; do not alter WD-osfm evidence.")
+        protected_after.append({"path": path.as_posix(), "size_bytes": stat.st_size, "inode": stat.st_ino, "mtime_ns": stat.st_mtime_ns})
+    if protected_after != local_before["protected_existing_files"]:
+        raise _reject("H3_PROTECTED_FILE_INVALID", "protected WD-osfm file identity changed during the run", "Stop and record the boundary; do not alter WD-osfm evidence.")
+    statvfs = os.statvfs(destination_root)
+    return {
+        "status": "offloaded_and_remote_sources_freed",
+        "local_destination_root": destination_root.resolve().as_posix(),
+        "local_free_before_bytes": local_before["free_bytes"],
+        "local_free_after_bytes": statvfs.f_bavail * statvfs.f_frsize,
+        "remote_free_after_bytes": remote_after["source_filesystem_free_bytes"],
+        "transfers": transfers,
+        "final_verification": verification,
+        "remote_source_frees": frees,
+        "protected_existing_files_after": protected_after,
+    }
 
 
 def _has_current_evidence(bundle: Path) -> bool:
@@ -457,37 +507,6 @@ def _parse_execution_stdout(stdout: str) -> dict[str, Any]:
     return value
 
 
-def _validate_success(record: Mapping[str, object], result: Mapping[str, Any]) -> None:
-    candidates = verify_authorization(record)
-    if result.get("status") != "offloaded":
-        critical = result.get("status") == "rollback_failed"
-        raise _reject(
-            "H3_OFFLOAD_ROLLBACK_FAILED" if critical else "H3_OFFLOAD_ROLLED_BACK",
-            f"single attempt ended {result.get('status')!r}: {result.get('failure')!r}",
-            "Preserve rollback evidence and stop; never retry this batch.",
-            critical=critical,
-        )
-    moved = result.get("moved")
-    if not isinstance(moved, list) or len(moved) != len(candidates):
-        raise _reject("H3_MOVE_OUTCOME_INVALID", "script did not record exactly two moved candidates", "Stop after automatic rollback evidence.")
-    records = {item.get("id"): item for item in moved if isinstance(item, dict)}
-    if set(records) != set(candidates):
-        raise _reject("H3_MOVE_OUTCOME_INVALID", f"moved ids differ: {sorted(records)}", "Stop after automatic rollback evidence.")
-    for candidate_id, expected in candidates.items():
-        item = records[candidate_id]
-        if item.get("source_absent") is not True or item.get("destination_present") is not True:
-            raise _reject("H3_MOVE_OUTCOME_INVALID", f"source/destination presence mismatch for {candidate_id}", "Stop after automatic rollback evidence.")
-        if item.get("size_bytes") != expected["size_bytes"] or item.get("post_size_bytes") != expected["size_bytes"]:
-            raise _reject("H3_MOVED_SIZE_MISMATCH", f"post-move size mismatch for {candidate_id}", "Automatic rollback must be verified before stopping.")
-        if item.get("pre_sha256") != item.get("post_sha256") or not isinstance(item.get("post_sha256"), str):
-            raise _reject("H3_MOVED_HASH_MISMATCH", f"post-move hash mismatch for {candidate_id}", "Automatic rollback must be verified before stopping.")
-    free = result.get("free_bytes")
-    if not isinstance(free, dict) or type(free.get("source_filesystem_after")) is not int or type(free.get("bulk_after")) is not int or type(free.get("root_after")) is not int:
-        raise _reject("H3_POSTOFFLIGHT_INVALID", "post-offload free-byte facts are absent", "Stop after automatic rollback evidence.")
-    if result.get("doctor_floor_bytes") != DOCTOR_FLOOR_BYTES or type(result.get("doctor_floor_met")) is not bool or type(result.get("root_doctor_floor_met")) is not bool or result.get("doctor_floor_path") != SOURCE_FILESYSTEM:
-        raise _reject("H3_POSTOFFLIGHT_INVALID", "doctor-floor fact is absent or ambiguous", "Stop after automatic rollback evidence.")
-
-
 def _manifest(bundle: Path) -> dict[str, object]:
     files = sorted(path for path in bundle.rglob("*") if path.is_file() and path.name != "evidence.sha256")
     return {
@@ -500,7 +519,7 @@ def _manifest(bundle: Path) -> dict[str, object]:
 
 
 def execute(root: Path, record: Mapping[str, object], host: SshHostLike) -> dict[str, object]:
-    """Run preflight, stage one script, and perform exactly one offload attempt."""
+    """Run one preflight, sequential verified-copy transfer, and governed free."""
     repository = root.expanduser().resolve()
     identity = _repository_identity(repository)
     bundle = repository / BUNDLE_RELATIVE
@@ -514,67 +533,51 @@ def execute(root: Path, record: Mapping[str, object], host: SshHostLike) -> dict
         "repository": identity, "clean_tree_before_attempt": True,
         "mutation_attempt_budget": 1,
     })
+    state: dict[str, object] = {"transfers": [], "frees": []}
     try:
         before = preflight(repository, record, host)
-        script = _offload_script(list(record["candidates"]))  # type: ignore[arg-type]
-        script_identity = before["script"]
-        _write_text_once(bundle / "offload-script.sh", script)
+        state["remote_candidates"] = before["candidates"]
         _write_json_once(bundle / "preflight.json", before)
-        local_script = bundle / "offload-script.sh"
-        if _sha256(local_script) != script_identity["sha256"] or local_script.stat().st_size != script_identity["byte_size"]:
-            raise _reject("H3_SCRIPT_IDENTITY_INVALID", "local staged script bytes differ from preflight identity", "Stop before mutation.")
-        staged_path = host.push_file(str(local_script), str(script_identity["remote_path"]))
-        stage_probe = _probe_json(host, _SCRIPT_ID_CODE, {"script_path": staged_path}, timeout=120)
-        expected_stage = {"type": "regular_file", "symlink": False, "size_bytes": script_identity["byte_size"], "sha256": script_identity["sha256"]}
-        if stage_probe != expected_stage:
-            raise _reject("H3_SCRIPT_IDENTITY_INVALID", f"remote staged script differs: {stage_probe!r}", "Stop before offload mutation.")
-        stage = {
-            "method": "SshHost.push_file", "local_path": str(local_script.relative_to(repository)),
-            "remote_path": staged_path, "sha256": script_identity["sha256"],
-            "byte_size": script_identity["byte_size"],
-        }
-        _write_json_once(bundle / "stage.json", stage)
-        execution_started = time.time_ns()
-        execution = host.run_argv(["/bin/sh", staged_path], cwd="/", timeout=7200)
-        execution_finished = time.time_ns()
-        raw = {
-            "method": "SshHost.run_argv", "argv": ["/bin/sh", staged_path], "cwd": "/",
-            "timeout": 7200, "returncode": execution.returncode, "stdout": execution.stdout,
-            "stderr": execution.stderr, "started_ns": execution_started,
-            "finished_ns": execution_finished,
-        }
-        _write_json_once(bundle / "execution.json", raw)
-        result = _parse_execution_stdout(execution.stdout)
-        _write_json_once(bundle / "offload-result.json", result)
-        if execution.returncode != 0 and result.get("status") == "offloaded":
-            raise _reject("H3_EXECUTION_OUTPUT_INVALID", f"script reported success but exited {execution.returncode}", "Stop after recording the boundary.")
-        _validate_success(record, result)
-        recovery = [
-            {"id": item["id"], "from": item["destination"], "to": item["source"], "size_bytes": item["size_bytes"], "sha256": item["post_sha256"], "method": "mv -n"}
-            for item in result["moved"]
-        ]
+        result = _transfer_and_free(DESTINATION_ROOT, record, host, bundle, state, before["candidates"])
+        restoration = _restoration_state(DESTINATION_ROOT, record, state)
         summary = {
-            "schema_version": RUN_SCHEMA, "status": "passed",
-            "authorization_verbatim": VERBATIM, "authorization_recorded_utc": APPROVED_AT,
-            "repository": identity, "clean_tree_before_attempt": True,
-            "host_alias": HOST, "host": before["host"], "user": before["user"],
-            "mount": before["mount"],
-            "preflight": {"root_free_bytes": before["root_free_bytes"], "bulk_free_bytes": before["bulk_free_bytes"], "source_filesystem_free_bytes": before["source_filesystem_free_bytes"], "candidates": before["candidates"]},
-            "staged_script": stage, "mutation_attempt_count": 1, "result": result,
-            "recovery_mapping": recovery, "storage_result_only": True,
-            "generation_result": False, "hardware_verdict": False,
-            "capability_promotion": False, "downstream_authority": DOWNSTREAM_AUTHORITY,
-            "attempt_started_ns": attempt_started, "attempt_finished_ns": time.time_ns(),
+            "schema_version": RUN_SCHEMA,
+            "status": "passed",
+            "authorization_verbatim": VERBATIM,
+            "authorization_recorded_utc": APPROVED_AT,
+            "destination_decision_verbatim": DESTINATION_VERBATIM,
+            "destination_decision_recorded_utc": DESTINATION_DECIDED_AT,
+            "repository": identity,
+            "clean_tree_before_attempt": True,
+            "host_alias": HOST,
+            "host": before["host"],
+            "user": before["user"],
+            "preflight": before,
+            "result": result,
+            "recovery_mapping": restoration,
+            "mutation_attempt_count": 1,
+            "doctor_floor_bytes": DOCTOR_FLOOR_BYTES,
+            "doctor_floor_met_after_remote_free": int(result["remote_free_after_bytes"]) >= DOCTOR_FLOOR_BYTES,
+            "storage_result_only": True,
+            "generation_result": False,
+            "hardware_verdict": False,
+            "capability_promotion": False,
+            "downstream_authority": DOWNSTREAM_AUTHORITY,
+            "attempt_started_ns": attempt_started,
+            "attempt_finished_ns": time.time_ns(),
         }
         _write_json_once(bundle / "run-summary.json", summary)
         _write_json_once(bundle / "evidence.sha256", _manifest(bundle))
         return summary
     except BaseException as exc:
-        error = exc if isinstance(exc, H3OffloadError) else _reject("H3_EXECUTION_CRITICAL", f"{type(exc).__name__}: {exc}", "Stop after recording evidence; no retry.", critical=True)
+        error = exc if isinstance(exc, H3OffloadError) else _reject("H3_EXECUTION_CRITICAL", f"{type(exc).__name__}: {exc}", "Stop and preserve state; no retry.", critical=True)
         _write_json_once(bundle / "failure.json", {
-            "schema_version": RUN_SCHEMA, "status": "failed",
+            "schema_version": RUN_SCHEMA,
+            "status": "failed",
             "diagnostic": {"code": error.code, "observed": error.observed, "remediation": error.remediation, "critical": error.critical},
             "finished_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "preserved_state": state,
+            "restoration_mapping": _restoration_state(DESTINATION_ROOT, record, state),
         })
         _write_json_once(bundle / "evidence.sha256", _manifest(bundle))
         raise error from None
