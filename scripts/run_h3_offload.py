@@ -484,12 +484,15 @@ def _has_current_evidence(bundle: Path) -> bool:
             return True
     if not boundary.exists():
         return False
-    expected = {"attempt.json", "failure.json", "evidence.sha256"}
+    expected = {
+        frozenset({"attempt.json", "failure.json", "evidence.sha256"}),
+        frozenset({"attempt.json", "preflight.json", "failure.json", "evidence.sha256"}),
+    }
     for attempt in boundary.iterdir():
         if not attempt.is_dir() or not re.fullmatch(r"[0-9]{8}T[0-9]{6}Z", attempt.name):
             return True
         children = list(attempt.iterdir())
-        if any(child.is_dir() for child in children) or {child.name for child in children} != expected:
+        if any(child.is_dir() for child in children) or {child.name for child in children} not in expected:
             return True
     return False
 

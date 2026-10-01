@@ -442,7 +442,7 @@ class SshHost(LocalHost):
         """Pull one host file into an explicitly resumable local part."""
         os.makedirs(os.path.dirname(os.path.abspath(local)), exist_ok=True)
         rc, _o, err = self._run(
-            ["rsync", "-a", "--partial", "--append-verify", "--inplace",
+            ["rsync", "-a", "--partial", "--inplace", "--append",
              f"{self.target}:{remote}", local],
             "rsync resumable file pull")
         if rc != 0:

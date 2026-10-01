@@ -222,6 +222,12 @@ def test_only_the_exact_archived_boundary_is_not_current_evidence(tmp_path: Path
     (malformed / "unexpected").write_text("partial\n", encoding="utf-8")
     assert runner._has_current_evidence(malformed.parent.parent) is True
 
+    four_file = tmp_path / "four-file-run/boundary-attempts/20261001T201056Z"
+    four_file.mkdir(parents=True)
+    for name in ("attempt.json", "preflight.json", "failure.json", "evidence.sha256"):
+        (four_file / name).write_text(name + "\n", encoding="utf-8")
+    assert runner._has_current_evidence(four_file.parent.parent) is False
+
 
 class TransferHost:
     target = "3090"
@@ -390,7 +396,7 @@ def test_evidence_manifest_is_complete_and_cli_never_contacts_external_binaries(
     assert calls.read_text(encoding="utf-8") == ""
 
 
-def test_ssh_host_partial_fetch_uses_resumable_rsync_seam(tmp_path: Path) -> None:
+def test_ssh_host_partial_fetch_uses_openrsync_269_compatible_argv(tmp_path: Path) -> None:
     calls: list[list[str]] = []
 
     def sp(argv, **_kwargs):
@@ -401,9 +407,10 @@ def test_ssh_host_partial_fetch_uses_resumable_rsync_seam(tmp_path: Path) -> Non
     local = tmp_path / "destination/model.part"
     assert host.fetch_file_partial("/remote/source.safetensors", str(local)) == str(local)
     assert calls == [[
-        "rsync", "-a", "--partial", "--append-verify", "--inplace",
+        "rsync", "-a", "--partial", "--inplace", "--append",
         "3090:/remote/source.safetensors", str(local),
     ]]
+    assert "--append-verify" not in calls[0]
     assert local.parent == (tmp_path / "destination")
 
 
