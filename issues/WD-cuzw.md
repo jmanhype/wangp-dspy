@@ -4,7 +4,7 @@ title: "Authorized reversible H3 checkpoint offload"
 status: closed
 priority: 1
 type: task
-labels: [storage, evidence, external-integration, operator-decision, delivered, accepted]
+labels: [storage, evidence, external-integration, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
