@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T19:00:26Z
-content_hash: "sha256:22e352a3bc3dfa8438eda9ea3bb5ad6133f177447ba8cd806d77ebadf193d766"
+updated_at: 2026-10-01T19:00:28Z
+content_hash: "sha256:d54d7ad0e4f4548a216a5c5dbb5e5bcb56a8817b3ba839920cc371b3f836aa10"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587]
 assignee: dev-WD-cuzw
@@ -653,3 +653,6 @@ Local evidence found an alternative already-proven ordinary-user destination: ac
 
 ### 2026-09-30T21:45:23Z speed
 Read-only alternate-destination audit at 2026-09-30T21:46Z: both exact candidate destination names are absent under /Users/Shared/HermesWorkspace/model-offload/wangp-3090. Live local free space is 76,998,832,128 bytes; required candidate bytes are 44,288,216,793; projected headroom is 32,710,615,335 bytes, passing a 2-GiB safety margin. The only existing file there is the accepted WD-osfm 34,038,903,007-byte checkpoint. No host contact, file creation, move, deletion, or remote-source unlink occurred. Operator approval is still required to switch destinations and use verified-copy-then-free-remote-source semantics.
+
+### 2026-10-01T19:00:27Z speed
+OPERATOR DESTINATION DECISION at 2026-10-01T00:00:00Z. Verbatim user input: You decide. Dispatcher decision: use the already-proven ordinary-user destination /Users/Shared/HermesWorkspace/model-offload/wangp-3090/ for both exact superseded H3 candidates. Required semantics: sequential resumable local .part copies, exact pre/post size and SHA-256 verification, atomic promotion to final names, verify BOTH local copies before freeing either remote source, preserve restoration mappings, and stop/rollback on any mismatch. This decision does not authorize H3 generation, LTX download, inference, GPU work, queue admission, or unrelated storage mutation.
