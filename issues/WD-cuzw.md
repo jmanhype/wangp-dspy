@@ -4,11 +4,11 @@ title: "Authorized reversible H3 checkpoint offload"
 status: in_progress
 priority: 1
 type: task
-labels: [storage, evidence, external-integration, operator-decision]
+labels: [storage, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T23:34:55Z
+updated_at: 2026-10-01T23:34:56Z
 content_hash: "sha256:8d0a6f4217a49d51e79cb820f55ebfc3d6c69101081852424ce17c4fbe1b255b"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk, WD-dc3w]
