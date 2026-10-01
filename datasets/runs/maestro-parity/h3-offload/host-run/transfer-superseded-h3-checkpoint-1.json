@@ -1,0 +1,13 @@
+{
+  "destination": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+  "final_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+  "finished_ns": 1790888790995556000,
+  "id": "superseded-h3-checkpoint-1",
+  "part_absent_after_promotion": true,
+  "part_path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors.part",
+  "part_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+  "remote_preflight_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+  "size_bytes": 22144108396,
+  "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+  "started_ns": 1790886269342122000
+}

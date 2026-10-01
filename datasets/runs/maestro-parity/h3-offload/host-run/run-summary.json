@@ -1,0 +1,180 @@
+{
+  "attempt_finished_ns": 1790891678414549000,
+  "attempt_started_ns": 1790886234616422000,
+  "authorization_recorded_utc": "2026-09-30T19:57:10Z",
+  "authorization_verbatim": "Approved authorized",
+  "capability_promotion": false,
+  "clean_tree_before_attempt": true,
+  "destination_decision_recorded_utc": "2026-10-01T19:00:26Z",
+  "destination_decision_verbatim": "You decide.",
+  "doctor_floor_bytes": 53687091200,
+  "doctor_floor_met_after_remote_free": false,
+  "downstream_authority": {
+    "capability_promotion": false,
+    "generation_claim": false,
+    "h3_retry": false,
+    "hardware_verdict": false,
+    "inference": false,
+    "ltx_download": false
+  },
+  "generation_result": false,
+  "hardware_verdict": false,
+  "host": "straughter-Z690-Steel-Legend",
+  "host_alias": "3090",
+  "mutation_attempt_count": 1,
+  "preflight": {
+    "candidates": {
+      "superseded-h3-checkpoint-1": {
+        "exists": true,
+        "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "size_bytes": 22144108396,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "superseded-h3-checkpoint-2": {
+        "exists": true,
+        "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "size_bytes": 22144108397,
+        "symlink": false,
+        "type": "regular_file"
+      }
+    },
+    "host": "straughter-Z690-Steel-Legend",
+    "host_alias": "3090",
+    "local_destination": {
+      "free_bytes": 73677615104,
+      "protected_existing_files": [
+        {
+          "inode": 623363096,
+          "mtime_ns": 1790530097309508637,
+          "path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA_int8_convrot.safetensors",
+          "size_bytes": 34038903007
+        }
+      ],
+      "required_free_bytes": 46435700441,
+      "root": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090",
+      "writable": true
+    },
+    "mutation": false,
+    "schema_version": "wangp-dspy.h3-offload-preflight/v2",
+    "source_filesystem": "/home/straughter/Wan2GP",
+    "source_filesystem_free_bytes": 4344315904,
+    "status": "passed",
+    "user": "straughter"
+  },
+  "recovery_mapping": [
+    {
+      "from_local_copy": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+      "id": "superseded-h3-checkpoint-1",
+      "local_copy_present": true,
+      "local_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+      "remote_source_freed": true,
+      "restore_method": "separately authorized rsync push through SshHost.push_file",
+      "size_bytes": 22144108396,
+      "to_remote_source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors"
+    },
+    {
+      "from_local_copy": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+      "id": "superseded-h3-checkpoint-2",
+      "local_copy_present": true,
+      "local_sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+      "remote_source_freed": true,
+      "restore_method": "separately authorized rsync push through SshHost.push_file",
+      "size_bytes": 22144108397,
+      "to_remote_source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors"
+    }
+  ],
+  "repository": {
+    "branch": "story/WD-cuzw",
+    "commit": "5079fd20457325718a9e8eb157b3e557ce92d7e4",
+    "tree": "aa2f892b14296cfe75c29a4fdaa255bc65ed2d53"
+  },
+  "result": {
+    "final_verification": {
+      "copies": [
+        {
+          "id": "superseded-h3-checkpoint-1",
+          "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+          "size_bytes": 22144108396
+        },
+        {
+          "id": "superseded-h3-checkpoint-2",
+          "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+          "size_bytes": 22144108397
+        }
+      ],
+      "required_count": 2,
+      "status": "both_copies_verified",
+      "verified_count": 2
+    },
+    "local_destination_root": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090",
+    "local_free_after_bytes": 29256650752,
+    "local_free_before_bytes": 73677606912,
+    "protected_existing_files_after": [
+      {
+        "inode": 623363096,
+        "mtime_ns": 1790530097309508637,
+        "path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA_int8_convrot.safetensors",
+        "size_bytes": 34038903007
+      }
+    ],
+    "remote_free_after_bytes": 48494047232,
+    "remote_source_frees": [
+      {
+        "finished_ns": 1790891610885542000,
+        "id": "superseded-h3-checkpoint-1",
+        "method": "SshHost.unlink_verified_file",
+        "remote_free_bytes": 26350575616,
+        "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "size_bytes": 22144108396,
+        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+        "source_absent": true,
+        "started_ns": 1790891593094921000
+      },
+      {
+        "finished_ns": 1790891630251024000,
+        "id": "superseded-h3-checkpoint-2",
+        "method": "SshHost.unlink_verified_file",
+        "remote_free_bytes": 48494055424,
+        "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "size_bytes": 22144108397,
+        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+        "source_absent": true,
+        "started_ns": 1790891610886840000
+      }
+    ],
+    "status": "offloaded_and_remote_sources_freed",
+    "transfers": [
+      {
+        "destination": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+        "final_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "finished_ns": 1790888790995556000,
+        "id": "superseded-h3-checkpoint-1",
+        "part_absent_after_promotion": true,
+        "part_path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors.part",
+        "part_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "remote_preflight_sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+        "size_bytes": 22144108396,
+        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_int8_convrot.safetensors",
+        "started_ns": 1790886269342122000
+      },
+      {
+        "destination": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+        "final_sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "finished_ns": 1790891541252844000,
+        "id": "superseded-h3-checkpoint-2",
+        "part_absent_after_promotion": true,
+        "part_path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors.part",
+        "part_sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "remote_preflight_sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+        "size_bytes": 22144108397,
+        "source": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-Ref2VA-pruned_int8_convrot.safetensors",
+        "started_ns": 1790888791003390000
+      }
+    ]
+  },
+  "schema_version": "wangp-dspy.h3-offload-run/v1",
+  "status": "passed",
+  "storage_result_only": true,
+  "user": "straughter"
+}

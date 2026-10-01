@@ -1,0 +1,40 @@
+{
+  "candidates": {
+    "superseded-h3-checkpoint-1": {
+      "exists": true,
+      "sha256": "23377c3420bcbbd58822d76fd544c7962f7619689b689a951bf5e8b8b8fb7531",
+      "size_bytes": 22144108396,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "superseded-h3-checkpoint-2": {
+      "exists": true,
+      "sha256": "e08b8e8575617c50fa35755825f39f17171453e0c097ee4d69e5f4e4057416c6",
+      "size_bytes": 22144108397,
+      "symlink": false,
+      "type": "regular_file"
+    }
+  },
+  "host": "straughter-Z690-Steel-Legend",
+  "host_alias": "3090",
+  "local_destination": {
+    "free_bytes": 73677615104,
+    "protected_existing_files": [
+      {
+        "inode": 623363096,
+        "mtime_ns": 1790530097309508637,
+        "path": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090/MiniMax-H3-FL2VA_int8_convrot.safetensors",
+        "size_bytes": 34038903007
+      }
+    ],
+    "required_free_bytes": 46435700441,
+    "root": "/Users/Shared/HermesWorkspace/model-offload/wangp-3090",
+    "writable": true
+  },
+  "mutation": false,
+  "schema_version": "wangp-dspy.h3-offload-preflight/v2",
+  "source_filesystem": "/home/straughter/Wan2GP",
+  "source_filesystem_free_bytes": 4344315904,
+  "status": "passed",
+  "user": "straughter"
+}
