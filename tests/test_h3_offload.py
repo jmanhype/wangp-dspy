@@ -130,18 +130,28 @@ def test_preflight_verifies_remote_sources_local_capacity_and_protected_file(
 ) -> None:
     record = _record()
     root = _destination(tmp_path, monkeypatch, record)
-    result = runner.preflight(ROOT, record, StaticProbeHost(_facts()))
+    for item in record["candidates"]:
+        item["size_bytes"] = 100
+    record["combined_recovery_bytes"] = 200
+    record["local_capacity_margin_bytes"] = 1
+    monkeypatch.setattr(runner, "EXPECTED_CANDIDATES", tuple(dict(item) for item in record["candidates"]))
+    monkeypatch.setattr(runner, "COMBINED_BYTES", 200)
+    monkeypatch.setattr(runner, "MARGIN_BYTES", 1)
+    facts = _facts()
+    for value in facts["candidates"].values():
+        value["size_bytes"] = 100
+    result = runner.preflight(ROOT, record, StaticProbeHost(facts))
     assert result["status"] == "passed" and result["mutation"] is False
     assert result["local_destination"]["root"].startswith(root.as_posix())
     assert result["local_destination"]["protected_existing_files"][0]["size_bytes"] == 3
     assert result["candidates"]["superseded-h3-checkpoint-1"]["sha256"] == "a" * 64
 
-    wrong_host = StaticProbeHost(_facts(), target="other")
+    wrong_host = StaticProbeHost(facts, target="other")
     with pytest.raises(runner.H3OffloadError) as raised:
         runner.preflight(ROOT, record, wrong_host)
     assert raised.value.code == "H3_HOST_IDENTITY_MISMATCH"
 
-    base = _facts()
+    base = facts
     remote_cases = {
         "H3_SOURCE_TYPE_INVALID": _facts(candidates={
             "superseded-h3-checkpoint-1": {"exists": False},
@@ -156,14 +166,14 @@ def test_preflight_verifies_remote_sources_local_capacity_and_protected_file(
             "superseded-h3-checkpoint-2": base["candidates"]["superseded-h3-checkpoint-2"],
         }),
     }
-    for code, facts in remote_cases.items():
+    for code, case_facts in remote_cases.items():
         with pytest.raises(runner.H3OffloadError) as raised:
-            runner.preflight(ROOT, record, StaticProbeHost(facts))
+            runner.preflight(ROOT, record, StaticProbeHost(case_facts))
         assert raised.value.code == code
 
     (root / runner.EXPECTED_CANDIDATES[0]["destination"].rsplit("/", 1)[-1]).write_bytes(b"collision")
     with pytest.raises(runner.H3OffloadError) as raised:
-        runner.preflight(ROOT, record, StaticProbeHost(_facts()))
+        runner.preflight(ROOT, record, StaticProbeHost(facts))
     assert raised.value.code == "H3_DESTINATION_COLLISION"
 
 
