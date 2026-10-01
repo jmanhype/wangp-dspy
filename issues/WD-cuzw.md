@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T20:14:30Z
-content_hash: "sha256:f27a77b7907cbc685f5537dc5cc4d5373fb992d8368e2d5fbc23ac8b6f053675"
+updated_at: 2026-10-01T20:14:56Z
+content_hash: "sha256:62bdb52c9400fa1c5ba520f51aa355e4f10e93ad5583adb8f3b661690940473a"
 blocks: [WD-fay0, WD-bw0h, WD-28ac]
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk]
 assignee: dev-WD-cuzw
@@ -693,3 +693,6 @@ TIMESTAMP CORRECTION: the immediately preceding destination-decision comment rec
 
 ### 2026-10-01T20:14:27Z speed
 DISPATCHER ZERO-MUTATION ADJUDICATION at 2026-10-01T20:20:00Z: the 20:10:56 H3_EXECUTION_CRITICAL boundary occurred because the local rsync client lacks --append-verify. Evidence proves no candidate .part/final copy existed, no source-free command was reached, and the protected WD-osfm checkpoint was unchanged. Treat it as a command-compatibility boundary, not consumption of the byte-transfer mutation. Preserve all four 20:10 artifacts byte-identically under boundary-attempts. Repair to the locally supported --partial --inplace --append flags, keep mandatory full size+SHA verification after transfer, add regression coverage, and permit exactly one actual byte-transfer attempt. If any failure occurs after transfer starts or a .part exists, stop permanently for operator review. This adds no H3 retry, LTX download, inference, GPU work, queue admission, sudo, or unrelated mutation authority.
+
+### 2026-10-01T20:14:56Z speed
+TIMESTAMP CORRECTION: the zero-mutation adjudication was recorded at actual time 2026-10-01T20:14:55Z, not 20:20:00Z. Decision and boundaries are unchanged.
