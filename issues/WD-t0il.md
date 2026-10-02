@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-09-30T17:39:21Z
-content_hash: "sha256:0b15178863f11b7f73f7a5219efbc7eed9ce23c1c01d1594aa55c64e96f1e9a3"
+updated_at: 2026-10-02T00:25:31Z
+content_hash: "sha256:61b812a6fa26edc290a4400af7d2fa29e3ca748412f47a6b01fb3af68b864049"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -207,3 +207,6 @@ Merged-main progress at 5a94eb491c524816334e23e1b2894acc3b772819: WD-qthq was in
 
 ### 2026-09-30T17:39:21Z speed
 Current-state index reconciliation at merged main b5169fec6885660f2c5806864d03d99b8db6fecc: WD-he8i was independently accepted and merged. The consolidated validator now passes with 208 matrix rows—89 host_run_verified, 7 dependency_blocked, 110 terminal unsupported/fail-closed, 2 not applicable, and 0 planned. Editor Authorized host export/media is host_run_verified via WD-qthq. The only remaining execution gaps are WD-bw0h first-run generated artifact at the storage-root boundary and seven WD-28ac LTX cells at the destination-storage shortfall boundary. Main CI 36750088915 succeeded, backlog lint 154/0/0, release ready/tag false, and protected parity is unchanged.
+
+### 2026-10-02T00:25:31Z speed
+Current post-WD-cuzw gate audit at merged main b5b7e35b131de72e541bec508fcac19fced895f3: parity validator PASS with 208 rows (89 host_run_verified, 7 dependency_blocked, 110 terminal unsupported/fail-closed, 2 not_applicable), backlog lint 156/0/0, release ready=true/tag_created=false, and clean tree. Recorded remote free after verified H3 offload is 48494047232 bytes. WD-28ac exact five-asset/23701298279-byte LTX batch now has 24792748953 bytes of recorded pre-download headroom and is the recommended next operator decision. WD-bw0h remains ineligible under the 53687091200-byte doctor floor by 5193043968 bytes. No host contact or downstream authorization is implied by this gate note.
