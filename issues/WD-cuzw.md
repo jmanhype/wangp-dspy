@@ -8,8 +8,8 @@ labels: [storage, evidence, external-integration, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
-updated_at: 2026-10-01T23:49:42Z
-content_hash: "sha256:43d60d385cfbfdfdc1027671d6861a52a2294ac6ab3844618955d58d8e1c95de"
+updated_at: 2026-10-02T00:22:30Z
+content_hash: "sha256:5192b76b0f35716b7f506fb292f9be7918264b93977090e358eac9e19af25ba4"
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk, WD-dc3w]
 assignee: dev-WD-cuzw
 closed_at: 2026-10-01T23:49:42Z
@@ -845,3 +845,6 @@ DISPATCHER ZERO-MUTATION ADJUDICATION at 2026-10-01T20:20:00Z: the 20:10:56 H3_E
 
 ### 2026-10-01T20:14:56Z speed
 TIMESTAMP CORRECTION: the zero-mutation adjudication was recorded at actual time 2026-10-01T20:14:55Z, not 20:20:00Z. Decision and boundaries are unchanged.
+
+### 2026-10-02T00:22:30Z speed
+Merged squash-PR closeout: PR 221 merged as main b5b7e35b131de72e541bec508fcac19fced895f3. Exact-head PR CI 36939323639 and main CI 36943058283 both succeeded. Merged-head focused tests 29/29, pvg verify, backlog lint, release ready/tag false, protected parity, and diff check passed. Storage result only: both sources freed after verified local copies; recorded remote free is 48494047232 bytes, below the 53687091200-byte doctor floor, so no generation/hardware/capability promotion is claimed.
