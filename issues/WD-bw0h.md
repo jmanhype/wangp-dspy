@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-09-30T19:53:26Z
-content_hash: "sha256:64e6f7de8978cae346f143ffd8b24add2c434bc6cbf47c42f8949a131852b09a"
+updated_at: 2026-10-02T00:22:31Z
+content_hash: "sha256:d2e842442e8f30e7ef25b4cfe29e5fb1f531276515479fad641c24f3306773d9"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -303,3 +303,6 @@ Proposed distinct storage remediation requiring operator authorization: on host 
 
 ### 2026-09-30T19:53:26Z speed
 WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c994033064161cace2a98165c0a1dbb2. The packet is snapshot-only and grants no host authority; reversible two-checkpoint offload and any WD-bw0h retry still require distinct explicit operator approvals.
+
+### 2026-10-02T00:22:31Z speed
+WD-cuzw storage offload is accepted/merged at main b5b7e35b131de72e541bec508fcac19fced895f3. Both superseded checkpoints have verified reversible local copies and remote sources were freed. Recorded remote free is 48494047232 bytes, still below the 53687091200-byte doctor floor; a new H3 retry remains unauthorized and currently lacks the doctor-floor precondition.
