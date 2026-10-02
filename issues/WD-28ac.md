@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-09-30T19:53:26Z
-content_hash: "sha256:671b060874245d86d0d2755f774571beb70048a1e782772a94108511d619ff8b"
+updated_at: 2026-10-02T00:22:32Z
+content_hash: "sha256:218296ab025b7bcc2c1fb36b79019456cdf9532ee2df97b2dd0fda775dea8b1b"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -221,3 +221,6 @@ Proposed shared storage remediation requiring operator authorization: after the 
 
 ### 2026-09-30T19:53:26Z speed
 WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c994033064161cace2a98165c0a1dbb2. Its stale-space projection does not authorize the exact five-asset/23701298279-byte LTX batch; that download/host batch still requires explicit operator approval.
+
+### 2026-10-02T00:22:32Z speed
+WD-cuzw storage offload is accepted/merged at main b5b7e35b131de72e541bec508fcac19fced895f3. Recorded remote free is 48494047232 bytes, which exceeds the exact 23701298279-byte five-asset LTX manifest by 24792764953 bytes before download. This storage fact does not authorize downloads or host execution; WD-28ac remains deferred pending explicit model-download and GPU-host approval.
