@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-02T00:22:32Z
-content_hash: "sha256:218296ab025b7bcc2c1fb36b79019456cdf9532ee2df97b2dd0fda775dea8b1b"
+updated_at: 2026-10-02T00:27:01Z
+content_hash: "sha256:8f7291733d4fb4ded7dde90747fc3b424ab6dff6fd254adbb4cd2eae8c0b83ae"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -224,3 +224,6 @@ WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c99403
 
 ### 2026-10-02T00:22:32Z speed
 WD-cuzw storage offload is accepted/merged at main b5b7e35b131de72e541bec508fcac19fced895f3. Recorded remote free is 48494047232 bytes, which exceeds the exact 23701298279-byte five-asset LTX manifest by 24792764953 bytes before download. This storage fact does not authorize downloads or host execution; WD-28ac remains deferred pending explicit model-download and GPU-host approval.
+
+### 2026-10-02T00:27:01Z speed
+Read-only execution-readiness audit at merged main b5b7e35b131de72e541bec508fcac19fced895f3: existing story/WD-28ac head and origin head remain fced67e1293dc2dbbdf3f29c8b615f6357012ab6; PR 217 remains OPEN with exact-head CI success at that older head. A local three-way merge-tree simulation against current main reported exit 0 and no conflict markers. The branch contains the exact five-asset model manifest, not-authorized operator template, and prior preflight boundary. GitHub currently reports PR mergeability UNKNOWN, so after operator approval the worker must merge/rebase current main and rerun exact-head CI before execution. No host contact, download, model access, queue action, or authorization change occurred.
