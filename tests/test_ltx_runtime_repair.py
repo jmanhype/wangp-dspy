@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 METADATA = RUN_DIR / "runtime-repair/2026-10-03/mmgp-35714.json"
 GATE_SUMMARY = RUN_DIR / "runtime-repair/2026-10-03/gate-summary.json"
+GATE11_SUMMARY = RUN_DIR / "runtime-repair/2026-10-03/gate-11-evidence.json"
 AUTHORIZATION = RUN_DIR / "operator-authorization.json"
 MANIFEST = RUN_DIR / "model-assets.json"
 PLAN = RUN_DIR / "phase-b-preparation/final-operation-plan.json"
@@ -118,6 +119,57 @@ def test_exact_gate8_10_evidence_and_metadata_are_secret_free() -> None:
                 continue
             for pattern in SECRET_PATTERNS:
                 assert pattern.search(path.read_bytes()) is None, path.name
+
+
+def test_gate11_binds_corrected_exact_module_import_scope() -> None:
+    gate = json.loads(GATE11_SUMMARY.read_text(encoding="utf-8"))
+    authorization = json.loads(AUTHORIZATION.read_text(encoding="utf-8"))
+    runner.validate_gate11(gate, authorization)
+
+    assert gate["gate"] == 11
+    assert gate["decision"] == "CONTINUE"
+    assert gate["confidence"] == 0.82
+    assert gate["constraint_risk"] == 0.28
+    assert gate["missing_evidence_score"] == 1.35
+    assert gate["scope"] == "CORRECTED_ISOLATED_RUNTIME_REPAIR_ONCE"
+    assert gate["declared_snapshot_sha256"] == (
+        "a4b77d969d5b675e6e076175aa6bc62caa7d927a3548a03b8b93e1ca3d3a720e"
+    )
+    assert gate["declared_trace_sha256"] == (
+        "080d570ea8cc90df011d834d663d50bce562ff67961b32686957284f191c6f92"
+    )
+    assert gate["prior_gate10_boundary"] == {
+        "declared_wheel_gets": 0,
+        "undeclared_requests": 0,
+        "must_remain_unchanged": True,
+    }
+    assert authorization["jev_corrected_runtime_repair_authorization"][
+        "dependency_probe"
+    ] == "exact_module_import"
+
+
+def test_dependency_probe_imports_exact_module_without_top_level_metadata(
+    tmp_path: Path,
+) -> None:
+    namespace = tmp_path / "optimum" / "quanto"
+    namespace.mkdir(parents=True)
+    (namespace / "__init__.py").write_text("VALUE = 1\n", encoding="utf-8")
+
+    module_only = runner._python_import(
+        sys.executable, "optimum.quanto",
+        isolated_path=str(tmp_path), require_metadata=False,
+    )
+    metadata_probe = runner._python_import(
+        sys.executable, "optimum.quanto",
+        isolated_path=str(tmp_path), require_metadata=True,
+    )
+
+    assert module_only["returncode"] == 0
+    payload = json.loads(module_only["stdout"])
+    assert payload["path"] == str(namespace / "__init__.py")
+    assert payload["metadata_version"] is None
+    assert metadata_probe["returncode"] != 0
+    assert "No package metadata was found for optimum" in metadata_probe["stderr"]
 
 
 def test_one_fetch_real_zip_extraction_and_isolated_import(

@@ -1,0 +1,66 @@
+{
+  "artifacts": {
+    "wd28ac-jev-decision-11.json": {
+      "sha256": "7793bbe4e8142aa0aeef1ac2ff410d0cc40f3c57813d5a23fde56ec7ecb7c3ef",
+      "size_bytes": 1457
+    },
+    "wd28ac-jev-snapshot-11.json": {
+      "sha256": "74df71d0a890e418f45caaf50fb29670ef9c4577ae61d684db2fb5b39b089f99",
+      "size_bytes": 3191
+    },
+    "wd28ac-jev-trace-11.jsonl": {
+      "sha256": "b05dc21d92ea03d07c27d4269fcbe6d7a8b2a29df3060e6fb531ea440de5b7e0",
+      "size_bytes": 1155
+    }
+  },
+  "authorized_actions": [
+    "exact_module_import_preflight",
+    "one_declared_wheel_get",
+    "wheel_size_hash_verify",
+    "isolated_extraction",
+    "isolated_mmgp_import",
+    "preservation_postflight"
+  ],
+  "confidence": 0.82,
+  "constraint_risk": 0.28,
+  "correction": "Dependency availability must import exact modules torch, optimum.quanto, accelerate, safetensors, and psutil; do not query top-level optimum distribution metadata.",
+  "decision": "CONTINUE",
+  "declared_snapshot_sha256": "a4b77d969d5b675e6e076175aa6bc62caa7d927a3548a03b8b93e1ca3d3a720e",
+  "declared_trace_sha256": "080d570ea8cc90df011d834d663d50bce562ff67961b32686957284f191c6f92",
+  "gate": 11,
+  "missing_evidence_score": 1.35,
+  "mode": "live",
+  "model": "jev-latest",
+  "prior_gate10_boundary": {
+    "declared_wheel_gets": 0,
+    "must_remain_unchanged": true,
+    "undeclared_requests": 0
+  },
+  "prohibited_actions": [
+    "dependency_install",
+    "deletion",
+    "native_retry",
+    "qc_start",
+    "queue_admission",
+    "render",
+    "model_or_reference_mutation",
+    "system_or_live_runtime_mutation",
+    "protected_file_change"
+  ],
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "signed_query"
+    ],
+    "status": "PASS"
+  },
+  "raw_snapshot_file_sha256": "74df71d0a890e418f45caaf50fb29670ef9c4577ae61d684db2fb5b39b089f99",
+  "schema_version": "wangp-dspy.wd-28ac.runtime-repair-gate/v1",
+  "scope": "CORRECTED_ISOLATED_RUNTIME_REPAIR_ONCE",
+  "triggered_rules": [
+    "no_veto_triggered"
+  ]
+}

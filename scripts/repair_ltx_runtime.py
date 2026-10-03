@@ -34,6 +34,12 @@ GATE10_SNAPSHOT_SHA256 = (
 GATE10_TRACE_SHA256 = (
     "7415a00a2e25eb468b3afee919fd5515ab5be6903cf04559f2cf8fece99804cd"
 )
+GATE11_SNAPSHOT_SHA256 = (
+    "a4b77d969d5b675e6e076175aa6bc62caa7d927a3548a03b8b93e1ca3d3a720e"
+)
+GATE11_TRACE_SHA256 = (
+    "080d570ea8cc90df011d834d663d50bce562ff67961b32686957284f191c6f92"
+)
 DEPENDENCIES = ("torch", "optimum.quanto", "accelerate", "safetensors", "psutil")
 DEFAULT_DESTINATION = (
     "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14"
@@ -186,6 +192,58 @@ def validate_gate10(
             "Bind the exact one-GET isolated runtime authorization.",
         )
 
+def validate_gate11(
+    gate_summary: Mapping[str, Any], authorization: Mapping[str, Any]
+) -> None:
+    expected_summary = {
+        "gate": 11, "mode": "live", "model": "jev-latest",
+        "decision": "CONTINUE", "confidence": 0.82,
+        "constraint_risk": 0.28, "missing_evidence_score": 1.35,
+        "scope": "CORRECTED_ISOLATED_RUNTIME_REPAIR_ONCE",
+        "declared_snapshot_sha256": GATE11_SNAPSHOT_SHA256,
+        "declared_trace_sha256": GATE11_TRACE_SHA256,
+    }
+    for key, value in expected_summary.items():
+        if gate_summary.get(key) != value:
+            raise RuntimeRepairError(
+                "GATE11_EVIDENCE_INVALID",
+                f"{key}={gate_summary.get(key)!r}, expected={value!r}",
+                "Bind the exact supplied live Gate 11 evidence.",
+            )
+    expected_auth = {
+        "gate": 11, "mode": "live", "model": "jev-latest",
+        "decision": "CONTINUE", "confidence": 0.82,
+        "snapshot_sha256": GATE11_SNAPSHOT_SHA256,
+        "trace_sha256": GATE11_TRACE_SHA256,
+        "scope": "corrected_isolated_runtime_repair_once",
+        "dependency_probe": "exact_module_import",
+        "wheel_filename": WHEEL_FILENAME,
+        "wheel_size_bytes": METADATA_WHEEL_SIZE,
+        "wheel_sha256": METADATA_WHEEL_SHA256,
+        "wheel_get_limit": 1,
+        "dependency_installs": 0,
+        "extract_destination": DEFAULT_DESTINATION,
+        "isolated_python": "/usr/bin/python3",
+        "import_isolated": True,
+        "native_retry_authorized": False,
+        "qc_start_authorized": False,
+        "queue_admission_authorized": False,
+        "render_authorized": False,
+        "deletion_authorized": False,
+        "model_or_reference_mutation_authorized": False,
+        "system_or_live_runtime_mutation_authorized": False,
+        "protected_file_change_authorized": False,
+        "prior_gate10_zero_request_boundary_preserved": True,
+        "evidence": "runtime-repair/2026-10-03/gate-11-evidence.json",
+    }
+    auth = authorization.get("jev_corrected_runtime_repair_authorization", {})
+    if auth != expected_auth:
+        raise RuntimeRepairError(
+            "GATE11_AUTHORIZATION_INVALID",
+            json.dumps(auth, sort_keys=True),
+            "Bind the exact corrected one-attempt authorization.",
+        )
+
 def _state() -> dict[str, Any]:
     return {
         "gpu": _run([
@@ -201,14 +259,22 @@ def _state() -> dict[str, Any]:
     }
 
 def _python_import(python: str, module: str, *, isolated_path: str | None = None,
-                   timeout: int = 120) -> dict[str, Any]:
+                   timeout: int = 120,
+                   require_metadata: bool = False) -> dict[str, Any]:
     code = (
-        "import importlib.metadata,json,sys\n"
-        f"module=__import__({module!r},fromlist=['__name__'])\n"
+        "import json,sys\n"
+        + (
+            "import importlib.metadata\n"
+            if require_metadata else ""
+        )
+        + f"module=__import__({module!r},fromlist=['__name__'])\n"
         "print(json.dumps({'path':getattr(module,'__file__',None),"
-        "'metadata_version':importlib.metadata.version("
-        + repr(module.partition('.')[0])
-        + "),'python':sys.executable}))\n"
+        + (
+            "'metadata_version':importlib.metadata.version("
+            + repr(module.partition('.')[0]) + "),"
+            if require_metadata else "'metadata_version':None,"
+        )
+        + "'python':sys.executable}))\n"
     )
     environment = os.environ.copy()
     if isolated_path is None:
@@ -355,7 +421,8 @@ class RuntimeRepairRunner:
         self.destination = destination
         self.fetcher = fetcher or _default_fetch
         self.importer = importer or (lambda module, path: _python_import(
-            "/usr/bin/python3", module, isolated_path=path
+            "/usr/bin/python3", module, isolated_path=path,
+            require_metadata=module == PACKAGE,
         ))
         self.report: dict[str, Any] = {
             "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-repair/v1",
@@ -381,10 +448,13 @@ class RuntimeRepairRunner:
 
     def validate_documents(self) -> dict[str, Any]:
         metadata = validate_metadata(_read_json(self.metadata_path))
-        validate_gate10(
-            _read_json(self.gate_summary_path),
-            _read_json(self.authorization_path),
-        )
+        gate_summary = _read_json(self.gate_summary_path)
+        authorization = _read_json(self.authorization_path)
+        if gate_summary.get("gate") == 11:
+            validate_gate11(gate_summary, authorization)
+        else:
+            validate_gate10(gate_summary, authorization)
+        self.report["gate"] = int(gate_summary.get("gate", 10))
         return metadata
 
     def preflight(self) -> dict[str, Any]:
