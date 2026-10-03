@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T06:57:56Z
-content_hash: "sha256:3ffbe30070a2e1d2648f91ba43a479f3bd098b8d06d001043828805966d6b59b"
+updated_at: 2026-10-03T07:44:02Z
+content_hash: "sha256:db686f1aa743dbafa7b06e7687b280c8c73d612c8168b28cd3d21ab7fe44e11b"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -236,3 +236,6 @@ Read-only execution-readiness audit at merged main b5b7e35b131de72e541bec508fcac
 
 ### 2026-10-03T06:57:55Z speed
 OPERATOR AUTHORIZATION at 2026-10-03T06:57:55Z. Verbatim user input: Authorized. Scope is the immediately preceding blocked-goal request: WD-28ac on host 3090, exactly five LTX assets totaling 23701298279 download bytes, only the seven named operations, governed queue/adapter execution, no training/provider spend/unrelated mutation/threshold change/protected-engine change, and reversible storage handling with deletion prohibition. Record this verbatim authorization in the story branch before any network or host action.
+
+### 2026-10-03T07:44:02Z speed
+BLOCKED: Authorized download failed closed at the first declared asset. Observed size 1308778338 matches, but SHA-256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559 does not match 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba. A downloader defect also issued an undeclared URL-effectiveness GET that timed out after 172109 payload bytes. The partial is preserved at /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial; no promotion, retry, deletion, queue admission, operation, output, or matrix change occurred. Distinct operator decisions are required for the source/hash discrepancy, undeclared bytes, and preserved partial before retry.
