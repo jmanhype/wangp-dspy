@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T17:11:56Z
-content_hash: "sha256:ab8d8309c3a10c9d4ea6185292529bb47872d19c2de83870902b240e45046636"
+updated_at: 2026-10-03T17:14:25Z
+content_hash: "sha256:a91d90cd1bb12b0cb6070184dbc1a48806f6e6c274a01756cc87330d1bc7c246"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -432,3 +432,6 @@ LIVE JEV GATE #1 at 2026-10-03T15:55Z: mode=live, model=jev-latest, snapshot sha
 
 ### 2026-10-03T15:58:52Z speed
 LIVE JEV GATE #2 at 2026-10-03T16:00Z: mode=live, model=jev-latest, snapshot sha256 1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2, decision=CONTINUE, continue confidence=0.96, constraint risk=0.21, missing evidence score=1.25, triggered_rules=no_veto_triggered. Exact delegated scope is PHASE A DOWNLOADS ONLY: reverify current state, issue exactly one declared curl invocation for each of the three absent assets, verify exact size/file SHA-256, and stop before QC start, queue admission, render, or matrix transition. The raw API key remains only in the local 0600 orchestrator secret file and was not passed to any worker.
+
+### 2026-10-03T17:14:25Z speed
+LIVE JEV GATE #3 at 2026-10-03T17:15Z: mode=live, model=jev-latest, snapshot sha256 d1d7b81948f1d7f8e5fa93e8a48782f7d76e04b2b633121d4d17a5dbd46658fa, decision=GATHER_EVIDENCE, selected gather confidence=0.46/choice confidence=0.33, constraint risk=0.48, missing evidence score=1.85. No QC start, queue admission, native attempt, render, or matrix transition occurred. Next evidence will inspect prior accepted QC startup and seven-operation patterns plus current local operation-preparation coverage.
