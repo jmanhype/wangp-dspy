@@ -1,0 +1,45 @@
+{
+  "boundary": {
+    "code": "DECLARED_DEPENDENCY_IMPORT_FAILED",
+    "observed": "module=optimum.quanto,stderr= Distribution.from_name(distribution_name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/importlib/metadata/__init__.py\", line 399, in from_name\n    raise PackageNotFoundError(name)\nimportlib.metadata.PackageNotFoundError: No package metadata was found for optimum\n",
+    "remediation": "No dependency install is authorized."
+  },
+  "boundary_counters": {
+    "deletions": 0,
+    "model_mutations": 0,
+    "native_retries": 0,
+    "protected_file_changes": 0,
+    "qc_starts": 0,
+    "queue_admissions": 0,
+    "reference_mutations": 0,
+    "renders": 0
+  },
+  "dependency_installs": 0,
+  "gate": 10,
+  "metadata": {
+    "last_serial": 41515362,
+    "package": "mmgp",
+    "requires_dist": [
+      "torch>=2.1.0",
+      "optimum-quanto",
+      "accelerate",
+      "safetensors",
+      "psutil"
+    ],
+    "requires_python": ">=3.10",
+    "version": "3.7.14",
+    "vulnerabilities": [],
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size": 68211,
+    "wheel_url": "https://files.pythonhosted.org/packages/bb/b7/1ec5413a825b3744962221d9cddd134df355a2ce7402971e3ef4c57240fd/mmgp-3.7.14-py3-none-any.whl"
+  },
+  "network_accounting": {
+    "declared_wheel_gets": 0,
+    "undeclared_requests": 0,
+    "wheel_get_limit": 1
+  },
+  "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-repair/v1",
+  "status": "failed_closed",
+  "story": "WD-28ac"
+}

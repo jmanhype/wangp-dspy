@@ -1,0 +1,15 @@
+--- terminal file state ---
+f 1605 /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-report.json
+f 2 /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair.exit
+--- gpu/process ---
+NVIDIA GeForce RTX 3090, 24576, 144, 23972, 0
+--- wheel/runtime absence ---
+runtime_absent
+wheel_absent
+--- dependency module specs ---
+torch True /home/straughter/.local/lib/python3.12/site-packages/torch/__init__.py
+optimum.quanto True /home/straughter/.local/lib/python3.12/site-packages/optimum/quanto/__init__.py
+accelerate True /home/straughter/.local/lib/python3.12/site-packages/accelerate/__init__.py
+safetensors True /home/straughter/.local/lib/python3.12/site-packages/safetensors/__init__.py
+psutil True /home/straughter/.local/lib/python3.12/site-packages/psutil/__init__.py
+mmgp False None
