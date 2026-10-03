@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-30T15:33:52Z
 created_by: speed
 updated_at: 2026-09-30T17:13:38Z
-content_hash: "sha256:69373341903bb96f16f66b804cb14ea41211d05d77874672dcddec6ab92765c8"
+content_hash: "sha256:e7a707e354ee49eeee7e019d1426c288d552dbd8253cb007fd39928ac74b467c"
 assignee: dev-WD-he8i
 follows: [WD-qthq, WD-23rs]
 closed_at: 2026-09-30T17:13:37Z
 close_reason: "Accepted: exact head ec9abf4a38afa5249acffeaac2d639353fbfc864 has passing CI, exact 208-row matrix parity and boundary preservation, focused validator/test coverage, and clean standing gates."
-led_to: [WD-1s5s, WD-cuzw]
+led_to: [WD-1s5s, WD-cuzw, WD-28ac]
 ---
 
 ## Description
@@ -290,7 +290,7 @@ status: in_progress
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-qthq]], [[WD-23rs]]
-- Led to: [[WD-1s5s]], [[WD-cuzw]]
+- Led to: [[WD-1s5s]], [[WD-cuzw]], [[WD-28ac]]
 
 ## Comments
 
