@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T08:11:11Z
-content_hash: "sha256:d6ae68b334dea782d6749299e08770a90fa3e9d562a3d23d60da9c1997732683"
+updated_at: 2026-10-03T08:14:32Z
+content_hash: "sha256:14bba568c6a8c13e901cd59b74b6305bf04a7fe72560b7cf8e940d82c9220e36"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -253,3 +253,6 @@ Exact-head CI for boundary commit 1672679ef6985ce16c5b87e409e5911b83e29c08 passe
 
 ### 2026-10-03T08:07:38Z speed
 Read-only post-boundary audit: repository-wide local evidence search found no prior occurrence of observed SHA-256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559; it found only the declared expected SHA-256 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba. This does not resolve upstream state and does not authorize retry. Preserve the remote partial unchanged pending a distinct operator decision on metadata audit, hash discrepancy, 172109 undeclared payload bytes, and retry/disposition.
+
+### 2026-10-03T08:14:32Z speed
+METADATA-ONLY AUDIT RESULT at 2026-10-03T08:11:12Z: Hugging Face model DeepBeepMeep/LTX-2 current commit 6aa898aea1d968febdd834dc29e1dbef35340aeb, lastModified 2026-09-29T19:49:05Z. For every WD-28ac asset, sizes match exactly and the manifest value currently labeled sha256 equals metadata xetHash, not LFS oid/actual file SHA-256. Target ingredients entry: expected 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba is xetHash; observed remote partial 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559 is lfs.oid and exact-size file SHA-256. Same pattern holds for all five declared assets. Metadata API responses: model.json SHA-256 33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505 and tree.json SHA-256 079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa. No model-body GET, host contact, retry, promotion, deletion, queue action, or render occurred. Live Jev delegation cannot run yet because TYPESAFE_API_KEY is absent from this shell and no .env credential file is present; dry-run would not be represented as Jev.
