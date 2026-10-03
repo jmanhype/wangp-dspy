@@ -238,6 +238,7 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "manifest",
         "metadata_correction",
         "corrected_retry_approval",
+        "jev_phase_a_authorization",
         "assets",
         "operator_approval",
         "authorized_scope",
@@ -307,6 +308,36 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
             "no undeclared model/body request",
             "no WD-bw0h H3 retry",
         ],
+    }
+    assert authorization["jev_phase_a_authorization"] == {
+        "gate": 2,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.96,
+        "snapshot_sha256": "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2",
+        "trace_sha256": "2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd",
+        "phase": "downloads_only",
+        "expected_existing_finals": [
+            "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+        ],
+        "assets": [
+            "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+            "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+            "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+        ],
+        "max_curl_invocations_per_asset": 1,
+        "prohibited_actions": {
+            "qc_start_or_stop": True,
+            "queue_admission": True,
+            "render": True,
+            "matrix_transition": True,
+            "deletion_move_or_overwrite": True,
+            "undeclared_model_or_url_effective_request": True,
+        },
+        "stop_before": "Jev Gate #3",
+        "evidence": "jev-gates/2026-10-03/gate-evidence.json",
     }
     assert authorization["authorized_scope"]["boundaries"] == [
         "no training",

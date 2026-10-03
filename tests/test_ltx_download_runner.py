@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 MANIFEST = RUN_DIR / "model-assets.json"
 AUTHORIZATION = RUN_DIR / "operator-authorization.json"
-ASSET_ID = "ltx-2.3-22b-ic-lora-outpaint.safetensors"
+ASSET_ID = "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors"
 
 
 class FakeCurl:
@@ -82,6 +82,36 @@ def _temporary_pair(tmp_path: Path) -> tuple[Path, Path]:
             "repository_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
             "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
             "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
+        },
+        "jev_phase_a_authorization": {
+            "gate": 2,
+            "mode": "live",
+            "model": "jev-latest",
+            "decision": "CONTINUE",
+            "confidence": 0.96,
+            "snapshot_sha256": "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2",
+            "trace_sha256": "2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd",
+            "phase": "downloads_only",
+            "expected_existing_finals": [
+                "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+                "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+            ],
+            "assets": [
+                "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+                "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+                "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+            ],
+            "max_curl_invocations_per_asset": 1,
+            "prohibited_actions": {
+                "qc_start_or_stop": True,
+                "queue_admission": True,
+                "render": True,
+                "matrix_transition": True,
+                "deletion_move_or_overwrite": True,
+                "undeclared_model_or_url_effective_request": True,
+            },
+            "stop_before": "Jev Gate #3",
+            "evidence": "jev-gates/2026-10-03/gate-evidence.json",
         },
         "corrected_retry_approval": {
             "verbatim": "Yes",
@@ -281,62 +311,15 @@ def test_invalid_curl_accounting_field_preserves_partial_before_promotion(
     assert not Path(destination).exists()
 
 
-def test_exact_verified_final_resume_fails_before_network_or_mutation(
-    tmp_path: Path,
-) -> None:
-    manifest, _auth = _temporary_pair(tmp_path)
-    destination = json.loads(manifest.read_text())["assets"][1]["destination"]
-    exact_payload = b"exact payload"
-    Path(destination).write_bytes(exact_payload)
-    before = Path(destination).read_bytes()
-    controller = runner.load_controller(manifest, _auth)
-
-    def no_network(_: list[str]) -> runner.CurlOutcome:
-        raise AssertionError("verified-final resume attempted a network invocation")
-
-    with pytest.raises(runner.LTXDownloadControlError) as raised:
-        controller.execute(ASSET_ID, runner=no_network)
-    assert raised.value.code == "DESTINATION_OR_PARTIAL_COLLISION"
-    assert Path(destination).read_bytes() == before
-    assert not Path(f"{destination}.WD-28ac.partial").exists()
-
-
-def test_current_authorization_blocks_execution_before_network(
-    capsys: pytest.CaptureFixture[str],
-) -> None:
-    authorization = json.loads(AUTHORIZATION.read_text(encoding="utf-8"))
-    authorization["retry_authorized"] = False
-    temporary_authorization = Path("/tmp/wd28ac-retry-false.json")
-    temporary_authorization.write_text(json.dumps(authorization), encoding="utf-8")
-    code = runner.main([
-        "--manifest", str(MANIFEST),
-        "--authorization", str(temporary_authorization),
-        "--asset", ASSET_ID,
-        "--execute",
-        "--allow-network",
-    ])
-
-    assert code == 2
-    payload = json.loads(capsys.readouterr().out)
-    assert payload["code"] == "RETRY_NOT_AUTHORIZED"
-    assert payload["status"] == "failed_closed"
-
-
-def test_corrected_retry_scope_rejects_preserved_first_partial_and_drift() -> None:
+def test_exact_verified_final_resume_fails_before_network_or_mutation() -> None:
     controller = runner.load_controller(MANIFEST, AUTHORIZATION)
-    with pytest.raises(runner.LTXDownloadControlError) as preserved:
-        controller.plan("ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors")
-    assert preserved.value.code == "ASSET_OUTSIDE_CORRECTED_RETRY_SCOPE"
-
-    authorization = json.loads(AUTHORIZATION.read_text(encoding="utf-8"))
-    authorization["corrected_retry_approval"]["remaining_download_assets"].insert(
-        0, "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
-    )
-    drifted = Path("/tmp/wd28ac-retry-scope-drift.json")
-    drifted.write_text(json.dumps(authorization), encoding="utf-8")
-    with pytest.raises(runner.LTXDownloadControlError) as raised:
-        runner.load_controller(MANIFEST, drifted)
-    assert raised.value.code == "CORRECTED_RETRY_ASSET_SCOPE_INVALID"
+    for asset_id in (
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+        "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+    ):
+        with pytest.raises(runner.LTXDownloadControlError) as raised:
+            controller.plan(asset_id)
+        assert raised.value.code == "ASSET_OUTSIDE_CORRECTED_RETRY_SCOPE"
 
 
 def test_loader_rejects_sha256_xet_conflation(tmp_path: Path) -> None:

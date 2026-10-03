@@ -31,6 +31,17 @@ REMAINING_ASSETS = frozenset({
     "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
     "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
 })
+PHASE_A_ASSETS = frozenset({
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+})
+GATE2_SNAPSHOT_SHA256 = (
+    "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2"
+)
+GATE2_TRACE_SHA256 = (
+    "2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd"
+)
 AUTHORIZED_OPERATION_CELLS = frozenset({
     ("LTX-2.5", "outpaint"),
     ("LTX-2.5", "repaint"),
@@ -72,11 +83,8 @@ class DownloadController:
         self.manifest = manifest
         self.authorization = authorization
         self.retry_authorized = retry_authorized
-        self.allowed_download_ids = set(
-            authorization.get("corrected_retry_approval", {}).get(
-                "remaining_download_assets", []
-            )
-        )
+        phase_a = authorization.get("jev_phase_a_authorization", {})
+        self.allowed_download_ids = set(phase_a.get("assets", []))
         self._curl_invocations: dict[str, int] = {}
 
     def _asset(self, asset_id: str):
@@ -306,6 +314,54 @@ def load_controller(
             "Bind the exact repository revision and both metadata response hashes.",
         )
     retry = bool(authorization.get("retry_authorized"))
+    phase_a = authorization.get("jev_phase_a_authorization")
+    if not isinstance(phase_a, dict):
+        raise LTXDownloadControlError(
+            "PHASE_A_AUTHORIZATION_ABSENT",
+            "active WD-28ac download control requires Jev Gate #2",
+            "Persist and bind live Jev Gate #2 before any Phase A execution.",
+        )
+    if phase_a != {
+        "gate": 2,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.96,
+        "snapshot_sha256": GATE2_SNAPSHOT_SHA256,
+        "trace_sha256": GATE2_TRACE_SHA256,
+        "phase": "downloads_only",
+        "expected_existing_finals": [
+            "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+        ],
+        "assets": [
+            "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+            "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+            "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+        ],
+        "max_curl_invocations_per_asset": 1,
+        "prohibited_actions": {
+            "qc_start_or_stop": True,
+            "queue_admission": True,
+            "render": True,
+            "matrix_transition": True,
+            "deletion_move_or_overwrite": True,
+            "undeclared_model_or_url_effective_request": True,
+        },
+        "stop_before": "Jev Gate #3",
+        "evidence": "jev-gates/2026-10-03/gate-evidence.json",
+    }:
+        raise LTXDownloadControlError(
+            "PHASE_A_AUTHORIZATION_INVALID",
+            "Jev Gate #2 identity, scope, or prohibitions differ from the exact record",
+            "Bind the live CONTINUE decision, exact hashes, three assets, and Phase A limits.",
+        )
+    if set(phase_a["assets"]) != PHASE_A_ASSETS:
+        raise LTXDownloadControlError(
+            "PHASE_A_ASSET_SCOPE_INVALID",
+            "Phase A assets are not exactly the three remaining downloads",
+            "Exclude the two verified finals and name only the three absent assets.",
+        )
     corrected = authorization.get("corrected_retry_approval")
     if retry:
         if not isinstance(corrected, dict):
