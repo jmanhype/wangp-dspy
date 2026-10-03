@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T18:03:01Z
-content_hash: "sha256:23ba273fc0293bda7f843715c9df2b0c1554f0f90f09db4037c757ca8dd1d088"
+updated_at: 2026-10-03T18:56:24Z
+content_hash: "sha256:ba29b0c3e4af2c0df4238f5e5a306f823d085846a1c59c79ad73f58c59c585c9"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,74 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## JEV Gate #6 QC Readiness Complete (NOT DELIVERED)
+
+### Gate #5 / #6 Evidence
+- Gate #5: live jev-latest, GATHER_EVIDENCE, gather confidence 0.72, constraint risk 0.26, missing-evidence score 1.36, declared snapshot 91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd, declared trace d4d38261c79a38381ffa4832e637cc0f3e61bd23cf36455a657a2f07ae4330fb.
+- Gate #6: live jev-latest, CONTINUE, confidence 0.98, constraint risk 0.20, missing-evidence score 1.09, declared snapshot f9509a57f4311c4a595e591551fe2f3fd4e55e25bf0862ee107fb263d9340aae, declared trace f6ffafda422883b9f5cb5149bb3e9384c167b034ec5d4cae9e994659c6e10726.
+- No-secret artifacts persisted under jev-gates/2026-10-03/, including gate-5-6-evidence.json, both snapshots/decisions/traces, and wd28ac-fresh-readonly-probe-5.txt.
+- Raw API-key pattern scan passed with 0 matches. No API key was read, received, logged, or passed to the worker.
+- Authorization head before host action: a2d33a3e3aa71325daac1675e50e28d721cc65a9. Exact-head CI run 37142944825 / job 111260961046 passed in 23m31s.
+
+### QC Readiness Execution
+- Evidence: qc-readiness/report.json; remote exit 0.
+- Pre-start:
+  - Host/user: straughter-Z690-Steel-Legend / straughter.
+  - Health http://127.0.0.1:8000/health: unreachable (connection refused).
+  - GPU: RTX 3090, 144 MiB used, 23972 MiB free, no compute apps.
+  - Judge processes: zero.
+  - Root free bytes: 23369863168.
+- Start command: /home/straughter/marathon/bin/judge_ctl.sh start => exit 0, stdout "judge up after 20s".
+- Health:
+  - HTTP 200.
+  - Exact body: {"status":"ok"}.
+  - Reached on poll attempt 1.
+- Healthy state:
+  - GPU: RTX 3090, 7901 MiB used, 16215 MiB free, utilization 0.
+  - Compute process: pid 1495102, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB.
+  - Judge pgrep matched the governed llama-server command on port 8000.
+  - Root free bytes: 23368744960.
+- Stop:
+  - /home/straughter/marathon/bin/judge_ctl.sh stop => exit 0.
+  - stdout "judge stopped: 0 remaining".
+  - Stop verified: true.
+  - Health post-stop: unreachable (connection refused).
+  - Judge processes: zero.
+  - GPU apps: zero.
+  - GPU post-stop: RTX 3090, 144 MiB used, 23972 MiB free.
+- Protected state:
+  - All five model finals hashed before and after: unchanged.
+  - All six accepted references hashed before and after: unchanged.
+- Hard boundary remained zero for native operations, queue admissions, renders, retrievals, network/model GETs, model/reference mutations, unrelated process actions, protected-file edits, and matrix transitions.
+
+### Local Verification and CI
+- Focused QC/Gate/auth tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_qc_readiness.py tests/test_ltx_jev_gate6.py tests/test_ltx_dependency_manifest.py -q => 20 passed.
+- pvg verify qc readiness report/tests/authorization --include-tests => VERIFY: PASSED.
+- pvg lint --backlog => scanned 156 issues; 0 errors, 0 review findings.
+- Protected-file parity versus origin/main => PASS.
+- docs/video-capabilities.md parity versus origin/main => PASS.
+- git diff --check => PASS.
+- wgp release verify => version=0.1.0, release=ready, tag=v0.1.0, tag_created=false.
+- Evidence commit: 985e49a69f0bb70f41a8d2a4ebdc500366978b9a.
+- Exact-head CI: run 37144596220 / job 111265823742 => success in 22m43s, https://github.com/jmanhype/wangp-dspy/actions/runs/37144596220.
+- PR 217 remains OPEN and MERGEABLE.
+
+### Boundary
+- WD-28ac is NOT delivered. QC readiness proves reversible local judge startup/health/shutdown only; the seven native operations still require a separate Jev operations gate.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- QC readiness is committed and exact-head CI verified at 985e49a69f0bb70f41a8d2a4ebdc500366978b9a.
+
+### proof
+- [x] Gate #5/#6 no-secret evidence and QC-only authorization are persisted and bound.
+- [x] Existing judge_ctl starts to governed port 8000 health, produces exact healthy GPU/process/disk evidence, and stops cleanly with zero remaining processes.
+- [x] All five models and six references remained unchanged.
+- [ ] NOT DELIVERED: seven native operations and matrix terminalization remain gated.
+
+
 ## JEV Gate #4 Local Phase B Preparation (NOT DELIVERED)
 
 ### Gate #3 / #4 Evidence
