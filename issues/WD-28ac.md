@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T09:13:54Z
-content_hash: "sha256:42cc9b37c3566829ac749ef0dc0eb842c25e5afdc071f310482a2cb9b74e12d6"
+updated_at: 2026-10-03T09:15:15Z
+content_hash: "sha256:4d95e5a190a136e823acb9ef592835cf17691203258f546c0f9a7a4d13b449d1"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -306,3 +306,6 @@ Read-only post-boundary audit: repository-wide local evidence search found no pr
 
 ### 2026-10-03T08:14:32Z speed
 METADATA-ONLY AUDIT RESULT at 2026-10-03T08:11:12Z: Hugging Face model DeepBeepMeep/LTX-2 current commit 6aa898aea1d968febdd834dc29e1dbef35340aeb, lastModified 2026-09-29T19:49:05Z. For every WD-28ac asset, sizes match exactly and the manifest value currently labeled sha256 equals metadata xetHash, not LFS oid/actual file SHA-256. Target ingredients entry: expected 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba is xetHash; observed remote partial 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559 is lfs.oid and exact-size file SHA-256. Same pattern holds for all five declared assets. Metadata API responses: model.json SHA-256 33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505 and tree.json SHA-256 079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa. No model-body GET, host contact, retry, promotion, deletion, queue action, or render occurred. Live Jev delegation cannot run yet because TYPESAFE_API_KEY is absent from this shell and no .env credential file is present; dry-run would not be represented as Jev.
+
+### 2026-10-03T09:15:15Z speed
+OPERATOR JEV-DELEGATION POLICY recorded after metadata repair. Operator asked that Jev decide future authorization/checkpoint actions to reduce latency. Live Jev is currently unavailable because TYPESAFE_API_KEY is absent; the offline gate is deterministic but uncalibrated and must not be misrepresented as Jev. When a live key is configured, Jev may authorize only an exact operator-predeclared reversible batch/scope, with recorded probabilities and fail-closed policy. Jev cannot broaden scope, approve deletion/credentials/spend/irreversible action, or authorize an undeclared model/body request. The current retry remains unauthorized pending live Jev or an explicit operator decision covering the 172109-byte undeclared boundary, preserved-partial disposition, corrected manifest, four remaining declared downloads, and seven operations.
