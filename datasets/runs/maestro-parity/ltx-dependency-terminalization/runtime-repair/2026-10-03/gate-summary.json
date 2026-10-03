@@ -1,0 +1,157 @@
+{
+  "artifacts": {
+    "mmgp-35714.json": {
+      "location": "runtime-repair/2026-10-03/mmgp-35714.json",
+      "sha256": "8977ced4fe6c8ffe26aefcca754206c5da683352f5706bbf2066f8dca5a32d27",
+      "size_bytes": 18864
+    },
+    "wd28ac-dependency-import-probe.txt": {
+      "location": "runtime-repair/2026-10-03/wd28ac-dependency-import-probe.txt",
+      "sha256": "31cc7f0ad862725b60d500deebff6996f944e26a7d146e6d393feeea199514e6",
+      "size_bytes": 1052
+    },
+    "wd28ac-jev-decision-10.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-decision-10.json",
+      "sha256": "48fbd98bf1ed1b7176fbebf3a317c481cc56f93575ab1b496c6107a8df714f2a",
+      "size_bytes": 1458
+    },
+    "wd28ac-jev-decision-8.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-decision-8.json",
+      "sha256": "77d5ce1462a8a16d565a616a798e9154e20cecd10442badfb14eebef4ba36d8e",
+      "size_bytes": 1452
+    },
+    "wd28ac-jev-decision-9.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-decision-9.json",
+      "sha256": "87107b0a71ee0c5bb6e6c895d968d2c22c38803034bf0341dcd0aba6aca6e573",
+      "size_bytes": 1457
+    },
+    "wd28ac-jev-snapshot-10.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-snapshot-10.json",
+      "sha256": "ce9e00df9eb3967af3d23978c87410e6d5419e1b7bc28162e42b0e4aa86b09a5",
+      "size_bytes": 3264
+    },
+    "wd28ac-jev-snapshot-8.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-snapshot-8.json",
+      "sha256": "fb46f11f9658d545cc7c48fb1e8306acf1cb25ce4608b452dbfce24d6454a6df",
+      "size_bytes": 2672
+    },
+    "wd28ac-jev-snapshot-9.json": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-snapshot-9.json",
+      "sha256": "e9e182a70fb599ac2a51c8f80a20630e8ee8c684595ad58352d188d43f911367",
+      "size_bytes": 2485
+    },
+    "wd28ac-jev-trace-10.jsonl": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-trace-10.jsonl",
+      "sha256": "48a124aab72d70606a26729ad5bef264aaa1cd43892319aa0353b777427fd436",
+      "size_bytes": 1156
+    },
+    "wd28ac-jev-trace-8.jsonl": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-trace-8.jsonl",
+      "sha256": "aad56686168c10c39adf4748344fe343c5b5dff60273dfe457237030554c235b",
+      "size_bytes": 1150
+    },
+    "wd28ac-jev-trace-9.jsonl": {
+      "location": "jev-gates/2026-10-03/wd28ac-jev-trace-9.jsonl",
+      "sha256": "6df3feeb9006902a63514952750054cea15180bce3fe4d1ac01e736a7caea330",
+      "size_bytes": 1155
+    },
+    "wd28ac-runtime-inventory.txt": {
+      "location": "runtime-repair/2026-10-03/wd28ac-runtime-inventory.txt",
+      "sha256": "0827280bf0c3d30052294a61429e3f1b32384d1a1d044cb7049afcd740626b6b",
+      "size_bytes": 1471
+    }
+  },
+  "authorized_repair": {
+    "deletion": false,
+    "dependency_installs": 0,
+    "extract_destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "import_path": "destination only",
+    "isolated_python": "/usr/bin/python3",
+    "native_retry": false,
+    "qc_start": false,
+    "queue_admission": false,
+    "render": false,
+    "wheel_get_limit": 1
+  },
+  "gates": {
+    "10": {
+      "confidence": 0.81,
+      "constraint_risk": 0.29,
+      "decision": "CONTINUE",
+      "declared_snapshot_sha256": "38780b034bc9d862491a8ec846e2ae3d736647cb65720a3f3dc426ccddb3bb4f",
+      "declared_trace_sha256": "7415a00a2e25eb468b3afee919fd5515ab5be6903cf04559f2cf8fece99804cd",
+      "gate": 10,
+      "missing_evidence_score": 1.28,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "ce9e00df9eb3967af3d23978c87410e6d5419e1b7bc28162e42b0e4aa86b09a5",
+      "scope": "ISOLATED_RUNTIME_REPAIR_ONLY"
+    },
+    "8": {
+      "confidence": 0.67,
+      "constraint_risk": 0.1,
+      "decision": "CONTINUE",
+      "declared_snapshot_sha256": "8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27",
+      "declared_trace_sha256": "0c562a2b1c17ede4eed519d83b932dd19add7ac0263b3613a62abfb5a411beb6",
+      "gate": 8,
+      "missing_evidence_score": 2.7,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "fb46f11f9658d545cc7c48fb1e8306acf1cb25ce4608b452dbfce24d6454a6df",
+      "scope": "READONLY_RUNTIME_INVENTORY_ONLY"
+    },
+    "9": {
+      "confidence": 0.91,
+      "constraint_risk": 0.11,
+      "decision": "CONTINUE",
+      "declared_snapshot_sha256": "d3016a129e5f7fec36fe119acf4f7119cbd63fa84910717977c5249018639f21",
+      "declared_trace_sha256": "83c4df858d4e4086e9d6bb9d1298e2de7e4a5f11b590f00cd59da5c752e8b459",
+      "gate": 9,
+      "missing_evidence_score": 2.46,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "e9e182a70fb599ac2a51c8f80a20630e8ee8c684595ad58352d188d43f911367",
+      "scope": "METADATA_ONLY"
+    }
+  },
+  "metadata": {
+    "last_serial": 41515362,
+    "package": "mmgp",
+    "path": "mmgp-35714.json",
+    "requires_dist": [
+      "torch>=2.1.0",
+      "optimum-quanto",
+      "accelerate",
+      "safetensors",
+      "psutil"
+    ],
+    "requires_python": ">=3.10",
+    "version": "3.7.14",
+    "vulnerabilities": [],
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size_bytes": 68211,
+    "wheel_url": "https://files.pythonhosted.org/packages/bb/b7/1ec5413a825b3744962221d9cddd134df355a2ce7402971e3ef4c57240fd/mmgp-3.7.14-py3-none-any.whl"
+  },
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "signed_query",
+      "typesafe_token"
+    ],
+    "status": "PASS"
+  },
+  "runtime_facts": {
+    "declared_dependencies_import": "PASS 5/5",
+    "dependency_probe": "wd28ac-dependency-import-probe.txt",
+    "existing_mmgp_candidates": 0,
+    "inventory": "wd28ac-runtime-inventory.txt",
+    "system_python_mmgp_import": "failed"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.runtime-repair-gates/v1",
+  "story": "WD-28ac",
+  "tracker_note": "Gate 8 and Gate 10 live comments are present. Gate 9 is present as supplied live snapshot/decision/trace artifacts and exact PyPI metadata, but the live tracker has no separately labeled Gate 9 comment."
+}

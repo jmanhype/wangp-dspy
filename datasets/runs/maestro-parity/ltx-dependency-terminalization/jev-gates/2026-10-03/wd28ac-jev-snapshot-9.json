@@ -1,0 +1,46 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-cailed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Perform a metadata-only PyPI audit.",
+    "Do not download package bytes or install anything.",
+    "Do not retry the failed native operation.",
+    "Do not start or contact QC.",
+    "Do not admit a queue job or render.",
+    "Do not expose credentials.",
+    "Do not mutate host state.",
+    "Do not change protected engine files."
+  ],
+  "current_step": "Identify the exact wheel, dependencies, size, and digest for the historical mmgp 3.7.14 package before requesting any runtime installation.",
+  "pending_action": {
+    "kind": "audit_mmgp_3_7_14_metadata_only",
+    "target": "PyPI JSON metadata for exactly mmgp 3.7.14, selected by the historical accepted Wan2GP runtime inventory",
+    "summary": "Read package metadata only to identify the exact wheel URL, SHA-256 digest, size, Python compatibility, and dependency declarations.",
+    "irreversible": false
+  },
+  "evidence": [
+    "The accepted WD-m7xw and WD-osfm runs used /home/straughter/Wan2GP/venv/bin/python successfully.",
+    "The historical WD-m0r5 inventory records mmgp 3.7.14 in that Python 3.11 venv.",
+    "Jev Gate #8 authorized and completed a bounded read-only runtime inventory.",
+    "The historical venv and mmgp paths are absent.",
+    "Accepted roots, user site-packages, pip/uv caches, and authorized bulk offload contain no mmgp candidate.",
+    "System Python runtime modules torch, diffusers, safetensors, and pydantic are available, but mmgp import fails.",
+    "The first native operation stopped without retry and preserved all models/references."
+  ],
+  "uncertainties": [
+    "PyPI metadata may declare dependencies requiring separate exact authorization.",
+    "The exact wheel must support the current Python 3.12 runtime or an alternative compatible interpreter must be supplied.",
+    "Package metadata alone does not prove runtime compatibility."
+  ],
+  "budget": {
+    "elapsed_minutes": 1050,
+    "remaining_minutes": 10
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "metadata_only",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "b304b6e736bb3734038573fec8c4e42641f51249",
+    "prior_gate_snapshot": "8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27"
+  }
+}

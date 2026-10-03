@@ -154,6 +154,31 @@
     "matrix_cells_authorized": 7,
     "evidence": "jev-gates/2026-10-03/gate-7-evidence.json"
   },
+  "jev_runtime_repair_authorization": {
+    "gate": 10,
+    "mode": "live",
+    "model": "jev-latest",
+    "decision": "CONTINUE",
+    "confidence": 0.81,
+    "snapshot_sha256": "38780b034bc9d862491a8ec846e2ae3d736647cb65720a3f3dc426ccddb3bb4f",
+    "trace_sha256": "7415a00a2e25eb468b3afee919fd5515ab5be6903cf04559f2cf8fece99804cd",
+    "scope": "isolated_runtime_repair_only",
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_size_bytes": 68211,
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_get_limit": 1,
+    "dependency_installs": 0,
+    "extract_destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "isolated_python": "/usr/bin/python3",
+    "import_isolated": true,
+    "native_retry_authorized": false,
+    "qc_start_authorized": false,
+    "queue_admission_authorized": false,
+    "render_authorized": false,
+    "deletion_authorized": false,
+    "model_or_reference_mutation_authorized": false,
+    "evidence": "runtime-repair/2026-10-03/gate-summary.json"
+  },
   "assets": [
     {
       "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",

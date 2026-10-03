@@ -1,0 +1,50 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Download exactly one declared pure-Python wheel: mmgp-3.7.14-py3-none-any.whl.",
+    "Download exactly 68211 bytes from the PyPI-published URL and verify SHA-256 6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208 before extraction.",
+    "Extract only into a new isolated WD-28ac runtime directory; do not alter system Python, user site-packages, live Wan2GP, model files, references, or protected engine files.",
+    "Do not download or install dependencies; torch, optimum-quanto, accelerate, safetensors, and psutil already import successfully from user site-packages.",
+    "Do not retry the failed native operation in this phase.",
+    "Do not start or contact QC.",
+    "Do not admit a queue job or render.",
+    "Do not expose credentials.",
+    "Do not delete any file."
+  ],
+  "current_step": "Repair only the missing mmgp runtime dependency in an isolated directory after exact metadata and dependency compatibility were verified.",
+  "pending_action": {
+    "kind": "install_exact_mmgp_35714_into_isolated_wd28ac_runtime",
+    "target": "WD-28ac isolated runtime repair under /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "summary": "Fetch the exact hash-identified pure-Python wheel, extract it into a new isolated directory, and verify mmgp imports with system Python; stop before any native retry.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Accepted WD-m7xw and WD-osfm runs used mmgp 3.7.14 from the now-absent Wan2GP venv.",
+    "Jev Gate #8 completed a bounded read-only inventory and found no existing mmgp package or compatible venv candidate.",
+    "Jev Gate #9 approved and completed exact PyPI metadata collection.",
+    "PyPI metadata identifies wheel mmgp-3.7.14-py3-none-any.whl, size 68211, SHA-256 6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208, requires_python >=3.10, not yanked.",
+    "The wheel is pure Python and platform independent.",
+    "Read-only host import probes show torch 2.5.1+cu121, optimum.quanto 0.2.4, accelerate 1.6.0, safetensors 0.5.3, and psutil 7.2.2 all pass under /usr/bin/python3.",
+    "The first native operation remains a preserved typed boundary with no retry, output, model mutation, reference mutation, or matrix claim."
+  ],
+  "uncertainties": [
+    "The package may import but still behave incorrectly at native runtime.",
+    "A separate Jev gate is required before any native operation retry.",
+    "Root free space is approximately 23.5 GB, far above the 68211-byte wheel requirement."
+  ],
+  "budget": {
+    "elapsed_minutes": 1060,
+    "remaining_minutes": 10
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "isolated_runtime_repair_only",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "b304b6e736bb3734038573fec8c4e42641f51249",
+    "prior_gate_snapshots": [
+      "8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27",
+      "d3016a129e5f7fec36fe119acf4f7119cbd63fa84910717977c5249018639f21"
+    ]
+  }
+}
