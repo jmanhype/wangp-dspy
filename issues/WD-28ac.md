@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T18:01:21Z
-content_hash: "sha256:4a0c591244877fb03e5c49b6ff48030ce213c520d64f219df88119c57068b045"
+updated_at: 2026-10-03T18:03:01Z
+content_hash: "sha256:23ba273fc0293bda7f843715c9df2b0c1554f0f90f09db4037c757ca8dd1d088"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -494,3 +494,6 @@ LIVE JEV GATE #4 at 2026-10-03T17:25Z: mode=live, model=jev-latest, snapshot sha
 
 ### 2026-10-03T18:01:21Z speed
 LIVE JEV GATE #5 at 2026-10-03T18:20Z: mode=live, model=jev-latest, snapshot sha256 91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd, decision=GATHER_EVIDENCE, gather confidence=0.72, constraint risk=0.26, missing evidence score=1.36. No QC start, queue admission, native attempt, render, model request, or matrix transition occurred. Required evidence: current QC/disk/GPU/tree/model/reference/process state after local Phase B preparation.
+
+### 2026-10-03T18:03:01Z speed
+LIVE JEV GATE #6 at 2026-10-03T18:05Z: mode=live, model=jev-latest, snapshot sha256 f9509a57f4311c4a595e591551fe2f3fd4e55e25bf0862ee107fb263d9340aae, decision=CONTINUE, confidence=0.98, constraint risk=0.20, missing evidence score=1.09, triggered_rules=no_veto_triggered. Scope is QC READINESS ONLY: commit/persist gate evidence and CI it, then start the existing governed judge_ctl, verify port 8000 health and GPU/process state, and stop it cleanly after recording evidence. No native operation, queue admission, render, download, model mutation, protected-file change, or matrix transition.
