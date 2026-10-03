@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import ast
+import base64
 import hashlib
 import importlib.metadata
 import json
@@ -44,6 +46,40 @@ DEPENDENCIES = ("torch", "optimum.quanto", "accelerate", "safetensors", "psutil"
 DEFAULT_DESTINATION = (
     "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14"
 )
+EXPECTED_OPERATOR_WHEEL_LAYOUT_AUTHORIZATION = {
+    "recorded_at": "2026-10-03T22:32:06Z",
+    "decision": "Authorized",
+    "verbatim_approval": (
+        "Yes you are authorized. Scope: the immediately pending Gate 11 "
+        "boundary only—accept the known root __init__.py member in the "
+        "already downloaded, exact hash-verified mmgp-3.7.14 wheel if "
+        "inspection confirms it is inert; extract the preserved wheel "
+        "into /home/straughter/wd-28ac-final-gate7-20261003/runtime/"
+        "mmgp-3.7.14; and verify isolated mmgp imports. No new network "
+        "GET, dependency install, deletion, overwrite, native retry, QC "
+        "start, queue admission, render, model/reference mutation, "
+        "system-runtime mutation, or protected-file change."
+    ),
+    "prior_boundary": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+    "wheel_filename": WHEEL_FILENAME,
+    "wheel_size_bytes": WHEEL_SIZE,
+    "wheel_sha256": WHEEL_SHA256,
+    "root_member": "__init__.py",
+    "inert_requirement": "empty_or_whitespace_or_module_docstring_only",
+    "resume_scope": "preserved_wheel_extraction_import_once",
+    "network_get_limit": 0,
+    "destination": DEFAULT_DESTINATION,
+    "dependency_installs": 0,
+    "deletion_authorized": False,
+    "overwrite_authorized": False,
+    "native_retry_authorized": False,
+    "qc_start_authorized": False,
+    "queue_admission_authorized": False,
+    "render_authorized": False,
+    "model_or_reference_mutation_authorized": False,
+    "system_or_live_runtime_mutation_authorized": False,
+    "protected_file_change_authorized": False,
+}
 
 
 class RuntimeRepairError(ValueError):
@@ -64,6 +100,13 @@ class FetchResult:
     content_length: str
     declared_request_count: int = 1
     undeclared_request_count: int = 0
+
+
+@dataclass(frozen=True)
+class WheelLayout:
+    members: list[zipfile.ZipInfo]
+    root_member: str | None = None
+    root_classification: dict[str, Any] | None = None
 
 
 def _read_json(path: Path) -> Any:
@@ -244,6 +287,62 @@ def validate_gate11(
             "Bind the exact corrected one-attempt authorization.",
         )
 
+def validate_wheel_layout_authorization(
+    authorization: Mapping[str, Any],
+) -> None:
+    record = authorization.get("operator_wheel_layout_authorization", {})
+    if record != EXPECTED_OPERATOR_WHEEL_LAYOUT_AUTHORIZATION:
+        raise RuntimeRepairError(
+            "WHEEL_LAYOUT_AUTHORIZATION_INVALID",
+            json.dumps(record, sort_keys=True),
+            "Bind the exact operator preserved-wheel resume authorization.",
+        )
+
+def classify_root_member(content: bytes) -> dict[str, Any]:
+    result: dict[str, Any] = {
+        "byte_count": len(content),
+        "sha256": hashlib.sha256(content).hexdigest(),
+        "content_base64": base64.b64encode(content).decode("ascii"),
+        "is_inert": False,
+        "classification": "non_inert_statements",
+        "ast_body_node_types": None,
+    }
+    try:
+        decoded = content.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        result["classification"] = "invalid_utf8"
+        result["decode_error"] = str(exc)
+        return result
+    if not content:
+        result.update(is_inert=True, classification="empty")
+        return result
+    if not decoded.strip():
+        result.update(is_inert=True, classification="whitespace_only")
+        return result
+    try:
+        parsed = ast.parse(decoded, filename="__init__.py")
+    except SyntaxError as exc:
+        result["classification"] = "invalid_python"
+        result["parse_error"] = str(exc)
+        return result
+    node_types = [type(node).__name__ for node in parsed.body]
+    result["ast_body_node_types"] = node_types
+    docstrings_only = all(
+        isinstance(node, ast.Expr)
+        and isinstance(node.value, ast.Constant)
+        and isinstance(node.value.value, str)
+        for node in parsed.body
+    )
+    if not docstrings_only:
+        return result
+    result.update(
+        is_inert=True,
+        classification=(
+            "comments_only" if not parsed.body else "module_docstring_only"
+        ),
+    )
+    return result
+
 def _state() -> dict[str, Any]:
     return {
         "gpu": _run([
@@ -342,10 +441,13 @@ def validate_wheel(path: Path) -> None:
             "Preserve the fetched bytes; do not retry or substitute.",
         )
 
-def validate_wheel_members(archive: zipfile.ZipFile) -> list[zipfile.ZipInfo]:
+def validate_wheel_members(
+    archive: zipfile.ZipFile, *, allow_inert_root_init: bool = False
+) -> WheelLayout:
     members = archive.infolist()
     seen: set[str] = set()
     allowed_roots = (f"{PACKAGE}/", f"{PACKAGE}-{VERSION}.dist-info/")
+    outside_members: list[zipfile.ZipInfo] = []
     for member in members:
         name = member.filename
         normalized = os.path.normpath(name)
@@ -354,29 +456,63 @@ def validate_wheel_members(archive: zipfile.ZipFile) -> list[zipfile.ZipInfo]:
         seen.add(name)
         if normalized.startswith(("/", "..")) or ".." in Path(normalized).parts:
             raise RuntimeRepairError("WHEEL_UNSAFE_MEMBER", name, "Refuse path escape before extraction.")
-        if not any(normalized.startswith(root) for root in allowed_roots):
-            raise RuntimeRepairError(
-                "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE", name,
-                "Refuse extraction outside the mmgp/dist-info payload.",
-            )
         mode = (member.external_attr >> 16) & 0o170000
         if mode == 0o120000:
             raise RuntimeRepairError("WHEEL_SYMLINK_MEMBER", name, "Refuse symlink extraction.")
+        if not any(normalized.startswith(root) for root in allowed_roots):
+            outside_members.append(member)
+    root_member: zipfile.ZipInfo | None = None
+    root_classification: dict[str, Any] | None = None
+    if outside_members:
+        names = [member.filename for member in outside_members]
+        if (
+            not allow_inert_root_init
+            or len(outside_members) != 1
+            or names != ["__init__.py"]
+        ):
+            raise RuntimeRepairError(
+                "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+                ",".join(names),
+                "Refuse extraction outside the mmgp/dist-info payload.",
+            )
+        root_member = outside_members[0]
+        root_classification = classify_root_member(archive.read(root_member))
+        if not root_classification["is_inert"]:
+            raise RuntimeRepairError(
+                "ROOT_MEMBER_NOT_INERT",
+                json.dumps(root_classification, sort_keys=True),
+                "Preserve the wheel/staging state; no retry is authorized.",
+            )
     if archive.testzip() is not None:
         raise RuntimeRepairError("WHEEL_CRC_INVALID", "zip testzip reported a corrupt member", "Preserve wheel and stop.")
-    return members
+    return WheelLayout(
+        members=members, root_member=root_member.filename if root_member else None,
+        root_classification=root_classification,
+    )
 
-def extract_wheel(wheel: Path, destination: Path) -> dict[str, Any]:
+def extract_wheel(
+    wheel: Path, destination: Path, *, resume: bool = False
+) -> dict[str, Any]:
     staging = destination.parent / f".{destination.name}.extraction-staging"
-    if destination.exists() or staging.exists():
+    if destination.exists() or (not resume and staging.exists()):
         raise RuntimeRepairError(
             "EXTRACTION_DESTINATION_COLLISION",
             f"destination={destination},staging={staging}",
             "Stop without overwrite or deletion.",
         )
-    staging.mkdir(parents=True, exist_ok=False)
+    if resume:
+        if not staging.is_dir() or staging.is_symlink() or any(staging.iterdir()):
+            raise RuntimeRepairError(
+                "RESUME_STAGING_NOT_EMPTY_OR_ABSENT",
+                f"staging={staging}",
+                "Stop without overwrite or deletion.",
+            )
+    else:
+        staging.mkdir(parents=True, exist_ok=False)
     with zipfile.ZipFile(wheel, "r") as archive:
-        members = validate_wheel_members(archive)
+        layout = validate_wheel_members(
+            archive, allow_inert_root_init=resume
+        )
         archive.extractall(staging)
     inventory = []
     root = staging.resolve()
@@ -394,6 +530,8 @@ def extract_wheel(wheel: Path, destination: Path) -> dict[str, Any]:
         "file_count": len(inventory),
         "uncompressed_bytes": sum(item["size_bytes"] for item in inventory),
         "inventory": inventory,
+        "root_member": layout.root_member,
+        "root_classification": layout.root_classification,
     }
 
 class RuntimeRepairRunner:
@@ -444,20 +582,23 @@ class RuntimeRepairRunner:
         self.report["boundary"] = {
             "code": code, "observed": observed, "remediation": remediation,
         }
-        _write_json(self.report_path, self.report)
+        if not os.path.lexists(self.report_path):
+            _write_json(self.report_path, self.report)
 
-    def validate_documents(self) -> dict[str, Any]:
+    def validate_documents(self, *, resume: bool = False) -> dict[str, Any]:
         metadata = validate_metadata(_read_json(self.metadata_path))
         gate_summary = _read_json(self.gate_summary_path)
         authorization = _read_json(self.authorization_path)
         if gate_summary.get("gate") == 11:
             validate_gate11(gate_summary, authorization)
+            if resume:
+                validate_wheel_layout_authorization(authorization)
         else:
             validate_gate10(gate_summary, authorization)
         self.report["gate"] = int(gate_summary.get("gate", 10))
         return metadata
 
-    def preflight(self) -> dict[str, Any]:
+    def preflight(self, *, resume: bool = False) -> dict[str, Any]:
         state = _state()
         if state["gpu_apps"]["stdout"].strip():
             raise RuntimeRepairError(
@@ -484,6 +625,53 @@ class RuntimeRepairRunner:
         wheel = self.runtime_root / WHEEL_FILENAME
         destination = self.destination
         staging = destination.parent / f".{destination.name}.extraction-staging"
+        if resume:
+            if os.path.lexists(self.report_path):
+                raise RuntimeRepairError(
+                    "RESUME_STATE_COLLISION", f"report={self.report_path}",
+                    "Stop without overwriting preserved evidence.",
+                )
+            if (
+                not self.runtime_root.is_dir()
+                or self.runtime_root.is_symlink()
+                or not wheel.is_file()
+                or wheel.is_symlink()
+                or not staging.is_dir()
+                or staging.is_symlink()
+                or any(staging.iterdir())
+                or os.path.lexists(destination)
+            ):
+                raise RuntimeRepairError(
+                    "RESUME_STATE_COLLISION",
+                    (
+                        f"runtime_root={self.runtime_root},wheel={wheel},"
+                        f"destination={destination},staging={staging},"
+                        f"report={self.report_path}"
+                    ),
+                    "Stop without overwrite or deletion.",
+                )
+            children = sorted(path.name for path in self.runtime_root.iterdir())
+            if children != sorted((WHEEL_FILENAME, staging.name)):
+                raise RuntimeRepairError(
+                    "RESUME_STATE_COLLISION",
+                    f"runtime_children={children}",
+                    "Only the preserved wheel and empty staging are allowed.",
+                )
+            validate_wheel(wheel)
+            with zipfile.ZipFile(wheel, "r") as archive:
+                layout = validate_wheel_members(
+                    archive, allow_inert_root_init=True
+                )
+            return {
+                "state": state, "dependencies": dependencies,
+                "system_mmgp": system_mmgp, "wheel_path": str(wheel),
+                "destination": str(destination), "staging": str(staging),
+                "runtime_children": children,
+                "root_member": {
+                    "member": layout.root_member,
+                    "classification": layout.root_classification,
+                },
+            }
         if self.runtime_root.exists() or wheel.exists() or destination.exists() or staging.exists():
             raise RuntimeRepairError(
                 "RUNTIME_PATH_COLLISION",
@@ -496,38 +684,58 @@ class RuntimeRepairRunner:
             "destination": str(destination), "staging": str(staging),
         }
 
-    def run(self) -> Mapping[str, Any]:
+    def run(self, *, resume: bool = False) -> Mapping[str, Any]:
         try:
-            metadata = self.validate_documents()
+            metadata = self.validate_documents(resume=resume)
             self.report["metadata"] = metadata
-            preflight = self.preflight()
+            preflight = self.preflight(resume=resume)
             self.report["preflight"] = preflight
             self.report["preservation_before"] = _preservation_snapshot(
                 _read_json(self.manifest_path),
                 _read_json(self.operation_plan_path),
             )
-            _write_json(self.report_path, self.report)
+            wheel_path = Path(preflight["wheel_path"])
+            if resume:
+                self.report["mode"] = "resume_preserved_wheel"
+                self.report["network_accounting"] = {
+                    "declared_wheel_gets": 0,
+                    "undeclared_requests": 0,
+                    "wheel_get_limit": 0,
+                }
+                validate_wheel(wheel_path)
+                self.report["wheel"] = {
+                    "path": str(wheel_path),
+                    "size_bytes": wheel_path.stat().st_size,
+                    "sha256": _sha256(wheel_path),
+                }
+                self.report["root_member"] = preflight["root_member"]
+                _write_json(self.report_path, self.report)
 
-            self.runtime_root.mkdir(parents=True, exist_ok=False)
-            wheel = Path(preflight["wheel_path"])
-            fetched = self.fetcher(metadata["wheel_url"], wheel, 300)
-            self.report["network_accounting"] = {
-                "declared_wheel_gets": 1,
-                "undeclared_requests": int(fetched.undeclared_request_count),
-                "wheel_get_limit": 1,
-                "http_status": fetched.status,
-                "final_url": fetched.final_url,
-                "content_length": fetched.content_length,
-            }
-            validate_wheel(wheel)
-            self.report["wheel"] = {
-                "path": str(wheel), "size_bytes": wheel.stat().st_size,
-                "sha256": _sha256(wheel),
-            }
-            _write_json(self.report_path, self.report)
+                extraction = extract_wheel(
+                    wheel_path, Path(preflight["destination"]), resume=True
+                )
+                self.report["extraction"] = extraction
+            else:
+                self.runtime_root.mkdir(parents=True, exist_ok=False)
+                wheel = Path(preflight["wheel_path"])
+                fetched = self.fetcher(metadata["wheel_url"], wheel, 300)
+                self.report["network_accounting"] = {
+                    "declared_wheel_gets": 1,
+                    "undeclared_requests": int(fetched.undeclared_request_count),
+                    "wheel_get_limit": 1,
+                    "http_status": fetched.status,
+                    "final_url": fetched.final_url,
+                    "content_length": fetched.content_length,
+                }
+                validate_wheel(wheel)
+                self.report["wheel"] = {
+                    "path": str(wheel), "size_bytes": wheel.stat().st_size,
+                    "sha256": _sha256(wheel),
+                }
+                _write_json(self.report_path, self.report)
 
-            extraction = extract_wheel(wheel, Path(preflight["destination"]))
-            self.report["extraction"] = extraction
+                extraction = extract_wheel(wheel, Path(preflight["destination"]))
+                self.report["extraction"] = extraction
             imported = self.importer(PACKAGE, preflight["destination"])
             self.report["isolated_import"] = imported
             if imported.get("returncode") != 0:
@@ -607,6 +815,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--report", required=True)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--allow-network", action="store_true")
+    parser.add_argument("--resume-preserved-wheel", action="store_true")
     return parser
 
 
@@ -622,16 +831,31 @@ def main(argv: Sequence[str] | None = None) -> int:
         report_path=Path(args.report),
     )
     try:
-        metadata = runner.validate_documents()
+        metadata = runner.validate_documents(
+            resume=args.resume_preserved_wheel
+        )
         if not args.execute:
-            print(json.dumps({
+            payload = {
                 "status": "dry_run_validated", "wheel": {
                     "filename": metadata["wheel_filename"],
                     "size": metadata["wheel_size"],
                     "sha256": metadata["wheel_sha256"],
                 },
                 "declared_wheel_gets": 0, "dependency_installs": 0,
-            }, sort_keys=True))
+            }
+            if args.resume_preserved_wheel:
+                payload["mode"] = "resume_preserved_wheel"
+                payload["network_get_limit"] = 0
+            print(json.dumps(payload, sort_keys=True))
+            return 0
+        if args.resume_preserved_wheel:
+            if args.allow_network:
+                raise RuntimeRepairError(
+                    "NETWORK_FORBIDDEN_IN_RESUME_MODE",
+                    "--allow-network was supplied",
+                    "Preserved-wheel resume must issue zero GETs.",
+                )
+            runner.run(resume=True)
             return 0
         if not args.allow_network:
             raise RuntimeRepairError(
