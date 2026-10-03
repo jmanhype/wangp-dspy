@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T07:44:02Z
-content_hash: "sha256:db686f1aa743dbafa7b06e7687b280c8c73d612c8168b28cd3d21ab7fe44e11b"
+updated_at: 2026-10-03T07:44:31Z
+content_hash: "sha256:879aa06dfb7ea546f2d0ab7d024ff91f1dadca6bc9d3d0150485d06bddbe1ac0"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -239,3 +239,6 @@ OPERATOR AUTHORIZATION at 2026-10-03T06:57:55Z. Verbatim user input: Authorized.
 
 ### 2026-10-03T07:44:02Z speed
 BLOCKED: Authorized download failed closed at the first declared asset. Observed size 1308778338 matches, but SHA-256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559 does not match 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba. A downloader defect also issued an undeclared URL-effectiveness GET that timed out after 172109 payload bytes. The partial is preserved at /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial; no promotion, retry, deletion, queue admission, operation, output, or matrix change occurred. Distinct operator decisions are required for the source/hash discrepancy, undeclared bytes, and preserved partial before retry.
+
+### 2026-10-03T07:44:31Z speed
+BOUNDARY ARTIFACTS committed and pushed at 1672679ef6985ce16c5b87e409e5911b83e29c08 on story/WD-28ac. Focused tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_dependency_manifest.py tests/test_ltx_download_boundary.py -q => 16 passed. Boundary evidence paths: 15 present, 0 missing. pvg verify changed boundary files --include-tests => PASSED. git diff --check => PASS. Protected-file parity versus origin/main => PASS. No retry, deletion, promotion, queue admission, operation, output, or matrix transition.
