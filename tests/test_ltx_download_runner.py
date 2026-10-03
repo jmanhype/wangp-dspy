@@ -218,6 +218,37 @@ def test_hash_mismatch_preserves_partial_without_promotion(
     assert not Path(destination).exists()
 
 
+def test_invalid_curl_accounting_field_preserves_partial_before_promotion(
+    tmp_path: Path,
+) -> None:
+    manifest, auth = _temporary_pair(tmp_path)
+    controller = runner.load_controller(manifest, auth)
+
+    class InvalidAccountingCurl:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def __call__(self, argv: list[str]) -> runner.CurlOutcome:
+            self.calls += 1
+            Path(argv[argv.index("--output") + 1]).write_bytes(b"exact payload")
+            return runner.CurlOutcome(
+                returncode=0,
+                stdout=f"200\thttps://cdn.invalid/resolved\t{len(b'exact payload')}\t\t2\n",
+                stderr="",
+            )
+
+    fake = InvalidAccountingCurl()
+    with pytest.raises(runner.LTXDownloadControlError) as raised:
+        controller.execute(ASSET_ID, runner=fake)
+    assert raised.value.code == "CURL_ACCOUNTING_OUTPUT_INVALID"
+    assert fake.calls == 1
+    assert "%{num_redirects}" in runner.WRITE_OUT
+    assert "%{redirect_count}" not in runner.WRITE_OUT
+    destination = json.loads(manifest.read_text())["assets"][1]["destination"]
+    assert Path(f"{destination}.WD-28ac.partial").is_file()
+    assert not Path(destination).exists()
+
+
 def test_current_authorization_blocks_execution_before_network(
     capsys: pytest.CaptureFixture[str],
 ) -> None:

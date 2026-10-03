@@ -1,0 +1,104 @@
+{
+    "after": {
+        "device": 66308,
+        "exists": true,
+        "inode": 42729921,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size": 1308778338
+    },
+    "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+    "atomic_promotion": true,
+    "before": {
+        "device": 66308,
+        "exists": true,
+        "inode": 42729921,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size": 1308778338
+    },
+    "curl_invocations": 0,
+    "deletion_performed": false,
+    "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+    "expected": {
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+    },
+    "network_counter_delta": {
+        "br-396f36972f0a": {
+            "rx": 0,
+            "tx": 0
+        },
+        "br-5050175d736a": {
+            "rx": 0,
+            "tx": 0
+        },
+        "br-f5ca11a97977": {
+            "rx": 0,
+            "tx": 0
+        },
+        "docker0": {
+            "rx": 0,
+            "tx": 0
+        },
+        "enp4s0": {
+            "rx": 0,
+            "tx": 0
+        },
+        "lo": {
+            "rx": 0,
+            "tx": 0
+        },
+        "tailscale0": {
+            "rx": 64,
+            "tx": 40
+        },
+        "veth185e0d2": {
+            "rx": 0,
+            "tx": 0
+        },
+        "veth31c1d41": {
+            "rx": 1027,
+            "tx": 2249
+        },
+        "veth495ae9e": {
+            "rx": 9259,
+            "tx": 5247
+        },
+        "veth929ecbc": {
+            "rx": 0,
+            "tx": 0
+        },
+        "veth974eb2a": {
+            "rx": 4220,
+            "tx": 7010
+        },
+        "vethdbf01fb": {
+            "rx": 0,
+            "tx": 0
+        },
+        "vetheb86bef": {
+            "rx": 0,
+            "tx": 0
+        },
+        "vethf4ac164": {
+            "rx": 0,
+            "tx": 0
+        },
+        "wg0": {
+            "rx": 0,
+            "tx": 0
+        },
+        "wlp3s0": {
+            "rx": 1813,
+            "tx": 1316
+        }
+    },
+    "network_requests": 0,
+    "schema_version": "wangp-dspy.wd-28ac.promoted-partial/v1",
+    "source": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+    "source_absent_after": true,
+    "utc": "2026-10-03T14:09:30.285171Z",
+    "verification": {
+        "sha256_match": true,
+        "size_match": true
+    }
+}

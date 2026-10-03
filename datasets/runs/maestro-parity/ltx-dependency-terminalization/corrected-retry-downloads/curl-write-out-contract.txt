@@ -1,0 +1,31 @@
+5812-			     handshake. Supported only by the OpenSSL, GnuTLS,
+5813-			     Schannel  and  Secure Transport backends.	(Added
+5814-			     in 7.88.0)
+5815-
+5816:	      num_connects   Number of new connects made in the recent	trans-
+5817-			     fer.
+5818-
+5819-	      num_headers    The number of response headers in the most recent
+5820-			     request  (restarted  at each redirect). Note that
+5821-			     the status	 line  IS  NOT	a  header.  (Added  in
+5822-			     7.73.0)
+5823-
+5824:	      num_redirects  Number of redirects that were followed in the re-
+5825-			     quest.
+5826-
+5827-	      onerror	     The  rest	of  the	 output	 is  only shown if the
+5828-			     transfer returned a non-zero  error.   (Added  in
+--
+5990-	      urlnum	     The URL index number of this transfer, 0-indexed.
+5991-			     Unglobbed URLs share the same index number as the
+5992-			     origin globbed URL. (Added in 7.75.0)
+5993-
+5994:	      url_effective  The URL that was fetched last. This is most mean-
+5995-			     ingful  if you have told curl to follow location:
+5996-			     headers.
+5997-
+5998-	      If -w, --write-out is provided several times, the last set value
+curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7
+Release-Date: 2023-12-06, security patched: 8.5.0-2ubuntu10.9
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ldap ldaps mqtt pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp
+Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM PSL SPNEGO SSL threadsafe TLS-SRP UnixSockets zstd

@@ -1,0 +1,10 @@
+### /home/straughter/Wan2GP
+-rw-r--r-- 1 straughter straughter 821641 Sep  3 19:38 /home/straughter/Wan2GP/wgp.py
+/home/straughter/Wan2GP/ckpts/ltx-2.3-temporal-upscaler-x2-1.0.safetensors -> /home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+### /home/straughter/Wan2GP-story-WD-m7xw
+-rw-r--r-- 1 straughter straughter 816373 Sep 26 16:15 /home/straughter/Wan2GP-story-WD-m7xw/wgp.py
+/home/straughter/Wan2GP-story-WD-m7xw/ckpts -> /home/straughter/Wan2GP/ckpts
+### /home/straughter/Wan2GP-story-WD-osfm
+-rw-r--r-- 1 straughter straughter 821002 Sep 27 13:06 /home/straughter/Wan2GP-story-WD-osfm/wgp.py
+/home/straughter/Wan2GP-story-WD-osfm/ckpts -> /home/straughter/Wan2GP/ckpts
+--- user python candidates ---

@@ -20,7 +20,7 @@ RUN_DIR = Path(
 )
 WRITE_OUT = (
     "%{http_code}\t%{url_effective}\t%{size_download}\t"
-    "%{redirect_count}\t%{num_connects}\n"
+    "%{num_redirects}\t%{num_connects}\n"
 )
 CORRECTED_RETRY_VERBATIM = "Yes"
 CORRECTED_RETRY_TIMESTAMP = "2026-10-03T13:11:01Z"
@@ -190,6 +190,16 @@ class DownloadController:
                 "Keep url_effective in the declared curl --write-out; never issue another GET.",
             )
         http_code, url_effective, size_download, redirect_count, connects = fields
+        try:
+            size_download_value = int(size_download)
+            redirect_count_value = int(redirect_count)
+            connects_value = int(connects)
+        except ValueError as exc:
+            raise LTXDownloadControlError(
+                "CURL_ACCOUNTING_OUTPUT_INVALID",
+                "curl returned a non-integer size, redirect, or connection count",
+                "Preserve the partial; use curl num_redirects and do not repeat the GET.",
+            ) from exc
         observed_size = partial.stat().st_size if partial.exists() else 0
         observed_sha256 = _sha256(partial) if partial.exists() else ""
         size_match = observed_size == asset.size_bytes
@@ -206,9 +216,9 @@ class DownloadController:
             "http_code": http_code,
             "url_effective": url_effective,
             "url_effective_source": "declared_curl_write_out",
-            "reported_size_download_bytes": int(size_download),
-            "redirect_count": int(redirect_count),
-            "connection_count": int(connects),
+            "reported_size_download_bytes": size_download_value,
+            "redirect_count": redirect_count_value,
+            "connection_count": connects_value,
             "observed_size_bytes": observed_size,
             "expected_size_bytes": asset.size_bytes,
             "size_match": size_match,
@@ -222,8 +232,8 @@ class DownloadController:
                 "declared_request_count": 1,
                 "undeclared_request_count": 0,
                 "url_effective_probe_request_count": 0,
-                "redirect_count": int(redirect_count),
-                "network_request_count": 1 + int(redirect_count),
+                "redirect_count": redirect_count_value,
+                "network_request_count": 1 + redirect_count_value,
             },
             "curl_argv": argv,
         }
