@@ -1,0 +1,80 @@
+{
+  "schema_version": "wangp-dspy.wd-28ac.corrected-retry-boundary/v2",
+  "story": "WD-28ac",
+  "status": "failed_closed",
+  "authorization_head": "afd284893a3c4a8b4477fdcbacd72b1a8ebf764d",
+  "exact_head_ci": {
+    "run_id": 37126942361,
+    "job_id": 111214041037,
+    "conclusion": "success",
+    "duration_s": 1441,
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37126942361"
+  },
+  "boundary": {
+    "code": "CURL_ACCOUNTING_OUTPUT_INVALID_AFTER_ONE_DECLARED_GET",
+    "critical": true,
+    "reason": "The first remaining declared curl invocation produced the exact outpaint file and promoted it, but curl 8.5.0 has no redirect_count write-out variable. The requested unsupported field expanded empty, and int('') prevented durable attempt-report construction before the redirect count could be recorded.",
+    "not_a_hardware_verdict": true,
+    "not_an_unsupported_operation_verdict": true,
+    "curl_documented_counter": "num_redirects",
+    "observed_unsupported_counter": "redirect_count",
+    "retry_attempted": false,
+    "deletion_attempted": false,
+    "second_url_effective_get": false
+  },
+  "preflight": {
+    "evidence": "host-preflight-corrected-retry/host-state.json",
+    "passed": true,
+    "host_identity": "straughter-Z690-Steel-Legend",
+    "execution_trees_matched": true,
+    "accepted_assets": "34/34 hash and size matched",
+    "references": "7/7 hash matched",
+    "gpu_idle": true,
+    "qc_initially_down": true,
+    "free_bytes": 45611913216
+  },
+  "promoted_first_partial": {
+    "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+    "network_requests": 0,
+    "curl_invocations": 0,
+    "atomic_promotion": true,
+    "size_bytes": 1308778338,
+    "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+    "evidence": "corrected-retry-downloads/promote-first-partial.json"
+  },
+  "outpaint_attempt": {
+    "asset_id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+    "curl_invocations": 1,
+    "declared_request_count": 1,
+    "undeclared_request_count": 0,
+    "url_effective_probe_request_count": 0,
+    "final_size_bytes": 1308756416,
+    "final_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+    "exact_size_and_file_sha256": true,
+    "partial_preserved": false,
+    "partial_absent_because_runner_promoted_exact_file": true,
+    "durable_attempt_report_created": false,
+    "redirect_count": null,
+    "redirect_count_reason": "Unsupported curl redirect_count field expanded empty; the value cannot be reconstructed without another network request and must not be fabricated.",
+    "cli_traceback": "corrected-retry-downloads/outpaint.traceback.txt",
+    "post_failure_state": "corrected-retry-downloads/outpaint-runner-boundary.json"
+  },
+  "assets_not_requested": [
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+  ],
+  "operations": {
+    "queue_admissions": 0,
+    "native_attempts": 0,
+    "outputs": 0,
+    "matrix_changes": 0
+  },
+  "final_host_state": {
+    "gpu_idle": true,
+    "curl_processes": 0,
+    "free_bytes": 44291702784,
+    "evidence": "corrected-retry-downloads/final-download-boundary-state.json"
+  },
+  "required_next_decision": "A distinct operator decision is required before any further corrected retry. The exact ingredients and outpaint finals must not be moved or deleted; the three absent assets were not requested; and future accounting must use curl num_redirects."
+}

@@ -1,0 +1,81 @@
+{
+  "artifacts": {
+    "wd28ac-jev-decision-3.json": {
+      "sha256": "ec083f73d28b5054bddb5f595f7f3a96dd0a3bef44e3cdbf42eb39bb5deac807",
+      "size_bytes": 1484
+    },
+    "wd28ac-jev-decision-4.json": {
+      "sha256": "0f5852afd03f9e6cfacde5f933948b347ed74aefd9d832a88587ff2ee8128970",
+      "size_bytes": 1457
+    },
+    "wd28ac-jev-snapshot-3.json": {
+      "sha256": "dad21525378f7f594bc55cfe350231fd0a25661d304cae386785a7197228c6fc",
+      "size_bytes": 3792
+    },
+    "wd28ac-jev-snapshot-4.json": {
+      "sha256": "6abafffd16b8e24540ac15dc3e488f3da59e1abd172532d9eca4b89f2e0bf6aa",
+      "size_bytes": 3221
+    },
+    "wd28ac-jev-trace-3.jsonl": {
+      "sha256": "5f910bc2a9fd407e735774e59eee8ac63f6c76ab6fbf135e9a2579576e86bf52",
+      "size_bytes": 1182
+    },
+    "wd28ac-jev-trace-4.jsonl": {
+      "sha256": "f2ca0fcb2e66483281bcdc6a5aa0f4063789431c56ebc175eb74ef7bdf26a645",
+      "size_bytes": 1155
+    }
+  },
+  "gates": {
+    "3": {
+      "choice_confidence": 0.33,
+      "constraint_risk": 0.48,
+      "decision": "GATHER_EVIDENCE",
+      "declared_snapshot_sha256": "d1d7b81948f1d7f8e5fa93e8a48782f7d76e04b2b633121d4d17a5dbd46658fa",
+      "declared_trace_sha256": "bc71e063fbbcb6751d1424daa06009f6e519b5f50edbdff00e2bb341c087c00e",
+      "gate": 3,
+      "host_actions": 0,
+      "missing_evidence_score": 1.85,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "dad21525378f7f594bc55cfe350231fd0a25661d304cae386785a7197228c6fc",
+      "scope": "gather_evidence_only",
+      "selected_gather_confidence": 0.46,
+      "triggered_rules": [
+        "choice_confidence_low"
+      ]
+    },
+    "4": {
+      "confidence": 0.78,
+      "constraint_risk": 0.26,
+      "decision": "CONTINUE",
+      "declared_snapshot_sha256": "38e9b171448464138e18ba6b4987d43c48a1f65df9f3bfc3da628418b2c58500",
+      "declared_trace_sha256": "1636e28fb5dbc9945c9fbe98df51500b560c5e9b06792d9798bad4823d283b9d",
+      "gate": 4,
+      "host_actions": 0,
+      "missing_evidence_score": 2.18,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "6abafffd16b8e24540ac15dc3e488f3da59e1abd172532d9eca4b89f2e0bf6aa",
+      "scope": "LOCAL_PHASE_B_PREPARATION_ONLY",
+      "triggered_rules": [
+        "no_veto_triggered"
+      ]
+    }
+  },
+  "hash_semantics": {
+    "snapshot_file_digest": "raw copied snapshot bytes, retained separately",
+    "snapshot_sha256_source": "decision.snapshot_sha256",
+    "trace_sha256_source": "canonical compact sorted JSON records joined with newline"
+  },
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "typesafe_token"
+    ],
+    "status": "PASS"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.jev-gates/v1"
+}

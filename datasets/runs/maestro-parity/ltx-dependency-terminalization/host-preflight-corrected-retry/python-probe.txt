@@ -1,0 +1,166 @@
+### /usr/bin/python3
+/usr/bin/python3
+3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]
+torch 2.5.1+cu121 True
+diffusers 0.38.0.dev0
+safetensors 0.5.3
+pydantic 2.9.2
+### /home/straughter/Wan2GP/venv/bin/python
+absent
+### /home/straughter/Wan2GP-story-WD-m7xw/venv/bin/python
+absent
+### /home/straughter/Wan2GP-story-WD-osfm/venv/bin/python
+absent
+--- root dirs ---
+total 4724
+drwxrwxr-x  57 straughter straughter   12288 Sep 30 10:38 .
+drwxr-x--- 208 straughter straughter   36864 Oct  3 02:38 ..
+drwxrwxr-x   9 straughter straughter    4096 Oct  3 02:34 .git
+-rw-r--r--   1 straughter straughter     620 Aug 30 23:58 .gitignore
+-rw-rw-r--   1 straughter straughter     844 Aug  4 14:04 Custom Resolutions Instructions.txt
+-rw-rw-r--   1 straughter straughter    3039 Aug  4 14:04 Dockerfile
+-rw-rw-r--   1 straughter straughter   21469 Aug  4 14:04 LICENSE.txt
+-rw-r--r--   1 straughter straughter   50120 Aug 30 23:35 README.md
+drwxrwxr-x   2 straughter straughter    4096 Aug 31 14:00 __pycache__
+drwxr-xr-x   3 straughter straughter    4096 Sep  7 17:33 acceptance-grid56-20260907
+drwxr-xr-x   3 straughter straughter    4096 Sep  7 23:52 acceptance-grid56-r2
+drwxrwxr-x  28 straughter straughter    4096 Oct  3 02:38 ckpts
+drwxrwxr-x   2 straughter straughter   12288 Aug 30 23:35 defaults
+drwxrwxr-x   3 straughter straughter    4096 Aug 30 23:35 docs
+-rwxrwxr-x   1 straughter straughter    4543 Aug  4 14:04 entrypoint.sh
+-rw-rw-r--   1 straughter straughter   16138 Aug  4 14:04 favicon.png
+drwxr-xr-x   2 straughter straughter    4096 Aug 31 01:12 ffmpeg_bins
+drwxr-xr-x   3 straughter straughter    4096 Sep 20 16:56 film
+drwxrwxr-x   2 straughter straughter    4096 Aug  6 11:29 finetunes
+drwxrwxr-x   2 straughter straughter    4096 Aug 30 23:35 icons
+-rw-r--r--   1 straughter straughter 3196386 Sep 25 10:22 latent.pt
+drwxr-xr-x   3 straughter straughter    4096 Sep 16 12:39 lf002-cut2-retry-after-finding60-20260916
+drwxr-xr-x   2 straughter straughter    4096 Sep 16 15:47 lf002-single-ledger-main-20260916
+drwxr-xr-x   3 straughter straughter    4096 Sep 16 11:32 lf002-two-cut-seed905-fresh-20260916
+drwxr-xr-x   3 straughter straughter    4096 Sep 16 09:16 lf002-two-cut-seed905-prefix-20260916
+drwxr-xr-x   3 straughter straughter    4096 Sep 17 11:08 lf002-two-cut-vibevoice-20260917
+drwxr-xr-x   5 straughter straughter    4096 Sep 19 08:46 lf003-four-cut-fullgate-20260919
+drwxr-xr-x   5 straughter straughter    4096 Sep 19 15:03 lf003-four-cut-fullgate-retry-20260919
+drwxr-xr-x   3 straughter straughter    4096 Sep 17 15:06 lf003-two-cut-vibevoice-20260917
+drwxr-xr-x   3 straughter straughter    4096 Sep 17 22:46 lf003-two-cut-vibevoice-fullgate-20260918
+drwxr-xr-x   3 straughter straughter    4096 Sep 18 21:54 lf003-two-cut-vibevoice-rhostrong-20260918
+drwxr-xr-x   3 straughter straughter    4096 Sep 17 15:38 lf003-two-cut-vibevoice-strict-20260917
+drwxr-xr-x   3 straughter straughter    4096 Sep 11 09:20 lf003-v2-control-20260911
+drwxr-xr-x   3 straughter straughter    4096 Sep 11 10:35 lf003-v3-exact-20260911
+drwxr-xr-x   3 straughter straughter    4096 Sep  9 07:46 lf003-v3-golden-20260909
+drwxr-xr-x   3 straughter straughter    4096 Sep 11 09:49 lf003-v3-golden-20260911
+drwxr-xr-x   3 straughter straughter    4096 Sep  9 20:04 lf003-v3-newaudio-20260909
+drwxr-xr-x   3 straughter straughter    4096 Sep  9 00:25 lf003-v3-repro-20260909
+drwxr-xr-x   4 straughter straughter    4096 Sep 20 15:54 lf004-operator-dogfood-20260920
+drwxr-xr-x   4 straughter straughter    4096 Sep 20 20:30 lf004-operator-dogfood-56f-recovery-20260921
+drwxr-xr-x  10 straughter straughter    4096 Sep 27 08:42 loras
+drwxrwxr-x  20 straughter straughter    4096 Sep 24 16:18 models
+drwxr-xr-x   6 straughter straughter    4096 Sep 25 09:22 outputs
+drwxrwxr-x  12 straughter straughter    4096 Aug  4 14:04 plugins
+-rw-r--r--   1 straughter straughter   12408 Aug 30 23:35 plugins.json
+drwxrwxr-x  16 straughter straughter    4096 Aug 30 23:35 postprocessing
+drwxrwxr-x  13 straughter straughter    4096 Aug 15 11:17 preprocessing
+drwxrwxr-x  21 straughter straughter    4096 Aug 30 23:35 profiles
+-rw-r--r--   1 straughter straughter    2965 Aug 30 23:35 requirements.txt
+-rw-r--r--   1 straughter straughter     795 Aug 31 14:03 run-chained-test.sh
+-rwxrwxr-x   1 straughter straughter    7157 Aug  4 14:04 run-docker-cuda-deb.sh
+drwxrwxr-x   2 straughter straughter    4096 Aug  4 14:04 scripts
+drwxr-xr-x   2 straughter straughter    4096 Aug  4 14:13 settings
+-rw-rw-r--   1 straughter straughter   40987 Aug  4 14:04 setup.py
+-rw-r--r--   1 straughter straughter    8909 Aug 30 23:35 setup_config.json
+drwxrwxr-x  19 straughter straughter    4096 Aug 30 23:35 shared
+-rw-r--r--   1 straughter straughter    1791 Aug 31 14:03 shot-config.json
+-rw-r--r--   1 straughter straughter     492 Sep 24 22:44 stable-generate.json
+-rw-r--r--   1 straughter straughter       0 Sep 30 10:38 startup.lock
+drwxr-xr-x   2 straughter straughter    4096 Sep 17 19:36 synctest-81
+drwxrwxr-x   2 straughter straughter    4096 Aug 30 23:35 test_h3_int8_config
+drwxr-xr-x   2 straughter straughter    4096 Aug 30 23:35 tests
+drwxr-xr-x   3 straughter straughter    4096 Sep 12 02:39 v3-native-control-20260912b
+drwxr-xr-x   3 straughter straughter    4096 Sep 12 19:13 v3-native-fixed-20260912
+drwxr-xr-x   3 straughter straughter    4096 Sep 15 00:54 v3-native-replay-20260915b
+-rw-r--r--   1 straughter straughter    3322 Aug 31 13:59 verify_chained.py
+drwxrwxr-x   3 straughter straughter    4096 Aug 30 23:35 wangp-agent
+drwxr-xr-x  10 straughter straughter    4096 Sep 26 16:27 wd-7fvx
+drwxr-xr-x   7 straughter straughter    4096 Sep 26 11:13 wd-9t9o
+drwxr-xr-x   3 straughter straughter    4096 Sep 25 00:21 wd-cpow-assets
+drwxr-xr-x   8 straughter straughter    4096 Sep 25 17:04 wd-dmf2
+drwxr-xr-x   8 straughter straughter    4096 Sep 26 10:01 wd-isg9
+-rwxr-xr-x   1 straughter straughter     253 Sep 24 17:26 wd-m0r5-batch-dry.sh
+-rw-r--r--   1 straughter straughter    1364 Sep 24 18:00 wd-m0r5-face-gate.py
+-rw-r--r--   1 straughter straughter     839 Sep 24 18:38 wd-m0r5-face-pair-gate.py
+-rw-r--r--   1 straughter straughter    2970 Sep 24 17:26 wd-m0r5-flux-batch.json
+-rwxr-xr-x   1 straughter straughter     153 Sep 24 17:08 wd-m0r5-flux-dry.sh
+-rwxr-xr-x   1 straughter straughter     149 Sep 24 17:25 wd-m0r5-flux-edit-dry.sh
+-rw-r--r--   1 straughter straughter     539 Sep 24 17:25 wd-m0r5-flux-edit.json
+total 1136
+drwxr-xr-x  18 straughter straughter   4096 Sep 26 16:57 .
+drwxr-x--- 208 straughter straughter  36864 Oct  3 02:38 ..
+-rw-r--r--   1 straughter straughter     68 Sep 26 16:15 .git
+-rw-r--r--   1 straughter straughter    614 Sep 26 16:15 .gitignore
+-rw-r--r--   1 straughter straughter    844 Sep 26 16:15 Custom Resolutions Instructions.txt
+-rw-r--r--   1 straughter straughter   3039 Sep 26 16:15 Dockerfile
+-rw-r--r--   1 straughter straughter  21469 Sep 26 16:15 LICENSE.txt
+-rw-r--r--   1 straughter straughter  50120 Sep 26 16:15 README.md
+lrwxrwxrwx   1 straughter straughter     29 Sep 26 16:15 ckpts -> /home/straughter/Wan2GP/ckpts
+drwxr-xr-x   2 straughter straughter  12288 Sep 26 16:15 defaults
+drwxr-xr-x   3 straughter straughter   4096 Sep 26 16:15 docs
+-rwxr-xr-x   1 straughter straughter   4543 Sep 26 16:15 entrypoint.sh
+-rw-r--r--   1 straughter straughter  16138 Sep 26 16:15 favicon.png
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:44 ffmpeg_bins
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:15 finetunes
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:15 icons
+drwxr-xr-x   3 straughter straughter   4096 Sep 26 16:44 loras
+-rw-r--r--   1 straughter straughter    510 Sep 26 16:59 loras_url_cache_v2.json
+drwxr-xr-x  19 straughter straughter   4096 Sep 26 16:15 models
+drwxr-xr-x  12 straughter straughter   4096 Sep 26 16:15 plugins
+-rw-r--r--   1 straughter straughter  12408 Sep 26 16:15 plugins.json
+drwxr-xr-x  16 straughter straughter   4096 Sep 26 16:44 postprocessing
+drwxr-xr-x  13 straughter straughter   4096 Sep 26 16:55 preprocessing
+drwxr-xr-x  21 straughter straughter   4096 Sep 26 16:15 profiles
+-rw-r--r--   1 straughter straughter   2965 Sep 26 16:15 requirements.txt
+-rwxr-xr-x   1 straughter straughter   7157 Sep 26 16:15 run-docker-cuda-deb.sh
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:15 scripts
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:44 settings
+-rw-r--r--   1 straughter straughter  40987 Sep 26 16:15 setup.py
+-rw-r--r--   1 straughter straughter   8909 Sep 26 16:15 setup_config.json
+drwxr-xr-x  19 straughter straughter   4096 Sep 26 16:15 shared
+drwxr-xr-x   2 straughter straughter   4096 Sep 26 16:15 tests
+drwxr-xr-x   3 straughter straughter   4096 Sep 26 16:15 wangp-agent
+-rw-r--r--   1 straughter straughter 816373 Sep 26 16:15 wgp.py
+-rw-r--r--   1 straughter straughter  13158 Sep 26 16:44 wgp_config.json
+total 1140
+drwxr-xr-x  18 straughter straughter   4096 Sep 27 13:18 .
+drwxr-x--- 208 straughter straughter  36864 Oct  3 02:38 ..
+-rw-r--r--   1 straughter straughter     68 Sep 27 13:06 .git
+-rw-r--r--   1 straughter straughter    620 Sep 27 13:06 .gitignore
+-rw-r--r--   1 straughter straughter    844 Sep 27 13:06 Custom Resolutions Instructions.txt
+-rw-r--r--   1 straughter straughter   3039 Sep 27 13:06 Dockerfile
+-rw-r--r--   1 straughter straughter  21469 Sep 27 13:06 LICENSE.txt
+-rw-r--r--   1 straughter straughter  50120 Sep 27 13:06 README.md
+lrwxrwxrwx   1 straughter straughter     29 Sep 27 13:06 ckpts -> /home/straughter/Wan2GP/ckpts
+drwxr-xr-x   2 straughter straughter  12288 Sep 27 13:06 defaults
+drwxr-xr-x   3 straughter straughter   4096 Sep 27 13:06 docs
+-rwxr-xr-x   1 straughter straughter   4543 Sep 27 13:06 entrypoint.sh
+-rw-r--r--   1 straughter straughter  16138 Sep 27 13:06 favicon.png
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:08 ffmpeg_bins
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:06 finetunes
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:06 icons
+drwxr-xr-x   3 straughter straughter   4096 Sep 27 13:08 loras
+-rw-r--r--   1 straughter straughter    332 Sep 27 13:19 loras_url_cache_v2.json
+drwxr-xr-x  19 straughter straughter   4096 Sep 27 13:08 models
+drwxr-xr-x  12 straughter straughter   4096 Sep 27 13:06 plugins
+-rw-r--r--   1 straughter straughter  12408 Sep 27 13:06 plugins.json
+drwxr-xr-x  16 straughter straughter   4096 Sep 27 13:08 postprocessing
+drwxr-xr-x  12 straughter straughter   4096 Sep 27 13:06 preprocessing
+drwxr-xr-x  21 straughter straughter   4096 Sep 27 13:06 profiles
+-rw-r--r--   1 straughter straughter   2965 Sep 27 13:06 requirements.txt
+-rwxr-xr-x   1 straughter straughter   7157 Sep 27 13:06 run-docker-cuda-deb.sh
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:06 scripts
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:08 settings
+-rw-r--r--   1 straughter straughter  40987 Sep 27 13:06 setup.py
+-rw-r--r--   1 straughter straughter   8909 Sep 27 13:06 setup_config.json
+drwxr-xr-x  19 straughter straughter   4096 Sep 27 13:08 shared
+drwxr-xr-x   2 straughter straughter   4096 Sep 27 13:06 tests
+drwxr-xr-x   3 straughter straughter   4096 Sep 27 13:06 wangp-agent
+-rw-r--r--   1 straughter straughter 821002 Sep 27 13:06 wgp.py
+-rw-r--r--   1 straughter straughter  13158 Sep 27 13:08 wgp_config.json

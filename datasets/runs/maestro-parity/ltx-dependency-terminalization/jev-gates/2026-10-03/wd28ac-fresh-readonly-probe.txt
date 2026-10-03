@@ -1,0 +1,35 @@
+UTC=2026-10-03T15:57:43Z
+HOST=straughter-Z690-Steel-Legend
+USER=straughter
+--- disk ---
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 804533833728 44718174208  95% /
+--- gpu ---
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+--- compute apps ---
+--- qc health ---
+QC_PORT_8000=unreachable
+QC_PORT_8420=unreachable
+--- execution trees ---
+TREE=/home/straughter/Wan2GP-story-WD-m7xw
+faea82d15bf10b3479c42c0ea430892aae975870
+?? ckpts
+TREE=/home/straughter/Wan2GP-story-WD-osfm
+4c93b64a47b5b0a915f2abec2ce754be98227150
+?? ckpts
+--- declared asset state ---
+ASSET=ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors|PRESENT
+TYPE=regular file|SIZE=1308778338|INODE=42729921|MTIME=1791013201
+515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors
+PARTIAL=ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors|ABSENT
+ASSET=ltx-2.3-22b-ic-lora-outpaint.safetensors|PRESENT
+TYPE=regular file|SIZE=1308756416|INODE=42729976|MTIME=1791036691
+32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors
+PARTIAL=ltx-2.3-22b-ic-lora-outpaint.safetensors|ABSENT
+ASSET=ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors|ABSENT
+PARTIAL=ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors|ABSENT
+ASSET=ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors|ABSENT
+PARTIAL=ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors|ABSENT
+ASSET=ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors|ABSENT
+PARTIAL=ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors|ABSENT
+--- relevant processes ---

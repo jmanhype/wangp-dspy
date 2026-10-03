@@ -1,0 +1,54 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Start only the existing governed local judge/QC service using the accepted judge_ctl path.",
+    "Do not run any WD-28ac native operation in this phase.",
+    "Do not admit a queue job or render.",
+    "Do not download, move, delete, overwrite, or substitute model artifacts.",
+    "Do not expose credentials.",
+    "Do not incur provider spend or training.",
+    "Do not mutate unrelated host state.",
+    "Do not change protected engine files.",
+    "Stop the judge cleanly if health does not pass or the next gate rejects execution."
+  ],
+  "current_step": "Restore the single missing WD-28ac Phase B precondition: a healthy governed QC judge.",
+  "pending_action": {
+    "kind": "start_and_verify_existing_wd_28ac_qc_judge",
+    "target": "WD-28ac QC readiness phase: start /home/straughter/marathon/bin/judge_ctl.sh, verify port 8000 health and GPU/process state, and stop immediately on failure",
+    "summary": "Start only the existing governed judge used by accepted runs, verify its health endpoint, and take no operation action.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Jev Gate #5 selected gather_evidence with confidence 0.72 before host execution.",
+    "Fresh read-only probe at 2026-10-03T18:01:25Z verified host and user identity.",
+    "Fresh probe verified all five declared model finals by exact size and file SHA-256; all partials were absent.",
+    "Fresh probe verified all seven accepted reference assets by exact size and SHA-256.",
+    "Fresh probe verified both execution trees at their accepted commits and expected status.",
+    "Fresh probe verified GPU idle with 23978 MiB free and no compute applications.",
+    "Fresh probe recorded 23422541824 bytes free, above the current 1 GiB Phase B planner floor.",
+    "Ports 8000 and 8420 were unreachable, confirming the expected judge is down.",
+    "An unrelated audio-critic service was observed on port 8377; it does not satisfy the governed Phase B judge requirement.",
+    "A prior accepted WD-28ac preflight started the exact existing judge_ctl service, health returned status ok, GPU use was recorded, and the service stopped cleanly with zero remaining processes.",
+    "The Phase B local plan is CI-green and its only false preflight check is qc_healthy."
+  ],
+  "uncertainties": [
+    "The judge may fail to start or become unhealthy despite the prior successful reversible start.",
+    "Judge startup may consume GPU memory that must be measured before native operations.",
+    "Native operation readiness still requires a separate Jev gate after health is established."
+  ],
+  "budget": {
+    "elapsed_minutes": 930,
+    "remaining_minutes": 60
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "qc_readiness_only",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "d0a05c447f0e170946a470ffb5638594e94299da",
+    "prior_gate_snapshots": [
+      "91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd"
+    ],
+    "fresh_probe_sha256": "e7ab2d79402d6be3535da14f392268949f656726be6d03834a149009e6e3d8e3"
+  }
+}

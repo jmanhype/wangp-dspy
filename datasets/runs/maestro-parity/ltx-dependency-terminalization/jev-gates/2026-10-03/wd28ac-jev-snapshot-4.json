@@ -1,0 +1,50 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Perform local repository work only.",
+    "Do not contact host 3090.",
+    "Do not start or contact QC.",
+    "Do not admit a queue job, render, download, or retrieve media.",
+    "Do not delete, move, or overwrite verified model artifacts.",
+    "Do not expose credentials.",
+    "Do not change protected engine files.",
+    "Do not claim a capability result without host evidence."
+  ],
+  "current_step": "Prepare the missing WD-28ac Phase B operation runner and local evidence tests after Jev Gate #3 requested more evidence.",
+  "pending_action": {
+    "kind": "implement_and_ci_wd_28ac_phase_b_local_runner",
+    "target": "WD-28ac local Phase B preparation: build a fail-closed operation plan/runner and tests from accepted WD-m7xw and WD-osfm patterns, with dry-run/typed-boundary coverage only",
+    "summary": "Implement the missing local operation orchestration and evidence validation without any host or network action, then verify with focused tests, full suite, lint, release, protected parity, diff check, and exact-head CI.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Jev Gate #3 selected gather_evidence rather than QC/operations, with choice confidence 0.33 and missing-evidence score 1.85.",
+    "All five declared assets are now exact verified finals and all partials are absent.",
+    "Phase A accounting recorded three declared curl invocations, zero undeclared requests, and zero URL-effectiveness probes.",
+    "Current WD-28ac branch contains download preflight/accounting runners and tests but no Phase B operation runner or operation evidence bundle.",
+    "Accepted WD-m7xw evidence contains native argv/exit/log patterns for LTX-2.5 outpaint, repaint, recast, and upscale dependency boundaries.",
+    "Accepted WD-osfm evidence contains native argv/exit/log patterns for LTX-2.3 outpaint, recast, and upscale dependency boundaries.",
+    "Accepted prior runs provide reusable queue, output hash, ffprobe, visual, objective gate, canonical checker, and reviewer-verdict patterns.",
+    "The story explicitly requires each of seven named operations to run once through the governed path with operation-specific evidence.",
+    "Phase A evidence head 66e0f08a31a39fc142549416710c0e043967c263 has exact-head CI success."
+  ],
+  "uncertainties": [
+    "The seven native operations may still produce genuine runtime boundaries after local preparation.",
+    "QC is currently down and will require a separate later Jev gate.",
+    "Root free space is 23522594816 bytes and must be rechecked before Phase B host execution."
+  ],
+  "budget": {
+    "elapsed_minutes": 720,
+    "remaining_minutes": 120
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "local_phase_b_preparation",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "66e0f08a31a39fc142549416710c0e043967c263",
+    "prior_gate_snapshots": [
+      "d1d7b81948f1d7f8e5fa93e8a48782f7d76e04b2b633121d4d17a5dbd46658fa"
+    ]
+  }
+}

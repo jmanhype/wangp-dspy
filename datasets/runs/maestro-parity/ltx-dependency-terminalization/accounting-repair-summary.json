@@ -1,0 +1,31 @@
+{
+  "schema_version": "wangp-dspy.wd-28ac.accounting-repair/v1",
+  "story": "WD-28ac",
+  "basis_boundary": "corrected-retry-boundary.json",
+  "preserved_remote_state_unchanged": true,
+  "runner": {
+    "path": "scripts/run_ltx_dependency_download.py",
+    "write_out_counter": "num_redirects",
+    "unsupported_counter_removed": "redirect_count",
+    "invalid_accounting_behavior": "typed CURL_ACCOUNTING_OUTPUT_INVALID before atomic promotion",
+    "verified_final_behavior": "DESTINATION_OR_PARTIAL_COLLISION before curl invocation",
+    "url_effective_behavior": "parsed from the same declared curl --write-out; no second GET"
+  },
+  "regressions": [
+    "curl 8.5 num_redirects output parses and records one declared curl invocation",
+    "blank/non-integer accounting preserves the partial and prevents promotion",
+    "an exact verified final fails resume before network or mutation",
+    "the declared curl is invoked once and a second URL-effectiveness/network invocation is rejected"
+  ],
+  "local_only_boundary": {
+    "host_3090_contacted": false,
+    "model_body_requests": 0,
+    "url_effectiveness_requests": 0,
+    "finals_moved": 0,
+    "finals_deleted": 0,
+    "partials_moved": 0,
+    "partials_deleted": 0,
+    "queue_admissions": 0,
+    "renders": 0
+  }
+}

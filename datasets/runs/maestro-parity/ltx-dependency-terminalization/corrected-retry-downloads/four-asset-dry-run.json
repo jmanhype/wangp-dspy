@@ -1,0 +1,61 @@
+{
+  "plans": [
+    {
+      "asset_id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "mode": "dry_run",
+      "retry_authorized": true,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "request_accounting": {
+        "curl_invocations": 0,
+        "declared_request_count": 0,
+        "network_request_count": 0,
+        "redirect_count": null,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      }
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "mode": "dry_run",
+      "retry_authorized": true,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "request_accounting": {
+        "curl_invocations": 0,
+        "declared_request_count": 0,
+        "network_request_count": 0,
+        "redirect_count": null,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      }
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "mode": "dry_run",
+      "retry_authorized": true,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "request_accounting": {
+        "curl_invocations": 0,
+        "declared_request_count": 0,
+        "network_request_count": 0,
+        "redirect_count": null,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      }
+    },
+    {
+      "asset_id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "mode": "dry_run",
+      "retry_authorized": true,
+      "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "request_accounting": {
+        "curl_invocations": 0,
+        "declared_request_count": 0,
+        "network_request_count": 0,
+        "redirect_count": null,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      }
+    }
+  ],
+  "count": 4
+}
