@@ -201,6 +201,38 @@ def test_one_declared_curl_records_effective_url_without_second_get(
     assert len(fake.calls) == 1
 
 
+def test_curl_85_num_redirects_parse_and_accounting_are_same_invocation(
+    tmp_path: Path,
+) -> None:
+    manifest, auth = _temporary_pair(tmp_path)
+    controller = runner.load_controller(manifest, auth)
+    fake = FakeCurl(b"exact payload")
+
+    report = controller.execute(ASSET_ID, runner=fake)
+
+    assert runner.WRITE_OUT == (
+        "%{http_code}\t%{url_effective}\t%{size_download}\t"
+        "%{num_redirects}\t%{num_connects}\n"
+    )
+    assert "%{redirect_count}" not in runner.WRITE_OUT
+    assert len(fake.calls) == 1
+    assert report["url_effective_source"] == "declared_curl_write_out"
+    assert report["request_accounting"] == {
+        "curl_invocations": 1,
+        "declared_request_count": 1,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0,
+        "redirect_count": 1,
+        "network_request_count": 2,
+    }
+    source_urls = [
+        value for index, value in enumerate(fake.calls[0])
+        if index > 0 and fake.calls[0][index - 1] != "--write-out"
+        and value.startswith("https://")
+    ]
+    assert source_urls == [json.loads(manifest.read_text())["assets"][1]["source_url"]]
+
+
 def test_hash_mismatch_preserves_partial_without_promotion(
     tmp_path: Path,
 ) -> None:
@@ -247,6 +279,26 @@ def test_invalid_curl_accounting_field_preserves_partial_before_promotion(
     destination = json.loads(manifest.read_text())["assets"][1]["destination"]
     assert Path(f"{destination}.WD-28ac.partial").is_file()
     assert not Path(destination).exists()
+
+
+def test_exact_verified_final_resume_fails_before_network_or_mutation(
+    tmp_path: Path,
+) -> None:
+    manifest, _auth = _temporary_pair(tmp_path)
+    destination = json.loads(manifest.read_text())["assets"][1]["destination"]
+    exact_payload = b"exact payload"
+    Path(destination).write_bytes(exact_payload)
+    before = Path(destination).read_bytes()
+    controller = runner.load_controller(manifest, _auth)
+
+    def no_network(_: list[str]) -> runner.CurlOutcome:
+        raise AssertionError("verified-final resume attempted a network invocation")
+
+    with pytest.raises(runner.LTXDownloadControlError) as raised:
+        controller.execute(ASSET_ID, runner=no_network)
+    assert raised.value.code == "DESTINATION_OR_PARTIAL_COLLISION"
+    assert Path(destination).read_bytes() == before
+    assert not Path(f"{destination}.WD-28ac.partial").exists()
 
 
 def test_current_authorization_blocks_execution_before_network(
