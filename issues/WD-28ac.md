@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T07:44:32Z
-content_hash: "sha256:a4d2f7362a88a8aadd8f5839dad20a69919742a46c5ba51ae91547dc7f522e93"
+updated_at: 2026-10-03T08:05:29Z
+content_hash: "sha256:abff40751739650a4b63badbfc337ba49d81e4af635300fa61670df698429b08"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -243,3 +243,6 @@ BLOCKED: Authorized download failed closed at the first declared asset. Observed
 
 ### 2026-10-03T07:44:31Z speed
 BOUNDARY ARTIFACTS committed and pushed at 1672679ef6985ce16c5b87e409e5911b83e29c08 on story/WD-28ac. Focused tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_dependency_manifest.py tests/test_ltx_download_boundary.py -q => 16 passed. Boundary evidence paths: 15 present, 0 missing. pvg verify changed boundary files --include-tests => PASSED. git diff --check => PASS. Protected-file parity versus origin/main => PASS. No retry, deletion, promotion, queue admission, operation, output, or matrix transition.
+
+### 2026-10-03T08:05:29Z speed
+Exact-head CI for boundary commit 1672679ef6985ce16c5b87e409e5911b83e29c08 passed: run 37107341722, job 111158348210, duration 20m14s, https://github.com/jmanhype/wangp-dspy/actions/runs/37107341722. PR 217 remains open and mergeable. Story is released/open pending distinct operator decisions on the source/hash discrepancy, 172109 undeclared bytes, and preserved partial; no retry is authorized.
