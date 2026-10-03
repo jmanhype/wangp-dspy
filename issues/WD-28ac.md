@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T09:15:15Z
-content_hash: "sha256:4d95e5a190a136e823acb9ef592835cf17691203258f546c0f9a7a4d13b449d1"
+updated_at: 2026-10-03T13:11:01Z
+content_hash: "sha256:3a7c36914de7a99de68bdc394748550fdcbb82d1faefdbf239168280e5ee0a8d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -309,3 +309,6 @@ METADATA-ONLY AUDIT RESULT at 2026-10-03T08:11:12Z: Hugging Face model DeepBeepM
 
 ### 2026-10-03T09:15:15Z speed
 OPERATOR JEV-DELEGATION POLICY recorded after metadata repair. Operator asked that Jev decide future authorization/checkpoint actions to reduce latency. Live Jev is currently unavailable because TYPESAFE_API_KEY is absent; the offline gate is deterministic but uncalibrated and must not be misrepresented as Jev. When a live key is configured, Jev may authorize only an exact operator-predeclared reversible batch/scope, with recorded probabilities and fail-closed policy. Jev cannot broaden scope, approve deletion/credentials/spend/irreversible action, or authorize an undeclared model/body request. The current retry remains unauthorized pending live Jev or an explicit operator decision covering the 172109-byte undeclared boundary, preserved-partial disposition, corrected manifest, four remaining declared downloads, and seven operations.
+
+### 2026-10-03T13:11:01Z speed
+OPERATOR CORRECTED-RETRY AUTHORIZATION at 2026-10-03T13:11:01Z. Verbatim user input: Yes. This approves the immediately preceding corrected WD-28ac retry only: preserve/record the prior 172109-byte undeclared URL-effectiveness GET as a boundary; verify and promote the already-preserved exact-LFS-SHA first partial; request/download only the remaining four declared assets using one declared curl invocation per asset; verify exact sizes and file SHA-256 values; run only the seven named governed operations; and retain all prior prohibitions—no deletion, training, provider spend, unrelated mutation, threshold change, protected-engine change, undeclared model/body request, or WD-bw0h H3 retry. Authorization must be committed to the story record and exact-head CI must pass before host contact.
