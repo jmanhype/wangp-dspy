@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T20:00:19Z
-content_hash: "sha256:19a498e9c28312e658396eb8c90b83acda13dab7021af23e2e21ddc713f95b32"
+updated_at: 2026-10-03T20:01:14Z
+content_hash: "sha256:fb29aa81f6f5ff4112e13f3a98e561c0419d94f8c023b68eb077e8af03be68c2"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -653,3 +653,6 @@ LIVE JEV GATE #7 at 2026-10-03T18:45Z: mode=live, model=jev-latest, snapshot sha
 
 ### 2026-10-03T20:00:19Z speed
 LIVE JEV GATE #8 at 2026-10-03T20:20Z: mode=live, model=jev-latest, snapshot sha256 8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27, decision=CONTINUE, confidence=0.67, constraint risk=0.10, missing evidence score=2.70, triggered_rules=no_veto_triggered. Scope is READ-ONLY RUNTIME INVENTORY ONLY: bounded search for existing mmgp package/runtime candidates in accepted Wan2GP paths, user site-packages, pip/uv caches, likely venvs, and authorized bulk offload root. No install/download/copy/move/delete, no retry, no QC, no queue/render, no protected-file change.
+
+### 2026-10-03T20:01:14Z speed
+Jev Gate #8 read-only runtime inventory result at 2026-10-03T20:00:23Z: historical /home/straughter/Wan2GP/venv and its python/mmgp paths are absent; WD-m7xw/WD-osfm worktrees have no venv; bounded accepted roots, user site-packages, pip/uv caches, and authorized bulk offload root yielded zero mmgp directories/dist-info/wheels/archives; /usr/bin/python3 and python3.12 both fail mmgp import. Root free 23548354560 bytes and bulk free 317216575488 bytes. No install/download/copy/move/delete, retry, QC, queue/render, or protected-file change occurred. Next boundary is exact mmgp 3.7.14 metadata audit.
