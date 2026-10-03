@@ -1,0 +1,174 @@
+{
+  "assets": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "expected_size_bytes": 19447662547,
+      "final": {
+        "exists": true,
+        "regular_file": true,
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size_bytes": 19447662547
+      },
+      "partial": {
+        "exists": false,
+        "regular_file": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial_absent": true,
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "expected_size_bytes": 1308778338,
+      "final": {
+        "exists": true,
+        "regular_file": true,
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size_bytes": 1308778338
+      },
+      "partial": {
+        "exists": false,
+        "regular_file": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial_absent": true,
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "expected_size_bytes": 1308778338,
+      "final": {
+        "exists": true,
+        "regular_file": true,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+      },
+      "partial": {
+        "exists": false,
+        "regular_file": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial_absent": true,
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "expected_size_bytes": 1308756416,
+      "final": {
+        "exists": true,
+        "regular_file": true,
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416
+      },
+      "partial": {
+        "exists": false,
+        "regular_file": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial_absent": true,
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "expected_size_bytes": 327322640,
+      "final": {
+        "exists": true,
+        "regular_file": true,
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size_bytes": 327322640
+      },
+      "partial": {
+        "exists": false,
+        "regular_file": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial_absent": true,
+      "sha256_match": true,
+      "size_match": true
+    }
+  },
+  "curl_processes": {
+    "argv": [
+      "pgrep",
+      "-af",
+      "curl.*DeepBeepMeep|curl.*ltx-2"
+    ],
+    "returncode": 1,
+    "stderr": "",
+    "stdout": ""
+  },
+  "disk": {
+    "argv": [
+      "df",
+      "-B1",
+      "/home/straughter/Wan2GP"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825729413120 23522594816  98% /\n"
+  },
+  "gpu": {
+    "argv": [
+      "nvidia-smi",
+      "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+      "--format=csv,noheader,nounits"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+  },
+  "gpu_apps": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=pid,process_name,used_memory",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "phase_bounds": {
+    "matrix_transitions": 0,
+    "qc_contacted": false,
+    "queue_admissions": 0,
+    "renders": 0
+  },
+  "read_only": true,
+  "report_files": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors.attempt.json": {
+      "sha256": "6cc11b4bfd1b0c760d7b15c941a90fbb51524d6215223a446a95dcb80889d6a0",
+      "size_bytes": 58804
+    },
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors.plan.json": {
+      "sha256": "7354ffeea1fe2de02a14159df1470de0ec9fb1310880d519a620b02f21907790",
+      "size_bytes": 1309
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors.attempt.json": {
+      "sha256": "4ae5be7e161b20b512c68f561b08f3bf01ddd6a9364db5883a16cb48f27b5363",
+      "size_bytes": 7646
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors.plan.json": {
+      "sha256": "5045a7a9bbd9150b637a406c5597ccd608b0aefd4acc070e5e3f3b837b17ddd1",
+      "size_bytes": 1279
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors.attempt.json": {
+      "sha256": "eb97391f6a102d2d0b3f4162f423e96e928ed1e4662726da7db33ee8b08086a4",
+      "size_bytes": 4370
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors.plan.json": {
+      "sha256": "b86b64120339b15e95d17e5d7b741144e2cd80225d2fb97abdde7336575acf7d",
+      "size_bytes": 1345
+    }
+  },
+  "schema_version": "wangp-dspy.wd-28ac.jev-phase-a-postflight/v1",
+  "utc": "2026-10-03T16:46:46.142190Z"
+}

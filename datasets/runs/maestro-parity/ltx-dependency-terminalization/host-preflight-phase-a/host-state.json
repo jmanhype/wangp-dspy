@@ -1,0 +1,131 @@
+{
+    "absent_assets": {
+        "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+            "final": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            },
+            "partial": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            }
+        },
+        "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+            "final": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            },
+            "partial": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            }
+        },
+        "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+            "final": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            },
+            "partial": {
+                "exists": false,
+                "regular_file": false,
+                "sha256": null,
+                "size_bytes": null
+            }
+        }
+    },
+    "authorization_head": "e279ece57acfac372310fe2ea451d71921e32fe3",
+    "disk": {
+        "free_bytes": 44644319232,
+        "total_bytes": 857997254656
+    },
+    "existing_finals": {
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+            "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "expected_size": 1308778338,
+            "observed": {
+                "exists": true,
+                "regular_file": true,
+                "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+                "size_bytes": 1308778338
+            },
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "sha256_match": true,
+            "size_match": true
+        },
+        "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+            "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "expected_size": 1308756416,
+            "observed": {
+                "exists": true,
+                "regular_file": true,
+                "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+                "size_bytes": 1308756416
+            },
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+            "sha256_match": true,
+            "size_match": true
+        }
+    },
+    "gpu": {
+        "compute_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+        },
+        "query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+        }
+    },
+    "host": {
+        "fqdn": "straughter-Z690-Steel-Legend",
+        "hostname": "straughter-Z690-Steel-Legend",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "target": "3090",
+        "user": "straughter"
+    },
+    "jev_gate": 2,
+    "qc_contacted": false,
+    "read_only": true,
+    "schema_version": "wangp-dspy.wd-28ac.jev-phase-a-preflight/v1",
+    "trees": {
+        "/home/straughter/Wan2GP-story-WD-m7xw": {
+            "commit_match": true,
+            "expected_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+            "expected_status": "?? ckpts",
+            "observed_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+            "observed_status": "?? ckpts",
+            "status_match": true
+        },
+        "/home/straughter/Wan2GP-story-WD-osfm": {
+            "commit_match": true,
+            "expected_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+            "expected_status": "?? ckpts",
+            "observed_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+            "observed_status": "?? ckpts",
+            "status_match": true
+        }
+    },
+    "utc": "2026-10-03T16:31:54.248123Z"
+}

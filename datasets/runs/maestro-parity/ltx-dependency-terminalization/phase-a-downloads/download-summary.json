@@ -1,0 +1,153 @@
+{
+  "aggregate_request_accounting": {
+    "curl_invocations": 3,
+    "declared_request_count": 3,
+    "network_request_count": 6,
+    "redirect_count": 3,
+    "undeclared_request_count": 0,
+    "url_effective_probe_request_count": 0
+  },
+  "authorization_head": "e279ece57acfac372310fe2ea451d71921e32fe3",
+  "credential_scan": {
+    "matches": 0,
+    "note": "Raw signed effective URLs remain only in remote reports and /private/tmp; committed reports replace queries.",
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "signed_query"
+    ],
+    "status": "PASS"
+  },
+  "downloads": [
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "connection_count": 2,
+      "curl_exit": 0,
+      "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "expected_size_bytes": 1308778338,
+      "file_sha256_match": true,
+      "http_code": "200",
+      "observed_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "observed_size_bytes": 1308778338,
+      "promoted": true,
+      "raw_report_sha256": "4ae5be7e161b20b512c68f561b08f3bf01ddd6a9364db5883a16cb48f27b5363",
+      "raw_report_size_bytes": 7646,
+      "redirect_count": 1,
+      "reported_size_download_bytes": 1308778338,
+      "request_accounting": {
+        "curl_invocations": 1,
+        "declared_request_count": 1,
+        "network_request_count": 2,
+        "redirect_count": 1,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      },
+      "sanitized_report": "reports/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors.attempt.sanitized.json",
+      "size_match": true,
+      "url_effective_source": "declared_curl_write_out"
+    },
+    {
+      "asset_id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "connection_count": 2,
+      "curl_exit": 0,
+      "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "expected_size_bytes": 327322640,
+      "file_sha256_match": true,
+      "http_code": "200",
+      "observed_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "observed_size_bytes": 327322640,
+      "promoted": true,
+      "raw_report_sha256": "eb97391f6a102d2d0b3f4162f423e96e928ed1e4662726da7db33ee8b08086a4",
+      "raw_report_size_bytes": 4370,
+      "redirect_count": 1,
+      "reported_size_download_bytes": 327322640,
+      "request_accounting": {
+        "curl_invocations": 1,
+        "declared_request_count": 1,
+        "network_request_count": 2,
+        "redirect_count": 1,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      },
+      "sanitized_report": "reports/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors.attempt.sanitized.json",
+      "size_match": true,
+      "url_effective_source": "declared_curl_write_out"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "connection_count": 2,
+      "curl_exit": 0,
+      "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "expected_size_bytes": 19447662547,
+      "file_sha256_match": true,
+      "http_code": "200",
+      "observed_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "observed_size_bytes": 19447662547,
+      "promoted": true,
+      "raw_report_sha256": "6cc11b4bfd1b0c760d7b15c941a90fbb51524d6215223a446a95dcb80889d6a0",
+      "raw_report_size_bytes": 58804,
+      "redirect_count": 1,
+      "reported_size_download_bytes": 19447662547,
+      "request_accounting": {
+        "curl_invocations": 1,
+        "declared_request_count": 1,
+        "network_request_count": 2,
+        "redirect_count": 1,
+        "undeclared_request_count": 0,
+        "url_effective_probe_request_count": 0
+      },
+      "sanitized_report": "reports/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors.attempt.sanitized.json",
+      "size_match": true,
+      "url_effective_source": "declared_curl_write_out"
+    }
+  ],
+  "gate": 2,
+  "phase_boundary": {
+    "matrix_transitions": 0,
+    "qc_contacted": false,
+    "queue_admissions": 0,
+    "renders": 0,
+    "stopped_for": "Jev Gate #3"
+  },
+  "postflight": "../host-preflight-phase-a/phase-a-postflight.json",
+  "preflight": "../host-preflight-phase-a/host-state.json",
+  "schema_version": "wangp-dspy.wd-28ac.jev-phase-a-download-report/v1",
+  "verified_finals": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "partial_absent": true,
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "sha256_match": true,
+      "size_bytes": 19447662547,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "partial_absent": true,
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "sha256_match": true,
+      "size_bytes": 1308778338,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "partial_absent": true,
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "sha256_match": true,
+      "size_bytes": 1308778338,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "partial_absent": true,
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "sha256_match": true,
+      "size_bytes": 1308756416,
+      "size_match": true
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "partial_absent": true,
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "sha256_match": true,
+      "size_bytes": 327322640,
+      "size_match": true
+    }
+  }
+}
