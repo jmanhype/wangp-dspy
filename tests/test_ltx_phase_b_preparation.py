@@ -118,8 +118,8 @@ def test_real_process_plan_maps_exactly_seven_operations(tmp_path: Path) -> None
             template.read_bytes()
         ).hexdigest()
         argv = item["native"]["argv"]
-        assert argv[0].endswith("/venv/bin/python")
-        assert argv[1].endswith("/wgp.py")
+        assert argv[0] == "/usr/bin/python3"
+        assert argv[1] == f"{item['source_root']}/wgp.py"
         assert argv[2:3] == ["--process"]
         assert argv[3] == item["native"]["settings_stage_path"]
         if operation_id != "ltx23-upscale":

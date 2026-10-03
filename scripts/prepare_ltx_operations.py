@@ -21,6 +21,12 @@ GATE4_SNAPSHOT_SHA256 = (
 GATE4_TRACE_SHA256 = (
     "1636e28fb5dbc9945c9fbe98df51500b560c5e9b06792d9798bad4823d283b9d"
 )
+GATE7_SNAPSHOT_SHA256 = (
+    "ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c"
+)
+GATE7_TRACE_SHA256 = (
+    "21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7"
+)
 EXPECTED_TREES = {
     "m7xw": ("faea82d15bf10b3479c42c0ea430892aae975870", "?? ckpts"),
     "osfm": ("4c93b64a47b5b0a915f2abec2ce754be98227150", "?? ckpts"),
@@ -193,6 +199,37 @@ def validate_gate4_authorization(
         ),
     ]
 
+def validate_gate7_authorization(
+    authorization: Mapping[str, Any], gate_evidence: Mapping[str, Any]
+) -> list[PreflightCheck]:
+    gate = authorization.get("jev_final_operations_authorization", {})
+    expected = {
+        "gate": 7,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.80,
+        "snapshot_sha256": GATE7_SNAPSHOT_SHA256,
+        "trace_sha256": GATE7_TRACE_SHA256,
+        "scope": "final_native_operations",
+        "max_attempts_per_operation": 1,
+        "retry": "never",
+        "stop_on_first_terminal_failure": True,
+        "operations_authorized": True,
+        "matrix_cells_authorized": 7,
+        "evidence": "jev-gates/2026-10-03/gate-7-evidence.json",
+    }
+    evidence = gate_evidence.get("gates", {}).get("7", gate_evidence)
+    evidence_ok = (
+        evidence.get("declared_snapshot_sha256") == GATE7_SNAPSHOT_SHA256
+        and evidence.get("declared_trace_sha256") == GATE7_TRACE_SHA256
+        and evidence.get("decision") == "CONTINUE"
+    )
+    return [
+        _check("authorization_gate7_record", gate == expected, json.dumps(gate, sort_keys=True)),
+        _check("authorization_gate7_evidence", evidence_ok, "gate-7 evidence binding"),
+    ]
+
 def evaluate_preflight(
     manifest: Mapping[str, Any],
     authorization: Mapping[str, Any],
@@ -200,7 +237,10 @@ def evaluate_preflight(
     postflight: Mapping[str, Any],
 ) -> list[PreflightCheck]:
     checks: list[PreflightCheck] = []
-    checks += validate_gate4_authorization(authorization, gate_evidence)
+    if postflight.get("final_operations") and "jev_final_operations_authorization" in authorization:
+        checks += validate_gate7_authorization(authorization, gate_evidence)
+    else:
+        checks += validate_gate4_authorization(authorization, gate_evidence)
     qc = postflight.get("phase_bounds", {}).get("qc_contacted")
     # A future host gate must provide a healthy, locally reachable QC fact.
     # Phase A deliberately supplies no such fact.
@@ -237,11 +277,11 @@ def evaluate_preflight(
     return checks
 
 def _command_for(
-    item: Mapping[str, Any], wgp_root: str, run_root: str
+    item: Mapping[str, Any], native_python: str, source_root: str, run_root: str
 ) -> list[str]:
     settings = f"{run_root}/{item['operation_id']}/settings.json"
     output = f"{run_root}/{item['operation_id']}/native-output"
-    command = [f"{wgp_root}/venv/bin/python", f"{wgp_root}/wgp.py", "--process", settings]
+    command = [native_python, f"{source_root}/wgp.py", "--process", settings]
     if item["command_pattern"] != "wd-osfm-upscale":
         command += ["--profile", "3", "--attention", "sdpa"]
     return command + ["--output-dir", output]
@@ -265,6 +305,8 @@ def build_plan(
     postflight_path: Path,
     authorization_path: Path,
     gate_evidence_path: Path,
+    native_python: str = "/usr/bin/python3",
+    final_operations: bool = False,
 ) -> dict[str, Any]:
     run_root = repository_root / RUN_DIR
     manifest = _read_json(run_root / "model-assets.json")
@@ -275,6 +317,7 @@ def build_plan(
     facts = _local_facts_from_snapshots(
         repository_root, raw_preflight, raw_postflight
     )
+    facts["final_operations"] = final_operations
     checks = evaluate_preflight(manifest, authorization, gate_evidence, facts)
     wgp_root = str(Path(manifest["assets"][0]["destination"]).parent.parent)
     run_root_remote = str(Path(wgp_root).parent / "wd-28ac-run" / "phase-b-gate5")
@@ -287,9 +330,14 @@ def build_plan(
             )
         output_name = f"wd_28ac_{item['operation_id']}.mp4"
         evidence_dir = f"phase-b-run/{item['operation_id']}"
+        source_root = str(Path(wgp_root).parent / (
+            "Wan2GP-story-WD-m7xw" if item["row"] == "LTX-2.5"
+            else "Wan2GP-story-WD-osfm"
+        ))
         operations.append({
             **item,
             "status": "planned_not_executed",
+            "source_root": source_root,
             "queue": {
                 "queue_id": f"wd-28ac-phase-b-{item['operation_id']}",
                 "job_id": f"wd-28ac-{item['operation_id']}-attempt-1",
@@ -300,13 +348,19 @@ def build_plan(
                 "template_path": f"datasets/runs/maestro-parity/{item['template']}",
                 "template_sha256": _sha256(template),
                 "settings_stage_path": f"{run_root_remote}/{item['operation_id']}/settings.json",
-                "argv": _command_for(item, wgp_root, run_root_remote),
+                "argv": _command_for(item, native_python, source_root, run_root_remote),
                 "log_path": f"{run_root_remote}/{item['operation_id']}/native.log",
                 "timeout_seconds": 5400,
             },
             "references": {
                 name: {
                     **REFERENCES[name],
+                    "host_path": str(
+                        Path(source_root).parent / (
+                            "wd-m7xw-run" if REFERENCES[name]["story"] == "WD-m7xw"
+                            else "wd-osfm-run"
+                        ) / REFERENCES[name]["path"]
+                    ),
                     "resolved_path": str(
                         repository_root / "datasets/runs/maestro-parity"
                         / REFERENCES[name]["story"] / REFERENCES[name]["path"]
@@ -338,8 +392,15 @@ def build_plan(
     return {
         "schema_version": "wangp-dspy.wd-28ac.phase-b-operation-plan/v1",
         "story": "WD-28ac",
-        "mode": "local_preparation_only",
-        "host_execution_authorized": False,
+        "mode": (
+            "final_native_operations_authorized"
+            if final_operations and "jev_final_operations_authorization" in authorization
+            else "local_preparation_only"
+        ),
+        "host_execution_authorized": (
+            final_operations and "jev_final_operations_authorization" in authorization
+        ),
+        "native_python": native_python,
         "preflight_ready": ready,
         "preflight_checks": [check.__dict__ for check in checks],
         "scheduling": {
@@ -356,6 +417,7 @@ def _local_facts_from_snapshots(
     preflight: Mapping[str, Any],
     postflight: Mapping[str, Any],
 ) -> dict[str, Any]:
+    host_home = Path(next(iter(preflight["trees"]))).parent
     gpu_query = preflight.get("gpu", {}).get("query", {}).get("stdout", "")
     values = [value.strip() for value in gpu_query.split(",")]
     memory_free = int(values[3]) if len(values) >= 4 else 0
@@ -372,7 +434,7 @@ def _local_facts_from_snapshots(
             "status": observed.get("observed_status"),
         }
     return {
-        "qc": {"healthy": False},
+        "qc": {"healthy": postflight.get("qc_healthy") is True},
         "disk_free_bytes": int(next(
             line.split()[3]
             for line in postflight.get("disk", {}).get("stdout", "").splitlines()
@@ -383,9 +445,15 @@ def _local_facts_from_snapshots(
         "models": {
             name: item["final"] for name, item in postflight.get("assets", {}).items()
         },
-        "references": {
-            name: {
-                "path": str(
+            "references": {
+                name: {
+                    "host_path": str(
+                        host_home / (
+                            "wd-m7xw-run" if expected["story"] == "WD-m7xw"
+                            else "wd-osfm-run"
+                        ) / expected["path"]
+                    ),
+                    "path": str(
                     repository_root / "datasets/runs/maestro-parity"
                     / expected["story"] / expected["path"]
                 ),
@@ -455,6 +523,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--postflight", default=str(RUN_DIR / "host-preflight-phase-a/phase-a-postflight.json"))
     parser.add_argument("--authorization", default=str(RUN_DIR / "operator-authorization.json"))
     parser.add_argument("--gate-evidence", default=str(RUN_DIR / "jev-gates/2026-10-03/gate-3-4-evidence.json"))
+    parser.add_argument("--final", action="store_true", help="emit the Gate 7 final-operation plan")
+    parser.add_argument("--gate7-evidence", default=str(RUN_DIR / "jev-gates/2026-10-03/gate-7-evidence.json"))
     parser.add_argument("--output")
     parser.add_argument("--execute-operation")
     return parser
@@ -468,7 +538,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             (root / args.preflight).resolve(),
             (root / args.postflight).resolve(),
             (root / args.authorization).resolve(),
-            (root / args.gate_evidence).resolve(),
+            (root / (args.gate7_evidence if args.final else args.gate_evidence)).resolve(),
+            final_operations=args.final,
         )
         if args.execute_operation:
             execute_operation(plan, args.execute_operation)

@@ -1,0 +1,67 @@
+{
+  "artifacts": {
+    "wd28ac-jev-decision-7.json": {
+      "sha256": "cb816a0f251bbeecf4b733b901551dc98167c638f232e2586870425a17216ede",
+      "size_bytes": 1457
+    },
+    "wd28ac-jev-snapshot-7.json": {
+      "sha256": "eca589aed20ce937c5df15df8a9ebb40aa74d227ccb503b60154b304501ca6a3",
+      "size_bytes": 4146
+    },
+    "wd28ac-jev-trace-7.jsonl": {
+      "sha256": "706d2ce46a6926b798b49b4e1ec9f9e0c39212f4d875fa9ae02e88168fbaecdc",
+      "size_bytes": 1155
+    }
+  },
+  "authorized_actions": [
+    "fresh_readonly_preflight",
+    "start_verified_governed_judge_as_needed",
+    "deploy_exact_staged_settings_and_scripts",
+    "execute_each_planned_operation_at_most_once_through_governed_queue_adapter",
+    "collect_output_gate_checker_review_evidence",
+    "stop_judge_cleanly",
+    "postflight_models_references",
+    "transition_exactly_seven_owned_matrix_cells"
+  ],
+  "confidence": 0.8,
+  "constraint_risk": 0.37,
+  "decision": "CONTINUE",
+  "declared_snapshot_sha256": "ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c",
+  "declared_trace_sha256": "21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7",
+  "gate": 7,
+  "hash_semantics": {
+    "snapshot_file_digest": "raw copied snapshot bytes, retained separately",
+    "snapshot_sha256_source": "decision.snapshot_sha256",
+    "trace_sha256_source": "canonical compact sorted JSON records joined with newline"
+  },
+  "missing_evidence_score": 1.16,
+  "mode": "live",
+  "model": "jev-latest",
+  "prohibited_actions": [
+    "download",
+    "model_substitution",
+    "deletion",
+    "training",
+    "provider_spend",
+    "unrelated_mutation",
+    "protected_engine_change",
+    "wd_bw0h_h3_retry",
+    "retry_native_operation"
+  ],
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "typesafe_token"
+    ],
+    "status": "PASS"
+  },
+  "raw_snapshot_file_sha256": "eca589aed20ce937c5df15df8a9ebb40aa74d227ccb503b60154b304501ca6a3",
+  "schema_version": "wangp-dspy.wd-28ac.jev-gate/v1",
+  "scope": "FINAL_NATIVE_OPERATIONS",
+  "triggered_rules": [
+    "no_veto_triggered"
+  ]
+}

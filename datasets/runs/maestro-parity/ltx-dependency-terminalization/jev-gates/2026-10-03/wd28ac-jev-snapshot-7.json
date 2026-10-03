@@ -1,0 +1,57 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Proceed only with the seven named WD-28ac operations.",
+    "Start only the existing governed local judge/QC service and stop it after the terminal batch boundary.",
+    "Do not retry a failed native operation.",
+    "Do not download, move, delete, overwrite, or substitute model artifacts.",
+    "Do not expose credentials.",
+    "Do not incur provider spend or training.",
+    "Do not mutate unrelated host state.",
+    "Do not change protected engine files.",
+    "Admit and execute each planned operation at most once through the governed queue/adapter path with exact argv and durable logs.",
+    "Stop the queue on the first terminal failure and preserve a typed native boundary.",
+    "Change exactly the seven owned matrix cells and no unrelated row."
+  ],
+  "current_step": "Decide whether WD-28ac Phase B native operations may begin after fresh state, local planning, exact assets, and QC readiness have all been verified.",
+  "pending_action": {
+    "kind": "execute_wd_28ac_seven_native_operations",
+    "target": "WD-28ac Phase B final: start verified governed judge, execute the seven planned native operations once each through the governed queue/adapter path, collect complete evidence, stop the judge, and apply exactly the seven validated matrix transitions",
+    "summary": "Run the CI-green seven-operation plan with no retry, stop on first terminal failure, and preserve complete provenance/gates/review evidence.",
+    "irreversible": false
+  },
+  "evidence": [
+    "All five declared model finals match exact size and actual file SHA-256; all partials are absent.",
+    "Phase A accounting recorded three declared curl invocations, zero undeclared requests, and zero URL-effectiveness probes.",
+    "The exact operation planner covers seven row/asset/reference/native mappings and is CI-green at d0a05c447f0e170946a470ffb5638594e94299da.",
+    "Focused Phase B planning tests passed 36/36 and the full suite passed 2220 tests with one pre-existing host-gated skip.",
+    "Jev Gate #5 correctly requested fresh evidence before native execution.",
+    "Fresh read-only evidence verified host/user, 23422541824 free bytes, idle GPU with no compute apps, exact execution trees, all five model hashes, and all seven reference hashes.",
+    "Jev Gate #6 authorized QC readiness only with continue confidence 0.98.",
+    "The existing governed judge started successfully, returned HTTP 200 with exact body status ok on the first poll, and occupied 7752 MiB GPU memory with 16215 MiB remaining.",
+    "The same judge stopped cleanly with zero remaining processes; post-stop GPU returned to 23972 MiB free.",
+    "QC readiness hashed all five model finals and six required references before and after; every identity was unchanged.",
+    "QC readiness evidence head 985e49a69f0bb70f41a8d2a4ebdc500366978b9a has exact-head CI success in run 37144596220.",
+    "No native operation, queue admission, render, retrieval, model mutation, reference mutation, protected-file edit, or matrix transition has occurred."
+  ],
+  "uncertainties": [
+    "The judge must be restarted and become healthy immediately before operations.",
+    "Root free space is approximately 23.3 GB and should be monitored but is expected sufficient for small generated outputs.",
+    "Native operations may still produce genuine runtime boundaries even with complete dependencies, CI-green planning, and proven QC readiness."
+  ],
+  "budget": {
+    "elapsed_minutes": 990,
+    "remaining_minutes": 30
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "final_native_operations",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "985e49a69f0bb70f41a8d2a4ebdc500366978b9a",
+    "prior_gate_snapshots": [
+      "91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd",
+      "f9509a57f4311c4a595e591551fe2f3fd4e55e25bf0862ee107fb263d9340aae"
+    ]
+  }
+}

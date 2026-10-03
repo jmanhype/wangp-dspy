@@ -241,6 +241,7 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "jev_phase_a_authorization",
         "jev_phase_b_preparation_authorization",
         "jev_qc_readiness_authorization",
+        "jev_final_operations_authorization",
         "assets",
         "operator_approval",
         "authorized_scope",
@@ -385,6 +386,22 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         ],
         "operations_authorized": False,
         "evidence": "jev-gates/2026-10-03/gate-5-6-evidence.json",
+    }
+    assert authorization["jev_final_operations_authorization"] == {
+        "gate": 7,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.80,
+        "snapshot_sha256": "ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c",
+        "trace_sha256": "21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7",
+        "scope": "final_native_operations",
+        "max_attempts_per_operation": 1,
+        "retry": "never",
+        "stop_on_first_terminal_failure": True,
+        "operations_authorized": True,
+        "matrix_cells_authorized": 7,
+        "evidence": "jev-gates/2026-10-03/gate-7-evidence.json",
     }
     assert authorization["authorized_scope"]["boundaries"] == [
         "no training",
