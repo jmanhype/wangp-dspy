@@ -3,7 +3,7 @@
   "status": "not_authorized",
   "manifest": {
     "path": "model-assets.json",
-    "sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
+    "sha256": "05c9e6ba1d69d4a75c20d83bcb41e381e64de2a310b8dcba05a84f66b62136d2",
     "total_download_bytes": 23701298279
   },
   "assets": [

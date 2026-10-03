@@ -3,9 +3,9 @@
   "story": "WD-28ac",
   "status": "failed_closed",
   "boundary": {
-    "code": "DECLARED_ASSET_HASH_MISMATCH_AFTER_UNDECLARED_URL_PROBE",
+    "code": "UNDECLARED_URL_EFFECTIVENESS_GET_AFTER_XET_HASH_MISLABELLING",
     "critical": true,
-    "reason": "The first declared asset GET returned HTTP 200 with the exact expected size but the wrong SHA-256. A script defect then issued a second undeclared URL-effectiveness GET, which timed out after reporting 172109 payload bytes. The batch stopped before atomic promotion, any further asset request, queue admission, or operation attempt.",
+    "reason": "The first declared asset GET returned HTTP 200 with the exact expected size and the true LFS-OID file SHA-256, but the prior manifest mislabelled an XET hash as sha256. A script defect then issued a second undeclared URL-effectiveness GET, which timed out after reporting 172109 payload bytes. The batch stopped before atomic promotion, any further asset request, queue admission, or operation attempt.",
     "not_a_hardware_verdict": true,
     "not_an_unsupported_operation_verdict": true,
     "substitution_attempted": false,
@@ -18,6 +18,16 @@
     "job_id": 111152157485,
     "conclusion": "success",
     "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37105175190"
+  },
+  "metadata_audit_interpretation": {
+    "repository_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
+    "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
+    "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
+    "prior_manifest_sha256_values_were_xet_hash": true,
+    "actual_file_sha256_source": "metadata lfs.oid",
+    "source_hash_discrepancy_resolved": true,
+    "undeclared_request_boundary_remains": true,
+    "evidence": "metadata-audit/summary.json"
   },
   "preflight": {
     "fresh_read_only_evidence": "host-preflight-fresh/host-state.json",
@@ -48,9 +58,12 @@
       "observed_size_bytes": 1308778338,
       "expected_size_bytes": 1308778338,
       "observed_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
-      "expected_sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
+      "actual_expected_file_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "prior_manifest_xet_hash_mislabelled_sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
       "size_matches": true,
-      "hash_matches": false,
+      "file_sha256_matches": true,
+      "prior_verification_compared_file_sha256_to_xet_hash": true,
+      "xet_hash_matches_file_sha256": false,
       "promoted": false
     },
     "undeclared_url_effective_probe": {
@@ -96,10 +109,11 @@
     "host-download-boundary/remote/download.disk-failed.txt",
     "host-download-boundary/remote/download.network-before.txt",
     "host-download-boundary/remote/download.network-failed.txt",
+    "metadata-audit/summary.json",
     "download-boundary-remote-state.txt",
     "host-download-boundary/qc-stop.txt",
     "host-download-boundary/qc-status-after-stop.txt",
     "host-download-boundary/gpu-apps-after-stop.txt"
   ],
-  "required_operator_decision": "Do not retry, move, rename, or delete the preserved partial. A distinct operator decision must resolve the source/hash discrepancy and the 172109 undeclared bytes before WD-28ac can resume."
+  "required_operator_decision": "Do not retry, move, rename, or delete the preserved partial. The source/hash discrepancy is resolved as XET/LFS-OID mislabelling, but a distinct operator decision is still required for the 172109 undeclared bytes, preserved-partial disposition, and any retry."
 }

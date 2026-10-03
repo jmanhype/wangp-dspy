@@ -18,14 +18,16 @@ AUTHORIZATION_PATH = RUN_DIR / "operator-authorization.template.json"
 AUTHORIZED_AUTHORIZATION_PATH = RUN_DIR / "operator-authorization.json"
 TOTAL_BYTES = 23_701_298_279
 ASSET_FIELDS = {
-    "id", "source_url", "sha256", "size_bytes", "license", "destination",
+    "id", "source_url", "sha256", "xet_hash", "size_bytes", "license",
+    "destination",
 }
 
 EXPECTED_ASSETS: dict[str, dict[str, Any]] = {
     "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
         "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
         "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
-        "sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "xet_hash": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
         "size_bytes": 1_308_778_338,
         "license": "Upstream distribution license; operator research/evaluation only",
         "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
@@ -33,7 +35,8 @@ EXPECTED_ASSETS: dict[str, dict[str, Any]] = {
     "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
         "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
         "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-outpaint.safetensors",
-        "sha256": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0",
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "xet_hash": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0",
         "size_bytes": 1_308_756_416,
         "license": "Upstream distribution license; operator research/evaluation only",
         "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
@@ -41,7 +44,8 @@ EXPECTED_ASSETS: dict[str, dict[str, Any]] = {
     "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
         "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
         "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
-        "sha256": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837",
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "xet_hash": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837",
         "size_bytes": 1_308_778_338,
         "license": "Upstream distribution license; operator research/evaluation only",
         "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
@@ -49,7 +53,8 @@ EXPECTED_ASSETS: dict[str, dict[str, Any]] = {
     "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
         "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
         "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
-        "sha256": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996",
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "xet_hash": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996",
         "size_bytes": 327_322_640,
         "license": "Upstream distribution license; operator research/evaluation only",
         "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
@@ -57,7 +62,8 @@ EXPECTED_ASSETS: dict[str, dict[str, Any]] = {
     "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
         "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
         "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
-        "sha256": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22",
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "xet_hash": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22",
         "size_bytes": 19_447_662_547,
         "license": "Upstream distribution license; operator research/evaluation only",
         "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
@@ -92,8 +98,9 @@ def _read(path: Path) -> dict[str, Any]:
 
 
 def _assert_manifest(payload: dict[str, Any]) -> None:
-    assert set(payload) == {"schema_version", "assets"}
+    assert set(payload) == {"schema_version", "source_revision", "assets"}
     assert payload["schema_version"] == "wangp-dspy.model-assets/v1"
+    assert payload["source_revision"] == "6aa898aea1d968febdd834dc29e1dbef35340aeb"
     entries = payload["assets"]
     assert isinstance(entries, list)
     identities = {entry["id"] for entry in entries}
@@ -103,8 +110,14 @@ def _assert_manifest(payload: dict[str, Any]) -> None:
     for entry in entries:
         assert set(entry) == ASSET_FIELDS
         expected = EXPECTED_ASSETS[entry["id"]]
-        for field in ("source_url", "sha256", "size_bytes", "license", "destination"):
+        for field in (
+            "source_url", "sha256", "xet_hash", "size_bytes", "license",
+            "destination",
+        ):
             assert entry[field] == expected[field], f"{field} drift for {entry['id']}"
+        assert entry["sha256"] != entry["xet_hash"], (
+            f"file SHA-256 and XET hash are conflated for {entry['id']}"
+        )
     assert sum(entry["size_bytes"] for entry in entries) == TOTAL_BYTES
 
 
@@ -140,6 +153,18 @@ def _assert_authorization(
     }
     assert observed_ownership == EXPECTED_OWNERSHIP
     assert frozenset().union(*observed_ownership.values()) == EXPECTED_CELLS
+    manifest_assets = {item["id"]: item for item in manifest["assets"]}
+    assert {
+        item["id"]: {key: item[key] for key in ("sha256", "xet_hash")}
+        for item in assets
+    } == {
+        item["id"]: {key: item[key] for key in ("sha256", "xet_hash")}
+        for item in manifest["assets"]
+    }
+    assert all(
+        manifest_assets[item["id"]]["sha256"] != item["xet_hash"]
+        for item in assets
+    )
 
     required = authorization["required_approval"]
     assert required == {
@@ -209,13 +234,16 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
     assert set(authorization) == {
         "schema_version",
         "status",
+        "retry_authorized",
         "manifest",
+        "metadata_correction",
         "assets",
         "operator_approval",
         "authorized_scope",
         "required_approval",
     }
     assert authorization["schema_version"] == "wangp-dspy.ltx-dependency-authorization/v1"
+    assert authorization["retry_authorized"] is False
     assert authorization["operator_approval"] == {
         "verbatim": "Authorized",
         "approved_by": "operator",
@@ -223,6 +251,16 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "source": "WD-28ac live tracker comment",
     }
     assert authorization["authorized_scope"]["execution_path"] == "governed Wan2GP queue/adapter"
+    assert authorization["metadata_correction"] == {
+        "audit_recorded_utc": "2026-10-03T08:11:12Z",
+        "repository_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
+        "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
+        "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
+        "finding": "The prior manifest sha256 fields contained xetHash values. Repaired sha256 fields are metadata lfs.oid exact-file digests, and xet_hash remains a separately named non-SHA identity.",
+        "prior_manifest_canonical_sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
+        "does_not_authorize_retry": True,
+        "distinct_retry_decision_required": True,
+    }
     assert authorization["authorized_scope"]["boundaries"] == [
         "no training",
         "no provider spend",
@@ -260,6 +298,14 @@ def test_manifest_drift_fails_closed() -> None:
     undeclared_extra_bytes["assets"][0]["size_bytes"] += 1
     with pytest.raises(AssertionError, match="size_bytes drift"):
         _assert_manifest(undeclared_extra_bytes)
+
+
+def test_xet_hash_conflation_fails_closed() -> None:
+    conflated = _read(MANIFEST_PATH)
+    entry = conflated["assets"][0]
+    entry["sha256"] = entry["xet_hash"]
+    with pytest.raises(AssertionError, match="sha256 drift"):
+        _assert_manifest(conflated)
 
 
 def test_partial_authorization_fails_closed() -> None:

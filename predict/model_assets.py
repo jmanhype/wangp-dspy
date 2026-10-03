@@ -15,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 ASSET_SCHEMA = "wangp-dspy.model-assets/v1"
 STATE_SCHEMA = "wangp-dspy.download-state/v1"
 _SHA256 = re.compile(r"[0-9a-f]{64}")
+_REVISION = re.compile(r"[0-9a-f]{40}")
 
 
 class ModelAsset(BaseModel):
@@ -23,6 +24,7 @@ class ModelAsset(BaseModel):
     id: str = Field(min_length=1)
     source_url: str = Field(min_length=1)
     sha256: str = Field(min_length=64, max_length=64)
+    xet_hash: str | None = Field(default=None, min_length=64, max_length=64)
     size_bytes: int = Field(gt=0)
     license: str = Field(min_length=1)
     destination: str = Field(min_length=1)
@@ -33,6 +35,16 @@ class ModelAsset(BaseModel):
         normalized = value.lower()
         if _SHA256.fullmatch(normalized) is None:
             raise ValueError("sha256 must be 64 lowercase hexadecimal characters")
+        return normalized
+
+    @field_validator("xet_hash")
+    @classmethod
+    def _xet_digest(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.lower()
+        if _SHA256.fullmatch(normalized) is None:
+            raise ValueError("xet_hash must be 64 lowercase hexadecimal characters")
         return normalized
 
     @field_validator("source_url")
@@ -54,6 +66,7 @@ class AssetManifest(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     schema_version: str = ASSET_SCHEMA
+    source_revision: str | None = None
     assets: tuple[ModelAsset, ...] = Field(min_length=1)
 
     @field_validator("schema_version")
@@ -61,6 +74,13 @@ class AssetManifest(BaseModel):
     def _version(cls, value: str) -> str:
         if value != ASSET_SCHEMA:
             raise ValueError(f"unsupported asset schema {value!r}; expected {ASSET_SCHEMA}")
+        return value
+
+    @field_validator("source_revision")
+    @classmethod
+    def _revision(cls, value: str | None) -> str | None:
+        if value is not None and _REVISION.fullmatch(value) is None:
+            raise ValueError("source_revision must be a 40-character hexadecimal Git revision")
         return value
 
 
@@ -155,6 +175,7 @@ def asset_status(
         "paused": state.paused,
         "resume_requested": state.resume_requested,
         "source_url": asset.source_url,
+        "xet_hash": asset.xet_hash,
         "license": asset.license,
         "destination": asset.destination,
     }
@@ -170,6 +191,7 @@ def asset_report(
     pending = [entry for entry in entries if entry["status"] != "complete"]
     return {
         "schema_version": ASSET_SCHEMA,
+        "source_revision": manifest.source_revision,
         "assets": entries,
         "download_plan": {
             "asset_count": len(pending),

@@ -1,0 +1,106 @@
+{
+  "asset_count": 5,
+  "assets": [
+    {
+      "git_blob_oid": "6e0bdf38ef25b4a67d0108f6b3ea5f38c697a6bd",
+      "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "lfs_oid_actual_file_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "lfs_size_bytes": 1308778338,
+      "path": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "present_in_model_sibling_list": true,
+      "size_bytes": 1308778338,
+      "xet_hash_not_file_sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba"
+    },
+    {
+      "git_blob_oid": "0196960c6e15609ad8593f6bf45e7f24d54fedd8",
+      "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "lfs_oid_actual_file_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "lfs_size_bytes": 1308756416,
+      "path": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "present_in_model_sibling_list": true,
+      "size_bytes": 1308756416,
+      "xet_hash_not_file_sha256": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0"
+    },
+    {
+      "git_blob_oid": "8e2294c5298135860e98d9c58406547f193628a6",
+      "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "lfs_oid_actual_file_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "lfs_size_bytes": 1308778338,
+      "path": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "present_in_model_sibling_list": true,
+      "size_bytes": 1308778338,
+      "xet_hash_not_file_sha256": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837"
+    },
+    {
+      "git_blob_oid": "a006154ae56688b998081067e19f9c7539dfd195",
+      "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "lfs_oid_actual_file_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "lfs_size_bytes": 327322640,
+      "path": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "present_in_model_sibling_list": true,
+      "size_bytes": 327322640,
+      "xet_hash_not_file_sha256": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996"
+    },
+    {
+      "git_blob_oid": "209ede0728cdbb06d94de7c432b124f65726c33c",
+      "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "lfs_oid_actual_file_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "lfs_size_bytes": 19447662547,
+      "path": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "present_in_model_sibling_list": true,
+      "size_bytes": 19447662547,
+      "xet_hash_not_file_sha256": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22"
+    }
+  ],
+  "finding": {
+    "actual_file_sha256_field": "lfs.oid",
+    "ingredients_partial": {
+      "observed_exact_size_bytes": 1308778338,
+      "observed_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "observed_sha256_equals_lfs_oid": true,
+      "path": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
+    },
+    "prior_manifest_field": "sha256",
+    "prior_manifest_values_were": "xetHash",
+    "xet_hash_is_file_sha256": false
+  },
+  "local_repair_boundary": {
+    "host_3090_contacted": false,
+    "metadata_model_body_bytes_downloaded": 0,
+    "model_body_gets": 0,
+    "preserved_partial_deleted": false,
+    "preserved_partial_moved": false,
+    "protected_files_changed": false,
+    "queue_admissions": 0,
+    "renders": 0
+  },
+  "prior_download_boundary": {
+    "declared_get_count": 1,
+    "source_hash_discrepancy_resolved_by_metadata": true,
+    "undeclared_reported_payload_bytes": 172109,
+    "undeclared_request_boundary_remains": true,
+    "undeclared_url_effective_get_count": 1
+  },
+  "retry_authorized": false,
+  "repository": {
+    "audit_recorded_utc": "2026-10-03T08:11:12Z",
+    "last_modified": "2026-09-29T19:49:05.000Z",
+    "repository_id": "DeepBeepMeep/LTX-2",
+    "revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.metadata-audit/v1",
+  "source_evidence": {
+    "model_json": {
+      "path": "model.json",
+      "sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
+      "size_bytes": 11124
+    },
+    "tree_json": {
+      "path": "tree.json",
+      "sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
+      "size_bytes": 48783
+    }
+  },
+  "story": "WD-28ac",
+  "total_size_bytes": 23701298279
+}

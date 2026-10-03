@@ -16,25 +16,35 @@ RAW_REPORT_HASH = RUN_DIR / "host-download-boundary/remote/download-report.raw.s
 RAW_REMOTE_STATE_HASH = RUN_DIR / "download-boundary-remote-state.raw.sha256"
 
 
-def test_first_declared_download_fails_closed_on_hash_mismatch() -> None:
+def test_first_declared_download_xet_sha_semantics_are_reconciled() -> None:
     record = json.loads(BOUNDARY.read_text(encoding="utf-8"))
 
     assert record["schema_version"] == "wangp-dspy.wd-28ac.download-boundary/v1"
     assert record["status"] == "failed_closed"
     assert record["boundary"]["code"] == (
-        "DECLARED_ASSET_HASH_MISMATCH_AFTER_UNDECLARED_URL_PROBE"
+        "UNDECLARED_URL_EFFECTIVENESS_GET_AFTER_XET_HASH_MISLABELLING"
     )
     attempt = record["download_attempt"]["declared_get"]
     assert attempt["size_matches"] is True
-    assert attempt["hash_matches"] is False
+    assert attempt["file_sha256_matches"] is True
+    assert attempt["xet_hash_matches_file_sha256"] is False
+    assert attempt["prior_verification_compared_file_sha256_to_xet_hash"] is True
     assert attempt["promoted"] is False
     assert attempt["observed_size_bytes"] == 1_308_778_338
     assert attempt["observed_sha256"] == (
         "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559"
     )
-    assert attempt["expected_sha256"] == (
+    assert attempt["actual_expected_file_sha256"] == (
+        "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559"
+    )
+    assert attempt["prior_manifest_xet_hash_mislabelled_sha256"] == (
         "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba"
     )
+    interpretation = record["metadata_audit_interpretation"]
+    assert interpretation["prior_manifest_sha256_values_were_xet_hash"] is True
+    assert interpretation["actual_file_sha256_source"] == "metadata lfs.oid"
+    assert interpretation["source_hash_discrepancy_resolved"] is True
+    assert interpretation["undeclared_request_boundary_remains"] is True
 
 
 def test_undeclared_probe_bytes_are_owned_not_erased() -> None:

@@ -1,10 +1,12 @@
 {
   "schema_version": "wangp-dspy.model-assets/v1",
+  "source_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
   "assets": [
     {
       "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
       "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
-      "sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "xet_hash": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
       "size_bytes": 1308778338,
       "license": "Upstream distribution license; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
@@ -12,7 +14,8 @@
     {
       "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
       "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-outpaint.safetensors",
-      "sha256": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0",
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "xet_hash": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0",
       "size_bytes": 1308756416,
       "license": "Upstream distribution license; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors"
@@ -20,7 +23,8 @@
     {
       "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
       "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
-      "sha256": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837",
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "xet_hash": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837",
       "size_bytes": 1308778338,
       "license": "Upstream distribution license; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors"
@@ -28,7 +32,8 @@
     {
       "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
       "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
-      "sha256": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996",
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "xet_hash": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996",
       "size_bytes": 327322640,
       "license": "Upstream distribution license; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors"
@@ -36,7 +41,8 @@
     {
       "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
       "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
-      "sha256": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22",
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "xet_hash": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22",
       "size_bytes": 19447662547,
       "license": "Upstream distribution license; operator research/evaluation only",
       "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
