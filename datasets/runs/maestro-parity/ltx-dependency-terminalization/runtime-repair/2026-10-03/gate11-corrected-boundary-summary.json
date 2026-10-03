@@ -1,0 +1,87 @@
+{
+  "attempt_accounting": {
+    "corrected_attempts": 1,
+    "declared_wheel_gets": 1,
+    "dependency_installs": 0,
+    "extraction_attempts_completed": 0,
+    "isolated_import_attempts": 0,
+    "retries": 0,
+    "undeclared_requests": 0
+  },
+  "boundary": {
+    "code": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+    "not_a_runtime_or_hardware_verdict": true,
+    "observed_member": "__init__.py",
+    "reason": "The exact hash-verified wheel contains one top-level __init__.py outside both declared roots mmgp/ and mmgp-3.7.14.dist-info/. The fail-closed member validator refused extraction before any payload member was written.",
+    "remediation": "A distinct Jev/operator gate must decide whether the observed wheel layout is acceptable. Do not delete, overwrite, substitute, relax the validator, or retry."
+  },
+  "boundary_counters": {
+    "deletions": 0,
+    "model_mutations": 0,
+    "native_retries": 0,
+    "protected_file_changes": 0,
+    "qc_starts": 0,
+    "queue_admissions": 0,
+    "reference_mutations": 0,
+    "renders": 0
+  },
+  "disk_after": {
+    "available_bytes": 23386750976
+  },
+  "evidence": {
+    "execute_exit_path": "gate11-host-execute-corrected.exit",
+    "execute_stdout_path": "gate11-host-execute-corrected.stdout",
+    "postboundary_path": "gate11-corrected-terminal-boundary.txt",
+    "preflight_path": "gate11-host-readonly-preflight.txt",
+    "remote_report_path": "gate11-corrected-report.json",
+    "remote_report_sha256": "fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6"
+  },
+  "gate": 11,
+  "prehost_ci": {
+    "conclusion": "success",
+    "head": "95c7f74abff29542cd6d338da9ae1c047f676972",
+    "job_id": 111293429957,
+    "run_id": 37153976098,
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37153976098"
+  },
+  "preflight": {
+    "dependency_import_modules": [
+      "torch",
+      "optimum.quanto",
+      "accelerate",
+      "safetensors",
+      "psutil"
+    ],
+    "dependency_imports_passed": 5,
+    "gpu_compute_apps": 0,
+    "gpu_state": "NVIDIA GeForce RTX 3090, 24576 MiB total, 139 MiB used, 23978 MiB free, 0% utilization",
+    "host": "straughter-Z690-Steel-Legend",
+    "system_mmgp_present": false,
+    "user": "straughter"
+  },
+  "preservation": {
+    "models_unchanged": true,
+    "protected_files_unchanged": true,
+    "references_unchanged": true
+  },
+  "remote_artifact_state": {
+    "destination_absent": true,
+    "empty_extraction_staging_preserved": true,
+    "runtime_directory_created": true,
+    "wheel_preserved": true
+  },
+  "schema_version": "wangp-dspy.wd-28ac.gate11-corrected-terminal-boundary/v1",
+  "status": "failed_closed",
+  "story": "WD-28ac",
+  "wheel": {
+    "filename": "mmgp-3.7.14-py3-none-any.whl",
+    "final_url": "https://files.pythonhosted.org/packages/bb/b7/1ec5413a825b3744962221d9cddd134df355a2ce7402971e3ef4c57240fd/mmgp-3.7.14-py3-none-any.whl",
+    "http_status": 200,
+    "member_count": 11,
+    "members_outside_declared_roots": [
+      "__init__.py"
+    ],
+    "sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "size_bytes": 68211
+  }
+}

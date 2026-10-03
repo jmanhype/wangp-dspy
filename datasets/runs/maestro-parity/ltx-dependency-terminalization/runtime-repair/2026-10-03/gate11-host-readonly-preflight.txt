@@ -1,0 +1,43 @@
+host=straughter-Z690-Steel-Legend
+user=straughter
+utc=2026-10-03T21:36:59Z
+
+[input_hashes]
+e93ec58fad8e4b3bc070a8ffb0a1b709b647f9d51652e051e9f46fb540f5f015  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/repair_ltx_runtime.py
+8977ced4fe6c8ffe26aefcca754206c5da683352f5706bbf2066f8dca5a32d27  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/mmgp-35714.json
+7623d348d36ed3686ee37c9e9553ad4414ae4464e7e1743f059e768047f61796  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/gate-11-evidence.json
+29419e4493feb97b1d83c73b6caf830ad9d5cb357bc964aed9bab5719004b167  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/operator-authorization.json
+42a88079a3bf173ecfd09222fb77a8ccff5b92bc36f408cc937f34b7059c1a7f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/model-assets.json
+01a3a3195144d0d46585fe07e76860d5059dbbbcaf8377ec95c35f52936a5ab4  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/final-operation-plan.json
+
+[prior_gate10_preservation]
+201fde3746743f0327f26abb35ce230265edb21cd9634c736fc8f1ef4335947f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/repair_ltx_runtime.py
+8977ced4fe6c8ffe26aefcca754206c5da683352f5706bbf2066f8dca5a32d27  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/mmgp-35714.json
+2a5eb4310189af79e2f24e7b4b36842579fdd77ce4c6adfe552f7e89c2b0b25f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/gate-summary.json
+f7538259dcda52b9022b3280831cc1959479c5270f9d254e9fe5c2d7080a69cd  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/operator-authorization.json
+42a88079a3bf173ecfd09222fb77a8ccff5b92bc36f408cc937f34b7059c1a7f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/model-assets.json
+01a3a3195144d0d46585fe07e76860d5059dbbbcaf8377ec95c35f52936a5ab4  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-input/final-operation-plan.json
+9bfdf79651f84812d4d2cac8a0bdf3e290401aaafb3bbf057cddc5894ea873c7  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-report.json
+
+[required_absence]
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/.mmgp-3.7.14.extraction-staging
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json
+
+[disk]
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 825862279168 23389728768  98% /
+
+[gpu]
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+
+[gpu_compute_apps]
+
+[relevant_processes]
+
+[exact_module_imports]
+{"imports": {"accelerate": {"path": "/home/straughter/.local/lib/python3.12/site-packages/accelerate/__init__.py", "returncode": 0}, "mmgp": {"error": "ModuleNotFoundError: No module named 'mmgp'", "returncode": 1}, "optimum.quanto": {"path": "/home/straughter/.local/lib/python3.12/site-packages/optimum/quanto/__init__.py", "returncode": 0}, "psutil": {"path": "/home/straughter/.local/lib/python3.12/site-packages/psutil/__init__.py", "returncode": 0}, "safetensors": {"path": "/home/straughter/.local/lib/python3.12/site-packages/safetensors/__init__.py", "returncode": 0}, "torch": {"path": "/home/straughter/.local/lib/python3.12/site-packages/torch/__init__.py", "returncode": 0}}, "python": "/usr/bin/python3"}
+
+readonly_preflight=PASS

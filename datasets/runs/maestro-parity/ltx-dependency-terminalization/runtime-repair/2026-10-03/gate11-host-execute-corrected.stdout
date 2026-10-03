@@ -1,0 +1,1 @@
+{"code": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE", "observed": "__init__.py", "remediation": "Refuse extraction outside the mmgp/dist-info payload.", "status": "failed_closed"}
