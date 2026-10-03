@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T13:11:01Z
-content_hash: "sha256:3a7c36914de7a99de68bdc394748550fdcbb82d1faefdbf239168280e5ee0a8d"
+updated_at: 2026-10-03T15:00:34Z
+content_hash: "sha256:fdd2df5a06fc09e77bee60d8e91696039fb79c2c50a2a73ff2c37b69bb48c620"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,46 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## Local Curl Accounting Repair (NOT DELIVERED)
+
+### Basis
+- Corrected-retry boundary remains authoritative in datasets/runs/maestro-parity/ltx-dependency-terminalization/corrected-retry-boundary.json.
+- Existing verified state is preserved unchanged from that boundary snapshot:
+  - ingredients final: size 1308778338, SHA-256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559, promoted with 0 network requests;
+  - outpaint final: size 1308756416, SHA-256 32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665, produced by exactly 1 declared curl invocation and 0 separate URL-effectiveness GETs;
+  - three remaining assets were not requested.
+
+### Repair at bb0af2e12ffd9f8d867448ce4db49316c550d66e
+- scripts/run_ltx_dependency_download.py now uses the curl 8.5.0 documented `%{num_redirects}` write-out, not unsupported `%{redirect_count}`.
+- Non-integer/blank accounting fields raise typed `CURL_ACCOUNTING_OUTPUT_INVALID` before `os.replace`, preserving the partial and preventing promotion.
+- An already-present exact verified final fails `DESTINATION_OR_PARTIAL_COLLISION` before curl invocation, move, or deletion.
+- `url_effective` continues to come from the same declared curl write-out; the runner records `url_effective_probe_request_count=0` and rejects a second invocation of the same asset.
+- Local summary: datasets/runs/maestro-parity/ltx-dependency-terminalization/accounting-repair-summary.json.
+
+### Verification
+- Focused tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_download_runner.py tests/test_ltx_corrected_retry_boundary.py tests/test_ltx_dependency_manifest.py tests/test_ltx_metadata_audit.py tests/test_ltx_download_boundary.py -q => 32 passed.
+- pvg verify scripts/run_ltx_dependency_download.py tests/test_ltx_download_runner.py datasets/runs/maestro-parity/ltx-dependency-terminalization/accounting-repair-summary.json --include-tests => VERIFY: PASSED.
+- pvg lint --backlog => scanned 156 issues; 0 errors, 0 review findings.
+- Protected-file parity versus origin/main => PASS for services/jobs/queue.py, services/director/renderers/policy.py, services/director/wiring.py, services/jobs/preflight.py, and scripts/run_film.py.
+- git diff --check => PASS.
+- PR 217 exact-head CI: run 37130251949 / job 111223772427 at bb0af2e12ffd9f8d867448ce4db49316c550d66e => success, 22m36s, https://github.com/jmanhype/wangp-dspy/actions/runs/37130251949.
+
+### Boundary
+- Local-only repair: no host 3090 contact, model/body request, URL-effectiveness request, final/partial movement or deletion, queue admission, render, protected-file change, delivery, acceptance, or merge.
+- Host execution remains blocked pending a distinct operator decision; future retry must preserve the two verified finals and request only the three remaining declared assets.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Local curl accounting repair committed and exact-head CI verified at bb0af2e12ffd9f8d867448ce4db49316c550d66e.
+
+### proof
+- [x] Runner uses curl-documented num_redirects and fails safely on absent/non-integer accounting.
+- [x] Exact verified-final resume, one-declared-request accounting, and no second URL-effectiveness/network request are regression-covered.
+- [ ] NOT DELIVERED: corrected host retry remains blocked on a distinct operator decision.
+
+
 ## Local Metadata Repair (NOT DELIVERED)
 
 ### Metadata Evidence
