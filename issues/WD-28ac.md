@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T08:14:32Z
-content_hash: "sha256:14bba568c6a8c13e901cd59b74b6305bf04a7fe72560b7cf8e940d82c9220e36"
+updated_at: 2026-10-03T09:13:54Z
+content_hash: "sha256:42cc9b37c3566829ac749ef0dc0eb842c25e5afdc071f310482a2cb9b74e12d6"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,56 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## Local Metadata Repair (NOT DELIVERED)
+
+### Metadata Evidence
+- Source: METADATA-ONLY AUDIT RESULT recorded 2026-10-03T08:14:32Z; collection recorded 2026-10-03T08:11:12Z.
+- Repository: DeepBeepMeep/LTX-2 at 6aa898aea1d968febdd834dc29e1dbef35340aeb (lastModified 2026-09-29T19:49:05.000Z).
+- Preserved evidence: datasets/runs/maestro-parity/ltx-dependency-terminalization/metadata-audit/model.json and tree.json.
+- Response SHA-256: model.json 33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505; tree.json 079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa.
+- Summary: metadata-audit/summary.json binds all five path/size/lfs.oid/xetHash mappings and records total 23701298279 bytes.
+- Correct mappings (actual file SHA-256=lfs.oid; XET is separate):
+  - ingredients: 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559 / xet 4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba
+  - outpaint: 32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665 / xet 76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0
+  - in/outpainting: 73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5 / xet 748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837
+  - pixel upscaler: 984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d / xet 229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996
+  - dev int8: 5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec / xet f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22
+
+### Repair
+- model-assets.json now uses lfs.oid for sha256, a separate xet_hash field, source revision 6aa898aea1d968febdd834dc29e1dbef35340aeb, and corrected canonical digest 05c9e6ba1d69d4a75c20d83bcb41e381e64de2a310b8dcba05a84f66b62136d2.
+- operator-authorization.json and the not-authorized template rebind that digest. The authorized record preserves the original approval, records the metadata correction, and explicitly sets retry_authorized=false.
+- download-boundary.json now records that the ingredients partial matched the true file SHA-256 while the old expected value was XET; the 172109-byte undeclared URL-effectiveness GET remains a fail-closed boundary.
+- scripts/run_ltx_dependency_download.py records url_effective from the same declared curl --write-out, never issues a second URL-effective GET, exhausts a one-declared-curl budget, and reports declared/undeclared/redirect/network request counts. Current authorization fails closed before network with RETRY_NOT_AUTHORIZED.
+- predict/model_assets.py now models xet_hash separately from sha256 and binds optional source_revision.
+
+### Exact-Head Verification
+- Branch/commit: story/WD-28ac at 2e8229b804d38c8f083e3f399f8c4fade4a700af.
+- Focused tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_dependency_manifest.py tests/test_ltx_metadata_audit.py tests/test_ltx_download_boundary.py tests/test_ltx_download_runner.py -q => 26 passed.
+- Undeselected full suite at the clean commit: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q -ra --junitxml=/private/tmp/WD-28ac-metadata-full-clean-20261003.junit.xml => JUnit tests=2201 failures=0 errors=0 skipped=1 time=879.658s. The sole skip is the pre-existing WANGP_3090 live-host gate; the variable was not set.
+- A preliminary full-suite attempt while the repair was uncommitted had 3 failures: two clean-tree release checks and one transient PyPI uvicorn timeout. The install test passed on direct rerun and the entire suite passed after committing the exact clean head.
+- pvg verify explicit changed files --include-tests => VERIFY: PASSED (6 files scanned, 0 issues).
+- pvg lint --backlog => scanned 156 issues; 0 errors, 0 review findings.
+- wgp release verify => version 0.1.0, all checks pass, release=ready, tag=v0.1.0, tag_created=false.
+- Protected parity: git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py => PASS.
+- git diff --check => PASS.
+- PR 217 exact-head CI: run 37110988516 / job 111168697611 at commit 2e8229b804d38c8f083e3f399f8c4fade4a700af => success, 23m29s, https://github.com/jmanhype/wangp-dspy/actions/runs/37110988516.
+
+### Boundary
+- No host 3090 contact, model-body GET, preserved-partial promotion/move/delete, queue admission, render, protected-file change, delivery, acceptance, or merge occurred.
+- Host execution remains blocked on a distinct operator retry decision covering the 172109 undeclared payload bytes and preserved-partial disposition.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Local-only metadata repair committed and CI-verified at 2e8229b804d38c8f083e3f399f8c4fade4a700af.
+
+### proof
+- [x] All five LFS-OID/XET mappings are evidenced, separately modeled, authorization-bound, and regression-tested.
+- [x] Downloader control eliminates the second URL-effectiveness GET and records exact request counts in tested reports.
+- [ ] NOT DELIVERED: distinct operator retry/disposition decision remains required; no host execution is authorized.
+
+
 ## Authorized Execution Start
 
 - Worktree: /Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac
