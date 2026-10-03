@@ -1,0 +1,75 @@
+{
+  "artifacts": {
+    "wd28ac-jev-decision-12.json": {
+      "sha256": "03837ffdf5fa9e0320cd59ac24340ba736b3e2a06454a4065a22c32700d4e75b",
+      "size_bytes": 1471
+    },
+    "wd28ac-jev-snapshot-12.json": {
+      "sha256": "5ca5eebdf1ded5945d40b66d7017e8f006081e0377fdf1a3bfebcea8321657f7",
+      "size_bytes": 3477
+    },
+    "wd28ac-jev-trace-12.jsonl": {
+      "sha256": "a9fac081f20bd23568cc952509967dbdf7838720d290a15c36a770ab6f8aee86",
+      "size_bytes": 1169
+    }
+  },
+  "authorized_actions": [
+    "bind_isolated_mmgp_runtime_to_final_operation_preflight",
+    "bind_isolated_mmgp_runtime_to_each_planned_native_environment",
+    "record_exact_runtime_preflight_and_environment_evidence",
+    "run_focused_local_tests_and_standard_gates",
+    "commit_push_and_wait_exact_head_ci"
+  ],
+  "confidence": 0.85,
+  "constraint_risk": 0.37,
+  "decision": "CONTINUE",
+  "declared_snapshot_sha256": "09edc9f0a470777a3871dcf8336e5862b219b92c670e2bf7291f2e65d74b8ddc",
+  "declared_trace_sha256": "0a79c7f332add517cb079f60fb12594b7f8184939680c35b004aaccc7c462341",
+  "gate": 12,
+  "hash_semantics": {
+    "snapshot_file_digest": "raw copied snapshot bytes, retained separately",
+    "snapshot_sha256_source": "decision.snapshot_sha256",
+    "trace_sha256_source": "decision.trace_sha256"
+  },
+  "isolated_runtime_baseline": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "import_module_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+    "mmgp_version": "3.7.14",
+    "preserved_resume_report": "runtime-repair/2026-10-03/wheel-layout-host-report.json",
+    "preserved_resume_report_sha256": "7481c1a1bdce53affb161c9e0f32481d131c8fee662bc92305ae14bc88861db7",
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size_bytes": 68211
+  },
+  "missing_evidence_score": 1.45,
+  "mode": "live",
+  "model": "jev-latest",
+  "prohibited_actions": [
+    "host_contact",
+    "qc_start_or_contact",
+    "queue_admission",
+    "native_retry_or_render",
+    "network_or_model_get",
+    "runtime_or_file_mutation",
+    "deletion",
+    "protected_file_change",
+    "capability_or_matrix_claim"
+  ],
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "signed_query"
+    ],
+    "status": "PASS"
+  },
+  "raw_snapshot_file_sha256": "5ca5eebdf1ded5945d40b66d7017e8f006081e0377fdf1a3bfebcea8321657f7",
+  "schema_version": "wangp-dspy.wd-28ac.jev-gate/v1",
+  "scope": "LOCAL_NATIVE_RUNTIME_INTEGRATION_ONLY",
+  "source_story_head": "38ea5eb12072750491e8836cb9f476196f31702a",
+  "stop_before": "separate_jev_corrected_host_retry_gate",
+  "triggered_rules": [
+    "no_veto_triggered"
+  ]
+}

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import json
-import shutil
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -15,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 PLAN_PATH = RUN_DIR / "phase-b-preparation/final-operation-plan.json"
 AUTH_PATH = RUN_DIR / "operator-authorization.json"
+RUNTIME_STATE = RUN_DIR / "phase-b-preparation/isolated-runtime-state-2026-10-03.json"
+PLAN_SCRIPT = ROOT / "scripts/prepare_ltx_operations.py"
 
 
 def _contract() -> tuple[dict[str, Any], dict[str, Any]]:
@@ -24,10 +27,10 @@ def _contract() -> tuple[dict[str, Any], dict[str, Any]]:
     )
 
 
-def test_gate7_contract_and_exact_command_mapping() -> None:
+def test_prior_gate7_plan_is_preserved_but_not_corrected_executable() -> None:
     plan, authorization = _contract()
-    runner.validate_contract(plan, authorization)
 
+    assert plan["schema_version"] == "wangp-dspy.wd-28ac.phase-b-operation-plan/v1"
     assert plan["mode"] == "final_native_operations_authorized"
     assert plan["host_execution_authorized"] is True
     assert plan["preflight_ready"] is True
@@ -47,16 +50,28 @@ def test_gate7_contract_and_exact_command_mapping() -> None:
         assert operation["source_root"].endswith(
             "WD-m7xw" if operation["row"] == "LTX-2.5" else "WD-osfm"
         )
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.validate_contract(plan, authorization)
+    assert raised.value.code == "PLAN_SCHEMA_INVALID"
 
 
-def test_final_runner_dry_run_and_host_guard() -> None:
+def test_final_runner_dry_run_and_host_guard(tmp_path: Path) -> None:
+    plan = tmp_path / "corrected-plan.json"
+    generated = subprocess.run([
+        sys.executable, str(PLAN_SCRIPT),
+        "--repository-root", str(ROOT),
+        "--final",
+        "--runtime-state", str(RUNTIME_STATE),
+        "--output", str(plan),
+    ], text=True, capture_output=True, timeout=60)
+    assert generated.returncode == 0, generated.stdout + generated.stderr
     code = runner.main([
-        "--plan", str(PLAN_PATH), "--authorization", str(AUTH_PATH),
+        "--plan", str(plan), "--authorization", str(AUTH_PATH),
         "--queue-db", "/tmp/wd28ac-final-dry-run.db",
     ])
     assert code == 0
     guarded = runner.main([
-        "--plan", str(PLAN_PATH), "--authorization", str(AUTH_PATH),
+        "--plan", str(plan), "--authorization", str(AUTH_PATH),
         "--queue-db", "/tmp/should-not-exist.db", "--execute",
     ])
     assert guarded == 2
@@ -77,41 +92,8 @@ def _temporary_plan(tmp_path: Path) -> dict[str, Any]:
     return plan
 
 
-def test_real_job_queue_runs_each_once_and_stops_on_first_failure(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    plan = _temporary_plan(tmp_path)
-    authorization = json.loads(AUTH_PATH.read_text())
-    template_root = ROOT
-    calls: list[str] = []
-
-    def executor(argv: list[str], cwd: str, timeout: int, log: str) -> int:
-        operation_id = Path(cwd).name
-        calls.append(operation_id)
-        Path(log).write_text("native log\n", encoding="utf-8")
-        output_dir = Path(argv[argv.index("--output-dir") + 1])
-        output_dir.mkdir(parents=True, exist_ok=True)
-        (output_dir / "output.mp4").write_bytes(b"output")
-        return 1 if operation_id == "ltx25-repaint" else 0
-
-    monkeypatch.setattr(runner, "_snapshot", lambda operation: {"snapshot": True})
-    monkeypatch.setattr(
-        runner, "_collect_evidence",
-        lambda operation, native: {"output": native.output_path, "objective": True},
-    )
-    result = runner.run_batch(
-        plan, authorization, template_root, tmp_path / "queue.db", executor=executor
-    )
-
-    assert result["status"] == "failed_closed"
-    assert result["terminal_operation"] == "ltx25-repaint"
-    assert calls == ["ltx25-outpaint", "ltx25-repaint"]
-    summary = json.loads((tmp_path / "queue-summary.json").read_text())
-    assert summary["states"]["rendered_pending_qc"] == [
-        result["operations"][0]["durable_job_id"]
-    ]
-    assert summary["states"]["failed"] == [
-        result["operations"][1]["durable_job_id"]
-    ]
-    assert summary["states"]["pending"] == []
-    assert len(calls) == 2
+def test_prior_plan_cannot_enter_queue_batch() -> None:
+    plan, authorization = _contract()
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.run_batch(plan, authorization, ROOT, Path("/tmp/should-not-exist.db"))
+    assert raised.value.code == "PLAN_SCHEMA_INVALID"

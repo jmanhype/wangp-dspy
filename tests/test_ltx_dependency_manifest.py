@@ -245,6 +245,8 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "jev_runtime_repair_authorization",
         "jev_corrected_runtime_repair_authorization",
         "operator_wheel_layout_authorization",
+        "operator_corrected_native_retry_authorization",
+        "jev_local_native_runtime_integration_authorization",
         "assets",
         "operator_approval",
         "authorized_scope",

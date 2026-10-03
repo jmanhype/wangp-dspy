@@ -17,6 +17,31 @@ from typing import Any, Callable, Mapping, Sequence
 from services.jobs.queue import JobQueue
 
 
+ISOLATED_RUNTIME_DIRECTORY = (
+    "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14"
+)
+ISOLATED_MMGP_IMPORT_PATH = (
+    "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py"
+)
+ISOLATED_RUNTIME_PAYLOAD_SHA256 = (
+    "25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277"
+)
+ISOLATED_RUNTIME_FILE_COUNT = 12
+ISOLATED_RUNTIME_UNCOMPRESSED_BYTES = 291005
+CORRECTED_NATIVE_ENVIRONMENT = {
+    "PYTHONUNBUFFERED": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "PYTHONPATH": ISOLATED_RUNTIME_DIRECTORY,
+}
+PRIOR_NATIVE_RUN_ROOT = "/home/straughter/wd-28ac-run/phase-b-gate5"
+CORRECTED_NATIVE_RUN_ROOT = (
+    "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry"
+)
+
+
 class FinalOperationError(ValueError):
     """Typed terminal WD-28ac native-operation boundary."""
 
@@ -91,18 +116,27 @@ def validate_contract(
     plan: Mapping[str, Any], authorization: Mapping[str, Any]
 ) -> None:
     operations = plan.get("operations", [])
-    if plan.get("schema_version") != "wangp-dspy.wd-28ac.phase-b-operation-plan/v1":
+    if plan.get("schema_version") != (
+        "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1"
+    ):
         raise FinalOperationError(
             "PLAN_SCHEMA_INVALID", str(plan.get("schema_version")),
-            "Use the CI-green Gate 7 final-operation plan.",
+            "Use the CI-green Gate 12 corrected-retry plan.",
         )
-    if plan.get("mode") != "final_native_operations_authorized":
-        raise FinalOperationError("PLAN_NOT_FINAL", plan.get("mode", ""),
-                                  "Regenerate the plan with Gate 7 authorization.")
-    if not plan.get("host_execution_authorized") or not plan.get("preflight_ready"):
-        raise FinalOperationError("PLAN_PREFLIGHT_NOT_READY",
-                                  "host_execution_authorized or preflight_ready is false",
-                                  "Collect healthy QC and fresh host facts first.")
+    if plan.get("mode") not in {
+        "corrected_native_runtime_integration_local_only",
+        "corrected_native_operations_authorized",
+    }:
+        raise FinalOperationError("PLAN_NOT_CORRECTED_FINAL", plan.get("mode", ""),
+                                  "Regenerate the plan with Gate 12 integration.")
+    if plan.get("mode") == "corrected_native_operations_authorized" and (
+        not plan.get("host_execution_authorized") or not plan.get("preflight_ready")
+    ):
+        raise FinalOperationError(
+            "PLAN_PREFLIGHT_NOT_READY",
+            "host_execution_authorized or preflight_ready is false",
+            "Collect healthy QC and fresh host facts first.",
+        )
     if len(operations) != 7:
         raise FinalOperationError("OPERATION_COUNT_INVALID", str(len(operations)),
                                   "Exactly seven planned operations are required.")
@@ -111,10 +145,150 @@ def validate_contract(
         raise FinalOperationError("GATE7_AUTHORIZATION_INVALID",
                                   json.dumps(gate, sort_keys=True),
                                   "Bind the exact live Gate 7 CONTINUE record.")
+    corrected = authorization.get("operator_corrected_native_retry_authorization", {})
+    if corrected.get("decision") != "Authorized" or corrected.get(
+        "separate_host_retry_gate_required"
+    ) is not True:
+        raise FinalOperationError(
+            "CORRECTED_NATIVE_RETRY_AUTHORIZATION_INVALID",
+            json.dumps(corrected, sort_keys=True),
+            "Bind the operator corrected native-retry record.",
+        )
+    runtime = plan.get("isolated_runtime")
+    if (
+        not isinstance(runtime, dict)
+        or runtime.get("directory") != ISOLATED_RUNTIME_DIRECTORY
+        or runtime.get("expected_payload", {}).get("canonical_sha256")
+        != ISOLATED_RUNTIME_PAYLOAD_SHA256
+        or runtime.get("expected_payload", {}).get("file_count")
+        != ISOLATED_RUNTIME_FILE_COUNT
+    ):
+        raise FinalOperationError(
+            "RUNTIME_BINDING_ABSENT", json.dumps(runtime, sort_keys=True)[:1000],
+            "Bind the proven isolated mmgp 3.7.14 payload identity.",
+        )
     identities = [(item["row"], item["operation"]) for item in operations]
     if len(set(identities)) != 7:
         raise FinalOperationError("OPERATION_IDENTITY_DUPLICATE", json.dumps(identities),
                                   "Each owned cell must occur exactly once.")
+    for item in operations:
+        native = item.get("native", {})
+        if native.get("environment") != CORRECTED_NATIVE_ENVIRONMENT:
+            raise FinalOperationError(
+                "NATIVE_ENVIRONMENT_INVALID",
+                json.dumps(native.get("environment"), sort_keys=True),
+                "Bind PYTHONPATH and all offline/CUDA environment settings.",
+            )
+        paths = (
+            native.get("settings_stage_path", ""), native.get("log_path", ""),
+            *(native.get("argv", [])),
+        )
+        if any(PRIOR_NATIVE_RUN_ROOT in str(value) for value in paths):
+            raise FinalOperationError(
+                "PRIOR_NATIVE_BOUNDARY_OVERLAP", json.dumps(paths),
+                "Use the corrected retry namespace; never overwrite Gate 7 evidence.",
+            )
+        if not all(
+            CORRECTED_NATIVE_RUN_ROOT in str(value)
+            for value in (native.get("settings_stage_path", ""), native.get("log_path", ""))
+        ):
+            raise FinalOperationError(
+                "CORRECTED_RUN_NAMESPACE_INVALID", json.dumps(paths),
+                "Stage corrected attempts under the Gate 12 run root.",
+            )
+
+def build_native_environment(operation: Mapping[str, Any]) -> dict[str, str]:
+    environment = operation.get("native", {}).get("environment")
+    if environment != CORRECTED_NATIVE_ENVIRONMENT:
+        raise FinalOperationError(
+            "NATIVE_ENVIRONMENT_INVALID", json.dumps(environment, sort_keys=True),
+            "Plan must bind the isolated runtime and existing offline/CUDA settings.",
+        )
+    return dict(CORRECTED_NATIVE_ENVIRONMENT)
+
+def _canonical_payload_hash(inventory: Any) -> str | None:
+    if not isinstance(inventory, list):
+        return None
+    canonical = json.dumps(inventory, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+def validate_runtime_state(
+    state: Mapping[str, Any], *, require_fresh: bool = True
+) -> dict[str, Any]:
+    if state.get("directory") != ISOLATED_RUNTIME_DIRECTORY:
+        raise FinalOperationError(
+            "RUNTIME_PATH_INVALID", str(state.get("directory")),
+            "Use the proven isolated mmgp 3.7.14 directory.",
+        )
+    if (
+        state.get("exists") is not True
+        or state.get("regular_directory") is not True
+        or state.get("symlink") is not False
+    ):
+        raise FinalOperationError(
+            "RUNTIME_PATH_INVALID", json.dumps({
+                "exists": state.get("exists"),
+                "regular_directory": state.get("regular_directory"),
+                "symlink": state.get("symlink"),
+            }, sort_keys=True), "Require the exact non-symlink runtime directory.",
+        )
+    if require_fresh and (
+        state.get("fresh_host_recheck") is not True
+        or state.get("separate_fresh_host_gate_required") is not False
+    ):
+        raise FinalOperationError(
+            "RUNTIME_PREFLIGHT_STALE", json.dumps({
+                "fresh_host_recheck": state.get("fresh_host_recheck"),
+                "separate_fresh_host_gate_required": state.get(
+                    "separate_fresh_host_gate_required"
+                ),
+            }, sort_keys=True),
+            "A separate fresh host gate must recheck the isolated runtime.",
+        )
+    imported = state.get("isolated_import", {})
+    if imported.get("returncode") != 0 or imported.get("python") != "/usr/bin/python3":
+        raise FinalOperationError(
+            "RUNTIME_IMPORT_FAILED", json.dumps(imported, sort_keys=True),
+            "Require /usr/bin/python3 to import the isolated runtime.",
+        )
+    if imported.get("path") != ISOLATED_MMGP_IMPORT_PATH:
+        raise FinalOperationError(
+            "RUNTIME_IMPORT_PATH_INVALID", str(imported.get("path")),
+            "mmgp must resolve inside the proven isolated directory.",
+        )
+    if imported.get("metadata_version") != "3.7.14":
+        raise FinalOperationError(
+            "RUNTIME_IMPORT_VERSION_INVALID", str(imported.get("metadata_version")),
+            "Require mmgp 3.7.14.",
+        )
+    payload = state.get("payload", {})
+    inventory = payload.get("inventory")
+    if (
+        payload.get("file_count") != ISOLATED_RUNTIME_FILE_COUNT
+        or payload.get("uncompressed_bytes") != ISOLATED_RUNTIME_UNCOMPRESSED_BYTES
+        or payload.get("canonical_sha256") != ISOLATED_RUNTIME_PAYLOAD_SHA256
+        or _canonical_payload_hash(inventory) != ISOLATED_RUNTIME_PAYLOAD_SHA256
+    ):
+        raise FinalOperationError(
+            "RUNTIME_PAYLOAD_DRIFT", json.dumps({
+                "canonical_sha256": payload.get("canonical_sha256"),
+                "computed_sha256": _canonical_payload_hash(inventory),
+                "file_count": payload.get("file_count"),
+                "uncompressed_bytes": payload.get("uncompressed_bytes"),
+            }, sort_keys=True), "Preserve the proven 12-file mmgp payload exactly.",
+        )
+    if state.get("system_mmgp_present") is not False:
+        raise FinalOperationError(
+            "SYSTEM_MMGP_PRESENT", str(state.get("system_mmgp_present")),
+            "System mmgp must remain absent; only PYTHONPATH binding is authorized.",
+        )
+    return {
+        "status": "passed",
+        "directory": ISOLATED_RUNTIME_DIRECTORY,
+        "payload_sha256": ISOLATED_RUNTIME_PAYLOAD_SHA256,
+        "mmgp_version": "3.7.14",
+        "system_mmgp_present": False,
+    }
 
 def stage_settings(
     operation: Mapping[str, Any], template_root: Path
@@ -161,12 +335,7 @@ def execute_native(
 
     def default_executor(command: Sequence[str], cwd: str, timeout: int, log: str) -> int:
         environment = os.environ.copy()
-        environment.update({
-            "PYTHONUNBUFFERED": "1",
-            "PYTORCH_ALLOC_CONF": "expandable_segments:True",
-            "HF_HUB_OFFLINE": "1",
-            "TRANSFORMERS_OFFLINE": "1",
-        })
+        environment.update(operation["native"]["environment"])
         with open(log, "w", encoding="utf-8") as native_log:
             process = subprocess.Popen(
                 list(command), cwd=cwd, env=environment, stdout=native_log,
@@ -272,8 +441,33 @@ def run_batch(
     queue_db: Path,
     *,
     executor: Callable[[Sequence[str], str, int, str], int] | None = None,
+    runtime_state: Mapping[str, Any] | None = None,
 )-> dict[str, Any]:
     validate_contract(plan, authorization)
+    if plan.get("mode") != "corrected_native_operations_authorized":
+        raise FinalOperationError(
+            "CORRECTED_HOST_RETRY_NOT_AUTHORIZED",
+            f"mode={plan.get('mode')!r}",
+            "Wait for the separate Jev corrected-host-retry gate.",
+        )
+    host_gate = authorization.get("jev_corrected_native_retry_host_authorization", {})
+    if host_gate.get("host_execution_authorized") is not True:
+        raise FinalOperationError(
+            "CORRECTED_HOST_RETRY_NOT_AUTHORIZED",
+            json.dumps(host_gate, sort_keys=True),
+            "Bind the separate live corrected-host-retry gate.",
+        )
+    if runtime_state is None:
+        raise FinalOperationError(
+            "RUNTIME_STATE_REQUIRED", "runtime_state is absent",
+            "Provide a fresh isolated-runtime preflight state.",
+        )
+    runtime_preflight = validate_runtime_state(runtime_state, require_fresh=True)
+    if queue_db.exists():
+        raise FinalOperationError(
+            "QUEUE_DB_COLLISION", str(queue_db),
+            "Use a new queue database; prior queue evidence is immutable.",
+        )
     queue = JobQueue(str(queue_db))
     records = []
     try:
@@ -299,6 +493,8 @@ def run_batch(
                 "queue_id": operation["queue"]["queue_id"],
                 "settings": staged,
                 "argv": operation["native"]["argv"],
+                "environment": dict(operation["native"]["environment"]),
+                "runtime_preflight": runtime_preflight,
                 "admission_state": "admitted",
                 "attempt": 1,
             }
@@ -369,6 +565,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--queue-db", required=True)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--allow-host", action="store_true")
+    parser.add_argument("--runtime-state")
     return parser
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -388,8 +585,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "HOST_GUARD_REQUIRED", "--execute requires --allow-host",
                 "Pass the explicit host guard only after Gate 7 CI."
             )
+        if args.runtime_state is None:
+            raise FinalOperationError(
+                "RUNTIME_STATE_REQUIRED", "--runtime-state is absent",
+                "Provide fresh isolated mmgp runtime preflight evidence.",
+            )
         result = run_batch(
-            plan, authorization, Path(args.template_root), Path(args.queue_db)
+            plan, authorization, Path(args.template_root), Path(args.queue_db),
+            runtime_state=_read_json(Path(args.runtime_state)),
         )
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result["status"] == "all_native_renders_complete" else 2

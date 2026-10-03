@@ -27,6 +27,26 @@ GATE7_SNAPSHOT_SHA256 = (
 GATE7_TRACE_SHA256 = (
     "21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7"
 )
+GATE12_SNAPSHOT_SHA256 = (
+    "09edc9f0a470777a3871dcf8336e5862b219b92c670e2bf7291f2e65d74b8ddc"
+)
+GATE12_TRACE_SHA256 = (
+    "0a79c7f332add517cb079f60fb12594b7f8184939680c35b004aaccc7c462341"
+)
+ISOLATED_RUNTIME_DIRECTORY = (
+    "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14"
+)
+CORRECTED_RETRY_RUN_ROOT = (
+    "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry"
+)
+CORRECTED_NATIVE_ENVIRONMENT = {
+    "PYTHONUNBUFFERED": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "PYTHONPATH": ISOLATED_RUNTIME_DIRECTORY,
+}
 EXPECTED_TREES = {
     "m7xw": ("faea82d15bf10b3479c42c0ea430892aae975870", "?? ckpts"),
     "osfm": ("4c93b64a47b5b0a915f2abec2ce754be98227150", "?? ckpts"),
@@ -230,6 +250,117 @@ def validate_gate7_authorization(
         _check("authorization_gate7_evidence", evidence_ok, "gate-7 evidence binding"),
     ]
 
+def validate_gate12_authorization(
+    authorization: Mapping[str, Any], gate_evidence: Mapping[str, Any]
+) -> list[PreflightCheck]:
+    auth = authorization.get("jev_local_native_runtime_integration_authorization", {})
+    expected = {
+        "gate": 12,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.85,
+        "snapshot_sha256": GATE12_SNAPSHOT_SHA256,
+        "trace_sha256": GATE12_TRACE_SHA256,
+        "scope": "local_native_runtime_integration_only",
+        "isolated_runtime_path": ISOLATED_RUNTIME_DIRECTORY,
+        "host_contact_authorized": False,
+        "qc_start_authorized": False,
+        "queue_admission_authorized": False,
+        "native_retry_authorized": False,
+        "render_authorized": False,
+        "network_or_model_get_authorized": False,
+        "runtime_mutation_authorized": False,
+        "deletion_authorized": False,
+        "model_or_reference_mutation_authorized": False,
+        "protected_file_change_authorized": False,
+        "capability_or_matrix_claim_authorized": False,
+        "evidence": "jev-gates/2026-10-03/gate-12-evidence.json",
+    }
+    operator = authorization.get("operator_corrected_native_retry_authorization", {})
+    evidence_ok = (
+        gate_evidence.get("gate") == 12
+        and gate_evidence.get("decision") == "CONTINUE"
+        and gate_evidence.get("declared_snapshot_sha256") == GATE12_SNAPSHOT_SHA256
+        and gate_evidence.get("declared_trace_sha256") == GATE12_TRACE_SHA256
+        and gate_evidence.get("scope") == "LOCAL_NATIVE_RUNTIME_INTEGRATION_ONLY"
+    )
+    return [
+        _check(
+            "authorization_gate12_record", auth == expected,
+            json.dumps(auth, sort_keys=True),
+        ),
+        _check("authorization_gate12_evidence", evidence_ok, "gate-12 evidence binding"),
+        _check(
+            "operator_corrected_native_retry_precondition",
+            operator.get("separate_host_retry_gate_required") is True,
+            f"separate_host_retry_gate_required={operator.get('separate_host_retry_gate_required')!r}",
+        ),
+    ]
+
+def evaluate_runtime_preflight(
+    runtime_state: Mapping[str, Any],
+    contract: Mapping[str, Any],
+) -> list[PreflightCheck]:
+    expected_path = contract["directory"]
+    expected_import = contract["expected_import"]
+    expected_payload = contract["expected_payload"]
+    observed_import = runtime_state.get("isolated_import", {})
+    observed_payload = runtime_state.get("payload", {})
+    path_ok = (
+        runtime_state.get("directory") == expected_path
+        and runtime_state.get("exists") is True
+        and runtime_state.get("regular_directory") is True
+        and runtime_state.get("symlink") is False
+    )
+    import_ok = (
+        observed_import.get("returncode") == expected_import["returncode"]
+        and observed_import.get("python") == expected_import["python"]
+        and observed_import.get("path") == expected_import["module_path"]
+        and observed_import.get("metadata_version") == expected_import["metadata_version"]
+    )
+    payload_ok = (
+        observed_payload.get("canonical_sha256") == expected_payload["canonical_sha256"]
+        and observed_payload.get("file_count") == expected_payload["file_count"]
+        and observed_payload.get("uncompressed_bytes") == expected_payload["uncompressed_bytes"]
+        and observed_payload.get("inventory") == expected_payload["inventory"]
+    )
+    return [
+        _check("isolated_mmgp_runtime_path", path_ok, json.dumps({
+            "directory": runtime_state.get("directory"),
+            "exists": runtime_state.get("exists"),
+            "regular_directory": runtime_state.get("regular_directory"),
+            "symlink": runtime_state.get("symlink"),
+        }, sort_keys=True)),
+        _check(
+            "isolated_mmgp_import_path_version", import_ok,
+            json.dumps(observed_import, sort_keys=True),
+        ),
+        _check(
+            "isolated_mmgp_payload_identity", payload_ok,
+            json.dumps({
+                "canonical_sha256": observed_payload.get("canonical_sha256"),
+                "file_count": observed_payload.get("file_count"),
+                "uncompressed_bytes": observed_payload.get("uncompressed_bytes"),
+            }, sort_keys=True),
+        ),
+        _check(
+            "system_mmgp_absent",
+            runtime_state.get("system_mmgp_present") is False,
+            f"system_mmgp_present={runtime_state.get('system_mmgp_present')!r}",
+        ),
+        _check(
+            "corrected_host_retry_gate",
+            runtime_state.get("fresh_host_recheck") is True
+            and runtime_state.get("separate_fresh_host_gate_required") is False,
+            (
+                f"fresh_host_recheck={runtime_state.get('fresh_host_recheck')!r},"
+                f"separate_fresh_host_gate_required="
+                f"{runtime_state.get('separate_fresh_host_gate_required')!r}"
+            ),
+        ),
+    ]
+
 def evaluate_preflight(
     manifest: Mapping[str, Any],
     authorization: Mapping[str, Any],
@@ -307,6 +438,7 @@ def build_plan(
     gate_evidence_path: Path,
     native_python: str = "/usr/bin/python3",
     final_operations: bool = False,
+    runtime_state_path: Path | None = None,
 ) -> dict[str, Any]:
     run_root = repository_root / RUN_DIR
     manifest = _read_json(run_root / "model-assets.json")
@@ -318,9 +450,37 @@ def build_plan(
         repository_root, raw_preflight, raw_postflight
     )
     facts["final_operations"] = final_operations
+    corrected_retry = final_operations and (
+        "operator_corrected_native_retry_authorization" in authorization
+    )
+    runtime_contract: dict[str, Any] | None = None
+    if corrected_retry:
+        if runtime_state_path is None:
+            raise PhaseBPlanningError(
+                "RUNTIME_STATE_REQUIRED",
+                "corrected retry requested without isolated runtime state",
+                "Bind the proven mmgp 3.7.14 runtime state before planning.",
+            )
+        runtime_contract = _read_json(
+            repository_root / RUN_DIR
+            / "phase-b-preparation/isolated-runtime-contract.json"
+        )
+        facts["runtime"] = _read_json(runtime_state_path)
+        facts["gate12_evidence"] = _read_json(
+            repository_root / RUN_DIR
+            / "jev-gates/2026-10-03/gate-12-evidence.json"
+        )
     checks = evaluate_preflight(manifest, authorization, gate_evidence, facts)
+    if corrected_retry and runtime_contract is not None:
+        checks += validate_gate12_authorization(
+            authorization, facts["gate12_evidence"]
+        )
+        checks += evaluate_runtime_preflight(facts["runtime"], runtime_contract)
     wgp_root = str(Path(manifest["assets"][0]["destination"]).parent.parent)
-    run_root_remote = str(Path(wgp_root).parent / "wd-28ac-run" / "phase-b-gate5")
+    run_root_remote = (
+        CORRECTED_RETRY_RUN_ROOT if corrected_retry
+        else str(Path(wgp_root).parent / "wd-28ac-run" / "phase-b-gate5")
+    )
     operations = []
     for item in OPERATIONS:
         template = repository_root / "datasets/runs/maestro-parity" / item["template"]
@@ -340,8 +500,14 @@ def build_plan(
             "source_root": source_root,
             "queue": {
                 "queue_id": f"wd-28ac-phase-b-{item['operation_id']}",
-                "job_id": f"wd-28ac-{item['operation_id']}-attempt-1",
-                "retry_id": "attempt-1",
+                "job_id": (
+                    f"wd-28ac-{item['operation_id']}-corrected-retry-attempt-1"
+                    if corrected_retry
+                    else f"wd-28ac-{item['operation_id']}-attempt-1"
+                ),
+                "retry_id": (
+                    "corrected-retry-attempt-1" if corrected_retry else "attempt-1"
+                ),
                 "admission_state": "planned_not_admitted",
             },
             "native": {
@@ -351,6 +517,10 @@ def build_plan(
                 "argv": _command_for(item, native_python, source_root, run_root_remote),
                 "log_path": f"{run_root_remote}/{item['operation_id']}/native.log",
                 "timeout_seconds": 5400,
+                **(
+                    {"environment": dict(CORRECTED_NATIVE_ENVIRONMENT)}
+                    if corrected_retry else {}
+                ),
             },
             "references": {
                 name: {
@@ -389,19 +559,52 @@ def build_plan(
             },
         })
     ready = all(check.passed for check in checks)
+    runtime_checks = (
+        evaluate_runtime_preflight(facts["runtime"], runtime_contract)
+        if corrected_retry and runtime_contract is not None else []
+    )
+    runtime_identity_ready = (
+        all(check.passed for check in runtime_checks[:-1]) if runtime_checks else False
+    )
+    prior_boundary_path = (
+        repository_root / RUN_DIR
+        / "final-native-operations/terminal-boundary/boundary.json"
+    )
     return {
-        "schema_version": "wangp-dspy.wd-28ac.phase-b-operation-plan/v1",
+        "schema_version": (
+            "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1"
+            if corrected_retry
+            else "wangp-dspy.wd-28ac.phase-b-operation-plan/v1"
+        ),
         "story": "WD-28ac",
         "mode": (
-            "final_native_operations_authorized"
+            "corrected_native_runtime_integration_local_only"
+            if corrected_retry
+            else "final_native_operations_authorized"
             if final_operations and "jev_final_operations_authorization" in authorization
             else "local_preparation_only"
         ),
         "host_execution_authorized": (
-            final_operations and "jev_final_operations_authorization" in authorization
+            False if corrected_retry
+            else final_operations and "jev_final_operations_authorization" in authorization
         ),
+        **({
+            "isolated_runtime": {
+                **runtime_contract,
+                "payload": runtime_contract["expected_payload"],
+                "import": runtime_contract["expected_import"],
+            }
+        } if corrected_retry else {}),
+        **({
+            "prior_boundary": {
+                "path": "final-native-operations/terminal-boundary/boundary.json",
+                "sha256": _sha256(prior_boundary_path),
+                "overwritable": False,
+            }
+        } if corrected_retry else {}),
         "native_python": native_python,
         "preflight_ready": ready,
+        **({"runtime_identity_ready": runtime_identity_ready} if corrected_retry else {}),
         "preflight_checks": [check.__dict__ for check in checks],
         "scheduling": {
             "operation_count": len(operations),
@@ -525,6 +728,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--gate-evidence", default=str(RUN_DIR / "jev-gates/2026-10-03/gate-3-4-evidence.json"))
     parser.add_argument("--final", action="store_true", help="emit the Gate 7 final-operation plan")
     parser.add_argument("--gate7-evidence", default=str(RUN_DIR / "jev-gates/2026-10-03/gate-7-evidence.json"))
+    parser.add_argument("--runtime-state", default=str(RUN_DIR / "phase-b-preparation/isolated-runtime-state-2026-10-03.json"))
     parser.add_argument("--output")
     parser.add_argument("--execute-operation")
     return parser
@@ -540,6 +744,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             (root / args.authorization).resolve(),
             (root / (args.gate7_evidence if args.final else args.gate_evidence)).resolve(),
             final_operations=args.final,
+            runtime_state_path=(root / args.runtime_state).resolve(),
         )
         if args.execute_operation:
             execute_operation(plan, args.execute_operation)
