@@ -239,6 +239,7 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "metadata_correction",
         "corrected_retry_approval",
         "jev_phase_a_authorization",
+        "jev_phase_b_preparation_authorization",
         "assets",
         "operator_approval",
         "authorized_scope",
@@ -338,6 +339,18 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         },
         "stop_before": "Jev Gate #3",
         "evidence": "jev-gates/2026-10-03/gate-evidence.json",
+    }
+    assert authorization["jev_phase_b_preparation_authorization"] == {
+        "gate": 4,
+        "mode": "live",
+        "model": "jev-latest",
+        "decision": "CONTINUE",
+        "confidence": 0.78,
+        "snapshot_sha256": "38e9b171448464138e18ba6b4987d43c48a1f65df9f3bfc3da628418b2c58500",
+        "trace_sha256": "1636e28fb5dbc9945c9fbe98df51500b560c5e9b06792d9798bad4823d283b9d",
+        "scope": "local_phase_b_preparation_only",
+        "host_execution_authorized": False,
+        "evidence": "jev-gates/2026-10-03/gate-3-4-evidence.json",
     }
     assert authorization["authorized_scope"]["boundaries"] == [
         "no training",
