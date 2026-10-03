@@ -1,0 +1,207 @@
+{
+  "authorization_head": "e2f07a3c76486f53bf4e78ebecb57655de2e969f",
+  "disk": {
+    "free_bytes": 23564808192,
+    "total_bytes": 857997254656
+  },
+  "gate": 7,
+  "gpu": {
+    "compute_apps": {
+      "argv": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+    }
+  },
+  "host": {
+    "fqdn": "straughter-Z690-Steel-Legend",
+    "hostname": "straughter-Z690-Steel-Legend",
+    "user": "straughter"
+  },
+  "judge": {
+    "health": {
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+      "reachable": false
+    },
+    "processes": {
+      "argv": [
+        "pgrep",
+        "-af",
+        "llama-server"
+      ],
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    }
+  },
+  "models": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "expected_size_bytes": 19447662547,
+      "observed": {
+        "exists": true,
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size_bytes": 19447662547
+      },
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "expected_size_bytes": 1308778338,
+      "observed": {
+        "exists": true,
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size_bytes": 1308778338
+      },
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "expected_size_bytes": 1308778338,
+      "observed": {
+        "exists": true,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+      },
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "expected_size_bytes": 1308756416,
+      "observed": {
+        "exists": true,
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416
+      },
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "sha256_match": true,
+      "size_match": true
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "expected_size_bytes": 327322640,
+      "observed": {
+        "exists": true,
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size_bytes": 327322640
+      },
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "sha256_match": true,
+      "size_match": true
+    }
+  },
+  "passed": true,
+  "read_only": true,
+  "references": {
+    "m7xw_create": {
+      "expected_sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+      "observed": {
+        "exists": true,
+        "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+        "size_bytes": 438713
+      },
+      "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+      "sha256_match": true
+    },
+    "m7xw_first_frame": {
+      "expected_sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+      "observed": {
+        "exists": true,
+        "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+        "size_bytes": 295302
+      },
+      "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+      "sha256_match": true
+    },
+    "m7xw_repaint_mask": {
+      "expected_sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+      "observed": {
+        "exists": true,
+        "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+        "size_bytes": 2879
+      },
+      "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+      "sha256_match": true
+    },
+    "osfm_alternate_reference": {
+      "expected_sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+      "observed": {
+        "exists": true,
+        "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+        "size_bytes": 107009
+      },
+      "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+      "sha256_match": true
+    },
+    "osfm_control": {
+      "expected_sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "observed": {
+        "exists": true,
+        "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+        "size_bytes": 101143
+      },
+      "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+      "sha256_match": true
+    },
+    "osfm_create": {
+      "expected_sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+      "observed": {
+        "exists": true,
+        "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+        "size_bytes": 984165
+      },
+      "path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+      "sha256_match": true
+    },
+    "osfm_reference": {
+      "expected_sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+      "observed": {
+        "exists": true,
+        "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+        "size_bytes": 114358
+      },
+      "path": "/home/straughter/wd-osfm-run/inputs/reference.png",
+      "sha256_match": true
+    }
+  },
+  "schema_version": "wangp-dspy.wd-28ac.final-native-preflight/v1",
+  "trees": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit_match": true,
+      "expected_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "expected_status": "?? ckpts",
+      "observed_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "observed_status": "?? ckpts",
+      "status_match": true
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit_match": true,
+      "expected_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "expected_status": "?? ckpts",
+      "observed_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "observed_status": "?? ckpts",
+      "status_match": true
+    }
+  },
+  "utc": "2026-10-03T19:28:27.626891Z"
+}

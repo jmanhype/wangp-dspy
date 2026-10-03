@@ -1,0 +1,105 @@
+{
+  "gpu": {
+    "apps": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "query": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+    }
+  },
+  "judge": {
+    "health": {
+      "error": "<urlopen error [Errno 111] Connection refused>",
+      "reachable": false
+    },
+    "processes": {
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    }
+  },
+  "models": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "match": true,
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "size": 19447662547
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "match": true,
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "size": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "match": true,
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "size": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "match": true,
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "size": 1308756416
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "match": true,
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "size": 327322640
+    }
+  },
+  "native_processes": {
+    "returncode": 1,
+    "stderr": "",
+    "stdout": ""
+  },
+  "output_inventory": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "2005 /home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/operation-record.json\n227 /home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native.log\n687 /home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/settings.json\n"
+  },
+  "references": {
+    "m7xw_create": {
+      "match": true,
+      "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f"
+    },
+    "m7xw_first_frame": {
+      "match": true,
+      "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f"
+    },
+    "m7xw_repaint_mask": {
+      "match": true,
+      "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386"
+    },
+    "osfm_alternate_reference": {
+      "match": true,
+      "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f"
+    },
+    "osfm_control": {
+      "match": true,
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a"
+    },
+    "osfm_create": {
+      "match": true,
+      "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957"
+    },
+    "osfm_reference": {
+      "match": true,
+      "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd"
+    }
+  },
+  "trees": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "match": true,
+      "status": "?? ckpts"
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "match": true,
+      "status": "?? ckpts"
+    }
+  },
+  "utc": "2026-10-03T19:32:26.776883+00:00"
+}

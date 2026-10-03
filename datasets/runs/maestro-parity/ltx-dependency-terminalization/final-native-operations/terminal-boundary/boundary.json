@@ -1,0 +1,114 @@
+{
+  "authorization_head": "e2f07a3c76486f53bf4e78ebecb57655de2e969f",
+  "boundary": {
+    "deletion_attempted": false,
+    "diagnostic_code": "NATIVE_IMPORT_MMGP_MISSING",
+    "exact_native_error": "ModuleNotFoundError: No module named 'mmgp'",
+    "not_a_hardware_verdict": true,
+    "not_a_model_capability_verdict": true,
+    "reason": "The first planned native operation exited 1 before Wan2GP execution because /usr/bin/python3 could not import mmgp. The native output directory remained empty.",
+    "retry_attempted": false,
+    "runner_code": "NATIVE_NO_OUTPUT",
+    "substitution_attempted": false
+  },
+  "boundary_counters": {
+    "downloads": 0,
+    "matrix_changes": 0,
+    "model_mutations": 0,
+    "native_attempts": 1,
+    "protected_file_changes": 0,
+    "queue_admissions": 1,
+    "reference_mutations": 0,
+    "retries": 0
+  },
+  "deployment": {
+    "dry_run": "../host-dry-run.txt",
+    "evidence": "../deploy-hashes.txt",
+    "native_python": "/usr/bin/python3"
+  },
+  "first_operation": {
+    "argv": [
+      "/usr/bin/python3",
+      "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+      "--process",
+      "/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/settings.json",
+      "--profile",
+      "3",
+      "--attention",
+      "sdpa",
+      "--output-dir",
+      "/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native-output"
+    ],
+    "attempt": 1,
+    "durable_job_id": "job-1791055869374-3f043ee9",
+    "native_exit": 1,
+    "native_log": {
+      "path": "terminal-boundary/ltx25-outpaint.native.log",
+      "sha256": "cf605c152543c2b9472ad6cfc6a208530cf6128906173c018df2d64dea49bada",
+      "size_bytes": 227
+    },
+    "operation": "outpaint",
+    "operation_id": "ltx25-outpaint",
+    "operation_record_sha256": "5685b1129388d61f5e933315f0ce5340a3a66f52a10f4815d686fcb650da786d",
+    "output_count": 0,
+    "planned_job_id": "wd-28ac-ltx25-outpaint-attempt-1",
+    "queue_id": "wd-28ac-phase-b-ltx25-outpaint",
+    "row": "LTX-2.5",
+    "settings_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83"
+  },
+  "gate": 7,
+  "judge_readiness": {
+    "evidence": "../preflight/judge-readiness.json",
+    "passed": true,
+    "post_boundary_unreachable": true,
+    "stopped_before_native": true
+  },
+  "matrix_transition": "not_applied",
+  "not_attempted": [
+    "ltx25-repaint",
+    "ltx25-recast",
+    "ltx25-upscale",
+    "ltx23-outpaint",
+    "ltx23-recast",
+    "ltx23-upscale"
+  ],
+  "postflight": {
+    "evidence": "terminal-boundary/postflight.json",
+    "gpu_idle": true,
+    "judge_unreachable": true,
+    "models_match": true,
+    "native_processes": 0,
+    "outputs": 0,
+    "references_match": true,
+    "trees_match": true
+  },
+  "preflight": {
+    "evidence": "../preflight/host-state.json",
+    "passed": true
+  },
+  "queue": {
+    "active_count": 0,
+    "attempted_job_ids": [
+      "job-1791055869374-3f043ee9"
+    ],
+    "database": "terminal-boundary/jobs.db",
+    "database_sha256": "c1eab0a83172833c5b435d70d642386cc275c7db716bdacf3123ee0242f2467f",
+    "failed_count": 1,
+    "pending_count": 0,
+    "states": {
+      "failed": 1
+    },
+    "summary": "terminal-boundary/queue-summary.json",
+    "summary_sha256": "85c387ac4f7d345e471f8b4e986fec09fd46548d01920f699c2be7ec9ca6def2"
+  },
+  "required_next_decision": "A distinct operator/Jev decision must supply or authorize a compatible Wan2GP Python runtime containing mmgp before any operation retry; the failed native attempt and settings must remain unchanged.",
+  "runtime_diagnosis": {
+    "evidence": "terminal-boundary/runtime-readonly-diagnosis.txt",
+    "local_mmgp_candidates": 0,
+    "mmgp_import": "failed",
+    "system_python": "/usr/bin/python3"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.final-native-terminal-boundary/v1",
+  "status": "failed_closed",
+  "story": "WD-28ac"
+}

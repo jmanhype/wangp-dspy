@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 38, in <module>
+    from mmgp import offload, safetensors2, profile_type , quant_router
+ModuleNotFoundError: No module named 'mmgp'
