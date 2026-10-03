@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 MANIFEST = RUN_DIR / "model-assets.json"
 AUTHORIZATION = RUN_DIR / "operator-authorization.json"
-ASSET_ID = "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
+ASSET_ID = "ltx-2.3-22b-ic-lora-outpaint.safetensors"
 
 
 class FakeCurl:
@@ -71,6 +71,51 @@ def _temporary_pair(tmp_path: Path) -> tuple[Path, Path]:
             "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
             "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
         },
+        "corrected_retry_approval": {
+            "verbatim": "Yes",
+            "approved_by": "operator",
+            "timestamp": "2026-10-03T13:11:01Z",
+            "corrected_manifest_sha256": _canonical(manifest_payload),
+            "preserved_first_partial": {
+                "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+                "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+                "size_bytes": 1_308_778_338,
+                "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+                "network_requests_authorized": 0,
+                "promotion_required_before_remaining_downloads": True,
+            },
+            "remaining_download_assets": [
+                "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+                "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+                "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+                "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+            ],
+            "max_curl_invocations_per_remaining_asset": 1,
+            "prior_undeclared_url_effective_get": {
+                "reported_payload_bytes": 172_109,
+                "retained_as_boundary": True,
+                "repeat_allowed": False,
+            },
+            "operation_scope": [
+                {"row": "LTX-2.5", "operation": "outpaint"},
+                {"row": "LTX-2.5", "operation": "repaint"},
+                {"row": "LTX-2.5", "operation": "recast"},
+                {"row": "LTX-2.5", "operation": "upscale"},
+                {"row": "LTX-2.3", "operation": "outpaint"},
+                {"row": "LTX-2.3", "operation": "recast"},
+                {"row": "LTX-2.3", "operation": "upscale"},
+            ],
+            "prohibitions": [
+                "no deletion",
+                "no training",
+                "no provider spend",
+                "no unrelated mutation",
+                "no threshold change",
+                "no protected-engine change",
+                "no undeclared model/body request",
+                "no WD-bw0h H3 retry",
+            ],
+        },
         "assets": [{
             "id": ASSET_ID,
             "sha256": hashlib.sha256(payload).hexdigest(),
@@ -90,7 +135,7 @@ def test_current_repair_plans_one_curl_and_zero_network_requests() -> None:
     plan = controller.plan(ASSET_ID)
 
     assert plan["mode"] == "dry_run"
-    assert plan["retry_authorized"] is False
+    assert plan["retry_authorized"] is True
     assert plan["request_accounting"] == {
         "curl_invocations": 0,
         "declared_request_count": 0,
@@ -159,9 +204,13 @@ def test_hash_mismatch_preserves_partial_without_promotion(
 def test_current_authorization_blocks_execution_before_network(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
+    authorization = json.loads(AUTHORIZATION.read_text(encoding="utf-8"))
+    authorization["retry_authorized"] = False
+    temporary_authorization = Path("/tmp/wd28ac-retry-false.json")
+    temporary_authorization.write_text(json.dumps(authorization), encoding="utf-8")
     code = runner.main([
         "--manifest", str(MANIFEST),
-        "--authorization", str(AUTHORIZATION),
+        "--authorization", str(temporary_authorization),
         "--asset", ASSET_ID,
         "--execute",
         "--allow-network",
@@ -171,6 +220,23 @@ def test_current_authorization_blocks_execution_before_network(
     payload = json.loads(capsys.readouterr().out)
     assert payload["code"] == "RETRY_NOT_AUTHORIZED"
     assert payload["status"] == "failed_closed"
+
+
+def test_corrected_retry_scope_rejects_preserved_first_partial_and_drift() -> None:
+    controller = runner.load_controller(MANIFEST, AUTHORIZATION)
+    with pytest.raises(runner.LTXDownloadControlError) as preserved:
+        controller.plan("ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors")
+    assert preserved.value.code == "ASSET_OUTSIDE_CORRECTED_RETRY_SCOPE"
+
+    authorization = json.loads(AUTHORIZATION.read_text(encoding="utf-8"))
+    authorization["corrected_retry_approval"]["remaining_download_assets"].insert(
+        0, "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
+    )
+    drifted = Path("/tmp/wd28ac-retry-scope-drift.json")
+    drifted.write_text(json.dumps(authorization), encoding="utf-8")
+    with pytest.raises(runner.LTXDownloadControlError) as raised:
+        runner.load_controller(MANIFEST, drifted)
+    assert raised.value.code == "CORRECTED_RETRY_ASSET_SCOPE_INVALID"
 
 
 def test_loader_rejects_sha256_xet_conflation(tmp_path: Path) -> None:

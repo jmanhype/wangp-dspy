@@ -22,6 +22,24 @@ WRITE_OUT = (
     "%{http_code}\t%{url_effective}\t%{size_download}\t"
     "%{redirect_count}\t%{num_connects}\n"
 )
+CORRECTED_RETRY_VERBATIM = "Yes"
+CORRECTED_RETRY_TIMESTAMP = "2026-10-03T13:11:01Z"
+PRESERVED_FIRST_ASSET = "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors"
+REMAINING_ASSETS = frozenset({
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+})
+AUTHORIZED_OPERATION_CELLS = frozenset({
+    ("LTX-2.5", "outpaint"),
+    ("LTX-2.5", "repaint"),
+    ("LTX-2.5", "recast"),
+    ("LTX-2.5", "upscale"),
+    ("LTX-2.3", "outpaint"),
+    ("LTX-2.3", "recast"),
+    ("LTX-2.3", "upscale"),
+})
 
 
 class LTXDownloadControlError(ValueError):
@@ -54,6 +72,11 @@ class DownloadController:
         self.manifest = manifest
         self.authorization = authorization
         self.retry_authorized = retry_authorized
+        self.allowed_download_ids = set(
+            authorization.get("corrected_retry_approval", {}).get(
+                "remaining_download_assets", []
+            )
+        )
         self._curl_invocations: dict[str, int] = {}
 
     def _asset(self, asset_id: str):
@@ -68,6 +91,12 @@ class DownloadController:
 
     def curl_argv(self, asset_id: str, partial: str | Path) -> list[str]:
         asset = self._asset(asset_id)
+        if asset.id not in self.allowed_download_ids:
+            raise LTXDownloadControlError(
+                "ASSET_OUTSIDE_CORRECTED_RETRY_SCOPE",
+                f"asset {asset.id!r} is not one of the four remaining downloads",
+                "The preserved first partial must be verified and promoted without a network request.",
+            )
         return [
             "curl",
             "--fail",
@@ -266,6 +295,68 @@ def load_controller(
             "authorization metadata correction does not match preserved evidence",
             "Bind the exact repository revision and both metadata response hashes.",
         )
+    retry = bool(authorization.get("retry_authorized"))
+    corrected = authorization.get("corrected_retry_approval")
+    if retry:
+        if not isinstance(corrected, dict):
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_AUTHORIZATION_INVALID",
+                "retry_authorized=true without a corrected retry approval object",
+                "Record the verbatim operator corrected-retry approval.",
+            )
+        static_expectations = {
+            "verbatim": CORRECTED_RETRY_VERBATIM,
+            "approved_by": "operator",
+            "timestamp": CORRECTED_RETRY_TIMESTAMP,
+            "corrected_manifest_sha256": _canonical_digest(manifest_payload),
+            "max_curl_invocations_per_remaining_asset": 1,
+        }
+        if any(corrected.get(key) != value for key, value in static_expectations.items()):
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_AUTHORIZATION_INVALID",
+                "corrected retry approval identity, timestamp, digest, or invocation bound drifts",
+                "Bind the exact live tracker approval and corrected manifest.",
+            )
+        if set(corrected.get("remaining_download_assets", [])) != REMAINING_ASSETS:
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_ASSET_SCOPE_INVALID",
+                "remaining download assets are not exactly the four authorized assets",
+                "Exclude the preserved first partial and include only the four named assets.",
+            )
+        preserved = corrected.get("preserved_first_partial", {})
+        if preserved != {
+            "asset_id": PRESERVED_FIRST_ASSET,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+            "size_bytes": 1_308_778_338,
+            "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "network_requests_authorized": 0,
+            "promotion_required_before_remaining_downloads": True,
+        }:
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_PRESERVED_PARTIAL_INVALID",
+                "preserved first-partial identity or zero-network promotion boundary drifts",
+                "Verify exact size/LFS SHA and promote only the declared preserved partial.",
+            )
+        if corrected.get("prior_undeclared_url_effective_get") != {
+            "reported_payload_bytes": 172_109,
+            "retained_as_boundary": True,
+            "repeat_allowed": False,
+        }:
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_PRIOR_BOUNDARY_INVALID",
+                "prior 172109-byte undeclared GET boundary is not retained exactly",
+                "Preserve the boundary and prohibit any repeat URL-effectiveness GET.",
+            )
+        observed_cells = frozenset(
+            (item.get("row"), item.get("operation"))
+            for item in corrected.get("operation_scope", [])
+        )
+        if observed_cells != AUTHORIZED_OPERATION_CELLS:
+            raise LTXDownloadControlError(
+                "CORRECTED_RETRY_OPERATION_SCOPE_INVALID",
+                "operation scope is not exactly the seven named cells",
+                "Use only the seven authorized LTX operations.",
+            )
     authorized_assets = {
         item.get("id"): item for item in authorization.get("assets", [])
     }
@@ -280,7 +371,7 @@ def load_controller(
     return DownloadController(
         manifest,
         authorization,
-        retry_authorized=bool(authorization.get("retry_authorized")),
+        retry_authorized=retry,
     )
 
 

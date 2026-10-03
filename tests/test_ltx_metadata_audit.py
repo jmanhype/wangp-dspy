@@ -104,7 +104,7 @@ def test_ingredients_partial_is_reconciled_without_calling_xet_a_sha() -> None:
         "source_hash_discrepancy_resolved_by_metadata": True,
         "undeclared_request_boundary_remains": True,
     }
-    assert summary["retry_authorized"] is False
+    assert summary["retry_authorized"] is True
 
 
 def test_metadata_summary_drift_fails_closed() -> None:

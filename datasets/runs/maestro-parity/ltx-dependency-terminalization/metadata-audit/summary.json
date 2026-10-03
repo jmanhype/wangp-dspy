@@ -81,7 +81,7 @@
     "undeclared_request_boundary_remains": true,
     "undeclared_url_effective_get_count": 1
   },
-  "retry_authorized": false,
+  "retry_authorized": true,
   "repository": {
     "audit_recorded_utc": "2026-10-03T08:11:12Z",
     "last_modified": "2026-09-29T19:49:05.000Z",

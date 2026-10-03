@@ -237,13 +237,14 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "retry_authorized",
         "manifest",
         "metadata_correction",
+        "corrected_retry_approval",
         "assets",
         "operator_approval",
         "authorized_scope",
         "required_approval",
     }
     assert authorization["schema_version"] == "wangp-dspy.ltx-dependency-authorization/v1"
-    assert authorization["retry_authorized"] is False
+    assert authorization["retry_authorized"] is True
     assert authorization["operator_approval"] == {
         "verbatim": "Authorized",
         "approved_by": "operator",
@@ -258,8 +259,54 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
         "finding": "The prior manifest sha256 fields contained xetHash values. Repaired sha256 fields are metadata lfs.oid exact-file digests, and xet_hash remains a separately named non-SHA identity.",
         "prior_manifest_canonical_sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
-        "does_not_authorize_retry": True,
-        "distinct_retry_decision_required": True,
+        "prior_correction_alone_did_not_authorize_retry": True,
+        "retry_authorization": "corrected_retry_approval",
+    }
+    assert authorization["corrected_retry_approval"] == {
+        "verbatim": "Yes",
+        "approved_by": "operator",
+        "timestamp": "2026-10-03T13:11:01Z",
+        "source": "WD-28ac OPERATOR CORRECTED-RETRY AUTHORIZATION live tracker comment",
+        "corrected_manifest_sha256": "05c9e6ba1d69d4a75c20d83bcb41e381e64de2a310b8dcba05a84f66b62136d2",
+        "preserved_first_partial": {
+            "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+            "size_bytes": 1_308_778_338,
+            "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "network_requests_authorized": 0,
+            "promotion_required_before_remaining_downloads": True,
+        },
+        "remaining_download_assets": [
+            "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+            "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+            "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+            "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+        ],
+        "max_curl_invocations_per_remaining_asset": 1,
+        "prior_undeclared_url_effective_get": {
+            "reported_payload_bytes": 172_109,
+            "retained_as_boundary": True,
+            "repeat_allowed": False,
+        },
+        "operation_scope": [
+            {"row": "LTX-2.5", "operation": "outpaint"},
+            {"row": "LTX-2.5", "operation": "repaint"},
+            {"row": "LTX-2.5", "operation": "recast"},
+            {"row": "LTX-2.5", "operation": "upscale"},
+            {"row": "LTX-2.3", "operation": "outpaint"},
+            {"row": "LTX-2.3", "operation": "recast"},
+            {"row": "LTX-2.3", "operation": "upscale"},
+        ],
+        "prohibitions": [
+            "no deletion",
+            "no training",
+            "no provider spend",
+            "no unrelated mutation",
+            "no threshold change",
+            "no protected-engine change",
+            "no undeclared model/body request",
+            "no WD-bw0h H3 retry",
+        ],
     }
     assert authorization["authorized_scope"]["boundaries"] == [
         "no training",
