@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T17:15:32Z
-content_hash: "sha256:a91b902f7725aa32dca460191a8131624034e3ddfba03d1ab38a57c3fbef21a2"
+updated_at: 2026-10-03T17:59:21Z
+content_hash: "sha256:aa3581765cce126a61e1bc84a0cb9318220d6e843d9f4f9ba20c96c57cef1fee"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,59 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## JEV Gate #4 Local Phase B Preparation (NOT DELIVERED)
+
+### Gate #3 / #4 Evidence
+- Gate #3: live jev-latest, GATHER_EVIDENCE, selected gather confidence 0.46, choice confidence 0.33, constraint risk 0.48, missing-evidence score 1.85, declared snapshot d1d7b81948f1d7f8e5fa93e8a48782f7d76e04b2b633121d4d17a5dbd46658fa, declared trace bc71e063fbbcb6751d1424daa06009f6e519b5f50edbdff00e2bb341c087c00e.
+- Gate #4: live jev-latest, CONTINUE, confidence 0.78, constraint risk 0.26, missing-evidence score 2.18, declared snapshot 38e9b171448464138e18ba6b4987d43c48a1f65df9f3bfc3da628418b2c58500, declared trace 1636e28fb5dbc9945c9fbe98df51500b560c5e9b06792d9798bad4823d283b9d.
+- No-secret artifacts persisted in jev-gates/2026-10-03/: gate-3-4-evidence.json, wd28ac-jev-snapshot-3.json, wd28ac-jev-decision-3.json, wd28ac-jev-trace-3.jsonl, wd28ac-jev-snapshot-4.json, wd28ac-jev-decision-4.json, and wd28ac-jev-trace-4.jsonl.
+- Raw API-key pattern scan: PASS, 0 matches. No API key was read, received, or passed to the worker.
+
+### Local Operation-Preparation Layer
+- Authorization now binds Gate #4 to local_phase_b_preparation_only with host_execution_authorized=false.
+- Added scripts/prepare_ltx_operations.py and datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-preparation/operation-plan.json.
+- Exact operation mapping covers only:
+  - LTX-2.5 outpaint/repaint/recast/upscale
+  - LTX-2.3 outpaint/recast/upscale
+- Every operation maps exact row, missing asset, accepted reference(s), hash-bound native settings template, staged settings path, native argv, log path, durable queue/job/retry identifiers, and planned_not_admitted state.
+- Native patterns derive from accepted WD-m7xw/WD-osfm evidence; LTX-2.3 upscale uses the accepted no-profile upscale argv shape and other operations use profile 3 + SDPA.
+- Typed local preflight checks Gate #4 authorization, healthy QC, disk, idle GPU, both accepted execution trees, all five verified model files, and all six accepted references. The committed plan is intentionally preflight_ready=false solely because QC health was not contacted/proven in local-only preparation.
+- Evidence expectations require exact output hash, ffprobe JSON, contact-sheet and first-frame visuals, objective gates, canonical checker PASS, and independent reviewer approval.
+- Attempt policy is max_attempts=1, retry=never, no evidence inheritance, terminal failure typed as native boundary, and stop_queue_on_first_terminal_failure.
+- Exact seven-row matrix transition validator accepts only dependency_blocked -> host_run_verified or operator_approved_terminal_boundary for the seven owned cells; no unowned row/cell may change.
+- docs/video-capabilities.md remains byte-identical to origin/main; no capability claim or matrix transition was made.
+
+### Verification
+- Branch/head: story/WD-28ac at d0a05c447f0e170946a470ffb5638594e94299da.
+- Focused real-process/local tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_phase_b_preparation.py tests/test_ltx_dependency_manifest.py tests/test_ltx_jev_gate2.py tests/test_ltx_jev_phase_a.py tests/test_ltx_download_runner.py -q => 36 passed.
+- Undeselected full suite at clean head: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q -ra --junitxml=/private/tmp/WD-28ac-phase-b-full-20261003.junit.xml => JUnit tests=2221 failures=0 errors=0 skipped=1 time=1849.075s. Sole skip is the pre-existing WANGP_3090 live-host gate; the variable was not set.
+- pvg verify explicit changed evidence/test paths --include-tests => VERIFY: PASSED (3 files scanned, 0 issues).
+- pvg lint --backlog => scanned 156 issues; 0 errors, 0 review findings.
+- wgp release verify => version=0.1.0, all checks pass, release=ready, tag=v0.1.0, tag_created=false.
+- Protected-file parity versus origin/main => PASS.
+- docs/video-capabilities.md parity versus origin/main => PASS.
+- Credential scan across 68 WD-28ac JSON/JSONL/text/Markdown evidence files => PASS, 0 matches.
+- git diff --check => PASS.
+- Exact-head CI: run 37140480001 / job 111253711605 at d0a05c447f0e170946a470ffb5638594e94299da => success in 23m35s, https://github.com/jmanhype/wangp-dspy/actions/runs/37140480001.
+- PR 217 remains OPEN and MERGEABLE.
+
+### Boundary
+- No SSH/host-3090 contact, QC start/contact, network/model GET, queue admission, render, retrieval, model/file mutation, protected-file edit, capability claim, delivery, acceptance, or merge occurred.
+- Host execution remains blocked pending a separate live Jev host-execution gate.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Local Phase B preparation is committed and CI-green at d0a05c447f0e170946a470ffb5638594e94299da.
+
+### proof
+- [x] Gate #3/#4 no-secret evidence is persisted and authorization-bound.
+- [x] Seven-operation planner/preflight/evidence/matrix layer exists with focused real-process coverage and negative paths.
+- [x] Full suite, pvg verify, lint, release readiness, protected parity, matrix-doc parity, credential scan, diff check, and exact-head CI pass.
+- [ ] NOT DELIVERED: host QC/operations require a separate Jev execution gate.
+
+
 ## JEV Gate #2 Phase A Downloads Complete (NOT DELIVERED)
 
 ### Gate Evidence and Authorization
