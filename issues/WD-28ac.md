@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T15:58:22Z
-content_hash: "sha256:dad2e6c79132e28fda06e60a0459131f5c871c4064e7108efbcdea736b9be91f"
+updated_at: 2026-10-03T15:58:53Z
+content_hash: "sha256:1a6a885801020b73ee6c2f74f2bf0ec9a0bc120da2bf7b69c1e2e3cb495c428d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -355,3 +355,6 @@ OPERATOR CORRECTED-RETRY AUTHORIZATION at 2026-10-03T13:11:01Z. Verbatim user in
 
 ### 2026-10-03T15:58:22Z speed
 LIVE JEV GATE #1 at 2026-10-03T15:55Z: mode=live, model=jev-latest, snapshot sha256 d3b08b65433d4d4de510846f459d82b51192c9d52086336b61c5987ca28a7e52, decision=gather_evidence, policy_reason=choice confidence 0.40 below 0.50, missing_evidence_score=1.75. A fresh read-only host probe then verified exact ingredients/outpaint finals and hashes, three remaining assets/partials absent, execution tree commits/status unchanged, GPU idle, free bytes 44718174208, and QC ports 8000/8420 unreachable. No host mutation or model request occurred.
+
+### 2026-10-03T15:58:52Z speed
+LIVE JEV GATE #2 at 2026-10-03T16:00Z: mode=live, model=jev-latest, snapshot sha256 1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2, decision=CONTINUE, continue confidence=0.96, constraint risk=0.21, missing evidence score=1.25, triggered_rules=no_veto_triggered. Exact delegated scope is PHASE A DOWNLOADS ONLY: reverify current state, issue exactly one declared curl invocation for each of the three absent assets, verify exact size/file SHA-256, and stop before QC start, queue admission, render, or matrix transition. The raw API key remains only in the local 0600 orchestrator secret file and was not passed to any worker.
