@@ -1,0 +1,22 @@
+{
+  "boundary": {
+    "code": "ENVIRONMENT_DEPENDENT_PLAN_EQUALITY_ASSERTION",
+    "diagnosis": "The first Gate 12 CI run failed only because a regression compared complete generated plan objects. Reference resolved_path and preflight observations intentionally embed the current repository root, so full-object equality is runner-path dependent.",
+    "host_contact": false,
+    "runtime_or_file_mutation": false
+  },
+  "failed_ci": {
+    "conclusion": "failure",
+    "head": "7917b581d194a809441b3fe8ec31e3f9c69646f4",
+    "job_id": 111318632581,
+    "run_id": 37162486827,
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37162486827"
+  },
+  "repair": {
+    "action": "Compare the environment-independent plan contract: schema/mode/readiness, runtime identity, prior-boundary binding, scheduling, check name/status sequence, operation identities, exact native records, queue records, and attempt policies.",
+    "file": "tests/test_ltx_native_runtime_integration.py",
+    "local_gates_after_repair": "gate-12-local-gates.txt"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.gate12-ci-boundary-repair/v1",
+  "story": "WD-28ac"
+}

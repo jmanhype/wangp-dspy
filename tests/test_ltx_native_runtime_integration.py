@@ -99,8 +99,36 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
     runtime = plan["isolated_runtime"]
     checks = {item["name"]: item for item in plan["preflight_checks"]}
 
-    assert committed == plan
     runner.validate_contract(committed, _read(AUTH_PATH))
+    assert committed["schema_version"] == plan["schema_version"]
+    assert committed["mode"] == plan["mode"]
+    assert committed["host_execution_authorized"] == plan["host_execution_authorized"]
+    assert committed["runtime_identity_ready"] == plan["runtime_identity_ready"]
+    assert committed["preflight_ready"] == plan["preflight_ready"]
+    assert committed["isolated_runtime"] == plan["isolated_runtime"]
+    assert committed["prior_boundary"] == plan["prior_boundary"]
+    assert committed["scheduling"] == plan["scheduling"]
+    assert [
+        (item["name"], item["passed"]) for item in committed["preflight_checks"]
+    ] == [
+        (item["name"], item["passed"]) for item in plan["preflight_checks"]
+    ]
+    for committed_operation, generated_operation in zip(
+        committed["operations"], plan["operations"]
+    ):
+        assert committed_operation["operation_id"] == generated_operation["operation_id"]
+        assert (committed_operation["row"], committed_operation["operation"]) == (
+            generated_operation["row"], generated_operation["operation"]
+        )
+        assert committed_operation["asset_id"] == generated_operation["asset_id"]
+        assert set(committed_operation["references"]) == set(
+            generated_operation["references"]
+        )
+        assert committed_operation["native"] == generated_operation["native"]
+        assert committed_operation["queue"] == generated_operation["queue"]
+        assert committed_operation["attempt_policy"] == (
+            generated_operation["attempt_policy"]
+        )
 
     assert plan["schema_version"] == (
         "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1"
