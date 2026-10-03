@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T17:14:25Z
-content_hash: "sha256:a91d90cd1bb12b0cb6070184dbc1a48806f6e6c274a01756cc87330d1bc7c246"
+updated_at: 2026-10-03T17:15:32Z
+content_hash: "sha256:a91b902f7725aa32dca460191a8131624034e3ddfba03d1ab38a57c3fbef21a2"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -435,3 +435,6 @@ LIVE JEV GATE #2 at 2026-10-03T16:00Z: mode=live, model=jev-latest, snapshot sha
 
 ### 2026-10-03T17:14:25Z speed
 LIVE JEV GATE #3 at 2026-10-03T17:15Z: mode=live, model=jev-latest, snapshot sha256 d1d7b81948f1d7f8e5fa93e8a48782f7d76e04b2b633121d4d17a5dbd46658fa, decision=GATHER_EVIDENCE, selected gather confidence=0.46/choice confidence=0.33, constraint risk=0.48, missing evidence score=1.85. No QC start, queue admission, native attempt, render, or matrix transition occurred. Next evidence will inspect prior accepted QC startup and seven-operation patterns plus current local operation-preparation coverage.
+
+### 2026-10-03T17:15:32Z speed
+LIVE JEV GATE #4 at 2026-10-03T17:25Z: mode=live, model=jev-latest, snapshot sha256 38e9b171448464138e18ba6b4987d43c48a1f65df9f3bfc3da628418b2c58500, decision=CONTINUE, confidence=0.78, constraint risk=0.26, missing evidence score=2.18, triggered_rules=no_veto_triggered. Scope is LOCAL PHASE B PREPARATION ONLY: implement a fail-closed operation plan/runner and evidence tests from accepted WD-m7xw/WD-osfm patterns, then run local gates and exact-head CI. No host contact, QC contact, queue admission, render, download, retrieval, protected-file change, or capability claim. Raw API key remains only in local 0600 orchestrator storage and is not passed to the worker.
