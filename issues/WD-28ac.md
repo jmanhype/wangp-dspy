@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T18:57:54Z
-content_hash: "sha256:3ebf130d8251c4c76b15eb4ffd9875c85b076a3823b0a77f5d42aee9a23ec62a"
+updated_at: 2026-10-03T19:57:38Z
+content_hash: "sha256:7597b417228157f3e5f2fd724e72a7f148cc331477eb9126c83e739261a829b6"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,88 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
+
+### Gate #7
+- Live Jev Gate #7: mode=live, model=jev-latest, decision=CONTINUE, confidence 0.80, constraint risk 0.37, missing-evidence score 1.16, no veto.
+- Declared snapshot SHA-256: ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c.
+- Declared trace SHA-256: 21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7.
+- No-secret Gate #7 artifacts persisted under jev-gates/2026-10-03/ with raw API-key scan PASS, 0 matches.
+- Pre-host authorization/runner head: e2f07a3c76486f53bf4e78ebecb57655de2e969f; exact-head CI run 37146983354 / job 111272864985 passed in 16m03s.
+- Local Gate #7 runner/reviewer layer:
+  - scripts/run_ltx_final_operations.py uses the real services.jobs.JobQueue, exact staged settings hashes, exact argv, native logs, GPU/source/disk snapshots, one-attempt semantics, and stop-on-first-terminal-failure.
+  - scripts/review_ltx_operations.py provides independent local-Qwen review evidence.
+  - phase-b-preparation/final-operation-plan.json binds seven operations, /usr/bin/python3, execution-tree source roots, assets, references, queue IDs, and native argv.
+
+### Fresh Host Prefflight and Judge Readiness
+- Evidence: final-native-operations/preflight/host-state.json.
+- Host/user: straughter-Z690-Steel-Legend / straughter.
+- Root free bytes: 23564808192.
+- GPU: RTX 3090, 139 MiB used, 23978 MiB free, no compute apps.
+- WD-m7xw tree: faea82d15bf10b3479c42c0ea430892aae975870, status ?? ckpts.
+- WD-osfm tree: 4c93b64a47b5b0a915f2abec2ce754be98227150, status ?? ckpts.
+- Models: 5/5 exact size and SHA-256.
+- References: 7/7 exact SHA-256.
+- Judge initially unreachable and absent.
+- Judge readiness: judge_ctl start exited 0 ("judge up after 20s"); health HTTP 200 with exact body {"status":"ok"} on first poll; healthy PID 1780109 used 7752 MiB; stop exited 0 ("judge stopped: 0 remaining"); post-stop health unreachable and GPU idle.
+- Exact deployment hashes and dry run are recorded in final-native-operations/deploy-hashes.txt and host-dry-run.txt. Dry run: 7 operations, 0 queue admissions, 0 native attempts; /usr/bin/python3 had torch CUDA/diffusers/safetensors/pydantic and all planned run paths were absent.
+
+### Terminal Boundary
+- First and only admitted operation: LTX-2.5 / outpaint / ltx25-outpaint.
+- Planned job: wd-28ac-ltx25-outpaint-attempt-1.
+- Durable JobQueue ID: job-1791055869374-3f043ee9.
+- Exact argv is recorded in terminal-boundary/boundary.json and ltx25-outpaint.operation-record.json.
+- Staged settings SHA-256: 76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83.
+- Runner typed boundary: NATIVE_NO_OUTPUT.
+- Diagnostic typed boundary: NATIVE_IMPORT_MMGP_MISSING.
+- Exact native error: ModuleNotFoundError: No module named 'mmgp'.
+- Native exit: 1. Output count: 0.
+- Native log: 227 bytes, SHA-256 cf605c152543c2b9472ad6cfc6a208530cf6128906173c018df2d64dea49bada.
+- Durable queue after boundary: failed=1, pending=0, active=0. No later job was submitted.
+- Not attempted: ltx25-repaint, ltx25-recast, ltx25-upscale, ltx23-outpaint, ltx23-recast, ltx23-upscale.
+- Read-only runtime diagnosis found mmgp absent from /usr/bin/python3 and no mmgp candidate in the WD-m7xw/WD-osfm run/vendor paths; no historical Wan2GP venv interpreter remained.
+- This is not a hardware verdict and not a model-capability verdict. No retry, substitution, dependency installation, model mutation, reference mutation, deletion, or matrix transition occurred.
+
+### Terminal Postflight
+- Evidence: final-native-operations/terminal-boundary/postflight.json.
+- Models: 5/5 unchanged.
+- References: 7/7 unchanged.
+- Execution trees: both unchanged at exact commit/status.
+- GPU: 139 MiB used, 23978 MiB free, zero compute apps.
+- Native/runner processes: zero.
+- Judge: unreachable, zero processes.
+- Generated native outputs: zero.
+- docs/video-capabilities.md remains byte-identical to origin/main.
+
+### Local Evidence Gates and CI
+- Focused terminal-boundary tests: /Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest tests/test_ltx_final_terminal_boundary.py tests/test_ltx_final_operations_runner.py tests/test_ltx_jev_gate7.py -q => 8 passed.
+- pvg verify terminal boundary/native log/tests --include-tests => VERIFY: PASSED.
+- pvg lint --backlog => scanned 156 issues; 0 errors, 0 review findings.
+- Protected-file parity => PASS.
+- Matrix-document parity => PASS.
+- git diff --check => PASS.
+- wgp release verify => version=0.1.0, release=ready, tag=v0.1.0, tag_created=false.
+- Boundary evidence head: b304b6e736bb3734038573fec8c4e42641f51249.
+- Exact-head CI: run 37148447846 / job 111277101180 => success in 21m19s, https://github.com/jmanhype/wangp-dspy/actions/runs/37148447846.
+- PR 217 remains OPEN and MERGEABLE.
+
+### Boundary Decision
+- WD-28ac is NOT delivered.
+- No canonical success checker was applicable because there is no successful output bundle.
+- A distinct operator/Jev decision must supply or authorize a compatible Wan2GP Python runtime containing mmgp before any retry. The failed settings/log/queue evidence must remain unchanged.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- Gate #7 final native attempt stopped at a CI-green, typed runtime boundary at b304b6e736bb3734038573fec8c4e42641f51249.
+
+### proof
+- [x] Gate #7 evidence, final plan, real queue runner, reviewer seam, fresh preflight, judge readiness, exact first-attempt evidence, and terminal postflight are committed.
+- [x] The first operation stopped the queue with one durable failed job, no pending work, no retry, no substitution, and no artifact mutation.
+- [ ] NOT DELIVERED: compatible Wan2GP runtime and a distinct retry decision remain required.
+
+
 ## JEV Gate #6 QC Readiness Complete (NOT DELIVERED)
 
 ### Gate #5 / #6 Evidence
