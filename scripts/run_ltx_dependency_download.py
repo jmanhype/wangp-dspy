@@ -323,10 +323,14 @@ def load_controller(
                 "remaining download assets are not exactly the four authorized assets",
                 "Exclude the preserved first partial and include only the four named assets.",
             )
+        preserved_asset = next(
+            asset for asset in manifest.assets if asset.id == PRESERVED_FIRST_ASSET
+        )
+        preserved_path = f"{preserved_asset.destination}.WD-28ac.partial"
         preserved = corrected.get("preserved_first_partial", {})
         if preserved != {
             "asset_id": PRESERVED_FIRST_ASSET,
-            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+            "path": preserved_path,
             "size_bytes": 1_308_778_338,
             "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
             "network_requests_authorized": 0,

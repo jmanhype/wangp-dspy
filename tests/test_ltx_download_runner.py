@@ -45,18 +45,30 @@ def _canonical(payload: dict[str, Any]) -> str:
 def _temporary_pair(tmp_path: Path) -> tuple[Path, Path]:
     payload = b"exact payload"
     destination = tmp_path / "asset.bin"
+    preserved_destination = tmp_path / "preserved.bin"
     manifest_payload = {
         "schema_version": "wangp-dspy.model-assets/v1",
         "source_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
-        "assets": [{
-            "id": ASSET_ID,
-            "source_url": "https://example.invalid/asset.bin",
-            "sha256": hashlib.sha256(payload).hexdigest(),
-            "xet_hash": "b" * 64,
-            "size_bytes": len(payload),
-            "license": "test license",
-            "destination": str(destination),
-        }],
+        "assets": [
+            {
+                "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+                "source_url": "https://example.invalid/preserved.bin",
+                "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+                "xet_hash": "a" * 64,
+                "size_bytes": 1_308_778_338,
+                "license": "test license",
+                "destination": str(preserved_destination),
+            },
+            {
+                "id": ASSET_ID,
+                "source_url": "https://example.invalid/asset.bin",
+                "sha256": hashlib.sha256(payload).hexdigest(),
+                "xet_hash": "b" * 64,
+                "size_bytes": len(payload),
+                "license": "test license",
+                "destination": str(destination),
+            },
+        ],
     }
     authorization = {
         "status": "authorized",
@@ -78,7 +90,7 @@ def _temporary_pair(tmp_path: Path) -> tuple[Path, Path]:
             "corrected_manifest_sha256": _canonical(manifest_payload),
             "preserved_first_partial": {
                 "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
-                "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+                "path": f"{preserved_destination}.WD-28ac.partial",
                 "size_bytes": 1_308_778_338,
                 "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
                 "network_requests_authorized": 0,
@@ -117,10 +129,15 @@ def _temporary_pair(tmp_path: Path) -> tuple[Path, Path]:
             ],
         },
         "assets": [{
+            "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "xet_hash": "a" * 64,
+            "cells": [{"row": "LTX-2.3", "operation": "recast"}],
+        }, {
             "id": ASSET_ID,
             "sha256": hashlib.sha256(payload).hexdigest(),
             "xet_hash": "b" * 64,
-            "cells": [{"row": "LTX-2.3", "operation": "recast"}],
+            "cells": [{"row": "LTX-2.3", "operation": "outpaint"}],
         }],
     }
     manifest = tmp_path / "assets.json"
