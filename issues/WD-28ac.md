@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T22:32:06Z
-content_hash: "sha256:1a5686faa25325b9c91243ab7f4afa4558a1dc87806e42e3c56ef51fba02969b"
+updated_at: 2026-10-03T23:25:16Z
+content_hash: "sha256:07e3ed0262652541acae88474ed7f9e0225a804ad3ec5a56d3478c3093261b4a"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,20 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+### 2026-10-03T23:25:16Z speed
+
+WD-28ac Gate 11 corrected boundary and operator wheel-layout resume evidence (NOT DELIVERED):
+
+- Corrected Gate 11 attempt consumed exactly one declared GET and stopped closed before extraction on `WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE`. Boundary commit: `844cd7df266687e9f6bf3fda52c2c88f00a23fac`; exact-head CI run `37155977311` succeeded. Preserved boundary report: `runtime-repair/2026-10-03/gate11-corrected-report.json`, SHA-256 `fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6`.
+- Operator authorization at 2026-10-03T22:32:06Z approved only preserved-wheel resume if the root member was inert. Read-only inspection found `__init__.py` is 0 bytes, UTF-8, SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`, with empty AST body. Evidence: `gate11-root-member-readonly-inspection.json` and `wheel-layout-authorization-evidence.json`.
+- Local implementation commit: `c4445b22488b0bed66afd5f599cdcb5db7c297ee`. Focused suite: 33 passed. `pvg verify`: PASSED. `pvg lint --backlog`: 0 errors/0 review findings. Runtime host wiring focused test: passed. Protected-file parity and `docs/video-capabilities.md` parity: passed. Credential/JSON scan: PASS over 27 files. `wgp release verify`: ready=true, tag_created=false. Exact-head CI run `37159234076` succeeded.
+- Fresh read-only host preflight on `straughter-Z690-Steel-Legend` as `straughter` confirmed runtime children were exactly the preserved wheel and empty staging, destination/report absent, wheel size 68211 and SHA-256 `6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208`, GPU idle with zero compute apps, 23,544,549,376 bytes free, and prior Gate 11 report unchanged.
+- Deployed exact CI-green runner/authorization/inputs into new `runtime-repair-wheel-layout-input`; local/remote hashes matched. Remote dry run reported `mode=resume_preserved_wheel`, `network_get_limit=0`, and zero GETs. Sole host resume command exited 0.
+- Durable host report: `wheel-layout-host-report.json`, SHA-256 `7481c1a1bdce53affb161c9e0f32481d131c8fee662bc92305ae14bc88861db7`. Network accounting: declared_wheel_gets=0, undeclared_requests=0, wheel_get_limit=0. Wheel remained 68211 bytes / SHA-256 `6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208`. Existing empty staging was used and atomically renamed; no deletion or overwrite occurred.
+- Extraction inventory: 11 wheel files, 290,057 uncompressed bytes. Isolated `/usr/bin/python3` imported `mmgp` 3.7.14 from `/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py`. The authorized import created one 948-byte `__pycache__/__init__.cpython-312.pyc` inside the isolated destination (SHA-256 `5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26`), preserved without deletion. Final isolated tree: 12 files / 291,005 bytes. Corrected postflight proves all 11 extracted wheel files match the report and the bytecode file is the sole import-generated addition.
+- System/live `mmgp` import remains absent. All five model files and six references match before/after snapshots. GPU remained idle with zero compute apps; 23,538,384,896 bytes free postflight. Zero dependency installs, deletions, overwrites, native retries, QC starts, queue admissions, renders, model/reference mutations, system-runtime mutations, or protected-file changes occurred.
+- Post-host evidence commit: `38ea5eb12072750491e8836cb9f476196f31702a`; post-host local gates passed (33 focused tests, pvg verify, lint, runtime wiring, protected parity, matrix parity, 37-file JSON/credential scan, release ready/tag false, diff check). PR 217 head is `38ea5eb12072750491e8836cb9f476196f31702a`; exact-head CI run `37160361295` / job `111312361472` succeeded. Story remains claimed and NOT delivered; a separate Jev/native-retry decision is required before any further host execution.
+
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
 ### Gate #7
