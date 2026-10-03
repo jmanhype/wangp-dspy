@@ -1,0 +1,72 @@
+host=straughter-Z690-Steel-Legend
+user=straughter
+utc=2026-10-03T22:59:30Z
+
+[reports]
+fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json
+7481c1a1bdce53affb161c9e0f32481d131c8fee662bc92305ae14bc88861db7  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-report.json
+
+[runtime_paths]
+f 68211 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14
+f 0 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp
+f 26356 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/fp8_quanto_bridge.py
+f 509 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py
+f 45822 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/quant_router.py
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__pycache__
+f 23899 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/safetensors2.py
+f 176124 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/offload.py
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info/licenses
+f 837 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info/RECORD
+f 14 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info/top_level.txt
+f 16311 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info/METADATA
+f 91 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info/WHEEL
+
+[wheel_root_and_inventories]
+wheel_size=68211 wheel=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+root_size=0 root=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+{
+  "bytecode_addition_count": 1,
+  "extracted_inventory_matches_report": true,
+  "extracted_wheel_file_count": 11,
+  "extracted_wheel_uncompressed_bytes": 290057,
+  "final_file_count": 12,
+  "final_uncompressed_bytes": 291005,
+  "import_generated_bytecode": [
+    {
+      "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+      "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+      "size_bytes": 948
+    }
+  ],
+  "models_match_report_before_and_after": true,
+  "references_match_report_before_and_after": true,
+  "root_init_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "root_init_size": 0
+}
+
+[isolated_import]
+{"metadata_version": "3.7.14", "path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py", "python": "/usr/bin/python3"}
+
+[system_mmgp]
+ModuleNotFoundError: No module named 'mmgp'
+
+[disk_gpu_process]
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 825713623040 23538384896  98% /
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+
+[input_hashes]
+e818b291098309b746fc9c413b86c1dd41c026c258184dc76b27ab44796a48d0  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/repair_ltx_runtime.py
+2c6c152480c33d13793b6aacb5428dea11679b4b33c66459695827dd4f8ae160  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/operator-authorization.json
+8977ced4fe6c8ffe26aefcca754206c5da683352f5706bbf2066f8dca5a32d27  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/mmgp-35714.json
+7623d348d36ed3686ee37c9e9553ad4414ae4464e7e1743f059e768047f61796  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/gate-11-evidence.json
+3359635eec624c1cc279cefa76e66a3ed32b2d40c70249cb703fe72f78cf4e5d  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/wheel-layout-authorization-evidence.json
+42a88079a3bf173ecfd09222fb77a8ccff5b92bc36f408cc937f34b7059c1a7f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/model-assets.json
+01a3a3195144d0d46585fe07e76860d5059dbbbcaf8377ec95c35f52936a5ab4  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input/final-operation-plan.json
+
+corrected_readonly_postflight=PASS
