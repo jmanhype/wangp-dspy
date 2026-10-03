@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 MANIFEST_PATH = RUN_DIR / "model-assets.json"
 AUTHORIZATION_PATH = RUN_DIR / "operator-authorization.template.json"
+AUTHORIZED_AUTHORIZATION_PATH = RUN_DIR / "operator-authorization.json"
 TOTAL_BYTES = 23_701_298_279
 ASSET_FIELDS = {
     "id", "source_url", "sha256", "size_bytes", "license", "destination",
@@ -110,12 +111,12 @@ def _assert_manifest(payload: dict[str, Any]) -> None:
 def _assert_authorization(
     authorization: dict[str, Any], manifest: dict[str, Any]
 ) -> None:
-    assert authorization["status"] == "approved", (
-        "authorization status is not approved"
+    assert authorization["status"] == "authorized", (
+        "authorization status is not authorized"
     )
     approval = authorization["operator_approval"]
     assert isinstance(approval, dict)
-    assert approval.get("text")
+    assert approval.get("verbatim")
     assert approval.get("approved_by")
     assert approval.get("timestamp")
 
@@ -150,10 +151,11 @@ def _assert_authorization(
             for row, operation in sorted(EXPECTED_CELLS)
         ],
         "prohibitions": [
-            "no model-byte download or HEAD request",
-            "no storage mutation",
-            "no queue admission, render, or retrieval",
-            "no protected-engine semantic change",
+            "no undeclared network access or download bytes",
+            "no substitution from unrelated assets",
+            "no training or provider spend",
+            "no unrelated mutation, threshold change, or protected-engine semantic change",
+            "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac",
         ],
     }
 
@@ -200,6 +202,39 @@ def test_authorization_template_owns_exactly_seven_affected_cells() -> None:
     assert len(EXPECTED_CELLS) == 7
 
 
+def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> None:
+    manifest = _read(MANIFEST_PATH)
+    authorization = _read(AUTHORIZED_AUTHORIZATION_PATH)
+
+    assert set(authorization) == {
+        "schema_version",
+        "status",
+        "manifest",
+        "assets",
+        "operator_approval",
+        "authorized_scope",
+        "required_approval",
+    }
+    assert authorization["schema_version"] == "wangp-dspy.ltx-dependency-authorization/v1"
+    assert authorization["operator_approval"] == {
+        "verbatim": "Authorized",
+        "approved_by": "operator",
+        "timestamp": "2026-10-03T06:57:55Z",
+        "source": "WD-28ac live tracker comment",
+    }
+    assert authorization["authorized_scope"]["execution_path"] == "governed Wan2GP queue/adapter"
+    assert authorization["authorized_scope"]["boundaries"] == [
+        "no training",
+        "no provider spend",
+        "no unrelated mutation",
+        "no threshold change",
+        "no protected-engine change",
+        "reversible storage handling",
+        "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac",
+    ]
+    _assert_authorization(authorization, manifest)
+
+
 @pytest.mark.parametrize(
     "asset_id", sorted(EXPECTED_ASSETS), ids=sorted(EXPECTED_ASSETS)
 )
@@ -230,9 +265,9 @@ def test_manifest_drift_fails_closed() -> None:
 def test_partial_authorization_fails_closed() -> None:
     manifest = _read(MANIFEST_PATH)
     partial = _read(AUTHORIZATION_PATH)
-    partial["status"] = "approved"
+    partial["status"] = "authorized"
     partial["operator_approval"] = {
-        "text": "partial approval",
+        "verbatim": "partial approval",
         "approved_by": "operator",
         "timestamp": "2026-09-29T00:00:00Z",
     }

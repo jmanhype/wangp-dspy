@@ -1,0 +1,100 @@
+{
+  "schema_version": "wangp-dspy.ltx-dependency-authorization/v1",
+  "status": "authorized",
+  "manifest": {
+    "path": "model-assets.json",
+    "sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
+    "total_download_bytes": 23701298279
+  },
+  "assets": [
+    {
+      "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "recast"},
+        {"row": "LTX-2.3", "operation": "recast"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "outpaint"},
+        {"row": "LTX-2.3", "operation": "outpaint"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "repaint"}
+      ]
+    },
+    {
+      "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "cells": [
+        {"row": "LTX-2.5", "operation": "upscale"}
+      ]
+    },
+    {
+      "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "cells": [
+        {"row": "LTX-2.3", "operation": "upscale"}
+      ]
+    }
+  ],
+  "operator_approval": {
+    "verbatim": "Authorized",
+    "approved_by": "operator",
+    "timestamp": "2026-10-03T06:57:55Z",
+    "source": "WD-28ac live tracker comment"
+  },
+  "authorized_scope": {
+    "host": "3090",
+    "asset_count": 5,
+    "total_download_bytes": 23701298279,
+    "cells": [
+      {"row": "LTX-2.3", "operation": "outpaint"},
+      {"row": "LTX-2.3", "operation": "recast"},
+      {"row": "LTX-2.3", "operation": "upscale"},
+      {"row": "LTX-2.5", "operation": "outpaint"},
+      {"row": "LTX-2.5", "operation": "recast"},
+      {"row": "LTX-2.5", "operation": "repaint"},
+      {"row": "LTX-2.5", "operation": "upscale"}
+    ],
+    "execution_path": "governed Wan2GP queue/adapter",
+    "boundaries": [
+      "no training",
+      "no provider spend",
+      "no unrelated mutation",
+      "no threshold change",
+      "no protected-engine change",
+      "reversible storage handling",
+      "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac"
+    ]
+  },
+  "required_approval": {
+    "asset_ids": [
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors"
+    ],
+    "total_download_bytes": 23701298279,
+    "host": "3090",
+    "cells": [
+      {"row": "LTX-2.3", "operation": "outpaint"},
+      {"row": "LTX-2.3", "operation": "recast"},
+      {"row": "LTX-2.3", "operation": "upscale"},
+      {"row": "LTX-2.5", "operation": "outpaint"},
+      {"row": "LTX-2.5", "operation": "recast"},
+      {"row": "LTX-2.5", "operation": "repaint"},
+      {"row": "LTX-2.5", "operation": "upscale"}
+    ],
+    "prohibitions": [
+      "no undeclared network access or download bytes",
+      "no substitution from unrelated assets",
+      "no training or provider spend",
+      "no unrelated mutation, threshold change, or protected-engine semantic change",
+      "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac"
+    ]
+  }
+}
