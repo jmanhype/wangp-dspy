@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T15:00:34Z
-content_hash: "sha256:fdd2df5a06fc09e77bee60d8e91696039fb79c2c50a2a73ff2c37b69bb48c620"
+updated_at: 2026-10-03T15:58:22Z
+content_hash: "sha256:dad2e6c79132e28fda06e60a0459131f5c871c4064e7108efbcdea736b9be91f"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -352,3 +352,6 @@ OPERATOR JEV-DELEGATION POLICY recorded after metadata repair. Operator asked th
 
 ### 2026-10-03T13:11:01Z speed
 OPERATOR CORRECTED-RETRY AUTHORIZATION at 2026-10-03T13:11:01Z. Verbatim user input: Yes. This approves the immediately preceding corrected WD-28ac retry only: preserve/record the prior 172109-byte undeclared URL-effectiveness GET as a boundary; verify and promote the already-preserved exact-LFS-SHA first partial; request/download only the remaining four declared assets using one declared curl invocation per asset; verify exact sizes and file SHA-256 values; run only the seven named governed operations; and retain all prior prohibitions—no deletion, training, provider spend, unrelated mutation, threshold change, protected-engine change, undeclared model/body request, or WD-bw0h H3 retry. Authorization must be committed to the story record and exact-head CI must pass before host contact.
+
+### 2026-10-03T15:58:22Z speed
+LIVE JEV GATE #1 at 2026-10-03T15:55Z: mode=live, model=jev-latest, snapshot sha256 d3b08b65433d4d4de510846f459d82b51192c9d52086336b61c5987ca28a7e52, decision=gather_evidence, policy_reason=choice confidence 0.40 below 0.50, missing_evidence_score=1.75. A fresh read-only host probe then verified exact ingredients/outpaint finals and hashes, three remaining assets/partials absent, execution tree commits/status unchanged, GPU idle, free bytes 44718174208, and QC ports 8000/8420 unreachable. No host mutation or model request occurred.
