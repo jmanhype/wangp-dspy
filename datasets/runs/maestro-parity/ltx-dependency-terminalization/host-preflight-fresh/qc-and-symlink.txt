@@ -1,0 +1,39 @@
+--- temporal upscaler symlink ---
+/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors
+/home/straughter/Wan2GP/ckpts/ltx-2.3-temporal-upscaler-x2-1.0.safetensors regular file 261944000
+2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe  /home/straughter/Wan2GP/ckpts/ltx-2.3-temporal-upscaler-x2-1.0.safetensors
+--- judge control script ---
+-rwxr-xr-x 1 straughter straughter 931 Sep  7 23:35 /home/straughter/marathon/bin/judge_ctl.sh
+#!/bin/bash
+# usage: judge_ctl.sh stop|start|status
+case "$1" in
+  stop)
+    pkill -f "llama-server" 2>/dev/null; sleep 3
+    echo "judge stopped: $(pgrep -f llama-server | wc -l) remaining"
+    ;;
+  start)
+    if curl -s -m 3 http://127.0.0.1:8000/health 2>/dev/null | grep -q ok; then
+      echo "judge already up"; exit 0
+    fi
+    cd /home/straughter/qwen3vl-video
+    nohup /home/straughter/llama.cpp/build/bin/llama-server \
+      -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf \
+      -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000 \
+      > /home/straughter/llama_gpu.log 2>&1 < /dev/null &
+    for i in $(seq 1 18); do
+      sleep 10
+      curl -s -m 3 http://127.0.0.1:8000/health 2>/dev/null | grep -q ok && { echo "judge up after ${i}0s"; exit 0; }
+    done
+    echo "judge FAILED to start"; exit 1
+    ;;
+  status)
+    curl -s -m 3 http://127.0.0.1:8000/health 2>/dev/null | head -c 60 || echo "down"
+    ;;
+esac
+--- service/socket/process state ---
+inactive
+Unit qc-stack.service could not be found.
+3841 /opt/erlang/lib/erlang/erts-14.2.5.12/bin/beam.smp -W w -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -pc unicode -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -sbwt none -sbwtdcpu none -sbwtdio none -- -root /opt/erlang/lib/erlang -bindir /opt/erlang/lib/erlang/erts-14.2.5.12/bin -progname erl -- -home /var/lib/rabbitmq -- -pa  -noshell -noinput -s rabbit boot -boot start_sasl -syslog logger [] -syslog syslog_error_logger false -kernel prevent_overlapping_partitions false
+--- listening health probes ---
+curl: (7) Failed to connect to 127.0.0.1 port 8000 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 8420 after 0 ms: Couldn't connect to server
