@@ -1,0 +1,383 @@
+{
+    "authorization_head": "a2d33a3e3aa71325daac1675e50e28d721cc65a9",
+    "final_state": {
+        "disk": {
+            "argv": [
+                "df",
+                "-B1",
+                "/home/straughter/Wan2GP"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825883811840 23368196096  98% /\n"
+        },
+        "gpu_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+        },
+        "gpu_query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 144, 23972, 0\n"
+        },
+        "health": {
+            "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+            "reachable": false
+        },
+        "judge_processes": {
+            "argv": [
+                "pgrep",
+                "-af",
+                "llama-server"
+            ],
+            "returncode": 1,
+            "stderr": "",
+            "stdout": ""
+        },
+        "utc": "2026-10-03T18:31:29.455421Z"
+    },
+    "gate": 6,
+    "health_endpoint": "http://127.0.0.1:8000/health",
+    "health_poll": [
+        {
+            "attempt": 1,
+            "body": "{\"status\":\"ok\"}",
+            "http_status": 200,
+            "reachable": true,
+            "utc": "2026-10-03T18:31:11.305794Z"
+        }
+    ],
+    "health_reached": true,
+    "healthy_state": {
+        "disk": {
+            "argv": [
+                "df",
+                "-B1",
+                "/home/straughter/Wan2GP"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825883262976 23368744960  98% /\n"
+        },
+        "gpu_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "1495102, /home/straughter/llama.cpp/build/bin/llama-server, 7752 MiB\n"
+        },
+        "gpu_query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 7901, 16215, 0\n"
+        },
+        "health": {
+            "body": "{\"status\":\"ok\"}",
+            "http_status": 200,
+            "reachable": true
+        },
+        "judge_processes": {
+            "argv": [
+                "pgrep",
+                "-af",
+                "llama-server"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "1495102 /home/straughter/llama.cpp/build/bin/llama-server -m qwen38-27b-Q4_K_M.gguf --mmproj mmproj.gguf -ngl 24 -np 1 -c 8192 --host 127.0.0.1 --port 8000\n"
+        },
+        "utc": "2026-10-03T18:31:11.359711Z"
+    },
+    "host": {
+        "fqdn": "straughter-Z690-Steel-Legend",
+        "hostname": "straughter-Z690-Steel-Legend",
+        "user": "straughter"
+    },
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "phase_bounds": {
+        "matrix_transitions": 0,
+        "model_mutations": 0,
+        "native_operations": 0,
+        "network_model_gets": 0,
+        "queue_admissions": 0,
+        "reference_mutations": 0,
+        "renders": 0,
+        "retrievals": 0,
+        "unrelated_process_actions": 0
+    },
+    "poststop_protected": {
+        "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+            "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+            "expected_size_bytes": 19447662547,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+            "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+            "size_bytes": 19447662547
+        },
+        "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+            "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+            "expected_size_bytes": 1308778338,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+            "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+            "size_bytes": 1308778338
+        },
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+            "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "expected_size_bytes": 1308778338,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "size_bytes": 1308778338
+        },
+        "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+            "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "expected_size_bytes": 1308756416,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+            "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "size_bytes": 1308756416
+        },
+        "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+            "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+            "expected_size_bytes": 327322640,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+            "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+            "size_bytes": 327322640
+        }
+    },
+    "poststop_references": {
+        "m7xw_create": {
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+            "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+            "size_bytes": 438713
+        },
+        "m7xw_first_frame": {
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+            "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+            "size_bytes": 295302
+        },
+        "m7xw_repaint_mask": {
+            "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+            "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+            "size_bytes": 2879
+        },
+        "osfm_alternate_reference": {
+            "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+            "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+            "size_bytes": 107009
+        },
+        "osfm_control": {
+            "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+            "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+            "size_bytes": 101143
+        },
+        "osfm_create": {
+            "path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+            "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+            "size_bytes": 984165
+        }
+    },
+    "poststop_state": {
+        "disk": {
+            "argv": [
+                "df",
+                "-B1",
+                "/home/straughter/Wan2GP"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825883336704 23368671232  98% /\n"
+        },
+        "gpu_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+        },
+        "gpu_query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 144, 23972, 0\n"
+        },
+        "health": {
+            "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+            "reachable": false
+        },
+        "judge_processes": {
+            "argv": [
+                "pgrep",
+                "-af",
+                "llama-server"
+            ],
+            "returncode": 1,
+            "stderr": "",
+            "stdout": ""
+        },
+        "utc": "2026-10-03T18:31:14.458957Z"
+    },
+    "prestart": {
+        "disk": {
+            "argv": [
+                "df",
+                "-B1",
+                "/home/straughter/Wan2GP"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825882144768 23369863168  98% /\n"
+        },
+        "gpu_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+        },
+        "gpu_query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 144, 23972, 0\n"
+        },
+        "health": {
+            "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+            "reachable": false
+        },
+        "judge_processes": {
+            "argv": [
+                "pgrep",
+                "-af",
+                "llama-server"
+            ],
+            "returncode": 1,
+            "stderr": "",
+            "stdout": ""
+        },
+        "utc": "2026-10-03T18:30:36.360181Z"
+    },
+    "prestart_protected": {
+        "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+            "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+            "expected_size_bytes": 19447662547,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+            "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+            "size_bytes": 19447662547
+        },
+        "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+            "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+            "expected_size_bytes": 1308778338,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+            "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+            "size_bytes": 1308778338
+        },
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+            "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "expected_size_bytes": 1308778338,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+            "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "size_bytes": 1308778338
+        },
+        "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+            "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "expected_size_bytes": 1308756416,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+            "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "size_bytes": 1308756416
+        },
+        "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+            "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+            "expected_size_bytes": 327322640,
+            "path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+            "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+            "size_bytes": 327322640
+        }
+    },
+    "prestart_references": {
+        "m7xw_create": {
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+            "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+            "size_bytes": 438713
+        },
+        "m7xw_first_frame": {
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+            "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+            "size_bytes": 295302
+        },
+        "m7xw_repaint_mask": {
+            "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+            "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+            "size_bytes": 2879
+        },
+        "osfm_alternate_reference": {
+            "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+            "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+            "size_bytes": 107009
+        },
+        "osfm_control": {
+            "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+            "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+            "size_bytes": 101143
+        },
+        "osfm_create": {
+            "path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+            "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+            "size_bytes": 984165
+        }
+    },
+    "protected_files_unchanged": true,
+    "references_unchanged": true,
+    "schema_version": "wangp-dspy.wd-28ac.jev-qc-readiness/v1",
+    "scope": "qc_readiness_only",
+    "start_command": {
+        "argv": [
+            "/home/straughter/marathon/bin/judge_ctl.sh",
+            "start"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "judge up after 20s\n"
+    },
+    "status": "passed",
+    "stop_command": {
+        "argv": [
+            "/home/straughter/marathon/bin/judge_ctl.sh",
+            "stop"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "judge stopped: 0 remaining\n"
+    },
+    "stop_verified": true
+}
