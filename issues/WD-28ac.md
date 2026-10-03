@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T15:58:53Z
-content_hash: "sha256:1a6a885801020b73ee6c2f74f2bf0ec9a0bc120da2bf7b69c1e2e3cb495c428d"
+updated_at: 2026-10-03T17:11:56Z
+content_hash: "sha256:ab8d8309c3a10c9d4ea6185292529bb47872d19c2de83870902b240e45046636"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -126,6 +126,80 @@ status: new
 
 ## Notes
 Observable outcome: after authorization and execution, the operator can run the canonical checker on each of the seven affected cell bundles and it returns an explicit pass/fail result with exact provenance or boundary evidence.
+## JEV Gate #2 Phase A Downloads Complete (NOT DELIVERED)
+
+### Gate Evidence and Authorization
+- Live Jev Gate #2: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.96, constraint risk=0.21, missing-evidence score=1.25, no veto.
+- Declared snapshot SHA-256: 1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2.
+- Declared canonical trace SHA-256: 2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd.
+- No-secret artifacts persisted under jev-gates/2026-10-03/:
+  - gate-evidence.json
+  - wd28ac-jev-snapshot-2.json
+  - wd28ac-jev-decision-2.json
+  - wd28ac-jev-trace-2.jsonl
+  - wd28ac-fresh-readonly-probe.txt
+- Raw API-key pattern scan passed with 0 matches. No key was read, received, logged, or passed to this worker.
+- Authorization commit and exact-head CI before host action: e279ece57acfac372310fe2ea451d71921e32fe3, CI run 37135687840 / job 111239640985, success in 23m25s.
+
+### Fresh Read-Only Preflight
+- Evidence: host-preflight-phase-a/host-state.json.
+- Host/user: straughter-Z690-Steel-Legend / straughter.
+- Root free bytes: 44644319232.
+- GPU: RTX 3090, 139 MiB used, 23978 MiB free, no compute apps.
+- WD-m7xw tree: faea82d15bf10b3479c42c0ea430892aae975870, status ?? ckpts.
+- WD-osfm tree: 4c93b64a47b5b0a915f2abec2ce754be98227150, status ?? ckpts.
+- Existing ingredients and outpaint finals matched exact size and SHA-256.
+- All three remaining final and partial paths were absent.
+- QC was not contacted.
+
+### Downloads
+- CI-green repaired runner was deployed to a new dated phase-A directory; prior artifacts were not overwritten.
+- Three dry-run plans passed with zero network requests.
+- Each asset used exactly one declared curl invocation; url_effective and num_redirects came from that same invocation.
+- Exact results:
+  - ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors: 1308778338 bytes, SHA-256 73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5, promoted.
+  - ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors: 327322640 bytes, SHA-256 984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d, promoted.
+  - ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors: 19447662547 bytes, SHA-256 5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec, promoted.
+- Aggregate accounting: curl_invocations=3, declared_request_count=3, undeclared_request_count=0, url_effective_probe_request_count=0, redirect_count=3, network_request_count=6.
+- Evidence: phase-a-downloads/download-summary.json plus three sanitized per-asset reports.
+- Signed effective-URL queries were removed from Git copies; each sanitized report records the remote raw report size and SHA-256.
+
+### Read-Only Postflight
+- Evidence: host-preflight-phase-a/phase-a-postflight.json.
+- All five declared finals exist with exact sizes and file SHA-256 values.
+- All five WD-28ac partial paths are absent.
+- GPU remains idle with no compute apps; no curl process remains.
+- Postflight root free bytes: 23522594816.
+- No QC contact, queue admission, render, output retrieval, matrix transition, protected-file change, deletion, or unrelated mutation occurred.
+
+### Verification and CI
+- Pre-host focused auth/gate/runner tests: 33 passed.
+- Post-download focused Gate 2/Phase A/runner/manifest/boundary tests: 28 passed.
+- pvg verify explicit changed evidence/test paths --include-tests => PASSED.
+- pvg lint --backlog => scanned 156 issues, 0 errors, 0 review findings.
+- Protected-file parity versus origin/main => PASS.
+- git diff --check => PASS.
+- Evidence commit: 66e0f08a31a39fc142549416710c0e043967c263.
+- Exact-head CI: run 37138219380 / job 111247023089 => success in 22m36s, https://github.com/jmanhype/wangp-dspy/actions/runs/37138219380.
+- PR 217 remains open and mergeable.
+
+### Boundary
+- Phase A stopped exactly as required. Jev Gate #3 and a separate QC/operations decision are still required.
+- WD-28ac is NOT delivered.
+
+## nd_contract
+status: in_progress
+
+### evidence
+- JEV Gate #2 Phase A downloads and exact verification are complete and CI-green at 66e0f08a31a39fc142549416710c0e043967c263.
+
+### proof
+- [x] Gate #2 no-secret evidence and exact authorization are committed.
+- [x] Exactly three remaining assets were downloaded, verified, and atomically promoted with clean accounting.
+- [x] All five finals and partial absences are postflight-verified.
+- [ ] NOT DELIVERED: QC/operations remain blocked pending Jev Gate #3.
+
+
 ## Local Curl Accounting Repair (NOT DELIVERED)
 
 ### Basis
