@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T19:57:38Z
-content_hash: "sha256:7597b417228157f3e5f2fd724e72a7f148cc331477eb9126c83e739261a829b6"
+updated_at: 2026-10-03T20:00:19Z
+content_hash: "sha256:19a498e9c28312e658396eb8c90b83acda13dab7021af23e2e21ddc713f95b32"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -650,3 +650,6 @@ LIVE JEV GATE #6 at 2026-10-03T18:05Z: mode=live, model=jev-latest, snapshot sha
 
 ### 2026-10-03T18:57:54Z speed
 LIVE JEV GATE #7 at 2026-10-03T18:45Z: mode=live, model=jev-latest, snapshot sha256 ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c, decision=CONTINUE, confidence=0.80, constraint risk=0.37, missing evidence score=1.16, triggered_rules=no_veto_triggered. Scope is FINAL NATIVE OPERATIONS: persist gate evidence and CI it, prepare/deploy exact operation scripts, fresh preflight, start the verified governed judge as needed, execute each of the seven planned operations at most once through the governed queue/adapter path, stop on first terminal failure with no retry, collect complete output/gate/checker/review evidence, stop judge, preserve models/references, and transition exactly seven owned cells. No download, model substitution, deletion, training, provider spend, unrelated mutation, protected-engine change, or WD-bw0h H3 retry.
+
+### 2026-10-03T20:00:19Z speed
+LIVE JEV GATE #8 at 2026-10-03T20:20Z: mode=live, model=jev-latest, snapshot sha256 8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27, decision=CONTINUE, confidence=0.67, constraint risk=0.10, missing evidence score=2.70, triggered_rules=no_veto_triggered. Scope is READ-ONLY RUNTIME INVENTORY ONLY: bounded search for existing mmgp package/runtime candidates in accepted Wan2GP paths, user site-packages, pip/uv caches, likely venvs, and authorized bulk offload root. No install/download/copy/move/delete, no retry, no QC, no queue/render, no protected-file change.
