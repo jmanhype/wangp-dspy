@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-03T23:25:16Z
-content_hash: "sha256:07e3ed0262652541acae88474ed7f9e0225a804ad3ec5a56d3478c3093261b4a"
+updated_at: 2026-10-03T23:27:11Z
+content_hash: "sha256:47abeeea8a0ef7a92198e371738930913236cb8d38be034b195880c07a10b9fb"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -679,3 +679,6 @@ LIVE JEV GATE #11 at 2026-10-03T20:45Z: mode=live, model=jev-latest, snapshot sh
 
 ### 2026-10-03T22:32:06Z speed
 OPERATOR WHEEL-LAYOUT AUTHORIZATION at 2026-10-03T22:32:06Z. Verbatim user input: Yes you are authorized. Scope: the immediately pending Gate 11 boundary only—accept the known root __init__.py member in the already downloaded, exact hash-verified mmgp-3.7.14 wheel if inspection confirms it is inert; extract the preserved wheel into /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14; and verify isolated mmgp imports. No new network GET, dependency install, deletion, overwrite, native retry, QC start, queue admission, render, model/reference mutation, system-runtime mutation, or protected-file change.
+
+### 2026-10-03T23:27:11Z speed
+OPERATOR CORRECTED NATIVE-RETRY AUTHORIZATION at 2026-10-03T23:27:11Z. Verbatim user input: Yes you are authorized. Scope: integrate the proven isolated mmgp 3.7.14 runtime into the WD-28ac final native-operation path, CI that integration, then retry the seven named governed operations with no download/dependency install/deletion/substitution, stop on first terminal failure, preserve model/reference identities, and change only the seven owned matrix cells. This does not authorize WD-bw0h/H3 retry, unrelated operations, threshold/protected-engine changes, provider spend, training, or model-byte access beyond the five verified finals.
