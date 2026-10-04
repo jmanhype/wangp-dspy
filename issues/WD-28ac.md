@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:24:42Z
-content_hash: "sha256:5929beeed572deef913fb55242dd33fc2efc27633cad5bce8c8c60998a8a0359"
+updated_at: 2026-10-04T05:37:52Z
+content_hash: "sha256:c97f4f93def790346c4c37d1b715a34c8c5c9df847efbf4a3bc39a12a9543620"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -350,6 +350,19 @@ dependencies are pinned down to the versions already present, which weakens the 
 and reintroduces the very ambiguity option B exists to remove.
 
 Practical ceiling recommendation is unchanged: **500 MB** against the 443 MB measured bound.
+### OPERATOR CEILING CONFIRMED 2026-10-04 (orchestrator)
+
+Operator replied "I agree" to the orchestrator proposal, which set:
+
+- **Option B download ceiling: 500 MB** for the isolated `rembg[gpu]==2.0.65` closure
+  (measured upper bound 442,973,486 bytes = 443 MB; headroom 57 MB).
+- Execute: install pinned `rembg[gpu]==2.0.65` isolated, start the judge, run only the seven
+  named operations, one attempt each, stop on first terminal failure.
+- Push the nd backlog (previously unpushed).
+- Correct the stale asset-table hashes to the LFS-OID values.
+
+NOT authorized / NOT required: the 23,701,298,279-byte asset download (already satisfied on host,
+five assets verified byte-correct). No substitution of ComfyUI rembg 2.0.69 or Wan2GP rembg 2.0.81.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
