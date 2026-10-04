@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:31:18Z
-content_hash: "sha256:67a124dcc3b0349d9677922d13568e01ca351513ae1e769b4712a25fe757574b"
+updated_at: 2026-10-04T03:48:32Z
+content_hash: "sha256:9840d174031566304550d5657b2b81bc5a1a1d1bb25ff087a7b1eb078ba817bf"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -211,6 +211,31 @@ WD-28ac Gate 15 local corrected-host authorization binding evidence (NOT DELIVER
 | 3 | Dedicated fresh Gate 15 runtime state with exact contract/inventory/import/system facts and no secrets | `isolated-runtime-state-2026-10-04-gate15.json` + preflight/state and credential tests | PASS |
 | 4 | Focused tests, undeselected full suite, pvg verify/lint, runtime wiring, release, parity, credential, and diff gates | JUnit/gate outputs above | PASS |
 | 5 | Push PR 217 and exact-head CI success, append evidence, remain NOT delivered | PR head/CI `37171354439`; this note; no `pvg story deliver` | PASS / STOPPED NOT DELIVERED |
+### Boundary Map PRODUCES completion (orchestrator backlog repair)
+
+This story's gate sequence realized the produced paths below on the story branch.
+They are declared here so the brownfield paths-exist check in `pvg lint --backlog`
+resolves identically from any checkout (main or the story worktree), instead of
+failing on checkouts that do not carry unmerged story files. No AC, status, or
+scope changed; this is a declaration only.
+
+PRODUCES:
+- scripts/prepare_ltx_operations.py -> governed LTX operation-plan preparation
+- scripts/review_ltx_operations.py -> operator review of prepared operation plans
+- scripts/run_ltx_dependency_download.py -> authorized dependency download runner
+- scripts/run_ltx_final_operations.py -> governed seven-operation final runner
+- tests/test_ltx_corrected_retry_boundary.py -> corrected-retry terminal boundary tests
+- tests/test_ltx_download_boundary.py -> dependency download boundary tests
+- tests/test_ltx_download_runner.py -> dependency download runner tests
+- tests/test_ltx_final_operations_runner.py -> final operations runner tests
+- tests/test_ltx_final_terminal_boundary.py -> final native terminal boundary tests
+- tests/test_ltx_jev_gate2.py -> Jev gate 2 authorization tests
+- tests/test_ltx_jev_gate6.py -> Jev gate 6 QC readiness tests
+- tests/test_ltx_jev_gate7.py -> Jev gate 7 terminal boundary tests
+- tests/test_ltx_jev_phase_a.py -> Jev phase A authorization tests
+- tests/test_ltx_metadata_audit.py -> LTX metadata audit tests
+- tests/test_ltx_phase_b_preparation.py -> phase B preparation tests
+- tests/test_ltx_qc_readiness.py -> QC readiness tests
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
