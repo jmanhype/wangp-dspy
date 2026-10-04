@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:24:15Z
-content_hash: "sha256:6b08a326c1a8f75d607137f075b0315d8015fb98991c74a3dbfbd2f1661bda83"
+updated_at: 2026-10-04T05:24:42Z
+content_hash: "sha256:5929beeed572deef913fb55242dd33fc2efc27633cad5bce8c8c60998a8a0359"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -337,6 +337,19 @@ ceiling (proposed 500 MB against the 443 MB measured bound).
 - QC/judge **not** reachable on `127.0.0.1:8000` -- expected pre-batch; it is started as part of the
   governed run.
 - **Still open:** `rembg` absent from the governed runtime; option-B download ceiling not yet confirmed.
+### Option-B install footprint measured precisely 2026-10-04 (orchestrator)
+
+ComfyUI venv (445 dist-info entries) does contain all 31 closure packages, but only **5** match the
+resolved versions exactly; **26 differ**, including `onnxruntime-gpu` 1.25.1 (have) vs 1.30.0 (want)
+and `rembg` 2.0.69 (have) vs 2.0.65 (want). Zero packages are outright missing.
+
+**Withdrawal of an earlier claim:** the previous note's "incremental install is far below that bound"
+is **too optimistic and is withdrawn**. Installing the exact pinned closure is ~**443 MB**
+(429.3 MB for the missing+mismatched set alone). The incremental only drops if transitive
+dependencies are pinned down to the versions already present, which weakens the exact-pin intent
+and reintroduces the very ambiguity option B exists to remove.
+
+Practical ceiling recommendation is unchanged: **500 MB** against the 443 MB measured bound.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
