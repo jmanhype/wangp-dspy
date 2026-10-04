@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:40:35Z
-content_hash: "sha256:f861c04620d6163c452082b4e0c9181764d847ed76cc8931027e1222c0571276"
+updated_at: 2026-10-04T06:41:21Z
+content_hash: "sha256:d0022135b7744557cc5cc0d4133489ec0cc8441918660c6c1d6497cee769dec5"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -504,6 +504,30 @@ against the live environment before any byte is downloaded.
 
 **Also note:** with `nvidia-*` CUDA wheels in play, the honest answer may be that these LTX cells need a
 deliberate environment-build task rather than an in-flight patch.
+### Closure resolution FINAL: incremental is ~260 MB and contains NO torch/CUDA (2026-10-04)
+
+Constrained the 235-package resolution against the LIVE runtime environment
+(`rembg-2.0.65:mmgp-3.7.14:ComfyUI/site-packages`), asking what is actually importable:
+
+- closure resolved: **235**
+- already present: **168** -- this includes `torch`, `torchaudio`, `torchvision`, `triton`,
+  `cuda-toolkit`, **every `nvidia-*` CUDA wheel**, `gradio`, `matplotlib`, `polars`, `pandas`,
+  `scikit-learn`, `scipy`, `numpy`
+- **truly absent: 67**, and **none of the 67 is torch or any CUDA/nvidia wheel**
+
+Direct-wheel size of the 67 absent packages: **~260 MB**. Largest contributors: jaxlib 89.9 MB,
+unidic-lite 47.4 MB, spacy 35.5 MB, pygame 13.9 MB, blis 11.4 MB, sherpa-onnx-core 10.6 MB,
+espeakng-loader 10.1 MB, onnx-weekly 8.9 MB.
+
+**This SUPERSEDES the previous note.** The "a naive install would pull a second CUDA 13 stack" warning
+was based on the UNCONSTRAINED resolve; against the live environment the heavy GPU stack is already
+present, so a constrained install adds only the 67 absent packages at **~260 MB** -- inside the
+previously agreed 500 MB ceiling, and with no torch/CUDA version change.
+
+VALIDATION-FIRST GATE (do not skip): the ad-hoc resolution picked LATEST versions (e.g.
+`onnx-weekly==1.24.0.dev20260928`, a nightly, spacy 3.8.16, speechbrain 1.1.1 rather than the tree's
+pinned 1.0.3). The real install must be constrained to the accepted tree's own pins and must be proven
+not to change any already-present package version. Then one more attempt cycle.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
