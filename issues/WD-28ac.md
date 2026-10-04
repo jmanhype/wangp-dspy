@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T02:56:01Z
-content_hash: "sha256:ad6c80019607741052a1afd71bd58a5d1a174998605c9c9b9e3a8d8563f4d2b6"
+updated_at: 2026-10-04T03:00:44Z
+content_hash: "sha256:b5b36a88cae0ece9de98eb7446d3f397457bafd6ae07616e6b85514a15d6df5e"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -763,3 +763,6 @@ LIVE JEV GATE #14 at 2026-10-04T00:31Z: mode=live, model=jev-latest, decision=CO
 
 ### 2026-10-04T01:19:03Z speed
 LIVE JEV GATE #15 at 2026-10-04T01:19Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.80, constraint risk=0.34, missing evidence score=1.13, snapshot sha256 2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89, trace sha256 60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd. Scope is LOCAL CORRECTED-HOST AUTHORIZATION BINDING ONLY. Fresh read-only preflight artifact 26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3 proved GPU idle, corrected run root absent, exact trees/models/references/runtime identity, with repaired contract canonical d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b. Gate 15 authorizes recording host authorization, regenerating corrected plan mode/host/preflight flags, tests, local gates, push, and exact-head CI only. It does NOT authorize host contact, QC/judge start, queue admission, native retry, render, download, install, deletion, mutation, capability claim, or bypass of another immediate fresh preflight before execution.
+
+### 2026-10-04T03:00:44Z speed
+GATE 15 IMMEDIATE EXECUTION PREFLIGHT AND EXACT DEPLOYMENT at 2026-10-04T02:59Z: final story head 112082eec1d13015a2e28ef86a6823604aa0e6f8 and exact-head CI run 37171354439 succeeded. Immediate read-only preflight artifact sha256 27cbf1f28951714752287405298c5c8fcb1ec516d6272372ecd0ad1651d9037e proved host/user identity, zero GPU compute apps with 23974 MiB free, both execution trees exact, all five model finals and seven references exact, isolated mmgp 3.7.14 import exact, payload canonical d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b, system mmgp absent, and judge/QC endpoints down. Boundary artifact sha256 9ee3d29b59387c85247e2e013e8e56dded26620795a310551420a6057e81521c proved corrected run root, queue DB, and Gate 15 deployment target absent immediately before deployment. Local and remote runner dry-runs each validated exactly seven operations with zero admissions/attempts. Exact payload deployment manifest sha256 ab8edad3f1b02eb1470ffe375aa3205fb92b66dd4c8de6513c73151db3ecd516 matched local/remote before and after dry-run; the new target preserves 31 inert AppleDouble metadata files and no deletion is authorized. Host mutation is limited to creating the exact deployment target and (next) the corrected run root/queue/logs/outputs under the Gate 15 authorized seven-operation boundary.
