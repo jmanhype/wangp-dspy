@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T04:09:53Z
-content_hash: "sha256:5e5c64358fb93bd28716d8c98d0b65500dec37249214207c405b0dbb3a46e46c"
+updated_at: 2026-10-04T04:11:08Z
+content_hash: "sha256:5b099b68ed525992fb8b5d942c26f60079e804bbfb376ef5845efce465dfa7fe"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -255,6 +255,19 @@ STILL BLOCKED ON OPERATOR: Gate 18 `rembg` disposition (A / B / C). This story a
 operator scope decision; no host batch, download, or dependency repair is performed without it.
 The controlling plane reports `pvg loop next` as `stalled` because the story has stayed
 in_progress across wait evaluations -- that is this operator hold, not a dead developer.
+### Item (b) checker demo independently reproduced at merged head b5b7e35b (orchestrator, 2026-10-04)
+
+- `scripts/verify_maestro_parity.py` on main: sha256
+  `6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af` -- byte-identical to the
+  `checker-lane-receipts` pin. No checker drift at the merged head.
+- Re-executed all 8 receipt lanes at HEAD: 7 pass (exit 0) + 1 fail-closed (`WD-dmf2`, exit 1,
+  6 diagnostics). **0 mismatches** against the recorded receipts.
+- Fail-closed negative reproduced on demand: `WD-dmf2` diagnostics are
+  `objective_gate_results[21,23,24,26,27].verdict` and `reviewer_verdict.decision`.
+- Lanes demonstrated: WD-2gyw, WD-bxhc, WD-cpow, WD-m0r5, WD-r81u, WD-rous, consent-closeout, WD-dmf2.
+- Remaining item (b) gap: the clean-machine one-command install that emits a real generated
+  artifact. `remaining_boundaries.first_run_generated_artifact.state` is still
+  `incomplete_storage_boundary` and requires operator host authorization.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
