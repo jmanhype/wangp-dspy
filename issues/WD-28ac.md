@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:12:53Z
-content_hash: "sha256:1a714305818f7fe108bbdbb01c890f7f55f2e89b9750587ca8a62eaa3836be5b"
+updated_at: 2026-10-04T06:39:49Z
+content_hash: "sha256:75c1e9b76ad1e4450570c25a767db3906c85039c69878a2e79def62cee3ab7f4"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -443,6 +443,41 @@ terminal failure.
 **Remaining blocker unchanged:** the corrected-retry namespace/attempt is consumed by Gate 15, so
 execution requires an operator-authorized Gate 19 attempt-2 cycle (new namespace
 `phase-b-gate19-corrected-retry`, suffix `corrected-retry-attempt-2`, fresh one-attempt budget).
+### Gate 19 batch RAN and failed closed at op 1 -- rembg chain FIXED, runtime dependency closure is the real gap (2026-10-04)
+
+**The rembg fix WORKED.** The Gate 19 batch executed and the failure moved decisively:
+Gate 15 was `ModuleNotFoundError: No module named 'rembg'` inside `shared.utils`. Gate 19 got all the
+way past `shared.utils`, past `ffmpeg`, into `wgp.py` argument parsing
+(`shared/cli_args.py` -> `models/wan/__init__.py` -> `wan/scail/nlf/multiperson_model.py`) and died on
+`ModuleNotFoundError: No module named 'smplfitter'`. Runner result:
+`{"status":"failed_closed","terminal_operation":"ltx25-outpaint","boundary":{"code":"NATIVE_NO_OUTPUT","observed":"exit=1"}}`;
+GPU stayed idle (142 MiB, 0%) -- no render time wasted. Evidence preserved under
+`/home/straughter/wd-28ac-run/phase-b-gate19-corrected-retry/` (jobs.db, queue-summary.json,
+ltx25-outpaint/{native.log,operation-record.json,settings.json}).
+
+**Root cause is structural, not a one-off.** `smplfitter` is declared by the accepted tree as a pinned
+direct-URL wheel:
+`smplfitter @ https://github.com/deepbeepmeep/smplfitter/releases/download/v0.2.10/smplfitter-0.2.10-py3-none-any.whl`.
+Checking the accepted tree's `requirements.txt` (89 lines / 85 unique) against the actual runtime
+environment (`rembg-2.0.65:mmgp-3.7.14:ComfyUI/site-packages`) shows **23 of 85 requirements absent**:
+
+apprise, audio-separator==0.36.1, chumpy (GH wheel), einshape, espeakng-loader,
+flash-linear-attention==0.4.1, fugashi, gradio_rangeslider, jax, keyring, misaki, munch, num2words,
+phonemizer-fork, pyannote.audio==3.3.2, pygame, sherpa-onnx==1.13.2, smplfitter (GH wheel), spacy,
+speechbrain==1.0.3, tensordict, ultralytics, unidic-lite
+
+Measured direct-wheel footprint of that missing set: **~129 MB**; with transitive deps (jaxlib, thinc,
+torch/opencv where not already present) realistically **~0.5-1 GB** -- i.e. **above the 500 MB ceiling**
+previously agreed. Host disk 22 GB free.
+
+**Why this matters:** the isolated runtime was never provisioned with the accepted tree's declared
+dependency closure. Fixing one module at a time costs a full attempt cycle each time (Gate 15 spent
+one; Gate 19 just spent another on op 1). The correct fix is to provision the WHOLE missing closure
+once, then run.
+
+**NEEDS OPERATOR:** (1) authorize provisioning the missing dependency closure (~0.5-1 GB, or a measured
+figure first); (2) authorize one more attempt cycle after the closure is in place. No further host
+action taken.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
