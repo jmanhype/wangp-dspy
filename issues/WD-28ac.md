@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:42:04Z
-content_hash: "sha256:c92bb93185e3c9539a7cbda0195ec6a727bf46fcf6efbfd076400dfcfe301dfa"
+updated_at: 2026-10-04T13:31:57Z
+content_hash: "sha256:88df02da8ba7f861cba94f17087e8894c071dbd577da1d3622f55cd18bc7c0a0"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -552,6 +552,32 @@ their exact versions; confirm `shared.utils` and `wgp.py` import cleanly under
 `rembg-2.0.65:mmgp-3.7.14:<new 67-package dir>`; then run one more attempt cycle.
 
 Measurement work is now complete. The next action is a host install requiring operator authorization.
+### Runtime dependency closure PROVISIONED -- Gate 15 and Gate 19 blockers both resolved (2026-10-04)
+
+Executed the authorized safe mechanic. All three steps verified on host 3090:
+
+1. **67 truly-absent packages installed** with `--no-deps` into the existing isolated dir
+   `/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65`
+   (`pip install --no-deps --target ... -r install67.in`), `PIP_RC=0`. Nothing present was
+   upgraded or overwritten: the install set was pre-verified to have **zero overlap** with the pinned
+   rembg 31-package closure.
+2. **The two pinned direct-URL wheels then installed** (my first pass's `name==version` filter had
+   skipped them): `chumpy-0.71` and `smplfitter-0.2.10` (61 kB wheel), `PIP_RC=0`. Dir 986M -> 2.0G;
+   host disk 22G -> 21G.
+3. **DRIFT GATE PASSED:** re-queried the full 235-package closure -- **235 present, 0 absent**, and the
+   pre-existing GPU stack is byte-unchanged: **`torch 2.5.1+cu121`, `torchvision 0.20.1+cu121`,
+   `torchaudio 2.5.1+cu121`**, `numpy 2.5.3`, `scipy 1.18.1`. No CUDA 13 stack was pulled; no version
+   drift anywhere.
+
+**IMPORT PROBE (unchanged `PYTHONPATH = rembg:mmgp:ComfyUI`), cwd = accepted Wan2GP tree:**
+`smplfitter ok, chumpy ok, rembg ok, mmgp ok, spacy ok, speechbrain ok, pyannote.audio ok,
+ultralytics ok, jax ok, tensordict ok, sherpa_onnx ok, phonemizer ok, torch ok` and
+**`shared.utils` IMPORTED OK** -- so both the Gate 15 failure (`No module named 'rembg'`) and the
+Gate 19 failure (`No module named 'smplfitter'`) are cleared.
+
+**NEXT:** the Gate 19 attempt namespace is consumed (its op-1 artifacts are preserved), so one more
+attempt cycle needs a fresh run namespace (Gate 20) -- the mechanism already proven twice. Then build
+and run, and collect per-operation output hashes, ffprobe metadata and gate results.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
