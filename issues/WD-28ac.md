@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T00:30:51Z
-content_hash: "sha256:f8e2d779062ac683561ecac393ba1616ef24edef61a528cb5e8f441840216b31"
+updated_at: 2026-10-04T01:16:19Z
+content_hash: "sha256:6fdc7f64f4bfb42e1edb15b3baeb1ff9bcc95509869b6bdb6bf838a1905e05ee"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -155,6 +155,38 @@ WD-28ac Gate 12 local native-runtime integration evidence (NOT DELIVERED):
 - First CI attempt at `7917b581d194a809441b3fe8ec31e3f9c69646f4` failed only because a test compared full generated plan objects containing checkout-dependent resolved paths. This boundary and fix are recorded in `gate-12-ci-boundary-repair.json`; no host action occurred. The environment-independent plan contract comparison was repaired and all local gates rerun.
 - Final implementation commits: `7917b581d194a809441b3fe8ec31e3f9c69646f4` plus CI-test repair `a6817f452b1b92ba0f44e35c3bf6c4535acb03ec`. PR 217 head is `a6817f452b1b92ba0f44e35c3bf6c4535acb03ec`; exact-head CI run `37163397551` / job `111321329962` completed success. Worktree is clean and synchronized.
 - Hard boundary preserved: zero SSH/host-3090 contact, QC contact, queue admission, native retry/render, model/network GET, runtime/file mutation, deletion, protected-file change, or capability/matrix claim. Story remains claimed and NOT delivered; a separate Jev corrected-host-retry gate is required.
+### 2026-10-04T01:35:00Z speed
+
+WD-28ac Gate 14 local runtime contract repair evidence (NOT DELIVERED):
+
+- Started with `pvg nd sync`; result: `Sync nd/backlog: up to date (ece7c63a)`. Worktree was `story/WD-28ac` at prior exact head `a6817f452b1b92ba0f44e35c3bf6c4535acb03ec`; lane `origin/main` was `b5b7e35b131de72e541bec508fcac19fced895f3`.
+- Read live Gate 14 tracker scope and all four fresh evidence artifacts under `jev-gates/2026-10-04/`. Pre-work SHA-256s were preserved byte-for-byte and re-verified after repair/commit:
+  - `gate-14-fresh-host-preflight.json` `5801239da7df6c628d1e9bd6a2621185cb7159b3b494ef7bba1fb1413f7999c7`
+  - `wd28ac-jev-decision-14.json` `4b617d1dfd69d757b2afbf1a024008df16ef6ba48515c78c710946b669c25357`
+  - `wd28ac-jev-snapshot-14.json` `60ab8bed60b68ab52eb89570e4ff39a979c9b6cc6b3df43752072ed7c5d9d7ef`
+  - `wd28ac-jev-trace-14.jsonl` `fd7441a9a6eb1fddf73408b955146f2c9e7483202d729d054c6a140024141d7a`
+- Root cause and repair: the contract inventory had a one-character `top_level.txt` SHA transcription error. Corrected every intended copy in `isolated-runtime-contract.json`, historical `isolated-runtime-state-2026-10-03.json`, and both inventory copies plus payload summaries in `corrected-retry-plan.json` to actual top-level SHA `c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5`; every corrected inventory derives path-sorted canonical SHA `d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b` (12 files / 291005 bytes). A repository search found the old hashes only in immutable Gate 14 prose that explicitly describes the defect.
+- `scripts/run_ltx_final_operations.py` now pins the actual canonical SHA and validates the plan inventory itself: item shape/count/byte total and recomputed path-sorted canonical identity must match the literal; a plan carrying the correct literal but tampered inventory fails `RUNTIME_BINDING_ABSENT`. Added `test_gate14_runtime_contract_derives_canonical_from_inventory`, first run RED with derived `25932faf...` versus fresh Gate 14 `d39fa7a5...`, then GREEN after repair.
+- Focused Gate 14/WD-28ac suite command: `.venv/bin/python -m pytest <16 WD-28ac test files> -q --junitxml=/tmp/wd28ac_gate14_focused.xml`; parsed JUnit: `tests=85 errors=0 failures=0 skipped=0 time=1.056`. Initial two direct files were also run RED/GREEN, and all 9 tests referring to WD-28ac/runtime state passed (`76 passed`).
+- Undeselected full suite command: `uv run --frozen --extra dev pytest -q --junitxml=/tmp/wd28ac_gate14_fullsuite.xml` at committed head with `WANGP_3090` unset; parsed JUnit: `tests=2260 errors=0 failures=0 skipped=1 time=804.871`. The sole skip is the allowed 3090-gated pre-existing skip.
+- Local deterministic gates at exact head `7d6f814f71c481a7f41f105d957696af04051ab2`: `pvg verify ... --include-tests --format=text` => `VERIFY: PASSED (2 files scanned, 0 issues)`; `pvg lint --backlog` => scanned 156 issues, 0 errors / 0 review findings; runtime-host wiring focused test passed; protected-file parity versus `origin/main` passed; `docs/video-capabilities.md` matrix parity passed; Gate 14 JSON/JSONL plus credential scan passed over 7 files; worktree-scoped `wgp release verify --json` reported commit `7d6f814f71c481a7f41f105d957696af04051ab2`, clean tree, `ready=true`, `tag_created=false`; `git diff --check` passed.
+- Commit `7d6f814f71c481a7f41f105d957696af04051ab2` (`fix(WD-28ac): correct isolated runtime contract`) changed exactly 9 scoped files, including byte-preserved Gate 14 evidence, and was pushed only to `story/WD-28ac` / PR 217: https://github.com/jmanhype/wangp-dspy/pull/217. Exact-head CI run `37166261480`, job `111329660472`, completed `success` at head `7d6f814f71c481a7f41f105d957696af04051ab2`: https://github.com/jmanhype/wangp-dspy/actions/runs/37166261480.
+- Boundary accounting: no SSH/host-3090 contact, process stop/start, QC/judge contact, native retry, queue admission/render, network/model GET, download/install/copy/move/delete/overwrite, model/reference mutation, protected-file change, capability/matrix claim, merge, or story delivery occurred.
+
+### Gate 14 AC Verification
+
+| AC # | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Correct intended contract copies to actual top-level and derived canonical SHA; derive canonical from inventory | Corrected contract/state/plan inventories; runner recomputes path-sorted inventory identity; regression first failed on old derivation then passed | PASS |
+| 2 | Focused WD-28ac tests and undeselected full pytest pass with parsed counters | Focused JUnit 85/0/0/0; full JUnit 2260 tests, 0 errors, 0 failures, 1 allowed skip with `WANGP_3090` unset | PASS |
+| 3 | `pvg verify`, backlog lint, release ready/tag false, protected/matrix parity, diff check | All outputs recorded above; release was worktree-scoped to exact head `7d6f814f` | PASS |
+| 4 | Commit/push PR 217, exact-head CI success, append evidence, sync backlog, stop not delivered | Commit/PR/CI recorded above; evidence appended and backlog sync run for this note; story intentionally remains NOT delivered pending a separate mandatory host gate | PASS |
+
+LEARNINGS:
+- The fresh inventory was already authoritative; the defect was not runtime drift but local propagation from one transcribed member hash into derived literals.
+- Comparing a canonical literal alone can validate a consistently wrong inventory. Recomputing from path-sorted inventory and independently checking member/count/byte totals catches the tamper class.
+- Worktree-scoped release verification must be checked for its reported commit SHA because an executable from the shared lane venv can otherwise verify the parent checkout.
+
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
