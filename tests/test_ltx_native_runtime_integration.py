@@ -243,7 +243,7 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
         assert _portable_operation(committed_operation) == _portable_operation(
             generated_operation
         )
-        for reference in committed_operation["references"].values():
+        for reference in generated_operation["references"].values():
             assert Path(reference["resolved_path"]).is_file()
 
     assert plan["schema_version"] == (
