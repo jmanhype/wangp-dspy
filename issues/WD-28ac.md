@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:00:44Z
-content_hash: "sha256:b5b36a88cae0ece9de98eb7446d3f397457bafd6ae07616e6b85514a15d6df5e"
+updated_at: 2026-10-04T03:02:01Z
+content_hash: "sha256:a4ca319fb952cf1e2bf748608147634c171dd88810db8c4b10ca786c160ec5f4"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -766,3 +766,6 @@ LIVE JEV GATE #15 at 2026-10-04T01:19Z: mode=live, model=jev-latest, decision=CO
 
 ### 2026-10-04T03:00:44Z speed
 GATE 15 IMMEDIATE EXECUTION PREFLIGHT AND EXACT DEPLOYMENT at 2026-10-04T02:59Z: final story head 112082eec1d13015a2e28ef86a6823604aa0e6f8 and exact-head CI run 37171354439 succeeded. Immediate read-only preflight artifact sha256 27cbf1f28951714752287405298c5c8fcb1ec516d6272372ecd0ad1651d9037e proved host/user identity, zero GPU compute apps with 23974 MiB free, both execution trees exact, all five model finals and seven references exact, isolated mmgp 3.7.14 import exact, payload canonical d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b, system mmgp absent, and judge/QC endpoints down. Boundary artifact sha256 9ee3d29b59387c85247e2e013e8e56dded26620795a310551420a6057e81521c proved corrected run root, queue DB, and Gate 15 deployment target absent immediately before deployment. Local and remote runner dry-runs each validated exactly seven operations with zero admissions/attempts. Exact payload deployment manifest sha256 ab8edad3f1b02eb1470ffe375aa3205fb92b66dd4c8de6513c73151db3ecd516 matched local/remote before and after dry-run; the new target preserves 31 inert AppleDouble metadata files and no deletion is authorized. Host mutation is limited to creating the exact deployment target and (next) the corrected run root/queue/logs/outputs under the Gate 15 authorized seven-operation boundary.
+
+### 2026-10-04T03:02:01Z speed
+GATE 15 CORRECTED NATIVE RETRY STOPPED CLOSED at first operation after one authorized attempt. ltx25-outpaint exited 1 before output because /usr/bin/python3 imported the exact isolated mmgp 3.7.14 runtime successfully but Wan2GP shared.utils then failed `ModuleNotFoundError: No module named rembg`. Runner boundary=NATIVE_NO_OUTPUT; one queue job admitted and failed, zero outputs, zero retries, six later operations not attempted, GPU returned to idle, and all models/references/trees/runtime identities remained exact. Durable evidence is under corrected-native-operations/gate15-terminal-boundary with manifest evidence.sha256. No deletion, substitution, install, download, model/reference mutation, threshold/protected change, or capability/matrix claim occurred.
