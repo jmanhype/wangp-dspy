@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T01:16:19Z
-content_hash: "sha256:6fdc7f64f4bfb42e1edb15b3baeb1ff9bcc95509869b6bdb6bf838a1905e05ee"
+updated_at: 2026-10-04T01:19:03Z
+content_hash: "sha256:83e5c4109ada382a842e1b91869305f8736fb05658a20963800233b5c1afa5f2"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -736,3 +736,6 @@ LIVE JEV GATE #12 at 2026-10-03T23:35Z: mode=live, model=jev-latest, snapshot sh
 
 ### 2026-10-04T00:30:51Z speed
 LIVE JEV GATE #14 at 2026-10-04T00:31Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.77, constraint risk=0.26, missing evidence score=1.33, snapshot sha256 acdd57ac5269ba3d96c35b5574286c763c3eaaa943fc0abfbbd97b91579488ba, trace sha256 ed0c4df53193208ca6a9d4eb7f1dd85dc31a75eed43966472d8a5440bfd177af. Scope is LOCAL RUNTIME CONTRACT REPAIR ONLY. Fresh read-only preflight artifact 5801239da7df6c628d1e9bd6a2621185cb7159b3b494ef7bba1fb1413f7999c7 proved all five models and seven references exact, execution trees exact, isolated mmgp import exact, but exposed a one-character committed top_level.txt hash transcription defect; derived live payload canonical sha256 d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b versus erroneous pin 25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277. GPU is occupied by unrelated llama-server PID 3022552 and judge endpoints are down; no process was changed. No host mutation, native retry, queue, render, download, install, deletion, model/reference mutation, or matrix claim is authorized.
+
+### 2026-10-04T01:19:03Z speed
+LIVE JEV GATE #15 at 2026-10-04T01:19Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.80, constraint risk=0.34, missing evidence score=1.13, snapshot sha256 2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89, trace sha256 60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd. Scope is LOCAL CORRECTED-HOST AUTHORIZATION BINDING ONLY. Fresh read-only preflight artifact 26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3 proved GPU idle, corrected run root absent, exact trees/models/references/runtime identity, with repaired contract canonical d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b. Gate 15 authorizes recording host authorization, regenerating corrected plan mode/host/preflight flags, tests, local gates, push, and exact-head CI only. It does NOT authorize host contact, QC/judge start, queue admission, native retry, render, download, install, deletion, mutation, capability claim, or bypass of another immediate fresh preflight before execution.
