@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:39:49Z
-content_hash: "sha256:75c1e9b76ad1e4450570c25a767db3906c85039c69878a2e79def62cee3ab7f4"
+updated_at: 2026-10-04T06:40:35Z
+content_hash: "sha256:f861c04620d6163c452082b4e0c9181764d847ed76cc8931027e1222c0571276"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -478,6 +478,32 @@ once, then run.
 **NEEDS OPERATOR:** (1) authorize provisioning the missing dependency closure (~0.5-1 GB, or a measured
 figure first); (2) authorize one more attempt cycle after the closure is in place. No further host
 action taken.
+### Closure measurement: a NAIVE install would pull a second CUDA stack and blow the disk (2026-10-04)
+
+Resolved the 21 PyPI-missing packages for `x86_64-manylinux_2_28` / py3.12 with uv: the transitive
+closure is **235 packages** -- not ~129 MB. It drags in a whole parallel GPU stack:
+
+- `torch==2.14.1`, `torchaudio==2.11.0`, `torchvision==0.29.1`, `triton==3.8.0`
+- **`cuda-toolkit==13.0.3.0`**, `cuda-bindings`, `cuda-pathfinder`
+- **`nvidia-cublas==13.1.1.3`, `nvidia-cudnn-cu13==9.24.0.43`, `nvidia-nccl-cu13==2.30.7`,
+  `nvidia-cusparselt-cu13`, `nvidia-nvshmem-cu13`, `nvidia-cusolver`, `nvidia-cusparse`,
+  `nvidia-cufft`, `nvidia-curand`, `nvidia-cuda-*`**
+- plus `jaxlib==0.11.2`, `polars`, `matplotlib`, `gradio==5.50.0`, `onnx-weekly` (a dev build),
+  `cuda-toolkit`-driven CUDA **13** wheels
+
+The host runs an existing (CUDA 12.x-era) torch stack that is already importable. A naive
+`pip install <missing>` would resolve CUDA 13 / torch 2.14 alongside it: multi-GB, and on a filesystem
+with only **22 GB free** it risks filling the disk, while also creating a second, conflicting GPU stack
+that could silently change render numerics -- exactly the pin-drift hazard this story exists to prevent.
+
+**Therefore the earlier "~0.5-1 GB" estimate is WITHDRAWN and superseded.** The correct approach is a
+**constrained** install: resolve the missing set against the versions already present in the runtime
+environment (constrain, do not upgrade), install with `--no-deps` style discipline for the already-present
+heavy stack, and verify no torch/CUDA version changes. The true incremental footprint must be measured
+against the live environment before any byte is downloaded.
+
+**Also note:** with `nvidia-*` CUDA wheels in play, the honest answer may be that these LTX cells need a
+deliberate environment-build task rather than an in-flight patch.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
