@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:19:36Z
-content_hash: "sha256:fdcdbdb02d022ccf86015f0a85cf2b6b13f72c27dbd2b8d640c225b147f4e20d"
+updated_at: 2026-10-04T05:23:36Z
+content_hash: "sha256:476dc9c8653def34576f04d4f0fcb94567e425f746b66e99172186abdb24e17a"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -284,6 +284,43 @@ STILL OPEN / FAIL-CLOSED: the dependency-repair download **ceiling** was not sta
 operator. Per the objective's stop condition ("any download volume or spend above the agreed
 threshold"), the measurement step runs first and no dependency byte is downloaded or installed
 until the operator confirms a ceiling against the measured closure.
+### CORRECTION + live host verification 2026-10-04 (orchestrator)
+
+**Read-only host preflight** (ssh alias `3090` -> straughter-Z690-Steel-Legend): reachable; GPU **idle**
+(147 MiB / 24576 MiB, 0% util); **no native `wgp.py --process` running**; disk `/dev/nvme0n1p4`
+800G total, 769G used, **23G free (98%)**.
+
+**All five LTX assets are PRESENT on the host and byte-correct** against the corrected manifest
+(`corrected-retry-downloads/final-download-boundary-state.json`, LFS-OID sha256):
+
+| asset | size | observed sha256 | vs corrected manifest |
+| --- | ---: | --- | --- |
+| ltx-2.3-22b-ic-lora-ingredients-0.9 | 1,308,778,338 | `515e4e13…` | MATCH |
+| ltx-2.3-22b-ic-lora-outpaint | 1,308,756,416 | `32c5d3e0…` | MATCH |
+| ltx-2.3-22b-ic-lora-in-outpainting-0.9 | 1,308,778,338 | `73dd0841…` | MATCH |
+| ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0 | 327,322,640 | `984851b7…` | MATCH |
+| ltx-2.3-22b-dev_diffusion_model_quanto_int8 | 19,447,662,547 | `5fc8d836…` | MATCH |
+
+**5/5 MATCH.** `download-boundary.json` already records
+`prior_manifest_sha256_values_were_xet_hash: true` and `source_hash_discrepancy_resolved: true`.
+
+**DEFECT:** the story-body asset table above (the five-asset table in Context) still carries the
+**superseded XET hashes**, not the LFS-OID hashes. This stale column caused an orchestrator
+false-positive "provenance failure" alarm before the corrected manifest was located. The table must
+be corrected or every future verification of AC #2 will fail closed against reality.
+
+**Consequence:** the 23,701,298,279-byte asset download is **already satisfied** on the host. No
+re-download is required, and the disk boundary (23G free) is therefore not a blocker for it.
+
+**Remaining functional gap for the seven cells:** `rembg` absent from the governed/isolated runtime.
+Measured closure for `rembg[gpu]==2.0.65` (x86_64-manylinux_2_28, py3.12): 31 packages,
+**442,973,486 bytes (443 MB) upper bound**; largest: onnxruntime-gpu 1.30.0 (246.69 MB),
+llvmlite 59.70 MB, opencv-python-headless 56.56 MB, scipy 35.34 MB, numpy 16.72 MB.
+**No `nvidia-*` CUDA wheels.** The ComfyUI venv already provides onnxruntime_gpu 1.25.1, numpy,
+scipy, cv2 and PIL, so the incremental install is far below that bound.
+
+**OPEN:** (1) correct the story asset table to the LFS-OID hashes; (2) confirm the option-B download
+ceiling (proposed 500 MB against the 443 MB measured bound).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
