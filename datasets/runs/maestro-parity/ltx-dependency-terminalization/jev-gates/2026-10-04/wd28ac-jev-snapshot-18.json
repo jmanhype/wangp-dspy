@@ -1,0 +1,41 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "The failed ltx25-outpaint attempt consumed its one currently authorized attempt and remains immutable.",
+    "Jev cannot broaden the operator's explicit prohibitions on retry, dependency installation/download, runtime mutation, substitution, or unrelated runtime use.",
+    "Any next execution must use a new operator-authorized namespace and exact seven-operation boundary.",
+    "Do not mutate host state or expose credentials while requesting the decision."
+  ],
+  "current_step": "Choose the operator disposition after a fully evidenced dependency boundary: no exact local rembg 2.0.65 runtime exists, but unrelated ComfyUI rembg 2.0.69 imports successfully.",
+  "pending_action": {
+    "kind": "ask_operator_for_wd_28ac_rembg_disposition",
+    "target": "Ask the operator to choose: (A) authorize one new seven-operation corrected batch using the existing ComfyUI rembg 2.0.69 in-place via read-only PYTHONPATH despite the 2.0.65 pin mismatch; (B) authorize a separately scoped exact isolated rembg[gpu]==2.0.65 dependency repair/download; or (C) accept an operator-reviewed terminal dependency boundary rather than claiming host_run_verified.",
+    "summary": "Scope expansion or terminal disposition requires the operator; no further host action is authorized.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Gate 15 final CI-green head 112082eec1d13015a2e28ef86a6823604aa0e6f8 executed exactly one authorized native attempt in a fresh namespace with exact preflight and deployment.",
+    "The attempt passed mmgp runtime validation, admitted one durable queue job, produced zero output, failed at rembg import, and stopped the queue without retry.",
+    "Post-boundary preflight proved GPU idle and all trees, five models, seven references, and mmgp identity unchanged.",
+    "Gate 16 found no rembg artifact in user site-packages, pip cache, uv cache, accepted trees, or expected offload root; accepted requirements pin rembg[gpu]==2.0.65.",
+    "Gate 17 found only unrelated ComfyUI rembg 2.0.69, hashed it, and proved offline import/API/shared-utils compatibility with GPU unchanged.",
+    "Boundary, diagnosis, compatibility, and regression evidence are committed at 6954f1c8e71b66604632767d9dd5d2f84c994b92 and exact-head CI run 37173146847 succeeded."
+  ],
+  "uncertainties": [
+    "ComfyUI 2.0.69 may work for generation despite the pin mismatch, or it may fail later due transitive dependencies.",
+    "Exact 2.0.65 repair volume and dependency closure are not yet measured.",
+    "A terminal boundary would be truthful but would not satisfy host_run_verified for these cells without separate operator approval."
+  ],
+  "budget": {
+    "elapsed_minutes": 1400,
+    "remaining_minutes": 0
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "operator_disposition_required",
+    "story_head": "6954f1c8e71b66604632767d9dd5d2f84c994b92",
+    "ci_run": 37173146847,
+    "prior_gate_snapshot": "4a7fa06351aba6eb5be28333cca8440809fde4711fc9577996c6821c75de29fb"
+  }
+}

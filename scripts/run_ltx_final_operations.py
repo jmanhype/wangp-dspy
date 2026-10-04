@@ -49,7 +49,7 @@ CORRECTED_NATIVE_ENVIRONMENT = {
 }
 PRIOR_NATIVE_RUN_ROOT = "/home/straughter/wd-28ac-run/phase-b-gate5"
 CORRECTED_NATIVE_RUN_ROOT = (
-    "/home/straughter/wd-28ac-run/phase-b-gate19-corrected-retry"
+    "/home/straughter/wd-28ac-run/phase-b-gate20-corrected-retry"
 )
 GATE15_SNAPSHOT_SHA256 = (
     "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
@@ -321,7 +321,7 @@ def validate_contract(
         ):
             raise FinalOperationError(
                 "CORRECTED_RUN_NAMESPACE_INVALID", json.dumps(paths),
-                "Stage corrected attempts under the Gate 12 run root.",
+                "Stage corrected attempts under the Gate 20 run root.",
             )
 
 def build_native_environment(operation: Mapping[str, Any]) -> dict[str, str]:
