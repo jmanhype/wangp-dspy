@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:23:36Z
-content_hash: "sha256:476dc9c8653def34576f04d4f0fcb94567e425f746b66e99172186abdb24e17a"
+updated_at: 2026-10-04T05:24:15Z
+content_hash: "sha256:6b08a326c1a8f75d607137f075b0315d8015fb98991c74a3dbfbd2f1661bda83"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -321,6 +321,22 @@ scipy, cv2 and PIL, so the incremental install is far below that bound.
 
 **OPEN:** (1) correct the story asset table to the LFS-OID hashes; (2) confirm the option-B download
 ceiling (proposed 500 MB against the 443 MB measured bound).
+### AC #3 preflight verified live, read-only, 2026-10-04 (orchestrator)
+
+- SSH reachable: alias `3090` -> `straughter-Z690-Steel-Legend`.
+- GPU **idle**: 147 MiB / 24,576 MiB, 0% util. **No native `wgp.py --process` running.**
+- Disk `/dev/nvme0n1p4`: 800G total, 769G used, **23G free (98%)** -- no large download required
+  (assets already present), so this does not block the seven operations.
+- **Wan2GP tree identity EXACT:**
+  - `/home/straughter/Wan2GP-story-WD-m7xw` HEAD = `faea82d15bf10b3479c42c0ea430892aae975870` == expected
+  - `/home/straughter/Wan2GP-story-WD-osfm` HEAD = `4c93b64a47b5b0a915f2abec2ce754be98227150` == expected
+  - both trees show **no tracked modifications** (`git diff` empty). The single dirty path in each is
+    `?? ckpts` (untracked model-asset directory) -- expected and benign.
+- Isolated runtime present: `/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14`.
+- Five accepted LTX assets: **5/5 present and byte-correct** (see correction block above).
+- QC/judge **not** reachable on `127.0.0.1:8000` -- expected pre-batch; it is started as part of the
+  governed run.
+- **Still open:** `rembg` absent from the governed runtime; option-B download ceiling not yet confirmed.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
