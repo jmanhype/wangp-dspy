@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T01:19:03Z
-content_hash: "sha256:83e5c4109ada382a842e1b91869305f8736fb05658a20963800233b5c1afa5f2"
+updated_at: 2026-10-04T02:56:01Z
+content_hash: "sha256:ad6c80019607741052a1afd71bd58a5d1a174998605c9c9b9e3a8d8563f4d2b6"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -186,7 +186,31 @@ LEARNINGS:
 - The fresh inventory was already authoritative; the defect was not runtime drift but local propagation from one transcribed member hash into derived literals.
 - Comparing a canonical literal alone can validate a consistently wrong inventory. Recomputing from path-sorted inventory and independently checking member/count/byte totals catches the tamper class.
 - Worktree-scoped release verification must be checked for its reported commit SHA because an executable from the shared lane venv can otherwise verify the parent checkout.
+### 2026-10-04T02:55:04Z speed
 
+WD-28ac Gate 15 local corrected-host authorization binding evidence (NOT DELIVERED):
+
+- Started with `pvg nd sync`; result: `Sync nd/backlog: up to date (21ed6275)`. Worktree/base was `story/WD-28ac` at clean/pushed `7d6f814f71c481a7f41f105d957696af04051ab2`, with prior exact-head CI run `37166261480` successful.
+- Read the live Gate 15 tracker scope and persisted evidence under `jev-gates/2026-10-04/`. Raw artifact SHA-256s: snapshot `0c99c2fadc507b3e93dee0dfda5680a1f2c6d6f256be67610890212e3d505814`, decision `c47aa0c332a11c82080d5d2394c31826374568ba3e86521cefc39a7eadef8708`, trace `addd18c926bc5217f2b8d8de932a0bcd845f18f728534737aaa769c7d961f8cb`, and fresh preflight `26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3`. The decision binds declared snapshot `2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89`, trace `60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd`, and preflight `26b1f0c...`; the trace SHA was independently reproduced as the canonical first JSONL record digest.
+- Added exact `jev_corrected_native_retry_host_authorization` Gate 15 record to `operator-authorization.json` (final SHA-256 `907f42d88f7b70cf3fb5bdd62ea862e17c82a56680aacba542f9e6f41f32b87b`). It binds both declared Gate hashes and the fresh preflight hash, exact seven owned operations, one attempt each, stop-on-first-terminal-failure, governed `judge_ctl.sh` start only if required, immediate pre-execution recheck, and all prior prohibitions (no download/model GET/install/deletion/substitution, model/reference/runtime mutation, protected file/engine/threshold change, unrelated operation, WD-bw0h/H3, provider spend, training, or capability/matrix claim).
+- Narrowly updated `corrected-retry-plan.json` (final SHA-256 `81dffa92cdc8633d7f9ce48eb77130e68603e0bec959885b391043dc945eeee0`) to schema-compatible mode `corrected_native_operations_authorized`, `host_execution_authorized=true`, and `preflight_ready=true`. Added exact Gate 15 plan binding and immediate fresh-preflight/queue-collision/judge-policy preconditions. All seven operation objects remain exactly equal to the base plan apart from checkout-independent comparison normalization; each remains `planned_not_executed`/`planned_not_admitted`, one attempt, corrected namespace, exact argv, and repaired mmgp environment. The default locally generated plan remains local-only/fail-closed.
+- Added dedicated `phase-b-preparation/isolated-runtime-state-2026-10-04-gate15.json` SHA-256 `643a917774bc094fcfdde2e1d5e3391147b3d11d8d491a433cf8774cd1208e12`, sourced only from Gate 15 preflight. It records `fresh_host_recheck=true`, `separate_fresh_host_gate_required=false`, exact directory/path/import/mmgp 3.7.14 identity, 12-item/291005-byte inventory/canonical SHA `d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b`, and system-mmGP absence; it contains no secret. Direct tests bind this state to preflight and reject stale/path/import/version/payload/system drift.
+- `scripts/run_ltx_final_operations.py` (final SHA-256 `b35bad30758c3633c813f98bfc8e11a101ce8de9dcb830ba63902b472c0519e9`) now fail-closes an authorized plan unless the exact Gate 15 host record, plan hash binding, and execution preconditions all match. Tampering gate number, either Gate hash, preflight hash, host authorization, attempt count, or stop policy yields `HOST_GATE_AUTHORIZATION_INVALID`; missing/wrong plan binding yields `HOST_GATE_PLAN_BINDING_INVALID`/`EXECUTION_PRECONDITIONS_INVALID`.
+- Final focused LTX/WD-28ac suite: 86 tests, 0 errors, 0 failures, 0 skipped (JUnit time 1.340s). Runtime host wiring: 3 tests, 0 errors/failures/skips. Undeselected full suite at final head: 2261 tests, 0 errors, 0 failures, 1 allowed pre-existing 3090-gated skip (JUnit time 793.542s).
+- Final deterministic gates at exact head `112082eec1d13015a2e28ef86a6823604aa0e6f8`: `pvg verify ... --include-tests` => PASSED (3 files, 0 issues); `pvg lint --backlog` => 156 issues scanned, 0 errors/0 review findings; `wgp release verify --json` => clean tree, `ready=true`, `tag_created=false`; protected-file parity versus `origin/main` PASS for `services/jobs/queue.py`, `services/director/renderers/policy.py`, `services/director/wiring.py`, `services/jobs/preflight.py`, and `scripts/run_film.py`; `docs/video-capabilities.md` matrix parity PASS; credential/raw-key scan PASS over 11 files; `git diff --check origin/main...HEAD` PASS.
+- CI repair history is retained rather than hidden: implementation commit `4928559f487e5e94e02452e5368cfb6331783e8a` failed run `37168934468` because a strengthened full-operation equality compared checkout-dependent `resolved_path`; commit `bb9fa8da271e6b3a0f8738cd15ccbc12621d91f1` failed run `37170132912` because the first repair checked the committed local absolute path rather than the generated clone-local path. A fresh-clone path simulation then passed 8/8. Final one-line repair commit `112082eec1d13015a2e28ef86a6823604aa0e6f8` checks generated reference paths and is CI-green.
+- Final commit/push head `112082eec1d13015a2e28ef86a6823604aa0e6f8` on `story/WD-28ac` / PR 217. Exact-head CI run `37171354439`, job `111344773445`, completed `success` at that exact SHA: https://github.com/jmanhype/wangp-dspy/actions/runs/37171354439. PR 217 is OPEN/MERGEABLE and was not merged.
+- Boundary accounting: no SSH/host-3090 contact, QC/judge start/stop, queue admission, native retry/render, network/model GET/download/install/copy/move/delete/overwrite, model/reference mutation, protected-file change, capability/matrix claim, acceptance, delivery, or merge occurred.
+
+### Gate 15 AC Verification
+
+| AC | Requirement | Evidence | Status |
+|---|---|---|---|
+| 1 | Exact Gate 15 corrected-host authorization record and prohibitions | `operator-authorization.json` + `test_gate15_host_authorization_and_fresh_state_are_exact` | PASS |
+| 2 | Authorized plan mode/flags preserve exact seven operations, namespace, environment, and repaired runtime | `corrected-retry-plan.json` + operation-preservation/portable-contract tests | PASS |
+| 3 | Dedicated fresh Gate 15 runtime state with exact contract/inventory/import/system facts and no secrets | `isolated-runtime-state-2026-10-04-gate15.json` + preflight/state and credential tests | PASS |
+| 4 | Focused tests, undeselected full suite, pvg verify/lint, runtime wiring, release, parity, credential, and diff gates | JUnit/gate outputs above | PASS |
+| 5 | Push PR 217 and exact-head CI success, append evidence, remain NOT delivered | PR head/CI `37171354439`; this note; no `pvg story deliver` | PASS / STOPPED NOT DELIVERED |
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
