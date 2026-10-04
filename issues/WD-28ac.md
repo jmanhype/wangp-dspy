@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:02:01Z
-content_hash: "sha256:a4ca319fb952cf1e2bf748608147634c171dd88810db8c4b10ca786c160ec5f4"
+updated_at: 2026-10-04T03:04:47Z
+content_hash: "sha256:99714c36fe85fca2cae511ad9bcf35d9b4cc150c6c54638410cc24735139db0d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -769,3 +769,6 @@ GATE 15 IMMEDIATE EXECUTION PREFLIGHT AND EXACT DEPLOYMENT at 2026-10-04T02:59Z:
 
 ### 2026-10-04T03:02:01Z speed
 GATE 15 CORRECTED NATIVE RETRY STOPPED CLOSED at first operation after one authorized attempt. ltx25-outpaint exited 1 before output because /usr/bin/python3 imported the exact isolated mmgp 3.7.14 runtime successfully but Wan2GP shared.utils then failed `ModuleNotFoundError: No module named rembg`. Runner boundary=NATIVE_NO_OUTPUT; one queue job admitted and failed, zero outputs, zero retries, six later operations not attempted, GPU returned to idle, and all models/references/trees/runtime identities remained exact. Durable evidence is under corrected-native-operations/gate15-terminal-boundary with manifest evidence.sha256. No deletion, substitution, install, download, model/reference mutation, threshold/protected change, or capability/matrix claim occurred.
+
+### 2026-10-04T03:04:47Z speed
+LIVE JEV GATE #16 at 2026-10-04T03:04Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.58, constraint risk=0.11, missing evidence score=2.35, snapshot sha256 ff43d4417ff5d7d58b52f80240dfb1ab5eec91ade2e44ce5c65dc6ef459d3f9c, trace sha256 44c8581eae00f89b985303dc55ded95d7885c13756cc6f4873540644d3e23fb9. Authorized READ-ONLY rembg inventory only. Result artifact sha256 5d16f1281d5430524c42e1a929e54231f80175b6c4efb9bf8720d455a370c9c7: no rembg filename/package in user site-packages, pip cache, uv cache, accepted Wan2GP trees, or expected offload root; no pip-cache rembg line. Both accepted Wan2GP requirements pin rembg[gpu]==2.0.65 on Linux. A bounded import probe found unrelated ComfyUI venv rembg 2.0.69 at /home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg; /usr/bin/python3 and other bounded venvs lack rembg. No mutation, network, install, copy, model access, retry, or version substitution is authorized.
