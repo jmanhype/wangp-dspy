@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T13:55:23Z
-content_hash: "sha256:d1886a9a93ae0dc0a1f292a48d29c8ac4a0977b29e55ae60cf495fd518507c3e"
+updated_at: 2026-10-04T13:55:33Z
+content_hash: "sha256:4c86e6970d9f18f62f2fa4bd278ee4421a83155292b45e410059d477de8a411d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -592,6 +592,16 @@ PRODUCES (EXTERNAL REFERENCE DECLARATIONS -- consumed from the host Wan2GP tree,
 
 Recorded solely so the paths-exist check can distinguish a declared external reference from an
 undeclared missing repo artifact. No scope, AC, status or label change.
+### Boundary declaration (format-corrected): EXTERNAL Wan2GP references (orchestrator, 2026-10-04)
+
+The preceding block's heading was malformed for the linter; this restates it with a bare block header.
+These three paths are **external read-only references** into the accepted Wan2GP tree on host 3090,
+consumed by the seven LTX operations. This repository never produces them.
+
+PRODUCES:
+- models/wan/__init__.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
+- shared/cli_args.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
+- wan/scail/nlf/multiperson_model.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
