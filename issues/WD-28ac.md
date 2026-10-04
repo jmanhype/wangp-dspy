@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T04:11:08Z
-content_hash: "sha256:5b099b68ed525992fb8b5d942c26f60079e804bbfb376ef5845efce465dfa7fe"
+updated_at: 2026-10-04T05:19:36Z
+content_hash: "sha256:fdcdbdb02d022ccf86015f0a85cf2b6b13f72c27dbd2b8d640c225b147f4e20d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -268,6 +268,22 @@ in_progress across wait evaluations -- that is this operator hold, not a dead de
 - Remaining item (b) gap: the clean-machine one-command install that emits a real generated
   artifact. `remaining_boundaries.first_run_generated_artifact.state` is still
   `incomplete_storage_boundary` and requires operator host authorization.
+### OPERATOR AUTHORIZATION RECORDED 2026-10-04 (option B bundled with asset batch)
+
+Operator replied "I agree" to the orchestrator recommendation: **option B** (isolated exact
+`rembg[gpu]==2.0.65` repair) **bundled with the five-asset batch in one host visit**.
+
+Recorded scope:
+1. **Asset batch** -- the five named LTX assets, exactly **23,701,298,279** bytes, to their
+   declared destinations, size + SHA-256 verified, zero undeclared bytes (AC #1 satisfied in full).
+2. **Dependency repair (option B)** -- measured, then installed, isolated `rembg[gpu]==2.0.65`
+   closure. Explicitly NO substitution of ComfyUI `2.0.69` or Wan2GP `2.0.81`.
+3. **Batch** -- only the seven named operations, one attempt each, stop on first terminal failure.
+
+STILL OPEN / FAIL-CLOSED: the dependency-repair download **ceiling** was not stated by the
+operator. Per the objective's stop condition ("any download volume or spend above the agreed
+threshold"), the measurement step runs first and no dependency byte is downloaded or installed
+until the operator confirms a ceiling against the measured closure.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
