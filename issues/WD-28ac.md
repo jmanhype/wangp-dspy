@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:37:52Z
-content_hash: "sha256:c97f4f93def790346c4c37d1b715a34c8c5c9df847efbf4a3bc39a12a9543620"
+updated_at: 2026-10-04T05:41:26Z
+content_hash: "sha256:5d641e776acc84391efa6bb1950d37a2a2c0f945f8b2716097a9a74d33ee9398"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -363,6 +363,37 @@ Operator replied "I agree" to the orchestrator proposal, which set:
 
 NOT authorized / NOT required: the 23,701,298,279-byte asset download (already satisfied on host,
 five assets verified byte-correct). No substitution of ComfyUI rembg 2.0.69 or Wan2GP rembg 2.0.81.
+### Option B EXECUTED: pinned rembg installed + runtime composition PROVEN 2026-10-04 (orchestrator)
+
+**Install (authorized, <=500 MB ceiling):**
+`mkdir -p /home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65` then
+`/usr/bin/python3 -m pip install --no-cache-dir --break-system-packages --target <that dir> "rembg[gpu]==2.0.65"`
+=> `PIP_RC=0`. Installed exactly the resolved closure: `rembg-2.0.65`, `onnxruntime-gpu-1.30.0`,
+numpy 2.5.3, scipy 1.18.1, llvmlite 0.50.0, opencv-python-headless 5.0.0.93, numba 0.68.0,
+scikit-image 0.26.0, plus the rest (31 packages). **Downloaded 443 MB** (within ceiling).
+On-disk 983 MB. Host disk 23G -> 22G free. Import probe: `rembg 2.0.65` resolves to the new dir.
+
+**Runtime composition experiment at the host (cwd = /home/straughter/Wan2GP-story-WD-m7xw):**
+
+| config | PYTHONPATH | rembg | `shared.utils` import |
+| --- | --- | --- | --- |
+| C1 | `mmgp-3.7.14` (current plan) | MISSING | FAIL `No module named 'rembg'` |
+| C2 | `rembg-2.0.65:mmgp-3.7.14` | 2.0.65 | FAIL `No module named 'ffmpeg'` |
+| C3 | `mmgp-3.7.14:ComfyUI/site-packages` (Gate 17 config) | 2.0.69 (unpinned) | OK |
+| **C4** | **`rembg-2.0.65:mmgp-3.7.14:ComfyUI/site-packages`** | **2.0.65 (PINNED)** | **IMPORTED OK** |
+
+**C4 is the correct option-B runtime: the pinned 2.0.65 shadows ComfyUI's 2.0.69 AND `shared.utils`
+imports.** GPU stayed idle (142 MiB, 0%) throughout every probe.
+
+**FINDING:** the corrected-retry plan's `native.environment.PYTHONPATH` is `mmgp-3.7.14` **only**.
+That is structurally insufficient: it lacks `rembg` (the Gate 15 failure) *and* `ffmpeg` (only
+apparent once rembg is present). The plan must carry
+`rembg-2.0.65 : mmgp-3.7.14 : ComfyUI/site-packages` for all seven operations.
+
+**NEXT:** capture the new isolated-runtime state/contract for `rembg-2.0.65`, update the plan's
+`isolated_runtime` + `PYTHONPATH`, refresh the host-authorization binding, then execute the seven
+operations (`--execute --allow-host`) with the existing one-attempt/stop-on-first-terminal-failure
+policy. The mmgp contract directory was NOT modified (still 12 files, canonical `d39fa7a5...`).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
