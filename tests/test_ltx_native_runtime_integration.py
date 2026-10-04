@@ -284,10 +284,10 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
         }
         assert "phase-b-gate5" not in native["settings_stage_path"]
         assert "phase-b-gate5" not in native["log_path"]
-        assert "phase-b-gate20-corrected-retry" in native["settings_stage_path"]
-        assert operation["queue"]["retry_id"] == "corrected-retry-attempt-3"
+        assert "phase-b-gate21-corrected-retry" in native["settings_stage_path"]
+        assert operation["queue"]["retry_id"] == "corrected-retry-attempt-4"
         assert operation["queue"]["job_id"].endswith(
-            "-corrected-retry-attempt-3"
+            "-corrected-retry-attempt-4"
         )
         assert operation["status"] == "planned_not_executed"
         assert operation["queue"]["admission_state"] == "planned_not_admitted"
@@ -389,7 +389,7 @@ def test_runner_contract_requires_v2_runtime_and_records_environment(
     assert raised.value.code in {"PLAN_SCHEMA_INVALID", "RUNTIME_BINDING_ABSENT"}
 
 
-def test_corrected_run_namespace_rejects_paths_outside_gate20_root() -> None:
+def test_corrected_run_namespace_rejects_paths_outside_gate21_root() -> None:
     plan = _read(CORRECTED_PLAN_PATH)
     authorization = _read(AUTH_PATH)
 
