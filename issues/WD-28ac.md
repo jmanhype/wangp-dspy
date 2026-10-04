@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T15:23:09Z
-content_hash: "sha256:7197b0185a812c6997a206d8bec75e9bc3ff185b449c594a08a6f5af2717f9aa"
+updated_at: 2026-10-04T16:17:33Z
+content_hash: "sha256:02446a6fda02b735640503331281877b16649587332a66dfcae114b9e83f9b2d"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -713,6 +713,41 @@ So the last outstanding cell requires a **7.6 GB** download -- far above any pre
 and roughly a third of the host's remaining 21 GB of free space. This is a genuine operator decision:
 7.6 GB for ONE cell (`ltx23-upscale`), versus terminating that cell as a documented boundary and
 keeping the other six.
+### Gate 22 batch COMPLETE: SIX of seven LTX cells rendered with governed evidence (2026-10-04)
+
+Run root: `/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/`
+Deployment: `/home/straughter/wd-28ac-gate22-20261004` (head `83ce5355`)
+Runner result: `failed_closed`, `terminal_operation: ltx23-upscale` -- six operations rendered before it.
+
+Per-cell governed evidence read from each `operation-record.json`; resolution and duration independently
+confirmed by ffprobe on a sample:
+
+| operation | status | WxH | duration | bytes | output sha256 (first 16) |
+| --- | --- | --- | ---: | ---: | --- |
+| ltx25-outpaint | rendered_pending_qc | 576x1024 | 1.38 s | 708,153 | 73b2e8aa62b0a918 |
+| ltx25-repaint | rendered_pending_qc | 448x832 | 1.38 s | 480,785 | c385cde0452179f5 |
+| ltx25-recast | rendered_pending_qc | 448x832 | 1.38 s | 378,753 | ab00d86fe4877f99 |
+| ltx25-upscale | rendered_pending_qc | 896x1664 | 1.38 s | 1,873,638 | dc824284dd93682e |
+| ltx23-outpaint | rendered_pending_qc | 768x448 | 1.38 s | 785,047 | b1b0b4c6d62a8bef |
+| ltx23-recast | rendered_pending_qc | 448x832 | 1.38 s | 997,753 | e9ea9f7b06b7eda9 |
+| ltx23-upscale | failed | -- | -- | -- | -- |
+
+Each rendered record also carries settings staging (template + destination sha256), native argv,
+environment, runtime-preflight block (payload_sha256 `d39fa7a5...`, mmgp 3.7.14), queue state
+`rendered_pending_qc`, visual artifacts (contact sheet + first frame), ffprobe metadata and objective
+measurements.
+
+**ltx23-upscale terminal boundary (documented, honest):** the ONLY remaining cell. Its record shows
+`status: failed` after `Downloading Lora ltx-2.3-22b-distilled-lora-384-1.1.safetensors` was refused by
+`HF_HUB_OFFLINE`. That artifact is **7,605.5 MB (7.6 GB)**, is absent everywhere on the host (bounded
+`find`), and is NOT among the five authorized assets -- so it is an **unauthorized-download boundary**,
+explicitly NOT a hardware-infeasibility verdict.
+
+**Preconditions that had to be fixed to get here (all recorded, all reversible):**
+rembg pinned install -> 67-package closure via `--no-deps` with zero version drift (torch unchanged at
+`2.5.1+cu121`) -> chumpy 0.71 + smplfitter 0.2.10 -> Gate 20/21/22 namespace cycles -> deploy BOTH
+`WD-m7xw` and `WD-osfm` native-settings trees -> symlink the four LTX LoRAs into `WD-osfm/loras/ltx2`
+(which was empty while `WD-m7xw/loras/ltx2` had them).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
