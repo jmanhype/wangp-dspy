@@ -1,0 +1,200 @@
+{
+  "schema_version": "wangp-dspy.wd-28ac.gate13-fresh-host-preflight/v1",
+  "read_only": true,
+  "captured_utc": "2026-10-04T03:02:00.815220+00:00",
+  "host": {
+    "fqdn": "straughter-Z690-Steel-Legend",
+    "hostname": "straughter-Z690-Steel-Legend",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "target": "3090",
+    "user": "straughter"
+  },
+  "filesystems": {
+    "/home/straughter": {
+      "free_bytes": 23654154240,
+      "total_bytes": 857997254656
+    },
+    "/home/straughter/Wan2GP": {
+      "free_bytes": 23654154240,
+      "total_bytes": 857997254656
+    },
+    "/mnt/bulk-hdd": {
+      "free_bytes": 317216575488,
+      "total_bytes": 1756157775872
+    }
+  },
+  "gpu": {
+    "compute_apps": {
+      "argv": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "NVIDIA GeForce RTX 3090, 24576, 142, 23974, 0\n"
+    }
+  },
+  "judge": {
+    "health": {
+      "http://127.0.0.1:8000/health": {
+        "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+        "reachable": false
+      },
+      "http://127.0.0.1:8420/healthz": {
+        "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+        "reachable": false
+      }
+    },
+    "process_patterns": {
+      "judge_ctl": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "judge_ctl"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      },
+      "llama-server": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "llama-server"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      },
+      "wgp.py --process": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "wgp.py --process"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      }
+    }
+  },
+  "execution_trees": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-m7xw",
+          "rev-parse",
+          "HEAD"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "faea82d15bf10b3479c42c0ea430892aae975870\n"
+      },
+      "commit_match": true,
+      "expected_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "status": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-m7xw",
+          "status",
+          "--porcelain=v1"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "?? ckpts\n"
+      }
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-osfm",
+          "rev-parse",
+          "HEAD"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "4c93b64a47b5b0a915f2abec2ce754be98227150\n"
+      },
+      "commit_match": true,
+      "expected_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "status": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-osfm",
+          "status",
+          "--porcelain=v1"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "?? ckpts\n"
+      }
+    }
+  },
+  "model_results": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "hash_match": true,
+      "size_match": true,
+      "partial_exists": false
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "hash_match": true,
+      "size_match": true,
+      "partial_exists": false
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "hash_match": true,
+      "size_match": true,
+      "partial_exists": false
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "hash_match": true,
+      "size_match": true,
+      "partial_exists": false
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "hash_match": true,
+      "size_match": true,
+      "partial_exists": false
+    }
+  },
+  "reference_results": {
+    "WD-m7xw:ltx25_generated_source_video": true,
+    "WD-m7xw:repaint_editable_region_mask": true,
+    "WD-m7xw:retake_and_recast_reference_frame": true,
+    "WD-osfm:person_bearing_control_video": true,
+    "WD-osfm:recast_reference_frame": true,
+    "WD-osfm:repaint_probe_mask": true,
+    "WD-osfm:retake_start_frame": true
+  },
+  "runtime": {
+    "exists": true,
+    "regular_directory": true,
+    "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "file_count": 12,
+    "uncompressed_bytes": 291005,
+    "import_returncode": 0,
+    "import_payload": {
+      "metadata_version": "3.7.14",
+      "path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py"
+    },
+    "system_mmgp_present": false
+  }
+}

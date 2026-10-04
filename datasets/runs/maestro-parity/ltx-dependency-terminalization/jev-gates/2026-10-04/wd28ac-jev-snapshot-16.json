@@ -1,0 +1,47 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "The failed ltx25-outpaint attempt and its queue/log/settings boundary are immutable; do not retry, delete, overwrite, or substitute it.",
+    "Do not install, download, copy, move, or mutate any dependency, model, reference, runtime, process, queue, output, protected file, or capability row.",
+    "Do not contact any host path outside the declared bounded read-only inventory roots.",
+    "Do not expose credentials or incur provider spend.",
+    "Any later repair or terminal disposition requires a separate live gate and, where scope expands beyond current operator authorization, explicit operator approval."
+  ],
+  "current_step": "Determine the next safe evidence step after the corrected native retry passed mmgp preflight but failed at a newly exposed rembg import.",
+  "pending_action": {
+    "kind": "read_only_wd_28ac_rembg_inventory",
+    "target": "WD-28ac Gate 16: bounded read-only search for an existing rembg installation, wheel, cached artifact, compatible venv, or accepted source-tree dependency declaration in user site-packages, pip/uv caches, the two accepted Wan2GP execution trees, and the authorized bulk-offload root",
+    "summary": "Determine whether a proven local rembg runtime already exists before asking for any install/download or declaring a structural dependency boundary.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Gate 15 final local head 112082eec1d13015a2e28ef86a6823604aa0e6f8 passed exact-head CI run 37171354439 and independently passed focused tests, pvg verify, backlog lint, release verification, protected parity, and matrix parity.",
+    "Immediate preflight artifact sha256 27cbf1f28951714752287405298c5c8fcb1ec516d6272372ecd0ad1651d9037e proved zero GPU compute apps, exact trees/models/references, exact isolated mmgp identity, and absent corrected run/deployment roots.",
+    "The exact deployment payload manifest sha256 ab8edad3f1b02eb1470ffe375aa3205fb92b66dd4c8de6513c73151db3ecd516 matched local and remote bytes, and remote dry-run validated seven operations with zero admissions/attempts.",
+    "The first and only authorized native attempt admitted durable job job-1791082858716-55c08089, imported the isolated mmgp runtime successfully, then exited 1 before any output at Wan2GP shared.utils import with `ModuleNotFoundError: No module named rembg`.",
+    "Runner preserved a typed NATIVE_NO_OUTPUT boundary, stopped the queue, and did not attempt the remaining six operations.",
+    "Native log sha256 60c2d272e1ad8908c9f465aefb6140210b4ce6f0f7c7cb52d2fe5baec30e7b12; batch result sha256 6e9ed35f41282807480e62f8f6d8dd665f774449e76fd0f24ab43f46b5042de3; operation-record sha256 8095470e31b2bcf27731bcdd7a767d864714cb68bb9686641734e5abe6e2088a.",
+    "Fresh post-boundary preflight at 2026-10-04T03:02:00.815220Z proved GPU idle again, judge/QC down, both trees exact, all five models and seven references exact, and isolated mmgp payload/import still exact.",
+    "Prior runtime inventory searched for mmgp but did not search for rembg; this is a newly reached downstream dependency, not evidence that rembg is absent everywhere.",
+    "The operator's current corrected-retry authorization explicitly prohibits dependency installs, downloads, runtime mutation, deletion, substitution, and model/reference mutation."
+  ],
+  "uncertainties": [
+    "A compatible rembg package or wheel may already exist in user site-packages, pip/uv cache, an accepted execution tree, or another local runtime.",
+    "The accepted Wan2GP source may pin a rembg version or dependency declaration that can explain the historical runtime.",
+    "If no compatible local artifact exists, the choice between an explicitly authorized isolated dependency repair and a terminal operator-reviewed boundary remains open."
+  ],
+  "budget": {
+    "elapsed_minutes": 1370,
+    "remaining_minutes": 10
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "read_only_dependency_boundary_diagnosis",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "112082eec1d13015a2e28ef86a6823604aa0e6f8",
+    "prior_gate_snapshot": "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89",
+    "failed_operation": "ltx25-outpaint",
+    "failed_durable_job": "job-1791082858716-55c08089"
+  }
+}
