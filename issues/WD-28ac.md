@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T14:08:21Z
-content_hash: "sha256:666edf97e7378b954ffcbe31840244dcc6ce384e2f22ea49fced2e01bf6257f5"
+updated_at: 2026-10-04T14:19:16Z
+content_hash: "sha256:6dab38251c91eaa6b67ddc22c6c17d661bffe64d73f9a53ed578fae7d8529b80"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -641,6 +641,36 @@ Live at runner elapsed 12m13s -- every completed operation has a real non-empty 
 First per-cell outputs in the entire programme's history for these cells. Remaining: ltx25-upscale plus
 ltx23-outpaint, ltx23-recast, ltx23-upscale. Run root:
 `/home/straughter/wd-28ac-run/phase-b-gate20-corrected-retry/`.
+### Gate 20 batch: FOUR of seven operations RENDERED, stopped on a deployment gap (my error) (2026-10-04)
+
+**Real outputs produced -- first in the programme's history for these cells:**
+
+| operation | output bytes | operation-record.json |
+| --- | ---: | --- |
+| ltx25-outpaint | 708,152 | yes |
+| ltx25-repaint | 480,785 | yes |
+| ltx25-recast | 378,754 | yes |
+| ltx25-upscale | 1,873,638 | yes |
+
+Queue summary shows exactly four jobs in `rendered_pending_qc`. GPU returned to idle between operations.
+
+**Stop cause: `NATIVE_TEMPLATE_ABSENT` on `datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json`.**
+This is an ORCHESTRATOR DEPLOYMENT BUG, not a runtime or dependency fault: my rsync deployed only
+`WD-m7xw/native-settings/` (the four LTX-2.5 templates) and omitted `WD-osfm/native-settings/` (the
+three LTX-2.3 templates). All seven template paths DO exist in the story worktree; I verified:
+
+- ltx25-* -> datasets/runs/maestro-parity/WD-m7xw/native-settings/{outpaint,repaint,recast,upscale}.json
+- ltx23-* -> datasets/runs/maestro-parity/WD-osfm/native-settings/{outpaint-probe,recast-probe,upscale}.json
+
+**Governed tension found:** the runner cannot resume a partially-complete batch. `validate_contract`
+requires exactly seven operations, and re-running would re-attempt the four operations that already
+succeeded, which the plan's one-attempt-per-operation policy forbids. The three ltx23 operations were
+never attempted and their paths in the Gate 20 run root are still FRESH (no directories were created).
+
+**Options:** (a) fresh Gate 21 namespace, all seven re-run with BOTH template directories deployed --
+re-renders the four ltx25 cells but yields one coherent 7/7 single-namespace bundle; (b) add resume
+support to the runner so a partially-complete batch can continue; (c) archive the Gate 20 attempt and
+reuse the namespace. Recommendation: (a) -- cleanest evidence, ~15 min of GPU.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
