@@ -36,6 +36,17 @@ GATE12_TRACE_SHA256 = (
 ISOLATED_RUNTIME_DIRECTORY = (
     "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14"
 )
+ISOLATED_REMBG_DIRECTORY = (
+    "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65"
+)
+COMFYUI_SITE_PACKAGES = (
+    "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+)
+CORRECTED_NATIVE_PYTHONPATH = ":".join((
+    ISOLATED_REMBG_DIRECTORY,
+    ISOLATED_RUNTIME_DIRECTORY,
+    COMFYUI_SITE_PACKAGES,
+))
 CORRECTED_RETRY_RUN_ROOT = (
     "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry"
 )
@@ -45,7 +56,7 @@ CORRECTED_NATIVE_ENVIRONMENT = {
     "PYTORCH_ALLOC_CONF": "expandable_segments:True",
     "HF_HUB_OFFLINE": "1",
     "TRANSFORMERS_OFFLINE": "1",
-    "PYTHONPATH": ISOLATED_RUNTIME_DIRECTORY,
+    "PYTHONPATH": CORRECTED_NATIVE_PYTHONPATH,
 }
 EXPECTED_TREES = {
     "m7xw": ("faea82d15bf10b3479c42c0ea430892aae975870", "?? ckpts"),

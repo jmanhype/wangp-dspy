@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+from os import pathsep
 from pathlib import Path
 from typing import Any
 
@@ -32,6 +33,11 @@ CORRECTED_PLAN_PATH = RUN_DIR / "phase-b-preparation/corrected-retry-plan.json"
 OLD_PLAN_PATH = RUN_DIR / "phase-b-preparation/final-operation-plan.json"
 OLD_BOUNDARY_PATH = RUN_DIR / "final-native-operations/terminal-boundary/boundary.json"
 PLAN_SCRIPT = ROOT / "scripts/prepare_ltx_operations.py"
+EXPECTED_NATIVE_PYTHONPATH = pathsep.join((
+    runner.ISOLATED_REMBG_DIRECTORY,
+    runner.ISOLATED_RUNTIME_DIRECTORY,
+    runner.COMFYUI_SITE_PACKAGES,
+))
 
 SECRET_PATTERNS = (
     re.compile(rb"sk-(?:proj-)?[A-Za-z0-9_-]{20,}"),
@@ -273,7 +279,7 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
             "PYTORCH_ALLOC_CONF": "expandable_segments:True",
             "HF_HUB_OFFLINE": "1",
             "TRANSFORMERS_OFFLINE": "1",
-            "PYTHONPATH": runtime["directory"],
+            "PYTHONPATH": EXPECTED_NATIVE_PYTHONPATH,
         }
         assert "phase-b-gate5" not in native["settings_stage_path"]
         assert "phase-b-gate5" not in native["log_path"]
@@ -370,7 +376,7 @@ def test_runner_contract_requires_v2_runtime_and_records_environment(
     runner.validate_contract(plan, authorization)
 
     environment = runner.build_native_environment(plan["operations"][0])
-    assert environment["PYTHONPATH"] == plan["isolated_runtime"]["directory"]
+    assert environment["PYTHONPATH"] == EXPECTED_NATIVE_PYTHONPATH
     assert environment["HF_HUB_OFFLINE"] == "1"
     assert environment["TRANSFORMERS_OFFLINE"] == "1"
     assert environment["PYTORCH_ALLOC_CONF"] == "expandable_segments:True"
@@ -458,7 +464,7 @@ def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
         "ltx25-outpaint", "ltx25-repaint"
     ]
     assert all(
-        item["environment"]["PYTHONPATH"] == plan["isolated_runtime"]["directory"]
+        item["environment"]["PYTHONPATH"] == EXPECTED_NATIVE_PYTHONPATH
         for item in result["operations"]
     )
     summary = _read(tmp_path / "queue-summary.json")
@@ -466,3 +472,22 @@ def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
     assert summary["states"]["failed"] == [
         result["operations"][1]["durable_job_id"]
     ]
+
+
+def test_contract_rejects_native_environment_drift_or_missing_pythonpath(
+    tmp_path: Path,
+) -> None:
+    plan = _corrected_plan(tmp_path)
+    drifted = json.loads(json.dumps(plan))
+    drifted["operations"][0]["native"]["environment"]["PYTHONPATH"] = (
+        runner.ISOLATED_RUNTIME_DIRECTORY
+    )
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.validate_contract(drifted, _read(AUTH_PATH))
+    assert raised.value.code == "NATIVE_ENVIRONMENT_INVALID"
+
+    missing = json.loads(json.dumps(plan))
+    del missing["operations"][0]["native"]["environment"]["PYTHONPATH"]
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.validate_contract(missing, _read(AUTH_PATH))
+    assert raised.value.code == "NATIVE_ENVIRONMENT_INVALID"
