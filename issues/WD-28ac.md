@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T13:56:34Z
-content_hash: "sha256:266e6fc2a6497d10889092983c8458ceb97ebccccbfc748b9ecf9a34fc74a902"
+updated_at: 2026-10-04T14:08:21Z
+content_hash: "sha256:666edf97e7378b954ffcbe31840244dcc6ce384e2f22ea49fced2e01bf6257f5"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -626,6 +626,21 @@ Per-operation timeout is 5400 s; the plan runs seven operations in order
 (ltx25-outpaint, ltx25-repaint, ltx25-recast, ltx25-upscale, ltx23-outpaint, ltx23-recast, ltx23-upscale)
 with stop-on-first-terminal-failure. Per-cell evidence is written to
 `<run root>/<operation>/operation-record.json` with output hash, ffprobe metadata and gate results.
+### Gate 20 batch progress: 3 of 7 operations COMPLETE with real outputs (2026-10-04)
+
+Live at runner elapsed 12m13s -- every completed operation has a real non-empty MP4 plus a written
+`operation-record.json`:
+
+| operation | output bytes | record |
+| --- | ---: | --- |
+| ltx25-outpaint | 708,152 | yes |
+| ltx25-repaint | 480,785 | yes |
+| ltx25-recast | 378,754 | yes |
+| ltx25-upscale | (rendering, GPU 2789 MiB / 100%) | pending |
+
+First per-cell outputs in the entire programme's history for these cells. Remaining: ltx25-upscale plus
+ltx23-outpaint, ltx23-recast, ltx23-upscale. Run root:
+`/home/straughter/wd-28ac-run/phase-b-gate20-corrected-retry/`.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
