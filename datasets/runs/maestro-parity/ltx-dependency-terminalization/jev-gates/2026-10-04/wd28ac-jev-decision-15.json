@@ -1,0 +1,56 @@
+{
+  "answers": {
+    "clarification_needed": {
+      "noul": 0.36,
+      "type": "noul"
+    },
+    "constraint_violation_risk": {
+      "noul": 0.34,
+      "type": "noul"
+    },
+    "missing_evidence_risk": {
+      "confidence": 0.82,
+      "legend": {
+        "0": "No important evidence is missing.",
+        "1": "Minor uncertainty remains; the action is reversible if wrong.",
+        "2": "Meaningful uncertainty could change the approach.",
+        "3": "A critical fact is missing.",
+        "4": "Proceeding without more evidence would be reckless."
+      },
+      "probabilities": {
+        "0": 0.04,
+        "1": 0.81,
+        "2": 0.13,
+        "3": 0.02,
+        "4": 0.0
+      },
+      "score": 1.13,
+      "type": "score"
+    },
+    "next_action": {
+      "choice": "continue",
+      "confidence": 0.8,
+      "probabilities": {
+        "ask_user": 0.02,
+        "continue": 0.83,
+        "gather_evidence": 0.03,
+        "narrow_action": 0.07,
+        "stop": 0.05
+      },
+      "type": "choice"
+    },
+    "still_on_task": {
+      "noul": 0.91,
+      "type": "noul"
+    }
+  },
+  "decision": "continue",
+  "mode": "live",
+  "policy_reason": "the proposed action passed the configured gate",
+  "schema_version": 1,
+  "snapshot_sha256": "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89",
+  "trace_sha256": "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd",
+  "triggered_rules": [
+    "no_veto_triggered"
+  ]
+}

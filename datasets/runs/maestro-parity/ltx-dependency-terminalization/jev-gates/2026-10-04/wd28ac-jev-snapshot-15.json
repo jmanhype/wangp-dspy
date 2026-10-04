@@ -1,0 +1,50 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Do not contact host 3090 or start QC/judge during the local authorization-binding step.",
+    "Do not admit a queue job, render, download, install, copy, move, delete, overwrite, or substitute any artifact.",
+    "Do not alter model finals, references, execution trees, prior boundary evidence, protected engine files, or capability rows.",
+    "Bind only the exact seven corrected WD-28ac operations and the exact repaired runtime identity.",
+    "Require exact-head CI after the authorization binding; a later fresh host preflight remains mandatory before execution.",
+    "Do not expose credentials or incur provider spend."
+  ],
+  "current_step": "Decide whether the repaired CI-green runtime contract may be bound to a new local corrected-host authorization record before any host execution.",
+  "pending_action": {
+    "kind": "bind_wd_28ac_corrected_host_authorization_locally",
+    "target": "WD-28ac Gate 15: record the live host authorization in operator-authorization.json, regenerate corrected-retry-plan mode/host/preflight flags from fresh host facts, add focused tests, run local gates, commit/push PR 217, and wait exact-head CI without host contact",
+    "summary": "Convert the repaired local-only plan to a CI-validated corrected_native_operations_authorized plan while preserving the requirement for another immediate pre-execution host check.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Gate 14 repair commit 7d6f814f71c481a7f41f105d957696af04051ab2 is pushed, PR 217 is mergeable, and exact-head CI run 37166261480 succeeded.",
+    "Independent focused test passed 7/7; pvg verify passed; backlog lint scanned 156 issues with 0 errors and 0 review findings; release verification is ready=true tag_created=false; worktree is clean and synchronized.",
+    "The worker-recorded undeselected full suite at the repaired head had 2260 tests, 0 errors, 0 failures, and one allowed pre-existing 3090-gated skip.",
+    "Fresh read-only host preflight artifact SHA-256 26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3 was captured at 2026-10-04T01:17:56.140175Z.",
+    "Preflight proved host/user identity straughter-Z690-Steel-Legend/straughter, root free 23356219392 bytes, GPU completely idle with 23974 MiB free and zero compute apps, and judge endpoints currently down.",
+    "Both execution-tree commits match exactly; all five model finals and all seven accepted references match exact size/SHA-256; no WD-28ac partial remains.",
+    "The corrected isolated mmgp runtime imports 3.7.14 from the exact path, has 12 files / 291005 bytes, system mmgp remains absent, and canonical SHA-256 d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b now exactly matches the repaired contract.",
+    "The corrected run root /home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry and its queue database are absent; prior Gate 5 evidence root remains present and immutable.",
+    "The repaired corrected-retry plan SHA-256 is be7756d1882c49ff84a97357962c97994913f413c4a8573d1b4e90440d127be4 and isolated runtime contract SHA-256 is c5a3cca8ffcbf02f595908d4edf7bf0786e7205a891f07320bccb1d1191f70b7.",
+    "The current plan still deliberately has mode corrected_native_runtime_integration_local_only, host_execution_authorized=false, and preflight_ready=false; the runner correctly refuses host execution until a separate gate binding is committed and CI-validated."
+  ],
+  "uncertainties": [
+    "Host state can drift during local binding and CI, so execution still requires a fresh immediate preflight and queue-collision check.",
+    "The governed judge is currently down and may fail to start later; that must become a typed boundary rather than prompting an unauthorized process action.",
+    "Native operations may still encounter genuine runtime boundaries after mmgp imports."
+  ],
+  "budget": {
+    "elapsed_minutes": 1330,
+    "remaining_minutes": 10
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "bind_corrected_host_authorization_after_gate14_repair",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "7d6f814f71c481a7f41f105d957696af04051ab2",
+    "prior_gate_snapshot": "acdd57ac5269ba3d96c35b5574286c763c3eaaa943fc0abfbbd97b91579488ba",
+    "fresh_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "corrected_plan_sha256": "be7756d1882c49ff84a97357962c97994913f413c4a8573d1b4e90440d127be4",
+    "runtime_contract_sha256": "c5a3cca8ffcbf02f595908d4edf7bf0786e7205a891f07320bccb1d1191f70b7"
+  }
+}

@@ -247,6 +247,7 @@ def test_recorded_operator_authorization_is_exact_and_linked_to_manifest() -> No
         "operator_wheel_layout_authorization",
         "operator_corrected_native_retry_authorization",
         "jev_local_native_runtime_integration_authorization",
+        "jev_corrected_native_retry_host_authorization",
         "assets",
         "operator_approval",
         "authorized_scope",

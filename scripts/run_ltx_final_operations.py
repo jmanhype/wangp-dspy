@@ -40,6 +40,81 @@ PRIOR_NATIVE_RUN_ROOT = "/home/straughter/wd-28ac-run/phase-b-gate5"
 CORRECTED_NATIVE_RUN_ROOT = (
     "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry"
 )
+GATE15_SNAPSHOT_SHA256 = (
+    "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
+)
+GATE15_TRACE_SHA256 = (
+    "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd"
+)
+GATE15_PREFLIGHT_SHA256 = (
+    "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3"
+)
+EXPECTED_GATE15_HOST_AUTHORIZATION = {
+    "gate": 15,
+    "mode": "live",
+    "model": "jev-latest",
+    "decision": "CONTINUE",
+    "confidence": 0.80,
+    "snapshot_sha256": GATE15_SNAPSHOT_SHA256,
+    "trace_sha256": GATE15_TRACE_SHA256,
+    "scope": "corrected_native_operations_after_immediate_preflight",
+    "fresh_preflight_path": (
+        "jev-gates/2026-10-04/gate-15-fresh-host-preflight.json"
+    ),
+    "fresh_preflight_sha256": GATE15_PREFLIGHT_SHA256,
+    "fresh_host_recheck": True,
+    "separate_fresh_host_gate_required": False,
+    "immediate_preflight_before_execution_required": True,
+    "local_binding_host_contact_authorized": False,
+    "host_execution_authorized": True,
+    "operations_authorized": True,
+    "operations": [
+        {"row": "LTX-2.5", "operation": "outpaint"},
+        {"row": "LTX-2.5", "operation": "repaint"},
+        {"row": "LTX-2.5", "operation": "recast"},
+        {"row": "LTX-2.5", "operation": "upscale"},
+        {"row": "LTX-2.3", "operation": "outpaint"},
+        {"row": "LTX-2.3", "operation": "recast"},
+        {"row": "LTX-2.3", "operation": "upscale"},
+    ],
+    "matrix_cells_authorized": 7,
+    "max_attempts_per_operation": 1,
+    "retry": "never",
+    "stop_on_first_terminal_failure": True,
+    "judge_start_policy": "governed_judge_ctl_only_if_required",
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "unauthorized_judge_control_authorized": False,
+    "download_authorized": False,
+    "network_or_model_get_authorized": False,
+    "dependency_install_authorized": False,
+    "deletion_authorized": False,
+    "substitution_authorized": False,
+    "model_or_reference_mutation_authorized": False,
+    "runtime_mutation_authorized": False,
+    "protected_file_change_authorized": False,
+    "threshold_change_authorized": False,
+    "protected_engine_change_authorized": False,
+    "unrelated_operations_authorized": False,
+    "wd_bw0h_h3_retry_authorized": False,
+    "provider_spend_authorized": False,
+    "training_authorized": False,
+    "capability_or_matrix_claim_authorized": False,
+}
+EXPECTED_GATE15_PLAN_BINDING = {
+    "gate": 15,
+    "snapshot_sha256": GATE15_SNAPSHOT_SHA256,
+    "trace_sha256": GATE15_TRACE_SHA256,
+    "fresh_preflight_sha256": GATE15_PREFLIGHT_SHA256,
+}
+EXPECTED_GATE15_EXECUTION_PRECONDITIONS = {
+    "gate15_preflight_sha256": GATE15_PREFLIGHT_SHA256,
+    "fresh_host_recheck": True,
+    "separate_fresh_host_gate_required": False,
+    "immediate_preflight_before_execution_required": True,
+    "queue_collision_check_required": True,
+    "judge_start_policy": "governed_judge_ctl_only_if_required",
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+}
 
 
 class FinalOperationError(ValueError):
@@ -154,6 +229,31 @@ def validate_contract(
             json.dumps(corrected, sort_keys=True),
             "Bind the operator corrected native-retry record.",
         )
+    if plan.get("mode") == "corrected_native_operations_authorized":
+        host_gate = authorization.get(
+            "jev_corrected_native_retry_host_authorization", {}
+        )
+        if host_gate != EXPECTED_GATE15_HOST_AUTHORIZATION:
+            raise FinalOperationError(
+                "HOST_GATE_AUTHORIZATION_INVALID",
+                json.dumps(host_gate, sort_keys=True)[:1000],
+                "Bind the exact live Gate 15 corrected-host authorization.",
+            )
+        if plan.get("host_authorization_binding") != EXPECTED_GATE15_PLAN_BINDING:
+            raise FinalOperationError(
+                "HOST_GATE_PLAN_BINDING_INVALID",
+                json.dumps(plan.get("host_authorization_binding"), sort_keys=True),
+                "Bind the plan to the exact Gate 15 hashes.",
+            )
+        if (
+            plan.get("execution_preconditions")
+            != EXPECTED_GATE15_EXECUTION_PRECONDITIONS
+        ):
+            raise FinalOperationError(
+                "EXECUTION_PRECONDITIONS_INVALID",
+                json.dumps(plan.get("execution_preconditions"), sort_keys=True),
+                "Require an immediate fresh preflight before corrected execution.",
+            )
     runtime = plan.get("isolated_runtime")
     payload = runtime.get("expected_payload", {}) if isinstance(runtime, dict) else {}
     inventory = payload.get("inventory")

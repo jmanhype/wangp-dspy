@@ -1,5 +1,20 @@
 {
-  "host_execution_authorized": false,
+  "execution_preconditions": {
+    "fresh_host_recheck": true,
+    "gate15_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "immediate_preflight_before_execution_required": true,
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "judge_start_policy": "governed_judge_ctl_only_if_required",
+    "queue_collision_check_required": true,
+    "separate_fresh_host_gate_required": false
+  },
+  "host_authorization_binding": {
+    "fresh_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "gate": 15,
+    "snapshot_sha256": "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89",
+    "trace_sha256": "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd"
+  },
+  "host_execution_authorized": true,
   "isolated_runtime": {
     "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
     "expected_import": {
@@ -158,7 +173,7 @@
     "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-contract/v1",
     "system_mmgp_present": false
   },
-  "mode": "corrected_native_runtime_integration_local_only",
+  "mode": "corrected_native_operations_authorized",
   "native_python": "/usr/bin/python3",
   "operations": [
     {
@@ -866,9 +881,9 @@
       "passed": true
     },
     {
-      "name": "qc_healthy",
-      "observed": "qc_contacted=None",
-      "passed": false
+      "name": "judge_start_governed_if_required",
+      "observed": "policy=governed_judge_ctl_only_if_required,path=/home/straughter/marathon/bin/judge_ctl.sh,unauthorized_control=false",
+      "passed": true
     },
     {
       "name": "disk_headroom",
@@ -961,6 +976,16 @@
       "passed": true
     },
     {
+      "name": "authorization_gate15_record",
+      "observed": "{\"fresh_preflight_sha256\": \"26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3\", \"gate\": 15, \"snapshot_sha256\": \"2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89\", \"trace_sha256\": \"60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd\"}",
+      "passed": true
+    },
+    {
+      "name": "immediate_preflight_before_execution",
+      "observed": "required=true;gate15_fresh_host_recheck=true",
+      "passed": true
+    },
+    {
       "name": "isolated_mmgp_runtime_path",
       "observed": "{\"directory\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14\", \"exists\": true, \"regular_directory\": true, \"symlink\": false}",
       "passed": true
@@ -982,11 +1007,11 @@
     },
     {
       "name": "corrected_host_retry_gate",
-      "observed": "fresh_host_recheck=False,separate_fresh_host_gate_required=True",
-      "passed": false
+      "observed": "fresh_host_recheck=True,separate_fresh_host_gate_required=False",
+      "passed": true
     }
   ],
-  "preflight_ready": false,
+  "preflight_ready": true,
   "prior_boundary": {
     "overwritable": false,
     "path": "final-native-operations/terminal-boundary/boundary.json",

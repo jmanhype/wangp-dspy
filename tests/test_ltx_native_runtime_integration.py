@@ -20,6 +20,11 @@ GATE_DIR = RUN_DIR / "jev-gates/2026-10-03"
 GATE14_PREFLIGHT_PATH = (
     RUN_DIR / "jev-gates/2026-10-04/gate-14-fresh-host-preflight.json"
 )
+GATE15_DIR = RUN_DIR / "jev-gates/2026-10-04"
+GATE15_PREFLIGHT_PATH = GATE15_DIR / "gate-15-fresh-host-preflight.json"
+GATE15_STATE_PATH = (
+    RUN_DIR / "phase-b-preparation/isolated-runtime-state-2026-10-04-gate15.json"
+)
 AUTH_PATH = RUN_DIR / "operator-authorization.json"
 CONTRACT_PATH = RUN_DIR / "phase-b-preparation/isolated-runtime-contract.json"
 STATE_PATH = RUN_DIR / "phase-b-preparation/isolated-runtime-state-2026-10-03.json"
@@ -58,6 +63,114 @@ def _corrected_plan(tmp_path: Path) -> dict[str, Any]:
     ], text=True, capture_output=True, timeout=60)
     assert result.returncode == 0, result.stdout + result.stderr
     return _read(output)
+
+
+def test_gate15_host_authorization_and_fresh_state_are_exact() -> None:
+    decision = _read(GATE15_DIR / "wd28ac-jev-decision-15.json")
+    snapshot = _read(GATE15_DIR / "wd28ac-jev-snapshot-15.json")
+    authorization = _read(AUTH_PATH)
+    plan = _read(CORRECTED_PLAN_PATH)
+    state = _read(GATE15_STATE_PATH)
+    preflight = _read(GATE15_PREFLIGHT_PATH)
+
+    assert decision["decision"].upper() == "CONTINUE"
+    assert decision["snapshot_sha256"] == (
+        "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
+    )
+    assert decision["trace_sha256"] == (
+        "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd"
+    )
+    assert snapshot["metadata"]["fresh_preflight_sha256"] == (
+        "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3"
+    )
+
+    gate = authorization["jev_corrected_native_retry_host_authorization"]
+    assert gate == runner.EXPECTED_GATE15_HOST_AUTHORIZATION
+    assert gate["gate"] == 15
+    assert gate["snapshot_sha256"] == decision["snapshot_sha256"]
+    assert gate["trace_sha256"] == decision["trace_sha256"]
+    assert gate["fresh_preflight_sha256"] == (
+        snapshot["metadata"]["fresh_preflight_sha256"]
+    )
+    assert [(item["row"], item["operation"]) for item in gate["operations"]] == [
+        ("LTX-2.5", "outpaint"),
+        ("LTX-2.5", "repaint"),
+        ("LTX-2.5", "recast"),
+        ("LTX-2.5", "upscale"),
+        ("LTX-2.3", "outpaint"),
+        ("LTX-2.3", "recast"),
+        ("LTX-2.3", "upscale"),
+    ]
+    assert gate["max_attempts_per_operation"] == 1
+    assert gate["stop_on_first_terminal_failure"] is True
+    assert gate["judge_start_policy"] == "governed_judge_ctl_only_if_required"
+    assert gate["judge_control_path"] == (
+        "/home/straughter/marathon/bin/judge_ctl.sh"
+    )
+
+    assert state["evidence_source"]["path"] == (
+        "jev-gates/2026-10-04/gate-15-fresh-host-preflight.json"
+    )
+    assert state["evidence_source"]["sha256"] == (
+        "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3"
+    )
+    assert state["fresh_host_recheck"] is True
+    assert state["separate_fresh_host_gate_required"] is False
+    for key in (
+        "directory", "exists", "regular_directory", "symlink", "payload",
+        "system_mmgp_present",
+    ):
+        assert state[key] == preflight["isolated_runtime"][key]
+    fresh_import = preflight["isolated_runtime"]["isolated_import"]
+    assert state["isolated_import"] == {
+        **fresh_import,
+        "python": fresh_import["argv"][0],
+        **fresh_import["payload"],
+    }
+    assert runner.validate_runtime_state(state)["status"] == "passed"
+
+    assert plan["mode"] == "corrected_native_operations_authorized"
+    assert plan["host_execution_authorized"] is True
+    assert plan["preflight_ready"] is True
+    assert plan["host_authorization_binding"] == {
+        "gate": 15,
+        "snapshot_sha256": decision["snapshot_sha256"],
+        "trace_sha256": decision["trace_sha256"],
+        "fresh_preflight_sha256": snapshot["metadata"]["fresh_preflight_sha256"],
+    }
+    runner.validate_contract(plan, authorization)
+
+    for key, bad in (
+        ("gate", 14),
+        ("snapshot_sha256", "0" * 64),
+        ("trace_sha256", "0" * 64),
+        ("fresh_preflight_sha256", "0" * 64),
+        ("host_execution_authorized", False),
+        ("max_attempts_per_operation", 2),
+        ("stop_on_first_terminal_failure", False),
+    ):
+        tampered = json.loads(json.dumps(authorization))
+        tampered["jev_corrected_native_retry_host_authorization"][key] = bad
+        with pytest.raises(runner.FinalOperationError) as raised:
+            runner.validate_contract(plan, tampered)
+        assert raised.value.code == "HOST_GATE_AUTHORIZATION_INVALID"
+
+    missing = json.loads(json.dumps(authorization))
+    del missing["jev_corrected_native_retry_host_authorization"]
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.validate_contract(plan, missing)
+    assert raised.value.code == "HOST_GATE_AUTHORIZATION_INVALID"
+
+    for path in (
+        GATE15_DIR / "wd28ac-jev-snapshot-15.json",
+        GATE15_DIR / "wd28ac-jev-decision-15.json",
+        GATE15_DIR / "wd28ac-jev-trace-15.jsonl",
+        GATE15_PREFLIGHT_PATH,
+        GATE15_STATE_PATH,
+        AUTH_PATH,
+    ):
+        for pattern in SECRET_PATTERNS:
+            assert pattern.search(path.read_bytes()) is None, path
 
 
 def test_gate12_and_corrected_native_retry_authorizations_are_exact() -> None:
@@ -104,34 +217,18 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
 
     runner.validate_contract(committed, _read(AUTH_PATH))
     assert committed["schema_version"] == plan["schema_version"]
-    assert committed["mode"] == plan["mode"]
-    assert committed["host_execution_authorized"] == plan["host_execution_authorized"]
+    assert committed["mode"] == "corrected_native_operations_authorized"
+    assert committed["host_execution_authorized"] is True
+    assert committed["preflight_ready"] is True
     assert committed["runtime_identity_ready"] == plan["runtime_identity_ready"]
-    assert committed["preflight_ready"] == plan["preflight_ready"]
     assert committed["isolated_runtime"] == plan["isolated_runtime"]
     assert committed["prior_boundary"] == plan["prior_boundary"]
     assert committed["scheduling"] == plan["scheduling"]
-    assert [
-        (item["name"], item["passed"]) for item in committed["preflight_checks"]
-    ] == [
-        (item["name"], item["passed"]) for item in plan["preflight_checks"]
-    ]
+    assert all(item["passed"] for item in committed["preflight_checks"])
     for committed_operation, generated_operation in zip(
         committed["operations"], plan["operations"]
     ):
-        assert committed_operation["operation_id"] == generated_operation["operation_id"]
-        assert (committed_operation["row"], committed_operation["operation"]) == (
-            generated_operation["row"], generated_operation["operation"]
-        )
-        assert committed_operation["asset_id"] == generated_operation["asset_id"]
-        assert set(committed_operation["references"]) == set(
-            generated_operation["references"]
-        )
-        assert committed_operation["native"] == generated_operation["native"]
-        assert committed_operation["queue"] == generated_operation["queue"]
-        assert committed_operation["attempt_policy"] == (
-            generated_operation["attempt_policy"]
-        )
+        assert committed_operation == generated_operation
 
     assert plan["schema_version"] == (
         "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1"
@@ -297,15 +394,9 @@ def test_corrected_retry_cannot_run_or_touch_prior_boundary_before_gate13(
 def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    plan = _corrected_plan(tmp_path)
-    plan["mode"] = "corrected_native_operations_authorized"
-    plan["host_execution_authorized"] = True
-    plan["preflight_ready"] = True
+    plan = _read(CORRECTED_PLAN_PATH)
     authorization = _read(AUTH_PATH)
-    authorization["jev_corrected_native_retry_host_authorization"] = {
-        "gate": 13,
-        "host_execution_authorized": True,
-    }
+    runtime_state = _read(GATE15_STATE_PATH)
     monkeypatch.setattr(
         runner, "CORRECTED_NATIVE_RUN_ROOT", str(tmp_path / "native")
     )
@@ -342,7 +433,7 @@ def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
     )
     result = runner.run_batch(
         plan, authorization, ROOT, tmp_path / "queue.db",
-        runtime_state=_runtime_state(fresh=True), executor=executor,
+        runtime_state=runtime_state, executor=executor,
     )
 
     assert result["status"] == "failed_closed"
