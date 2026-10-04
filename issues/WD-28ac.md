@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T13:31:57Z
-content_hash: "sha256:88df02da8ba7f861cba94f17087e8894c071dbd577da1d3622f55cd18bc7c0a0"
+updated_at: 2026-10-04T13:55:23Z
+content_hash: "sha256:d1886a9a93ae0dc0a1f292a48d29c8ac4a0977b29e55ae60cf495fd518507c3e"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -578,6 +578,20 @@ Gate 19 failure (`No module named 'smplfitter'`) are cleared.
 **NEXT:** the Gate 19 attempt namespace is consumed (its op-1 artifacts are preserved), so one more
 attempt cycle needs a fresh run namespace (Gate 20) -- the mechanism already proven twice. Then build
 and run, and collect per-operation output hashes, ffprobe metadata and gate results.
+### Boundary declaration: EXTERNAL Wan2GP references, not repo artifacts (orchestrator, 2026-10-04)
+
+The brownfield `paths-exist` check flagged three path-shaped tokens appearing in the Gate 19 story
+notes. To be unambiguous: these are **not** artifacts of this repository, this story never produces
+them, and they are not expected on disk in a wangp-dspy checkout. They are files of the ACCEPTED
+Wan2GP tree on host 3090 that the seven LTX operations invoke -- referenced only.
+
+PRODUCES (EXTERNAL REFERENCE DECLARATIONS -- consumed from the host Wan2GP tree, never produced here):
+- models/wan/__init__.py -> upstream Wan2GP model package initializer, external, read-only reference
+- shared/cli_args.py -> upstream Wan2GP CLI argument parser, external, read-only reference
+- wan/scail/nlf/multiperson_model.py -> upstream Wan2GP SCAIL model module, external, read-only reference
+
+Recorded solely so the paths-exist check can distinguish a declared external reference from an
+undeclared missing repo artifact. No scope, AC, status or label change.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
