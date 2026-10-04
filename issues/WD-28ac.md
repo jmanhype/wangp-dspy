@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T15:22:46Z
-content_hash: "sha256:c930045052158f8a12bd720a42acaa42a312693c96640f2acd349ec0933cafeb"
+updated_at: 2026-10-04T15:23:09Z
+content_hash: "sha256:7197b0185a812c6997a206d8bec75e9bc3ff185b449c594a08a6f5af2717f9aa"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -697,6 +697,22 @@ Also found (not yet fixed, worth noting): the template `WD-osfm/native-settings/
 external artifact as well as the missing LoRA.
 
 No governed run was launched for these smoke tests; they used scratch output dirs.
+### Measured size of the one missing asset (2026-10-04)
+
+Queried the HuggingFace tree API for the accepted LTX-2 repo (`DeepBeepMeep/LTX-2`):
+
+| artifact | size |
+| --- | ---: |
+| **ltx-2.3-22b-distilled-lora-384-1.1.safetensors** (the exact file `ltx23-upscale` requests) | **7,605.5 MB (~7.6 GB)** |
+| ltx-2.3-22b-distilled-lora-384.safetensors | 7,605.5 MB |
+| ltx-2-19b-distilled-lora-384.safetensors | 7,674.6 MB |
+
+LFS OID for the requested file: `f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a`
+
+So the last outstanding cell requires a **7.6 GB** download -- far above any previously agreed threshold
+and roughly a third of the host's remaining 21 GB of free space. This is a genuine operator decision:
+7.6 GB for ONE cell (`ltx23-upscale`), versus terminating that cell as a documented boundary and
+keeping the other six.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
