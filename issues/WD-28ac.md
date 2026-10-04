@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T00:21:34Z
-content_hash: "sha256:866e4a2999514724ebaa72ef865e1ee2d4db4577c3a419d95465dcbde62f873d"
+updated_at: 2026-10-04T00:30:51Z
+content_hash: "sha256:f8e2d779062ac683561ecac393ba1616ef24edef61a528cb5e8f441840216b31"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -701,3 +701,6 @@ OPERATOR CORRECTED NATIVE-RETRY AUTHORIZATION at 2026-10-03T23:27:11Z. Verbatim 
 
 ### 2026-10-03T23:27:30Z speed
 LIVE JEV GATE #12 at 2026-10-03T23:35Z: mode=live, model=jev-latest, snapshot sha256 09edc9f0a470777a3871dcf8336e5862b219b92c670e2bf7291f2e65d74b8ddc, decision=CONTINUE, confidence=0.85, constraint risk=0.37, missing evidence score=1.45, triggered_rules=no_veto_triggered. Scope is LOCAL NATIVE-RUNTIME INTEGRATION ONLY: bind the proven isolated mmgp 3.7.14 path into final-operation preflight/environment, test and CI it. No host contact, QC, queue admission, native retry, render, runtime mutation, download, dependency install, deletion, model/reference mutation, or protected-file change.
+
+### 2026-10-04T00:30:51Z speed
+LIVE JEV GATE #14 at 2026-10-04T00:31Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.77, constraint risk=0.26, missing evidence score=1.33, snapshot sha256 acdd57ac5269ba3d96c35b5574286c763c3eaaa943fc0abfbbd97b91579488ba, trace sha256 ed0c4df53193208ca6a9d4eb7f1dd85dc31a75eed43966472d8a5440bfd177af. Scope is LOCAL RUNTIME CONTRACT REPAIR ONLY. Fresh read-only preflight artifact 5801239da7df6c628d1e9bd6a2621185cb7159b3b494ef7bba1fb1413f7999c7 proved all five models and seven references exact, execution trees exact, isolated mmgp import exact, but exposed a one-character committed top_level.txt hash transcription defect; derived live payload canonical sha256 d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b versus erroneous pin 25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277. GPU is occupied by unrelated llama-server PID 3022552 and judge endpoints are down; no process was changed. No host mutation, native retry, queue, render, download, install, deletion, model/reference mutation, or matrix claim is authorized.
