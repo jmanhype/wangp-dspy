@@ -48,7 +48,7 @@ CORRECTED_NATIVE_PYTHONPATH = ":".join((
     COMFYUI_SITE_PACKAGES,
 ))
 CORRECTED_RETRY_RUN_ROOT = (
-    "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry"
+    "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry"
 )
 CORRECTED_NATIVE_ENVIRONMENT = {
     "PYTHONUNBUFFERED": "1",
@@ -512,12 +512,12 @@ def build_plan(
             "queue": {
                 "queue_id": f"wd-28ac-phase-b-{item['operation_id']}",
                 "job_id": (
-                    f"wd-28ac-{item['operation_id']}-corrected-retry-attempt-4"
+                    f"wd-28ac-{item['operation_id']}-corrected-retry-attempt-5"
                     if corrected_retry
                     else f"wd-28ac-{item['operation_id']}-attempt-1"
                 ),
                 "retry_id": (
-                    "corrected-retry-attempt-4" if corrected_retry else "attempt-1"
+                    "corrected-retry-attempt-5" if corrected_retry else "attempt-1"
                 ),
                 "admission_state": "planned_not_admitted",
             },

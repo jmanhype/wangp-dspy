@@ -229,13 +229,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-outpaint/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-outpaint/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-outpaint/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-outpaint/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -245,8 +245,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-outpaint/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-outpaint/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-outpaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-outpaint/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
         "template_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
         "timeout_seconds": 5400
@@ -255,9 +255,9 @@
       "operation_id": "ltx25-outpaint",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx25-outpaint-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx25-outpaint-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx25-outpaint",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "m7xw_create": {
@@ -326,13 +326,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-repaint/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-repaint/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-repaint/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-repaint/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -342,8 +342,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-repaint/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-repaint/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-repaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-repaint/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/repaint.json",
         "template_sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
         "timeout_seconds": 5400
@@ -352,9 +352,9 @@
       "operation_id": "ltx25-repaint",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx25-repaint-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx25-repaint-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx25-repaint",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "m7xw_create": {
@@ -430,13 +430,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-recast/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-recast/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -446,8 +446,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-recast/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-recast/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/recast.json",
         "template_sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
         "timeout_seconds": 5400
@@ -456,9 +456,9 @@
       "operation_id": "ltx25-recast",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx25-recast-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx25-recast-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx25-recast",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "m7xw_first_frame": {
@@ -532,13 +532,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-upscale/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-upscale/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -548,8 +548,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-upscale/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx25-upscale/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/upscale.json",
         "template_sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
         "timeout_seconds": 5400
@@ -558,9 +558,9 @@
       "operation_id": "ltx25-upscale",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx25-upscale-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx25-upscale-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx25-upscale",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "m7xw_create": {
@@ -629,13 +629,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-outpaint/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-outpaint/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-outpaint/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-outpaint/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -645,8 +645,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-outpaint/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-outpaint/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-outpaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-outpaint/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json",
         "template_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
         "timeout_seconds": 5400
@@ -655,9 +655,9 @@
       "operation_id": "ltx23-outpaint",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx23-outpaint-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx23-outpaint-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx23-outpaint",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "osfm_control": {
@@ -726,13 +726,13 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-recast/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-recast/settings.json",
           "--profile",
           "3",
           "--attention",
           "sdpa",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-recast/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-recast/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -742,8 +742,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-recast/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-recast/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-recast/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-recast/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/recast-probe.json",
         "template_sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
         "timeout_seconds": 5400
@@ -752,9 +752,9 @@
       "operation_id": "ltx23-recast",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx23-recast-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx23-recast-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx23-recast",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "osfm_alternate_reference": {
@@ -828,9 +828,9 @@
           "/usr/bin/python3",
           "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
           "--process",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-upscale/settings.json",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-upscale/settings.json",
           "--output-dir",
-          "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-upscale/native-output"
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-upscale/native-output"
         ],
         "environment": {
           "HF_HUB_OFFLINE": "1",
@@ -840,8 +840,8 @@
           "PYTORCH_ALLOC_CONF": "expandable_segments:True",
           "TRANSFORMERS_OFFLINE": "1"
         },
-        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-upscale/native.log",
-        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate21-corrected-retry/ltx23-upscale/settings.json",
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-upscale/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx23-upscale/settings.json",
         "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json",
         "template_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
         "timeout_seconds": 5400
@@ -850,9 +850,9 @@
       "operation_id": "ltx23-upscale",
       "queue": {
         "admission_state": "planned_not_admitted",
-        "job_id": "wd-28ac-ltx23-upscale-corrected-retry-attempt-4",
+        "job_id": "wd-28ac-ltx23-upscale-corrected-retry-attempt-5",
         "queue_id": "wd-28ac-phase-b-ltx23-upscale",
-        "retry_id": "corrected-retry-attempt-4"
+        "retry_id": "corrected-retry-attempt-5"
       },
       "references": {
         "osfm_create": {
