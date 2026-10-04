@@ -65,6 +65,18 @@ def _corrected_plan(tmp_path: Path) -> dict[str, Any]:
     return _read(output)
 
 
+def _portable_operation(operation: dict[str, Any]) -> dict[str, Any]:
+    """Remove only the checkout-dependent absolute reference prefix."""
+    portable = json.loads(json.dumps(operation))
+    for reference in portable["references"].values():
+        reference["resolved_path"] = str(
+            Path("datasets/runs/maestro-parity")
+            / reference["story"]
+            / reference["path"]
+        )
+    return portable
+
+
 def test_gate15_host_authorization_and_fresh_state_are_exact() -> None:
     decision = _read(GATE15_DIR / "wd28ac-jev-decision-15.json")
     snapshot = _read(GATE15_DIR / "wd28ac-jev-snapshot-15.json")
@@ -228,7 +240,11 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
     for committed_operation, generated_operation in zip(
         committed["operations"], plan["operations"]
     ):
-        assert committed_operation == generated_operation
+        assert _portable_operation(committed_operation) == _portable_operation(
+            generated_operation
+        )
+        for reference in committed_operation["references"].values():
+            assert Path(reference["resolved_path"]).is_file()
 
     assert plan["schema_version"] == (
         "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1"
