@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:12:01Z
-content_hash: "sha256:afd546ccd6c6f7f0c1ea0ae058fd4ed39246fc2ad8ec43d508cf80a40569f561"
+updated_at: 2026-10-04T06:12:53Z
+content_hash: "sha256:1a714305818f7fe108bbdbb01c890f7f55f2e89b9750587ca8a62eaa3836be5b"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -426,6 +426,23 @@ new run namespace `/home/straughter/wd-28ac-run/phase-b-gate19-corrected-retry`,
 suffix `corrected-retry-attempt-2`, one attempt per operation again, same seven operations, same
 order, same proven environment `rembg-2.0.65:mmgp-3.7.14:ComfyUI/site-packages`, stop on first
 terminal failure.
+### Gate 19 host deployment VERIFIED RUNNABLE (orchestrator, 2026-10-04)
+
+- Deployed runner sha256 prefix `ee7626a735b2576a` == the local story worktree copy -> the deployment
+  is byte-faithful.
+- Deployed `corrected-retry-plan.json` op0 PYTHONPATH ==
+  `/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages`
+- **Host dry run (no `--execute`, no host action):**
+  `PYTHONPATH=/home/straughter/wd-28ac-gate19-20261004 /usr/bin/python3 scripts/run_ltx_final_operations.py --plan corrected-retry-plan.json --authorization operator-authorization.json --queue-db /home/straughter/wd-28ac-run/phase-b-gate19-corrected-retry/jobs.db`
+  => `{"native_attempts": 0, "operation_count": 7, "queue_admissions": 0, "status": "dry_run_validated"}`, exit 0
+- **Invocation detail (required):** the deployment root must be on `PYTHONPATH`; the runner imports
+  `services.jobs.queue`, so running `scripts/run_ltx_final_operations.py` alone fails with
+  `ModuleNotFoundError: No module named 'services'`.
+- No host action occurred: zero queue admissions, zero native attempts, no queue DB created.
+
+**Remaining blocker unchanged:** the corrected-retry namespace/attempt is consumed by Gate 15, so
+execution requires an operator-authorized Gate 19 attempt-2 cycle (new namespace
+`phase-b-gate19-corrected-retry`, suffix `corrected-retry-attempt-2`, fresh one-attempt budget).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
