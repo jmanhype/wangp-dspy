@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T14:19:16Z
-content_hash: "sha256:6dab38251c91eaa6b67ddc22c6c17d661bffe64d73f9a53ed578fae7d8529b80"
+updated_at: 2026-10-04T15:22:46Z
+content_hash: "sha256:c930045052158f8a12bd720a42acaa42a312693c96640f2acd349ec0933cafeb"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -671,6 +671,32 @@ never attempted and their paths in the Gate 20 run root are still FRESH (no dire
 re-renders the four ltx25 cells but yields one coherent 7/7 single-namespace bundle; (b) add resume
 support to the runner so a partially-complete batch can continue; (c) archive the Gate 20 attempt and
 reuse the namespace. Recommendation: (a) -- cleanest evidence, ~15 min of GPU.
+### ltx23 path diagnosed: SIX of seven operations now renderable; one missing LoRA (2026-10-04)
+
+Smoke-tested the ltx23 native commands directly from the WD-osfm tree after staging the four LTX LoRAs
+as symlinks (`WD-osfm/loras/ltx2` was EMPTY; `WD-m7xw/loras/ltx2` held them):
+
+- **ltx23-outpaint: RENDERS** -- 785,047 B
+  (`..._seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4`),
+  `Queue completed: 1/1 tasks in 1m 27s`
+- **ltx23-recast: RENDERS** -- 997,752 B
+  (`..._seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4`)
+- **ltx23-upscale: FAILS** -- `HF_HUB_OFFLINE` blocks
+  `ltx-2.3-22b-distilled-lora-384-1.1.safetensors`, which **does not exist anywhere on the host**
+  (bounded `find`). Its declared input video
+  `/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4` **DOES exist** (984,165 B), and
+  `spatial_upsampling` is set to `ltx232`.
+
+**Net state:** with the LoRA staging applied, **6 of the 7 operations are renderable** (the four ltx25
+ops plus ltx23-outpaint and ltx23-recast). Only **ltx23-upscale** remains, and it needs exactly ONE
+additional asset -- `ltx-2.3-22b-distilled-lora-384-1.1.safetensors` -- which is NOT among the five
+previously authorized assets, so it requires a model-download decision.
+
+Also found (not yet fixed, worth noting): the template `WD-osfm/native-settings/upscale.json` hardcodes
+`video_source` to an absolute path inside the WD-osfm run tree, so that row depends on a pre-existing
+external artifact as well as the missing LoRA.
+
+No governed run was launched for these smoke tests; they used scratch output dirs.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
