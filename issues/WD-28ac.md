@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:07:46Z
-content_hash: "sha256:c28390848087aa85959a8c02c456a652ac58d59c17bb32a1e1ce53697c749786"
+updated_at: 2026-10-04T03:31:18Z
+content_hash: "sha256:67a124dcc3b0349d9677922d13568e01ca351513ae1e769b4712a25fe757574b"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -775,3 +775,6 @@ LIVE JEV GATE #16 at 2026-10-04T03:04Z: mode=live, model=jev-latest, decision=CO
 
 ### 2026-10-04T03:07:46Z speed
 LIVE JEV GATE #17 at 2026-10-04T03:05Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.81, constraint risk=0.22, missing evidence score=2.31, snapshot sha256 4a7fa06351aba6eb5be28333cca8440809fde4711fc9577996c6821c75de29fb, trace sha256 be23b1e8a261d57ff4abe6a3b8229235c4cd0c972f17205a07305860d6186ddd. Authorized READ-ONLY compatibility probe only. Result artifact sha256 bae3d5bc112b98ba944927cab0b9a4c2d3896dfea1086bb869341eafef08b28e: ComfyUI rembg 2.0.69 package is 64 files/227772 bytes canonical 0fcb5ad95f856416d299c9e02b88deb35b5e135643c31704dad19f6415608637; dist-info canonical d9c18a43d3159ea50e6331ea393e272d77953f5d6e71cf85e5e4533e37b704c4. Offline /usr/bin/python3 with PYTHONPATH combining isolated mmgp plus ComfyUI site-packages imported rembg and mmgp, exposed required remove/new_session APIs, and imported accepted WD-m7xw shared.utils.utils successfully; GPU stayed idle. This is compatibility evidence only, NOT authorization: accepted trees pin rembg[gpu]==2.0.65, candidate is unrelated ComfyUI 2.0.69, and current Gate 15 forbids retry, substitution, dependency install/download, and runtime mutation. Boundary/evidence/tests committed at 6954f1c8e71b66604632767d9dd5d2f84c994b92; exact-head CI run 37173146847 started. A distinct operator decision is required before any use of the mismatched existing runtime or any download.
+
+### 2026-10-04T03:31:18Z speed
+BOUNDARY COMMIT AND LIVE JEV GATE #18 at 2026-10-04T03:31Z. Evidence commit 6954f1c8e71b66604632767d9dd5d2f84c994b92 pushed and exact-head CI run 37173146847 succeeded. Gate 18 mode=live, model=jev-latest, selected ask_user confidence 0.51 but choice confidence 0.38, so policy decision=gather_evidence/ask-user, clarification_needed=0.93, snapshot sha256 098f04b0b97619db48bb4cdf777c411df0ca75c4d96dc971eb15375eeab81f58, trace sha256 6c7e9d5e1a235f1564932e265507592d0165e0a4add26da610ba392fd602756a. Operator disposition required: A) one new seven-operation batch using existing in-place ComfyUI rembg 2.0.69 via read-only PYTHONPATH despite accepted pin 2.0.65; B) separately scoped exact isolated rembg[gpu]==2.0.65 repair/download; or C) operator-approved terminal dependency boundary with no host_run_verified claim. No host action, install, download, retry, or capability claim is authorized until the operator chooses.
