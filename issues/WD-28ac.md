@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:04:47Z
-content_hash: "sha256:99714c36fe85fca2cae511ad9bcf35d9b4cc150c6c54638410cc24735139db0d"
+updated_at: 2026-10-04T03:07:46Z
+content_hash: "sha256:c28390848087aa85959a8c02c456a652ac58d59c17bb32a1e1ce53697c749786"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -772,3 +772,6 @@ GATE 15 CORRECTED NATIVE RETRY STOPPED CLOSED at first operation after one autho
 
 ### 2026-10-04T03:04:47Z speed
 LIVE JEV GATE #16 at 2026-10-04T03:04Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.58, constraint risk=0.11, missing evidence score=2.35, snapshot sha256 ff43d4417ff5d7d58b52f80240dfb1ab5eec91ade2e44ce5c65dc6ef459d3f9c, trace sha256 44c8581eae00f89b985303dc55ded95d7885c13756cc6f4873540644d3e23fb9. Authorized READ-ONLY rembg inventory only. Result artifact sha256 5d16f1281d5430524c42e1a929e54231f80175b6c4efb9bf8720d455a370c9c7: no rembg filename/package in user site-packages, pip cache, uv cache, accepted Wan2GP trees, or expected offload root; no pip-cache rembg line. Both accepted Wan2GP requirements pin rembg[gpu]==2.0.65 on Linux. A bounded import probe found unrelated ComfyUI venv rembg 2.0.69 at /home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg; /usr/bin/python3 and other bounded venvs lack rembg. No mutation, network, install, copy, model access, retry, or version substitution is authorized.
+
+### 2026-10-04T03:07:46Z speed
+LIVE JEV GATE #17 at 2026-10-04T03:05Z: mode=live, model=jev-latest, decision=CONTINUE, confidence=0.81, constraint risk=0.22, missing evidence score=2.31, snapshot sha256 4a7fa06351aba6eb5be28333cca8440809fde4711fc9577996c6821c75de29fb, trace sha256 be23b1e8a261d57ff4abe6a3b8229235c4cd0c972f17205a07305860d6186ddd. Authorized READ-ONLY compatibility probe only. Result artifact sha256 bae3d5bc112b98ba944927cab0b9a4c2d3896dfea1086bb869341eafef08b28e: ComfyUI rembg 2.0.69 package is 64 files/227772 bytes canonical 0fcb5ad95f856416d299c9e02b88deb35b5e135643c31704dad19f6415608637; dist-info canonical d9c18a43d3159ea50e6331ea393e272d77953f5d6e71cf85e5e4533e37b704c4. Offline /usr/bin/python3 with PYTHONPATH combining isolated mmgp plus ComfyUI site-packages imported rembg and mmgp, exposed required remove/new_session APIs, and imported accepted WD-m7xw shared.utils.utils successfully; GPU stayed idle. This is compatibility evidence only, NOT authorization: accepted trees pin rembg[gpu]==2.0.65, candidate is unrelated ComfyUI 2.0.69, and current Gate 15 forbids retry, substitution, dependency install/download, and runtime mutation. Boundary/evidence/tests committed at 6954f1c8e71b66604632767d9dd5d2f84c994b92; exact-head CI run 37173146847 started. A distinct operator decision is required before any use of the mismatched existing runtime or any download.
