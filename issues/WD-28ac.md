@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T06:41:21Z
-content_hash: "sha256:d0022135b7744557cc5cc0d4133489ec0cc8441918660c6c1d6497cee769dec5"
+updated_at: 2026-10-04T06:42:04Z
+content_hash: "sha256:c92bb93185e3c9539a7cbda0195ec6a727bf46fcf6efbfd076400dfcfe301dfa"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -528,6 +528,30 @@ VALIDATION-FIRST GATE (do not skip): the ad-hoc resolution picked LATEST version
 `onnx-weekly==1.24.0.dev20260928`, a nightly, spacy 3.8.16, speechbrain 1.1.1 rather than the tree's
 pinned 1.0.3). The real install must be constrained to the accepted tree's own pins and must be proven
 not to change any already-present package version. Then one more attempt cycle.
+### "Pin first" result: even tree-pinned resolution drags torch/CUDA-13 -- safe mechanic is --no-deps over the 67 (2026-10-04)
+
+Built the install set from the accepted tree's OWN requirements.txt lines for the absent packages
+(20 direct pins: apprise==1.12.0, audio-separator==0.36.1, einshape==1.0, espeakng-loader,
+flash-linear-attention==0.4.1, fugashi>=1.2.0, gradio_rangeslider, jax, keyring==25.7.0, misaki, munch,
+num2words==0.5.14, phonemizer-fork, pygame>=2.1.0, sherpa-onnx==1.13.2, spacy, speechbrain==1.0.3,
+tensordict>=0.6.1, ultralytics, unidic-lite>=1.0.0) plus the two pinned direct-URL wheels
+(chumpy v0.71, smplfitter v0.2.10), and resolved for x86_64-manylinux_2_28 / py3.12:
+
+**204 packages -- and it STILL pulls `torch==2.14.1`, `torchaudio`, `torchvision`, `triton`,
+`cuda-toolkit==13.0.3.0` and the entire `nvidia-*` CUDA 13 set**, plus `onnx-weekly==1.24.0.dev20260928`
+(a nightly). Tree pins do NOT protect the live environment, because the missing packages depend on
+torch unpinned and the resolver upgrades it to a new major.
+
+**SAFE MECHANIC (derived from the live-environment diff, not yet executed):** install exactly the
+**67 truly-absent packages with `--no-deps`**. Every transitive dependency of those 67 is either
+already present (168/235 confirmed importable) or itself inside the 67 (e.g. `sherpa-onnx-core`).
+Incremental **~260 MB**, and **zero version change to any present package**.
+
+**Validation gate after install (mandatory):** re-assert that all 168 previously-present packages keep
+their exact versions; confirm `shared.utils` and `wgp.py` import cleanly under
+`rembg-2.0.65:mmgp-3.7.14:<new 67-package dir>`; then run one more attempt cycle.
+
+Measurement work is now complete. The next action is a host install requiring operator authorization.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
