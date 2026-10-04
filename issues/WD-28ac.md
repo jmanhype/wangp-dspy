@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T16:17:33Z
-content_hash: "sha256:02446a6fda02b735640503331281877b16649587332a66dfcae114b9e83f9b2d"
+updated_at: 2026-10-04T16:20:49Z
+content_hash: "sha256:27bdb9a5d927bcb3a8cfd48a68ca7c2107297a856849352e02ea8237d3e6c920"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -748,6 +748,36 @@ rembg pinned install -> 67-package closure via `--no-deps` with zero version dri
 `2.5.1+cu121`) -> chumpy 0.71 + smplfitter 0.2.10 -> Gate 20/21/22 namespace cycles -> deploy BOTH
 `WD-m7xw` and `WD-osfm` native-settings trees -> symlink the four LTX LoRAs into `WD-osfm/loras/ltx2`
 (which was empty while `WD-m7xw/loras/ltx2` had them).
+### Gap identified: rendered op dirs need bundle registration before the parity checker accepts them (2026-10-04)
+
+Ran the in-deployment parity checker against a rendered operation directory:
+
+```
+/usr/bin/python3 scripts/verify_maestro_parity.py <run root>/ltx23-recast
+FAIL manifest: [Errno 2] No such file or directory: .../ltx23-recast/evidence.json
+```
+
+So `rendered_pending_qc` is NOT the end of the chain. Each bundle needs an `evidence.json`
+manifest conforming to `wangp-dspy.maestro-parity-evidence/v1` before `verify_bundle` will evaluate it.
+The checker's own required field groups include (from `scripts/verify_maestro_parity.py`):
+`operator_authorization` (status approved + text/scope/RFC3339 timestamp/approved_by),
+`model_provenance` (per model: identity, source, license, sha256-or-immutable_version,
+`download_approved: true`), `media_metadata` (exact one-to-one coverage of every `output.sha256`
+path with dimensions, alpha_mode, duration/fps, audio object), and more.
+
+**Tooling exists:** `scripts/run_acceptance.py` is the acceptance bundle runner, and
+`scripts/run_jobs.py` / `scripts/prepare_ltx_operations.py` also reference the contract. The story's own
+AC #5 requires every successful output to be "hash-bound, ffprobe-probed, visually represented,
+objectively gated, checker-validated, and independently reviewed" -- so bundle registration + checker +
+reviewer verdict is the remaining pipeline for the six rendered cells.
+
+Recorded findings already in the repo that bear on this: `docs/findings/33-acceptance-bundle-runner.md`,
+`35-bundle-premise-registration.md`, `36-acceptance-asset-map.md`.
+
+**Not attempted by the orchestrator:** building the six bundles, because it is a governed
+artifact-contract step that interacts with `model_provenance.download_approved` -- and one of the seven
+cells (`ltx23-upscale`) is blocked precisely on an unapproved 7.6 GB model download. That field decides
+whether a bundle can be checker-valid at all, so the operator's download decision gates the QC design.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
