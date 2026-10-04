@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -283,10 +284,10 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
         }
         assert "phase-b-gate5" not in native["settings_stage_path"]
         assert "phase-b-gate5" not in native["log_path"]
-        assert "phase-b-gate12-corrected-retry" in native["settings_stage_path"]
-        assert operation["queue"]["retry_id"] == "corrected-retry-attempt-1"
+        assert "phase-b-gate19-corrected-retry" in native["settings_stage_path"]
+        assert operation["queue"]["retry_id"] == "corrected-retry-attempt-2"
         assert operation["queue"]["job_id"].endswith(
-            "-corrected-retry-attempt-1"
+            "-corrected-retry-attempt-2"
         )
         assert operation["status"] == "planned_not_executed"
         assert operation["queue"]["admission_state"] == "planned_not_admitted"
@@ -386,6 +387,22 @@ def test_runner_contract_requires_v2_runtime_and_records_environment(
     with pytest.raises(runner.FinalOperationError) as raised:
         runner.validate_contract(stale, authorization)
     assert raised.value.code in {"PLAN_SCHEMA_INVALID", "RUNTIME_BINDING_ABSENT"}
+
+
+def test_corrected_run_namespace_rejects_paths_outside_gate19_root() -> None:
+    plan = _read(CORRECTED_PLAN_PATH)
+    authorization = _read(AUTH_PATH)
+
+    for field in ("settings_stage_path", "log_path"):
+        old_filename = "settings.json" if field == "settings_stage_path" else "native.log"
+        invalid = copy.deepcopy(plan)
+        invalid["operations"][0]["native"][field] = (
+            "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/"
+            "ltx25-outpaint/" + old_filename
+        )
+        with pytest.raises(runner.FinalOperationError) as raised:
+            runner.validate_contract(invalid, authorization)
+        assert raised.value.code == "CORRECTED_RUN_NAMESPACE_INVALID"
 
 
 def test_corrected_retry_cannot_run_or_touch_prior_boundary_before_gate13(
