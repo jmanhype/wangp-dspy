@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T03:48:32Z
-content_hash: "sha256:9840d174031566304550d5657b2b81bc5a1a1d1bb25ff087a7b1eb078ba817bf"
+updated_at: 2026-10-04T04:09:53Z
+content_hash: "sha256:5e5c64358fb93bd28716d8c98d0b65500dec37249214207c405b0dbb3a46e46c"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -236,6 +236,25 @@ PRODUCES:
 - tests/test_ltx_metadata_audit.py -> LTX metadata audit tests
 - tests/test_ltx_phase_b_preparation.py -> phase B preparation tests
 - tests/test_ltx_qc_readiness.py -> QC readiness tests
+### Gate (c) standing gates verified green at merged head b5b7e35b (orchestrator, 2026-10-04)
+
+- `pvg lint --backlog` => 0 errors, 0 review findings, 156 issues scanned, from BOTH the
+  main checkout and the dev-WD-28ac worktree. It was FAILING on main with 16 `paths-exist`
+  errors for this story (brownfield check versus paths realized only on `story/WD-28ac`);
+  repaired by declaring this story's produced paths in a PRODUCES block. No AC, status,
+  label, or scope changed by that repair.
+- `uv run --frozen --extra dev pytest -q --junitxml=...` => exit 0; parsed JUnit counters
+  tests=2175, failures=0, errors=0, skipped=1.
+- `wgp release verify` => release=ready, tag_created=false, clean_tree=true, commit b5b7e35b.
+- Protected engine files unchanged by parity work: services/jobs/queue.py (2026-09-16),
+  services/director/renderers/policy.py (2026-08-31), services/director/wiring.py (2026-09-16),
+  services/jobs/preflight.py (2026-09-24), scripts/run_film.py (2026-09-20). None changed in
+  the 2026-09-30..2026-10-04 parity window; each prior change arrived through its own merged PR.
+
+STILL BLOCKED ON OPERATOR: Gate 18 `rembg` disposition (A / B / C). This story awaits an
+operator scope decision; no host batch, download, or dependency repair is performed without it.
+The controlling plane reports `pvg loop next` as `stalled` because the story has stayed
+in_progress across wait evaluations -- that is this operator hold, not a dead developer.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
