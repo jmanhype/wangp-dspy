@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T13:55:33Z
-content_hash: "sha256:4c86e6970d9f18f62f2fa4bd278ee4421a83155292b45e410059d477de8a411d"
+updated_at: 2026-10-04T13:56:34Z
+content_hash: "sha256:266e6fc2a6497d10889092983c8458ceb97ebccccbfc748b9ecf9a34fc74a902"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -602,6 +602,30 @@ PRODUCES:
 - models/wan/__init__.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
 - shared/cli_args.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
 - wan/scail/nlf/multiperson_model.py -> EXTERNAL read-only reference (host Wan2GP tree); not a repo artifact
+### Gate 20 batch is RUNNING -- first real native LTX execution (2026-10-04)
+
+The dependency-closure fix worked. After `dry_run_validated`, the Gate 20 batch was launched detached on
+host 3090 from the deployment `/home/straughter/wd-28ac-gate20-20261004` (head `7fe5c611`) with the
+Gate 20 namespace `/home/straughter/wd-28ac-run/phase-b-gate20-corrected-retry`.
+
+Observed live 25s after launch:
+
+- runner PID `2944668`, state `Ss` (alive)
+- **native process running**:
+  `2944715 /usr/bin/python3 /home/straughter/Wan2GP-story-WD-m7xw/wgp.py --process
+  /home/straughter/wd-28ac-run/phase-b-gate20-corrected-retry/ltx25-outpaint/settings.json
+  --profile 3 --attention sdpa --output-dir .../ltx25-outpaint/native-output`
+- `jobs.db` created; GPU 497 MiB and climbing (model load)
+- no stderr yet
+
+This is the FIRST time in the whole sequence that the governed native LTX operation has actually
+started: Gate 15 died at `No module named 'rembg'`, Gate 19 died at `No module named 'smplfitter'`,
+both at import time. Gate 20 has cleared both and is rendering.
+
+Per-operation timeout is 5400 s; the plan runs seven operations in order
+(ltx25-outpaint, ltx25-repaint, ltx25-recast, ltx25-upscale, ltx23-outpaint, ltx23-recast, ltx23-upscale)
+with stop-on-first-terminal-failure. Per-cell evidence is written to
+`<run root>/<operation>/operation-record.json` with output hash, ffprobe metadata and gate results.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
