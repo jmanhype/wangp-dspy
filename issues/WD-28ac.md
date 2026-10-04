@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T05:41:26Z
-content_hash: "sha256:5d641e776acc84391efa6bb1950d37a2a2c0f945f8b2716097a9a74d33ee9398"
+updated_at: 2026-10-04T06:12:01Z
+content_hash: "sha256:afd546ccd6c6f7f0c1ea0ae058fd4ed39246fc2ad8ec43d508cf80a40569f561"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -394,6 +394,38 @@ apparent once rembg is present). The plan must carry
 `isolated_runtime` + `PYTHONPATH`, refresh the host-authorization binding, then execute the seven
 operations (`--execute --allow-host`) with the existing one-attempt/stop-on-first-terminal-failure
 policy. The mmgp contract directory was NOT modified (still 12 files, canonical `d39fa7a5...`).
+### Gate 19 DEPLOYED BUT BLOCKED AT EXECUTION -- prior corrected-retry attempt is consumed (orchestrator, 2026-10-04)
+
+**Deployed** `/home/straughter/wd-28ac-gate19-20261004/` (scripts, services, predict,
+datasets templates, `corrected-retry-plan.json`, `operator-authorization.json`,
+`isolated-runtime-state-gate19.json`; 349 files / 5.2 MB) via rsync. Local dry run of the exact
+governed path returned `{"status":"dry_run_validated","operation_count":7,"queue_admissions":0,"native_attempts":0}`,
+and the fresh runtime state matches the mmgp contract byte-for-byte (12 files / 291,005 bytes /
+canonical `d39fa7a5...`, import rc 0 v3.7.14 resolved under the NEW PYTHONPATH).
+
+**Execution cannot proceed without overwriting prior evidence.** The plan roots every operation at
+`/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/`, and that namespace on the host
+already holds Gate 15's consumed attempt:
+
+- `batch.exit`, `batch.stdout`, `batch.stderr`, `jobs.db`, `queue-summary.json`
+- `ltx25-outpaint/` -> `settings.json`, `native.log`, `native-output/`, `operation-record.json`
+
+Additionally each operation's `queue.retry_id` is `corrected-retry-attempt-1` and its
+`queue.job_id` ends `-corrected-retry-attempt-1`. The runner would raise `SETTINGS_STAGE_COLLISION`
+(`stage_settings`) and `NATIVE_RUN_COLLISION` (`execute_native`), and `validate_contract` requires
+`CORRECTED_NATIVE_RUN_ROOT` to appear in both `settings_stage_path` and `log_path`.
+
+**Consequence:** the one-attempt-per-operation policy is ALREADY consumed for `ltx25-outpaint`
+(Gate 15), so re-running is a SECOND attempt cycle. It needs a fresh namespace, a fresh retry/job
+identifier, and therefore a fresh operator authorization -- plus a bounded
+code+plan+test change (`CORRECTED_NATIVE_RUN_ROOT` constant, the seven plan paths, and the tests
+that assert them) before any execution.
+
+**REQUESTED FROM OPERATOR:** authorize a Gate 19 corrective attempt cycle --
+new run namespace `/home/straughter/wd-28ac-run/phase-b-gate19-corrected-retry`,
+suffix `corrected-retry-attempt-2`, one attempt per operation again, same seven operations, same
+order, same proven environment `rembg-2.0.65:mmgp-3.7.14:ComfyUI/site-packages`, stop on first
+terminal failure.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
