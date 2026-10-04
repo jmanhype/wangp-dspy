@@ -24,7 +24,7 @@ ISOLATED_MMGP_IMPORT_PATH = (
     "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py"
 )
 ISOLATED_RUNTIME_PAYLOAD_SHA256 = (
-    "25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277"
+    "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b"
 )
 ISOLATED_RUNTIME_FILE_COUNT = 12
 ISOLATED_RUNTIME_UNCOMPRESSED_BYTES = 291005
@@ -155,13 +155,29 @@ def validate_contract(
             "Bind the operator corrected native-retry record.",
         )
     runtime = plan.get("isolated_runtime")
+    payload = runtime.get("expected_payload", {}) if isinstance(runtime, dict) else {}
+    inventory = payload.get("inventory")
+    inventory_is_valid = isinstance(inventory, list) and all(
+        isinstance(item, Mapping)
+        and isinstance(item.get("path"), str)
+        and isinstance(item.get("sha256"), str)
+        and isinstance(item.get("size_bytes"), int)
+        for item in inventory
+    )
+    inventory_bytes = (
+        sum(item["size_bytes"] for item in inventory)
+        if inventory_is_valid else -1
+    )
     if (
         not isinstance(runtime, dict)
         or runtime.get("directory") != ISOLATED_RUNTIME_DIRECTORY
-        or runtime.get("expected_payload", {}).get("canonical_sha256")
-        != ISOLATED_RUNTIME_PAYLOAD_SHA256
-        or runtime.get("expected_payload", {}).get("file_count")
-        != ISOLATED_RUNTIME_FILE_COUNT
+        or payload.get("canonical_sha256") != ISOLATED_RUNTIME_PAYLOAD_SHA256
+        or payload.get("file_count") != ISOLATED_RUNTIME_FILE_COUNT
+        or payload.get("uncompressed_bytes") != ISOLATED_RUNTIME_UNCOMPRESSED_BYTES
+        or not inventory_is_valid
+        or len(inventory) != ISOLATED_RUNTIME_FILE_COUNT
+        or inventory_bytes != ISOLATED_RUNTIME_UNCOMPRESSED_BYTES
+        or _canonical_payload_hash(inventory) != ISOLATED_RUNTIME_PAYLOAD_SHA256
     ):
         raise FinalOperationError(
             "RUNTIME_BINDING_ABSENT", json.dumps(runtime, sort_keys=True)[:1000],
@@ -209,7 +225,15 @@ def build_native_environment(operation: Mapping[str, Any]) -> dict[str, str]:
 def _canonical_payload_hash(inventory: Any) -> str | None:
     if not isinstance(inventory, list):
         return None
-    canonical = json.dumps(inventory, sort_keys=True, separators=(",", ":"))
+    try:
+        path_sorted_inventory = sorted(
+            inventory, key=lambda item: item["path"]
+        )
+    except (KeyError, TypeError):
+        return None
+    canonical = json.dumps(
+        path_sorted_inventory, sort_keys=True, separators=(",", ":")
+    )
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 def validate_runtime_state(

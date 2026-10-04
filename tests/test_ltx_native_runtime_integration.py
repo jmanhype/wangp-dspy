@@ -17,6 +17,9 @@ import scripts.run_ltx_final_operations as runner
 ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 GATE_DIR = RUN_DIR / "jev-gates/2026-10-03"
+GATE14_PREFLIGHT_PATH = (
+    RUN_DIR / "jev-gates/2026-10-04/gate-14-fresh-host-preflight.json"
+)
 AUTH_PATH = RUN_DIR / "operator-authorization.json"
 CONTRACT_PATH = RUN_DIR / "phase-b-preparation/isolated-runtime-contract.json"
 STATE_PATH = RUN_DIR / "phase-b-preparation/isolated-runtime-state-2026-10-03.json"
@@ -147,7 +150,7 @@ def test_corrected_plan_binds_runtime_environment_and_new_namespace(
     )
     assert runtime["payload"]["file_count"] == 12
     assert runtime["payload"]["canonical_sha256"] == (
-        "25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277"
+        "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b"
     )
     for operation in plan["operations"]:
         native = operation["native"]
@@ -209,6 +212,41 @@ def test_runtime_preflight_rejects_stale_path_import_payload_or_system_drift(
         with pytest.raises(runner.FinalOperationError) as raised:
             runner.validate_runtime_state(state, require_fresh=True)
         assert raised.value.code == code
+
+
+def test_gate14_runtime_contract_derives_canonical_from_inventory(
+    tmp_path: Path,
+) -> None:
+    preflight = _read(GATE14_PREFLIGHT_PATH)
+    fresh_payload = preflight["isolated_runtime"]["payload"]
+    fresh_inventory = fresh_payload["inventory"]
+    assert [item["path"] for item in fresh_inventory] == sorted(
+        item["path"] for item in fresh_inventory
+    )
+    assert runner._canonical_payload_hash(fresh_inventory) == (
+        fresh_payload["canonical_sha256"]
+    )
+
+    contract = _read(CONTRACT_PATH)
+    contract_payload = contract["expected_payload"]
+    contract_inventory = contract_payload["inventory"]
+    derived = runner._canonical_payload_hash(contract_inventory)
+    assert derived == fresh_payload["canonical_sha256"]
+    assert contract_payload["canonical_sha256"] == derived
+    assert contract_inventory == fresh_inventory
+    assert runner.ISOLATED_RUNTIME_PAYLOAD_SHA256 == derived
+
+    plan = _corrected_plan(tmp_path)
+    expected_payload = plan["isolated_runtime"]["expected_payload"]
+    top_level = next(
+        item for item in expected_payload["inventory"]
+        if item["path"] == "mmgp-3.7.14.dist-info/top_level.txt"
+    )
+    top_level["sha256"] = "0" * 64
+    assert expected_payload["canonical_sha256"] == derived
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.validate_contract(plan, _read(AUTH_PATH))
+    assert raised.value.code == "RUNTIME_BINDING_ABSENT"
 
 
 def test_runner_contract_requires_v2_runtime_and_records_environment(

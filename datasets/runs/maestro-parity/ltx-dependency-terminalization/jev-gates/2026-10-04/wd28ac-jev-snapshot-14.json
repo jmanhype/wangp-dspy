@@ -1,0 +1,48 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Do not execute the corrected native retry while the committed runtime contract fails exact payload identity validation.",
+    "Do not contact host 3090, start/stop QC or the judge, admit a queue job, render, download, install, copy, move, delete, overwrite, or substitute any artifact during the local repair.",
+    "Do not alter the five verified model finals, accepted references, execution trees, protected engine files, prior boundary evidence, or matrix rows.",
+    "Do not expose credentials or incur provider spend.",
+    "Use apply-style scoped edits and preserve append-only evidence.",
+    "Require focused tests, undeselected full pytest, backlog lint, release verification with tag_created=false, protected-file parity, matrix parity, diff check, and exact-head CI before any later host gate."
+  ],
+  "current_step": "Decide the fail-closed response after fresh host evidence exposed a local runtime-contract transcription defect before native retry.",
+  "pending_action": {
+    "kind": "repair_wd_28ac_runtime_contract_locally",
+    "target": "WD-28ac Gate 14: correct the committed mmgp 3.7.14 inventory/canonical hash binding, persist the fresh no-secret preflight evidence, run all local gates and exact-head CI, then stop for a new separate host-retry gate",
+    "summary": "Repair only the proven one-character top_level.txt SHA transcription and derived canonical payload hash across the contract, corrected plan, runner pin, and tests; no host mutation or native retry.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Fresh read-only host preflight artifact SHA-256 5801239da7df6c628d1e9bd6a2621185cb7159b3b494ef7bba1fb1413f7999c7 was captured at 2026-10-04T00:29:27.916020Z.",
+    "The preflight ran as straughter on straughter-Z690-Steel-Legend through target 3090 and reported both accepted execution-tree commits exactly: WD-m7xw faea82d15bf10b3479c42c0ea430892aae975870 and WD-osfm 4c93b64a47b5b0a915f2abec2ce754be98227150.",
+    "All five declared model finals match exact size and actual-file SHA-256 and no WD-28ac partial remains.",
+    "All seven accepted operation references match exact SHA-256 hashes.",
+    "Isolated mmgp 3.7.14 imports successfully from the exact declared path under /usr/bin/python3; the payload has 12 files and 291005 bytes; system Python remains free of mmgp.",
+    "The exact path-sorted live payload canonical SHA-256 is d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b.",
+    "The preserved wheel and extracted top_level.txt both hash to c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5, while the committed contract mistakenly records c1a19a7a98f6a957e74c6c803a468cbb8afd9896958c66c48ba030394a2053f5 (one-character transcription error) and therefore pins 25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277 instead of the derived d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b.",
+    "The corrected runner currently hard-codes the wrong payload canonical hash and will fail closed against fresh runtime state.",
+    "GPU is not idle: an unrelated llama-server PID 3022552 occupies 17950 MiB, leaving 6001 MiB free; governed judge health endpoints 8000 and 8420 are unreachable. No process was changed.",
+    "PR 217 exact head a6817f452b1b92ba0f44e35c3bf6c4535acb03ec is CI-green, but its CI validated the defective contract pin."
+  ],
+  "uncertainties": [
+    "The local diff may reveal additional copies of the erroneous inventory hash beyond the known contract, corrected plan, runner, and tests.",
+    "The unrelated llama-server may terminate independently, but current native execution cannot proceed without a later fresh idle-GPU gate.",
+    "After local repair and CI, a separate live Jev host gate must reassess disk, GPU, judge, runtime, models, and references."
+  ],
+  "budget": {
+    "elapsed_minutes": 1275,
+    "remaining_minutes": 45
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "local_runtime_contract_repair_before_corrected_native_retry",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "a6817f452b1b92ba0f44e35c3bf6c4535acb03ec",
+    "prior_gate_snapshot": "4543d2103d448bf812dc5811f0be7719714e49d38bc0f53b27db6d026c73c8b0",
+    "fresh_preflight_sha256": "5801239da7df6c628d1e9bd6a2621185cb7159b3b494ef7bba1fb1413f7999c7"
+  }
+}

@@ -15,7 +15,7 @@
     "returncode": 0
   },
   "payload": {
-    "canonical_sha256": "25932fafc87a92e014de63cb3ea1c7a1b15331cc1aa5c41ea0e001556aec1277",
+    "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
     "file_count": 12,
     "inventory": [
       {
@@ -45,7 +45,7 @@
       },
       {
         "path": "mmgp-3.7.14.dist-info/top_level.txt",
-        "sha256": "c1a19a7a98f6a957e74c6c803a468cbb8afd9896958c66c48ba030394a2053f5",
+        "sha256": "c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5",
         "size_bytes": 14
       },
       {
