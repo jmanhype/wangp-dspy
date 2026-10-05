@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T06:14:44Z
-content_hash: "sha256:ad876bed9f59c62417c6ac69af829621b486af029eafe1f34e63c32a8198bddf"
+updated_at: 2026-10-05T06:20:37Z
+content_hash: "sha256:1d1ac5dca786d13de225a9da1c034556f27893887a131c307f076d2e4c4aa59c"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -111,6 +111,20 @@ symlink and move the directory back, or `rsync` from `/mnt/bulk-hdd/ssd-offload/
 
 This unblocks the headroom precondition only. No download was performed and no render was run:
 the seven `dependency_blocked` LTX cells still require explicit model-download authorization.
+### Headroom margin added before any download (orchestrator, 2026-10-05, addendum)
+
+Because the five required LTX assets total 22.07 GB and root had only 73 GB free (floor 53.69 GB),
+one further inactive tree was offloaded by the same verified, symlink-preserving procedure:
+`qwen38-3090` (30.38 GB; zero open file descriptors; nothing written under it since 2026-08-18) moved to
+`/mnt/bulk-hdd/ssd-offload/20261005/qwen38-3090` after its file manifest matched
+(md5 `a21f16a491df6543bdb4145275d3738f`) and the source was removed.
+
+Root free is now 101 GB. Total offload this session is about 81 GB (`.hf_cache` 17 GB,
+`scenema-models` 36 GB, `qwen38-3090` 29 GB), all reversible by moving the directories back.
+
+Exact download set still awaiting explicit operator approval (22.07 GB total, all from
+`DeepBeepMeep/LTX-2`): three 1.22 GB ic-lora files (outpaint, ingredients-0.9, in-outpainting-0.9),
+one 0.30 GB ic-lora pixel-spatial-upscaler-x2-1.0, and one 18.11 GB dev_diffusion_model_quanto_int8.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
