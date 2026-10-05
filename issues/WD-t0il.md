@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T15:06:08Z
-content_hash: "sha256:12c66e02512b86cc0a9273f2645deafd705d2d7465d5cdaa201e9d33cfc3f1fe"
+updated_at: 2026-10-05T15:06:09Z
+content_hash: "sha256:d00c13b22e465799d9c772f91f4dd9d2b65ee39b2f92fb4738a63bdc7193fc7a"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -162,6 +162,25 @@ remaining cell cannot be closed without a new operator decision:
 Consequence: the blocker for the final cell is no longer the asset, which is now present, but the
 one-shot authorization semantics. Closing it requires a NEW operator authorization naming a new
 seven-operation set. Nothing was executed here and no cell state changed.
+### Precise remaining scope and the two authorizations it needs (orchestrator, 2026-10-05)
+
+The "120 planned cells" figure this story was originally titled with is obsolete. The merged consolidated
+index now records zero rows in a planned state: 208 rows comprising 95 host_run_verified, 110
+terminal_unsupported_or_fail_closed, 2 not_applicable and exactly 1 dependency_blocked.
+
+The whole remaining programme delta is two items, and both are gated on a NEW per-batch operator
+authorization rather than on any local or asset prerequisite:
+
+1. ltx/2.3 upscale. Its missing distilled LoRA is now present on the host, but the recorded authorization
+   is one-shot (retry is "never") and the governed runner requires exactly seven operations per plan, so a
+   narrowly scoped single-operation batch cannot be issued. Closing this cell needs a new authorization
+   naming a new seven-operation set, a fresh namespace and a fresh queue database.
+2. The first-run generated artifact for the clean-machine half of the "better than Maestro" proof, which is
+   the deferred story WD-bw0h and likewise needs an authorized host batch.
+
+Everything else is already verified at merged main 251c9284: the index validator PASSes, backlog lint is 0
+errors, the full suite is 2273 tests with zero failures and zero errors, release verify reports ready with
+no tag, the protected engine files are unchanged, and six LTX cells were promoted to host_run_verified.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
