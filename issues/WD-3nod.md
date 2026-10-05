@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-09-27T04:13:20Z
-content_hash: "sha256:4ed8142e341def3f2768e621820458075e05f4982cd93eb29ddd5b536a83fa45"
+updated_at: 2026-10-05T05:41:16Z
+content_hash: "sha256:b122ff99d8f3db2dfb1b8f166ad58069f730339e5338dd65cb1e6c2c059be5e3"
 ---
 
 ## Description
@@ -21,7 +21,31 @@ Temporary creation body; authoritative body is installed immediately after ID as
 
 
 ## Notes
+### Programme completion audit at b5b7e35b (orchestrator, 2026-10-05)
 
+Machine-verified census at merged main b5b7e35b. Evidence is test-backed, not prose.
+
+- Item (a), zero `planned` rows: PROVEN. `tests/test_current_parity_index.py` parses every capability
+  document under `docs/` and asserts the parsed 208-row census equals
+  `datasets/runs/maestro-parity/WD-fay0/evidence-index.json` (89 host_run_verified, 110
+  terminal_unsupported_or_fail_closed, 7 dependency_blocked, 2 not_applicable), and asserts there is no
+  row whose canonical state is `planned`. The same file pins the seven `dependency_blocked` LTX cells to
+  recorded boundary evidence with zero model download bytes and an explicit not-a-hardware-verdict flag.
+- Item (b), provenance/gate checker half: SATISFIED. `scripts/verify_maestro_parity.py` is on main; the
+  per-lane receipt `datasets/runs/maestro-parity/checker-lane-receipts/evidence.json` records eight lanes,
+  seven `pass` and one fail-closed `fail` (exit 1), so it rejects as well as accepts.
+- Item (b), clean-machine generated artifact: NOT satisfied; recorded as an explicit incomplete storage
+  boundary with `generated_artifact=false`, blocked on the deferred WD-bw0h storage story.
+- Item (c): all four standing gates green; `pvg lint --backlog` 0 errors, full suite exit 0 with JUnit
+  tests=2175 failures=0 errors=0 skipped=1, release ready with no tag, protected engine files unchanged.
+
+Residual non-terminal cells are exactly seven, all `dependency_blocked` LTX: ltx/2.5 outpaint, repaint,
+recast, upscale; ltx/2.3 outpaint, recast, upscale. Each needs a model-download authorization or an
+operator disposition.
+
+Documentation nit, prose only and not machine-asserted: `docs/video-capabilities.md` still opens its
+capability matrix with a sentence claiming every family/operation row is `planned`, which contradicts the
+table beneath it and the index. No test asserts that sentence; it is proposed as a one-PR doc fix.
 
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
