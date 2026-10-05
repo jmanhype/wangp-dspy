@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 import tempfile
 from fractions import Fraction
@@ -72,6 +73,12 @@ GATE_THRESHOLDS = {
     "distinct_hash": 1.0,
     "width_multiplier": 2.0,
 }
+MODEL_FILE_SUFFIXES = (".safetensors", ".gguf")
+MODEL_LOG_PATTERNS = (
+    re.compile(r"Loading Model '([^']+)'"),
+    re.compile(r"Loading Text Encoder '([^']+)'"),
+    re.compile(r"Lora '([^']+)' was loaded"),
+)
 
 
 class BundleBuildError(RuntimeError):
@@ -116,6 +123,31 @@ def _canonical_sha256(payload: Any) -> str:
         payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _observed_model_paths(native_log: Path) -> list[str]:
+    """Return only model files explicitly reported as loaded by Wan2GP."""
+    try:
+        text = native_log.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        raise BundleBuildError(f"cannot read native log {native_log}: {exc}") from exc
+    observed: list[str] = []
+    for pattern in MODEL_LOG_PATTERNS:
+        matches = pattern.findall(text)
+        if not matches:
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_NATIVE_LOAD_ABSENT: "
+                f"{native_log} has no match for {pattern.pattern}"
+            )
+        observed.extend(matches)
+    for relative in observed:
+        name = Path(relative).name
+        if not name.lower().endswith(MODEL_FILE_SUFFIXES):
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_NON_MODEL_FILE: "
+                f"native log reports non-model file as a model: {name}"
+            )
+    return [Path(relative).name for relative in observed]
 
 
 def _single_output(bundle: Path) -> Path:
@@ -198,7 +230,10 @@ def _media_metadata(bundle: Path, output: Path, record: dict[str, Any]) -> dict[
 
 
 def _model_provenance(
-    repo_root: Path, operation: str, record: dict[str, Any]
+    repo_root: Path,
+    operation: str,
+    record: dict[str, Any],
+    native_log: Path,
 ) -> list[dict[str, Any]]:
     base_path = (
         repo_root
@@ -209,12 +244,18 @@ def _model_provenance(
     raw_base = _load_json(base_path).get("model_provenance")
     if not isinstance(raw_base, list) or not raw_base:
         raise BundleBuildError(f"{base_path}: base model provenance is absent")
-    base = []
+    base_by_filename: dict[str, dict[str, Any]] = {}
     for item in raw_base:
-        normalized = dict(item)
-        normalized["downloaded_this_story"] = False
-        normalized["prior_story"] = BASE_STORY[operation]
-        base.append(normalized)
+        filename = Path(str(item.get("destination", ""))).name
+        if not filename:
+            continue
+        existing = base_by_filename.get(filename)
+        if existing is not None and existing != item:
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_PRIOR_ASSET_AMBIGUOUS: "
+                f"{BASE_STORY[operation]} records multiple entries for {filename}"
+            )
+        base_by_filename[filename] = item
     assets = {
         item["id"]: item
         for item in _load_json(
@@ -222,31 +263,116 @@ def _model_provenance(
             / "datasets/runs/maestro-parity/ltx-dependency-terminalization/model-assets.json"
         )["assets"]
     }
+    authorization_path = (
+        repo_root
+        / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
+        / "operator-authorization.json"
+    )
+    authorization = _load_json(authorization_path)
+    authorized_assets = {
+        str(item["id"]): item
+        for item in authorization.get("assets", [])
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    }
     try:
         asset = assets[OPERATION_ASSET[operation]]
     except KeyError as exc:
         raise BundleBuildError(
             f"missing authorized WD-28ac asset {OPERATION_ASSET[operation]}"
         ) from exc
-    operation_asset = {
-        "identity": asset["id"],
-        "source": asset["source_url"],
-        "license": asset["license"],
-        "sha256": asset["sha256"],
-        "destination": asset["destination"],
-        "download_approved": True,
-        "preflight_hash_verified": True,
-        "downloaded_this_story": True,
-    }
-    identities = {item.get("identity") for item in base}
-    if operation_asset["identity"] in identities:
-        raise BundleBuildError("operation asset unexpectedly duplicated in base lane")
     runtime = record["runtime_preflight"]
     if runtime.get("payload_sha256") != (
         "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b"
     ):
         raise BundleBuildError("isolated runtime identity drift")
-    return [*base, operation_asset]
+
+    observed = _observed_model_paths(native_log)
+    if asset["id"] not in observed:
+        raise BundleBuildError(
+            "MODEL_PROVENANCE_OPERATION_ASSET_NOT_LOADED: "
+            f"authorized asset {asset['id']} is absent from {native_log}"
+        )
+
+    provenance: list[dict[str, Any]] = []
+    for filename in observed:
+        authorized = authorized_assets.get(filename)
+        if authorized is not None:
+            manifest_asset = assets.get(filename)
+            if manifest_asset is None:
+                raise BundleBuildError(
+                    "MODEL_PROVENANCE_MANIFEST_ABSENT: "
+                    f"authorized asset {filename} is absent from model-assets.json"
+                )
+            if manifest_asset.get("sha256") != authorized.get("sha256"):
+                raise BundleBuildError(
+                    "MODEL_PROVENANCE_AUTHORIZATION_HASH_DRIFT: "
+                    f"authorized asset {filename} disagrees with model-assets.json"
+                )
+            approval = authorization.get("operator_approval", {})
+            provenance.append(
+                {
+                    "identity": manifest_asset["id"],
+                    "source": manifest_asset["source_url"],
+                    "license": manifest_asset["license"],
+                    "sha256": manifest_asset["sha256"],
+                    "destination": manifest_asset["destination"],
+                    "download_approved": True,
+                    "preflight_hash_verified": True,
+                    "downloaded_this_story": True,
+                    "authorization_trace": {
+                        "basis": "operator_authorized_asset",
+                        "path": authorization_path.relative_to(
+                            repo_root
+                        ).as_posix(),
+                        "pointer": f"assets[id={filename}]",
+                        "approved_at": approval.get("timestamp", ""),
+                        "verbatim": approval.get("verbatim", ""),
+                    },
+                }
+            )
+            continue
+
+        prior = base_by_filename.get(filename)
+        if prior is None:
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_AUTHORIZATION_ABSENT: "
+                f"observed model {filename} is neither operator-authorized "
+                "nor recorded as a pre-existing host asset"
+            )
+        if prior.get("download_approved") is not True:
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_PREEXISTING_APPROVAL_ABSENT: "
+                f"prior story {BASE_STORY[operation]} did not approve {filename}"
+            )
+        if prior.get("preflight_hash_verified") is not True:
+            raise BundleBuildError(
+                "MODEL_PROVENANCE_PREEXISTING_HASH_UNVERIFIED: "
+                f"prior story {BASE_STORY[operation]} did not verify {filename}"
+            )
+        normalized = {
+            "identity": filename,
+            "source": prior["source"],
+            "license": prior["license"],
+            "sha256": prior["sha256"],
+            "destination": prior["destination"],
+            "download_approved": True,
+            "preflight_hash_verified": True,
+            "downloaded_this_story": False,
+            "prior_story": BASE_STORY[operation],
+            "authorization_trace": {
+                "basis": "pre_existing_host_asset",
+                "path": base_path.relative_to(repo_root).as_posix(),
+                "pointer": f"model_provenance[destination ends with /{filename}]",
+                "preflight_hash_verified": True,
+            },
+        }
+        if prior.get("postflight_hash_verified") is not None:
+            normalized["postflight_hash_verified"] = prior[
+                "postflight_hash_verified"
+            ]
+        provenance.append(normalized)
+
+    return provenance
 
 
 def _reference_provenance(bundle: Path, operation: str) -> list[dict[str, Any]]:
@@ -345,7 +471,9 @@ def _build_one(repo_root: Path, evidence_root: Path, operation: str) -> dict[str
         },
         "command": record["argv"],
         "repository": _repository_state(record),
-        "model_provenance": _model_provenance(repo_root, operation, record),
+        "model_provenance": _model_provenance(
+            repo_root, operation, record, native_log
+        ),
         "reference_provenance": _reference_provenance(bundle, operation),
         "queue_attempt": {
             "queue_id": record["queue_id"],
