@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T06:27:27Z
-content_hash: "sha256:d7c9868bb8f3d7e773730572f91ea36a4c0a6f1e04dfefe39de1ce99ff3a57c8"
+updated_at: 2026-10-05T15:04:30Z
+content_hash: "sha256:66df151075c5f13019163c7e32707ead8c79fa40adbe7c71e94fe19ac9e5bdf6"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -1086,6 +1086,24 @@ Therefore the six cells do not need a new host batch. What they need is repo gov
 acceptance of this story, the matrix and index transition for those six cells, and the merge of the open
 PR that carries the bundles. Only `ltx/2.3` upscale still needs a new asset, the 7.6 GB distilled LoRA,
 so that single cell remains a genuine download decision.
+### Six cells promoted on main; seventh asset now present (orchestrator, 2026-10-05)
+
+Delivery of the six gate22 cells is complete and merged. Pull request 222 squashed to main at
+251c9284 promotes ltx/2.5 outpaint, repaint, recast and upscale plus ltx/2.3 outpaint and recast from
+dependency_blocked to host_run_verified, with the canonical census moving from 89/7 to 95/1,
+matrix_identity_sha256 recomputed to 5def89a93c, and the evidence manifest growing from 39 to 44
+hashed files. Verified at that head: the index validator PASSes, `pvg lint --backlog` reports 0 errors,
+`wgp release verify` reports ready with no tag, the full suite is 2273 tests with zero failures and zero
+errors, and the protected engine files are byte-identical to origin/main.
+
+The seventh cell, ltx/2.3 upscale, no longer lacks an asset. Its missing distilled LoRA was downloaded
+under the operator's delegation to the live ckpts: ltx-2.3-22b-distilled-lora-384-1.1.safetensors,
+7605507256 bytes, exact size match, sha256 f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a,
+root free 97 GB to 90 GB. All required assets for all seven cells are therefore present on the host.
+
+What remains for that single cell is not a dependency but an authorized host run producing a run bundle,
+which is the per-batch GPU-host authorization item. No cell state was changed by the download and the
+ltx/2.3 upscale cell correctly remains dependency_blocked until such a bundle exists.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
