@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-10-05T23:32:56Z
-content_hash: "sha256:e0ca44112842008b73b6f2c80d9f3df6b1e6256a0c99544fdc314aa8a1cbf5aa"
+updated_at: 2026-10-05T23:33:27Z
+content_hash: "sha256:851aeb2dd4f0d66dde1cbc28a88272ea8e2103caf7deba68d909985b7903f89f"
 ---
 
 ## Description
@@ -95,6 +95,24 @@ Also recorded as a delegated disposition: the `ltx/2.3` upscale cell stays a doc
 boundary and will not be re-rolled. Its authorization is one-shot (`retry` is `never`) and the governed
 runner requires exactly seven operations per plan, so closing that cell would mean manufacturing a
 `host_run_verified` the governance deliberately withheld. The asset is present; the gate is not the asset.
+### Credentials-file exposure assessment (orchestrator, 2026-10-05) — closes the flag from the previous note
+
+Read-only containment check on the file flagged earlier. The file itself was NOT opened, read, copied or
+hashed; only its directory and containment were examined.
+
+Verdict: exposure is LOW today, with one structural risk worth fixing.
+
+- The containing directory is not a git repository at all, so nothing is committed or pushed from it.
+- It does not sit under any synced root: the iCloud Drive root exists but this path is not inside it, and
+  there is no Dropbox or Google Drive directory in the home directory.
+- The file is owner-only (mode 600) and is the single entry in that directory, so it is plainly a deliberate
+  local store rather than an accident.
+
+The structural risk: that directory is registered with the notes tooling as a vault, and vault tooling can
+write notes into it. A private secret and any future vault content therefore share one namespace, so the
+day that vault is synced, shared, published or committed, the secret travels with it. Recommended: relocate
+the file outside any vault path, or move it to the system keychain, so the vault namespace contains no
+secrets by construction.
 
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
