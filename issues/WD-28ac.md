@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T05:37:34Z
-content_hash: "sha256:cfce1e84a405df00876d228029becec7b8eb1aefdca9c56d9623f5a0e1eecff0"
+updated_at: 2026-10-05T06:24:32Z
+content_hash: "sha256:2ebc2db6c8b3faa4ffcf89060467085e5c588cb21fd72bf73f365ab78be05f02"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -991,6 +991,26 @@ BOTH the outstanding operator authorization AND disk headroom on the model volum
 `/mnt/bulk-hdd` (296 GB) has capacity, and it is not the model volume. No host mount, move, copy, or
 delete was performed: the WD-1s5s packet grants no host authority, and any reversible offload needs
 distinct explicit operator approval.
+### LTX dependency resolution mechanism confirmed (orchestrator, 2026-10-05)
+
+Read-only inspection of the live native tree shows how the six cleared cells resolve their LoRA.
+`models/ltx2/ltx2.py` registers system LoRAs through `_append_system_lora(name, multiplier, signature)`,
+which returns early when a user-selected LoRA is already present:
+
+    if any(signature in os.path.basename(lora).lower() for lora in loras): return
+
+The signatures in use are `ic-lora-outpaint`, `in-outpainting`, `ic-lora-ingredients` and `ic-lora-hdr`.
+Only when none matches does it fall back to a preload URL or `model_def["ltx2_lora_<name>"]`, which is the
+path that failed under offline mode.
+
+The four downloaded files live in `/home/straughter/Wan2GP/ckpts/` and their basenames contain exactly those
+signatures, so an operation that passes them as selected LoRAs suppresses the system download. Isolated run
+trees such as `Wan2GP-story-WD-m7xw/ckpts` are symlinks to the same live ckpts, so the files are visible to the
+runners there too.
+
+Caveat recorded rather than assumed: this makes the download sufficient only if the governed runner selects
+these LoRAs for the operation. It does not prove the operation will now succeed, and no cell may be promoted
+to `host_run_verified` without an authorized host run producing a full run bundle.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
