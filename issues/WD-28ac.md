@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T03:27:13Z
-content_hash: "sha256:4d07a0a3c3ceebace02cbda24268e4de5e47b45761850804ca72c005539037e1"
+updated_at: 2026-10-05T04:36:22Z
+content_hash: "sha256:b6746b774c2eef8c111af54584be81adde95ccc160310ce5e9aa062f3b0fe7b3"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -922,6 +922,29 @@ list is rebuilt against the actual authorized assets.
 RECOMMENDED FIX (needs a bounded task and probably an operator decision): rebuild `model_provenance`
 per operation from the assets that operation actually consumed, anchored to the authorized five, and
 stop listing non-model config/tokenizer files as models.
+### Provenance defect FIXED and independently verified (2026-10-04)
+
+Commit `abe6f36f` (branch story/WD-28ac, PR 217), exact-head CI success (run 37262403326, 23m30s).
+
+The over-declared `model_provenance` arrays are corrected. Per-bundle entry counts went from 16-20 to
+exactly 3 -- the assets each operation ACTUALLY loaded, derived from its own native log: the loaded
+base/quantized model, the loaded text encoder, and the loaded operation LoRA. The eleven
+tokenizer/config entries and the unrelated environment-inventory entries are gone.
+
+Every retained row now carries an `authorization_trace` pointing at a real record:
+- operator-authorized LTX assets -> `operator-authorization.json` (root approval verbatim `Authorized`,
+  2026-10-03T06:57:55Z), cross-checked against `model-assets.json` hashes;
+- pre-existing host assets -> the exact destination entry in the accepted prior-story evidence
+  (`WD-m7xw/evidence.json`, `WD-osfm/evidence.json`).
+
+New fail-closed semantics: `MODEL_PROVENANCE_AUTHORIZATION_ABSENT` for an observed model with no
+traceable approval, and `MODEL_PROVENANCE_NON_MODEL_FILE` for a config/tokenizer/data file reported as a
+load. New tests cover both, plus output-hash drift.
+
+ORCHESTRATOR-VERIFIED at `abe6f36f`: all six bundles PASS the checker (rc=0, owned_warnings=0);
+re-traced provenance myself -> 3 entries per bundle, 3 with authorization_trace, ZERO untraced;
+builder tests 6 passed; `pvg lint --backlog` 0 errors; protected engine files no diff vs origin/main;
+HEAD matches origin. `ltx23-upscale` still correctly excluded.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
