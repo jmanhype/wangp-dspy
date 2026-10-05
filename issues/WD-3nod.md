@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-10-05T17:14:39Z
-content_hash: "sha256:870fe156fcf47fd37748e482a0c7b54e085aa1e12a28256b0eb94f05db54f8c8"
+updated_at: 2026-10-05T23:32:56Z
+content_hash: "sha256:e0ca44112842008b73b6f2c80d9f3df6b1e6256a0c99544fdc314aa8a1cbf5aa"
 ---
 
 ## Description
@@ -71,6 +71,30 @@ identity rather than a fabricated one.
 
 Because this edits the QC gate's own implementation, it is recorded here as the next scoped work item
 rather than performed unilaterally. No verifier, receipt, index or test byte was changed here.
+### Loop integrity: knowledge-vault configuration is stale, and a credentials file sits in a vault (orchestrator, 2026-10-05)
+
+Two findings from an operator-delegated decision pass, recorded here because the configured knowledge vault
+cannot currently accept notes.
+
+1. The notes adapter is broken. `.paivot/config.yaml` declares the notes vault as "Claude". The directory of
+   that name exists but is EMPTY, and the vault tool no longer resolves that name at all, so `pvg notes`
+   fails outright rather than silently dropping writes. Checked every registered candidate against the
+   folder structure the protocol expects (`_inbox/`, `projects/`): none of them has it. The large Documents
+   vault holds 1093 notes but is a general knowledge base with different folders; `vault` holds 32 entries;
+   the video-factory vault holds 41; `nd-vault` holds 173 and is the backlog. Because no candidate matches
+   the protocol shape, repointing the config would risk scattering notes into the wrong vault, so no config
+   was changed. This is an operator call: either restore/register the intended vault, or repoint to a chosen
+   one.
+
+2. FLAGGED, not read: the vault named `vault` contains a file named `credentials-master.txt` at its root.
+   A credentials-shaped file inside a vault is an exposure risk if that vault syncs to any service or
+   repository. Nothing was opened or copied. Recommend confirming whether it is intentional, whether it is
+   git-ignored, and whether that vault is synced anywhere.
+
+Also recorded as a delegated disposition: the `ltx/2.3` upscale cell stays a documented `dependency_blocked`
+boundary and will not be re-rolled. Its authorization is one-shot (`retry` is `never`) and the governed
+runner requires exactly seven operations per plan, so closing that cell would mean manufacturing a
+`host_run_verified` the governance deliberately withheld. The asset is present; the gate is not the asset.
 
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
