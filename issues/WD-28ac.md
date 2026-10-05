@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T05:09:48Z
-content_hash: "sha256:bd3137bcb51f015992e785147b981289a05945d391b813038ffeaa5ea87bef54"
+updated_at: 2026-10-05T05:36:51Z
+content_hash: "sha256:aa32a17e82b32f7a08993c202d9f578330ea7d2dc44bc8ca62ef4acb856f60d6"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -958,6 +958,24 @@ Declaration only: no AC, status, label, or scope changed, and no host action is 
 PRODUCES:
 - scripts/build_wd28ac_parity_bundles.py -> reusable fail-closed parity bundle builder
 - tests/test_wd28ac_parity_bundle_builder.py -> focused builder tests
+### Standing gate (c) re-verification after lint repair (orchestrator, 2026-10-05)
+
+All four standing gates re-verified at current merged head b5b7e35b:
+
+- `pvg lint --backlog` => 0 errors, 0 review findings, 156 issues scanned. It had been
+  FAILING with 2 `paths-exist` errors for this story: the reusable builder described in the
+  packaging note above (`scripts/build_wd28ac_parity_bundles.py`,
+  `tests/test_wd28ac_parity_bundle_builder.py`) exists only on `story/WD-28ac` (carried by open
+  PR #217) and had never been added to a PRODUCES block, so the brownfield check fired from
+  `main`. Repaired in the declaration-only PRODUCES note above; no AC, status, label, or scope changed.
+- `uv run --frozen --extra dev pytest -q --junitxml=...` => exit 0; parsed JUnit counters
+  tests=2175, failures=0, errors=0, skipped=1.
+- `wgp release verify` => release=ready, tag_created=false.
+- Protected engine files (services/jobs/queue.py, services/director/renderers/policy.py,
+  services/director/wiring.py, services/jobs/preflight.py, scripts/run_film.py) byte-identical to
+  origin/main; last commits 2026-08-31..2026-09-24, none inside the parity window.
+
+STILL BLOCKED ON OPERATOR: Gate 18 `rembg` disposition (A / B / C).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
