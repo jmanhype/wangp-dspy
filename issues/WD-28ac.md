@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-04T16:20:49Z
-content_hash: "sha256:27bdb9a5d927bcb3a8cfd48a68ca7c2107297a856849352e02ea8237d3e6c920"
+updated_at: 2026-10-05T03:24:07Z
+content_hash: "sha256:09bee887bebc1e6313d194062efa8ed24ea8f2d6b9b45eddc2102060426b6ce1"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -778,6 +778,41 @@ Recorded findings already in the repo that bear on this: `docs/findings/33-accep
 artifact-contract step that interacts with `model_provenance.download_approved` -- and one of the seven
 cells (`ltx23-upscale`) is blocked precisely on an unapproved 7.6 GB model download. That field decides
 whether a bundle can be checker-valid at all, so the operator's download decision gates the QC design.
+### Six LTX cells are now CHECKER-VALIDATED with governed evidence bundles (2026-10-04)
+
+Consumer commit: `04ceea4a` (branch `story/WD-28ac`, PR 217), exact-head CI success (run 37257450547,
+23m09s). Evidence root: `datasets/runs/maestro-parity/WD-28ac/gate22/`.
+
+**INDEPENDENTLY RE-RUN BY THE ORCHESTRATOR -- all six PASS with zero diagnostics:**
+
+```
+ltx23-outpaint: rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx23-outpaint owned_warnings=0
+ltx23-recast:   rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx23-recast   owned_warnings=0
+ltx25-outpaint: rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx25-outpaint owned_warnings=0
+ltx25-recast:   rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx25-recast   owned_warnings=0
+ltx25-repaint:  rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx25-repaint  owned_warnings=0
+ltx25-upscale:  rc=0  PASS wangp-dspy.maestro-parity-evidence/v1 .../ltx25-upscale  owned_warnings=0
+```
+
+Each bundle contains `evidence.json`, `reviewer-verdict.json`, the copied `operation-record.json`,
+the exact staged `settings.json`, `native.log`, the native MP4, a local ffprobe record, and the exact
+bundle-local reference inputs. A reusable fail-closed builder `scripts/build_wd28ac_parity_bundles.py`
+plus focused tests `tests/test_wd28ac_parity_bundle_builder.py` were added.
+
+Evidence.json sha256:
+ltx25-outpaint `f56b8702b7141077...`, ltx25-repaint `fdc91fb1607357c1...`,
+ltx25-recast `9c822c1ec359618a...`, ltx25-upscale `ad53ab8b913769d1...`,
+ltx23-outpaint `5d3cdb76313ffcb7...`, ltx23-recast `b42ef277dcd43525...`
+
+Orchestrator-verified gates at `04ceea4a`: builder tests 3 passed; `pvg lint --backlog` 0 errors;
+protected engine files no diff vs origin/main; HEAD matches origin.
+
+**BOUNDARY STATED BY THE WORKER (accepted, not glossed):** each bundle's `reviewer_verdict` records
+deterministic developer packaging review only. It is NOT independent Paivot PM acceptance, not a
+capability-matrix transition, and not merge approval -- those remain for the PM/dispatcher lane.
+
+`ltx23-upscale` remains excluded as a documented terminal boundary (missing 7.6 GB
+`ltx-2.3-22b-distilled-lora-384-1.1.safetensors`, unapproved download).
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
