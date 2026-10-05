@@ -4,11 +4,11 @@ title: "LTX dependency terminalization batch"
 status: closed
 priority: 1
 type: task
-labels: [video, evidence, external-integration, operator-decision, delivered]
+labels: [video, evidence, external-integration, operator-decision, delivered, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T15:04:50Z
+updated_at: 2026-10-05T15:04:51Z
 content_hash: "sha256:ac593cc0149012681f294b573af494c49082a7df163033b272665a6d94f0d95c"
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
