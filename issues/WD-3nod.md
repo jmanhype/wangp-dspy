@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-10-05T05:41:16Z
-content_hash: "sha256:b122ff99d8f3db2dfb1b8f166ad58069f730339e5338dd65cb1e6c2c059be5e3"
+updated_at: 2026-10-05T17:14:39Z
+content_hash: "sha256:870fe156fcf47fd37748e482a0c7b54e085aa1e12a28256b0eb94f05db54f8c8"
 ---
 
 ## Description
@@ -46,6 +46,31 @@ operator disposition.
 Documentation nit, prose only and not machine-asserted: `docs/video-capabilities.md` still opens its
 capability matrix with a sentence claiming every family/operation row is `planned`, which contradicts the
 table beneath it and the index. No test asserts that sentence; it is proposed as a one-PR doc fix.
+### Identified remaining work: checker lane coverage omits the editor lane (orchestrator, 2026-10-05)
+
+Objective item (b) asks for the fail-closed provenance checker to be demonstrated on at least one bundle
+per lane. The recorded receipt currently covers eight bundle lanes: WD-2gyw, WD-bxhc, WD-cpow, WD-m0r5,
+WD-r81u, WD-rous, consent-closeout and WD-dmf2, which map to video, character, sfx, image, finishing,
+music, voice and director respectively.
+
+Verified this session: the checker itself PASSes on the editor lane bundle, which exists on disk at
+`datasets/runs/maestro-parity/editor-host-export/host-run` (exit 0, PASS, owned_warnings 0). The editor
+lane is nonetheless absent from the receipt, and first-run is absent by design because it has no
+generated artifact.
+
+The blocker for closing that gap is not the checker run but the receipt's shape. `scripts/verify_maestro_parity.py`
+hard-codes the expected lane tuple of exactly those eight ids, so extending coverage requires changing the
+fail-closed verifier itself and cascading the change through the receipt, the index lane bundles
+(`lane_exit_codes`, `receipt_sha256`, `checker_sha256`), the index validator expectations, the rendered
+index markdown and the parity tests.
+
+The identity derivation is now known, so the work is bounded: `_bundle_identity_sha256` hashes, over every
+regular file in sorted order, the UTF-8 relative path, a NUL, the lowercase hex SHA-256 of the file bytes,
+and a NUL. That reproduces the existing lane identities and would let an added lane carry a truthful
+identity rather than a fabricated one.
+
+Because this edits the QC gate's own implementation, it is recorded here as the next scoped work item
+rather than performed unilaterally. No verifier, receipt, index or test byte was changed here.
 
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
