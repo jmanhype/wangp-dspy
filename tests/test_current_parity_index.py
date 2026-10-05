@@ -52,8 +52,8 @@ def test_current_matrix_is_exact_and_has_required_census() -> None:
     ]
     assert Counter(row["canonical_state"] for row in rows) == Counter(
         {
-            "host_run_verified": 89,
-            "dependency_blocked": 7,
+            "host_run_verified": 95,
+            "dependency_blocked": 1,
             "terminal_unsupported_or_fail_closed": 110,
             "not_applicable": 2,
         }
@@ -71,7 +71,7 @@ def test_exactly_seven_current_ltx_cells_and_boundary_are_recorded() -> None:
         if row["canonical_state"] == "dependency_blocked"
     }
 
-    assert len(rows) == len(ltx["cells"]) == 7
+    assert len(rows) == len(ltx["cells"]) == 1
     assert rows == {tuple(cell) for cell in ltx["cells"]}
     assert ltx["source_ref"] == (
         "story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6"
@@ -116,7 +116,7 @@ def test_editor_host_run_is_verified_and_first_run_stays_incomplete() -> None:
 def test_matrix_evidence_manifest_hashes_real_bundle_bytes() -> None:
     index = _index()
     manifest = index["evidence_manifest"]
-    assert len(manifest) == 39
+    assert len(manifest) == 44
     assert manifest == VALIDATOR.evidence_manifest(
         VALIDATOR.parse_document_rows(ROOT), ROOT
     )
@@ -137,14 +137,14 @@ def test_validator_command_passes_current_repository() -> None:
         "result": "PASS",
         "matrix_rows": 208,
         "matrix_totals": {
-            "dependency_blocked": 7,
-            "host_run_verified": 89,
+            "dependency_blocked": 1,
+            "host_run_verified": 95,
             "not_applicable": 2,
             "terminal_unsupported_or_fail_closed": 110,
         },
         "non_matrix_rows": 3,
-        "ltx_dependency_cells": 7,
-        "hashed_matrix_evidence_files": 39,
+        "ltx_dependency_cells": 1,
+        "hashed_matrix_evidence_files": 44,
     }
 
 

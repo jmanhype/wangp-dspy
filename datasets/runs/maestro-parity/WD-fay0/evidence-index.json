@@ -2,6 +2,12 @@
   "base_commit": "5a94eb491c524816334e23e1b2894acc3b772819",
   "editor_host_run_evidence_sha256": "7a292c0befd1bbbe59db3f9d0f8879f1ed17e3141f9ff07a06126803353b7d17",
   "evidence_manifest": {
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json": "53211b25b925211d04c482e8dc6c259181e1c19c7c9825bf19c4a7f93753c463",
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json": "6f7dcedee294e60a7169a448f17628f30828c23954b08ad2b12a3e908e35b674",
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-outpaint/evidence.json": "cd83383ca709e884802f97322c54a1c9c9f877c57acac61c4131a2d242bc60c8",
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-recast/evidence.json": "cc134efb184f42057c41b3cc7a550d3e7db91afa0d508f85697e4ef80af7f377",
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-repaint/evidence.json": "2dfff695ad9af4ea39a2f92089da5605a7ea81db320b1c178b36e7d41504368f",
+    "datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-upscale/evidence.json": "5a6a506f36bcac7189f79d77c9f3d68e7052cd73710eea3e16c0eee2bd88ea61",
     "datasets/runs/maestro-parity/WD-28i5/boundary-evidence.json": "a165b332cd61b4afed307a7072659a10b156c41a22ed8bca52d40946d88109a6",
     "datasets/runs/maestro-parity/WD-28i5/evidence.json": "33eb9eefa3ff39be9f2436289b2db320357169e7b27a32d01784df442c5751a9",
     "datasets/runs/maestro-parity/WD-2gyw/evidence.json": "3b4486412a9cf20d05b7b2d1235fe70cbb35315ce8df5abe28ede97f36b2315a",
@@ -29,7 +35,6 @@
     "datasets/runs/maestro-parity/WD-m0r5/evidence.json": "ef2e44fcaff96450b8f75880ac2ea3427a11e6ae42c398fa15239f38da25ecb9",
     "datasets/runs/maestro-parity/WD-m25k/boundary-evidence.json": "e4cc474442e336279a8d8366449a9afc3ec5a054147cefe8d38c27cdeb91f6e8",
     "datasets/runs/maestro-parity/WD-m25k/evidence.json": "64749c6cd8177ca14e4f7b323d6e73c306fb42439b715989b7a63608f94599ff",
-    "datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md": "c17c12a1c21fc7ef6a5145c4a391e1f7e738d5a9e4827c5e088b95a4886d2d2c",
     "datasets/runs/maestro-parity/WD-m7xw/evidence.json": "f22b5cb3fb0d45f43aa7673280213e3ab3188fd663c32d9c6717a7d629404faa",
     "datasets/runs/maestro-parity/WD-obkn/evidence.json": "cb09e53ea85a3cc810ea76859fcaa2064faa17741c74f6c9e2cc9c9ba275e0be",
     "datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md": "17b24a0dca01192316cd2fa7a70d881a1a5a4c23674e2987bbe4e6054f48a253",
@@ -42,7 +47,7 @@
     "datasets/runs/maestro-parity/consent-closeout/evidence.json": "1c52dc2eb2221aea135ad0890a8bdf23fca5937730b7986298f733ef6f7aa4d6",
     "datasets/runs/maestro-parity/director-structural-limitation/evidence.json": "b7f7c02813dbe286ddef706157d649dd31bab668ac268677c25ed281aef609f3"
   },
-  "generated_at": "2026-09-30T15:34:00Z",
+  "generated_at": "2026-10-05T14:14:50Z",
   "lane_bundles": {
     "checker_sha256": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af",
     "lane_exit_codes": {
@@ -58,7 +63,7 @@
     "receipt_sha256": "2d935d24db35116c9acf7677943d93204cd79826276a3390141cadb667f3c3c4",
     "source": "datasets/runs/maestro-parity/checker-lane-receipts/evidence.json"
   },
-  "matrix_identity_sha256": "137529223a941dd8a95bebbcb37acf2b149b5cfa3513afed0b6a81bdb01489a2",
+  "matrix_identity_sha256": "5def89a93c01db3b79250e7aced865ea1e4493090537d3c0c4eb04d5725ec2c6",
   "non_matrix_inventory": {
     "rows": [
       {
@@ -112,36 +117,6 @@
         [
           "docs/video-capabilities.md",
           "ltx/2.3",
-          "Outpaint"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.3",
-          "Recast"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.3",
-          "Upscale"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.5",
-          "Outpaint"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.5",
-          "Recast"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.5",
-          "Repaint"
-        ],
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.5",
           "Upscale"
         ]
       ],
@@ -156,9 +131,9 @@
   },
   "row_inventory": {
     "documented_state_totals": {
-      "dependency_blocked": 7,
+      "dependency_blocked": 1,
       "fail-closed": 1,
-      "host_run_verified": 89,
+      "host_run_verified": 95,
       "not applicable": 2,
       "unsupported": 97,
       "unsupported for planning": 1,
@@ -997,38 +972,38 @@
         "source_line": "81"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Outpaint",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-outpaint/evidence.json",
         "row": "ltx/2.5",
         "source_line": "81"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Repaint",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-repaint/evidence.json",
         "row": "ltx/2.5",
         "source_line": "81"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Recast",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-recast/evidence.json",
         "row": "ltx/2.5",
         "source_line": "81"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Upscale",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-upscale/evidence.json",
         "row": "ltx/2.5",
         "source_line": "81"
       },
@@ -1078,11 +1053,11 @@
         "source_line": "82"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Outpaint",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json",
         "row": "ltx/2.3",
         "source_line": "82"
       },
@@ -1096,11 +1071,11 @@
         "source_line": "82"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Recast",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json",
         "row": "ltx/2.3",
         "source_line": "82"
       },
@@ -2043,8 +2018,8 @@
     ],
     "total": 208,
     "totals": {
-      "dependency_blocked": 7,
-      "host_run_verified": 89,
+      "dependency_blocked": 1,
+      "host_run_verified": 95,
       "not_applicable": 2,
       "terminal_unsupported_or_fail_closed": 110
     }
