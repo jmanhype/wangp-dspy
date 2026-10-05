@@ -1,0 +1,51 @@
+Multiple distributions found for package optimum. Picked distribution: optimum-quanto
+/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "cipher": algorithms.TripleDES,
+/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "class": algorithms.TripleDES,
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/settings.json
+Output directory: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/native-output
+[load_settings] Loading settings from: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/settings.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: edit_postprocessing
+Loaded 1 task(s)
+
+[Task 1/1] Media postprocessing...
+  Downloading LTX-2 Video Upsampler model files...  [0/1] Upsampling - Starting                     Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Hooked to model 'transformer' (X0Model)
+Async loading plan for model 'transformer' : base size of 643.23 MB will be preloaded with a 369.71 MB async circular shuttle
+Hooked to model 'text_encoder' (Gemma4UnifiedForCausalLM)
+Async loading plan for model 'text_encoder' : base size of 1920.01 MB will be preloaded with a 230.75 MB async circular shuttle
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'video_embeddings_connector' (Embeddings1DConnector)
+Async loading plan for model 'video_embeddings_connector' : 578.22 MB will be preloaded (base size of 1.00 MB + 37.5% of recurrent layers data) with a 192.41 MB async circular shuttle
+Hooked to model 'audio_embeddings_connector' (Embeddings1DConnector)
+Lora 'loras/ltx2/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors' was loaded in model 'models.ltx2.ltx2'
+LTX 25 upsampler windows:   0%|          | 0/1 [00:00<?, ?window/s]  [0/1] Upsampling - Audio VAE encoding  [0/1] Upsampling - Encoding prompt   [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] Upsampling - VAE encoding     [0/1] Upsampling - Distilled refinement
+  0%|          | 0/8 [00:00<?, ?steps/s][A
+ 12%|█▎        | 1/8 [00:47<05:34, 47.77s/steps][A  [1/8] Upsampling - Distilled refinement
+ 25%|██▌       | 2/8 [01:33<04:39, 46.57s/steps][A  [2/8] Upsampling - Distilled refinement
+ 38%|███▊      | 3/8 [02:19<03:50, 46.12s/steps][A  [3/8] Upsampling - Distilled refinement
+ 50%|█████     | 4/8 [03:04<03:03, 45.81s/steps]  [4/8] Upsampling - Distilled refinement[A
+ 62%|██████▎   | 5/8 [03:49<02:16, 45.65s/steps][A  [5/8] Upsampling - Distilled refinement
+ 75%|███████▌  | 6/8 [04:34<01:30, 45.38s/steps][A  [6/8] Upsampling - Distilled refinement
+ 88%|████████▊ | 7/8 [05:20<00:45, 45.38s/steps][A  [7/8] Upsampling - Distilled refinement
+100%|██████████| 8/8 [06:05<00:00, 45.44s/steps][A100%|██████████| 8/8 [06:05<00:00, 45.70s/steps]
+  [8/8] Upsampling - Distilled refinement  [0/1] Upsampling - VAE decoding        LTX 25 upsampler windows: 100%|██████████| 1/1 [06:49<00:00, 409.83s/window]LTX 25 upsampler windows: 100%|██████████| 1/1 [06:49<00:00, 409.83s/window]
+  [0/1] Upsampling - LTX 25 upsampling completePostprocessed video saved to Path: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-upscale/native-output/wd_m7xw_create_post.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 6m 57s
