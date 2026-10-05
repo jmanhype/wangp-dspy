@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T06:24:32Z
-content_hash: "sha256:2ebc2db6c8b3faa4ffcf89060467085e5c588cb21fd72bf73f365ab78be05f02"
+updated_at: 2026-10-05T06:25:47Z
+content_hash: "sha256:8d31a84a54cc9201b01baf27669fb9104367dcf50052eb39d417fff4dab51d35"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -1011,6 +1011,32 @@ runners there too.
 Caveat recorded rather than assumed: this makes the download sufficient only if the governed runner selects
 these LoRAs for the operation. It does not prove the operation will now succeed, and no cell may be promoted
 to `host_run_verified` without an authorized host run producing a full run bundle.
+### Fresh read-only preflight and LTX asset provenance (orchestrator, 2026-10-05T06:25Z)
+
+Read-only preflight on host 3090 (straughter-Z690-Steel-Legend). No render, no writes, no host mutation.
+
+- GPU idle: 142 MiB of 24576 MiB used, 0% utilization, no compute processes listed.
+- No judge or llama-server process running.
+- Root volume free 97 GB against the 53.69 GB floor; the 1.6T disk has 215 GB free.
+- The isolated run trees are not git checkouts, so their identity is defined by the governed runner
+  copies rather than a commit of their own.
+
+All five required LTX assets are present in the live ckpts:
+
+- ltx-2.3-22b-ic-lora-outpaint.safetensors, 1308756416 bytes, this session at 01:22, sha256 32c5d3e0
+- ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors, 1308778338 bytes, this session at 01:23, sha256 515e4e13
+- ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors, 1308778338 bytes, this session at 01:22, sha256 73dd0841
+- ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors, 327322640 bytes, this session at 01:22, sha256 984851b7
+- ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors, 19447662547 bytes, PRE-EXISTING from
+  2026-10-03T11:46, not downloaded by this session
+
+No download therefore remains outstanding, including the 18.11 GB transformer, and the recorded
+missing-dependency boundary is clear on disk for all seven cells. A `rembg` directory dated 2026-10-04
+also exists in the live ckpts, suggesting option-B staging may already be partly in place; it was not
+modified here.
+
+Still outstanding, and the only remaining item: an authorized governed host batch producing run bundles
+that can promote cells. Nothing has been promoted and no matrix cell state has changed.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
