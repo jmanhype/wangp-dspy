@@ -1,0 +1,51 @@
+{
+  "schema": "wangp-dspy.maestro-parity-preflight-boundary/v1",
+  "story": "WD-28ac",
+  "queue_admission": "blocked_before_admission",
+  "inference_attempted": false,
+  "model_download_bytes_planned": 23701298279,
+  "model_download_bytes_actual": 0,
+  "output_files": 0,
+  "boundary": {
+    "type": "authorized_host_state",
+    "reason": "The declared Wan2GP destination filesystem had 17865703424 bytes free, 5835594855 bytes less than the exact 23701298279-byte five-asset manifest. The largest declared asset alone is 19447662547 bytes and exceeds free space by 1581959123 bytes. Moving or removing an unrelated asset would require separate authorization, so the batch stopped before any model-byte download or queue admission.",
+    "evidence": [
+      "host-preflight/disk.txt",
+      "host-preflight/assets.tsv",
+      "host-preflight/supplemental/assets-supplemental.tsv",
+      "host-storage-diagnosis/remote/filesystems.txt",
+      "host-storage-diagnosis/remote/target-candidates.tsv"
+    ],
+    "not_a_hardware_verdict": true,
+    "not_an_unsupported_operation_verdict": true
+  },
+  "operations": {
+    "LTX-2.5/outpaint": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.5/repaint": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.5/recast": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.5/upscale": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.3/outpaint": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.3/recast": {"attempted": false, "disposition": "blocked_before_download"},
+    "LTX-2.3/upscale": {"attempted": false, "disposition": "blocked_before_download"}
+  },
+  "matrix_disposition": "unchanged: all seven cells remain dependency_blocked pending an operator-approved storage path or retry",
+  "preflight": {
+    "host": "3090",
+    "hostname": "straughter-Z690-Steel-Legend",
+    "ssh": "pass",
+    "live_wan2gp_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "ltx_2_5_source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+    "ltx_2_5_source_status": "?? ckpts",
+    "ltx_2_3_source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+    "ltx_2_3_source_status": "?? ckpts",
+    "existing_accepted_ltx_assets": "34 checked; all hashes and sizes match accepted WD-m7xw/WD-osfm evidence; the LTX-2.3 temporal upscaler is the explicitly accepted existing-asset link",
+    "declared_assets_before": "5/5 absent",
+    "gpu": "RTX 3090, 148 MiB used, 23968 MiB free, no compute apps",
+    "qc": "host Python, ffmpeg, and ffprobe executable probes passed",
+    "destination_free_bytes": 17865703424,
+    "required_manifest_bytes": 23701298279,
+    "shortfall_bytes": 5835594855,
+    "largest_asset_bytes": 19447662547,
+    "largest_asset_over_free_bytes": 1581959123
+  }
+}

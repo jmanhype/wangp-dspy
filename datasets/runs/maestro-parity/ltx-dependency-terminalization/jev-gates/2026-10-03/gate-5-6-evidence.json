@@ -1,0 +1,104 @@
+{
+  "artifacts": {
+    "wd28ac-fresh-readonly-probe-5.txt": {
+      "sha256": "e7ab2d79402d6be3535da14f392268949f656726be6d03834a149009e6e3d8e3",
+      "size_bytes": 4226
+    },
+    "wd28ac-jev-decision-5.json": {
+      "sha256": "7a2f71611a6d90fd12ceb24b3f1d20a5aa66ba61aeaf537ed261ddb881c9a8ce",
+      "size_bytes": 1471
+    },
+    "wd28ac-jev-decision-6.json": {
+      "sha256": "daf30e2162ca86d5b85f513d5634b35ca2669fca638bc474ec8abe1cfc5ebf1e",
+      "size_bytes": 1454
+    },
+    "wd28ac-jev-snapshot-5.json": {
+      "sha256": "70b5f40a678c89373e8f3fe02ae7a2ab4446bb916e51dbb3eb7c917527f06cd5",
+      "size_bytes": 4160
+    },
+    "wd28ac-jev-snapshot-6.json": {
+      "sha256": "cb5efbff1656a5e6471aded639fd88bedf2137bd20c84665309bd72403c04b94",
+      "size_bytes": 3322
+    },
+    "wd28ac-jev-trace-5.jsonl": {
+      "sha256": "ab9118bbe2b504d6fe0e8188a5023affcbbe8a0d5ce12693afdcefaafdbedb0a",
+      "size_bytes": 1169
+    },
+    "wd28ac-jev-trace-6.jsonl": {
+      "sha256": "5ce46bb108c2c53949fd3024016e966de0bc28a320d2133f97fea23cdffb56f6",
+      "size_bytes": 1152
+    }
+  },
+  "gates": {
+    "5": {
+      "constraint_risk": 0.26,
+      "decision": "GATHER_EVIDENCE",
+      "declared_snapshot_sha256": "91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd",
+      "declared_trace_sha256": "d4d38261c79a38381ffa4832e637cc0f3e61bd23cf36455a657a2f07ae4330fb",
+      "gate": 5,
+      "gather_confidence": 0.72,
+      "host_actions": 0,
+      "missing_evidence_score": 1.36,
+      "mode": "live",
+      "model": "jev-latest",
+      "raw_snapshot_file_sha256": "70b5f40a678c89373e8f3fe02ae7a2ab4446bb916e51dbb3eb7c917527f06cd5",
+      "scope": "gather_evidence_only",
+      "triggered_rules": [
+        "model_non_continue_choice"
+      ]
+    },
+    "6": {
+      "authorized_actions": [
+        "record_prestart_state",
+        "start_existing_judge_ctl",
+        "verify_port_8000_health",
+        "record_healthy_state",
+        "stop_judge_cleanly",
+        "verify_zero_processes_and_health_unreachable"
+      ],
+      "confidence": 0.98,
+      "constraint_risk": 0.2,
+      "decision": "CONTINUE",
+      "declared_snapshot_sha256": "f9509a57f4311c4a595e591551fe2f3fd4e55e25bf0862ee107fb263d9340aae",
+      "declared_trace_sha256": "f6ffafda422883b9f5cb5149bb3e9384c167b034ec5d4cae9e994659c6e10726",
+      "fresh_probe_sha256": "e7ab2d79402d6be3535da14f392268949f656726be6d03834a149009e6e3d8e3",
+      "gate": 6,
+      "host_actions_before_commit_and_ci": 0,
+      "missing_evidence_score": 1.09,
+      "mode": "live",
+      "model": "jev-latest",
+      "prohibited_actions": [
+        "native_operation",
+        "queue_admission",
+        "render",
+        "retrieval",
+        "network_model_get",
+        "model_or_file_mutation",
+        "unrelated_process_action",
+        "protected_file_edit",
+        "matrix_transition"
+      ],
+      "raw_snapshot_file_sha256": "cb5efbff1656a5e6471aded639fd88bedf2137bd20c84665309bd72403c04b94",
+      "scope": "QC_READINESS_ONLY",
+      "triggered_rules": [
+        "no_veto_triggered"
+      ]
+    }
+  },
+  "hash_semantics": {
+    "snapshot_file_digest": "raw copied snapshot bytes, retained separately",
+    "snapshot_sha256_source": "decision.snapshot_sha256",
+    "trace_sha256_source": "canonical compact sorted JSON records joined with newline"
+  },
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "typesafe_token"
+    ],
+    "status": "PASS"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.jev-gates/v1"
+}

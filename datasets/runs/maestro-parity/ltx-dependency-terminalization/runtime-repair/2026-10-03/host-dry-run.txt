@@ -1,0 +1,1 @@
+{"declared_wheel_gets": 0, "dependency_installs": 0, "status": "dry_run_validated", "wheel": {"filename": "mmgp-3.7.14-py3-none-any.whl", "sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208", "size": 68211}}

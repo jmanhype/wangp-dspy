@@ -1,0 +1,46 @@
+Multiple distributions found for package optimum. Picked distribution: optimum-quanto
+/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "cipher": algorithms.TripleDES,
+/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "class": algorithms.TripleDES,
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/settings.json
+Output directory: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/native-output
+[load_settings] Loading settings from: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/settings.json
+[load_settings] Loaded image: /home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[Task 1/1] Use the supplied reference frame to recast the shot with cle...
+Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+Loading model LTX-2 2.5 Distilled 22B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Switching to partial pinning since full requirements for pinned models is 18561.5 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+The model was partially pinned to reserved RAM: 72 large blocks spread across 15720.76 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma4UnifiedForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'video_embeddings_connector' (Embeddings1DConnector)
+Hooked to model 'audio_embeddings_connector' (Embeddings1DConnector)
+  Model loadedLora 'loras/ltx2/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors' was loaded in model 'models.ltx2.ltx2'
+Unable to pin data of 'loras/ltx2/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM will may be slower.
+  [0/1] Removing Images References Background[1;31m2026-10-04 10:50:24.497424504 [E:onnxruntime:Default, provider_bridge_ort.cc:2395 TryGetProviderInfo_CUDA] /onnxruntime_src/onnxruntime/core/session/provider_bridge_ort.cc:1988 onnxruntime::Provider& onnxruntime::ProviderLibrary::Get() [ONNXRuntimeError] : 1 : FAIL : Failed to load library /home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65/onnxruntime/capi/libonnxruntime_providers_cuda.so with error: libcublas.so.13: cannot open shared object file: No such file or directory
+[m
+  [0/1] Encoding Prompt                      [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] VAE Encoding     [0/8] Denoising | 39.1s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:27<03:10, 27.24s/steps]  [1/8] Denoising | 1m 07s / 4m 23s 25%|██▌       | 2/8 [00:29<01:14, 12.50s/steps]  [2/8] Denoising | 1m 09s / 2m 39s 38%|███▊      | 3/8 [00:31<00:38,  7.80s/steps]  [3/8] Denoising | 1m 11s / 2m 05s 50%|█████     | 4/8 [00:33<00:22,  5.59s/steps]  [4/8] Denoising | 1m 13s / 1m 48s 62%|██████▎   | 5/8 [00:35<00:13,  4.36s/steps]  [5/8] Denoising | 1m 15s / 1m 37s 75%|███████▌  | 6/8 [00:38<00:07,  3.63s/steps]  [6/8] Denoising | 1m 18s / 1m 31s 88%|████████▊ | 7/8 [00:40<00:03,  3.16s/steps]  [7/8] Denoising | 1m 20s / 1m 26s100%|██████████| 8/8 [00:42<00:00,  2.86s/steps]100%|██████████| 8/8 [00:42<00:00,  5.33s/steps]
+  [8/8] VAE Decoding | 1m 22s / 1m 22sVideo file saved to Path: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry/ltx25-recast/native-output/wd_m7xw_recast.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 1m 50s

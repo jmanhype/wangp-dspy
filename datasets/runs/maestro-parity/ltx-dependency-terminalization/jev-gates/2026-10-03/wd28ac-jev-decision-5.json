@@ -1,0 +1,56 @@
+{
+  "answers": {
+    "clarification_needed": {
+      "noul": 0.44,
+      "type": "noul"
+    },
+    "constraint_violation_risk": {
+      "noul": 0.26,
+      "type": "noul"
+    },
+    "missing_evidence_risk": {
+      "confidence": 0.7,
+      "legend": {
+        "0": "No important evidence is missing.",
+        "1": "Minor uncertainty remains; the action is reversible if wrong.",
+        "2": "Meaningful uncertainty could change the approach.",
+        "3": "A critical fact is missing.",
+        "4": "Proceeding without more evidence would be reckless."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.68,
+        "2": 0.29,
+        "3": 0.03,
+        "4": 0.0
+      },
+      "score": 1.36,
+      "type": "score"
+    },
+    "next_action": {
+      "choice": "gather_evidence",
+      "confidence": 0.72,
+      "probabilities": {
+        "ask_user": 0.0,
+        "continue": 0.21,
+        "gather_evidence": 0.78,
+        "narrow_action": 0.0,
+        "stop": 0.01
+      },
+      "type": "choice"
+    },
+    "still_on_task": {
+      "noul": 0.93,
+      "type": "noul"
+    }
+  },
+  "decision": "gather_evidence",
+  "mode": "live",
+  "policy_reason": "the action gate selected gather_evidence",
+  "schema_version": 1,
+  "snapshot_sha256": "91c2df7d23ec3d8a142d4419199b6326823c6e4b2047fb5789da3f6db000e9bd",
+  "trace_sha256": "d4d38261c79a38381ffa4832e637cc0f3e61bd23cf36455a657a2f07ae4330fb",
+  "triggered_rules": [
+    "model_non_continue_choice"
+  ]
+}

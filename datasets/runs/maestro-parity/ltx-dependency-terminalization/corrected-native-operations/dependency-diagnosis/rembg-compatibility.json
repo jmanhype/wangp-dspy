@@ -1,0 +1,537 @@
+{
+  "accepted_requirement_pin": "rembg[gpu]==2.0.65; platform_system != \"Darwin\"",
+  "captured_utc": "2026-10-04T03:05:42.266726+00:00",
+  "dist_info": {
+    "canonical_sha256": "d9c18a43d3159ea50e6331ea393e272d77953f5d6e71cf85e5e4533e37b704c4",
+    "exists": true,
+    "file_count": 8,
+    "inventory": [
+      {
+        "path": "INSTALLER",
+        "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+        "size_bytes": 4
+      },
+      {
+        "path": "METADATA",
+        "sha256": "a2c74be3c0f4aba37cdd4b5892b7e20e2a8505098eaae1abb3eb449b73e36d81",
+        "size_bytes": 17254
+      },
+      {
+        "path": "RECORD",
+        "sha256": "d097f97ef217cece3fb7a061e549eb5f8596f856a0722284ad007abc56481881",
+        "size_bytes": 5237
+      },
+      {
+        "path": "REQUESTED",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "WHEEL",
+        "sha256": "ff309ddcdd65ebd02bc724dbf2bcc4a0ff53a5b61792a44548d383e4ebb19d3b",
+        "size_bytes": 91
+      },
+      {
+        "path": "entry_points.txt",
+        "sha256": "871efdb25c08b09e974c7acc9a66f2be918795da2dcc53e0572774f0debdd311",
+        "size_bytes": 41
+      },
+      {
+        "path": "licenses/LICENSE.txt",
+        "sha256": "90a3215072968fd304669c5389f04f1274a587abdd0507d99dead0f5511f8999",
+        "size_bytes": 1069
+      },
+      {
+        "path": "top_level.txt",
+        "sha256": "767fd27a3c0853d79d8ecef2fbce5121a1844b9f335fd4d03692f3fd2c3ea07d",
+        "size_bytes": 6
+      }
+    ],
+    "path": "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg-2.0.69.dist-info",
+    "uncompressed_bytes": 23702
+  },
+  "gpu_after": "NVIDIA GeForce RTX 3090, 24576, 142, 23974, 0",
+  "gpu_before": "NVIDIA GeForce RTX 3090, 24576, 142, 23974, 0",
+  "host": {
+    "fqdn": "straughter-Z690-Steel-Legend",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "user": "straughter"
+  },
+  "import_probes": [
+    {
+      "code": "import importlib.metadata as m,json,rembg,mmgp,inspect;print(json.dumps({'rembg_version':m.version('rembg'),'rembg_path':inspect.getfile(rembg),'mmgp_version':m.version('mmgp'),'mmgp_path':inspect.getfile(mmgp)}))",
+      "name": "rembg_and_mmgp_identity",
+      "payload": {
+        "mmgp_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+        "mmgp_version": "3.7.14",
+        "rembg_path": "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg/__init__.py",
+        "rembg_version": "2.0.69"
+      },
+      "returncode": 0,
+      "stderr": "/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"cipher\": algorithms.TripleDES,\n/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"class\": algorithms.TripleDES,\n",
+      "stdout": "{\"rembg_version\": \"2.0.69\", \"rembg_path\": \"/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg/__init__.py\", \"mmgp_version\": \"3.7.14\", \"mmgp_path\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py\"}\n"
+    },
+    {
+      "code": "import inspect,json;from rembg import remove,new_session;print(json.dumps({'remove':str(inspect.signature(remove)),'new_session':str(inspect.signature(new_session))}))",
+      "name": "rembg_required_api",
+      "payload": {
+        "new_session": "(model_name: str = 'u2net', *args, **kwargs) -> rembg.sessions.base.BaseSession",
+        "remove": "(data: Union[bytes, PIL.Image.Image, numpy.ndarray], alpha_matting: bool = False, alpha_matting_foreground_threshold: int = 240, alpha_matting_background_threshold: int = 10, alpha_matting_erode_size: int = 10, session: Optional[rembg.sessions.base.BaseSession] = None, only_mask: bool = False, post_process_mask: bool = False, bgcolor: Optional[Tuple[int, int, int, int]] = None, force_return_bytes: bool = False, *args: Optional[Any], **kwargs: Optional[Any]) -> Union[bytes, PIL.Image.Image, numpy.ndarray]"
+      },
+      "returncode": 0,
+      "stderr": "/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"cipher\": algorithms.TripleDES,\n/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"class\": algorithms.TripleDES,\n",
+      "stdout": "{\"remove\": \"(data: Union[bytes, PIL.Image.Image, numpy.ndarray], alpha_matting: bool = False, alpha_matting_foreground_threshold: int = 240, alpha_matting_background_threshold: int = 10, alpha_matting_erode_size: int = 10, session: Optional[rembg.sessions.base.BaseSession] = None, only_mask: bool = False, post_process_mask: bool = False, bgcolor: Optional[Tuple[int, int, int, int]] = None, force_return_bytes: bool = False, *args: Optional[Any], **kwargs: Optional[Any]) -> Union[bytes, PIL.Image.Image, numpy.ndarray]\", \"new_session\": \"(model_name: str = 'u2net', *args, **kwargs) -> rembg.sessions.base.BaseSession\"}\n"
+    },
+    {
+      "code": "import inspect,json,sys;sys.path.insert(0,'/home/straughter/Wan2GP-story-WD-m7xw');import shared.utils.utils as u;print(json.dumps({'path':inspect.getfile(u),'has_remove':hasattr(u,'remove'),'has_new_session':hasattr(u,'new_session'),'functions':[x for x in ('remove','new_session') if hasattr(u,x)]}))",
+      "name": "accepted_shared_utils_import",
+      "payload": {
+        "functions": [
+          "remove",
+          "new_session"
+        ],
+        "has_new_session": true,
+        "has_remove": true,
+        "path": "/home/straughter/Wan2GP-story-WD-m7xw/shared/utils/utils.py"
+      },
+      "returncode": 0,
+      "stderr": "Multiple distributions found for package optimum. Picked distribution: optimum-quanto\n/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"cipher\": algorithms.TripleDES,\n/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.\n  \"class\": algorithms.TripleDES,\n",
+      "stdout": "{\"path\": \"/home/straughter/Wan2GP-story-WD-m7xw/shared/utils/utils.py\", \"has_remove\": true, \"has_new_session\": true, \"functions\": [\"remove\", \"new_session\"]}\n"
+    }
+  ],
+  "metadata": {
+    "record_rembg_lines": [
+      "rembg/__init__.py,sha256=_H6rtp_OBRGSfL0nF9_98s4Kn2KLMsTxBv3Yp-eXCwI,138",
+      "rembg/__pycache__/__init__.cpython-312.pyc,,",
+      "rembg/__pycache__/_version.cpython-312.pyc,,",
+      "rembg/__pycache__/bg.cpython-312.pyc,,",
+      "rembg/__pycache__/cli.cpython-312.pyc,,",
+      "rembg/__pycache__/session_factory.cpython-312.pyc,,",
+      "rembg/_version.py,sha256=CQSs1xlcWBUc0fRmDUvswNG0HpUdMooY-xbtEsBYcgo,498",
+      "rembg/bg.py,sha256=ZXR4XeHQhaMNNhmUmgoOYCcADb3LIV-U2UnlhHoSnEc,11281",
+      "rembg/cli.py,sha256=TEeVN9kcZ8cBH0bRSC3I7kz0r7E8MrauWomcZ-7htFY,266",
+      "rembg/commands/__init__.py,sha256=u4IxWpjxvlm0qSzjdSd4afAhWNyRS-6pR7X2EUnliZg,370",
+      "rembg/commands/__pycache__/__init__.cpython-312.pyc,,",
+      "rembg/commands/__pycache__/b_command.cpython-312.pyc,,",
+      "rembg/commands/__pycache__/d_command.cpython-312.pyc,,",
+      "rembg/commands/__pycache__/i_command.cpython-312.pyc,,",
+      "rembg/commands/__pycache__/p_command.cpython-312.pyc,,",
+      "rembg/commands/__pycache__/s_command.cpython-312.pyc,,",
+      "rembg/commands/b_command.py,sha256=Z0k1XdUR1HxSFD4cJJxDiZmHaPorFJDCRAHcQukSn0U,4764",
+      "rembg/commands/d_command.py,sha256=Drq3ww91N-QqM6FJzhAIoLd0wB6Li9DxbCb2MKyK7Qo,273",
+      "rembg/commands/i_command.py,sha256=W3J1NGnwOnuH3_lyc53P6ZPM1fkCiVFh8o8-uCk1QTg,2624",
+      "rembg/commands/p_command.py,sha256=yLYLjN4YmHh_7UqIv2bQs_9BCnwvJ-01m3jQB4IwlCM,5947",
+      "rembg/commands/s_command.py,sha256=6fLDvGWUidaIERHmaEW01w8rPASzaJ-xgXgkBflNQX8,10591",
+      "rembg/session_factory.py,sha256=PTCCRk4_l2siPinQ-HPqO76Aw-xUI4_grRrssJB1UjY,1638",
+      "rembg/sessions/__init__.py,sha256=apybCZeJKRpSuX1Ng0Yn5b_DMIIE8x3VRikPvfNCgOs,2173",
+      "rembg/sessions/__pycache__/__init__.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/base.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/ben_custom.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_cod.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_dis.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_general.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_general_lite.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_hrsod.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_massive.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/birefnet_portrait.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/bria_rmbg.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/dis_anime.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/dis_custom.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/dis_general_use.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/sam.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/silueta.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/u2net.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/u2net_cloth_seg.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/u2net_custom.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/u2net_human_seg.cpython-312.pyc,,",
+      "rembg/sessions/__pycache__/u2netp.cpython-312.pyc,,",
+      "rembg/sessions/base.py,sha256=LUjy8N8zdj6BM1M8iIGkmLT9XrOfn3VmVh5uHzj_VYw,2858",
+      "rembg/sessions/ben_custom.py,sha256=BFPI5fTQkgp5wvQylg63PJgXS5jT6hYFn3xdaB6dA0Q,2697",
+      "rembg/sessions/birefnet_cod.py,sha256=AVf6SBDKrx-m56r0pbISattCN_tHJntDNklt9YdW4qM,1475",
+      "rembg/sessions/birefnet_dis.py,sha256=vvgP_QT4QSKVw78_W3uktIwG0cyGJU6ypy_QyD1lu1M,1475",
+      "rembg/sessions/birefnet_general.py,sha256=KyWaHWPm67BC4gq_2Ve3_dzmaoxmHDwTDmvJ_79ZcZM,2592",
+      "rembg/sessions/birefnet_general_lite.py,sha256=ulao0ONoU_3Ij0IF4jBeXSejDfxLv5NVOdtYj2DUvCM,1539",
+      "rembg/sessions/birefnet_hrsod.py,sha256=4JA_CEfi4XCWXcKZXjsW2fvWSGLP3cKybPwDLuM7AjY,1491",
+      "rembg/sessions/birefnet_massive.py,sha256=1vOhqCkx8xDSOcV5Wk7BRWeTTiytZexfdl5SRQ6y2hc,1515",
+      "rembg/sessions/birefnet_portrait.py,sha256=EBvaawJurA3whN4jkvfVqI51Wr6S2NWOogTCtNJdSIc,1505",
+      "rembg/sessions/bria_rmbg.py,sha256=58GKjXJWPdXd3dWa6ZR4xXthHWk5kjhdQaWvCipXi-g,2506",
+      "rembg/sessions/dis_anime.py,sha256=NcOeXRfD2B-04C6gE5m4jgxWDHTdDtn_w7pp6gs2_38,2360",
+      "rembg/sessions/dis_custom.py,sha256=kiXB1AhPgNjCiA9DmM8lTGfENFvf_zFz4HA2wloo2GU,2696",
+      "rembg/sessions/dis_general_use.py,sha256=y1Xriez2HKY33wUl1ovUv04LLI2oAPbM4o7coJRUZhM,2535",
+      "rembg/sessions/sam.py,sha256=iaP2qAktimV5hI1rO6IQwGZCuPzstyR66qmM8PvKGSU,10952",
+      "rembg/sessions/silueta.py,sha256=pANuC2KeKsk9VPd4a-PAZXor71ODml6EL2fr23k006U,2716",
+      "rembg/sessions/u2net.py,sha256=wou_9lk7BecjjoaLm1JcuE5w3Sm_pUicP_DOjdFZv7A,2445",
+      "rembg/sessions/u2net_cloth_seg.py,sha256=eHvS4PJbjvoVIvKHfMrAogUYGAcy8O2LpvFGOnqnhzs,3572",
+      "rembg/sessions/u2net_custom.py,sha256=6W1ZLAsnH10HRdt9i4fqgrtqFd_MhffYGo5y9YKrWLk,2769",
+      "rembg/sessions/u2net_human_seg.py,sha256=_beBwzfidRkic_yMeHNbtRiNXx3ltkNUfZvLDIGniNg,2421",
+      "rembg/sessions/u2netp.py,sha256=8PDzRPW7GVBas1cNImpzUS-Z_yiwIdVjJHd2pElptQE,1998"
+    ],
+    "version_lines": [
+      "Name: rembg",
+      "Version: 2.0.69",
+      "Requires-Dist: jsonschema",
+      "Requires-Dist: numpy",
+      "Requires-Dist: opencv-python-headless",
+      "Requires-Dist: pillow",
+      "Requires-Dist: pooch",
+      "Requires-Dist: pymatting",
+      "Requires-Dist: scikit-image",
+      "Requires-Dist: scipy",
+      "Requires-Dist: tqdm",
+      "Requires-Dist: bandit; extra == \"dev\"",
+      "Requires-Dist: black; extra == \"dev\"",
+      "Requires-Dist: flake8; extra == \"dev\"",
+      "Requires-Dist: imagehash; extra == \"dev\"",
+      "Requires-Dist: isort; extra == \"dev\"",
+      "Requires-Dist: mypy; extra == \"dev\"",
+      "Requires-Dist: pytest; extra == \"dev\"",
+      "Requires-Dist: setuptools; extra == \"dev\"",
+      "Requires-Dist: twine; extra == \"dev\"",
+      "Requires-Dist: wheel; extra == \"dev\"",
+      "Requires-Dist: onnxruntime; extra == \"cpu\"",
+      "Requires-Dist: onnxruntime-gpu; extra == \"gpu\"",
+      "Requires-Dist: onnxruntime-rocm; extra == \"rocm\"",
+      "Requires-Dist: aiohttp; extra == \"cli\"",
+      "Requires-Dist: asyncer; extra == \"cli\"",
+      "Requires-Dist: click; extra == \"cli\"",
+      "Requires-Dist: fastapi; extra == \"cli\"",
+      "Requires-Dist: filetype; extra == \"cli\"",
+      "Requires-Dist: gradio; extra == \"cli\"",
+      "Requires-Dist: python-multipart; extra == \"cli\"",
+      "Requires-Dist: uvicorn; extra == \"cli\"",
+      "Requires-Dist: watchdog; extra == \"cli\""
+    ]
+  },
+  "mutation": "none; bytecode and online/model access disabled; CUDA hidden from probes",
+  "package": {
+    "canonical_sha256": "0fcb5ad95f856416d299c9e02b88deb35b5e135643c31704dad19f6415608637",
+    "exists": true,
+    "file_count": 64,
+    "inventory": [
+      {
+        "path": "__init__.py",
+        "sha256": "fc7eabb69fce0511927cbd2717dffdf2ce0a9f628b32c4f106fdd8a7e7970b02",
+        "size_bytes": 138
+      },
+      {
+        "path": "__pycache__/__init__.cpython-312.pyc",
+        "sha256": "9bc35e72c10a1ee08ba25a9e753d5b95216c2f9246bcc654a45e2c509325c133",
+        "size_bytes": 392
+      },
+      {
+        "path": "__pycache__/_version.cpython-312.pyc",
+        "sha256": "58dee691a827f2cd2c7f54ac661f4cf6010d18b57c05d5a923fa6a48a0204167",
+        "size_bytes": 562
+      },
+      {
+        "path": "__pycache__/bg.cpython-312.pyc",
+        "sha256": "4ef6257d045ae791d87e031afa237cf92f6d161901a31b18da079a93bd95840d",
+        "size_bytes": 14412
+      },
+      {
+        "path": "__pycache__/cli.cpython-312.pyc",
+        "sha256": "ecb32f72f107d778d852619b70b2a2869e643477455644a4f2c8dc9b74be9f7c",
+        "size_bytes": 750
+      },
+      {
+        "path": "__pycache__/session_factory.cpython-312.pyc",
+        "sha256": "2c7531e9a6b0eaad17b52dc118d09e7e1b1306c1c22a0f060c39da3ead085acd",
+        "size_bytes": 2063
+      },
+      {
+        "path": "_version.py",
+        "sha256": "0904acd7195c58151cd1f4660d4becc0d1b41e951d328a18fb16ed12c058720a",
+        "size_bytes": 498
+      },
+      {
+        "path": "bg.py",
+        "sha256": "6574785de1d085a30d3619949a0a0e6027000dbdcb215f94d949e5847a129c47",
+        "size_bytes": 11281
+      },
+      {
+        "path": "cli.py",
+        "sha256": "4c479537d91c67c7011f46d1482dc8ee4cf4afb13c32b6ae5a899c67eee1b456",
+        "size_bytes": 266
+      },
+      {
+        "path": "commands/__init__.py",
+        "sha256": "bb82315a98f1be59b4a92ce375277869f02158dc914beea947b5f61149e58998",
+        "size_bytes": 370
+      },
+      {
+        "path": "commands/__pycache__/__init__.cpython-312.pyc",
+        "sha256": "8ad8a944c504fb13704d529f79d00eb8b87320b28a8357af73cdc5b7c3289f6d",
+        "size_bytes": 626
+      },
+      {
+        "path": "commands/__pycache__/b_command.cpython-312.pyc",
+        "sha256": "e7661193383bc2e09993739d8e443303d514d420aa16e3fe5870bf608ec59c07",
+        "size_bytes": 7242
+      },
+      {
+        "path": "commands/__pycache__/d_command.cpython-312.pyc",
+        "sha256": "e03ccb1c3d8ce96df2d88f0fd752d01059b441fbdcb7f6e7d2985bf3c9a4e6ae",
+        "size_bytes": 699
+      },
+      {
+        "path": "commands/__pycache__/i_command.cpython-312.pyc",
+        "sha256": "2e54ff7b78037ac701cdf3b453c8c8e2230107aace1f79113fe5d7d1df25db6e",
+        "size_bytes": 3748
+      },
+      {
+        "path": "commands/__pycache__/p_command.cpython-312.pyc",
+        "sha256": "dffad1eb7d3cd26975498d9c8970f6f67f71552c0c2c1b3fba380c4afe51985e",
+        "size_bytes": 8026
+      },
+      {
+        "path": "commands/__pycache__/s_command.cpython-312.pyc",
+        "sha256": "697525499ee7cd3b0aded941f6be5e9e42af20bc8a917d9a91690a61be719c28",
+        "size_bytes": 13234
+      },
+      {
+        "path": "commands/b_command.py",
+        "sha256": "6749355dd511d47c52143e1c249c4389998768fa2b1490c24401dc42e9129f45",
+        "size_bytes": 4764
+      },
+      {
+        "path": "commands/d_command.py",
+        "sha256": "0ebab7c30f7537e42a33a149ce1008a0b774c01e8b8bd0f16c26f630ac8aed0a",
+        "size_bytes": 273
+      },
+      {
+        "path": "commands/i_command.py",
+        "sha256": "5b72753469f03a7b87dff972739dcfe993ccd5f902895161f28f3eb829354138",
+        "size_bytes": 2624
+      },
+      {
+        "path": "commands/p_command.py",
+        "sha256": "c8b60b8cde1898787fed4a88bf66d0b3ff410a7c2f27ed359b78d00782309423",
+        "size_bytes": 5947
+      },
+      {
+        "path": "commands/s_command.py",
+        "sha256": "e9f2c3bc659489d6881111e66845b4d70f2b3c04b3689fb181782405f94d417f",
+        "size_bytes": 10591
+      },
+      {
+        "path": "session_factory.py",
+        "sha256": "3d3082464e3f976b223e29d0f873ea3bbe80c3ec54238fe0ad1aecb090755236",
+        "size_bytes": 1638
+      },
+      {
+        "path": "sessions/__init__.py",
+        "sha256": "6a9c9b099789291a52b97d4d834627e5bfc3308204f31dd546290fbdf34280eb",
+        "size_bytes": 2173
+      },
+      {
+        "path": "sessions/__pycache__/__init__.cpython-312.pyc",
+        "sha256": "50fae5ed77668e8ab8fa31f969cb0e85b030ddae371e0d7d3a873c76f58a77c6",
+        "size_bytes": 2822
+      },
+      {
+        "path": "sessions/__pycache__/base.cpython-312.pyc",
+        "sha256": "8ac2a0672e434a9ae413d3fb9342aacc2bdb63697f90f81b3e85ba16220c7e3f",
+        "size_bytes": 4804
+      },
+      {
+        "path": "sessions/__pycache__/ben_custom.cpython-312.pyc",
+        "sha256": "15b3f589a12b02959b01bf850b68f7a7cc01c9a1ce7aef571632dc2020d7b265",
+        "size_bytes": 4129
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_cod.cpython-312.pyc",
+        "sha256": "c789c21cc64fad5d51d14c850c6107067b5880567e77f3e5b411d44fd26f81b0",
+        "size_bytes": 2131
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_dis.cpython-312.pyc",
+        "sha256": "d59f024e87c0e6db8cf04752ad9fa4b6b3a1f50a30d9d0d0c56ef4d47c8fa048",
+        "size_bytes": 2131
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_general.cpython-312.pyc",
+        "sha256": "6047258b29604a0c67907fea1f1f00a35f32e63fc801fc8fac99b0508c00b5bb",
+        "size_bytes": 4002
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_general_lite.cpython-312.pyc",
+        "sha256": "31c36bc6e90fbe578795219528bd6d1d514f79c17d3f13d27718080280914889",
+        "size_bytes": 2223
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_hrsod.cpython-312.pyc",
+        "sha256": "9d5bd324674ae6b366d1c88566c0ce816ff019f6b43b2adfde1d3130a3c556dc",
+        "size_bytes": 2153
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_massive.cpython-312.pyc",
+        "sha256": "77c434230a5156f13ae84efa3ab516425d9a83645b36f76786d7b74dc6299356",
+        "size_bytes": 2183
+      },
+      {
+        "path": "sessions/__pycache__/birefnet_portrait.cpython-312.pyc",
+        "sha256": "19fc7c24a43fda40b822ef4838c1afde5e0619b2759194f4792dc45916e93856",
+        "size_bytes": 2176
+      },
+      {
+        "path": "sessions/__pycache__/bria_rmbg.cpython-312.pyc",
+        "sha256": "1848dd79011e785a3e57497958fd044f2707715e601fb97d0be0a6754fade424",
+        "size_bytes": 3698
+      },
+      {
+        "path": "sessions/__pycache__/dis_anime.cpython-312.pyc",
+        "sha256": "88557cfef0ab803e88e88bcbbe0b037c89ad9eac7782b1e4537763e714c577ae",
+        "size_bytes": 3557
+      },
+      {
+        "path": "sessions/__pycache__/dis_custom.cpython-312.pyc",
+        "sha256": "1bde15a4f666bbb97abab997c304da4a9a1d93754c8ce35e1026ceab18d56274",
+        "size_bytes": 4129
+      },
+      {
+        "path": "sessions/__pycache__/dis_general_use.cpython-312.pyc",
+        "sha256": "eb2ca894f76f5c5c4e1ea960e00dea68b789ae481ae421963f707b3c178c5ae4",
+        "size_bytes": 3733
+      },
+      {
+        "path": "sessions/__pycache__/sam.cpython-312.pyc",
+        "sha256": "98ce2f6c53c50ca5c60dd6769dcfd4dea8c6fb3f6618c88c26f2f6b6e8339002",
+        "size_bytes": 13547
+      },
+      {
+        "path": "sessions/__pycache__/silueta.cpython-312.pyc",
+        "sha256": "3d5a1502046335fa1b28a76feb55035c6fbd2f8ba57ddaed5b1bbc64310b80b7",
+        "size_bytes": 3906
+      },
+      {
+        "path": "sessions/__pycache__/u2net.cpython-312.pyc",
+        "sha256": "95c52375aa8e25114ccfe167503a97c3d83d11f57561e9bffec91aa9c281d61d",
+        "size_bytes": 3669
+      },
+      {
+        "path": "sessions/__pycache__/u2net_cloth_seg.cpython-312.pyc",
+        "sha256": "038b1c1ca00a18e835fab74847837dd20a074e0801117a3f5a60b04137915dfa",
+        "size_bytes": 5339
+      },
+      {
+        "path": "sessions/__pycache__/u2net_custom.cpython-312.pyc",
+        "sha256": "3bad6f24dd16e55ca6516a8e1751006e46f140836654318bcbfb023a5dd98e66",
+        "size_bytes": 4199
+      },
+      {
+        "path": "sessions/__pycache__/u2net_human_seg.cpython-312.pyc",
+        "sha256": "7e4766ed268f5b8243080386a2794894b47614d139d287fab6f46b70fad56f83",
+        "size_bytes": 3633
+      },
+      {
+        "path": "sessions/__pycache__/u2netp.cpython-312.pyc",
+        "sha256": "910f4eb1fe0a1823872d24905a999fb53efeca5cff6f921087c0e67a82a027ff",
+        "size_bytes": 3174
+      },
+      {
+        "path": "sessions/base.py",
+        "sha256": "2d48f2f0df33763e8133533c8881a498b4fd5eb39f9f7566561e6e1f38ff558c",
+        "size_bytes": 2858
+      },
+      {
+        "path": "sessions/ben_custom.py",
+        "sha256": "0453c8e5f4d0920a79c2f432960eb73c98174b98d3ea16059f7c5d681e9d0344",
+        "size_bytes": 2697
+      },
+      {
+        "path": "sessions/birefnet_cod.py",
+        "sha256": "0157fa4810caaf1fa6e7aaf4a5b2126adb4237fb47267b4336496df58756e2a3",
+        "size_bytes": 1475
+      },
+      {
+        "path": "sessions/birefnet_dis.py",
+        "sha256": "bef80ffd04f8412295c3bf3f5b7ba4b48c06d1cc86254eb2a72fd0c83d65bb53",
+        "size_bytes": 1475
+      },
+      {
+        "path": "sessions/birefnet_general.py",
+        "sha256": "2b259a1d63e6ebb042e20abfd957b7fddce66a8c661c3c130e6bc9ffbf597193",
+        "size_bytes": 2592
+      },
+      {
+        "path": "sessions/birefnet_general_lite.py",
+        "sha256": "ba56a8d0e36853fdc88f4205e2305e5d27a30dfc4bbf935539db588f60d4bc23",
+        "size_bytes": 1539
+      },
+      {
+        "path": "sessions/birefnet_hrsod.py",
+        "sha256": "e0903f0847e2e170965dc2995e3b16d9fbd64862cfddc2b26cfc032ee33b0236",
+        "size_bytes": 1491
+      },
+      {
+        "path": "sessions/birefnet_massive.py",
+        "sha256": "d6f3a1a82931f310d239c5795a4ec14567934e2cad65ec5f765e52450eb2da17",
+        "size_bytes": 1515
+      },
+      {
+        "path": "sessions/birefnet_portrait.py",
+        "sha256": "101bda6b026eac0df084de2392f7d5a88e755abe92d8d58ea204c2b4d25d4887",
+        "size_bytes": 1505
+      },
+      {
+        "path": "sessions/bria_rmbg.py",
+        "sha256": "e7c18a8d72563dd5ddddd59ae99478c57b611d693992385d41a5af0a2a578be8",
+        "size_bytes": 2506
+      },
+      {
+        "path": "sessions/dis_anime.py",
+        "sha256": "35c39e5d17c3d81fb4e02ea01399b88e0c560c74dd0ed9ffc3ba69ea0b36ff7f",
+        "size_bytes": 2360
+      },
+      {
+        "path": "sessions/dis_custom.py",
+        "sha256": "9225c1d4084f80d8c2880f4398cf254c67c4345bdfff3173e07036c25a28d865",
+        "size_bytes": 2696
+      },
+      {
+        "path": "sessions/dis_general_use.py",
+        "sha256": "cb55eb89ecf61ca637df0525d68bd4bf4e0b2c8da800f6cce28edca094546613",
+        "size_bytes": 2535
+      },
+      {
+        "path": "sessions/sam.py",
+        "sha256": "89a3f6a8092d8a6579848d6b3ba210c06642b8fcecb7247aeaa98cf0fbca1925",
+        "size_bytes": 10952
+      },
+      {
+        "path": "sessions/silueta.py",
+        "sha256": "a4036e0b629e2ac93d54f7786be3c0657a2bef53839a5e842f67ebdb7934d3a5",
+        "size_bytes": 2716
+      },
+      {
+        "path": "sessions/u2net.py",
+        "sha256": "c28bbff6593b05e7238e868b9b525cb84e70dd29bfa5489c3ff0ce8dd159bfb0",
+        "size_bytes": 2445
+      },
+      {
+        "path": "sessions/u2net_cloth_seg.py",
+        "sha256": "787bd2e0f25b8efa1522f2877ccac0a20518180732f0ed8ba6f1463a7aa7873b",
+        "size_bytes": 3572
+      },
+      {
+        "path": "sessions/u2net_custom.py",
+        "sha256": "e96d592c0b271f5d0745db7d8b87ea82bb6a15dfcc85f7d81a8e72f582ab58b9",
+        "size_bytes": 2769
+      },
+      {
+        "path": "sessions/u2net_human_seg.py",
+        "sha256": "fdb781c337e275192273fc8c78735bb5188d5f1de5b643547d9bcb0c81a788d8",
+        "size_bytes": 2421
+      },
+      {
+        "path": "sessions/u2netp.py",
+        "sha256": "f0f0f344f5bb19505ab3570d226a73512f99ff28b021d563247776a44969b501",
+        "size_bytes": 1998
+      }
+    ],
+    "path": "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg",
+    "uncompressed_bytes": 227772
+  },
+  "read_only": true,
+  "schema_version": "wangp-dspy.wd-28ac.rembg-compatibility-readonly/v1"
+}

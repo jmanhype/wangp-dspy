@@ -1,0 +1,58 @@
+{
+  "artifacts": {
+    "wd28ac-fresh-readonly-probe.txt": {
+      "sha256": "b922d0f9242fc27c133cb47808e083f36da8845b5b5e3be92fbd5b6222f2b2f0",
+      "size_bytes": 1701
+    },
+    "wd28ac-jev-decision-2.json": {
+      "sha256": "a547f36565fbe6c7ad2fce7c5bef4061c89bc684f12bd8b95b79c698110f6528",
+      "size_bytes": 1456
+    },
+    "wd28ac-jev-snapshot-2.json": {
+      "sha256": "6fe6b932677c667ddedeb1f09bae735d48f7a5cd8225285a3651f317cfe63959",
+      "size_bytes": 3629
+    },
+    "wd28ac-jev-trace-2.jsonl": {
+      "sha256": "4b8a6f9ee8d1e6cf35fcc7edfb7cd37be1da42a02958af008cf27d779acb0977",
+      "size_bytes": 1154
+    }
+  },
+  "authorization_boundary": {
+    "download_only": true,
+    "exact_one_curl_per_remaining_asset": true,
+    "host": "3090",
+    "no_deletion_move_overwrite": true,
+    "no_matrix_transition": true,
+    "no_qc_start_stop": true,
+    "no_queue_admission": true,
+    "no_render": true,
+    "remaining_asset_count": 3
+  },
+  "confidence": 0.96,
+  "constraint_risk": 0.21,
+  "decision": "CONTINUE",
+  "declared_snapshot_sha256": "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2",
+  "declared_trace_sha256": "2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd",
+  "gate": 2,
+  "hash_semantics": {
+    "snapshot_file_digest": "raw copied snapshot bytes; enriched artifact digest retained separately",
+    "snapshot_sha256_source": "decision.snapshot_sha256; exact required gate hash",
+    "trace_sha256_source": "canonical compact sorted JSON records joined with newline"
+  },
+  "missing_evidence_score": 1.25,
+  "mode": "live",
+  "model": "jev-latest",
+  "raw_api_key_scan": {
+    "matches": 0,
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "typesafe_token"
+    ],
+    "status": "PASS"
+  },
+  "recorded_scope": "PHASE_A_DOWNLOADS_ONLY",
+  "schema_version": "wangp-dspy.wd-28ac.jev-gate/v1",
+  "triggered_rules": "no_veto_triggered"
+}

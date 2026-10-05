@@ -1,0 +1,64 @@
+{
+  "boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native-output",
+    "remediation": "Preserve the native log and stop without retry or substitution."
+  },
+  "operations": [
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native-output"
+      ],
+      "attempt": 1,
+      "boundary": {
+        "code": "NATIVE_NO_OUTPUT",
+        "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native-output",
+        "remediation": "Preserve the native log and stop without retry or substitution."
+      },
+      "durable_job_id": "job-1791055869374-3f043ee9",
+      "operation_id": "ltx25-outpaint",
+      "planned_job_id": "wd-28ac-ltx25-outpaint-attempt-1",
+      "queue_id": "wd-28ac-phase-b-ltx25-outpaint",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "operation": "outpaint",
+            "operation_id": "ltx25-outpaint",
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.5",
+            "status": "pending"
+          }
+        ],
+        "created_at": 1791055869.3747485,
+        "failure_class": "NATIVE_NO_OUTPUT",
+        "failure_count": 1,
+        "failure_detail": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/native-output",
+        "job_id": "job-1791055869374-3f043ee9",
+        "plan_ref": "wd-28ac-phase-b-ltx25-outpaint",
+        "retryable": true,
+        "state": "failed"
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate5/ltx25-outpaint/settings.json",
+        "destination_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+        "template": "/home/straughter/wd-28ac-final-gate7-20261003/datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
+        "template_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83"
+      },
+      "status": "failed"
+    }
+  ],
+  "status": "failed_closed",
+  "terminal_operation": "ltx25-outpaint"
+}

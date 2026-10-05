@@ -1,0 +1,66 @@
+UTC=2026-10-03T18:01:25Z
+HOST=straughter-Z690-Steel-Legend
+USER=straughter
+--- disk ---
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 825829466112 23422541824  98% /
+--- gpu ---
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+--- compute apps ---
+--- qc health ---
+ QC_URL=http://127.0.0.1:8000/health UNREACHABLE
+ QC_URL=http://127.0.0.1:8420/healthz UNREACHABLE
+--- execution trees ---
+TREE=/home/straughter/Wan2GP-story-WD-m7xw
+faea82d15bf10b3479c42c0ea430892aae975870
+?? ckpts
+54a2531d1cd9e07d038e43d2a6f3d954f547d4088e09bdfe2c55b49f92e155ed  /home/straughter/Wan2GP-story-WD-m7xw/wgp.py
+TREE=/home/straughter/Wan2GP-story-WD-osfm
+4c93b64a47b5b0a915f2abec2ce754be98227150
+?? ckpts
+643daa8bbd7e179e0a1278598018422503d359880fa23a4b3624c9e7dc5fd9cf  /home/straughter/Wan2GP-story-WD-osfm/wgp.py
+--- five model finals ---
+ASSET=ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors
+TYPE=regular file|SIZE=1308778338|INODE=42729921|MTIME=1791013201
+515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors
+PARTIAL=ABSENT
+ASSET=ltx-2.3-22b-ic-lora-outpaint.safetensors
+TYPE=regular file|SIZE=1308756416|INODE=42729976|MTIME=1791036691
+32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors
+PARTIAL=ABSENT
+ASSET=ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors
+TYPE=regular file|SIZE=1308778338|INODE=42729977|MTIME=1791045216
+73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors
+PARTIAL=ABSENT
+ASSET=ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors
+TYPE=regular file|SIZE=327322640|INODE=42729978|MTIME=1791045253
+984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d  /home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors
+PARTIAL=ABSENT
+ASSET=ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors
+TYPE=regular file|SIZE=19447662547|INODE=42729979|MTIME=1791045960
+5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors
+PARTIAL=ABSENT
+--- accepted references ---
+REFERENCE=/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+TYPE=regular file|SIZE=438713|INODE=38939804|MTIME=1790459159
+f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f  /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+REFERENCE=/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4
+TYPE=regular file|SIZE=2879|INODE=38939818|MTIME=1790459323
+a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386  /home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4
+REFERENCE=/home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+TYPE=regular file|SIZE=295302|INODE=38939806|MTIME=1790459163
+36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f  /home/straughter/wd-m7xw-run/outputs/create/first-frame.png
+REFERENCE=/home/straughter/wd-osfm-run/inputs/control.mp4
+TYPE=regular file|SIZE=101143|INODE=39191986|MTIME=1790532398
+1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a  /home/straughter/wd-osfm-run/inputs/control.mp4
+REFERENCE=/home/straughter/wd-osfm-run/inputs/alternate-reference.png
+TYPE=regular file|SIZE=107009|INODE=39210637|MTIME=1790532398
+f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f  /home/straughter/wd-osfm-run/inputs/alternate-reference.png
+REFERENCE=/home/straughter/wd-osfm-run/inputs/control-mask.mp4
+TYPE=regular file|SIZE=25402|INODE=39210640|MTIME=1790532398
+46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866  /home/straughter/wd-osfm-run/inputs/control-mask.mp4
+REFERENCE=/home/straughter/wd-osfm-run/inputs/reference.png
+TYPE=regular file|SIZE=114358|INODE=39210636|MTIME=1790532398
+fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd  /home/straughter/wd-osfm-run/inputs/reference.png
+--- relevant processes ---
+803069 /usr/bin/python3.12 /home/straughter/.local/bin/uvicorn qc.audio_critic.service:app --host 127.0.0.1 --port 8377 --workers 1

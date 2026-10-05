@@ -1,0 +1,106 @@
+{
+  "authorization": {
+    "recorded_at": "2026-10-03T22:32:06Z",
+    "decision": "Authorized",
+    "scope": "preserved_wheel_extraction_import_once",
+    "network_get_limit": 0
+  },
+  "evidence": {
+    "corrected_postflight": {
+      "path": "wheel-layout-host-postflight-corrected.txt",
+      "sha256": "ab8c2e0a8294ccc030c9f1f2afed7c44214032c05db1dbd319803c6fb2a048bf"
+    },
+    "deploy_and_dry_run": {
+      "path": "wheel-layout-host-deploy-and-dry-run.txt",
+      "sha256": "9ef57cf677b5ce0572af3ab3cdb855ad898dbc38de215d06f286e7c3fb421df4"
+    },
+    "execute_exit": {
+      "path": "wheel-layout-host-execute.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "value": 0
+    },
+    "execute_stdout": {
+      "path": "wheel-layout-host-execute.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final_tree_vs_extract_inventory": {
+      "path": "wheel-layout-final-tree-vs-extract-inventory.txt",
+      "sha256": "e21a16bee69a47e0b34bbd8f0e39a83e686b8ee473c92885d2f07adbde3dafed"
+    },
+    "first_postflight_audit": {
+      "interpretation": "failed inventory audit, preserved as evidence",
+      "path": "wheel-layout-host-postflight.txt",
+      "sha256": "426bc35544295e941eb58587ce8088522301fbc3b2e02e490e0a7efe3502b082"
+    },
+    "host_report": {
+      "path": "wheel-layout-host-report.json",
+      "sha256": "7481c1a1bdce53affb161c9e0f32481d131c8fee662bc92305ae14bc88861db7"
+    },
+    "readonly_preflight": {
+      "path": "wheel-layout-host-readonly-preflight.txt",
+      "sha256": "9ed2e6068bd0cfdba5deb1849cc4c1883457bbb6b1bda992da825655609e7802"
+    }
+  },
+  "gate": 11,
+  "host": "straughter-Z690-Steel-Legend",
+  "import_result": {
+    "metadata_version": "3.7.14",
+    "module_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+    "python": "/usr/bin/python3",
+    "returncode": 0,
+    "system_mmgp_present_after": false
+  },
+  "inventory": {
+    "extracted_wheel_file_count": 11,
+    "extracted_wheel_uncompressed_bytes": 290057,
+    "extracted_inventory_matches_report": true,
+    "final_file_count": 12,
+    "final_uncompressed_bytes": 291005,
+    "import_generated_bytecode": [
+      {
+        "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+        "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+        "size_bytes": 948
+      }
+    ],
+    "postflight_note": "The authorized isolated import generated one __pycache__ file inside the declared isolated destination after extraction inventory. It was preserved, not deleted; wheel payload files and hashes otherwise match exactly."
+  },
+  "network_accounting": {
+    "declared_wheel_gets": 0,
+    "undeclared_requests": 0,
+    "wheel_get_limit": 0
+  },
+  "postflight_state": {
+    "available_bytes": 23538384896,
+    "gpu": "NVIDIA GeForce RTX 3090, 24576 MiB total, 139 MiB used, 23978 MiB free, 0% utilization",
+    "gpu_compute_apps": 0
+  },
+  "prehost_ci": {
+    "conclusion": "success",
+    "head": "c4445b22488b0bed66afd5f599cdcb5db7c297ee",
+    "run_id": 37159234076,
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37159234076"
+  },
+  "preservation": {
+    "models_unchanged": true,
+    "prior_gate11_report_unchanged": true,
+    "protected_files_unchanged": true,
+    "references_unchanged": true
+  },
+  "root_member": {
+    "ast_body_node_types": [],
+    "byte_count": 0,
+    "classification": "empty",
+    "is_inert": true,
+    "member": "__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.wheel-layout-host-resume/v1",
+  "status": "passed",
+  "story": "WD-28ac",
+  "wheel": {
+    "filename": "mmgp-3.7.14-py3-none-any.whl",
+    "sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "size_bytes": 68211
+  }
+}

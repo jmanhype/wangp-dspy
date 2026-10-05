@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py", line 58, in <module>
+    from shared.utils.utils import convert_tensor_to_image, convert_video_tensor_to_uint8_chunked, save_image, get_video_info, get_file_creation_date, convert_image_to_video, calculate_new_dimensions, convert_image_to_tensor, calculate_dimensions_and_resize_image, rescale_and_crop, get_video_frame, resize_and_remove_background, rgb_bw_to_rgba_mask, image_editor_layer_to_rgb_mask, to_rgb_tensor, get_resampled_video_transparent, get_video_summary_extras
+  File "/home/straughter/Wan2GP-story-WD-m7xw/shared/utils/utils.py", line 13, in <module>
+    from rembg import remove, new_session
+ModuleNotFoundError: No module named 'rembg'

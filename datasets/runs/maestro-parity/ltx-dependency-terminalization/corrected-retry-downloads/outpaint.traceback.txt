@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/straughter/wd-28ac-run/corrected-retry/scripts/run_ltx_dependency_download.py", line 440, in <module>
+    sys.exit(main())
+  File "/home/straughter/wd-28ac-run/corrected-retry/scripts/run_ltx_dependency_download.py", line 414, in main
+    controller.execute(args.asset)
+  File "/home/straughter/wd-28ac-run/corrected-retry/scripts/run_ltx_dependency_download.py", line 210, in execute
+    "redirect_count": int(redirect_count),
+ValueError: invalid literal for int() with base 10: ''

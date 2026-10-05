@@ -1,0 +1,54 @@
+{
+  "authorization_record": {
+    "path": "../../operator-authorization.json",
+    "key": "operator_wheel_layout_authorization",
+    "recorded_at": "2026-10-03T22:32:06Z",
+    "decision": "Authorized",
+    "verbatim_scope": "Accept the known root __init__.py member only if inspection confirms it is inert; extract the already downloaded exact-hash wheel; verify isolated mmgp imports; issue zero GETs; and retain all Gate 11 prohibitions."
+  },
+  "gate": 11,
+  "prior_boundary": {
+    "code": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+    "report_path": "gate11-corrected-report.json",
+    "report_sha256": "fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6"
+  },
+  "preserved_wheel": {
+    "filename": "mmgp-3.7.14-py3-none-any.whl",
+    "size_bytes": 68211,
+    "sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208"
+  },
+  "root_member_inspection": {
+    "path": "gate11-root-member-readonly-inspection.json",
+    "sha256": "3bdb7a1b86754c1711552a67cba11069464b4ad6e4379cde78c95bb27f11c81a",
+    "member": "__init__.py",
+    "byte_count": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "utf8": true,
+    "classification": "empty",
+    "ast_body_node_types": [],
+    "is_inert": true,
+    "inspection_was_read_only": true
+  },
+  "resume_contract": {
+    "mode": "resume_preserved_wheel",
+    "network_get_limit": 0,
+    "dependency_installs": 0,
+    "requires_exact_wheel_size_and_sha256": true,
+    "requires_empty_existing_staging": true,
+    "refuses_destination_or_report_collision": true,
+    "atomic_final_rename": true,
+    "isolated_python": "/usr/bin/python3"
+  },
+  "raw_api_key_scan": {
+    "patterns_checked": [
+      "api_key_assignment",
+      "bearer_assignment",
+      "openai_sk",
+      "signed_query"
+    ],
+    "matches": 0,
+    "status": "PASS"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.operator-wheel-layout-authorization/v1",
+  "story": "WD-28ac"
+}

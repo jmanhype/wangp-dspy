@@ -1,0 +1,460 @@
+{
+  "captured_utc": "2026-10-04T01:17:56.140175+00:00",
+  "execution_trees": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-m7xw",
+          "rev-parse",
+          "HEAD"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "faea82d15bf10b3479c42c0ea430892aae975870\n"
+      },
+      "commit_match": true,
+      "expected_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "status": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-m7xw",
+          "status",
+          "--porcelain=v1"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "?? ckpts\n"
+      }
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-osfm",
+          "rev-parse",
+          "HEAD"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "4c93b64a47b5b0a915f2abec2ce754be98227150\n"
+      },
+      "commit_match": true,
+      "expected_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "status": {
+        "argv": [
+          "git",
+          "-C",
+          "/home/straughter/Wan2GP-story-WD-osfm",
+          "status",
+          "--porcelain=v1"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "?? ckpts\n"
+      }
+    }
+  },
+  "filesystems": {
+    "/home/straughter": {
+      "free_bytes": 23356219392,
+      "total_bytes": 857997254656
+    },
+    "/home/straughter/Wan2GP": {
+      "free_bytes": 23356219392,
+      "total_bytes": 857997254656
+    },
+    "/mnt/bulk-hdd": {
+      "free_bytes": 317216575488,
+      "total_bytes": 1756157775872
+    }
+  },
+  "gpu": {
+    "compute_apps": {
+      "argv": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "NVIDIA GeForce RTX 3090, 24576, 142, 23974, 0\n"
+    }
+  },
+  "host": {
+    "fqdn": "straughter-Z690-Steel-Legend",
+    "hostname": "straughter-Z690-Steel-Legend",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "target": "3090",
+    "user": "straughter"
+  },
+  "isolated_runtime": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "exists": true,
+    "fresh_host_recheck": true,
+    "isolated_import": {
+      "argv": [
+        "/usr/bin/python3",
+        "-c",
+        "import mmgp structured identity probe"
+      ],
+      "payload": {
+        "metadata_version": "3.7.14",
+        "path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "{\"metadata_version\": \"3.7.14\", \"path\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py\"}\n"
+    },
+    "payload": {
+      "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+      "file_count": 12,
+      "inventory": [
+        {
+          "path": "__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/METADATA",
+          "sha256": "2cca750907d144a03f695ab1b1191b6bb7ac6f21d1895732ab213ff25717dcc7",
+          "size_bytes": 16311
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/RECORD",
+          "sha256": "a0ae6464fbbb70f7b867045df530a3a8d3fafc52d5329b108b8e766b36c5eb50",
+          "size_bytes": 837
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/WHEEL",
+          "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
+          "size_bytes": 91
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/licenses/LICENSE.md",
+          "sha256": "0c3f96212d0190fa1627ff2140edc9f2130ff4aff5f9dcab62fd5809b9317035",
+          "size_bytes": 94
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/top_level.txt",
+          "sha256": "c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5",
+          "size_bytes": 14
+        },
+        {
+          "path": "mmgp/__init__.py",
+          "sha256": "03da81c3240c77533bbec8524ce0671463f5310bd2da15e64dc4c2314726cb31",
+          "size_bytes": 509
+        },
+        {
+          "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+          "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+          "size_bytes": 948
+        },
+        {
+          "path": "mmgp/fp8_quanto_bridge.py",
+          "sha256": "bd32a7cd629ef3c320325db3d20cdcbbb1064d51ccedcd9683de5d9aa314def3",
+          "size_bytes": 26356
+        },
+        {
+          "path": "mmgp/offload.py",
+          "sha256": "5e6a07c6f6f3b7cabc3b1cbdedbad30a094e33e34d73e15e2cf80b7437b5d7bc",
+          "size_bytes": 176124
+        },
+        {
+          "path": "mmgp/quant_router.py",
+          "sha256": "ed9e2dcb27ffae533103c9403ba377617f11db6364e12d10e7a4bd362b15fbdd",
+          "size_bytes": 45822
+        },
+        {
+          "path": "mmgp/safetensors2.py",
+          "sha256": "f87c9dc2ee56dc0f47941c38f05bb8cfbd5b5bc8bf99e39c62d94f248dd45cfb",
+          "size_bytes": 23899
+        }
+      ],
+      "uncompressed_bytes": 291005
+    },
+    "regular_directory": true,
+    "separate_fresh_host_gate_required": true,
+    "symlink": false,
+    "system_mmgp_import": {
+      "argv": [
+        "/usr/bin/python3",
+        "-c",
+        "import mmgp structured identity probe"
+      ],
+      "payload": null,
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'mmgp'\n",
+      "stdout": ""
+    },
+    "system_mmgp_present": false
+  },
+  "judge": {
+    "health": {
+      "http://127.0.0.1:8000/health": {
+        "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+        "reachable": false
+      },
+      "http://127.0.0.1:8420/healthz": {
+        "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+        "reachable": false
+      }
+    },
+    "process_patterns": {
+      "judge_ctl": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "judge_ctl"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      },
+      "llama-server": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "llama-server"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      },
+      "wgp.py --process": {
+        "argv": [
+          "pgrep",
+          "-af",
+          "wgp.py --process"
+        ],
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      }
+    }
+  },
+  "models": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "final": {
+        "exists": true,
+        "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "expected_size_bytes": 19447662547,
+        "hash_match": true,
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size_bytes": 19447662547,
+        "size_match": true,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null,
+        "symlink": false,
+        "type": "absent"
+      }
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "final": {
+        "exists": true,
+        "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "expected_size_bytes": 1308778338,
+        "hash_match": true,
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size_bytes": 1308778338,
+        "size_match": true,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null,
+        "symlink": false,
+        "type": "absent"
+      }
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "final": {
+        "exists": true,
+        "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "expected_size_bytes": 1308778338,
+        "hash_match": true,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338,
+        "size_match": true,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null,
+        "symlink": false,
+        "type": "absent"
+      }
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "final": {
+        "exists": true,
+        "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "expected_size_bytes": 1308756416,
+        "hash_match": true,
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416,
+        "size_match": true,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null,
+        "symlink": false,
+        "type": "absent"
+      }
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "final": {
+        "exists": true,
+        "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "expected_size_bytes": 327322640,
+        "hash_match": true,
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size_bytes": 327322640,
+        "size_match": true,
+        "symlink": false,
+        "type": "regular_file"
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null,
+        "symlink": false,
+        "type": "absent"
+      }
+    }
+  },
+  "read_only": true,
+  "references": {
+    "WD-m7xw:ltx25_generated_source_video": {
+      "exists": true,
+      "expected_sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+      "hash_match": true,
+      "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+      "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+      "size_bytes": 438713,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-m7xw:repaint_editable_region_mask": {
+      "exists": true,
+      "expected_sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+      "hash_match": true,
+      "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+      "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+      "size_bytes": 2879,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-m7xw:retake_and_recast_reference_frame": {
+      "exists": true,
+      "expected_sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+      "hash_match": true,
+      "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+      "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+      "size_bytes": 295302,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-osfm:person_bearing_control_video": {
+      "exists": true,
+      "expected_sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "hash_match": true,
+      "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+      "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+      "size_bytes": 101143,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-osfm:recast_reference_frame": {
+      "exists": true,
+      "expected_sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+      "hash_match": true,
+      "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+      "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+      "size_bytes": 107009,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-osfm:repaint_probe_mask": {
+      "exists": true,
+      "expected_sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866",
+      "hash_match": true,
+      "path": "/home/straughter/wd-osfm-run/inputs/control-mask.mp4",
+      "sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866",
+      "size_bytes": 25402,
+      "symlink": false,
+      "type": "regular_file"
+    },
+    "WD-osfm:retake_start_frame": {
+      "exists": true,
+      "expected_sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+      "hash_match": true,
+      "path": "/home/straughter/wd-osfm-run/inputs/reference.png",
+      "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+      "size_bytes": 114358,
+      "symlink": false,
+      "type": "regular_file"
+    }
+  },
+  "schema_version": "wangp-dspy.wd-28ac.gate13-fresh-host-preflight/v1",
+  "tool_versions": {
+    "git": {
+      "argv": [
+        "/usr/bin/git",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "git version 2.43.0\n"
+    },
+    "python3": {
+      "argv": [
+        "/usr/bin/python3",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "Python 3.12.3\n"
+    },
+    "sha256sum": {
+      "argv": [
+        "/usr/bin/sha256sum",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "sha256sum (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Ulrich Drepper, Scott Miller, and David Madore.\n"
+    }
+  }
+}

@@ -1,0 +1,910 @@
+{
+    "accepted_assets": [
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f",
+                "size_bytes": 19483116168,
+                "type": "regular_file"
+            },
+            "sha256": "b4bb89c54e025d834f0c6138dbf80c245e8196c27c8bff8dd47db4c03412c72f",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_vae_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_video_vae_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d",
+                "size_bytes": 1452269922,
+                "type": "regular_file"
+            },
+            "sha256": "685b06ee3d9b2039647698fc4ea33175112462fc374e2777312c907897dfce8d",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_diffusion_video_vae_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3",
+                "size_bytes": 1472223346,
+                "type": "regular_file"
+            },
+            "sha256": "847e14ca7f3355debca0cea4eaa24ac0fbcdf0061da054ac89ca638a869ddba3",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_vae_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_audio_vae_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028",
+                "size_bytes": 106546028,
+                "type": "regular_file"
+            },
+            "sha256": "43ed048b9a5aa7eac181cf1b5bf68382aa4fb9d98627575d01d9b187d3462028",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_vocoder_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_vocoder_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435",
+                "size_bytes": 258355696,
+                "type": "regular_file"
+            },
+            "sha256": "a865b27a492fea788dc35bed29b333103ca1fb9c280f4fd77976ad19a3b13435",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_text_embedding_projection_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494",
+                "size_bytes": 2312126712,
+                "type": "regular_file"
+            },
+            "sha256": "06b7017692b2d0d42a863d609cf40e7672243eb3d13ae7a19650a7a8294ac494",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_video_embeddings_connector_int8_convrot.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765",
+                "size_bytes": 1615737560,
+                "type": "regular_file"
+            },
+            "sha256": "9559f09ff6fb1b3dca10617722df7133838ea0fee6f1457c90e992447796d765",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-22b_audio_embeddings_connector_int8_convrot.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362",
+                "size_bytes": 405254656,
+                "type": "regular_file"
+            },
+            "sha256": "80270afb795fdac363dcd8329e6b375f6ca93f6a3d74a25b2bb440d342095362",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-spatial-upscaler-x2-1.0_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8",
+                "size_bytes": 995778752,
+                "type": "regular_file"
+            },
+            "sha256": "eb5a71fe4068ee87ccdb1c3aa635e547ca76bd2d30ae20ae889f2c325c0677e8",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-ltx-2.5-temporal-upscaler-x2-1.0_bf16.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+                "size_bytes": 261944000,
+                "type": "regular_file"
+            },
+            "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors",
+            "hash_match": true,
+            "identity": "ltx25-gemma4-gemma4-12b-ltx-v1_int8_convrot.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903",
+                "size_bytes": 12923893224,
+                "type": "regular_file"
+            },
+            "sha256": "6a23b673266b65a318e26cad27fabd5c67609f4ecf51aa13996feb07d0060903",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer.json",
+            "hash_match": true,
+            "identity": "ltx25-gemma4-tokenizer.json",
+            "observed": {
+                "exists": true,
+                "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+                "size_bytes": 32169626,
+                "type": "regular_file"
+            },
+            "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/config.json",
+            "hash_match": true,
+            "identity": "ltx25-gemma4-config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0",
+                "size_bytes": 2498,
+                "type": "regular_file"
+            },
+            "sha256": "82ec29063791629eac6a023c662f4edc2a811e479343ae79f21b8453357caeb0",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/chat_template.jinja",
+            "hash_match": true,
+            "identity": "ltx25-gemma4-chat_template.jinja",
+            "observed": {
+                "exists": true,
+                "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
+                "size_bytes": 18683,
+                "type": "regular_file"
+            },
+            "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma4-12b-ltx-v1/tokenizer_config.json",
+            "hash_match": true,
+            "identity": "ltx25-gemma4-tokenizer_config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8",
+                "size_bytes": 3736,
+                "type": "regular_file"
+            },
+            "sha256": "794a39f8330ce05020774c70c091225bc5f031b9cacf41fc20e52eb54b4b52d8",
+            "size_bytes": null,
+            "size_match": true,
+            "story": "WD-m7xw"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-distilled-Q4_K_M_light.gguf",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b-distilled-Q4_K_M_light.gguf",
+            "observed": {
+                "exists": true,
+                "sha256": "e324dbdacfc228e02e79e2f952c8274b16ba155d029db5f9abdd55a311325208",
+                "size_bytes": 12971904032,
+                "type": "regular_file"
+            },
+            "sha256": "e324dbdacfc228e02e79e2f952c8274b16ba155d029db5f9abdd55a311325208",
+            "size_bytes": 12971904032,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors",
+            "hash_match": true,
+            "identity": "gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "1fad55b5df6c660c7982985c8ced76369114b1d31bbec93fbecc66a8bf30f36a",
+                "size_bytes": 13210647730,
+                "type": "regular_file"
+            },
+            "sha256": "1fad55b5df6c660c7982985c8ced76369114b1d31bbec93fbecc66a8bf30f36a",
+            "size_bytes": 13210647730,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_vae.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b_vae.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "646b77e252d08ec3a6e24fccb4bf53c80c7cf52025272f155f30fe2b84f0e1d4",
+                "size_bytes": 1452263226,
+                "type": "regular_file"
+            },
+            "sha256": "646b77e252d08ec3a6e24fccb4bf53c80c7cf52025272f155f30fe2b84f0e1d4",
+            "size_bytes": 1452263226,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_audio_vae.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b_audio_vae.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "c99a673c32ad0f7f6349df58466c0a1c2f398e314484a33988794322375cbde4",
+                "size_bytes": 106538084,
+                "type": "regular_file"
+            },
+            "sha256": "c99a673c32ad0f7f6349df58466c0a1c2f398e314484a33988794322375cbde4",
+            "size_bytes": 106538084,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_vocoder.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b_vocoder.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "3624e13fcf9fa8b2a1437bd9eb628c3a436282125e9e28ca1071142a4946e3f5",
+                "size_bytes": 258347744,
+                "type": "regular_file"
+            },
+            "sha256": "3624e13fcf9fa8b2a1437bd9eb628c3a436282125e9e28ca1071142a4946e3f5",
+            "size_bytes": 258347744,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_text_embedding_projection.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b_text_embedding_projection.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "985bba2295af346ac74b627afc8d27f4b5f277fb20c87968d569b4bb5d7fd28f",
+                "size_bytes": 2312151888,
+                "type": "regular_file"
+            },
+            "sha256": "985bba2295af346ac74b627afc8d27f4b5f277fb20c87968d569b4bb5d7fd28f",
+            "size_bytes": 2312151888,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b_embeddings_connector.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-22b_embeddings_connector.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "eb37b1ec8024a311e863bcf5a684bdb6c64707216c3754c6f4078eae908d0600",
+                "size_bytes": 4032404584,
+                "type": "regular_file"
+            },
+            "sha256": "eb37b1ec8024a311e863bcf5a684bdb6c64707216c3754c6f4078eae908d0600",
+            "size_bytes": 4032404584,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "5f416311fa8172b65af67530758964708d29a317b830d689a51143b7f91913ed",
+                "size_bytes": 995743560,
+                "type": "regular_file"
+            },
+            "sha256": "5f416311fa8172b65af67530758964708d29a317b830d689a51143b7f91913ed",
+            "size_bytes": 995743560,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/added_tokens.json",
+            "hash_match": true,
+            "identity": "added_tokens.json",
+            "observed": {
+                "exists": true,
+                "sha256": "50b2f405ba56a26d4913fd772089992252d7f942123cc0a034d96424221ba946",
+                "size_bytes": 35,
+                "type": "regular_file"
+            },
+            "sha256": "50b2f405ba56a26d4913fd772089992252d7f942123cc0a034d96424221ba946",
+            "size_bytes": 35,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/chat_template.json",
+            "hash_match": true,
+            "identity": "chat_template.json",
+            "observed": {
+                "exists": true,
+                "sha256": "fe16baf728db49457cde32802cd7efc0ac8a7a9877dbe22fe3322b2d9dc6ccd9",
+                "size_bytes": 1615,
+                "type": "regular_file"
+            },
+            "sha256": "fe16baf728db49457cde32802cd7efc0ac8a7a9877dbe22fe3322b2d9dc6ccd9",
+            "size_bytes": 1615,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/config_light.json",
+            "hash_match": true,
+            "identity": "config_light.json",
+            "observed": {
+                "exists": true,
+                "sha256": "c425c32bd6ea9ef8542ca0567fb903be7b728dc3b454d2511adecfc85978bb5c",
+                "size_bytes": 907,
+                "type": "regular_file"
+            },
+            "sha256": "c425c32bd6ea9ef8542ca0567fb903be7b728dc3b454d2511adecfc85978bb5c",
+            "size_bytes": 907,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/generation_config.json",
+            "hash_match": true,
+            "identity": "generation_config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "13da6aad6852a008419f46df754b3452fc96387a4213c25811509d474e5a4776",
+                "size_bytes": 173,
+                "type": "regular_file"
+            },
+            "sha256": "13da6aad6852a008419f46df754b3452fc96387a4213c25811509d474e5a4776",
+            "size_bytes": 173,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/preprocessor_config.json",
+            "hash_match": true,
+            "identity": "preprocessor_config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "f688d6bb20c5017601c4011de7ca656da8485b540b05013efdaf986c0fcc918d",
+                "size_bytes": 570,
+                "type": "regular_file"
+            },
+            "sha256": "f688d6bb20c5017601c4011de7ca656da8485b540b05013efdaf986c0fcc918d",
+            "size_bytes": 570,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/processor_config.json",
+            "hash_match": true,
+            "identity": "processor_config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "3ffd5f11778dc73e2b69b3c00535e4121e1badf7018136263cd17b5b34fbaa53",
+                "size_bytes": 70,
+                "type": "regular_file"
+            },
+            "sha256": "3ffd5f11778dc73e2b69b3c00535e4121e1badf7018136263cd17b5b34fbaa53",
+            "size_bytes": 70,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/special_tokens_map.json",
+            "hash_match": true,
+            "identity": "special_tokens_map.json",
+            "observed": {
+                "exists": true,
+                "sha256": "2f7b0adf4fb469770bb1490e3e35df87b1dc578246c5e7e6fc76ecf33213a397",
+                "size_bytes": 662,
+                "type": "regular_file"
+            },
+            "sha256": "2f7b0adf4fb469770bb1490e3e35df87b1dc578246c5e7e6fc76ecf33213a397",
+            "size_bytes": 662,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.json",
+            "hash_match": true,
+            "identity": "tokenizer.json",
+            "observed": {
+                "exists": true,
+                "sha256": "7d4046bf0505a327dd5a0abbb427ecd4fc82f99c2ceaa170bc61ecde12809b0c",
+                "size_bytes": 33384570,
+                "type": "regular_file"
+            },
+            "sha256": "7d4046bf0505a327dd5a0abbb427ecd4fc82f99c2ceaa170bc61ecde12809b0c",
+            "size_bytes": 33384570,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer.model",
+            "hash_match": true,
+            "identity": "tokenizer.model",
+            "observed": {
+                "exists": true,
+                "sha256": "1299c11d7cf632ef3b4e11937501358ada021bbdf7c47638d13c0ee982f2e79c",
+                "size_bytes": 4689074,
+                "type": "regular_file"
+            },
+            "sha256": "1299c11d7cf632ef3b4e11937501358ada021bbdf7c47638d13c0ee982f2e79c",
+            "size_bytes": 4689074,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/gemma-3-12b-it-qat-q4_0-unquantized/tokenizer_config.json",
+            "hash_match": true,
+            "identity": "tokenizer_config.json",
+            "observed": {
+                "exists": true,
+                "sha256": "31e860fdfa360fa5aa58fe93252799facde5a52d1352f77d45978ab2a7e9eeb1",
+                "size_bytes": 1157001,
+                "type": "regular_file"
+            },
+            "sha256": "31e860fdfa360fa5aa58fe93252799facde5a52d1352f77d45978ab2a7e9eeb1",
+            "size_bytes": 1157001,
+            "size_match": true,
+            "story": "WD-osfm"
+        },
+        {
+            "destination": "/home/straughter/Wan2GP/ckpts/ltx-2.3-temporal-upscaler-x2-1.0.safetensors",
+            "hash_match": true,
+            "identity": "ltx-2.3-temporal-upscaler-x2-1.0.safetensors",
+            "observed": {
+                "exists": true,
+                "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+                "size_bytes": 261944000,
+                "type": "regular_file"
+            },
+            "sha256": "2bc3300f2b3c3c1834d72164fbf13a3b9fd73e5a741e8a2c3f4035f89a75c3fe",
+            "size_bytes": 261944000,
+            "size_match": true,
+            "story": "WD-osfm"
+        }
+    ],
+    "corrected_assets": {
+        "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+            "expected_sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+            "expected_size": 19447662547,
+            "expected_xet_hash": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22",
+            "final": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "partial": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "preserved_first_partial": false
+        },
+        "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+            "expected_sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+            "expected_size": 1308778338,
+            "expected_xet_hash": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837",
+            "final": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "partial": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "preserved_first_partial": false
+        },
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+            "expected_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+            "expected_size": 1308778338,
+            "expected_xet_hash": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
+            "final": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "partial": {
+                "exists": true,
+                "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+                "size_bytes": 1308778338,
+                "type": "regular_file"
+            },
+            "preserved_first_partial": true
+        },
+        "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+            "expected_sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+            "expected_size": 1308756416,
+            "expected_xet_hash": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0",
+            "final": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "partial": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "preserved_first_partial": false
+        },
+        "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+            "expected_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+            "expected_size": 327322640,
+            "expected_xet_hash": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996",
+            "final": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "partial": {
+                "exists": false,
+                "sha256": null,
+                "size_bytes": null,
+                "type": "absent"
+            },
+            "preserved_first_partial": false
+        }
+    },
+    "filesystems": {
+        "/home/straughter": {
+            "free_bytes": 45611913216,
+            "total_bytes": 857997254656
+        },
+        "/home/straughter/Wan2GP": {
+            "free_bytes": 45611913216,
+            "total_bytes": 857997254656
+        },
+        "/mnt/bulk-hdd": {
+            "free_bytes": 317216575488,
+            "total_bytes": 1756157775872
+        }
+    },
+    "gpu": {
+        "compute_apps": {
+            "argv": [
+                "nvidia-smi",
+                "--query-compute-apps=pid,process_name,used_memory",
+                "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+        },
+        "query": {
+            "argv": [
+                "nvidia-smi",
+                "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+                "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+        }
+    },
+    "host": {
+        "fqdn": "straughter-Z690-Steel-Legend",
+        "hostname": "straughter-Z690-Steel-Legend",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "target": "3090",
+        "user": "straughter"
+    },
+    "qc": {
+        "http://127.0.0.1:8000/health": {
+            "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+            "reachable": false
+        },
+        "http://127.0.0.1:8420/healthz": {
+            "error": "URLError: <urlopen error [Errno 111] Connection refused>",
+            "reachable": false
+        }
+    },
+    "read_only": true,
+    "references": {
+        "WD-m7xw:ltx25_generated_source_video": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+                "size_bytes": 438713,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+            "role": "ltx25_generated_source_video",
+            "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f"
+        },
+        "WD-m7xw:repaint_editable_region_mask": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+                "size_bytes": 2879,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+            "role": "repaint_editable_region_mask",
+            "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386"
+        },
+        "WD-m7xw:retake_and_recast_reference_frame": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+                "size_bytes": 295302,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+            "role": "retake_and_recast_reference_frame",
+            "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f"
+        },
+        "WD-osfm:person_bearing_control_video": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+                "size_bytes": 101143,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+            "role": "person_bearing_control_video",
+            "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a"
+        },
+        "WD-osfm:recast_reference_frame": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+                "size_bytes": 107009,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+            "role": "recast_reference_frame",
+            "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f"
+        },
+        "WD-osfm:repaint_probe_mask": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866",
+                "size_bytes": 25402,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-osfm-run/inputs/control-mask.mp4",
+            "role": "repaint_probe_mask",
+            "sha256": "46b7b3290fa4356494dcfb87e05d09bc2ce74da47ab40c8924919b437edd6866"
+        },
+        "WD-osfm:retake_start_frame": {
+            "hash_match": true,
+            "observed": {
+                "exists": true,
+                "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd",
+                "size_bytes": 114358,
+                "type": "regular_file"
+            },
+            "path": "/home/straughter/wd-osfm-run/inputs/reference.png",
+            "role": "retake_start_frame",
+            "sha256": "fae3ddcd842de56c64329b8f1d10028fc0e8e91dfbdf751f5cc2caf1a2f41abd"
+        }
+    },
+    "schema_version": "wangp-dspy.wd-28ac.corrected-retry-preflight/v1",
+    "tools": {
+        "curl": {
+            "version": {
+                "argv": [
+                    "/usr/bin/curl",
+                    "--version"
+                ],
+                "returncode": 0,
+                "stderr": "",
+                "stdout": "curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7\nRelease-Date: 2023-12-06, security patched: 8.5.0-2ubuntu10.9\nProtocols: dict file ftp ftps gopher gophers http https imap imaps ldap ldaps mqtt pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp\nFeatures: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM PSL SPNEGO SSL threadsafe TLS-SRP UnixSockets zstd\n"
+            },
+            "which": "/usr/bin/curl"
+        },
+        "ffmpeg": {
+            "version": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+            "which": "/usr/bin/ffmpeg"
+        },
+        "ffprobe": {
+            "version": "ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers",
+            "which": "/usr/bin/ffprobe"
+        },
+        "flock": {
+            "version": {
+                "argv": [
+                    "/usr/bin/flock",
+                    "--version"
+                ],
+                "returncode": 0,
+                "stderr": "",
+                "stdout": "flock from util-linux 2.39.3\n"
+            },
+            "which": "/usr/bin/flock"
+        },
+        "git": {
+            "version": {
+                "argv": [
+                    "/usr/bin/git",
+                    "--version"
+                ],
+                "returncode": 0,
+                "stderr": "",
+                "stdout": "git version 2.43.0\n"
+            },
+            "which": "/usr/bin/git"
+        },
+        "python3": {
+            "version": {
+                "argv": [
+                    "/usr/bin/python3",
+                    "--version"
+                ],
+                "returncode": 0,
+                "stderr": "",
+                "stdout": "Python 3.12.3\n"
+            },
+            "which": "/usr/bin/python3"
+        },
+        "sha256sum": {
+            "version": {
+                "argv": [
+                    "/usr/bin/sha256sum",
+                    "--version"
+                ],
+                "returncode": 0,
+                "stderr": "",
+                "stdout": "sha256sum (GNU coreutils) 9.4\nCopyright (C) 2023 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Ulrich Drepper, Scott Miller, and David Madore.\n"
+            },
+            "which": "/usr/bin/sha256sum"
+        }
+    },
+    "trees": {
+        "/home/straughter/Wan2GP-story-WD-m7xw": {
+            "commands": [
+                {
+                    "argv": [
+                        "git",
+                        "-C",
+                        "/home/straughter/Wan2GP-story-WD-m7xw",
+                        "rev-parse",
+                        "HEAD"
+                    ],
+                    "returncode": 0,
+                    "stderr": "",
+                    "stdout": "faea82d15bf10b3479c42c0ea430892aae975870\n"
+                },
+                {
+                    "argv": [
+                        "git",
+                        "-C",
+                        "/home/straughter/Wan2GP-story-WD-m7xw",
+                        "status",
+                        "--porcelain=v1"
+                    ],
+                    "returncode": 0,
+                    "stderr": "",
+                    "stdout": "?? ckpts\n"
+                }
+            ],
+            "commit_match": true,
+            "expected_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+            "expected_status": "?? ckpts",
+            "observed_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+            "observed_status": "?? ckpts",
+            "status_match": true
+        },
+        "/home/straughter/Wan2GP-story-WD-osfm": {
+            "commands": [
+                {
+                    "argv": [
+                        "git",
+                        "-C",
+                        "/home/straughter/Wan2GP-story-WD-osfm",
+                        "rev-parse",
+                        "HEAD"
+                    ],
+                    "returncode": 0,
+                    "stderr": "",
+                    "stdout": "4c93b64a47b5b0a915f2abec2ce754be98227150\n"
+                },
+                {
+                    "argv": [
+                        "git",
+                        "-C",
+                        "/home/straughter/Wan2GP-story-WD-osfm",
+                        "status",
+                        "--porcelain=v1"
+                    ],
+                    "returncode": 0,
+                    "stderr": "",
+                    "stdout": "?? ckpts\n"
+                }
+            ],
+            "commit_match": true,
+            "expected_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+            "expected_status": "?? ckpts",
+            "observed_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+            "observed_status": "?? ckpts",
+            "status_match": true
+        }
+    },
+    "utc": "2026-10-03T14:07:53.498482Z",
+    "venv": {
+        "import pydantic; print(pydantic.__version__)": {
+            "argv": [
+                "/home/straughter/Wan2GP/venv/bin/python",
+                "-c",
+                "import pydantic; print(pydantic.__version__)"
+            ],
+            "returncode": 124,
+            "stderr": "FileNotFoundError: [Errno 2] No such file or directory: '/home/straughter/Wan2GP/venv/bin/python'",
+            "stdout": ""
+        },
+        "import sys; print(sys.version)": {
+            "argv": [
+                "/home/straughter/Wan2GP/venv/bin/python",
+                "-c",
+                "import sys; print(sys.version)"
+            ],
+            "returncode": 124,
+            "stderr": "FileNotFoundError: [Errno 2] No such file or directory: '/home/straughter/Wan2GP/venv/bin/python'",
+            "stdout": ""
+        }
+    }
+}

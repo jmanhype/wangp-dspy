@@ -1,0 +1,33 @@
+UTC=2026-10-03T20:00:23Z
+HOST=straughter-Z690-Steel-Legend
+USER=straughter
+--- historical runtime paths ---
+ABSENT /home/straughter/Wan2GP/venv
+ABSENT /home/straughter/Wan2GP/venv/bin/python
+ABSENT /home/straughter/Wan2GP/venv/lib/python3.11/site-packages/mmgp
+ABSENT /home/straughter/Wan2GP/venv/lib/python3.11/site-packages/mmgp-3.7.14.dist-info
+ABSENT /home/straughter/Wan2GP-story-WD-m7xw/venv
+ABSENT /home/straughter/Wan2GP-story-WD-osfm/venv
+--- bounded mmgp package candidates ---
+--- bounded cache candidates ---
+--- likely python interpreters under accepted roots ---
+--- user site package roots ---
+/home/straughter/.local/lib/python3.12/site-packages
+--- import probes for observed interpreters ---
+PYTHON=/usr/bin/python3
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'mmgp'
+3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]
+PY_ABSENT=/usr/bin/python3.11
+PYTHON=/usr/bin/python3.12
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'mmgp'
+3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]
+PY_ABSENT=/home/straughter/Wan2GP/venv/bin/python
+PY_ABSENT=/home/straughter/.ce/.pixi/envs/geometrypack-main/bin/python
+--- disk ---
+Filesystem         1B-blocks          Used    Available Use% Mounted on
+/dev/nvme0n1p4  857997254656  825703653376  23548354560  98% /
+/dev/sda4      1756157775872 1349657788416 317216575488  81% /mnt/bulk-hdd

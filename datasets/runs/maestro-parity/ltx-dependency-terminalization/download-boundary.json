@@ -1,0 +1,119 @@
+{
+  "schema_version": "wangp-dspy.wd-28ac.download-boundary/v1",
+  "story": "WD-28ac",
+  "status": "failed_closed",
+  "boundary": {
+    "code": "UNDECLARED_URL_EFFECTIVENESS_GET_AFTER_XET_HASH_MISLABELLING",
+    "critical": true,
+    "reason": "The first declared asset GET returned HTTP 200 with the exact expected size and the true LFS-OID file SHA-256, but the prior manifest mislabelled an XET hash as sha256. A script defect then issued a second undeclared URL-effectiveness GET, which timed out after reporting 172109 payload bytes. The batch stopped before atomic promotion, any further asset request, queue admission, or operation attempt.",
+    "not_a_hardware_verdict": true,
+    "not_an_unsupported_operation_verdict": true,
+    "substitution_attempted": false,
+    "retry_attempted": false,
+    "deletion_attempted": false
+  },
+  "authorization_head": "2ea43ffb1927f4b3a392663a067e94ef19e6b337",
+  "exact_head_ci": {
+    "run_id": 37105175190,
+    "job_id": 111152157485,
+    "conclusion": "success",
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37105175190"
+  },
+  "metadata_audit_interpretation": {
+    "repository_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
+    "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
+    "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa",
+    "prior_manifest_sha256_values_were_xet_hash": true,
+    "actual_file_sha256_source": "metadata lfs.oid",
+    "source_hash_discrepancy_resolved": true,
+    "undeclared_request_boundary_remains": true,
+    "evidence": "metadata-audit/summary.json"
+  },
+  "preflight": {
+    "fresh_read_only_evidence": "host-preflight-fresh/host-state.json",
+    "host_identity": "straughter-Z690-Steel-Legend",
+    "execution_tree_commits_matched": true,
+    "root_free_bytes_before_download": 47616724992,
+    "required_download_bytes": 23701298279,
+    "gpu_before_qc_start": {
+      "name": "NVIDIA GeForce RTX 3090",
+      "memory_used_mib": 144,
+      "compute_apps": 0
+    },
+    "qc_initially_down": true,
+    "qc_remediation": {
+      "action": "start existing governed local judge with judge_ctl.sh",
+      "health": "{\"status\":\"ok\"}",
+      "stopped_after_boundary": true,
+      "evidence": "host-qc/start.stdout"
+    },
+    "accepted_asset_note": "The apparent temporal-upscaler miss in the first JSON probe was a symlink-following defect; the resolved target matches the accepted size and SHA-256 in host-preflight-fresh/qc-and-symlink.txt."
+  },
+  "download_attempt": {
+    "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+    "source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+    "declared_get": {
+      "http_code": 200,
+      "curl_exit": 0,
+      "observed_size_bytes": 1308778338,
+      "expected_size_bytes": 1308778338,
+      "observed_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "actual_expected_file_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "prior_manifest_xet_hash_mislabelled_sha256": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba",
+      "size_matches": true,
+      "file_sha256_matches": true,
+      "prior_verification_compared_file_sha256_to_xet_hash": true,
+      "xet_hash_matches_file_sha256": false,
+      "promoted": false
+    },
+    "undeclared_url_effective_probe": {
+      "curl_exit": 28,
+      "reported_payload_bytes": 172109,
+      "authorized": false,
+      "stderr_evidence": "host-download-boundary/remote/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.curl.stderr"
+    },
+    "remote_partial_preserved": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+    "remote_partial_size_bytes": 1308778338,
+    "remote_partial_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+    "assets_requested_count": 1,
+    "assets_not_requested": [
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+    ],
+    "undeclared_bytes_claim": "The boundary cannot claim zero undeclared bytes: curl's timeout diagnostic attributes 172109 payload bytes to the second GET.",
+    "network_counter_note": "wlp3s0 receive delta from before to failure was 1371713616 bytes; it includes the declared 1308778338-byte response, the 172109-byte undeclared probe payload, SSH/control bytes, and unrelated host traffic, so it is corroboration rather than a per-curl accounting boundary."
+  },
+  "operations": {
+    "queue_admissions": 0,
+    "native_attempts": 0,
+    "outputs": 0,
+    "matrix_changes": 0
+  },
+  "credential_redaction": {
+    "committed_report_is_redacted": true,
+    "raw_download_report_sha256": "8fe341e8e78021122bdaf72ba05d196c96a7ea787d44422975975f1323984a28",
+    "raw_remote_state_sha256": "e70e3c391447394ad05419594fc424572c8034770d24fb4523f6c05bcc0c2a0d",
+    "reason": "The exact signed query strings remain only on the authorized host receipts; Git copies replace them with REDACTED_SIGNED_QUERY."
+  },
+  "evidence": [
+    "host-preflight-fresh/host-state.json",
+    "host-preflight-fresh/qc-and-symlink.txt",
+    "host-qc/start.stdout",
+    "host-qc/status.txt",
+    "host-qc/gpu-after-start.txt",
+    "host-download-boundary/remote/download-report.tsv",
+    "host-download-boundary/remote/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.curl.stderr",
+    "host-download-boundary/remote/download.disk-before.txt",
+    "host-download-boundary/remote/download.disk-failed.txt",
+    "host-download-boundary/remote/download.network-before.txt",
+    "host-download-boundary/remote/download.network-failed.txt",
+    "metadata-audit/summary.json",
+    "download-boundary-remote-state.txt",
+    "host-download-boundary/qc-stop.txt",
+    "host-download-boundary/qc-status-after-stop.txt",
+    "host-download-boundary/gpu-apps-after-stop.txt"
+  ],
+  "required_operator_decision": "Do not retry, move, rename, or delete the preserved partial. The source/hash discrepancy is resolved as XET/LFS-OID mislabelling, but a distinct operator decision is still required for the 172109 undeclared bytes, preserved-partial disposition, and any retry."
+}

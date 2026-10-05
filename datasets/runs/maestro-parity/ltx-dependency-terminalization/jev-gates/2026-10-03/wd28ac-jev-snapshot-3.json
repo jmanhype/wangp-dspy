@@ -1,0 +1,55 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Proceed only with the seven named WD-28ac operations.",
+    "Start only the existing governed local judge/QC service and stop it after the boundary unless leaving it running is required for an active operation.",
+    "Do not retry a failed native operation.",
+    "Do not delete, move, overwrite, or substitute model artifacts.",
+    "Do not expose credentials.",
+    "Do not incur provider spend or training.",
+    "Do not mutate unrelated host state.",
+    "Do not change protected engine files.",
+    "Do not issue further model-body or URL-effectiveness requests.",
+    "Admit and execute each operation once through the governed queue/adapter path with exact argv and durable logs.",
+    "Record genuine runtime failures as exact typed boundaries, not hardware verdicts.",
+    "Change exactly the seven owned matrix cells and no unrelated row."
+  ],
+  "current_step": "Decide whether to begin WD-28ac Phase B after all five declared LTX assets have passed exact size and file-SHA verification.",
+  "pending_action": {
+    "kind": "start_qc_and_run_wd_28ac_seven_named_operations",
+    "target": "WD-28ac Phase B: start the existing governed local judge, run each of the seven named LTX operations once through the governed queue/adapter path, gather hashes/ffprobe/visual/objective/checker evidence, and stop at the first terminal result requiring review",
+    "summary": "Use the now-complete exact five-asset dependency set to execute the seven named operations once each with fail-closed evidence and no retries.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Live Jev Gate #2 authorized downloads only and returned continue confidence 0.96 with no veto.",
+    "Gate #2 authorization head e279ece57acfac372310fe2ea451d71921e32fe3 had exact-head CI success in run 37135687840.",
+    "Phase A used exactly three declared curl invocations, three declared requests, zero undeclared requests, and zero separate URL-effectiveness probes.",
+    "All five declared assets now match exact size and actual LFS/file SHA-256; all five partial paths are absent.",
+    "Phase A postflight verified GPU idle with 23978 MiB free and no compute applications.",
+    "Phase A postflight verified source trees WD-m7xw and WD-osfm at their accepted commits and expected status.",
+    "Phase A evidence head 66e0f08a31a39fc142549416710c0e043967c263 had exact-head CI success in run 37138219380.",
+    "The corrected runner, manifest, metadata audit, and accounting behavior are covered by focused tests and exact-head CI.",
+    "No queue admission, native operation, render, matrix transition, protected-file change, or QC contact has occurred."
+  ],
+  "uncertainties": [
+    "QC ports 8000 and 8420 were unreachable in the latest fresh probe, although the existing governed local judge previously started and returned healthy status reversibly.",
+    "Root free space is now 23522594816 bytes after downloads and must be monitored during output production.",
+    "Some named operations may encounter genuine native runtime boundaries despite complete dependencies."
+  ],
+  "budget": {
+    "elapsed_minutes": 700,
+    "remaining_minutes": 140
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "qc_and_operations",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "66e0f08a31a39fc142549416710c0e043967c263",
+    "prior_gate_snapshots": [
+      "d3b08b65433d4d4de510846f459d82b51192c9d52086336b61c5987ca28a7e52",
+      "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2"
+    ]
+  }
+}

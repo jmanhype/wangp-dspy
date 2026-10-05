@@ -1,0 +1,53 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Perform local repository implementation and CI only in this phase.",
+    "Do not contact host 3090 yet.",
+    "Do not start QC or admit queue work.",
+    "Do not render or retry a native operation yet.",
+    "Do not download, install, copy, move, delete, or overwrite model/runtime artifacts.",
+    "Do not expose credentials.",
+    "Do not mutate the proven isolated mmgp runtime directory.",
+    "Do not change protected engine files."
+  ],
+  "current_step": "Bind the proven isolated mmgp runtime into the WD-28ac final-operation execution plan before any corrected host retry.",
+  "pending_action": {
+    "kind": "integrate_isolated_mmgp_runtime_into_wd28ac_final_runner",
+    "target": "WD-28ac local Phase B runtime integration: require exact isolated mmgp 3.7.14 import/path/hash preflight and inject that isolated directory into each planned native operation environment, with focused tests and exact-head CI",
+    "summary": "Update the final-operation runner/plan so native jobs execute with PYTHONPATH bound to /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14, while preserving stop-on-first-terminal-failure and all prior prohibitions.",
+    "irreversible": false
+  },
+  "evidence": [
+    "All five declared model finals match exact size and actual file SHA-256.",
+    "The first native operation failed only because /usr/bin/python3 lacked mmgp.",
+    "Jev Gates #8-#11 progressively located the missing runtime, validated exact PyPI metadata, fetched one exact wheel, and extracted it into an isolated directory.",
+    "The preserved wheel was exactly 68211 bytes with SHA-256 6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208.",
+    "The wheel's extra root __init__.py was inspected as zero bytes with an empty AST and operator-authorized as inert.",
+    "The isolated import succeeds under /usr/bin/python3 as mmgp 3.7.14 at /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py.",
+    "System Python remains free of mmgp; no dependency was installed and no additional network request occurred.",
+    "The current final-operation runner and CI-green plan still need explicit native-environment binding to this isolated runtime.",
+    "The story head 38ea5eb12072750491e8836cb9f476196f31702a has exact-head CI success."
+  ],
+  "uncertainties": [
+    "Native runtime behavior may still fail after import succeeds.",
+    "Runtime and model preflight must be repeated immediately before host execution.",
+    "A separate Jev gate is required after local integration CI to authorize the corrected host retry."
+  ],
+  "budget": {
+    "elapsed_minutes": 1200,
+    "remaining_minutes": 60
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "local_native_runtime_integration",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "38ea5eb12072750491e8836cb9f476196f31702a",
+    "prior_gate_snapshots": [
+      "8f82c488faabec1fc224011b331ddaa31921be27ec5fe95ab403ac0a90312d27",
+      "d3016a129e5f7fec36fe119acf4f7119cbd63fa84910717977c5249018639f21",
+      "38780b034bc9d862491a8ec846e2ae3d736647cb65720a3f3dc426ccddb3bb4f",
+      "a4b77d969d5b675e6e076175aa6bc62caa7d927a3548a03b8b93e1ca3d3a720e"
+    ]
+  }
+}

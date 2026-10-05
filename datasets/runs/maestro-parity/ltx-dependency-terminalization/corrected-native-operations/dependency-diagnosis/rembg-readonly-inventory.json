@@ -1,0 +1,245 @@
+{
+  "bounded_roots": {
+    "/home/straughter/.cache/pip": {
+      "dependency_matches": [],
+      "errors": [],
+      "exists": true,
+      "matching_files": [],
+      "visited_paths": 69
+    },
+    "/home/straughter/.cache/uv": {
+      "dependency_matches": [],
+      "errors": [],
+      "exists": true,
+      "matching_files": [],
+      "visited_paths": 35549
+    },
+    "/home/straughter/.local/lib": {
+      "dependency_matches": [],
+      "errors": [],
+      "exists": true,
+      "matching_files": [],
+      "visited_paths": 126074
+    },
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "dependency_matches": [
+        {
+          "matches": [
+            {
+              "line_number": 58,
+              "text": "rembg[gpu]==2.0.65; platform_system != \"Darwin\""
+            },
+            {
+              "line_number": 59,
+              "text": "rembg==2.0.65; platform_system == \"Darwin\""
+            },
+            {
+              "line_number": 113,
+              "text": "# rembg==2.0.65         # non-GPU fallback"
+            }
+          ],
+          "path": "/home/straughter/Wan2GP-story-WD-m7xw/requirements.txt"
+        }
+      ],
+      "errors": [],
+      "exists": true,
+      "matching_files": [],
+      "visited_paths": 2886
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "dependency_matches": [
+        {
+          "matches": [
+            {
+              "line_number": 58,
+              "text": "rembg[gpu]==2.0.65; platform_system != \"Darwin\""
+            },
+            {
+              "line_number": 59,
+              "text": "rembg==2.0.65; platform_system == \"Darwin\""
+            },
+            {
+              "line_number": 113,
+              "text": "# rembg==2.0.65         # non-GPU fallback"
+            }
+          ],
+          "path": "/home/straughter/Wan2GP-story-WD-osfm/requirements.txt"
+        }
+      ],
+      "errors": [],
+      "exists": true,
+      "matching_files": [],
+      "visited_paths": 2884
+    },
+    "/mnt/bulk-hdd/straughter/model-offload": {
+      "dependency_matches": [],
+      "errors": [],
+      "exists": false,
+      "matching_files": [],
+      "visited_paths": 0
+    }
+  },
+  "captured_utc": "2026-10-04T03:04:05.608351+00:00",
+  "host": {
+    "fqdn": "straughter-Z690-Steel-Legend",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "user": "straughter"
+  },
+  "import_probes": {
+    "/home/straughter/.local/bin/python3": {
+      "payload": null,
+      "python": "/home/straughter/.local/bin/python3",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/ACE-Step-1.5/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/ACE-Step-1.5/.venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/ComfyUI/venv/bin/python": {
+      "payload": {
+        "path": "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg/__init__.py",
+        "version": "2.0.69"
+      },
+      "python": "/home/straughter/ComfyUI/venv/bin/python",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "{\"version\": \"2.0.69\", \"path\": \"/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg/__init__.py\"}\n"
+    },
+    "/home/straughter/Wan2GP-story-WD-m7xw/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP-story-WD-m7xw/.venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/Wan2GP-story-WD-m7xw/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP-story-WD-m7xw/venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP-story-WD-osfm/.venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP-story-WD-osfm/venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/Wan2GP/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP/.venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/Wan2GP/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/Wan2GP/venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/fish-audio-api/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/fish-audio-api/venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/qwen-voicedesign-trial/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/qwen-voicedesign-trial/venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/qwen38-3090/venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/qwen38-3090/venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/video-to-json-i2v/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/video-to-json-i2v/.venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/wangp-dspy-fresh/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/wangp-dspy-fresh/.venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/home/straughter/wangp-dspy/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/wangp-dspy/.venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/wangp-roadmap-run/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/wangp-roadmap-run/.venv/bin/python",
+      "returncode": 127,
+      "stderr": "candidate python absent",
+      "stdout": ""
+    },
+    "/home/straughter/yue2/.venv/bin/python": {
+      "payload": null,
+      "python": "/home/straughter/yue2/.venv/bin/python",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    },
+    "/usr/bin/python3": {
+      "payload": null,
+      "python": "/usr/bin/python3",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'rembg'\n",
+      "stdout": ""
+    }
+  },
+  "read_only": true,
+  "schema_version": "wangp-dspy.wd-28ac.rembg-readonly-inventory/v1",
+  "search_boundary": {
+    "content_search": "only accepted dependency declaration filenames",
+    "filename_or_directory_substring": "rembg (case-insensitive)",
+    "mutation": "none",
+    "pruned_directories": [
+      ".git",
+      "__pycache__",
+      "ckpts",
+      "native-output",
+      "outputs"
+    ]
+  },
+  "system_pip_cache": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "pip",
+      "cache",
+      "list"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "No locally built wheels cached.\n"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Perform read-only runtime evidence collection only.",
+    "Do not install, download, copy, move, delete, or modify any runtime or package file.",
+    "Do not retry the failed native operation.",
+    "Do not start or contact QC.",
+    "Do not admit a queue job or render.",
+    "Do not expose credentials.",
+    "Do not mutate unrelated host state.",
+    "Do not change protected engine files."
+  ],
+  "current_step": "Locate the compatible Wan2GP Python runtime that previously supplied mmgp before requesting any restoration or retry decision.",
+  "pending_action": {
+    "kind": "inventory_wd_28ac_compatible_python_runtimes_readonly",
+    "target": "WD-28ac runtime inventory: bounded read-only search of accepted Wan2GP paths, user Python site-packages, local pip/uv caches, and likely venv interpreters for mmgp and required torch/diffusers modules",
+    "summary": "Identify an existing compatible runtime or cached package bytes without mutation, and record exact candidates or absence.",
+    "irreversible": false
+  },
+  "evidence": [
+    "The first native operation failed before Wan2GP execution because /usr/bin/python3 lacks mmgp.",
+    "Accepted WD-m7xw and WD-osfm runs used /home/straughter/Wan2GP/venv/bin/python successfully.",
+    "The latest read-only diagnosis found that historical interpreter path absent and no mmgp candidate in the prior run/vendor roots.",
+    "Repository history contains an older WD-m0r5 disk inventory showing a Python 3.11 Wan2GP venv with site-packages and CUDA runtime packages.",
+    "All five model files and all references remained unchanged after the failed native attempt.",
+    "The failed queue/log/settings evidence is preserved and no retry occurred."
+  ],
+  "uncertainties": [
+    "The former venv may have been removed or moved after the accepted inventory.",
+    "A compatible mmgp package or cached wheel may still exist in user site-packages or a package cache.",
+    "No restoration path should be chosen until exact current runtime evidence is collected."
+  ],
+  "budget": {
+    "elapsed_minutes": 1020,
+    "remaining_minutes": 20
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "readonly_runtime_inventory",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "b304b6e736bb3734038573fec8c4e42641f51249",
+    "prior_gate_snapshot": "ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c"
+  }
+}

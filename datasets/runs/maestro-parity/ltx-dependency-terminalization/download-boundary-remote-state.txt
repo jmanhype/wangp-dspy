@@ -1,0 +1,46 @@
+--- time ---
+2026-10-03T07:40:05Z
+--- run files ---
+1579 /home/straughter/wd-28ac-run/download-manifest.tsv
+1522 /home/straughter/wd-28ac-run/host-logs/download-report.tsv
+129 /home/straughter/wd-28ac-run/host-logs/download.disk-before.txt
+129 /home/straughter/wd-28ac-run/host-logs/download.disk-failed.txt
+21 /home/straughter/wd-28ac-run/host-logs/download.failed.txt
+2426 /home/straughter/wd-28ac-run/host-logs/download.network-before.txt
+2426 /home/straughter/wd-28ac-run/host-logs/download.network-failed.txt
+21 /home/straughter/wd-28ac-run/host-logs/download.started.txt
+99 /home/straughter/wd-28ac-run/host-logs/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.curl.stderr
+--- report ---
+id	exit	http_code	url_effective	size_download	observed_size	observed_sha256	expected_size	expected_sha256	promoted	curl_invocations
+ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors	0	200	https://us.aws.cdn.hf.co/xet-bridge-us/695cc598af2a8d1d8e38c443/4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba?REDACTED_SIGNED_QUERY	1308778338	1308778338	515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559	1308778338	4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba	false	1
+--- stderr files ---
+### /home/straughter/wd-28ac-run/host-logs/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.curl.stderr
+curl: (28) Operation timed out after 852 milliseconds with 172109 out of 1308778338 bytes received
+--- final destinations and partials ---
+1308778338 regular file /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial
+--- hashes for present files ---
+515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559  /home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial
+--- disk ---
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 802955751424 46296256512  95% /
+--- network now ---
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo: 11067869946 10459750    0    0    0     0          0         0 11067869946 10459750    0    0    0     0       0          0
+enp4s0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+wlp3s0: 241605864871 198302799    0    0    0     0          0         0 103409559812 138134032    0  114    0     0       0          0
+tailscale0: 12018045  181085    0    0    0     0          0         0 12207908  243035    0    0    0     0       0          0
+   wg0:       0       0    0    0    0     0          0         0 47388860  320195  505 16265    0     0       0          0
+br-396f36972f0a: 140516457  449631    0    0    0     0          0         0 250555569  445572    0    5    0     0       0          0
+br-5050175d736a:       0       0    0    0    0     0          0         0        0       0    0  873    0     0       0          0
+docker0:      84       3    0    0    0     0          0         0   511941    3038    0    5    0     0       0          0
+br-f5ca11a97977: 150885718 1043580    0    0    0     0          0         0 1762441379 1162959    0    6    0     0       0          0
+veth185e0d2: 221763953 3038622    0    0    0     0          0         0 795293372 2909678    0    0    0     0       0          0
+vethdbf01fb: 185940381 1100152    0    0    0     0          0         0 1769520983 1234697    0    0    0     0       0          0
+vethf4ac164: 96442059  243181    0    0    0     0          0         0 110004826  265860    0    0    0     0       0          0
+vetheb86bef:     126       3    0    0    0     0          0         0   638065    4301    0    0    0     0       0          0
+veth974eb2a: 7132172496 17039355    0    0    0     0          0         0 11758479190 33921726    0    0    0     0       0          0
+veth31c1d41: 1845617324 23454681    0    0    0     0          0         0 3863756054 44524066    0    0    0     0       0          0
+veth495ae9e: 16521154714 81693221    0    0    0     0          0         0 9395810770 43862416    0    0    0     0       0          0
+veth929ecbc: 6952600   70459    0    0    0     0          0         0 21077717   60847    0    0    0     0       0          0
+--- processes ---

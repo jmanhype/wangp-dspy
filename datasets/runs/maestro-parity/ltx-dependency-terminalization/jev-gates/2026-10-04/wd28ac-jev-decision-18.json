@@ -1,0 +1,56 @@
+{
+  "answers": {
+    "clarification_needed": {
+      "noul": 0.93,
+      "type": "noul"
+    },
+    "constraint_violation_risk": {
+      "noul": 0.27,
+      "type": "noul"
+    },
+    "missing_evidence_risk": {
+      "confidence": 0.81,
+      "legend": {
+        "0": "No important evidence is missing.",
+        "1": "Minor uncertainty remains; the action is reversible if wrong.",
+        "2": "Meaningful uncertainty could change the approach.",
+        "3": "A critical fact is missing.",
+        "4": "Proceeding without more evidence would be reckless."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.14,
+        "2": 0.79,
+        "3": 0.06,
+        "4": 0.01
+      },
+      "score": 1.93,
+      "type": "score"
+    },
+    "next_action": {
+      "choice": "ask_user",
+      "confidence": 0.38,
+      "probabilities": {
+        "ask_user": 0.51,
+        "continue": 0.37,
+        "gather_evidence": 0.0,
+        "narrow_action": 0.0,
+        "stop": 0.12
+      },
+      "type": "choice"
+    },
+    "still_on_task": {
+      "noul": 0.9,
+      "type": "noul"
+    }
+  },
+  "decision": "gather_evidence",
+  "mode": "live",
+  "policy_reason": "the selected action is not confident enough to execute",
+  "schema_version": 1,
+  "snapshot_sha256": "098f04b0b97619db48bb4cdf777c411df0ca75c4d96dc971eb15375eeab81f58",
+  "trace_sha256": "6c7e9d5e1a235f1564932e265507592d0165e0a4add26da610ba392fd602756a",
+  "triggered_rules": [
+    "choice_confidence_low"
+  ]
+}

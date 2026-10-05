@@ -1,0 +1,331 @@
+host=straughter-Z690-Steel-Legend
+user=straughter
+utc=2026-10-03T21:38:29Z
+
+[report_hash]
+fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json
+
+[report]
+{
+  "boundary": {
+    "code": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+    "observed": "__init__.py",
+    "remediation": "Refuse extraction outside the mmgp/dist-info payload."
+  },
+  "boundary_counters": {
+    "deletions": 0,
+    "model_mutations": 0,
+    "native_retries": 0,
+    "protected_file_changes": 0,
+    "qc_starts": 0,
+    "queue_admissions": 0,
+    "reference_mutations": 0,
+    "renders": 0
+  },
+  "dependency_installs": 0,
+  "gate": 11,
+  "metadata": {
+    "last_serial": 41515362,
+    "package": "mmgp",
+    "requires_dist": [
+      "torch>=2.1.0",
+      "optimum-quanto",
+      "accelerate",
+      "safetensors",
+      "psutil"
+    ],
+    "requires_python": ">=3.10",
+    "version": "3.7.14",
+    "vulnerabilities": [],
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size": 68211,
+    "wheel_url": "https://files.pythonhosted.org/packages/bb/b7/1ec5413a825b3744962221d9cddd134df355a2ce7402971e3ef4c57240fd/mmgp-3.7.14-py3-none-any.whl"
+  },
+  "network_accounting": {
+    "content_length": "68211",
+    "declared_wheel_gets": 1,
+    "final_url": "https://files.pythonhosted.org/packages/bb/b7/1ec5413a825b3744962221d9cddd134df355a2ce7402971e3ef4c57240fd/mmgp-3.7.14-py3-none-any.whl",
+    "http_status": 200,
+    "undeclared_requests": 0,
+    "wheel_get_limit": 1
+  },
+  "preflight": {
+    "dependencies": {
+      "accelerate": {
+        "isolated_path": "",
+        "module": "accelerate",
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "{\"path\": \"/home/straughter/.local/lib/python3.12/site-packages/accelerate/__init__.py\", \"metadata_version\": null, \"python\": \"/usr/bin/python3\"}\n"
+      },
+      "optimum.quanto": {
+        "isolated_path": "",
+        "module": "optimum.quanto",
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "{\"path\": \"/home/straughter/.local/lib/python3.12/site-packages/optimum/quanto/__init__.py\", \"metadata_version\": null, \"python\": \"/usr/bin/python3\"}\n"
+      },
+      "psutil": {
+        "isolated_path": "",
+        "module": "psutil",
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "{\"path\": \"/home/straughter/.local/lib/python3.12/site-packages/psutil/__init__.py\", \"metadata_version\": null, \"python\": \"/usr/bin/python3\"}\n"
+      },
+      "safetensors": {
+        "isolated_path": "",
+        "module": "safetensors",
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "{\"path\": \"/home/straughter/.local/lib/python3.12/site-packages/safetensors/__init__.py\", \"metadata_version\": null, \"python\": \"/usr/bin/python3\"}\n"
+      },
+      "torch": {
+        "isolated_path": "",
+        "module": "torch",
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "{\"path\": \"/home/straughter/.local/lib/python3.12/site-packages/torch/__init__.py\", \"metadata_version\": null, \"python\": \"/usr/bin/python3\"}\n"
+      }
+    },
+    "destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "staging": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/.mmgp-3.7.14.extraction-staging",
+    "state": {
+      "disk": {
+        "argv": [
+          "df",
+          "-B1",
+          "/home"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 825863368704 23388639232  98% /\n"
+      },
+      "gpu": {
+        "argv": [
+          "nvidia-smi",
+          "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+          "--format=csv,noheader,nounits"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+      },
+      "gpu_apps": {
+        "argv": [
+          "nvidia-smi",
+          "--query-compute-apps=pid,process_name,used_memory",
+          "--format=csv,noheader"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "processes": {
+        "argv": [
+          "ps",
+          "-eo",
+          "pid,comm,args"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "    PID COMMAND         COMMAND\n      1 systemd         /sbin/init splash\n      2 kthreadd        [kthreadd]\n      3 pool_workqueue_ [pool_workqueue_release]\n      4 kworker/R-rcu_g [kworker/R-rcu_gp]\n      5 kworker/R-sync_ [kworker/R-sync_wq]\n      6 kworker/R-kvfre [kworker/R-kvfree_rcu_reclaim]\n      7 kworker/R-slub_ [kworker/R-slub_flushwq]\n      8 kworker/R-netns [kworker/R-netns]\n     11 kworker/0:0H-ev [kworker/0:0H-events_highpri]\n     13 kworker/R-mm_pe [kworker/R-mm_percpu_wq]\n     14 ksoftirqd/0     [ksoftirqd/0]\n     15 rcu_preempt     [rcu_preempt]\n     16 rcu_exp_par_gp_ [rcu_exp_par_gp_kthread_worker/1]\n     17 rcu_exp_gp_kthr [rcu_exp_gp_kthread_worker]\n     18 migration/0     [migration/0]\n     19 idle_inject/0   [idle_inject/0]\n     20 cpuhp/0         [cpuhp/0]\n     21 cpuhp/2         [cpuhp/2]\n     22 idle_inject/2   [idle_inject/2]\n     23 migration/2     [migration/2]\n     24 ksoftirqd/2     [ksoftirqd/2]\n     26 kworker/2:0H-ev [kworker/2:0H-events_highpri]\n     27 cpuhp/4         [cpuhp/4]\n     28 idle_inject/4   [idle_inject/4]\n     29 migration/4     [migration/4]\n     30 ksoftirqd/4     [ksoftirqd/4]\n     32 kworker/4:0H-ev [kworker/4:0H-events_highpri]\n     33 cpuhp/6         [cpuhp/6]\n     34 idle_inject/6   [idle_inject/6]\n     35 migration/6     [migration/6]\n     36 ksoftirqd/6     [ksoftirqd/6]\n     38 kworker/6:0H-ev [kworker/6:0H-events_highpri]\n     39 cpuhp/8         [cpuhp/8]\n     40 idle_inject/8   [idle_inject/8]\n     41 migration/8     [migration/8]\n     42 ksoftirqd/8     [ksoftirqd/8]\n     44 kworker/8:0H-ev [kworker/8:0H-events_highpri]\n     45 cpuhp/10        [cpuhp/10]\n     46 idle_inject/10  [idle_inject/10]\n     47 migration/10    [migration/10]\n     48 ksoftirqd/10    [ksoftirqd/10]\n     50 kworker/10:0H-e [kworker/10:0H-events_highpri]\n     51 cpuhp/12        [cpuhp/12]\n     52 idle_inject/12  [idle_inject/12]\n     53 migration/12    [migration/12]\n     54 ksoftirqd/12    [ksoftirqd/12]\n     56 kworker/12:0H-e [kworker/12:0H-events_highpri]\n     57 rcu_exp_par_gp_ [rcu_exp_par_gp_kthread_worker/2]\n     58 cpuhp/14        [cpuhp/14]\n     59 idle_inject/14  [idle_inject/14]\n     60 migration/14    [migration/14]\n     61 ksoftirqd/14    [ksoftirqd/14]\n     63 kworker/14:0H-e [kworker/14:0H-events_highpri]\n     64 cpuhp/16        [cpuhp/16]\n     65 idle_inject/16  [idle_inject/16]\n     66 migration/16    [migration/16]\n     67 ksoftirqd/16    [ksoftirqd/16]\n     69 kworker/16:0H-e [kworker/16:0H-events_highpri]\n     70 cpuhp/17        [cpuhp/17]\n     71 idle_inject/17  [idle_inject/17]\n     72 migration/17    [migration/17]\n     73 ksoftirqd/17    [ksoftirqd/17]\n     75 kworker/17:0H-e [kworker/17:0H-events_highpri]\n     76 cpuhp/18        [cpuhp/18]\n     77 idle_inject/18  [idle_inject/18]\n     78 migration/18    [migration/18]\n     79 ksoftirqd/18    [ksoftirqd/18]\n     81 kworker/18:0H-e [kworker/18:0H-events_highpri]\n     82 cpuhp/19        [cpuhp/19]\n     83 idle_inject/19  [idle_inject/19]\n     84 migration/19    [migration/19]\n     85 ksoftirqd/19    [ksoftirqd/19]\n     87 kworker/19:0H-e [kworker/19:0H-events_highpri]\n     88 cpuhp/20        [cpuhp/20]\n     89 idle_inject/20  [idle_inject/20]\n     90 migration/20    [migration/20]\n     91 ksoftirqd/20    [ksoftirqd/20]\n     93 kworker/20:0H-e [kworker/20:0H-events_highpri]\n     94 cpuhp/21        [cpuhp/21]\n     95 idle_inject/21  [idle_inject/21]\n     96 migration/21    [migration/21]\n     97 ksoftirqd/21    [ksoftirqd/21]\n     99 kworker/21:0H-e [kworker/21:0H-events_highpri]\n    100 cpuhp/22        [cpuhp/22]\n    101 idle_inject/22  [idle_inject/22]\n    102 migration/22    [migration/22]\n    103 ksoftirqd/22    [ksoftirqd/22]\n    105 kworker/22:0H-e [kworker/22:0H-events_highpri]\n    106 cpuhp/23        [cpuhp/23]\n    107 idle_inject/23  [idle_inject/23]\n    108 migration/23    [migration/23]\n    109 ksoftirqd/23    [ksoftirqd/23]\n    111 kworker/23:0H-e [kworker/23:0H-events_highpri]\n    112 cpuhp/1         [cpuhp/1]\n    113 idle_inject/1   [idle_inject/1]\n    114 migration/1     [migration/1]\n    115 ksoftirqd/1     [ksoftirqd/1]\n    117 kworker/1:0H-ev [kworker/1:0H-events_highpri]\n    118 cpuhp/3         [cpuhp/3]\n    119 idle_inject/3   [idle_inject/3]\n    120 migration/3     [migration/3]\n    121 ksoftirqd/3     [ksoftirqd/3]\n    123 kworker/3:0H-ev [kworker/3:0H-events_highpri]\n    124 cpuhp/5         [cpuhp/5]\n    125 idle_inject/5   [idle_inject/5]\n    126 migration/5     [migration/5]\n    127 ksoftirqd/5     [ksoftirqd/5]\n    129 kworker/5:0H-ev [kworker/5:0H-events_highpri]\n    130 cpuhp/7         [cpuhp/7]\n    131 idle_inject/7   [idle_inject/7]\n    132 migration/7     [migration/7]\n    133 ksoftirqd/7     [ksoftirqd/7]\n    135 kworker/7:0H-ev [kworker/7:0H-events_highpri]\n    136 cpuhp/9         [cpuhp/9]\n    137 idle_inject/9   [idle_inject/9]\n    138 migration/9     [migration/9]\n    139 ksoftirqd/9     [ksoftirqd/9]\n    141 kworker/9:0H-ev [kworker/9:0H-events_highpri]\n    142 cpuhp/11        [cpuhp/11]\n    143 idle_inject/11  [idle_inject/11]\n    144 migration/11    [migration/11]\n    145 ksoftirqd/11    [ksoftirqd/11]\n    147 kworker/11:0H-e [kworker/11:0H-events_highpri]\n    148 cpuhp/13        [cpuhp/13]\n    149 idle_inject/13  [idle_inject/13]\n    150 migration/13    [migration/13]\n    151 ksoftirqd/13    [ksoftirqd/13]\n    153 kworker/13:0H-e [kworker/13:0H-events_highpri]\n    154 cpuhp/15        [cpuhp/15]\n    155 idle_inject/15  [idle_inject/15]\n    156 migration/15    [migration/15]\n    157 ksoftirqd/15    [ksoftirqd/15]\n    159 kworker/15:0H-e [kworker/15:0H-events_highpri]\n    160 kdevtmpfs       [kdevtmpfs]\n    161 kworker/R-inet_ [kworker/R-inet_frag_wq]\n    162 rcu_tasks_kthre [rcu_tasks_kthread]\n    163 rcu_tasks_rude_ [rcu_tasks_rude_kthread]\n    164 rcu_tasks_trace [rcu_tasks_trace_kthread]\n    165 kauditd         [kauditd]\n    166 khungtaskd      [khungtaskd]\n    168 oom_reaper      [oom_reaper]\n    169 kworker/R-write [kworker/R-writeback]\n    170 kcompactd0      [kcompactd0]\n    172 ksmd            [ksmd]\n    173 khugepaged      [khugepaged]\n    174 kworker/R-kbloc [kworker/R-kblockd]\n    175 kworker/R-blkcg [kworker/R-blkcg_punt_bio]\n    176 kworker/R-kinte [kworker/R-kintegrityd]\n    177 irq/9-acpi      [irq/9-acpi]\n    181 kworker/R-tpm_d [kworker/R-tpm_dev_wq]\n    182 kworker/R-ata_s [kworker/R-ata_sff]\n    183 kworker/R-md    [kworker/R-md]\n    184 kworker/R-md_bi [kworker/R-md_bitmap]\n    185 kworker/R-edac- [kworker/R-edac-poller]\n    186 kworker/R-devfr [kworker/R-devfreq_wq]\n    187 watchdogd       [watchdogd]\n    188 kworker/R-quota [kworker/R-quota_events_unbound]\n    189 kworker/16:1H-k [kworker/16:1H-kblockd]\n    191 kswapd0         [kswapd0]\n    192 ecryptfs-kthrea [ecryptfs-kthread]\n    193 kworker/R-kthro [kworker/R-kthrotld]\n    194 kworker/R-acpi_ [kworker/R-acpi_thermal_pm]\n    195 hwrng           [hwrng]\n    196 kworker/R-hfi-u [kworker/R-hfi-updates]\n    197 kworker/R-mld   [kworker/R-mld]\n    198 kworker/R-ipv6_ [kworker/R-ipv6_addrconf]\n    199 kworker/R-kstrp [kworker/R-kstrp]\n    220 kworker/R-charg [kworker/R-charger_manager]\n    221 kworker/0:1H-kb [kworker/0:1H-kblockd]\n    244 kworker/17:1H-k [kworker/17:1H-kblockd]\n    249 kworker/21:1H-k [kworker/21:1H-kblockd]\n    252 kworker/12:1H-k [kworker/12:1H-kblockd]\n    263 kworker/2:1H-kb [kworker/2:1H-kblockd]\n    265 kworker/14:1H-k [kworker/14:1H-kblockd]\n    269 kworker/20:1H-k [kworker/20:1H-kblockd]\n    270 kworker/19:1H-k [kworker/19:1H-kblockd]\n    272 kworker/6:1H-kb [kworker/6:1H-kblockd]\n    275 kworker/4:1H-kb [kworker/4:1H-kblockd]\n    282 kworker/18:1H-k [kworker/18:1H-kblockd]\n    283 kworker/10:1H-k [kworker/10:1H-kblockd]\n    285 kworker/22:1H-k [kworker/22:1H-kblockd]\n    289 kworker/8:1H-kb [kworker/8:1H-kblockd]\n    317 kworker/13:1H-k [kworker/13:1H-kblockd]\n    318 kworker/15:1H-k [kworker/15:1H-kblockd]\n    319 kworker/23:1H-k [kworker/23:1H-kblockd]\n    320 kworker/3:1H-kb [kworker/3:1H-kblockd]\n    322 kworker/1:1H-kb [kworker/1:1H-kblockd]\n    324 kworker/5:1H-kb [kworker/5:1H-kblockd]\n    325 kworker/9:1H-kb [kworker/9:1H-kblockd]\n    326 kworker/7:1H-kb [kworker/7:1H-kblockd]\n    341 kworker/R-nvme- [kworker/R-nvme-wq]\n    343 kworker/R-nvme- [kworker/R-nvme-reset-wq]\n    344 kworker/R-nvme- [kworker/R-nvme-delete-wq]\n    345 kworker/R-nvme- [kworker/R-nvme-auth-wq]\n    366 scsi_eh_0       [scsi_eh_0]\n    367 kworker/R-scsi_ [kworker/R-scsi_tmf_0]\n    368 scsi_eh_1       [scsi_eh_1]\n    369 kworker/R-scsi_ [kworker/R-scsi_tmf_1]\n    370 scsi_eh_2       [scsi_eh_2]\n    371 kworker/R-scsi_ [kworker/R-scsi_tmf_2]\n    372 scsi_eh_3       [scsi_eh_3]\n    373 kworker/R-scsi_ [kworker/R-scsi_tmf_3]\n    374 scsi_eh_4       [scsi_eh_4]\n    375 kworker/R-scsi_ [kworker/R-scsi_tmf_4]\n    376 scsi_eh_5       [scsi_eh_5]\n    377 kworker/R-scsi_ [kworker/R-scsi_tmf_5]\n    378 scsi_eh_6       [scsi_eh_6]\n    379 kworker/R-scsi_ [kworker/R-scsi_tmf_6]\n    380 scsi_eh_7       [scsi_eh_7]\n    381 kworker/R-scsi_ [kworker/R-scsi_tmf_7]\n    403 kworker/11:1H-k [kworker/11:1H-kblockd]\n    464 jbd2/nvme0n1p4- [jbd2/nvme0n1p4-8]\n    465 kworker/R-ext4- [kworker/R-ext4-rsv-conversion]\n    516 systemd-journal /usr/lib/systemd/systemd-journald\n    603 systemd-udevd   /usr/lib/systemd/systemd-udevd\n    630 psimon          [psimon]\n    750 irq/160-mei_me  [irq/160-mei_me]\n    800 kworker/R-cfg80 [kworker/R-cfg80211]\n    804 irq/161-iwlwifi [irq/161-iwlwifi]\n    820 nv_queue        [nv_queue]\n    821 nv_queue        [nv_queue]\n    824 nv_open_q       [nv_open_q]\n    854 nvidia-modeset/ [nvidia-modeset/kthread_q]\n    855 nvidia-modeset/ [nvidia-modeset/deferred_close_kthread_q]\n    857 irq/162-nvidia  [irq/162-nvidia]\n    858 nvidia          [nvidia]\n    859 nv_queue        [nv_queue]\n   1207 UVM global queu [UVM global queue]\n   1208 UVM deferred re [UVM deferred release queue]\n   1209 UVM Tools Event [UVM Tools Event Queue]\n   1334 systemd-oomd    /usr/lib/systemd/systemd-oomd\n   1335 systemd-resolve /usr/lib/systemd/systemd-resolved\n   1336 systemd-timesyn /usr/lib/systemd/systemd-timesyncd\n   1348 avahi-daemon    avahi-daemon: running [straughter-Z690-Steel-Legend.local]\n   1349 bluetoothd      /usr/libexec/bluetooth/bluetoothd\n   1350 dbus-daemon     @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only\n   1353 gnome-remote-de /usr/libexec/gnome-remote-desktop-daemon --system\n   1361 polkitd         /usr/lib/polkit-1/polkitd --no-debug\n   1363 power-profiles- /usr/libexec/power-profiles-daemon\n   1367 smartd          /usr/sbin/smartd -n\n   1368 nvidia-persiste /usr/bin/nvidia-persistenced --user nvidia-persistenced --no-persistence-mode --verbose\n   1374 accounts-daemon /usr/libexec/accounts-daemon\n   1376 cron            /usr/sbin/cron -f -P\n   1378 switcheroo-cont /usr/libexec/switcheroo-control\n   1384 systemd-logind  /usr/lib/systemd/systemd-logind\n   1385 thermald        /usr/sbin/thermald --systemd --dbus-enable --adaptive\n   1386 udisksd         /usr/libexec/udisks2/udisksd\n   1419 avahi-daemon    avahi-daemon: chroot helper\n   1422 NetworkManager  /usr/sbin/NetworkManager --no-daemon\n   1424 wpa_supplicant  /usr/sbin/wpa_supplicant -u -s -O DIR=/run/wpa_supplicant GROUP=netdev\n   1482 rsyslogd        /usr/sbin/rsyslogd -n -iNONE\n   1528 ModemManager    /usr/sbin/ModemManager\n   1694 node            /usr/bin/node dist/src/server.js\n   1695 node            node /home/straughter/.npm-global/bin/codex app-server --listen unix:///home/straughter/.codex/app-server.sock\n   1704 epmd            /usr/bin/epmd -systemd\n   1708 tailscaled      /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641\n   1710 containerd      /usr/bin/containerd\n   1718 systemd         /usr/lib/systemd/systemd --user\n   1724 sshd            sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups\n   1731 (sd-pam)        (sd-pam)\n   1737 gdm3            /usr/sbin/gdm3\n   1783 codex           /home/straughter/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex app-server --listen unix:///home/straughter/.codex/app-server.sock\n   1871 python          /home/straughter/.hermes/hermes-agent/venv/bin/python -m hermes_cli.main gateway run --replace\n   1872 kittylitter     /home/straughter/.npm/_npx/75a33253e6ddbadb/node_modules/kittylitter/node_modules/.bin_real/kittylitter serve\n   1875 node            node /home/straughter/.npm-global/bin/paperclipai run\n   1876 pipewire        /usr/bin/pipewire\n   1878 pipewire        /usr/bin/pipewire -c filter-chain.conf\n   1883 wireplumber     /usr/bin/wireplumber\n   1884 pipewire-pulse  /usr/bin/pipewire-pulse\n   1915 dbus-daemon     /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only\n   1981 rtkit-daemon    /usr/libexec/rtkit-daemon\n   2187 xdg-document-po /usr/libexec/xdg-document-portal\n   2238 xdg-permission- /usr/libexec/xdg-permission-store\n   2250 fusermount3     fusermount3 -o rw,nosuid,nodev,fsname=portal,auto_unmount,subtype=portal -- /run/user/1000/doc\n   2351 krfcommd        [krfcommd]\n   2458 postgres        /home/straughter/.npm-global/lib/node_modules/paperclipai/node_modules/@embedded-postgres/linux-x64/native/bin/postgres -D /home/straughter/.paperclip/instances/default/db -p 54329\n   2459 postgres        postgres: io worker 2\n   2460 postgres        postgres: io worker 0\n   2461 postgres        postgres: io worker 1\n   2462 postgres        postgres: checkpointer \n   2463 postgres        postgres: background writer \n   2469 postgres        postgres: walwriter \n   2470 postgres        postgres: autovacuum launcher \n   2471 postgres        postgres: logical replication launcher \n   2535 colord          /usr/libexec/colord\n   2626 upowerd         /usr/libexec/upowerd\n   2952 dockerd         /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock\n   2954 python          /home/straughter/Maestro/env/bin/python /home/straughter/Maestro/app/launch.py\n   2955 ollama          /usr/local/bin/ollama serve\n   2964 kerneloops      /usr/sbin/kerneloops --test\n   2981 kerneloops      /usr/sbin/kerneloops\n   3011 kworker/R-wg-cr [kworker/R-wg-crypt-wg0]\n   3023 napi/wg0-0      [napi/wg0-0]\n   3570 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 25019280ad45733f8caeb6f5ee3650b1b1244d50f8cbf1f9de186de5872c3b7a -address /run/containerd/containerd.sock\n   3572 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 1e25a69a7a93e7e39cc37f03a5a4fcbf7ed2c48365757a1ac55f9987f81a15c6 -address /run/containerd/containerd.sock\n   3627 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id ada1a64b74db3f7a2c9e8b8e71b5c2987138fd7c78e62811d04269436068b79d -address /run/containerd/containerd.sock\n   3636 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 694ffe32fc48de9487a6c97150e54278aebfde16997caa28434ab9ecc1b80afd -address /run/containerd/containerd.sock\n   3678 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 5f041ea0dabf40ac8e50521a05c514c845ad20882ec009d40f7d844cb03c25b1 -address /run/containerd/containerd.sock\n   3703 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 6acd9a3fb446d44008650acc0e3e2376716b976cf37aba1649d450e64eaea4f1 -address /run/containerd/containerd.sock\n   3714 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id 6587046c6d37a1941d1328124cb5bb4ef25d3c1fe00e312d09f9692e6fbcdffa -address /run/containerd/containerd.sock\n   3797 searxng         searxng\n   3798 redis-server    redis-server 0.0.0.0:6379\n   3813 postgres        postgres\n   3814 init-container  /bin/bash /assets/init-container\n   3815 postgres        postgres\n   3832 npm start       npm start\n   3841 beam.smp        /opt/erlang/lib/erlang/erts-14.2.5.12/bin/beam.smp -W w -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -pc unicode -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -sbwt none -sbwtdcpu none -sbwtdio none -- -root /opt/erlang/lib/erlang -bindir /opt/erlang/lib/erlang/erts-14.2.5.12/bin -progname erl -- -home /var/lib/rabbitmq -- -pa  -noshell -noinput -s rabbit boot -boot start_sasl -syslog logger [] -syslog syslog_error_logger false -kernel prevent_overlapping_partitions false\n   3965 docker-proxy    /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 18080 -container-ip 172.18.0.2 -container-port 8080 -use-listen-fd\n   4018 docker-proxy    /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 5432 -container-ip 172.17.0.2 -container-port 5432 -use-listen-fd\n   4025 docker-proxy    /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 5432 -container-ip 172.17.0.2 -container-port 5432 -use-listen-fd\n   4463 erl_child_setup erl_child_setup 1024\n   4620 postgres        postgres: checkpointer \n   4621 postgres        postgres: background writer \n   4681 postgres        postgres: checkpointer \n   4683 postgres        postgres: background writer \n   5039 sh              sh -c node dist/api.js\n   5045 node            node dist/api.js\n   5287 sh              sh -s disksup\n   5302 memsup          /opt/erlang/lib/erlang/lib/os_mon-2.9.1/priv/bin/memsup\n   5305 cpu_sup         /opt/erlang/lib/erlang/lib/os_mon-2.9.1/priv/bin/cpu_sup\n   5320 postgres        postgres: walwriter \n   5321 postgres        postgres: autovacuum launcher \n   5323 postgres        postgres: pg_cron launcher \n   5324 postgres        postgres: logical replication launcher \n   5355 postgres        postgres: walwriter \n   5356 postgres        postgres: autovacuum launcher \n   5357 postgres        postgres: logical replication launcher \n   5358 python3         /usr/local/searxng/.venv/bin/python3 -c from multiprocessing.resource_tracker import main;main(7)\n   5359 searxng worker- searxng worker-1\n   5365 chrome-headless /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --disable-accelerated-2d-canvas --no-first-run --no-zygote --disable-gpu --user-data-dir=/tmp/playwright_chromiumdev_profile-jqhxK6 --remote-debugging-pipe --no-startup-window\n   5400 inet_gethost    /opt/erlang/lib/erlang/erts-14.2.5.12/bin/inet_gethost 4\n   5401 inet_gethost    /opt/erlang/lib/erlang/erts-14.2.5.12/bin/inet_gethost 4\n   5415 epmd            /opt/erlang/lib/erlang/erts-14.2.5.12/bin/epmd -daemon\n   5503 chrome-headless /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --type=gpu-process --no-sandbox --disable-dev-shm-usage --disable-breakpad --headless --ozone-platform=headless --use-angle=swiftshader-webgl --enable-unsafe-swiftshader --gpu-preferences=UAAAAAAAAAAgAAAEAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --shared-files --field-trial-handle=3,i,17475783245407008056,8526231099375805647,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate --variations-seed-version --pseudonymization-salt-handle=7,i,9139454356812651832,8931748718142919618,4 --trace-process-track-uuid=3190708988185955192\n   5510 chrome-headless /usr/local/share/playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --no-sandbox --disable-dev-shm-usage --use-angle=swiftshader-webgl --use-gl=angle --mute-audio --headless=old --shared-files=v8_context_snapshot_data:100 --field-trial-handle=3,i,17475783245407008056,8526231099375805647,262144 --enable-features=CDPScreenshotNewSurface --disable-features=AutoDeElevate,AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,OptimizationHints,PaintHolding,RenderDocument,ThirdPartyStoragePartitioning,Translate --variations-seed-version --pseudonymization-salt-handle=7,i,9139454356812651832,8931748718142919618,4 --trace-process-track-uuid=3190708989122997041\n   6727 runsvdir        runsvdir -P /opt/gitlab/service log: ...........................................................................................................................................................................................................................................................................................................................................................................................................\n   6738 vidmem lazy fre [vidmem lazy free]\n   6739 UVM GPU1 BH     [UVM GPU1 BH]\n   6740 UVM GPU1 KC     [UVM GPU1 KC]\n   7064 runsv           runsv sshd\n   7065 svlogd          svlogd -tt /var/log/gitlab/sshd\n   7104 sh              /bin/sh -s rabbit_disk_monitor\n   7980 containerd-shim /usr/bin/containerd-shim-runc-v2 -namespace moby -id fbfca5eb918133860ba79827e5628c2be2607748024be1623843087f4311fffd -address /run/containerd/containerd.sock\n   8017 node            node dist/src/harness.js --start-docker\n   8098 docker-proxy    /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 3002 -container-ip 172.19.0.5 -container-port 3002 -use-listen-fd\n   8195 sh              sh -c node dist/src/index.js\n   8198 node            node dist/src/index.js\n   8199 sh              sh -c node dist/src/services/queue-worker.js\n   8200 node            node dist/src/services/queue-worker.js\n   8201 sh              sh -c node dist/src/services/extract-worker.js\n   8202 node            node dist/src/services/extract-worker.js\n   8204 sh              sh -c node dist/src/services/worker/nuq-worker.js\n   8207 node            node dist/src/services/worker/nuq-worker.js\n   8208 sh              sh -c node dist/src/services/worker/nuq-worker.js\n   8209 node            node dist/src/services/worker/nuq-worker.js\n   8210 sh              sh -c node dist/src/services/worker/nuq-worker.js\n   8216 node            node dist/src/services/worker/nuq-worker.js\n   8217 sh              sh -c node dist/src/services/worker/nuq-worker.js\n   8218 node            node dist/src/services/worker/nuq-worker.js\n   8220 sh              sh -c node dist/src/services/worker/nuq-worker.js\n   8230 node            node dist/src/services/worker/nuq-worker.js\n   8231 sh              sh -c node dist/src/services/worker/nuq-prefetch-worker.js\n   8237 node            node dist/src/services/worker/nuq-prefetch-worker.js\n   8247 sh              sh -c node dist/src/services/worker/nuq-reconciler-worker.js\n   8249 node            node dist/src/services/worker/nuq-reconciler-worker.js\n   8646 runsv           runsv redis\n   8647 runsv           runsv gitaly\n   8648 runsv           runsv logrotate\n   8649 svlogd          svlogd /var/log/gitlab/gitaly\n   8650 svlogd          svlogd -tt /var/log/gitlab/redis\n   8652 svlogd          svlogd -tt /var/log/gitlab/logrotate\n   8794 gitlab-ctl      /bin/bash /opt/gitlab/bin/gitlab-ctl tail\n   8795 omnibus-ctl     /opt/gitlab/embedded/bin/ruby /opt/gitlab/embedded/bin/omnibus-ctl gitlab /opt/gitlab/embedded/service/omnibus-ctl* tail\n   8844 sh              sh -c find -L /var/log/gitlab -type f -not -path '*/sasl/*' | grep -E -v '(config|lock|@|bz2|gz|gzip|tbz2|tgz|txz|xz|zip)' | xargs tail --follow=name --retry\n   8847 xargs           xargs tail --follow=name --retry\n   8848 tail            tail --follow=name --retry /var/log/gitlab/redis/current /var/log/gitlab/redis/state /var/log/gitlab/postgresql/current /var/log/gitlab/postgresql/state /var/log/gitlab/gitlab-rails/auth.log /var/log/gitlab/gitlab-rails/production_json.log /var/log/gitlab/gitlab-rails/grpc.log /var/log/gitlab/gitlab-rails/api_json.log /var/log/gitlab/gitlab-rails/active_context.log /var/log/gitlab/gitlab-rails/service_measurement.log /var/log/gitlab/gitlab-rails/database_load_balancing.log /var/log/gitlab/gitlab-rails/user_experience_slis.log /var/log/gitlab/gitlab-rails/production.log /var/log/gitlab/gitlab-rails/application_json.log /var/log/gitlab/gitlab-rails/sidekiq_client.log /var/log/gitlab/gitlab-rails/gitlab-rails-db-migrate-2026-05-29-05-44-33.log /var/log/gitlab/gitlab-workhorse/current /var/log/gitlab/gitlab-workhorse/state /var/log/gitlab/sidekiq/current /var/log/gitlab/sidekiq/state /var/log/gitlab/gitlab-kas/current /var/log/gitlab/gitlab-kas/state /var/log/gitlab/sshd/current /var/log/gitlab/gitaly/current /var/log/gitlab/gitaly/state /var/log/gitlab/logrotate/current /var/log/gitlab/logrotate/state /var/log/gitlab/nginx/error.log /var/log/gitlab/nginx/gitlab_access.log /var/log/gitlab/nginx/access.log /var/log/gitlab/nginx/gitlab_error.log /var/log/gitlab/nginx/current /var/log/gitlab/nginx/state /var/log/gitlab/puma/puma_stderr.log /var/log/gitlab/puma/puma_stdout.log /var/log/gitlab/puma/current /var/log/gitlab/puma/state\n   8922 runsv           runsv postgresql\n   8923 runsv           runsv gitlab-workhorse\n   8924 runsv           runsv sidekiq\n   8925 runsv           runsv gitlab-kas\n   8926 runsv           runsv nginx\n   8927 runsv           runsv puma\n   8930 svlogd          svlogd -tt /var/log/gitlab/gitlab-kas\n   8931 svlogd          svlogd -tt /var/log/gitlab/nginx\n   8932 svlogd          svlogd -tt /var/log/gitlab/puma\n   8933 svlogd          svlogd -tt /var/log/gitlab/postgresql\n   8934 svlogd          svlogd /var/log/gitlab/gitlab-workhorse\n   8935 svlogd          svlogd /var/log/gitlab/sidekiq\n   8957 gitlab-workhors /opt/gitlab/embedded/bin/gitlab-workhorse -listenNetwork unix -listenUmask 0 -listenAddr /var/opt/gitlab/gitlab-workhorse/sockets/socket -authBackend http://localhost:8080 -authSocket /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket -documentRoot /opt/gitlab/embedded/service/gitlab-rails/public -pprofListenAddr  -prometheusListenAddr localhost:9229 -secretPath /opt/gitlab/embedded/service/gitlab-rails/.gitlab_workhorse_secret -logFormat json -config config.toml\n   8958 nginx           nginx: master process /opt/gitlab/embedded/sbin/nginx -p /var/opt/gitlab/nginx\n   8988 nginx           nginx: worker process\n   8989 nginx           nginx: worker process\n   8990 nginx           nginx: worker process\n   8991 nginx           nginx: worker process\n   8992 nginx           nginx: worker process\n   8995 nginx           nginx: worker process\n   8997 nginx           nginx: worker process\n   8999 nginx           nginx: worker process\n   9001 nginx           nginx: worker process\n   9002 nginx           nginx: worker process\n   9003 nginx           nginx: worker process\n   9004 nginx           nginx: worker process\n   9005 nginx           nginx: worker process\n   9006 nginx           nginx: worker process\n   9007 nginx           nginx: worker process\n   9008 nginx           nginx: worker process\n   9009 nginx           nginx: worker process\n   9010 nginx           nginx: worker process\n   9011 nginx           nginx: worker process\n   9012 nginx           nginx: worker process\n   9013 nginx           nginx: worker process\n   9014 nginx           nginx: worker process\n   9015 nginx           nginx: worker process\n   9016 nginx           nginx: worker process\n   9017 nginx           nginx: worker process\n   9018 nginx           nginx: worker process\n   9019 nginx           nginx: worker process\n   9020 nginx           nginx: worker process\n   9021 nginx           nginx: worker process\n   9023 nginx           nginx: worker process\n   9027 nginx           nginx: worker process\n   9029 nginx           nginx: worker process\n   9031 nginx           nginx: cache manager process\n 181887 fwupd           /usr/libexec/fwupd/fwupd\n 329984 gdm-session-wor gdm-session-worker [pam/gdm-password]\n 329991 gnome-keyring-d /usr/bin/gnome-keyring-daemon --foreground --components=pkcs11,secrets --control-directory=/run/user/1000/keyring\n 330047 gdm-x-session   /usr/libexec/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu /usr/bin/gnome-session --session=ubuntu\n 330049 Xorg            /usr/lib/xorg/Xorg vt2 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -nolisten tcp -background none -noreset -keeptty -novtswitch -verbose 3\n 330216 nvidia-drm/time [nvidia-drm/timeline-c]\n 330258 gnome-session-b /usr/libexec/gnome-session-binary --session=ubuntu\n 330341 at-spi-bus-laun /usr/libexec/at-spi-bus-launcher\n 330348 dbus-daemon     /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 11 --address=unix:path=/run/user/1000/at-spi/bus_1\n 330390 gcr-ssh-agent   /usr/libexec/gcr-ssh-agent --base-dir /run/user/1000/gcr\n 330391 gnome-session-c /usr/libexec/gnome-session-ctl --monitor\n 330405 gvfsd           /usr/libexec/gvfsd\n 330413 gvfsd-fuse      /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f\n 330415 gnome-session-b /usr/libexec/gnome-session-binary --systemd-service --session=ubuntu\n 330460 gnome-shell     /usr/bin/gnome-shell\n 330526 nvidia-drm/time [nvidia-drm/timeline-e]\n 330541 mutter-x11-fram /usr/libexec/mutter-x11-frames\n 330544 at-spi2-registr /usr/libexec/at-spi2-registryd --use-gnome-session\n 330574 gnome-shell-cal /usr/libexec/gnome-shell-calendar-server\n 330584 evolution-sourc /usr/libexec/evolution-source-registry\n 330588 dconf-service   /usr/libexec/dconf-service\n 330591 gjs             /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.Shell.Notifications\n 330618 ibus-daemon     /usr/bin/ibus-daemon --panel disable --xim\n 330619 gsd-a11y-settin /usr/libexec/gsd-a11y-settings\n 330620 gsd-color       /usr/libexec/gsd-color\n 330621 gsd-datetime    /usr/libexec/gsd-datetime\n 330624 gsd-housekeepin /usr/libexec/gsd-housekeeping\n 330625 gsd-keyboard    /usr/libexec/gsd-keyboard\n 330629 gsd-media-keys  /usr/libexec/gsd-media-keys\n 330634 gsd-power       /usr/libexec/gsd-power\n 330637 gsd-print-notif /usr/libexec/gsd-print-notifications\n 330639 gsd-rfkill      /usr/libexec/gsd-rfkill\n 330642 gsd-screensaver /usr/libexec/gsd-screensaver-proxy\n 330646 gsd-sharing     /usr/libexec/gsd-sharing\n 330652 gsd-smartcard   /usr/libexec/gsd-smartcard\n 330655 gsd-sound       /usr/libexec/gsd-sound\n 330656 gsd-wacom       /usr/libexec/gsd-wacom\n 330658 gsd-xsettings   /usr/libexec/gsd-xsettings\n 330692 gvfs-udisks2-vo /usr/libexec/gvfs-udisks2-volume-monitor\n 330707 evolution-alarm /usr/libexec/evolution-data-server/evolution-alarm-notify\n 330739 gsd-disk-utilit /usr/libexec/gsd-disk-utility-notify\n 330781 goa-daemon      /usr/libexec/goa-daemon\n 330805 gsd-printer     /usr/libexec/gsd-printer\n 330807 goa-identity-se /usr/libexec/goa-identity-service\n 330820 gvfs-mtp-volume /usr/libexec/gvfs-mtp-volume-monitor\n 330834 evolution-calen /usr/libexec/evolution-calendar-factory\n 330847 gvfs-gphoto2-vo /usr/libexec/gvfs-gphoto2-volume-monitor\n 330859 gvfs-afc-volume /usr/libexec/gvfs-afc-volume-monitor\n 330869 gvfs-goa-volume /usr/libexec/gvfs-goa-volume-monitor\n 330874 evolution-addre /usr/libexec/evolution-addressbook-factory\n 330884 ibus-dconf      /usr/libexec/ibus-dconf\n 330885 ibus-extension- /usr/libexec/ibus-extension-gtk3\n 330887 ibus-x11        /usr/libexec/ibus-x11 --kill-daemon\n 330890 ibus-portal     /usr/libexec/ibus-portal\n 330943 gjs             /usr/bin/gjs -m /usr/share/gnome-shell/org.gnome.ScreenSaver\n 330957 tracker-miner-f /usr/libexec/tracker-miner-fs-3\n 330964 ibus-engine-sim /usr/libexec/ibus-engine-simple\n 331052 gvfsd-trash     /usr/libexec/gvfsd-trash --spawner :1.158 /org/gtk/gvfs/exec_spaw/0\n 331085 xdg-desktop-por /usr/libexec/xdg-desktop-portal\n 331102 xdg-desktop-por /usr/libexec/xdg-desktop-portal-gnome\n 331150 xdg-desktop-por /usr/libexec/xdg-desktop-portal-gtk\n 331239 gvfsd-metadata  /usr/libexec/gvfsd-metadata\n 331524 user-session-he /snap/snapd-desktop-integration/391/usr/bin/user-session-helper /snap/snapd-desktop-integration/391/usr/bin/snapd-desktop-integration\n 331767 snapd-desktop-i /snap/snapd-desktop-integration/391/usr/bin/snapd-desktop-integration\n 335221 gnome-calendar  /usr/bin/gnome-calendar --gapplication-service\n 339675 update-notifier /usr/bin/update-notifier\n 340052 update-manager  /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map\n 357569 update-notifier /bin/sh /usr/lib/update-notifier/update-notifier-crash\n 357626 apport-gtk      /usr/bin/python3 /usr/share/apport/apport-gtk\n 402131 gnome-control-c /usr/bin/gnome-control-center\n 402224 nvidia-drm/time [nvidia-drm/timeline-11]\n 413981 kworker/13:3-ev [kworker/13:3-events]\n 678019 sshd            sshd: straughter [priv]\n 678266 sshd            sshd: straughter\n 710316 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 710324 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 710416 sh              sh -c paperclip-mcp-server\n 710418 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 738586 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 738587 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 738622 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 738625 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 738665 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 738673 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 738675 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 738683 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 738718 sh              sh -c paperclip-mcp-server\n 738719 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 738726 sh              sh -c paperclip-mcp-server\n 738727 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 738758 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 738766 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 738778 sh              sh -c paperclip-mcp-server\n 738779 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 738790 sh              sh -c paperclip-mcp-server\n 738791 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 738852 sh              sh -c paperclip-mcp-server\n 738855 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 803069 python3.12      /usr/bin/python3.12 /home/straughter/.local/bin/uvicorn qc.audio_critic.service:app --host 127.0.0.1 --port 8377 --workers 1\n 838392 kworker/11:1-mm [kworker/11:1-mm_percpu_wq]\n 875903 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n 875911 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n 875928 sh              sh -c paperclip-mcp-server\n 875929 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n 916247 kworker/u97:2-r [kworker/u97:2-rb_allocator]\n1069513 kworker/u97:0-r [kworker/u97:0-rb_allocator]\n1070124 psimon          [psimon]\n1070483 snapd           /snap/snapd/current/usr/lib/snapd/snapd\n1172418 kworker/0:2-eve [kworker/0:2-events]\n1474560 kworker/19:2-ev [kworker/19:2-events]\n1635967 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n1635975 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n1635986 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n1636001 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n1636016 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n1636024 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n1636040 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n1636048 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n1636070 sh              sh -c paperclip-mcp-server\n1636071 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n1636078 sh              sh -c paperclip-mcp-server\n1636079 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n1636086 sh              sh -c paperclip-mcp-server\n1636087 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n1636094 sh              sh -c paperclip-mcp-server\n1636095 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n1705549 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=/home/straughter/.local/bin/paperclip-kling-mcp-server\n1705563 npm exec @paper npm exec @paperclipai/mcp-server@2026.416.0\n1705582 sh              sh -c paperclip-mcp-server\n1705583 node            node /tmp/npm-cache-paperclip-mcp/_npx/f303b737bb20871a/node_modules/.bin/paperclip-mcp-server\n1705621 kworker/R-ext4- [kworker/R-ext4-rsv-conversion]\n1755388 kworker/5:2-eve [kworker/5:2-events]\n1769043 cupsd           /usr/sbin/cupsd -l\n1769047 cups-browsed    /usr/sbin/cups-browsed\n1817670 kworker/12:2-ev [kworker/12:2-events]\n1940674 kworker/9:2-eve [kworker/9:2-events]\n1957416 kworker/1:0-eve [kworker/1:0-events]\n1962312 kworker/6:2-mm_ [kworker/6:2-mm_percpu_wq]\n2047907 kworker/7:1-eve [kworker/7:1-events]\n2076302 kworker/20:0-ev [kworker/20:0-events]\n2101361 kworker/u96:6-k [kworker/u96:6-kvfree_rcu_reclaim]\n2117286 kworker/u96:11- [kworker/u96:11-ext4-rsv-conversion]\n2122190 gitlab-logrotat /bin/sh /opt/gitlab/embedded/bin/gitlab-logrotate-wrapper\n2142143 kworker/8:1-eve [kworker/8:1-events]\n2170359 sleep           sleep 3000\n2185774 kworker/3:0-mm_ [kworker/3:0-mm_percpu_wq]\n2191789 kworker/2:1-eve [kworker/2:1-events]\n2204773 kworker/u96:2-k [kworker/u96:2-kvfree_rcu_reclaim]\n2205282 kworker/15:0-cg [kworker/15:0-cgroup_release]\n2205974 postgres        postgres: paperclip paperclip 127.0.0.1(38082) idle\n2207661 kworker/17:0-ev [kworker/17:0-events]\n2220120 kworker/3:1-cgr [kworker/3:1-cgroup_release]\n2222725 kworker/10:0-ev [kworker/10:0-events]\n2234094 kworker/13:0-cg [kworker/13:0-cgroup_free]\n2249537 postgres        postgres: paperclip paperclip 127.0.0.1(43972) idle\n2252580 kworker/5:0-mm_ [kworker/5:0-mm_percpu_wq]\n2263950 kworker/18:3-cg [kworker/18:3-cgroup_free]\n2278377 postgres        postgres: paperclip paperclip 127.0.0.1(42908) idle\n2290364 kworker/u96:3-f [kworker/u96:3-flush-259:0]\n2295266 postgres        postgres: paperclip paperclip 127.0.0.1(50040) idle\n2299910 kworker/9:1-mm_ [kworker/9:1-mm_percpu_wq]\n2302701 kworker/4:0-mm_ [kworker/4:0-mm_percpu_wq]\n2308632 kworker/1:2     [kworker/1:2]\n2311642 kworker/23:0-cg [kworker/23:0-cgroup_free]\n2330659 kworker/22:1-ev [kworker/22:1-events]\n2333073 kworker/16:1-ev [kworker/16:1-events]\n2337045 check-new-relea /usr/bin/python3 /usr/lib/ubuntu-release-upgrader/check-new-release-gtk\n2338063 kworker/14:1-ev [kworker/14:1-events]\n2345976 kworker/19:1-cg [kworker/19:1-cgroup_free]\n2348646 kworker/21:0-ev [kworker/21:0-events]\n2351836 kworker/12:1-cg [kworker/12:1-cgroup_free]\n2357335 kworker/8:2-cgr [kworker/8:2-cgroup_release]\n2357460 kworker/17:2-cg [kworker/17:2-cgroup_free]\n2359421 kworker/4:1-cgr [kworker/4:1-cgroup_free]\n2363261 kworker/23:1-cg [kworker/23:1-cgroup_free]\n2363648 kworker/16:0-cg [kworker/16:0-cgroup_free]\n2364082 kworker/14:2-cg [kworker/14:2-cgroup_release]\n2364871 kworker/2:2-cgr [kworker/2:2-cgroup_release]\n2365096 kworker/u96:1-f [kworker/u96:1-flush-8:0]\n2367307 kworker/7:0-cgr [kworker/7:0-cgroup_free]\n2367762 kworker/20:1-cg [kworker/20:1-cgroup_free]\n2369811 kworker/10:1-ev [kworker/10:1-events]\n2372268 kworker/0:0-cgr [kworker/0:0-cgroup_free]\n2373878 kworker/22:2-cg [kworker/22:2-cgroup_free]\n2374730 kworker/6:1-cgr [kworker/6:1-cgroup_free]\n2375394 kworker/11:2-cg [kworker/11:2-cgroup_free]\n2375520 kworker/21:1-cg [kworker/21:1-cgroup_release]\n2376191 kworker/18:1-ev [kworker/18:1-events]\n2379023 kworker/19:0-cg [kworker/19:0-cgroup_free]\n2381408 kworker/12:0-cg [kworker/12:0-cgroup_free]\n2383650 kworker/15:2-cg [kworker/15:2-cgroup_free]\n2385530 kworker/8:0-cgr [kworker/8:0-cgroup_free]\n2386331 kworker/17:1-cg [kworker/17:1-cgroup_free]\n2388553 kworker/4:2-cgr [kworker/4:2-cgroup_free]\n2389345 kworker/23:2-ev [kworker/23:2-events]\n2390281 kworker/2:0-cgr [kworker/2:0-cgroup_free]\n2391419 kworker/16:2    [kworker/16:2]\n2394658 kworker/20:2-cg [kworker/20:2-cgroup_free]\n2398357 kworker/3:2-cgr [kworker/3:2-cgroup_free]\n2399159 kworker/14:0-cg [kworker/14:0-cgroup_free]\n2399940 kworker/6:0     [kworker/6:0]\n2401711 ruby            ruby /opt/gitlab/embedded/service/gitlab-rails/bin/sidekiq-cluster -e production -r /opt/gitlab/embedded/service/gitlab-rails -c 5 --timeout 25 *\n2402501 kworker/21:2-cg [kworker/21:2-cgroup_free]\n2402576 kworker/22:0    [kworker/22:0]\n2402645 bundle          puma 7.2.0 (unix:///var/opt/gitlab/gitlab-rails/sockets/gitlab.socket,tcp://127.0.0.1:8080) [gitlab-puma-worker]\n2402822 gitaly-wrapper  /opt/gitlab/embedded/bin/gitaly-wrapper /opt/gitlab/embedded/bin/gitaly serve /var/opt/gitlab/gitaly/config.toml\n2402864 tailscaled      /usr/sbin/tailscaled be-child ssh --login-shell=/bin/bash --uid=1000 --gid=1000 --groups=1000,4,24,27,29,30,46,100,114,125,984 --local-user=straughter --home-dir=/home/straughter --remote-user=straughterguthrie@gmail.com --remote-ip=100.106.214.23 --has-tty=false --tty-name= --force-v1-behavior --cmd=cd '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input' && /usr/bin/python3 -B '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/repair_ltx_runtime.py' --metadata '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/mmgp-35714.json' --gate-summary '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/gate-11-evidence.json' --authorization '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/operator-authorization.json' --manifest '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/model-assets.json' --operation-plan '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/final-operation-plan.json' --runtime-root '/home/straughter/wd-28ac-final-gate7-20261003/runtime' --report '/home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json' --execute --allow-network\n2402872 python3         /usr/bin/python3 -B /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/repair_ltx_runtime.py --metadata /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/mmgp-35714.json --gate-summary /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/gate-11-evidence.json --authorization /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/operator-authorization.json --manifest /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/model-assets.json --operation-plan /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/final-operation-plan.json --runtime-root /home/straughter/wd-28ac-final-gate7-20261003/runtime --report /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json --execute --allow-network\n2402884 ps              ps -eo pid,comm,args\n2448263 kworker/R-tls-s [kworker/R-tls-strp]\n2645013 postgres        postgres: postgres postgres 172.19.0.5(40226) idle\n2690366 postgres        postgres: postgres postgres 172.19.0.5(53460) idle\n3485943 kworker/15:1-mm [kworker/15:1-mm_percpu_wq]\n"
+      }
+    },
+    "system_mmgp": {
+      "isolated_path": "",
+      "module": "mmgp",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\nModuleNotFoundError: No module named 'mmgp'\n",
+      "stdout": ""
+    },
+    "wheel_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl"
+  },
+  "preservation_before": {
+    "models": {
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size_bytes": 19447662547
+      },
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size_bytes": 1308778338
+      },
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+      },
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416
+      },
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size_bytes": 327322640
+      }
+    },
+    "references": {
+      "m7xw_create": {
+        "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+        "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+        "size_bytes": 438713
+      },
+      "m7xw_first_frame": {
+        "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+        "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+        "size_bytes": 295302
+      },
+      "m7xw_repaint_mask": {
+        "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+        "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+        "size_bytes": 2879
+      },
+      "osfm_alternate_reference": {
+        "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+        "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+        "size_bytes": 107009
+      },
+      "osfm_control": {
+        "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+        "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+        "size_bytes": 101143
+      },
+      "osfm_create": {
+        "path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+        "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+        "size_bytes": 984165
+      }
+    }
+  },
+  "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-repair/v1",
+  "status": "failed_closed",
+  "story": "WD-28ac",
+  "wheel": {
+    "path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl",
+    "sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "size_bytes": 68211
+  }
+}
+
+[runtime_paths]
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/.mmgp-3.7.14.extraction-staging
+f 68211 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+
+[wheel_identity]
+size=68211 path=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+
+[destination_state]
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14
+PRESENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/.mmgp-3.7.14.extraction-staging
+
+[wheel_members]
+{
+  "member_count": 11,
+  "members": [
+    "__init__.py",
+    "mmgp/__init__.py",
+    "mmgp/fp8_quanto_bridge.py",
+    "mmgp/offload.py",
+    "mmgp/quant_router.py",
+    "mmgp/safetensors2.py",
+    "mmgp-3.7.14.dist-info/licenses/LICENSE.md",
+    "mmgp-3.7.14.dist-info/METADATA",
+    "mmgp-3.7.14.dist-info/WHEEL",
+    "mmgp-3.7.14.dist-info/top_level.txt",
+    "mmgp-3.7.14.dist-info/RECORD"
+  ],
+  "outside_declared_roots": [
+    "__init__.py"
+  ]
+}
+
+[disk_gpu_process]
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 825865256960 23386750976  98% /
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+
+[system_mmgp_import]
+ModuleNotFoundError: No module named 'mmgp'
+
+[preservation_after]
+{
+  "preservation_after": {
+    "models": {
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size_bytes": 19447662547
+      },
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size_bytes": 1308778338
+      },
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+      },
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416
+      },
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+        "path": "/home/straughter/Wan2GP/ckpts/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size_bytes": 327322640
+      }
+    },
+    "references": {
+      "m7xw_create": {
+        "path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+        "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+        "size_bytes": 438713
+      },
+      "m7xw_first_frame": {
+        "path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+        "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+        "size_bytes": 295302
+      },
+      "m7xw_repaint_mask": {
+        "path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+        "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+        "size_bytes": 2879
+      },
+      "osfm_alternate_reference": {
+        "path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+        "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+        "size_bytes": 107009
+      },
+      "osfm_control": {
+        "path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+        "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+        "size_bytes": 101143
+      },
+      "osfm_create": {
+        "path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+        "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+        "size_bytes": 984165
+      }
+    }
+  },
+  "unchanged_from_report_before": true
+}
+
+[input_hashes_after]
+e93ec58fad8e4b3bc070a8ffb0a1b709b647f9d51652e051e9f46fb540f5f015  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/repair_ltx_runtime.py
+8977ced4fe6c8ffe26aefcca754206c5da683352f5706bbf2066f8dca5a32d27  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/mmgp-35714.json
+7623d348d36ed3686ee37c9e9553ad4414ae4464e7e1743f059e768047f61796  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/gate-11-evidence.json
+29419e4493feb97b1d83c73b6caf830ad9d5cb357bc964aed9bab5719004b167  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/operator-authorization.json
+42a88079a3bf173ecfd09222fb77a8ccff5b92bc36f408cc937f34b7059c1a7f  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/model-assets.json
+01a3a3195144d0d46585fe07e76860d5059dbbbcaf8377ec95c35f52936a5ab4  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-input/final-operation-plan.json
+
+postboundary=PASS_READ_ONLY

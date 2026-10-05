@@ -1,0 +1,67 @@
+{
+  "artifact_state": {
+    "extraction_started": false,
+    "report_preserved": true,
+    "runtime_directory_created": false,
+    "wheel_downloaded": false
+  },
+  "boundary": {
+    "deletion_attempted": false,
+    "dependency_install_attempted": false,
+    "diagnostic_code": "RUNTIME_DEPENDENCY_PROBE_METADATA_MISMATCH",
+    "module_present": true,
+    "not_a_dependency_availability_verdict": true,
+    "reason": "The optimum.quanto module exists at its recorded user-site path, but the runner incorrectly requested top-level optimum distribution metadata; importlib.metadata reports no optimum distribution. The runner stopped before wheel GET or runtime creation.",
+    "retry_attempted": false,
+    "runner_code": "DECLARED_DEPENDENCY_IMPORT_FAILED",
+    "top_level_distribution_metadata_present": false
+  },
+  "deployment": {
+    "dry_run": "../host-dry-run.txt",
+    "hashes": "../host-deploy-hashes.txt"
+  },
+  "evidence": {
+    "post_state": {
+      "path": "terminal-boundary/post-boundary-state.txt",
+      "sha256": "e72190e99163f638f0b4852d8bbe55c1f6e01ea70020bd7c0cbb618b69b9bade"
+    },
+    "remote_exit": {
+      "path": "terminal-boundary/remote.exit",
+      "value": "2"
+    },
+    "report": {
+      "path": "terminal-boundary/report.json",
+      "sha256": "9bfdf79651f84812d4d2cac8a0bdf3e290401aaafb3bbf057cddc5894ea873c7"
+    }
+  },
+  "gate": 10,
+  "network_accounting": {
+    "declared_wheel_gets": 0,
+    "undeclared_requests": 0,
+    "wheel_get_limit": 1
+  },
+  "prehost_ci": {
+    "conclusion": "success",
+    "duration_s": 1375,
+    "job_id": 111283555494,
+    "run_id": 37150610799,
+    "url": "https://github.com/jmanhype/wangp-dspy/actions/runs/37150610799"
+  },
+  "prehost_head": "7528e03b890c40f2159e4e403ad7e5bd76d6ac8f",
+  "preservation": {
+    "evidence_source": "runner boundary counters and terminal absence checks",
+    "model_mutations": 0,
+    "protected_file_changes": 0,
+    "reference_mutations": 0
+  },
+  "required_next_decision": "A distinct operator/Jev gate must authorize a corrected local dependency probe and a new one-GET runtime repair attempt. Do not delete or overwrite the preserved report/input state.",
+  "schema_version": "wangp-dspy.wd-28ac.runtime-repair-terminal-boundary/v1",
+  "state_after": {
+    "dependency_modules_present": 5,
+    "gpu": "RTX 3090, 144 MiB used, 23972 MiB free, zero compute apps",
+    "mmgp_present": false,
+    "processes": "zero repair/wgp/llama-server processes"
+  },
+  "status": "failed_closed",
+  "story": "WD-28ac"
+}

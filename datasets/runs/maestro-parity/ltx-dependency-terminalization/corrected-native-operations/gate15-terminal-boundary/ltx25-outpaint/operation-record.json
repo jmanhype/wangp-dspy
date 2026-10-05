@@ -1,0 +1,68 @@
+{
+  "admission_state": "admitted",
+  "argv": [
+    "/usr/bin/python3",
+    "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+    "--process",
+    "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/ltx25-outpaint/settings.json",
+    "--profile",
+    "3",
+    "--attention",
+    "sdpa",
+    "--output-dir",
+    "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/ltx25-outpaint/native-output"
+  ],
+  "attempt": 1,
+  "boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/ltx25-outpaint/native-output",
+    "remediation": "Preserve the native log and stop without retry or substitution."
+  },
+  "durable_job_id": "job-1791082858716-55c08089",
+  "environment": {
+    "HF_HUB_OFFLINE": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "PYTHONUNBUFFERED": "1",
+    "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "operation_id": "ltx25-outpaint",
+  "planned_job_id": "wd-28ac-ltx25-outpaint-corrected-retry-attempt-1",
+  "queue_id": "wd-28ac-phase-b-ltx25-outpaint",
+  "queue_state": {
+    "clips": [
+      {
+        "clip_index": 0,
+        "kind": "wd_28ac_native_operation",
+        "operation": "outpaint",
+        "operation_id": "ltx25-outpaint",
+        "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+        "row": "LTX-2.5",
+        "status": "pending"
+      }
+    ],
+    "created_at": 1791082858.7169797,
+    "failure_class": "NATIVE_NO_OUTPUT",
+    "failure_count": 1,
+    "failure_detail": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/ltx25-outpaint/native-output",
+    "job_id": "job-1791082858716-55c08089",
+    "plan_ref": "wd-28ac-phase-b-ltx25-outpaint",
+    "retryable": true,
+    "state": "failed"
+  },
+  "runtime_preflight": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "mmgp_version": "3.7.14",
+    "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "status": "passed",
+    "system_mmgp_present": false
+  },
+  "settings": {
+    "destination": "/home/straughter/wd-28ac-run/phase-b-gate12-corrected-retry/ltx25-outpaint/settings.json",
+    "destination_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+    "template": "datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
+    "template_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83"
+  },
+  "status": "failed"
+}

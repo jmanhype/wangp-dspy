@@ -1,0 +1,77 @@
+........................................................................ [ 85%]
+............                                                             [100%]
+VERIFY: FAILED (5 files scanned, 1 issues)
+  Stubs: 1 (incomplete implementation)
+
+  scripts/run_ltx_final_operations.py:211 [stub] return empty string
+    > return ""
+
+-- corrected non-stub helper rerun --
+........................................................................ [ 85%]
+............                                                             [100%]
+VERIFY: PASSED (5 files scanned, 0 issues)
+[LINT] backlog: scanned 156 issues
+[LINT] PASSED: 0 error(s), 0 review finding(s)
+.                                                                        [100%]
+protected_file_parity=PASS
+matrix_unchanged=PASS
+gate12_json_and_credential_scan=PASS files=8
+version=0.1.0
+check=version status=pass
+check=changelog status=pass
+check=recipe_schema status=pass
+check=tree status=pass
+tag-ready=v0.1.0
+tag_created=false
+v0.1.0 is tag-ready; no tag was created
+release=ready
+release=ready
+tag_created=false
+release_ready_true_tag_created_false=PASS
+gate12_standard_gates=PASS
+
+-- isolated temporary-plan test rerun --
+........................................................................ [ 85%]
+............                                                             [100%]
+VERIFY: PASSED (5 files scanned, 0 issues)
+[LINT] backlog: scanned 156 issues
+[LINT] PASSED: 0 error(s), 0 review finding(s)
+.                                                                        [100%]
+protected_file_parity=PASS
+matrix_unchanged=PASS
+gate12_json_and_credential_scan=PASS files=8
+version=0.1.0
+check=version status=pass
+check=changelog status=pass
+check=recipe_schema status=pass
+check=tree status=pass
+tag-ready=v0.1.0
+tag_created=false
+v0.1.0 is tag-ready; no tag was created
+release=ready
+release=ready
+tag_created=false
+release_ready_true_tag_created_false=PASS
+gate12_standard_gates=PASS
+........................................................................ [ 85%]
+............                                                             [100%]
+VERIFY: PASSED (5 files scanned, 0 issues)
+[LINT] backlog: scanned 156 issues
+[LINT] PASSED: 0 error(s), 0 review finding(s)
+.                                                                        [100%]
+protected_file_parity=PASS
+matrix_unchanged=PASS
+gate12_json_and_credential_scan=PASS files=8
+version=0.1.0
+check=version status=pass
+check=changelog status=pass
+check=recipe_schema status=pass
+check=tree status=pass
+tag-ready=v0.1.0
+tag_created=false
+v0.1.0 is tag-ready; no tag was created
+release=ready
+release=ready
+tag_created=false
+release_ready_true_tag_created_false=PASS
+gate12_standard_gates=PASS

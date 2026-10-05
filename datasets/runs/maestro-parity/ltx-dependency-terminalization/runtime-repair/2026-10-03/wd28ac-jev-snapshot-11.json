@@ -1,0 +1,49 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Correct only the dependency probe: verify importable modules torch, optimum.quanto, accelerate, safetensors, and psutil; do not require top-level optimum distribution metadata.",
+    "Download exactly one declared pure-Python wheel: mmgp-3.7.14-py3-none-any.whl, 68211 bytes, SHA-256 6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208.",
+    "Perform zero dependency installs and zero undeclared requests.",
+    "Extract only into /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14 after hash verification.",
+    "Do not retry the failed native operation.",
+    "Do not start or contact QC.",
+    "Do not admit a queue job or render.",
+    "Do not mutate system Python, user site-packages, live Wan2GP, models, references, or protected engine files.",
+    "Do not delete or overwrite preserved boundary evidence.",
+    "Stop fail-closed on any mismatch."
+  ],
+  "current_step": "Correct the isolated runtime-repair dependency probe after a zero-request typed boundary.",
+  "pending_action": {
+    "kind": "retry_corrected_isolated_mmgp_runtime_repair_once",
+    "target": "WD-28ac isolated runtime repair with corrected module-import probes and one exact mmgp wheel GET",
+    "summary": "Verify all declared modules by import, fetch and hash-check the exact mmgp wheel once, extract it into a new isolated directory, import mmgp, and stop before native retry.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Jev Gate #10 authorized the first isolated runtime repair attempt.",
+    "The attempt stopped before network/runtime creation with zero declared wheel GETs and zero undeclared requests.",
+    "Typed boundary RUNTIME_DEPENDENCY_PROBE_METADATA_MISMATCH was caused by requesting top-level optimum distribution metadata.",
+    "The actual required module optimum.quanto imports successfully at /home/straughter/.local/lib/python3.12/site-packages/optimum/quanto/__init__.py.",
+    "torch, accelerate, safetensors, and psutil also import successfully.",
+    "PyPI metadata was already collected exactly and identifies the 68211-byte pure-Python wheel and required SHA-256.",
+    "The first attempt preserved all models/references/protected files and left runtime and wheel paths absent.",
+    "Prehost head 7528e03b890c40f2159e4e403ad7e5bd76d6ac8f has exact-head CI success."
+  ],
+  "uncertainties": [
+    "Wheel retrieval may fail or hash mismatch.",
+    "mmgp may import but behave incorrectly during native runtime.",
+    "A separate Jev gate remains required before any native retry."
+  ],
+  "budget": {
+    "elapsed_minutes": 1100,
+    "remaining_minutes": 10
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "corrected_isolated_runtime_repair_once",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "445377f9852287fd7be9d86f7f6c443b58b968c5",
+    "prior_gate_snapshot": "38780b034bc9d862491a8ec846e2ae3d736647cb65720a3f3dc426ccddb3bb4f"
+  }
+}

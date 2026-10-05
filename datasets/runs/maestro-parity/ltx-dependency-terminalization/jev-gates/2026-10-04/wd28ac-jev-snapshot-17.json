@@ -1,0 +1,42 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Do not retry ltx25-outpaint or touch its immutable failed queue/log/settings boundary.",
+    "Do not install, download, copy, move, delete, overwrite, or substitute any package or runtime.",
+    "Do not admit a queue job, run Wan2GP --process, load a model, render, start/stop QC, mutate GPU state, change protected files, or claim capability.",
+    "Use read-only filesystem inspection and import probes only, with bytecode writes and online model access disabled.",
+    "Do not treat ComfyUI rembg 2.0.69 as approved for execution merely because an import probe succeeds; it differs from the accepted Wan2GP pin 2.0.65."
+  ],
+  "current_step": "Determine whether the only existing local rembg installation is import-compatible with the accepted Wan2GP utility layer before requesting scope expansion or a terminal disposition.",
+  "pending_action": {
+    "kind": "read_only_wd_28ac_rembg_compatibility_probe",
+    "target": "WD-28ac Gate 17: hash/inventory the existing ComfyUI rembg 2.0.69 package and metadata, inspect its dependency metadata against accepted Wan2GP requirements, and run offline /usr/bin/python3 import probes for rembg, mmgp, and the accepted Wan2GP shared.utils module without executing wgp.py --process",
+    "summary": "Establish compatibility and dependency-boundary facts only; no execution or mutation.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Gate 16 found no rembg package in user site-packages, pip cache, uv cache, accepted Wan2GP trees, or expected offload root.",
+    "Both accepted Wan2GP trees pin rembg[gpu]==2.0.65 on Linux.",
+    "The only bounded local import success is unrelated ComfyUI venv rembg 2.0.69 at /home/straughter/ComfyUI/venv/lib/python3.12/site-packages/rembg.",
+    "The failed native attempt used /usr/bin/python3, successfully imported isolated mmgp 3.7.14, and then failed only at `from rembg import remove, new_session`.",
+    "The post-boundary GPU is idle and all protected model/reference/tree/runtime identities remain exact.",
+    "Current operator authorization prohibits dependency installation/download, runtime mutation, substitution, and retries, but does not prohibit read-only imports or hashing."
+  ],
+  "uncertainties": [
+    "ComfyUI rembg 2.0.69 may expose compatible remove/new_session APIs despite the version mismatch.",
+    "Adding its site-packages to PYTHONPATH could introduce conflicting transitive dependency versions or fail later imports.",
+    "Import compatibility alone would not prove generation correctness or authorize execution."
+  ],
+  "budget": {
+    "elapsed_minutes": 1375,
+    "remaining_minutes": 5
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "phase": "read_only_dependency_compatibility",
+    "story_head": "112082eec1d13015a2e28ef86a6823604aa0e6f8",
+    "prior_gate_snapshot": "ff43d4417ff5d7d58b52f80240dfb1ab5eec91ade2e44ce5c65dc6ef459d3f9c",
+    "candidate_package": "ComfyUI venv rembg 2.0.69"
+  }
+}

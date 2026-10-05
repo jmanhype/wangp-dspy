@@ -1,0 +1,12 @@
+{
+  "ast_body_node_types": [],
+  "ast_dump": "Module(body=[], type_ignores=[])",
+  "byte_count": 0,
+  "content": "",
+  "member": "__init__.py",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "utf8": true,
+  "wheel_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl",
+  "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+  "wheel_size": 68211
+}

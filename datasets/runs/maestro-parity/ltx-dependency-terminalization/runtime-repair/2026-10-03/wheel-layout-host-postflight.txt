@@ -1,0 +1,33 @@
+host=straughter-Z690-Steel-Legend
+user=straughter
+utc=2026-10-03T22:58:31Z
+
+[reports]
+fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json
+7481c1a1bdce53affb161c9e0f32481d131c8fee662bc92305ae14bc88861db7  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-report.json
+
+[runtime_paths]
+f 68211 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14
+f 0 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp
+d 4096 /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp-3.7.14.dist-info
+
+[wheel_and_destination]
+wheel_size=68211 wheel=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+root_size=0 root=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/__init__.py
+
+[inventory_and_preservation]
+{
+  "file_count": 12,
+  "inventory_matches_report": false,
+  "models_match_report_after": true,
+  "models_match_report_before": true,
+  "references_match_report_after": true,
+  "references_match_report_before": true,
+  "root_init_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "root_init_size": 0,
+  "uncompressed_bytes": 291005
+}

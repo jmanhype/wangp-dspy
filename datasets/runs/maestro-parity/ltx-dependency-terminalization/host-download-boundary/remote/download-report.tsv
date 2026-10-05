@@ -1,0 +1,2 @@
+id	exit	http_code	url_effective	size_download	observed_size	observed_sha256	expected_size	expected_sha256	promoted	curl_invocations
+ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors	0	200	https://us.aws.cdn.hf.co/xet-bridge-us/695cc598af2a8d1d8e38c443/4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba?REDACTED_SIGNED_QUERY	1308778338	1308778338	515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559	1308778338	4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba	false	1

@@ -1,0 +1,144 @@
+{
+  "assets": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "expected": {
+        "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+        "size": 19447662547
+      },
+      "final": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "expected": {
+        "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+        "size": 1308778338
+      },
+      "final": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "expected": {
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size": 1308778338
+      },
+      "final": {
+        "exists": true,
+        "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        "size_bytes": 1308778338
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "expected": {
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size": 1308756416
+      },
+      "final": {
+        "exists": true,
+        "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+        "size_bytes": 1308756416
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "expected": {
+        "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+        "size": 327322640
+      },
+      "final": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      "partial": {
+        "exists": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    }
+  },
+  "curl_processes": {
+    "argv": [
+      "pgrep",
+      "-af",
+      "curl.*DeepBeepMeep|curl.*ltx-2"
+    ],
+    "returncode": 1,
+    "stderr": "",
+    "stdout": ""
+  },
+  "disk": {
+    "argv": [
+      "df",
+      "-B1",
+      "/home/straughter/Wan2GP"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 804960305152 44291702784  95% /\n"
+  },
+  "gpu": {
+    "argv": [
+      "nvidia-smi",
+      "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+      "--format=csv,noheader,nounits"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0\n"
+  },
+  "gpu_apps": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=pid,process_name,used_memory",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "report_files": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors.plan.json": {
+      "sha256": "b1f629142886e5a12956159ea920d40c0b248d98782866b33867332580e42b13",
+      "size": 1310
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors.plan.json": {
+      "sha256": "3108ad9d4273565ba934a908f655b6142fdc1214defb3c4641f235a24d590880",
+      "size": 1280
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors.plan.json": {
+      "sha256": "477f61ba1ffc9b9e26a3befc7d15a5f6a1bbc24d624d6f5451396fe67dc99fb4",
+      "size": 1220
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors.plan.json": {
+      "sha256": "513269adbbf7891682e2258a2d34c7d1c4095bed5b380e3c0a9ff6d093871d7f",
+      "size": 1346
+    }
+  },
+  "schema_version": "wangp-dspy.wd-28ac.corrected-retry-boundary/v1",
+  "utc": "2026-10-03T14:13:40.067470Z"
+}

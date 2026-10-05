@@ -1,0 +1,52 @@
+{
+  "mission": "Bring wangp-dspy to verified Maestro v2.3.0 parity and past it as the governed engine, while preserving fail-closed authorization and evidence boundaries.",
+  "immutable_constraints": [
+    "Proceed only with this narrower WD-28ac download phase.",
+    "Do not start or stop QC in this phase.",
+    "Do not admit a queue job or render in this phase.",
+    "Do not delete, move, or overwrite existing artifacts.",
+    "Do not expose credentials.",
+    "Do not incur provider spend or training.",
+    "Do not mutate unrelated host state.",
+    "Do not change protected engine files.",
+    "Issue exactly one declared curl invocation for each of the three remaining assets and no other model-body or URL-effectiveness request.",
+    "Stop fail-closed on any size, hash, disk, network, or accounting mismatch."
+  ],
+  "current_step": "Decide whether to execute only the remaining three WD-28ac asset downloads after fresh read-only evidence resolved the prior Jev gather-evidence boundary.",
+  "pending_action": {
+    "kind": "download_and_verify_remaining_wd28ac_assets",
+    "target": "WD-28ac phase A: download and verify only ltx-2.3 in-outpainting, ltx-2.5 pixel spatial upscaler, and ltx-2.3 dev diffusion quanto int8",
+    "summary": "Use the CI-green one-curl-per-asset runner to download the three absent declared assets, verify exact size and file SHA-256, preserve partials on failure, and stop before QC or operations.",
+    "irreversible": false
+  },
+  "evidence": [
+    "Live Jev gate #1 returned gather_evidence because continue confidence was 0.40 and missing evidence risk was 1.75.",
+    "Fresh read-only probe at 2026-10-03T15:57:43Z confirmed host straughter-Z690-Steel-Legend and user straughter.",
+    "Fresh probe confirmed exact ingredients final: 1308778338 bytes and SHA-256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559.",
+    "Fresh probe confirmed exact outpaint final: 1308756416 bytes and SHA-256 32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665.",
+    "Fresh probe confirmed all three remaining final paths and their WD-28ac partial paths are absent.",
+    "Fresh probe confirmed GPU is idle with 23978 MiB free and no compute applications.",
+    "Fresh probe confirmed root free space is 44718174208 bytes, exceeding the 21083763525-byte remaining manifest by 23634410683 bytes.",
+    "Fresh probe confirmed WD-m7xw and WD-osfm execution trees remain at their exact accepted commits and expected status.",
+    "Accounting repair head bb0af2e12ffd9f8d867448ce4db49316c550d66e has exact-head CI success and runner regressions for num_redirects, one declared curl, no second URL-effectiveness request, and fail-closed partial preservation.",
+    "QC ports 8000 and 8420 are currently unreachable, so this phase deliberately excludes QC and operations."
+  ],
+  "uncertainties": [
+    "Remote source availability or transfer integrity may change during the three declared downloads.",
+    "Root free space may drift before execution despite the fresh 23634410683-byte margin.",
+    "QC readiness and operation viability require a separate later gate after all five assets verify."
+  ],
+  "budget": {
+    "elapsed_minutes": 620,
+    "remaining_minutes": 220
+  },
+  "metadata": {
+    "story": "WD-28ac",
+    "decision_mode": "operator_delegated_live_jev",
+    "prior_decision": "gather_evidence",
+    "phase": "downloads_only",
+    "repository_head": "b5b7e35b131de72e541bec508fcac19fced895f3",
+    "story_head": "bb0af2e12ffd9f8d867448ce4db49316c550d66e",
+    "fresh_probe_sha256": "b922d0f9242fc27c133cb47808e083f36da8845b5b5e3be92fbd5b6222f2b2f0"
+  }
+}

@@ -1,0 +1,27 @@
+host=straughter-Z690-Steel-Legend
+user=straughter
+utc=2026-10-03T22:56:54Z
+
+[required_absence]
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-input
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14
+ABSENT /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-wheel-layout-report.json
+
+[preserved_runtime]
+runtime_children=.mmgp-3.7.14.extraction-staging mmgp-3.7.14-py3-none-any.whl
+
+wheel_size=68211 wheel=/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208  /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14-py3-none-any.whl
+
+[root_member]
+{"ast_body_node_types": [], "byte_count": 0, "content_base64": "", "is_inert": true, "member": "__init__.py", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "utf8": true}
+
+[prior_report]
+fe9e4dd1cdce760d650d2721504729968fc19b74c93b8bb1caa5d70d65b3e1e6  /home/straughter/wd-28ac-final-gate7-20261003/runtime-repair-corrected-report.json
+
+[disk_gpu_process]
+Filesystem        1B-blocks         Used   Available Use% Mounted on
+/dev/nvme0n1p4 857997254656 825707458560 23544549376  98% /
+NVIDIA GeForce RTX 3090, 24576, 139, 23978, 0
+
+readonly_host_resume_preflight=PASS
