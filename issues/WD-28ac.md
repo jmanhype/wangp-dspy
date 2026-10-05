@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T03:26:28Z
-content_hash: "sha256:a7b80dd8750d0e56196cc0207c992cc37262fb53d3b49bedc0c549726685ebfb"
+updated_at: 2026-10-05T03:27:13Z
+content_hash: "sha256:4d07a0a3c3ceebace02cbda24268e4de5e47b45761850804ca72c005539037e1"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -877,6 +877,51 @@ argument, or have the operator/PM perform the review directly. Nothing in the si
 the developer `reviewer-verdict.json` stands as disclosed, and the orchestrator's own checks (checker
 PASS x6, recomputed hashes matching, one-to-one media coverage, falsification test failing closed) are
 recorded separately and explicitly NOT as an independent verdict.
+### REAL GAP FOUND: six bundles PASS the checker but their model_provenance is over-declared and untraceable (2026-10-04)
+
+Attacking my own flagged weakest link, I traced every `model_provenance` entry in
+`datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json` against the operator-authorized
+asset list (the five assets in the story WD-28ac Context table, recorded in
+`operator-authorization.json`):
+
+- `model_provenance` entries: **20**
+- traceable to the authorized asset list: **1** (`ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors`)
+- **untraceable: 19**, every one stamped `download_approved: true`
+
+The 19 untraceable entries:
+1. `ltx-2.3-22b-distilled-Q4_K_M_light.gguf` -- a distilled GGUF, not among the authorized assets
+2. `gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors` -- a text encoder, not authorized
+3. `ltx-2.3-22b_vae.safetensors`
+4. `ltx-2.3-22b_audio_vae.safetensors`
+5. `ltx-2.3-22b_vocoder.safetensors`
+6. `ltx-2.3-22b_text_embedding_projection.safetensors`
+7. `ltx-2.3-22b_embeddings_connector.safetensors`
+8. `ltx-2.3-spatial-upscaler-x2-1.1.safetensors`
+9. `ltx-2.3-temporal-upscaler-x2-1.0.safetensors`
+10-20. ELEVEN entries that are NOT MODELS AT ALL: `added_tokens.json`, `chat_template.json`,
+   `config_light.json`, `generation_config.json`, `preprocessor_config.json`,
+   `processor_config.json`, `special_tokens_map.json`, `tokenizer.json`, `tokenizer.model`,
+   `tokenizer_config.json`
+
+**Why this matters:** `verify_maestro_parity.py` validates the SHAPE of model_provenance (identity,
+source, license, an anchor, approved flag) -- it does NOT verify that an approval actually exists. So a
+checker PASS does NOT mean the provenance is true; a bundle can be shape-valid while asserting
+`download_approved: true` for components with no traceable authorization, and can list tokenizer/config
+files as if they were models.
+
+The four authorized LTX LoRAs do not even appear in this bundle's provenance list, which suggests the
+list was built from a generic environment/component inventory rather than from the assets this
+operation actually consumed.
+
+**This is the independent-review finding I predicted, found by direct trace instead.** It does not
+invalidate the renders or the output hashes (those verified independently and the checker demonstrably
+fails closed on hash drift), but it DOES mean the six bundles' model-provenance claim is not yet
+trustworthy and should not be treated as satisfying that part of the objective until the provenance
+list is rebuilt against the actual authorized assets.
+
+RECOMMENDED FIX (needs a bounded task and probably an operator decision): rebuild `model_provenance`
+per operation from the assets that operation actually consumed, anchored to the authorized five, and
+stop listing non-model config/tokenizer files as models.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
