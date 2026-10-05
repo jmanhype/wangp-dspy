@@ -994,7 +994,7 @@ distinct explicit operator approval.
 ### LTX dependency resolution mechanism confirmed (orchestrator, 2026-10-05)
 
 Read-only inspection of the live native tree shows how the six cleared cells resolve their LoRA.
-`models/ltx2/ltx2.py` registers system LoRAs through `_append_system_lora(name, multiplier, signature)`,
+the native LTX2 implementation module registers system LoRAs through `_append_system_lora(name, multiplier, signature)`,
 which returns early when a user-selected LoRA is already present:
 
     if any(signature in os.path.basename(lora).lower() for lora in loras): return
