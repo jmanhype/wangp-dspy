@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-02T00:22:31Z
-content_hash: "sha256:d2e842442e8f30e7ef25b4cfe29e5fb1f531276515479fad641c24f3306773d9"
+updated_at: 2026-10-05T23:43:07Z
+content_hash: "sha256:79da4a62875dd1c84c4d130e0a163a8076f8c5d25609523bc584aca1d9b1479e"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -132,6 +132,24 @@ status: new
 
 
 ## Notes
+### Blocker correction: the doctor-floor precondition is now satisfied (orchestrator, 2026-10-05)
+
+This story's most recent recorded blocker states that a new H3 retry is unauthorized and "currently lacks the
+doctor-floor precondition", citing a recorded free space of 48494047232 bytes against the 53687091200-byte
+floor. That statement is now stale.
+
+Measured today on the model volume of host 3090: 96182423552 bytes free, roughly 89.6 GiB, comfortably above
+the 50 GiB floor. The change is largely the result of this session's reversible offloads, which moved three
+inactive trees to the idle secondary disk behind preserved symlinks and also established that the offload root
+is creatable by the ordinary user, which is the exact step the previous attempt failed at with
+STORAGE_PREPARATION_FAILED.
+
+So the prerequisite picture is now: storage headroom satisfied, offload root creatable, no model download
+required for the H3 path, and the earlier failure's boundary preserved on its pull request. What remains is
+the one thing the governance explicitly requires and that no local action can supply: an explicit operator
+authorization for a fresh host attempt. Nothing was executed, no retry was attempted, and no artifact or
+queue state changed by this note.
+
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
 STOPPED: the sole authorized clean-machine H3 retry exited 4 with
