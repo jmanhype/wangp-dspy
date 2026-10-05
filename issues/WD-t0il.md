@@ -1,6 +1,6 @@
 ---
 id: WD-t0il
-title: "Gate: remaining Maestro-parity scope (120 planned cells) pending operator authorization"
+title: "Gate: remaining Maestro-parity scope (1 LTX cell + first-run artifact) pending new operator authorization"
 status: deferred
 priority: 1
 type: task
@@ -8,7 +8,7 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T15:05:43Z
+updated_at: 2026-10-05T15:06:08Z
 content_hash: "sha256:12c66e02512b86cc0a9273f2645deafd705d2d7465d5cdaa201e9d33cfc3f1fe"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
