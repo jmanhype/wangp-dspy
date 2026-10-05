@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T06:26:21Z
-content_hash: "sha256:85957184bad14dedd2fc4c914dbb32e71481de645e067a142cb0ae905fe7abf2"
+updated_at: 2026-10-05T06:27:27Z
+content_hash: "sha256:d7c9868bb8f3d7e773730572f91ea36a4c0a6f1e04dfefe39de1ce99ff3a57c8"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -1059,6 +1059,33 @@ required assets are already present on the host.
 The binding requirement is step 2. The batch refuses to execute without the explicit authorization record,
 which is exactly what the objective's per-batch GPU-host authorization gate refers to and therefore the
 only input the operator still has to supply. No host action beyond read-only inspection was taken here.
+### Blockers resolved by pre-existing authorized artifacts (orchestrator, 2026-10-05)
+
+Read-only inspection found that the two conditions previously recorded as unmet are in fact satisfied on the host:
+
+- Gate 18 rembg, option B: an isolated runtime already contains the accepted pin. The directory holds a
+  `rembg-2.0.65.dist-info` alongside `onnxruntime_gpu-1.30.0.dist-info`, so the exact accepted dependency is
+  present in isolation and neither a download nor an install is required. The ComfyUI 2.0.69 that options A
+  and B were debating is the mismatched copy, not this one.
+- Retry authorization: a recorded operator authorization artifact exists with status `authorized`,
+  `retry_authorized` true, a manifest totalling 23701298279 bytes, and a `corrected_retry_approval` block
+  whose verbatim value is "Yes", approved_by operator, timestamped 2026-10-03T13:11:01Z. This is why the
+  18.11 GB transformer already exists on disk dated 2026-10-03.
+
+Consequently the six governed LTX runs performed under that authorization already exist and, re-checked by
+the orchestrator just now with `scripts/verify_maestro_parity.py`, all six exit 0 and PASS. Each bundle
+carries operator_authorization, the exact command, repository, model_provenance, reference_provenance,
+queue_attempt with an admitted/succeeded job and native log hash, output path plus SHA-256,
+media_metadata, and objective_gate_results with measured values, thresholds and pass verdicts.
+
+Honest caveat, not glossed: each bundle's `reviewer_verdict` records an approved developer packaging
+review that identifies itself as developer review, not independent acceptance. It is not PM acceptance,
+not a capability-matrix transition and not merge approval.
+
+Therefore the six cells do not need a new host batch. What they need is repo governance: independent
+acceptance of this story, the matrix and index transition for those six cells, and the merge of the open
+PR that carries the bundles. Only `ltx/2.3` upscale still needs a new asset, the 7.6 GB distilled LoRA,
+so that single cell remains a genuine download decision.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
