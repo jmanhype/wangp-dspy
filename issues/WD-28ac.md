@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T03:25:55Z
-content_hash: "sha256:33e2b68cfbec8ed99a9c8bb6ae81c542135554199205cb3b400203303a32a977"
+updated_at: 2026-10-05T03:26:28Z
+content_hash: "sha256:a7b80dd8750d0e56196cc0207c992cc37262fb53d3b49bedc0c549726685ebfb"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -866,6 +866,17 @@ are genuinely authorized models or runtime/framework components being presented 
 
 TO CLOSE: dispatch `glm_reviewer` (or any reviewer role) WITHOUT a `model` argument, or have the
 operator/PM perform the independent review directly.
+### Addendum: independent reviewer spawn attempt count is FIVE (2026-10-04)
+
+A fifth `glm_reviewer` spawn was attempted and failed with the identical
+`local_router_error`. All five failures share the same root cause: the orchestrator passed a `model`
+argument to a pinned-role agent type whose model cannot be changed. Spawn attempts are now STOPPED.
+
+Independent reviewer verdict remains OUTSTANDING. Correct remedy: dispatch the reviewer with NO model
+argument, or have the operator/PM perform the review directly. Nothing in the six bundles is affected;
+the developer `reviewer-verdict.json` stands as disclosed, and the orchestrator's own checks (checker
+PASS x6, recomputed hashes matching, one-to-one media coverage, falsification test failing closed) are
+recorded separately and explicitly NOT as an independent verdict.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
