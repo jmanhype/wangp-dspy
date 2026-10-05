@@ -8,10 +8,10 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T15:04:30Z
-content_hash: "sha256:66df151075c5f13019163c7e32707ead8c79fa40adbe7c71e94fe19ac9e5bdf6"
+updated_at: 2026-10-05T15:04:41Z
+content_hash: "sha256:a9fc578ff3d9105c9bf91ecddf49c1994014fded569921e887dfb5431ec19ec0"
 blocks: [WD-fay0]
-follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
+follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
 assignee: dev-WD-28ac
 ---
@@ -1546,12 +1546,14 @@ status: in_progress
 - 2026-10-03T08:11:11Z status: open -> in_progress
 - 2026-10-03T08:11:11Z auto-follows: linked to predecessor WD-he8i
 - 2026-10-03T08:11:11Z claimed by dev-WD-28ac
+- 2026-10-05T15:04:41Z status: in_progress -> in_progress
+- 2026-10-05T15:04:41Z auto-follows: linked to predecessor WD-qthq
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-1s5s]], [[WD-cuzw]]
-- Follows: [[WD-23rs]], [[WD-p587]], [[WD-1s5s]], [[WD-cuzw]], [[WD-he8i]]
+- Follows: [[WD-23rs]], [[WD-p587]], [[WD-1s5s]], [[WD-cuzw]], [[WD-he8i]], [[WD-qthq]]
 
 ## Comments
 
