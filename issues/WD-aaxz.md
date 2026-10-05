@@ -1,15 +1,17 @@
 ---
 id: WD-aaxz
 title: "Fix stale 'planned' claim in the video capability matrix preamble"
-status: open
+status: in_progress
 priority: 3
 type: bug
 labels: [parity, docs]
 parent: WD-3nod
 created_at: 2026-10-05T05:41:51Z
 created_by: speed
-updated_at: 2026-10-05T05:41:51Z
-content_hash: "sha256:aceca60701df735f537aef5b5272229012bae38955f729f9d599897e3be77ccb"
+updated_at: 2026-10-05T05:42:03Z
+content_hash: "sha256:366f4f4ee1f5f956db03c0aaaa226d96c2a1525d298535390f5700a2550cf7d8"
+assignee: dev-WD-aaxz
+follows: [WD-cuzw]
 ---
 
 ## Description
@@ -58,9 +60,12 @@ Evidence: `docs/video-capabilities.md` (preamble), and the index census asserted
 
 
 ## History
-
+- 2026-10-05T05:42:03Z status: open -> in_progress
+- 2026-10-05T05:42:03Z auto-follows: linked to predecessor WD-cuzw
+- 2026-10-05T05:42:03Z claimed by dev-WD-aaxz
 
 ## Links
 - Parent: [[WD-3nod]]
+- Follows: [[WD-cuzw]]
 
 ## Comments
