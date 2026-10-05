@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T03:24:07Z
-content_hash: "sha256:09bee887bebc1e6313d194062efa8ed24ea8f2d6b9b45eddc2102060426b6ce1"
+updated_at: 2026-10-05T03:25:25Z
+content_hash: "sha256:9c10ccca3ccadee64a16387cdfa34720ea5b733a0e1ce1698647657cce6e59fa"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -813,6 +813,30 @@ capability-matrix transition, and not merge approval -- those remain for the PM/
 
 `ltx23-upscale` remains excluded as a documented terminal boundary (missing 7.6 GB
 `ltx-2.3-22b-distilled-lora-384-1.1.safetensors`, unapproved download).
+### Adversarial verification of the six bundles -- ORCHESTRATOR-performed, not independent (2026-10-04)
+
+NOTE ON PROVENANCE OF THIS VERIFICATION: I attempted to dispatch `glm_reviewer` for an independent
+verdict three times and all three failed with `local_router_error` because I kept passing a model
+override that the role pins. Per my own escalation rule I did not spawn a fourth time. The checks below
+are performed BY THE ORCHESTRATOR and are therefore NOT an independent reviewer verdict. An independent
+Paivot PM/reviewer verdict remains outstanding.
+
+What the orchestrator independently ran at `04ceea4a`:
+
+1. `python3 scripts/verify_maestro_parity.py <bundle>` for all six -> rc=0,
+   `PASS wangp-dspy.maestro-parity-evidence/v1 ... owned_warnings=0` for each.
+2. Recomputed every output MP4 sha256 -> **matches** the recorded `output.sha256` in all six bundles.
+3. `media_metadata` coverage -> exactly 1 entry per bundle for exactly 1 output (one-to-one, no extra).
+4. `model_provenance` -> 16-20 entries per bundle, `download_approved` is true on every entry.
+   CAVEAT: I verified the FLAG is uniformly true and that the four LTX LoRAs plus the quantized base
+   model are among the operator-authorized five; I did NOT individually trace every one of the 16-20
+   entries to a recorded approval.
+5. **FALSIFICATION TEST PASSED.** Copied `ltx23-recast` to /tmp, mutated the recorded `output.sha256`
+   to zeros, and re-ran the checker:
+   `FAIL output.sha256[0].sha256: recorded 0000... but artifact bytes hash e9ea9f7b06b7eda9671bbf9a71033658efa5bc7f739386af1676f6bdbfc33d5d`, rc=1.
+   So the checker recomputes bytes and fails closed on drift -- it is not stamping PASS.
+6. The full observed hash `e9ea9f7b06b7eda9...` matches the 16-char prefix recorded earlier for
+   ltx23-recast, a consistent cross-check.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
