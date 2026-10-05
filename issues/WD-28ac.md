@@ -4,7 +4,7 @@ title: "LTX dependency terminalization batch"
 status: in_progress
 priority: 1
 type: task
-labels: [video, evidence, external-integration, operator-decision]
+labels: [video, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
