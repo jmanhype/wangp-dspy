@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T06:25:47Z
-content_hash: "sha256:8d31a84a54cc9201b01baf27669fb9104367dcf50052eb39d417fff4dab51d35"
+updated_at: 2026-10-05T06:26:21Z
+content_hash: "sha256:85957184bad14dedd2fc4c914dbb32e71481de645e067a142cb0ae905fe7abf2"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -1037,6 +1037,28 @@ modified here.
 
 Still outstanding, and the only remaining item: an authorized governed host batch producing run bundles
 that can promote cells. Nothing has been promoted and no matrix cell state has changed.
+### Governed batch sequence and its fail-closed authorization artifact (orchestrator, 2026-10-05)
+
+Read-only inspection of this story's own runner interfaces defines the exact remaining sequence. The batch
+is fail-closed on an authorization artifact, so it cannot execute without an explicit per-batch operator
+authorization record:
+
+1. Fresh host preflight producing the host-state and phase-a postflight records.
+2. Operator authorization record naming the exact seven operations, namespace, environment and prohibitions.
+3. Jev gate evidence records, gate 3-4 and gate 7.
+4. `scripts/prepare_ltx_operations.py` emits the operation plan from the preflight, postflight, authorization,
+   gate evidence and, with `--final`, the Gate 7 plan plus the isolated runtime state.
+5. `scripts/run_ltx_final_operations.py` with `--plan`, `--authorization`, `--queue-db`, `--execute` and
+   `--allow-host` runs the seven operations on the host once each.
+6. `scripts/review_ltx_operations.py` turns the results into the review artifact.
+7. Evidence bundle, fail-closed checker, then the index transition.
+
+`scripts/run_ltx_dependency_download.py` is the download path and is not needed now, because all five
+required assets are already present on the host.
+
+The binding requirement is step 2. The batch refuses to execute without the explicit authorization record,
+which is exactly what the objective's per-batch GPU-host authorization gate refers to and therefore the
+only input the operator still has to supply. No host action beyond read-only inspection was taken here.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
