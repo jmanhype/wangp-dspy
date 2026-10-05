@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T05:36:51Z
-content_hash: "sha256:aa32a17e82b32f7a08993c202d9f578330ea7d2dc44bc8ca62ef4acb856f60d6"
+updated_at: 2026-10-05T05:37:34Z
+content_hash: "sha256:cfce1e84a405df00876d228029becec7b8eb1aefdca9c56d9623f5a0e1eecff0"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -976,6 +976,21 @@ All four standing gates re-verified at current merged head b5b7e35b:
   origin/main; last commits 2026-08-31..2026-09-24, none inside the parity window.
 
 STILL BLOCKED ON OPERATOR: Gate 18 `rembg` disposition (A / B / C).
+### Live host disk precondition re-measured (orchestrator, 2026-10-05)
+
+Read-only `df` on host 3090 (straughter-Z690-Steel-Legend) at 2026-10-05:
+
+- `/dev/nvme0n1p4`, mounted `/`, which also carries `/home` and the Wan2GP checkpoint tree
+  (i.e. the model volume) => 21,624,291,328 bytes free (21.6 GB, 98% used).
+- `/dev/sda4` => `/mnt/bulk-hdd` with 296 GB free (81% used).
+
+The recorded retry precondition `free_reported=48494047232` bytes (2026-10-02) is now STALE and has
+regressed: the model volume carries only ~21.6 GB free, well below the 53,687,091,200-byte (50 GiB)
+doctor floor. Any host batch (Gate 18 retry, H3 retry, or family downloads) is therefore blocked on
+BOTH the outstanding operator authorization AND disk headroom on the model volume. Only
+`/mnt/bulk-hdd` (296 GB) has capacity, and it is not the model volume. No host mount, move, copy, or
+delete was performed: the WD-1s5s packet grants no host authority, and any reversible offload needs
+distinct explicit operator approval.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
