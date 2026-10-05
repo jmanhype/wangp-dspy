@@ -8,14 +8,14 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 
 ## Current matrix census
 
-- `dependency_blocked`: 7
-- `host_run_verified`: 89
+- `dependency_blocked`: 1
+- `host_run_verified`: 95
 - `not_applicable`: 2
 - `terminal_unsupported_or_fail_closed`: 110
 
 ## Remaining boundaries
 
-- Exactly 7 LTX cells remain `dependency_blocked` at `story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6` (`datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json`, SHA-256 `6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53`); no download, inference, or admission is claimed.
+- Exactly 1 LTX cells remain `dependency_blocked` at `story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6` (`datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json`, SHA-256 `6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53`); no download, inference, or admission is claimed.
 - First-run generated media remains incomplete at `story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e` (`datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md`, SHA-256 `b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f`); the failed retry generated no artifact and admitted no queue job.
 
 ## Non-matrix dispositions
@@ -122,18 +122,18 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 | docs/video-capabilities.md | 81 | ltx/2.5 | Blend | `unsupported` | `terminal_unsupported_or_fail_closed` | `../datasets/runs/maestro-parity/WD-2gyw/planning/boundaries/ltx-2.5-blend.result.json` |
 | docs/video-capabilities.md | 81 | ltx/2.5 | Retake | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-m7xw/evidence.json` |
 | docs/video-capabilities.md | 81 | ltx/2.5 | Edit | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-m7xw/evidence.json` |
-| docs/video-capabilities.md | 81 | ltx/2.5 | Outpaint | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md` |
-| docs/video-capabilities.md | 81 | ltx/2.5 | Repaint | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md` |
-| docs/video-capabilities.md | 81 | ltx/2.5 | Recast | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md` |
-| docs/video-capabilities.md | 81 | ltx/2.5 | Upscale | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md` |
+| docs/video-capabilities.md | 81 | ltx/2.5 | Outpaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-outpaint/evidence.json` |
+| docs/video-capabilities.md | 81 | ltx/2.5 | Repaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-repaint/evidence.json` |
+| docs/video-capabilities.md | 81 | ltx/2.5 | Recast | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-recast/evidence.json` |
+| docs/video-capabilities.md | 81 | ltx/2.5 | Upscale | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-upscale/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Create | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Extend | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Blend | `unsupported` | `terminal_unsupported_or_fail_closed` | `../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Retake | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Edit | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
-| docs/video-capabilities.md | 82 | ltx/2.3 | Outpaint | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json` |
+| docs/video-capabilities.md | 82 | ltx/2.3 | Outpaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Repaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
-| docs/video-capabilities.md | 82 | ltx/2.3 | Recast | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json` |
+| docs/video-capabilities.md | 82 | ltx/2.3 | Recast | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Upscale | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json` |
 | docs/video-capabilities.md | 83 | scail/2 | Create | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-ycjg/evidence.json` |
 | docs/video-capabilities.md | 83 | scail/2 | Extend | `unsupported` | `terminal_unsupported_or_fail_closed` | `../datasets/runs/maestro-parity/WD-ycjg/boundary-evidence.json` |
@@ -241,6 +241,12 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 
 ## Matrix evidence byte manifest
 
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json`: `53211b25b925211d04c482e8dc6c259181e1c19c7c9825bf19c4a7f93753c463`
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json`: `6f7dcedee294e60a7169a448f17628f30828c23954b08ad2b12a3e908e35b674`
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-outpaint/evidence.json`: `cd83383ca709e884802f97322c54a1c9c9f877c57acac61c4131a2d242bc60c8`
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-recast/evidence.json`: `cc134efb184f42057c41b3cc7a550d3e7db91afa0d508f85697e4ef80af7f377`
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-repaint/evidence.json`: `2dfff695ad9af4ea39a2f92089da5605a7ea81db320b1c178b36e7d41504368f`
+- `datasets/runs/maestro-parity/WD-28ac/gate22/ltx25-upscale/evidence.json`: `5a6a506f36bcac7189f79d77c9f3d68e7052cd73710eea3e16c0eee2bd88ea61`
 - `datasets/runs/maestro-parity/WD-28i5/boundary-evidence.json`: `a165b332cd61b4afed307a7072659a10b156c41a22ed8bca52d40946d88109a6`
 - `datasets/runs/maestro-parity/WD-28i5/evidence.json`: `33eb9eefa3ff39be9f2436289b2db320357169e7b27a32d01784df442c5751a9`
 - `datasets/runs/maestro-parity/WD-2gyw/evidence.json`: `3b4486412a9cf20d05b7b2d1235fe70cbb35315ce8df5abe28ede97f36b2315a`
@@ -268,7 +274,6 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 - `datasets/runs/maestro-parity/WD-m0r5/evidence.json`: `ef2e44fcaff96450b8f75880ac2ea3427a11e6ae42c398fa15239f38da25ecb9`
 - `datasets/runs/maestro-parity/WD-m25k/boundary-evidence.json`: `e4cc474442e336279a8d8366449a9afc3ec5a054147cefe8d38c27cdeb91f6e8`
 - `datasets/runs/maestro-parity/WD-m25k/evidence.json`: `64749c6cd8177ca14e4f7b323d6e73c306fb42439b715989b7a63608f94599ff`
-- `datasets/runs/maestro-parity/WD-m7xw/dependency-boundaries.md`: `c17c12a1c21fc7ef6a5145c4a391e1f7e738d5a9e4827c5e088b95a4886d2d2c`
 - `datasets/runs/maestro-parity/WD-m7xw/evidence.json`: `f22b5cb3fb0d45f43aa7673280213e3ab3188fd663c32d9c6717a7d629404faa`
 - `datasets/runs/maestro-parity/WD-obkn/evidence.json`: `cb09e53ea85a3cc810ea76859fcaa2064faa17741c74f6c9e2cc9c9ba275e0be`
 - `datasets/runs/maestro-parity/WD-obkn/terminal-boundaries.md`: `17b24a0dca01192316cd2fa7a70d881a1a5a4c23674e2987bbe4e6054f48a253`

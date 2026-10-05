@@ -14,7 +14,7 @@ from typing import Any
 BUNDLE = Path(__file__).resolve().parent
 REPO = BUNDLE.parents[3]
 BASE_COMMIT = "5a94eb491c524816334e23e1b2894acc3b772819"
-MATRIX_IDENTITY_SHA256 = "137529223a941dd8a95bebbcb37acf2b149b5cfa3513afed0b6a81bdb01489a2"
+MATRIX_IDENTITY_SHA256 = "5def89a93c01db3b79250e7aced865ea1e4493090537d3c0c4eb04d5725ec2c6"
 EXPECTED_DOCS = {
     "image-capabilities.md": 5,
     "music-capabilities.md": 2,
@@ -26,15 +26,15 @@ EXPECTED_DOCS = {
     "director-capabilities.md": 3,
 }
 EXPECTED_TOTALS = {
-    "dependency_blocked": 7,
-    "host_run_verified": 89,
+    "dependency_blocked": 1,
+    "host_run_verified": 95,
     "not_applicable": 2,
     "terminal_unsupported_or_fail_closed": 110,
 }
 EXPECTED_DOCUMENTED_STATES = {
-    "dependency_blocked": 7,
+    "dependency_blocked": 1,
     "fail-closed": 1,
-    "host_run_verified": 89,
+    "host_run_verified": 95,
     "not applicable": 2,
     "unsupported": 97,
     "unsupported for planning": 1,
@@ -44,12 +44,6 @@ EXPECTED_DOCUMENTED_STATES = {
     "unsupported_on_this_hardware": 2,
 }
 EXPECTED_LTX_CELLS = {
-    ("docs/video-capabilities.md", "ltx/2.5", "Outpaint"),
-    ("docs/video-capabilities.md", "ltx/2.5", "Repaint"),
-    ("docs/video-capabilities.md", "ltx/2.5", "Recast"),
-    ("docs/video-capabilities.md", "ltx/2.5", "Upscale"),
-    ("docs/video-capabilities.md", "ltx/2.3", "Outpaint"),
-    ("docs/video-capabilities.md", "ltx/2.3", "Recast"),
     ("docs/video-capabilities.md", "ltx/2.3", "Upscale"),
 }
 EDITOR_EVIDENCE = Path(
