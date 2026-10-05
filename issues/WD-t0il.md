@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-02T00:25:31Z
-content_hash: "sha256:61b812a6fa26edc290a4400af7d2fa29e3ca748412f47a6b01fb3af68b864049"
+updated_at: 2026-10-05T06:14:44Z
+content_hash: "sha256:ad876bed9f59c62417c6ac69af829621b486af029eafe1f34e63c32a8198bddf"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -92,7 +92,25 @@ status: blocked
 
 
 ## Notes
+### Host headroom restored by reversible offload (orchestrator, 2026-10-05)
 
+The 50 GiB doctor floor was unmet (root volume at 21.6 GB free, 98% used). Before authorizing any
+download I ran a read-only inventory, then performed a reversible, symlink-preserving offload of two
+demonstrably inactive trees from the root NVMe to the idle 1.6T disk:
+
+- moved `.hf_cache` (17 GB; last write 2026-08-18) and `scenema-models` (36 GB; last write 2026-05-30)
+  to `/mnt/bulk-hdd/ssd-offload/20261005/`, leaving symlinks at the original paths so absolute-path
+  resolution is unchanged.
+- verification before removing either source: matching file manifests (md5 `93ee19b0f49a474b5d901e129596225e`
+  for `scenema-models`) and a clean `rsync --checksum` dry run reporting no differences.
+- both inactive trees had zero open file descriptors and zero files written since 2026-10-01, unlike
+  `Maestro` (399 open FDs, left untouched) and `ComfyUI` (active, left untouched).
+
+Result: root free 21.6 GB -> 73 GB, so the 50 GiB floor is now satisfied. Restore path: remove each
+symlink and move the directory back, or `rsync` from `/mnt/bulk-hdd/ssd-offload/20261005/`.
+
+This unblocks the headroom precondition only. No download was performed and no render was run:
+the seven `dependency_blocked` LTX cells still require explicit model-download authorization.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
