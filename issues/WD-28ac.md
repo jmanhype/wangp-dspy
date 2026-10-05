@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T04:36:22Z
-content_hash: "sha256:b6746b774c2eef8c111af54584be81adde95ccc160310ce5e9aa062f3b0fe7b3"
+updated_at: 2026-10-05T05:09:48Z
+content_hash: "sha256:bd3137bcb51f015992e785147b981289a05945d391b813038ffeaa5ea87bef54"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -945,6 +945,19 @@ ORCHESTRATOR-VERIFIED at `abe6f36f`: all six bundles PASS the checker (rc=0, own
 re-traced provenance myself -> 3 entries per bundle, 3 with authorization_trace, ZERO untraced;
 builder tests 6 passed; `pvg lint --backlog` 0 errors; protected engine files no diff vs origin/main;
 HEAD matches origin. `ltx23-upscale` still correctly excluded.
+### PRODUCES completion for the reusable parity bundle builder (orchestrator lint repair, 2026-10-05)
+
+The narrative section above describing the reusable fail-closed parity bundle builder
+references two paths that are realized on `story/WD-28ac` and carried by open PR #217,
+but are intentionally absent from `main` while this story holds at NOT DELIVERED pending
+the Gate 18 `rembg` operator disposition. They are declared here so the brownfield
+`paths-exist` check in `pvg lint --backlog` resolves identically from any checkout -- the
+same declaration-only mechanism recorded in the earlier Boundary Map PRODUCES note above.
+Declaration only: no AC, status, label, or scope changed, and no host action is implied.
+
+PRODUCES:
+- scripts/build_wd28ac_parity_bundles.py -> reusable fail-closed parity bundle builder
+- tests/test_wd28ac_parity_bundle_builder.py -> focused builder tests
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
