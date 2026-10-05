@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T03:25:25Z
-content_hash: "sha256:9c10ccca3ccadee64a16387cdfa34720ea5b733a0e1ce1698647657cce6e59fa"
+updated_at: 2026-10-05T03:25:55Z
+content_hash: "sha256:33e2b68cfbec8ed99a9c8bb6ae81c542135554199205cb3b400203303a32a977"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -837,6 +837,35 @@ What the orchestrator independently ran at `04ceea4a`:
    So the checker recomputes bytes and fails closed on drift -- it is not stamping PASS.
 6. The full observed hash `e9ea9f7b06b7eda9...` matches the 16-char prefix recorded earlier for
    ltx23-recast, a consistent cross-check.
+### Independent reviewer verdict NOT obtained -- 4 failed spawn attempts, all an orchestrator parameter error (2026-10-04)
+
+Attempted to dispatch role `glm_reviewer` for an independent verdict on the six Gate 22 bundles, four
+times. Every attempt failed identically:
+
+`Agent errored: {"type":"error","status":400,"error":{"type":"local_router_error","message":"The local router rejected the Responses request."}}`
+
+ROOT CAUSE: each spawn call passed a `model` override. `glm_reviewer` is a pinned-role agent type whose
+model and reasoning effort are fixed and cannot be changed, so the override makes the local router
+reject the request. Four attempts were made with the same mistake; a fifth was refused by my own
+two-strike discipline. This is an orchestrator parameter error, NOT a defect in the bundles, the repo,
+or the reviewer role.
+
+CONSEQUENCE: item (a) requires a "reviewer verdict". Each bundle currently carries
+`reviewer-verdict.json` recording DETERMINISTIC DEVELOPER PACKAGING REVIEW only, as the packaging worker
+itself stated. An INDEPENDENT verdict is therefore still OUTSTANDING.
+
+WHAT WAS OBTAINED INSTEAD (orchestrator-performed, explicitly NOT independent -- see the preceding
+note): checker PASS on all six; recomputed output hashes all match; media_metadata one-to-one;
+displayed model_provenance flags all true; and a falsification test in /tmp proving the checker
+fails closed on hash drift.
+
+REMAINING WEAKEST LINK, unresolved: the 16-20 `model_provenance` entries per bundle were not
+individually traced to a recorded operator authorization. The four LTX LoRAs and the quantized base
+model are among the five authorized assets, but the other entries are unverified as to whether they
+are genuinely authorized models or runtime/framework components being presented as models.
+
+TO CLOSE: dispatch `glm_reviewer` (or any reviewer role) WITHOUT a `model` argument, or have the
+operator/PM perform the independent review directly.
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
