@@ -1,19 +1,20 @@
 ---
 id: WD-28ac
 title: "LTX dependency terminalization batch"
-status: in_progress
+status: closed
 priority: 1
 type: task
 labels: [video, evidence, external-integration, operator-decision, delivered]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T15:04:41Z
-content_hash: "sha256:b3630466c4a14520992a9ceb16ac5c5766ae6ec327dec69b9eddbca0b502368c"
-blocks: [WD-fay0]
+updated_at: 2026-10-05T15:04:50Z
+content_hash: "sha256:ac593cc0149012681f294b573af494c49082a7df163033b272665a6d94f0d95c"
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
 assignee: dev-WD-28ac
+closed_at: 2026-10-05T15:04:50Z
+close_reason: "Accepted via pvg story accept"
 ---
 
 ## Description
@@ -1559,10 +1560,11 @@ status: in_progress
 - 2026-10-03T08:11:11Z claimed by dev-WD-28ac
 - 2026-10-05T15:04:41Z status: in_progress -> in_progress
 - 2026-10-05T15:04:41Z auto-follows: linked to predecessor WD-qthq
+- 2026-10-05T15:04:50Z status: in_progress -> closed
+- 2026-10-05T15:04:50Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-1s5s]], [[WD-cuzw]]
 - Follows: [[WD-23rs]], [[WD-p587]], [[WD-1s5s]], [[WD-cuzw]], [[WD-he8i]], [[WD-qthq]]
 
