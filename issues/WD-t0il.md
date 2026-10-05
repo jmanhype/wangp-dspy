@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T06:20:37Z
-content_hash: "sha256:1d1ac5dca786d13de225a9da1c034556f27893887a131c307f076d2e4c4aa59c"
+updated_at: 2026-10-05T06:23:46Z
+content_hash: "sha256:c6118037d0ab10921691121d7f9e4b9bdd35c8bde2f233775ae6231e1acf0938"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -125,6 +125,24 @@ Root free is now 101 GB. Total offload this session is about 81 GB (`.hf_cache` 
 Exact download set still awaiting explicit operator approval (22.07 GB total, all from
 `DeepBeepMeep/LTX-2`): three 1.22 GB ic-lora files (outpaint, ingredients-0.9, in-outpainting-0.9),
 one 0.30 GB ic-lora pixel-spatial-upscaler-x2-1.0, and one 18.11 GB dev_diffusion_model_quanto_int8.
+### Four LTX dependency assets downloaded and hash-recorded (orchestrator, 2026-10-05)
+
+Authorized by the operator's delegation of the recommended path; downloaded on the host with
+`curl -L --fail --retry 3 -C -` into `/home/straughter/Wan2GP/ckpts/`, each verified by exact byte
+size against the remote Content-Length and hashed for provenance:
+
+- ltx-2.3-22b-ic-lora-outpaint.safetensors, 1308756416 bytes, sha256 32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665
+- ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors, 1308778338 bytes, sha256 515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559
+- ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors, 1308778338 bytes, sha256 73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5
+- ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors, 327322640 bytes, sha256 984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d
+
+This clears the previously recorded missing-dependency boundary for six of the seven remaining cells:
+ltx/2.5 outpaint, repaint, recast, upscale and ltx/2.3 outpaint, recast. The seventh, ltx/2.3 upscale,
+still requires ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors (18.11 GB), which was not downloaded.
+
+No render has been run and no cell has been promoted: `host_run_verified` still requires an authorized
+host batch producing a run bundle with command, commit, provenance, queue attempt, output hashes,
+ffprobe metadata and gate results. Root free after download: 97 GB.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
