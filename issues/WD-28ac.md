@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-10-05T15:04:51Z
-content_hash: "sha256:ac593cc0149012681f294b573af494c49082a7df163033b272665a6d94f0d95c"
+content_hash: "sha256:167c9dbda3e5adc42819d06cf18fb85e4e126537ea2284378b7f2073a91048b3"
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
 assignee: dev-WD-28ac
@@ -1105,6 +1105,16 @@ root free 97 GB to 90 GB. All required assets for all seven cells are therefore 
 What remains for that single cell is not a dependency but an authorized host run producing a run bundle,
 which is the per-batch GPU-host authorization item. No cell state was changed by the download and the
 ltx/2.3 upscale cell correctly remains dependency_blocked until such a bundle exists.
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-10-05.
+
+### proof
+- [x] Story closed after accepted label was applied.
 
 
 ## nd_contract
