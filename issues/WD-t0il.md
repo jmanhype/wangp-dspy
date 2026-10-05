@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T06:23:46Z
-content_hash: "sha256:c6118037d0ab10921691121d7f9e4b9bdd35c8bde2f233775ae6231e1acf0938"
+updated_at: 2026-10-05T15:05:43Z
+content_hash: "sha256:12c66e02512b86cc0a9273f2645deafd705d2d7465d5cdaa201e9d33cfc3f1fe"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -143,6 +143,25 @@ still requires ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors (18.11 GB
 No render has been run and no cell has been promoted: `host_run_verified` still requires an authorized
 host batch producing a run bundle with command, commit, provenance, queue attempt, output hashes,
 ffprobe metadata and gate results. Root free after download: 97 GB.
+### The last LTX cell cannot be retried under the recorded authorization (orchestrator, 2026-10-05)
+
+Read-only inspection of the governed runner and the recorded authorization explains why the single
+remaining cell cannot be closed without a new operator decision:
+
+- The final-operations runner refuses any plan whose operations list is not exactly seven entries
+  ("Exactly seven planned operations are required"), so a one-operation batch is structurally impossible.
+- The same runner requires the JEVI authorization to carry `operations_authorized` true and
+  `retry` equal to "never". The recorded authorization is therefore explicitly ONE-SHOT: the six
+  already-promoted cells may not be re-executed under it.
+- The gate22 plan's seven operations are, in order, outpaint, repaint, recast and upscale for ltx/2.5
+  followed by outpaint, recast and upscale for ltx/2.3. The final cell was thus already part of the
+  one-shot batch and was excluded only because its distilled LoRA was absent at the time.
+- The runner also refuses to reuse an existing queue database, so any future batch needs a fresh
+  namespace and a fresh queue database.
+
+Consequence: the blocker for the final cell is no longer the asset, which is now present, but the
+one-shot authorization semantics. Closing it requires a NEW operator authorization naming a new
+seven-operation set. Nothing was executed here and no cell state changed.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
