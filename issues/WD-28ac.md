@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-10-05T15:04:41Z
-content_hash: "sha256:a9fc578ff3d9105c9bf91ecddf49c1994014fded569921e887dfb5431ec19ec0"
+content_hash: "sha256:b3630466c4a14520992a9ceb16ac5c5766ae6ec327dec69b9eddbca0b502368c"
 blocks: [WD-fay0]
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -1104,6 +1104,17 @@ root free 97 GB to 90 GB. All required assets for all seven cells are therefore 
 What remains for that single cell is not a dependency but an authorized host run producing a run bundle,
 which is the per-batch GPU-host authorization item. No cell state was changed by the download and the
 ltx/2.3 upscale cell correctly remains dependency_blocked until such a bundle exists.
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-10-05.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
 
 ## JEV Gate #7 Final Native Terminal Boundary (NOT DELIVERED)
 
