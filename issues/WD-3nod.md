@@ -7,8 +7,8 @@ type: epic
 labels: [capability, evidence]
 created_at: 2026-09-24T14:14:05Z
 created_by: speed
-updated_at: 2026-10-05T23:33:27Z
-content_hash: "sha256:851aeb2dd4f0d66dde1cbc28a88272ea8e2103caf7deba68d909985b7903f89f"
+updated_at: 2026-10-05T23:41:49Z
+content_hash: "sha256:e8f2197fcc1d9b87c26cf25594a54a4431c42064df60e58a4f36dc53637bbeaa"
 ---
 
 ## Description
@@ -113,6 +113,28 @@ write notes into it. A private secret and any future vault content therefore sha
 day that vault is synced, shared, published or committed, the secret travels with it. Recommended: relocate
 the file outside any vault path, or move it to the system keychain, so the vault namespace contains no
 secrets by construction.
+### Correction: the editor-lane coverage change is not bounded (orchestrator, 2026-10-05)
+
+An earlier note on this story described adding the editor lane to the checker receipt as bounded work with the
+identity derivation recovered. That characterization was wrong, and the check that disproves it was run before
+any edit.
+
+The receipt validator requires each lane to be a directory directly under the parity bundle root containing
+`evidence.json` at that level. Measured: the checker on that one-level path FAILS with a missing
+`evidence.json` and exit 1, while the editor bundle actually lives one level deeper and PASSES there with exit
+0. The index validator additionally pins the editor evidence to that nested path and asserts the path appears
+in the editor capability document.
+
+Closing the gap therefore requires one of two real changes, not a one-line addition: either normalise the
+editor evidence into the lane convention, which moves an accepted story's pinned artifact path and touches the
+validator and the editor document assertion, or extend the verifier to admit nested lane paths, which changes
+the QC gate's path convention.
+
+Decision taken under operator delegation: do not make that change. The cost is a restructure of accepted
+evidence for a coverage nicety, and the alternative reading is defensible, namely that the receipt covers the
+representative matrix lanes while the editor host run is a non-matrix artifact tracked separately with its own
+pinned evidence and its own validator assertions. Both options remain available to the operator if they want
+the lane included.
 
 ## History
 - 2026-09-26T04:06:49Z status: open -> closed
