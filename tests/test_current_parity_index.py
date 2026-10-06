@@ -188,6 +188,15 @@ def test_stale_editor_planned_state_fails_closed(tmp_path: Path) -> None:
         VALIDATOR.validate_index(path, ROOT)
 
 
+def test_stale_non_matrix_totals_fail_closed(tmp_path: Path) -> None:
+    def mutate(payload: dict[str, Any]) -> None:
+        payload["non_matrix_inventory"]["totals"]["incomplete_storage_boundary"] = 1
+
+    path = _write_mutated_index(tmp_path, mutate)
+    with pytest.raises(AssertionError, match="non_matrix_inventory totals diverge"):
+        VALIDATOR.validate_index(path, ROOT)
+
+
 def test_wrong_remaining_ltx_count_fails_closed(tmp_path: Path) -> None:
     def mutate(payload: dict[str, Any]) -> None:
         payload["remaining_boundaries"]["ltx_dependency_batch"]["cells"].pop()

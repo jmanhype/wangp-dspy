@@ -241,6 +241,12 @@ def validate_index(
         "non_matrix_inventory is stale"
     )
     assert index["non_matrix_inventory"]["total"] == len(NON_MATRIX_ROWS)
+    non_matrix_totals = Counter(
+        row["canonical_state"] for row in index["non_matrix_inventory"]["rows"]
+    )
+    assert index["non_matrix_inventory"]["totals"] == dict(
+        sorted(non_matrix_totals.items())
+    ), "non_matrix_inventory totals diverge from its rows"
     assert index["remaining_boundaries"]["ltx_dependency_batch"] == LTX_BOUNDARY, (
         "wrong remaining LTX dependency boundary"
     )
