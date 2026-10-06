@@ -1,0 +1,202 @@
+{
+ "command": [
+  "timeout",
+  "1800",
+  "ssh",
+  "-o",
+  "BatchMode=yes",
+  "-o",
+  "ConnectTimeout=15",
+  "3090",
+  "/home/straughter/Wan2GP/wd_bw0h_h3_standard_ref.sh"
+ ],
+ "media_metadata": [
+  {
+   "alpha_mode": "none",
+   "audio": {
+    "channels": 2,
+    "codec": "aac",
+    "present": true,
+    "sample_rate_hz": 32000
+   },
+   "duration_s": 2.333333,
+   "fps": 24.0,
+   "height": 832,
+   "kind": "video",
+   "measured_format": {
+    "audio_codec": "aac",
+    "audio_duration_s": 2.304,
+    "channels": 2,
+    "container_duration_s": 2.333333,
+    "fps": 24.0,
+    "height": 832,
+    "sample_rate_hz": 32000,
+    "video_codec": "h264",
+    "video_duration_s": 2.333333,
+    "width": 480
+   },
+   "path": "outputs/wd_bw0h_h3_standard_ref.mp4",
+   "width": 480
+  }
+ ],
+ "model_provenance": [
+  {
+   "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+   "download_approved": true,
+   "identity": "h3-MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors",
+   "license": "MiniMax H3 / Qwen3-VL community licences; operator research and evaluation use only; no redistribution",
+   "sha256": "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce286f0",
+   "size_bytes": 21057674787,
+   "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors"
+  },
+  {
+   "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-video_vae_fp16.safetensors",
+   "download_approved": true,
+   "identity": "h3-MiniMax-H3-video_vae_fp16.safetensors",
+   "license": "MiniMax H3 / Qwen3-VL community licences; operator research and evaluation use only; no redistribution",
+   "sha256": "455010492bb59a9cc7b8f1ee23905b22a10079f89490adbf820a1728efcaea6b",
+   "size_bytes": 5207806512,
+   "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-video_vae_fp16.safetensors"
+  },
+  {
+   "destination": "/home/straughter/Wan2GP/ckpts/MiniMax-H3-audio_vae_fp32.safetensors",
+   "download_approved": true,
+   "identity": "h3-MiniMax-H3-audio_vae_fp32.safetensors",
+   "license": "MiniMax H3 / Qwen3-VL community licences; operator research and evaluation use only; no redistribution",
+   "sha256": "37dddc2f3e6d5d5139d823d5ea283bbf304dadcb885b1ccda818aa13dade5ea2",
+   "size_bytes": 605429308,
+   "source": "https://huggingface.co/DeepBeepMeep/MiniMax-H3/resolve/main/MiniMax-H3-audio_vae_fp32.safetensors"
+  },
+  {
+   "destination": "/home/straughter/Wan2GP/ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+   "download_approved": true,
+   "identity": "qwen3vl-Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors",
+   "license": "MiniMax H3 / Qwen3-VL community licences; operator research and evaluation use only; no redistribution",
+   "sha256": "4df8fc5237746b3b058745d6ec8fe1e54a9721bdc663d35d2d1806952672f301",
+   "size_bytes": 26723791903,
+   "source": "https://huggingface.co/DeepBeepMeep/Qwen3-VL-32B-Instruct/resolve/main/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors"
+  }
+ ],
+ "objective_gate_results": [
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 56,
+   "name": "wd_bw0h_frame_count",
+   "row": "clean-machine-first-run",
+   "threshold": 56,
+   "verdict": "pass"
+  },
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 2.333333,
+   "name": "wd_bw0h_duration_s",
+   "row": "clean-machine-first-run",
+   "threshold": 2.0,
+   "verdict": "pass"
+  },
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 24.0,
+   "name": "wd_bw0h_fps",
+   "row": "clean-machine-first-run",
+   "threshold": 24.0,
+   "verdict": "pass"
+  },
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 979602,
+   "name": "wd_bw0h_nonempty_bytes",
+   "row": "clean-machine-first-run",
+   "threshold": 1,
+   "verdict": "pass"
+  },
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 32000,
+   "name": "wd_bw0h_audio_sample_rate_hz",
+   "row": "clean-machine-first-run",
+   "threshold": 32000,
+   "verdict": "pass"
+  },
+  {
+   "inputs": [
+    "outputs/wd_bw0h_h3_standard_ref.mp4"
+   ],
+   "measured": 2,
+   "name": "wd_bw0h_audio_channels",
+   "row": "clean-machine-first-run",
+   "threshold": 2,
+   "verdict": "pass"
+  }
+ ],
+ "operator_authorization": {
+  "approved_by": "operator",
+  "scope": "One no-new-download H3 generated-artifact attempt on host 3090 for WD-bw0h, reusing only the four authorized hash-verified local assets, zero model downloads or provider spend, followed by the operator's agreement to complete the demonstration through a reference-bearing path.",
+  "status": "approved",
+  "text": "Authorized\nI agree",
+  "timestamp": "2026-10-05T23:15:00Z"
+ },
+ "output": [
+  {
+   "path": "outputs/wd_bw0h_h3_standard_ref.mp4",
+   "sha256": "9386c7905ec16da627d7fc8c26e9ebbb3946ea15781b22d5d44d11d3221848d6"
+  }
+ ],
+ "queue_attempt": {
+  "admission_state": "admitted",
+  "database": "native-wan2gp-task-queue",
+  "exit_status": "succeeded",
+  "job_id": "native-task-1",
+  "native_log_sha256": {
+   "render.log": "cf14bd1b425e758d660198c36e14c68273e1de431002240e17f52e68370f0c01"
+  },
+  "native_logs": [
+   "render.log"
+  ],
+  "queue_id": "wangp-native-queue-wd-bw0h-h3-standard-ref",
+  "retry_id": "attempt-1"
+ },
+ "reference_provenance": [
+  {
+   "license": "Operator-owned WD-bw0h generated evaluation frame; operator-authorized research/evaluation use; no redistribution",
+   "path": "inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+   "role": "image_start_reference_frame_for_h3_standard_create",
+   "sha256": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23"
+  }
+ ],
+ "repository": {
+  "commit": "f67a2e380a2b2e73d262b1515fc776fd5009cc3a",
+  "commit_semantics": "the merged main head at run time; the new run evidence bundle is intentionally uncommitted dirty state in this record",
+  "dirty_state": {
+   "dirty": true,
+   "identity_derivation": "sha256 over the sorted newline-joined output of git status --porcelain",
+   "identity_sha256": "9d991299872368ea80cbb0c37ce60dd6e3cf0d68c6e269de43ab99ff6fa21522"
+  }
+ },
+ "reviewer_verdict": {
+  "decision": "approved",
+  "evidence_links": [
+   "render.log",
+   "ffprobe.json",
+   "gpu-after.txt",
+   "inputs/wd_bw0h_h3_standard_ref_first_frame.png"
+  ],
+  "review": "Developer packaging review of the clean-machine first-run bundle: the four authorized assets were present and hash-matched, the reference frame was loaded by the native loader as logged, the queue completed one of one tasks, and the emitted media metadata was re-measured by ffprobe."
+ },
+ "runtime_notes": {
+  "gpu_after": "NVIDIA GeForce RTX 3090, 24576, 142, 23974",
+  "interpreter": "/usr/bin/python3 with PYTHONPATH composing isolated rembg-2.0.65, mmgp-3.7.14 and ComfyUI site-packages",
+  "model_downloads": 0
+ },
+ "schema": "wangp-dspy.maestro-parity-evidence/v1"
+}
