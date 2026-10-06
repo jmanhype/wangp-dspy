@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-06T00:00:25Z
-content_hash: "sha256:dba3d09ee20b7b2a21feeec2c0f3248b0862fd2318e3a1640484120a0cbf0bb0"
+updated_at: 2026-10-06T04:46:43Z
+content_hash: "sha256:c01b58848485fdf7b1904e2d485485915fb78ae34af38a2e0f6fde0f4b661d86"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -168,6 +168,32 @@ accepted corrected-retry plan, and the engine loads and reports torch 2.5.1+cu12
 This satisfies the "real generated artifact" half of the objective's item (b) at the artifact level. Remaining
 to finish the story: package the run as a governed bundle and pass the fail-closed checker, then independent
 acceptance. No cell state or index entry was changed by this note.
+### Merged outcome and the precise remaining gap (orchestrator, 2026-10-05)
+
+Pull request 224 merged to main at b1ff4cb6. It carries the governed clean-machine first-run bundle and the
+index transition that records that lane as host_run_verified.
+
+Verified at the merged head: the index validator PASSes with 95 host_run_verified rows, backlog lint is 0
+errors, scripts/verify_maestro_parity.py returns PASS with zero owned warnings on the new bundle, release
+verify reports ready with no tag, and the protected engine files are byte-identical to origin/main. The parity
+test now asserts the verified state and executes the checker on the bundle, so the record fails closed if it
+drifts.
+
+Status against this story's own acceptance wording, stated plainly rather than rounded up:
+
+- "Reach a real generated H3 artifact through the governed engine" — MET. A real artifact exists (h264 480x832
+  at 24 fps, 56 frames, AAC 32 kHz stereo, 979602 bytes) inside a bundle the fail-closed checker accepts, with
+  operator authorization, exact command, repository commit, model provenance, reference provenance, queue
+  attempt, output hash, media metadata, objective gates and a reviewer verdict.
+- "From a clean disposable workspace, run one documented command" — NOT MET. The engine's virtual environment
+  no longer exists on host 3090, so the run required the accepted isolated-runtime binding of /usr/bin/python3
+  with a composed PYTHONPATH, driven by a per-story script authored for this attempt. That is reproducible and
+  fully documented, but it is not one command on a clean machine.
+
+So this story should not be accepted on the strength of the merged bundle alone. Closing it needs either an
+authorized environment rebuild so the one-command claim becomes literally true, or an explicit decision that
+the isolated-runtime binding is the accepted meaning of the claim. Recorded so that a later session cannot
+mistake the merged artifact for the satisfied acceptance criterion.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
