@@ -84,7 +84,7 @@ def test_exactly_seven_current_ltx_cells_and_boundary_are_recorded() -> None:
     assert ltx["not_a_hardware_verdict"] is True
 
 
-def test_editor_host_run_is_verified_and_first_run_stays_incomplete() -> None:
+def test_editor_host_run_is_verified_and_first_run_emits_a_verified_artifact() -> None:
     index = _index()
     non_matrix = {
         row["row"]: row for row in index["non_matrix_inventory"]["rows"]
@@ -101,16 +101,29 @@ def test_editor_host_run_is_verified_and_first_run_stays_incomplete() -> None:
     assert evidence["reviewer_verdict"]["decision"] == "approved"
     assert all(gate["verdict"] == "pass" for gate in evidence["objective_gate_results"])
 
-    assert first_run["canonical_state"] == "incomplete_storage_boundary"
+    assert first_run["canonical_state"] == "host_run_verified"
+    assert first_run["evidence_or_boundary"] == (
+        "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json"
+    )
     boundary = index["remaining_boundaries"]["first_run_generated_artifact"]
-    assert boundary["generated_artifact"] is False
-    assert boundary["queue_jobs_admitted"] == 0
-    assert boundary["source_ref"] == (
-        "story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e"
-    )
+    assert boundary["generated_artifact"] is True
+    assert boundary["queue_jobs_admitted"] == 1
+    assert boundary["source_ref"] == "story/WD-bw0h-first-run"
     assert boundary["sha256"] == (
-        "b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f"
+        "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389"
     )
+
+    first_run_bundle = ROOT / first_run["evidence_or_boundary"]
+    run_evidence = json.loads(first_run_bundle.read_text(encoding="utf-8"))
+    assert run_evidence["reviewer_verdict"]["decision"] == "approved"
+    assert all(gate["verdict"] == "pass" for gate in run_evidence["objective_gate_results"])
+    checked = subprocess.run(
+        ["python3", "scripts/verify_maestro_parity.py", str(first_run_bundle.parent.relative_to(ROOT))],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert checked.returncode == 0, checked.stdout + checked.stderr
 
 
 def test_matrix_evidence_manifest_hashes_real_bundle_bytes() -> None:

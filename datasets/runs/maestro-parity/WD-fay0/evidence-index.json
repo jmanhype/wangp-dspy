@@ -85,11 +85,11 @@
         "source_line": 32
       },
       {
-        "canonical_state": "incomplete_storage_boundary",
+        "canonical_state": "host_run_verified",
         "cell": "generation",
         "doc": "docs/first-run.md",
-        "documented_state": "not a verified generation claim",
-        "evidence_or_boundary": "story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md",
+        "documented_state": "verified - evidence-backed host run",
+        "evidence_or_boundary": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
         "row": "Generated artifact from first-run",
         "source_line": 97
       }
@@ -104,13 +104,13 @@
   "reconciliation_story_id": "WD-he8i",
   "remaining_boundaries": {
     "first_run_generated_artifact": {
-      "generated_artifact": false,
-      "path": "datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md",
-      "queue_jobs_admitted": 0,
-      "retry_or_second_generation": false,
-      "sha256": "b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f",
-      "source_ref": "story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e",
-      "state": "incomplete_storage_boundary"
+      "generated_artifact": true,
+      "path": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
+      "queue_jobs_admitted": 1,
+      "retry_or_second_generation": true,
+      "sha256": "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389",
+      "source_ref": "story/WD-bw0h-first-run",
+      "state": "host_run_verified"
     },
     "ltx_dependency_batch": {
       "cells": [
