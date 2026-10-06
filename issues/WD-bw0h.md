@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-05T23:43:07Z
-content_hash: "sha256:79da4a62875dd1c84c4d130e0a163a8076f8c5d25609523bc584aca1d9b1479e"
+updated_at: 2026-10-06T00:00:25Z
+content_hash: "sha256:dba3d09ee20b7b2a21feeec2c0f3248b0862fd2318e3a1640484120a0cbf0bb0"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -149,6 +149,25 @@ required for the H3 path, and the earlier failure's boundary preserved on its pu
 the one thing the governance explicitly requires and that no local action can supply: an explicit operator
 authorization for a fresh host attempt. Nothing was executed, no retry was attempted, and no artifact or
 queue state changed by this note.
+### WD-bw0h authorized first-run SUCCEEDED — real H3 artifact produced (orchestrator, 2026-10-05)
+
+Under the operator's fresh authorization, one H3 standard create ran on host 3090 and produced a real artifact.
+No model download occurred; only the four authorized hash-verified local assets were used.
+
+Artifact: wd_bw0h_h3_standard.mp4, 1386115 bytes,
+sha256 ec9914f827950272212d6683a0683362fdafb2f78ad7d772fda46fad65b8b6a9.
+Media: h264 480x832 at 24 fps, 56 frames, 2.333333 s video; AAC 32000 Hz stereo, 2.304 s audio.
+Run: 20 of 20 denoise steps at about 6.67 s per step, then VAE decode; the native queue reports
+"Queue completed: 1/1 tasks in 4m 30s". GPU returned to idle afterwards (142 MiB used, 23974 MiB free).
+
+Interpreter note recorded for reproducibility: the Wan2GP virtual environment no longer exists on the host, so
+the accepted isolated-runtime pattern was used instead, `/usr/bin/python3` with PYTHONPATH composing the
+isolated rembg and mmgp runtimes plus the ComfyUI site-packages. That binding is the one recorded by the
+accepted corrected-retry plan, and the engine loads and reports torch 2.5.1+cu121 with CUDA available.
+
+This satisfies the "real generated artifact" half of the objective's item (b) at the artifact level. Remaining
+to finish the story: package the run as a governed bundle and pass the fail-closed checker, then independent
+acceptance. No cell state or index entry was changed by this note.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
