@@ -53,13 +53,13 @@ CHECKER_RECEIPT = Path(
     "datasets/runs/maestro-parity/checker-lane-receipts/evidence.json"
 )
 FIRST_RUN_BOUNDARY = {
-    "source_ref": "story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e",
-    "path": "datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md",
-    "sha256": "b78f5936a227782e4c3b7866e041cd9bbcc3d60d7ed4b9ebe5418e14e3d78d5f",
-    "state": "incomplete_storage_boundary",
-    "generated_artifact": False,
-    "retry_or_second_generation": False,
-    "queue_jobs_admitted": 0,
+    "source_ref": "story/WD-bw0h-first-run",
+    "path": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
+    "sha256": "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389",
+    "state": "host_run_verified",
+    "generated_artifact": True,
+    "retry_or_second_generation": True,
+    "queue_jobs_admitted": 1
 }
 LTX_BOUNDARY = {
     "source_ref": "story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6",
@@ -73,32 +73,32 @@ LTX_BOUNDARY = {
 }
 NON_MATRIX_ROWS = [
     {
-        "cell": "generation",
         "canonical_state": "host_run_verified",
+        "cell": "generation",
         "doc": "docs/editor.md",
         "documented_state": "verified - evidence-backed host run",
         "evidence_or_boundary": "datasets/runs/maestro-parity/editor-host-export/host-run/evidence.json",
         "row": "Authorized host export/media",
-        "source_line": 19,
+        "source_line": 19
     },
     {
-        "cell": "surface",
         "canonical_state": "terminal_unsupported_or_fail_closed",
+        "cell": "surface",
         "doc": "docs/editor.md",
         "documented_state": "unsupported",
         "evidence_or_boundary": "explicitly deferred; no GUI in this lane",
         "row": "Graphical/browser UI",
-        "source_line": 32,
+        "source_line": 32
     },
     {
+        "canonical_state": "host_run_verified",
         "cell": "generation",
-        "canonical_state": "incomplete_storage_boundary",
         "doc": "docs/first-run.md",
-        "documented_state": "not a verified generation claim",
-        "evidence_or_boundary": "story/WD-bw0h@2dfe36863e29eef02af0ea330d13d331bafdc00e:datasets/runs/maestro-parity/clean-generated/failed-retry/boundary.md",
+        "documented_state": "verified - evidence-backed host run",
+        "evidence_or_boundary": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
         "row": "Generated artifact from first-run",
-        "source_line": 97,
-    },
+        "source_line": 97
+    }
 ]
 
 
