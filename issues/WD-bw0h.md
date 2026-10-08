@@ -1,7 +1,7 @@
 ---
 id: WD-bw0h
 title: "Clean-machine H3 generated artifact"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, operator-decision]
@@ -9,10 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-10-08T20:31:18Z
-content_hash: "sha256:1635bd612fe5b24a0635a0d2c6ae6b235294708746e9f3ec1aa81d848ad7babf"
+content_hash: "sha256:7f5d81ecd8905a4da564a4d9272140ac59b1059fcec5b79dc5bbfaa8697c2d0b"
 blocks: [WD-fay0]
-follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs]
+follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
+assignee: dev-WD-bw0h
 ---
 
 ## Description
@@ -338,12 +339,16 @@ before generation and the operator boundary forbids retry/substitution.
 - 2026-09-30T20:00:02Z dep_added: blocked_by WD-cuzw
 - 2026-10-01T23:49:42Z dep_removed: was_blocked_by WD-cuzw
 - 2026-10-08T20:31:18Z status: deferred -> open
+- 2026-10-08T20:31:18Z status: open -> in_progress
+- 2026-10-08T20:31:18Z auto-follows: linked to predecessor WD-1s5s
+- 2026-10-08T20:31:18Z auto-follows: linked to predecessor WD-cuzw
+- 2026-10-08T20:31:18Z claimed by dev-WD-bw0h
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-1s5s]], [[WD-cuzw]]
-- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]]
+- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]], [[WD-1s5s]], [[WD-cuzw]]
 
 ## Comments
 
