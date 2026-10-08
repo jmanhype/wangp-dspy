@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-08T20:41:25Z
-content_hash: "sha256:a1003ceefd25e17cf87bea87b52a23bf07f791092266247f3aed0a80fefac8cd"
+updated_at: 2026-10-08T21:08:44Z
+content_hash: "sha256:6e91caa263ed2b96ceb3fdd3db9af1a19871414a30fc79bcf76f39f03b2f9da6"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -208,6 +208,18 @@ The retry3 one-shot authorization is consumed and fail-closed. The run admitted 
 - New replay regression proves retry3 raises `AUTHORIZATION_ALREADY_CONSUMED`.
 
 WD-bw0h is still not delivered or accepted: no real generated artifact exists. A future retry requires a NEW operator authorization bound to the repaired source bytes after PR 233 merges; retry3 cannot be replayed.
+### Retry4 forward authorization hardening (2026-10-08)
+
+PR 233 follow-up commit `974d4d6f58352fb906bd0257406151558ea84dd0` closes a governance gap before requesting another host attempt. Future isolated clean-generated authorization now uses schema v3 and binds exactly six source files: installer, recorder, parity checker, four-model manifest, `host/wangp_adapter.py`, and `host/render_host.py`. This prevents a retry4 approval from running with the old unstaged-settings adapter or a substituted SSH transport.
+
+- V3 template identity: `95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c`
+- Template status remains `requires_operator_approval`; no retry4 approval exists.
+- Unchanged retry3 fails `AUTHORIZATION_ALREADY_CONSUMED`; text-mutated retry3 fails `AUTHORIZATION_V2_RETIRED`.
+- Historical retry3 four-file source provenance remains independently valid against `e0524830`.
+- Independent focused integration suite: 95 passed; direct security probe and compile/diff checks passed.
+- Independent reviewer returned `REVIEW_RESULT: APPROVED`.
+
+WD-bw0h still has no generated retry4 artifact and is not delivered/accepted. GPU host execution requires a fresh operator authorization for the v3 boundary after PR 233 merges.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
