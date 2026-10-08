@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-08T21:34:10Z
-content_hash: "sha256:2079fe135b30b65a4fc59125299ae35ced48778e552000a2148e1d218c59ffae"
+updated_at: 2026-10-08T21:45:30Z
+content_hash: "sha256:fe617e3f168efdf0c8b6820d43a61dcd47d91eb323bc915daca8036f0380e21a"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -220,6 +220,9 @@ PR 233 follow-up commit `974d4d6f58352fb906bd0257406151558ea84dd0` closes a gove
 - Independent reviewer returned `REVIEW_RESULT: APPROVED`.
 
 WD-bw0h still has no generated retry4 artifact and is not delivered/accepted. GPU host execution requires a fresh operator authorization for the v3 boundary after PR 233 merges.
+### PR 233 CI failure repair (2026-10-08)
+
+Exact-head CI at `974d4d6f` failed two tests because they invoked `git show e0524830:...`, which is unavailable in GitHub's shallow checkout. Head `b65476ba` preserves the four exact historical v2 source byte streams inside the retry3 evidence boundary and tests those tracked bytes against the authorization hashes. Independent comparison confirmed all four streams equal `e0524830`; 96/96 focused tests pass and tests no longer depend on local Git history. A new exact-head CI run is required before merge.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
