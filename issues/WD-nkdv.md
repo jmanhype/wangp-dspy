@@ -1,16 +1,18 @@
 ---
 id: WD-nkdv
 title: "Record Wangp runner execution identity for LTX operations"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T22:01:40Z
-content_hash: "sha256:5b9ec79d60725a24e4ae001a03e5971dc8bd166aa04c210b5a8169f714ced615"
+updated_at: 2026-10-08T22:03:56Z
+content_hash: "sha256:ccdad54bc2d8b190a8c23d640bbedc927f107f44dfcbfea42f932bf2d26ba96b"
 blocks: [WD-b7ek, WD-fay0]
+assignee: dev-WD-nkdv
+follows: [WD-5d19]
 ---
 
 ## Description
@@ -281,9 +283,13 @@ status: new
 ## History
 - 2026-10-08T22:03:15Z dep_added: blocks WD-b7ek
 - 2026-10-08T22:03:15Z dep_added: blocks WD-fay0
+- 2026-10-08T22:03:56Z status: open -> in_progress
+- 2026-10-08T22:03:56Z auto-follows: linked to predecessor WD-5d19
+- 2026-10-08T22:03:56Z claimed by dev-WD-nkdv
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-b7ek]], [[WD-fay0]]
+- Follows: [[WD-5d19]]
 
 ## Comments
