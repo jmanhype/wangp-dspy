@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
 updated_at: 2026-10-08T23:06:03Z
-content_hash: "sha256:8d9308b5598a34c8fc9bfb0a56919d745e92602f7b6fd7ad75fe591aadd3b278"
+content_hash: "sha256:1a45f2dc8898f746a81ae0456d5fc7ca15c8b7e40ece644dd4c031d6dffcacdb"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac, WD-cuzw, WD-1s5s]
 assignee: dev-WD-nkdv
@@ -296,6 +296,18 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-10-08.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
+
+
 ## Implementation Evidence
 
 Summary: Redelivery changes tracker evidence only. The PR head, code, tests, protected files, and preserved retry3 evidence are unchanged. Exact-head CI run `37854653689` completed successfully at `7638cee29e2a2b2d868f096f8181ee2f440576d6`; the `test` job passed in 23m19s. PR 234 remains clean/mergeable.
