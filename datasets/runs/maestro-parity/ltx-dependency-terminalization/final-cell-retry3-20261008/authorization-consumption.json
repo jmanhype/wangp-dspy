@@ -1,0 +1,7 @@
+{
+  "authorization_canonical_sha256": "70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3",
+  "reason": "The retry3 seven-operation authorization was consumed: the one declared spatial-upscaler download was exposed once, all seven native operations rendered, and no retry or capability promotion was attempted.",
+  "retry_authorized": false,
+  "schema_version": "wangp-dspy.wd-28ac.retry3-authorization-consumption/v1",
+  "status": "consumed"
+}

@@ -1,0 +1,93 @@
+{
+  "captured_utc": "2026-10-08T19:48:00Z",
+  "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+  "exists": true,
+  "fresh_host_recheck": true,
+  "isolated_import": {
+    "argv": [
+      "/usr/bin/python3",
+      "-c",
+      "import mmgp structured identity probe"
+    ],
+    "metadata_version": "3.7.14",
+    "path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+    "python": "/usr/bin/python3",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"metadata_version\": \"3.7.14\", \"path\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py\"}\n"
+  },
+  "payload": {
+    "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "canonical_sha256_observed": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "file_count": 12,
+    "inventory": [
+      {
+        "path": "__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_bytes": 0
+      },
+      {
+        "path": "mmgp-3.7.14.dist-info/METADATA",
+        "sha256": "2cca750907d144a03f695ab1b1191b6bb7ac6f21d1895732ab213ff25717dcc7",
+        "size_bytes": 16311
+      },
+      {
+        "path": "mmgp-3.7.14.dist-info/RECORD",
+        "sha256": "a0ae6464fbbb70f7b867045df530a3a8d3fafc52d5329b108b8e766b36c5eb50",
+        "size_bytes": 837
+      },
+      {
+        "path": "mmgp-3.7.14.dist-info/WHEEL",
+        "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
+        "size_bytes": 91
+      },
+      {
+        "path": "mmgp-3.7.14.dist-info/licenses/LICENSE.md",
+        "sha256": "0c3f96212d0190fa1627ff2140edc9f2130ff4aff5f9dcab62fd5809b9317035",
+        "size_bytes": 94
+      },
+      {
+        "path": "mmgp-3.7.14.dist-info/top_level.txt",
+        "sha256": "c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5",
+        "size_bytes": 14
+      },
+      {
+        "path": "mmgp/__init__.py",
+        "sha256": "03da81c3240c77533bbec8524ce0671463f5310bd2da15e64dc4c2314726cb31",
+        "size_bytes": 509
+      },
+      {
+        "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+        "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+        "size_bytes": 948
+      },
+      {
+        "path": "mmgp/fp8_quanto_bridge.py",
+        "sha256": "bd32a7cd629ef3c320325db3d20cdcbbb1064d51ccedcd9683de5d9aa314def3",
+        "size_bytes": 26356
+      },
+      {
+        "path": "mmgp/offload.py",
+        "sha256": "5e6a07c6f6f3b7cabc3b1cbdedbad30a094e33e34d73e15e2cf80b7437b5d7bc",
+        "size_bytes": 176124
+      },
+      {
+        "path": "mmgp/quant_router.py",
+        "sha256": "ed9e2dcb27ffae533103c9403ba377617f11db6364e12d10e7a4bd362b15fbdd",
+        "size_bytes": 45822
+      },
+      {
+        "path": "mmgp/safetensors2.py",
+        "sha256": "f87c9dc2ee56dc0f47941c38f05bb8cfbd5b5bc8bf99e39c62d94f248dd45cfb",
+        "size_bytes": 23899
+      }
+    ],
+    "uncompressed_bytes": 291005
+  },
+  "pythonpath_binding": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+  "regular_directory": true,
+  "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-state/v1",
+  "separate_fresh_host_gate_required": false,
+  "symlink": false,
+  "system_mmgp_present": false
+}

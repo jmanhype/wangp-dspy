@@ -1,0 +1,163 @@
+{
+  "admission_state": "admitted",
+  "argv": [
+    "/usr/bin/python3",
+    "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+    "--process",
+    "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/settings.json",
+    "--profile",
+    "3",
+    "--attention",
+    "sdpa",
+    "--output-dir",
+    "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native-output"
+  ],
+  "attempt": 1,
+  "durable_job_id": "job-1791489740852-86de2970",
+  "environment": {
+    "HF_HUB_OFFLINE": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+    "PYTHONUNBUFFERED": "1",
+    "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "evidence": {
+    "duration_s": 1.375,
+    "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.ffprobe.json",
+    "height": 448,
+    "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native-output/2026-10-08-15h04m04s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+    "objective_measurements": {
+      "distinct_hash": 1.0,
+      "nonempty_output": 1.0,
+      "valid_media": 1.0
+    },
+    "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4",
+    "output_sha256": "b075a604e6947e0ae2c93ba800e38963b7a8ed802787bba2f74291d354fff7e5",
+    "output_size_bytes": 785047,
+    "visual": [
+      "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/contact-sheet.jpg",
+      "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/first-frame.png"
+    ],
+    "width": 768
+  },
+  "native": {
+    "after": {
+      "disk": {
+        "argv": [
+          "df",
+          "-B1",
+          "/home/straughter/Wan2GP-story-WD-osfm"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756864679936 92387328000  90% /\n"
+      },
+      "gpu": {
+        "argv": [
+          "nvidia-smi",
+          "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+          "--format=csv,noheader,nounits"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "NVIDIA GeForce RTX 3090, 24576, 473, 23643, 0\n"
+      },
+      "gpu_apps": {
+        "argv": [
+          "nvidia-smi",
+          "--query-compute-apps=pid,process_name,used_memory",
+          "--format=csv,noheader"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+      "utc": "2026-10-08T20:04:10Z"
+    },
+    "before": {
+      "disk": {
+        "argv": [
+          "df",
+          "-B1",
+          "/home/straughter/Wan2GP-story-WD-osfm"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756860592128 92391415808  90% /\n"
+      },
+      "gpu": {
+        "argv": [
+          "nvidia-smi",
+          "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+          "--format=csv,noheader,nounits"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23644, 6\n"
+      },
+      "gpu_apps": {
+        "argv": [
+          "nvidia-smi",
+          "--query-compute-apps=pid,process_name,used_memory",
+          "--format=csv,noheader"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "source_status": "?? ckpts",
+      "utc": "2026-10-08T20:02:20Z"
+    },
+    "finished_at": 1791489850.390601,
+    "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native.log",
+    "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native-output/2026-10-08-15h04m04s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+    "returncode": 0,
+    "started_at": 1791489740.942473
+  },
+  "operation_id": "ltx23-outpaint",
+  "planned_job_id": "wd-28ac-ltx23-outpaint-retry3-20261008-attempt-1",
+  "queue_id": "wd-28ac-retry3-20261008-ltx23-outpaint",
+  "queue_state": {
+    "clips": [
+      {
+        "clip_index": 0,
+        "kind": "wd_28ac_native_operation",
+        "lane": "wd-28ac-native",
+        "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native.log",
+        "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4",
+        "operation": "outpaint",
+        "operation_id": "ltx23-outpaint",
+        "qc_verdict": null,
+        "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+        "row": "LTX-2.3",
+        "status": "rendered"
+      }
+    ],
+    "created_at": 1791489740.853936,
+    "failure_class": null,
+    "failure_count": 0,
+    "failure_detail": null,
+    "job_id": "job-1791489740852-86de2970",
+    "plan_ref": "wd-28ac-retry3-20261008-ltx23-outpaint",
+    "retryable": true,
+    "state": "rendered_pending_qc"
+  },
+  "runtime_preflight": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "mmgp_version": "3.7.14",
+    "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "status": "passed",
+    "system_mmgp_present": false
+  },
+  "settings": {
+    "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/settings.json",
+    "destination_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+    "template": "datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json",
+    "template_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8"
+  },
+  "status": "rendered_pending_qc"
+}

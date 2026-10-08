@@ -1,0 +1,17 @@
+{
+  "mode": "edit_postprocessing",
+  "prompt": "LTX-2.3 native spatial upscale",
+  "image_mode": 0,
+  "video_source": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "ltx232",
+  "spatial_upsampler_prompt": "",
+  "spatial_upsampler_reference_images": [],
+  "spatial_upsampler_face_count": 1,
+  "film_grain_intensity": 0,
+  "film_grain_saturation": 0.5,
+  "postprocess_audio": "",
+  "repeat_generation": 1,
+  "batch_size": 1,
+  "seed": 3709
+}

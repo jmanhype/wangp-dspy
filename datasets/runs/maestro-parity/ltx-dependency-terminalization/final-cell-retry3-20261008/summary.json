@@ -1,0 +1,117 @@
+{
+  "authorization_canonical_sha256": "70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3",
+  "authorization_disposition": "consumed",
+  "deletions": 0,
+  "dependency_installs": 0,
+  "downloaded_spatial_upscaler": {
+    "destination_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "link_created": true,
+    "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+    "size_bytes": 654465286,
+    "source": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors"
+  },
+  "failed_count": 0,
+  "model_downloads": 1,
+  "operation_count": 7,
+  "operations": [
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4",
+      "output_sha256": "d83d8f6fdea18a494ca8e02ec9bb8561a762dabeb73e89a6918c5615e8d38162",
+      "output_size_bytes": 708152,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-repaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-repaint/native-output/wd_m7xw_repaint.mp4",
+      "output_sha256": "a30ba72bef142d5efb32a79e4ee8d02d7afc437a333c90767a02f1f7fa2126d5",
+      "output_size_bytes": 480785,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-recast/native-output/wd_m7xw_recast.mp4",
+      "output_sha256": "4ec3c4baad5b367ea928d4ad3c25c41769207005e3b81fad2c32871387b26b78",
+      "output_size_bytes": 378753,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-upscale",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-upscale/native-output/wd_m7xw_create_post.mp4",
+      "output_sha256": "a82df16dcfa74f40c33fc4912acad98d0ff26c8d06ca7c0cfa9f72ee6cc980e9",
+      "output_size_bytes": 1873638,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native-output/2026-10-08-15h04m04s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+      "output_sha256": "b075a604e6947e0ae2c93ba800e38963b7a8ed802787bba2f74291d354fff7e5",
+      "output_size_bytes": 785047,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-recast/native-output/2026-10-08-15h06m17s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4",
+      "output_sha256": "26995b579b20ff9959dfef3d690ac7eef73e350118a712678c3053f1435abfe7",
+      "output_size_bytes": 997752,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-upscale",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-upscale/native-output/wd_osfm_create_post.mp4",
+      "output_sha256": "2cfa857496e16b6f6f9e1e27c7bc0a6b1faf03e3a44a18b512e744bccbf4706f",
+      "output_size_bytes": 3729463,
+      "status": "rendered_pending_qc"
+    }
+  ],
+  "operator_approval": {
+    "approved_by": "operator",
+    "deletions": 0,
+    "dependency_installs": 0,
+    "downloaded_asset": {
+      "network_gets": 1,
+      "path": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+      "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+      "size_bytes": 654465286
+    },
+    "max_attempts_per_operation": 1,
+    "new_run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3",
+    "operation_count": 7,
+    "other_model_downloads": 0,
+    "package_downloads": 0,
+    "proposal_sha256": "e26b3726ae92cd8279d57286519add33fdf7b4ad83eff897ed586443e32cc595",
+    "protected_engine_changes": 0,
+    "provider_spend": false,
+    "retry": "never",
+    "source_exposure_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "status": "approved",
+    "stop_on_first_terminal_failure": true,
+    "text": "Continue approved authorized",
+    "threshold_changes": 0,
+    "timestamp": "2026-10-08T19:46:40Z",
+    "training": false
+  },
+  "other_model_downloads": 0,
+  "package_downloads": 0,
+  "provider_spend": false,
+  "rendered_pending_qc_count": 7,
+  "retrieval_verification": {
+    "native_outputs_verified": 7,
+    "queue_jobs_rendered_pending_qc": 7,
+    "queue_jobs_total": 7,
+    "queue_nonzero_failure_jobs": 0,
+    "settings_files_verified": 7
+  },
+  "retry_attempted": false,
+  "run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3",
+  "schema_version": "wangp-dspy.wd-28ac.final-cell-retry3-run/v1",
+  "status": "all_native_renders_complete",
+  "training": false
+}

@@ -1,0 +1,145 @@
+{
+  "assets": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "match": true,
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "size_bytes": 19447662547
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "match": true,
+      "path": "/home/straughter/Wan2GP-story-WD-m7xw/loras/ltx2/ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "size_bytes": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "match": true,
+      "path": "/home/straughter/Wan2GP-story-WD-m7xw/loras/ltx2/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "size_bytes": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "match": true,
+      "path": "/home/straughter/Wan2GP-story-WD-m7xw/loras/ltx2/ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "size_bytes": 1308756416
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "match": true,
+      "path": "/home/straughter/Wan2GP-story-WD-m7xw/loras/ltx2/ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "size_bytes": 327322640
+    }
+  },
+  "assets_all_match": true,
+  "captured_utc": "2026-10-08T19:48:00Z",
+  "disk": {
+    "argv": [
+      "df",
+      "-B1",
+      "/home/straughter/Wan2GP"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756888801280 92363206656  90% /\n"
+  },
+  "downloaded_spatial_upscaler": {
+    "destination_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "link_created": true,
+    "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+    "size_bytes": 654465286,
+    "source": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors"
+  },
+  "existing_distilled_lora": {
+    "destination_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "link_verified": true,
+    "sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+    "size_bytes": 7605507256,
+    "source": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors"
+  },
+  "gpu": {
+    "argv": [
+      "nvidia-smi",
+      "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+      "--format=csv,noheader,nounits"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23644, 1\n"
+  },
+  "gpu_apps": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=pid,process_name,used_memory",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "gpu_idle": true,
+  "operation_count": 7,
+  "operator_approval": {
+    "approved_by": "operator",
+    "deletions": 0,
+    "dependency_installs": 0,
+    "downloaded_asset": {
+      "network_gets": 1,
+      "path": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+      "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+      "size_bytes": 654465286
+    },
+    "max_attempts_per_operation": 1,
+    "new_run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3",
+    "operation_count": 7,
+    "other_model_downloads": 0,
+    "package_downloads": 0,
+    "proposal_sha256": "e26b3726ae92cd8279d57286519add33fdf7b4ad83eff897ed586443e32cc595",
+    "protected_engine_changes": 0,
+    "provider_spend": false,
+    "retry": "never",
+    "source_exposure_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "status": "approved",
+    "stop_on_first_terminal_failure": true,
+    "text": "Continue approved authorized",
+    "threshold_changes": 0,
+    "timestamp": "2026-10-08T19:46:40Z",
+    "training": false
+  },
+  "qc_health": {
+    "argv": [
+      "curl",
+      "-fsS",
+      "-m",
+      "3",
+      "http://127.0.0.1:8377/health"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"model_loaded\":false,\"queue_depth\":0}"
+  },
+  "queue_db_absent": true,
+  "runtime_payload_match": true,
+  "runtime_payload_observed_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+  "schema_version": "wangp-dspy.wd-28ac.retry3-preflight/v1",
+  "sources_after_link": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "status": "?? ckpts"
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "status": "?? ckpts"
+    }
+  },
+  "sources_before_link": {
+    "/home/straughter/Wan2GP-story-WD-m7xw": {
+      "commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+      "status": "?? ckpts"
+    },
+    "/home/straughter/Wan2GP-story-WD-osfm": {
+      "commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+      "status": "?? ckpts"
+    }
+  }
+}

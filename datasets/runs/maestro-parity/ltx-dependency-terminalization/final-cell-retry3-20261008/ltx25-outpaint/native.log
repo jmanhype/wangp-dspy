@@ -1,0 +1,45 @@
+Multiple distributions found for package optimum. Picked distribution: optimum-quanto
+/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "cipher": algorithms.TripleDES,
+/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "class": algorithms.TripleDES,
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/settings.json
+Output directory: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/native-output
+[load_settings] Loading settings from: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/settings.json
+[load_settings] Using path: /home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_25_22B_distilled
+Loaded 1 task(s)
+
+[Task 1/1] Widen the supplied crane scene with more paper map and soft ...
+Loading Model 'ckpts/ltx-2.5-22b-distilled_diffusion_model_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/gemma4-12b-ltx-v1/gemma4-12b-ltx-v1_int8_convrot.safetensors' ...
+Loading model LTX-2 2.5 Distilled 22B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Switching to partial pinning since full requirements for pinned models is 18561.5 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+The model was partially pinned to reserved RAM: 72 large blocks spread across 15720.76 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma4UnifiedForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'video_embeddings_connector' (Embeddings1DConnector)
+Hooked to model 'audio_embeddings_connector' (Embeddings1DConnector)
+  Model loadedLora 'loras/ltx2/ltx-2.3-22b-ic-lora-outpaint.safetensors' was loaded in model 'models.ltx2.ltx2'
+Unable to pin data of 'loras/ltx2/ltx-2.3-22b-ic-lora-outpaint.safetensors' to reserved RAM as there is no reserved RAM left. Transfer speed from RAM to VRAM will may be slower.
+  [0/1] Extracting Raw Format  [0/1] Encoding Prompt      [WAN2GP][LTX2] Applying preserved-area gamma preprocessing for outpainting IC-LoRA control video.
+[Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] VAE Encoding     [0/8] Denoising | 36.6s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:28<03:17, 28.23s/steps]  [1/8] Denoising | 1m 05s / 4m 24s  [2/8] Denoising | 1m 08s / 2m 44s 25%|██▌       | 2/8 [00:31<01:22, 13.67s/steps] 38%|███▊      | 3/8 [00:35<00:45,  9.00s/steps]  [3/8] Denoising | 1m 12s / 2m 11s 50%|█████     | 4/8 [00:38<00:27,  6.82s/steps]  [4/8] Denoising | 1m 15s / 1m 54s 62%|██████▎   | 5/8 [00:42<00:16,  5.61s/steps]  [5/8] Denoising | 1m 18s / 1m 44s 75%|███████▌  | 6/8 [00:45<00:09,  4.89s/steps]  [6/8] Denoising | 1m 22s / 1m 37s 88%|████████▊ | 7/8 [00:49<00:04,  4.43s/steps]  [7/8] Denoising | 1m 25s / 1m 32s100%|██████████| 8/8 [00:52<00:00,  4.13s/steps]100%|██████████| 8/8 [00:52<00:00,  6.57s/steps]
+  [8/8] VAE Decoding | 1m 29s / 1m 29sVideo file saved to Path: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 2m 01s
