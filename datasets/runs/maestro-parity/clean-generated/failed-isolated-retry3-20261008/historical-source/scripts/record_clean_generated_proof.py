@@ -22,7 +22,6 @@ AUTHORIZED_SOURCE_FILES = (
     "scripts/verify_maestro_parity.py",
     "datasets/runs/maestro-parity/clean-generated/model-assets.json",
 )
-V3_AUTHORIZED_SOURCE_FILES = AUTHORIZED_SOURCE_FILES + ("host/wangp_adapter.py", "host/render_host.py")
 PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
           "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
 
@@ -90,17 +89,13 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     for record in load(AUTHORIZATION_CONSUMPTION).get("records", []):
         if record.get("authorization_canonical_sha256") == fingerprint and record.get("status") == "consumed":
             raise ProofError("AUTHORIZATION_ALREADY_CONSUMED", "this exact one-attempt authorization was already used")
-    if (isinstance(authorization, dict)
-            and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v2"):
-        raise ProofError("AUTHORIZATION_V2_RETIRED", "v2 isolated authorization is retired; a fresh v3 operator approval is required")
     legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
                     and authorization.get("allowed_operation") == template["allowed_operation"]
                     and authorization == load(ACCEPTED_AUTHORIZATION)
                     and authorization.get("boundaries") == template["boundaries"]
                     and len(authorization.get("superseded_relocations", [])) == 2)
-    isolated_valid = (isinstance(authorization, dict)
-                and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v3"
-                and authorization.get("schema_version") == template["schema_version"]
+    v2_valid = (isinstance(authorization, dict)
+                and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v2"
                 and authorization.get("status") == "approved"
                 and authorization.get("approved_by") == "operator"
                 and all(isinstance(authorization.get(key), str) and authorization.get(key)
@@ -110,16 +105,16 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
                 and authorization.get("allowed_operation") == template["allowed_operation"]
                 and authorization.get("boundaries") == template["boundaries"]
                 and authorization.get("superseded_relocations") == [])
-    valid = legacy_valid or isolated_valid
+    valid = legacy_valid or v2_valid
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
     return authorization, manifest["assets"]
 
 
-def source_manifest(checkout: Path, source_files: Sequence[str] = AUTHORIZED_SOURCE_FILES) -> dict[str, str]:
+def source_manifest(checkout: Path) -> dict[str, str]:
     observed = {}
-    for relative in source_files:
+    for relative in AUTHORIZED_SOURCE_FILES:
         path = checkout / relative
         if path.is_symlink() or not path.is_file():
             raise ProofError("AUTHORIZED_SOURCE_INVALID", f"authorized source is not a regular file: {relative}")
@@ -136,19 +131,15 @@ def source_identity(files: Mapping[str, str]) -> str:
 
 
 def validate_authorized_source(checkout: Path, authorization: Mapping[str, Any]) -> None:
-    source_files = (V3_AUTHORIZED_SOURCE_FILES
-                    if authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v3"
-                    else AUTHORIZED_SOURCE_FILES)
     expected = authorization.get("authorized_source")
-    if (not isinstance(expected, dict) or not isinstance(expected.get("files"), dict)
-            or set(expected["files"]) != set(source_files)):
+    if not isinstance(expected, dict) or set(expected.get("files", {})) != set(AUTHORIZED_SOURCE_FILES):
         raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source file set differs from the implementation boundary")
     files = expected["files"]
     if any(not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None for value in files.values()):
         raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source hashes must be lowercase SHA-256 values")
     if expected.get("identity_sha256") != source_identity(files):
         raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source identity diverges from its file hashes")
-    if source_manifest(checkout, source_files) != files:
+    if source_manifest(checkout) != files:
         raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source bytes differ from the disposable checkout")
 
 

@@ -1,0 +1,4 @@
+remote_dir=/home/straughter/Wan2GP/acceptance/worker-ba467cae944b/render-0000
+settings.json ABSENT
+local_pull_settings=pull-mirror/acceptance/worker-ba467cae944b/render-0000/settings.json
+datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/pull-mirror/acceptance/worker-ba467cae944b/render-0000/settings.json 550
