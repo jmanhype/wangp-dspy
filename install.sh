@@ -8,6 +8,9 @@ CLONE_SOURCE=$DEFAULT_REPOSITORY
 CHECKOUT=
 DRY_RUN=false
 CLEAN_PROOF=
+CLEAN_GENERATED=
+GENERATED_AUTHORIZATION=
+GENERATED_MANIFEST=
 ARGV_FILE=
 INSTALLER_PATH=$0
 
@@ -28,6 +31,13 @@ Options:
   --clean-proof <dir>   Run the complete no-GPU clean-machine proof in an
                         isolated workspace at <dir>, then fail closed with the
                         missing generation inputs. The workspace must be absent.
+  --clean-generated-proof <dir>
+                        Run the separately authorized real H3 generated-proof
+                        mode in an absent isolated workspace. Requires explicit
+                        relative authorization, host, and manifest inputs.
+  --generated-authorization <path>
+                        Committed authorization JSON for --clean-generated-proof.
+  --generated-manifest <path>  Committed exact model manifest.
 
 One-command install:
   curl -LsSf https://raw.githubusercontent.com/jmanhype/wangp-dspy/main/install.sh -o install.sh
@@ -85,6 +95,20 @@ fail_clean_proof_exists() {
     exit 8
 }
 
+fail_clean_generated_exists() {
+    printf '%s\n' \
+        "INVALID_CLEAN_GENERATED_WORKSPACE: destination already exists: $CLEAN_GENERATED" \
+        'Choose an absent disposable directory and rerun install.sh.' >&2
+    exit 10
+}
+
+fail_clean_generated_input() {
+    printf '%s\n' \
+        "INVALID_CLEAN_GENERATED_INPUT: $1" \
+        'The generated-proof mode requires committed relative authorization, host, and manifest paths.' >&2
+    exit 11
+}
+
 uv_requirement() {
     case $1 in
         git+*|/*|./*|../*) printf '%s\n' "$1" ;;
@@ -136,6 +160,14 @@ prepare_clean_proof_workspace() {
     fi
 }
 
+prepare_clean_generated_workspace() {
+    CLEAN_PROOF=$CLEAN_GENERATED
+    prepare_clean_proof_workspace
+    CLEAN_GENERATED=$CLEAN_PROOF
+    CLEAN_PROOF=
+    mkdir -p "$CLEAN_GENERATED/pull"
+}
+
 run_clean_proof() {
     proof=$CLEAN_PROOF/proof
     cp "$ARGV_FILE" "$proof/argv.nul"
@@ -178,6 +210,28 @@ run_clean_proof() {
         --installer "$INSTALLER_PATH") || refusal_rc=$?
     rm -f "$proof/argv.nul"
     exit "$refusal_rc"
+}
+
+run_clean_generated_proof() {
+    proof=$CLEAN_GENERATED/proof
+    cp "$ARGV_FILE" "$proof/argv.nul"
+    git -C "$CHECKOUT" rev-parse HEAD > "$proof/resolved-commit.txt"
+    git -C "$CHECKOUT" status --short > "$proof/repository-status.txt"
+    uv --version > "$proof/uv-version.txt"
+
+    printf '%s\n' 'Clean-machine generated lane: syncing the disposable checkout.'
+    (cd "$CHECKOUT" && uv sync --extra dev) > "$proof/uv-sync.log" 2>&1
+
+    printf '%s\n' 'Clean-machine generated lane: running preflight, one governed create, and evidence gates.'
+    generated_rc=0
+    (cd "$CHECKOUT" && uv run --frozen --extra dev python scripts/record_clean_generated_proof.py \
+        --proof-dir "$proof" --checkout "$CHECKOUT" --installer "$INSTALLER_PATH" \
+        --authorization "$CHECKOUT/$GENERATED_AUTHORIZATION" \
+        --model-manifest "$CHECKOUT/$GENERATED_MANIFEST") \
+        > "$proof/generated.stdout" 2> "$proof/generated.stderr" || generated_rc=$?
+    cat "$proof/generated.stdout"
+    cat "$proof/generated.stderr" >&2
+    exit "$generated_rc"
 }
 
 command -v uv >/dev/null 2>&1 || fail_missing_uv
@@ -224,6 +278,21 @@ while [ "$#" -gt 0 ]; do
             CLEAN_PROOF=${1#--clean-proof=}
             shift
             ;;
+        --clean-generated-proof)
+            [ "$#" -ge 2 ] || { usage >&2; exit 2; }
+            CLEAN_GENERATED=$2
+            shift 2
+            ;;
+        --generated-authorization)
+            [ "$#" -ge 2 ] || { usage >&2; exit 2; }
+            GENERATED_AUTHORIZATION=$2
+            shift 2
+            ;;
+        --generated-manifest)
+            [ "$#" -ge 2 ] || { usage >&2; exit 2; }
+            GENERATED_MANIFEST=$2
+            shift 2
+            ;;
         *)
             printf '%s\n' "Unknown argument: $1" >&2
             usage >&2
@@ -231,6 +300,27 @@ while [ "$#" -gt 0 ]; do
             ;;
     esac
 done
+
+if [ -n "$CLEAN_GENERATED" ]; then
+    if [ -n "$CLEAN_PROOF" ]; then
+        printf '%s\n' 'INVALID_CLEAN_GENERATED_INPUT: --clean-proof and --clean-generated-proof are mutually exclusive.' >&2
+        exit 11
+    fi
+    if [ -n "$CHECKOUT" ]; then
+        fail_clean_generated_input '--checkout is incompatible with the isolated generated-proof workspace.'
+    fi
+    for input in "$GENERATED_AUTHORIZATION" "$GENERATED_MANIFEST"; do
+        if [ -z "$input" ]; then
+            fail_clean_generated_input 'all three explicit input paths are required.'
+        fi
+        case $input in
+            /*|../*|*/../*) fail_clean_generated_input "$input must be a safe repository-relative path." ;;
+        esac
+        if [ "$DRY_RUN" != true ] && { [ ! -f "$input" ] || [ -L "$input" ]; }; then
+            fail_clean_generated_input "$input is not a regular committed file."
+        fi
+    done
+fi
 
 if [ -n "$CLEAN_PROOF" ]; then
     case $CLEAN_PROOF in
@@ -249,8 +339,27 @@ if [ -n "$CLEAN_PROOF" ]; then
     fi
 fi
 
+if [ -n "$CLEAN_GENERATED" ]; then
+    case $CLEAN_GENERATED in
+        /*) ;;
+        *) CLEAN_GENERATED=$(pwd)/$CLEAN_GENERATED ;;
+    esac
+    case $INSTALLER_PATH in
+        /*) ;;
+        *) INSTALLER_PATH=$(pwd)/$INSTALLER_PATH ;;
+    esac
+    if [ "$DRY_RUN" = true ]; then
+        CHECKOUT=$CLEAN_GENERATED/checkout
+    fi
+    if [ "$DRY_RUN" != true ]; then
+        prepare_clean_generated_workspace
+    fi
+fi
+
 if [ -n "$CLEAN_PROOF" ] && [ "$DRY_RUN" = true ]; then
     WGP_BIN=$CLEAN_PROOF/bin
+elif [ -n "$CLEAN_GENERATED" ] && [ "$DRY_RUN" = true ]; then
+    WGP_BIN=$CLEAN_GENERATED/bin
 elif [ "${UV_TOOL_BIN_DIR+set}" = set ]; then
     [ -n "$UV_TOOL_BIN_DIR" ] || fail_tool_bin
     WGP_BIN=$UV_TOOL_BIN_DIR
@@ -283,8 +392,11 @@ if [ "$DRY_RUN" = true ]; then
             printf '%s\n' "$WGP_BIN/wgp first-run remote --json"
             printf '%s\n' "$WGP_BIN/wgp doctor --capabilities --json"
             printf '%s\n' "uv run --frozen --extra dev python scripts/record_clean_machine_refusal.py ..."
-        else
+        elif [ -z "$CLEAN_GENERATED" ]; then
             print_follow_up
+        fi
+        if [ -n "$CLEAN_GENERATED" ]; then
+            printf '%s\n' "git clone $CLONE_SOURCE $CHECKOUT; uv sync --extra dev; uv run --frozen --extra dev python scripts/record_clean_generated_proof.py --proof-dir $CLEAN_GENERATED/proof --checkout $CHECKOUT --installer $INSTALLER_PATH --authorization $CHECKOUT/$GENERATED_AUTHORIZATION --model-manifest $CHECKOUT/$GENERATED_MANIFEST"
         fi
     fi
     exit 0
@@ -295,10 +407,20 @@ uv tool install --upgrade --from "$UV_SOURCE" wangp-dspy
 "$WGP_BIN/wgp" doctor
 if [ -n "$CHECKOUT" ]; then
     git clone "$CLONE_SOURCE" "$CHECKOUT"
-    if [ -z "$CLEAN_PROOF" ]; then
+    if [ -z "$CLEAN_PROOF" ] && [ -z "$CLEAN_GENERATED" ]; then
         print_follow_up
+    fi
+    if [ -n "$CLEAN_GENERATED" ]; then
+        for input in "$GENERATED_AUTHORIZATION" "$GENERATED_MANIFEST"; do
+            if [ ! -f "$CHECKOUT/$input" ] || [ -L "$CHECKOUT/$input" ]; then
+                fail_clean_generated_input "cloned checkout is missing committed input $input."
+            fi
+        done
     fi
 fi
 if [ -n "$CLEAN_PROOF" ]; then
     run_clean_proof
+fi
+if [ -n "$CLEAN_GENERATED" ]; then
+    run_clean_generated_proof
 fi

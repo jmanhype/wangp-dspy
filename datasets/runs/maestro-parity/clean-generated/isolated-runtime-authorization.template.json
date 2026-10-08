@@ -1,0 +1,59 @@
+{
+  "allowed_host": {
+    "min_free_gb": 50,
+    "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+    "pull_root": "{WORKSPACE}/pull",
+    "qc_url": "http://127.0.0.1:8377/health",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-isolated-20261007",
+    "render_timeout_s": 3600,
+    "runtime": {
+      "environment": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True"
+      },
+      "python": "/usr/bin/python3",
+      "pythonpath": [
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65",
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+      ]
+    },
+    "target": "3090",
+    "wgp_python": "/usr/bin/python3",
+    "wgp_root": "/home/straughter/Wan2GP"
+  },
+  "allowed_operation": {
+    "family": "minimax_h3",
+    "operation": "create",
+    "preset": "standard",
+    "render_count": 1
+  },
+  "approved_by": "operator",
+  "authorized_source": {
+    "files": {
+      "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+      "scripts/record_clean_generated_proof.py": "baf51e5e54eee17bdf65012ab00d3be79aed21945cbb27383785fe9850143737",
+      "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+    },
+    "identity_sha256": "5263fe23ae58dbf0f4a26108d6283a6a81baa94f951096e6c4c3a1d5b7f5ed57"
+  },
+  "boundaries": {
+    "deletions": 0,
+    "downloads": 0,
+    "gui": false,
+    "protected_engine_change": false,
+    "provider_spend": false,
+    "registry_publication": false,
+    "second_render": false,
+    "tag_creation": false,
+    "threshold_change": false,
+    "training": false
+  },
+  "schema_version": "wangp-dspy.clean-generated-authorization/v2",
+  "scope": "",
+  "status": "requires_operator_approval",
+  "superseded_relocations": [],
+  "text": "",
+  "timestamp": ""
+}

@@ -62,6 +62,14 @@ It installs and emits the no-GPU plan, then intentionally exits `3` with typed h
 refusals. Its `PLAN_ONLY` marker and blocked record are not generation evidence; the
 generated-artifact half requires separate per-batch authorization.
 
+WD-bw0h adds one separately authorized clean-machine H3 generated-proof command.
+It requires committed authorization, explicit host, and exact four-asset inputs,
+and is documented in [docs/install.md](docs/install.md#separately-authorized-clean-machine-h3-generated-proof).
+It performs exactly one governed H3 standard create with zero downloads; it does not
+weaken or replace the no-GPU refusal proof.
+The retained WD-bw0h authorization is already consumed by recorded typed failures,
+so a fresh generated proof requires a new committed authorization path.
+
 Contributors should use a fresh clone:
 
 ```bash

@@ -1,0 +1,2 @@
+GENERATED_PROOF_FAILED code=UNEXPECTED_GENERATED_PROOF_FAILURE
+diagnostic=TypeError: Object of type PosixPath is not JSON serializable
