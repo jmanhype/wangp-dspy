@@ -9,13 +9,14 @@ parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
 updated_at: 2026-10-08T21:20:34Z
-content_hash: "sha256:9cdf70ade5b1264a86b515e192a8b5324e4e88c77791a8c4d7f07fd39f7491e4"
+content_hash: "sha256:084d438e5a3131daf60b6be1c13c160759c3201cd894480c2c9df7e88717003d"
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
 assignee: dev-WD-28ac
 closed_at: 2026-10-05T15:04:50Z
 close_reason: "Accepted via pvg story accept"
 led_to: [WD-b7ek]
+related: [WD-b7ek]
 ---
 
 ## Description
@@ -1581,6 +1582,7 @@ status: in_progress
 ## Links
 - Parent: [[WD-3nod]]
 - Was blocked by: [[WD-1s5s]], [[WD-cuzw]]
+- Related: [[WD-b7ek]]
 - Follows: [[WD-23rs]], [[WD-p587]], [[WD-1s5s]], [[WD-cuzw]], [[WD-he8i]], [[WD-qthq]]
 - Led to: [[WD-b7ek]]
 
