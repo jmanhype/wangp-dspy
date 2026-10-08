@@ -1,0 +1,13 @@
+=== changed files ===
+datasets/runs/maestro-parity/clean-generated/operator-authorization.json
+docs/install.md
+scripts/record_clean_generated_proof.py
+tests/test_clean_generated_proof.py
+=== compile ===
+=== focused tests ===
+............                                                             [100%]
+=== no-GPU refusal regression ===
+.                                                                        [100%]
+=== pvg verify ===
+VERIFY: PASSED (2 files scanned, 0 issues)
+AUTH_RETRY_PREFLIGHT_PASS

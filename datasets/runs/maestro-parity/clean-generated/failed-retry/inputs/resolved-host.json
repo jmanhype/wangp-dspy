@@ -1,0 +1,11 @@
+{
+  "min_free_gb": 50,
+  "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+  "pull_root": "/private/tmp/wangp-clean-generated-WD-bw0h-retry/pull",
+  "qc_url": "http://127.0.0.1:8377/health",
+  "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated",
+  "render_timeout_s": 3600,
+  "target": "3090",
+  "wgp_python": "/home/straughter/Wan2GP/venv/bin/python",
+  "wgp_root": "/home/straughter/Wan2GP"
+}
