@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T23:06:03Z
-content_hash: "sha256:1a45f2dc8898f746a81ae0456d5fc7ca15c8b7e40ece644dd4c031d6dffcacdb"
+updated_at: 2026-10-08T23:06:16Z
+content_hash: "sha256:83d149c3c9d0f8370a9950eb541b8fb25f4e81f6ea884dc1670c5e6c7cb80e73"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac, WD-cuzw, WD-1s5s]
 assignee: dev-WD-nkdv
@@ -296,7 +296,27 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+## nd_contract
+status: delivered
 
+### evidence
+- PR head unchanged: `7638cee29e2a2b2d868f096f8181ee2f440576d6`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/234
+- Exact-head CI run `37854653689`: SUCCESS.
+- Focused tests: 38 passed.
+- Full local suite: tests=2341, failures=0, errors=0, skipped=1.
+- Independent implementation review: APPROVED.
+- `LEARNINGS:` recorded above for Retro harvesting.
+
+### proof
+- [x] AC #1: Exact audit preserved; retry3 evidence unchanged.
+- [x] AC #2: Complete Wangp identity and staged-file hashes generated.
+- [x] AC #3: Dirty/non-Wangp state rejected without override.
+- [x] AC #4: Inventory drift rejected.
+- [x] AC #5: Identity gate precedes runtime/queue/staging/execution.
+- [x] AC #6: Real success and negative-path tests pass.
+- [x] AC #7: No prohibited action occurred.
+- [x] AC #8: Local gates and exact-head CI pass.
 
 ## nd_contract
 status: delivered
