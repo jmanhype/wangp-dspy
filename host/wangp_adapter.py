@@ -1406,16 +1406,42 @@ def production_fl2va_render(adapter, job: Mapping, *, render_dir=None,
     if settings_doc is None:
         settings_doc, _req = _build_fl2va_settings_doc(job, decision)
     settings_local = render_dir / "settings.json"
-    settings_local.write_text(json.dumps(settings_doc, indent=2),
-                              encoding="utf-8")
+    settings_bytes = json.dumps(settings_doc, indent=2)
+    settings_local.parent.mkdir(parents=True, exist_ok=True)
+    settings_local.write_text(settings_bytes, encoding="utf-8")
     settings_host = _host_path(host, str(settings_local))
     run_dir = settings_host.rsplit("/", 1)[0]
-    log_path = f"{run_dir}/render.log"
-    rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
-    if rc != 0:
+    makedirs = getattr(host, "makedirs", None)
+    if callable(makedirs):
+        makedirs(run_dir)
+    else:
+        rc, _o, err = _probe(host, ["mkdir", "-p", run_dir])
+        if rc != 0:
+            raise WanGPError(
+                f"mkdir -p {run_dir!r} failed on the host "
+                f"(rc={rc}: {err.strip()[:200]})")
+
+    # The local pull mirror is retained for provenance/readback, but it is
+    # not the renderer's namespace. SshHost maps that mirror to a remote
+    # path; stage the SAME bytes through the host and use the path the
+    # transport reports it actually wrote.
+    writer = getattr(host, "write_text", None)
+    if callable(writer):
+        written = writer(settings_host, settings_bytes)
+        if not isinstance(written, str) or not written:
+            raise WanGPError(
+                f"host settings staging returned no path for "
+                f"{settings_host!r}")
+        settings_host = written
+    elif os.path.abspath(settings_host) != os.path.abspath(
+            str(settings_local)):
         raise WanGPError(
-            f"mkdir -p {run_dir!r} failed on the host "
-            f"(rc={rc}: {err.strip()[:200]})")
+            f"path {settings_host!r} was mapped for a host without "
+            "write_text staging; refusing to launch an unverified "
+            "settings path")
+
+    run_dir = settings_host.rsplit("/", 1)[0]
+    log_path = f"{run_dir}/render.log"
     render_started = time.time()
     rc, _out, err = _probe(
         host, build_detached_wgp_argv(settings_host, log_path,

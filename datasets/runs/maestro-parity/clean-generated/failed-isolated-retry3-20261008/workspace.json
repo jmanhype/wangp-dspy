@@ -1,0 +1,34 @@
+{
+  "authorized_source": {
+    "files": {
+      "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+      "scripts/record_clean_generated_proof.py": "6e8f48f5c970c0196c8b346a52e2dd45731897a2ddd0fdb0d3df997f850f0099",
+      "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+    },
+    "identity_sha256": "72b605ac36ae015c2f9ebcc5eded4b95dbe61ffccf0c4eead8fca9547c4679b9"
+  },
+  "checkout": "/private/tmp/wangp-clean-generated-h3-retry3-20261008/checkout",
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/tmp/wangp-clean-generated-h3-retry3-20261008",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry3-20261008.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "commit": "e0524830361c3fdd0d3d8b1282dacdbc9c05cd03",
+  "identity_sha256": "ca5201791767908454fc84832ad1c12a3c4ecda5d0cfdac1babcd8e6e35386cd",
+  "status": "",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.0.1 Copyright (c) 2007-2025 the FFmpeg developers",
+    "git": "git version 2.49.0",
+    "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]"
+  },
+  "workspace": "/tmp/wangp-clean-generated-h3-retry3-20261008"
+}

@@ -227,6 +227,28 @@ def test_retry2_operator_authorization_cannot_be_replayed(tmp_path: Path) -> Non
     assert not (tmp_path / "proof").exists()
 
 
+def test_retry3_operator_authorization_cannot_be_replayed_after_consumption(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    retry3 = BUNDLE / "failed-isolated-retry3-20261008"
+    authorization = json.loads((retry3 / "inputs/operator-authorization.json").read_text(encoding="utf-8"))
+    manifest = json.loads((retry3 / "inputs/model-assets.json").read_text(encoding="utf-8"))
+
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
+
+    assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
+    assert not (tmp_path / "proof").exists()
+
+    records = json.loads((BUNDLE / "authorization-consumption.json").read_text(encoding="utf-8"))["records"]
+    consumed = [record for record in records if record["authorization_canonical_sha256"] == (
+        "521c1e07e6496a1fcb6be435fcb0dcaa358a5e1c236c022283776d385afa746a"
+    )]
+    assert len(consumed) == 1
+    assert consumed[0]["status"] == "consumed"
+    assert consumed[0]["evidence"]
+    assert all((ROOT / path).is_file() for path in consumed[0]["evidence"])
+
+
 def test_retry3_operator_authorization_is_approved_and_source_bound() -> None:
     recorder = _load_recorder()
     authorization = json.loads(
@@ -237,15 +259,14 @@ def test_retry3_operator_authorization_is_approved_and_source_bound() -> None:
     )
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    validated, assets = recorder.inputs(authorization, manifest)
-    recorder.validate_authorized_source(ROOT, validated)
+    recorder.validate_authorized_source(ROOT, authorization)
 
     assert authorization["status"] == "approved"
     assert authorization["text"] == "Continue approved authorized"
     assert authorization["allowed_host"]["remote_work_root"] == (
         "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry3-20261008"
     )
-    assert len(assets) == 4
+    assert len(manifest["assets"]) == 4
 
 
 def test_queue_state_uses_actual_job_attempt_schema(tmp_path: Path) -> None:

@@ -32,6 +32,19 @@
       ],
       "reason": "The approved retry2 boundary was consumed by clean install, remote-root/storage/four-model preflight, and one local pending queue job before a queue-state schema query failed. No remote queue admission, render, or generated artifact occurred.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "521c1e07e6496a1fcb6be435fcb0dcaa358a5e1c236c022283776d385afa746a",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/queue/final.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/host-logs/render.log",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/host-logs/remote-settings-probe.txt",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/pull-mirror/acceptance/worker-ba467cae944b/render-0000/settings.json"
+      ],
+      "reason": "The approved retry3 boundary was consumed by clean preflight, one admitted render attempt, and a typed staging failure: the local pull mirror contained settings.json while WanGP reported that exact file absent at the mapped remote run path. No artifact, retry, or substitution occurred.",
+      "generated_artifact": false
     }
   ]
 }

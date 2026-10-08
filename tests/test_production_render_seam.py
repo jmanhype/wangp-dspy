@@ -17,6 +17,7 @@ from host.wangp_adapter import (
     build_wgp_lock_argv,
     copy_newest_output_mp4,
     newest_output_mp4,
+    production_fl2va_render,
     production_ref2va_render,
     verify_denoise_steps,
 )
@@ -243,6 +244,129 @@ class TestCommandShape:
                          if c[0] == "write_text")
         assert mkdir_idx < write_idx
         assert host.pushed is True
+
+    def test_fl2va_settings_are_staged_through_host_before_launch(
+            self, tmp_path):
+        """FL2VA must push the exact local settings bytes remotely.
+
+        A mapped path is not evidence of staging. The host write supplies
+        the path actually handed to the detached renderer, and it must
+        happen after remote mkdir but before launch.
+        """
+        pull_root = tmp_path / "pull"
+        render_dir = (pull_root / "worker-ba467cae944b" /
+                      "render-0000")
+
+        class MappedFreshDirHost(FakeHost):
+            def __init__(self):
+                super().__init__()
+                self.created = set()
+                self.writes = []
+
+            def map_path(self, path):
+                return str(path).replace(str(pull_root),
+                                         "/remote/wgp", 1)
+
+            def makedirs(self, path):
+                self.calls.append(["makedirs", path])
+                self.created.add(path)
+
+            def write_text(self, path, text):
+                if path.rsplit("/", 1)[0] not in self.created:
+                    raise AssertionError(
+                        "settings pushed before host run-dir creation")
+                self.calls.append(["write_text", path])
+                self.writes.append((path, text))
+                return path
+
+        host = MappedFreshDirHost()
+        host.responses = {
+            "setsid": lambda h, a: (0, "launched\n", ""),
+            "cat": lambda h, a: (0, GOOD_LOG, ""),
+        }
+        settings_doc = {
+            "model_type": "minimax_h3_fl2va_pruned",
+            "num_inference_steps": 20,
+            "seed": 904,
+        }
+        expected_bytes = json.dumps(settings_doc, indent=2)
+        render_dir.mkdir(parents=True)
+
+        production_fl2va_render(
+            _adapter(host, tmp_path),
+            {"kind": "first_frame_continuation", "prompt": "speaker"},
+            render_dir=render_dir,
+            settings_doc=settings_doc,
+        )
+
+        remote_settings = (
+            "/remote/wgp/worker-ba467cae944b/render-0000/settings.json")
+        remote_run_dir = remote_settings.rsplit("/", 1)[0]
+        assert host.writes == [(remote_settings, expected_bytes)]
+        assert (render_dir / "settings.json").read_text() == expected_bytes
+        mkdir_idx = next(i for i, call in enumerate(host.calls)
+                         if call[:2] == ["makedirs", remote_run_dir])
+        write_idx = next(i for i, call in enumerate(host.calls)
+                         if call[:2] == ["write_text", remote_settings])
+        launch_idx = next(i for i, call in enumerate(host.calls)
+                          if call[0].startswith("setsid"))
+        assert mkdir_idx < write_idx < launch_idx
+        assert f"--process {remote_settings} " in host.calls[launch_idx][0]
+
+    def test_fl2va_local_host_stages_and_launches_same_path(self,
+                                                             tmp_path):
+        """LocalHost remains one-namespace: its returned write path is
+        the concrete settings file used by launch."""
+        from host.render_host import LocalHost
+
+        class RecordingLocalHost(LocalHost):
+            def __init__(self):
+                super().__init__()
+                self.events = []
+
+            def makedirs(self, path):
+                self.events.append(("makedirs", path))
+                super().makedirs(path)
+
+            def write_text(self, path, text):
+                self.events.append(("write_text", path, text))
+                return super().write_text(path, text)
+
+            def run_probe(self, argv, timeout=30):
+                self.events.append(("probe", tuple(argv)))
+                first = argv[0].split()[0]
+                if first == "setsid":
+                    return 0, "launched\n", ""
+                if first == "cat":
+                    return 0, GOOD_LOG, ""
+                if argv[:2] == ["ls", "-t"]:
+                    return 0, "new.mp4\n", ""
+                if first == "stat":
+                    return 0, "9999999999\n", ""
+                return 0, "", ""
+
+        render_dir = tmp_path / "out" / "worker-123456789abc" / "render-0000"
+        settings_doc = {"model_type": "minimax_h3_fl2va_pruned",
+                        "num_inference_steps": 20}
+        expected_bytes = json.dumps(settings_doc, indent=2)
+        host = RecordingLocalHost()
+
+        production_fl2va_render(
+            _adapter(host, tmp_path),
+            {"kind": "first_frame_continuation", "prompt": "speaker"},
+            render_dir=render_dir,
+            settings_doc=settings_doc,
+        )
+
+        settings_path = str(render_dir / "settings.json")
+        writes = [event for event in host.events
+                  if event[0] == "write_text"]
+        assert writes == [("write_text", settings_path, expected_bytes)]
+        assert Path(settings_path).read_text() == expected_bytes
+        launch = next(event[1][0] for event in host.events
+                      if event[0] == "probe"
+                      and event[1][0].startswith("setsid"))
+        assert f"--process {settings_path} " in launch
 
 
 class TestVerifyBeforeTrust:

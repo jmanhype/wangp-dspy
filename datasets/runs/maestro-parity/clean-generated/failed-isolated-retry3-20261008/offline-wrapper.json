@@ -1,0 +1,8 @@
+{
+  "environment": {
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "path": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry3-20261008/offline-python.sh",
+  "sha256": "3d32684aaf7fcbbe0123ce358b416d9ece240728ef23a6381f188c6d587cce61"
+}
