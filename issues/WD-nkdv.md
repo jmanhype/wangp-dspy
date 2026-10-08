@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T22:58:41Z
-content_hash: "sha256:0fcdcbc3ab45ea08dae3deb28353407fc9a70b3a7fb60c4b4be9473501eccaa8"
+updated_at: 2026-10-08T22:59:57Z
+content_hash: "sha256:ffe3167e967b7e781d5c81a5f0868016a1386fec56c87f3bda60f9019dcb86a1"
 blocks: [WD-b7ek, WD-fay0]
 assignee: dev-WD-nkdv
 follows: [WD-5d19, WD-28ac]
@@ -278,7 +278,87 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: WD-nkdv now makes future LTX execution evidence prove the exact clean Wangp runner repository and every staged runner byte before runtime validation, queue construction, settings staging, or native execution. This is a future-evidence producer repair only; it does not promote the existing retry3 output or authorize host execution.
+
+Commit SHA: 7638cee29e2a2b2d868f096f8181ee2f440576d6
+PR: https://github.com/jmanhype/wangp-dspy/pull/234
+
+Changed files:
+- `scripts/run_ltx_final_operations.py`
+- `tests/test_ltx_final_operations_runner.py`
+- `tests/test_ltx_native_runtime_integration.py`
+- `datasets/runs/maestro-parity/ltx-dependency-terminalization/WD-b7ek-identity-audit.json`
+
+Implementation boundaries:
+- Versioned stage inventory records clean Wangp repository root, commit, verbatim porcelain status, clean/dirty agreement, status hash, and ordered path/size/SHA-256 for all staged files.
+- Staged bytes must match tracked HEAD bytes.
+- Wan2GP commit substitution is rejected as `STAGE_INVENTORY_REPOSITORY_MISMATCH`.
+- Dirty repository, missing/extra file, unsafe/non-regular path, size drift, hash drift, and unversioned/source mismatch all fail closed with stable typed codes.
+- Missing inventory/runner repository fails as `EXECUTION_REPOSITORY_IDENTITY_UNPROVEN` before queue construction or staging.
+- No dirty-run override exists.
+- Historical retry3 evidence remained byte-for-byte unchanged; all 42 files were independently compared to main.
+- No host/SSH/QC contact, native render/retry, queue admission, network/model/package request, install, protected-file change, docs/index change, or matrix promotion occurred.
+
+Durable audit:
+- Path: `datasets/runs/maestro-parity/ltx-dependency-terminalization/WD-b7ek-identity-audit.json`
+- Size: 6,108 bytes
+- SHA-256: `5a50d08edb75cdb733a3704b55333acf4318f549ae7a5a13ecfa4d91fb0d52f7`
+
+## CI/Test Results
+
+- Focused runner/native-runtime tests: 38 tests, 0 failures, 0 errors, 0 skipped.
+- Full local suite at exact PR head: 2341 tests, 0 failures, 0 errors, 1 skipped, 967.502 seconds.
+- `pvg verify scripts/run_ltx_final_operations.py tests/test_ltx_final_operations_runner.py tests/test_ltx_native_runtime_integration.py --format=text --include-tests`: PASSED, 0 issues.
+- `pvg lint --backlog`: PASSED, 0 errors, 2 non-blocking story-format review findings.
+- `wgp release verify`: release=ready, tag_created=false.
+- Protected-file parity versus `origin/main`: PASS (empty diff).
+- `git diff --check`: PASS.
+- Independent adversarial review: `REVIEW_RESULT: APPROVED`.
+- Exact-head GitHub CI: IN PROGRESS at the time of this delivery block; PM acceptance must wait for success.
+
+Commands run:
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_ltx_final_operations_runner.py tests/test_ltx_native_runtime_integration.py --junitxml=/tmp/WD-nkdv-independent.xml`
+- `uv run --offline --frozen --extra dev pytest -q --junitxml=/tmp/WD-nkdv-full-local.xml`
+- `pvg verify scripts/run_ltx_final_operations.py tests/test_ltx_final_operations_runner.py tests/test_ltx_native_runtime_integration.py --format=text --include-tests`
+- `pvg lint --backlog`
+- `uv run --offline --frozen --extra dev wgp release verify`
+- `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+
+## AC Verification
+
+- [x] AC #1: Audit is exactly 6,108 bytes with the required SHA-256; all 42 historical retry3 files are byte-equal. Code/test: story PR; evidence: independent hash comparison.
+- [x] AC #2: `build_stage_inventory` records complete clean Wangp identity plus ordered per-file size/hash rows. Code: `scripts/run_ltx_final_operations.py`; tests: focused runner suite.
+- [x] AC #3: Dirty/non-Wangp/query failures reject with typed errors and no override. Code/tests: `STAGE_INVENTORY_DIRTY_REPOSITORY`, `STAGE_INVENTORY_REPOSITORY_INVALID/MISMATCH`, `EXECUTION_REPOSITORY_IDENTITY_UNPROVEN`.
+- [x] AC #4: Validator rejects schema/root/status/path/size/hash/source drift. Code/tests: focused runner suite.
+- [x] AC #5: Validation precedes runtime validation, queue construction, settings staging, and execution. Code/tests: execution-order tests.
+- [x] AC #6: Real Git/filesystem/hash tests cover success, dirty, missing, hash drift, and Wan2GP substitution. Tests: 38 focused tests.
+- [x] AC #7: No prohibited host/network/render/promotion action occurred. Evidence: changed-file list, test scope, clean preserved retry3 comparison.
+- [x] AC #8: Focused/full/lint/verifier/release/protected/diff gates pass locally. CI remains pending and acceptance must wait.
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR head: `7638cee29e2a2b2d868f096f8181ee2f440576d6`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/234
+- Focused tests: 38/38 pass.
+- Full local JUnit: tests=2341, failures=0, errors=0, skipped=1.
+- Audit SHA-256: `5a50d08edb75cdb733a3704b55333acf4318f549ae7a5a13ecfa4d91fb0d52f7`.
+- Independent review: APPROVED.
+- Exact-head CI is not yet terminal; do not accept before success.
+
+### proof
+- [x] AC #1: Durable exact audit preserved; retry3 evidence unchanged.
+- [x] AC #2: Complete Wangp identity and per-file hashes generated.
+- [x] AC #3: Dirty/non-Wangp state rejected with no override.
+- [x] AC #4: Identity/path/size/hash drift rejected.
+- [x] AC #5: Identity gate precedes runtime, queue, staging, and execution.
+- [x] AC #6: Real success and negative-path tests pass.
+- [x] AC #7: No prohibited host/network/render/promotion action occurred.
+- [x] AC #8: Local gates pass; exact-head CI pending.
 
 ## nd_contract
 status: delivered
