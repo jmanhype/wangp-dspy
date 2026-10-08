@@ -10,6 +10,17 @@
       ],
       "reason": "The approved one-attempt boundary was consumed by typed failures; no generated artifact or substitution was produced.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "2216d65affd301403929d0c57bea951604dc6a218d73ac4b091e6780c40cca89",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-20261008/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-20261008/preflight/model-hash-size-raw.txt",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-20261008/preflight/remote-work-root.json"
+      ],
+      "reason": "The approved v2 one-attempt boundary was consumed by remote-root, storage, and four-model hash preflight before a local parser failure stopped the run. No queue admission, render, or generated artifact occurred.",
+      "generated_artifact": false
     }
   ]
 }

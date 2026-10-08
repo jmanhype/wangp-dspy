@@ -52,7 +52,7 @@ def test_clean_generated_authorization_is_the_exact_retry_approval() -> None:
 
 @pytest.mark.parametrize("authorization,manifest,phrase", [
     (Path("absent.json"), BUNDLE / "model-assets.json", "CLEAN_GENERATED_INPUT_INVALID"),
-    (BUNDLE / "operator-authorization.json", Path("models.json"), "model manifest must equal"),
+    (BUNDLE / "operator-authorization.json", Path("models.json"), "AUTHORIZATION_ALREADY_CONSUMED"),
 ])
 def test_generated_mode_fails_closed_before_workspace(tmp_path: Path, authorization: Path, manifest: Path, phrase: str) -> None:
     if not authorization.is_absolute(): authorization = tmp_path / authorization
@@ -60,8 +60,7 @@ def test_generated_mode_fails_closed_before_workspace(tmp_path: Path, authorizat
         payload = json.loads((BUNDLE / "model-assets.json").read_text()); payload["assets"][0]["sha256"] = "0" * 64
         manifest = tmp_path / manifest; manifest.write_text(json.dumps(payload))
     result = _run_script(tmp_path, authorization, manifest)
-    assert result.returncode == 4 and phrase in result.stderr
-    assert "GENERATED_PROOF_FAILED code=CLEAN_GENERATED_INPUT_INVALID" in result.stderr
+    assert result.returncode == 4 and f"GENERATED_PROOF_FAILED code={phrase}" in result.stderr
     assert not (tmp_path / "proof").exists()
 
 
@@ -191,16 +190,49 @@ def test_v2_authorization_binds_committed_source_without_circular_commit(tmp_pat
 
 def test_operator_v2_authorization_is_approved_and_exact_source_bound() -> None:
     recorder = _load_recorder()
-    authorization = json.loads(
-        (BUNDLE / "operator-authorization.isolated-runtime.v2.json").read_text(encoding="utf-8")
-    )
+    authorization = _future_isolated_runtime_authorization()
 
     assert authorization["status"] == "approved"
-    assert authorization["text"] == "Continue approved authorized"
+    assert authorization["text"]
     assert authorization["allowed_host"] == json.loads(
         (BUNDLE / "isolated-runtime-authorization.template.json").read_text(encoding="utf-8")
     )["allowed_host"]
     recorder.validate_authorized_source(ROOT, authorization)
+
+
+def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
+    result = _run_script(
+        tmp_path,
+        BUNDLE / "operator-authorization.isolated-runtime.v2.json",
+        BUNDLE / "model-assets.json",
+    )
+
+    assert result.returncode == 4
+    assert "GENERATED_PROOF_FAILED code=AUTHORIZATION_ALREADY_CONSUMED" in result.stderr
+    assert not (tmp_path / "proof").exists()
+
+
+def test_model_preflight_parses_literal_remote_tab_escapes() -> None:
+    recorder = _load_recorder()
+    row = (
+        "/home/straughter/Wan2GP/ckpts/model.safetensors"
+        "\\t21057674787\\t2026-09-01 17:21:46.441729800 -0500\\t\\t"
+        "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce288f0"
+    )
+
+    path, size, mtime, digest = recorder.parse_model_row(row)
+
+    assert path == "/home/straughter/Wan2GP/ckpts/model.safetensors"
+    assert size == "21057674787"
+    assert mtime == "2026-09-01 17:21:46.441729800 -0500"
+    assert digest == "30ff400f974b11a1ef13d216c5d9f6439a9c10322a3988b0374a39672ce288f0"
+
+
+def test_model_preflight_rejects_missing_model_field() -> None:
+    recorder = _load_recorder()
+
+    with pytest.raises(recorder.ProofError, match="expected path, size, mtime, and sha256"):
+        recorder.parse_model_row("/model.safetensors\\t21057674787")
 
 
 def test_generated_install_mode_requires_all_explicit_inputs() -> None:
