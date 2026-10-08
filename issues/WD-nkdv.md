@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
 updated_at: 2026-10-08T23:04:53Z
-content_hash: "sha256:9b7797880de3a4333df6c83313741c34ca24d3000a9013d93639358a48083c0a"
+content_hash: "sha256:76141e18a53a05f6957a434123946691a1b26bf99192df1265caa963fde7e2d3"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac]
 ---
@@ -424,3 +424,24 @@ status: delivered
 - Follows: [[WD-5d19]], [[WD-28ac]]
 
 ## Comments
+
+### 2026-10-08T23:04:53Z speed
+## PM Decision
+REJECTED [2026-10-08]: Technical evidence is otherwise complete, but the delivery notes omit the mandatory Retro-consumable LEARNINGS section.
+
+EXPECTED: pm_acceptor requires every delivered story to carry a LEARNINGS section in addition to commands, counters, commit SHA, coverage/test evidence, and the AC verification mapping.
+DELIVERED: WD-nkdv records the exact PR head, focused/full local gates, audit hash, AC mapping, and independent review; live PR #234 remains at 7638cee29e2a2b2d868f096f8181ee2f440576d6 and exact-head CI run 37854653689 is now successful. A shared-vault `pvg nd show WD-nkdv` search finds no LEARNINGS section.
+GAP: The delivery is process-incomplete for Retro harvesting; this is a tracker-evidence gap, not a finding against the implementation.
+FIX: Without changing code, PR, protected files, or retry3 evidence, append a concise real LEARNINGS section describing reusable insights from this repair, record exact-head CI run 37854653689 as successful, and redeliver WD-nkdv at the unchanged PR head.
+
+## nd_contract
+status: rejected
+
+### evidence
+- Live PR #234 head verified at 7638cee29e2a2b2d868f096f8181ee2f440576d6.
+- GitHub CI run 37854653689 verified completed/success at that exact head.
+- Static PM checks passed: 4-file/435-insertion scope, no stub markers, whitespace clean, protected-file and retry3 parity clean, audit 6108 bytes with SHA-256 5a50d08edb75cdb733a3704b55333acf4318f549ae7a5a13ecfa4d91fb0d52f7.
+- Delivery proof preflight passed 9/9, but the authoritative notes contain no LEARNINGS section.
+
+### proof
+- [ ] Delivery completeness: Retro-consumable LEARNINGS section must be added and the story redelivered.
