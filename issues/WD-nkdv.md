@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T22:58:40Z
-content_hash: "sha256:9f7693dc9fb1a4e472fb30aba0ec154962b60acfc4b75ec91ce57d82bbfcbee9"
+updated_at: 2026-10-08T22:58:41Z
+content_hash: "sha256:0fcdcbc3ab45ea08dae3deb28353407fc9a70b3a7fb60c4b4be9473501eccaa8"
 blocks: [WD-b7ek, WD-fay0]
 assignee: dev-WD-nkdv
 follows: [WD-5d19, WD-28ac]
@@ -278,6 +278,16 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: delivered
+
+### evidence
+- Transitioned via pvg story deliver on 2026-10-08.
+
+### proof
+- [ ] Developer evidence block must remain authoritative above this contract.
 
 
 ## History
