@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-08T20:31:18Z
-content_hash: "sha256:7f5d81ecd8905a4da564a4d9272140ac59b1059fcec5b79dc5bbfaa8697c2d0b"
+updated_at: 2026-10-08T20:41:25Z
+content_hash: "sha256:a1003ceefd25e17cf87bea87b52a23bf07f791092266247f3aed0a80fefac8cd"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -195,6 +195,19 @@ So this story should not be accepted on the strength of the merged bundle alone.
 authorized environment rebuild so the one-command claim becomes literally true, or an explicit decision that
 the isolated-runtime binding is the accepted meaning of the claim. Recorded so that a later session cannot
 mistake the merged artifact for the satisfied acceptance criterion.
+### Retry3 staging-failure boundary and local repair (2026-10-08)
+
+The retry3 one-shot authorization is consumed and fail-closed. The run admitted exactly one local H3 job, launched WanGP in the default remote acceptance namespace, and stopped `GENERATION_FAILED` with no artifact. Root cause is now proven by preserved evidence, not inferred: the exact settings bytes existed in the local pull mirror while the mapped remote settings path was absent; WanGP's native log records that missing path.
+
+- Failure/queue/log/probe bundle: `datasets/runs/maestro-parity/clean-generated/failed-isolated-retry3-20261008/`
+- Authorization canonical SHA-256 recorded consumed: `521c1e07e6496a1fcb6be435fcb0dcaa358a5e1c236c022283776d385afa746a`
+- Every preserved bundle file verifies through the bundle's `sha256.txt`.
+- Repair PR: https://github.com/jmanhype/wangp-dspy/pull/233 at commit `7f66d9b9c96c9ac631ca89ecf333771e42359d36`
+- Repair behavior: serialize once, retain the local mirror, create the mapped host run dir, stage identical bytes through `RenderHost.write_text`, and launch using the transport-returned path.
+- Independently rerun focused suite: 75 passed; compileall and `git diff --check` passed.
+- New replay regression proves retry3 raises `AUTHORIZATION_ALREADY_CONSUMED`.
+
+WD-bw0h is still not delivered or accepted: no real generated artifact exists. A future retry requires a NEW operator authorization bound to the repaired source bytes after PR 233 merges; retry3 cannot be replayed.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
