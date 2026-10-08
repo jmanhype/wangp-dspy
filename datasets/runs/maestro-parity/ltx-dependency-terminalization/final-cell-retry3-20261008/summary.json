@@ -1,5 +1,9 @@
 {
   "authorization_canonical_sha256": "70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3",
+  "authorization_canonicalization": {
+    "canonical_file": "authorization.canonical.json",
+    "format": "UTF-8 JSON; recursively sorted keys; compact separators; ASCII escaping enabled; no trailing newline"
+  },
   "authorization_disposition": "consumed",
   "deletions": 0,
   "dependency_installs": 0,

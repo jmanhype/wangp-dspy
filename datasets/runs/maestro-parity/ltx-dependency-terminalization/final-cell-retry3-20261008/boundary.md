@@ -18,3 +18,5 @@ This is native completion evidence only. It does **not** claim QC review, matrix
 ## Authorization disposition
 
 The retry3 authorization is consumed. Its canonical SHA-256 and no-retry disposition are recorded in `authorization-consumption.json`.
+
+The canonical digest is reproducible from `authorization.canonical.json`: encode the authorization as UTF-8 JSON with recursively sorted keys, compact separators, ASCII escaping enabled, and no trailing newline, then take its SHA-256.
