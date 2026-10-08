@@ -1,0 +1,18 @@
+{
+  "mode": "edit_postprocessing",
+  "prompt": "Media postprocessing",
+  "image_mode": 0,
+  "video_source": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+  "temporal_upsampling": "",
+  "spatial_upsampling": "ltx252",
+  "spatial_upsampler_prompt": "high quality, detailed, sharp, natural textures",
+  "spatial_upsampler_reference_images": [],
+  "spatial_upsampler_face_count": 1,
+  "film_grain_intensity": 0,
+  "film_grain_saturation": 0.5,
+  "postprocess_audio": "",
+  "repeat_generation": 1,
+  "batch_size": 1,
+  "seed": 2948,
+  "output_filename": "wd_m7xw_upscale"
+}

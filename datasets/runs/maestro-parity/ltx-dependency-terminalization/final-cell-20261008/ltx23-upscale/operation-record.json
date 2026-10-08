@@ -1,0 +1,64 @@
+{
+  "admission_state": "admitted",
+  "argv": [
+    "/usr/bin/python3",
+    "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+    "--process",
+    "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-upscale/settings.json",
+    "--output-dir",
+    "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-upscale/native-output"
+  ],
+  "attempt": 1,
+  "boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-upscale/native-output",
+    "remediation": "Preserve the native log and stop without retry or substitution."
+  },
+  "durable_job_id": "job-1791473317501-6d594b87",
+  "environment": {
+    "HF_HUB_OFFLINE": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+    "PYTHONUNBUFFERED": "1",
+    "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "operation_id": "ltx23-upscale",
+  "planned_job_id": "wd-28ac-ltx23-upscale-final-cell-20261008-attempt-1",
+  "queue_id": "wd-28ac-final-cell-20261008-ltx23-upscale",
+  "queue_state": {
+    "clips": [
+      {
+        "clip_index": 0,
+        "kind": "wd_28ac_native_operation",
+        "operation": "upscale",
+        "operation_id": "ltx23-upscale",
+        "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+        "row": "LTX-2.3",
+        "status": "pending"
+      }
+    ],
+    "created_at": 1791473317.5027332,
+    "failure_class": "NATIVE_NO_OUTPUT",
+    "failure_count": 1,
+    "failure_detail": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-upscale/native-output",
+    "job_id": "job-1791473317501-6d594b87",
+    "plan_ref": "wd-28ac-final-cell-20261008-ltx23-upscale",
+    "retryable": true,
+    "state": "failed"
+  },
+  "runtime_preflight": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "mmgp_version": "3.7.14",
+    "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+    "status": "passed",
+    "system_mmgp_present": false
+  },
+  "settings": {
+    "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-upscale/settings.json",
+    "destination_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+    "template": "datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json",
+    "template_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd"
+  },
+  "status": "failed"
+}

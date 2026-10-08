@@ -1,0 +1,7 @@
+{
+  "authorization_canonical_sha256": "72e57c9ea1dfe84b23f0f1b504236c678124e1133ff5f7f7b065c2383a205cb3",
+  "reason": "The fresh seven-operation authorization was consumed: six operations rendered and ltx23-upscale failed closed on the exact missing distilled-LoRA boundary.",
+  "retry_authorized": false,
+  "schema_version": "wangp-dspy.wd-28ac.final-cell-authorization-consumption/v1",
+  "status": "consumed"
+}
