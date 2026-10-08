@@ -16,6 +16,14 @@ from services.jobs.queue import JobQueue
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/record_clean_generated_proof.py"
 BUNDLE = ROOT / "datasets/runs/maestro-parity/clean-generated"
+RETRY3 = BUNDLE / "failed-isolated-retry3-20261008"
+RETRY3_HISTORICAL_SOURCE = RETRY3 / "historical-source"
+RETRY3_HISTORICAL_SOURCE_FILES = (
+    "install.sh",
+    "scripts/record_clean_generated_proof.py",
+    "scripts/verify_maestro_parity.py",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json",
+)
 
 
 def _load_recorder() -> Any:
@@ -32,6 +40,29 @@ def _run_script(tmp_path: Path, authorization: Path, manifest: Path) -> subproce
          "--installer", str(ROOT / "install.sh"), "--authorization", str(authorization),
          "--model-manifest", str(manifest)], capture_output=True, text=True, check=False,
     )
+
+
+def _copy_retry3_historical_source(checkout: Path) -> None:
+    for relative in RETRY3_HISTORICAL_SOURCE_FILES:
+        destination = checkout / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(RETRY3_HISTORICAL_SOURCE / relative, destination)
+
+
+def test_retry3_historical_source_evidence_is_exact_and_authorized() -> None:
+    recorder = _load_recorder()
+    authorization = json.loads((RETRY3 / "inputs/operator-authorization.json").read_text(encoding="utf-8"))
+    authorized_files = authorization["authorized_source"]["files"]
+    evidence_files = {
+        path.relative_to(RETRY3_HISTORICAL_SOURCE).as_posix()
+        for path in RETRY3_HISTORICAL_SOURCE.rglob("*")
+        if path.is_file()
+    }
+
+    assert evidence_files == set(RETRY3_HISTORICAL_SOURCE_FILES)
+    assert set(authorized_files) == evidence_files
+    for relative in RETRY3_HISTORICAL_SOURCE_FILES:
+        assert recorder.sha(RETRY3_HISTORICAL_SOURCE / relative) == authorized_files[relative]
 
 
 def test_clean_generated_manifest_is_the_exact_four_h3_assets() -> None:
@@ -261,14 +292,7 @@ def test_retry3_operator_authorization_is_approved_and_source_bound(tmp_path: Pa
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
     # Historical v2 hashes must validate against historical bytes, not the v3 recorder.
-    for relative in recorder.AUTHORIZED_SOURCE_FILES:
-        destination = tmp_path / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        historical = subprocess.run(
-            ("git", "-C", str(ROOT), "show", f"e0524830:{relative}"),
-            capture_output=True, check=True,
-        )
-        destination.write_bytes(historical.stdout)
+    _copy_retry3_historical_source(tmp_path)
     recorder.validate_authorized_source(tmp_path, authorization)
     assert len(authorization["authorized_source"]["files"]) == 4
 
@@ -336,14 +360,7 @@ def test_v2_mutated_consumed_authorization_is_retired(tmp_path: Path) -> None:
         recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
     assert caught.value.code == "AUTHORIZATION_V2_RETIRED"
     # Historical source validation is separate from permission to run.
-    for relative in recorder.AUTHORIZED_SOURCE_FILES:
-        destination = tmp_path / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        historical = subprocess.run(
-            ("git", "-C", str(ROOT), "show", f"e0524830:{relative}"),
-            capture_output=True, check=True,
-        )
-        destination.write_bytes(historical.stdout)
+    _copy_retry3_historical_source(tmp_path)
     recorder.validate_authorized_source(tmp_path, authorization)
 
 
