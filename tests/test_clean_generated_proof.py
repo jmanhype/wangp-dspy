@@ -212,6 +212,27 @@ def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
     assert not (tmp_path / "proof").exists()
 
 
+def test_retry2_operator_authorization_is_approved_and_source_bound() -> None:
+    recorder = _load_recorder()
+    authorization = json.loads(
+        (
+            BUNDLE
+            / "operator-authorization.isolated-runtime.retry2-20261008.json"
+        ).read_text(encoding="utf-8")
+    )
+    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
+
+    validated, assets = recorder.inputs(authorization, manifest)
+    recorder.validate_authorized_source(ROOT, validated)
+
+    assert authorization["status"] == "approved"
+    assert authorization["text"] == "Continue approved authorized"
+    assert authorization["allowed_host"]["remote_work_root"] == (
+        "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry2-20261008"
+    )
+    assert len(assets) == 4
+
+
 def test_model_preflight_parses_literal_remote_tab_escapes() -> None:
     recorder = _load_recorder()
     row = (

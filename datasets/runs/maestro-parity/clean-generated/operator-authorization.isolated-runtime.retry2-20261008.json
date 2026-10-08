@@ -50,10 +50,15 @@
     "threshold_change": false,
     "training": false
   },
+  "operator_approval": {
+    "proposal": "/tmp/WD-bw0h-retry-proposal.json",
+    "proposal_sha256": "f48661bd45e1753daccbd551ced464da9cae1aeb1e7be0060b1f64da6eca2126",
+    "verbatim": "Continue approved authorized"
+  },
   "schema_version": "wangp-dspy.clean-generated-authorization/v2",
-  "scope": "",
-  "status": "requires_operator_approval",
+  "scope": "One fresh no-download clean-machine H3 standard create on host 3090 through the repaired one-command installer path",
+  "status": "approved",
   "superseded_relocations": [],
-  "text": "",
-  "timestamp": ""
+  "text": "Continue approved authorized",
+  "timestamp": "2026-10-08T17:29:29Z"
 }
