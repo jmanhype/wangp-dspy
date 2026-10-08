@@ -1,7 +1,7 @@
 ---
 id: WD-b7ek
 title: "Promote final LTX-2.3 Upscale evidence"
-status: open
+status: deferred
 priority: 1
 type: task
 labels: [capability, video, evidence, integration, qc]
@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
 updated_at: 2026-10-08T21:46:20Z
-content_hash: "sha256:2ab4aac430ace0464bea3e8907e180fea259ceb27a784c93de2bf645ec418753"
+content_hash: "sha256:7cf3dad750188d6ab7ae8b7ca0b04fd500a219413a4f9b71fb2aaa3bcb99706b"
 follows: [WD-28ac, WD-cuzw]
 related: [WD-28ac, WD-osfm, WD-fay0]
 blocks: [WD-fay0]
@@ -274,6 +274,7 @@ Boundary: `EXECUTION_REPOSITORY_IDENTITY_UNPROVEN`. Substituting preservation me
 - 2026-10-08T21:34:10Z claimed by dev-WD-b7ek
 - 2026-10-08T21:46:20Z status: in_progress -> open
 - 2026-10-08T21:46:20Z released by speed
+- 2026-10-08T21:46:20Z status: open -> deferred
 
 ## Links
 - Parent: [[WD-3nod]]
