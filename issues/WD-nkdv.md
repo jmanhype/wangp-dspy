@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
 updated_at: 2026-10-08T23:04:53Z
-content_hash: "sha256:76141e18a53a05f6957a434123946691a1b26bf99192df1265caa963fde7e2d3"
+content_hash: "sha256:4c7b674d0e6802a0fd5cf485c9a53ce7e5d8a3d84d222c97fdbf274444889fd8"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac]
 ---
@@ -295,6 +295,17 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+
+
+## nd_contract
+status: rejected
+
+### evidence
+- PM rejection applied via pvg story reject on 2026-10-08.
+
+### proof
+- [ ] Story requires another developer delivery before it can be accepted.
+
 
 ## nd_contract
 status: delivered
