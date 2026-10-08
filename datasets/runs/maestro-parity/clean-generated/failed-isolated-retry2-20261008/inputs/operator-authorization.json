@@ -33,10 +33,10 @@
     "files": {
       "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
       "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
-      "scripts/record_clean_generated_proof.py": "6e8f48f5c970c0196c8b346a52e2dd45731897a2ddd0fdb0d3df997f850f0099",
+      "scripts/record_clean_generated_proof.py": "a191208f32101efc45dafddee55e2d52d1ec9b2ce0220a31f134c432919cd5ed",
       "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
     },
-    "identity_sha256": "72b605ac36ae015c2f9ebcc5eded4b95dbe61ffccf0c4eead8fca9547c4679b9"
+    "identity_sha256": "fd8c5ee8ea30056637b7e54d7c6462aa0f5ff62ed22c27ba4eb3eb256e5b6d97"
   },
   "boundaries": {
     "deletions": 0,
@@ -50,10 +50,15 @@
     "threshold_change": false,
     "training": false
   },
+  "operator_approval": {
+    "proposal": "/tmp/WD-bw0h-retry-proposal.json",
+    "proposal_sha256": "f48661bd45e1753daccbd551ced464da9cae1aeb1e7be0060b1f64da6eca2126",
+    "verbatim": "Continue approved authorized"
+  },
   "schema_version": "wangp-dspy.clean-generated-authorization/v2",
-  "scope": "",
-  "status": "requires_operator_approval",
+  "scope": "One fresh no-download clean-machine H3 standard create on host 3090 through the repaired one-command installer path",
+  "status": "approved",
   "superseded_relocations": [],
-  "text": "",
-  "timestamp": ""
+  "text": "Continue approved authorized",
+  "timestamp": "2026-10-08T17:29:29Z"
 }

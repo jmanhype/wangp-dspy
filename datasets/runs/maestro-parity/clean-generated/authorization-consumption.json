@@ -21,6 +21,17 @@
       ],
       "reason": "The approved v2 one-attempt boundary was consumed by remote-root, storage, and four-model hash preflight before a local parser failure stopped the run. No queue admission, render, or generated artifact occurred.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "09ff96e7f26357fbc6f03fb2485ab3bd609e474ff65e38253e48a5e7aba877e0",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry2-20261008/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry2-20261008/preflight/report.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry2-20261008/offline-wrapper.json"
+      ],
+      "reason": "The approved retry2 boundary was consumed by clean install, remote-root/storage/four-model preflight, and one local pending queue job before a queue-state schema query failed. No remote queue admission, render, or generated artifact occurred.",
+      "generated_artifact": false
     }
   ]
 }
