@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T22:59:57Z
-content_hash: "sha256:ffe3167e967b7e781d5c81a5f0868016a1386fec56c87f3bda60f9019dcb86a1"
+updated_at: 2026-10-08T23:00:54Z
+content_hash: "sha256:cd2a4a4de3b8b6bd7e376d8b93b71015bec7549f3e069ab6f147a60a2cee6193"
 blocks: [WD-b7ek, WD-fay0]
 assignee: dev-WD-nkdv
 follows: [WD-5d19, WD-28ac]
@@ -278,6 +278,44 @@ status: new
 
 
 ## Notes
+### CI/Test Results
+
+- Focused: 38 tests, 0 failures, 0 errors, 0 skipped.
+- Full local: 2341 tests, 0 failures, 0 errors, 1 skipped, 967.502s.
+- GitHub exact-head CI: pending; PM acceptance must wait for success.
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1 | PASS | Audit is 6,108 bytes, SHA-256 `5a50d08edb75cdb733a3704b55333acf4318f549ae7a5a13ecfa4d91fb0d52f7`; all 42 retry3 files byte-equal. |
+| 2 | PASS | `build_stage_inventory` records Wangp commit/status and all staged file sizes/hashes. |
+| 3 | PASS | Dirty/non-Wangp/query failures reject with typed errors; no override. |
+| 4 | PASS | Validator rejects schema/root/status/path/size/hash/source drift. |
+| 5 | PASS | Gate precedes runtime validation, queue construction, staging, and execution. |
+| 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
+| 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
+| 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR head `7638cee29e2a2b2d868f096f8181ee2f440576d6`.
+- Full local JUnit tests=2341 failures=0 errors=0 skipped=1.
+- Independent review APPROVED.
+- Exact-head CI pending.
+
+### proof
+- [x] AC #1: Audit preserved and historical evidence unchanged.
+- [x] AC #2: Complete identity and per-file hashes generated.
+- [x] AC #3: Dirty/non-Wangp rejection has no override.
+- [x] AC #4: Drift validation fails closed.
+- [x] AC #5: Execution-order gate precedes queue/staging.
+- [x] AC #6: Real success and negative tests pass.
+- [x] AC #7: No prohibited action occurred.
+- [x] AC #8: Local gates pass; CI pending and acceptance waits.
+
 ## Implementation Evidence
 
 Summary: WD-nkdv now makes future LTX execution evidence prove the exact clean Wangp runner repository and every staged runner byte before runtime validation, queue construction, settings staging, or native execution. This is a future-evidence producer repair only; it does not promote the existing retry3 output or authorize host execution.
