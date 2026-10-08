@@ -1,0 +1,80 @@
+{
+  "boundary": "EXECUTION_REPOSITORY_IDENTITY_UNPROVEN",
+  "basis": "Preserved stage-inventory lists 13 source paths but no file hashes or Wangp execution commit. Native/preflight commits identify Wan2GP, not the Wangp runner. authorization.metadata_correction.repository_revision identifies model metadata, not runner execution.",
+  "source_hashes_verified": {
+    "ltx23-upscale/operation-record.json": "68243778f4ac0c5a93ec58c995cf76903c06cecfec229736af2318da601be1bb",
+    "ltx23-upscale/settings.json": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+    "ltx23-upscale/native.log": "7db387686e322ebbb1573e6b4d1e8ba361b4b5e468f442a1c390465937efc33b",
+    "ltx23-upscale/native-output/wd_osfm_create_post.mp4": "2cfa857496e16b6f6f9e1e27c7bc0a6b1faf03e3a44a18b512e744bccbf4706f"
+  },
+  "authorization_canonical_sha256": "70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3",
+  "source_input_sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+  "probes": {
+    "source": {
+      "dimensions": [
+        448,
+        832
+      ],
+      "duration": "1.375000",
+      "audio": true
+    },
+    "output": {
+      "dimensions": [
+        896,
+        1664
+      ],
+      "duration": "1.375000",
+      "audio": true
+    }
+  },
+  "preserved_file_count": 42,
+  "preserved_manifest_sha256": "5b24952bae5ab5f8346b048378746d107282471c116e4a65dcd423a1082e61a0",
+  "preserved_manifest": {
+    "authorization-consumption.json": "6d913e0e1ed2e9a19a2ed5c4ec5811ef159718de7ee6910747b22a34b589e7db",
+    "authorization.canonical.json": "70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3",
+    "authorization.json": "9473b73010712638106d42a9b30f692eaf71f2a85e0219bc650ecf4fe52aa51f",
+    "batch.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "batch.stdout": "7fe76bd8c2c177dc8ff5e7383b73dfa4bde2d9e5744c38acb6051deb9ea8dab6",
+    "boundary.md": "0e9907f8a7689579a8ed4f141960459294e0a5cdba6305d5ff47a600757b664b",
+    "jobs.db": "e8a8e45f0af65f1ad677445916250605068aa53ab57c762fffec8d6404202fe3",
+    "ltx23-outpaint/native-output/2026-10-08-15h04m04s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4": "b075a604e6947e0ae2c93ba800e38963b7a8ed802787bba2f74291d354fff7e5",
+    "ltx23-outpaint/native.log": "52241984988e030e284b819f9546393514b4b99e13968b7f4e397a32290a6c44",
+    "ltx23-outpaint/operation-record.json": "9f0be3e4d605d1163461503fb510df930a80fbeed4458cad78c3d5a896966e0d",
+    "ltx23-outpaint/settings.json": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+    "ltx23-recast/native-output/2026-10-08-15h06m17s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4": "26995b579b20ff9959dfef3d690ac7eef73e350118a712678c3053f1435abfe7",
+    "ltx23-recast/native.log": "f2b8e728c6b3dc2fdf5536073f41402e01fe85d73d536eb46dc258bc37b3cee3",
+    "ltx23-recast/operation-record.json": "8137596ce4d553280eefb63986dcf2a10351f9b4fa92185075206d038ef79399",
+    "ltx23-recast/settings.json": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+    "ltx23-upscale/native-output/wd_osfm_create_post.mp4": "2cfa857496e16b6f6f9e1e27c7bc0a6b1faf03e3a44a18b512e744bccbf4706f",
+    "ltx23-upscale/native.log": "7db387686e322ebbb1573e6b4d1e8ba361b4b5e468f442a1c390465937efc33b",
+    "ltx23-upscale/operation-record.json": "68243778f4ac0c5a93ec58c995cf76903c06cecfec229736af2318da601be1bb",
+    "ltx23-upscale/settings.json": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+    "ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4": "d83d8f6fdea18a494ca8e02ec9bb8561a762dabeb73e89a6918c5615e8d38162",
+    "ltx25-outpaint/native.log": "3333409698c681563e7f4340025102f25ccf53b05a9c16e91e614382b3265de4",
+    "ltx25-outpaint/operation-record.json": "87b56118121344f376035015a1c727feef053b003961fa886bf750685c0ba757",
+    "ltx25-outpaint/settings.json": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+    "ltx25-recast/native-output/wd_m7xw_recast.mp4": "4ec3c4baad5b367ea928d4ad3c25c41769207005e3b81fad2c32871387b26b78",
+    "ltx25-recast/native.log": "27fe73c4e4b816fbbdc0fd2e165876a1eb96c1d4d556f70c6dc3019473d7d2c0",
+    "ltx25-recast/operation-record.json": "685cdc1d6aa24d60d14208575cc83e5aefe0497e2686acd15ec012b38cb5c6d2",
+    "ltx25-recast/settings.json": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+    "ltx25-repaint/native-output/wd_m7xw_repaint.mp4": "a30ba72bef142d5efb32a79e4ee8d02d7afc437a333c90767a02f1f7fa2126d5",
+    "ltx25-repaint/native.log": "b52503618c9f7ae6dd7465a3808e86f8cae3f7c303022777257cfca79e07b91e",
+    "ltx25-repaint/operation-record.json": "d1f9a370d3a0c5b9d613ce0065a1907a155bea3df4867f49fed5dcb1f0644dbd",
+    "ltx25-repaint/settings.json": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+    "ltx25-upscale/native-output/wd_m7xw_create_post.mp4": "a82df16dcfa74f40c33fc4912acad98d0ff26c8d06ca7c0cfa9f72ee6cc980e9",
+    "ltx25-upscale/native.log": "831afcebc1e242e0a21e893c544079c2ec500d52747233208fada23435a526bc",
+    "ltx25-upscale/operation-record.json": "952808480cdf2535903a3f557ffdd9d65c44a54ffbe49f086f728c6e8228ba9b",
+    "ltx25-upscale/settings.json": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+    "plan.json": "4afa0c81033dad5d3b27e4be3721f3566018b42f136a0737446a62920d440d8d",
+    "preflight.json": "c05e0e807fd7f247cf53019ccf582b7b31266b5b4dad525af41fc238bcab0523",
+    "preflight.py": "9560e5c6ce39222002a129d12a37bbaaae0d669007ef9acf41d2171a702a3ba4",
+    "queue-summary.json": "7c002fffe25465c958d0565e017aa5e22dfc186b3f07e7b2b91280a8dde3becf",
+    "runtime-state.json": "8dc5e002cd09af84e8f546f27375e2c63752c6c0b7ba25a4771f6562771aa5bd",
+    "stage-inventory.json": "c9f8a771accbf913f43fd9bddda50417561edba965e57d68926effe52cb56197",
+    "summary.json": "76861279233d2fcac5498cf970db9dba05472140301af53e55edaf8d28908827"
+  },
+  "worktree_git_status": "",
+  "implementation_changes": false,
+  "matrix_promoted": false,
+  "host_network_render_actions": false
+}

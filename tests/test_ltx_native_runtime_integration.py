@@ -434,6 +434,11 @@ def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     plan = _read(CORRECTED_PLAN_PATH)
+    from tests.test_ltx_final_operations_runner import stage_identity_fixture
+
+    repository, staged_root, inventory = stage_identity_fixture(tmp_path)
+    plan["runner_repository_root"] = str(repository)
+    plan["stage_inventory"] = inventory
     authorization = _read(AUTH_PATH)
     runtime_state = _read(GATE15_STATE_PATH)
     monkeypatch.setattr(
@@ -471,7 +476,7 @@ def test_fresh_runtime_and_environment_capture_stop_on_first_terminal_failure(
         lambda operation, native: {"output": native.output_path, "objective": True},
     )
     result = runner.run_batch(
-        plan, authorization, ROOT, tmp_path / "queue.db",
+        plan, authorization, staged_root, tmp_path / "queue.db",
         runtime_state=runtime_state, executor=executor,
     )
 
