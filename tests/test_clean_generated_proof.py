@@ -10,6 +10,8 @@ from typing import Any
 
 import pytest
 
+from services.jobs.queue import JobQueue
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts/record_clean_generated_proof.py"
@@ -212,25 +214,37 @@ def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
     assert not (tmp_path / "proof").exists()
 
 
-def test_retry2_operator_authorization_is_approved_and_source_bound() -> None:
+def test_retry2_operator_authorization_cannot_be_replayed(tmp_path: Path) -> None:
     recorder = _load_recorder()
-    authorization = json.loads(
-        (
-            BUNDLE
-            / "operator-authorization.isolated-runtime.retry2-20261008.json"
-        ).read_text(encoding="utf-8")
+    result = _run_script(
+        tmp_path,
+        BUNDLE / "operator-authorization.isolated-runtime.retry2-20261008.json",
+        BUNDLE / "model-assets.json",
     )
-    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    validated, assets = recorder.inputs(authorization, manifest)
-    recorder.validate_authorized_source(ROOT, validated)
+    assert result.returncode == 4
+    assert "GENERATED_PROOF_FAILED code=AUTHORIZATION_ALREADY_CONSUMED" in result.stderr
+    assert not (tmp_path / "proof").exists()
 
-    assert authorization["status"] == "approved"
-    assert authorization["text"] == "Continue approved authorized"
-    assert authorization["allowed_host"]["remote_work_root"] == (
-        "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry2-20261008"
-    )
-    assert len(assets) == 4
+
+def test_queue_state_uses_actual_job_attempt_schema(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    database = tmp_path / "queue.db"
+    queue = JobQueue(database)
+    clip = {
+        "clip_index": 0,
+        "kind": "video_generation",
+        "status": "pending",
+        "prompt": "queue schema probe",
+    }
+    try:
+        job_id = queue.submit(plan_ref="queue-schema-probe", clips=[clip])
+        state = recorder.queue_state(database, job_id)
+    finally:
+        queue.close()
+
+    assert state["attempts"] == []
+    assert state["failures"] == []
 
 
 def test_model_preflight_parses_literal_remote_tab_escapes() -> None:

@@ -317,7 +317,12 @@ def queue_state(database: Path, job_id: str) -> dict[str, Any]:
         db.row_factory = sqlite3.Row
         return {
             "attempts": [dict(x) for x in db.execute("SELECT * FROM job_attempts WHERE job_id=? ORDER BY attempt_id", (job_id,))],
-            "failures": [dict(x) for x in db.execute("SELECT * FROM job_attempt_failures WHERE job_id=? ORDER BY id", (job_id,))],
+            "failures": [dict(x) for x in db.execute(
+                "SELECT failures.* FROM job_attempt_failures AS failures "
+                "JOIN job_attempts AS attempts ON failures.attempt_id = attempts.attempt_id "
+                "WHERE attempts.job_id=? ORDER BY failures.failure_id",
+                (job_id,),
+            )],
         }
 
 
