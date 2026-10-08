@@ -1,18 +1,19 @@
 ---
 id: WD-nkdv
 title: "Record Wangp runner execution identity for LTX operations"
-status: in_progress
+status: closed
 priority: 0
 type: task
 labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T23:07:15Z
-content_hash: "sha256:eaf4dcfba406c9c45b1590addf8e908cb75967dae2833dbcfcd5a3fdf9be47cf"
-blocks: [WD-b7ek, WD-fay0]
+updated_at: 2026-10-08T23:08:45Z
+content_hash: "sha256:27874721b7a17d092609fba700b4829c1ab127113423d871adde2327e529a9fc"
 follows: [WD-5d19, WD-28ac, WD-cuzw, WD-1s5s]
 assignee: dev-WD-nkdv
+closed_at: 2026-10-08T23:08:45Z
+close_reason: "Accepted: unchanged PR head 7638cee29e2a2b2d868f096f8181ee2f440576d6, exact-head CI 37854653689 SUCCESS, complete local gates, verified AC evidence, and substantive LEARNINGS."
 ---
 
 ## Description
@@ -515,10 +516,12 @@ status: delivered
 - 2026-10-08T23:06:02Z claimed by dev-WD-nkdv
 - 2026-10-08T23:06:03Z status: in_progress -> in_progress
 - 2026-10-08T23:06:03Z auto-follows: linked to predecessor WD-1s5s
+- 2026-10-08T23:08:45Z status: in_progress -> closed
+- 2026-10-08T23:08:46Z dep_removed: no_longer_blocks WD-b7ek
+- 2026-10-08T23:08:46Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-b7ek]], [[WD-fay0]]
 - Follows: [[WD-5d19]], [[WD-28ac]], [[WD-cuzw]], [[WD-1s5s]]
 
 ## Comments
