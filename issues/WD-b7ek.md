@@ -1,18 +1,19 @@
 ---
 id: WD-b7ek
 title: "Promote final LTX-2.3 Upscale evidence"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, video, evidence, integration, qc]
 parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
-updated_at: 2026-10-08T21:32:04Z
-content_hash: "sha256:8d53fd7ebd58c147de7d0dc76e778f736c11e0b1da0a10a9671d649804f2b6dd"
-follows: [WD-28ac]
+updated_at: 2026-10-08T21:34:10Z
+content_hash: "sha256:39cf79174fd0ffb228f10d5e9b0553042f73eaa6d98d8322d260ed5cbb258ee6"
+follows: [WD-28ac, WD-cuzw]
 related: [WD-28ac, WD-osfm, WD-fay0]
 blocks: [WD-fay0]
+assignee: dev-WD-b7ek
 ---
 
 ## Description
@@ -263,11 +264,14 @@ status: new
 
 ## History
 - 2026-10-08T21:31:23Z dep_added: blocks WD-fay0
+- 2026-10-08T21:34:10Z status: open -> in_progress
+- 2026-10-08T21:34:10Z auto-follows: linked to predecessor WD-cuzw
+- 2026-10-08T21:34:10Z claimed by dev-WD-b7ek
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Related: [[WD-28ac]], [[WD-osfm]], [[WD-fay0]]
-- Follows: [[WD-28ac]]
+- Follows: [[WD-28ac]], [[WD-cuzw]]
 
 ## Comments
