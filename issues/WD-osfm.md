@@ -9,12 +9,13 @@ parent: WD-3nod
 created_at: 2026-09-27T16:21:08Z
 created_by: speed
 updated_at: 2026-09-27T20:02:03Z
-content_hash: "sha256:ba4150ea007ab030e6c6a5c34238c461e674f08681bf087584f1bd4dfb9c6877"
+content_hash: "sha256:e9cd2355944cbaa25e63b6cf3f4ec333f75c4a19e16d3a6b9e3d4d086d18fb41"
 assignee: dev-WD-osfm
 follows: [WD-28i5, WD-ycjg]
 closed_at: 2026-09-27T20:02:02Z
 close_reason: "Accepted: verified storage, downloads, nine terminal LTX-2.3 dispositions, evidence hashes, matrix transition, independent gates, and successful PR CI."
 led_to: [WD-qswf, WD-s2nb, WD-dc3w]
+related: [WD-b7ek]
 ---
 
 ## Description
@@ -396,6 +397,7 @@ status: delivered
 
 ## Links
 - Parent: [[WD-3nod]]
+- Related: [[WD-b7ek]]
 - Follows: [[WD-28i5]], [[WD-ycjg]]
 - Led to: [[WD-qswf]], [[WD-s2nb]], [[WD-dc3w]]
 
