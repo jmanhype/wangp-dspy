@@ -4,7 +4,7 @@ title: "Record Wangp runner execution identity for LTX operations"
 status: closed
 priority: 0
 type: task
-labels: [bug, evidence, qc, delivered, accepted]
+labels: [bug, evidence, qc, accepted]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
