@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-09-30T19:59:48Z
 created_by: speed
 updated_at: 2026-10-02T00:22:30Z
-content_hash: "sha256:47346267c88213dba95f2fb7b4f8e10ad8fcba573ab923887d9abe1ffb5cca02"
+content_hash: "sha256:bd49090a359eefc8c10f1e8976f42206a4c6c3aa77a1c4cc7b338f02a2d01f04"
 follows: [WD-1s5s, WD-he8i, WD-qthq, WD-23rs, WD-p587, WD-32hk, WD-dc3w]
 assignee: dev-WD-cuzw
 closed_at: 2026-10-01T23:49:42Z
 close_reason: "Accepted: exact-head CI, scoped diff and protected parity, independently verified local sizes/hashes and no .part files, preserved boundary history, restoration mappings, and no-promotion evidence all pass; verify-delivery 7/9 is structural only."
-led_to: [WD-28ac, WD-bw0h, WD-b7ek]
+led_to: [WD-28ac, WD-bw0h, WD-b7ek, WD-nkdv]
 ---
 
 ## Description
@@ -820,7 +820,7 @@ DISCOVERED_BUG:
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-1s5s]], [[WD-he8i]], [[WD-qthq]], [[WD-23rs]], [[WD-p587]], [[WD-32hk]], [[WD-dc3w]]
-- Led to: [[WD-28ac]], [[WD-bw0h]], [[WD-b7ek]]
+- Led to: [[WD-28ac]], [[WD-bw0h]], [[WD-b7ek]], [[WD-nkdv]]
 
 ## Comments
 
