@@ -8,11 +8,11 @@ labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T22:03:56Z
-content_hash: "sha256:ccdad54bc2d8b190a8c23d640bbedc927f107f44dfcbfea42f932bf2d26ba96b"
+updated_at: 2026-10-08T22:58:40Z
+content_hash: "sha256:9f7693dc9fb1a4e472fb30aba0ec154962b60acfc4b75ec91ce57d82bbfcbee9"
 blocks: [WD-b7ek, WD-fay0]
 assignee: dev-WD-nkdv
-follows: [WD-5d19]
+follows: [WD-5d19, WD-28ac]
 ---
 
 ## Description
@@ -286,10 +286,12 @@ status: new
 - 2026-10-08T22:03:56Z status: open -> in_progress
 - 2026-10-08T22:03:56Z auto-follows: linked to predecessor WD-5d19
 - 2026-10-08T22:03:56Z claimed by dev-WD-nkdv
+- 2026-10-08T22:58:40Z status: in_progress -> in_progress
+- 2026-10-08T22:58:40Z auto-follows: linked to predecessor WD-28ac
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-b7ek]], [[WD-fay0]]
-- Follows: [[WD-5d19]]
+- Follows: [[WD-5d19]], [[WD-28ac]]
 
 ## Comments
