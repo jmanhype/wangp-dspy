@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
 updated_at: 2026-10-08T21:30:42Z
-content_hash: "sha256:ae07a143710762bf8832c4925f1391a266eac7b345678715c2b04cd8ac5ce553"
+content_hash: "sha256:d7b49d74c5a7837aaca0b56132d6ef71f7c0214770b549b09ffafaa0dc364969"
 follows: [WD-28ac]
-related: [WD-28ac, WD-osfm]
+related: [WD-28ac, WD-osfm, WD-fay0]
 ---
 
 ## Description
@@ -146,7 +146,7 @@ status: new
 
 ## Links
 - Parent: [[WD-3nod]]
-- Related: [[WD-28ac]], [[WD-osfm]]
+- Related: [[WD-28ac]], [[WD-osfm]], [[WD-fay0]]
 - Follows: [[WD-28ac]]
 
 ## Comments
