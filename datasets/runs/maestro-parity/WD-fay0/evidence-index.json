@@ -96,8 +96,7 @@
     ],
     "total": 3,
     "totals": {
-      "host_run_verified": 1,
-      "incomplete_storage_boundary": 1,
+      "host_run_verified": 2,
       "terminal_unsupported_or_fail_closed": 1
     }
   },
