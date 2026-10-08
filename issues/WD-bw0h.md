@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-08T21:45:30Z
-content_hash: "sha256:fe617e3f168efdf0c8b6820d43a61dcd47d91eb323bc915daca8036f0380e21a"
+updated_at: 2026-10-08T22:38:37Z
+content_hash: "sha256:1c55e7f50355c8174bf0046dae9305065072ae88e1c82d3d6280aace4234be93"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -223,6 +223,11 @@ WD-bw0h still has no generated retry4 artifact and is not delivered/accepted. GP
 ### PR 233 CI failure repair (2026-10-08)
 
 Exact-head CI at `974d4d6f` failed two tests because they invoked `git show e0524830:...`, which is unavailable in GitHub's shallow checkout. Head `b65476ba` preserves the four exact historical v2 source byte streams inside the retry3 evidence boundary and tests those tracked bytes against the authorization hashes. Independent comparison confirmed all four streams equal `e0524830`; 96/96 focused tests pass and tests no longer depend on local Git history. A new exact-head CI run is required before merge.
+### PR 233 merged; retry4 proposal prepared (2026-10-08)
+
+PR 233 was rebased onto PR 232 main and exact-head CI succeeded at `e59f305def29f75153de6122545c6664bdb27d17`. It merged as main `088c6cc2e2feef73efb8d5aab1abbcc411d32a93`. Focused smoke tests passed after merge.
+
+The merged v3 template remains `requires_operator_approval`, binds the exact six-file source identity `95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c`, retires v2 inputs, and preserves retry3 replay/retirement. A one-shot no-download H3 retry4 proposal is prepared at `/tmp/WD-bw0h-retry4-proposal.json`, SHA-256 `f446fdec7b52af79d6bf07c95ef61e00247c82b921387c85f5b0d8711ea5ef2b`, bound to main `088c6cc2e2feef73efb8d5aab1abbcc411d32a93`. No retry4 host action has been requested or executed.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
