@@ -1,0 +1,1064 @@
+{
+  "execution_preconditions": {
+    "fresh_host_recheck": true,
+    "gate15_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "immediate_preflight_before_execution_required": true,
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "judge_start_policy": "governed_judge_ctl_only_if_required",
+    "queue_collision_check_required": true,
+    "separate_fresh_host_gate_required": false
+  },
+  "host_authorization_binding": {
+    "fresh_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "gate": 15,
+    "snapshot_sha256": "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89",
+    "trace_sha256": "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd"
+  },
+  "host_execution_authorized": true,
+  "isolated_runtime": {
+    "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "expected_import": {
+      "metadata_version": "3.7.14",
+      "module_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+      "python": "/usr/bin/python3",
+      "returncode": 0
+    },
+    "expected_payload": {
+      "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+      "file_count": 12,
+      "inventory": [
+        {
+          "path": "__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/METADATA",
+          "sha256": "2cca750907d144a03f695ab1b1191b6bb7ac6f21d1895732ab213ff25717dcc7",
+          "size_bytes": 16311
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/RECORD",
+          "sha256": "a0ae6464fbbb70f7b867045df530a3a8d3fafc52d5329b108b8e766b36c5eb50",
+          "size_bytes": 837
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/WHEEL",
+          "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
+          "size_bytes": 91
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/licenses/LICENSE.md",
+          "sha256": "0c3f96212d0190fa1627ff2140edc9f2130ff4aff5f9dcab62fd5809b9317035",
+          "size_bytes": 94
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/top_level.txt",
+          "sha256": "c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5",
+          "size_bytes": 14
+        },
+        {
+          "path": "mmgp/__init__.py",
+          "sha256": "03da81c3240c77533bbec8524ce0671463f5310bd2da15e64dc4c2314726cb31",
+          "size_bytes": 509
+        },
+        {
+          "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+          "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+          "size_bytes": 948
+        },
+        {
+          "path": "mmgp/fp8_quanto_bridge.py",
+          "sha256": "bd32a7cd629ef3c320325db3d20cdcbbb1064d51ccedcd9683de5d9aa314def3",
+          "size_bytes": 26356
+        },
+        {
+          "path": "mmgp/offload.py",
+          "sha256": "5e6a07c6f6f3b7cabc3b1cbdedbad30a094e33e34d73e15e2cf80b7437b5d7bc",
+          "size_bytes": 176124
+        },
+        {
+          "path": "mmgp/quant_router.py",
+          "sha256": "ed9e2dcb27ffae533103c9403ba377617f11db6364e12d10e7a4bd362b15fbdd",
+          "size_bytes": 45822
+        },
+        {
+          "path": "mmgp/safetensors2.py",
+          "sha256": "f87c9dc2ee56dc0f47941c38f05bb8cfbd5b5bc8bf99e39c62d94f248dd45cfb",
+          "size_bytes": 23899
+        }
+      ],
+      "uncompressed_bytes": 291005
+    },
+    "import": {
+      "metadata_version": "3.7.14",
+      "module_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py",
+      "python": "/usr/bin/python3",
+      "returncode": 0
+    },
+    "payload": {
+      "canonical_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+      "file_count": 12,
+      "inventory": [
+        {
+          "path": "__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/METADATA",
+          "sha256": "2cca750907d144a03f695ab1b1191b6bb7ac6f21d1895732ab213ff25717dcc7",
+          "size_bytes": 16311
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/RECORD",
+          "sha256": "a0ae6464fbbb70f7b867045df530a3a8d3fafc52d5329b108b8e766b36c5eb50",
+          "size_bytes": 837
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/WHEEL",
+          "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1",
+          "size_bytes": 91
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/licenses/LICENSE.md",
+          "sha256": "0c3f96212d0190fa1627ff2140edc9f2130ff4aff5f9dcab62fd5809b9317035",
+          "size_bytes": 94
+        },
+        {
+          "path": "mmgp-3.7.14.dist-info/top_level.txt",
+          "sha256": "c1a19a7a98f6a957e74b6c803a468cbb8afd9896958c66c48ba030394a2053f5",
+          "size_bytes": 14
+        },
+        {
+          "path": "mmgp/__init__.py",
+          "sha256": "03da81c3240c77533bbec8524ce0671463f5310bd2da15e64dc4c2314726cb31",
+          "size_bytes": 509
+        },
+        {
+          "path": "mmgp/__pycache__/__init__.cpython-312.pyc",
+          "sha256": "5e5773011c51537a879083f8d1a37f40d65187261535acbc5bf0f0089ddfaa26",
+          "size_bytes": 948
+        },
+        {
+          "path": "mmgp/fp8_quanto_bridge.py",
+          "sha256": "bd32a7cd629ef3c320325db3d20cdcbbb1064d51ccedcd9683de5d9aa314def3",
+          "size_bytes": 26356
+        },
+        {
+          "path": "mmgp/offload.py",
+          "sha256": "5e6a07c6f6f3b7cabc3b1cbdedbad30a094e33e34d73e15e2cf80b7437b5d7bc",
+          "size_bytes": 176124
+        },
+        {
+          "path": "mmgp/quant_router.py",
+          "sha256": "ed9e2dcb27ffae533103c9403ba377617f11db6364e12d10e7a4bd362b15fbdd",
+          "size_bytes": 45822
+        },
+        {
+          "path": "mmgp/safetensors2.py",
+          "sha256": "f87c9dc2ee56dc0f47941c38f05bb8cfbd5b5bc8bf99e39c62d94f248dd45cfb",
+          "size_bytes": 23899
+        }
+      ],
+      "uncompressed_bytes": 291005
+    },
+    "payload_semantics": {
+      "includes_import_generated_bytecode": true,
+      "source_wheel_file_count": 11,
+      "source_wheel_uncompressed_bytes": 290057,
+      "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+      "wheel_size_bytes": 68211
+    },
+    "schema_version": "wangp-dspy.wd-28ac.isolated-runtime-contract/v1",
+    "system_mmgp_present": false
+  },
+  "mode": "corrected_native_operations_authorized",
+  "native_python": "/usr/bin/python3",
+  "operations": [
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-m7xw-single-operation",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx25-outpaint"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          }
+        ],
+        "output": "phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx25-outpaint/contact-sheet.jpg",
+          "phase-b-run/ltx25-outpaint/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-outpaint/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
+        "template_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+        "timeout_seconds": 5400
+      },
+      "operation": "outpaint",
+      "operation_id": "ltx25-outpaint",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx25-outpaint-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx25-outpaint",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "m7xw_create": {
+          "host_path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+          "path": "outputs/create/wd_m7xw_create.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/wd_m7xw_create.mp4",
+          "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+          "story": "WD-m7xw"
+        }
+      },
+      "row": "LTX-2.5",
+      "source_root": "/home/straughter/Wan2GP-story-WD-m7xw",
+      "status": "planned_not_executed",
+      "template": "WD-m7xw/native-settings/outpaint.json"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-m7xw-single-operation",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx25-repaint"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          }
+        ],
+        "output": "phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx25-repaint/contact-sheet.jpg",
+          "phase-b-run/ltx25-repaint/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-repaint/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-repaint/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-repaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-repaint/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/repaint.json",
+        "template_sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+        "timeout_seconds": 5400
+      },
+      "operation": "repaint",
+      "operation_id": "ltx25-repaint",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx25-repaint-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx25-repaint",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "m7xw_create": {
+          "host_path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+          "path": "outputs/create/wd_m7xw_create.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/wd_m7xw_create.mp4",
+          "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+          "story": "WD-m7xw"
+        },
+        "m7xw_repaint_mask": {
+          "host_path": "/home/straughter/wd-m7xw-run/inputs/repaint-mask.mp4",
+          "path": "inputs/repaint-mask.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/inputs/repaint-mask.mp4",
+          "sha256": "a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386",
+          "story": "WD-m7xw"
+        }
+      },
+      "row": "LTX-2.5",
+      "source_root": "/home/straughter/Wan2GP-story-WD-m7xw",
+      "status": "planned_not_executed",
+      "template": "WD-m7xw/native-settings/repaint.json"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-m7xw-single-operation",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx25-recast"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          }
+        ],
+        "output": "phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx25-recast/contact-sheet.jpg",
+          "phase-b-run/ltx25-recast/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-recast/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-recast/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-recast/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-recast/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/recast.json",
+        "template_sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+        "timeout_seconds": 5400
+      },
+      "operation": "recast",
+      "operation_id": "ltx25-recast",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx25-recast-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx25-recast",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "m7xw_first_frame": {
+          "host_path": "/home/straughter/wd-m7xw-run/outputs/create/first-frame.png",
+          "path": "outputs/create/first-frame.png",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/first-frame.png",
+          "sha256": "36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f",
+          "story": "WD-m7xw"
+        }
+      },
+      "row": "LTX-2.5",
+      "source_root": "/home/straughter/Wan2GP-story-WD-m7xw",
+      "status": "planned_not_executed",
+      "template": "WD-m7xw/native-settings/recast.json"
+    },
+    {
+      "asset_id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-m7xw-single-operation",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx25-upscale"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output_width / reference_width",
+            "name": "width_multiplier",
+            "threshold": 2.0
+          }
+        ],
+        "output": "phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx25-upscale/contact-sheet.jpg",
+          "phase-b-run/ltx25-upscale/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-upscale/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-upscale/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-upscale/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx25-upscale/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/upscale.json",
+        "template_sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+        "timeout_seconds": 5400
+      },
+      "operation": "upscale",
+      "operation_id": "ltx25-upscale",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx25-upscale-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx25-upscale",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "m7xw_create": {
+          "host_path": "/home/straughter/wd-m7xw-run/outputs/create/wd_m7xw_create.mp4",
+          "path": "outputs/create/wd_m7xw_create.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/wd_m7xw_create.mp4",
+          "sha256": "f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f",
+          "story": "WD-m7xw"
+        }
+      },
+      "row": "LTX-2.5",
+      "source_root": "/home/straughter/Wan2GP-story-WD-m7xw",
+      "status": "planned_not_executed",
+      "template": "WD-m7xw/native-settings/upscale.json"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-osfm-separated-probe",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx23-outpaint"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          }
+        ],
+        "output": "phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx23-outpaint/contact-sheet.jpg",
+          "phase-b-run/ltx23-outpaint/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-outpaint/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json",
+        "template_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+        "timeout_seconds": 5400
+      },
+      "operation": "outpaint",
+      "operation_id": "ltx23-outpaint",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx23-outpaint-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx23-outpaint",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "osfm_control": {
+          "host_path": "/home/straughter/wd-osfm-run/inputs/control.mp4",
+          "path": "inputs/control.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/inputs/control.mp4",
+          "sha256": "1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a",
+          "story": "WD-osfm"
+        }
+      },
+      "row": "LTX-2.3",
+      "source_root": "/home/straughter/Wan2GP-story-WD-osfm",
+      "status": "planned_not_executed",
+      "template": "WD-osfm/native-settings/outpaint-probe.json"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-osfm-separated-probe",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx23-recast"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          }
+        ],
+        "output": "phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx23-recast/contact-sheet.jpg",
+          "phase-b-run/ltx23-recast/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-recast/settings.json",
+          "--profile",
+          "3",
+          "--attention",
+          "sdpa",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-recast/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-recast/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-recast/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/recast-probe.json",
+        "template_sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+        "timeout_seconds": 5400
+      },
+      "operation": "recast",
+      "operation_id": "ltx23-recast",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx23-recast-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx23-recast",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "osfm_alternate_reference": {
+          "host_path": "/home/straughter/wd-osfm-run/inputs/alternate-reference.png",
+          "path": "inputs/alternate-reference.png",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/inputs/alternate-reference.png",
+          "sha256": "f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f",
+          "story": "WD-osfm"
+        }
+      },
+      "row": "LTX-2.3",
+      "source_root": "/home/straughter/Wan2GP-story-WD-osfm",
+      "status": "planned_not_executed",
+      "template": "WD-osfm/native-settings/recast-probe.json"
+    },
+    {
+      "asset_id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "attempt_policy": {
+        "inherit_evidence": false,
+        "max_attempts": 1,
+        "retry": "never",
+        "terminal_failure": "typed_native_boundary",
+        "terminal_success": "verified_output"
+      },
+      "command_pattern": "wd-osfm-upscale",
+      "evidence_expectations": {
+        "checker": {
+          "argv": [
+            ".venv/bin/python",
+            "scripts/verify_maestro_parity.py",
+            "phase-b-run/ltx23-upscale"
+          ],
+          "required_result": "PASS"
+        },
+        "ffprobe": "phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4.ffprobe.json",
+        "objective_gates": [
+          {
+            "measurement": "ffprobe valid video",
+            "name": "valid_media",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output bytes",
+            "name": "nonempty_output",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "unique SHA-256 count",
+            "name": "distinct_hash",
+            "threshold": 1.0
+          },
+          {
+            "measurement": "output_width / reference_width",
+            "name": "width_multiplier",
+            "threshold": 2.0
+          }
+        ],
+        "output": "phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4",
+        "reviewer": {
+          "decision": "approved",
+          "independent": true
+        },
+        "sha256": "phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4.sha256",
+        "visual": [
+          "phase-b-run/ltx23-upscale/contact-sheet.jpg",
+          "phase-b-run/ltx23-upscale/first-frame.png"
+        ]
+      },
+      "native": {
+        "argv": [
+          "/usr/bin/python3",
+          "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+          "--process",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-upscale/settings.json",
+          "--output-dir",
+          "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-upscale/native-output"
+        ],
+        "environment": {
+          "HF_HUB_OFFLINE": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+          "PYTHONUNBUFFERED": "1",
+          "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+          "TRANSFORMERS_OFFLINE": "1"
+        },
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-upscale/native.log",
+        "settings_stage_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3/ltx23-upscale/settings.json",
+        "template_path": "datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json",
+        "template_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+        "timeout_seconds": 5400
+      },
+      "operation": "upscale",
+      "operation_id": "ltx23-upscale",
+      "queue": {
+        "admission_state": "planned_not_admitted",
+        "job_id": "wd-28ac-ltx23-upscale-retry3-20261008-attempt-1",
+        "queue_id": "wd-28ac-retry3-20261008-ltx23-upscale",
+        "retry_id": "corrected-retry-attempt-5"
+      },
+      "references": {
+        "osfm_create": {
+          "host_path": "/home/straughter/wd-osfm-run/outputs/create/wd_osfm_create.mp4",
+          "path": "outputs/create/wd_osfm_create.mp4",
+          "resolved_path": "/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/outputs/create/wd_osfm_create.mp4",
+          "sha256": "d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957",
+          "story": "WD-osfm"
+        }
+      },
+      "row": "LTX-2.3",
+      "source_root": "/home/straughter/Wan2GP-story-WD-osfm",
+      "status": "planned_not_executed",
+      "template": "WD-osfm/native-settings/upscale.json"
+    }
+  ],
+  "operator_retry3_authorization_20261008": {
+    "approved_by": "operator",
+    "deletions": 0,
+    "dependency_installs": 0,
+    "downloaded_asset": {
+      "network_gets": 1,
+      "path": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+      "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+      "size_bytes": 654465286
+    },
+    "max_attempts_per_operation": 1,
+    "new_run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry3",
+    "operation_count": 7,
+    "other_model_downloads": 0,
+    "package_downloads": 0,
+    "proposal_sha256": "e26b3726ae92cd8279d57286519add33fdf7b4ad83eff897ed586443e32cc595",
+    "protected_engine_changes": 0,
+    "provider_spend": false,
+    "retry": "never",
+    "source_exposure_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "status": "approved",
+    "stop_on_first_terminal_failure": true,
+    "text": "Continue approved authorized",
+    "threshold_changes": 0,
+    "timestamp": "2026-10-08T19:46:40Z",
+    "training": false
+  },
+  "preflight_checks": [
+    {
+      "name": "authorization_gate7_record",
+      "observed": "{\"confidence\": 0.8, \"decision\": \"CONTINUE\", \"evidence\": \"jev-gates/2026-10-03/gate-7-evidence.json\", \"gate\": 7, \"matrix_cells_authorized\": 7, \"max_attempts_per_operation\": 1, \"mode\": \"live\", \"model\": \"jev-latest\", \"operations_authorized\": true, \"retry\": \"never\", \"scope\": \"final_native_operations\", \"snapshot_sha256\": \"ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c\", \"stop_on_first_terminal_failure\": true, \"trace_sha256\": \"21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7\"}",
+      "passed": true
+    },
+    {
+      "name": "authorization_gate7_evidence",
+      "observed": "gate-7 evidence binding",
+      "passed": true
+    },
+    {
+      "name": "judge_start_governed_if_required",
+      "observed": "policy=governed_judge_ctl_only_if_required,path=/home/straughter/marathon/bin/judge_ctl.sh,unauthorized_control=false",
+      "passed": true
+    },
+    {
+      "name": "disk_headroom",
+      "observed": "free_bytes=23522594816",
+      "passed": true
+    },
+    {
+      "name": "gpu_idle",
+      "observed": "free_mib=23978,apps=[]",
+      "passed": true
+    },
+    {
+      "name": "tree_m7xw",
+      "observed": "commit='faea82d15bf10b3479c42c0ea430892aae975870',status='?? ckpts'",
+      "passed": true
+    },
+    {
+      "name": "tree_osfm",
+      "observed": "commit='4c93b64a47b5b0a915f2abec2ce754be98227150',status='?? ckpts'",
+      "passed": true
+    },
+    {
+      "name": "model_ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "observed": "size=1308778338,sha256='515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559'",
+      "passed": true
+    },
+    {
+      "name": "model_ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "observed": "size=1308756416,sha256='32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665'",
+      "passed": true
+    },
+    {
+      "name": "model_ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "observed": "size=1308778338,sha256='73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5'",
+      "passed": true
+    },
+    {
+      "name": "model_ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "observed": "size=327322640,sha256='984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d'",
+      "passed": true
+    },
+    {
+      "name": "model_ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "observed": "size=19447662547,sha256='5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec'",
+      "passed": true
+    },
+    {
+      "name": "reference_m7xw_create",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/wd_m7xw_create.mp4',sha256='f05bc6e13ce6e25d753c9282d931a27ae73ebca3ededd409400f28181bf6441f'",
+      "passed": true
+    },
+    {
+      "name": "reference_m7xw_first_frame",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/outputs/create/first-frame.png',sha256='36e3f0a105931e9148697b446980923ce078352741d1213761c8215d38e8a19f'",
+      "passed": true
+    },
+    {
+      "name": "reference_m7xw_repaint_mask",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-m7xw/inputs/repaint-mask.mp4',sha256='a8e569befaef39c5784fdec783da7a0153e2908c3be6e4ceed6d6a658eb13386'",
+      "passed": true
+    },
+    {
+      "name": "reference_osfm_control",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/inputs/control.mp4',sha256='1fb5689ac1647dda8ddd0806981eb0ee93a2ca641956ea3848fce65aad817a2a'",
+      "passed": true
+    },
+    {
+      "name": "reference_osfm_alternate_reference",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/inputs/alternate-reference.png',sha256='f3a757b4225770edeaa0088063b4f3b383f971a124d07894f2d1e2dacec5199f'",
+      "passed": true
+    },
+    {
+      "name": "reference_osfm_create",
+      "observed": "path='/Users/Shared/HermesWorkspace/wangp-dspy/.claude/worktrees/dev-WD-28ac/datasets/runs/maestro-parity/WD-osfm/outputs/create/wd_osfm_create.mp4',sha256='d489d46173a3fe54e21577353ed98c76cf351610eafa0f44e279e8241a932957'",
+      "passed": true
+    },
+    {
+      "name": "authorization_gate12_record",
+      "observed": "{\"capability_or_matrix_claim_authorized\": false, \"confidence\": 0.85, \"decision\": \"CONTINUE\", \"deletion_authorized\": false, \"evidence\": \"jev-gates/2026-10-03/gate-12-evidence.json\", \"gate\": 12, \"host_contact_authorized\": false, \"isolated_runtime_path\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14\", \"mode\": \"live\", \"model\": \"jev-latest\", \"model_or_reference_mutation_authorized\": false, \"native_retry_authorized\": false, \"network_or_model_get_authorized\": false, \"protected_file_change_authorized\": false, \"qc_start_authorized\": false, \"queue_admission_authorized\": false, \"render_authorized\": false, \"runtime_mutation_authorized\": false, \"scope\": \"local_native_runtime_integration_only\", \"snapshot_sha256\": \"09edc9f0a470777a3871dcf8336e5862b219b92c670e2bf7291f2e65d74b8ddc\", \"trace_sha256\": \"0a79c7f332add517cb079f60fb12594b7f8184939680c35b004aaccc7c462341\"}",
+      "passed": true
+    },
+    {
+      "name": "authorization_gate12_evidence",
+      "observed": "gate-12 evidence binding",
+      "passed": true
+    },
+    {
+      "name": "operator_corrected_native_retry_precondition",
+      "observed": "separate_host_retry_gate_required=True",
+      "passed": true
+    },
+    {
+      "name": "authorization_gate15_record",
+      "observed": "{\"fresh_preflight_sha256\": \"26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3\", \"gate\": 15, \"snapshot_sha256\": \"2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89\", \"trace_sha256\": \"60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd\"}",
+      "passed": true
+    },
+    {
+      "name": "immediate_preflight_before_execution",
+      "observed": "required=true;gate15_fresh_host_recheck=true",
+      "passed": true
+    },
+    {
+      "name": "isolated_mmgp_runtime_path",
+      "observed": "{\"directory\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14\", \"exists\": true, \"regular_directory\": true, \"symlink\": false}",
+      "passed": true
+    },
+    {
+      "name": "isolated_mmgp_import_path_version",
+      "observed": "{\"metadata_version\": \"3.7.14\", \"path\": \"/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14/mmgp/__init__.py\", \"python\": \"/usr/bin/python3\", \"returncode\": 0}",
+      "passed": true
+    },
+    {
+      "name": "isolated_mmgp_payload_identity",
+      "observed": "{\"canonical_sha256\": \"d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b\", \"file_count\": 12, \"uncompressed_bytes\": 291005}",
+      "passed": true
+    },
+    {
+      "name": "system_mmgp_absent",
+      "observed": "system_mmgp_present=False",
+      "passed": true
+    },
+    {
+      "name": "corrected_host_retry_gate",
+      "observed": "fresh_host_recheck=True,separate_fresh_host_gate_required=False",
+      "passed": true
+    }
+  ],
+  "preflight_ready": true,
+  "prior_boundary": {
+    "overwritable": false,
+    "path": "final-native-operations/terminal-boundary/boundary.json",
+    "sha256": "e7703f4434cf229bbd39d882b13c14b6d48a21b8f2cdb5d985dacd27e2023550"
+  },
+  "runtime_identity_ready": true,
+  "scheduling": {
+    "matrix_transition": "not_applied",
+    "operation_count": 7,
+    "order": [
+      "ltx25-outpaint",
+      "ltx25-repaint",
+      "ltx25-recast",
+      "ltx25-upscale",
+      "ltx23-outpaint",
+      "ltx23-recast",
+      "ltx23-upscale"
+    ],
+    "stop_policy": "stop_queue_on_first_terminal_failure"
+  },
+  "schema_version": "wangp-dspy.wd-28ac.corrected-native-retry-plan/v1",
+  "story": "WD-28ac"
+}
