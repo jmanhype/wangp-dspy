@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
-updated_at: 2026-10-08T23:06:16Z
-content_hash: "sha256:83d149c3c9d0f8370a9950eb541b8fb25f4e81f6ea884dc1670c5e6c7cb80e73"
+updated_at: 2026-10-08T23:07:15Z
+content_hash: "sha256:eaf4dcfba406c9c45b1590addf8e908cb75967dae2833dbcfcd5a3fdf9be47cf"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac, WD-cuzw, WD-1s5s]
 assignee: dev-WD-nkdv
@@ -296,6 +296,16 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+## FINAL_DELIVERY_CONTRACT_MARKER
+## nd_contract
+status: delivered
+
+### evidence
+- PR head 7638cee29e2a2b2d868f096f8181ee2f440576d6; CI 37854653689 SUCCESS; LEARNINGS present above.
+
+### proof
+- [x] AC #1 through AC #8 verified.
+
 ## nd_contract
 status: delivered
 
