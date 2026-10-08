@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
 updated_at: 2026-10-08T23:06:02Z
-content_hash: "sha256:790a298f1dc1c84283a813818aadb115b576706af9d14a1e642aaadef2b9a374"
+content_hash: "sha256:f1602b62f3aefad91f4314fb7b1df8c04994673ec68f5472991efe79585825a5"
 blocks: [WD-b7ek, WD-fay0]
 follows: [WD-5d19, WD-28ac, WD-cuzw]
 assignee: dev-WD-nkdv
@@ -296,7 +296,46 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+## Implementation Evidence
 
+Summary: Redelivery changes tracker evidence only. The PR head, code, tests, protected files, and preserved retry3 evidence are unchanged. Exact-head CI run `37854653689` completed successfully at `7638cee29e2a2b2d868f096f8181ee2f440576d6`; the `test` job passed in 23m19s. PR 234 remains clean/mergeable.
+
+LEARNINGS:
+- A stage-path list is not execution provenance. Future native evidence must bind both execution-tree identity and the exact Wangp runner commit/file bytes.
+- Wan2GP source-tree commits and Wangp runner provenance are distinct facts and must never be conflated.
+- Identity validation belongs before runtime validation, queue construction, settings staging, or native execution; otherwise a failed run can consume a one-shot authorization without producible evidence.
+- Delivery proof is incomplete until exact-head CI reaches a terminal result and the Retro-consumable LEARNINGS section is present.
+
+### CI/Test Results
+
+- Exact-head GitHub CI run `37854653689`: SUCCESS at `7638cee29e2a2b2d868f096f8181ee2f440576d6`.
+- Focused tests: 38 passed.
+- Full local suite: 2341 tests, 0 failures, 0 errors, 1 skipped.
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1 | PASS | Exact 6,108-byte audit and unchanged 42-file retry3 bundle. |
+| 2 | PASS | Clean Wangp identity plus all staged file hashes. |
+| 3 | PASS | Dirty/non-Wangp failures reject with no override. |
+| 4 | PASS | Schema/root/path/size/hash/source drift rejects. |
+| 5 | PASS | Gate precedes runtime, queue, staging, execution. |
+| 6 | PASS | Real success and negative-path tests pass. |
+| 7 | PASS | No prohibited host/network/render/promotion action. |
+| 8 | PASS | Local gates and exact-head CI pass. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- Unchanged PR head: `7638cee29e2a2b2d868f096f8181ee2f440576d6`
+- PR: https://github.com/jmanhype/wangp-dspy/pull/234
+- Exact-head CI run `37854653689`: SUCCESS.
+- Full local suite: tests=2341, failures=0, errors=0, skipped=1.
+
+### proof
+- [x] AC #1 through AC #8 verified in the unchanged implementation and recorded evidence.
 
 ## nd_contract
 status: rejected
