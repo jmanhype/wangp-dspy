@@ -6,15 +6,19 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
+import stat
 import subprocess
 import sys
 import time
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
 from services.jobs.queue import JobQueue
+from services.director.run_ledger import RepositoryIdentityError, repository_identity
 
 
 ISOLATED_RUNTIME_DIRECTORY = (
@@ -136,6 +140,156 @@ class FinalOperationError(ValueError):
         self.code = code
         self.observed = observed
         self.remediation = remediation
+
+
+STAGE_INVENTORY_SCHEMA = "wangp-dspy.ltx-stage-inventory/v2"
+
+
+def _stage_error(code: str, observed: str) -> FinalOperationError:
+    return FinalOperationError(code, observed,
+                               "Restage from a clean Wangp checkout and rebuild the inventory.")
+
+
+def _stage_git(root: Path, *args: str) -> bytes:
+    try:
+        result = subprocess.run(["git", "-C", str(root), *args],
+                                capture_output=True, check=False, timeout=60)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise _stage_error("STAGE_INVENTORY_GIT_FAILED", str(exc)) from exc
+    if result.returncode:
+        raise _stage_error("STAGE_INVENTORY_GIT_FAILED",
+                           result.stderr.decode("utf-8", "replace"))
+    return result.stdout
+
+
+def _stage_repository(root: Path) -> dict[str, Any]:
+    try:
+        identity = repository_identity(root)
+    except (RepositoryIdentityError, OSError) as exc:
+        raise _stage_error("EXECUTION_REPOSITORY_IDENTITY_UNPROVEN", str(exc)) from exc
+    if identity["repo_root"] != str(root.resolve()):
+        raise _stage_error("STAGE_INVENTORY_REPOSITORY_INVALID", str(root))
+    status = _stage_git(root, "status", "--porcelain=v1").decode("utf-8", "replace")
+    if status or not identity["clean_tree"] or identity["dirty_tree"]:
+        raise _stage_error("STAGE_INVENTORY_DIRTY_REPOSITORY", repr(status))
+    try:
+        project = tomllib.loads(_stage_git(root, "show", "HEAD:pyproject.toml").decode())
+        for marker in ("scripts/run_ltx_final_operations.py", "services/director/run_ledger.py"):
+            _stage_git(root, "cat-file", "-e", f"HEAD:{marker}")
+    except (ValueError, UnicodeError) as exc:
+        raise _stage_error("STAGE_INVENTORY_REPOSITORY_INVALID", str(exc)) from exc
+    metadata = project.get("project")
+    if not isinstance(metadata, dict) or metadata.get("name") != "wangp-dspy":
+        raise _stage_error("STAGE_INVENTORY_REPOSITORY_INVALID", str(root))
+    return {"repo_root": identity["repo_root"], "commit_sha": identity["commit_sha"],
+            "status_porcelain_v1": status, "clean_tree": True, "dirty_tree": False,
+            "status_sha256": hashlib.sha256(status.encode()).hexdigest()}
+
+
+def _stage_files(root: Path) -> list[dict[str, Any]]:
+    files = []
+    def fingerprint(value: os.stat_result) -> tuple[int, ...]:
+        return (value.st_dev, value.st_ino, value.st_mode, value.st_size,
+                value.st_mtime_ns, value.st_ctime_ns)
+    try:
+        if root.is_symlink() or not root.is_dir():
+            raise _stage_error("STAGE_INVENTORY_PATH_INVALID", str(root))
+        def walk(directory: Path) -> None:
+            for path in sorted(directory.iterdir()):
+                if "\\" in path.name:
+                    raise _stage_error("STAGE_INVENTORY_PATH_INVALID", str(path))
+                mode = path.lstat().st_mode
+                if stat.S_ISDIR(mode):
+                    walk(path)
+                elif stat.S_ISREG(mode):
+                    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                    with os.fdopen(descriptor, "rb") as source:
+                        before = os.fstat(source.fileno())
+                        if not stat.S_ISREG(before.st_mode):
+                            raise _stage_error("STAGE_INVENTORY_PATH_INVALID", str(path))
+                        payload = source.read()
+                        after = os.fstat(source.fileno())
+                    if fingerprint(before) != fingerprint(after) or fingerprint(path.lstat()) != fingerprint(after):
+                        raise _stage_error("STAGE_INVENTORY_FILE_CHANGED", str(path))
+                    files.append({"path": path.relative_to(root).as_posix(),
+                                  "size_bytes": len(payload),
+                                  "sha256": hashlib.sha256(payload).hexdigest()})
+                else:
+                    raise _stage_error("STAGE_INVENTORY_PATH_INVALID", str(path))
+        walk(root)
+    except OSError as exc:
+        raise _stage_error("STAGE_INVENTORY_FILE_UNREADABLE", str(exc)) from exc
+    return sorted(files, key=lambda item: item["path"])
+
+
+def build_stage_inventory(repository_root: Path, staged_root: Path) -> dict[str, Any]:
+    """Bind every staged runner byte to a clean Wangp HEAD (never Wan2GP)."""
+    repository = _stage_repository(repository_root)
+    files = _stage_files(staged_root)
+    if not files:
+        raise _stage_error("STAGE_INVENTORY_FILES_MISSING", str(staged_root))
+    for entry in files:
+        payload = _stage_git(repository_root, "show",
+                             f"{repository['commit_sha']}:{entry['path']}")
+        expected = hashlib.sha256(payload).hexdigest()
+        if entry["sha256"] != expected:
+            raise _stage_error("STAGE_INVENTORY_SOURCE_MISMATCH",
+                               f"{entry['path']}: expected={expected}, observed={entry['sha256']}")
+    if _stage_repository(repository_root) != repository:
+        raise _stage_error("STAGE_INVENTORY_REPOSITORY_CHANGED", str(repository_root))
+    return {"schema_version": STAGE_INVENTORY_SCHEMA, "repository": repository,
+            "staged_root": str(staged_root.resolve()), "file_count": len(files), "files": files}
+
+
+def validate_stage_inventory(inventory: Mapping[str, Any], repository_root: Path,
+                             staged_root: Path) -> None:
+    """Reject incomplete identity and any staged path, size, or content drift."""
+    if not isinstance(inventory, Mapping) or not isinstance(inventory.get("repository"), Mapping):
+        raise _stage_error("EXECUTION_REPOSITORY_IDENTITY_UNPROVEN", "repository is absent")
+    if (set(inventory) != {"schema_version", "repository", "staged_root", "file_count", "files"}
+            or inventory["schema_version"] != STAGE_INVENTORY_SCHEMA):
+        raise _stage_error("STAGE_INVENTORY_SCHEMA_INVALID", repr(inventory))
+    repository = _stage_repository(repository_root)
+    recorded = inventory["repository"]
+    if set(recorded) != set(repository):
+        raise _stage_error("STAGE_INVENTORY_REPOSITORY_INVALID", repr(recorded))
+    for key, expected in repository.items():
+        if type(recorded[key]) is not type(expected) or recorded[key] != expected:
+            raise _stage_error("STAGE_INVENTORY_REPOSITORY_MISMATCH",
+                               f"{key}: expected={expected!r}, observed={recorded[key]!r}")
+    if inventory["staged_root"] != str(staged_root.resolve()):
+        raise _stage_error("STAGE_INVENTORY_ROOT_MISMATCH", str(inventory["staged_root"]))
+    entries = inventory["files"]
+    if (not isinstance(entries, list) or type(inventory["file_count"]) is not int
+            or inventory["file_count"] != len(entries) or not entries):
+        raise _stage_error("STAGE_INVENTORY_FILES_INVALID", repr(entries))
+    paths = []
+    for entry in entries:
+        if (not isinstance(entry, dict) or set(entry) != {"path", "size_bytes", "sha256"}
+                or type(entry["size_bytes"]) is not int or entry["size_bytes"] < 0
+                or not isinstance(entry["sha256"], str)
+                or not re.fullmatch("[0-9a-f]{64}", entry["sha256"])):
+            raise _stage_error("STAGE_INVENTORY_FILES_INVALID", repr(entry))
+        path = entry["path"]
+        if (not isinstance(path, str) or not path or path.startswith("/")
+                or "\\" in path or any(part in {"", ".", ".."} for part in path.split("/"))):
+            raise _stage_error("STAGE_INVENTORY_PATH_INVALID", repr(path))
+        paths.append(path)
+    if paths != sorted(set(paths)):
+        raise _stage_error("STAGE_INVENTORY_PATH_ORDER_INVALID", repr(paths))
+    actual = {entry["path"]: entry for entry in _stage_files(staged_root)}
+    missing, extra = set(paths) - actual.keys(), actual.keys() - set(paths)
+    if missing or extra:
+        raise _stage_error("STAGE_INVENTORY_FILE_SET_MISMATCH",
+                           f"missing={sorted(missing)}, extra={sorted(extra)}")
+    for entry in entries:
+        for key in ("size_bytes", "sha256"):
+            if entry[key] != actual[entry["path"]][key]:
+                raise _stage_error("STAGE_INVENTORY_SIZE_MISMATCH" if key == "size_bytes"
+                                   else "STAGE_INVENTORY_HASH_MISMATCH",
+                                   f"{entry['path']}: expected={entry[key]}, observed={actual[entry['path']][key]}")
+    if build_stage_inventory(repository_root, staged_root) != inventory:
+        raise _stage_error("STAGE_INVENTORY_CHANGED", "inventory changed during validation")
 
 
 @dataclass(frozen=True)
@@ -597,6 +751,11 @@ def run_batch(
             "RUNTIME_STATE_REQUIRED", "runtime_state is absent",
             "Provide a fresh isolated-runtime preflight state.",
         )
+    repository_root = plan.get("runner_repository_root")
+    if not isinstance(repository_root, str) or not Path(repository_root).is_absolute():
+        raise _stage_error("EXECUTION_REPOSITORY_IDENTITY_UNPROVEN",
+                           "runner_repository_root must explicitly identify the Wangp checkout")
+    validate_stage_inventory(plan.get("stage_inventory"), Path(repository_root), template_root)
     runtime_preflight = validate_runtime_state(runtime_state, require_fresh=True)
     if queue_db.exists():
         raise FinalOperationError(
