@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-08T22:01:40Z
 created_by: speed
 updated_at: 2026-10-08T23:08:46Z
-content_hash: "sha256:27874721b7a17d092609fba700b4829c1ab127113423d871adde2327e529a9fc"
+content_hash: "sha256:925a335a1cb393b96f95afcbe4d2680c040e39f931246689d4316279172fb4b5"
 follows: [WD-5d19, WD-28ac, WD-cuzw, WD-1s5s]
 assignee: dev-WD-nkdv
 closed_at: 2026-10-08T23:08:45Z
@@ -297,6 +297,18 @@ status: new
 | 6 | PASS | Real success, dirty, missing, hash-drift, and Wan2GP-substitution tests pass. |
 | 7 | PASS | Changed-file/test scope proves no prohibited action; retry3 remained unchanged. |
 | 8 | PASS locally / CI pending | Focused/full/verifier/lint/release/protected/diff gates pass; exact-head GitHub CI pending. |
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-10-08.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## FINAL_DELIVERY_CONTRACT_MARKER
 ## nd_contract
 status: delivered
