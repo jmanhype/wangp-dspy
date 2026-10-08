@@ -1,0 +1,27 @@
+{
+  "schema_version": "wangp-dspy.clean-generated-package-download-summary/v1",
+  "source": "installer.stdout.log",
+  "packages_reported_downloaded": 12,
+  "reported_download_total_mib": 133.3,
+  "reported_packages": [
+    {"name": "hf-xet", "reported_mib": 3.4},
+    {"name": "botocore", "reported_mib": 15.3},
+    {"name": "openai", "reported_mib": 1.6},
+    {"name": "pydantic-core", "reported_mib": 1.9},
+    {"name": "numpy", "reported_mib": 5.2},
+    {"name": "llvmlite", "reported_mib": 38.7},
+    {"name": "numba", "reported_mib": 2.6},
+    {"name": "scipy", "reported_mib": 19.5},
+    {"name": "soundfile", "reported_mib": 1.1},
+    {"name": "tokenizers", "reported_mib": 3.0},
+    {"name": "scikit-learn", "reported_mib": 7.9},
+    {"name": "litellm", "reported_mib": 33.1}
+  ],
+  "interpretation": "Locked Python package downloads only; no model weights were downloaded and no provider inference API was called.",
+  "post_workspace_sizes": {
+    "cache_bytes_approximate": 1006632960,
+    "cache_human": "961M",
+    "tools_human": "485M",
+    "checkout_human": "1.5G"
+  }
+}

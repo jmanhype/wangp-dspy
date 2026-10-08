@@ -85,6 +85,10 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
              "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
     template = load(ISOLATED_AUTHORIZATION_TEMPLATE)
+    fingerprint = hashlib.sha256(json.dumps(authorization, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    for record in load(AUTHORIZATION_CONSUMPTION).get("records", []):
+        if record.get("authorization_canonical_sha256") == fingerprint and record.get("status") == "consumed":
+            raise ProofError("AUTHORIZATION_ALREADY_CONSUMED", "this exact one-attempt authorization was already used")
     legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
                     and authorization.get("allowed_operation") == template["allowed_operation"]
                     and authorization == load(ACCEPTED_AUTHORIZATION)
@@ -105,10 +109,6 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
-    fingerprint = hashlib.sha256(json.dumps(authorization, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-    for record in load(AUTHORIZATION_CONSUMPTION).get("records", []):
-        if record.get("authorization_canonical_sha256") == fingerprint and record.get("status") == "consumed":
-            raise ProofError("AUTHORIZATION_ALREADY_CONSUMED", "this exact one-attempt authorization was already used")
     return authorization, manifest["assets"]
 
 
@@ -240,6 +240,17 @@ def relocate(host: Any, proof: Path, auth: Mapping[str, Any], config: Mapping[st
     return result
 
 
+def parse_model_row(row: str) -> tuple[str, str, str, str]:
+    normalized = row.replace("\\t", "\t")
+    parts = [part.strip() for part in normalized.split("\t", 3)]
+    if len(parts) != 4 or not all(parts):
+        raise ProofError(
+            "MODEL_PREFLIGHT_FAILED",
+            f"expected path, size, mtime, and sha256; observed {len(parts)} fields",
+        )
+    return parts[0], parts[1], parts[2], parts[3]
+
+
 def models(host: Any, proof: Path, assets: Sequence[Mapping[str, Any]], config: Mapping[str, Any]) -> list[dict[str, Any]]:
     lines = ["#!/bin/bash", "set -euo pipefail"]
     for asset in assets:
@@ -253,7 +264,7 @@ def models(host: Any, proof: Path, assets: Sequence[Mapping[str, Any]], config: 
     if rc or len(rows) != 4: raise ProofError("MODEL_PREFLIGHT_FAILED", err.strip() or "expected four model rows")
     observed = []
     for asset, row in zip(assets, rows, strict=True):
-        path, size, mtime, digest = [part.strip() for part in row.split("\t", 3)]
+        path, size, mtime, digest = parse_model_row(row)
         if path != asset["destination"] or int(size) != asset["size_bytes"] or digest != asset["sha256"]:
             raise ProofError("MODEL_PREFLIGHT_FAILED", f"model identity mismatch: {asset['id']}")
         observed.append({**asset, "observed_size_bytes": int(size), "observed_mtime": mtime, "observed_sha256": digest})

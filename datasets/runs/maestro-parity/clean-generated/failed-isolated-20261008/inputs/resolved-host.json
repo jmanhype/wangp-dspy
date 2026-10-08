@@ -1,0 +1,23 @@
+{
+  "min_free_gb": 50,
+  "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+  "pull_root": "/private/tmp/wangp-clean-generated-h3-83e407a9-20261008/pull",
+  "qc_url": "http://127.0.0.1:8377/health",
+  "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-isolated-20261007",
+  "render_timeout_s": 3600,
+  "runtime": {
+    "environment": {
+      "PYTHONUNBUFFERED": "1",
+      "PYTORCH_ALLOC_CONF": "expandable_segments:True"
+    },
+    "python": "/usr/bin/python3",
+    "pythonpath": [
+      "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65",
+      "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+      "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+    ]
+  },
+  "target": "3090",
+  "wgp_python": "/usr/bin/python3",
+  "wgp_root": "/home/straughter/Wan2GP"
+}
