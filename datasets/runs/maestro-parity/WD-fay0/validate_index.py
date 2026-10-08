@@ -330,7 +330,7 @@ def render_markdown(index: dict[str, Any]) -> str:
     lines.extend(
         [
             f"- Exactly {len(ltx['cells'])} LTX cells remain `dependency_blocked` at `{ltx['source_ref']}` (`{ltx['path']}`, SHA-256 `{ltx['sha256']}`); no download, inference, or admission is claimed.",
-            f"- First-run generated media remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`); the failed retry generated no artifact and admitted no queue job.",
+            f"- Literal clean-machine one-command reproducibility remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.",
             "",
             "## Non-matrix dispositions",
             "",

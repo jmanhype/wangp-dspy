@@ -16,7 +16,7 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 ## Remaining boundaries
 
 - Exactly 1 LTX cells remain `dependency_blocked` at `story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6` (`datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json`, SHA-256 `6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53`); no download, inference, or admission is claimed.
-- First-run generated media remains incomplete at `story/WD-bw0h-first-run` (`datasets/runs/maestro-parity/clean-generated/first-run/evidence.json`, SHA-256 `1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389`); the failed retry generated no artifact and admitted no queue job.
+- Literal clean-machine one-command reproducibility remains incomplete at `story/WD-bw0h-first-run` (`datasets/runs/maestro-parity/clean-generated/first-run/evidence.json`, SHA-256 `1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.
 
 ## Non-matrix dispositions
 

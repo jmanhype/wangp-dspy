@@ -197,6 +197,13 @@ def test_stale_non_matrix_totals_fail_closed(tmp_path: Path) -> None:
         VALIDATOR.validate_index(path, ROOT)
 
 
+def test_first_run_boundary_does_not_contradict_verified_media() -> None:
+    text = (BUNDLE / "evidence-index.md").read_text(encoding="utf-8")
+
+    assert "Literal clean-machine one-command reproducibility remains incomplete" in text
+    assert "First-run generated media remains incomplete" not in text
+
+
 def test_wrong_remaining_ltx_count_fails_closed(tmp_path: Path) -> None:
     def mutate(payload: dict[str, Any]) -> None:
         payload["remaining_boundaries"]["ltx_dependency_batch"]["cells"].pop()
