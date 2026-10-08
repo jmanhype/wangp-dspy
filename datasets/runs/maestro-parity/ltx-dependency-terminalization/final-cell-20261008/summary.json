@@ -1,0 +1,87 @@
+{
+  "authorization_canonical_sha256": "72e57c9ea1dfe84b23f0f1b504236c678124e1133ff5f7f7b065c2383a205cb3",
+  "authorization_disposition": "consumed",
+  "deletions": 0,
+  "dependency_installs": 0,
+  "failed_count": 1,
+  "model_downloads": 0,
+  "operation_count": 7,
+  "operations": [
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-outpaint/native-output/2026-10-08-10h26m10s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+      "output_sha256": "2d3b2de0c9daa58e85b89d0ce2053f8dc04ddafe85f9b6cfe673c5b271c451d7",
+      "output_size_bytes": 785047,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx23-recast/native-output/2026-10-08-10h28m31s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4",
+      "output_sha256": "c28af8879bbdb100b1425e0f500337472b9af048b462234f5d9607962d1b7702",
+      "output_size_bytes": 997753,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": null,
+      "operation_id": "ltx23-upscale",
+      "output": null,
+      "output_sha256": null,
+      "output_size_bytes": null,
+      "status": "failed"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4",
+      "output_sha256": "06c8b402a59d531329e9d0a861fff65293d240ee2238d4d02ecbbdf571e53c64",
+      "output_size_bytes": 708153,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx25-recast/native-output/wd_m7xw_recast.mp4",
+      "output_sha256": "df6bc4ecdfa9be267c9fc588af6af0acb7e56a8e74087412eab5466b143eddee",
+      "output_size_bytes": 378754,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-repaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx25-repaint/native-output/wd_m7xw_repaint.mp4",
+      "output_sha256": "9b50333d8f1fc50c66b6b97e8c90de6995183f0c7dd2a5c81c8a0388df8dc5bc",
+      "output_size_bytes": 480785,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-upscale",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008/ltx25-upscale/native-output/wd_m7xw_create_post.mp4",
+      "output_sha256": "58d9f0d2cb0c9a22c86204d3bc6611da7451fef1ee9139ccc17ba9c388ba8e10",
+      "output_size_bytes": 1873638,
+      "status": "rendered_pending_qc"
+    }
+  ],
+  "package_downloads": 0,
+  "provider_spend": false,
+  "rendered_pending_qc_count": 6,
+  "run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008",
+  "schema_version": "wangp-dspy.wd-28ac.final-cell-run/v1",
+  "status": "failed_closed",
+  "terminal_boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "download_bytes_actual": 0,
+    "exact_local_asset_found": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "exact_local_asset_hash_verified": true,
+    "missing_asset": "ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "missing_source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "native_exit": 1,
+    "required_sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+    "required_size_bytes": 7605507256,
+    "retry_attempted": false
+  },
+  "terminal_operation": "ltx23-upscale",
+  "training": false
+}
