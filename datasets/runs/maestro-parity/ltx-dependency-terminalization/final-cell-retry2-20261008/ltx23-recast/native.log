@@ -1,0 +1,45 @@
+Multiple distributions found for package optimum. Picked distribution: optimum-quanto
+/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "cipher": algorithms.TripleDES,
+/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "class": algorithms.TripleDES,
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/settings.json
+Output directory: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output
+[load_settings] Loading settings from: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/settings.json
+[load_settings] Loaded image: /home/straughter/wd-osfm-run/inputs/alternate-reference.png
+[load_settings] Task 1/1 ready, ID: 1, model: ltx2_22B_distilled_gguf_q4_k_m
+Loaded 1 task(s)
+
+[Task 1/1] LTX-2.3 recast boundary using an alternate reference frame w...
+Loading Model 'ckpts/ltx-2.3-22b-distilled-Q4_K_M_light.gguf' ...
+Loading Text Encoder 'ckpts/gemma-3-12b-it-qat-q4_0-unquantized/gemma-3-12b-it-qat-q4_0-unquantized_quanto_bf16_int8.safetensors' ...
+Loading model LTX-2 2.3 Distilled 1.0 GGUF Q4_K_M Light 22B...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Pinning data of 'transformer' to reserved RAM
+The whole model was pinned to reserved RAM: 52 large blocks spread across 12378.27 MB
+Hooked to model 'transformer' (X0Model)
+Hooked to model 'text_encoder' (Gemma3ForCausalLM)
+Hooked to model 'text_embedding_projection' (GemmaFeaturesExtractorProjLinear)
+Hooked to model 'vae' (VideoDecoder)
+Hooked to model 'video_encoder' (VideoEncoder)
+Hooked to model 'audio_encoder' (AudioEncoder)
+Hooked to model 'audio_decoder' (AudioDecoder)
+Hooked to model 'vocoder' (VocoderWithBWE)
+Hooked to model 'spatial_upsampler' (LatentUpsampler)
+Hooked to model 'text_embeddings_connector' (GemmaTextEmbeddingsConnectorModel)
+  Model loadedLora 'loras/ltx2/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors' was loaded in model 'models.ltx2.ltx2'
+'loras/ltx2/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors' was pinned entirely to reserved RAM: 5 large blocks spread across 1248.00 MB
+  [0/1] Removing Images References Background[1;31m2026-10-08 13:08:08.476379713 [E:onnxruntime:Default, provider_bridge_ort.cc:2395 TryGetProviderInfo_CUDA] /onnxruntime_src/onnxruntime/core/session/provider_bridge_ort.cc:1988 onnxruntime::Provider& onnxruntime::ProviderLibrary::Get() [ONNXRuntimeError] : 1 : FAIL : Failed to load library /home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65/onnxruntime/capi/libonnxruntime_providers_cuda.so with error: libcublas.so.13: cannot open shared object file: No such file or directory
+[m
+  [0/1] Encoding Prompt                      [Quanto][INT8] Injected Triton int8 kernels are being used.
+  [0/1] VAE Encoding     [0/8] Denoising First Phase | 34.5s  0%|          | 0/8 [00:00<?, ?steps/s] 12%|█▎        | 1/8 [00:17<02:05, 17.86s/steps]  [1/8] Denoising First Phase | 52.6s / 2m 59s 25%|██▌       | 2/8 [00:19<00:48,  8.10s/steps]  [2/8] Denoising First Phase | 53.9s / 1m 51s 38%|███▊      | 3/8 [00:20<00:24,  4.98s/steps]  [3/8] Denoising First Phase | 55.1s / 1m 29s 50%|█████     | 4/8 [00:21<00:14,  3.52s/steps]  [4/8] Denoising First Phase | 56.4s / 1m 18s 62%|██████▎   | 5/8 [00:22<00:08,  2.71s/steps]  [5/8] Denoising First Phase | 57.7s / 1m 11s 75%|███████▌  | 6/8 [00:24<00:04,  2.22s/steps]  [6/8] Denoising First Phase | 58.9s / 1m 07s 88%|████████▊ | 7/8 [00:25<00:01,  1.91s/steps]  [7/8] Denoising First Phase | 1m 00s / 1m 03s100%|██████████| 8/8 [00:26<00:00,  1.70s/steps]100%|██████████| 8/8 [00:26<00:00,  3.34s/steps]
+  [8/8] VAE Decoding | 1m 01s / 1m 01s           [0/1] VAE Encoding                    [0/3] Denoising Second Phase | 1m 05s  0%|          | 0/3 [00:00<?, ?steps/s] 33%|███▎      | 1/3 [00:19<00:39, 19.83s/steps]  [1/3] Denoising Second Phase | 1m 25s / 2m 06s 67%|██████▋   | 2/3 [00:23<00:10, 10.13s/steps]  [2/3] Denoising Second Phase | 1m 28s / 1m 40s100%|██████████| 3/3 [00:26<00:00,  7.03s/steps]100%|██████████| 3/3 [00:26<00:00,  8.83s/steps]
+  [3/3] VAE Decoding | 1m 32s / 1m 32s          Video file saved to Path: /home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output/2026-10-08-13h09m47s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4
+
+
+  Task 1 completed
+
+==================================================
+Queue completed: 1/1 tasks in 2m 01s

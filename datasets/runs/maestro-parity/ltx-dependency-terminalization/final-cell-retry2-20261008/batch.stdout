@@ -1,0 +1,1054 @@
+{
+  "boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/native-output",
+    "remediation": "Preserve the native log and stop without retry or substitution."
+  },
+  "operations": [
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791481922760-65fd3ada",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4.ffprobe.json",
+        "height": 1024,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4",
+        "output_sha256": "983d83e58659b6d28e3d39384d446f426db86f2a2e419885a1d100a7541df405",
+        "output_size_bytes": 708152,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/first-frame.png"
+        ],
+        "width": 576
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756446867456 92805140480  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23645, 13\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:54:05Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756439719936 92812288000  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 478, 23639, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "?? ckpts",
+          "utc": "2026-10-08T17:52:02Z"
+        },
+        "finished_at": 1791482045.6298122,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4",
+        "returncode": 0,
+        "started_at": 1791481922.8491614
+      },
+      "operation_id": "ltx25-outpaint",
+      "planned_job_id": "wd-28ac-ltx25-outpaint-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx25-outpaint",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4",
+            "operation": "outpaint",
+            "operation_id": "ltx25-outpaint",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.5",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791481922.760674,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791481922760-65fd3ada",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx25-outpaint",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/settings.json",
+        "destination_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+        "template": "datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
+        "template_sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791482045978-38d2eee9",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4.ffprobe.json",
+        "height": 832,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native-output/wd_m7xw_repaint.mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4",
+        "output_sha256": "26fa6203a1a65d3e6073fa7fa7e02a21a76ed0f05ac9629d16c33b846987dca8",
+        "output_size_bytes": 480785,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/first-frame.png"
+        ],
+        "width": 448
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756454928384 92797079552  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 471, 23645, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:56:20Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756448260096 92803747840  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23645, 13\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:54:05Z"
+        },
+        "finished_at": 1791482180.6289418,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native-output/wd_m7xw_repaint.mp4",
+        "returncode": 0,
+        "started_at": 1791482046.0233867
+      },
+      "operation_id": "ltx25-repaint",
+      "planned_job_id": "wd-28ac-ltx25-repaint-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx25-repaint",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4",
+            "operation": "repaint",
+            "operation_id": "ltx25-repaint",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.5",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791482045.9800045,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791482045978-38d2eee9",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx25-repaint",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/settings.json",
+        "destination_sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+        "template": "datasets/runs/maestro-parity/WD-m7xw/native-settings/repaint.json",
+        "template_sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791482180953-312ef81c",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4.ffprobe.json",
+        "height": 832,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native-output/wd_m7xw_recast.mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4",
+        "output_sha256": "a0c8a425fd07e6b713f33642830265a2a248f70deea050fe51b981506097fa67",
+        "output_size_bytes": 378753,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/first-frame.png"
+        ],
+        "width": 448
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756398424064 92853583872  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 471, 23645, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:58:34Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756455858176 92796149760  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 471, 23645, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:56:20Z"
+        },
+        "finished_at": 1791482314.5614688,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native-output/wd_m7xw_recast.mp4",
+        "returncode": 0,
+        "started_at": 1791482181.0025606
+      },
+      "operation_id": "ltx25-recast",
+      "planned_job_id": "wd-28ac-ltx25-recast-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx25-recast",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4",
+            "operation": "recast",
+            "operation_id": "ltx25-recast",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.5",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791482180.9551013,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791482180953-312ef81c",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx25-recast",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/settings.json",
+        "destination_sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+        "template": "datasets/runs/maestro-parity/WD-m7xw/native-settings/recast.json",
+        "template_sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-m7xw/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791482314875-d77ab00e",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4.ffprobe.json",
+        "height": 1664,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native-output/wd_m7xw_create_post.mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0,
+          "width_multiplier": 2.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4",
+        "output_sha256": "dc824284dd93682e8f5c2e57d787f8815f7aa317bc64ff603eac0c05f96cdc24",
+        "output_size_bytes": 1873638,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/first-frame.png"
+        ],
+        "width": 896
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756420898816 92831109120  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 473, 23643, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T18:05:45Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-m7xw"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756468150272 92783857664  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 471, 23645, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "faea82d15bf10b3479c42c0ea430892aae975870",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T17:58:34Z"
+        },
+        "finished_at": 1791482745.8013084,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native-output/wd_m7xw_create_post.mp4",
+        "returncode": 0,
+        "started_at": 1791482314.9268074
+      },
+      "operation_id": "ltx25-upscale",
+      "planned_job_id": "wd-28ac-ltx25-upscale-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx25-upscale",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4",
+            "operation": "upscale",
+            "operation_id": "ltx25-upscale",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.5",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791482314.8764093,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791482314875-d77ab00e",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx25-upscale",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/settings.json",
+        "destination_sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+        "template": "datasets/runs/maestro-parity/WD-m7xw/native-settings/upscale.json",
+        "template_sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791482746215-99fbff32",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.ffprobe.json",
+        "height": 448,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native-output/2026-10-08-13h07m30s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4",
+        "output_sha256": "e08460cee729622f8c500c85ec6436433584a9daff52780fbf2b32e50f428af1",
+        "output_size_bytes": 785047,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/first-frame.png"
+        ],
+        "width": 768
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-osfm"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756429778944 92822228992  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23644, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T18:07:35Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-osfm"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756423946240 92828061696  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 473, 23643, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+          "source_status": "?? ckpts",
+          "utc": "2026-10-08T18:05:46Z"
+        },
+        "finished_at": 1791482855.9742508,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native-output/2026-10-08-13h07m30s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+        "returncode": 0,
+        "started_at": 1791482746.275299
+      },
+      "operation_id": "ltx23-outpaint",
+      "planned_job_id": "wd-28ac-ltx23-outpaint-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx23-outpaint",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4",
+            "operation": "outpaint",
+            "operation_id": "ltx23-outpaint",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.3",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791482746.2157087,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791482746215-99fbff32",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx23-outpaint",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/settings.json",
+        "destination_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+        "template": "datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json",
+        "template_sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/settings.json",
+        "--profile",
+        "3",
+        "--attention",
+        "sdpa",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output"
+      ],
+      "attempt": 1,
+      "durable_job_id": "job-1791482856256-76468f8d",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "evidence": {
+        "duration_s": 1.375,
+        "ffprobe": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4.ffprobe.json",
+        "height": 832,
+        "native_source_output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output/2026-10-08-13h09m47s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4",
+        "objective_measurements": {
+          "distinct_hash": 1.0,
+          "nonempty_output": 1.0,
+          "valid_media": 1.0
+        },
+        "output": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4",
+        "output_sha256": "795f0c0e41c13f877d94e4938a3097307deed35610bfd01c250f4db154f2e036",
+        "output_size_bytes": 997753,
+        "visual": [
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/contact-sheet.jpg",
+          "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/first-frame.png"
+        ],
+        "width": 448
+      },
+      "native": {
+        "after": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-osfm"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756446392320 92805615616  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23644, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T18:09:53Z"
+        },
+        "before": {
+          "disk": {
+            "argv": [
+              "df",
+              "-B1",
+              "/home/straughter/Wan2GP-story-WD-osfm"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "Filesystem        1B-blocks         Used   Available Use% Mounted on\n/dev/nvme0n1p4 857997254656 756430905344 92821102592  90% /\n"
+          },
+          "gpu": {
+            "argv": [
+              "nvidia-smi",
+              "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu",
+              "--format=csv,noheader,nounits"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": "NVIDIA GeForce RTX 3090, 24576, 472, 23644, 0\n"
+          },
+          "gpu_apps": {
+            "argv": [
+              "nvidia-smi",
+              "--query-compute-apps=pid,process_name,used_memory",
+              "--format=csv,noheader"
+            ],
+            "returncode": 0,
+            "stderr": "",
+            "stdout": ""
+          },
+          "source_commit": "4c93b64a47b5b0a915f2abec2ce754be98227150",
+          "source_status": "M shared/gradio/hierarchy_selector/hierarchy_selector.pyi\n?? ckpts",
+          "utc": "2026-10-08T18:07:36Z"
+        },
+        "finished_at": 1791482993.4962914,
+        "log_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native.log",
+        "output_path": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output/2026-10-08-13h09m47s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4",
+        "returncode": 0,
+        "started_at": 1791482856.302214
+      },
+      "operation_id": "ltx23-recast",
+      "planned_job_id": "wd-28ac-ltx23-recast-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx23-recast",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "lane": "wd-28ac-native",
+            "log": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native.log",
+            "mp4": "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4",
+            "operation": "recast",
+            "operation_id": "ltx23-recast",
+            "qc_verdict": null,
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.3",
+            "status": "rendered"
+          }
+        ],
+        "created_at": 1791482856.2574844,
+        "failure_class": null,
+        "failure_count": 0,
+        "failure_detail": null,
+        "job_id": "job-1791482856256-76468f8d",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx23-recast",
+        "retryable": true,
+        "state": "rendered_pending_qc"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/settings.json",
+        "destination_sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+        "template": "datasets/runs/maestro-parity/WD-osfm/native-settings/recast-probe.json",
+        "template_sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97"
+      },
+      "status": "rendered_pending_qc"
+    },
+    {
+      "admission_state": "admitted",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/straughter/Wan2GP-story-WD-osfm/wgp.py",
+        "--process",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/settings.json",
+        "--output-dir",
+        "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/native-output"
+      ],
+      "attempt": 1,
+      "boundary": {
+        "code": "NATIVE_NO_OUTPUT",
+        "observed": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/native-output",
+        "remediation": "Preserve the native log and stop without retry or substitution."
+      },
+      "durable_job_id": "job-1791482993749-87240e99",
+      "environment": {
+        "HF_HUB_OFFLINE": "1",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages",
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True",
+        "TRANSFORMERS_OFFLINE": "1"
+      },
+      "operation_id": "ltx23-upscale",
+      "planned_job_id": "wd-28ac-ltx23-upscale-retry2-20261008-attempt-1",
+      "queue_id": "wd-28ac-retry2-20261008-ltx23-upscale",
+      "queue_state": {
+        "clips": [
+          {
+            "clip_index": 0,
+            "kind": "wd_28ac_native_operation",
+            "operation": "upscale",
+            "operation_id": "ltx23-upscale",
+            "render_fingerprint": "d4a0878862a5181da41787c59b586a3d073697da7b6328b3e1d2d3b3779367c2",
+            "row": "LTX-2.3",
+            "status": "pending"
+          }
+        ],
+        "created_at": 1791482993.750851,
+        "failure_class": "NATIVE_NO_OUTPUT",
+        "failure_count": 1,
+        "failure_detail": "exit=1, output_root=/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/native-output",
+        "job_id": "job-1791482993749-87240e99",
+        "plan_ref": "wd-28ac-retry2-20261008-ltx23-upscale",
+        "retryable": true,
+        "state": "failed"
+      },
+      "runtime_preflight": {
+        "directory": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "mmgp_version": "3.7.14",
+        "payload_sha256": "d39fa7a56869387410d299ab139eb724e3be3f04055fd5d0da69d32dec9f309b",
+        "status": "passed",
+        "system_mmgp_present": false
+      },
+      "settings": {
+        "destination": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-upscale/settings.json",
+        "destination_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+        "template": "datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json",
+        "template_sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd"
+      },
+      "status": "failed"
+    }
+  ],
+  "status": "failed_closed",
+  "terminal_operation": "ltx23-upscale"
+}

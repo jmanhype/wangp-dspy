@@ -1,0 +1,571 @@
+{
+  "assets": [
+    {
+      "cells": [
+        {
+          "operation": "recast",
+          "row": "LTX-2.5"
+        },
+        {
+          "operation": "recast",
+          "row": "LTX-2.3"
+        }
+      ],
+      "id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "xet_hash": "4647f4f18c87208f949b6f473d49af679ddd87532b40718480e5153852f1f1ba"
+    },
+    {
+      "cells": [
+        {
+          "operation": "outpaint",
+          "row": "LTX-2.5"
+        },
+        {
+          "operation": "outpaint",
+          "row": "LTX-2.3"
+        }
+      ],
+      "id": "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "xet_hash": "76df7c1ccbe8d657e38f38e8defbc0755a8d57b1a2b34fcad1f6376f4ce289f0"
+    },
+    {
+      "cells": [
+        {
+          "operation": "repaint",
+          "row": "LTX-2.5"
+        }
+      ],
+      "id": "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "xet_hash": "748bca2d539cf2776abe801da96f06d6f31eec64f2354dea0f4b336292d3b837"
+    },
+    {
+      "cells": [
+        {
+          "operation": "upscale",
+          "row": "LTX-2.5"
+        }
+      ],
+      "id": "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "xet_hash": "229e549af18993e1670ad5dac7d2d8d03bb558ae446ac4ee23f8ba1263783996"
+    },
+    {
+      "cells": [
+        {
+          "operation": "upscale",
+          "row": "LTX-2.3"
+        }
+      ],
+      "id": "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "xet_hash": "f27d0effb85903172d976f1929dc0b3a204944ff014574eaab51cdc5e54f0f22"
+    }
+  ],
+  "authorized_scope": {
+    "asset_count": 5,
+    "boundaries": [
+      "no training",
+      "no provider spend",
+      "no unrelated mutation",
+      "no threshold change",
+      "no protected-engine change",
+      "reversible storage handling",
+      "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac"
+    ],
+    "cells": [
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "repaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.5"
+      }
+    ],
+    "execution_path": "governed Wan2GP queue/adapter",
+    "host": "3090",
+    "total_download_bytes": 23701298279
+  },
+  "corrected_retry_approval": {
+    "approved_by": "operator",
+    "corrected_manifest_sha256": "05c9e6ba1d69d4a75c20d83bcb41e381e64de2a310b8dcba05a84f66b62136d2",
+    "max_curl_invocations_per_remaining_asset": 1,
+    "operation_scope": [
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "repaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.3"
+      }
+    ],
+    "preserved_first_partial": {
+      "asset_id": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "network_requests_authorized": 0,
+      "path": "/home/straughter/Wan2GP/ckpts/ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors.WD-28ac.partial",
+      "promotion_required_before_remaining_downloads": true,
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "size_bytes": 1308778338
+    },
+    "prior_undeclared_url_effective_get": {
+      "repeat_allowed": false,
+      "reported_payload_bytes": 172109,
+      "retained_as_boundary": true
+    },
+    "prohibitions": [
+      "no deletion",
+      "no training",
+      "no provider spend",
+      "no unrelated mutation",
+      "no threshold change",
+      "no protected-engine change",
+      "no undeclared model/body request",
+      "no WD-bw0h H3 retry"
+    ],
+    "remaining_download_assets": [
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+    ],
+    "source": "WD-28ac OPERATOR CORRECTED-RETRY AUTHORIZATION live tracker comment",
+    "timestamp": "2026-10-03T13:11:01Z",
+    "verbatim": "Yes"
+  },
+  "jev_corrected_native_retry_host_authorization": {
+    "capability_or_matrix_claim_authorized": false,
+    "confidence": 0.8,
+    "decision": "CONTINUE",
+    "deletion_authorized": false,
+    "dependency_install_authorized": false,
+    "download_authorized": false,
+    "fresh_host_recheck": true,
+    "fresh_preflight_path": "jev-gates/2026-10-04/gate-15-fresh-host-preflight.json",
+    "fresh_preflight_sha256": "26b1f0c232fdec66f09eb28b45f3beed55e8f3006b166f7c118d0a73d0ae5ca3",
+    "gate": 15,
+    "host_execution_authorized": true,
+    "immediate_preflight_before_execution_required": true,
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "judge_start_policy": "governed_judge_ctl_only_if_required",
+    "local_binding_host_contact_authorized": false,
+    "matrix_cells_authorized": 7,
+    "max_attempts_per_operation": 1,
+    "mode": "live",
+    "model": "jev-latest",
+    "model_or_reference_mutation_authorized": false,
+    "network_or_model_get_authorized": false,
+    "operations": [
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "repaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.3"
+      }
+    ],
+    "operations_authorized": true,
+    "protected_engine_change_authorized": false,
+    "protected_file_change_authorized": false,
+    "provider_spend_authorized": false,
+    "retry": "never",
+    "runtime_mutation_authorized": false,
+    "scope": "corrected_native_operations_after_immediate_preflight",
+    "separate_fresh_host_gate_required": false,
+    "snapshot_sha256": "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89",
+    "stop_on_first_terminal_failure": true,
+    "substitution_authorized": false,
+    "threshold_change_authorized": false,
+    "trace_sha256": "60a03fdb467c77fe512619777628b2c40832598f4fe3ab7c1955f1ba5461b8cd",
+    "training_authorized": false,
+    "unauthorized_judge_control_authorized": false,
+    "unrelated_operations_authorized": false,
+    "wd_bw0h_h3_retry_authorized": false
+  },
+  "jev_corrected_runtime_repair_authorization": {
+    "confidence": 0.82,
+    "decision": "CONTINUE",
+    "deletion_authorized": false,
+    "dependency_installs": 0,
+    "dependency_probe": "exact_module_import",
+    "evidence": "runtime-repair/2026-10-03/gate-11-evidence.json",
+    "extract_destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "gate": 11,
+    "import_isolated": true,
+    "isolated_python": "/usr/bin/python3",
+    "mode": "live",
+    "model": "jev-latest",
+    "model_or_reference_mutation_authorized": false,
+    "native_retry_authorized": false,
+    "prior_gate10_zero_request_boundary_preserved": true,
+    "protected_file_change_authorized": false,
+    "qc_start_authorized": false,
+    "queue_admission_authorized": false,
+    "render_authorized": false,
+    "scope": "corrected_isolated_runtime_repair_once",
+    "snapshot_sha256": "a4b77d969d5b675e6e076175aa6bc62caa7d927a3548a03b8b93e1ca3d3a720e",
+    "system_or_live_runtime_mutation_authorized": false,
+    "trace_sha256": "080d570ea8cc90df011d834d663d50bce562ff67961b32686957284f191c6f92",
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_get_limit": 1,
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size_bytes": 68211
+  },
+  "jev_final_operations_authorization": {
+    "confidence": 0.8,
+    "decision": "CONTINUE",
+    "evidence": "jev-gates/2026-10-03/gate-7-evidence.json",
+    "gate": 7,
+    "matrix_cells_authorized": 7,
+    "max_attempts_per_operation": 1,
+    "mode": "live",
+    "model": "jev-latest",
+    "operations_authorized": true,
+    "retry": "never",
+    "scope": "final_native_operations",
+    "snapshot_sha256": "ed82d6d2fbb2cf7f9745a55625ec8850d2cb1ff9c70514634ce9698b85f9091c",
+    "stop_on_first_terminal_failure": true,
+    "trace_sha256": "21709889328392ed0e33a76ccadd16eeb284fd45278ea36b94a6161b4a9bf7b7"
+  },
+  "jev_local_native_runtime_integration_authorization": {
+    "capability_or_matrix_claim_authorized": false,
+    "confidence": 0.85,
+    "decision": "CONTINUE",
+    "deletion_authorized": false,
+    "evidence": "jev-gates/2026-10-03/gate-12-evidence.json",
+    "gate": 12,
+    "host_contact_authorized": false,
+    "isolated_runtime_path": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "mode": "live",
+    "model": "jev-latest",
+    "model_or_reference_mutation_authorized": false,
+    "native_retry_authorized": false,
+    "network_or_model_get_authorized": false,
+    "protected_file_change_authorized": false,
+    "qc_start_authorized": false,
+    "queue_admission_authorized": false,
+    "render_authorized": false,
+    "runtime_mutation_authorized": false,
+    "scope": "local_native_runtime_integration_only",
+    "snapshot_sha256": "09edc9f0a470777a3871dcf8336e5862b219b92c670e2bf7291f2e65d74b8ddc",
+    "trace_sha256": "0a79c7f332add517cb079f60fb12594b7f8184939680c35b004aaccc7c462341"
+  },
+  "jev_phase_a_authorization": {
+    "assets": [
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors"
+    ],
+    "confidence": 0.96,
+    "decision": "CONTINUE",
+    "evidence": "jev-gates/2026-10-03/gate-evidence.json",
+    "expected_existing_finals": [
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors"
+    ],
+    "gate": 2,
+    "max_curl_invocations_per_asset": 1,
+    "mode": "live",
+    "model": "jev-latest",
+    "phase": "downloads_only",
+    "prohibited_actions": {
+      "deletion_move_or_overwrite": true,
+      "matrix_transition": true,
+      "qc_start_or_stop": true,
+      "queue_admission": true,
+      "render": true,
+      "undeclared_model_or_url_effective_request": true
+    },
+    "snapshot_sha256": "1e7d3349996543e8cf1ae9d3f66711be26ab73fa1d8b49d866fafb2ec13cbdf2",
+    "stop_before": "Jev Gate #3",
+    "trace_sha256": "2f15b2d5bc2746d9354810b3ad5302635cad66ba97ae4c1af472b4336dc835dd"
+  },
+  "jev_phase_b_preparation_authorization": {
+    "confidence": 0.78,
+    "decision": "CONTINUE",
+    "evidence": "jev-gates/2026-10-03/gate-3-4-evidence.json",
+    "gate": 4,
+    "host_execution_authorized": false,
+    "mode": "live",
+    "model": "jev-latest",
+    "scope": "local_phase_b_preparation_only",
+    "snapshot_sha256": "38e9b171448464138e18ba6b4987d43c48a1f65df9f3bfc3da628418b2c58500",
+    "trace_sha256": "1636e28fb5dbc9945c9fbe98df51500b560c5e9b06792d9798bad4823d283b9d"
+  },
+  "jev_qc_readiness_authorization": {
+    "authorized_actions": [
+      "record_prestart_state",
+      "start_existing_judge_ctl",
+      "verify_port_8000_health",
+      "record_healthy_state",
+      "stop_judge_cleanly",
+      "verify_zero_processes_and_health_unreachable"
+    ],
+    "confidence": 0.98,
+    "decision": "CONTINUE",
+    "evidence": "jev-gates/2026-10-03/gate-5-6-evidence.json",
+    "gate": 6,
+    "health_endpoint": "http://127.0.0.1:8000/health",
+    "judge_control_path": "/home/straughter/marathon/bin/judge_ctl.sh",
+    "mode": "live",
+    "model": "jev-latest",
+    "operations_authorized": false,
+    "prohibited_actions": [
+      "native_operation",
+      "queue_admission",
+      "render",
+      "retrieval",
+      "network_model_get",
+      "model_or_file_mutation",
+      "unrelated_process_action",
+      "protected_file_edit",
+      "matrix_transition"
+    ],
+    "scope": "qc_readiness_only",
+    "snapshot_sha256": "f9509a57f4311c4a595e591551fe2f3fd4e55e25bf0862ee107fb263d9340aae",
+    "trace_sha256": "f6ffafda422883b9f5cb5149bb3e9384c167b034ec5d4cae9e994659c6e10726"
+  },
+  "jev_runtime_repair_authorization": {
+    "confidence": 0.81,
+    "decision": "CONTINUE",
+    "deletion_authorized": false,
+    "dependency_installs": 0,
+    "evidence": "runtime-repair/2026-10-03/gate-summary.json",
+    "extract_destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "gate": 10,
+    "import_isolated": true,
+    "isolated_python": "/usr/bin/python3",
+    "mode": "live",
+    "model": "jev-latest",
+    "model_or_reference_mutation_authorized": false,
+    "native_retry_authorized": false,
+    "qc_start_authorized": false,
+    "queue_admission_authorized": false,
+    "render_authorized": false,
+    "scope": "isolated_runtime_repair_only",
+    "snapshot_sha256": "38780b034bc9d862491a8ec846e2ae3d736647cb65720a3f3dc426ccddb3bb4f",
+    "trace_sha256": "7415a00a2e25eb468b3afee919fd5515ab5be6903cf04559f2cf8fece99804cd",
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_get_limit": 1,
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size_bytes": 68211
+  },
+  "manifest": {
+    "path": "model-assets.json",
+    "sha256": "05c9e6ba1d69d4a75c20d83bcb41e381e64de2a310b8dcba05a84f66b62136d2",
+    "total_download_bytes": 23701298279
+  },
+  "metadata_correction": {
+    "audit_recorded_utc": "2026-10-03T08:11:12Z",
+    "finding": "The prior manifest sha256 fields contained xetHash values. Repaired sha256 fields are metadata lfs.oid exact-file digests, and xet_hash remains a separately named non-SHA identity.",
+    "model_json_sha256": "33fb1cde721375e7b391aa2189b711965364ac0dfa403a48407ab0e8d1604505",
+    "prior_correction_alone_did_not_authorize_retry": true,
+    "prior_manifest_canonical_sha256": "7f159b99bdd3a688763c5c3d4188f5672ecff9af8003d2c5f76ab783fa31ceb1",
+    "repository_revision": "6aa898aea1d968febdd834dc29e1dbef35340aeb",
+    "retry_authorization": "corrected_retry_approval",
+    "tree_json_sha256": "079d472c84a9fa68e29fab9a17896a079ea209f6c6bc8d3313a7601ee5e91baa"
+  },
+  "operator_approval": {
+    "approved_by": "operator",
+    "source": "WD-28ac live tracker comment",
+    "timestamp": "2026-10-03T06:57:55Z",
+    "verbatim": "Authorized"
+  },
+  "operator_corrected_native_retry_authorization": {
+    "decision": "Authorized",
+    "deletion_authorized": false,
+    "dependency_install_authorized": false,
+    "download_authorized": false,
+    "max_attempts_per_operation": 1,
+    "model_or_reference_mutation_authorized": false,
+    "operations_authorized_after_local_ci": 7,
+    "protected_engine_change_authorized": false,
+    "provider_spend_authorized": false,
+    "recorded_at": "2026-10-03T23:27:11Z",
+    "required_precondition": "exact-head CI success for local isolated-runtime integration",
+    "separate_host_retry_gate_required": true,
+    "stop_on_first_terminal_failure": true,
+    "substitution_authorized": false,
+    "threshold_change_authorized": false,
+    "training_authorized": false,
+    "unrelated_operations_authorized": false,
+    "verbatim_approval": "Yes you are authorized. Scope: integrate the proven isolated mmgp 3.7.14 runtime into the WD-28ac final native-operation path, CI that integration, then retry the seven named governed operations with no download/dependency install/deletion/substitution, stop on first terminal failure, preserve model/reference identities, and change only the seven owned matrix cells. This does not authorize WD-bw0h/H3 retry, unrelated operations, threshold/protected-engine changes, provider spend, training, or model-byte access beyond the five verified finals.",
+    "wd_bw0h_h3_retry_authorized": false
+  },
+  "operator_retry2_authorization_20261008": {
+    "approved_by": "operator",
+    "deletions": 0,
+    "dependency_installs": 0,
+    "local_asset_link": {
+      "copy_bytes": 0,
+      "destination": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+      "download_bytes": 0,
+      "sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+      "size_bytes": 7605507256,
+      "source": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+      "type": "symbolic link"
+    },
+    "max_attempts_per_operation": 1,
+    "model_downloads": 0,
+    "new_run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2",
+    "operation_count": 7,
+    "package_downloads": 0,
+    "proposal_sha256": "a090fe56c1549a5a6a8b70f9aa726ce9abba448eb8383640a026c6556745809e",
+    "protected_engine_changes": 0,
+    "provider_spend": false,
+    "retry": "never",
+    "status": "approved",
+    "stop_on_first_terminal_failure": true,
+    "text": "Continue approved authorized",
+    "threshold_changes": 0,
+    "timestamp": "2026-10-08T17:31:44Z",
+    "training": false
+  },
+  "operator_wheel_layout_authorization": {
+    "decision": "Authorized",
+    "deletion_authorized": false,
+    "dependency_installs": 0,
+    "destination": "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+    "inert_requirement": "empty_or_whitespace_or_module_docstring_only",
+    "model_or_reference_mutation_authorized": false,
+    "native_retry_authorized": false,
+    "network_get_limit": 0,
+    "overwrite_authorized": false,
+    "prior_boundary": "WHEEL_MEMBER_OUTSIDE_DECLARED_PACKAGE",
+    "protected_file_change_authorized": false,
+    "qc_start_authorized": false,
+    "queue_admission_authorized": false,
+    "recorded_at": "2026-10-03T22:32:06Z",
+    "render_authorized": false,
+    "resume_scope": "preserved_wheel_extraction_import_once",
+    "root_member": "__init__.py",
+    "system_or_live_runtime_mutation_authorized": false,
+    "verbatim_approval": "Yes you are authorized. Scope: the immediately pending Gate 11 boundary only\u2014accept the known root __init__.py member in the already downloaded, exact hash-verified mmgp-3.7.14 wheel if inspection confirms it is inert; extract the preserved wheel into /home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14; and verify isolated mmgp imports. No new network GET, dependency install, deletion, overwrite, native retry, QC start, queue admission, render, model/reference mutation, system-runtime mutation, or protected-file change.",
+    "wheel_filename": "mmgp-3.7.14-py3-none-any.whl",
+    "wheel_sha256": "6b544fa77a0256586bd9223c8f85c83a318c5d2f184b6adbdc655b7f22b5d208",
+    "wheel_size_bytes": 68211
+  },
+  "required_approval": {
+    "asset_ids": [
+      "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors",
+      "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
+      "ltx-2.3-22b-ic-lora-outpaint.safetensors",
+      "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors"
+    ],
+    "cells": [
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.3"
+      },
+      {
+        "operation": "outpaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "recast",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "repaint",
+        "row": "LTX-2.5"
+      },
+      {
+        "operation": "upscale",
+        "row": "LTX-2.5"
+      }
+    ],
+    "host": "3090",
+    "prohibitions": [
+      "no undeclared network access or download bytes",
+      "no substitution from unrelated assets",
+      "no training or provider spend",
+      "no unrelated mutation, threshold change, or protected-engine semantic change",
+      "no deletion except explicitly reversible temporary artifacts allowed by WD-28ac"
+    ],
+    "total_download_bytes": 23701298279
+  },
+  "retry2_local_asset_preflight": {
+    "copy_bytes": 0,
+    "destination_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "download_bytes": 0,
+    "expected_sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+    "expected_size_bytes": 7605507256,
+    "source_asset": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors"
+  },
+  "retry_authorized": true,
+  "schema_version": "wangp-dspy.ltx-dependency-authorization/v1",
+  "status": "authorized"
+}

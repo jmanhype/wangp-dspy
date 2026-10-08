@@ -1,0 +1,7 @@
+{
+  "authorization_canonical_sha256": "2d66f5ce90dcc3bb3c22033bbaeeb19ce180db1e6e354b83ece473be3dda0e3b",
+  "reason": "The retry2 seven-operation authorization was consumed: six operations rendered and ltx23-upscale failed closed on a second missing spatial-upscaler LoRA.",
+  "retry_authorized": false,
+  "schema_version": "wangp-dspy.wd-28ac.retry2-authorization-consumption/v1",
+  "status": "consumed"
+}

@@ -1,0 +1,97 @@
+{
+  "authorization_canonical_sha256": "2d66f5ce90dcc3bb3c22033bbaeeb19ce180db1e6e354b83ece473be3dda0e3b",
+  "authorization_disposition": "consumed",
+  "deletions": 0,
+  "dependency_installs": 0,
+  "failed_count": 1,
+  "model_downloads": 0,
+  "operation_count": 7,
+  "operations": [
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-outpaint/native-output/2026-10-08-13h07m30s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4",
+      "output_sha256": "e08460cee729622f8c500c85ec6436433584a9daff52780fbf2b32e50f428af1",
+      "output_size_bytes": 785047,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx23-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx23-recast/native-output/2026-10-08-13h09m47s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4",
+      "output_sha256": "795f0c0e41c13f877d94e4938a3097307deed35610bfd01c250f4db154f2e036",
+      "output_size_bytes": 997753,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": null,
+      "operation_id": "ltx23-upscale",
+      "output": null,
+      "output_sha256": null,
+      "output_size_bytes": null,
+      "status": "failed"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-outpaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4",
+      "output_sha256": "983d83e58659b6d28e3d39384d446f426db86f2a2e419885a1d100a7541df405",
+      "output_size_bytes": 708152,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-recast",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-recast/native-output/wd_m7xw_recast.mp4",
+      "output_sha256": "a0c8a425fd07e6b713f33642830265a2a248f70deea050fe51b981506097fa67",
+      "output_size_bytes": 378753,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-repaint",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-repaint/native-output/wd_m7xw_repaint.mp4",
+      "output_sha256": "26fa6203a1a65d3e6073fa7fa7e02a21a76ed0f05ac9629d16c33b846987dca8",
+      "output_size_bytes": 480785,
+      "status": "rendered_pending_qc"
+    },
+    {
+      "duration_s": 1.375,
+      "operation_id": "ltx25-upscale",
+      "output": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2/ltx25-upscale/native-output/wd_m7xw_create_post.mp4",
+      "output_sha256": "dc824284dd93682e8f5c2e57d787f8815f7aa317bc64ff603eac0c05f96cdc24",
+      "output_size_bytes": 1873638,
+      "status": "rendered_pending_qc"
+    }
+  ],
+  "package_downloads": 0,
+  "previously_missing_distilled_lora": {
+    "asset": "ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "copy_bytes": 0,
+    "destination_link": "/home/straughter/Wan2GP-story-WD-osfm/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+    "download_bytes": 0,
+    "hash_verified_through_link": true,
+    "link_created": true,
+    "sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+    "size_bytes": 7605507256,
+    "source": "/home/straughter/Wan2GP/loras/ltx2/ltx-2.3-22b-distilled-lora-384-1.1.safetensors"
+  },
+  "provider_spend": false,
+  "rendered_pending_qc_count": 6,
+  "run_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-final-cell-20261008-retry2",
+  "schema_version": "wangp-dspy.wd-28ac.final-cell-retry2-run/v1",
+  "status": "failed_closed",
+  "terminal_boundary": {
+    "code": "NATIVE_NO_OUTPUT",
+    "download_bytes_actual": 0,
+    "exact_local_asset_found": null,
+    "missing_asset": "ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "missing_source_url": "https://huggingface.co/DeepBeepMeep/LTX-2/resolve/main/ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors",
+    "native_exit": 1,
+    "required_sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+    "required_size_bytes": 654465286,
+    "retry_attempted": false
+  },
+  "terminal_operation": "ltx23-upscale",
+  "training": false
+}
