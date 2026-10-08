@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-05T15:06:09Z
-content_hash: "sha256:d00c13b22e465799d9c772f91f4dd9d2b65ee39b2f92fb4738a63bdc7193fc7a"
+updated_at: 2026-10-08T23:28:44Z
+content_hash: "sha256:5958517dbad985ec5f8d17bb0d4193919a6e0c1cace3d0db274b3cdcdc05a40e"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -181,6 +181,186 @@ authorization rather than on any local or asset prerequisite:
 Everything else is already verified at merged main 251c9284: the index validator PASSes, backlog lint is 0
 errors, the full suite is 2273 tests with zero failures and zero errors, release verify reports ready with
 no tag, the protected engine files are unchanged, and six LTX cells were promoted to host_run_verified.
+### Pending operator authorization at main 9a47698d (dispatcher, 2026-10-08)
+
+The following exact proposals are prepared and hash-bound. They are **not approved**. No host contact, render, queue admission, download, or authorization-consumption record has been created for either proposal.
+
+#### H3 clean-machine retry4
+
+- Proposal SHA-256: `ac708a0886d2b6c18c58cc74139b37211244abbc54dc4960fe64698db1d8063b`
+- Base commit: `9a47698d718e53f69ad49716aa44953bb07851d6`
+- Scope: One fresh no-download clean-machine H3 standard create on host 3090 through the repaired settings-staging path and v3 six-file source boundary
+
+```json
+{
+  "allowed_host": {
+    "min_free_gb": 50,
+    "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+    "pull_root": "{WORKSPACE}/pull",
+    "qc_url": "http://127.0.0.1:8377/health",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008",
+    "render_timeout_s": 3600,
+    "runtime": {
+      "environment": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True"
+      },
+      "python": "/usr/bin/python3",
+      "pythonpath": [
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65",
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+      ]
+    },
+    "target": "3090",
+    "wgp_python": "/usr/bin/python3",
+    "wgp_root": "/home/straughter/Wan2GP"
+  },
+  "allowed_operation": {
+    "family": "minimax_h3",
+    "operation": "create",
+    "preset": "standard",
+    "render_count": 1
+  },
+  "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
+  "boundaries": {
+    "deletions": 0,
+    "downloads": 0,
+    "gui": false,
+    "protected_engine_change": false,
+    "provider_spend": false,
+    "registry_publication": false,
+    "second_render": false,
+    "tag_creation": false,
+    "threshold_change": false,
+    "training": false
+  },
+  "deletions": 0,
+  "model_download_bytes": 0,
+  "one_attempt": true,
+  "operator_question": "Authorize this exact one-shot H3 retry4 now?",
+  "package_downloads": 0,
+  "protected_engine_change": false,
+  "provider_spend": false,
+  "render_count": 1,
+  "required_outcome": "Clean install/preflight must stage settings through RenderHost and either produce one canonical H3 MP4 passing all objective gates or stop fail-closed with a durable boundary bundle. No retry/substitution.",
+  "schema_version": "wangp-dspy.clean-generated.retry4.proposal/v1",
+  "scope": "One fresh no-download clean-machine H3 standard create on host 3090 through the repaired settings-staging path and v3 six-file source boundary",
+  "second_render": false,
+  "threshold_change": false,
+  "training": false,
+  "v3_source_files": {
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+    "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+    "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+    "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+    "scripts/record_clean_generated_proof.py": "799c0a7eacf775d13781f49827416d6c519da80dd965c0c341a5a754609f926d",
+    "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+  },
+  "v3_source_identity_sha256": "95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c"
+}
+```
+
+#### LTX identity-capture seven-operation batch
+
+- Proposal SHA-256: `e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef`
+- Base commit: `9a47698d718e53f69ad49716aa44953bb07851d6`
+- Scope: One fresh provenance-capturing seven-operation LTX native batch on host 3090 using existing local assets only
+
+```json
+{
+  "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
+  "deletions": 0,
+  "dependency_installs": 0,
+  "downstream_boundary": "Only ltx/2.3 upscale may be promoted, and only after a separate canonical bundle review; the other six outputs are identity-control evidence only.",
+  "existing_assets": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec"
+    },
+    "ltx-2.3-22b-distilled-lora-384-1.1.safetensors": {
+      "sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c1116d7d2dfa6e823b3a",
+      "size_bytes": 7605507256
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5"
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc086a52242abeed19559"
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665"
+    },
+    "ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors": {
+      "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+      "size_bytes": 654465286
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "sha256": "984851b76ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d"
+    }
+  },
+  "max_attempts_per_operation": 1,
+  "model_downloads": 0,
+  "operation_count": 7,
+  "operations": [
+    {
+      "operation": "outpaint",
+      "operation_id": "ltx25-outpaint",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "repaint",
+      "operation_id": "ltx25-repaint",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "recast",
+      "operation_id": "ltx25-recast",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "upscale",
+      "operation_id": "ltx25-upscale",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "outpaint",
+      "operation_id": "ltx23-outpaint",
+      "row": "LTX-2.3"
+    },
+    {
+      "operation": "recast",
+      "operation_id": "ltx23-recast",
+      "row": "LTX-2.3"
+    },
+    {
+      "operation": "upscale",
+      "operation_id": "ltx23-upscale",
+      "row": "LTX-2.3"
+    }
+  ],
+  "operator_question": "Authorize this exact one-shot seven-operation LTX identity-capture batch now?",
+  "package_downloads": 0,
+  "protected_engine_changes": 0,
+  "provider_spend": false,
+  "reason": "WD-b7ek cannot promote retry3 because its stage inventory lacks Wangp commit/status/file hashes; merged WD-nkdv now provides the required identity gate.",
+  "required_execution_identity": {
+    "clean_wangp_repository": true,
+    "record_commit": true,
+    "record_staged_file_path_size_sha256": true,
+    "record_status_porcelain_v1": true,
+    "staged_bytes_must_match_tracked_head": true,
+    "wan2gp_commit_is_not_wangp_identity": true
+  },
+  "retry": "never",
+  "schema_version": "wangp-dspy.ltx-identity-capture.proposal/v1",
+  "scope": "One fresh provenance-capturing seven-operation LTX native batch on host 3090 using existing local assets only",
+  "stop_on_first_terminal_failure": true,
+  "threshold_changes": 0,
+  "training": false
+}
+```
+
+Operator approval must be explicit and may authorize neither, one, or both. Approval creates a fresh one-shot authorization boundary; it does not replay retry3.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
