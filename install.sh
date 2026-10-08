@@ -392,7 +392,7 @@ if [ "$DRY_RUN" = true ]; then
             printf '%s\n' "$WGP_BIN/wgp first-run remote --json"
             printf '%s\n' "$WGP_BIN/wgp doctor --capabilities --json"
             printf '%s\n' "uv run --frozen --extra dev python scripts/record_clean_machine_refusal.py ..."
-        else
+        elif [ -z "$CLEAN_GENERATED" ]; then
             print_follow_up
         fi
         if [ -n "$CLEAN_GENERATED" ]; then

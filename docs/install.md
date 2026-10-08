@@ -74,16 +74,22 @@ model-download approval, and a complete authorized host/model manifest.
 
 ## Separately authorized clean-machine H3 generated proof
 
-WD-bw0h records the operator-approved `Authorize` no-new-download retry. From that
-authorized disposable checkout:
+WD-bw0h records the operator-approved `Authorize` no-new-download retry. The
+committed authorization for that retry has been consumed by recorded typed
+failures; the command below is the historical command shape, not permission to
+rerun it. A fresh generated proof requires a new committed authorization path.
 
 ```bash
 sh install.sh --source "$PWD" --clean-generated-proof "${TMPDIR:-/tmp}/wangp-clean-generated" --generated-authorization datasets/runs/maestro-parity/clean-generated/operator-authorization.json --generated-manifest datasets/runs/maestro-parity/clean-generated/model-assets.json
 ```
 
-Unlike `--clean-proof`, this mode supplies complete committed authorization, host, and four-asset manifest inputs before SSH. It uses isolated HOME/cache/tool/checkout/pull paths, verifies the four exact local H3 assets, reversibly offloads only the two named superseded checkpoints when the 50 GB root floor is missed, admits exactly one durable H3 standard-create queue job, and runs the existing Wan2GP adapter under offline Hub variables. The command records native argv/log, queue/retry state, output hash, ffprobe metadata, first frame/contact sheet, objective gates, and the canonical checker result. It fails closed rather than substituting an existing artifact.
+Unlike `--clean-proof`, this mode supplies complete committed authorization, host, and four-asset manifest inputs before SSH. It uses isolated HOME/cache/tool/checkout/pull paths, verifies the four exact local H3 assets, admits exactly one durable H3 standard-create queue job, and runs the existing Wan2GP adapter under offline Hub variables. A v2 authorization binds the exact SHA-256 bytes of the installer, recorder, canonical checker, and model manifest; this avoids a circular commit-hash reference while still rejecting any implementation drift. It declares no superseded relocations: root headroom must already pass, and the exact remote work root must be absent before staging. The command records native argv/log, queue/retry state, output hash, ffprobe metadata, first frame/contact sheet, objective gates, and the canonical checker result. It fails closed rather than substituting an existing artifact.
 
 This section is authorization-scoped evidence for WD-bw0h, not a general download path. The no-GPU refusal command above remains the default clean-machine proof and still exits `3` without host contact.
+The recorder rejects the retained authorization with `AUTHORIZATION_ALREADY_CONSUMED`
+before creating a workspace. An authorized isolated runtime can be supplied through
+the committed host configuration without rebuilding the absent legacy Wan2GP
+virtual environment.
 
 ## Upgrade and uninstall
 

@@ -1,0 +1,15 @@
+{
+  "schema_version": "wangp-dspy.clean-generated-authorization-consumption/v1",
+  "records": [
+    {
+      "authorization_canonical_sha256": "5d9d3e7b4f326661bd1d3a8dd58d7836f7d73b0ed3218881a4a2f6bf077b8156",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-attempt/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-retry/failure.json"
+      ],
+      "reason": "The approved one-attempt boundary was consumed by typed failures; no generated artifact or substitution was produced.",
+      "generated_artifact": false
+    }
+  ]
+}

@@ -14,6 +14,14 @@ BASE = "6ac1023b522726705d3ea560216f211003a1d4bd"
 ROOT = Path(__file__).resolve().parents[1]
 ACCEPTED = ROOT / "datasets/runs/maestro-parity/WD-isg9/model-assets.json"
 ACCEPTED_AUTHORIZATION = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-authorization.json"
+AUTHORIZATION_CONSUMPTION = ROOT / "datasets/runs/maestro-parity/clean-generated/authorization-consumption.json"
+ISOLATED_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-authorization.template.json"
+AUTHORIZED_SOURCE_FILES = (
+    "install.sh",
+    "scripts/record_clean_generated_proof.py",
+    "scripts/verify_maestro_parity.py",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json",
+)
 PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
           "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
 
@@ -76,18 +84,63 @@ def fail(proof: Path | None, code: str, detail: str, command: Sequence[str]) -> 
 def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
              "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
-    operation = {"family": "minimax_h3", "preset": "standard", "operation": "create", "render_count": 1}
-    boundaries = {"downloads": 0, "provider_spend": False, "training": False, "registry_publication": False, "gui": False,
-                  "tag_creation": False, "protected_engine_change": False, "threshold_change": False, "deletions": 0, "second_render": False}
-    valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
-             and authorization.get("allowed_operation") == operation
-             and authorization == load(ACCEPTED_AUTHORIZATION)
-             and authorization.get("boundaries") == boundaries
-             and len(authorization.get("superseded_relocations", [])) == 2)
+    template = load(ISOLATED_AUTHORIZATION_TEMPLATE)
+    legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
+                    and authorization.get("allowed_operation") == template["allowed_operation"]
+                    and authorization == load(ACCEPTED_AUTHORIZATION)
+                    and authorization.get("boundaries") == template["boundaries"]
+                    and len(authorization.get("superseded_relocations", [])) == 2)
+    v2_valid = (isinstance(authorization, dict)
+                and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v2"
+                and authorization.get("status") == "approved"
+                and authorization.get("approved_by") == "operator"
+                and all(isinstance(authorization.get(key), str) and authorization.get(key)
+                        for key in ("text", "timestamp", "scope"))
+                and authorization.get("authorized_source") == template["authorized_source"]
+                and authorization.get("allowed_host") == template["allowed_host"]
+                and authorization.get("allowed_operation") == template["allowed_operation"]
+                and authorization.get("boundaries") == template["boundaries"]
+                and authorization.get("superseded_relocations") == [])
+    valid = legacy_valid or v2_valid
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
+    fingerprint = hashlib.sha256(json.dumps(authorization, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    for record in load(AUTHORIZATION_CONSUMPTION).get("records", []):
+        if record.get("authorization_canonical_sha256") == fingerprint and record.get("status") == "consumed":
+            raise ProofError("AUTHORIZATION_ALREADY_CONSUMED", "this exact one-attempt authorization was already used")
     return authorization, manifest["assets"]
+
+
+def source_manifest(checkout: Path) -> dict[str, str]:
+    observed = {}
+    for relative in AUTHORIZED_SOURCE_FILES:
+        path = checkout / relative
+        if path.is_symlink() or not path.is_file():
+            raise ProofError("AUTHORIZED_SOURCE_INVALID", f"authorized source is not a regular file: {relative}")
+        observed[relative] = sha(path)
+    return observed
+
+
+def source_identity(files: Mapping[str, str]) -> str:
+    payload = b"".join(
+        f"{relative}\0{files[relative]}\n".encode("utf-8")
+        for relative in sorted(files)
+    )
+    return hashlib.sha256(payload).hexdigest()
+
+
+def validate_authorized_source(checkout: Path, authorization: Mapping[str, Any]) -> None:
+    expected = authorization.get("authorized_source")
+    if not isinstance(expected, dict) or set(expected.get("files", {})) != set(AUTHORIZED_SOURCE_FILES):
+        raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source file set differs from the implementation boundary")
+    files = expected["files"]
+    if any(not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None for value in files.values()):
+        raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source hashes must be lowercase SHA-256 values")
+    if expected.get("identity_sha256") != source_identity(files):
+        raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source identity diverges from its file hashes")
+    if source_manifest(checkout) != files:
+        raise ProofError("AUTHORIZED_SOURCE_INVALID", "authorized source bytes differ from the disposable checkout")
 
 
 def repository(checkout: Path) -> tuple[str, str, str]:
@@ -141,6 +194,15 @@ def free(host: Any, path: str) -> int:
     rc, out, err = probe(host, ("df", "-B1", "--output=avail", path)); match = re.search(r"\d+", out or "")
     if rc or not match: raise ProofError("HOST_PREFLIGHT_FAILED", f"cannot inspect {path}: {err.strip()}")
     return int(match.group())
+
+
+def ensure_fresh_remote_root(host: Any, proof: Path, config: Mapping[str, Any]) -> None:
+    remote_root = str(config["remote_work_root"])
+    rc, _out, err = probe(host, ("test", "!", "-e", remote_root))
+    result = {"path": remote_root, "absent": rc == 0, "probe_error": err.strip()}
+    record(proof / "preflight/remote-work-root.json", result)
+    if rc:
+        raise ProofError("REMOTE_WORK_ROOT_EXISTS", "authorized remote work root already exists")
 
 
 def relocate(host: Any, proof: Path, auth: Mapping[str, Any], config: Mapping[str, Any]) -> dict[str, Any]:
@@ -203,8 +265,36 @@ def models(host: Any, proof: Path, assets: Sequence[Mapping[str, Any]], config: 
     return observed
 
 
+def offline_wrapper_body(config: Mapping[str, Any]) -> str:
+    lines = [
+        "#!/bin/bash",
+        "set -euo pipefail",
+        "export HF_HUB_OFFLINE=1",
+        "export TRANSFORMERS_OFFLINE=1",
+    ]
+    runtime = config.get("runtime")
+    if runtime is not None:
+        if runtime.get("python") != config["wgp_python"]:
+            raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime python differs from authorized host python")
+        pythonpath = runtime.get("pythonpath")
+        if not isinstance(pythonpath, list) or not pythonpath or len(pythonpath) != len(set(pythonpath)):
+            raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime PYTHONPATH must be a nonempty unique list")
+        if any(not isinstance(item, str) or not item.startswith("/") or ".." in Path(item).parts for item in pythonpath):
+            raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime PYTHONPATH entries must be absolute contained host paths")
+        environment = runtime.get("environment")
+        if not isinstance(environment, dict) or set(environment) - {
+            "PYTHONUNBUFFERED", "PYTORCH_ALLOC_CONF"
+        }:
+            raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime environment keys are not authorized")
+        lines.append(f"export PYTHONPATH={shlex.quote(':'.join(pythonpath))}")
+        for key in sorted(environment):
+            lines.append(f"export {key}={shlex.quote(str(environment[key]))}")
+    lines.append(f"exec {shlex.quote(config['wgp_python'])} \"$@\"")
+    return "\n".join(lines) + "\n"
+
+
 def offline_wrapper(host: Any, proof: Path, config: Mapping[str, Any]) -> tuple[str, str]:
-    body = f"#!/bin/bash\nset -euo pipefail\nexport HF_HUB_OFFLINE=1\nexport TRANSFORMERS_OFFLINE=1\nexec {shlex.quote(config['wgp_python'])} \"$@\"\n"
+    body = offline_wrapper_body(config)
     remote = push(host, proof, "offline-python.sh", body)
     rc, out, err = probe(host, (remote, "-c", "import sys; print(sys.executable)"))
     if rc or out.strip() != config["wgp_python"]: raise ProofError("OFFLINE_WRAPPER_INVALID", err.strip())
@@ -316,6 +406,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         if any(not path.resolve().is_relative_to(checkout) for path in (args.authorization, args.model_manifest)):
             raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "inputs must live inside the disposable checkout")
         commit, status, identity = repository(args.checkout); toolset = tools(); proof = args.proof_dir
+        validate_authorized_source(args.checkout, auth)
         command = ["sh", str(args.installer), *[x.decode() for x in (proof / "argv.nul").read_bytes().split(b"\0") if x]]
         proof.mkdir(parents=True, exist_ok=True); (proof / "inputs").mkdir(parents=True, exist_ok=True)
         for source, name in ((args.authorization, "operator-authorization.json"), (args.model_manifest, "model-assets.json")):
@@ -323,11 +414,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         config = dict(auth["allowed_host"]); config["pull_root"] = config["pull_root"].replace("{WORKSPACE}", str(proof.parent.resolve()))
         record(proof / "inputs/resolved-host.json", config)
         record(proof / "workspace.json", {"workspace": proof.parent, "checkout": checkout, "commit": commit,
-                                           "status": status, "identity_sha256": identity, "tools": toolset, "command": command})
+                                           "status": status, "identity_sha256": identity, "tools": toolset, "command": command,
+                                           "authorized_source": auth.get("authorized_source")})
         os.environ.update({"WANGP_SSH_TARGET": config["target"], "WANGP_WGP_ROOT": config["wgp_root"],
                            "WANGP_PULL_ROOT": config["pull_root"], "WANGP_WGP_PYTHON": config["wgp_python"],
                            "WANGP_QC_URL": config["qc_url"]})
-        host = render_host(config); storage = relocate(host, proof, auth, config); model_rows = models(host, proof, assets, config)
+        host = render_host(config)
+        ensure_fresh_remote_root(host, proof, config)
+        storage = relocate(host, proof, auth, config)
+        model_rows = models(host, proof, assets, config)
         wrapper, wrapper_hash = offline_wrapper(host, proof, config); os.environ["WANGP_WGP_PYTHON"] = wrapper
         record(proof / "offline-wrapper.json", {"path": wrapper, "sha256": wrapper_hash,
                                                 "environment": {"HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}})
