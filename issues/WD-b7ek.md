@@ -8,8 +8,8 @@ labels: [capability, video, evidence, integration, qc]
 parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
-updated_at: 2026-10-08T21:34:10Z
-content_hash: "sha256:39cf79174fd0ffb228f10d5e9b0553042f73eaa6d98d8322d260ed5cbb258ee6"
+updated_at: 2026-10-08T21:46:20Z
+content_hash: "sha256:d3228aad052fa58782fd944500b33cb3ac02a51d5eb2db22ca19c4d0e255da60"
 follows: [WD-28ac, WD-cuzw]
 related: [WD-28ac, WD-osfm, WD-fay0]
 blocks: [WD-fay0]
@@ -260,7 +260,13 @@ status: new
 
 
 ## Notes
+### Fail-closed promotion boundary: execution repository identity unproven (2026-10-08)
 
+Astra stopped WD-b7ek before any implementation or matrix transition. Independent audit confirmed the preserved retry3 bytes, authorization digest, source input, and real 448x832 -> 896x1664 media, but the run does not record the Wangp runner execution commit or per-file source identity. `stage-inventory.json` lists 13 paths only. All commit fields in native operation/preflight evidence identify Wan2GP trees (`4c93b64a...` or `faea82d1...`), not Wangp. `authorization.metadata_correction.repository_revision=6aa898...` is model metadata provenance, not runner execution.
+
+Audit artifact SHA-256: `5a50d08edb75cdb733a3704b55333acf4318f549ae7a5a13ecfa4d91fb0d52f7`. It verified all four specified operation hashes, the source-input hash, canonical authorization digest, ffprobe dimensions/duration/audio, and all 42 preserved files without mutation.
+
+Boundary: `EXECUTION_REPOSITORY_IDENTITY_UNPROVEN`. Substituting preservation merge `582014de` would be false. The target cell remains unpromoted. A separate defect story must make future LTX operation runs record exact Wangp runner commit/status/file hashes; then a newly authorized run can provide promotable provenance.
 
 ## History
 - 2026-10-08T21:31:23Z dep_added: blocks WD-fay0
