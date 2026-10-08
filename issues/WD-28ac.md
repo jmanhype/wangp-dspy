@@ -8,8 +8,8 @@ labels: [video, evidence, external-integration, operator-decision, accepted]
 parent: WD-3nod
 created_at: 2026-09-29T07:05:33Z
 created_by: speed
-updated_at: 2026-10-05T15:04:51Z
-content_hash: "sha256:167c9dbda3e5adc42819d06cf18fb85e4e126537ea2284378b7f2073a91048b3"
+updated_at: 2026-10-08T21:20:34Z
+content_hash: "sha256:538880341d472352db57dff1343e1428752e5958602ea704fece33efc39c10f4"
 follows: [WD-23rs, WD-p587, WD-1s5s, WD-cuzw, WD-he8i, WD-qthq]
 was_blocked_by: [WD-1s5s, WD-cuzw]
 assignee: dev-WD-28ac
@@ -1105,7 +1105,11 @@ root free 97 GB to 90 GB. All required assets for all seven cells are therefore 
 What remains for that single cell is not a dependency but an authorized host run producing a run bundle,
 which is the per-batch GPU-host authorization item. No cell state was changed by the download and the
 ltx/2.3 upscale cell correctly remains dependency_blocked until such a bundle exists.
+### Retry3 native completion evidence merged (dispatcher, 2026-10-08)
 
+PR 232 was merged at main `582014de` after exact-head CI success. The preserved retry3 bundle contains all seven native operations as `rendered_pending_qc`, seven queue jobs with zero failures, one authorized 654,465,286-byte spatial-upscaler download, exact output/settings hashes, ffprobe dimensions, and a reproducible canonical authorization digest `70f23626575fcc55e6310ecb6ac201039148584452ae52cfaf6f98684c61f1a3`.
+
+Independent evidence review returned `REVIEW_RESULT: APPROVED` for preservation only. It did not approve QC, matrix promotion, or capability transition. The final `LTX-2.3 / Upscale` cell remains `dependency_blocked` in current docs/index until a separate promotion story reviews and transitions it from this evidence.
 
 ## nd_contract
 status: accepted
