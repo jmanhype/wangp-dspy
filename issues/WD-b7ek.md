@@ -9,7 +9,8 @@ parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
 updated_at: 2026-10-08T21:30:42Z
-content_hash: "sha256:979188ce9e390d41d7665882203025e1b707f975d3998cd254a337d5193294e6"
+content_hash: "sha256:009c0aa941bcff32ecfae131f3011ac36528ee7c625aa4171eaeec68531cbfcd"
+follows: [WD-28ac]
 ---
 
 ## Description
@@ -144,5 +145,6 @@ status: new
 
 ## Links
 - Parent: [[WD-3nod]]
+- Follows: [[WD-28ac]]
 
 ## Comments
