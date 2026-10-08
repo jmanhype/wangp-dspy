@@ -9,11 +9,11 @@ parent: WD-3nod
 created_at: 2026-10-08T21:30:42Z
 created_by: speed
 updated_at: 2026-10-08T21:46:20Z
-content_hash: "sha256:628975a2ebe26980dccd693bdd317437e2785800b0a3f621cf6d9d7f53cc8099"
+content_hash: "sha256:2799cf24578d046312cddf86266f41028d19aeed5ec5a8f7973a4c1cad341aa8"
 follows: [WD-28ac, WD-cuzw]
 related: [WD-28ac, WD-osfm, WD-fay0]
 blocks: [WD-fay0]
-blocked_by: [WD-5d19]
+was_blocked_by: [WD-5d19]
 ---
 
 ## Description
@@ -277,11 +277,12 @@ Boundary: `EXECUTION_REPOSITORY_IDENTITY_UNPROVEN`. Substituting preservation me
 - 2026-10-08T21:46:20Z released by speed
 - 2026-10-08T21:46:20Z status: open -> deferred
 - 2026-10-08T21:56:41Z dep_added: blocked_by WD-5d19
+- 2026-10-08T22:01:39Z dep_removed: was_blocked_by WD-5d19
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Blocked by: [[WD-5d19]]
+- Was blocked by: [[WD-5d19]]
 - Related: [[WD-28ac]], [[WD-osfm]], [[WD-fay0]]
 - Follows: [[WD-28ac]], [[WD-cuzw]]
 
