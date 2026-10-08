@@ -4,7 +4,7 @@
     "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
     "pull_root": "{WORKSPACE}/pull",
     "qc_url": "http://127.0.0.1:8377/health",
-    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry3-20261008",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008",
     "render_timeout_s": 3600,
     "runtime": {
       "environment": {
@@ -32,11 +32,13 @@
   "authorized_source": {
     "files": {
       "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+      "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
       "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
-      "scripts/record_clean_generated_proof.py": "6e8f48f5c970c0196c8b346a52e2dd45731897a2ddd0fdb0d3df997f850f0099",
+      "scripts/record_clean_generated_proof.py": "799c0a7eacf775d13781f49827416d6c519da80dd965c0c341a5a754609f926d",
       "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
     },
-    "identity_sha256": "72b605ac36ae015c2f9ebcc5eded4b95dbe61ffccf0c4eead8fca9547c4679b9"
+    "identity_sha256": "95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c"
   },
   "boundaries": {
     "deletions": 0,
@@ -50,7 +52,7 @@
     "threshold_change": false,
     "training": false
   },
-  "schema_version": "wangp-dspy.clean-generated-authorization/v2",
+  "schema_version": "wangp-dspy.clean-generated-authorization/v3",
   "scope": "",
   "status": "requires_operator_approval",
   "superseded_relocations": [],

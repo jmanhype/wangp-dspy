@@ -147,27 +147,28 @@ def test_future_authorization_binds_exact_authorized_source_bytes() -> None:
     recorder.validate_authorized_source(ROOT, authorization)
 
 
-def test_future_authorization_rejects_changed_source_bytes(tmp_path: Path) -> None:
+@pytest.mark.parametrize("relative", ["install.sh", "host/wangp_adapter.py", "host/render_host.py"])
+def test_future_authorization_rejects_changed_source_bytes(tmp_path: Path, relative: str) -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
     checkout = tmp_path / "checkout"
 
-    for relative in recorder.AUTHORIZED_SOURCE_FILES:
-        destination = checkout / relative
+    for source in recorder.V3_AUTHORIZED_SOURCE_FILES:
+        destination = checkout / source
         destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / relative, destination)
-    (checkout / "install.sh").write_text("#!/bin/sh\n# changed\n", encoding="utf-8")
+        shutil.copyfile(ROOT / source, destination)
+    (checkout / relative).write_text("# changed\n", encoding="utf-8")
 
     with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
         recorder.validate_authorized_source(checkout, authorization)
 
 
-def test_v2_authorization_binds_committed_source_without_circular_commit(tmp_path: Path) -> None:
+def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_path: Path) -> None:
     recorder = _load_recorder()
     checkout = tmp_path / "checkout"
     checkout.mkdir()
 
-    for relative in recorder.AUTHORIZED_SOURCE_FILES:
+    for relative in recorder.V3_AUTHORIZED_SOURCE_FILES:
         destination = checkout / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / relative, destination)
@@ -178,7 +179,7 @@ def test_v2_authorization_binds_committed_source_without_circular_commit(tmp_pat
     subprocess.run(("git", "init", str(checkout)), capture_output=True, text=True, check=True)
     subprocess.run(("git", "-C", str(checkout), "add", "."), capture_output=True, text=True, check=True)
     subprocess.run(
-        ("git", "-C", str(checkout), "-c", "user.name=Test", "-c", "user.email=test@example.test", "commit", "-m", "v2 authorization"),
+        ("git", "-C", str(checkout), "-c", "user.name=Test", "-c", "user.email=test@example.test", "commit", "-m", "v3 authorization"),
         capture_output=True,
         text=True,
         check=True,
@@ -190,7 +191,7 @@ def test_v2_authorization_binds_committed_source_without_circular_commit(tmp_pat
     assert len(assets) == 4
 
 
-def test_operator_v2_authorization_is_approved_and_exact_source_bound() -> None:
+def test_operator_v3_authorization_is_approved_and_exact_source_bound() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
 
@@ -249,7 +250,7 @@ def test_retry3_operator_authorization_cannot_be_replayed_after_consumption(tmp_
     assert all((ROOT / path).is_file() for path in consumed[0]["evidence"])
 
 
-def test_retry3_operator_authorization_is_approved_and_source_bound() -> None:
+def test_retry3_operator_authorization_is_approved_and_source_bound(tmp_path: Path) -> None:
     recorder = _load_recorder()
     authorization = json.loads(
         (
@@ -259,7 +260,17 @@ def test_retry3_operator_authorization_is_approved_and_source_bound() -> None:
     )
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    recorder.validate_authorized_source(ROOT, authorization)
+    # Historical v2 hashes must validate against historical bytes, not the v3 recorder.
+    for relative in recorder.AUTHORIZED_SOURCE_FILES:
+        destination = tmp_path / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        historical = subprocess.run(
+            ("git", "-C", str(ROOT), "show", f"e0524830:{relative}"),
+            capture_output=True, check=True,
+        )
+        destination.write_bytes(historical.stdout)
+    recorder.validate_authorized_source(tmp_path, authorization)
+    assert len(authorization["authorized_source"]["files"]) == 4
 
     assert authorization["status"] == "approved"
     assert authorization["text"] == "Continue approved authorized"
@@ -267,6 +278,73 @@ def test_retry3_operator_authorization_is_approved_and_source_bound() -> None:
         "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry3-20261008"
     )
     assert len(manifest["assets"]) == 4
+
+
+def test_v3_template_binds_exact_six_file_boundary() -> None:
+    recorder = _load_recorder()
+    authorization = _future_isolated_runtime_authorization()
+    assert authorization["schema_version"] == "wangp-dspy.clean-generated-authorization/v3"
+    files = authorization["authorized_source"]["files"]
+    assert set(files) == {
+        "install.sh", "scripts/record_clean_generated_proof.py", "scripts/verify_maestro_parity.py",
+        "datasets/runs/maestro-parity/clean-generated/model-assets.json",
+        "host/wangp_adapter.py", "host/render_host.py",
+    }
+    for relative in ("host/wangp_adapter.py", "host/render_host.py"):
+        assert files[relative] == recorder.sha(ROOT / relative)
+    recorder.validate_authorized_source(ROOT, authorization)
+
+
+@pytest.mark.parametrize("relative", ["host/wangp_adapter.py", "host/render_host.py"])
+@pytest.mark.parametrize("tamper", ["hash", "missing", "extra"])
+def test_v3_rejects_transport_source_tampering(relative: str, tamper: str) -> None:
+    recorder = _load_recorder()
+    authorization = _future_isolated_runtime_authorization()
+    files = authorization["authorized_source"]["files"]
+    if tamper == "hash":
+        files[relative] = "0" * 64
+    elif tamper == "missing":
+        del files[relative]
+    else:
+        files["unrelated.py"] = files[relative]
+    # Even a self-consistent identity cannot authorize different bytes/file membership.
+    authorization["authorized_source"]["identity_sha256"] = recorder.source_identity(files)
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.validate_authorized_source(ROOT, authorization)
+    assert caught.value.code == "AUTHORIZED_SOURCE_INVALID"
+    with pytest.raises(recorder.ProofError, match="authorization boundary mismatch"):
+        recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
+
+
+def test_v2_cannot_claim_v3_template_identity() -> None:
+    recorder = _load_recorder()
+    authorization = _future_isolated_runtime_authorization()
+    authorization["schema_version"] = "wangp-dspy.clean-generated-authorization/v2"
+    with pytest.raises(recorder.ProofError, match="v2 isolated authorization is retired") as caught:
+        recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
+    assert caught.value.code == "AUTHORIZATION_V2_RETIRED"
+    with pytest.raises(recorder.ProofError, match="file set differs"):
+        recorder.validate_authorized_source(ROOT, authorization)
+
+
+def test_v2_mutated_consumed_authorization_is_retired(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    authorization = recorder.load(BUNDLE / "operator-authorization.isolated-runtime.retry3-20261008.json")
+    # Changing the fingerprint must not bypass retirement of the consumed v2 boundary.
+    authorization["text"] = "test-only historical v2 boundary"
+    with pytest.raises(recorder.ProofError, match="v2 isolated authorization is retired") as caught:
+        recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
+    assert caught.value.code == "AUTHORIZATION_V2_RETIRED"
+    # Historical source validation is separate from permission to run.
+    for relative in recorder.AUTHORIZED_SOURCE_FILES:
+        destination = tmp_path / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        historical = subprocess.run(
+            ("git", "-C", str(ROOT), "show", f"e0524830:{relative}"),
+            capture_output=True, check=True,
+        )
+        destination.write_bytes(historical.stdout)
+    recorder.validate_authorized_source(tmp_path, authorization)
 
 
 def test_queue_state_uses_actual_job_attempt_schema(tmp_path: Path) -> None:
