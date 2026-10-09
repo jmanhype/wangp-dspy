@@ -1,16 +1,17 @@
 ---
 id: WD-5yg9
 title: "Preflight H3 PyAV media-write compatibility"
-status: open
+status: closed
 priority: 0
 type: task
 labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:00Z
 created_by: speed
-updated_at: 2026-10-09T14:30:00Z
-content_hash: "sha256:d82d80b2064537f1c10bef2f12607fd71000a6d3c324381bf8a7aa8a680b5657"
-blocks: [WD-bw0h, WD-fay0]
+updated_at: 2026-10-09T14:30:31Z
+content_hash: "sha256:d02d228a3e365a1cd184a79bb943f61d52927586d5780967d62382861657538f"
+closed_at: 2026-10-09T14:30:31Z
+close_reason: "Quarantined malformed story replaced due tracker-authored heading/consumes lint defects."
 ---
 
 ## Description
@@ -81,9 +82,11 @@ status: new
 ## History
 - 2026-10-09T14:30:07Z dep_added: blocks WD-bw0h
 - 2026-10-09T14:30:08Z dep_added: blocks WD-fay0
+- 2026-10-09T14:30:31Z status: open -> closed
+- 2026-10-09T14:30:31Z dep_removed: no_longer_blocks WD-bw0h
+- 2026-10-09T14:30:31Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bw0h]], [[WD-fay0]]
 
 ## Comments
