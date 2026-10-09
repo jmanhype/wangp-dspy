@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-08T22:38:37Z
-content_hash: "sha256:1c55e7f50355c8174bf0046dae9305065072ae88e1c82d3d6280aace4234be93"
+updated_at: 2026-10-09T13:42:19Z
+content_hash: "sha256:5ef2d60e0b630f751dd775e3cbc097d1e4dd8e56684f01e94bfe4f2393a5d0c7"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -228,6 +228,11 @@ Exact-head CI at `974d4d6f` failed two tests because they invoked `git show e052
 PR 233 was rebased onto PR 232 main and exact-head CI succeeded at `e59f305def29f75153de6122545c6664bdb27d17`. It merged as main `088c6cc2e2feef73efb8d5aab1abbcc411d32a93`. Focused smoke tests passed after merge.
 
 The merged v3 template remains `requires_operator_approval`, binds the exact six-file source identity `95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c`, retires v2 inputs, and preserves retry3 replay/retirement. A one-shot no-download H3 retry4 proposal is prepared at `/tmp/WD-bw0h-retry4-proposal.json`, SHA-256 `f446fdec7b52af79d6bf07c95ef61e00247c82b921387c85f5b0d8711ea5ef2b`, bound to main `088c6cc2e2feef73efb8d5aab1abbcc411d32a93`. No retry4 host action has been requested or executed.
+### OPERATOR AUTHORIZATION at 2026-10-09T00:21:12Z
+
+Verbatim user input: `Continue authorized approved`
+
+Interpreted scope: the immediately preceding blocked-goal request—approve BOTH exact pending one-shot GPU-host batches. For WD-bw0h this approves only proposal SHA-256 `ac708a0886d2b6c18c58cc74139b37211244abbc54dc4960fe64698db1d8063b`: one fresh no-download clean-machine H3 standard create on host 3090 at main `9a47698d718e53f69ad49716aa44953bb07851d6`, through the repaired settings-staging path and v3 six-file source boundary, with one render maximum and all listed prohibitions. A fresh source-bound authorization file and exact-head CI are required before host mutation; retry3 remains consumed.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
