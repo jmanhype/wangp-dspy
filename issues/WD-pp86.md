@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, integration]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T16:17:51Z
-content_hash: "sha256:072f9ef3581952902d4b388df7a39b7e6a2cb6905ad0850cb50a463675050b16"
+updated_at: 2026-10-09T16:18:21Z
+content_hash: "sha256:4b7bb3fe58355a211e07425073794ce796a93123d4bcc62689581c40aa211413"
 blocks: [WD-bw0h, WD-fay0]
 follows: [WD-mgcd]
 ---
@@ -21,11 +21,11 @@ follows: [WD-mgcd]
 - WD-bw0h retry4 completed H3 denoising but failed media write because torchvision `0.20.1+cu121` passes legacy string `"NONE"` to PyAV `16.1.0`, whose `VideoFrame.pict_type` setter now requires an integer/enum.
 - WD-mgcd now fails this incompatibility closed before queue/render. That protects one-shot authorizations but does not repair the write path.
 - A read-only temporary-host proof has already demonstrated a no-install compatibility shim. When a directory containing a `sitecustomize.py` patch precedes the authorized offline PYTHONPATH, the exact `torchvision.io.video` writer is replaced by a same-source copy with `frame.pict_type = 0`; both `torchvision.io.video.write_video` and `torchvision.io.write_video` refer to the patched function, and a 2-frame 8x8 synthetic tensor writes a nonempty 1,555-byte MP4.
-- Successful shim proof: `/tmp/WD-h3-pyav-compat-success.txt`, SHA-256 `a356597b5a4954a3b9c0fa291604f6d6b523040f36e4ff92f651b5da3f08fafe`.
+- Successful shim proof: `/tmp/h3_pyav_compat_success.txt`, SHA-256 `a356597b5a4954a3b9c0fa291604f6d6b523040f36e4ff92f651b5da3f08fafe`.
 
 ## USER INTENT
 
-The next authorized H3 clean-machine attempt should pass the no-model media-write preflight and preserve WanGP's completed video instead of losing a successful 20-step denoising run at the final encoder call, without installing packages or mutating the shared Wan2GP checkout.
+The next authorized H3 clean-machine attempt returns a successful media-write preflight and should pass the no-model media-write preflight and preserve WanGP's completed video instead of losing a successful 20-step denoising run at the final encoder call, without installing packages or mutating the shared Wan2GP checkout.
 
 ## OUT OF SCOPE
 
@@ -71,7 +71,7 @@ CONSUMES:
 - A local fixture may emulate the exact legacy writer/PyAV behavior only when real torch/torchvision/PyAV are unavailable; it must be labeled fixture evidence and cannot be represented as host proof.
 - Commands: focused clean-generated tests; `pvg verify`; `pvg lint --backlog`; `wgp release verify`; protected-file parity; `git diff --check`; exact-head CI.
 
-## Skills To Use
+## MANDATORY SKILLS
 
 - pvg
 - tool-systematic-debugging
