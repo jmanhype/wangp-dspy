@@ -9,10 +9,10 @@ parent: WD-3nod
 created_at: 2026-10-09T14:30:32Z
 created_by: speed
 updated_at: 2026-10-09T14:30:58Z
-content_hash: "sha256:7e70b09a4bf851894fbeac9f9bfc91c02334bdb97744f85135cc310dcc92fe9d"
+content_hash: "sha256:8e5b8f2d9e35ac490b39265085ceafa0e8ffc75d3031a04aa4e898e05fcccbcb"
 closed_at: 2026-10-09T14:30:58Z
 close_reason: "Quarantined replacement: Existing consumes labels did not resolve to story IDs."
-led_to: [WD-mgcd, WD-pp86]
+led_to: [WD-mgcd, WD-pp86, WD-82q2]
 ---
 
 ## Description
@@ -96,6 +96,6 @@ status: new
 
 ## Links
 - Parent: [[WD-3nod]]
-- Led to: [[WD-mgcd]], [[WD-pp86]]
+- Led to: [[WD-mgcd]], [[WD-pp86]], [[WD-82q2]]
 
 ## Comments
