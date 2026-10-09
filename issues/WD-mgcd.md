@@ -4,7 +4,7 @@ title: "Preflight H3 PyAV media-write compatibility"
 status: closed
 priority: 0
 type: task
-labels: [bug, evidence, qc, delivered, accepted]
+labels: [bug, evidence, qc, accepted]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
