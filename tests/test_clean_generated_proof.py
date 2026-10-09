@@ -212,8 +212,7 @@ def test_future_authorization_binds_exact_authorized_source_bytes() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
 
-    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
-        recorder.validate_authorized_source(ROOT, authorization)
+    recorder.validate_authorized_source(ROOT, authorization)
 
 
 @pytest.mark.parametrize("relative", ["install.sh", "host/wangp_adapter.py", "host/render_host.py"])
@@ -256,8 +255,6 @@ def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_pat
 
     validated, assets = recorder.inputs(authorization, json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8")))
     # A future approval must bind the updated recorder; do not rewrite historical approval files.
-    validated["authorized_source"]["files"] = recorder.source_manifest(checkout, recorder.V3_AUTHORIZED_SOURCE_FILES)
-    validated["authorized_source"]["identity_sha256"] = recorder.source_identity(validated["authorized_source"]["files"])
     recorder.validate_authorized_source(checkout, validated)
 
     assert len(assets) == 4
@@ -272,8 +269,7 @@ def test_operator_v3_authorization_is_approved_and_exact_source_bound() -> None:
     assert authorization["allowed_host"] == json.loads(
         (BUNDLE / "isolated-runtime-authorization.template.json").read_text(encoding="utf-8")
     )["allowed_host"]
-    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
-        recorder.validate_authorized_source(ROOT, authorization)
+    recorder.validate_authorized_source(ROOT, authorization)
 
 
 def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
@@ -402,10 +398,14 @@ def test_v3_template_binds_exact_six_file_boundary() -> None:
         "datasets/runs/maestro-parity/clean-generated/model-assets.json",
         "host/wangp_adapter.py", "host/render_host.py",
     }
-    for relative in ("host/wangp_adapter.py", "host/render_host.py"):
-        assert files[relative] == recorder.sha(ROOT / relative)
-    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
-        recorder.validate_authorized_source(ROOT, authorization)
+    assert files == recorder.source_manifest(ROOT, recorder.V3_AUTHORIZED_SOURCE_FILES)
+    assert files["scripts/record_clean_generated_proof.py"] == (
+        "8f86ceb472103e649c6b6a849f490addf363d0c77970ce7e0202df5d714e2830"
+    )
+    assert authorization["authorized_source"]["identity_sha256"] == (
+        "f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6"
+    )
+    recorder.validate_authorized_source(ROOT, authorization)
 
 
 @pytest.mark.parametrize("relative", ["host/wangp_adapter.py", "host/render_host.py"])
