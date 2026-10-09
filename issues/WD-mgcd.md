@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T16:07:07Z
-content_hash: "sha256:07a398de371fbc97af36dc8f4c2969072428127c5000a30fcad87f59e358fee2"
+updated_at: 2026-10-09T16:13:44Z
+content_hash: "sha256:e40022fa0e54585c08aa078b51355eb22bdb6a366eaaced37d14f598abc7e3eb"
 blocks: [WD-bw0h, WD-fay0]
 assignee: dev-WD-mgcd
 follows: [WD-dhcc, WD-5yg9]
@@ -92,6 +92,25 @@ Commands run:
 - `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
 - `git diff --check`
 - GitHub Actions exact-head CI run `37950722805` (`uv run --frozen --extra dev pytest -q` and `uv build`)
+## PM Decision
+ACCEPTED [2026-10-09]: Evidence reviewed and meets the bar.
+
+## nd_contract
+status: accepted
+
+### evidence
+- Exact head, PR ref, worktree, diagnostic SHA-256, ordering, static gates, focused-test proof, and exact-head CI run 37950722805 were reviewed.
+- AC #1 through AC #7 are verified from delivered evidence and read-only checks.
+
+### proof
+- [x] AC #1: diagnostic bytes and SHA-256 match.
+- [x] AC #2: preflight precedes relocation, models, wrapper, render, and queue.
+- [x] AC #3: all failure paths are typed and exclude queue admission.
+- [x] AC #4: success evidence records versions, output, hashes, stdout, stderr, and log hash.
+- [x] AC #5: focused tests cover success, exception, nonzero, missing, empty, hash mismatch, and ordering.
+- [x] AC #6: delivered scope contains no prohibited action or protected-file change.
+- [x] AC #7: focused tests, CI, lint, verifier, release, protected parity, whitespace, and diff evidence pass.
+
 
 ## Implementation Evidence
 
