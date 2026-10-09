@@ -4,11 +4,11 @@ title: "Stage no-install H3 PyAV media-write compatibility"
 status: closed
 priority: 0
 type: task
-labels: [bug, evidence, qc, integration, delivered, accepted]
+labels: [bug, evidence, qc, integration, accepted]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T17:47:57Z
+updated_at: 2026-10-09T17:47:58Z
 content_hash: "sha256:9db5f78102577c5341552936d41c11b9889c5c7ee85f1a15c48ff3bc0f4d25f4"
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
