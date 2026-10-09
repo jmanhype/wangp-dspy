@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, integration, delivered]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T17:40:46Z
-content_hash: "sha256:1b49af3b8c4c935d29bd83012b66188718c96dd36573aba3b0f127e459311f0e"
+updated_at: 2026-10-09T17:40:48Z
+content_hash: "sha256:20871bec1473fda11d276886ca5eee9c5276d0e4a465101d79a20fab81cdc7d9"
 blocks: [WD-bw0h, WD-fay0]
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
@@ -93,7 +93,93 @@ status: new
 
 
 ## Notes
+## Implementation Evidence
 
+Summary: WD-pp86 stages a deterministic no-install PyAV compatibility shim in the exact authorized remote work root, prepends that directory to the offline runtime PYTHONPATH, and requires the no-model media-write preflight to pass before storage relocation, model checks, queue construction/admission, or H3 render. Shared Wan2GP source is not mutated.
+
+Commit SHA: 8a03f9352dbde33ee1b372c40b233161eb10add9
+PR: https://github.com/jmanhype/wangp-dspy/pull/239
+Accepted implementation base: PR 238 head `510d2234826a4c283648da4c1be646e29932fd37`
+
+Changed files:
+- `scripts/record_clean_generated_proof.py`
+- `tests/test_clean_generated_proof.py`
+- `tests/test_clean_generated_pyav_compat.py`
+- `datasets/runs/maestro-parity/WD-pp86/pyav-compat-success.txt`
+
+Shim boundaries:
+- Generated `sitecustomize.py` is 1,385 bytes with SHA-256 `9dfe8c270fc888acde082365a5d9d88208773679a4d5944940fdd8a97a4f0cb3`.
+- It rejects any environment where its directory does not lead PYTHONPATH.
+- It requires `torchvision.io.write_video` and `torchvision.io.video.write_video` to alias the same original writer.
+- It requires exactly one whole-line legacy assignment `frame.pict_type = "NONE"`.
+- It replaces only that assignment with integer `0`, patches both aliases, and exposes `PYAV_COMPAT_APPLIED=True`.
+- Unexpected source, alias, or patch behavior exits code 78 rather than being swallowed.
+- Staging verifies exact remote path and fetched byte hash.
+- Offline wrapper verifies the staged shim hash before normal site startup and prepends its directory.
+- Media-write script requires `PYAV_COMPAT_APPLIED` before importing dependencies or writing.
+- Any staging, ordering, patch, media-write, or hash failure stops before storage/model/queue/render.
+
+Raw successful temporary-host proof:
+- Path: `datasets/runs/maestro-parity/WD-pp86/pyav-compat-success.txt`
+- SHA-256: `a356597b5a4954a3b9c0fa291604f6d6b523040f36e4ff92f651b5da3f08fafe`
+- Recorded `sitecustomize torchvision torchvision.io.video True`, patched first line number 1, and a 1,555-byte synthetic write. This is proof of the no-install shim on the temporary host; it is not an H3 render or generated clean-machine artifact.
+
+### CI/Test Results
+
+- Combined focused tests: 61 tests, 0 failures, 0 errors, 0 skipped.
+- `pvg verify scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py tests/test_clean_generated_pyav_compat.py --format=text --include-tests`: PASSED, 3 files, 0 issues.
+- `wgp release verify`: release=ready, tag_created=false.
+- `pvg lint --backlog`: 163 scanned, 0 errors, 0 review findings.
+- Protected-file/host-adapter parity versus accepted base and `origin/main`: PASS.
+- `git diff --check`: PASS.
+- Independent adversarial review: `REVIEW_RESULT: APPROVED`.
+- Exact-head GitHub CI run `37964950342`: SUCCESS at `8a03f9352dbde33ee1b372c40b233161eb10add9`; full test suite and distributable build passed.
+
+Commands run:
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_clean_generated_proof.py tests/test_clean_generated_pyav_compat.py --junitxml=/tmp/WD-pp86-independent.xml`
+- `pvg verify scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py tests/test_clean_generated_pyav_compat.py --format=text --include-tests`
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/wgp release verify`
+- `pvg lint --backlog`
+- `git diff --exit-code 510d2234826a4c283648da4c1be646e29932fd37 -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py host/wangp_adapter.py host/render_host.py`
+- `git diff --check`
+- GitHub Actions exact-head CI run `37964950342`
+
+LEARNINGS:
+- The compatibility layer must be narrowly source-bound; broad monkeypatching would turn a version workaround into an unsafe runtime fork.
+- Startup failure cannot rely on an ordinary Python exception because sitecustomize exceptions are swallowed; explicit exit code 78 is required.
+- Both `torchvision.io.video.write_video` and `torchvision.io.write_video` must be patched and checked because callers import different aliases.
+- A successful no-model synthetic write is required before consuming another one-shot H3 authorization; it is necessary but not sufficient for a generated-artifact claim.
+
+### AC Verification
+
+| AC | Result | Evidence |
+|---|---|---|
+| 1 | PASS | Raw proof preserved at exact required SHA-256. |
+| 2 | PASS | Exact whole-line source replacement and both alias checks implemented. |
+| 3 | PASS | Shim staged at exact authorized root and prepended to offline PYTHONPATH. |
+| 4 | PASS | No-model media-write preflight verifies patch application, versions, output hash/size, and log hash. |
+| 5 | PASS | Staging/order/patch/media failures stop typed before storage/model/queue/render; Wan2GP unchanged. |
+| 6 | PASS | Real subprocess fixtures cover success, source drift, alias failure, missing/changed shim, write failure, path order, and queue exclusion. |
+| 7 | PASS | Focused tests, verifier, lint, release, protected parity, whitespace, and exact-head CI pass. |
+
+## nd_contract
+status: delivered
+
+### evidence
+- PR head `8a03f9352dbde33ee1b372c40b233161eb10add9`.
+- PR: https://github.com/jmanhype/wangp-dspy/pull/239
+- Exact-head CI run `37964950342`: SUCCESS.
+- Combined focused tests: 61/61 pass.
+- Independent review: APPROVED.
+
+### proof
+- [x] AC #1: Raw proof preserved exactly.
+- [x] AC #2: Exact source-bound compatibility function implemented.
+- [x] AC #3: Authorized-root staging and PYTHONPATH ordering implemented.
+- [x] AC #4: No-model media-write preflight passes under shim in fixture and recorded host proof.
+- [x] AC #5: Failures stop before storage/model/queue/render; no shared Wan2GP mutation.
+- [x] AC #6: Real subprocess positive/negative/order tests pass.
+- [x] AC #7: All local deterministic gates and exact-head CI pass.
 
 ## nd_contract
 status: delivered
