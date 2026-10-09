@@ -35,10 +35,10 @@
       "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
       "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
       "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
-      "scripts/record_clean_generated_proof.py": "799c0a7eacf775d13781f49827416d6c519da80dd965c0c341a5a754609f926d",
+      "scripts/record_clean_generated_proof.py": "8f86ceb472103e649c6b6a849f490addf363d0c77970ce7e0202df5d714e2830",
       "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
     },
-    "identity_sha256": "95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c"
+    "identity_sha256": "f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6"
   },
   "boundaries": {
     "deletions": 0,
