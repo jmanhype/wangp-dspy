@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-09T14:13:15Z
-content_hash: "sha256:a43cb3cac9fc37811849fe108ece3f64af4b3e0f40d6758fde282a696268b9de"
+updated_at: 2026-10-09T14:27:13Z
+content_hash: "sha256:f8931cb47384f9b4f3e9d27aa3733c849bcaf21a3bc1e1aba871c24c38552e1d"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv]
 was_blocked_by: [WD-1s5s, WD-cuzw]
@@ -233,6 +233,17 @@ The merged v3 template remains `requires_operator_approval`, binds the exact six
 Verbatim user input: `Continue authorized approved`
 
 Interpreted scope: the immediately preceding blocked-goal request—approve BOTH exact pending one-shot GPU-host batches. For WD-bw0h this approves only proposal SHA-256 `ac708a0886d2b6c18c58cc74139b37211244abbc54dc4960fe64698db1d8063b`: one fresh no-download clean-machine H3 standard create on host 3090 at main `9a47698d718e53f69ad49716aa44953bb07851d6`, through the repaired settings-staging path and v3 six-file source boundary, with one render maximum and all listed prohibitions. A fresh source-bound authorization file and exact-head CI are required before host mutation; retry3 remains consumed.
+### Retry4 consumed: settings staging cleared, media-write boundary reached (2026-10-09)
+
+The approved one-shot v3 authorization was consumed at merged main `37a5d19a50b58be381e793cd10ba9f4bb5bd1fb0`. Clean preflight passed, remote settings staging worked, WanGP loaded the settings, and H3 completed 20/20 denoising steps. Downstream `torchvision.io.write_video` then failed in PyAV with `TypeError: an integer is required`; WanGP reported 0/1 tasks and emitted no MP4. The queue failed closed and no retry/substitution followed.
+
+- Authorization canonical SHA-256 consumed: `4957b87064d0e7a93b566f426ee352084af8c5ebb7d1af876ce11e22fa68f969`
+- Evidence PR: https://github.com/jmanhype/wangp-dspy/pull/237
+- Evidence commit: `66d92ab4`
+- All 29 boundary files hash-verify from the bundle manifest.
+- Focused `tests/test_clean_generated_proof.py`: 42 passed locally.
+
+WD-bw0h remains incomplete. A future attempt requires a separately reviewed PyAV/media-write compatibility repair and a new operator authorization; retry4 cannot be replayed.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
