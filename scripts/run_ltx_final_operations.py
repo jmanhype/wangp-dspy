@@ -812,6 +812,13 @@ def run_batch(
         raise _stage_error("EXECUTION_REPOSITORY_IDENTITY_UNPROVEN",
                            "runner_repository_root must explicitly identify the Wangp checkout")
     validate_stage_inventory(plan.get("stage_inventory"), Path(repository_root), template_root)
+    if (authorization.get("schema_version") == IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA
+            and plan["stage_inventory"]["repository"]["commit_sha"]
+            != authorization["base_commit"]):
+        raise _stage_error(
+            "IDENTITY_CAPTURE_EXECUTION_COMMIT_MISMATCH",
+            "Validated Wangp execution commit differs from the approved base_commit",
+        )
     runtime_preflight = validate_runtime_state(runtime_state, require_fresh=True)
     if queue_db.exists():
         raise FinalOperationError(
