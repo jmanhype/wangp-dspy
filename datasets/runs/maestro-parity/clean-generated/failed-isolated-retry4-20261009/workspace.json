@@ -1,0 +1,36 @@
+{
+  "authorized_source": {
+    "files": {
+      "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+      "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+      "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+      "scripts/record_clean_generated_proof.py": "799c0a7eacf775d13781f49827416d6c519da80dd965c0c341a5a754609f926d",
+      "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+    },
+    "identity_sha256": "95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c"
+  },
+  "checkout": "/private/tmp/wangp-clean-generated-h3-retry4-20261009/checkout",
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/tmp/wangp-clean-generated-h3-retry4-20261009",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry4-20261009.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "commit": "37a5d19a50b58be381e793cd10ba9f4bb5bd1fb0",
+  "identity_sha256": "193a6e9f724abeaea26689d2c14e57404f75ca8dfa4a8746329abaa9aa8990dc",
+  "status": "",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.0.1 Copyright (c) 2007-2025 the FFmpeg developers",
+    "git": "git version 2.49.0",
+    "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]"
+  },
+  "workspace": "/tmp/wangp-clean-generated-h3-retry4-20261009"
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/tmp/wangp-clean-generated-h3-retry4-20261009",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry4-20261009.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "diagnostic": {
+    "code": "GENERATION_FAILED",
+    "detail": "queue did not complete exactly one render: failed"
+  },
+  "generated_artifact": false,
+  "schema_version": "wangp-dspy.clean-generated-proof-failure/v1",
+  "substitution_attempted": false
+}

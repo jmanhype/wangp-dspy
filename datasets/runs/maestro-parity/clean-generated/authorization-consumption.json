@@ -45,6 +45,18 @@
       ],
       "reason": "The approved retry3 boundary was consumed by clean preflight, one admitted render attempt, and a typed staging failure: the local pull mirror contained settings.json while WanGP reported that exact file absent at the mapped remote run path. No artifact, retry, or substitution occurred.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "4957b87064d0e7a93b566f426ee352084af8c5ebb7d1af876ce11e22fa68f969",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry4-20261009/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry4-20261009/queue/final.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry4-20261009/host-logs/render.log",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry4-20261009/host-logs/remote-settings-probe.txt"
+      ],
+      "reason": "The approved retry4 boundary was consumed by successful clean preflight, verified remote settings staging, one admitted H3 render that completed 20/20 denoising steps, and a terminal PyAV media-write TypeError. WanGP therefore completed 0/1 tasks and no MP4 artifact was emitted. No retry or substitution occurred.",
+      "generated_artifact": false
     }
   ]
 }

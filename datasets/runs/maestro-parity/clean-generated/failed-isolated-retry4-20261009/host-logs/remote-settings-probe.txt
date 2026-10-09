@@ -1,0 +1,6 @@
+remote_dir=/home/straughter/Wan2GP/acceptance/worker-73c82ad9870f/render-0000
+/home/straughter/Wan2GP/acceptance/worker-73c82ad9870f/render-0000/settings.json 550
+42ad63c20e81cccd312fc154da2e4006f6927c9e3b6542f7e1da083e1ee31ae9  /home/straughter/Wan2GP/acceptance/worker-73c82ad9870f/render-0000/settings.json
+local_pull_settings=pull-mirror/acceptance/worker-73c82ad9870f/render-0000/settings.json
+42ad63c20e81cccd312fc154da2e4006f6927c9e3b6542f7e1da083e1ee31ae9  datasets/runs/maestro-parity/clean-generated/failed-isolated-retry4-20261009/pull-mirror/acceptance/worker-73c82ad9870f/render-0000/settings.json
+settings_staging_boundary=CLEARED: remote settings existed and the native loader read them
