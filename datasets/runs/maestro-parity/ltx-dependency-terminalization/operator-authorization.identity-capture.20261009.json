@@ -1,0 +1,124 @@
+{
+  "approved_by": "operator",
+  "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
+  "deletions": 0,
+  "dependency_installs": 0,
+  "downstream_boundary": "Only ltx/2.3 upscale may be promoted, and only after a separate canonical bundle review; the other six outputs are identity-control evidence only.",
+  "existing_assets": {
+    "ltx-2.3-22b-dev_diffusion_model_quanto_int8.safetensors": {
+      "sha256": "5fc8d83656cdabf93b79bfb8799ee1c84c8270c59a49caccd4f8d1a27c77f6ec",
+      "size_bytes": 19447662547
+    },
+    "ltx-2.3-22b-distilled-lora-384-1.1.safetensors": {
+      "sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+      "size_bytes": 7605507256
+    },
+    "ltx-2.3-22b-ic-lora-in-outpainting-0.9.safetensors": {
+      "sha256": "73dd0841c0d4f0eb26fb1f017781b841b2752021944ac5ecefe57917f6dae6b5",
+      "size_bytes": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "size_bytes": 1308778338
+    },
+    "ltx-2.3-22b-ic-lora-outpaint.safetensors": {
+      "sha256": "32c5d3e0649aa4e89b192319f3c79460dfd2319d2859ca11fa6f88e983a81665",
+      "size_bytes": 1308756416
+    },
+    "ltx-2.3-22b-ic-lora-pixel-spatial-upscaler-x2-0.9.safetensors": {
+      "sha256": "0667334e23af9fc0ab3fdff2e059c805ac0d162b1f96f18a462801478027451e",
+      "size_bytes": 654465286
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "size_bytes": 327322640
+    }
+  },
+  "max_attempts_per_operation": 1,
+  "model_downloads": 0,
+  "operation_count": 7,
+  "operations": [
+    {
+      "operation": "outpaint",
+      "operation_id": "ltx25-outpaint",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "repaint",
+      "operation_id": "ltx25-repaint",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "recast",
+      "operation_id": "ltx25-recast",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "upscale",
+      "operation_id": "ltx25-upscale",
+      "row": "LTX-2.5"
+    },
+    {
+      "operation": "outpaint",
+      "operation_id": "ltx23-outpaint",
+      "row": "LTX-2.3"
+    },
+    {
+      "operation": "recast",
+      "operation_id": "ltx23-recast",
+      "row": "LTX-2.3"
+    },
+    {
+      "operation": "upscale",
+      "operation_id": "ltx23-upscale",
+      "row": "LTX-2.3"
+    }
+  ],
+  "operator_approval": {
+    "approved_at": "2026-10-09T00:21:12Z",
+    "proposal": "datasets/runs/maestro-parity/ltx-dependency-terminalization/operator-proposal.identity-capture.20261009.json",
+    "proposal_sha256": "e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef",
+    "verbatim": "Continue authorized approved"
+  },
+  "package_downloads": 0,
+  "proposal_asset_hash_corrections": {
+    "ltx-2.3-22b-distilled-lora-384-1.1.safetensors": {
+      "basis": "datasets/runs/maestro-parity/ltx-dependency-terminalization/final-cell-retry3-20261008/preflight.json",
+      "canonical_sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c111d6e7d2dfa6e823b3a",
+      "proposal_sha256": "f5d4953f3386197a4b4f5abdb17616ff256171e8075c1116d7d2dfa6e823b3a",
+      "reason": "Clerical correction to the already-named exact local asset; does not change operation, asset identity, download count, or boundary."
+    },
+    "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors": {
+      "basis": "datasets/runs/maestro-parity/ltx-dependency-terminalization/model-assets.json",
+      "canonical_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+      "proposal_sha256": "515e4e139001ac6282357a5b35372e42e98b3affd5fcc086a52242abeed19559",
+      "reason": "Clerical correction to the already-named exact local asset; does not change operation, asset identity, download count, or boundary."
+    },
+    "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors": {
+      "basis": "datasets/runs/maestro-parity/ltx-dependency-terminalization/model-assets.json",
+      "canonical_sha256": "984851b769ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "proposal_sha256": "984851b76ea2bcb4c9e0a239a7676239e42c6a6001ddc69943b41ff0b283c1d",
+      "reason": "Clerical correction to the already-named exact local asset; does not change operation, asset identity, download count, or boundary."
+    }
+  },
+  "protected_engine_changes": 0,
+  "provider_spend": false,
+  "reason": "WD-b7ek cannot promote retry3 because its stage inventory lacks Wangp commit/status/file hashes; merged WD-nkdv now provides the required identity gate.",
+  "required_execution_identity": {
+    "clean_wangp_repository": true,
+    "record_commit": true,
+    "record_staged_file_path_size_sha256": true,
+    "record_status_porcelain_v1": true,
+    "staged_bytes_must_match_tracked_head": true,
+    "wan2gp_commit_is_not_wangp_identity": true
+  },
+  "retry": "never",
+  "schema_version": "wangp-dspy.ltx-identity-capture-authorization/v1",
+  "scope": "One fresh provenance-capturing seven-operation LTX native batch on host 3090 using existing local assets only",
+  "status": "approved",
+  "stop_on_first_terminal_failure": true,
+  "text": "Continue authorized approved",
+  "threshold_changes": 0,
+  "timestamp": "2026-10-09T00:21:12Z",
+  "training": false
+}

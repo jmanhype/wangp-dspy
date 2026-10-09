@@ -142,6 +142,41 @@ def test_stage_inventory_clean_retry3_shape(tmp_path: Path) -> None:
         assert entry["sha256"] == hashlib.sha256(payload).hexdigest()
 
 
+def test_direct_authorization_rejects_newer_clean_execution_commit(tmp_path: Path) -> None:
+    repository, staged, old_inventory = stage_identity_fixture(tmp_path)
+    # Advance a real clean checkout without changing the staged bytes. A valid
+    # inventory alone must not authorize a different execution revision.
+    subprocess.run([
+        "git", "-C", str(repository), "-c", "user.name=Fixture",
+        "-c", "user.email=fixture@example.invalid", "-c", "core.hooksPath=/dev/null",
+        "commit", "--allow-empty", "-qm", "newer execution revision",
+    ], check=True, capture_output=True)
+    inventory = runner.build_stage_inventory(repository, staged)
+    assert inventory["repository"]["commit_sha"] != old_inventory["repository"]["commit_sha"]
+    assert runner.validate_stage_inventory(inventory, repository, staged) is None
+    plan = json.loads((RUN_DIR / "phase-b-preparation/corrected-retry-plan.json").read_text())
+    authorization = json.loads(
+        (RUN_DIR / "operator-authorization.identity-capture.20261009.json").read_text()
+    )
+    assert inventory["repository"]["commit_sha"] != authorization["base_commit"]
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
+    plan["runner_repository_root"] = str(repository)
+    plan["stage_inventory"] = inventory
+    queue = tmp_path / "must-not-exist.db"
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.run_batch(plan, authorization, staged, queue, runtime_state={})
+    assert raised.value.code == "IDENTITY_CAPTURE_EXECUTION_COMMIT_MISMATCH"
+    assert not queue.exists()
+    # A fresh external approval may bind this exact final commit without embedding
+    # its own digest in runner source. This fixture is structural, not real approval.
+    authorization["base_commit"] = inventory["repository"]["commit_sha"]
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.run_batch(plan, authorization, staged, queue, runtime_state={})
+    assert raised.value.code == "RUNTIME_PATH_INVALID"
+    assert not queue.exists()
+
+
 @pytest.mark.parametrize("change,code", [
     ("dirty", "STAGE_INVENTORY_DIRTY_REPOSITORY"),
     ("missing", "STAGE_INVENTORY_FILE_SET_MISMATCH"),

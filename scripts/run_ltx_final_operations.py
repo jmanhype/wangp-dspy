@@ -14,6 +14,7 @@ import sys
 import time
 import tomllib
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
@@ -55,6 +56,22 @@ PRIOR_NATIVE_RUN_ROOT = "/home/straughter/wd-28ac-run/phase-b-gate5"
 CORRECTED_NATIVE_RUN_ROOT = (
     "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry"
 )
+IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA = "wangp-dspy.ltx-identity-capture-authorization/v1"
+IDENTITY_CAPTURE_OPERATIONS = [
+    {"row": row, "operation": operation, "operation_id": f"{prefix}-{operation}"}
+    for row, prefix, operations in (
+        ("LTX-2.5", "ltx25", ("outpaint", "repaint", "recast", "upscale")),
+        ("LTX-2.3", "ltx23", ("outpaint", "recast", "upscale")),
+    )
+    for operation in operations
+]
+IDENTITY_CAPTURE_REQUIRED_IDENTITY = {
+    key: True for key in (
+        "clean_wangp_repository", "record_commit", "record_staged_file_path_size_sha256",
+        "record_status_porcelain_v1", "staged_bytes_must_match_tracked_head",
+        "wan2gp_commit_is_not_wangp_identity",
+    )
+}
 GATE15_SNAPSHOT_SHA256 = (
     "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
 )
@@ -352,6 +369,91 @@ def _snapshot(operation: Mapping[str, Any]) -> dict[str, Any]:
         "disk": _run(["df", "-B1", str(operation["source_root"])]),
     }
 
+def identity_capture_authorization_binding(authorization: Mapping[str, Any]) -> dict[str, Any]:
+    """Compute a content binding, not proof of operator provenance (recorded externally)."""
+    canonical = json.dumps(authorization, sort_keys=True, separators=(",", ":"))
+    return {
+        "schema_version": authorization.get("schema_version"),
+        "base_commit": authorization.get("base_commit"),
+        "proposal_sha256": authorization.get("operator_approval", {}).get("proposal_sha256"),
+        "authorization_canonical_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
+    }
+
+
+def _validate_identity_capture_authorization(
+    plan: Mapping[str, Any], authorization: Mapping[str, Any]
+) -> bool:
+    """Validate the direct approval contract and binding, never infer it from legacy gates."""
+    if authorization.get("schema_version") != IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA:
+        if "identity_capture_authorization_binding" in plan:
+            raise FinalOperationError(
+                "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "direct authorization schema absent",
+                "Use the exact approved identity-capture authorization, not a consumed legacy gate.",
+            )
+        return False
+    approval = authorization.get("operator_approval")
+    approval = approval if isinstance(approval, Mapping) else {}
+    timestamp = authorization.get("timestamp")
+    try:
+        valid_timestamp = (isinstance(timestamp, str) and "T" in timestamp
+                           and datetime.fromisoformat(timestamp).tzinfo is not None)
+    except ValueError:
+        valid_timestamp = False
+    exact_fields = {
+        "status": "approved", "approved_by": "operator", "operation_count": 7,
+        "max_attempts_per_operation": 1, "retry": "never",
+        "stop_on_first_terminal_failure": True,
+        "model_downloads": 0, "package_downloads": 0, "dependency_installs": 0,
+        "provider_spend": False, "training": False, "deletions": 0,
+        "protected_engine_changes": 0, "threshold_changes": 0,
+    }
+    identity = authorization.get("required_execution_identity")
+    if (
+        any(type(authorization.get(key)) is not type(value) or authorization.get(key) != value
+            for key, value in exact_fields.items())
+        or not isinstance(authorization.get("base_commit"), str)
+        or re.fullmatch(r"[0-9a-f]{40}", authorization.get("base_commit", "")) is None
+        or not isinstance(approval.get("proposal_sha256"), str)
+        or re.fullmatch(r"[0-9a-f]{64}", approval.get("proposal_sha256", "")) is None
+        or not isinstance(approval.get("proposal"), str) or not approval["proposal"].strip()
+        or not isinstance(authorization.get("text"), str) or not authorization["text"].strip()
+        or authorization["text"] != approval.get("verbatim")
+        or not valid_timestamp or timestamp != approval.get("approved_at")
+        or authorization.get("operations") != IDENTITY_CAPTURE_OPERATIONS
+        or not isinstance(identity, Mapping) or set(identity) != set(IDENTITY_CAPTURE_REQUIRED_IDENTITY)
+        or any(value is not True for value in identity.values())
+    ):
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "direct approval constraints invalid",
+            "Require an operator approval with seven one-shot operations and all safety limits.",
+        )
+    # Keep the approval digest outside source bytes: embedding it creates a circular
+    # dependency when the approval base_commit identifies this runner's final commit.
+    # External operator evidence establishes provenance; this verifies agreement.
+    if plan.get("identity_capture_authorization_binding") != identity_capture_authorization_binding(authorization):
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_PLAN_BINDING_INVALID", "identity-capture binding mismatch",
+            "Bind the exact schema, base commit, proposal and canonical authorization hashes.",
+        )
+    if (plan.get("mode") != "corrected_native_operations_authorized"
+            or plan.get("host_execution_authorized") is not True
+            or plan.get("preflight_ready") is not True):
+        raise FinalOperationError(
+            "PLAN_PREFLIGHT_NOT_READY", "direct authorization requires an authorized, ready plan",
+            "Collect healthy QC and fresh host facts first.",
+        )
+    identities = [
+        {key: item.get(key) for key in ("row", "operation", "operation_id")}
+        for item in plan.get("operations", [])
+    ]
+    if identities != authorization["operations"]:
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_OPERATIONS_INVALID", "operation identities or order differ",
+            "Use exactly the seven named operations in the approved order.",
+        )
+    return True
+
+
 def validate_contract(
     plan: Mapping[str, Any], authorization: Mapping[str, Any]
 ) -> None:
@@ -380,21 +482,24 @@ def validate_contract(
     if len(operations) != 7:
         raise FinalOperationError("OPERATION_COUNT_INVALID", str(len(operations)),
                                   "Exactly seven planned operations are required.")
+    direct_authorization = _validate_identity_capture_authorization(plan, authorization)
     gate = authorization.get("jev_final_operations_authorization", {})
-    if gate.get("operations_authorized") is not True or gate.get("retry") != "never":
+    if not direct_authorization and (
+        gate.get("operations_authorized") is not True or gate.get("retry") != "never"
+    ):
         raise FinalOperationError("GATE7_AUTHORIZATION_INVALID",
                                   json.dumps(gate, sort_keys=True),
                                   "Bind the exact live Gate 7 CONTINUE record.")
     corrected = authorization.get("operator_corrected_native_retry_authorization", {})
-    if corrected.get("decision") != "Authorized" or corrected.get(
+    if not direct_authorization and (corrected.get("decision") != "Authorized" or corrected.get(
         "separate_host_retry_gate_required"
-    ) is not True:
+    ) is not True):
         raise FinalOperationError(
             "CORRECTED_NATIVE_RETRY_AUTHORIZATION_INVALID",
             json.dumps(corrected, sort_keys=True),
             "Bind the operator corrected native-retry record.",
         )
-    if plan.get("mode") == "corrected_native_operations_authorized":
+    if not direct_authorization and plan.get("mode") == "corrected_native_operations_authorized":
         host_gate = authorization.get(
             "jev_corrected_native_retry_host_authorization", {}
         )
@@ -740,7 +845,8 @@ def run_batch(
             "Wait for the separate Jev corrected-host-retry gate.",
         )
     host_gate = authorization.get("jev_corrected_native_retry_host_authorization", {})
-    if host_gate.get("host_execution_authorized") is not True:
+    if (authorization.get("schema_version") != IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA
+            and host_gate.get("host_execution_authorized") is not True):
         raise FinalOperationError(
             "CORRECTED_HOST_RETRY_NOT_AUTHORIZED",
             json.dumps(host_gate, sort_keys=True),
@@ -756,6 +862,13 @@ def run_batch(
         raise _stage_error("EXECUTION_REPOSITORY_IDENTITY_UNPROVEN",
                            "runner_repository_root must explicitly identify the Wangp checkout")
     validate_stage_inventory(plan.get("stage_inventory"), Path(repository_root), template_root)
+    if (authorization.get("schema_version") == IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA
+            and plan["stage_inventory"]["repository"]["commit_sha"]
+            != authorization["base_commit"]):
+        raise _stage_error(
+            "IDENTITY_CAPTURE_EXECUTION_COMMIT_MISMATCH",
+            "Validated Wangp execution commit differs from the approved base_commit",
+        )
     runtime_preflight = validate_runtime_state(runtime_state, require_fresh=True)
     if queue_db.exists():
         raise FinalOperationError(
