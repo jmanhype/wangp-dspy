@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-09T15:17:23Z
-content_hash: "sha256:c1dd8906f28f640db8829b57f84878195ed4778654dbad9a18e925de41a339c0"
+updated_at: 2026-10-09T15:53:01Z
+content_hash: "sha256:f06b25806b1c8de1c02913cf97312c3ebc49fcfa0ce7624cb9530b8eac1574b7"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -370,7 +370,7 @@ Interpreted scope: the immediately preceding blocked-goal request—approve BOTH
 
 PR 236 merged direct-authorization parsing and execution-commit binding at main `d0cd61716b7eb736e64fb39c981fd5a4977bec30`. The prior approved v1 LTX proposal remains hash `e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef` but binds base `9a47698d718e53f69ad49716aa44953bb07851d6`; the new runner correctly rejects that authorization at a newer clean execution commit. No LTX host action has occurred.
 
-A v2 proposal is prepared at `/tmp/WD-ltx-identity-capture-d0cd-proposal.json`, with the same seven operations, existing assets only, one attempt each, zero downloads/spend/training/deletions, and corrected canonical asset hashes. It refreshes only the execution base to `d0cd61716b7eb736e64fb39c981fd5a4977bec30` to include the authorization-safety runner changes. A fresh operator approval for this v2 proposal is required before host contact.
+A v2 proposal is prepared at `/tmp/ltx_identity_capture_d0cd_proposal.json`, with the same seven operations, existing assets only, one attempt each, zero downloads/spend/training/deletions, and corrected canonical asset hashes. It refreshes only the execution base to `d0cd61716b7eb736e64fb39c981fd5a4977bec30` to include the authorization-safety runner changes. A fresh operator approval for this v2 proposal is required before host contact.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
