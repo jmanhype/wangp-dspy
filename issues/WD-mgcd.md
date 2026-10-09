@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, accepted]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T16:13:52Z
-content_hash: "sha256:a40e0f6698fba9bef834fbaa1527d3db12bcd7f95ba88ef0fabd1c4b0588a57d"
+updated_at: 2026-10-09T16:13:53Z
+content_hash: "sha256:6d36fa11512ab4b7c3e637fe9fef0ebd386443927ed26569e851a822ea29dc32"
 assignee: dev-WD-mgcd
 follows: [WD-dhcc, WD-5yg9]
 closed_at: 2026-10-09T16:13:51Z
@@ -93,6 +93,18 @@ Commands run:
 - `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
 - `git diff --check`
 - GitHub Actions exact-head CI run `37950722805` (`uv run --frozen --extra dev pytest -q` and `uv build`)
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-10-09.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## PM Decision
 ACCEPTED [2026-10-09]: Evidence reviewed and meets the bar.
 
