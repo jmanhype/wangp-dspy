@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, integration]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T16:17:23Z
-content_hash: "sha256:69da70a7fdf7937f4aea507b1af7e0ef4a50c0a71060245c95e16a5c4f104e80"
+updated_at: 2026-10-09T16:17:51Z
+content_hash: "sha256:e1af1fef05b048867804fa5ccad6342019197aafe2a06ffeb71e2ef37e6d3f58"
 ---
 
 ## Description
@@ -44,7 +44,7 @@ PRODUCES:
   spec: deterministic, no-install Python source that patches only the exact legacy torchvision writer when the known `frame.pict_type = "NONE"` source is present; otherwise raises/records a typed compatibility boundary.
 - scripts/record_clean_generated_proof.py -> stage_pyav_compat(host, proof, config) -> dict[str, Any]
   event: stages the exact shim in the fresh authorized remote root and prepends its directory to the offline wrapper PYTHONPATH before media-write preflight.
-- datasets/runs/maestro-parity/WD-<id>/pyav-compat-success.txt -> exact successful temporary-host proof
+- datasets/runs/maestro-parity/WD-pp86/pyav-compat-success.txt -> exact successful temporary-host proof
   source: preserve the raw proof bytes and SHA-256 `a356597b5a4954a3b9c0fa291604f6d6b523040f36e4ff92f651b5da3f08fafe`.
 
 CONSUMES:
