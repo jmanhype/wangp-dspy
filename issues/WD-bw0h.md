@@ -9,12 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-10-09T14:27:13Z
-content_hash: "sha256:a04327bd1effb8b70babb172124913ae5ab5cc3fe1fd2ab41750a9531ab25f76"
+content_hash: "sha256:3d4adccc5bc81746934ac18fb3932944c057dbf0b12e4df82e6333bc757feb73"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv]
-was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc]
+was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd]
 assignee: dev-WD-bw0h
-blocked_by: [WD-mgcd]
 ---
 
 ## Description
@@ -405,12 +404,12 @@ before generation and the operator boundary forbids retry/substitution.
 - 2026-10-09T14:30:42Z dep_added: blocked_by WD-dhcc
 - 2026-10-09T14:30:58Z dep_removed: was_blocked_by WD-dhcc
 - 2026-10-09T14:31:07Z dep_added: blocked_by WD-mgcd
+- 2026-10-09T16:13:51Z dep_removed: was_blocked_by WD-mgcd
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
-- Blocked by: [[WD-mgcd]]
-- Was blocked by: [[WD-1s5s]], [[WD-cuzw]], [[WD-5yg9]], [[WD-dhcc]]
+- Was blocked by: [[WD-1s5s]], [[WD-cuzw]], [[WD-5yg9]], [[WD-dhcc]], [[WD-mgcd]]
 - Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]], [[WD-1s5s]], [[WD-cuzw]], [[WD-nkdv]]
 
 ## Comments
