@@ -1,16 +1,17 @@
 ---
 id: WD-dhcc
 title: "Preflight H3 PyAV media-write compatibility"
-status: open
+status: closed
 priority: 0
 type: task
 labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:32Z
 created_by: speed
-updated_at: 2026-10-09T14:30:32Z
-content_hash: "sha256:e60c5f6f3842f7060adf2579c98ddaba06bbf61fa075e857b0610659b83f6809"
-blocks: [WD-bw0h, WD-fay0]
+updated_at: 2026-10-09T14:30:58Z
+content_hash: "sha256:e1ebf71fc24739a410b308d20769b192179ce708d4dcbb5fc275c3e7b5088a29"
+closed_at: 2026-10-09T14:30:58Z
+close_reason: "Quarantined replacement: Existing consumes labels did not resolve to story IDs."
 ---
 
 ## Description
@@ -88,9 +89,11 @@ status: new
 ## History
 - 2026-10-09T14:30:42Z dep_added: blocks WD-bw0h
 - 2026-10-09T14:30:42Z dep_added: blocks WD-fay0
+- 2026-10-09T14:30:58Z status: open -> closed
+- 2026-10-09T14:30:58Z dep_removed: no_longer_blocks WD-bw0h
+- 2026-10-09T14:30:58Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bw0h]], [[WD-fay0]]
 
 ## Comments
