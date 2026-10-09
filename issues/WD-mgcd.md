@@ -8,8 +8,8 @@ labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T14:31:21Z
-content_hash: "sha256:8890a6c5f24dfae2a831e1ca24ad55151fbc8d8f8cea2ec29623503d4d86429b"
+updated_at: 2026-10-09T14:31:53Z
+content_hash: "sha256:4535e7daed7791d42ec5c7e1c7b006184f2762a3c0477d0a079b34d92620db7c"
 blocks: [WD-bw0h, WD-fay0]
 assignee: dev-WD-mgcd
 follows: [WD-dhcc]
@@ -80,7 +80,9 @@ status: new
 
 
 ## Notes
+### Read-only PyAV diagnostic (orchestrator, 2026-10-09)
 
+On host 3094/3090 runtime, the exact offline PYTHONPATH reports Python 3.12.3, torch 2.5.1+cu121, torchvision 0.20.1+cu121, and PyAV 16.1.0. A direct tiny probe reproduced the retry4 failure without a model render: assigning `VideoFrame.pict_type="NONE"` raises `TypeError: an integer is required`; enum assignment succeeds; `torchvision.io.write_video` on one 8x8 frame fails with the same TypeError. This confirms a media-write dependency incompatibility after successful H3 denoising, not a model or settings-staging failure.
 
 ## History
 - 2026-10-09T14:31:07Z dep_added: blocks WD-bw0h
