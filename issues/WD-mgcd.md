@@ -8,8 +8,8 @@ labels: [bug, evidence, qc, delivered]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T16:06:43Z
-content_hash: "sha256:cbcafd11c0edb0f552c1cc1787c4bcbbb6cc668e2e981c04110fcda21a162907"
+updated_at: 2026-10-09T16:07:07Z
+content_hash: "sha256:07a398de371fbc97af36dc8f4c2969072428127c5000a30fcad87f59e358fee2"
 blocks: [WD-bw0h, WD-fay0]
 assignee: dev-WD-mgcd
 follows: [WD-dhcc, WD-5yg9]
@@ -83,6 +83,16 @@ status: new
 ### Read-only PyAV diagnostic (orchestrator, 2026-10-09)
 
 On host 3094/3090 runtime, the exact offline PYTHONPATH reports Python 3.12.3, torch 2.5.1+cu121, torchvision 0.20.1+cu121, and PyAV 16.1.0. A direct tiny probe reproduced the retry4 failure without a model render: assigning `VideoFrame.pict_type="NONE"` raises `TypeError: an integer is required`; enum assignment succeeds; `torchvision.io.write_video` on one 8x8 frame fails with the same TypeError. This confirms a media-write dependency incompatibility after successful H3 denoising, not a model or settings-staging failure.
+Commands run:
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_clean_generated_proof.py --junitxml=/tmp/WD-mgcd-focused-final.xml`
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/python -m pytest -q tests/test_clean_generated_proof.py -k media_write`
+- `pvg verify scripts/record_clean_generated_proof.py tests/test_clean_generated_proof.py --format=text --include-tests`
+- `/Users/Shared/HermesWorkspace/wangp-dspy/.venv/bin/wgp release verify`
+- `pvg lint --backlog`
+- `git diff --exit-code origin/main -- services/jobs/queue.py services/director/renderers/policy.py services/director/wiring.py services/jobs/preflight.py scripts/run_film.py`
+- `git diff --check`
+- GitHub Actions exact-head CI run `37950722805` (`uv run --frozen --extra dev pytest -q` and `uv build`)
+
 ## Implementation Evidence
 
 Summary: WD-mgcd now returns a typed fail-closed PyAV media-write verdict before model checks, storage relocation, queue database creation, queue admission, or H3 render dispatch. A real no-model probe records exact Python/torch/torchvision/PyAV versions and hashes a one-frame video write. This prevents another one-shot H3 authorization from being consumed by the known incompatible torchvision/PyAV path.
