@@ -1,17 +1,18 @@
 ---
 id: WD-pp86
 title: "Stage no-install H3 PyAV media-write compatibility"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [bug, evidence, qc, integration]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T16:18:21Z
-content_hash: "sha256:4b7bb3fe58355a211e07425073794ce796a93123d4bcc62689581c40aa211413"
+updated_at: 2026-10-09T16:18:44Z
+content_hash: "sha256:cfb41617e8d549d13dfb3e9e6f43ae2169d5f2ef83b77e2f72436a3d5ba341bd"
 blocks: [WD-bw0h, WD-fay0]
-follows: [WD-mgcd]
+follows: [WD-mgcd, WD-dhcc]
+assignee: dev-WD-pp86
 ---
 
 ## Description
@@ -97,10 +98,13 @@ status: new
 ## History
 - 2026-10-09T16:17:52Z dep_added: blocks WD-bw0h
 - 2026-10-09T16:17:53Z dep_added: blocks WD-fay0
+- 2026-10-09T16:18:44Z status: open -> in_progress
+- 2026-10-09T16:18:44Z auto-follows: linked to predecessor WD-dhcc
+- 2026-10-09T16:18:44Z claimed by dev-WD-pp86
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-fay0]]
-- Follows: [[WD-mgcd]]
+- Follows: [[WD-mgcd]], [[WD-dhcc]]
 
 ## Comments
