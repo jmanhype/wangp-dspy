@@ -1,18 +1,19 @@
 ---
 id: WD-pp86
 title: "Stage no-install H3 PyAV media-write compatibility"
-status: in_progress
+status: closed
 priority: 0
 type: task
 labels: [bug, evidence, qc, integration, delivered]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T17:40:48Z
-content_hash: "sha256:20871bec1473fda11d276886ca5eee9c5276d0e4a465101d79a20fab81cdc7d9"
-blocks: [WD-bw0h, WD-fay0]
+updated_at: 2026-10-09T17:47:56Z
+content_hash: "sha256:9db5f78102577c5341552936d41c11b9889c5c7ee85f1a15c48ff3bc0f4d25f4"
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
+closed_at: 2026-10-09T17:47:56Z
+close_reason: "Accepted: exact head, raw and generated proof hashes, focused test and exact-head CI evidence, fail-closed boundaries, and all seven ACs verified."
 ---
 
 ## Description
@@ -199,10 +200,12 @@ status: delivered
 - 2026-10-09T16:18:44Z claimed by dev-WD-pp86
 - 2026-10-09T17:40:42Z status: in_progress -> in_progress
 - 2026-10-09T17:40:43Z auto-follows: linked to predecessor WD-5yg9
+- 2026-10-09T17:47:56Z status: in_progress -> closed
+- 2026-10-09T17:47:56Z dep_removed: no_longer_blocks WD-bw0h
+- 2026-10-09T17:47:57Z dep_removed: no_longer_blocks WD-fay0
 
 ## Links
 - Parent: [[WD-3nod]]
-- Blocks: [[WD-bw0h]], [[WD-fay0]]
 - Follows: [[WD-mgcd]], [[WD-dhcc]], [[WD-5yg9]]
 
 ## Comments
