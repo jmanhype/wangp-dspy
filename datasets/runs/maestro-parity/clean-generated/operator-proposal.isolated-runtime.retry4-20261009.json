@@ -1,0 +1,67 @@
+{
+  "allowed_host": {
+    "min_free_gb": 50,
+    "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+    "pull_root": "{WORKSPACE}/pull",
+    "qc_url": "http://127.0.0.1:8377/health",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008",
+    "render_timeout_s": 3600,
+    "runtime": {
+      "environment": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True"
+      },
+      "python": "/usr/bin/python3",
+      "pythonpath": [
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65",
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+      ]
+    },
+    "target": "3090",
+    "wgp_python": "/usr/bin/python3",
+    "wgp_root": "/home/straughter/Wan2GP"
+  },
+  "allowed_operation": {
+    "family": "minimax_h3",
+    "operation": "create",
+    "preset": "standard",
+    "render_count": 1
+  },
+  "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
+  "boundaries": {
+    "deletions": 0,
+    "downloads": 0,
+    "gui": false,
+    "protected_engine_change": false,
+    "provider_spend": false,
+    "registry_publication": false,
+    "second_render": false,
+    "tag_creation": false,
+    "threshold_change": false,
+    "training": false
+  },
+  "deletions": 0,
+  "model_download_bytes": 0,
+  "one_attempt": true,
+  "operator_question": "Authorize this exact one-shot H3 retry4 now?",
+  "package_downloads": 0,
+  "protected_engine_change": false,
+  "provider_spend": false,
+  "render_count": 1,
+  "required_outcome": "Clean install/preflight must stage settings through RenderHost and either produce one canonical H3 MP4 passing all objective gates or stop fail-closed with a durable boundary bundle. No retry/substitution.",
+  "schema_version": "wangp-dspy.clean-generated.retry4.proposal/v1",
+  "scope": "One fresh no-download clean-machine H3 standard create on host 3090 through the repaired settings-staging path and v3 six-file source boundary",
+  "second_render": false,
+  "threshold_change": false,
+  "training": false,
+  "v3_source_files": {
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+    "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+    "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+    "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+    "scripts/record_clean_generated_proof.py": "799c0a7eacf775d13781f49827416d6c519da80dd965c0c341a5a754609f926d",
+    "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+  },
+  "v3_source_identity_sha256": "95e5b83e722908064f4f55996f0821c81f0a37bfc7f984db03230e638bd1a47c"
+}

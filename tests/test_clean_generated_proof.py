@@ -161,6 +161,42 @@ def test_future_isolated_runtime_authorization_shape_is_accepted() -> None:
     assert len(assets) == 4
 
 
+def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
+    recorder = _load_recorder()
+    proposal = BUNDLE / "operator-proposal.isolated-runtime.retry4-20261009.json"
+    authorization = json.loads(
+        (
+            BUNDLE
+            / "operator-authorization.isolated-runtime.retry4-20261009.json"
+        ).read_text(encoding="utf-8")
+    )
+    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
+
+    assert recorder.sha(proposal) == (
+        "ac708a0886d2b6c18c58cc74139b37211244abbc54dc4960fe64698db1d8063b"
+    )
+    assert authorization["operator_approval"] == {
+        "proposal": (
+            "datasets/runs/maestro-parity/clean-generated/"
+            "operator-proposal.isolated-runtime.retry4-20261009.json"
+        ),
+        "proposal_sha256": (
+            "ac708a0886d2b6c18c58cc74139b37211244abbc54dc4960fe64698db1d8063b"
+        ),
+        "verbatim": "Continue authorized approved",
+        "approved_at": "2026-10-09T00:21:12Z",
+    }
+    validated, assets = recorder.inputs(authorization, manifest)
+    recorder.validate_authorized_source(ROOT, validated)
+
+    assert authorization["status"] == "approved"
+    assert authorization["text"] == "Continue authorized approved"
+    assert authorization["allowed_host"]["remote_work_root"] == (
+        "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008"
+    )
+    assert len(assets) == 4
+
+
 def test_future_authorization_rejects_runtime_tampering() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
