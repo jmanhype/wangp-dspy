@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
 updated_at: 2026-10-09T17:47:58Z
-content_hash: "sha256:9db5f78102577c5341552936d41c11b9889c5c7ee85f1a15c48ff3bc0f4d25f4"
+content_hash: "sha256:7ec220d672c88d583fbbfe7844060855c2085107d8e0e430b3196f86add553c4"
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
 closed_at: 2026-10-09T17:47:56Z
@@ -94,6 +94,18 @@ status: new
 
 
 ## Notes
+
+
+## nd_contract
+status: accepted
+
+### evidence
+- PM closeout applied via pvg story accept on 2026-10-09.
+
+### proof
+- [x] Story closed after accepted label was applied.
+
+
 ## Implementation Evidence
 
 Summary: WD-pp86 stages a deterministic no-install PyAV compatibility shim in the exact authorized remote work root, prepends that directory to the offline runtime PYTHONPATH, and requires the no-model media-write preflight to pass before storage relocation, model checks, queue construction/admission, or H3 render. Shared Wan2GP source is not mutated.
