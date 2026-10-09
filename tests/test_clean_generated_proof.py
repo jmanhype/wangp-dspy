@@ -608,7 +608,7 @@ def test_generated_install_dry_run_preserves_isolated_checkout_and_inputs() -> N
     assert "run_content_brief.py" not in combined
 
 
-@pytest.mark.parametrize("mode", ["success", "exception", "nonzero", "missing", "empty", "hash"])
+@pytest.mark.parametrize("mode", ["success", "exception", "nonzero", "missing", "empty", "hash", "stage"])
 def test_media_write_preflight_before_queue(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mode: str) -> None:
     recorder = _load_recorder()
     events: list[str] = []
@@ -661,6 +661,12 @@ def test_media_write_preflight_before_queue(tmp_path: Path, monkeypatch: pytest.
     monkeypatch.setattr(recorder, "validate_authorized_source", lambda *args: None)
     monkeypatch.setattr(recorder, "render_host", lambda config: Host())
     monkeypatch.setattr(recorder, "ensure_fresh_remote_root", lambda *args: None)
+    # This test isolates the existing media gate; subprocess shim coverage is separate.
+    def stage(*args):
+        events.append("stage")
+        if mode == "stage":
+            raise recorder.ProofError("PYAV_COMPAT_FAILED", "fixture staging failure")
+    monkeypatch.setattr(recorder, "stage_pyav_compat", stage)
     monkeypatch.setattr(recorder, "relocate", lambda *args: events.append("storage"))
     monkeypatch.setattr(recorder, "models", lambda *args: events.append("models"))
     monkeypatch.setattr(recorder, "offline_wrapper", lambda *args: ("test", "test"))
@@ -672,9 +678,14 @@ def test_media_write_preflight_before_queue(tmp_path: Path, monkeypatch: pytest.
     monkeypatch.setattr(JobQueue, "submit", submit)
     assert recorder.main(["--proof-dir", str(proof), "--checkout", str(tmp_path), "--installer", "unused",
                           "--authorization", str(auth), "--model-manifest", str(manifest)]) == 4
+    if mode == "stage":
+        assert events == ["stage"]
+        assert recorder.load(proof / "failure.json")["diagnostic"]["code"] == "PYAV_COMPAT_FAILED"
+        assert not (proof / "queue.db").exists()
+        return
     result = recorder.load(proof / "preflight/media-write.json")
     assert result["log_sha256"] == recorder.sha(Path(result["log_path"]))
-    assert events[:3] == ["media-write-python.sh", "media-write.py", "probe"]
+    assert events[:4] == ["stage", "media-write-python.sh", "media-write.py", "probe"]
     if mode == "success":
         assert result["passed"] and result["size_bytes"] > 0
         assert result["sha256"] == recorder.sha(Path(result["local_path"]))
