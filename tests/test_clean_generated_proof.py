@@ -186,15 +186,14 @@ def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
         "verbatim": "Continue authorized approved",
         "approved_at": "2026-10-09T00:21:12Z",
     }
-    validated, assets = recorder.inputs(authorization, manifest)
-    recorder.validate_authorized_source(ROOT, validated)
+    recorder.validate_authorized_source(ROOT, authorization)
 
     assert authorization["status"] == "approved"
     assert authorization["text"] == "Continue authorized approved"
     assert authorization["allowed_host"]["remote_work_root"] == (
         "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008"
     )
-    assert len(assets) == 4
+    assert len(manifest["assets"]) == 4
 
 
 def test_future_authorization_rejects_runtime_tampering() -> None:
@@ -338,6 +337,51 @@ def test_retry3_operator_authorization_is_approved_and_source_bound(tmp_path: Pa
         "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry3-20261008"
     )
     assert len(manifest["assets"]) == 4
+
+
+def test_retry4_operator_authorization_cannot_be_replayed_after_consumption() -> None:
+    recorder = _load_recorder()
+    retry4 = BUNDLE / "failed-isolated-retry4-20261009"
+    authorization = json.loads((retry4 / "inputs/operator-authorization.json").read_text(encoding="utf-8"))
+    manifest = json.loads((retry4 / "inputs/model-assets.json").read_text(encoding="utf-8"))
+
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
+
+    assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
+    recorder.validate_authorized_source(ROOT, authorization)
+
+    records = json.loads((BUNDLE / "authorization-consumption.json").read_text(encoding="utf-8"))["records"]
+    consumed = [record for record in records if record["authorization_canonical_sha256"] == (
+        "4957b87064d0e7a93b566f426ee352084af8c5ebb7d1af876ce11e22fa68f969"
+    )]
+    assert len(consumed) == 1
+    assert consumed[0]["generated_artifact"] is False
+    assert all((ROOT / path).is_file() for path in consumed[0]["evidence"])
+
+
+def test_retry4_boundary_proves_media_write_failure_after_staging_repair() -> None:
+    retry4 = BUNDLE / "failed-isolated-retry4-20261009"
+    failure = json.loads((retry4 / "failure.json").read_text(encoding="utf-8"))
+    queue = json.loads((retry4 / "queue/final.json").read_text(encoding="utf-8"))
+    native_log = (retry4 / "host-logs/render.log").read_text(encoding="utf-8")
+    settings_probe = (retry4 / "host-logs/remote-settings-probe.txt").read_text(encoding="utf-8")
+
+    assert failure["diagnostic"] == {
+        "code": "GENERATION_FAILED",
+        "detail": "queue did not complete exactly one render: failed",
+    }
+    assert failure["generated_artifact"] is False
+    assert queue["state"] == "failed"
+    assert queue["clips"][0]["render_attempted"] is True
+    assert queue["failures"][0]["failure_detail"] == (
+        "[lane=fl2va] render failed for clip 1: WanGPError: WanGP queue completed "
+        "with an unexpected task count 0/1; expected 1/1"
+    )
+    assert "H3 denoising: 100%|██████████| 20/20" in native_log
+    assert 'TypeError: an integer is required' in native_log
+    assert "Queue completed: 0/1 tasks" in native_log
+    assert "settings_staging_boundary=CLEARED" in settings_probe
 
 
 def test_v3_template_binds_exact_six_file_boundary() -> None:

@@ -1,0 +1,28 @@
+{
+  "attempts": [],
+  "clips": [
+    {
+      "clip_index": 1,
+      "family": "minimax_h3",
+      "frames": 56,
+      "kind": "video_generation",
+      "log": null,
+      "model_type": "minimax_h3_fl2va_pruned",
+      "mp4": null,
+      "operation": "create",
+      "preset": "standard",
+      "prompt": "A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light shifts across the table. Soft cloth and paper sounds, one clear click, no speech.",
+      "qc_verdict": null,
+      "resolution": [
+        480,
+        832
+      ],
+      "status": "pending",
+      "steps": 20,
+      "video_length": 56
+    }
+  ],
+  "failures": [],
+  "job_id": "job-1791555374365-10bbf936",
+  "state": "pending"
+}

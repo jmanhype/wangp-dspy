@@ -1,0 +1,15 @@
+{
+  "model_type": "minimax_h3_fl2va_pruned",
+  "script": "A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light shifts across the table. Soft cloth and paper sounds, one clear click, no speech.. as scripted. as scripted. as scripted",
+  "prompt": "multishot",
+  "width": 480,
+  "height": 832,
+  "frames_per_shot": 107,
+  "num_inference_steps": 20,
+  "guidance_scale": 1.0,
+  "embedded_guidance_scale": 6.0,
+  "force_fps": "24",
+  "seed": 1111556709,
+  "video_length": 107,
+  "requested_frames": 56
+}

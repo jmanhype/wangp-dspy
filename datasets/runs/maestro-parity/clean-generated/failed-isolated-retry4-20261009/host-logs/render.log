@@ -1,0 +1,57 @@
+Multiple distributions found for package optimum. Picked distribution: optimum-quanto
+/usr/lib/python3/dist-packages/paramiko/pkey.py:81: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "cipher": algorithms.TripleDES,
+/usr/lib/python3/dist-packages/paramiko/transport.py:254: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  "class": algorithms.TripleDES,
+[GGUF][llama.cpp CUDA] kernels unavailable, using fallback
+[Quanto][INT8] Injected int8 kernels ACTIVE (backend=triton).
+WanGP CLI Mode - Processing settings: /home/straughter/Wan2GP/acceptance/worker-73c82ad9870f/render-0000/settings.json
+[load_settings] Loading settings from: /home/straughter/Wan2GP/acceptance/worker-73c82ad9870f/render-0000/settings.json
+[load_settings] Task 1/1 ready, ID: 1, model: minimax_h3_fl2va_pruned
+Loaded 1 task(s)
+
+[Task 1/1] multishot...
+  [MULTISHOT] Detected script with 1 shots
+  [MULTISHOT] Attention: sdpa
+  [MULTISHOT] Loading models (type=minimax_h3_fl2va_pruned)...
+Loading Model 'ckpts/MiniMax-H3-FL2VA-pruned_rank8_int8_convrot.safetensors' ...
+Loading Text Encoder 'ckpts/Qwen3-VL-32B-Instruct/Qwen3-VL-32B-Instruct-layer50_quanto_bf16_int8.safetensors' ...
+[H3 FIX] Patched 0 AWQ linears with pre_quant_scale from checkpoint
+Loading MiniMax H3 Video VAE 'ckpts/MiniMax-H3-video_vae_fp16.safetensors'...
+[1m[95m************ Memory Management for the GPU Poor (mmgp 3.7.14) by DeepBeepMeep ************[0m[0m
+Model 'transformer' is too large (20076.2 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Model 'text_encoder' is too large (24741.6 MB) to fit entirely in 80% of the VRAM (max capacity is 19292.2) MB)
+Budget allocation for this model has been consequently reduced to the 80% of max GPU Memory (19292.2 MB). This may not leave enough working VRAM and you will probably need to define manually a lower budget for this model.
+Switching to partial pinning since full requirements for pinned models is 20076.2 MB while estimated available reservable RAM is 15924.5 MB. You may increase the value of parameter 'perc_reserved_mem_max' to a value higher than 0.50 to force full pinnning.
+Partial pinning of data of 'transformer' to reserved RAM
+Found 200 tied weights for a total of 0.00 MB, last : blocks.49.attn.q_proj.output_scale <-> blocks.49.attn.v_proj.output_scale
+The model was partially pinned to reserved RAM: 86 large blocks spread across 15727.37 MB
+Hooked to model 'transformer' (MiniMaxH3Model)
+Async loading plan for model 'transformer' : 18235.24 MB will be preloaded (base size of 58.22 MB + 98.0% of recurrent layers data) with a 370.96 MB async circular shuttle
+Hooked to model 'text_encoder' (Qwen3VLTextModel)
+Async loading plan for model 'text_encoder' : 18229.39 MB will be preloaded (base size of 1483.75 MB + 72.0% of recurrent layers data) with a 465.16 MB async circular shuttle
+Hooked to model 'vision_encoder' (Qwen3VLVisionModel)
+Hooked to model 'vae' (ModuleDict)
+Hooked to model 'video_encoder' (ModuleDict)
+Hooked to model 'audio_vae' (MiniMaxH3AudioVAE)
+Hooked to model 'latent_upscaler' (MiniMaxH3LatentUpscaler)
+[Multishot]  shot 1/1 (107f @ 480x832)...
+[Quanto][INT8] Injected Triton int8 kernels are being used.
+H3 denoising:   0%|          | 0/20 [00:00<?, ?steps/s]H3 denoising:   5%|▌         | 1/20 [00:13<04:08, 13.07s/steps]H3 denoising:  10%|█         | 2/20 [00:25<03:49, 12.75s/steps]H3 denoising:  15%|█▌        | 3/20 [00:38<03:35, 12.70s/steps]H3 denoising:  20%|██        | 4/20 [00:50<03:22, 12.64s/steps]H3 denoising:  25%|██▌       | 5/20 [01:03<03:08, 12.57s/steps]H3 denoising:  30%|███       | 6/20 [01:15<02:56, 12.64s/steps]H3 denoising:  35%|███▌      | 7/20 [01:28<02:44, 12.65s/steps]H3 denoising:  40%|████      | 8/20 [01:41<02:31, 12.63s/steps]H3 denoising:  45%|████▌     | 9/20 [01:53<02:18, 12.55s/steps]H3 denoising:  50%|█████     | 10/20 [02:06<02:05, 12.57s/steps]H3 denoising:  55%|█████▌    | 11/20 [02:18<01:53, 12.56s/steps]H3 denoising:  60%|██████    | 12/20 [02:31<01:40, 12.55s/steps]H3 denoising:  65%|██████▌   | 13/20 [02:43<01:27, 12.57s/steps]H3 denoising:  70%|███████   | 14/20 [02:56<01:15, 12.57s/steps]H3 denoising:  75%|███████▌  | 15/20 [03:09<01:02, 12.55s/steps]H3 denoising:  80%|████████  | 16/20 [03:21<00:50, 12.61s/steps]H3 denoising:  85%|████████▌ | 17/20 [03:34<00:37, 12.62s/steps]H3 denoising:  90%|█████████ | 18/20 [03:47<00:25, 12.65s/steps]H3 denoising:  95%|█████████▌| 19/20 [03:59<00:12, 12.66s/steps]H3 denoising: 100%|██████████| 20/20 [04:12<00:00, 12.57s/steps]H3 denoising: 100%|██████████| 20/20 [04:12<00:00, 12.61s/steps]
+[Multishot]  shot 1 done
+  [MULTISHOT ERROR] an integer is required
+Traceback (most recent call last):
+  File "/home/straughter/Wan2GP/wgp.py", line 8870, in process_tasks_cli
+    _ms_result = _ms_gen(wan_model, _ms_config)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/straughter/Wan2GP/models/minimax_h3/multishot.py", line 579, in generate_multishot
+    _tv_io.write_video(vpath, vid, fps=FPS, video_codec="libx264")
+  File "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages/torchvision/io/video.py", line 140, in write_video
+    frame.pict_type = "NONE"
+    ^^^^^^^^^^^^^^^
+  File "av/video/frame.py", line 313, in av.video.frame.VideoFrame.pict_type.__set__
+TypeError: an integer is required
+
+==================================================
+Queue completed: 0/1 tasks in 6m 40s (1 skipped)

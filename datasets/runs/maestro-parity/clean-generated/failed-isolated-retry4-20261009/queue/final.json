@@ -1,0 +1,50 @@
+{
+  "attempts": [
+    {
+      "attempt_id": 1,
+      "attempt_no": 1,
+      "attempt_reason": null,
+      "created_at": 1791555798.151593,
+      "job_id": "job-1791555374365-10bbf936",
+      "parent_attempt_id": null,
+      "reopen_reason": null,
+      "status": "allocated"
+    }
+  ],
+  "clips": [
+    {
+      "clip_index": 1,
+      "family": "minimax_h3",
+      "frames": 56,
+      "kind": "video_generation",
+      "log": null,
+      "model_type": "minimax_h3_fl2va_pruned",
+      "mp4": null,
+      "operation": "create",
+      "preset": "standard",
+      "prompt": "A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light shifts across the table. Soft cloth and paper sounds, one clear click, no speech.",
+      "qc_verdict": null,
+      "render_attempted": true,
+      "render_fingerprint": "9ea7b1f42961e9a153f9cf874f18e162d03acca76d9177218dbdf16f7f41fc0a",
+      "resolution": [
+        480,
+        832
+      ],
+      "status": "pending",
+      "steps": 20,
+      "video_length": 56
+    }
+  ],
+  "failures": [
+    {
+      "attempt_id": 1,
+      "created_at": 1791555798.155487,
+      "failure_class": "render_error",
+      "failure_detail": "[lane=fl2va] render failed for clip 1: WanGPError: WanGP queue completed with an unexpected task count 0/1; expected 1/1",
+      "failure_id": 1,
+      "failure_signature": "7206e23834c3a3c794f22926d34080ed6fac0dde2f359449707445a4ee58f835"
+    }
+  ],
+  "job_id": "job-1791555374365-10bbf936",
+  "state": "failed"
+}
