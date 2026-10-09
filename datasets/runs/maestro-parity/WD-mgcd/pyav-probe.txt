@@ -1,0 +1,8 @@
+python 3.12.3
+torch 2.5.1+cu121
+torchvision 0.20.1+cu121
+av 16.1.0
+default_pict_type 0 int
+string_set=FAILED TypeError an integer is required
+enum_set=ACCEPTED 0 int
+torchvision_write=FAILED TypeError an integer is required
