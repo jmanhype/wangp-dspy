@@ -9,11 +9,12 @@ parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
 updated_at: 2026-10-09T16:13:53Z
-content_hash: "sha256:6d36fa11512ab4b7c3e637fe9fef0ebd386443927ed26569e851a822ea29dc32"
+content_hash: "sha256:aa51aa60c5164da40ae9e8aecfc3eb408d9fffa8de84770a94e0f3f99fb7cd7d"
 assignee: dev-WD-mgcd
 follows: [WD-dhcc, WD-5yg9]
 closed_at: 2026-10-09T16:13:51Z
 close_reason: "Accepted: exact-head CI, focused behavioral proof, diagnostic hash, fail-closed ordering, queue exclusion, and required release/QC gates satisfy WD-mgcd."
+led_to: [WD-pp86]
 ---
 
 ## Description
@@ -229,5 +230,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-dhcc]], [[WD-5yg9]]
+- Led to: [[WD-pp86]]
 
 ## Comments
