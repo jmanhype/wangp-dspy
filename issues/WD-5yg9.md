@@ -9,9 +9,10 @@ parent: WD-3nod
 created_at: 2026-10-09T14:30:00Z
 created_by: speed
 updated_at: 2026-10-09T14:30:31Z
-content_hash: "sha256:d02d228a3e365a1cd184a79bb943f61d52927586d5780967d62382861657538f"
+content_hash: "sha256:73d5407f0ad6f6086e2c9d825be3d2a77f926d085b194c0a273e74f13eb2ab99"
 closed_at: 2026-10-09T14:30:31Z
 close_reason: "Quarantined malformed story replaced due tracker-authored heading/consumes lint defects."
+led_to: [WD-mgcd]
 ---
 
 ## Description
@@ -88,5 +89,6 @@ status: new
 
 ## Links
 - Parent: [[WD-3nod]]
+- Led to: [[WD-mgcd]]
 
 ## Comments

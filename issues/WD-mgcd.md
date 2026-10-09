@@ -8,11 +8,11 @@ labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T14:31:53Z
-content_hash: "sha256:4535e7daed7791d42ec5c7e1c7b006184f2762a3c0477d0a079b34d92620db7c"
+updated_at: 2026-10-09T16:06:42Z
+content_hash: "sha256:e045a82d74182ae835e435ac2e60178aac030431034828b6bfd52cfda583573e"
 blocks: [WD-bw0h, WD-fay0]
 assignee: dev-WD-mgcd
-follows: [WD-dhcc]
+follows: [WD-dhcc, WD-5yg9]
 ---
 
 ## Description
@@ -90,10 +90,12 @@ On host 3094/3090 runtime, the exact offline PYTHONPATH reports Python 3.12.3, t
 - 2026-10-09T14:31:21Z status: open -> in_progress
 - 2026-10-09T14:31:21Z auto-follows: linked to predecessor WD-dhcc
 - 2026-10-09T14:31:21Z claimed by dev-WD-mgcd
+- 2026-10-09T16:06:42Z status: in_progress -> in_progress
+- 2026-10-09T16:06:42Z auto-follows: linked to predecessor WD-5yg9
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-fay0]]
-- Follows: [[WD-dhcc]]
+- Follows: [[WD-dhcc]], [[WD-5yg9]]
 
 ## Comments
