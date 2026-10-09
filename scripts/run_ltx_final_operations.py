@@ -14,6 +14,7 @@ import sys
 import time
 import tomllib
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
@@ -56,11 +57,20 @@ CORRECTED_NATIVE_RUN_ROOT = (
     "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry"
 )
 IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA = "wangp-dspy.ltx-identity-capture-authorization/v1"
-IDENTITY_CAPTURE_PLAN_BINDING = {
-    "schema_version": IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA,
-    "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
-    "proposal_sha256": "e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef",
-    "authorization_canonical_sha256": "a249dd96423bc035a2807f6ee4d3e493dd48ad11ab6a01ef39846f23c52cbb4c",
+IDENTITY_CAPTURE_OPERATIONS = [
+    {"row": row, "operation": operation, "operation_id": f"{prefix}-{operation}"}
+    for row, prefix, operations in (
+        ("LTX-2.5", "ltx25", ("outpaint", "repaint", "recast", "upscale")),
+        ("LTX-2.3", "ltx23", ("outpaint", "recast", "upscale")),
+    )
+    for operation in operations
+]
+IDENTITY_CAPTURE_REQUIRED_IDENTITY = {
+    key: True for key in (
+        "clean_wangp_repository", "record_commit", "record_staged_file_path_size_sha256",
+        "record_status_porcelain_v1", "staged_bytes_must_match_tracked_head",
+        "wan2gp_commit_is_not_wangp_identity",
+    )
 }
 GATE15_SNAPSHOT_SHA256 = (
     "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
@@ -359,10 +369,21 @@ def _snapshot(operation: Mapping[str, Any]) -> dict[str, Any]:
         "disk": _run(["df", "-B1", str(operation["source_root"])]),
     }
 
+def identity_capture_authorization_binding(authorization: Mapping[str, Any]) -> dict[str, Any]:
+    """Compute a content binding, not proof of operator provenance (recorded externally)."""
+    canonical = json.dumps(authorization, sort_keys=True, separators=(",", ":"))
+    return {
+        "schema_version": authorization.get("schema_version"),
+        "base_commit": authorization.get("base_commit"),
+        "proposal_sha256": authorization.get("operator_approval", {}).get("proposal_sha256"),
+        "authorization_canonical_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
+    }
+
+
 def _validate_identity_capture_authorization(
     plan: Mapping[str, Any], authorization: Mapping[str, Any]
 ) -> bool:
-    """Accept only the immutable, one-shot operator approval; never infer it from legacy gates."""
+    """Validate the direct approval contract and binding, never infer it from legacy gates."""
     if authorization.get("schema_version") != IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA:
         if "identity_capture_authorization_binding" in plan:
             raise FinalOperationError(
@@ -370,17 +391,46 @@ def _validate_identity_capture_authorization(
                 "Use the exact approved identity-capture authorization, not a consumed legacy gate.",
             )
         return False
-    # The pinned canonical digest binds every approval field, including verbatim text,
-    # timestamp, seven named operations, attempt/download/spend limits and identity flags.
-    canonical = json.dumps(authorization, sort_keys=True, separators=(",", ":"))
-    if hashlib.sha256(canonical.encode("utf-8")).hexdigest() != (
-        IDENTITY_CAPTURE_PLAN_BINDING["authorization_canonical_sha256"]
+    approval = authorization.get("operator_approval")
+    approval = approval if isinstance(approval, Mapping) else {}
+    timestamp = authorization.get("timestamp")
+    try:
+        valid_timestamp = (isinstance(timestamp, str) and "T" in timestamp
+                           and datetime.fromisoformat(timestamp).tzinfo is not None)
+    except ValueError:
+        valid_timestamp = False
+    exact_fields = {
+        "status": "approved", "approved_by": "operator", "operation_count": 7,
+        "max_attempts_per_operation": 1, "retry": "never",
+        "stop_on_first_terminal_failure": True,
+        "model_downloads": 0, "package_downloads": 0, "dependency_installs": 0,
+        "provider_spend": False, "training": False, "deletions": 0,
+        "protected_engine_changes": 0, "threshold_changes": 0,
+    }
+    identity = authorization.get("required_execution_identity")
+    if (
+        any(type(authorization.get(key)) is not type(value) or authorization.get(key) != value
+            for key, value in exact_fields.items())
+        or not isinstance(authorization.get("base_commit"), str)
+        or re.fullmatch(r"[0-9a-f]{40}", authorization.get("base_commit", "")) is None
+        or not isinstance(approval.get("proposal_sha256"), str)
+        or re.fullmatch(r"[0-9a-f]{64}", approval.get("proposal_sha256", "")) is None
+        or not isinstance(approval.get("proposal"), str) or not approval["proposal"].strip()
+        or not isinstance(authorization.get("text"), str) or not authorization["text"].strip()
+        or authorization["text"] != approval.get("verbatim")
+        or not valid_timestamp or timestamp != approval.get("approved_at")
+        or authorization.get("operations") != IDENTITY_CAPTURE_OPERATIONS
+        or not isinstance(identity, Mapping) or set(identity) != set(IDENTITY_CAPTURE_REQUIRED_IDENTITY)
+        or any(value is not True for value in identity.values())
     ):
         raise FinalOperationError(
-            "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "canonical authorization SHA-256 mismatch",
-            "Use the immutable operator approval without additions or modifications.",
+            "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "direct approval constraints invalid",
+            "Require an operator approval with seven one-shot operations and all safety limits.",
         )
-    if plan.get("identity_capture_authorization_binding") != IDENTITY_CAPTURE_PLAN_BINDING:
+    # Keep the approval digest outside source bytes: embedding it creates a circular
+    # dependency when the approval base_commit identifies this runner's final commit.
+    # External operator evidence establishes provenance; this verifies agreement.
+    if plan.get("identity_capture_authorization_binding") != identity_capture_authorization_binding(authorization):
         raise FinalOperationError(
             "IDENTITY_CAPTURE_PLAN_BINDING_INVALID", "identity-capture binding mismatch",
             "Bind the exact schema, base commit, proposal and canonical authorization hashes.",

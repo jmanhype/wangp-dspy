@@ -159,13 +159,21 @@ def test_direct_authorization_rejects_newer_clean_execution_commit(tmp_path: Pat
         (RUN_DIR / "operator-authorization.identity-capture.20261009.json").read_text()
     )
     assert inventory["repository"]["commit_sha"] != authorization["base_commit"]
-    plan["identity_capture_authorization_binding"] = dict(runner.IDENTITY_CAPTURE_PLAN_BINDING)
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
     plan["runner_repository_root"] = str(repository)
     plan["stage_inventory"] = inventory
     queue = tmp_path / "must-not-exist.db"
     with pytest.raises(runner.FinalOperationError) as raised:
         runner.run_batch(plan, authorization, staged, queue, runtime_state={})
     assert raised.value.code == "IDENTITY_CAPTURE_EXECUTION_COMMIT_MISMATCH"
+    assert not queue.exists()
+    # A fresh external approval may bind this exact final commit without embedding
+    # its own digest in runner source. This fixture is structural, not real approval.
+    authorization["base_commit"] = inventory["repository"]["commit_sha"]
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
+    with pytest.raises(runner.FinalOperationError) as raised:
+        runner.run_batch(plan, authorization, staged, queue, runtime_state={})
+    assert raised.value.code == "RUNTIME_PATH_INVALID"
     assert not queue.exists()
 
 

@@ -18,7 +18,7 @@ AUTHORIZATION = BASE / "operator-authorization.identity-capture.20261009.json"
 def direct_contract():
     plan = json.loads((BASE / "phase-b-preparation/corrected-retry-plan.json").read_text())
     authorization = json.loads(AUTHORIZATION.read_text())
-    plan["identity_capture_authorization_binding"] = dict(runner.IDENTITY_CAPTURE_PLAN_BINDING)
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
     plan.pop("host_authorization_binding", None)
     plan.pop("execution_preconditions", None)
     return plan, authorization
@@ -29,7 +29,9 @@ def test_direct_authorization_valid_without_legacy_gates():
     runner.validate_contract(plan, authorization)
 
 
-@pytest.mark.parametrize("field", list(runner.IDENTITY_CAPTURE_PLAN_BINDING) + ["missing"])
+@pytest.mark.parametrize("field", [
+    "schema_version", "base_commit", "proposal_sha256", "authorization_canonical_sha256", "missing",
+])
 def test_direct_authorization_requires_exact_plan_binding(field):
     plan, authorization = direct_contract()
     if field == "missing":
@@ -49,11 +51,45 @@ def test_direct_authorization_requires_exact_plan_binding(field):
     ("package_downloads", 1), ("dependency_installs", 1), ("provider_spend", True),
     ("training", True), ("deletions", 1), ("protected_engine_changes", 1),
     ("threshold_changes", 1), ("required_execution_identity", {}),
-    ("operations", []), ("operator_approval", {}), ("scope", "altered"),
+    ("operations", []), ("operator_approval", {}),
 ])
 def test_direct_authorization_rejects_any_approval_change(field, value):
     plan, authorization = direct_contract()
     authorization[field] = value
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
+
+
+def test_direct_binding_detects_other_content_changes_and_matches_external_digest():
+    plan, authorization = direct_contract()
+    assert plan["identity_capture_authorization_binding"]["authorization_canonical_sha256"] == (
+        "a249dd96423bc035a2807f6ee4d3e493dd48ad11ab6a01ef39846f23c52cbb4c"
+    )
+    authorization["scope"] = "altered"
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_PLAN_BINDING_INVALID"
+
+
+@pytest.mark.parametrize("field", ["base_commit", "proposal_sha256"])
+def test_direct_binding_rejects_valid_but_different_hashes(field):
+    plan, authorization = direct_contract()
+    if field == "base_commit":
+        authorization[field] = "0" * 40
+    else:
+        authorization["operator_approval"][field] = "0" * 64
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_PLAN_BINDING_INVALID"
+
+
+@pytest.mark.parametrize("field", list(runner.IDENTITY_CAPTURE_REQUIRED_IDENTITY))
+def test_direct_identity_flags_cannot_be_disabled_even_with_matching_digest(field):
+    plan, authorization = direct_contract()
+    authorization["required_execution_identity"][field] = False
+    plan["identity_capture_authorization_binding"] = runner.identity_capture_authorization_binding(authorization)
     with pytest.raises(runner.FinalOperationError) as error:
         runner.validate_contract(plan, authorization)
     assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
