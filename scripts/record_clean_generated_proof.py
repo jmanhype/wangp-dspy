@@ -285,6 +285,59 @@ def models(host: Any, proof: Path, assets: Sequence[Mapping[str, Any]], config: 
     return observed
 
 
+def pyav_compat_sitecustomize() -> str:
+    """No-install, process-local repair of the observed torchvision/PyAV seam."""
+    return '''import inspect, os, sys
+from pathlib import Path
+try:
+    if os.environ.get("PYTHONPATH", "").split(":")[0] != str(Path(__file__).parent):
+        raise RuntimeError("compatibility directory must lead PYTHONPATH")
+    import torchvision.io as io
+    import torchvision.io.video as video
+    original = video.write_video
+    if io.write_video is not original or original.__module__ != "torchvision.io.video" or original.__name__ != "write_video":
+        raise RuntimeError("unexpected writer alias")
+    source = inspect.getsource(original)
+    legacy = 'frame.pict_type = "NONE"'
+    if source.count(legacy) != 1 or sum(line.strip() == legacy for line in source.splitlines()) != 1:
+        raise RuntimeError("missing or unexpected legacy writer source")
+    namespace = dict(video.__dict__)
+    exec(compile(source.replace(legacy, "frame.pict_type = 0"), "<WD-pp86-pyav-compat>", "exec"), namespace)
+    patched = namespace["write_video"]
+    video.write_video = patched
+    io.write_video = patched
+    if video.write_video is not patched or io.write_video is not patched:
+        raise RuntimeError("writer alias patch failed")
+    PYAV_COMPAT_APPLIED = True
+except BaseException as exc:
+    sys.stderr.write("PYAV_COMPAT_FAILED: " + type(exc).__name__ + ": " + str(exc) + "\\n")
+    sys.stderr.flush()
+    os._exit(78)  # Ordinary sitecustomize exceptions are swallowed by Python.
+'''
+
+
+def stage_pyav_compat(host: Any, proof: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {"passed": False}
+    try:
+        directory = str(Path(config["remote_work_root"]) / "pyav-compat")
+        remote = push(host, proof, "pyav-compat/sitecustomize.py", pyav_compat_sitecustomize())
+        if remote != directory + "/sitecustomize.py":
+            raise ValueError("shim staged outside exact authorized directory")
+        fetched = proof / "preflight/pyav-compat-sitecustomize.py"
+        fetched.parent.mkdir(parents=True, exist_ok=True)
+        host.fetch_file(remote, str(fetched))
+        digest = hashlib.sha256(pyav_compat_sitecustomize().encode()).hexdigest()
+        if sha(fetched) != digest:
+            raise ValueError("staged shim bytes differ")
+        result.update(passed=True, directory=directory, sha256=digest)
+    except Exception as exc:
+        result["diagnostic"] = {"code": "PYAV_COMPAT_FAILED", "detail": f"{type(exc).__name__}: {exc}"}
+        raise ProofError("PYAV_COMPAT_FAILED", result["diagnostic"]["detail"]) from exc
+    finally:
+        record(proof / "preflight/pyav-compat.json", result)
+    return result
+
+
 def offline_wrapper_body(config: Mapping[str, Any]) -> str:
     lines = [
         "#!/bin/bash",
@@ -293,6 +346,7 @@ def offline_wrapper_body(config: Mapping[str, Any]) -> str:
         "export TRANSFORMERS_OFFLINE=1",
     ]
     runtime = config.get("runtime")
+    pythonpath = []
     if runtime is not None:
         if runtime.get("python") != config["wgp_python"]:
             raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime python differs from authorized host python")
@@ -306,9 +360,22 @@ def offline_wrapper_body(config: Mapping[str, Any]) -> str:
             "PYTHONUNBUFFERED", "PYTORCH_ALLOC_CONF"
         }:
             raise ProofError("OFFLINE_WRAPPER_INVALID", "runtime environment keys are not authorized")
-        lines.append(f"export PYTHONPATH={shlex.quote(':'.join(pythonpath))}")
         for key in sorted(environment):
             lines.append(f"export {key}={shlex.quote(str(environment[key]))}")
+    compat = config.get("pyav_compat")
+    if compat is not None:
+        directory = str(Path(config["remote_work_root"]) / "pyav-compat")
+        digest = hashlib.sha256(pyav_compat_sitecustomize().encode()).hexdigest()
+        if compat != {"passed": True, "directory": directory, "sha256": digest} or directory in pythonpath:
+            raise ProofError("PYAV_COMPAT_FAILED", "shim staging identity or path ordering invalid")
+        pythonpath = [directory, *pythonpath]
+        # -S avoids executing a missing/corrupted shim before verifying its bytes.
+        guard = ("import hashlib,pathlib,sys; p=pathlib.Path(sys.argv[1]); "
+                 "sys.exit(0 if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2] "
+                 "else 'PYAV_COMPAT_FAILED: missing or changed shim')")
+        lines.append(shlex.join([config["wgp_python"], "-S", "-c", guard, directory + "/sitecustomize.py", digest]))
+    if pythonpath:
+        lines.append(f"export PYTHONPATH={shlex.quote(':'.join(pythonpath))}")
     lines.append(f"exec {shlex.quote(config['wgp_python'])} \"$@\"")
     return "\n".join(lines) + "\n"
 
@@ -358,6 +425,10 @@ print(json.dumps({"size_bytes": output.stat().st_size,
     try:
         if output.exists():
             raise ValueError("local media-write output must be fresh")
+        if config.get("pyav_compat") is not None:
+            body = ('import sitecustomize\n'
+                    'if getattr(sitecustomize, "PYAV_COMPAT_APPLIED", False) is not True:\n'
+                    '    raise RuntimeError("PYAV_COMPAT_FAILED: patch not applied")\n') + body
         wrapper = push(host, proof, "media-write-python.sh", offline_wrapper_body(config))
         script = push(host, proof, "media-write.py", body)
         rc, out, err = probe(host, (wrapper, script, remote))
@@ -500,6 +571,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                            "WANGP_QC_URL": config["qc_url"]})
         host = render_host(config)
         ensure_fresh_remote_root(host, proof, config)
+        config["pyav_compat"] = stage_pyav_compat(host, proof, config)
         media_write_preflight(host, proof, config)
         storage = relocate(host, proof, auth, config)
         model_rows = models(host, proof, assets, config)

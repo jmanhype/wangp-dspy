@@ -1,0 +1,3 @@
+sitecustomize torchvision torchvision.io.video True
+patched_first_lineno 1
+write_ok bytes 1555
