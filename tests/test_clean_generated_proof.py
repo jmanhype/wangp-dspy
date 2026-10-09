@@ -186,7 +186,9 @@ def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
         "verbatim": "Continue authorized approved",
         "approved_at": "2026-10-09T00:21:12Z",
     }
-    recorder.validate_authorized_source(ROOT, authorization)
+    # Consumed retry4 authorizes the historical recorder, not this new preflight.
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
 
     assert authorization["status"] == "approved"
     assert authorization["text"] == "Continue authorized approved"
@@ -210,7 +212,8 @@ def test_future_authorization_binds_exact_authorized_source_bytes() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
 
-    recorder.validate_authorized_source(ROOT, authorization)
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
 
 
 @pytest.mark.parametrize("relative", ["install.sh", "host/wangp_adapter.py", "host/render_host.py"])
@@ -252,6 +255,9 @@ def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_pat
     )
 
     validated, assets = recorder.inputs(authorization, json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8")))
+    # A future approval must bind the updated recorder; do not rewrite historical approval files.
+    validated["authorized_source"]["files"] = recorder.source_manifest(checkout, recorder.V3_AUTHORIZED_SOURCE_FILES)
+    validated["authorized_source"]["identity_sha256"] = recorder.source_identity(validated["authorized_source"]["files"])
     recorder.validate_authorized_source(checkout, validated)
 
     assert len(assets) == 4
@@ -266,7 +272,8 @@ def test_operator_v3_authorization_is_approved_and_exact_source_bound() -> None:
     assert authorization["allowed_host"] == json.loads(
         (BUNDLE / "isolated-runtime-authorization.template.json").read_text(encoding="utf-8")
     )["allowed_host"]
-    recorder.validate_authorized_source(ROOT, authorization)
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
 
 
 def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
@@ -349,7 +356,8 @@ def test_retry4_operator_authorization_cannot_be_replayed_after_consumption() ->
         recorder.inputs(authorization, manifest)
 
     assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
-    recorder.validate_authorized_source(ROOT, authorization)
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
 
     records = json.loads((BUNDLE / "authorization-consumption.json").read_text(encoding="utf-8"))["records"]
     consumed = [record for record in records if record["authorization_canonical_sha256"] == (
@@ -396,7 +404,8 @@ def test_v3_template_binds_exact_six_file_boundary() -> None:
     }
     for relative in ("host/wangp_adapter.py", "host/render_host.py"):
         assert files[relative] == recorder.sha(ROOT / relative)
-    recorder.validate_authorized_source(ROOT, authorization)
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
 
 
 @pytest.mark.parametrize("relative", ["host/wangp_adapter.py", "host/render_host.py"])
@@ -597,3 +606,121 @@ def test_generated_install_dry_run_preserves_isolated_checkout_and_inputs() -> N
     assert f"--proof-dir {workspace}/proof" in combined
     assert "Checkout ready. Next commands:" not in combined
     assert "run_content_brief.py" not in combined
+
+
+@pytest.mark.parametrize("mode", ["success", "exception", "nonzero", "missing", "empty", "hash"])
+def test_media_write_preflight_before_queue(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mode: str) -> None:
+    recorder = _load_recorder()
+    events: list[str] = []
+    remote = tmp_path / "remote"
+    remote.mkdir()
+    proof = tmp_path / "proof"
+    proof.mkdir()
+    (proof / "argv.nul").write_bytes(b"install\0")
+    config = {"remote_work_root": str(remote), "wgp_python": sys.executable,
+              "pull_root": str(tmp_path), "target": "fake", "wgp_root": str(remote), "qc_url": "unused"}
+
+    class Host:
+        def push_file(self, source: str, target: str) -> str:
+            events.append(Path(target).name)
+            shutil.copyfile(source, target)
+            return target
+
+        def run_probe(self, argv: list[str], timeout: int = 120) -> tuple[int, str, str]:
+            if argv[0] in {"mkdir", "chmod"}:
+                process = subprocess.run(argv, capture_output=True, text=True, check=False)
+                return process.returncode, process.stdout, process.stderr
+            events.append("probe")
+            assert argv == [str(remote / "media-write-python.sh"), str(remote / "media-write.py"), str(remote / "media-write.mp4")]
+            assert (remote / "media-write-python.sh").read_text() == recorder.offline_wrapper_body(config)
+            body = (remote / "media-write.py").read_text()
+            assert "torchvision.io.write_video" in body and "torch.zeros((1, 8, 8, 3)" in body
+            if mode == "exception":
+                raise RuntimeError("transport failed")
+            output = remote / "media-write.mp4"
+            output.write_bytes(b"synthetic fixture bytes" if mode != "empty" else b"")
+            versions = {key: "test-fixture" for key in ("python", "torch", "torchvision", "av")}
+            out = json.dumps({"versions": versions}) + "\n" + json.dumps({
+                "size_bytes": output.stat().st_size, "sha256": recorder.sha(output)}) + "\n"
+            return (1 if mode == "nonzero" else 0), out, "TypeError: an integer is required" if mode == "nonzero" else ""
+
+        def fetch_file(self, source: str, target: str) -> None:
+            events.append("fetch")
+            if mode != "missing":
+                shutil.copyfile(source, target)
+            if mode == "hash":
+                Path(target).write_bytes(b"different fixture bytes")
+
+    auth = tmp_path / "authorization.json"
+    manifest = tmp_path / "manifest.json"
+    recorder.record(auth, {"allowed_host": config})
+    recorder.record(manifest, {})
+    monkeypatch.setattr(recorder, "inputs", lambda auth, manifest: (auth, []))
+    monkeypatch.setattr(recorder, "repository", lambda checkout: ("test", "", "test"))
+    monkeypatch.setattr(recorder, "tools", lambda: {})
+    monkeypatch.setattr(recorder, "validate_authorized_source", lambda *args: None)
+    monkeypatch.setattr(recorder, "render_host", lambda config: Host())
+    monkeypatch.setattr(recorder, "ensure_fresh_remote_root", lambda *args: None)
+    monkeypatch.setattr(recorder, "relocate", lambda *args: events.append("storage"))
+    monkeypatch.setattr(recorder, "models", lambda *args: events.append("models"))
+    monkeypatch.setattr(recorder, "offline_wrapper", lambda *args: ("test", "test"))
+
+    def submit(*args: Any, **kwargs: Any) -> None:
+        events.append("queue-submit")
+        raise RuntimeError("stop before any render")
+
+    monkeypatch.setattr(JobQueue, "submit", submit)
+    assert recorder.main(["--proof-dir", str(proof), "--checkout", str(tmp_path), "--installer", "unused",
+                          "--authorization", str(auth), "--model-manifest", str(manifest)]) == 4
+    result = recorder.load(proof / "preflight/media-write.json")
+    assert result["log_sha256"] == recorder.sha(Path(result["log_path"]))
+    assert events[:3] == ["media-write-python.sh", "media-write.py", "probe"]
+    if mode == "success":
+        assert result["passed"] and result["size_bytes"] > 0
+        assert result["sha256"] == recorder.sha(Path(result["local_path"]))
+        assert set(result["versions"]) == {"python", "torch", "torchvision", "av"}
+        assert events[-3:] == ["storage", "models", "queue-submit"]
+    else:
+        assert not result["passed"]
+        assert recorder.load(proof / "failure.json")["diagnostic"]["code"] == "MEDIA_WRITE_PREFLIGHT_FAILED"
+        assert "queue-submit" not in events and "models" not in events
+        assert not (proof / "queue.db").exists()
+
+
+@pytest.mark.parametrize("fail_write", [False, True])
+def test_media_write_script_executes_offline_with_fixture_runtime(tmp_path: Path, fail_write: bool) -> None:
+    """Execute staged scripts locally; dependency fixtures are not real codec evidence."""
+    recorder = _load_recorder()
+    runtime = tmp_path / "runtime"
+    runtime.mkdir()
+    (runtime / "torch.py").write_text('__version__ = "fixture-torch"\nuint8 = "uint8"\n'
+                                       'def zeros(shape, dtype):\n    assert shape == (1, 8, 8, 3)\n    return shape\n')
+    (runtime / "av.py").write_text('__version__ = "fixture-av"\n')
+    action = 'raise TypeError("an integer is required")' if fail_write else 'Path(path).write_bytes(b"fixture-video")'
+    (runtime / "torchvision.py").write_text(
+        'import os\nfrom pathlib import Path\n__version__ = "fixture-torchvision"\nclass io:\n'
+        '    @staticmethod\n    def write_video(path, frames, fps):\n'
+        '        assert os.environ["HF_HUB_OFFLINE"] == os.environ["TRANSFORMERS_OFFLINE"] == "1"\n'
+        '        assert fps == 24\n        ' + action + '\n')
+    config = {"remote_work_root": str(tmp_path / "remote"), "wgp_python": sys.executable,
+              "runtime": {"python": sys.executable, "pythonpath": [str(runtime)], "environment": {}}}
+    recorder.record(tmp_path / "proof/inputs/resolved-host.json", config)
+
+    class LocalHost:
+        def push_file(self, source: str, target: str) -> str:
+            shutil.copyfile(source, target)
+            return target
+
+        def fetch_file(self, source: str, target: str) -> None:
+            shutil.copyfile(source, target)
+
+        def run_probe(self, argv: list[str], timeout: int = 120) -> tuple[int, str, str]:
+            process = subprocess.run(argv, capture_output=True, text=True, check=False, timeout=timeout)
+            return process.returncode, process.stdout, process.stderr
+
+    if fail_write:
+        with pytest.raises(recorder.ProofError, match="TypeError: an integer is required"):
+            recorder.media_write_preflight(LocalHost(), tmp_path / "proof", config)
+    else:
+        result = recorder.media_write_preflight(LocalHost(), tmp_path / "proof", config)
+        assert result["passed"] and result["versions"]["av"] == "fixture-av"

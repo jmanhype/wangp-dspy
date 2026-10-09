@@ -335,6 +335,60 @@ def queue_state(database: Path, job_id: str) -> dict[str, Any]:
         }
 
 
+def media_write_preflight(host: Any, proof: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    """Exercise the native torchvision/PyAV seam without loading any model."""
+    directory = proof / "preflight"
+    directory.mkdir(parents=True, exist_ok=True)
+    output = directory / "media-write.mp4"
+    remote = f"{config['remote_work_root']}/media-write.mp4"
+    result: dict[str, Any] = {"passed": False, "path": remote, "stdout": "", "stderr": ""}
+    body = '''import hashlib, json, platform, sys
+from pathlib import Path
+import torch, torchvision, av
+versions = {"python": platform.python_version(), "torch": torch.__version__,
+            "torchvision": torchvision.__version__, "av": av.__version__}
+print(json.dumps({"versions": versions}), flush=True)
+output = Path(sys.argv[1])
+if output.exists():
+    raise RuntimeError("media-write output must be fresh")
+torchvision.io.write_video(str(output), torch.zeros((1, 8, 8, 3), dtype=torch.uint8), fps=24)
+print(json.dumps({"size_bytes": output.stat().st_size,
+                  "sha256": hashlib.sha256(output.read_bytes()).hexdigest()}), flush=True)
+'''
+    try:
+        if output.exists():
+            raise ValueError("local media-write output must be fresh")
+        wrapper = push(host, proof, "media-write-python.sh", offline_wrapper_body(config))
+        script = push(host, proof, "media-write.py", body)
+        rc, out, err = probe(host, (wrapper, script, remote))
+        result.update(exit_code=rc, stdout=out, stderr=err)
+        rows = [json.loads(line) for line in out.splitlines() if line.startswith("{")]
+        if rows:
+            result["versions"] = rows[0].get("versions")
+        if rc:
+            raise ValueError(f"media-write probe exited {rc}: {err.strip()}")
+        versions = result.get("versions")
+        if (not isinstance(versions, dict) or set(versions) != {"python", "torch", "torchvision", "av"}
+                or not all(isinstance(value, str) and value for value in versions.values())):
+            raise ValueError("media-write runtime versions missing")
+        size, digest = rows[-1].get("size_bytes"), rows[-1].get("sha256")
+        if type(size) is not int or size <= 0 or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError("media-write output metadata missing or empty")
+        host.fetch_file(remote, str(output))
+        if (not output.is_file() or output.stat().st_size != size or sha(output) != digest):
+            raise ValueError("media-write output missing, empty, or hash/size mismatch")
+        result.update(passed=True, size_bytes=size, sha256=digest, local_path=str(output))
+    except Exception as exc:
+        result["diagnostic"] = {"code": "MEDIA_WRITE_PREFLIGHT_FAILED", "detail": f"{type(exc).__name__}: {exc}"}
+        raise ProofError("MEDIA_WRITE_PREFLIGHT_FAILED", result["diagnostic"]["detail"]) from exc
+    finally:
+        log = directory / "media-write.log"
+        log.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        result.update(log_path=str(log), log_sha256=sha(log))
+        record(directory / "media-write.json", result)
+    return result
+
+
 def render(host: Any, proof: Path) -> tuple[str, dict[str, Any]]:
     clip = {"clip_index": 1, "status": "pending", "log": None, "mp4": None, "qc_verdict": None,
             "kind": "video_generation", "family": "minimax_h3", "preset": "standard", "operation": "create",
@@ -446,6 +500,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                            "WANGP_QC_URL": config["qc_url"]})
         host = render_host(config)
         ensure_fresh_remote_root(host, proof, config)
+        media_write_preflight(host, proof, config)
         storage = relocate(host, proof, auth, config)
         model_rows = models(host, proof, assets, config)
         wrapper, wrapper_hash = offline_wrapper(host, proof, config); os.environ["WANGP_WGP_PYTHON"] = wrapper
