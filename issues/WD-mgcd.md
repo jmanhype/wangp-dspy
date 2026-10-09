@@ -1,16 +1,18 @@
 ---
 id: WD-mgcd
 title: "Preflight H3 PyAV media-write compatibility"
-status: open
+status: in_progress
 priority: 0
 type: task
 labels: [bug, evidence, qc]
 parent: WD-3nod
 created_at: 2026-10-09T14:30:58Z
 created_by: speed
-updated_at: 2026-10-09T14:30:58Z
-content_hash: "sha256:02e4595a772f4376b65164eb76d7569c0aeb0d8ff732a7448cba1a0f3a90e3b4"
+updated_at: 2026-10-09T14:31:21Z
+content_hash: "sha256:8890a6c5f24dfae2a831e1ca24ad55151fbc8d8f8cea2ec29623503d4d86429b"
 blocks: [WD-bw0h, WD-fay0]
+assignee: dev-WD-mgcd
+follows: [WD-dhcc]
 ---
 
 ## Description
@@ -83,9 +85,13 @@ status: new
 ## History
 - 2026-10-09T14:31:07Z dep_added: blocks WD-bw0h
 - 2026-10-09T14:31:08Z dep_added: blocks WD-fay0
+- 2026-10-09T14:31:21Z status: open -> in_progress
+- 2026-10-09T14:31:21Z auto-follows: linked to predecessor WD-dhcc
+- 2026-10-09T14:31:21Z claimed by dev-WD-mgcd
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-fay0]]
+- Follows: [[WD-dhcc]]
 
 ## Comments

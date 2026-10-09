@@ -9,9 +9,10 @@ parent: WD-3nod
 created_at: 2026-10-09T14:30:32Z
 created_by: speed
 updated_at: 2026-10-09T14:30:58Z
-content_hash: "sha256:e1ebf71fc24739a410b308d20769b192179ce708d4dcbb5fc275c3e7b5088a29"
+content_hash: "sha256:55b9121a0781fd00537670e93d8e5a059dcc1acc9b26c6f9d1ffc3b64de6c2f2"
 closed_at: 2026-10-09T14:30:58Z
 close_reason: "Quarantined replacement: Existing consumes labels did not resolve to story IDs."
+led_to: [WD-mgcd]
 ---
 
 ## Description
@@ -95,5 +96,6 @@ status: new
 
 ## Links
 - Parent: [[WD-3nod]]
+- Led to: [[WD-mgcd]]
 
 ## Comments
