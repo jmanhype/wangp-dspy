@@ -4,11 +4,11 @@ title: "Stage no-install H3 PyAV media-write compatibility"
 status: in_progress
 priority: 0
 type: task
-labels: [bug, evidence, qc, integration]
+labels: [bug, evidence, qc, integration, delivered]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T17:40:42Z
+updated_at: 2026-10-09T17:40:45Z
 content_hash: "sha256:460b18b838a6cab5d339c06b8182904e5eccefc9b903aa33941ef38c0f772a56"
 blocks: [WD-bw0h, WD-fay0]
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
