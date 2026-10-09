@@ -8,10 +8,10 @@ labels: [bug, evidence, qc, integration]
 parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
-updated_at: 2026-10-09T16:18:44Z
-content_hash: "sha256:cfb41617e8d549d13dfb3e9e6f43ae2169d5f2ef83b77e2f72436a3d5ba341bd"
+updated_at: 2026-10-09T17:40:42Z
+content_hash: "sha256:460b18b838a6cab5d339c06b8182904e5eccefc9b903aa33941ef38c0f772a56"
 blocks: [WD-bw0h, WD-fay0]
-follows: [WD-mgcd, WD-dhcc]
+follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
 ---
 
@@ -101,10 +101,12 @@ status: new
 - 2026-10-09T16:18:44Z status: open -> in_progress
 - 2026-10-09T16:18:44Z auto-follows: linked to predecessor WD-dhcc
 - 2026-10-09T16:18:44Z claimed by dev-WD-pp86
+- 2026-10-09T17:40:42Z status: in_progress -> in_progress
+- 2026-10-09T17:40:43Z auto-follows: linked to predecessor WD-5yg9
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-bw0h]], [[WD-fay0]]
-- Follows: [[WD-mgcd]], [[WD-dhcc]]
+- Follows: [[WD-mgcd]], [[WD-dhcc]], [[WD-5yg9]]
 
 ## Comments
