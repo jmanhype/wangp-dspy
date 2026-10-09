@@ -55,6 +55,13 @@ PRIOR_NATIVE_RUN_ROOT = "/home/straughter/wd-28ac-run/phase-b-gate5"
 CORRECTED_NATIVE_RUN_ROOT = (
     "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry"
 )
+IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA = "wangp-dspy.ltx-identity-capture-authorization/v1"
+IDENTITY_CAPTURE_PLAN_BINDING = {
+    "schema_version": IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA,
+    "base_commit": "9a47698d718e53f69ad49716aa44953bb07851d6",
+    "proposal_sha256": "e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef",
+    "authorization_canonical_sha256": "a249dd96423bc035a2807f6ee4d3e493dd48ad11ab6a01ef39846f23c52cbb4c",
+}
 GATE15_SNAPSHOT_SHA256 = (
     "2d80ae6623256e56223a47c359b3e754a9cecffc8c768063a37c155cf88b2b89"
 )
@@ -352,6 +359,51 @@ def _snapshot(operation: Mapping[str, Any]) -> dict[str, Any]:
         "disk": _run(["df", "-B1", str(operation["source_root"])]),
     }
 
+def _validate_identity_capture_authorization(
+    plan: Mapping[str, Any], authorization: Mapping[str, Any]
+) -> bool:
+    """Accept only the immutable, one-shot operator approval; never infer it from legacy gates."""
+    if authorization.get("schema_version") != IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA:
+        if "identity_capture_authorization_binding" in plan:
+            raise FinalOperationError(
+                "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "direct authorization schema absent",
+                "Use the exact approved identity-capture authorization, not a consumed legacy gate.",
+            )
+        return False
+    # The pinned canonical digest binds every approval field, including verbatim text,
+    # timestamp, seven named operations, attempt/download/spend limits and identity flags.
+    canonical = json.dumps(authorization, sort_keys=True, separators=(",", ":"))
+    if hashlib.sha256(canonical.encode("utf-8")).hexdigest() != (
+        IDENTITY_CAPTURE_PLAN_BINDING["authorization_canonical_sha256"]
+    ):
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_AUTHORIZATION_INVALID", "canonical authorization SHA-256 mismatch",
+            "Use the immutable operator approval without additions or modifications.",
+        )
+    if plan.get("identity_capture_authorization_binding") != IDENTITY_CAPTURE_PLAN_BINDING:
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_PLAN_BINDING_INVALID", "identity-capture binding mismatch",
+            "Bind the exact schema, base commit, proposal and canonical authorization hashes.",
+        )
+    if (plan.get("mode") != "corrected_native_operations_authorized"
+            or plan.get("host_execution_authorized") is not True
+            or plan.get("preflight_ready") is not True):
+        raise FinalOperationError(
+            "PLAN_PREFLIGHT_NOT_READY", "direct authorization requires an authorized, ready plan",
+            "Collect healthy QC and fresh host facts first.",
+        )
+    identities = [
+        {key: item.get(key) for key in ("row", "operation", "operation_id")}
+        for item in plan.get("operations", [])
+    ]
+    if identities != authorization["operations"]:
+        raise FinalOperationError(
+            "IDENTITY_CAPTURE_OPERATIONS_INVALID", "operation identities or order differ",
+            "Use exactly the seven named operations in the approved order.",
+        )
+    return True
+
+
 def validate_contract(
     plan: Mapping[str, Any], authorization: Mapping[str, Any]
 ) -> None:
@@ -380,21 +432,24 @@ def validate_contract(
     if len(operations) != 7:
         raise FinalOperationError("OPERATION_COUNT_INVALID", str(len(operations)),
                                   "Exactly seven planned operations are required.")
+    direct_authorization = _validate_identity_capture_authorization(plan, authorization)
     gate = authorization.get("jev_final_operations_authorization", {})
-    if gate.get("operations_authorized") is not True or gate.get("retry") != "never":
+    if not direct_authorization and (
+        gate.get("operations_authorized") is not True or gate.get("retry") != "never"
+    ):
         raise FinalOperationError("GATE7_AUTHORIZATION_INVALID",
                                   json.dumps(gate, sort_keys=True),
                                   "Bind the exact live Gate 7 CONTINUE record.")
     corrected = authorization.get("operator_corrected_native_retry_authorization", {})
-    if corrected.get("decision") != "Authorized" or corrected.get(
+    if not direct_authorization and (corrected.get("decision") != "Authorized" or corrected.get(
         "separate_host_retry_gate_required"
-    ) is not True:
+    ) is not True):
         raise FinalOperationError(
             "CORRECTED_NATIVE_RETRY_AUTHORIZATION_INVALID",
             json.dumps(corrected, sort_keys=True),
             "Bind the operator corrected native-retry record.",
         )
-    if plan.get("mode") == "corrected_native_operations_authorized":
+    if not direct_authorization and plan.get("mode") == "corrected_native_operations_authorized":
         host_gate = authorization.get(
             "jev_corrected_native_retry_host_authorization", {}
         )
@@ -740,7 +795,8 @@ def run_batch(
             "Wait for the separate Jev corrected-host-retry gate.",
         )
     host_gate = authorization.get("jev_corrected_native_retry_host_authorization", {})
-    if host_gate.get("host_execution_authorized") is not True:
+    if (authorization.get("schema_version") != IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA
+            and host_gate.get("host_execution_authorized") is not True):
         raise FinalOperationError(
             "CORRECTED_HOST_RETRY_NOT_AUTHORIZED",
             json.dumps(host_gate, sort_keys=True),

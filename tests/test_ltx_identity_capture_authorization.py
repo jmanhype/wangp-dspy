@@ -5,11 +5,123 @@ import json
 import re
 from pathlib import Path
 
+import pytest
+
+import scripts.run_ltx_final_operations as runner
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "datasets/runs/maestro-parity/ltx-dependency-terminalization"
 PROPOSAL = BASE / "operator-proposal.identity-capture.20261009.json"
 AUTHORIZATION = BASE / "operator-authorization.identity-capture.20261009.json"
+
+
+def direct_contract():
+    plan = json.loads((BASE / "phase-b-preparation/corrected-retry-plan.json").read_text())
+    authorization = json.loads(AUTHORIZATION.read_text())
+    plan["identity_capture_authorization_binding"] = dict(runner.IDENTITY_CAPTURE_PLAN_BINDING)
+    plan.pop("host_authorization_binding", None)
+    plan.pop("execution_preconditions", None)
+    return plan, authorization
+
+
+def test_direct_authorization_valid_without_legacy_gates():
+    plan, authorization = direct_contract()
+    runner.validate_contract(plan, authorization)
+
+
+@pytest.mark.parametrize("field", list(runner.IDENTITY_CAPTURE_PLAN_BINDING) + ["missing"])
+def test_direct_authorization_requires_exact_plan_binding(field):
+    plan, authorization = direct_contract()
+    if field == "missing":
+        del plan["identity_capture_authorization_binding"]
+    else:
+        plan["identity_capture_authorization_binding"][field] = "wrong"
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_PLAN_BINDING_INVALID"
+
+
+@pytest.mark.parametrize("field,value", [
+    ("status", "consumed"), ("approved_by", "agent"), ("text", "approved"),
+    ("timestamp", "2026-10-10T00:00:00Z"), ("base_commit", "wrong"),
+    ("operation_count", 8), ("max_attempts_per_operation", 2), ("retry", "always"),
+    ("stop_on_first_terminal_failure", False), ("model_downloads", 1),
+    ("package_downloads", 1), ("dependency_installs", 1), ("provider_spend", True),
+    ("training", True), ("deletions", 1), ("protected_engine_changes", 1),
+    ("threshold_changes", 1), ("required_execution_identity", {}),
+    ("operations", []), ("operator_approval", {}), ("scope", "altered"),
+])
+def test_direct_authorization_rejects_any_approval_change(field, value):
+    plan, authorization = direct_contract()
+    authorization[field] = value
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
+
+
+@pytest.mark.parametrize("field", ["proposal_sha256", "verbatim", "approved_at"])
+def test_direct_authorization_rejects_changed_approval_binding(field):
+    plan, authorization = direct_contract()
+    authorization["operator_approval"][field] = "wrong"
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
+
+
+def test_consumed_legacy_authorization_is_not_direct_authorization():
+    plan, _ = direct_contract()
+    authorization = json.loads((BASE / "operator-authorization.json").read_text())
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
+    authorization["schema_version"] = runner.IDENTITY_CAPTURE_AUTHORIZATION_SCHEMA
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == "IDENTITY_CAPTURE_AUTHORIZATION_INVALID"
+
+
+@pytest.mark.parametrize("change,code", [
+    ("count", "OPERATION_COUNT_INVALID"),
+    ("operation_id", "IDENTITY_CAPTURE_OPERATIONS_INVALID"),
+    ("row", "IDENTITY_CAPTURE_OPERATIONS_INVALID"),
+    ("operation", "IDENTITY_CAPTURE_OPERATIONS_INVALID"),
+    ("order", "IDENTITY_CAPTURE_OPERATIONS_INVALID"),
+    ("host_execution_authorized", "PLAN_PREFLIGHT_NOT_READY"),
+    ("preflight_ready", "PLAN_PREFLIGHT_NOT_READY"),
+    ("mode", "PLAN_PREFLIGHT_NOT_READY"),
+    ("environment", "NATIVE_ENVIRONMENT_INVALID"),
+    ("isolated_runtime", "RUNTIME_BINDING_ABSENT"),
+])
+def test_direct_authorization_preserves_plan_invariants(change, code):
+    plan, authorization = direct_contract()
+    if change == "count":
+        plan["operations"].pop()
+    elif change == "order":
+        plan["operations"].reverse()
+    elif change in {"operation_id", "row", "operation"}:
+        plan["operations"][0][change] = "wrong"
+    elif change == "environment":
+        plan["operations"][0]["native"]["environment"] = {}
+    elif change == "mode":
+        plan[change] = "corrected_native_runtime_integration_local_only"
+    else:
+        plan[change] = False
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.validate_contract(plan, authorization)
+    assert error.value.code == code
+
+
+def test_direct_batch_passes_host_authorization_but_requires_runtime_and_identity(tmp_path):
+    plan, authorization = direct_contract()
+    queue = tmp_path / "queue.db"
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.run_batch(plan, authorization, ROOT, queue)
+    assert error.value.code == "RUNTIME_STATE_REQUIRED"
+    plan.pop("runner_repository_root", None)
+    with pytest.raises(runner.FinalOperationError) as error:
+        runner.run_batch(plan, authorization, ROOT, queue, runtime_state={})
+    assert error.value.code == "EXECUTION_REPOSITORY_IDENTITY_UNPROVEN"
+    assert not queue.exists()
 
 
 def digest(path: Path) -> str:
