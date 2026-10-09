@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-09T14:27:13Z
-content_hash: "sha256:67f2c1f06d3147e4f7fb950210c9021964454977dcc7a6a87acb40f5688becb0"
+updated_at: 2026-10-09T19:16:21Z
+content_hash: "sha256:d458ab0793338a4c91c8d203f27164332ea1780ba49b6e35b5e4de2ec414911e"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -244,6 +244,14 @@ The approved one-shot v3 authorization was consumed at merged main `37a5d19a50b5
 - Focused `tests/test_clean_generated_proof.py`: 42 passed locally.
 
 WD-bw0h remains incomplete. A future attempt requires a separately reviewed PyAV/media-write compatibility repair and a new operator authorization; retry4 cannot be replayed.
+### Stable-head pending authorizations at main f6548f03 (dispatcher, 2026-10-09)
+
+All accepted H3-local repairs are merged: PyAV media-write preflight, no-install compatibility staging, and refreshed v3 source boundary. Main quick gates pass. Two fresh proposals are prepared and NOT approved:
+
+1. H3 retry5 proposal `/tmp/h3_retry5_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, source identity `f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6`, fresh root `/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009`, one no-download create, required PyAV preflight/shim, and no retry/substitution.
+2. LTX v3 proposal `/tmp/ltx_identity_capture_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, the same seven operations/assets as corrected v2, one attempt each, zero downloads/spend/training/deletions, and no host promotion.
+
+No GPU host contact or LTX/H3 execution occurred. Each requires a fresh explicit operator approval and source-bound CI-green authorization record before host mutation.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
