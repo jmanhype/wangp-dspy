@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-09T15:53:01Z
-content_hash: "sha256:f06b25806b1c8de1c02913cf97312c3ebc49fcfa0ce7624cb9530b8eac1574b7"
+updated_at: 2026-10-09T19:16:44Z
+content_hash: "sha256:34799ebed7b0c65cbe5c31dd2d268d99db6142f8761c088b12236be52d15d5bc"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 ---
@@ -371,6 +371,14 @@ Interpreted scope: the immediately preceding blocked-goal request—approve BOTH
 PR 236 merged direct-authorization parsing and execution-commit binding at main `d0cd61716b7eb736e64fb39c981fd5a4977bec30`. The prior approved v1 LTX proposal remains hash `e77f11fba5b4cce93bcdc1ff342b58e98146df942fe24e0afbdc09fa7f39deef` but binds base `9a47698d718e53f69ad49716aa44953bb07851d6`; the new runner correctly rejects that authorization at a newer clean execution commit. No LTX host action has occurred.
 
 A v2 proposal is prepared at `/tmp/ltx_identity_capture_d0cd_proposal.json`, with the same seven operations, existing assets only, one attempt each, zero downloads/spend/training/deletions, and corrected canonical asset hashes. It refreshes only the execution base to `d0cd61716b7eb736e64fb39c981fd5a4977bec30` to include the authorization-safety runner changes. A fresh operator approval for this v2 proposal is required before host contact.
+### Stable-head pending authorizations at main f6548f03 (dispatcher, 2026-10-09)
+
+All accepted H3-local repairs are merged: PyAV media-write preflight, no-install compatibility staging, and refreshed v3 source boundary. Main quick gates pass. Two fresh proposals are prepared and NOT approved:
+
+1. H3 retry5 proposal `/tmp/h3_retry5_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, source identity `f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6`, fresh root `/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009`, one no-download create, required PyAV preflight/shim, and no retry/substitution.
+2. LTX v3 proposal `/tmp/ltx_identity_capture_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, the same seven operations/assets as corrected v2, one attempt each, zero downloads/spend/training/deletions, and no host promotion.
+
+No GPU host contact or LTX/H3 execution occurred. Each requires a fresh explicit operator approval and source-bound CI-green authorization record before host mutation.
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
