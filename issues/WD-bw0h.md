@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T11:27:08Z
-content_hash: "sha256:b85d4d970971433aa65cb7f6202075e3035c4244efa47dd77066850fb99d32fe"
+updated_at: 2026-10-11T11:27:09Z
+content_hash: "sha256:b2a7fd17367c3e17dd8bca0f63589d8d64d76b5ac37b5393ae1df6e9333c031a"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -252,6 +252,11 @@ All accepted H3-local repairs are merged: PyAV media-write preflight, no-install
 2. LTX v3 proposal `/tmp/ltx_identity_capture_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, the same seven operations/assets as corrected v2, one attempt each, zero downloads/spend/training/deletions, and no host promotion.
 
 No GPU host contact or LTX/H3 execution occurred. Each requires a fresh explicit operator approval and source-bound CI-green authorization record before host mutation.
+### OPERATOR AUTHORIZATION at 2026-10-11T10:52:46Z
+
+Verbatim user input: `**continue \`Authorize both\` approved**`
+
+Interpreted scope: authorize both exact stable-head proposals. For WD-bw0h this approves H3 retry5 proposal SHA-256 `1184e7a89bc02f06ed522be35c4ee85801092a7351839924b2df8bcd7db894bc` at Wangp source base `f6548f03528b058476367349a5f481614cfa35be`: one fresh no-download clean-machine H3 standard create on host 3090 through the PyAV preflight and no-install compatibility shim, one render maximum, fresh root `/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009`, and all listed prohibitions. Retry4 remains consumed/replay-blocked. Exact source-bound authorization evidence and CI are required before host mutation.
 
 ## Authorized Attempt Boundary (RETRY STOPPED)
 
