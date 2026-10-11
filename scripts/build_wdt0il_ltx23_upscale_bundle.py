@@ -116,7 +116,6 @@ def _copy_preserved(
     allowed_root: Path,
 ) -> None:
     allowed = allowed_root.resolve(strict=True)
-    destination.parent.mkdir(parents=True, exist_ok=True)
 
     try:
         destination.relative_to(allowed)
@@ -125,18 +124,36 @@ def _copy_preserved(
             f"destination escapes allowed root: {destination} -> {allowed}"
         ) from exc
 
-    component = destination
-    while component != allowed:
-        if component.is_symlink():
-            raise BundleBuildError(
-                f"preserved-copy path traverses a symlink: {component}"
+    def reject_unsafe_existing_components() -> None:
+        probe = allowed
+        relative = destination.relative_to(allowed).parts
+        for index, component in enumerate(relative):
+            probe = probe / component
+            final_component = index == len(relative) - 1
+            wrong_type = (
+                not probe.is_file()
+                if final_component
+                else not probe.is_dir()
             )
-        component = component.parent
-        if component == component.parent:
-            raise BundleBuildError(f"destination has no allowed ancestor: {destination}")
+            if probe.is_symlink():
+                raise BundleBuildError(
+                    f"preserved-copy path traverses a symlink: {probe}"
+                )
+            if probe.exists() and wrong_type:
+                raise BundleBuildError(
+                    f"preserved-copy path component has the wrong type: {probe}"
+                )
+            if probe.exists() and not probe.resolve(strict=True).is_relative_to(allowed):
+                raise BundleBuildError(
+                    f"preserved-copy ancestor escapes allowed root: {probe}"
+                )
 
     if not source.is_file() or source.is_symlink():
         raise BundleBuildError(f"preserved source is not a regular file: {source}")
+
+    reject_unsafe_existing_components()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    reject_unsafe_existing_components()
 
     descriptor, temporary_name = tempfile.mkstemp(
         prefix=f".{destination.name}.",

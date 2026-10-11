@@ -35,6 +35,8 @@ def test_copy_preserved_rejects_symlink_redirects_and_exclusive_temp_names(
     source.write_bytes(b"preserved-bytes")
     expected = digest(source)
 
+    allowed = tmp_path / "allowed"
+    allowed.mkdir()
     external_directory = tmp_path / "external-directory"
     external_directory.mkdir()
     parent_alias = tmp_path / "parent-alias"
@@ -47,9 +49,18 @@ def test_copy_preserved_rejects_symlink_redirects_and_exclusive_temp_names(
     else:
         raise AssertionError("symlinked parent was accepted")
     assert not redirected_destination.exists()
+    assert not (external_directory / "nested").exists()
 
-    allowed = tmp_path / "allowed"
-    allowed.mkdir()
+    outside_nested = tmp_path / "outside" / "nested"
+    escaping_destination = outside_nested / "target.bin"
+    try:
+        _copy_preserved(source, escaping_destination, expected, allowed)
+    except Exception as exc:
+        assert "escapes allowed root" in str(exc)
+    else:
+        raise AssertionError("outside destination was accepted")
+    assert not outside_nested.exists()
+
     external_file = external_directory / "external-file.bin"
     external_file.write_bytes(b"original-external")
     destination = allowed / "target.bin"
