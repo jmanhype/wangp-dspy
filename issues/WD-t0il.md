@@ -1,7 +1,7 @@
 ---
 id: WD-t0il
 title: "Gate: remaining Maestro-parity scope (1 LTX cell + first-run artifact) pending new operator authorization"
-status: open
+status: in_progress
 priority: 1
 type: task
 labels: [capability, evidence, gate]
@@ -9,9 +9,11 @@ parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
 updated_at: 2026-10-11T10:53:49Z
-content_hash: "sha256:0b2ac218e2f38fc5ad4ecfadc5ca22e41fad75ecedbc91897f8aef6fbfde5547"
+content_hash: "sha256:175c7e0bb6486de93a1b487386777c2da35e81b97833630e9ae6f00eb7a5beb8"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
+assignee: dev-WD-t0il
+follows: [WD-he8i]
 ---
 
 ## Description
@@ -387,11 +389,15 @@ No GPU host contact or LTX/H3 execution occurred. Each requires a fresh explicit
 - 2026-09-30T15:33:53Z dep_added: blocked_by WD-he8i
 - 2026-09-30T17:13:38Z dep_removed: was_blocked_by WD-he8i
 - 2026-10-11T10:53:49Z status: deferred -> open
+- 2026-10-11T10:53:49Z status: open -> in_progress
+- 2026-10-11T10:53:49Z auto-follows: linked to predecessor WD-he8i
+- 2026-10-11T10:53:49Z claimed by dev-WD-t0il
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-he8i]]
+- Follows: [[WD-he8i]]
 
 ## Comments
 
