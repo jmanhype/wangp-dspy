@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T13:36:51Z
-content_hash: "sha256:4e3141b30ecd6fc57b37b60be1dc2bd241456b6fe7f6094759a10d8e931ec529"
+updated_at: 2026-10-11T14:17:47Z
+content_hash: "sha256:dc058122b640c1204d292a0b7eb05b7bb3386e0b5601e949cebc9ffcc63b420d"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -485,3 +485,8 @@ Measured outcome:
 - Five of six objective gates passed. The fixed `nonempty_bytes` gate failed because 480,063 < 500,000, so the recorder stopped with `OBJECTIVE_GATE_FAILED`, omitted canonical `evidence.json`, and recorded `generated_artifact=false`.
 - No retry, substitution, threshold change, download, spend, training, deletion, or capability promotion occurred.
 - PR #243 preserves the complete boundary at head `3749e7541701f52dab6db26375468ca856ae0f68` and marks the authorization consumed/replay-blocked. Independent evidence review approved at `d600d386`; independent delta review approved the path-scoped whitespace follow-up at `3749e754`. Exact-head CI run `38143530051` is pending and must pass before merge.
+
+### 2026-10-11T14:17:47Z speed
+### Retry5 boundary merged (dispatcher, 2026-10-11)
+
+PR #243 squash-merged at main head `017ccbeb956c211dcc0bdca1b15fcd0a7582b7f6`. Exact-head branch CI run `38143530051` succeeded, and exact-head main CI run `38145076751` succeeded at `2026-10-11T14:14:14Z` approx. The boundary and replay block are now durable on main. WD-bw0h remains open only for the literal one-command disposition; retry5 cannot be replayed.
