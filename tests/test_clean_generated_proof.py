@@ -24,6 +24,9 @@ RETRY6_TEMPLATE = BUNDLE / "isolated-runtime-retry6-authorization.template.json"
 RETRY6_PROPOSAL = BUNDLE / "operator-proposal.isolated-runtime.retry6-20261011.json"
 RETRY6_APPROVED = BUNDLE / "operator-authorization.isolated-runtime.retry6-20261011.json"
 RETRY6 = BUNDLE / "failed-isolated-retry6-20261011"
+RETRY7_TEMPLATE = BUNDLE / "isolated-runtime-retry7-authorization.template.json"
+RETRY7_PROPOSAL = BUNDLE / "operator-proposal.isolated-runtime.retry7-20261011.json"
+RETRY7_APPROVED = BUNDLE / "operator-authorization.isolated-runtime.retry7-20261011.json"
 RETRY3_HISTORICAL_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -53,6 +56,18 @@ def _copy_retry3_historical_source(checkout: Path) -> None:
         destination = checkout / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(RETRY3_HISTORICAL_SOURCE / relative, destination)
+
+
+def _copy_retry6_historical_source(checkout: Path) -> None:
+    recorder = _load_recorder()
+    for relative in recorder.V4_AUTHORIZED_SOURCE_FILES:
+        destination = checkout / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(
+            subprocess.check_output(
+                ("git", "-C", str(ROOT), "show", f"ad6957c2:{relative}")
+            )
+        )
 
 
 def test_retry3_historical_source_evidence_is_exact_and_authorized() -> None:
@@ -254,11 +269,13 @@ def test_future_authorization_rejects_runtime_tampering() -> None:
     assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
 
 
-def test_future_authorization_binds_exact_authorized_source_bytes() -> None:
+def test_future_authorization_binds_exact_authorized_source_bytes(tmp_path: Path) -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
+    checkout = tmp_path / "retry6-source"
+    _copy_retry6_historical_source(checkout)
 
-    recorder.validate_authorized_source(ROOT, authorization)
+    recorder.validate_authorized_source(checkout, authorization)
 
 
 @pytest.mark.parametrize("relative", ["install.sh", "host/wangp_adapter.py", "host/render_host.py"])
@@ -267,10 +284,7 @@ def test_future_authorization_rejects_changed_source_bytes(tmp_path: Path, relat
     authorization = _future_isolated_runtime_authorization()
     checkout = tmp_path / "checkout"
 
-    for source in recorder.V4_AUTHORIZED_SOURCE_FILES:
-        destination = checkout / source
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / source, destination)
+    _copy_retry6_historical_source(checkout)
     (checkout / relative).write_text("# changed\n", encoding="utf-8")
 
     with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
@@ -282,10 +296,7 @@ def test_v4_authorization_binds_committed_source_without_circular_commit(tmp_pat
     checkout = tmp_path / "checkout"
     checkout.mkdir()
 
-    for relative in recorder.V4_AUTHORIZED_SOURCE_FILES:
-        destination = checkout / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / relative, destination)
+    _copy_retry6_historical_source(checkout)
     authorization = _future_isolated_runtime_authorization()
     authorization_path = checkout / "authorization.json"
     authorization_path.write_text(json.dumps(authorization, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -299,22 +310,24 @@ def test_v4_authorization_binds_committed_source_without_circular_commit(tmp_pat
         check=True,
     )
 
-    # A future externally anchored approval must bind these updated source bytes.
+    # A consumed v4 boundary remains bound to its historical source bytes.
     recorder.validate_authorized_source(checkout, authorization)
 
     assert len(json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))["assets"]) == 4
 
 
-def test_operator_v4_authorization_is_approved_and_exact_source_bound() -> None:
+def test_operator_v4_authorization_is_approved_and_exact_source_bound(tmp_path: Path) -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
+    checkout = tmp_path / "retry6-source"
+    _copy_retry6_historical_source(checkout)
 
     assert authorization["status"] == "requires_operator_approval"
     assert authorization["text"] == ""
     assert authorization["allowed_host"] == json.loads(
         RETRY6_TEMPLATE.read_text(encoding="utf-8")
     )["allowed_host"]
-    recorder.validate_authorized_source(ROOT, authorization)
+    recorder.validate_authorized_source(checkout, authorization)
 
 
 def test_consumed_v2_authorization_cannot_be_replayed(tmp_path: Path) -> None:
@@ -639,11 +652,13 @@ def test_retry6_reference_and_prompt_match_accepted_first_run() -> None:
     assert recorder.NONEMPTY_BYTES_THRESHOLD == 500000.0
 
 
-def test_retry6_proposal_and_template_are_unapproved_reference_bound() -> None:
+def test_retry6_proposal_and_template_are_unapproved_reference_bound(tmp_path: Path) -> None:
     recorder = _load_recorder()
     proposal = json.loads(RETRY6_PROPOSAL.read_text(encoding="utf-8"))
     template = json.loads(RETRY6_TEMPLATE.read_text(encoding="utf-8"))
-    expected_sources = recorder.source_manifest(ROOT, recorder.V4_AUTHORIZED_SOURCE_FILES)
+    checkout = tmp_path / "retry6-source"
+    _copy_retry6_historical_source(checkout)
+    expected_sources = recorder.source_manifest(checkout, recorder.V4_AUTHORIZED_SOURCE_FILES)
 
     assert proposal == {
         "approved": False,
@@ -687,7 +702,7 @@ def test_retry6_proposal_and_template_are_unapproved_reference_bound() -> None:
         "second_render": False,
         "threshold_bytes": 500000,
     }
-    recorder.validate_authorized_source(ROOT, template)
+    recorder.validate_authorized_source(checkout, template)
 
 
 def test_unapproved_retry6_cannot_create_workspace_or_proof(tmp_path: Path) -> None:
@@ -925,9 +940,11 @@ def test_retry6_reference_staging_rejects_remote_root_symlink(tmp_path: Path) ->
     assert payload["passed"] is False
 
 
-def test_v4_template_binds_exact_reference_source_boundary() -> None:
+def test_v4_template_binds_exact_reference_source_boundary(tmp_path: Path) -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
+    checkout = tmp_path / "retry6-source"
+    _copy_retry6_historical_source(checkout)
     assert authorization["schema_version"] == "wangp-dspy.clean-generated-authorization/v4"
     files = authorization["authorized_source"]["files"]
     assert set(files) == {
@@ -938,11 +955,158 @@ def test_v4_template_binds_exact_reference_source_boundary() -> None:
         "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
         "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json",
     }
-    assert files == recorder.source_manifest(ROOT, recorder.V4_AUTHORIZED_SOURCE_FILES)
+    assert files == recorder.source_manifest(checkout, recorder.V4_AUTHORIZED_SOURCE_FILES)
     assert authorization["authorized_source"]["identity_sha256"] == (
         recorder.source_identity(files)
     )
-    recorder.validate_authorized_source(ROOT, authorization)
+    recorder.validate_authorized_source(checkout, authorization)
+
+
+def test_retry7_proposal_and_template_are_unapproved_reference_bound() -> None:
+    recorder = _load_recorder()
+    proposal = json.loads(RETRY7_PROPOSAL.read_text(encoding="utf-8"))
+    template = json.loads(RETRY7_TEMPLATE.read_text(encoding="utf-8"))
+    expected_sources = recorder.source_manifest(ROOT, recorder.V5_AUTHORIZED_SOURCE_FILES)
+
+    assert proposal == {
+        "approved": False,
+        "base_commit": "ad6957c245e501cbea72200984d8071d298e867c",
+        "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry7-20261011",
+        "model_download_bytes": 0,
+        "one_attempt": True,
+        "operator_question": "Authorize this exact reference-bearing WD-bw0h H3 retry7 now?",
+        "package_downloads": 0,
+        "protected_engine_change": False,
+        "provider_spend": False,
+        "reference_frame_sha256": recorder.REFERENCE_FRAME_SHA256,
+        "reference_prompt": recorder.REFERENCE_PROMPT,
+        "reference_seed": recorder.REFERENCE_SEED,
+        "render_count": 1,
+        "required_outcome": "One reference-bearing no-download H3 create must pass every unchanged objective gate, or stop fail-closed with no retry or substitution.",
+        "retry6_authorization": "consumed and replay-blocked after the exact-byte disk fix; do not replay",
+        "schema_version": "wangp-dspy.clean-generated.retry7.proposal/v1",
+        "second_render": False,
+        "threshold_change": False,
+        "threshold_bytes": 500000,
+        "training": False,
+        "v5_source_files": expected_sources,
+        "v5_source_identity_sha256": recorder.source_identity(expected_sources),
+    }
+    assert "services/jobs/preflight.py" in expected_sources
+    assert template["schema_version"] == "wangp-dspy.clean-generated-authorization/v5"
+    assert template["status"] == "requires_operator_approval"
+    assert template["text"] == template["timestamp"] == template["scope"] == ""
+    assert template["allowed_host"]["remote_work_root"] == (
+        "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry7-20261011"
+    )
+    assert template["allowed_reference"] == {
+        "frame_path": recorder.REFERENCE_FRAME_RELATIVE,
+        "prompt_path": recorder.REFERENCE_PROMPT_SOURCE_RELATIVE,
+        "evidence_path": recorder.REFERENCE_EVIDENCE_RELATIVE,
+        "sha256": recorder.REFERENCE_FRAME_SHA256,
+        "prompt": recorder.REFERENCE_PROMPT,
+        "seed": recorder.REFERENCE_SEED,
+    }
+    assert template["authorized_source"] == {
+        "files": expected_sources,
+        "identity_sha256": recorder.source_identity(expected_sources),
+    }
+    assert template["operator_approval"] == {
+        "proposal": "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry7-20261011.json",
+        "proposal_sha256": recorder.sha(RETRY7_PROPOSAL),
+        "verbatim": "",
+        "approved_at": "",
+    }
+    assert template["retry7_requirements"] == {
+        "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry7-20261011",
+        "one_attempt": True,
+        "reference_frame_required": True,
+        "second_render": False,
+        "threshold_bytes": 500000,
+    }
+    recorder.validate_authorized_source(ROOT, template)
+    assert not RETRY7_APPROVED.exists()
+
+
+def _self_forged_retry7_authorization() -> dict[str, Any]:
+    authorization = json.loads(RETRY7_TEMPLATE.read_text(encoding="utf-8"))
+    text = "Authorize the exact WD-bw0h retry7 test fixture in memory"
+    timestamp = "2026-10-11T23:59:59Z"
+    authorization.update(
+        status="approved",
+        text=text,
+        timestamp=timestamp,
+        scope="one no-download reference-bearing H3 create through the isolated runtime",
+        operator_approval={
+            **authorization["operator_approval"],
+            "verbatim": text,
+            "approved_at": timestamp,
+        },
+    )
+    return authorization
+
+
+def test_self_forged_retry7_authorization_is_rejected() -> None:
+    recorder = _load_recorder()
+    authorization = _self_forged_retry7_authorization()
+    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
+
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
+
+    assert caught.value.code == "RETRY7_OPERATOR_APPROVAL_REQUIRED"
+
+
+def test_unapproved_retry7_cannot_create_workspace_or_proof(tmp_path: Path) -> None:
+    result = _run_script(tmp_path, RETRY7_TEMPLATE, BUNDLE / "model-assets.json")
+
+    assert result.returncode == 4
+    assert "RETRY7_OPERATOR_APPROVAL_REQUIRED" in result.stderr
+    assert not (tmp_path / "proof").exists()
+
+
+def test_retry7_installer_rejects_before_clean_workspace(tmp_path: Path) -> None:
+    result = subprocess.run(
+        ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+         "--clean-generated-proof", str(tmp_path / "workspace"),
+         "--generated-authorization", RETRY7_TEMPLATE.relative_to(ROOT).as_posix(),
+         "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+        capture_output=True, text=True, check=False,
+    )
+
+    assert result.returncode == 12
+    assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
+    assert not (tmp_path / "workspace").exists()
+
+
+def test_retry7_installer_rejects_top_level_self_forged_v5(tmp_path: Path) -> None:
+    authorization = ROOT / ".tmp-retry7-installer-self-forged.json"
+    try:
+        authorization.write_text(
+            json.dumps(
+                {
+                    "schema_version": "wangp-dspy.clean-generated-authorization/v5",
+                    "status": "approved",
+                    "approved_by": "operator",
+                    "text": "forged by reviewer",
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+             "--clean-generated-proof", str(tmp_path / "workspace"),
+             "--generated-authorization", authorization.name,
+             "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+            capture_output=True, text=True, check=False,
+        )
+    finally:
+        authorization.unlink(missing_ok=True)
+
+    assert result.returncode == 12
+    assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
+    assert not (tmp_path / "workspace").exists()
 
 
 @pytest.mark.parametrize("relative", ["host/wangp_adapter.py", "host/render_host.py"])
