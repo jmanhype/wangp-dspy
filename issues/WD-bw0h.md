@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T14:17:47Z
-content_hash: "sha256:dc058122b640c1204d292a0b7eb05b7bb3386e0b5601e949cebc9ffcc63b420d"
+updated_at: 2026-10-11T16:46:27Z
+content_hash: "sha256:93a785535d0049389390d427da2614cfab7b8df09f7bd083f391dd006127f7af"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -490,3 +490,19 @@ Measured outcome:
 ### Retry5 boundary merged (dispatcher, 2026-10-11)
 
 PR #243 squash-merged at main head `017ccbeb956c211dcc0bdca1b15fcd0a7582b7f6`. Exact-head branch CI run `38143530051` succeeded, and exact-head main CI run `38145076751` succeeded at `2026-10-11T14:14:14Z` approx. The boundary and replay block are now durable on main. WD-bw0h remains open only for the literal one-command disposition; retry5 cannot be replayed.
+
+### 2026-10-11T16:46:27Z speed
+### Retry6 fail-closed preauthorization prepared (dispatcher, 2026-10-11)
+
+PR #245 is open at head `d5ffc750aaa525738594ead0b6539bdd02a148cf`, based on merged main `55aae135f7a11f4a6277339a14f9729381d36d7b`.
+
+The proposal is intentionally unapproved and non-executable:
+
+- Proposal SHA-256 `3073b8fdc910ddd3c78d7b6cd3261f7a54e2048ff96ee973d3bed105c2d15f93`.
+- Nine-file source identity `dadf97bed7976c68daac784589d87db207a66a7452b6c8eea6e0a9218c0cd608`.
+- Reference frame SHA-256 `077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23`.
+- Fresh root `/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011`; one attempt; unchanged 500000-byte gate; zero downloads/spend/training/deletions.
+- No approved retry6 authorization exists. The recorder rejects every v4 payload until an externally anchored approval follow-up, and the installer rejects every v4 payload before workspace creation.
+- No SSH/GPU host contact, render, queue admission, or authorization consumption occurred while preparing PR #245.
+
+Local focused queue/adapter/clean-generated suites pass (114 tests), PVG lint is 0/0, release verify is ready/tag false, diff check passes, and protected/transport files remain unchanged. Independent review rejected four security defects, then approved the repaired implementation; a second review approved final installer hardening. Exact-head CI run `38156781946` is pending.
