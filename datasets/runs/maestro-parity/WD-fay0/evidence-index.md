@@ -14,7 +14,7 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 
 ## Remaining boundaries
 
-- Literal clean-machine one-command reproducibility remains incomplete at `story/WD-bw0h-first-run` (`datasets/runs/maestro-parity/clean-generated/first-run/evidence.json`, SHA-256 `1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.
+- Literal clean-machine one-command reproducibility remains incomplete at `story/WD-bw0h-first-run` (`datasets/runs/maestro-parity/clean-generated/first-run/evidence.json`, SHA-256 `1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. Retry4 failed before media write; retry5 completed one queue job and emitted a real MP4, but failed the fixed 500000-byte objective gate and produced no canonical generated-artifact evidence.
 
 ## Non-matrix dispositions
 

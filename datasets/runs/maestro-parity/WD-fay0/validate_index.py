@@ -336,7 +336,7 @@ def render_markdown(index: dict[str, Any]) -> str:
     first = index["remaining_boundaries"]["first_run_generated_artifact"]
     lines.extend(
         [
-            f"- Literal clean-machine one-command reproducibility remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.",
+            f"- Literal clean-machine one-command reproducibility remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. Retry4 failed before media write; retry5 completed one queue job and emitted a real MP4, but failed the fixed 500000-byte objective gate and produced no canonical generated-artifact evidence.",
             "",
             "## Non-matrix dispositions",
             "",
