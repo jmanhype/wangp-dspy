@@ -1,0 +1,829 @@
+"""Durable job queue: SQLite (stdlib sqlite3, WAL).
+
+One trusted 3090 — no broker, no worker pool. Job records persist
+per-chain-clip (clip_index matches services/chain plan clip ids);
+every artifact claim carries a PATH (log, mp4, qc_verdict) — no
+status-only fields. Relaunch skips clips already `done`.
+"""
+from __future__ import annotations
+
+import json
+import hashlib
+import os
+import re
+import sqlite3
+import time
+from pathlib import Path
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Sequence
+
+from predict.model_types import REF2VA_MODEL_TYPE, REF2VA_MODEL_TYPE_LEGACY
+
+# ACTIVE_STATES: a job in one of these is (normally) owned by a live
+# process; a crash mid-phase orphans it there (reviewer B2).
+ACTIVE_STATES = ("preflight", "rendering", "qc")
+
+
+def _pid_alive(pid: Optional[int]) -> bool:
+    if not pid or pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True  # exists, owned by someone else
+    except OSError:
+        return False
+    return True
+
+
+from services.jobs.states import ALLOWED_TRANSITIONS, InvalidTransition
+
+
+class JobNotFoundError(KeyError):
+    """No job with that id in the queue."""
+
+
+class JobRetryError(ValueError):
+    """A failed job is not eligible for another attempt."""
+
+
+def failure_signature(failure_class: str, failure_detail: str) -> str:
+    """Stable, content-addressed identity for one failure outcome."""
+    raw = f"{failure_class}\n{failure_detail}".encode("utf-8", "replace")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _asset_digest(value) -> object:
+    """Digest an input asset when available; otherwise preserve its path."""
+    if not isinstance(value, str) or not value.strip():
+        return value
+    path = Path(value)
+    try:
+        if not path.is_file():
+            return value
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return value
+
+
+def _asset_reference(value) -> object:
+    if isinstance(value, dict):
+        return value.get("frame") or value.get("path")
+    return value
+
+
+def _is_ref2va_clip(clip: Dict) -> bool:
+    return (clip.get("kind") == "ref2va_render"
+            or clip.get("model_type") in {
+                REF2VA_MODEL_TYPE, REF2VA_MODEL_TYPE_LEGACY,
+                "minimax_h3_ref2va", "ref2va_lip_sync"})
+
+
+def effective_render_fingerprint(clip: Dict) -> str:
+    """Identity of effective renderer inputs, excluding queue bookkeeping."""
+    if not isinstance(clip, dict):
+        raise ValueError("clip must be a mapping")
+    fields = (
+        "kind", "model_type", "recipe_name", "prompt", "seed", "profile",
+        "resolution", "image_start", "image_refs", "audio_guide",
+        "video_length", "requested_frames", "image_prompt_type",
+        "video_prompt_type", "audio_prompt_type", "legacy_v2_prompt",
+    )
+    if not _is_ref2va_clip(clip):
+        # Top-level steps are not forwarded to the fixed-step Ref2VA profile;
+        # changing that ignored value must not masquerade as a new render.
+        fields = (*fields, "steps")
+    payload = {name: clip.get(name) for name in fields}
+    image_start = _asset_reference(clip.get("image_start"))
+    image_end = _asset_reference(clip.get("image_end"))
+    payload["image_start"] = image_start
+    payload["image_end"] = image_end
+    payload["image_start_asset"] = _asset_digest(image_start)
+    payload["image_end_asset"] = _asset_digest(image_end)
+    refs = clip.get("image_refs")
+    if isinstance(refs, (list, tuple)):
+        payload["image_ref_assets"] = [_asset_digest(v) for v in refs]
+    payload["audio_guide_asset"] = _asset_digest(clip.get("audio_guide"))
+    raw = json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                     ensure_ascii=False).encode("utf-8", "replace")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _clip_had_render_attempt(clip: Dict, failure_class,
+                             failure_detail, *, single_clip: bool = False) -> bool:
+    if clip.get("render_attempted") is True:
+        return True
+    if clip.get("status") in {"rendered", "rendered_pending_qc", "qc"}:
+        return True
+    if single_clip:
+        return True
+    index = clip.get("clip_index")
+    return (
+        failure_class in {"render_error", "truncated_render_log", "qc_reject"}
+        and index is not None
+        and re.search(rf"clip\s+{index}(?!\d)",
+                      str(failure_detail or "")) is not None)
+
+
+def _with_render_fingerprint(clip: Dict) -> Dict:
+    prepared = dict(clip)
+    prepared["render_fingerprint"] = effective_render_fingerprint(prepared)
+    return prepared
+
+
+def validate_completed_qc_verdict(verdict) -> None:
+    """Require usable terminal review/evidence, not stringified nulls."""
+    if not isinstance(verdict, dict):
+        raise ValueError("completed clips require a mapping qc_verdict")
+    verdict_text = verdict.get("verdict")
+    if not isinstance(verdict_text, str) or verdict_text.strip() not in {
+            "KEEP", "NEEDS REVIEW"}:
+        raise ValueError(
+            "completed clips require an accepted workflow qc_verdict")
+    evidence = verdict.get("path")
+    if isinstance(evidence, str) and evidence.strip():
+        return
+    if isinstance(evidence, dict) and evidence and any(
+            evidence.get(key) is not None for key in (
+                "whisper_gates", "vision_judge", "pre", "post")):
+        return
+    raise ValueError(
+        "completed clips require a nonempty evidence path or embedded gate "
+        "evidence")
+
+
+# ── dependency admissibility ─────────────────────────────────────────
+# Single source of truth for `needs` gating. The EXECUTOR path must use
+# this too (reviewer blocker): a pending job whose needs-target is not
+# done is not admissible and must never be picked for execution.
+
+def job_needs(job) -> Optional[str]:
+    """The job's `needs` dependency id (clip-level first, then
+    job-level attr); None when the job has no dependency."""
+    needs = job.clips[0].get("needs") if job.clips else None
+    if not needs:
+        needs = getattr(job, "needs", None)
+    return needs or None
+
+
+def is_job_admissible(job, done_ids) -> bool:
+    """True when the job has no unmet `needs` dependency."""
+    needs = job_needs(job)
+    return True if not needs else needs in done_ids
+
+
+def next_admissible(queue) -> Optional[str]:
+    """Oldest pending job whose needs-target is done (or with no
+    needs); a blocked job STAYS pending and later jobs are still
+    considered (in-order among admissible ones). Works with any
+    queue exposing list_state/get (JobQueue and test fakes)."""
+    done = set(queue.list_state("done"))
+    for jid in queue.list_state("pending"):
+        if is_job_admissible(queue.get(jid), done):
+            return jid
+    return None
+
+
+@dataclass
+class JobRecord:
+    job_id: str
+    state: str = "pending"
+    plan_ref: str = ""
+    clips: List[Dict] = field(default_factory=list)
+    failure_count: int = 0
+    failure_class: Optional[str] = None
+    failure_detail: Optional[str] = None
+    retryable: bool = True
+    created_at: float = field(default_factory=time.time)
+
+    def to_json(self) -> Dict:
+        return {
+            "job_id": self.job_id, "state": self.state,
+            "plan_ref": self.plan_ref, "clips": self.clips,
+            "failure_count": self.failure_count,
+            "failure_class": self.failure_class,
+            "failure_detail": self.failure_detail,
+            "retryable": self.retryable,
+            "created_at": self.created_at,
+        }
+
+
+def _check_clip_artifacts(status: str, log, mp4, qc_verdict) -> None:
+    """Design constraint: an artifact CLAIM must carry a path.
+
+    A clip whose status claims rendering happened must have nonempty
+    log/mp4 paths; a claimed QC verdict must carry its own path.
+    Status-only records are rejected.
+    """
+    if status in ("rendered", "rendered_pending_qc", "qc", "done",
+                  "failed"):
+        if not (log and str(log).strip()):
+            raise ValueError(
+                f"clip status {status!r} claims render evidence but "
+                "carries no log path — status-only fields are forbidden")
+        if not (mp4 and str(mp4).strip()):
+            raise ValueError(
+                f"clip status {status!r} claims render evidence but "
+                "carries no mp4 path — status-only fields are forbidden")
+        if qc_verdict is not None and status in ("qc", "done"):
+            if not isinstance(qc_verdict, dict) or not str(
+                    qc_verdict.get("path", "")).strip():
+                raise ValueError(
+                    "qc_verdict claim must carry its artifact path "
+                    "({'verdict': ..., 'path': ...})")
+
+
+def _check_chain_placeholders(clip: Dict) -> None:
+    """Reject orphaned chain placeholders at queue submission.
+
+    A dependent continuation may carry a ``chain://`` ref only when it also
+    declares the prerequisite job in ``needs``; the advance seam will
+    materialize that ref before execution. A standalone job with the same
+    placeholder has no producer and would otherwise fail much later at the
+    host/ffmpeg boundary.
+    """
+    if not isinstance(clip, dict):
+        return
+    values = [clip.get("image_start")]
+    refs = clip.get("image_refs")
+    if isinstance(refs, (list, tuple)):
+        values.extend(refs[:1])
+    unresolved = next((str(v) for v in values
+                       if isinstance(v, str) and v.startswith("chain://")),
+                      None)
+    if unresolved and not clip.get("needs"):
+        raise ValueError(
+            f"unresolved chain reference {unresolved!r} at submit: "
+            "a chain placeholder requires a needs dependency")
+
+
+class JobQueue:
+    """SQLite-backed durable queue (WAL; stdlib only)."""
+
+    def __init__(self, db_path):
+        self.db_path = str(db_path)
+        self._db = sqlite3.connect(self.db_path)
+        self._db.row_factory = sqlite3.Row
+        self._db.execute("PRAGMA journal_mode=WAL")
+        self._db.execute(
+            "CREATE TABLE IF NOT EXISTS jobs ("
+            " job_id TEXT PRIMARY KEY,"
+            " state TEXT NOT NULL,"
+            " plan_ref TEXT NOT NULL,"
+            " clips TEXT NOT NULL,"
+            " failure_count INTEGER NOT NULL DEFAULT 0,"
+            " failure_class TEXT,"
+            " failure_detail TEXT,"
+            " created_at REAL NOT NULL)")
+        self._migrate()
+        self._db.commit()
+
+    def _migrate(self) -> None:
+        """Stale-active recovery bookkeeping (reviewer B2).
+
+        owner_pid: pid of the process driving an active-state job;
+        last_heartbeat: wall-clock of its last progress write. A job in
+        an active state whose owner is dead (or whose heartbeat is
+        older than the staleness timeout) is orphaned crash debris.
+        """
+        cols = {r["name"] for r in self._db.execute("PRAGMA table_info(jobs)")}
+        if "owner_pid" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN owner_pid INTEGER")
+        if "last_heartbeat" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN last_heartbeat REAL")
+        if "retryable" not in cols:
+            self._db.execute(
+                "ALTER TABLE jobs ADD COLUMN retryable INTEGER NOT NULL "
+                "DEFAULT 1")
+        # Attempts and failures are append-only.  A retry creates a new
+        # attempt row pointing at its predecessor; its eventual failure is
+        # another immutable row, rather than an update of the old failure.
+        self._db.execute(
+            "CREATE TABLE IF NOT EXISTS job_attempts ("
+            " attempt_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            " job_id TEXT NOT NULL,"
+            " attempt_no INTEGER NOT NULL,"
+            " parent_attempt_id INTEGER,"
+            " status TEXT NOT NULL,"
+            " reopen_reason TEXT,"
+            " attempt_reason TEXT,"
+            " created_at REAL NOT NULL)")
+        attempt_cols = {
+            r["name"] for r in self._db.execute(
+                "PRAGMA table_info(job_attempts)")
+        }
+        if "reopen_reason" not in attempt_cols:
+            self._db.execute(
+                "ALTER TABLE job_attempts ADD COLUMN reopen_reason TEXT")
+        if "attempt_reason" not in attempt_cols:
+            self._db.execute(
+                "ALTER TABLE job_attempts ADD COLUMN attempt_reason TEXT")
+        self._db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_job_attempts_job "
+            "ON job_attempts(job_id, attempt_no)")
+        self._db.execute(
+            "CREATE TABLE IF NOT EXISTS job_attempt_failures ("
+            " failure_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            " attempt_id INTEGER NOT NULL,"
+            " failure_class TEXT NOT NULL,"
+            " failure_detail TEXT NOT NULL,"
+            " failure_signature TEXT NOT NULL,"
+            " created_at REAL NOT NULL)")
+        self._db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_attempt_failures_attempt "
+            "ON job_attempt_failures(attempt_id)")
+
+    # -- lifecycle --------------------------------------------------
+    def close(self) -> None:
+        self._db.close()
+
+    # -- writes -----------------------------------------------------
+    def submit(self, *, plan_ref: str, clips: Sequence[Dict]) -> str:
+        if not plan_ref or not str(plan_ref).strip():
+            raise ValueError("plan_ref must be nonempty")
+        if not clips:
+            raise ValueError("a job needs at least one clip")
+        job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
+        prepared = []
+        for original in clips:
+            c = _with_render_fingerprint(original)
+            if not c.get("allow_deterministic_replay"):
+                self._reject_failed_fingerprint(c["render_fingerprint"])
+            _check_chain_placeholders(c)
+            _check_clip_artifacts(c.get("status", "pending"),
+                                  c.get("log"), c.get("mp4"),
+                                  c.get("qc_verdict"))
+            prepared.append(c)
+        self._db.execute(
+            "INSERT INTO jobs (job_id, state, plan_ref, clips, "
+            "failure_count, failure_class, failure_detail, created_at) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (job_id, "pending", plan_ref, json.dumps(prepared),
+             0, None, None, time.time()))
+        self._db.commit()
+        return job_id
+
+    def _reject_failed_fingerprint(self, fingerprint: str) -> None:
+        """Refuse a fresh submission identical to failed renderer inputs."""
+        rows = self._db.execute(
+            "SELECT clips, failure_class, failure_detail FROM jobs "
+            "WHERE state IN ('failed','dead_letter')").fetchall()
+        for row in rows:
+            try:
+                clips = json.loads(row["clips"])
+            except (TypeError, json.JSONDecodeError):
+                continue
+            if not isinstance(clips, list):
+                continue
+            single_clip = len(clips) == 1
+            for clip in clips:
+                if not isinstance(clip, dict):
+                    continue
+                if not _clip_had_render_attempt(
+                        clip, row["failure_class"], row["failure_detail"],
+                        single_clip=single_clip):
+                    continue
+                prior = clip.get("render_fingerprint")
+                if prior is None:
+                    prior = effective_render_fingerprint(clip)
+                if prior == fingerprint:
+                    raise ValueError(
+                        "deterministic replay of failed renderer inputs "
+                        f"(fingerprint {fingerprint[:12]}…); change an "
+                        "effective input such as seed/prompt/refs/guide, "
+                        "or explicitly set allow_deterministic_replay")
+
+    def submit_completed(self, *, plan_ref: str,
+                         clips: Sequence[Dict]) -> str:
+        """Insert already-verified evidence as a terminal completed job.
+
+        This is for an explicit completed-prefix replay: reuse an operator/QC
+        accepted earlier cut without rerendering it, while preserving the
+        dependency graph for its successor. Callers must supply actual log,
+        MP4, and QC-verdict paths; the queue never manufactures evidence.
+        """
+        if not plan_ref or not str(plan_ref).strip():
+            raise ValueError("plan_ref must be nonempty")
+        if not clips:
+            raise ValueError("a completed job needs at least one clip")
+        job_id = f"job-{int(time.time() * 1000)}-{os.urandom(4).hex()}"
+        prepared = []
+        for original in clips:
+            c = _with_render_fingerprint(original)
+            _check_chain_placeholders(c)
+            _check_clip_artifacts("done", c.get("log"), c.get("mp4"),
+                                  c.get("qc_verdict"))
+            validate_completed_qc_verdict(c.get("qc_verdict"))
+            prepared.append(c)
+        self._db.execute(
+            "INSERT INTO jobs (job_id, state, plan_ref, clips, "
+            "failure_count, failure_class, failure_detail, created_at) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (job_id, "done", plan_ref, json.dumps(prepared),
+             0, None, None, time.time()))
+        self._db.commit()
+        return job_id
+
+    def set_state(self, job_id: str, state: str) -> None:
+        rec = self.get(job_id)
+        if state not in ALLOWED_TRANSITIONS.get(rec.state, frozenset()):
+            raise InvalidTransition(
+                f"illegal job state transition {rec.state!r} -> "
+                f"{state!r}")
+        self._db.execute("UPDATE jobs SET state=? WHERE job_id=?",
+                         (state, job_id))
+        self._db.commit()
+
+    def claim_active(self, job_id: str, *, owner_pid: int) -> None:
+        """Mark this process as the live owner of an active-state job."""
+        self._db.execute(
+            "UPDATE jobs SET owner_pid=?, last_heartbeat=? "
+            "WHERE job_id=?",
+            (int(owner_pid), time.time(), job_id))
+        self._db.commit()
+
+    def heartbeat(self, job_id: str) -> None:
+        self._db.execute(
+            "UPDATE jobs SET last_heartbeat=? WHERE job_id=?",
+            (time.time(), job_id))
+        self._db.commit()
+
+    def clear_ownership(self, job_id: str) -> None:
+        self._db.execute(
+            "UPDATE jobs SET owner_pid=NULL, last_heartbeat=NULL "
+            "WHERE job_id=?", (job_id,))
+        self._db.commit()
+
+    def update_clip(self, job_id: str, clip_index: int, *,
+                    status: str, log, mp4, qc_verdict,
+                    lane=None) -> None:
+        _check_clip_artifacts(status, log, mp4, qc_verdict)
+        rec = self.get(job_id)
+        clips = rec.clips
+        for c in clips:
+            if c["clip_index"] == clip_index:
+                c.update({"status": status, "log": log, "mp4": mp4,
+                          "qc_verdict": qc_verdict})
+                # which lane rendered this clip (fl2va | ref2va);
+                # None keeps legacy records unchanged
+                if lane is not None:
+                    c["lane"] = lane
+                break
+        else:
+            raise JobNotFoundError(
+                f"clip {clip_index} not in job {job_id}")
+        self._persist_clips(job_id, clips)
+
+    def update_clips(self, job_id: str, clips: Sequence[Dict]) -> None:
+        """Public clip-blob write (replaces private _db poking for
+        artifact bookkeeping like last_frame recording)."""
+        self._persist_clips(job_id, clips)
+
+    def update_render_inputs(self, job_id: str, clips: Sequence[Dict]) -> None:
+        """Persist intentional effective-input mutations and new identities."""
+        requested = []
+        for clip in clips:
+            item = dict(clip)
+            item["recompute_render_fingerprint"] = True
+            requested.append(item)
+        self._persist_clips(job_id, requested)
+
+    def mark_clip_render_attempt(self, job_id: str, clip_index: int) -> None:
+        """Persist that this clip reached the renderer admission boundary."""
+        rec = self.get(job_id)
+        clips = rec.clips
+        for clip in clips:
+            if clip.get("clip_index") == clip_index:
+                clip["render_attempted"] = True
+                break
+        else:
+            raise JobNotFoundError(
+                f"clip {clip_index} not in job {job_id}")
+        self._persist_clips(job_id, clips)
+
+    def _persist_clips(self, job_id: str, clips: Sequence[Dict]) -> None:
+        prepared = []
+        for clip in clips:
+            item = dict(clip)
+            if (item.pop("recompute_render_fingerprint", False)
+                    or "render_fingerprint" not in item):
+                item = _with_render_fingerprint(item)
+            prepared.append(item)
+        self._db.execute("UPDATE jobs SET clips=? WHERE job_id=?",
+                         (json.dumps(prepared), job_id))
+        self._db.commit()
+
+    def record_failure(self, job_id: str, *, failure_class: str) -> None:
+        rec = self.get(job_id)
+        count = (rec.failure_count + 1
+                 if rec.failure_class == failure_class else 1)
+        self._db.execute(
+            "UPDATE jobs SET failure_count=?, failure_class=? "
+            "WHERE job_id=?", (count, failure_class, job_id))
+        self._db.commit()
+
+    def set_failure_detail(self, job_id: str, detail: str) -> None:
+        self._db.execute(
+            "UPDATE jobs SET failure_detail=? WHERE job_id=?",
+            (detail, job_id))
+        self._db.commit()
+
+    # -- reads ------------------------------------------------------
+    def get(self, job_id: str) -> JobRecord:
+        row = self._db.execute(
+            "SELECT * FROM jobs WHERE job_id=?", (job_id,)).fetchone()
+        if row is None:
+            raise JobNotFoundError(job_id)
+        return JobRecord(
+            job_id=row["job_id"], state=row["state"],
+            plan_ref=row["plan_ref"],
+            clips=json.loads(row["clips"]),
+            failure_count=row["failure_count"],
+            failure_class=row["failure_class"],
+            failure_detail=row["failure_detail"],
+            created_at=row["created_at"],
+            retryable=bool(row["retryable"]) if "retryable" in row.keys()
+            else True)
+
+    def next_pending(self) -> Optional[str]:
+        row = self._db.execute(
+            "SELECT job_id FROM jobs WHERE state='pending' "
+            "ORDER BY created_at LIMIT 1").fetchone()
+        return row["job_id"] if row else None
+
+    def next_admissible(self) -> Optional[str]:
+        """Oldest pending job whose `needs` target is done (or with no
+        needs). Blocked jobs STAY pending; later admissible jobs are
+        still considered. This is the production picker — the plain
+        oldest-pending `next_pending` does NOT check needs."""
+        return next_admissible(self)
+
+    # -- stale-active recovery (reviewer B2) --------------------------
+    def recover_stale_active(self, *, staleness_s: float = 600.0,
+                             pid_is_alive=None) -> List[str]:
+        """Requeue orphaned active-state jobs (B2).
+
+        A crash mid-render leaves a job stuck in 'rendering' (or
+        'preflight'/'qc') with no live owner; _pick_job() only selects
+        pending/rendered_pending_qc, so the job is orphaned forever.
+        Recovery: an active-state job whose owner_pid is not a live
+        process AND whose last_heartbeat is older than staleness_s
+        (or absent — legacy rows) transitions *->pending and re-enters
+        the queue. Per-clip checkpoints are untouched, so the resume
+        does NOT redo clips already `done`/`rendered`.
+
+        A job with a LIVE owner pid or a FRESH heartbeat is left alone.
+        Returns the recovered job ids.
+        """
+        alive = pid_is_alive or _pid_alive
+        now = time.time()
+        recovered: List[str] = []
+        for state in ACTIVE_STATES:
+            rows = self._db.execute(
+                "SELECT job_id, owner_pid, last_heartbeat FROM jobs "
+                "WHERE state=?", (state,)).fetchall()
+            for row in rows:
+                jid = row["job_id"]
+                pid = row["owner_pid"]
+                hb = row["last_heartbeat"]
+                owner_live = bool(pid) and alive(pid)
+                hb_fresh = (hb is not None
+                            and (now - float(hb)) < staleness_s)
+                if owner_live or hb_fresh:
+                    continue  # someone owns this job — leave it alone
+                self.set_state(jid, "pending")
+                self._db.execute(
+                    "UPDATE jobs SET owner_pid=NULL, "
+                    "last_heartbeat=NULL WHERE job_id=?", (jid,))
+                self._db.commit()
+                recovered.append(jid)
+        return recovered
+
+    def list_state(self, state: str) -> List[str]:
+        rows = self._db.execute(
+            "SELECT job_id FROM jobs WHERE state=? ORDER BY created_at",
+            (state,)).fetchall()
+        return [r["job_id"] for r in rows]
+
+    def dead_letter_due(self, job_id: str, *, max_failures: int = 3) -> bool:
+        rec = self.get(job_id)
+        return (rec.failure_class is not None
+                and rec.failure_count >= max_failures)
+
+    # -- append-only attempt history / failed-job retry ---------------
+    def _latest_attempt(self, job_id: str):
+        return self._db.execute(
+            "SELECT * FROM job_attempts WHERE job_id=? "
+            "ORDER BY attempt_no DESC, attempt_id DESC LIMIT 1",
+            (job_id,)).fetchone()
+
+    def _attempt_failure(self, attempt_id: int):
+        return self._db.execute(
+            "SELECT * FROM job_attempt_failures WHERE attempt_id=? "
+            "ORDER BY failure_id DESC LIMIT 1", (attempt_id,)).fetchone()
+
+    def _ensure_legacy_attempt(self, job_id: str):
+        """Materialize pre-migration jobs.failure_* into immutable history."""
+        latest = self._latest_attempt(job_id)
+        if latest is not None:
+            return latest
+        rec = self.get(job_id)
+        if not rec.failure_class or rec.failure_detail is None:
+            return None
+        now = time.time()
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,created_at) VALUES (?,?,?,?,?)",
+            (job_id, 1, None, "failed", now))
+        attempt_id = cur.lastrowid
+        self._db.execute(
+            "INSERT INTO job_attempt_failures(attempt_id,failure_class,"
+            "failure_detail,failure_signature,created_at) VALUES (?,?,?,?,?)",
+            (attempt_id, rec.failure_class, rec.failure_detail,
+             failure_signature(rec.failure_class, rec.failure_detail), now))
+        self._db.commit()
+        return self._latest_attempt(job_id)
+
+    def requeue_failed(self, job_id: str, *, reason: str = "") -> int:
+        """Queue a new immutable attempt for a failed job.
+
+        The previous attempt/failure is never edited.  A deterministic
+        repeat of that failure on this new attempt disables further retry,
+        preventing an infinite drain loop.  ``reason`` is stored on the
+        newly queued attempt when supplied so automated retries are
+        distinguishable from an operator's generic failed-job retry.
+        """
+        rec = self.get(job_id)
+        if rec.state != "failed":
+            raise JobRetryError(
+                f"job {job_id} is {rec.state!r}, not retryable failed")
+        if not rec.retryable:
+            raise JobRetryError(
+                f"job {job_id} has repeated its failure signature; "
+                "retry disabled")
+        latest = self._ensure_legacy_attempt(job_id)
+        if latest is None or self._attempt_failure(latest["attempt_id"]) is None:
+            raise JobRetryError(
+                f"job {job_id} has no recorded failure attempt")
+        now = time.time()
+        reason = str(reason or "").strip() or None
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,attempt_reason,created_at) VALUES (?,?,?,?,?,?)",
+            (job_id, int(latest["attempt_no"]) + 1,
+             latest["attempt_id"], "queued", reason, now))
+        attempt_id = int(cur.lastrowid)
+        # The transition is deliberately after the append: if it fails,
+        # no old evidence was mutated and the new row remains auditable.
+        self.set_state(job_id, "pending")
+        self.clear_ownership(job_id)
+        return attempt_id
+
+    def requeue_failed_jobs(self) -> List[str]:
+        """Requeue every eligible failed job, skipping retry-disabled ones."""
+        retried: List[str] = []
+        for jid in list(self.list_state("failed")):
+            try:
+                self.requeue_failed(jid)
+            except JobRetryError:
+                continue
+            retried.append(jid)
+        return retried
+
+    def reopen_dead_letter(self, job_id: str, *, reason: str) -> int:
+        """Explicitly reopen one dead-letter job for a documented fix.
+
+        Dead-letter remains terminal for ordinary ``set_state`` and
+        ``requeue_failed`` callers.  This audited operator API is the sole
+        exception: it appends a new attempt with the free-text reason and
+        atomically places the job back in ``pending``.
+        """
+        reason = str(reason or "").strip()
+        if not reason:
+            raise JobRetryError(
+                "reopening a dead-letter job requires a non-empty reason")
+        rec = self.get(job_id)
+        if rec.state != "dead_letter":
+            raise JobRetryError(
+                f"job {job_id} is {rec.state!r}, not dead_letter")
+        latest = self._ensure_legacy_attempt(job_id)
+        if latest is None:
+            raise JobRetryError(
+                f"job {job_id} has no failure history to reopen")
+        now = time.time()
+        cur = self._db.execute(
+            "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+            "status,reopen_reason,created_at) VALUES (?,?,?,?,?,?)",
+            (job_id, int(latest["attempt_no"]) + 1,
+             latest["attempt_id"], "reopened", reason, now))
+        attempt_id = int(cur.lastrowid)
+        # Do not add a dead_letter -> pending transition to the public state
+        # machine.  This conditional update is only reachable through this
+        # explicitly audited method, preserving normal terminal protection.
+        self._db.execute(
+            "UPDATE jobs SET state='pending', owner_pid=NULL, "
+            "last_heartbeat=NULL WHERE job_id=? AND state='dead_letter'",
+            (job_id,))
+        if self._db.execute("SELECT changes()").fetchone()[0] != 1:
+            self._db.rollback()
+            raise JobRetryError(
+                f"job {job_id} changed state while being reopened")
+        self._db.commit()
+        return attempt_id
+
+    def reopen_dead_letter_jobs(self, *, reason: str) -> List[str]:
+        """Reopen all dead-letter jobs with one shared audited reason."""
+        reopened: List[str] = []
+        for jid in list(self.list_state("dead_letter")):
+            try:
+                self.reopen_dead_letter(jid, reason=reason)
+            except JobRetryError:
+                continue
+            reopened.append(jid)
+        return reopened
+
+    def record_attempt_failure(self, job_id: str, *, failure_class: str,
+                               failure_detail: str) -> bool:
+        """Append a failure outcome and return True for a repeated retry.
+
+        The executor calls this after updating the job's current summary.
+        A fresh job gets attempt 1; a requeued job already has an immutable
+        ``queued`` attempt.  Neither row is ever updated.
+        """
+        latest = self._latest_attempt(job_id)
+        if latest is None:
+            now = time.time()
+            cur = self._db.execute(
+                "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+                "status,created_at) VALUES (?,?,?,?,?)",
+                (job_id, 1, None, "allocated", now))
+            latest = self._db.execute(
+                "SELECT * FROM job_attempts WHERE attempt_id=?",
+                (cur.lastrowid,)).fetchone()
+        # Legacy callers may still take failed -> preflight directly.  Do
+        # not overwrite that attempt: allocate a fresh immutable attempt so
+        # the same-signature guard remains effective for those callers too.
+        if self._attempt_failure(latest["attempt_id"]) is not None:
+            now = time.time()
+            cur = self._db.execute(
+                "INSERT INTO job_attempts(job_id,attempt_no,parent_attempt_id,"
+                "status,created_at) VALUES (?,?,?,?,?)",
+                (job_id, int(latest["attempt_no"]) + 1,
+                 latest["attempt_id"], "allocated", now))
+            latest = self._db.execute(
+                "SELECT * FROM job_attempts WHERE attempt_id=?",
+                (cur.lastrowid,)).fetchone()
+        sig = failure_signature(failure_class, failure_detail)
+        parent_failure = None
+        if latest["parent_attempt_id"] is not None:
+            parent_failure = self._attempt_failure(
+                latest["parent_attempt_id"])
+        repeated = bool(parent_failure and
+                        parent_failure["failure_signature"] == sig)
+        now = time.time()
+        self._db.execute(
+            "INSERT INTO job_attempt_failures(attempt_id,failure_class,"
+            "failure_detail,failure_signature,created_at) VALUES (?,?,?,?,?)",
+            (latest["attempt_id"], failure_class, failure_detail, sig, now))
+        if repeated:
+            self._db.execute(
+                "UPDATE jobs SET retryable=0 WHERE job_id=?", (job_id,))
+        self._db.commit()
+        return repeated
+
+    def attempt_history(self, job_id: str) -> List[Dict]:
+        """Return immutable attempts with their optional failure evidence."""
+        self.get(job_id)  # preserve normal not-found behavior
+        rows = self._db.execute(
+            "SELECT * FROM job_attempts WHERE job_id=? ORDER BY attempt_no",
+            (job_id,)).fetchall()
+        history: List[Dict] = []
+        for row in rows:
+            failure = self._attempt_failure(row["attempt_id"])
+            history.append({
+                "attempt_id": row["attempt_id"],
+                "job_id": row["job_id"],
+                "attempt_no": row["attempt_no"],
+                "parent_attempt_id": row["parent_attempt_id"],
+                "reopen_reason": row["reopen_reason"],
+                "attempt_reason": row["attempt_reason"],
+                "status": "failed" if failure is not None
+                else row["status"],
+                "created_at": row["created_at"],
+                "failure_class": failure["failure_class"]
+                if failure is not None else None,
+                "failure_detail": failure["failure_detail"]
+                if failure is not None else None,
+                "failure_signature": failure["failure_signature"]
+                if failure is not None else None,
+            })
+        return history
+
+
+__all__ = ["JobQueue", "JobRecord", "JobNotFoundError", "JobRetryError",
+           "failure_signature", "next_admissible", "is_job_admissible",
+           "job_needs"]

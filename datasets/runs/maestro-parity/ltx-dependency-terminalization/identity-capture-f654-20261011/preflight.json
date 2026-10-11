@@ -1,0 +1,15 @@
+{
+  "assets_all_match": true,
+  "captured_utc": "2026-10-11T10:53:30Z",
+  "compute_apps": "",
+  "disk_avail_bytes": 91896745984,
+  "gpu": "476, 23641, 0",
+  "qc": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"model_loaded\":false,\"queue_depth\":0}"
+  },
+  "queue_db_absent": true,
+  "runtime_payload_match": true,
+  "stage_inventory_valid": true
+}

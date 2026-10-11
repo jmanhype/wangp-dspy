@@ -1,0 +1,346 @@
+{
+  "batch.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size_bytes": 0
+  },
+  "batch.stdout": {
+    "sha256": "2288a3cf457327f1ff8cbe4392a2d217753181e0b3b92ad568862278cc9f53d9",
+    "size_bytes": 51570
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/contact-sheet.jpg": {
+    "sha256": "fd324496362be2acef50f0197a59fe0ee6d4ca9ed1cfe297f2f552f5337f840f",
+    "size_bytes": 34225
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/first-frame.png": {
+    "sha256": "a980c9129ace0b5893be93ce69cc56934de09df9708eb5a88cb0ba5c5ec5fa42",
+    "size_bytes": 223915
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4": {
+    "sha256": "c2c48254d9db9c660eb183b638b642f2e7c6e7d2ff87e48f7e9909c432c37050",
+    "size_bytes": 785047
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.ffprobe.json": {
+    "sha256": "36ea56ed9fa400769b2023f69c96f4dbaec645c0a05cd7ca211e36315b61cb68",
+    "size_bytes": 6074
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-outpaint/wd_28ac_ltx23-outpaint.mp4.sha256": {
+    "sha256": "6c00cbf6af4ca911615859e2a701ce9720c4026fd2ca699aba4d52f2d1778ed3",
+    "size_bytes": 93
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/contact-sheet.jpg": {
+    "sha256": "5b7221e1d8b26fa5f2479c22d56d141562c8af25c1c6851594838bf35d6d9890",
+    "size_bytes": 47262
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/first-frame.png": {
+    "sha256": "6deb95c9e6f39cfa0e96a4a49f9957022fa55458e1ada521b777b53c435c9d94",
+    "size_bytes": 322513
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4": {
+    "sha256": "451376c4c3729ff3149d508ae88a7928a33595d2e72f2cc6bcc02345e5897169",
+    "size_bytes": 997752
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4.ffprobe.json": {
+    "sha256": "a8a5a967dbbcedcf403e67e4fff1130f2ba31f52c4d64b6c25d921d4a12ce83e",
+    "size_bytes": 6026
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-recast/wd_28ac_ltx23-recast.mp4.sha256": {
+    "sha256": "9e525e9d6cc1a3f3ec153fb7b7ff9be98fd09c5e32bc86b100761785ddcce021",
+    "size_bytes": 91
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-upscale/contact-sheet.jpg": {
+    "sha256": "18d8e20aaced446fcac9e117909a737ab7011eb3a9e430f96c720066167f7eff",
+    "size_bytes": 65793
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-upscale/first-frame.png": {
+    "sha256": "b68bb19d2ffc9d450eaf9d711d263771489f4bcd932a263e84004d04de3f4719",
+    "size_bytes": 1079026
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4": {
+    "sha256": "126144d844e08ca70398f818daeb598761a1670c970c5849213d2d02e2e6a8b9",
+    "size_bytes": 3729463
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4.ffprobe.json": {
+    "sha256": "8d4f5779b0737660a6d48c91cc4e9e774842d001486358d3f3298ea2719691e4",
+    "size_bytes": 4587
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx23-upscale/wd_28ac_ltx23-upscale.mp4.sha256": {
+    "sha256": "0b31bfe11d54b1c3edec0e71da04b8d12f6c9ebd961b0d5ba0aa6e8bb4a53220",
+    "size_bytes": 92
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/contact-sheet.jpg": {
+    "sha256": "b16bba449d4ccdb29b253f2d7ee1f460e27841b8f180fd5a29d46831766b13bf",
+    "size_bytes": 47120
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/first-frame.png": {
+    "sha256": "a0bbbcfaa615735c4f6cbb2e3452166383cfb78be96e263bbf0b2eb841c10719",
+    "size_bytes": 543490
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4": {
+    "sha256": "33fc968b04aae0f7fc970452f5655a1ebdc0ab6e651fef7efdbdb199e8e6a21d",
+    "size_bytes": 708153
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4.ffprobe.json": {
+    "sha256": "1a4b461824c81e40ce64860e8b1b7f017cc14040cd0596f5c7bc0e3c18709339",
+    "size_bytes": 6026
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-outpaint/wd_28ac_ltx25-outpaint.mp4.sha256": {
+    "sha256": "f48946146404b60aedcc3d0004b4c28b894a34b05f02aab963c8654069a3c516",
+    "size_bytes": 93
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/contact-sheet.jpg": {
+    "sha256": "09567b3a065a93c45db58ccc79a4139d5d15596d4c88c847ae223b8424a1b8f5",
+    "size_bytes": 36239
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/first-frame.png": {
+    "sha256": "852c83825a12d59da919ea175762e915c110021c398b45b3a5ed955dc8ed18d4",
+    "size_bytes": 220282
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4": {
+    "sha256": "403846512114ec963797446c0e693900d8432be05dfbc905b97d2ec75ce573be",
+    "size_bytes": 378754
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4.ffprobe.json": {
+    "sha256": "95f0370bccede2e253be6291e28ddb95c7c4c605303c3791827bcf832344c30f",
+    "size_bytes": 5999
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-recast/wd_28ac_ltx25-recast.mp4.sha256": {
+    "sha256": "47ce89d51a9d49e0d7d9a99098d40f9337532ad241286235f76cac74c24cabac",
+    "size_bytes": 91
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/contact-sheet.jpg": {
+    "sha256": "f6d52d415a4f553bedbdaea6236f1fb034da80d98d412c776d1ba515102ab569",
+    "size_bytes": 45644
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/first-frame.png": {
+    "sha256": "f508bdeb25ef8efc44551defdd29e71f46d6b27e79b3ebdef76cd17b7379649a",
+    "size_bytes": 309540
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4": {
+    "sha256": "a46767b3ebe85ba48a315b29e97f731c6d76b203da75badd2906e2c159bbbf9a",
+    "size_bytes": 480785
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4.ffprobe.json": {
+    "sha256": "08c793d3f905cec19508a5d30bb4f5d0ae217b35d602fa6e73517fcb866c8ebd",
+    "size_bytes": 6069
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-repaint/wd_28ac_ltx25-repaint.mp4.sha256": {
+    "sha256": "fdad3b2ebff89d2288aa87c0129ec045cca5c89d960c4c5f22157ea7ea719bd4",
+    "size_bytes": 92
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/contact-sheet.jpg": {
+    "sha256": "273fd18b5a519d7fc6c9d43601613597317dab44d817772c8b1a200d02af7483",
+    "size_bytes": 51992
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/first-frame.png": {
+    "sha256": "db85d326d3b9027616c045f07948061facda847efb5a42571df287dcf05bc5e3",
+    "size_bytes": 1052556
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4": {
+    "sha256": "0a7da749f5b92ea7c771805632ef8933e3b3898e3789d914d21aa0b6b6f6c58b",
+    "size_bytes": 1873638
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4.ffprobe.json": {
+    "sha256": "b4e2ff011f2c4a41c91bad0c2bd506adc586b0fdb03ae941a98db8e72c6e97ed",
+    "size_bytes": 4634
+  },
+  "datasets/runs/maestro-parity/ltx-dependency-terminalization/phase-b-run/ltx25-upscale/wd_28ac_ltx25-upscale.mp4.sha256": {
+    "sha256": "2a4ae7a49ca412190696380519a7bfb233700059251747d306d0cb34ff76cb20",
+    "size_bytes": 92
+  },
+  "jobs.db": {
+    "sha256": "98a9fd38705c08129018b469c10d5c122cca1d32d402832b66f6ad5c80eb4a29",
+    "size_bytes": 40960
+  },
+  "ltx23-outpaint/native-output/2026-10-11-06h10m46s_seed3706_LTX-2.3 outpaint boundary widen the rooftop scene with more skyline..mp4": {
+    "sha256": "c2c48254d9db9c660eb183b638b642f2e7c6e7d2ff87e48f7e9909c432c37050",
+    "size_bytes": 785047
+  },
+  "ltx23-outpaint/native.log": {
+    "sha256": "a36262d105f44d5a33156c5ead553aa2eec69fe22ee1092a1b9d69db0f5efbf8",
+    "size_bytes": 4341
+  },
+  "ltx23-outpaint/operation-record.json": {
+    "sha256": "c85c0a7a00b43c8308e9502a312b231c84462e0687ca2211ccdd960568b0eea5",
+    "size_bytes": 6839
+  },
+  "ltx23-outpaint/settings.json": {
+    "sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+    "size_bytes": 779
+  },
+  "ltx23-recast/native-output/2026-10-11-06h13m01s_seed3708_LTX-2.3 recast boundary using an alternate reference frame while preserving staging..mp4": {
+    "sha256": "451376c4c3729ff3149d508ae88a7928a33595d2e72f2cc6bcc02345e5897169",
+    "size_bytes": 997752
+  },
+  "ltx23-recast/native.log": {
+    "sha256": "2548a030a653b356c7dc9513cf3f857184884a73b1f24dedb34286600d3b85d5",
+    "size_bytes": 5379
+  },
+  "ltx23-recast/operation-record.json": {
+    "sha256": "a2b3ced35f3291ea4d96bbcd845afa36c5baf67f12481a6f69df7dc3080d6260",
+    "size_bytes": 6828
+  },
+  "ltx23-recast/settings.json": {
+    "sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+    "size_bytes": 727
+  },
+  "ltx23-upscale/native-output/wd_osfm_create_post.mp4": {
+    "sha256": "126144d844e08ca70398f818daeb598761a1670c970c5849213d2d02e2e6a8b9",
+    "size_bytes": 3729463
+  },
+  "ltx23-upscale/native.log": {
+    "sha256": "50fa2d01710ce78713e5c9746594fde8b5598b932ff539f9d1a5930b5c35623a",
+    "size_bytes": 4799
+  },
+  "ltx23-upscale/operation-record.json": {
+    "sha256": "cd9bc73d71376995556bb54bd40f7fec1616c64df0c36e9540624640147d6daf",
+    "size_bytes": 6629
+  },
+  "ltx23-upscale/settings.json": {
+    "sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+    "size_bytes": 512
+  },
+  "ltx25-outpaint/native-output/wd_m7xw_outpaint.mp4": {
+    "sha256": "33fc968b04aae0f7fc970452f5655a1ebdc0ab6e651fef7efdbdb199e8e6a21d",
+    "size_bytes": 708153
+  },
+  "ltx25-outpaint/native.log": {
+    "sha256": "25e8c25834c6bb371bcfab576a02b2680ad3c9ba36673b9479d98997aec7c1f1",
+    "size_bytes": 4551
+  },
+  "ltx25-outpaint/operation-record.json": {
+    "sha256": "c48b53565123f3d3dee1956c6d0c628b220fd1ab2d75567b60fc73d93c948cce",
+    "size_bytes": 6671
+  },
+  "ltx25-outpaint/settings.json": {
+    "sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+    "size_bytes": 687
+  },
+  "ltx25-recast/native-output/wd_m7xw_recast.mp4": {
+    "sha256": "403846512114ec963797446c0e693900d8432be05dfbc905b97d2ec75ce573be",
+    "size_bytes": 378754
+  },
+  "ltx25-recast/native.log": {
+    "sha256": "0f56e1071b011c2e1fb7b96998b972cc8ce369357f5508b7d917ef63808272c3",
+    "size_bytes": 4994
+  },
+  "ltx25-recast/operation-record.json": {
+    "sha256": "cf0ee8be6cb8d387f88d294a401daaca31bf264609bc4a81e69c7918802acbea",
+    "size_bytes": 6621
+  },
+  "ltx25-recast/settings.json": {
+    "sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+    "size_bytes": 643
+  },
+  "ltx25-repaint/native-output/wd_m7xw_repaint.mp4": {
+    "sha256": "a46767b3ebe85ba48a315b29e97f731c6d76b203da75badd2906e2c159bbbf9a",
+    "size_bytes": 480785
+  },
+  "ltx25-repaint/native.log": {
+    "sha256": "a2e9a5a572d9b1fa3e55b9d4335130aea61c5ac76ad58bc5efa110740b94ecb3",
+    "size_bytes": 4553
+  },
+  "ltx25-repaint/operation-record.json": {
+    "sha256": "c836291b7e0c2decde22d00cc1a125267d3d656bc19e6c1a9c6562cd4f337c1f",
+    "size_bytes": 6646
+  },
+  "ltx25-repaint/settings.json": {
+    "sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+    "size_bytes": 748
+  },
+  "ltx25-upscale/native-output/wd_m7xw_create_post.mp4": {
+    "sha256": "0a7da749f5b92ea7c771805632ef8933e3b3898e3789d914d21aa0b6b6f6c58b",
+    "size_bytes": 1873638
+  },
+  "ltx25-upscale/native.log": {
+    "sha256": "07b5fb5c854dc13c1231faf9dffd2ec33247f63919d442b5342bf5ec1b6c36e3",
+    "size_bytes": 4771
+  },
+  "ltx25-upscale/operation-record.json": {
+    "sha256": "a7cc02daf51bf3beac9fe76d867af8751be3e95b7a84fb8e95bd53951d6487b3",
+    "size_bytes": 6687
+  },
+  "ltx25-upscale/settings.json": {
+    "sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+    "size_bytes": 589
+  },
+  "operator-authorization.json": {
+    "sha256": "cd84035d6eba564f7c74dad120555c91378acc888d58f9d53b0e38cef18e57bb",
+    "size_bytes": 3490
+  },
+  "operator-proposal.json": {
+    "sha256": "146b41ca4b204e73d0a51de4fc33937cc6cca3096ef50c7d5eea608ad13564c8",
+    "size_bytes": 3479
+  },
+  "plan.json": {
+    "sha256": "aeb3ccef345906f22de0bc2a9ac8b6ae4dae9185625231487b24fe7da7b862b5",
+    "size_bytes": 49506
+  },
+  "preflight.json": {
+    "sha256": "6030be6670b215a68a562dcd58dbb6b7b00adfabe4d97a3ae47e72c184eb1ab0",
+    "size_bytes": 362
+  },
+  "queue-summary.json": {
+    "sha256": "717b5cb663b00dcd7a4abfcd0827fa10dc05ce7420d2199ae4556208137b1fa1",
+    "size_bytes": 52150
+  },
+  "repository/datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json": {
+    "sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+    "size_bytes": 687
+  },
+  "repository/datasets/runs/maestro-parity/WD-m7xw/native-settings/recast.json": {
+    "sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+    "size_bytes": 643
+  },
+  "repository/datasets/runs/maestro-parity/WD-m7xw/native-settings/repaint.json": {
+    "sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+    "size_bytes": 748
+  },
+  "repository/datasets/runs/maestro-parity/WD-m7xw/native-settings/upscale.json": {
+    "sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+    "size_bytes": 589
+  },
+  "repository/datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json": {
+    "sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+    "size_bytes": 779
+  },
+  "repository/datasets/runs/maestro-parity/WD-osfm/native-settings/recast-probe.json": {
+    "sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+    "size_bytes": 727
+  },
+  "repository/datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json": {
+    "sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+    "size_bytes": 512
+  },
+  "repository/predict/__init__.py": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size_bytes": 0
+  },
+  "repository/predict/model_types.py": {
+    "sha256": "c03a9ae85ef90279fe38f777ed91fa50ad18f8204da43ee87a2b4f7e5a2fe971",
+    "size_bytes": 675
+  },
+  "repository/scripts/run_ltx_final_operations.py": {
+    "sha256": "d9be53d681ff28efeb13173e9c20d99827f7b8cfb4a5e8f83078cb3159473203",
+    "size_bytes": 47090
+  },
+  "repository/services/jobs/__init__.py": {
+    "sha256": "d2dffe38cccd903317471aa953c36e0dc3421ee77fc1a30c030dfa1110d92466",
+    "size_bytes": 651
+  },
+  "repository/services/jobs/queue.py": {
+    "sha256": "52e597c85aa9d6bff813679b7bf895727277d2c3ab6a5204924c13cff65f35f2",
+    "size_bytes": 35540
+  },
+  "repository/services/jobs/states.py": {
+    "sha256": "06d35c893e5c627110934cacca673e473b4663ff211d1e0b96815fe09206e9ab",
+    "size_bytes": 2925
+  },
+  "runtime-state.json": {
+    "sha256": "ca5dde4bc0e419df5a4237682b850469c17b38e7962be38bc8112f6e8bd50c19",
+    "size_bytes": 3768
+  },
+  "stage-inventory.json": {
+    "sha256": "fe58919340b071dfaa3db113484582a4150a0ecd6feaba8849e4cf3029af290e",
+    "size_bytes": 2949
+  }
+}
