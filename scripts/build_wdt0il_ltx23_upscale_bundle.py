@@ -301,10 +301,6 @@ def _validate_run(
     return manifest, summary, authorization, preflight, stage, row
 
 
-def _destination_for_observed(relative_model: str) -> str:
-    return str(Path("/home/straughter/Wan2GP") / Path(relative_model))
-
-
 def _model_provenance(
     repo_root: Path,
     authorization: dict[str, Any],
@@ -338,10 +334,40 @@ def _model_provenance(
     prior_by_filename = {
         Path(str(item.get("destination", ""))).name: item for item in prior_rows
     }
+    observed_model_text = native_log.read_text(encoding="utf-8")
+    observed_relative_by_filename = {
+        filename: next(
+            line
+            for line in observed_model_text.splitlines()
+            if filename in line
+        ).split("'", 2)[1]
+        for filename in observed
+    }
+    destination_roots = {
+        asset["destination"][: -len(observed_relative_by_filename[asset["id"]])].rstrip("/")
+        for asset in assets.values()
+        if asset["id"] in authorized and asset["id"] in observed_relative_by_filename
+    }
+    for asset, relative in (
+        (assets[filename], relative)
+        for filename, relative in observed_relative_by_filename.items()
+        if filename in authorized and filename in assets
+    ):
+        if not asset["destination"].endswith(relative):
+            raise BundleBuildError(
+                "known model destination does not end with its native path: "
+                f"{asset['id']}"
+            )
+    if len(destination_roots) != 1:
+        raise BundleBuildError(
+            "authorized model destinations do not share one ckpts root: "
+            f"{sorted(destination_roots)}"
+        )
+    destination_root = next(iter(destination_roots))
 
     provenance: list[dict[str, Any]] = []
-    observed_model_text = native_log.read_text(encoding="utf-8")
     for filename in observed:
+        observed_relative = observed_relative_by_filename[filename]
         if filename in authorized:
             asset = assets.get(filename)
             source = (
@@ -363,13 +389,7 @@ def _model_provenance(
                     "source": source,
                     "license": license_text,
                     "sha256": authorized[filename]["sha256"],
-                    "destination": _destination_for_observed(
-                        next(
-                            line
-                            for line in observed_model_text.splitlines()
-                            if filename in line
-                        ).split("'", 2)[1]
-                    ),
+                    "destination": f"{destination_root}/{observed_relative}",
                     "download_approved": True,
                     "preflight_hash_verified": True,
                     "downloaded_this_story": False,
