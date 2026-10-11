@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T12:06:18Z
-content_hash: "sha256:c1e5d76767b4ae360f096a89cb4016e1f2408496503eaa1f9a801eda5732d1d0"
+updated_at: 2026-10-11T13:36:51Z
+content_hash: "sha256:4e3141b30ecd6fc57b37b60be1dc2bd241456b6fe7f6094759a10d8e931ec529"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -472,3 +472,16 @@ loop: reset orphaned in_progress to open (no developer worktree found; prior ses
 
 ### 2026-10-11T11:52:44Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-10-11T13:36:51Z speed
+### Retry5 one-shot execution boundary (dispatcher, 2026-10-11)
+
+The operator-approved retry5 authorization canonical SHA-256 `558138882a66465d912e4a6fb000c74c37b3ffc931fb1ef0e94adaf04cc8e482` was consumed from clean Wangp head `02eb43a3`.
+
+Measured outcome:
+
+- Clean preflight, exact four-model verification, PyAV staging/media-write preflight, SSH/disk/GPU/QC checks, one durable H3 create admission, all 20 native denoising steps, queue completion (`1/1`), and native QC `KEEP` succeeded.
+- The real output is 480,063 bytes, SHA-256 `0fd78acd6a728e65744537a98813b3427e1341d41a07330baa08f004bc7da406`, 480x832, 24 fps, 4.458333 seconds, stereo AAC, non-black.
+- Five of six objective gates passed. The fixed `nonempty_bytes` gate failed because 480,063 < 500,000, so the recorder stopped with `OBJECTIVE_GATE_FAILED`, omitted canonical `evidence.json`, and recorded `generated_artifact=false`.
+- No retry, substitution, threshold change, download, spend, training, deletion, or capability promotion occurred.
+- PR #243 preserves the complete boundary at head `3749e7541701f52dab6db26375468ca856ae0f68` and marks the authorization consumed/replay-blocked. Independent evidence review approved at `d600d386`; independent delta review approved the path-scoped whitespace follow-up at `3749e754`. Exact-head CI run `38143530051` is pending and must pass before merge.
