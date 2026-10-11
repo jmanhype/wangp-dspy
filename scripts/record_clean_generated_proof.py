@@ -18,6 +18,7 @@ AUTHORIZATION_CONSUMPTION = ROOT / "datasets/runs/maestro-parity/clean-generated
 ISOLATED_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-authorization.template.json"
 RETRY6_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-retry6-authorization.template.json"
 RETRY6_OPERATOR_PROPOSAL = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry6-20261011.json"
+RETRY6_APPROVED_AUTHORIZATION = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json"
 AUTHORIZED_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -33,6 +34,12 @@ REFERENCE_PROMPT = ("The same small brass compass on a folded paper map as cool 
                     "the needle settles with a soft click. Quiet paper and cloth sounds, no speech.")
 REFERENCE_SEED = 4113
 NONEMPTY_BYTES_THRESHOLD = 500000.0
+RETRY6_APPROVED_TEXT = "Authorize, retry six"
+RETRY6_APPROVED_TIMESTAMP = "2026-10-11T20:27:13Z"
+RETRY6_APPROVED_SCOPE = (
+    "One reference-bearing no-download clean-machine H3 create on host 3090, "
+    "using the exact committed first-run frame/prompt/seed and unchanged gates"
+)
 V4_AUTHORIZED_SOURCE_FILES = V3_AUTHORIZED_SOURCE_FILES + (
     REFERENCE_FRAME_RELATIVE,
     REFERENCE_EVIDENCE_RELATIVE,
@@ -110,10 +117,30 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
         raise ProofError("AUTHORIZATION_V2_RETIRED", "v2 isolated authorization is retired; a fresh v3 operator approval is required")
     if (isinstance(authorization, dict)
             and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4"):
-        raise ProofError(
-            "RETRY6_OPERATOR_APPROVAL_REQUIRED",
-            "retry6 is preauthorization only; no externally anchored operator approval record exists",
+        expected = load(RETRY6_AUTHORIZATION_TEMPLATE)
+        expected.update(
+            status="approved",
+            text=RETRY6_APPROVED_TEXT,
+            timestamp=RETRY6_APPROVED_TIMESTAMP,
+            scope=RETRY6_APPROVED_SCOPE,
+            operator_approval={
+                **expected["operator_approval"],
+                "verbatim": RETRY6_APPROVED_TEXT,
+                "approved_at": RETRY6_APPROVED_TIMESTAMP,
+            },
         )
+        if (
+            authorization != expected
+            or load(RETRY6_APPROVED_AUTHORIZATION) != expected
+            or expected.get("status") != "approved"
+        ):
+            raise ProofError(
+                "RETRY6_OPERATOR_APPROVAL_REQUIRED",
+                "only the exact committed operator-approved retry6 authorization is executable",
+            )
+        retry6_valid = True
+    else:
+        retry6_valid = False
     legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
                     and authorization.get("allowed_operation") == template["allowed_operation"]
                     and authorization == load(ACCEPTED_AUTHORIZATION)
@@ -131,7 +158,7 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
                 and authorization.get("allowed_operation") == template["allowed_operation"]
                 and authorization.get("boundaries") == template["boundaries"]
                 and authorization.get("superseded_relocations") == [])
-    valid = legacy_valid or isolated_valid
+    valid = legacy_valid or isolated_valid or retry6_valid
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
@@ -711,6 +738,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         checkout = args.checkout.resolve()
         if any(not path.resolve().is_relative_to(checkout) for path in (args.authorization, args.model_manifest)):
             raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "inputs must live inside the disposable checkout")
+        if (
+            auth.get("schema_version")
+            == "wangp-dspy.clean-generated-authorization/v4"
+            and args.authorization.resolve() != RETRY6_APPROVED_AUTHORIZATION.resolve()
+        ):
+            raise ProofError(
+                "CLEAN_GENERATED_INPUT_INVALID",
+                "retry6 approval must use its exact committed authorization path",
+            )
         commit, status, identity = repository(args.checkout); toolset = tools(); proof = args.proof_dir
         validate_authorized_source(args.checkout, auth)
         command = ["sh", str(args.installer), *[x.decode() for x in (proof / "argv.nul").read_bytes().split(b"\0") if x]]
