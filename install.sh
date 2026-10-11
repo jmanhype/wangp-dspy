@@ -117,9 +117,16 @@ fail_clean_generated_unapproved() {
 }
 
 require_clean_generated_approval() {
-    status_line=$(grep -m1 '^[[:space:]]*"status":' "$1" || true)
-    case $status_line in
-        *'"approved"'*) ;;
+    approval_status=$(python3 -c '
+import json, sys
+with open(sys.argv[1], encoding="utf-8") as source:
+    payload = json.load(source)
+if not isinstance(payload, dict):
+    raise SystemExit(2)
+print(payload.get("status", ""))
+' "$1" 2>/dev/null) || fail_clean_generated_unapproved
+    case $approval_status in
+        approved) ;;
         *) fail_clean_generated_unapproved ;;
     esac
 }

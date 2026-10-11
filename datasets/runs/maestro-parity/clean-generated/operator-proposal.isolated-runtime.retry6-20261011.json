@@ -26,9 +26,9 @@
     "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
     "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
     "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
-    "install.sh": "759b1071a6051b486d128592c61ff150bfb749c4c7a66811cbea7c3c805c6723",
-    "scripts/record_clean_generated_proof.py": "96e3ab83973aa85301f0da4a4510c123b4e6624b0072a0ddde8692f025708a75",
+    "install.sh": "7a3b8f4ddd138c25ebf043d2a444cb224a6b4f5ba6bba69eee09c45914481ef5",
+    "scripts/record_clean_generated_proof.py": "eb38530d9d5c4d3dc68b95ded0488b3c24ba3816ef939e08e4fbaa4115a9b2d2",
     "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
   },
-  "v4_source_identity_sha256": "5f97bf3fc0a11d5242031430df3da3cb480fb9aebed9fa6c5fd7cedabb52a37b"
+    "v4_source_identity_sha256": "a775c0badf1e2c881030c4dffd64a0be6fc244286f7ff23ef3299c4426e6ef0c"
 }

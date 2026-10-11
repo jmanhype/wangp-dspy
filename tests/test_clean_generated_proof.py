@@ -138,9 +138,11 @@ def test_install_docs_disclose_consumed_authorization() -> None:
 
 
 def _future_isolated_runtime_authorization() -> dict[str, Any]:
-    authorization = json.loads(
-        RETRY6_TEMPLATE.read_text(encoding="utf-8")
-    )
+    return json.loads(RETRY6_TEMPLATE.read_text(encoding="utf-8"))
+
+
+def _self_forged_retry6_authorization() -> dict[str, Any]:
+    authorization = _future_isolated_runtime_authorization()
     text = "Authorize the exact WD-bw0h retry6 test fixture in memory"
     timestamp = "2026-10-11T23:59:59Z"
     authorization.update(
@@ -157,15 +159,15 @@ def _future_isolated_runtime_authorization() -> dict[str, Any]:
     return authorization
 
 
-def test_future_isolated_runtime_authorization_shape_is_accepted() -> None:
+def test_self_forged_retry6_authorization_is_rejected() -> None:
     recorder = _load_recorder()
-    authorization = _future_isolated_runtime_authorization()
+    authorization = _self_forged_retry6_authorization()
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    validated, assets = recorder.inputs(authorization, manifest)
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
 
-    assert validated is authorization
-    assert len(assets) == 4
+    assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
 
 
 def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
@@ -211,8 +213,9 @@ def test_future_authorization_rejects_runtime_tampering() -> None:
     authorization["allowed_host"]["runtime"]["python"] = "/usr/local/bin/python3"
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    with pytest.raises(recorder.ProofError, match="authorization boundary"):
+    with pytest.raises(recorder.ProofError) as caught:
         recorder.inputs(authorization, manifest)
+    assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
 
 
 def test_future_authorization_binds_exact_authorized_source_bytes() -> None:
@@ -260,19 +263,18 @@ def test_v4_authorization_binds_committed_source_without_circular_commit(tmp_pat
         check=True,
     )
 
-    validated, assets = recorder.inputs(authorization, json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8")))
-    # A future approval must bind the updated recorder; do not rewrite historical approval files.
-    recorder.validate_authorized_source(checkout, validated)
+    # A future externally anchored approval must bind these updated source bytes.
+    recorder.validate_authorized_source(checkout, authorization)
 
-    assert len(assets) == 4
+    assert len(json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))["assets"]) == 4
 
 
 def test_operator_v4_authorization_is_approved_and_exact_source_bound() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
 
-    assert authorization["status"] == "approved"
-    assert authorization["text"]
+    assert authorization["status"] == "requires_operator_approval"
+    assert authorization["text"] == ""
     assert authorization["allowed_host"] == json.loads(
         RETRY6_TEMPLATE.read_text(encoding="utf-8")
     )["allowed_host"]
@@ -611,7 +613,7 @@ def test_unapproved_retry6_cannot_create_workspace_or_proof(tmp_path: Path) -> N
     result = _run_script(tmp_path, RETRY6_TEMPLATE, manifest)
 
     assert result.returncode == 4
-    assert "CLEAN_GENERATED_INPUT_INVALID" in result.stderr
+    assert "RETRY6_OPERATOR_APPROVAL_REQUIRED" in result.stderr
     assert not (tmp_path / "proof").exists()
 
 
@@ -629,6 +631,73 @@ def test_unapproved_retry6_one_command_rejects_before_clean_workspace(tmp_path: 
     assert not (tmp_path / "workspace").exists()
 
 
+def test_retry6_installer_rejects_nested_status_decoy(tmp_path: Path) -> None:
+    authorization = ROOT / ".tmp-retry6-installer-decoy.json"
+    try:
+        authorization.write_text(
+            json.dumps(
+                {
+                    "nested_status_trap": {"status": "approved"},
+                    "status": "requires_operator_approval",
+                    "schema_version": "wangp-dspy.clean-generated-authorization/v4",
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+             "--clean-generated-proof", str(tmp_path / "workspace"),
+             "--generated-authorization", authorization.name,
+             "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+            capture_output=True, text=True, check=False,
+        )
+    finally:
+        authorization.unlink(missing_ok=True)
+
+    assert result.returncode == 12
+    assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
+    assert not (tmp_path / "workspace").exists()
+
+
+def test_retry6_installer_rejects_malformed_authorization(tmp_path: Path) -> None:
+    authorization = ROOT / ".tmp-retry6-installer-invalid.json"
+    try:
+        authorization.write_text("{not-json", encoding="utf-8")
+
+        result = subprocess.run(
+            ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+             "--clean-generated-proof", str(tmp_path / "workspace"),
+             "--generated-authorization", authorization.name,
+             "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+            capture_output=True, text=True, check=False,
+        )
+    finally:
+        authorization.unlink(missing_ok=True)
+
+    assert result.returncode == 12
+    assert not (tmp_path / "workspace").exists()
+
+
+def test_retry6_source_manifest_rejects_symlinked_parent(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    checkout = tmp_path / "checkout"
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "evidence.json").write_text("{}", encoding="utf-8")
+    (checkout / "datasets/runs/maestro-parity/clean-generated/first-run").mkdir(parents=True)
+    (checkout / "datasets/runs/maestro-parity/clean-generated/first-run/inputs").symlink_to(
+        outside, target_is_directory=True
+    )
+
+    relative = (
+        "datasets/runs/maestro-parity/clean-generated/first-run/inputs/"
+        "wd_bw0h_h3_standard_ref_first_frame.png"
+    )
+    with pytest.raises(recorder.ProofError, match="symlink"):
+        recorder.contained_regular_file(checkout, relative)
+
+
 def test_retry6_reference_stages_only_to_exact_host_path(tmp_path: Path) -> None:
     recorder = _load_recorder()
     remote_root = tmp_path / "remote-root"
@@ -639,7 +708,18 @@ def test_retry6_reference_stages_only_to_exact_host_path(tmp_path: Path) -> None
 
     class ExactHost:
         def run_probe(self, argv: list[str], timeout: int = 120) -> tuple[int, str, str]:
-            assert argv[0] in {"test", "chmod", "mkdir"}
+            assert argv[0] in {"test", "chmod", "mkdir", "realpath"}
+            if argv[0] == "realpath":
+                assert argv[1] == "-e"
+                return 0, argv[2] + "\n", ""
+            if argv[0] == "test":
+                if argv[1] == "!":
+                    return (0 if not Path(argv[2]).exists() else 1), "", ""
+                if argv[1] == "-L":
+                    return (1 if not Path(argv[2]).is_symlink() else 0), "", ""
+                if argv[1] == "-d":
+                    return (0 if Path(argv[2]).is_dir() else 1), "", ""
+                raise AssertionError(argv)
             return 0, "", ""
 
         def push_file(self, source: str, target: str) -> str:
@@ -675,6 +755,40 @@ def test_retry6_reference_stages_only_to_exact_host_path(tmp_path: Path) -> None
     assert persisted["prompt"] == recorder.REFERENCE_PROMPT
     assert persisted["seed"] == recorder.REFERENCE_SEED
     assert persisted["image_prompt_type"] == "S"
+
+
+def test_retry6_reference_staging_rejects_remote_root_symlink(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    remote_root = tmp_path / "authorized-root"
+    remote_root.symlink_to(outside, target_is_directory=True)
+    proof = tmp_path / "proof"
+    proof.mkdir()
+
+    class SymlinkHost:
+        def run_probe(self, argv: list[str], timeout: int = 120) -> tuple[int, str, str]:
+            if argv[:2] == ["test", "-L"]:
+                return (0 if Path(argv[2]).is_symlink() else 1), "", ""
+            if argv[:2] == ["realpath", "-e"]:
+                return 0, str(Path(argv[2]).resolve()) + "\n", ""
+            return 0, "", ""
+
+        def push_file(self, source: str, target: str) -> str:
+            raise AssertionError("staging must stop before push when root is a symlink")
+
+        def fetch_file(self, source: str, target: str) -> str:
+            raise AssertionError("staging must stop before fetch when root is a symlink")
+
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.stage_reference_frame(
+            SymlinkHost(), proof, ROOT, {"remote_work_root": str(remote_root)}
+        )
+
+    assert caught.value.code == "REFERENCE_STAGE_FAILED"
+    payload = recorder.load(proof / "preflight/reference-frame.json")
+    assert payload["root_symlink_before_create"] is True
+    assert payload["passed"] is False
 
 
 def test_v4_template_binds_exact_reference_source_boundary() -> None:
@@ -714,8 +828,9 @@ def test_v4_rejects_transport_source_tampering(relative: str, tamper: str) -> No
     with pytest.raises(recorder.ProofError) as caught:
         recorder.validate_authorized_source(ROOT, authorization)
     assert caught.value.code == "AUTHORIZED_SOURCE_INVALID"
-    with pytest.raises(recorder.ProofError, match="authorization boundary"):
+    with pytest.raises(recorder.ProofError) as caught:
         recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
+    assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
 
 
 def test_v2_cannot_claim_v4_template_identity() -> None:

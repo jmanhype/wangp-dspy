@@ -97,29 +97,6 @@ def fail(proof: Path | None, code: str, detail: str, command: Sequence[str]) -> 
     return 4
 
 
-def _retry6_inputs_valid(authorization: Any, template: Mapping[str, Any]) -> bool:
-    if not isinstance(authorization, dict) or set(authorization) != set(template):
-        return False
-    dynamic = {key: authorization.get(key) for key in (
-        "status", "approved_by", "text", "timestamp", "scope", "operator_approval")}
-    if (dynamic["status"] != "approved" or dynamic["approved_by"] != "operator"
-            or any(not isinstance(dynamic[key], str) or not dynamic[key]
-                   for key in ("text", "timestamp", "scope"))):
-        return False
-    proposal = load(RETRY6_OPERATOR_PROPOSAL)
-    expected_approval = {
-        "proposal": RETRY6_OPERATOR_PROPOSAL.relative_to(ROOT).as_posix(),
-        "proposal_sha256": sha(RETRY6_OPERATOR_PROPOSAL),
-        "verbatim": dynamic["text"],
-        "approved_at": dynamic["timestamp"],
-    }
-    if dynamic["operator_approval"] != expected_approval or proposal.get("approved") is not False:
-        return False
-    expected = dict(template)
-    expected.update(dynamic)
-    return authorization == expected
-
-
 def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
              "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
@@ -131,13 +108,12 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     if (isinstance(authorization, dict)
             and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v2"):
         raise ProofError("AUTHORIZATION_V2_RETIRED", "v2 isolated authorization is retired; a fresh v3 operator approval is required")
-    retry6_valid = False
     if (isinstance(authorization, dict)
             and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4"):
-        retry6_template = load(RETRY6_AUTHORIZATION_TEMPLATE)
-        retry6_valid = _retry6_inputs_valid(authorization, retry6_template)
-        if not retry6_valid:
-            raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "retry6 authorization boundary or operator approval mismatch")
+        raise ProofError(
+            "RETRY6_OPERATOR_APPROVAL_REQUIRED",
+            "retry6 is preauthorization only; no externally anchored operator approval record exists",
+        )
     legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
                     and authorization.get("allowed_operation") == template["allowed_operation"]
                     and authorization == load(ACCEPTED_AUTHORIZATION)
@@ -155,7 +131,7 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
                 and authorization.get("allowed_operation") == template["allowed_operation"]
                 and authorization.get("boundaries") == template["boundaries"]
                 and authorization.get("superseded_relocations") == [])
-    valid = legacy_valid or isolated_valid or retry6_valid
+    valid = legacy_valid or isolated_valid
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
@@ -165,11 +141,31 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
 def source_manifest(checkout: Path, source_files: Sequence[str] = AUTHORIZED_SOURCE_FILES) -> dict[str, str]:
     observed = {}
     for relative in source_files:
-        path = checkout / relative
-        if path.is_symlink() or not path.is_file():
-            raise ProofError("AUTHORIZED_SOURCE_INVALID", f"authorized source is not a regular file: {relative}")
+        path = contained_regular_file(checkout, relative)
         observed[relative] = sha(path)
     return observed
+
+
+def contained_regular_file(checkout: Path, relative: str) -> Path:
+    root = checkout.resolve(strict=True)
+    candidate = root / relative
+    component = root
+    for part in Path(relative).parts:
+        if part in {"", ".", ".."}:
+            raise ProofError("AUTHORIZED_SOURCE_INVALID", f"unsafe authorized source path: {relative}")
+        component = component / part
+        if component.is_symlink():
+            raise ProofError(
+                "AUTHORIZED_SOURCE_INVALID",
+                f"authorized source path traverses a symlink: {component}",
+            )
+    resolved = candidate.resolve(strict=True)
+    if not resolved.is_relative_to(root) or not candidate.is_file():
+        raise ProofError(
+            "AUTHORIZED_SOURCE_INVALID",
+            f"authorized source escapes checkout or is not a regular file: {relative}",
+        )
+    return candidate
 
 
 def source_identity(files: Mapping[str, str]) -> str:
@@ -264,10 +260,10 @@ def ensure_fresh_remote_root(host: Any, proof: Path, config: Mapping[str, Any]) 
 
 
 def validate_retry6_reference(checkout: Path) -> Path:
-    source = checkout / REFERENCE_FRAME_RELATIVE
-    if source.is_symlink() or not source.is_file() or sha(source) != REFERENCE_FRAME_SHA256:
+    source = contained_regular_file(checkout, REFERENCE_FRAME_RELATIVE)
+    if sha(source) != REFERENCE_FRAME_SHA256:
         raise ProofError("REFERENCE_FRAME_INVALID", "accepted first-run reference frame bytes differ")
-    evidence = load(checkout / REFERENCE_EVIDENCE_RELATIVE)
+    evidence = load(contained_regular_file(checkout, REFERENCE_EVIDENCE_RELATIVE))
     rows = evidence.get("reference_provenance") if isinstance(evidence, dict) else None
     expected = {"path": "inputs/wd_bw0h_h3_standard_ref_first_frame.png",
                 "role": "image_start_reference_frame_for_h3_standard_create",
@@ -276,7 +272,7 @@ def validate_retry6_reference(checkout: Path) -> Path:
             isinstance(row, dict) and all(row.get(key) == value for key, value in expected.items())
             for row in rows):
         raise ProofError("REFERENCE_FRAME_INVALID", "accepted first-run reference provenance is missing")
-    prompt_source = load(checkout / REFERENCE_PROMPT_SOURCE_RELATIVE)
+    prompt_source = load(contained_regular_file(checkout, REFERENCE_PROMPT_SOURCE_RELATIVE))
     tags = [owner.get("tags", {}).get("comment")
             for owner in (prompt_source.get("streams", []) + [prompt_source.get("format", {})])
             if isinstance(owner, dict)]
@@ -305,9 +301,27 @@ def stage_reference_frame(host: Any, proof: Path, checkout: Path, config: Mappin
         result["probe_error"] = err.strip()
         if rc:
             raise ValueError("reference target already exists on the host")
-        rc, _out, err = probe(host, ("mkdir", "-p", str(config["remote_work_root"])))
+        remote_root = str(config["remote_work_root"])
+        rc, _out, err = probe(host, ("test", "-L", remote_root))
+        result["root_symlink_before_create"] = rc == 0
+        if rc == 0:
+            raise ValueError("authorized remote root is a symlink")
+        rc, _out, err = probe(host, ("mkdir", remote_root))
         if rc:
             raise ValueError(f"cannot create fresh reference root: {err.strip()}")
+        rc, _out, err = probe(host, ("test", "-d", remote_root))
+        if rc:
+            raise ValueError(f"authorized remote root is not a directory: {err.strip()}")
+        rc, _out, err = probe(host, ("test", "-L", remote_root))
+        result["root_symlink_after_create"] = rc == 0
+        if rc == 0:
+            raise ValueError("authorized remote root became a symlink")
+        rc, resolved_root, err = probe(host, ("realpath", "-e", remote_root))
+        result["root_resolved"] = resolved_root.strip()
+        if rc or resolved_root.strip() != remote_root:
+            raise ValueError(
+                f"authorized remote root resolves outside its declared path: {err.strip()}"
+            )
         staged = host.push_file(str(local), remote)
         if staged != remote:
             raise ValueError("host returned a different reference path")
@@ -319,6 +333,16 @@ def stage_reference_frame(host: Any, proof: Path, checkout: Path, config: Mappin
         host.fetch_file(remote, str(fetched))
         if sha(fetched) != REFERENCE_FRAME_SHA256:
             raise ValueError("staged reference bytes differ")
+        rc, resolved_remote, err = probe(host, ("realpath", "-e", remote))
+        result["host_resolved"] = resolved_remote.strip()
+        if rc or resolved_remote.strip() != remote:
+            raise ValueError(
+                f"staged reference resolves outside its declared path: {err.strip()}"
+            )
+        rc, _out, err = probe(host, ("test", "-L", remote))
+        result["host_target_is_symlink"] = rc == 0
+        if rc == 0:
+            raise ValueError("staged reference target is a symlink")
         result.update(passed=True, staged_sha256=sha(fetched), local_path=str(fetched))
     except Exception as exc:
         result["diagnostic"] = {"code": "REFERENCE_STAGE_FAILED", "detail": f"{type(exc).__name__}: {exc}"}
