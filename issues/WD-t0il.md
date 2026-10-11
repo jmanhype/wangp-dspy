@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T11:57:23Z
-content_hash: "sha256:b9e452b72556390d5356b821ce83c7e2731b5638687d40acb7db3a5e04a82dd5"
+updated_at: 2026-10-11T12:46:51Z
+content_hash: "sha256:8001183922fed464d6aefa79d632fa2e0a044631aa649bdb61b76ac2f0980346"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -524,3 +524,12 @@ Current post-WD-cuzw gate audit at merged main b5b7e35b131de72e541bec508fcac19fc
 
 ### 2026-10-11T11:52:45Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-10-11T12:46:51Z speed
+### LTX identity-capture evidence update (dispatcher, 2026-10-11)
+
+- PR #241 preserved the seven-operation, one-attempt LTX identity capture at Wangp base `f6548f03528b058476367349a5f481614cfa35be`; run manifest SHA-256 is `b0ce828448fd6084317c1a9688fc62b9c07ab584d09b7130206c25884c4ad4bd`.
+- Initial PR head `39f9be91be629e985fc4220c8c55eaf9a13da51c` was independently rejected because one raw native log tripped `git diff --check` and `run-summary.json` overclaimed an unretained preliminary launcher diagnostic.
+- Repair head `8177ebb54ceff7d7eb34905a5bcb8dc474e694d9` added only a run-path-scoped native-log whitespace exemption, corrected the launcher disclosure, and added focused coverage. Exact-head CI run `38137263864` succeeded. Independent review at that head returned `REVIEW_RESULT: APPROVED`, including `git diff --check` exit 0, five focused tests passing, and 29 direct native-evidence artifacts byte-identical across rejected/repaired/worktree states.
+- After PR #242 merged, PR #241 was rebased to `bc975a8e201a43d1586e9a3821c7335ff08260e8`; the tree delta from reviewed head was only the unrelated retry5 H3 authorization files. Focused tests again passed, `git diff --check origin/main..HEAD` passed, and exact-head CI run `38138748066` succeeded.
+- PR #241 merged to main at `f4c7d7da67b71f6f130172f0cbe8454275dcc392`. No matrix promotion is claimed from this note; the seven outputs remain pending QC/reviewer disposition.
