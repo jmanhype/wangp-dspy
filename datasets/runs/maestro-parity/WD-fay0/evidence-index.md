@@ -1,21 +1,19 @@
 # Current consolidated Maestro-parity evidence index
 
-Reconciled by: `WD-he8i`; capstone base: `5a94eb491c524816334e23e1b2894acc3b772819`.
+Reconciled by: `WD-t0il`; capstone base: `f6548f03528b058476367349a5f481614cfa35be`.
 
-**VERDICT: MATRIX CURRENT; seven LTX dependency cells and the separately gated first-run generated artifact remain incomplete; no new capability is claimed.**
+**VERDICT: MATRIX CURRENT; all 208 matrix cells are terminal (96 host_run_verified), and only the literal clean-machine one-command boundary remains incomplete; no unrecorded capability is claimed.**
 
 This is local evidence navigation only. It authorizes no host, model, storage, queue, render, or new capability work.
 
 ## Current matrix census
 
-- `dependency_blocked`: 1
-- `host_run_verified`: 95
+- `host_run_verified`: 96
 - `not_applicable`: 2
 - `terminal_unsupported_or_fail_closed`: 110
 
 ## Remaining boundaries
 
-- Exactly 1 LTX cells remain `dependency_blocked` at `story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6` (`datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json`, SHA-256 `6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53`); no download, inference, or admission is claimed.
 - Literal clean-machine one-command reproducibility remains incomplete at `story/WD-bw0h-first-run` (`datasets/runs/maestro-parity/clean-generated/first-run/evidence.json`, SHA-256 `1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.
 
 ## Non-matrix dispositions
@@ -134,7 +132,7 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 | docs/video-capabilities.md | 82 | ltx/2.3 | Outpaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Repaint | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-osfm/evidence.json` |
 | docs/video-capabilities.md | 82 | ltx/2.3 | Recast | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-recast/evidence.json` |
-| docs/video-capabilities.md | 82 | ltx/2.3 | Upscale | `dependency_blocked` | `dependency_blocked` | `../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json` |
+| docs/video-capabilities.md | 82 | ltx/2.3 | Upscale | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json` |
 | docs/video-capabilities.md | 83 | scail/2 | Create | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-ycjg/evidence.json` |
 | docs/video-capabilities.md | 83 | scail/2 | Extend | `unsupported` | `terminal_unsupported_or_fail_closed` | `../datasets/runs/maestro-parity/WD-ycjg/boundary-evidence.json` |
 | docs/video-capabilities.md | 83 | scail/2 | Blend | `host_run_verified` | `host_run_verified` | `../datasets/runs/maestro-parity/WD-ycjg/evidence.json` |
@@ -281,6 +279,7 @@ This is local evidence navigation only. It authorizes no host, model, storage, q
 - `datasets/runs/maestro-parity/WD-osfm/evidence.json`: `608ca5159aeb048ef6ca713ee684d47c1ca093ce61d38ef6fc9a3730b75b8dfe`
 - `datasets/runs/maestro-parity/WD-r81u/evidence.json`: `254e487610c9044fa097b8faaeae4c9360d7d29aa6a95fa7bf9008aacd8a64b8`
 - `datasets/runs/maestro-parity/WD-rous/evidence.json`: `62577651822b25f3e4aab4fe029689686d696c4dc36823bbc4bb3134890019f6`
+- `datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json`: `542f70116e3bade7586d07fbbe48144fcacba9787eb15484cdbfa6bbf112bab2`
 - `datasets/runs/maestro-parity/WD-ycjg/boundary-evidence.json`: `2cc35d5f6f88507ab92cab02d88b1249c7c4efc5fe9847c24907c6d2947f7325`
 - `datasets/runs/maestro-parity/WD-ycjg/evidence.json`: `b449c144c9a06392baea788afbbdae6bda6f01d58c797bc71b3e05271b28bf57`
 - `datasets/runs/maestro-parity/consent-closeout/evidence.json`: `1c52dc2eb2221aea135ad0890a8bdf23fca5937730b7986298f733ef6f7aa4d6`

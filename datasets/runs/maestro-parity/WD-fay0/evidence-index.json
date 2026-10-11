@@ -1,5 +1,5 @@
 {
-  "base_commit": "5a94eb491c524816334e23e1b2894acc3b772819",
+  "base_commit": "f6548f03528b058476367349a5f481614cfa35be",
   "editor_host_run_evidence_sha256": "7a292c0befd1bbbe59db3f9d0f8879f1ed17e3141f9ff07a06126803353b7d17",
   "evidence_manifest": {
     "datasets/runs/maestro-parity/WD-28ac/gate22/ltx23-outpaint/evidence.json": "53211b25b925211d04c482e8dc6c259181e1c19c7c9825bf19c4a7f93753c463",
@@ -42,6 +42,7 @@
     "datasets/runs/maestro-parity/WD-osfm/evidence.json": "608ca5159aeb048ef6ca713ee684d47c1ca093ce61d38ef6fc9a3730b75b8dfe",
     "datasets/runs/maestro-parity/WD-r81u/evidence.json": "254e487610c9044fa097b8faaeae4c9360d7d29aa6a95fa7bf9008aacd8a64b8",
     "datasets/runs/maestro-parity/WD-rous/evidence.json": "62577651822b25f3e4aab4fe029689686d696c4dc36823bbc4bb3134890019f6",
+    "datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json": "542f70116e3bade7586d07fbbe48144fcacba9787eb15484cdbfa6bbf112bab2",
     "datasets/runs/maestro-parity/WD-ycjg/boundary-evidence.json": "2cc35d5f6f88507ab92cab02d88b1249c7c4efc5fe9847c24907c6d2947f7325",
     "datasets/runs/maestro-parity/WD-ycjg/evidence.json": "b449c144c9a06392baea788afbbdae6bda6f01d58c797bc71b3e05271b28bf57",
     "datasets/runs/maestro-parity/consent-closeout/evidence.json": "1c52dc2eb2221aea135ad0890a8bdf23fca5937730b7986298f733ef6f7aa4d6",
@@ -63,7 +64,7 @@
     "receipt_sha256": "2d935d24db35116c9acf7677943d93204cd79826276a3390141cadb667f3c3c4",
     "source": "datasets/runs/maestro-parity/checker-lane-receipts/evidence.json"
   },
-  "matrix_identity_sha256": "5def89a93c01db3b79250e7aced865ea1e4493090537d3c0c4eb04d5725ec2c6",
+  "matrix_identity_sha256": "cb95a99f253be9d650bfda3801616764e80e9a29ab3df0f08a366da9142f7a55",
   "non_matrix_inventory": {
     "rows": [
       {
@@ -100,7 +101,7 @@
       "terminal_unsupported_or_fail_closed": 1
     }
   },
-  "reconciliation_story_id": "WD-he8i",
+  "reconciliation_story_id": "WD-t0il",
   "remaining_boundaries": {
     "first_run_generated_artifact": {
       "generated_artifact": true,
@@ -110,29 +111,12 @@
       "sha256": "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389",
       "source_ref": "story/WD-bw0h-first-run",
       "state": "host_run_verified"
-    },
-    "ltx_dependency_batch": {
-      "cells": [
-        [
-          "docs/video-capabilities.md",
-          "ltx/2.3",
-          "Upscale"
-        ]
-      ],
-      "inference_attempted": false,
-      "model_download_bytes_actual": 0,
-      "not_a_hardware_verdict": true,
-      "path": "datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json",
-      "sha256": "6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53",
-      "source_ref": "story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6",
-      "state": "dependency_blocked_before_download_or_admission"
     }
   },
   "row_inventory": {
     "documented_state_totals": {
-      "dependency_blocked": 1,
       "fail-closed": 1,
-      "host_run_verified": 95,
+      "host_run_verified": 96,
       "not applicable": 2,
       "unsupported": 97,
       "unsupported for planning": 1,
@@ -1079,11 +1063,11 @@
         "source_line": "82"
       },
       {
-        "canonical_state": "dependency_blocked",
+        "canonical_state": "host_run_verified",
         "cell": "Upscale",
         "doc": "docs/video-capabilities.md",
-        "documented_state": "dependency_blocked",
-        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-osfm/boundary-evidence.json",
+        "documented_state": "host_run_verified",
+        "evidence_or_boundary": "../datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json",
         "row": "ltx/2.3",
         "source_line": "82"
       },
@@ -2017,13 +2001,12 @@
     ],
     "total": 208,
     "totals": {
-      "dependency_blocked": 1,
-      "host_run_verified": 95,
+      "host_run_verified": 96,
       "not_applicable": 2,
       "terminal_unsupported_or_fail_closed": 110
     }
   },
   "schema": "wangp-dspy.maestro-parity-current-index/v1",
   "story_id": "WD-fay0",
-  "verdict": "MATRIX CURRENT; seven LTX dependency cells and the separately gated first-run generated artifact remain incomplete; no new capability is claimed."
+  "verdict": "MATRIX CURRENT; all 208 matrix cells are terminal (96 host_run_verified), and only the literal clean-machine one-command boundary remains incomplete; no unrecorded capability is claimed."
 }
