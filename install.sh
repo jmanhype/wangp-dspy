@@ -120,11 +120,22 @@ require_clean_generated_approval() {
     approval_status=$(python3 -c '
 import json, sys
 with open(sys.argv[1], encoding="utf-8") as source:
-    payload = json.load(source)
+    raw = source.read()
+payload = json.loads(raw)
 if not isinstance(payload, dict):
     raise SystemExit(2)
 if payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4":
-    print("requires_operator_approval")
+    exact_path = "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json"
+    exact_approval = (
+        payload.get("status") == "approved"
+        and payload.get("text") == "Authorize, retry six"
+        and payload.get("timestamp") == "2026-10-11T20:27:13Z"
+        and sys.argv[1] == exact_path
+    )
+    if not exact_approval:
+        print("requires_operator_approval")
+    else:
+        print(payload.get("status", ""))
 else:
     print(payload.get("status", ""))
 ' "$1" 2>/dev/null) || fail_clean_generated_unapproved

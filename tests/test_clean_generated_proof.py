@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import shutil
 import subprocess
@@ -21,6 +22,7 @@ RETRY3_HISTORICAL_SOURCE = RETRY3 / "historical-source"
 RETRY5 = BUNDLE / "failed-isolated-retry5-20261011"
 RETRY6_TEMPLATE = BUNDLE / "isolated-runtime-retry6-authorization.template.json"
 RETRY6_PROPOSAL = BUNDLE / "operator-proposal.isolated-runtime.retry6-20261011.json"
+RETRY6_APPROVED = BUNDLE / "operator-authorization.isolated-runtime.retry6-20261011.json"
 RETRY3_HISTORICAL_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -168,6 +170,31 @@ def test_self_forged_retry6_authorization_is_rejected() -> None:
         recorder.inputs(authorization, manifest)
 
     assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
+
+
+def test_retry6_operator_authorization_is_exact_and_approved() -> None:
+    recorder = _load_recorder()
+    authorization = json.loads(RETRY6_APPROVED.read_text(encoding="utf-8"))
+    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
+
+    canonical = json.dumps(
+        authorization, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    assert hashlib.sha256(canonical).hexdigest() == (
+        "591fe7f933eeb45ce34e965b9fcad94966bec8267b90069e999097c75b901014"
+    )
+    assert authorization["status"] == "approved"
+    assert authorization["text"] == "Authorize, retry six"
+    assert authorization["timestamp"] == "2026-10-11T20:27:13Z"
+    assert authorization["operator_approval"]["verbatim"] == "Authorize, retry six"
+    assert authorization["operator_approval"]["approved_at"] == (
+        "2026-10-11T20:27:13Z"
+    )
+
+    validated, assets = recorder.inputs(authorization, manifest)
+
+    assert validated is authorization
+    assert len(assets) == 4
 
 
 def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
@@ -688,6 +715,27 @@ def test_retry6_installer_rejects_top_level_self_forged_v4(tmp_path: Path) -> No
     assert result.returncode == 12
     assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
     assert not (tmp_path / "workspace").exists()
+
+
+def test_exact_retry6_approval_passes_installer_preflight(tmp_path: Path) -> None:
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    fake_uv = fake_bin / "uv"
+    fake_uv.write_text("#!/bin/sh\necho FAKE_UV_REACHED >&2\nexit 87\n", encoding="utf-8")
+    fake_uv.chmod(0o700)
+
+    result = subprocess.run(
+        ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+         "--clean-generated-proof", str(tmp_path / "workspace"),
+         "--generated-authorization", RETRY6_APPROVED.relative_to(ROOT).as_posix(),
+         "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+        capture_output=True, text=True, check=False,
+        env={"PATH": f"{fake_bin}:/usr/bin:/bin"},
+    )
+
+    assert result.returncode == 87
+    assert "FAKE_UV_REACHED" in result.stderr
+    assert (tmp_path / "workspace").is_dir()
 
 
 def test_retry6_installer_rejects_malformed_authorization(tmp_path: Path) -> None:
