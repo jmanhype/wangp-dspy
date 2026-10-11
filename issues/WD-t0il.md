@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T15:22:34Z
-content_hash: "sha256:15af5f094897a0b88e6784d56716b0787ca51e4bec9ca464c1ad227691aaf535"
+updated_at: 2026-10-11T15:43:59Z
+content_hash: "sha256:9281aaeb902a34856809d3aeeb5fe2032be4b2ee5838765d957fd196b5beba66"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -558,3 +558,8 @@ Independent review initially rejected a stale first-run narrative and preserved-
 ### Final LTX cell merged (dispatcher, 2026-10-11)
 
 PR #244 squash-merged at main head `55aae135f7a11f4a6277339a14f9729381d36d7b`. Exact-head branch CI run `38149575418` succeeded. The merged-main validator now reports 208 matrix rows: 96 host_run_verified, 110 terminal unsupported/fail-closed, 2 not applicable, 0 dependency_blocked, and 0 planned, with 45 hashed evidence files. Backlog lint and release verification pass at the merged head. Exact-head merged-main CI run `38150962081` is pending and remains the final standing gate for this merge. The literal first-run boundary remains owned separately by WD-bw0h.
+
+### 2026-10-11T15:43:59Z speed
+### Final LTX merged-head CI (dispatcher, 2026-10-11)
+
+Exact-head main CI run `38150962081` succeeded at merged main `55aae135f7a11f4a6277339a14f9729381d36d7b`. The matrix and standing quick gates are green at the merged head. WD-t0il remains the programme gate only because its separate first-run/director proof criteria remain pending; the matrix criterion now has zero planned and zero dependency-blocked cells.
