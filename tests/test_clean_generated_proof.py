@@ -19,6 +19,8 @@ BUNDLE = ROOT / "datasets/runs/maestro-parity/clean-generated"
 RETRY3 = BUNDLE / "failed-isolated-retry3-20261008"
 RETRY3_HISTORICAL_SOURCE = RETRY3 / "historical-source"
 RETRY5 = BUNDLE / "failed-isolated-retry5-20261011"
+RETRY6_TEMPLATE = BUNDLE / "isolated-runtime-retry6-authorization.template.json"
+RETRY6_PROPOSAL = BUNDLE / "operator-proposal.isolated-runtime.retry6-20261011.json"
 RETRY3_HISTORICAL_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -137,16 +139,20 @@ def test_install_docs_disclose_consumed_authorization() -> None:
 
 def _future_isolated_runtime_authorization() -> dict[str, Any]:
     authorization = json.loads(
-        (
-            BUNDLE
-            / "isolated-runtime-authorization.template.json"
-        ).read_text(encoding="utf-8")
+        RETRY6_TEMPLATE.read_text(encoding="utf-8")
     )
+    text = "Authorize the exact WD-bw0h retry6 test fixture in memory"
+    timestamp = "2026-10-11T23:59:59Z"
     authorization.update(
         status="approved",
-        text="Authorize the exact WD-bw0h isolated-runtime retry",
-        timestamp="2026-10-07T16:00:00Z",
-        scope="one no-download H3 create through the isolated runtime",
+        text=text,
+        timestamp=timestamp,
+        scope="one no-download reference-bearing H3 create through the isolated runtime",
+        operator_approval={
+            **authorization["operator_approval"],
+            "verbatim": text,
+            "approved_at": timestamp,
+        },
     )
     return authorization
 
@@ -205,7 +211,7 @@ def test_future_authorization_rejects_runtime_tampering() -> None:
     authorization["allowed_host"]["runtime"]["python"] = "/usr/local/bin/python3"
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
 
-    with pytest.raises(recorder.ProofError, match="authorization boundary mismatch"):
+    with pytest.raises(recorder.ProofError, match="authorization boundary"):
         recorder.inputs(authorization, manifest)
 
 
@@ -222,7 +228,7 @@ def test_future_authorization_rejects_changed_source_bytes(tmp_path: Path, relat
     authorization = _future_isolated_runtime_authorization()
     checkout = tmp_path / "checkout"
 
-    for source in recorder.V3_AUTHORIZED_SOURCE_FILES:
+    for source in recorder.V4_AUTHORIZED_SOURCE_FILES:
         destination = checkout / source
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / source, destination)
@@ -232,12 +238,12 @@ def test_future_authorization_rejects_changed_source_bytes(tmp_path: Path, relat
         recorder.validate_authorized_source(checkout, authorization)
 
 
-def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_path: Path) -> None:
+def test_v4_authorization_binds_committed_source_without_circular_commit(tmp_path: Path) -> None:
     recorder = _load_recorder()
     checkout = tmp_path / "checkout"
     checkout.mkdir()
 
-    for relative in recorder.V3_AUTHORIZED_SOURCE_FILES:
+    for relative in recorder.V4_AUTHORIZED_SOURCE_FILES:
         destination = checkout / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / relative, destination)
@@ -248,7 +254,7 @@ def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_pat
     subprocess.run(("git", "init", str(checkout)), capture_output=True, text=True, check=True)
     subprocess.run(("git", "-C", str(checkout), "add", "."), capture_output=True, text=True, check=True)
     subprocess.run(
-        ("git", "-C", str(checkout), "-c", "user.name=Test", "-c", "user.email=test@example.test", "commit", "-m", "v3 authorization"),
+        ("git", "-C", str(checkout), "-c", "user.name=Test", "-c", "user.email=test@example.test", "commit", "-m", "v4 authorization"),
         capture_output=True,
         text=True,
         check=True,
@@ -261,14 +267,14 @@ def test_v3_authorization_binds_committed_source_without_circular_commit(tmp_pat
     assert len(assets) == 4
 
 
-def test_operator_v3_authorization_is_approved_and_exact_source_bound() -> None:
+def test_operator_v4_authorization_is_approved_and_exact_source_bound() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
 
     assert authorization["status"] == "approved"
     assert authorization["text"]
     assert authorization["allowed_host"] == json.loads(
-        (BUNDLE / "isolated-runtime-authorization.template.json").read_text(encoding="utf-8")
+        RETRY6_TEMPLATE.read_text(encoding="utf-8")
     )["allowed_host"]
     recorder.validate_authorized_source(ROOT, authorization)
 
@@ -431,7 +437,8 @@ def test_retry5_operator_authorization_is_approved_source_bound_and_fresh() -> N
     with pytest.raises(recorder.ProofError) as caught:
         recorder.inputs(authorization, manifest)
     assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
-    recorder.validate_authorized_source(ROOT, authorization)
+    with pytest.raises(recorder.ProofError, match="authorized source bytes differ"):
+        recorder.validate_authorized_source(ROOT, authorization)
     assert len(manifest["assets"]) == 4
 
 
@@ -532,29 +539,167 @@ def test_retry5_preserved_tool_output_whitespace_exemptions_are_path_scoped() ->
     assert "*.txt -whitespace" not in attributes
 
 
-def test_v3_template_binds_exact_six_file_boundary() -> None:
+def test_retry6_reference_and_prompt_match_accepted_first_run() -> None:
+    recorder = _load_recorder()
+
+    source = recorder.validate_retry6_reference(ROOT)
+
+    assert source == ROOT / recorder.REFERENCE_FRAME_RELATIVE
+    assert recorder.sha(source) == recorder.REFERENCE_FRAME_SHA256
+    assert recorder.REFERENCE_PROMPT == (
+        "The same small brass compass on a folded paper map as cool window light continues to drift; "
+        "the needle settles with a soft click. Quiet paper and cloth sounds, no speech."
+    )
+    assert recorder.REFERENCE_SEED == 4113
+    assert recorder.NONEMPTY_BYTES_THRESHOLD == 500000.0
+
+
+def test_retry6_proposal_and_template_are_unapproved_reference_bound() -> None:
+    recorder = _load_recorder()
+    proposal = json.loads(RETRY6_PROPOSAL.read_text(encoding="utf-8"))
+    template = json.loads(RETRY6_TEMPLATE.read_text(encoding="utf-8"))
+    expected_sources = recorder.source_manifest(ROOT, recorder.V4_AUTHORIZED_SOURCE_FILES)
+
+    assert proposal == {
+        "approved": False,
+        "base_commit": "55aae135f7a11f4a6277339a14f9729381d36d7b",
+        "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011",
+        "model_download_bytes": 0,
+        "one_attempt": True,
+        "operator_question": "Authorize this exact reference-bearing WD-bw0h H3 retry6 now?",
+        "package_downloads": 0,
+        "protected_engine_change": False,
+        "provider_spend": False,
+        "reference_frame_sha256": recorder.REFERENCE_FRAME_SHA256,
+        "reference_prompt": recorder.REFERENCE_PROMPT,
+        "reference_seed": recorder.REFERENCE_SEED,
+        "render_count": 1,
+        "required_outcome": "One reference-bearing no-download H3 create must pass every unchanged objective gate, or stop fail-closed with no retry or substitution.",
+        "retry5_authorization": "consumed and replay-blocked; do not replay",
+        "schema_version": "wangp-dspy.clean-generated.retry6.proposal/v1",
+        "second_render": False,
+        "threshold_change": False,
+        "threshold_bytes": 500000,
+        "training": False,
+        "v4_source_files": expected_sources,
+        "v4_source_identity_sha256": recorder.source_identity(expected_sources),
+    }
+    assert template["schema_version"] == "wangp-dspy.clean-generated-authorization/v4"
+    assert template["status"] == "requires_operator_approval"
+    assert template["text"] == template["timestamp"] == template["scope"] == ""
+    assert template["allowed_reference"] == {
+        "frame_path": "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+        "prompt_path": "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json",
+        "evidence_path": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
+        "sha256": recorder.REFERENCE_FRAME_SHA256,
+        "prompt": recorder.REFERENCE_PROMPT,
+        "seed": recorder.REFERENCE_SEED,
+    }
+    assert template["retry6_requirements"] == {
+        "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011",
+        "one_attempt": True,
+        "reference_frame_required": True,
+        "second_render": False,
+        "threshold_bytes": 500000,
+    }
+    recorder.validate_authorized_source(ROOT, template)
+
+
+def test_unapproved_retry6_cannot_create_workspace_or_proof(tmp_path: Path) -> None:
+    manifest = BUNDLE / "model-assets.json"
+
+    result = _run_script(tmp_path, RETRY6_TEMPLATE, manifest)
+
+    assert result.returncode == 4
+    assert "CLEAN_GENERATED_INPUT_INVALID" in result.stderr
+    assert not (tmp_path / "proof").exists()
+
+
+def test_unapproved_retry6_one_command_rejects_before_clean_workspace(tmp_path: Path) -> None:
+    result = subprocess.run(
+        ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+         "--clean-generated-proof", str(tmp_path / "workspace"),
+         "--generated-authorization", RETRY6_TEMPLATE.relative_to(ROOT).as_posix(),
+         "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+        capture_output=True, text=True, check=False,
+    )
+
+    assert result.returncode == 12
+    assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
+    assert not (tmp_path / "workspace").exists()
+
+
+def test_retry6_reference_stages_only_to_exact_host_path(tmp_path: Path) -> None:
+    recorder = _load_recorder()
+    remote_root = tmp_path / "remote-root"
+    remote_root.mkdir()
+    remote = remote_root / Path(recorder.REFERENCE_FRAME_RELATIVE).name
+    proof = tmp_path / "proof"
+    proof.mkdir()
+
+    class ExactHost:
+        def run_probe(self, argv: list[str], timeout: int = 120) -> tuple[int, str, str]:
+            assert argv[0] in {"test", "chmod", "mkdir"}
+            return 0, "", ""
+
+        def push_file(self, source: str, target: str) -> str:
+            assert target == str(remote)
+            shutil.copyfile(source, target)
+            return target
+
+        def fetch_file(self, source: str, target: str) -> str:
+            shutil.copyfile(source, target)
+            return target
+
+    observed = recorder.stage_reference_frame(ExactHost(), proof, ROOT, {"remote_work_root": str(remote_root)})
+
+    assert observed == str(remote)
+    assert recorder.sha(remote) == recorder.REFERENCE_FRAME_SHA256
+    payload = recorder.load(proof / "preflight/reference-frame.json")
+    assert payload["passed"] is True and payload["host_path"] == str(remote)
+
+    clip = recorder.retry6_clip(observed)
+    database = tmp_path / "queue.db"
+    queue = JobQueue(database)
+    try:
+        job_id = queue.submit(plan_ref="WD-bw0h-clean-generated-h3-reference-retry6", clips=[clip])
+        persisted = queue.get(job_id).clips[0]
+    finally:
+        queue.close()
+
+    assert persisted["image_start"] == observed
+    assert persisted["reference_source"] == {
+        "path": recorder.REFERENCE_FRAME_RELATIVE,
+        "sha256": recorder.REFERENCE_FRAME_SHA256,
+    }
+    assert persisted["prompt"] == recorder.REFERENCE_PROMPT
+    assert persisted["seed"] == recorder.REFERENCE_SEED
+    assert persisted["image_prompt_type"] == "S"
+
+
+def test_v4_template_binds_exact_reference_source_boundary() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
-    assert authorization["schema_version"] == "wangp-dspy.clean-generated-authorization/v3"
+    assert authorization["schema_version"] == "wangp-dspy.clean-generated-authorization/v4"
     files = authorization["authorized_source"]["files"]
     assert set(files) == {
         "install.sh", "scripts/record_clean_generated_proof.py", "scripts/verify_maestro_parity.py",
         "datasets/runs/maestro-parity/clean-generated/model-assets.json",
         "host/wangp_adapter.py", "host/render_host.py",
+        "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+        "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
+        "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json",
     }
-    assert files == recorder.source_manifest(ROOT, recorder.V3_AUTHORIZED_SOURCE_FILES)
-    assert files["scripts/record_clean_generated_proof.py"] == (
-        "8f86ceb472103e649c6b6a849f490addf363d0c77970ce7e0202df5d714e2830"
-    )
+    assert files == recorder.source_manifest(ROOT, recorder.V4_AUTHORIZED_SOURCE_FILES)
     assert authorization["authorized_source"]["identity_sha256"] == (
-        "f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6"
+        recorder.source_identity(files)
     )
     recorder.validate_authorized_source(ROOT, authorization)
 
 
 @pytest.mark.parametrize("relative", ["host/wangp_adapter.py", "host/render_host.py"])
 @pytest.mark.parametrize("tamper", ["hash", "missing", "extra"])
-def test_v3_rejects_transport_source_tampering(relative: str, tamper: str) -> None:
+def test_v4_rejects_transport_source_tampering(relative: str, tamper: str) -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
     files = authorization["authorized_source"]["files"]
@@ -569,11 +714,11 @@ def test_v3_rejects_transport_source_tampering(relative: str, tamper: str) -> No
     with pytest.raises(recorder.ProofError) as caught:
         recorder.validate_authorized_source(ROOT, authorization)
     assert caught.value.code == "AUTHORIZED_SOURCE_INVALID"
-    with pytest.raises(recorder.ProofError, match="authorization boundary mismatch"):
+    with pytest.raises(recorder.ProofError, match="authorization boundary"):
         recorder.inputs(authorization, recorder.load(BUNDLE / "model-assets.json"))
 
 
-def test_v2_cannot_claim_v3_template_identity() -> None:
+def test_v2_cannot_claim_v4_template_identity() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
     authorization["schema_version"] = "wangp-dspy.clean-generated-authorization/v2"

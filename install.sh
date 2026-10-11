@@ -109,6 +109,21 @@ fail_clean_generated_input() {
     exit 11
 }
 
+fail_clean_generated_unapproved() {
+    printf '%s\n' \
+        "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION: $GENERATED_AUTHORIZATION is not approved." \
+        'A fresh retry proposal/template is evidence only; explicit operator approval is required before any workspace is created.' >&2
+    exit 12
+}
+
+require_clean_generated_approval() {
+    status_line=$(grep -m1 '^[[:space:]]*"status":' "$1" || true)
+    case $status_line in
+        *'"approved"'*) ;;
+        *) fail_clean_generated_unapproved ;;
+    esac
+}
+
 uv_requirement() {
     case $1 in
         git+*|/*|./*|../*) printf '%s\n' "$1" ;;
@@ -320,6 +335,9 @@ if [ -n "$CLEAN_GENERATED" ]; then
             fail_clean_generated_input "$input is not a regular committed file."
         fi
     done
+    if [ "$DRY_RUN" != true ]; then
+        require_clean_generated_approval "$GENERATED_AUTHORIZATION"
+    fi
 fi
 
 if [ -n "$CLEAN_PROOF" ]; then

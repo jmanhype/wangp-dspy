@@ -16,6 +16,8 @@ ACCEPTED = ROOT / "datasets/runs/maestro-parity/WD-isg9/model-assets.json"
 ACCEPTED_AUTHORIZATION = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-authorization.json"
 AUTHORIZATION_CONSUMPTION = ROOT / "datasets/runs/maestro-parity/clean-generated/authorization-consumption.json"
 ISOLATED_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-authorization.template.json"
+RETRY6_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-retry6-authorization.template.json"
+RETRY6_OPERATOR_PROPOSAL = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry6-20261011.json"
 AUTHORIZED_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -23,8 +25,21 @@ AUTHORIZED_SOURCE_FILES = (
     "datasets/runs/maestro-parity/clean-generated/model-assets.json",
 )
 V3_AUTHORIZED_SOURCE_FILES = AUTHORIZED_SOURCE_FILES + ("host/wangp_adapter.py", "host/render_host.py")
-PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
-          "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
+REFERENCE_FRAME_RELATIVE = "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png"
+REFERENCE_EVIDENCE_RELATIVE = "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json"
+REFERENCE_PROMPT_SOURCE_RELATIVE = "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json"
+REFERENCE_FRAME_SHA256 = "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23"
+REFERENCE_PROMPT = ("The same small brass compass on a folded paper map as cool window light continues to drift; "
+                    "the needle settles with a soft click. Quiet paper and cloth sounds, no speech.")
+REFERENCE_SEED = 4113
+NONEMPTY_BYTES_THRESHOLD = 500000.0
+V4_AUTHORIZED_SOURCE_FILES = V3_AUTHORIZED_SOURCE_FILES + (
+    REFERENCE_FRAME_RELATIVE,
+    REFERENCE_EVIDENCE_RELATIVE,
+    REFERENCE_PROMPT_SOURCE_RELATIVE,
+)
+LEGACY_PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
+                 "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
 
 
 class ProofError(RuntimeError):
@@ -82,6 +97,29 @@ def fail(proof: Path | None, code: str, detail: str, command: Sequence[str]) -> 
     return 4
 
 
+def _retry6_inputs_valid(authorization: Any, template: Mapping[str, Any]) -> bool:
+    if not isinstance(authorization, dict) or set(authorization) != set(template):
+        return False
+    dynamic = {key: authorization.get(key) for key in (
+        "status", "approved_by", "text", "timestamp", "scope", "operator_approval")}
+    if (dynamic["status"] != "approved" or dynamic["approved_by"] != "operator"
+            or any(not isinstance(dynamic[key], str) or not dynamic[key]
+                   for key in ("text", "timestamp", "scope"))):
+        return False
+    proposal = load(RETRY6_OPERATOR_PROPOSAL)
+    expected_approval = {
+        "proposal": RETRY6_OPERATOR_PROPOSAL.relative_to(ROOT).as_posix(),
+        "proposal_sha256": sha(RETRY6_OPERATOR_PROPOSAL),
+        "verbatim": dynamic["text"],
+        "approved_at": dynamic["timestamp"],
+    }
+    if dynamic["operator_approval"] != expected_approval or proposal.get("approved") is not False:
+        return False
+    expected = dict(template)
+    expected.update(dynamic)
+    return authorization == expected
+
+
 def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
              "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
@@ -93,6 +131,13 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     if (isinstance(authorization, dict)
             and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v2"):
         raise ProofError("AUTHORIZATION_V2_RETIRED", "v2 isolated authorization is retired; a fresh v3 operator approval is required")
+    retry6_valid = False
+    if (isinstance(authorization, dict)
+            and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4"):
+        retry6_template = load(RETRY6_AUTHORIZATION_TEMPLATE)
+        retry6_valid = _retry6_inputs_valid(authorization, retry6_template)
+        if not retry6_valid:
+            raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "retry6 authorization boundary or operator approval mismatch")
     legacy_valid = (isinstance(authorization, dict) and all(authorization.get(k) == v for k, v in fixed.items())
                     and authorization.get("allowed_operation") == template["allowed_operation"]
                     and authorization == load(ACCEPTED_AUTHORIZATION)
@@ -110,7 +155,7 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
                 and authorization.get("allowed_operation") == template["allowed_operation"]
                 and authorization.get("boundaries") == template["boundaries"]
                 and authorization.get("superseded_relocations") == [])
-    valid = legacy_valid or isolated_valid
+    valid = legacy_valid or isolated_valid or retry6_valid
     if not valid: raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "authorization boundary mismatch")
     if manifest != load(ACCEPTED) or len(manifest.get("assets", [])) != 4:
         raise ProofError("CLEAN_GENERATED_INPUT_INVALID", "model manifest must equal the accepted four-asset H3 manifest")
@@ -136,9 +181,13 @@ def source_identity(files: Mapping[str, str]) -> str:
 
 
 def validate_authorized_source(checkout: Path, authorization: Mapping[str, Any]) -> None:
-    source_files = (V3_AUTHORIZED_SOURCE_FILES
-                    if authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v3"
-                    else AUTHORIZED_SOURCE_FILES)
+    schema_version = authorization.get("schema_version")
+    if schema_version == "wangp-dspy.clean-generated-authorization/v4":
+        source_files = V4_AUTHORIZED_SOURCE_FILES
+    elif schema_version == "wangp-dspy.clean-generated-authorization/v3":
+        source_files = V3_AUTHORIZED_SOURCE_FILES
+    else:
+        source_files = AUTHORIZED_SOURCE_FILES
     expected = authorization.get("authorized_source")
     if (not isinstance(expected, dict) or not isinstance(expected.get("files"), dict)
             or set(expected["files"]) != set(source_files)):
@@ -212,6 +261,80 @@ def ensure_fresh_remote_root(host: Any, proof: Path, config: Mapping[str, Any]) 
     record(proof / "preflight/remote-work-root.json", result)
     if rc:
         raise ProofError("REMOTE_WORK_ROOT_EXISTS", "authorized remote work root already exists")
+
+
+def validate_retry6_reference(checkout: Path) -> Path:
+    source = checkout / REFERENCE_FRAME_RELATIVE
+    if source.is_symlink() or not source.is_file() or sha(source) != REFERENCE_FRAME_SHA256:
+        raise ProofError("REFERENCE_FRAME_INVALID", "accepted first-run reference frame bytes differ")
+    evidence = load(checkout / REFERENCE_EVIDENCE_RELATIVE)
+    rows = evidence.get("reference_provenance") if isinstance(evidence, dict) else None
+    expected = {"path": "inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+                "role": "image_start_reference_frame_for_h3_standard_create",
+                "sha256": REFERENCE_FRAME_SHA256}
+    if not isinstance(rows, list) or not any(
+            isinstance(row, dict) and all(row.get(key) == value for key, value in expected.items())
+            for row in rows):
+        raise ProofError("REFERENCE_FRAME_INVALID", "accepted first-run reference provenance is missing")
+    prompt_source = load(checkout / REFERENCE_PROMPT_SOURCE_RELATIVE)
+    tags = [owner.get("tags", {}).get("comment")
+            for owner in (prompt_source.get("streams", []) + [prompt_source.get("format", {})])
+            if isinstance(owner, dict)]
+    comments = [comment for comment in tags if isinstance(comment, str)]
+    accepted_settings = next((json.loads(comment) for comment in comments
+                              if isinstance(comment, str) and comment.startswith("{")), None)
+    if (not isinstance(accepted_settings, dict)
+            or accepted_settings.get("prompt") != REFERENCE_PROMPT
+            or accepted_settings.get("seed") != REFERENCE_SEED
+            or accepted_settings.get("video_length") != 56):
+        raise ProofError("REFERENCE_PROMPT_INVALID", "accepted first-run prompt or seed provenance differs")
+    return source
+
+
+def stage_reference_frame(host: Any, proof: Path, checkout: Path, config: Mapping[str, Any]) -> str:
+    source = validate_retry6_reference(checkout)
+    local = proof / "inputs/wd_bw0h_h3_standard_ref_first_frame.png"
+    local.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, local)
+    remote = f"{config['remote_work_root']}/{Path(REFERENCE_FRAME_RELATIVE).name}"
+    result: dict[str, Any] = {"passed": False, "source_path": REFERENCE_FRAME_RELATIVE,
+                              "source_sha256": REFERENCE_FRAME_SHA256, "host_path": remote}
+    try:
+        rc, _out, err = probe(host, ("test", "!", "-e", remote))
+        result["host_target_absent"] = rc == 0
+        result["probe_error"] = err.strip()
+        if rc:
+            raise ValueError("reference target already exists on the host")
+        rc, _out, err = probe(host, ("mkdir", "-p", str(config["remote_work_root"])))
+        if rc:
+            raise ValueError(f"cannot create fresh reference root: {err.strip()}")
+        staged = host.push_file(str(local), remote)
+        if staged != remote:
+            raise ValueError("host returned a different reference path")
+        rc, _out, err = probe(host, ("chmod", "600", remote))
+        if rc:
+            raise ValueError(f"cannot set reference permissions: {err.strip()}")
+        fetched = proof / "preflight/reference-first-frame.png"
+        fetched.parent.mkdir(parents=True, exist_ok=True)
+        host.fetch_file(remote, str(fetched))
+        if sha(fetched) != REFERENCE_FRAME_SHA256:
+            raise ValueError("staged reference bytes differ")
+        result.update(passed=True, staged_sha256=sha(fetched), local_path=str(fetched))
+    except Exception as exc:
+        result["diagnostic"] = {"code": "REFERENCE_STAGE_FAILED", "detail": f"{type(exc).__name__}: {exc}"}
+        record(proof / "preflight/reference-frame.json", result)
+        raise ProofError("REFERENCE_STAGE_FAILED", result["diagnostic"]["detail"]) from exc
+    record(proof / "preflight/reference-frame.json", result)
+    return remote
+
+
+def retry6_clip(reference_host_path: str) -> dict[str, Any]:
+    return {"clip_index": 1, "status": "pending", "log": None, "mp4": None, "qc_verdict": None,
+            "kind": "video_generation", "family": "minimax_h3", "preset": "standard", "operation": "create",
+            "prompt": REFERENCE_PROMPT, "seed": REFERENCE_SEED, "frames": 56, "video_length": 56,
+            "resolution": [480, 832], "steps": 20, "model_type": "minimax_h3_fl2va_pruned",
+            "image_start": reference_host_path, "image_prompt_type": "S",
+            "reference_source": {"path": REFERENCE_FRAME_RELATIVE, "sha256": REFERENCE_FRAME_SHA256}}
 
 
 def relocate(host: Any, proof: Path, auth: Mapping[str, Any], config: Mapping[str, Any]) -> dict[str, Any]:
@@ -460,14 +583,16 @@ print(json.dumps({"size_bytes": output.stat().st_size,
     return result
 
 
-def render(host: Any, proof: Path) -> tuple[str, dict[str, Any]]:
-    clip = {"clip_index": 1, "status": "pending", "log": None, "mp4": None, "qc_verdict": None,
-            "kind": "video_generation", "family": "minimax_h3", "preset": "standard", "operation": "create",
-            "prompt": PROMPT, "frames": 56, "video_length": 56, "resolution": [480, 832], "steps": 20,
-            "model_type": "minimax_h3_fl2va_pruned"}
+def render(host: Any, proof: Path, reference_host_path: str | None = None) -> tuple[str, dict[str, Any]]:
+    clip = retry6_clip(reference_host_path) if reference_host_path is not None else {
+        "clip_index": 1, "status": "pending", "log": None, "mp4": None, "qc_verdict": None,
+        "kind": "video_generation", "family": "minimax_h3", "preset": "standard", "operation": "create",
+        "prompt": LEGACY_PROMPT, "frames": 56, "video_length": 56, "resolution": [480, 832], "steps": 20,
+        "model_type": "minimax_h3_fl2va_pruned"}
     database = proof / "queue.db"; queue = JobQueue(database)
     try:
-        job_id = queue.submit(plan_ref="WD-bw0h-clean-generated-h3-standard-create", clips=[clip])
+        job_id = queue.submit(plan_ref="WD-bw0h-clean-generated-h3-reference-retry6" if reference_host_path is not None
+                              else "WD-bw0h-clean-generated-h3-standard-create", clips=[clip])
         record(proof / "queue/initial.json", {"job_id": job_id, "state": "pending", "clips": [clip], **queue_state(database, job_id)})
         drain_once(queue, host=host); job = queue.get(job_id)
         record(proof / "queue/final.json", {"job_id": job_id, "state": job.state, "clips": job.clips, **queue_state(database, job_id)})
@@ -504,7 +629,7 @@ def media(proof: Path, path: Path) -> tuple[list[dict[str, Any]], list[dict[str,
     values = [metadata["duration_s"], metadata["fps"], float(path.stat().st_size),
               float(len(re.findall("black_start:", black.stderr))), float(audio["sample_rate"]), float(audio["channels"])]
     names = ["duration_s", "fps", "nonempty_bytes", "black_intervals", "audio_sample_rate_hz", "audio_channels"]
-    thresholds = [2.0, 24.0, 500000.0, 0.0, 32000.0, 2.0]
+    thresholds = [2.0, 24.0, NONEMPTY_BYTES_THRESHOLD, 0.0, 32000.0, 2.0]
     checks = [values[index] == thresholds[index] if name in {"fps", "audio_sample_rate_hz", "audio_channels", "black_intervals"}
               else values[index] >= thresholds[index] for index, name in enumerate(names)]
     gates = [{"name": f"h3_standard_create_{name}", "inputs": [output[0]["path"], "outputs/blackdetect.txt"],
@@ -529,16 +654,23 @@ def evidence(proof: Path, command: Sequence[str], commit: str, identity: str, au
         "command": list(command), "repository": {"commit": commit, "dirty_state": {"dirty": False, "identity_sha256": identity}},
         "model_provenance": [{**dict(x), "download_approved": True, "download_bytes": 0} for x in model_rows],
         "reference_provenance": [
+            {"path": "inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+             "role": "image_start_reference_frame_for_h3_standard_create",
+             "sha256": REFERENCE_FRAME_SHA256,
+             "license": "Operator-owned WD-bw0h generated evaluation frame; operator-authorized research/evaluation use; no redistribution"},
             {"path": "inputs/model-assets.json", "role": "authorized_four_asset_manifest", "sha256": sha(proof / "inputs/model-assets.json"), "license": "Operator authorization; no redistribution"},
             {"path": "inputs/operator-authorization.json", "role": "operator_authorization_and_host", "sha256": sha(proof / "inputs/operator-authorization.json"), "license": "Operator authorization; no redistribution"},
         ],
-        "queue_attempt": {"queue_id": "wangp-JobQueue-WD-bw0h-clean-generated", "job_id": job_id, "retry_id": "attempt-1",
+        "queue_attempt": {"queue_id": "wangp-JobQueue-WD-bw0h-clean-generated", "job_id": job_id,
+                          "retry_id": "retry6-attempt-1" if auth.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4" else "attempt-1",
                           "admission_state": "admitted", "exit_status": "succeeded", "database": "queue.db",
                           "preflight": "preflight/report.json", "native_logs": ["host-logs/render.log"],
                           "native_log_sha256": {"host-logs/render.log": sha(proof / "host-logs/render.log")}},
         "output": list(output), "media_metadata": list(media_rows), "objective_gate_results": list(gates),
         "reviewer_verdict": reviewer,
         "runtime_notes": {"clean_workspace": str(proof.parent), "storage_relocation": storage, "model_download_bytes": 0,
+                          "reference_frame_sha256": REFERENCE_FRAME_SHA256,
+                          "reference_prompt": REFERENCE_PROMPT,
                           "provider_spend": False, "training": False, "render_count": 1, "protected_engine_changes": 0,
                           "threshold_changes": 0, "deletions": 0,
                           "offline_environment": {"HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}},
@@ -571,6 +703,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                            "WANGP_QC_URL": config["qc_url"]})
         host = render_host(config)
         ensure_fresh_remote_root(host, proof, config)
+        reference_host_path = (stage_reference_frame(host, proof, checkout, config)
+                               if auth.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4"
+                               else None)
         config["pyav_compat"] = stage_pyav_compat(host, proof, config)
         media_write_preflight(host, proof, config)
         storage = relocate(host, proof, auth, config)
@@ -578,7 +713,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         wrapper, wrapper_hash = offline_wrapper(host, proof, config); os.environ["WANGP_WGP_PYTHON"] = wrapper
         record(proof / "offline-wrapper.json", {"path": wrapper, "sha256": wrapper_hash,
                                                 "environment": {"HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}})
-        job_id, clip = render(host, proof); local = proof / "outputs/wd_bw0h_h3_standard_create.mp4"
+        job_id, clip = render(host, proof, reference_host_path); local = proof / "outputs/wd_bw0h_h3_standard_create.mp4"
         host.fetch_file(host.map_path(clip["mp4"]), str(local)); settings, log = Path(clip["mp4"]).parent / "settings.json", Path(clip["log"])
         (proof / "host-logs").mkdir(parents=True, exist_ok=True)
         host.fetch_file(host.map_path(str(log)), str(proof / "host-logs/render.log"))
