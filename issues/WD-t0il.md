@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T15:43:59Z
-content_hash: "sha256:9281aaeb902a34856809d3aeeb5fe2032be4b2ee5838765d957fd196b5beba66"
+updated_at: 2026-10-11T20:08:18Z
+content_hash: "sha256:352f736186f2b678e0639699998770a417eef16e102eb9bdc730e7a3b05ab275"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -563,3 +563,18 @@ PR #244 squash-merged at main head `55aae135f7a11f4a6277339a14f9729381d36d7b`. E
 ### Final LTX merged-head CI (dispatcher, 2026-10-11)
 
 Exact-head main CI run `38150962081` succeeded at merged main `55aae135f7a11f4a6277339a14f9729381d36d7b`. The matrix and standing quick gates are green at the merged head. WD-t0il remains the programme gate only because its separate first-run/director proof criteria remain pending; the matrix criterion now has zero planned and zero dependency-blocked cells.
+
+### 2026-10-11T20:08:18Z speed
+### Current-head full local JUnit gate (dispatcher, 2026-10-11)
+
+At clean synchronized main `7f014c312874204822d4a6470659a876d758f9e7`, the full local suite completed with JUnit counters:
+
+- tests: `2441`
+- errors: `0`
+- failures: `0`
+- skipped: `1`
+- time: `1315.934`
+
+JUnit SHA-256: `73962def011e635dad407be2993ad2b41b7c8b8b1bf1bf2a3cd20ace6acc09a9`.
+
+The first attempt was environmental, not a code failure: the Data volume reached `175 MiB` free and pytest could not write its JUnit file (`Errno 28`). A completed regenerable pytest fixture tree containing 110,547 files / 11,907,056,534 bytes was removed only after containment checks, freeing enough space for the clean rerun. The successful rerun is the authoritative result above.
