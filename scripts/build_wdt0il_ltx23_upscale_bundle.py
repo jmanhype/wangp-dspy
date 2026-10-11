@@ -11,9 +11,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -107,16 +109,58 @@ def _verify_preserved(
     return entry
 
 
-def _copy_preserved(source: Path, destination: Path, expected_hash: str) -> None:
+def _copy_preserved(
+    source: Path,
+    destination: Path,
+    expected_hash: str,
+    allowed_root: Path,
+) -> None:
+    allowed = allowed_root.resolve(strict=True)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    if destination.exists() and destination.is_symlink():
-        raise BundleBuildError(f"destination must be a regular file: {destination}")
-    temporary = destination.with_name(f".{destination.name}.copy")
-    shutil.copyfile(source, temporary)
+
     try:
+        destination.relative_to(allowed)
+    except ValueError as exc:
+        raise BundleBuildError(
+            f"destination escapes allowed root: {destination} -> {allowed}"
+        ) from exc
+
+    component = destination
+    while component != allowed:
+        if component.is_symlink():
+            raise BundleBuildError(
+                f"preserved-copy path traverses a symlink: {component}"
+            )
+        component = component.parent
+        if component == component.parent:
+            raise BundleBuildError(f"destination has no allowed ancestor: {destination}")
+
+    if not source.is_file() or source.is_symlink():
+        raise BundleBuildError(f"preserved source is not a regular file: {source}")
+
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.",
+        suffix=".copy",
+        dir=str(destination.parent),
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "wb") as target, source.open("rb") as origin:
+            shutil.copyfileobj(origin, target)
+            target.flush()
+            os.fsync(target.fileno())
+        if temporary.is_symlink() or not temporary.is_file():
+            raise BundleBuildError(f"exclusive preserved copy became unsafe: {temporary}")
         if _sha256(temporary) != expected_hash:
             raise BundleBuildError(f"copy changed source bytes: {source}")
-        temporary.replace(destination)
+        os.replace(temporary, destination)
+        if destination.is_symlink() or not destination.is_file():
+            raise BundleBuildError(f"preserved destination is unsafe: {destination}")
+        destination_resolved = destination.resolve(strict=True)
+        if not destination_resolved.is_relative_to(allowed):
+            raise BundleBuildError(f"preserved destination escapes allowed root: {destination}")
+        if _sha256(destination) != expected_hash:
+            raise BundleBuildError(f"installed copy changed source bytes: {source}")
     finally:
         if temporary.exists():
             temporary.unlink()
@@ -457,21 +501,25 @@ def build_bundle(repo_root: Path) -> dict[str, Any]:
         raw_operation / "operation-record.json",
         bundle / "operation-record.json",
         _sha256(raw_operation / "operation-record.json"),
+        bundle,
     )
     _copy_preserved(
         raw_operation / "settings.json",
         bundle / "settings.json",
         _sha256(raw_operation / "settings.json"),
+        bundle,
     )
     _copy_preserved(
         raw_operation / "native.log",
         bundle / "native.log",
         EXPECTED_NATIVE_LOG_SHA256,
+        bundle,
     )
     _copy_preserved(
         raw_output,
         bundle / "native-output" / raw_output.name,
         output_hash,
+        bundle,
     )
     reference_source = root / REFERENCE_SOURCE
     if not reference_source.is_file():
@@ -481,6 +529,7 @@ def build_bundle(repo_root: Path) -> dict[str, Any]:
         reference_source,
         bundle / "inputs" / reference_source.name,
         reference_hash,
+        bundle,
     )
 
     output = _single_output(bundle)

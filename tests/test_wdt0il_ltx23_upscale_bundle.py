@@ -5,7 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from scripts.build_wdt0il_ltx23_upscale_bundle import build_bundle
+from scripts.build_wdt0il_ltx23_upscale_bundle import _copy_preserved, build_bundle
 from scripts.verify_maestro_parity import verify_bundle
 
 
@@ -26,6 +26,50 @@ RAW_FILES = (
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_copy_preserved_rejects_symlink_redirects_and_exclusive_temp_names(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.bin"
+    source.write_bytes(b"preserved-bytes")
+    expected = digest(source)
+
+    external_directory = tmp_path / "external-directory"
+    external_directory.mkdir()
+    parent_alias = tmp_path / "parent-alias"
+    parent_alias.symlink_to(external_directory)
+    redirected_destination = parent_alias / "nested.bin"
+    try:
+        _copy_preserved(source, redirected_destination, expected, tmp_path)
+    except Exception as exc:
+        assert "symlink" in str(exc)
+    else:
+        raise AssertionError("symlinked parent was accepted")
+    assert not redirected_destination.exists()
+
+    allowed = tmp_path / "allowed"
+    allowed.mkdir()
+    external_file = external_directory / "external-file.bin"
+    external_file.write_bytes(b"original-external")
+    destination = allowed / "target.bin"
+    destination.symlink_to(external_file)
+    try:
+        _copy_preserved(source, destination, expected, allowed)
+    except Exception as exc:
+        assert "symlink" in str(exc)
+    else:
+        raise AssertionError("symlinked destination was accepted")
+    assert external_file.read_bytes() == b"original-external"
+
+    destination.unlink()
+    stale_alias = allowed / ".target.bin.copy"
+    stale_alias.symlink_to(external_file)
+    _copy_preserved(source, destination, expected, allowed)
+    assert destination.is_file() and not destination.is_symlink()
+    assert destination.read_bytes() == b"preserved-bytes"
+    assert external_file.read_bytes() == b"original-external"
+    stale_alias.unlink()
 
 
 def snapshot(root: Path) -> dict[str, bytes]:

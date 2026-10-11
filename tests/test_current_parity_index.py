@@ -199,9 +199,36 @@ def test_stale_non_matrix_totals_fail_closed(tmp_path: Path) -> None:
 
 def test_first_run_boundary_does_not_contradict_verified_media() -> None:
     text = (BUNDLE / "evidence-index.md").read_text(encoding="utf-8")
+    index = _index()
+    retry5 = ROOT / (
+        "datasets/runs/maestro-parity/clean-generated/"
+        "failed-isolated-retry5-20261011"
+    )
+    queue = json.loads((retry5 / "queue/final.json").read_text(encoding="utf-8"))
+    failure = json.loads((retry5 / "failure.json").read_text(encoding="utf-8"))
+    gates = json.loads((retry5 / "objective-gates.json").read_text(encoding="utf-8"))
+    output = retry5 / "outputs/wd_bw0h_h3_standard_create.mp4"
 
     assert "Literal clean-machine one-command reproducibility remains incomplete" in text
+    assert (
+        "Retry4 failed before media write; retry5 completed one queue job and "
+        "emitted a real MP4, but failed the fixed 500000-byte objective gate "
+        "and produced no canonical generated-artifact evidence."
+    ) in text
     assert "First-run generated media remains incomplete" not in text
+    assert index["generated_at"] == "2026-10-11T14:06:47Z"
+    assert queue["state"] == "done"
+    assert queue["clips"][0]["render_attempted"] is True
+    assert failure["diagnostic"]["code"] == "OBJECTIVE_GATE_FAILED"
+    assert failure["generated_artifact"] is False
+    size_gate = next(
+        row
+        for row in gates
+        if row["name"] == "h3_standard_create_nonempty_bytes"
+    )
+    assert size_gate["measured"] == output.stat().st_size == 480063
+    assert size_gate["threshold"] == 500000
+    assert size_gate["verdict"] == "fail"
 
 
 def test_reintroduced_ltx_boundary_fails_closed(tmp_path: Path) -> None:
