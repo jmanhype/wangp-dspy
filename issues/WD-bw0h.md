@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T17:09:56Z
-content_hash: "sha256:e9a62371e462a3a62a39d8d01d44fe1fcf6a0144f75aad8e58bd14dd02e0b482"
+updated_at: 2026-10-11T17:23:59Z
+content_hash: "sha256:3422c574fc691062711a2e16f911e4449ae9022122be5ae6617176c62a25ccbd"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -513,3 +513,8 @@ Local focused queue/adapter/clean-generated suites pass (114 tests), PVG lint is
 PR #245 squash-merged at main head `7f014c312874204822d4a6470659a876d758f9e7`. Exact-head branch CI run `38156781946` succeeded. The merged-main quick gates and focused 114-test queue/adapter/clean-generated suite pass. Exact-head main CI run `38158451459` is pending.
 
 Retry6 remains non-executable: no approved authorization exists, the proposal remains `approved=false`, the recorder rejects every v4 payload until an externally anchored approval follow-up, and the installer rejects every v4 payload before workspace creation. No host contact occurred.
+
+### 2026-10-11T17:23:59Z speed
+### Retry6 preauthorization merged-head CI (dispatcher, 2026-10-11)
+
+Exact-head main CI run `38158451459` succeeded at merged main `7f014c312874204822d4a6470659a876d758f9e7`. The fail-closed retry6 proposal is now durable and CI-green, but remains unapproved and non-executable. A separate operator-authorized approval record and exact-head CI are required before any host contact.
