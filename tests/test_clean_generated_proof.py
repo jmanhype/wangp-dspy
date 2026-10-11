@@ -60,14 +60,11 @@ def _copy_retry3_historical_source(checkout: Path) -> None:
 
 def _copy_retry6_historical_source(checkout: Path) -> None:
     recorder = _load_recorder()
+    source_root = RETRY6 / "historical-source"
     for relative in recorder.V4_AUTHORIZED_SOURCE_FILES:
         destination = checkout / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_bytes(
-            subprocess.check_output(
-                ("git", "-C", str(ROOT), "show", f"ad6957c2:{relative}")
-            )
-        )
+        shutil.copyfile(source_root / relative, destination)
 
 
 def test_retry3_historical_source_evidence_is_exact_and_authorized() -> None:
@@ -627,7 +624,7 @@ def test_retry6_boundary_manifest_hashes_every_preserved_file() -> None:
         digest, relative = line.split("  ", 1)
         rows[relative] = digest
 
-    assert len(rows) == 37
+    assert len(rows) == 46
     assert set(rows) == {
         path.relative_to(RETRY6).as_posix()
         for path in RETRY6.rglob("*")
