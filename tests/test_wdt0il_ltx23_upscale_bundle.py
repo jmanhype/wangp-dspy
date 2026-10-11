@@ -41,7 +41,7 @@ def test_copy_preserved_rejects_symlink_redirects_and_exclusive_temp_names(
     external_directory.mkdir()
     parent_alias = tmp_path / "parent-alias"
     parent_alias.symlink_to(external_directory)
-    redirected_destination = parent_alias / "nested.bin"
+    redirected_destination = parent_alias / "nested" / "target.bin"
     try:
         _copy_preserved(source, redirected_destination, expected, tmp_path)
     except Exception as exc:
@@ -64,6 +64,12 @@ def test_copy_preserved_rejects_symlink_redirects_and_exclusive_temp_names(
     external_file = external_directory / "external-file.bin"
     external_file.write_bytes(b"original-external")
     destination = allowed / "target.bin"
+    destination.write_bytes(b"old-regular-file")
+    _copy_preserved(source, destination, expected, allowed)
+    assert destination.is_file() and not destination.is_symlink()
+    assert destination.read_bytes() == b"preserved-bytes"
+
+    destination.unlink()
     destination.symlink_to(external_file)
     try:
         _copy_preserved(source, destination, expected, allowed)
