@@ -388,6 +388,50 @@ def test_retry4_boundary_proves_media_write_failure_after_staging_repair() -> No
     assert "settings_staging_boundary=CLEARED" in settings_probe
 
 
+def test_retry5_operator_authorization_is_approved_source_bound_and_fresh() -> None:
+    recorder = _load_recorder()
+    proposal = BUNDLE / "operator-proposal.isolated-runtime.retry5-20261011.json"
+    authorization = json.loads(
+        (
+            BUNDLE
+            / "operator-authorization.isolated-runtime.retry5-20261011.json"
+        ).read_text(encoding="utf-8")
+    )
+    manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
+
+    assert recorder.sha(proposal) == (
+        "1184e7a89bc02f06ed522be35c4ee85801092a7351839924b2df8bcd7db894bc"
+    )
+    assert authorization["operator_approval"] == {
+        "proposal": (
+            "datasets/runs/maestro-parity/clean-generated/"
+            "operator-proposal.isolated-runtime.retry5-20261011.json"
+        ),
+        "proposal_sha256": (
+            "1184e7a89bc02f06ed522be35c4ee85801092a7351839924b2df8bcd7db894bc"
+        ),
+        "verbatim": "**continue `Authorize both` approved**",
+        "approved_at": "2026-10-11T10:52:46Z",
+    }
+    assert authorization["status"] == "approved"
+    assert authorization["text"] == "**continue `Authorize both` approved**"
+    assert authorization["allowed_host"]["remote_work_root"] == (
+        "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009"
+    )
+    assert authorization["retry5_requirements"] == {
+        "pyav_media_write_preflight_required": True,
+        "pyav_no_install_compatibility_shim_required": True,
+        "fresh_remote_work_root": (
+            "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009"
+        ),
+        "one_attempt": True,
+        "second_render": False,
+    }
+    validated, assets = recorder.inputs(authorization, manifest)
+    recorder.validate_authorized_source(ROOT, validated)
+    assert len(assets) == 4
+
+
 def test_v3_template_binds_exact_six_file_boundary() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()

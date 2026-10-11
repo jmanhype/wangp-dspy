@@ -1,0 +1,30 @@
+{
+  "base_commit": "f6548f03528b058476367349a5f481614cfa35be",
+  "deletions": 0,
+  "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009",
+  "model_download_bytes": 0,
+  "one_attempt": true,
+  "operator_question": "Authorize this exact one-shot H3 retry5 now?",
+  "package_downloads": 0,
+  "protected_engine_change": false,
+  "provider_spend": false,
+  "pyav_media_write_preflight_required": true,
+  "pyav_no_install_compatibility_shim_required": true,
+  "render_count": 1,
+  "required_outcome": "Clean preflight must pass the no-model PyAV write gate and H3 must emit one canonical MP4 passing all objective gates, or stop fail-closed with a durable boundary and no retry/substitution.",
+  "retry4_authorization": "consumed and replay-blocked; do not replay",
+  "schema_version": "wangp-dspy.clean-generated.retry5.proposal/v1",
+  "scope": "One fresh no-download clean-machine H3 standard create on host 3090 through current PyAV-preflight and compatibility-staging path",
+  "second_render": false,
+  "threshold_change": false,
+  "training": false,
+  "v3_source_files": {
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+    "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+    "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+    "install.sh": "149baefc08b0dde3abf1cf567309dde50817e38c51afd066d4e062d5eccfbba2",
+    "scripts/record_clean_generated_proof.py": "8f86ceb472103e649c6b6a849f490addf363d0c77970ce7e0202df5d714e2830",
+    "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+  },
+  "v3_source_identity_sha256": "f356f1bfe54945e6ae9847643a1c808498816acf8c6e8aee43227955311994d6"
+}

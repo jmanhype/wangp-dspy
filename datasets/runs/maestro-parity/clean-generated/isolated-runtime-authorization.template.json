@@ -4,7 +4,7 @@
     "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
     "pull_root": "{WORKSPACE}/pull",
     "qc_url": "http://127.0.0.1:8377/health",
-    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry4-20261008",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009",
     "render_timeout_s": 3600,
     "runtime": {
       "environment": {
