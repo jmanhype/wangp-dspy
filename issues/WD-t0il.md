@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T13:10:51Z
-content_hash: "sha256:1c5eeaea2ab3458a2b23ab21bde3ce55a3ce07794de1b1863268bc56da46e45b"
+updated_at: 2026-10-11T14:44:16Z
+content_hash: "sha256:e410de69a10b8a1b925063677570ea0d3ec58574dc5092c6080dcc0282722b98"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -538,3 +538,18 @@ loop: reset orphaned in_progress to open (no developer worktree found; prior ses
 ### LTX evidence merged-head gate (dispatcher, 2026-10-11)
 
 PR #241 squash-merged at main head `f4c7d7da67b71f6f130172f0cbe8454275dcc392`. Exact-head main CI run `38140476329` completed successfully at `2026-10-11T13:09:53Z`. This proves the merged tree after the LTX evidence repair; it does not promote the seven LTX outputs without their separate QC/reviewer disposition.
+
+### 2026-10-11T14:44:16Z speed
+### Final LTX cell packaging update (dispatcher, 2026-10-11)
+
+Local worker branch `story/WD-t0il-final-ltx-cell` packaged the final LTX-2.3 upscale operation from the merged f654 identity-capture evidence without host contact or media mutation. PR #244 is open at head `3207f86fea1040788c985b0ec2fc345984e03626`.
+
+Measured local results:
+
+- Canonical checker: PASS with zero owned warnings on `datasets/runs/maestro-parity/WD-t0il/ltx23-upscale`.
+- Consolidated matrix: PASS with 208 rows — 96 host_run_verified, 110 terminal unsupported/fail-closed, 2 not applicable, 0 dependency_blocked, 0 planned, and 45 hashed evidence files.
+- Focused suite: 82 passed.
+- Backlog lint: 0 errors/0 findings; release verify: ready, tag_created=false; exact-range diff check and protected-file parity pass.
+- Evidence SHA-256: `542f70116e3bade7586d07fbbe48144fcacba9787eb15484cdbfa6bbf112bab2`; native output SHA-256: `126144d844e08ca70398f818daeb598761a1670c970c5849213d2d02e2e6a8b9`.
+
+Independent review initially rejected a stale first-run narrative and preserved-copy symlink/containment defects. The narrative, copy hardening, and exact redirected-missing-descendant regression were repaired; independent micro-review approved the final delta. Exact-head CI run `38148346082` is pending and must pass before merge. This note does not close WD-t0il or claim the literal first-run boundary resolved.
