@@ -1,7 +1,7 @@
 ---
 id: WD-bw0h
 title: "Clean-machine H3 generated artifact"
-status: open
+status: in_progress
 priority: 1
 type: feature
 labels: [install, evidence, external-integration, operator-decision]
@@ -9,9 +9,9 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-10-11T11:27:08Z
-content_hash: "sha256:ffdf8b0b9f91538078049c905b8a2f12c001301da78b281dca1fb51376d6cc39"
+content_hash: "sha256:b85d4d970971433aa65cb7f6202075e3035c4244efa47dd77066850fb99d32fe"
 blocks: [WD-fay0]
-follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv]
+follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
 assignee: dev-WD-bw0h
 ---
@@ -418,12 +418,19 @@ before generation and the operator boundary forbids retry/substitution.
 - 2026-10-09T18:18:29Z dep_added: blocked_by WD-82q2
 - 2026-10-09T19:06:44Z dep_removed: was_blocked_by WD-82q2
 - 2026-10-11T11:27:08Z status: deferred -> open
+- 2026-10-11T11:27:08Z status: open -> in_progress
+- 2026-10-11T11:27:08Z auto-follows: linked to predecessor WD-5yg9
+- 2026-10-11T11:27:08Z auto-follows: linked to predecessor WD-dhcc
+- 2026-10-11T11:27:08Z auto-follows: linked to predecessor WD-mgcd
+- 2026-10-11T11:27:08Z auto-follows: linked to predecessor WD-pp86
+- 2026-10-11T11:27:08Z auto-follows: linked to predecessor WD-82q2
+- 2026-10-11T11:27:08Z claimed by dev-WD-bw0h
 
 ## Links
 - Parent: [[WD-3nod]]
 - Blocks: [[WD-fay0]]
 - Was blocked by: [[WD-1s5s]], [[WD-cuzw]], [[WD-5yg9]], [[WD-dhcc]], [[WD-mgcd]], [[WD-pp86]], [[WD-82q2]]
-- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]], [[WD-1s5s]], [[WD-cuzw]], [[WD-nkdv]]
+- Follows: [[WD-0zj8]], [[WD-isg9]], [[WD-dc3w]], [[WD-p587]], [[WD-23rs]], [[WD-1s5s]], [[WD-cuzw]], [[WD-nkdv]], [[WD-5yg9]], [[WD-dhcc]], [[WD-mgcd]], [[WD-pp86]], [[WD-82q2]]
 
 ## Comments
 

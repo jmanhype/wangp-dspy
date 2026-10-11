@@ -9,12 +9,12 @@ parent: WD-3nod
 created_at: 2026-10-09T16:17:23Z
 created_by: speed
 updated_at: 2026-10-09T17:47:58Z
-content_hash: "sha256:29748fffcd3814bae42d23a0ae1fd3ae10c42aba65b3d12d08825521a2dcf636"
+content_hash: "sha256:0db6ca1289de4466916436305875000afb03529978cbee6035b0fa81d91ab4a0"
 follows: [WD-mgcd, WD-dhcc, WD-5yg9]
 assignee: dev-WD-pp86
 closed_at: 2026-10-09T17:47:56Z
 close_reason: "Accepted: exact head, raw and generated proof hashes, focused test and exact-head CI evidence, fail-closed boundaries, and all seven ACs verified."
-led_to: [WD-82q2]
+led_to: [WD-82q2, WD-bw0h]
 ---
 
 ## Description
@@ -220,6 +220,6 @@ status: delivered
 ## Links
 - Parent: [[WD-3nod]]
 - Follows: [[WD-mgcd]], [[WD-dhcc]], [[WD-5yg9]]
-- Led to: [[WD-82q2]]
+- Led to: [[WD-82q2]], [[WD-bw0h]]
 
 ## Comments
