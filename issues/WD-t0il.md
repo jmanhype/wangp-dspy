@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T14:44:16Z
-content_hash: "sha256:e410de69a10b8a1b925063677570ea0d3ec58574dc5092c6080dcc0282722b98"
+updated_at: 2026-10-11T15:22:34Z
+content_hash: "sha256:15af5f094897a0b88e6784d56716b0787ca51e4bec9ca464c1ad227691aaf535"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -553,3 +553,8 @@ Measured local results:
 - Evidence SHA-256: `542f70116e3bade7586d07fbbe48144fcacba9787eb15484cdbfa6bbf112bab2`; native output SHA-256: `126144d844e08ca70398f818daeb598761a1670c970c5849213d2d02e2e6a8b9`.
 
 Independent review initially rejected a stale first-run narrative and preserved-copy symlink/containment defects. The narrative, copy hardening, and exact redirected-missing-descendant regression were repaired; independent micro-review approved the final delta. Exact-head CI run `38148346082` is pending and must pass before merge. This note does not close WD-t0il or claim the literal first-run boundary resolved.
+
+### 2026-10-11T15:22:34Z speed
+### Final LTX cell merged (dispatcher, 2026-10-11)
+
+PR #244 squash-merged at main head `55aae135f7a11f4a6277339a14f9729381d36d7b`. Exact-head branch CI run `38149575418` succeeded. The merged-main validator now reports 208 matrix rows: 96 host_run_verified, 110 terminal unsupported/fail-closed, 2 not applicable, 0 dependency_blocked, and 0 planned, with 45 hashed evidence files. Backlog lint and release verification pass at the merged head. Exact-head merged-main CI run `38150962081` is pending and remains the final standing gate for this merge. The literal first-run boundary remains owned separately by WD-bw0h.
