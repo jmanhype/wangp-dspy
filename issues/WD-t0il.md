@@ -8,8 +8,8 @@ labels: [capability, evidence, gate]
 parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
-updated_at: 2026-10-11T12:46:51Z
-content_hash: "sha256:8001183922fed464d6aefa79d632fa2e0a044631aa649bdb61b76ac2f0980346"
+updated_at: 2026-10-11T13:10:51Z
+content_hash: "sha256:1c5eeaea2ab3458a2b23ab21bde3ce55a3ce07794de1b1863268bc56da46e45b"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -533,3 +533,8 @@ loop: reset orphaned in_progress to open (no developer worktree found; prior ses
 - Repair head `8177ebb54ceff7d7eb34905a5bcb8dc474e694d9` added only a run-path-scoped native-log whitespace exemption, corrected the launcher disclosure, and added focused coverage. Exact-head CI run `38137263864` succeeded. Independent review at that head returned `REVIEW_RESULT: APPROVED`, including `git diff --check` exit 0, five focused tests passing, and 29 direct native-evidence artifacts byte-identical across rejected/repaired/worktree states.
 - After PR #242 merged, PR #241 was rebased to `bc975a8e201a43d1586e9a3821c7335ff08260e8`; the tree delta from reviewed head was only the unrelated retry5 H3 authorization files. Focused tests again passed, `git diff --check origin/main..HEAD` passed, and exact-head CI run `38138748066` succeeded.
 - PR #241 merged to main at `f4c7d7da67b71f6f130172f0cbe8454275dcc392`. No matrix promotion is claimed from this note; the seven outputs remain pending QC/reviewer disposition.
+
+### 2026-10-11T13:10:51Z speed
+### LTX evidence merged-head gate (dispatcher, 2026-10-11)
+
+PR #241 squash-merged at main head `f4c7d7da67b71f6f130172f0cbe8454275dcc392`. Exact-head main CI run `38140476329` completed successfully at `2026-10-11T13:09:53Z`. This proves the merged tree after the LTX evidence repair; it does not promote the seven LTX outputs without their separate QC/reviewer disposition.
