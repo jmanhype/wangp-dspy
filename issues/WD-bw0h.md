@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
 updated_at: 2026-10-11T11:52:44Z
-content_hash: "sha256:5a8005da31b088e0b1ea02e5c6a64038e4ffb72ed77829e632323f3944f62f5b"
+content_hash: "sha256:644180bd894f53b822fc99ce8b170fdd10ba5da189d3b2792532c6733bc20388"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -465,4 +465,7 @@ WD-1s5s storage-remediation packet is accepted and merged at main 498a9cb4c99403
 WD-cuzw storage offload is accepted/merged at main b5b7e35b131de72e541bec508fcac19fced895f3. Both superseded checkpoints have verified reversible local copies and remote sources were freed. Recorded remote free is 48494047232 bytes, still below the 53687091200-byte doctor floor; a new H3 retry remains unauthorized and currently lacks the doctor-floor precondition.
 
 ### 2026-10-08T21:33:50Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
+
+### 2026-10-11T11:52:44Z speed
 loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
