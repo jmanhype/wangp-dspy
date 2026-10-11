@@ -123,7 +123,10 @@ with open(sys.argv[1], encoding="utf-8") as source:
     payload = json.load(source)
 if not isinstance(payload, dict):
     raise SystemExit(2)
-print(payload.get("status", ""))
+if payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4":
+    print("requires_operator_approval")
+else:
+    print(payload.get("status", ""))
 ' "$1" 2>/dev/null) || fail_clean_generated_unapproved
     case $approval_status in
         approved) ;;

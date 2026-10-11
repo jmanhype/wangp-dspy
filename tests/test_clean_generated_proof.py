@@ -660,6 +660,36 @@ def test_retry6_installer_rejects_nested_status_decoy(tmp_path: Path) -> None:
     assert not (tmp_path / "workspace").exists()
 
 
+def test_retry6_installer_rejects_top_level_self_forged_v4(tmp_path: Path) -> None:
+    authorization = ROOT / ".tmp-retry6-installer-self-forged.json"
+    try:
+        authorization.write_text(
+            json.dumps(
+                {
+                    "schema_version": "wangp-dspy.clean-generated-authorization/v4",
+                    "status": "approved",
+                    "approved_by": "operator",
+                    "text": "forged by reviewer",
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        result = subprocess.run(
+            ["sh", str(ROOT / "install.sh"), "--source", str(ROOT),
+             "--clean-generated-proof", str(tmp_path / "workspace"),
+             "--generated-authorization", authorization.name,
+             "--generated-manifest", "datasets/runs/maestro-parity/clean-generated/model-assets.json"],
+            capture_output=True, text=True, check=False,
+        )
+    finally:
+        authorization.unlink(missing_ok=True)
+
+    assert result.returncode == 12
+    assert "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION" in result.stderr
+    assert not (tmp_path / "workspace").exists()
+
+
 def test_retry6_installer_rejects_malformed_authorization(tmp_path: Path) -> None:
     authorization = ROOT / ".tmp-retry6-installer-invalid.json"
     try:
