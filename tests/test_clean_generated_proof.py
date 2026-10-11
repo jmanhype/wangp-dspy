@@ -520,6 +520,18 @@ def test_retry5_bundle_manifest_hashes_every_preserved_file() -> None:
         assert recorder.sha(RETRY5 / relative) == digest
 
 
+def test_retry5_preserved_tool_output_whitespace_exemptions_are_path_scoped() -> None:
+    attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+    prefix = (
+        "datasets/runs/maestro-parity/clean-generated/"
+        "failed-isolated-retry5-20261011/"
+    )
+
+    assert f"{prefix}outputs/blackdetect.txt -whitespace\n" in attributes
+    assert f"{prefix}preflight/model-hash-size-raw.txt -whitespace\n" in attributes
+    assert "*.txt -whitespace" not in attributes
+
+
 def test_v3_template_binds_exact_six_file_boundary() -> None:
     recorder = _load_recorder()
     authorization = _future_isolated_runtime_authorization()
