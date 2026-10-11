@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
 updated_at: 2026-10-11T10:53:49Z
-content_hash: "sha256:175c7e0bb6486de93a1b487386777c2da35e81b97833630e9ae6f00eb7a5beb8"
+content_hash: "sha256:0a59de1770fb73ccdf1a84b0e37284cd3062743a7ab82a473ca13b90f093ccf0"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -381,6 +381,20 @@ All accepted H3-local repairs are merged: PyAV media-write preflight, no-install
 2. LTX v3 proposal `/tmp/ltx_identity_capture_f654_proposal.json`, binding base `f6548f03528b058476367349a5f481614cfa35be`, the same seven operations/assets as corrected v2, one attempt each, zero downloads/spend/training/deletions, and no host promotion.
 
 No GPU host contact or LTX/H3 execution occurred. Each requires a fresh explicit operator approval and source-bound CI-green authorization record before host mutation.
+### OPERATOR AUTHORIZATION at 2026-10-11T10:52:46Z
+
+Verbatim user input: `**continue \`Authorize both\` approved**`
+
+Interpreted scope: authorize both exact stable-head proposals. For WD-t0il/WD-b7ek this approves LTX v3 proposal SHA-256 `146b41ca4b204e73d0a51de4fc33937cc6cca3096ef50c7d5eea608ad13564c8` at Wangp base `f6548f03528b058476367349a5f481614cfa35be`: exactly seven named operations, one attempt each, existing local assets only, zero model/package downloads or dependency installs, no provider spend/training/deletion/protected change/threshold change, stop on first terminal failure, and record Wangp execution identity. No promotion occurs in the host batch.
+
+Prepared run:
+- Run root: `/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-identity-capture-f654-20261011`
+- Direct authorization canonical SHA-256: `2e32b060cfa6c2f529e3aa2c0f73ff7862a8103dcf043c66790e0db161bab3b8`
+- Host Wangp checkout: `/home/straughter/wangp-dspy-codex` at exact base commit
+- Stage inventory: 13 files, clean Wangp commit/status, staged bytes match HEAD
+- All seven local assets size/hash verified
+- Isolated mmgp 3.7.14 import passed; system mmgp absent
+- QC health passed; GPU idle; 91,896,745,984 bytes free; fresh queue DB absent
 
 ## History
 - 2026-09-26T05:37:53Z dep_added: blocks WD-fay0
