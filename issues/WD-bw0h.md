@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T16:46:27Z
-content_hash: "sha256:93a785535d0049389390d427da2614cfab7b8df09f7bd083f391dd006127f7af"
+updated_at: 2026-10-11T17:09:56Z
+content_hash: "sha256:e9a62371e462a3a62a39d8d01d44fe1fcf6a0144f75aad8e58bd14dd02e0b482"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -506,3 +506,10 @@ The proposal is intentionally unapproved and non-executable:
 - No SSH/GPU host contact, render, queue admission, or authorization consumption occurred while preparing PR #245.
 
 Local focused queue/adapter/clean-generated suites pass (114 tests), PVG lint is 0/0, release verify is ready/tag false, diff check passes, and protected/transport files remain unchanged. Independent review rejected four security defects, then approved the repaired implementation; a second review approved final installer hardening. Exact-head CI run `38156781946` is pending.
+
+### 2026-10-11T17:09:56Z speed
+### Retry6 preauthorization merged (dispatcher, 2026-10-11)
+
+PR #245 squash-merged at main head `7f014c312874204822d4a6470659a876d758f9e7`. Exact-head branch CI run `38156781946` succeeded. The merged-main quick gates and focused 114-test queue/adapter/clean-generated suite pass. Exact-head main CI run `38158451459` is pending.
+
+Retry6 remains non-executable: no approved authorization exists, the proposal remains `approved=false`, the recorder rejects every v4 payload until an externally anchored approval follow-up, and the installer rejects every v4 payload before workspace creation. No host contact occurred.
