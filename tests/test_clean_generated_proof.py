@@ -18,6 +18,7 @@ SCRIPT = ROOT / "scripts/record_clean_generated_proof.py"
 BUNDLE = ROOT / "datasets/runs/maestro-parity/clean-generated"
 RETRY3 = BUNDLE / "failed-isolated-retry3-20261008"
 RETRY3_HISTORICAL_SOURCE = RETRY3 / "historical-source"
+RETRY5 = BUNDLE / "failed-isolated-retry5-20261011"
 RETRY3_HISTORICAL_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -427,9 +428,108 @@ def test_retry5_operator_authorization_is_approved_source_bound_and_fresh() -> N
         "one_attempt": True,
         "second_render": False,
     }
-    validated, assets = recorder.inputs(authorization, manifest)
-    recorder.validate_authorized_source(ROOT, validated)
-    assert len(assets) == 4
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
+    assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
+    recorder.validate_authorized_source(ROOT, authorization)
+    assert len(manifest["assets"]) == 4
+
+
+def test_retry5_operator_authorization_cannot_be_replayed_after_consumption() -> None:
+    recorder = _load_recorder()
+    authorization = json.loads(
+        (RETRY5 / "inputs/operator-authorization.json").read_text(encoding="utf-8")
+    )
+    manifest = json.loads((RETRY5 / "inputs/model-assets.json").read_text(encoding="utf-8"))
+
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
+
+    assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
+    records = json.loads((BUNDLE / "authorization-consumption.json").read_text(encoding="utf-8"))["records"]
+    consumed = [record for record in records if record["authorization_canonical_sha256"] == (
+        "558138882a66465d912e4a6fb000c74c37b3ffc931fb1ef0e94adaf04cc8e482"
+    )]
+    assert len(consumed) == 1
+    assert consumed[0]["generated_artifact"] is False
+    assert all((ROOT / path).is_file() for path in consumed[0]["evidence"])
+
+
+def test_retry5_boundary_preserves_real_render_but_fails_closed_on_size_gate() -> None:
+    recorder = _load_recorder()
+    failure = json.loads((RETRY5 / "failure.json").read_text(encoding="utf-8"))
+    gates = json.loads((RETRY5 / "objective-gates.json").read_text(encoding="utf-8"))
+    queue = json.loads((RETRY5 / "queue/final.json").read_text(encoding="utf-8"))
+    probe = json.loads(
+        (RETRY5 / "outputs/wd_bw0h_h3_standard_create.ffprobe.json").read_text(encoding="utf-8")
+    )
+    native_log = (RETRY5 / "host-logs/render.log").read_text(encoding="utf-8")
+    output = RETRY5 / "outputs/wd_bw0h_h3_standard_create.mp4"
+
+    assert failure["diagnostic"] == {
+        "code": "OBJECTIVE_GATE_FAILED",
+        "detail": "one or more objective gates failed",
+    }
+    assert failure["generated_artifact"] is False
+    assert failure["substitution_attempted"] is False
+    assert queue["state"] == "done"
+    assert queue["clips"][0]["render_attempted"] is True
+    assert queue["clips"][0]["qc_verdict"]["verdict"] == "KEEP"
+    assert [(row["name"], row["verdict"]) for row in gates] == [
+        ("h3_standard_create_duration_s", "pass"),
+        ("h3_standard_create_fps", "pass"),
+        ("h3_standard_create_nonempty_bytes", "fail"),
+        ("h3_standard_create_black_intervals", "pass"),
+        ("h3_standard_create_audio_sample_rate_hz", "pass"),
+        ("h3_standard_create_audio_channels", "pass"),
+    ]
+    size_gate = next(row for row in gates if row["name"] == "h3_standard_create_nonempty_bytes")
+    assert size_gate["measured"] == output.stat().st_size == 480063
+    assert size_gate["threshold"] == 500000
+    assert recorder.sha(output) == (
+        "0fd78acd6a728e65744537a98813b3427e1341d41a07330baa08f004bc7da406"
+    )
+    assert probe["format"]["size"] == "480063"
+    assert probe["format"]["duration"] == "4.458333"
+    assert "H3 denoising: 100%|██████████| 20/20" in native_log
+    assert "Queue completed: 1/1 tasks" in native_log
+    assert "PYAV_COMPAT_FAILED: RuntimeError: compatibility directory must lead PYTHONPATH" in native_log
+    wrapper_probe = (RETRY5 / "post-hoc/pyav-wrapper-probe.txt").read_text(encoding="utf-8")
+    assert "exit=0" in wrapper_probe
+    assert "APPLIED=True" in wrapper_probe
+    assert not (RETRY5 / "evidence.json").exists()
+    assert (RETRY5 / "post-hoc/canonical-checker.result.txt").read_text(encoding="utf-8").startswith(
+        "exit=1\nFAIL manifest:"
+    )
+
+
+def test_retry5_bundle_manifest_hashes_every_preserved_file() -> None:
+    recorder = _load_recorder()
+    rows = {}
+    for line in (RETRY5 / "sha256.txt").read_text(encoding="utf-8").splitlines():
+        digest, relative = line.split("  ", 1)
+        rows[relative] = digest
+
+    assert len(rows) == 49
+    assert set(rows) == {
+        path.relative_to(RETRY5).as_posix()
+        for path in RETRY5.rglob("*")
+        if path.is_file() and path.name != "sha256.txt"
+    }
+    for relative, digest in rows.items():
+        assert recorder.sha(RETRY5 / relative) == digest
+
+
+def test_retry5_preserved_tool_output_whitespace_exemptions_are_path_scoped() -> None:
+    attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+    prefix = (
+        "datasets/runs/maestro-parity/clean-generated/"
+        "failed-isolated-retry5-20261011/"
+    )
+
+    assert f"{prefix}outputs/blackdetect.txt -whitespace\n" in attributes
+    assert f"{prefix}preflight/model-hash-size-raw.txt -whitespace\n" in attributes
+    assert "*.txt -whitespace" not in attributes
 
 
 def test_v3_template_binds_exact_six_file_boundary() -> None:

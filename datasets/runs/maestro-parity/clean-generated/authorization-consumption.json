@@ -57,6 +57,20 @@
       ],
       "reason": "The approved retry4 boundary was consumed by successful clean preflight, verified remote settings staging, one admitted H3 render that completed 20/20 denoising steps, and a terminal PyAV media-write TypeError. WanGP therefore completed 0/1 tasks and no MP4 artifact was emitted. No retry or substitution occurred.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "558138882a66465d912e4a6fb000c74c37b3ffc931fb1ef0e94adaf04cc8e482",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/objective-gates.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/queue/final.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/host-logs/render.log",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/outputs/wd_bw0h_h3_standard_create.mp4",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/post-hoc/canonical-checker.result.txt"
+      ],
+      "reason": "The approved retry5 boundary was consumed by clean preflight and one successful native H3 queue render, but the governed objective gate rejected the real 480063-byte output against the fixed 500000-byte minimum. The recorder stopped fail-closed with OBJECTIVE_GATE_FAILED and generated no canonical evidence artifact. No retry, substitution, threshold change, or capability promotion occurred.",
+      "generated_artifact": false
     }
   ]
 }

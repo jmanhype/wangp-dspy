@@ -1,0 +1,34 @@
+{
+  "attempts": [],
+  "clips": [
+    {
+      "clip_index": 1,
+      "family": "minimax_h3",
+      "frames": 56,
+      "kind": "video_generation",
+      "lane": "fl2va",
+      "log": "/private/tmp/wangp-clean-generated-h3-retry5-20261011/pull/acceptance/worker-613330f6b612/render-0000/render.log",
+      "model_type": "minimax_h3_fl2va_pruned",
+      "mp4": "/private/tmp/wangp-clean-generated-h3-retry5-20261011/pull/acceptance/worker-613330f6b612/render-0000/output.mp4",
+      "operation": "create",
+      "preset": "standard",
+      "prompt": "A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light shifts across the table. Soft cloth and paper sounds, one clear click, no speech.",
+      "qc_verdict": {
+        "path": "qc/1.json",
+        "verdict": "KEEP"
+      },
+      "render_attempted": true,
+      "render_fingerprint": "9ea7b1f42961e9a153f9cf874f18e162d03acca76d9177218dbdf16f7f41fc0a",
+      "resolution": [
+        480,
+        832
+      ],
+      "status": "done",
+      "steps": 20,
+      "video_length": 56
+    }
+  ],
+  "failures": [],
+  "job_id": "job-1791722765313-9664332d",
+  "state": "done"
+}
