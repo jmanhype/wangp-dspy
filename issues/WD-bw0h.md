@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T17:23:59Z
-content_hash: "sha256:3422c574fc691062711a2e16f911e4449ae9022122be5ae6617176c62a25ccbd"
+updated_at: 2026-10-11T23:22:03Z
+content_hash: "sha256:c0a5f216f2b2460d539d1248c5f20cfad0440ad03845049ad71ea2a10df19d9f"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -518,3 +518,16 @@ Retry6 remains non-executable: no approved authorization exists, the proposal re
 ### Retry6 preauthorization merged-head CI (dispatcher, 2026-10-11)
 
 Exact-head main CI run `38158451459` succeeded at merged main `7f014c312874204822d4a6470659a876d758f9e7`. The fail-closed retry6 proposal is now durable and CI-green, but remains unapproved and non-executable. A separate operator-authorized approval record and exact-head CI are required before any host contact.
+
+### 2026-10-11T23:22:03Z speed
+### Retry6 unit-mismatch repair (dispatcher, 2026-10-11)
+
+PR #247 preserved retry6's consumed fail-closed boundary and independently established the decimal-byte vs binary-GiB mismatch. PR #248 then merged the protected-engine repair at main `ad6957c245e501cbea72200984d8071d298e867c`: generic host preflight now probes exact bytes with `df -B1` and compares them to `min_free_gb * 1000**3`.
+
+Focused behavior is now:
+
+- `51,758,321,664` bytes passes a 50 GB floor.
+- `50,000,000,000` passes.
+- `49,999,999,999` fails by one byte.
+
+Exact-head branch CI and exact-head main CI both succeeded. Retry7 is prepared as non-executable PR #249; no retry7 authorization exists yet.
