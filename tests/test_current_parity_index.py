@@ -52,8 +52,7 @@ def test_current_matrix_is_exact_and_has_required_census() -> None:
     ]
     assert Counter(row["canonical_state"] for row in rows) == Counter(
         {
-            "host_run_verified": 95,
-            "dependency_blocked": 1,
+            "host_run_verified": 96,
             "terminal_unsupported_or_fail_closed": 110,
             "not_applicable": 2,
         }
@@ -62,26 +61,28 @@ def test_current_matrix_is_exact_and_has_required_census() -> None:
     assert index["matrix_identity_sha256"] == VALIDATOR.matrix_identity(rows)
 
 
-def test_exactly_seven_current_ltx_cells_and_boundary_are_recorded() -> None:
+def test_final_ltx_cell_is_verified_and_no_dependency_boundary_remains() -> None:
     index = _index()
-    ltx = index["remaining_boundaries"]["ltx_dependency_batch"]
     rows = {
         (row["doc"], row["row"], row["cell"])
         for row in index["row_inventory"]["rows"]
         if row["canonical_state"] == "dependency_blocked"
     }
 
-    assert len(rows) == len(ltx["cells"]) == 1
-    assert rows == {tuple(cell) for cell in ltx["cells"]}
-    assert ltx["source_ref"] == (
-        "story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6"
+    assert rows == set()
+    assert set(index["remaining_boundaries"]) == {
+        "first_run_generated_artifact"
+    }
+    final_ltx = next(
+        row
+        for row in index["row_inventory"]["rows"]
+        if (row["doc"], row["row"], row["cell"])
+        == ("docs/video-capabilities.md", "ltx/2.3", "Upscale")
     )
-    assert ltx["sha256"] == (
-        "6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53"
+    assert final_ltx["canonical_state"] == "host_run_verified"
+    assert final_ltx["evidence_or_boundary"] == (
+        "../datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json"
     )
-    assert ltx["model_download_bytes_actual"] == 0
-    assert ltx["inference_attempted"] is False
-    assert ltx["not_a_hardware_verdict"] is True
 
 
 def test_editor_host_run_is_verified_and_first_run_emits_a_verified_artifact() -> None:
@@ -129,7 +130,7 @@ def test_editor_host_run_is_verified_and_first_run_emits_a_verified_artifact() -
 def test_matrix_evidence_manifest_hashes_real_bundle_bytes() -> None:
     index = _index()
     manifest = index["evidence_manifest"]
-    assert len(manifest) == 44
+    assert len(manifest) == 45
     assert manifest == VALIDATOR.evidence_manifest(
         VALIDATOR.parse_document_rows(ROOT), ROOT
     )
@@ -150,14 +151,13 @@ def test_validator_command_passes_current_repository() -> None:
         "result": "PASS",
         "matrix_rows": 208,
         "matrix_totals": {
-            "dependency_blocked": 1,
-            "host_run_verified": 95,
+            "host_run_verified": 96,
             "not_applicable": 2,
             "terminal_unsupported_or_fail_closed": 110,
         },
         "non_matrix_rows": 3,
-        "ltx_dependency_cells": 1,
-        "hashed_matrix_evidence_files": 44,
+        "ltx_dependency_cells": 0,
+        "hashed_matrix_evidence_files": 45,
     }
 
 
@@ -199,14 +199,43 @@ def test_stale_non_matrix_totals_fail_closed(tmp_path: Path) -> None:
 
 def test_first_run_boundary_does_not_contradict_verified_media() -> None:
     text = (BUNDLE / "evidence-index.md").read_text(encoding="utf-8")
+    index = _index()
+    retry5 = ROOT / (
+        "datasets/runs/maestro-parity/clean-generated/"
+        "failed-isolated-retry5-20261011"
+    )
+    queue = json.loads((retry5 / "queue/final.json").read_text(encoding="utf-8"))
+    failure = json.loads((retry5 / "failure.json").read_text(encoding="utf-8"))
+    gates = json.loads((retry5 / "objective-gates.json").read_text(encoding="utf-8"))
+    output = retry5 / "outputs/wd_bw0h_h3_standard_create.mp4"
 
     assert "Literal clean-machine one-command reproducibility remains incomplete" in text
+    assert (
+        "Retry4 failed before media write; retry5 completed one queue job and "
+        "emitted a real MP4, but failed the fixed 500000-byte objective gate "
+        "and produced no canonical generated-artifact evidence."
+    ) in text
     assert "First-run generated media remains incomplete" not in text
+    assert index["generated_at"] == "2026-10-11T14:06:47Z"
+    assert queue["state"] == "done"
+    assert queue["clips"][0]["render_attempted"] is True
+    assert failure["diagnostic"]["code"] == "OBJECTIVE_GATE_FAILED"
+    assert failure["generated_artifact"] is False
+    size_gate = next(
+        row
+        for row in gates
+        if row["name"] == "h3_standard_create_nonempty_bytes"
+    )
+    assert size_gate["measured"] == output.stat().st_size == 480063
+    assert size_gate["threshold"] == 500000
+    assert size_gate["verdict"] == "fail"
 
 
-def test_wrong_remaining_ltx_count_fails_closed(tmp_path: Path) -> None:
+def test_reintroduced_ltx_boundary_fails_closed(tmp_path: Path) -> None:
     def mutate(payload: dict[str, Any]) -> None:
-        payload["remaining_boundaries"]["ltx_dependency_batch"]["cells"].pop()
+        payload["remaining_boundaries"]["ltx_dependency_batch"] = {
+            "cells": [["docs/video-capabilities.md", "ltx/2.3", "Upscale"]]
+        }
 
     path = _write_mutated_index(tmp_path, mutate)
     with pytest.raises(AssertionError):

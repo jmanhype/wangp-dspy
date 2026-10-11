@@ -10,11 +10,16 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-
 BUNDLE = Path(__file__).resolve().parent
 REPO = BUNDLE.parents[3]
-BASE_COMMIT = "5a94eb491c524816334e23e1b2894acc3b772819"
-MATRIX_IDENTITY_SHA256 = "5def89a93c01db3b79250e7aced865ea1e4493090537d3c0c4eb04d5725ec2c6"
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+
+from scripts.verify_maestro_parity import verify_bundle
+
+
+BASE_COMMIT = "f6548f03528b058476367349a5f481614cfa35be"
+MATRIX_IDENTITY_SHA256 = "cb95a99f253be9d650bfda3801616764e80e9a29ab3df0f08a366da9142f7a55"
 EXPECTED_DOCS = {
     "image-capabilities.md": 5,
     "music-capabilities.md": 2,
@@ -26,15 +31,13 @@ EXPECTED_DOCS = {
     "director-capabilities.md": 3,
 }
 EXPECTED_TOTALS = {
-    "dependency_blocked": 1,
-    "host_run_verified": 95,
+    "host_run_verified": 96,
     "not_applicable": 2,
     "terminal_unsupported_or_fail_closed": 110,
 }
 EXPECTED_DOCUMENTED_STATES = {
-    "dependency_blocked": 1,
     "fail-closed": 1,
-    "host_run_verified": 95,
+    "host_run_verified": 96,
     "not applicable": 2,
     "unsupported": 97,
     "unsupported for planning": 1,
@@ -43,9 +46,10 @@ EXPECTED_DOCUMENTED_STATES = {
     "unsupported_missing_required_input": 2,
     "unsupported_on_this_hardware": 2,
 }
-EXPECTED_LTX_CELLS = {
-    ("docs/video-capabilities.md", "ltx/2.3", "Upscale"),
-}
+EXPECTED_DEPENDENCY_BLOCKED_CELLS: set[tuple[str, str, str]] = set()
+LTX23_UPSCALE_EVIDENCE = Path(
+    "datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/evidence.json"
+)
 EDITOR_EVIDENCE = Path(
     "datasets/runs/maestro-parity/editor-host-export/host-run/evidence.json"
 )
@@ -60,16 +64,6 @@ FIRST_RUN_BOUNDARY = {
     "generated_artifact": True,
     "retry_or_second_generation": True,
     "queue_jobs_admitted": 1
-}
-LTX_BOUNDARY = {
-    "source_ref": "story/WD-28ac@fced67e1293dc2dbbdf3f29c8b615f6357012ab6",
-    "path": "datasets/runs/maestro-parity/ltx-dependency-terminalization/preflight-boundary.json",
-    "sha256": "6c881c9df3cd2a5d4ce85ee8fe5327e6631ac77cf2a2ca88c3b4579be4f05d53",
-    "state": "dependency_blocked_before_download_or_admission",
-    "cells": [list(cell) for cell in sorted(EXPECTED_LTX_CELLS)],
-    "model_download_bytes_actual": 0,
-    "inference_attempted": False,
-    "not_a_hardware_verdict": True,
 }
 NON_MATRIX_ROWS = [
     {
@@ -234,7 +228,9 @@ def validate_index(
         for row in rows
         if row["canonical_state"] == "dependency_blocked"
     }
-    assert ltx_rows == EXPECTED_LTX_CELLS, "wrong remaining LTX dependency scope"
+    assert ltx_rows == EXPECTED_DEPENDENCY_BLOCKED_CELLS, (
+        "no matrix cell may remain dependency_blocked"
+    )
 
     validate_non_matrix_sources(repo_root)
     assert index["non_matrix_inventory"]["rows"] == NON_MATRIX_ROWS, (
@@ -247,10 +243,22 @@ def validate_index(
     assert index["non_matrix_inventory"]["totals"] == dict(
         sorted(non_matrix_totals.items())
     ), "non_matrix_inventory totals diverge from its rows"
-    assert index["remaining_boundaries"]["ltx_dependency_batch"] == LTX_BOUNDARY, (
-        "wrong remaining LTX dependency boundary"
-    )
+    assert set(index["remaining_boundaries"]) == {
+        "first_run_generated_artifact"
+    }, "the completed LTX boundary must not remain in remaining_boundaries"
     assert index["remaining_boundaries"]["first_run_generated_artifact"] == FIRST_RUN_BOUNDARY
+    ltx23 = repo_root / LTX23_UPSCALE_EVIDENCE
+    ltx23_report = verify_bundle(ltx23.parent)
+    assert ltx23_report.passed, ltx23_report.diagnostics
+    ltx23_evidence = json.loads(ltx23.read_text(encoding="utf-8"))
+    assert ltx23_evidence["operator_authorization"]["status"] == "approved"
+    assert ltx23_evidence["queue_attempt"]["admission_state"] == "admitted"
+    assert ltx23_evidence["queue_attempt"]["exit_status"] == "succeeded"
+    assert ltx23_evidence["output"][0]["sha256"] == (
+        "126144d844e08ca70398f818daeb598761a1670c970c5849213d2d02e2e6a8b9"
+    )
+    assert all(gate["verdict"] == "pass" for gate in ltx23_evidence["objective_gate_results"])
+    assert ltx23_evidence["reviewer_verdict"]["decision"] == "approved"
     editor_path = repo_root / EDITOR_EVIDENCE
     editor = json.loads(editor_path.read_text(encoding="utf-8"))
     assert digest(editor_path) == index["editor_host_run_evidence_sha256"]
@@ -262,6 +270,7 @@ def validate_index(
 
     manifest = evidence_manifest(observed, repo_root)
     assert index["evidence_manifest"] == manifest, "matrix evidence hash manifest drifted"
+    assert digest(ltx23) == manifest[LTX23_UPSCALE_EVIDENCE.as_posix()]
     for relative_path, expected_hash in manifest.items():
         assert digest(repo_root / relative_path) == expected_hash, relative_path
 
@@ -324,13 +333,10 @@ def render_markdown(index: dict[str, Any]) -> str:
     for state, count in index["row_inventory"]["totals"].items():
         lines.append(f"- `{state}`: {count}")
     lines.extend(["", "## Remaining boundaries", ""])
-    boundaries = index["remaining_boundaries"]
-    ltx = boundaries["ltx_dependency_batch"]
-    first = boundaries["first_run_generated_artifact"]
+    first = index["remaining_boundaries"]["first_run_generated_artifact"]
     lines.extend(
         [
-            f"- Exactly {len(ltx['cells'])} LTX cells remain `dependency_blocked` at `{ltx['source_ref']}` (`{ltx['path']}`, SHA-256 `{ltx['sha256']}`); no download, inference, or admission is claimed.",
-            f"- Literal clean-machine one-command reproducibility remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. The earlier failed retry generated no artifact and admitted no queue job.",
+            f"- Literal clean-machine one-command reproducibility remains incomplete at `{first['source_ref']}` (`{first['path']}`, SHA-256 `{first['sha256']}`): the merged bundle contains a real generated artifact, but its accepted run used a documented isolated-runtime binding rather than the literal one-command path. Retry4 failed before media write; retry5 completed one queue job and emitted a real MP4, but failed the fixed 500000-byte objective gate and produced no canonical generated-artifact evidence.",
             "",
             "## Non-matrix dispositions",
             "",
