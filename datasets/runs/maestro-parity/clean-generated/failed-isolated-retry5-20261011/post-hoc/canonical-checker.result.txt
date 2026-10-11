@@ -1,0 +1,2 @@
+exit=1
+FAIL manifest: [Errno 2] No such file or directory: '/private/tmp/wangp-clean-generated-h3-retry5-20261011/proof/evidence.json'

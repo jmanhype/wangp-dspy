@@ -1,0 +1,18 @@
+{
+  "exit_code": 0,
+  "local_path": "/private/tmp/wangp-clean-generated-h3-retry5-20261011/proof/preflight/media-write.mp4",
+  "log_path": "/private/tmp/wangp-clean-generated-h3-retry5-20261011/proof/preflight/media-write.log",
+  "log_sha256": "76de3a8f3c153ff02dcc80a71544f7379720e2dec6452715c9e9d73e62879a7d",
+  "passed": true,
+  "path": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009/media-write.mp4",
+  "sha256": "1fe4446c8fba9fafddf2919bb1d968b88bb44548b0f693c62e5bacad19354f04",
+  "size_bytes": 1515,
+  "stderr": "",
+  "stdout": "{\"versions\": {\"python\": \"3.12.3\", \"torch\": \"2.5.1+cu121\", \"torchvision\": \"0.20.1+cu121\", \"av\": \"16.1.0\"}}\n{\"size_bytes\": 1515, \"sha256\": \"1fe4446c8fba9fafddf2919bb1d968b88bb44548b0f693c62e5bacad19354f04\"}\n",
+  "versions": {
+    "av": "16.1.0",
+    "python": "3.12.3",
+    "torch": "2.5.1+cu121",
+    "torchvision": "0.20.1+cu121"
+  }
+}

@@ -1,0 +1,5 @@
+observed_at=2026-10-11T12:53:07Z
+path=/home/straughter/Wan2GP/acceptance/worker-613330f6b612/render-0000/output.mp4
+size_bytes=480063
+sha256=0fd78acd6a728e65744537a98813b3427e1341d41a07330baa08f004bc7da406
+matches_local_output=true

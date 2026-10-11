@@ -1,0 +1,62 @@
+[
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 4.458333,
+    "name": "h3_standard_create_duration_s",
+    "threshold": 2.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 24.0,
+    "name": "h3_standard_create_fps",
+    "threshold": 24.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 480063.0,
+    "name": "h3_standard_create_nonempty_bytes",
+    "threshold": 500000.0,
+    "verdict": "fail"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 0.0,
+    "name": "h3_standard_create_black_intervals",
+    "threshold": 0.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 32000.0,
+    "name": "h3_standard_create_audio_sample_rate_hz",
+    "threshold": 32000.0,
+    "verdict": "pass"
+  },
+  {
+    "inputs": [
+      "outputs/wd_bw0h_h3_standard_create.mp4",
+      "outputs/blackdetect.txt"
+    ],
+    "measured": 2.0,
+    "name": "h3_standard_create_audio_channels",
+    "threshold": 2.0,
+    "verdict": "pass"
+  }
+]

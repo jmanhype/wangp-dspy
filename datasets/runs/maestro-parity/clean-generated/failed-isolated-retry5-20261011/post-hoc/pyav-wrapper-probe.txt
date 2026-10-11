@@ -1,0 +1,7 @@
+observed_at=2026-10-11T13:00:59Z
+command=/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009/offline-python.sh -c <import probe>
+exit=0
+PYTHONPATH=/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009/pyav-compat:/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65:/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14:/home/straughter/ComfyUI/venv/lib/python3.12/site-packages
+SITECUSTOMIZE=/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry5-20261009/pyav-compat/sitecustomize.py
+APPLIED=True
+EXE=/usr/bin/python3

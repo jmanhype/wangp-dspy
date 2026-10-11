@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-h3-retry5-20261011",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry5-20261011.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "diagnostic": {
+    "code": "OBJECTIVE_GATE_FAILED",
+    "detail": "one or more objective gates failed"
+  },
+  "generated_artifact": false,
+  "schema_version": "wangp-dspy.clean-generated-proof-failure/v1",
+  "substitution_attempted": false
+}
