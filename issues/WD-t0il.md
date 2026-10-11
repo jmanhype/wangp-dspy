@@ -9,7 +9,7 @@ parent: WD-3nod
 created_at: 2026-09-26T05:37:46Z
 created_by: speed
 updated_at: 2026-10-11T11:52:45Z
-content_hash: "sha256:6a0f428ffdc45b08a95123dc310715a2344a97f2faeb5989b427e84e700a7f09"
+content_hash: "sha256:825263d9a11fd1f1bb6e4db5d4fe75b34ffcafacd76c0dcf3f9ec53419027971"
 blocks: [WD-fay0]
 was_blocked_by: [WD-he8i]
 assignee: dev-WD-t0il
@@ -518,3 +518,6 @@ Current-state index reconciliation at merged main b5169fec6885660f2c5806864d03d9
 
 ### 2026-10-02T00:25:31Z speed
 Current post-WD-cuzw gate audit at merged main b5b7e35b131de72e541bec508fcac19fced895f3: parity validator PASS with 208 rows (89 host_run_verified, 7 dependency_blocked, 110 terminal unsupported/fail-closed, 2 not_applicable), backlog lint 156/0/0, release ready=true/tag_created=false, and clean tree. Recorded remote free after verified H3 offload is 48494047232 bytes. WD-28ac exact five-asset/23701298279-byte LTX batch now has 24792748953 bytes of recorded pre-download headroom and is the recommended next operator decision. WD-bw0h remains ineligible under the 53687091200-byte doctor floor by 5193043968 bytes. No host contact or downstream authorization is implied by this gate note.
+
+### 2026-10-11T11:52:45Z speed
+loop: reset orphaned in_progress to open (no developer worktree found; prior session presumed dead)
