@@ -10,6 +10,7 @@ from services.jobs.preflight import (
     run_preflight,
     _gpu_check_from_state,
     _parse_gpu_compute_apps,
+    _probe_disk,
 )
 
 CAPTURED_RT3090_OUTPUT = (
@@ -28,7 +29,7 @@ MODEL_SPECS = [
 class StubHost:
     """Records probes; scriptable outcomes."""
 
-    def __init__(self, *, reachable=True, files=None, disk_free_gb=200.0,
+    def __init__(self, *, reachable=True, files=None, disk_free_bytes=200_000_000_000,
                  gpu_procs="nvidia-smi --query-compute-apps --format=csv,noheader",
                  nvidia_out="No running processes found",
                  nvidia_rc=0,
@@ -36,7 +37,7 @@ class StubHost:
         self.files = dict(files or
                           {m["path"]: m["sha256"] for m in MODEL_SPECS})
         self.reachable = reachable
-        self.disk_free_gb = disk_free_gb
+        self.disk_free_bytes = disk_free_bytes
         self.nvidia_out = nvidia_out
         self.nvidia_rc = nvidia_rc
         self.qc_ok = qc_ok
@@ -54,7 +55,7 @@ class StubHost:
                 return 0, f"{self.files[path]}  {path}", ""
             return 1, "", f"sha256sum: {path}: No such file or directory"
         if joined.startswith("df"):
-            return 0, f"  {self.disk_free_gb:.0f}G", ""
+            return 0, f"Avail\n  {self.disk_free_bytes}\n", ""
         if joined.startswith("nvidia-smi"):
             return self.nvidia_rc, self.nvidia_out, ""
         if joined.startswith("curl"):
@@ -102,10 +103,70 @@ def test_model_hash_mismatch_fails_with_path_and_expected_hash():
 
 
 def test_disk_headroom_below_min_fails():
-    host = StubHost(disk_free_gb=12.0)
+    host = StubHost(disk_free_bytes=12_000_000_000)
     report = run_preflight(host, models=MODEL_SPECS, min_free_gb=50,
                            disk_path="/mnt/bulk", qc_url="http://x/h")
     assert not report.check("disk_headroom").passed
+
+
+@pytest.mark.parametrize("available,passed", [
+    (51_758_321_664, True),  # retry6: decimal floor passes despite 49 rounded GiB
+    (50_000_000_000, True),
+    (49_999_999_999, False),
+    (0, False),
+])
+def test_disk_compares_exact_bytes_to_decimal_gb(available, passed):
+    host = StubHost(disk_free_bytes=available)
+    check = _probe_disk(host, "/mnt/bulk", 50)
+    assert check.passed is passed
+    assert host.probes == [["df", "-B1", "--output=avail", "/mnt/bulk"]]
+    assert "(min 50.0 GB)" in check.detail
+    if available == 51_758_321_664:
+        assert "51.758321664 GB free" in check.detail
+    if available == 49_999_999_999:
+        assert "49.999999999 GB free" in check.detail
+
+
+@pytest.mark.parametrize("output", [
+    "", "Avail\n", "Avail\n-51758321664\n", "Avail\nNaN\n",
+    "Avail\ninf\n", "Avail\n49G\n", "Avail\n50000000000.0\n",
+    "Avail\n50000000000\n60000000000\n", "error 50000000000",
+    f"Avail\n{2**64}\n", "9" * 5000,
+])
+def test_disk_malformed_or_out_of_range_measurement_fails_closed(output):
+    class DiskHost:
+        def run_probe(self, argv, timeout):
+            return 0, output, ""
+    check = _probe_disk(DiskHost(), "/mnt/bulk", 50)
+    assert not check.passed
+    assert "unparseable df output" in check.detail
+
+
+@pytest.mark.parametrize("minimum", [
+    -1, "nonnumeric", "50", None, True, float("nan"), float("inf"),
+    -float("inf"), 1e300, pytest.param(10**5000, id="overlarge-integer"),
+])
+def test_disk_invalid_minimum_fails_closed(minimum):
+    host = StubHost()
+    check = _probe_disk(host, "/mnt/bulk", minimum)
+    assert not check.passed
+    assert "invalid min_free_gb" in check.detail
+    assert host.probes == []
+
+
+def test_disk_fractional_decimal_minimum_preserves_one_byte_boundary():
+    host = StubHost(disk_free_bytes=50_000_000_000)
+    assert not _probe_disk(host, "/mnt/bulk", 50.000000001).passed
+    assert _probe_disk(host, "/mnt/bulk", 50.0).passed
+
+
+def test_disk_nonzero_probe_status_fails_despite_valid_output():
+    class DiskHost:
+        def run_probe(self, argv, timeout):
+            return 1, "Avail\n51758321664\n", "df failed"
+    check = _probe_disk(DiskHost(), "/mnt/bulk", 50)
+    assert not check.passed
+    assert "rc=1" in check.detail
 
 
 def test_gpu_busy_with_real_captured_compute_process_fails():

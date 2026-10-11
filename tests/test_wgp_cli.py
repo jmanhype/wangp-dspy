@@ -357,7 +357,7 @@ def _probe_command_dir(path: Path) -> None:
     commands = {
         "true": "#!/bin/sh\nexit 0\n",
         "sha256sum": '#!/bin/sh\nexec openssl dgst -sha256 -r "$1"\n',
-        "df": "#!/bin/sh\nprintf '49G\\n'\n",
+        "df": "#!/bin/sh\nprintf 'Avail\\n49000000000\\n'\n",
         "nvidia-smi": "#!/bin/sh\nexit 0\n",
         "curl": '#!/bin/sh\nprintf \'{"status":"ok"}\\n\'\n',
     }
@@ -400,8 +400,8 @@ def test_host_probe_uses_remote_paths_and_nonzero_disk_minimum(
     by_kind = {check.kind: check for check in report}
     assert by_kind["model_files"].status == "pass"
     assert by_kind["disk_headroom"].status == "failed"
-    assert "49G free" in by_kind["disk_headroom"].detail
-    assert f"(min {REMOTE_MINIMUM_FREE_GB}G)" in by_kind["disk_headroom"].detail
+    assert "49.000000000 GB free" in by_kind["disk_headroom"].detail
+    assert f"(min {REMOTE_MINIMUM_FREE_GB:.1f} GB)" in by_kind["disk_headroom"].detail
     assert by_kind["ssh_reachable"].status == "pass"
     assert by_kind["gpu_state"].status == "pass"
     assert by_kind["qc_available"].status == "pass"

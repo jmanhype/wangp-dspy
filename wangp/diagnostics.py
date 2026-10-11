@@ -31,8 +31,8 @@ _AUTH_SCHEME = re.compile(
 _LONG_KEY = re.compile(r"\b(?:sk|rk)-[A-Za-z0-9_-]{16,}\b")
 _PRODUCTION_VISION_PASS_BAR = 0.7
 _DISK = re.compile(
-    r"(?P<available>\d+(?:\.\d+)?)G free on (?P<path>.+?) "
-    r"\(min (?P<minimum>\d+(?:\.\d+)?)G\)$"
+    r"(?P<available>\d+(?:\.\d+)?)(?P<unit> GB|G) free on (?P<path>.+?) "
+    r"\(min (?P<minimum>\d+(?:\.\d+)?)(?P=unit)\)$"
 )
 _MODEL_MISSING = re.compile(r"(?<!hash )missing\s+(?P<path>.+?)(?:\s*:|\s*$)")
 _MODEL_HASH = re.compile(
@@ -227,6 +227,8 @@ def _disk_diagnostic(check: PreflightCheck) -> FailureDiagnostic:
     failed = re.search(r"df\s+(?P<path>.+?)\s+rc=", check.detail)
     available = float(match.group("available")) if match else None
     minimum = float(match.group("minimum")) if match else None
+    # Historical queue records used rounded binary G; do not relabel them.
+    unit = "GB (decimal)" if match and match.group("unit") == " GB" else "GiB"
     path = (
         match.group("path") if match else
         (failed.group("path") if failed else "unknown render path")
@@ -241,14 +243,14 @@ def _disk_diagnostic(check: PreflightCheck) -> FailureDiagnostic:
         ),
         observed=check.detail or "disk_headroom failed",
         why=(
-            f"The render volume reports {available!r} GiB free, below the required {minimum!r} GiB."
+            f"The render volume reports {available!r} {unit} free, below the required {minimum!r} {unit}."
             if measured else "The render volume's available-space measurement could not be read."
         ),
         remediation=(
             "Preserve needed evidence, then manually free or select sanctioned storage; Wangp never deletes artifacts automatically."
             if measured else "Rerun the read-only disk probe after restoring host reachability."
         ),
-        next_command=f"df -BG --output=avail {shlex.quote(path)}",
+        next_command=f"df -B1 --output=avail {shlex.quote(path)}",
         evidence_refs=(path, "preflight:disk_headroom"),
         metadata={
             "path": path,

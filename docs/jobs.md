@@ -41,7 +41,12 @@ pieces, exactly as ruled by the operator on 2026-09-01.
 ### 1. Preflight before queue admission (`services/jobs/preflight.py`)
 - SSH reachable (`ssh 3090 true`)
 - Exact model file paths + sha256 hashes (`sha256sum` per pinned spec)
-- Disk headroom (`df -BG --output=avail /mnt/bulk` vs min)
+- Disk headroom (`df -B1 --output=avail /mnt/bulk`): exact available bytes
+  compared against `min_free_gb * 1,000,000,000` (decimal GB, not rounded
+  binary GiB). Thus 51,758,321,664 bytes passes a 50 GB floor; 49,999,999,999
+  bytes fails. Detail reports GB to nine decimal places (one-byte precision).
+  Failed probes, malformed/negative byte counts, counts above unsigned 64-bit
+  range, and invalid/nonfinite/negative or out-of-range minima fail closed.
 - GPU state: `nvidia-smi --query-compute-apps` — any compute pid =
   stale tenant, named by pid in the failure detail
 - QC service availability (`curl -fsS <healthz>`)

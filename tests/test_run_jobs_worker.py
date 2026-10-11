@@ -58,7 +58,7 @@ class FakeHost:
         if argv[:1] == ["cat"]:
             return 0, "Denoising 20/20\n", ""
         if argv[:1] == ["df"]:
-            return 0, "  100G\n", ""
+            return 0, "Avail\n  100000000000\n", ""
         return 0, "", ""
 
 
