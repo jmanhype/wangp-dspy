@@ -10,7 +10,7 @@ import shlex
 from pathlib import Path
 from typing import Any
 
-from services.jobs.preflight import PreflightCheck, PreflightReport
+from services.jobs.preflight import PreflightCheck, PreflightReport, _probe_disk
 from services.jobs.queue import JobQueue
 from wangp.diagnostics import (
     FailureDiagnostic,
@@ -159,6 +159,25 @@ def _gate_evidence(path: Path) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
+def test_exact_byte_disk_boundary_keeps_decimal_diagnostic():
+    class DiskHost:
+        def run_probe(self, argv, timeout):
+            return 0, "Avail\n49999999999\n", ""
+
+    check = _probe_disk(DiskHost(), "/render-root", 50)
+    diagnostic = classify_preflight(PreflightReport(False, [check]))[0]
+    assert diagnostic.code == "DISK_HEADROOM_BELOW_THRESHOLD"
+    assert diagnostic.metadata["available_gb"] == 49.999999999
+    assert diagnostic.metadata["minimum_gb"] == 50.0
+    assert "GB (decimal)" in diagnostic.why
+    assert "GiB" not in diagnostic.why
+    historical = classify_preflight(PreflightReport(False, [PreflightCheck(
+        "disk_headroom", False, "49G free on /render-root (min 50G)"
+    )]))[0]
+    assert historical.code == "DISK_HEADROOM_BELOW_THRESHOLD"
+    assert "GiB" in historical.why
+
+
 def test_preflight_model_and_disk_diagnostics_preserve_measured_evidence(
     tmp_path: Path,
 ) -> None:
@@ -179,7 +198,7 @@ def test_preflight_model_and_disk_diagnostics_preserve_measured_evidence(
                 f"got {actual[:12]}…",
             ),
             PreflightCheck(
-                "disk_headroom", False, "49G free on /render-root (min 50G)"
+                "disk_headroom", False, "49.000000000 GB free on /render-root (min 50.0 GB)"
             ),
         ],
     )
@@ -201,13 +220,14 @@ def test_preflight_model_and_disk_diagnostics_preserve_measured_evidence(
         "check_kind": "disk_headroom",
     }
     assert by_code["DISK_HEADROOM_BELOW_THRESHOLD"].next_command == (
-        "df -BG --output=avail /render-root"
+        "df -B1 --output=avail /render-root"
     )
     failed_measurement = classify_preflight(PreflightReport(False, [
         PreflightCheck("disk_headroom", False, "df /render-root rc=255")
     ]))[0]
     assert failed_measurement.code == "DISK_CHECK_FAILED"
-    assert failed_measurement.next_command == "df -BG --output=avail /render-root"
+    assert failed_measurement.next_command == "df -B1 --output=avail /render-root"
+    assert "GB (decimal)" in by_code["DISK_HEADROOM_BELOW_THRESHOLD"].why
     local_format = classify_preflight(PreflightReport(False, [PreflightCheck(
         "model_files", False,
         f"sha256 mismatch {corrupt} (expected {expected[:12]}…, got {actual[:12]}…)",

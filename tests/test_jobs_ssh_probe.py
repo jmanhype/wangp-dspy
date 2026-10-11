@@ -48,11 +48,11 @@ def test_run_probe_carries_remote_argv_over_ssh(tmp_path):
 
     host = SshHost(target="3090", wgp_root="/w", pull_root=str(tmp_path),
                    sp=sp)
-    host.run_probe(["df", "-BG", "/mnt/bulk"], timeout=10)
+    host.run_probe(["df", "-B1", "--output=avail", "/mnt/bulk"], timeout=10)
     argv = seen["argv"]
     assert argv[0] == "ssh"
     import shlex
-    assert shlex.split(argv[-1]) == ["df", "-BG", "/mnt/bulk"]
+    assert shlex.split(argv[-1]) == ["df", "-B1", "--output=avail", "/mnt/bulk"]
 
 
 def test_run_probe_failure_returns_rc(tmp_path):

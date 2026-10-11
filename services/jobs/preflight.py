@@ -17,6 +17,7 @@ import csv
 import io
 import re
 from dataclasses import dataclass, field
+from decimal import Decimal, InvalidOperation
 from typing import List, Literal, Optional, Sequence
 
 PROBE_TIMEOUT_SECS = 30
@@ -149,21 +150,41 @@ def _probe_models(host, models) -> PreflightCheck:
 
 
 def _probe_disk(host, disk_path, min_free_gb) -> PreflightCheck:
+    # GB is decimal throughout admission: compare bytes, never rounded GiB.
+    max_bytes = 2**64 - 1
+    try:
+        if isinstance(min_free_gb, bool) or not isinstance(min_free_gb, (int, float)):
+            raise ValueError("disk minimum must be numeric")
+        minimum_gb = Decimal(str(min_free_gb))
+        if not minimum_gb.is_finite() or not 0 <= minimum_gb <= max_bytes:
+            raise ValueError("invalid disk minimum")
+        minimum_bytes = minimum_gb * 1000**3
+        if minimum_bytes > max_bytes:
+            raise ValueError("disk minimum exceeds byte-count range")
+    except (InvalidOperation, ValueError, TypeError):
+        return PreflightCheck("disk_headroom", False,
+                              "invalid min_free_gb (expected finite, nonnegative decimal GB)")
     rc, out, _err = _safe_probe(
-        host, ["df", "-BG", "--output=avail", disk_path])
+        host, ["df", "-B1", "--output=avail", disk_path])
     if rc != 0:
         return PreflightCheck("disk_headroom", False,
                               f"df {disk_path} rc={rc}")
     try:
-        avail_gb = float(re.search(r"(\d+)", out).group(1))
+        # GNU df emits an Avail header and one unsigned integer byte count.
+        # Reject units, signs, extra rows and overlarge counts rather than
+        # extracting the first digit sequence from malformed output.
+        match = re.fullmatch(r"(?:Avail\s*\n\s*)?([0-9]{1,20})", out.strip())
+        avail_bytes = int(match.group(1))
+        if avail_bytes > max_bytes:
+            raise ValueError("disk byte count out of range")
     except (AttributeError, ValueError):
         return PreflightCheck("disk_headroom", False,
                               f"unparseable df output: {out.strip()!r}")
-    ok = avail_gb >= min_free_gb
+    ok = avail_bytes >= minimum_bytes
     return PreflightCheck(
         "disk_headroom", ok,
-        f"{avail_gb:.0f}G free on {disk_path} "
-        f"(min {min_free_gb}G)" if True else "")
+        f"{Decimal(avail_bytes) / 1000**3:.9f} GB free on {disk_path} "
+        f"(min {minimum_gb + Decimal('0.0'):f} GB)")
 
 
 def _probe_gpu(host) -> PreflightCheck:
