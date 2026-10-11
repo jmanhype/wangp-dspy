@@ -124,7 +124,9 @@ with open(sys.argv[1], encoding="utf-8") as source:
 payload = json.loads(raw)
 if not isinstance(payload, dict):
     raise SystemExit(2)
-if payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4":
+if payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v5":
+    print("requires_operator_approval")
+elif payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4":
     exact_path = "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json"
     exact_approval = (
         payload.get("status") == "approved"

@@ -1,0 +1,585 @@
+"""WD-h0vk: RenderHost seam — renderer locality (Qwen-approved design).
+
+The adapter makes NO direct filesystem syscalls; every FS/exec
+operation goes through a RenderHost. LocalHost preserves today's
+byte-identical local behavior; SshHost runs the renderer on a remote
+GPU box over ssh with rsync push/pull. Remote timeouts wrap the
+command in `timeout <t>` REMOTE-SIDE — killing only the local ssh
+process would leak the remote GPU.
+
+Typed taxonomy (all WanGPError subclasses so callers keep one except
+path): RenderHostError -> MissingExecutableError / PushError /
+PullError / RemoteTimeoutError.
+"""
+from __future__ import annotations
+
+import os
+import json
+import shutil
+import subprocess
+import time
+import shlex
+from typing import Callable, Optional, Sequence
+
+from host.wangp_adapter import WanGPError
+
+
+class RenderHostError(WanGPError):
+    """Base: a host-transport failure (local FS or ssh/rsync)."""
+
+
+class MissingExecutableError(RenderHostError):
+    """Renderer venv/wgp missing or not executable on the host."""
+
+
+class PushError(RenderHostError):
+    """Pushing files to the host failed (rsync)."""
+
+
+class PullError(RenderHostError):
+    """Pulling rendered outputs from the host failed (rsync)."""
+
+
+class RemoteTimeoutError(RenderHostError):
+    """Remote command exceeded its timeout AND remote-side cleanup
+    (`timeout <t>`) already killed it; the remote GPU is free."""
+
+
+def _normalize_asset_map(value) -> dict:
+    """Validate a local-prefix -> host-prefix asset mapping."""
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise RenderHostError(
+            f"asset_map must be a mapping, got {type(value).__name__}")
+    normalized = {}
+    for local, remote in value.items():
+        if not isinstance(local, str) or not local.strip():
+            raise RenderHostError("asset_map local keys must be non-empty strings")
+        if not isinstance(remote, str) or not remote.strip():
+            raise RenderHostError("asset_map host values must be non-empty strings")
+        normalized[os.path.normpath(local)] = remote.rstrip("/")
+    return normalized
+
+
+def _asset_map_from_env() -> dict:
+    """Read ``WANGP_ASSET_MAP`` as JSON or ``local=remote;...`` pairs."""
+    raw = os.environ.get("WANGP_ASSET_MAP", "").strip()
+    if not raw:
+        return {}
+    if raw.startswith("{"):
+        try:
+            value = json.loads(raw)
+        except json.JSONDecodeError as e:
+            raise RenderHostError(
+                f"WANGP_ASSET_MAP is not valid JSON: {e}") from e
+        return _normalize_asset_map(value)
+    pairs = {}
+    for item in raw.split(";"):
+        if not item.strip():
+            continue
+        if "=" not in item:
+            raise RenderHostError(
+                "WANGP_ASSET_MAP entries must be local=remote pairs")
+        local, remote = item.split("=", 1)
+        pairs[local.strip()] = remote.strip()
+    return _normalize_asset_map(pairs)
+
+
+def _sanctioned_roots_from_env() -> tuple:
+    raw = os.environ.get("WANGP_SANCTIONED_DIRS", "")
+    return tuple(p.strip() for p in raw.split(os.pathsep) if p.strip())
+
+
+def _sp(argv, **kw):
+    return subprocess.Popen(argv, **kw)
+
+
+def _mkresult(returncode, stdout, stderr):
+    class _R:
+        pass
+    r = _R()
+    r.returncode = returncode
+    r.stdout = stdout
+    r.stderr = stderr
+    return r
+
+
+class LocalHost:
+    """Today's behavior, verbatim, behind the seam."""
+
+    def __init__(self, runner: Optional[Callable] = None):
+        self._runner = runner
+
+    # -- FS surface -------------------------------------------------
+    def check_executable(self, path: str) -> None:
+        if not (os.path.isfile(path) and os.access(path, os.X_OK)):
+            raise MissingExecutableError(
+                f"venv python not found or not executable: {path!r} — "
+                "is the Wan2GP venv present?")
+
+    def write_text(self, path: str, text: str) -> str:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(text)
+        return path
+
+    def map_asset(self, path: str) -> str:
+        """Return the local namespace path for an asset reference."""
+        return str(path)
+
+    def asset_local_roots(self) -> tuple:
+        """LocalHost has no separate host-side asset namespace."""
+        return ()
+
+    def fetch_file(self, remote: str, local: str) -> str:
+        """Materialize a host artifact locally (identity for LocalHost)."""
+        remote_abs = os.path.abspath(remote)
+        local_abs = os.path.abspath(local)
+        if remote_abs != local_abs:
+            os.makedirs(os.path.dirname(local_abs), exist_ok=True)
+            shutil.copy2(remote_abs, local_abs)
+        return local
+
+    def makedirs(self, path: str) -> None:
+        os.makedirs(path, exist_ok=True)
+
+    def join(self, *parts: str) -> str:
+        return os.path.join(*parts)
+
+    def prepare_run(self, wgp_script: str):
+        """(cwd, env) for a wgp invocation — local conventions."""
+        env = dict(os.environ)
+        local_bin = os.path.join(os.path.expanduser("~"), ".local", "bin")
+        env["PATH"] = local_bin + os.pathsep + env.get("PATH", "")
+        cwd = os.path.dirname(os.path.abspath(wgp_script)) or "."
+        return cwd, env
+
+    def run(self, cmd, cwd, env, timeout, runner=None):
+        runner = runner or self._runner
+        if runner is None:
+            raise RenderHostError(
+                "LocalHost.run requires a runner (adapter injects its own)")
+        return runner(cmd, cwd, env, timeout)
+
+    def run_argv(self, cmd, *, cwd, timeout):
+        """Execute structured argv, never a caller-supplied shell program."""
+        return subprocess.run(list(cmd), cwd=cwd, timeout=timeout,
+                              capture_output=True, text=True, check=False)
+
+    def push_asset(self, local: str) -> str:
+        if not os.path.isfile(local):
+            raise PushError(f"asset source is not readable: {local!r}")
+        return self.map_asset(local)
+
+    def fetch_videos(self, dirs: Sequence[str], local_dir: str,
+                     newer_than: float) -> tuple:
+        """Local: scan directly. Remote implementations pull then scan
+        the local mirror — the returned paths are local-namespace."""
+        found = []
+        for d in dirs:
+            if not os.path.isdir(d):
+                continue
+            for n in os.listdir(d):
+                if not n.lower().endswith((".mp4", ".mov", ".webm")):
+                    continue
+                p = os.path.join(d, n)
+                try:
+                    if os.path.getmtime(p) + 1e-6 < newer_than:
+                        continue
+                except OSError:
+                    continue
+                found.append(p)
+        return tuple(sorted(found))
+
+
+class SshHost(LocalHost):
+    """Remote GPU host: ssh exec (timeout wrapped remote-side) +
+    rsync push/pull. Paths the ADAPTER sees are LOCAL (pull_root
+    namespace); paths the RUNNER sees are remote (wgp_root namespace).
+
+    ``map_path`` translates local -> remote for cmd construction; the
+    adapter passes host-returned (remote) settings paths straight
+    through, so no guessing ever happens in the adapter.
+
+    NAMESPACE CONTRACT (Qwen, WD-h0vk): ``render_dir`` has a dual
+    identity — it is the REMOTE write path during the run (settings
+    live and wgp reads them there) and the LOCAL pull mirror after
+    ``fetch_videos`` materializes it. The default ``wgp_outputs_dir``
+    derivation (<wgp_root>/outputs) is posix because wgp_root is a
+    remote posix path by construction; local consumers only see it
+    after pull. Cross-namespace consumers must go through
+    ``map_path``/``write_text`` returns, never os.path.join mixing.
+    """
+
+    def __init__(self, *, target: str, wgp_root: str, pull_root: str,
+                 sp: Callable = _sp, port: Optional[int] = None,
+                 asset_map: Optional[dict] = None):
+        super().__init__()
+        self.target = target
+        self.wgp_root = wgp_root
+        self.pull_root = os.path.abspath(pull_root)
+        self.sp = sp
+        self.port = port
+        self.asset_map = _normalize_asset_map(
+            asset_map if asset_map is not None else _asset_map_from_env())
+        os.makedirs(self.pull_root, exist_ok=True)
+
+    # -- ssh/rsync plumbing ----------------------------------------
+    def _ssh_base(self):
+        # WD-tc04 keepalives: a dead ssh channel must DROP (~5min)
+        # so the adapter's pull-retry path can take over — the live
+        # wedge blocked ~25min with remote wgp already finished.
+        base = ["ssh",
+                "-o", "ServerAliveInterval=30",
+                "-o", "ServerAliveCountMax=10",
+                "-o", "ConnectTimeout=15"]
+        if self.port:
+            base += ["-p", str(self.port)]
+        base.append(self.target)
+        return base
+
+    def _run_ssh(self, argv, **kw):
+        return self.sp(self._ssh_base() + argv, **kw)
+
+    def _run(self, argv, what):
+        proc = self.sp(argv, stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate()
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            raise RemoteTimeoutError(f"{what} timed out")
+        return proc.returncode, \
+            out.decode("utf-8", "replace"), \
+            err.decode("utf-8", "replace")
+
+    def run_probe(self, argv, timeout=30):
+        """Run a read-only probe command on the remote host; returns
+        (rc, stdout, stderr). Preflight's ONLY host surface — probes
+        never render, so no remote `timeout` wrapper is needed beyond
+        the local communicate timeout."""
+        # OpenSSH joins its command arguments into a shell string; passing
+        # Python argv through unchanged loses boundaries (spaces in native
+        # WanGP filenames became multiple readlink/cp operands). Quote every
+        # argument of structured probes. A one-item prebuilt shell command
+        # remains the legacy detached-launch contract, not an asset argv.
+        import shlex
+        args = list(argv)
+        remote_command = args if len(args) == 1 else [shlex.join(args)]
+        proc = self.sp(self._ssh_base() + remote_command,
+                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            return 124, "", f"probe timed out after {timeout}s"
+        return proc.returncode, \
+            out.decode("utf-8", "replace"), \
+            err.decode("utf-8", "replace")
+
+    def run_argv(self, cmd, *, cwd, timeout):
+        """Shell-quote every argv element; enforce timeout on the host."""
+        if not cmd or timeout <= 0:
+            raise RenderHostError("non-empty argv and positive timeout required")
+        command = ("cd -- " + shlex.quote(str(cwd)) + " && "
+                   + shlex.join(["timeout", str(timeout), *map(str, cmd)]))
+        proc = self.sp(self._ssh_base() + [command], stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate(timeout=timeout + 30)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            raise RemoteTimeoutError(f"remote command exceeded {timeout}s")
+        return _mkresult(proc.returncode, out.decode("utf-8", "replace"),
+                         err.decode("utf-8", "replace"))
+
+    def map_path(self, local: str) -> str:
+        """local pull_root namespace -> remote wgp_root namespace."""
+        rel = os.path.relpath(os.path.abspath(local),
+                              os.path.abspath(self.pull_root))
+        # GLM F1: refuse escapes — a local path outside pull_root must
+        # never map to ../ outside wgp_root (rsync dest containment).
+        if rel == ".." or rel.startswith(".." + os.sep):
+            raise RenderHostError(
+                "path escapes pull_root; refusing to map outside wgp_root")
+        return self.wgp_root + "/" + rel.replace(os.sep, "/")
+
+    def map_asset(self, path: str) -> str:
+        """Map a local asset reference into the configured host namespace.
+
+        Mapping is longest-prefix-first so a file alias can override a
+        directory mapping (for example, ``plate.png`` living in a host
+        speaker-test directory while the turn WAVs use ``~/acceptance``).
+        ``chain://`` references are materialized later by the chain advance
+        seam and therefore pass through unchanged.
+        """
+        raw = str(path)
+        if not raw or raw.startswith("chain://"):
+            return raw
+        normalized = os.path.normpath(raw)
+        absolute = os.path.abspath(normalized)
+        for local, remote in sorted(self.asset_map.items(),
+                                    key=lambda item: len(item[0]),
+                                    reverse=True):
+            local_norm = os.path.normpath(local)
+            local_abs = os.path.abspath(local_norm)
+            if normalized == local_norm:
+                suffix = ""
+            elif normalized.startswith(local_norm + os.sep):
+                suffix = normalized[len(local_norm):]
+            elif absolute == local_abs:
+                suffix = ""
+            elif absolute.startswith(local_abs + os.sep):
+                suffix = absolute[len(local_abs):]
+            else:
+                continue
+            return remote.rstrip("/") + suffix.replace(os.sep, "/")
+        # Already-hosted paths are idempotent.  The configured sanctioned
+        # roots are host-side paths and are intentionally not hardcoded.
+        for root in _sanctioned_roots_from_env():
+            root_norm = root.rstrip("/")
+            if normalized == root_norm or normalized.startswith(root_norm + "/"):
+                return normalized
+        raise RenderHostError(
+            f"asset path {raw!r} has no configured host mapping; "
+            "set WANGP_ASSET_MAP or supply asset_map")
+
+    def asset_local_roots(self) -> tuple:
+        """Return local roots corresponding to configured asset mappings.
+
+        Runtime containment remains strict: these are only the local
+        counterparts of explicitly configured mappings, never a blanket
+        allowance for arbitrary paths.
+        """
+        roots = set()
+        for local in self.asset_map:
+            candidate = os.path.abspath(local)
+            if not os.path.isdir(candidate):
+                candidate = os.path.dirname(candidate)
+            roots.add(candidate)
+        return tuple(sorted(roots))
+
+    # -- RenderHost surface ----------------------------------------
+    def check_executable(self, path: str) -> None:
+        rc, _o, err = self._run(
+            self._ssh_base() + ["test", "-x", path], "ssh test -x")
+        if rc != 0:
+            raise MissingExecutableError(
+                f"remote venv python not executable on {self.target}: "
+                f"{path!r} ({err.strip()[:200]})")
+
+    def write_text(self, path: str, text: str) -> str:
+        """path is REMOTE-namespace; content pushed via rsync."""
+        remote_path = self._as_remote_path(path)
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".json",
+                                         delete=False) as tf:
+            tf.write(text)
+            local_tmp = tf.name
+        try:
+            rc, _o, err = self._run(
+                ["rsync", "-a", local_tmp,
+                 f"{self.target}:{remote_path}"],
+                "rsync push")
+        finally:
+            os.unlink(local_tmp)
+        if rc != 0:
+            raise PushError(f"rsync push to {self.target}:{remote_path} "
+                            f"failed: {err.strip()[:300]}")
+        return remote_path
+
+    def _as_remote_path(self, path: str) -> str:
+        """Translate a local pull-mirror path, preserving true host paths."""
+        if not os.path.isabs(str(path)):
+            return str(path)
+        try:
+            return self.map_path(str(path))
+        except Exception:
+            return str(path)
+
+    def push_file(self, local: str, remote: str) -> str:
+        """Push one local file to an explicit host path via rsync."""
+        remote_path = self._as_remote_path(remote)
+        rc, _o, err = self._run(
+            ["rsync", "-a", local, f"{self.target}:{remote_path}"],
+            "rsync file push")
+        if rc != 0:
+            raise PushError(f"rsync push of {local!r} to "
+                            f"{self.target}:{remote_path} failed: "
+                            f"{err.strip()[:300]}")
+        return remote_path
+
+    def push_asset(self, local: str) -> str:
+        """Map and push a configured asset (or return its host path)."""
+        remote = self.map_asset(local)
+        if not os.path.isfile(local):
+            # Acceptance fixtures may already be present on the host; no
+            # local file is required when the configured mapping resolves
+            # to an existing host artifact.
+            rc, _o, _err = self.run_probe(["test", "-f", remote])
+            if rc == 0:
+                return remote
+            raise PushError(f"asset source is not readable locally or on "
+                            f"the host: {local!r} -> {remote!r}")
+        return self.push_file(local, remote)
+
+    def fetch_file(self, remote: str, local: str) -> str:
+        """Pull one host artifact into the local pull mirror."""
+        os.makedirs(os.path.dirname(os.path.abspath(local)), exist_ok=True)
+        rc, _o, err = self._run(
+            ["rsync", "-a", f"{self.target}:{remote}", local],
+            "rsync file pull")
+        if rc != 0:
+            raise PullError(f"rsync pull of {self.target}:{remote} "
+                            f"failed: {err.strip()[:300]}")
+        return local
+
+    def fetch_file_partial(self, remote: str, local: str) -> str:
+        """Pull one host file into an explicitly resumable local part."""
+        os.makedirs(os.path.dirname(os.path.abspath(local)), exist_ok=True)
+        rc, _o, err = self._run(
+            ["rsync", "-a", "--partial", "--inplace", "--append",
+             f"{self.target}:{remote}", local],
+            "rsync resumable file pull")
+        if rc != 0:
+            raise PullError(f"resumable rsync pull of {self.target}:{remote} "
+                            f"failed: {err.strip()[:300]}")
+        return local
+
+    def unlink_verified_file(self, remote: str, *, expected_size_bytes: int,
+                             expected_sha256: str) -> str:
+        """Free one exact regular host file only after size/hash reverify."""
+        code = r'''import hashlib,json,os,stat,sys
+p=sys.argv[2]
+expected_size=int(sys.argv[3])
+expected_hash=sys.argv[4]
+s=os.lstat(p)
+if not stat.S_ISREG(s.st_mode) or stat.S_ISLNK(s.st_mode) or s.st_size != expected_size:
+ raise OSError("source identity mismatch before unlink")
+h=hashlib.sha256()
+with open(p,"rb") as source:
+ for block in iter(lambda:source.read(4194304),b""): h.update(block)
+if h.hexdigest() != expected_hash: raise OSError("source hash mismatch before unlink")
+os.unlink(p)
+if os.path.lexists(p): raise OSError("source still exists after unlink")
+print(json.dumps({"path":p,"size_bytes":expected_size,"sha256":expected_hash,"freed":True},sort_keys=True))'''
+        result = self.run_argv(
+            ["python3", "-c", code, "wd-cuzw-verified-unlink", remote,
+             str(expected_size_bytes), expected_sha256],
+            cwd="/", timeout=3600)
+        if result.returncode != 0:
+            raise RenderHostError(
+                f"verified unlink of {self.target}:{remote} failed: "
+                f"{result.stderr.strip()[:300]}")
+        return remote
+
+    def makedirs(self, path: str) -> None:
+        """Remote mkdir -p (live T0 finding: rsync pushing a FILE does
+        NOT create parent dirs, so the no-op made write_text fail on a
+        fresh render-NNNN dir). Local pull mirror still lazy."""
+        remote_path = self._as_remote_path(path)
+        rc, _o, err = self._run(
+            self._ssh_base() + ["mkdir", "-p", remote_path], "ssh mkdir")
+        if rc != 0:
+            raise RenderHostError(
+                f"remote mkdir -p {remote_path} on {self.target} failed: "
+                f"{err.strip()[:200]}")
+
+    def join(self, *parts: str) -> str:
+        # preserve absoluteness: stripping leading "/" from the first
+        # part turns an absolute output_dir into a home-relative path,
+        # breaking rsync push ("3090:home/..." -> ~/"home/...").
+        # Live T0 acceptance finding (WD-h0vk).
+        parts = tuple(p for p in parts if p)
+        if not parts:
+            return ""
+        lead = "/" if parts[0].startswith("/") else ""
+        return lead + "/".join(p.strip("/") for p in parts)
+
+    def run(self, cmd, cwd, env, timeout, runner=None):
+        """cmd/cwd are REMOTE-namespace. `timeout <t>` wraps the
+        command REMOTE-SIDE so an expired render is killed on the GPU
+        box (killing local ssh alone would leak the GPU).
+
+        Live T0 finding: wgp resolves 'models/_settings.json' against
+        its CWD — without `cd <cwd>` first, ssh runs in the remote home
+        and wgp dies on a relative path. `cd` is a SHELL BUILTIN so it
+        must wrap `timeout` (timeout execs a binary — `timeout cd`
+        fails with 127); the remote shell string handles both."""
+        t = int(timeout)
+        argv = self._ssh_base() + ["cd", cwd, "&&",
+                                   "timeout", str(t)] + list(cmd)
+        proc = self.sp(argv, stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        try:
+            out, err = proc.communicate(timeout=timeout + 30)
+        except subprocess.TimeoutExpired:
+            # ssh-side backstop (remote timeout should have fired
+            # first); kill local ssh — remote `timeout` has already
+            # reaped the renderer.
+            proc.kill()
+            proc.wait()
+            raise RemoteTimeoutError(
+                f"remote render exceeded {timeout}s; remote-side "
+                "timeout reaped the GPU process")
+        return _mkresult(proc.returncode,
+                         out.decode("utf-8", "replace"),
+                         err.decode("utf-8", "replace"))
+
+    def fetch_videos(self, dirs: Sequence[str], local_dir: str,
+                     newer_than: float) -> tuple:
+        """Pull each remote output dir into the local mirror, then
+        reuse the local scan on the mirror (mtime filter: rsync -a
+        preserves remote mtimes, so 'newer than attempt start' works
+        exactly as locally).
+
+        Live T0 finding: callers pass REMOTE-namespace dirs/dir (the
+        adapter only knows host-namespace paths). Derive the local
+        pull mirror via the wgp_root<->pull_root mapping instead of
+        makedirs on a remote absolute path (broke on /home/... on
+        macOS)."""
+        # local_dir is remote-namespace; map to the local mirror root
+        rel = os.path.relpath(local_dir, self.wgp_root)
+        # GLM PR#11 F: same escape class as map_path's guard — a
+        # local_dir outside wgp_root would yield ../.. and smuggle
+        # the pull/makedirs outside pull_root. Fail closed.
+        if rel == ".." or rel.startswith(".." + os.sep):
+            raise RenderHostError(
+                "fetch_videos dir escapes wgp_root; refusing to pull "
+                "outside pull_root")
+        mirror = os.path.join(self.pull_root, rel)
+        os.makedirs(mirror, exist_ok=True)
+        for d in dirs:
+            remote = d  # dirs arrive host-namespace (remote) already
+            rc, _o, err = self._run(
+                ["rsync", "-a", f"{self.target}:{remote}/",
+                 mirror + "/"], "rsync pull")
+            if rc != 0:
+                raise PullError(f"rsync pull from {self.target}:{remote}"
+                                f" failed: {err.strip()[:300]}")
+        # WD-qn1a scratch hygiene: rsync -a pulls the WHOLE shared
+        # dir — stale historical renders land in the mirror even
+        # though the scan filter excludes them (cycle-4 live
+        # finding: pull6 mirror carried unrelated old outputs).
+        # Story isolation = the mirror only ever contains this
+        # attempt's videos: delete pulled video files that fail the
+        # same freshness rule the scan applies.
+        for n in os.listdir(mirror):
+            if not n.lower().endswith((".mp4", ".mov", ".webm")):
+                continue
+            p = os.path.join(mirror, n)
+            try:
+                if os.path.getmtime(p) + 1e-6 >= newer_than:
+                    continue  # fresh — belongs to this attempt
+            except OSError:
+                pass
+            try:
+                os.remove(p)
+            except OSError:
+                pass  # best-effort purge; scan filter still guards
+        return LocalHost.fetch_videos(
+            self, (mirror,), mirror, newer_than=newer_than)

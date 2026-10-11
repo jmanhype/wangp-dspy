@@ -19,6 +19,8 @@ ISOLATED_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-gen
 RETRY6_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-retry6-authorization.template.json"
 RETRY6_OPERATOR_PROPOSAL = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry6-20261011.json"
 RETRY6_APPROVED_AUTHORIZATION = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json"
+RETRY7_AUTHORIZATION_TEMPLATE = ROOT / "datasets/runs/maestro-parity/clean-generated/isolated-runtime-retry7-authorization.template.json"
+RETRY7_OPERATOR_PROPOSAL = ROOT / "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry7-20261011.json"
 AUTHORIZED_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -45,6 +47,7 @@ V4_AUTHORIZED_SOURCE_FILES = V3_AUTHORIZED_SOURCE_FILES + (
     REFERENCE_EVIDENCE_RELATIVE,
     REFERENCE_PROMPT_SOURCE_RELATIVE,
 )
+V5_AUTHORIZED_SOURCE_FILES = V4_AUTHORIZED_SOURCE_FILES + ("services/jobs/preflight.py",)
 LEGACY_PROMPT = ("A concise cinematic test shot: a small brass compass spins slowly on a paper map while cool window light "
                  "shifts across the table. Soft cloth and paper sounds, one clear click, no speech.")
 
@@ -108,6 +111,12 @@ def inputs(authorization: Any, manifest: Any) -> tuple[dict[str, Any], list[dict
     fixed = {"schema_version": "wangp-dspy.clean-generated-authorization/v1", "status": "approved",
              "text": "Authorize", "timestamp": "2026-09-29T23:17:30Z", "base_commit": BASE}
     template = load(ISOLATED_AUTHORIZATION_TEMPLATE)
+    if (isinstance(authorization, dict)
+            and authorization.get("schema_version") == "wangp-dspy.clean-generated-authorization/v5"):
+        raise ProofError(
+            "RETRY7_OPERATOR_APPROVAL_REQUIRED",
+            "retry7 has no executable approval; a future externally anchored operator approval PR is required",
+        )
     fingerprint = hashlib.sha256(json.dumps(authorization, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     for record in load(AUTHORIZATION_CONSUMPTION).get("records", []):
         if record.get("authorization_canonical_sha256") == fingerprint and record.get("status") == "consumed":
@@ -205,7 +214,9 @@ def source_identity(files: Mapping[str, str]) -> str:
 
 def validate_authorized_source(checkout: Path, authorization: Mapping[str, Any]) -> None:
     schema_version = authorization.get("schema_version")
-    if schema_version == "wangp-dspy.clean-generated-authorization/v4":
+    if schema_version == "wangp-dspy.clean-generated-authorization/v5":
+        source_files = V5_AUTHORIZED_SOURCE_FILES
+    elif schema_version == "wangp-dspy.clean-generated-authorization/v4":
         source_files = V4_AUTHORIZED_SOURCE_FILES
     elif schema_version == "wangp-dspy.clean-generated-authorization/v3":
         source_files = V3_AUTHORIZED_SOURCE_FILES
