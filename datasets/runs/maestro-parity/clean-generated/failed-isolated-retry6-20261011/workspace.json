@@ -1,0 +1,39 @@
+{
+  "authorized_source": {
+    "files": {
+      "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json": "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389",
+      "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json": "b7f21df9ebae2be16424f72f42c49bb066c4c1c17d14ce8e7e9d232d886a76f9",
+      "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23",
+      "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+      "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+      "install.sh": "ec7e865eb16b5946a7517138f1fcccc9454d5565528f85b39f678a940f6d5a2a",
+      "scripts/record_clean_generated_proof.py": "bf5fbcce672a7662a3e31304a75f1dc4872392fbfa112df5ec9fc724f5d402b1",
+      "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+    },
+    "identity_sha256": "56feae69c9b45a8d61917160f61f60f121a08947b7d6768e14238cb21bee6ee6"
+  },
+  "checkout": "/private/tmp/wangp-clean-generated-h3-retry6-20261011/checkout",
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-h3-retry6-20261011",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "commit": "238aaeca42fd7b0a012d2d606301e56cfe6bb6d1",
+  "identity_sha256": "6634413ccfbe802fc3c94b509ed7b6f280b545e666f0544756524d0838e07ea6",
+  "status": "",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers",
+    "ffprobe": "ffprobe version 8.0.1 Copyright (c) 2007-2025 the FFmpeg developers",
+    "git": "git version 2.49.0",
+    "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]"
+  },
+  "workspace": "/private/tmp/wangp-clean-generated-h3-retry6-20261011"
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sh",
+    "/Users/Shared/HermesWorkspace/wangp-dspy/install.sh",
+    "--source",
+    "/Users/Shared/HermesWorkspace/wangp-dspy",
+    "--clean-generated-proof",
+    "/private/tmp/wangp-clean-generated-h3-retry6-20261011",
+    "--generated-authorization",
+    "datasets/runs/maestro-parity/clean-generated/operator-authorization.isolated-runtime.retry6-20261011.json",
+    "--generated-manifest",
+    "datasets/runs/maestro-parity/clean-generated/model-assets.json"
+  ],
+  "diagnostic": {
+    "code": "HOST_PREFLIGHT_FAILED",
+    "detail": "49G free on /home/straughter/Wan2GP (min 50.0G)"
+  },
+  "generated_artifact": false,
+  "schema_version": "wangp-dspy.clean-generated-proof-failure/v1",
+  "substitution_attempted": false
+}

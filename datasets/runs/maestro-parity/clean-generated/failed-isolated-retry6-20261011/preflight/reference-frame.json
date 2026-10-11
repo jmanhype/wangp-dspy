@@ -1,0 +1,15 @@
+{
+  "host_path": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011/wd_bw0h_h3_standard_ref_first_frame.png",
+  "host_resolved": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011/wd_bw0h_h3_standard_ref_first_frame.png",
+  "host_target_absent": true,
+  "host_target_is_symlink": false,
+  "local_path": "/private/tmp/wangp-clean-generated-h3-retry6-20261011/proof/preflight/reference-first-frame.png",
+  "passed": true,
+  "probe_error": "",
+  "root_resolved": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011",
+  "root_symlink_after_create": false,
+  "root_symlink_before_create": false,
+  "source_path": "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+  "source_sha256": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23",
+  "staged_sha256": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23"
+}

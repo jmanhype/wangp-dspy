@@ -71,6 +71,19 @@
       ],
       "reason": "The approved retry5 boundary was consumed by clean preflight and one successful native H3 queue render, but the governed objective gate rejected the real 480063-byte output against the fixed 500000-byte minimum. The recorder stopped fail-closed with OBJECTIVE_GATE_FAILED and generated no canonical evidence artifact. No retry, substitution, threshold change, or capability promotion occurred.",
       "generated_artifact": false
+    },
+    {
+      "authorization_canonical_sha256": "591fe7f933eeb45ce34e965b9fcad94966bec8267b90069e999097c75b901014",
+      "status": "consumed",
+      "evidence": [
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/failure.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/preflight/report.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/preflight/reference-frame.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/post-hoc/disk-unit-analysis.json",
+        "datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/boundary.md"
+      ],
+      "reason": "The approved retry6 boundary was consumed through clean setup, exact reference staging, PyAV media-write preflight, and four-model hash verification, but stopped fail-closed at generic disk preflight because df -BG reported 49 binary GiB against a unitless 50 floor. No queue job was admitted and no render occurred.",
+      "generated_artifact": false
     }
   ]
 }
