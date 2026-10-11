@@ -1,0 +1,80 @@
+{
+  "file_count": 13,
+  "files": [
+    {
+      "path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/outpaint.json",
+      "sha256": "76183330b7898eb95ac94236083eaa3092fabbcb01696fd7a930d4113afb8e83",
+      "size_bytes": 687
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/recast.json",
+      "sha256": "40a1c1c4f5399fcd0052484f6ca562fc16c65c9ac166c41f6e4a8b3558a90f20",
+      "size_bytes": 643
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/repaint.json",
+      "sha256": "36d4ce9527d1d9f6188767eae8c34293113dba9e80e5c588897ec28cbc0fd928",
+      "size_bytes": 748
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-m7xw/native-settings/upscale.json",
+      "sha256": "31a093fbbab7367ab51e6a47a6d0fdbc749a612ec6ad5790a2f90c01f984667d",
+      "size_bytes": 589
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-osfm/native-settings/outpaint-probe.json",
+      "sha256": "8b3450245b99bed8d3d6af29e39efa8b72968218290987611ccf499cddf202b8",
+      "size_bytes": 779
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-osfm/native-settings/recast-probe.json",
+      "sha256": "1d07daa89b7e81b319e4fc4b011023ea1490d89d1c9d45399e04141099cbdd97",
+      "size_bytes": 727
+    },
+    {
+      "path": "datasets/runs/maestro-parity/WD-osfm/native-settings/upscale.json",
+      "sha256": "acf08e67b4827e7715956b107023ca57fcd6efe03c7280817d9df18d4770bddd",
+      "size_bytes": 512
+    },
+    {
+      "path": "predict/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "predict/model_types.py",
+      "sha256": "c03a9ae85ef90279fe38f777ed91fa50ad18f8204da43ee87a2b4f7e5a2fe971",
+      "size_bytes": 675
+    },
+    {
+      "path": "scripts/run_ltx_final_operations.py",
+      "sha256": "d9be53d681ff28efeb13173e9c20d99827f7b8cfb4a5e8f83078cb3159473203",
+      "size_bytes": 47090
+    },
+    {
+      "path": "services/jobs/__init__.py",
+      "sha256": "d2dffe38cccd903317471aa953c36e0dc3421ee77fc1a30c030dfa1110d92466",
+      "size_bytes": 651
+    },
+    {
+      "path": "services/jobs/queue.py",
+      "sha256": "52e597c85aa9d6bff813679b7bf895727277d2c3ab6a5204924c13cff65f35f2",
+      "size_bytes": 35540
+    },
+    {
+      "path": "services/jobs/states.py",
+      "sha256": "06d35c893e5c627110934cacca673e473b4663ff211d1e0b96815fe09206e9ab",
+      "size_bytes": 2925
+    }
+  ],
+  "repository": {
+    "clean_tree": true,
+    "commit_sha": "f6548f03528b058476367349a5f481614cfa35be",
+    "dirty_tree": false,
+    "repo_root": "/home/straughter/wangp-dspy-codex",
+    "status_porcelain_v1": "",
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "schema_version": "wangp-dspy.ltx-stage-inventory/v2",
+  "staged_root": "/home/straughter/wd-28ac-run/phase-b-gate22-corrected-retry-identity-capture-f654-20261011/repository"
+}
