@@ -109,6 +109,31 @@ fail_clean_generated_input() {
     exit 11
 }
 
+fail_clean_generated_unapproved() {
+    printf '%s\n' \
+        "UNAPPROVED_CLEAN_GENERATED_AUTHORIZATION: $GENERATED_AUTHORIZATION is not approved." \
+        'A fresh retry proposal/template is evidence only; explicit operator approval is required before any workspace is created.' >&2
+    exit 12
+}
+
+require_clean_generated_approval() {
+    approval_status=$(python3 -c '
+import json, sys
+with open(sys.argv[1], encoding="utf-8") as source:
+    payload = json.load(source)
+if not isinstance(payload, dict):
+    raise SystemExit(2)
+if payload.get("schema_version") == "wangp-dspy.clean-generated-authorization/v4":
+    print("requires_operator_approval")
+else:
+    print(payload.get("status", ""))
+' "$1" 2>/dev/null) || fail_clean_generated_unapproved
+    case $approval_status in
+        approved) ;;
+        *) fail_clean_generated_unapproved ;;
+    esac
+}
+
 uv_requirement() {
     case $1 in
         git+*|/*|./*|../*) printf '%s\n' "$1" ;;
@@ -320,6 +345,9 @@ if [ -n "$CLEAN_GENERATED" ]; then
             fail_clean_generated_input "$input is not a regular committed file."
         fi
     done
+    if [ "$DRY_RUN" != true ]; then
+        require_clean_generated_approval "$GENERATED_AUTHORIZATION"
+    fi
 fi
 
 if [ -n "$CLEAN_PROOF" ]; then

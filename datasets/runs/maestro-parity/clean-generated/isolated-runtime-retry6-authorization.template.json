@@ -1,0 +1,85 @@
+{
+  "allowed_host": {
+    "min_free_gb": 50,
+    "offload_root": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090",
+    "pull_root": "{WORKSPACE}/pull",
+    "qc_url": "http://127.0.0.1:8377/health",
+    "remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011",
+    "render_timeout_s": 3600,
+    "runtime": {
+      "environment": {
+        "PYTHONUNBUFFERED": "1",
+        "PYTORCH_ALLOC_CONF": "expandable_segments:True"
+      },
+      "python": "/usr/bin/python3",
+      "pythonpath": [
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/rembg-2.0.65",
+        "/home/straughter/wd-28ac-final-gate7-20261003/runtime/mmgp-3.7.14",
+        "/home/straughter/ComfyUI/venv/lib/python3.12/site-packages"
+      ]
+    },
+    "target": "3090",
+    "wgp_python": "/usr/bin/python3",
+    "wgp_root": "/home/straughter/Wan2GP"
+  },
+  "allowed_operation": {
+    "family": "minimax_h3",
+    "operation": "create",
+    "preset": "standard",
+    "render_count": 1
+  },
+  "allowed_reference": {
+    "evidence_path": "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json",
+    "frame_path": "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png",
+    "prompt": "The same small brass compass on a folded paper map as cool window light continues to drift; the needle settles with a soft click. Quiet paper and cloth sounds, no speech.",
+    "prompt_path": "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json",
+    "seed": 4113,
+    "sha256": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23"
+  },
+  "approved_by": "operator",
+  "authorized_source": {
+    "files": {
+      "datasets/runs/maestro-parity/clean-generated/first-run/evidence.json": "1b9a6ff676dee6816924498fc0ee67dd5a59478568d73897f888eaaa07752389",
+      "datasets/runs/maestro-parity/clean-generated/first-run/ffprobe.json": "b7f21df9ebae2be16424f72f42c49bb066c4c1c17d14ce8e7e9d232d886a76f9",
+      "datasets/runs/maestro-parity/clean-generated/first-run/inputs/wd_bw0h_h3_standard_ref_first_frame.png": "077574d73add314f2c4451fd75ab481daa3cfe81ccd925220e6e0f82587ece23",
+      "datasets/runs/maestro-parity/clean-generated/model-assets.json": "25078447afda2306e86a424a7c554fba5ae40f3838fcfcdddced6e9391b90fa0",
+      "host/render_host.py": "83b4b5fae72d521d35f0511350d9a61855d0eb6bb4da36edb2d5b7d6fe9c6620",
+      "host/wangp_adapter.py": "7b1e24b9c71a4c0671e6e6abb156a9e310543d77978c66d0c28900b0311f27f5",
+      "install.sh": "59ce408aa47214327abf3e5a824c9c590d0759e4b14083e7828b2938e6af0d6d",
+      "scripts/record_clean_generated_proof.py": "eb38530d9d5c4d3dc68b95ded0488b3c24ba3816ef939e08e4fbaa4115a9b2d2",
+      "scripts/verify_maestro_parity.py": "6475a33b5b06f9324f6342204198f22b0d6421bc0709c5861006fa2e801856af"
+    },
+    "identity_sha256": "dadf97bed7976c68daac784589d87db207a66a7452b6c8eea6e0a9218c0cd608"
+  },
+  "boundaries": {
+    "deletions": 0,
+    "downloads": 0,
+    "gui": false,
+    "protected_engine_change": false,
+    "provider_spend": false,
+    "registry_publication": false,
+    "second_render": false,
+    "tag_creation": false,
+    "threshold_change": false,
+    "training": false
+  },
+  "operator_approval": {
+    "approved_at": "",
+    "proposal": "datasets/runs/maestro-parity/clean-generated/operator-proposal.isolated-runtime.retry6-20261011.json",
+    "proposal_sha256": "3073b8fdc910ddd3c78d7b6cd3261f7a54e2048ff96ee973d3bed105c2d15f93",
+    "verbatim": ""
+  },
+  "retry6_requirements": {
+    "fresh_remote_work_root": "/home/straughter/Wan2GP/wd-bw0h-clean-generated-retry6-20261011",
+    "one_attempt": true,
+    "reference_frame_required": true,
+    "second_render": false,
+    "threshold_bytes": 500000
+  },
+  "schema_version": "wangp-dspy.clean-generated-authorization/v4",
+  "scope": "",
+  "status": "requires_operator_approval",
+  "superseded_relocations": [],
+  "text": "",
+  "timestamp": ""
+}
