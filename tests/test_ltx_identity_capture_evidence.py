@@ -41,6 +41,30 @@ def test_ltx_identity_evidence_manifest_hashes_every_preserved_file() -> None:
         assert digest(path) == expected["sha256"]
 
 
+def test_ltx_identity_evidence_discloses_unretained_launcher_diagnostic() -> None:
+    summary = json.loads((BASE / "run-summary.json").read_text(encoding="utf-8"))
+
+    assert summary["launcher_setup_note"] == (
+        "A preliminary launcher attempt was observed in dispatcher tooling with "
+        "ModuleNotFoundError before runner import, but its complete diagnostic "
+        "was not retained in this bundle. The corrected PYTHONPATH completed "
+        "the same authorized batch. The preserved queue begins with the seven "
+        "corrected admissions; this bundle does not independently establish "
+        "the preliminary attempt's queue or admission state."
+    )
+    assert (BASE / "batch.stderr").read_bytes() == b""
+
+
+def test_ltx_identity_native_log_whitespace_exemption_is_path_scoped() -> None:
+    attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+
+    assert (
+        "datasets/runs/maestro-parity/ltx-dependency-terminalization/"
+        "identity-capture-f654-20261011/**/native.log -whitespace\n"
+    ) in attributes
+    assert "*.log -whitespace" not in attributes
+
+
 def test_ltx_identity_run_proves_seven_one_attempt_native_operations() -> None:
     summary = json.loads((BASE / "run-summary.json").read_text(encoding="utf-8"))
     stage = json.loads((BASE / "stage-inventory.json").read_text(encoding="utf-8"))

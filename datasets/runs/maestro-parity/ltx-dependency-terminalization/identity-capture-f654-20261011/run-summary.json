@@ -3,7 +3,7 @@
   "deletions": 0,
   "dependency_installs": 0,
   "failed_count": 0,
-  "launcher_setup_note": "First wrapper process failed before runner import/validation with ModuleNotFoundError and created no queue/admission; corrected PYTHONPATH completed the same authorized batch. No native operation was attempted in the failed wrapper.",
+  "launcher_setup_note": "A preliminary launcher attempt was observed in dispatcher tooling with ModuleNotFoundError before runner import, but its complete diagnostic was not retained in this bundle. The corrected PYTHONPATH completed the same authorized batch. The preserved queue begins with the seven corrected admissions; this bundle does not independently establish the preliminary attempt's queue or admission state.",
   "matrix_promotion": false,
   "model_downloads": 0,
   "operation_count": 7,
