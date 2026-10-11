@@ -1,0 +1,15 @@
+{
+  "deletion": false,
+  "destination": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090/pinkcherry",
+  "destination_manifest_sha256": "393df27ecea7fffeb16cdcae6ce0649e797f4ebfc8a48dc5c8c209529963de69",
+  "file_bytes": 34038892728,
+  "file_count": 4,
+  "free_bytes_after": 49700212736,
+  "free_bytes_before": 15704801280,
+  "inventory_match": true,
+  "reversible": true,
+  "schema_version": "wangp-dspy.clean-generated.retry6.storage-prep/v1",
+  "source": "/home/straughter/Wan2GP/models/pinkcherry",
+  "source_is_symlink_to_destination": true,
+  "source_manifest_sha256": "393df27ecea7fffeb16cdcae6ce0649e797f4ebfc8a48dc5c8c209529963de69"
+}

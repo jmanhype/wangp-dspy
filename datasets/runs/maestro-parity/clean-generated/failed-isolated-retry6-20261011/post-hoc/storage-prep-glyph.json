@@ -1,0 +1,15 @@
+{
+  "deletion": false,
+  "destination": "/mnt/bulk-hdd/straughter/model-offload/wangp-3090/Glyph-SDXL-v2",
+  "destination_manifest_sha256": "2300519493b080e684ce30a81d17cbde4b9639f2b4f8a5fcbd853df7d62ddb60",
+  "file_bytes": 2080399558,
+  "file_count": 5,
+  "free_bytes_after": 51776708608,
+  "free_bytes_before": 49696399360,
+  "inventory_match": true,
+  "reversible": true,
+  "schema_version": "wangp-dspy.clean-generated.retry6.storage-prep/v1",
+  "source": "/home/straughter/Wan2GP/ckpts/Glyph-SDXL-v2",
+  "source_is_symlink_to_destination": true,
+  "source_manifest_sha256": "2300519493b080e684ce30a81d17cbde4b9639f2b4f8a5fcbd853df7d62ddb60"
+}

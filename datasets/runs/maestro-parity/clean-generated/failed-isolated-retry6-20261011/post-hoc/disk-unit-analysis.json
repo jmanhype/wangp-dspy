@@ -1,0 +1,16 @@
+{
+  "authorized_decimal_floor_bytes": 50000000000,
+  "binary_gib": 48.20369338989258,
+  "conclusion": "The authorized decimal-byte floor was satisfied, but the protected generic preflight uses df -BG and therefore required at least 50 GiB. No code or threshold was changed during the one-shot attempt; it stopped fail-closed before queue admission.",
+  "decimal_gb": 51.758321664,
+  "generic_preflight_command": [
+    "df",
+    "-BG",
+    "--output=avail",
+    "/home/straughter/Wan2GP"
+  ],
+  "generic_preflight_interpretation": "df -BG reports ceil(binary GiB), then compares that integer to min_free_gb=50",
+  "observed_detail": "49G free on /home/straughter/Wan2GP (min 50.0G)",
+  "root_free_bytes": 51758321664,
+  "schema_version": "wangp-dspy.retry6.disk-unit-boundary/v1"
+}

@@ -3,4 +3,5 @@ datasets/runs/provenance/lf004-operator-dogfood-56f-recovery-20260921/wan2gp-mod
 datasets/runs/maestro-parity/ltx-dependency-terminalization/identity-capture-f654-20261011/**/native.log -whitespace
 datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/outputs/blackdetect.txt -whitespace
 datasets/runs/maestro-parity/clean-generated/failed-isolated-retry5-20261011/preflight/model-hash-size-raw.txt -whitespace
+datasets/runs/maestro-parity/clean-generated/failed-isolated-retry6-20261011/preflight/model-hash-size-raw.txt -whitespace
 datasets/runs/maestro-parity/WD-t0il/ltx23-upscale/native.log -whitespace

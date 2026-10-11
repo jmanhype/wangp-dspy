@@ -23,6 +23,7 @@ RETRY5 = BUNDLE / "failed-isolated-retry5-20261011"
 RETRY6_TEMPLATE = BUNDLE / "isolated-runtime-retry6-authorization.template.json"
 RETRY6_PROPOSAL = BUNDLE / "operator-proposal.isolated-runtime.retry6-20261011.json"
 RETRY6_APPROVED = BUNDLE / "operator-authorization.isolated-runtime.retry6-20261011.json"
+RETRY6 = BUNDLE / "failed-isolated-retry6-20261011"
 RETRY3_HISTORICAL_SOURCE_FILES = (
     "install.sh",
     "scripts/record_clean_generated_proof.py",
@@ -172,7 +173,7 @@ def test_self_forged_retry6_authorization_is_rejected() -> None:
     assert caught.value.code == "RETRY6_OPERATOR_APPROVAL_REQUIRED"
 
 
-def test_retry6_operator_authorization_is_exact_and_approved() -> None:
+def test_retry6_operator_authorization_is_exact_and_consumed() -> None:
     recorder = _load_recorder()
     authorization = json.loads(RETRY6_APPROVED.read_text(encoding="utf-8"))
     manifest = json.loads((BUNDLE / "model-assets.json").read_text(encoding="utf-8"))
@@ -191,10 +192,18 @@ def test_retry6_operator_authorization_is_exact_and_approved() -> None:
         "2026-10-11T20:27:13Z"
     )
 
-    validated, assets = recorder.inputs(authorization, manifest)
+    with pytest.raises(recorder.ProofError) as caught:
+        recorder.inputs(authorization, manifest)
 
-    assert validated is authorization
-    assert len(assets) == 4
+    assert caught.value.code == "AUTHORIZATION_ALREADY_CONSUMED"
+
+    records = json.loads((BUNDLE / "authorization-consumption.json").read_text(encoding="utf-8"))["records"]
+    consumed = [record for record in records if record["authorization_canonical_sha256"] == (
+        "591fe7f933eeb45ce34e965b9fcad94966bec8267b90069e999097c75b901014"
+    )]
+    assert len(consumed) == 1
+    assert consumed[0]["generated_artifact"] is False
+    assert all((ROOT / path).is_file() for path in consumed[0]["evidence"])
 
 
 def test_retry4_operator_authorization_is_approved_and_source_bound() -> None:
@@ -565,7 +574,54 @@ def test_retry5_preserved_tool_output_whitespace_exemptions_are_path_scoped() ->
 
     assert f"{prefix}outputs/blackdetect.txt -whitespace\n" in attributes
     assert f"{prefix}preflight/model-hash-size-raw.txt -whitespace\n" in attributes
+    assert (
+        "datasets/runs/maestro-parity/clean-generated/"
+        "failed-isolated-retry6-20261011/preflight/model-hash-size-raw.txt -whitespace\n"
+    ) in attributes
     assert "*.txt -whitespace" not in attributes
+
+
+def test_retry6_boundary_stops_at_generic_disk_unit_gate() -> None:
+    failure = json.loads((RETRY6 / "failure.json").read_text(encoding="utf-8"))
+    report = json.loads((RETRY6 / "preflight/report.json").read_text(encoding="utf-8"))
+    relocation = json.loads((RETRY6 / "storage/relocation.json").read_text(encoding="utf-8"))
+    analysis = json.loads((RETRY6 / "post-hoc/disk-unit-analysis.json").read_text(encoding="utf-8"))
+
+    assert failure["diagnostic"] == {
+        "code": "HOST_PREFLIGHT_FAILED",
+        "detail": "49G free on /home/straughter/Wan2GP (min 50.0G)",
+    }
+    assert failure["generated_artifact"] is False
+    assert failure["substitution_attempted"] is False
+    assert not (RETRY6 / "queue").exists()
+    assert not (RETRY6 / "evidence.json").exists()
+    disk = next(row for row in report["checks"] if row["kind"] == "disk_headroom")
+    assert disk["passed"] is False
+    assert disk["detail"] == failure["diagnostic"]["detail"]
+    assert relocation["root_free_after"] == 51758321664
+    assert relocation["minimum"] == 50000000000
+    assert analysis["root_free_bytes"] == relocation["root_free_after"]
+    assert analysis["decimal_gb"] > 50
+    assert analysis["binary_gib"] < 50
+    assert analysis["generic_preflight_command"] == [
+        "df", "-BG", "--output=avail", "/home/straughter/Wan2GP"
+    ]
+
+
+def test_retry6_boundary_manifest_hashes_every_preserved_file() -> None:
+    rows = {}
+    for line in (RETRY6 / "sha256.txt").read_text(encoding="utf-8").splitlines():
+        digest, relative = line.split("  ", 1)
+        rows[relative] = digest
+
+    assert len(rows) == 37
+    assert set(rows) == {
+        path.relative_to(RETRY6).as_posix()
+        for path in RETRY6.rglob("*")
+        if path.is_file() and path.name != "sha256.txt"
+    }
+    for relative, digest in rows.items():
+        assert hashlib.sha256((RETRY6 / relative).read_bytes()).hexdigest() == digest
 
 
 def test_retry6_reference_and_prompt_match_accepted_first_run() -> None:
