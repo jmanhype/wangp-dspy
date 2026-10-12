@@ -8,8 +8,8 @@ labels: [install, evidence, external-integration, operator-decision]
 parent: WD-3nod
 created_at: 2026-09-28T13:32:24Z
 created_by: speed
-updated_at: 2026-10-11T23:22:03Z
-content_hash: "sha256:c0a5f216f2b2460d539d1248c5f20cfad0440ad03845049ad71ea2a10df19d9f"
+updated_at: 2026-10-12T00:01:37Z
+content_hash: "sha256:e210376e80bad6922f798a951a10daa6af142a207d8f6e356bb219ef4426bd79"
 blocks: [WD-fay0]
 follows: [WD-0zj8, WD-isg9, WD-dc3w, WD-p587, WD-23rs, WD-1s5s, WD-cuzw, WD-nkdv, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2, WD-5d19]
 was_blocked_by: [WD-1s5s, WD-cuzw, WD-5yg9, WD-dhcc, WD-mgcd, WD-pp86, WD-82q2]
@@ -531,3 +531,8 @@ Focused behavior is now:
 - `49,999,999,999` fails by one byte.
 
 Exact-head branch CI and exact-head main CI both succeeded. Retry7 is prepared as non-executable PR #249; no retry7 authorization exists yet.
+
+### 2026-10-12T00:01:37Z speed
+### Retry7 preauthorization merged (dispatcher, 2026-10-12)
+
+PR #249 squash-merged at main `521f18b7a775de69d15fe75d9ce6f8c3f60fee4f`. Exact-head branch CI and exact-head main CI both succeeded. Retry7 remains intentionally non-executable and unapproved; the operator authorization is the only missing input before a fresh one-shot host attempt.
